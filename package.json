@@ -27,7 +27,7 @@
   "prepush": [
     "test"
   ],
-  "devDependencies": {
+  "dependencies": {
     "@types/gtag.js": "0.0.4",
     "@types/jest": "^26.0.23",
     "@types/node": "^15.0.2",
