@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "ES2017",
+    "module": "esnext",
+    "importsNotUsedAsValues": "error",
+    "isolatedModules": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "allowJs": true,
+    "checkJs": true,
+    "strictNullChecks": true,
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.ts"],
+  "exclude": ["node_modules/*", "**/*.test.ts"]
+}

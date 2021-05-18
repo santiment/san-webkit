@@ -1,0 +1,51 @@
+{
+  "name": "san-webkit",
+  "description": "The fastest way to build new Santiment web application",
+  "version": "0.0.1",
+  "author": "DmitriVanGuard <dimavanguard@gmail.com>",
+  "private": true,
+  "scripts": {
+    "ts": "tsc --outDir ./lib --declaration",
+    "lib": "npm run ts && node scripts/install.js",
+    "install": "npm run lib",
+    "test": "jest"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/santiment/san-webkit"
+  },
+  "lint-staged": {
+    "*.{js,ts,svelte,css}": [
+      "prettier --write"
+    ]
+  },
+  "precommit": [
+    "test"
+  ],
+  "prepush": [
+    "test"
+  ],
+  "devDependencies": {
+    "@types/gtag.js": "0.0.4",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.2",
+    "eslint": "^7.26.0",
+    "fast-glob": "^3.2.5",
+    "jest": "^26.6.3",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.0",
+    "prettier-plugin-svelte": "^2.3.0",
+    "svelte": "^3.38.2",
+    "svelte-preprocess": "^4.7.3",
+    "svg-sprite": "^1.5.0",
+    "svgo": "^2.3.0",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.2.4"
+  },
+  "peerDependencies": {
+    "svelte": "^3.38.2",
+    "node-fetch": "^2.6.1"
+  }
+}

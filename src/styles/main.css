@@ -1,0 +1,71 @@
+@import './color.css';
+@import './text.css';
+@import './layout.css';
+@import './elements.css';
+
+*::-webkit-scrollbar {
+  background: transparent !important;
+  width: 4px !important;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: $border-radius !important;
+  background: var(--porcelain) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  width: 4px !important;
+  border-radius: $border-radius !important;
+  background: var(--casper) !important;
+}
+
+*::-webkit-scrollbar:horizontal {
+  height: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  cursor: pointer !important;
+  background: var(--waterloo) !important;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none;
+  fill: inherit;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Proxima Nova', sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--black);
+  fill: var(--black);
+  overflow-x: hidden;
+  background-color: var(--white);
+}
+
+svg {
+  box-sizing: initial;
+  vertical-align: middle;
+}
+
+a:hover {
+  color: var(--green);
+}
+
+.intercom-lightweight-app {
+  display: none;
+}

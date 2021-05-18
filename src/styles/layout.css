@@ -1,0 +1,77 @@
+.border {
+  ---border: var(--border, var(--porcelain));
+  border-radius: 4px;
+  border: 1px solid var(---border);
+  background: var(--white);
+}
+.border:hover {
+  border-color: var(--border-hover, var(---border));
+}
+
+.box {
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 4%), 0 8px 16px rgba(24, 27, 43, 5%),
+    0 12px 32px rgba(24, 27, 43, 5%);
+}
+
+.row,
+.column {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.justify {
+  justify-content: space-between;
+}
+
+.hv-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.h-center {
+  justify-content: center;
+}
+.v-center {
+  align-items: center;
+}
+
+.fluid {
+  width: 100%;
+}
+
+.mrg-a {
+  --margin: auto;
+}
+.mrg-xxl {
+  --margin: 32px;
+}
+.mrg-xl {
+  --margin: 24px;
+}
+.mrg-l {
+  --margin: 16px;
+}
+.mrg-m {
+  --margin: 12px;
+}
+.mrg-s {
+  --margin: 8px;
+}
+.mrg-xs {
+  --margin: 4px;
+}
+.mrg--t {
+  margin-top: var(--margin);
+}
+.mrg--r {
+  margin-right: var(--margin);
+}
+.mrg--b {
+  margin-bottom: var(--margin);
+}
+.mrg--l {
+  margin-left: var(--margin);
+}

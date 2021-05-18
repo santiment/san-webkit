@@ -1,0 +1,81 @@
+:root {
+  /* white */
+  --white: #fff;
+
+  --athens: #f9fafc;
+  --porcelain: #e7eaf3;
+  --casper: #9faac4;
+  --waterloo: #7a859e;
+  --mystic: #d2d6e7;
+
+  /* rhino */
+  --black: #2f354d;
+
+  /* jungle-green */
+  --green: #14c393;
+  --green-hover: #1fac85;
+  --green-light-1: #edf8f5;
+  --green-light-2: #dcf6ef;
+  --green-light-3: #76e5c2;
+
+  /* persimmon */
+  --red: #ff5b5b;
+  --red-hover: #db4040;
+  --red-light-1: #ffe6e6;
+  --red-light-2: #efa7a7;
+
+  /* bright-sun */
+  --yellow: #ffcb47;
+  --yellow-hover: #fbb80d;
+
+  /* texas-rose */
+  --orange: #ffad4d;
+  --orange-hover: #fd9317;
+  --orange-light-1: #fff3e4;
+  --orange-light-2: #ffe7ca;
+
+  /* dodger-blue */
+  --blue: #5275ff;
+  --blue-light-1: #dae0fd;
+  --blue-light-2: #ecf0fe;
+}
+
+.night-mode {
+  /* mirage */
+  --white: #181b2b;
+
+  /* ebony-clay */
+  --athens: #1c1f31;
+
+  /* cloud-burst */
+  --porcelain: #222639;
+
+  /* fiord */
+  --casper: #505573;
+
+  /* bali-hai */
+  --waterloo: #8b93b6;
+
+  /* rhino */
+  --mystic: #2f354d;
+
+  /* white */
+  --black: #fff;
+
+  /* jungle-green */
+  --green-light-1: #142532;
+  --green-light-2: #17343b;
+  --green-light-3: #38876f;
+
+  /* texas-rose */
+  --orange-light-1: #3b3130;
+  --orange-light-2: #503f3d;
+
+  /* dodger-blue */
+  --blue-light-1: #21284b;
+  --blue-light-2: #1d223e;
+
+  /* persimmon */
+  --red-light-1: #3b2532;
+  --red-light-2: #633b4c;
+}
