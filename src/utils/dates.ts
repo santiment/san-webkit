@@ -123,3 +123,11 @@ export function dateDifferenceInWords(from: Date, to = new Date()): string {
 
   return `${amount} ${timeType} ago`
 }
+
+export function parseIntervalString(interval: string) {
+  const amount = parseInt(interval, 10)
+  return {
+    amount,
+    format: interval.slice(amount.toString().length),
+  }
+}

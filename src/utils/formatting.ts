@@ -15,6 +15,7 @@ const SI_PREFIXES = {
 } as const
 
 export function millify(value: number, precision = 1): string {
+  const absValue = Math.abs(value)
   const str = Math.floor(value).toString()
   const { length } = str
 
@@ -35,5 +36,6 @@ export function millify(value: number, precision = 1): string {
     ? '.' + str.slice(exponentIndex, exponentIndex + precision)
     : ''
 
-  return +(mantissa + precised) + SI_PREFIXES[exponent]
+  const prefix = value !== absValue ? '-' : ''
+  return prefix + +(mantissa + precised) + SI_PREFIXES[exponent]
 }
