@@ -12,6 +12,6 @@ process.env.IS_PROD_MODE
 process.env.IS_STAGE_BACKEND
 process.env.IS_PROD_BACKEND
 process.env.GQL_SERVER_URL
-process.env.SPRITES_PATH
+process.env.MEDIA_PATH
 process.env.ICONS_PATH
 ```
