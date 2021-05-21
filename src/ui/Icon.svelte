@@ -31,9 +31,13 @@
   export { className as class }
   export let w: string | undefined = undefined,
     h = w
+  export let illus = false
 
   const style = w && `width:${w}px;height:${h}px`
 </script>
 
 <svg on:click {style} class={className}
-  ><use href="{process.env.SPRITES_PATH}/{id}.svg#0" /></svg>
+  ><use
+    href="{process.env.MEDIA_PATH}/{illus ? 'illus' : 'sprites'}/{id}.svg#0"
+  /></svg
+>
