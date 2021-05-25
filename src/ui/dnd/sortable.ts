@@ -1,5 +1,7 @@
+import { autoScroll, clearAutoScroll, getScrollingParent } from './scroll'
+
 export type Options = {
-  cloner?: (node: HTMLElement) => HTMLElement
+  cloner?: (node: DragElement) => HTMLElement
   onDragEnd?: (oldIndex: number, newIndex: number) => void
 }
 export type Context = Options & {
@@ -8,6 +10,8 @@ export type Context = Options & {
   recalcGrid: () => void
   isDisabled: boolean
   minDiff?: number
+  scrollParent: HTMLElement
+  scrollInterval: number | undefined
 }
 
 export type DragElement = HTMLElement & {
@@ -64,11 +68,15 @@ export function newSortableContext(options?: Options) {
   }
 
   return {
+    ctx,
     toggle(value: boolean) {
       ctx.isDisabled = value
     },
     addItem(node: HTMLElement) {
-      nodes = (node.parentNode as HTMLElement).children as any as DragElement[]
+      const parent = node.parentNode as HTMLElement
+      nodes = parent.children as any as DragElement[]
+
+      ctx.scrollParent = getScrollingParent(parent)
       ctx.nodes = nodes
 
       // TODO: Pass node index explicitly to avoid grid recalc [@vanguard | May 24, 2021]
@@ -80,7 +88,7 @@ export function newSortableContext(options?: Options) {
 
 function newDragNode(node: DragElement): HTMLElement {
   const { cloner } = node.dnd.ctx
-  const { top, left } = node.dnd.clientRect
+  const { top, left } = node.getBoundingClientRect()
   const { scrollY } = window
 
   const cloned = cloner ? cloner(node) : (node.cloneNode(true) as HTMLElement)
@@ -104,7 +112,8 @@ export function newDndItem(node: DragElement) {
   node.addEventListener('mousedown', (e) => {
     const { clientX: startX, clientY: startY } = e
     const { dnd } = node
-    const { nodes, grid, minDiff = 20, isDisabled } = dnd.ctx
+    const { ctx } = dnd
+    const { nodes, grid, minDiff = 20, isDisabled, scrollParent } = ctx
     const { clientRect, nodeIndex } = dnd
     const { left, right, centerY } = clientRect
     let dragNode
@@ -114,10 +123,14 @@ export function newDndItem(node: DragElement) {
 
     let isRightShift = false
     let newNodeIndex = nodeIndex
+
+    const scrollStart = scrollParent.scrollTop
+    const nodeRect = node.getBoundingClientRect()
+    const scrollRect = scrollParent.getBoundingClientRect()
     function onMouseMove({ clientX, clientY }) {
       const xDiff = clientX - startX
       const yDiff = clientY - startY
-      const newY = centerY + yDiff
+      const newY = centerY + yDiff - (scrollStart - scrollParent.scrollTop)
 
       if (!dragNode) {
         if (Math.abs(xDiff) > minDiff || Math.abs(yDiff) > minDiff) {
@@ -126,6 +139,8 @@ export function newDndItem(node: DragElement) {
           return
         }
       }
+
+      autoScroll(ctx, nodeRect, scrollRect, yDiff)
 
       // TODO: Reset transform only for previously touched ones [@vanguard | May 24, 2021]
       for (let i = 0, len = nodes.length; i < len; i++) {
@@ -190,6 +205,7 @@ export function newDndItem(node: DragElement) {
       window.removeEventListener('mouseup', onMouseUp)
       if (!dragNode || isDisabled) return
 
+      clearAutoScroll(ctx)
       const { recalcGrid, onDragEnd } = dnd.ctx
       dragNode.remove()
       node.style.visibility = ''
