@@ -16,8 +16,9 @@ const SI_PREFIXES = {
 
 export function millify(value: number, precision = 1): string {
   const absValue = Math.abs(value)
-  const str = Math.floor(value).toString()
+  const str = Math.floor(absValue).toString()
   const { length } = str
+  const prefix = value !== absValue ? '-' : ''
 
   let exponent = 0
   for (let i = 3; i < length; i += 3) {
@@ -25,7 +26,7 @@ export function millify(value: number, precision = 1): string {
   }
 
   if (!exponent) {
-    return str
+    return prefix + +str
   }
 
   if (exponent > 12) exponent = 12
@@ -36,6 +37,5 @@ export function millify(value: number, precision = 1): string {
     ? '.' + str.slice(exponentIndex, exponentIndex + precision)
     : ''
 
-  const prefix = value !== absValue ? '-' : ''
   return prefix + +(mantissa + precised) + SI_PREFIXES[exponent]
 }
