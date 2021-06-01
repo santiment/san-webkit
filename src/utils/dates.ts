@@ -131,3 +131,9 @@ export function parseIntervalString(interval: string) {
     format: interval.slice(amount.toString().length),
   }
 }
+
+export function getTodaysEnd() {
+  const date = new Date()
+  date.setHours(23, 59, 59, 999)
+  return date
+}

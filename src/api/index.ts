@@ -1,9 +1,10 @@
-import { Cache, schemeCacheSetter, getCacheScheme } from './cache'
+import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 const fetch = process.browser ? window.fetch : require('node-fetch')
 
 export type QueryOptions = {
   cache?: boolean
   /** Caching time in seconds */ cacheTime?: number
+  cachePolicy?: CachePolicy
   precacher?: (...args: any[]) => any
   variables?: {
     [key: string]: any
@@ -48,8 +49,11 @@ export function query<T extends QueryData | null>(
 
   if (isWithCache) {
     const cachedScheme = getCacheScheme(scheme, options)
-    const data = Cache.get<T>(cachedScheme)
-    if (data) return Promise.resolve(data)
+
+    if (options?.cachePolicy !== CachePolicy.NewCache) {
+      const data = Cache.get<T>(cachedScheme)
+      if (data) return Promise.resolve(data)
+    }
 
     const inFlightQuery = Cache.getInFlightQuery<T>(cachedScheme)
     if (inFlightQuery) return inFlightQuery

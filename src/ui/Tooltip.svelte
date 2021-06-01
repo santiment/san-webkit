@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Align, Position } from './Tooltip/utils'
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
   import { getTooltipStyles } from './Tooltip/utils'
 
@@ -15,6 +15,7 @@
   export let duration = 150
   export let openDelay = 0
   export let closeTimeout = 120
+  export let dark = false
 
   const transition = { duration }
 
@@ -47,6 +48,11 @@
   onMount(() => {
     if (!anchor) return
     trigger = anchor.nextElementSibling as Element
+  })
+  onDestroy(() => {
+    window.clearTimeout(openTimer)
+    openTimer = undefined
+    isOpened = false
   })
 
   function startOpenTimer() {
@@ -119,6 +125,7 @@
 
 {#if isOpened}
   <div
+    class:dark
     class="tooltip border box {className}"
     bind:this={tooltip}
     transition:fade={transition}
@@ -134,5 +141,12 @@
     z-index: 10;
     overflow: hidden;
     border-radius: 4px;
+  }
+
+  .dark {
+    background: #505573;
+    border-color: #505573;
+    color: #fff;
+    padding: 5px 12px;
   }
 </style>
