@@ -123,6 +123,6 @@ export function newSsrClientCacher<
   }) as T
 }
 
-export const enum CachePolicy {
+export enum CachePolicy {
   NewCache = 1,
 }
