@@ -16,11 +16,11 @@
   export let openDelay = 0
   export let closeTimeout = 120
   export let dark = false
+  export let trigger: Element | undefined
 
   const transition = { duration }
 
   let anchor: HTMLElement | undefined
-  let trigger: Element | undefined
   let tooltip: HTMLElement | undefined
   let timer: number | undefined
   let openTimer: number | undefined
@@ -119,7 +119,9 @@
   }
 </script>
 
-<p class="hide" bind:this={anchor} />
+{#if $$slots.trigger && !trigger}
+  <p class="hide" bind:this={anchor} />
+{/if}
 
 <slot name="trigger" />
 
