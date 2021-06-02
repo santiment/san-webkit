@@ -48,7 +48,7 @@ const event: SendEvent = isTrackingEnabled
 
       const date = Date.now()
 
-      if (trackers.includes(Tracker.GA)) {
+      if (trackers.includes(Tracker.GA) && window.gtag) {
         window.gtag(
           'event',
           action,
