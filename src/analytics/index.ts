@@ -1,3 +1,4 @@
+import { normalizeData } from './utils'
 import { trackSanEvent } from '../api/analytics'
 
 enum Tracker {
@@ -13,7 +14,9 @@ function canTrackBrowser() {
 }
 
 export const isTrackingEnabled =
-  process.browser && process.env.IS_PROD_BACKEND && canTrackBrowser()
+  process.browser &&
+  (process.env.IS_DEV_MODE || process.env.IS_PROD_BACKEND) &&
+  canTrackBrowser()
 
 const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN]
 
@@ -29,25 +32,44 @@ const event: SendEvent = isTrackingEnabled
       { category, label, ...rest } = {},
       trackers = DEFAULT_TRACKERS,
     ) => {
-      if (process.env.IS_STAGE_BACKEND) {
-        console.log('Tracking event ->', action, { category, label, ...rest })
+      if (process.env.IS_DEV_MODE) {
+        console.log(
+          '%c[DEV ONLY] Analytics',
+          'background:#FFCB47;color:black;padding:3px;border-radius:4px',
+          normalizeData({
+            event: action,
+            category,
+            label,
+            ...rest,
+          }),
+        )
+        return
       }
+
       const date = Date.now()
 
       if (trackers.includes(Tracker.GA)) {
-        window.gtag('event', action, {
-          event_category: category,
-          event_label: label,
-          ...rest,
-        })
+        window.gtag(
+          'event',
+          action,
+          normalizeData({
+            event_category: category,
+            event_label: label,
+            ...rest,
+          }),
+        )
       }
 
       if (trackers.includes(Tracker.SAN)) {
-        trackSanEvent(action, new Date(date), {
-          event_category: category,
-          event_label: label,
-          ...rest,
-        })
+        trackSanEvent(
+          action,
+          new Date(date),
+          normalizeData({
+            event_category: category,
+            event_label: label,
+            ...rest,
+          }),
+        )
       }
 
       return date

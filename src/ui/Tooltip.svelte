@@ -16,7 +16,7 @@
   export let openDelay = 0
   export let closeTimeout = 120
   export let dark = false
-  export let trigger: Element | undefined
+  export let trigger: Element | undefined = undefined
 
   const transition = { duration }
 

@@ -9,3 +9,11 @@ export function newHeadScript(
   Object.assign(script, options)
   document.head.appendChild(script)
 }
+
+export function normalizeData(data: { [key: string]: any }) {
+  const normalized = {}
+  Object.keys(data).forEach((key) => {
+    if (data[key] !== undefined) normalized[key] = data[key]
+  })
+  return normalized
+}
