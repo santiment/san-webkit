@@ -1,11 +1,19 @@
-import type { Context } from './sortable'
+export type ScrollContext = {
+  scrollInterval: number | undefined
+  scrollParent: HTMLElement
+}
 
-export function clearAutoScroll(ctx: Context) {
+export function clearAutoScroll(ctx: Pick<ScrollContext, 'scrollInterval'>) {
   window.clearInterval(ctx.scrollInterval)
   ctx.scrollInterval = undefined
 }
 
-export function autoScroll(ctx: Context, nodeRect, scrollRect, yDiff: number) {
+export function autoScroll(
+  ctx: ScrollContext,
+  nodeRect,
+  scrollRect,
+  yDiff: number,
+) {
   const { scrollParent } = ctx
 
   if (yDiff < 0) {
@@ -21,7 +29,7 @@ export function autoScroll(ctx: Context, nodeRect, scrollRect, yDiff: number) {
   clearAutoScroll(ctx)
 }
 
-function startAutoScroll(ctx: Context, delta: number) {
+function startAutoScroll(ctx: ScrollContext, delta: number) {
   if (ctx.scrollInterval) return
 
   const { scrollParent } = ctx
