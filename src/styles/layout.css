@@ -75,3 +75,17 @@
 .mrg--l {
   margin-left: var(--margin);
 }
+
+.expl-tooltip:hover::before {
+  position: absolute;
+  content: attr(title);
+  font-size: 12px;
+  line-height: 16px;
+  background: #505573;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  white-space: nowrap;
+  top: var(--expl-position, -6px);
+  transform: translate(0, var(--expl-align, -100%));
+}
