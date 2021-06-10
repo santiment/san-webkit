@@ -21,13 +21,15 @@ export function newGlobalShortcut(shortcut: string, clb: () => any) {
 
     if (EDITABLE_TAGS.has((target as HTMLElement).tagName)) return
 
-    if (isCmdKey && !(metaKey || ctrlKey)) return
-    if (isAltKey && !altKey) return
-    if (isShiftKey && !shiftKey) return
-    if (targetKey !== key.toUpperCase()) return
-
-    e.preventDefault()
-    clb()
+    if (
+      isCmdKey === (metaKey || ctrlKey) &&
+      isAltKey === altKey &&
+      isShiftKey === shiftKey &&
+      targetKey === key.toUpperCase()
+    ) {
+      e.preventDefault()
+      clb()
+    }
   }
 
   window.addEventListener('keydown', onKeyPress)
