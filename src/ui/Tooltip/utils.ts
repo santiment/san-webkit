@@ -51,11 +51,12 @@ export function getTooltipStyles(
     height: triggerHeight,
   } = trigger.getBoundingClientRect()
 
+  const { offsetLeft, offsetTop } = trigger
   const sign = PositionSign[position]
-  const isInRelativeCtx = trigger.offsetLeft < triggerLeft
+  const isInRelativeCtx = !!trigger.offsetParent
 
-  let top = isInRelativeCtx ? trigger.offsetTop : triggerTop
-  let left = isInRelativeCtx ? trigger.offsetLeft : triggerLeft
+  let top = isInRelativeCtx ? offsetTop : triggerTop
+  let left = isInRelativeCtx ? offsetLeft : triggerLeft
 
   if (position === 'top' || position === 'bottom') {
     top +=
