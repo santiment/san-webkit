@@ -3,7 +3,7 @@ import { setContext, getContext } from 'svelte'
 import { writable } from 'svelte/store'
 
 export type HistoryEmitter = Writable<AppliedCommand | undefined>
-type Emitter = (appliedCommand: AppliedCommand | undefined) => void
+export type Emitter = (appliedCommand: AppliedCommand | undefined) => void
 
 export enum Action {
   Undo = 'Undo',
