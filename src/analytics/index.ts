@@ -15,8 +15,9 @@ function canTrackBrowser() {
 
 export const isTrackingEnabled =
   process.browser &&
-  (process.env.IS_DEV_MODE || process.env.IS_PROD_BACKEND) &&
-  canTrackBrowser()
+  (process.env.IS_DEV_MODE
+    ? true
+    : process.env.IS_PROD_BACKEND && canTrackBrowser())
 
 const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN]
 
@@ -33,8 +34,9 @@ const event: SendEvent = isTrackingEnabled
       trackers = DEFAULT_TRACKERS,
     ) => {
       if (process.env.IS_DEV_MODE) {
+        const dnt = canTrackBrowser() ? '' : ' (DNT)'
         console.log(
-          '%c[DEV ONLY] Analytics',
+          '%c[DEV ONLY] Analytics' + dnt,
           'background:#FFCB47;color:black;padding:3px;border-radius:4px',
           normalizeData({
             event: action,

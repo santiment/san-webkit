@@ -5,11 +5,15 @@
   import { dialogs, DialogLock } from './dialogs'
   import Svg from '../Svg.svelte'
 
-  export const closeDialog = () => requestDialogClose(true)
+  let className = ''
+  export const closeDialog = (skipLockChecks = true) =>
+    requestDialogClose(skipLockChecks)
   export let i: number
   export let title: string | SvelteComponentModule = ''
   export let DialogPromise: DialogController
   export let onBeforeDialogClose = () => {}
+  export let noTitle = false
+  export { className as class }
 
   let clickAwayMouseDown = false
 
@@ -47,7 +51,7 @@
     window.addEventListener('keyup', onKeyup)
   })
 
-  function requestDialogClose(skipLockChecks?: true | MouseEvent) {
+  function requestDialogClose(skipLockChecks?: boolean | MouseEvent) {
     if (skipLockChecks !== true) {
       onBeforeDialogClose()
 
@@ -80,23 +84,26 @@
   on:mousedown={onClickaway}
   on:mouseup={onClickaway}
 >
-  <div class="panel box column">
-    <h2
-      class="body-2 row v-center justify"
-      class:empty={!title && !$$slots.title}
-    >
-      {#if $$slots.title}
-        <slot name="title" />
-      {:else}
-        {title}
-      {/if}
+  <div class="border box column {className}">
+    {#if noTitle === false}
+      <h2
+        class="body-2 row v-center justify"
+        class:empty={!title && !$$slots.title}
+      >
+        {#if $$slots.title}
+          <slot name="title" />
+        {:else}
+          {title}
+        {/if}
 
-      <Svg
-        id="close"
-        class="btn mrg-a mrg--l $style.close"
-        on:click={requestDialogClose}
-      />
-    </h2>
+        <Svg
+          id="close"
+          class="btn mrg-a mrg--l $style.close"
+          on:click={requestDialogClose}
+        />
+      </h2>
+    {/if}
+
     <slot />
   </div>
 </div>
@@ -109,12 +116,12 @@
     right: 0;
     top: 0;
     bottom: 0;
-    z-index: 10;
+    z-index: 100;
   }
 
   .column {
-    max-width: 90%;
-    max-height: 90%;
+    max-width: 96%;
+    max-height: 92%;
     position: relative;
   }
 
