@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const svelte = require('svelte/compiler')
 const sveltePreprocess = require('svelte-preprocess')
+const cssModules = require('svelte-preprocess-cssmodules')
 const { LIB, forFile } = require('./utils')
 
 const preprocess = sveltePreprocess({
@@ -16,9 +17,13 @@ async function prepareSvelte() {
     const libFilePath = path.resolve(LIB, filePath)
 
     const file = fs.readFileSync(libFilePath)
-    const { code } = await svelte.preprocess(file.toString(), [preprocess], {
-      filename: libFilePath,
-    })
+    const { code } = await svelte.preprocess(
+      file.toString(),
+      [preprocess, cssModules()],
+      {
+        filename: libFilePath,
+      },
+    )
 
     fs.writeFileSync(libFilePath, code.replace(' lang="ts"', ''))
   })

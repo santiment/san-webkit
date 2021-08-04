@@ -50,7 +50,8 @@
     trigger = anchor.nextElementSibling as Element
   })
   onDestroy(() => {
-    window.clearTimeout(openTimer)
+    if (process.browser) window.clearTimeout(openTimer)
+
     openTimer = undefined
     isOpened = false
   })
