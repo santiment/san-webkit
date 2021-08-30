@@ -9,7 +9,8 @@ enum Tracker {
 const noop = () => {} // eslint-disable-line
 function canTrackBrowser() {
   const dnt: string | null =
-    navigator.doNotTrack || window.doNotTrack || (navigator as any).msDoNotTrack
+    // @ts-ignore
+    navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack
   return dnt !== '1' && dnt !== 'yes'
 }
 

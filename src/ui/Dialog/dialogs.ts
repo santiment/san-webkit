@@ -19,13 +19,28 @@ export type SvelteComponentModule = {
 
 type DialogsStore = Array<{ Component: SvelteComponentModule; props: any }>
 
-const { subscribe, update } = writable<DialogsStore>([])
+type Props = {
+  [key: string]: any
+} & {
+  strict?: boolean
+  DialogPromise?: {
+    resolve: (value: unknown) => void
+    reject: (reason?: any) => void
+    locking: DialogLock
+  }
+}
+
+const DIALOGS = [] as DialogsStore
+const { subscribe, update } = writable<DialogsStore>(DIALOGS)
 
 const pipeCatch = (e) => e && Promise.reject(e)
 
 export const dialogs = {
   subscribe,
-  show(Component: SvelteComponentModule, props: any = {}): Promise<unknown> {
+  show(Component: SvelteComponentModule, props: Props = {}): Promise<unknown> {
+    const { strict } = props
+    delete props.strict
+
     const promise = new Promise(
       (resolve, reject) =>
         (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
@@ -36,13 +51,19 @@ export const dialogs = {
       return dialogs
     })
 
-    return promise.catch(pipeCatch)
+    return strict ? promise : promise.catch(pipeCatch)
   },
   hide(index: number): void {
     update((dialogs) => {
       dialogs.splice(index, 1)
       return dialogs
     })
+  },
+  has(Component: SvelteComponentModule): boolean {
+    for (let i = DIALOGS.length - 1; i > -1; i--) {
+      if (DIALOGS[i].Component === Component) return true
+    }
+    return false
   },
 }
 
