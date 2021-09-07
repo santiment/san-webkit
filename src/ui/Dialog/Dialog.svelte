@@ -13,6 +13,7 @@
   export let DialogPromise: DialogController
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
+  export let noBg = false
   export { className as class }
 
   let clickAwayMouseDown = false
@@ -32,7 +33,7 @@
     }
   }
 
-  const onClickaway = ({ type, target, currentTarget }: MouseEvent): void => {
+  function onClickaway({ type, target, currentTarget }: MouseEvent): void {
     if (target === currentTarget) {
       if (type === 'mousedown') {
         clickAwayMouseDown = true
@@ -81,6 +82,7 @@
 
 <div
   class="bg row v-center h-center"
+  class:noBg
   on:mousedown={onClickaway}
   on:mouseup={onClickaway}
 >
@@ -117,6 +119,9 @@
     top: 0;
     bottom: 0;
     z-index: 100;
+  }
+  .noBg {
+    background: transparent;
   }
 
   .column {

@@ -3,12 +3,14 @@
   pointer-events: none;
 }
 
-input {
+input, textarea {
   outline: none;
   border: 0;
   background: var(--white);
 }
-input::placeholder {
+
+input::placeholder,
+textarea::placeholder {
   color: var(--casper);
 }
 
