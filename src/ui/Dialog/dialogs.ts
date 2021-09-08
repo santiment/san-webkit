@@ -8,8 +8,8 @@ export enum DialogLock {
 }
 
 export type DialogController = {
-  resolve: () => void
-  reject: () => void
+  resolve: (value?: unknown) => void
+  reject: (reason?: any) => void
   locking: DialogLock
 }
 
@@ -24,7 +24,7 @@ type Props = {
 } & {
   strict?: boolean
   DialogPromise?: {
-    resolve: (value: unknown) => void
+    resolve: (value?: unknown) => void
     reject: (reason?: any) => void
     locking: DialogLock
   }
@@ -37,7 +37,10 @@ const pipeCatch = (e) => e && Promise.reject(e)
 
 export const dialogs = {
   subscribe,
-  show(Component: SvelteComponentModule, props: Props = {}): Promise<unknown> {
+  show<T = unknown>(
+    Component: SvelteComponentModule,
+    props: Props = {},
+  ): Promise<T> {
     const { strict } = props
     delete props.strict
 

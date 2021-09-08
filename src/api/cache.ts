@@ -1,6 +1,8 @@
 import type { QueryData, QueryRecord, QueryOptions } from './index'
 
-type Updater<T extends QueryData> = (data: QueryRecord<T>) => QueryRecord<T>
+export type Updater<T extends QueryData> = (
+  data: QueryRecord<T>,
+) => QueryRecord<T>
 export type Subscriber<T extends QueryData> = (data: QueryRecord<T>) => void
 export type Unsubscriber = () => void
 
