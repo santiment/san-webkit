@@ -8,7 +8,7 @@ export enum DialogLock {
 }
 
 export type DialogController = {
-  resolve: (value?: unknown) => void
+  resolve: (value: unknown) => void
   reject: (reason?: any) => void
   locking: DialogLock
 }
@@ -24,7 +24,7 @@ type Props = {
 } & {
   strict?: boolean
   DialogPromise?: {
-    resolve: (value?: unknown) => void
+    resolve: (value: unknown) => void
     reject: (reason?: any) => void
     locking: DialogLock
   }
@@ -44,7 +44,7 @@ export const dialogs = {
     const { strict } = props
     delete props.strict
 
-    const promise = new Promise(
+    const promise = new Promise<T>(
       (resolve, reject) =>
         (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
