@@ -12,7 +12,7 @@ const CURRENT_USER_QUERY = `
 type CurrentUser = { id: number } | null
 type CurrentUserQuery = Query<'currentUser', CurrentUser>
 
-const currentUserAccessor = ({ currentUser }) => currentUser
+const currentUserAccessor = ({ currentUser }: CurrentUserQuery) => currentUser
 export const queryCurrentUser = (): Promise<CurrentUser> =>
   query<CurrentUserQuery>(CURRENT_USER_QUERY).then(currentUserAccessor)
 

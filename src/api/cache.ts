@@ -1,9 +1,7 @@
-import type { QueryData, QueryRecord, QueryOptions } from './index'
+import type { QueryBase, QueryData, QueryOptions } from './index'
 
-export type Updater<T extends QueryData> = (
-  data: QueryRecord<T>,
-) => QueryRecord<T>
-export type Subscriber<T extends QueryData> = (data: QueryRecord<T>) => void
+export type Updater<T extends QueryBase> = (data: T) => T
+export type Subscriber<T extends QueryBase> = (data: T) => void
 export type Unsubscriber = () => void
 
 const noop = (_) => _
@@ -11,7 +9,7 @@ const _cache = new Map<string, unknown>()
 const _inFlightCache = new Map<string, unknown>()
 const _cacheSubscribers = new Map<string, Set<Subscriber<any>>>()
 
-function getSubscribers<T extends QueryData>(
+function getSubscribers<T extends QueryBase>(
   scheme: string,
 ): Set<Subscriber<T>> {
   let subscribers = _cacheSubscribers.get(scheme)
@@ -23,18 +21,18 @@ function getSubscribers<T extends QueryData>(
 }
 
 export const Cache = {
-  set<T extends QueryData>(scheme: string, data: QueryRecord<T>): void {
+  set<T extends QueryBase>(scheme: string, data: T): void {
     _cache.set(scheme, data)
   },
-  get<T extends QueryData | null>(key: string): QueryRecord<T> | null {
-    return _cache.get(key) as QueryRecord<T> | null
+  get<T extends QueryBase>(key: string): T | null {
+    return _cache.get(key) as T | null
   },
 
-  set$<T extends QueryData>(scheme: string, updater: Updater<T> = noop): void {
+  set$<T extends QueryBase>(scheme: string, updater: Updater<T> = noop): void {
     const cached = Cache.get(scheme)
     if (!cached) return
 
-    const updated = updater(cached as QueryRecord<T>)
+    const updated = updater(cached as T)
     Cache.set(scheme, updated)
 
     const subscribers = _cacheSubscribers.get(scheme)
@@ -42,7 +40,7 @@ export const Cache = {
       subscribers.forEach((subscriber: Subscriber<T>) => subscriber(updated))
     }
   },
-  get$<T extends QueryData>(
+  get$<T extends QueryBase>(
     scheme: string,
     subscriber: Subscriber<T>,
   ): Unsubscriber {
@@ -56,10 +54,10 @@ export const Cache = {
     }
   },
 
-  getInFlightQuery<T extends QueryData | null>(
+  getInFlightQuery<T extends QueryBase | null>(
     scheme: string,
-  ): null | Promise<QueryRecord<T>> {
-    return _inFlightCache.get(scheme) as Promise<QueryRecord<T>> | null
+  ): null | Promise<T> {
+    return _inFlightCache.get(scheme) as Promise<T> | null
   },
   setInFlightQuery(
     scheme: string,
@@ -83,12 +81,10 @@ export const getCacheScheme = (
 ): string =>
   options?.variables ? scheme + JSON.stringify(options.variables) : scheme
 
-type SchemeCacher<T extends QueryData> = (
-  data: QueryRecord<T>,
-) => QueryRecord<T>
+type SchemeCacher<T extends QueryBase> = (data: T) => T
 
 export const schemeCacheSetter =
-  <T extends QueryData>(
+  <T extends QueryBase>(
     scheme: string,
     options?: QueryOptions<T, any>,
   ): SchemeCacher<T> =>
@@ -105,9 +101,7 @@ export const schemeCacheSetter =
     return data
   }
 
-type SsrCacheCallback<T extends QueryData> = (
-  ...args: any[]
-) => [string, QueryRecord<T>]
+type SsrCacheCallback<T extends QueryBase> = (...args: any[]) => [string, T]
 type SsrCacher<T extends (...args: any) => any> = (
   ...args: Parameters<T>
 ) => void

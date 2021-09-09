@@ -2,8 +2,13 @@ import type { Updater } from './cache'
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 const fetch = process.browser ? window.fetch : require('node-fetch')
 
+export type Query<T extends string, U> = Record<T, U>
+export type QueryBase = Query<string, unknown>
+export type QueryData<T extends QueryBase> = T[keyof T]
+
 type Variables = { [key: string]: any }
-export type QueryOptions<T extends QueryData, U extends Variables = Variables> =
+
+export type QueryOptions<T extends QueryBase, U extends Variables = Variables> =
   {
     cache?: boolean
     /** Caching time in seconds */ cacheTime?: number
@@ -12,18 +17,8 @@ export type QueryOptions<T extends QueryData, U extends Variables = Variables> =
     variables?: U
   }
 
-export type QueryData<T = string> = {
-  /** @private */ __query: T
-}
-export type Query<T extends string, U> = QueryData<T> & U
-export type QueryKey<T extends QueryData> = T['__query']
-export type QueryRecord<T extends QueryData | null> = Record<
-  QueryKey<NonNullable<T>>,
-  T
->
-
-export type Data<T extends QueryData> = {
-  data: QueryRecord<T>
+export type Data<T extends QueryBase> = {
+  data: T
   errors?: any
 }
 
@@ -32,20 +27,21 @@ export const HEADERS = {
   authorization: null,
 }
 
-const dataAccessor = <T extends QueryData>({
+const dataAccessor = <T extends QueryBase>({
   data,
   errors,
-}: Data<T>): Promise<QueryRecord<T>> =>
+}: Data<T>): Promise<T> =>
   errors ? Promise.reject(errors) : Promise.resolve(data)
-const jsonAccessor = <T extends QueryData>(
+
+const jsonAccessor = <T extends QueryBase>(
   response: Response,
 ): Promise<Data<T>> => response.json()
 
-export function query<T extends QueryData, U extends Variables = Variables>(
+export function query<T extends QueryBase, U extends Variables = Variables>(
   scheme: string,
   options?: QueryOptions<T, U>,
   requestOptions?: RequestInit,
-): Promise<QueryRecord<T>> {
+): Promise<T> {
   const isWithCache = process.browser && options?.cache !== false
 
   if (isWithCache) {
@@ -72,7 +68,7 @@ export function query<T extends QueryData, U extends Variables = Variables>(
     credentials: 'include',
   })
     .then(jsonAccessor)
-    .then(dataAccessor) as Promise<QueryRecord<T>>
+    .then(dataAccessor) as Promise<T>
 
   if (isWithCache) {
     const precacher = options?.precacher
@@ -86,10 +82,10 @@ export function query<T extends QueryData, U extends Variables = Variables>(
   return request
 }
 
-export function mutate<T extends QueryData, U extends Variables = Variables>(
+export function mutate<T extends QueryBase, U extends Variables = Variables>(
   scheme: string,
   options?: QueryOptions<T, U>,
-): Promise<QueryRecord<T>> {
+): Promise<T> {
   return query<T>(scheme, Object.assign({ cache: false }, options))
 }
 
