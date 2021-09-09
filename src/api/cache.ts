@@ -63,7 +63,7 @@ export const Cache = {
   },
   setInFlightQuery(
     scheme: string,
-    options: QueryOptions | undefined,
+    options: QueryOptions<any, any> | undefined,
     promise: Promise<any>,
   ): void {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -79,17 +79,18 @@ export const Cache = {
 
 export const getCacheScheme = (
   scheme: string,
-  options: QueryOptions | undefined,
+  options: QueryOptions<any, any> | undefined,
 ): string =>
   options?.variables ? scheme + JSON.stringify(options.variables) : scheme
 
 type SchemeCacher<T extends QueryData> = (
   data: QueryRecord<T>,
 ) => QueryRecord<T>
+
 export const schemeCacheSetter =
   <T extends QueryData>(
     scheme: string,
-    options?: QueryOptions,
+    options?: QueryOptions<T, any>,
   ): SchemeCacher<T> =>
   (data) => {
     const cachedScheme = getCacheScheme(scheme, options)

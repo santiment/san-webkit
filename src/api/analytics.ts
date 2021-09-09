@@ -8,7 +8,13 @@ const CURRENT_USER_QUERY = `
     }
   }
 `
-type CurrentUser = null | Query<'currentUser', { id: number }>
+
+type CurrentUser = { id: number } | null
+type CurrentUserQuery = Query<'currentUser', CurrentUser>
+
+const currentUserAccessor = ({ currentUser }) => currentUser
+export const queryCurrentUser = (): Promise<CurrentUser> =>
+  query<CurrentUserQuery>(CURRENT_USER_QUERY).then(currentUserAccessor)
 
 const EVENT_MUTATION = `
   mutation trackEvents($event: json) {
@@ -17,12 +23,12 @@ const EVENT_MUTATION = `
 `
 
 type EventData = { [key: string]: string | number }
-export function trackSanEvent(
+export const trackSanEvent = (
   event_name: string,
   created_at: Date,
   metadata: EventData,
-) {
-  return query<CurrentUser>(CURRENT_USER_QUERY).then(({ currentUser }) => {
+) =>
+  queryCurrentUser().then((currentUser) => {
     if (!currentUser) return
 
     return mutate(EVENT_MUTATION, {
@@ -37,4 +43,3 @@ export function trackSanEvent(
       },
     })
   })
-}

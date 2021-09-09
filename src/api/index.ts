@@ -1,15 +1,16 @@
+import type { Updater } from './cache'
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 const fetch = process.browser ? window.fetch : require('node-fetch')
 
-export type QueryOptions = {
-  cache?: boolean
-  /** Caching time in seconds */ cacheTime?: number
-  cachePolicy?: CachePolicy
-  precacher?: (...args: any[]) => any
-  variables?: {
-    [key: string]: any
+type Variables = { [key: string]: any }
+export type QueryOptions<T extends QueryData, U extends Variables = Variables> =
+  {
+    cache?: boolean
+    /** Caching time in seconds */ cacheTime?: number
+    cachePolicy?: CachePolicy
+    precacher?: (vars?: U) => Updater<T>
+    variables?: U
   }
-}
 
 export type QueryData<T = string> = {
   /** @private */ __query: T
@@ -40,9 +41,9 @@ const jsonAccessor = <T extends QueryData>(
   response: Response,
 ): Promise<Data<T>> => response.json()
 
-export function query<T extends QueryData | null>(
+export function query<T extends QueryData, U extends Variables = Variables>(
   scheme: string,
-  options?: QueryOptions,
+  options?: QueryOptions<T, U>,
   requestOptions?: RequestInit,
 ): Promise<QueryRecord<T>> {
   const isWithCache = process.browser && options?.cache !== false
@@ -77,7 +78,7 @@ export function query<T extends QueryData | null>(
     const precacher = options?.precacher
     request = (
       precacher ? request.then(precacher(options?.variables)) : request
-    ).then(schemeCacheSetter<NonNullable<T>>(scheme, options))
+    ).then(schemeCacheSetter<T>(scheme, options))
 
     Cache.setInFlightQuery(scheme, options, request)
   }
@@ -85,9 +86,9 @@ export function query<T extends QueryData | null>(
   return request
 }
 
-export function mutate<T extends QueryData>(
+export function mutate<T extends QueryData, U extends Variables = Variables>(
   scheme: string,
-  options?: QueryOptions,
+  options?: QueryOptions<T, U>,
 ): Promise<QueryRecord<T>> {
   return query<T>(scheme, Object.assign({ cache: false }, options))
 }
