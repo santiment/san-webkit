@@ -9,7 +9,7 @@ const CURRENT_USER_QUERY = `
   }
 `
 
-type CurrentUser = { id: number } | null
+export type CurrentUser = { id: number } | null
 type CurrentUserQuery = Query<'currentUser', CurrentUser>
 
 const currentUserAccessor = ({ currentUser }: CurrentUserQuery) => currentUser
