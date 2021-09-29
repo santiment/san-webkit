@@ -82,7 +82,7 @@ export function newHistoryContext(emitter?: Emitter) {
   return history
 }
 
-type Scrollable = { scrollIntoView: () => {} }
+export type Scrollable = { scrollIntoView: () => {} }
 export const scroll = <T extends Scrollable>(target: T) =>
   target?.scrollIntoView()
 export function withScroll<T extends Scrollable>(target: T, clb: () => void) {
