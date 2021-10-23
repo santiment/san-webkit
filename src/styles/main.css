@@ -9,13 +9,13 @@
 }
 
 *::-webkit-scrollbar-track {
-  border-radius: $border-radius !important;
+  border-radius: 4px !important;
   background: var(--porcelain) !important;
 }
 
 *::-webkit-scrollbar-thumb {
   width: 4px !important;
-  border-radius: $border-radius !important;
+  border-radius: 4px !important;
   background: var(--casper) !important;
 }
 

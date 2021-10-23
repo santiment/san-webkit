@@ -52,6 +52,11 @@
   line-height: 40px;
 }
 
+.h2 {
+  font-size: 40px;
+  line-height: 48px;
+}
+
 .txt-m {
   font-weight: 500;
 }
