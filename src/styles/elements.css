@@ -32,7 +32,7 @@ button {
   ---clr-hover: var(--color-hover, var(---clr));
   color: var(---clr-hover);
   fill: var(--fill-hover, var(---clr-hover));
-  background: var(--bg-hover, var(---bg));
+  background-color: var(--bg-hover, var(---bg));
 }
 
 button,
