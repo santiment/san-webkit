@@ -5,7 +5,9 @@ enum Device {
   PhoneXs = 'phone-xs',
 }
 
-function mapWidthToDevice(): Device {
+export function mapWidthToDevice(): Device {
+  if (!process.browser) return Device.Desktop
+
   const { innerWidth } = window
 
   if (innerWidth < 480) return Device.PhoneXs
@@ -17,6 +19,7 @@ function mapWidthToDevice(): Device {
 
 const subscribers: ((device: Device) => any)[] = []
 let device = mapWidthToDevice()
+const update = (subscriber) => subscriber(device)
 
 if (process.browser) {
   document.body.classList.add(device)
@@ -26,6 +29,7 @@ if (process.browser) {
     document.body.classList.remove(device)
     device = newDevice
     document.body.classList.add(device)
+    subscribers.forEach(update)
   })
 }
 
