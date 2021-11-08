@@ -1,30 +1,18 @@
 const fs = require('fs')
 const path = require('path')
-const SVGSpriter = require('svg-sprite')
-const { optimize } = require('svgo')
-const { LIB, forFile, mkdir } = require('./utils')
-
-const SPRITE_OPTIONS = {
-  mode: {
-    symbol: {
-      example: false,
-    },
-  },
-  shape: {
-    transform: [
-      {
-        svgo: {
-          plugins: [
-            { removeXMLNS: true },
-            { removeAttrs: { attrs: ['fill'] } },
-          ],
-        },
-      },
-    ],
-  },
-}
+const {
+  LIB,
+  forFile,
+  mkdir,
+  getLibPath,
+  optimizeSvg,
+  newSpriterOptions,
+  getSvgSprite,
+} = require('./utils')
 
 const SPRITES_DIR = path.resolve(LIB, 'sprites')
+const SPRITES_OPTIONS = newSpriterOptions({ removeAttrs: { attrs: ['fill'] } })
+const ILLUS_OPTIONS = newSpriterOptions()
 
 async function prepareIcons() {
   mkdir(SPRITES_DIR)
@@ -34,26 +22,20 @@ async function prepareIcons() {
     const libFilePath = path.resolve(LIB, filePath)
     const spritesFilePath = path.resolve(
       SPRITES_DIR,
-      filePath.replace('icons/', ''),
+      filePath.replace('icons/', '')
     )
-    const fileName = path.basename(filePath, '.svg')
 
-    const { data } = optimize(fs.readFileSync(libFilePath), {
-      path: libFilePath,
-    })
+    const svg = optimizeSvg(libFilePath)
+    fs.writeFile(libFilePath, svg, () => {})
 
-    fs.writeFile(libFilePath, data, () => {})
+    const sprite = await getSvgSprite(libFilePath, SPRITES_OPTIONS, svg)
+    fs.writeFile(spritesFilePath, sprite, () => {})
+  })
 
-    const spriter = new SVGSpriter(SPRITE_OPTIONS)
-    spriter.add(libFilePath, undefined, data)
-
-    spriter.compile((error, result, data) => {
-      const sprite = result.symbol.sprite.contents
-        .toString()
-        .replace(`id="${fileName}"`, `id="0"`)
-
-      fs.writeFile(spritesFilePath, sprite, () => {})
-    })
+  forFile(['lib/illus/*/*.svg'], async (entry) => {
+    const libFilePath = getLibPath(entry)
+    const sprite = await getSvgSprite(libFilePath, ILLUS_OPTIONS)
+    fs.writeFile(libFilePath, sprite, () => {})
   })
 }
 

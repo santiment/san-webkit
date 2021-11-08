@@ -1,21 +1,24 @@
 export const chain = [
   {
+    id: 'sanr',
     title: 'SanR',
     desc: 'Decentralized marketplace for crypto price signals',
     href: 'https://sanr.santiment.net',
-    logo: 'sanr',
+    dimensions: [24, 24],
   },
   {
+    id: 'sanhunters',
     title: 'Sanhunters',
     desc: 'Get rewarded for market research and your crypto know-how',
     href: 'https://hunters.santiment.net/',
-    logo: 'sanhunters',
+    dimensions: [28, 18],
   },
   {
+    id: 'insights',
     title: 'Insights',
     desc: 'Market analysis from the San team and community members',
     href: 'https://insights.santiment.net/',
-    logo: 'insights',
     note: 'SAN chain support soon',
+    dimensions: [20, 20],
   },
 ]
