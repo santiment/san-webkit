@@ -64,7 +64,7 @@ svg {
 }
 
 a:hover {
-  color: var(--green);
+  color: var(--accent, var(--green));
 }
 
 .intercom-lightweight-app {

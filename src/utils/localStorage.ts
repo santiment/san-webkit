@@ -22,3 +22,8 @@ export function getSavedJson<T>(key: string, defaultValue?: T): T | undefined {
   const value = getSavedValue(key)
   return value ? parseJson<T>(value) : defaultValue
 }
+
+export function saveBoolean(key: string, value: boolean) {
+  saveValue(key, value ? '+' : '')
+}
+export const getSavedBoolean = (key: string) => !!getSavedValue(key)
