@@ -6,13 +6,13 @@ export const chain = [
     href: 'https://sanr.santiment.net',
     dimensions: [24, 24],
   },
-  {
-    id: 'sanhunters',
-    title: 'Sanhunters',
-    desc: 'Get rewarded for market research and your crypto know-how',
-    href: 'https://hunters.santiment.net/',
-    dimensions: [28, 18],
-  },
+  // {
+  //   id: 'sanhunters',
+  //   title: 'Sanhunters',
+  //   desc: 'Get rewarded for market research and your crypto know-how',
+  //   href: 'https://hunters.santiment.net/',
+  //   dimensions: [28, 18],
+  // },
   {
     id: 'insights',
     title: 'Insights',

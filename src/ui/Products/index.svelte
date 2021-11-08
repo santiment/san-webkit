@@ -5,17 +5,20 @@
   import { business } from './business'
   import { chain } from './chain'
 
+  let className = ''
+  export { className as class }
+  export let dropdownClassName = ''
   export let isOpened
   export let active
   export let closeTimeout
 </script>
 
 <Tooltip activeClass="$style.opened" bind:isOpened {closeTimeout}>
-  <div slot="trigger" class="mrg-s mrg--r toggle btn row hv-center">
+  <div slot="trigger" class="mrg-s mrg--r toggle btn row hv-center {className}">
     <Svg illus id="products/toggle" w="16" />
   </div>
 
-  <div slot="tooltip" class="dropdown row">
+  <div slot="tooltip" class="dropdown row {dropdownClassName}">
     <div class="column mrg-xl mrg--r">
       <h3>SAN Business</h3>
       {#each business as product}

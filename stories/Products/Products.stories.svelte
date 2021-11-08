@@ -1,9 +1,6 @@
 <script>
-  import { onMount, onDestroy } from 'svelte'
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
   import Products from '@/ui/Products/index.svelte'
-
-  let isOpened = true
 </script>
 
 <Meta title="Example/Products" component={Products} />
@@ -58,14 +55,14 @@
   }}
 />
 
-<Story
+<!-- <Story
   name="Sanhunters"
   args={{
     active: 'sanhunters',
     isOpened: true,
     closeTimeout: 9999999,
   }}
-/>
+/> -->
 
 <Story
   name="Insights"
@@ -75,3 +72,21 @@
     closeTimeout: 9999999,
   }}
 />
+
+<Story
+  name="Custom active colors"
+  args={{
+    active: 'sanbase',
+    isOpened: true,
+    closeTimeout: 9999999,
+    dropdownClassName: '$style.purple',
+  }}
+/>
+
+<style>
+  .purple {
+    --product-active-bg: var(--purple-light-1);
+    --product-active-1: var(--purple);
+    --product-active-2: var(--purple-light-3);
+  }
+</style>
