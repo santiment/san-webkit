@@ -9,7 +9,7 @@
     "lib": "npm run ts && node scripts/install.js",
     "install": "npm run lib",
     "test": "jest",
-    "storybook": "start-storybook -p 3000 --ci",
+    "storybook": "npm run lib && start-storybook -p 3000 -s ./lib --ci",
     "build-storybook": "build-storybook"
   },
   "keywords": [],
