@@ -32,7 +32,7 @@ async function prepareIcons() {
     fs.writeFile(spritesFilePath, sprite, () => {})
   })
 
-  forFile(['lib/illus/*/*.svg'], async (entry) => {
+  forFile(['lib/illus/**/*.svg'], async (entry) => {
     const libFilePath = getLibPath(entry)
     const sprite = await getSvgSprite(libFilePath, ILLUS_OPTIONS)
     fs.writeFile(libFilePath, sprite, () => {})

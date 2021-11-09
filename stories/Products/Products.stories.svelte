@@ -1,6 +1,6 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import Products from '@/ui/Products/index.svelte'
+  import Products from '@/ui/Products/svelte'
 </script>
 
 <Meta title="Example/Products" component={Products} />

@@ -1,4 +1,4 @@
-enum Device {
+export enum Device {
   Desktop = 'desktop',
   Tablet = 'tablet',
   Phone = 'phone',
@@ -21,7 +21,7 @@ const subscribers: ((device: Device) => any)[] = []
 let device = mapWidthToDevice()
 const update = (subscriber) => subscriber(device)
 
-if (process.browser) {
+export function startResponsiveController() {
   document.body.classList.add(device)
   window.addEventListener('resize', () => {
     const newDevice = mapWidthToDevice()
