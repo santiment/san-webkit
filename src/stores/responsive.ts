@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { Device, mapWidthToDevice, responsive$ } from '@/responsive'
+import { Device, mapWidthToDevice, responsive$ } from '../responsive'
 
 const checkIsMobile = (device: Device) => device !== Device.Desktop
 

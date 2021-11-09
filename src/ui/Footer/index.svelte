@@ -1,9 +1,9 @@
 <script>
-  import Svg from '@/ui/Svg.svelte'
-  import { IsMobile } from '@/stores/responsive'
   import { links } from './links'
   import Bottom from './Bottom.svelte'
   import DigestForm from '../DigestForm.svelte'
+  import Svg from '../Svg.svelte'
+  import { IsMobile } from '../../stores/responsive'
 
   let className = ''
   export { className as class }

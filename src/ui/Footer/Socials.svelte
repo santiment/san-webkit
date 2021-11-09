@@ -1,6 +1,6 @@
 <script>
-  import Svg from '@/ui/Svg.svelte'
-  import { IsMobile } from '@/stores/responsive'
+  import Svg from '../Svg.svelte'
+  import { IsMobile } from '../../stores/responsive'
 </script>
 
 <div class="socials">

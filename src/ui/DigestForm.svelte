@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { loginWithNewsletter } from '@/api/user'
+  import { loginWithNewsletter } from '../api/user'
 
   let className = ''
   export { className as class }

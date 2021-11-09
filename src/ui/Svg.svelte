@@ -1,8 +1,9 @@
 <script lang="ts">
   // prettier-ignore
   export let id: 'user' | 'arrow-down' | 'search' | 'pointer-arrow-right' | 'logout' | 'comment' | 'share'
-    | 'question-round' | 'filter' | 'close' | 'sheriff' | 'reddit' | 'facebook' | 'twitter' | 'linked-in'
-    | 'telegram' | 'edit' | 'remove' | 'plus-round' | 'info' | 'arrow-left' | 'santiment' | 'dots'
+    | 'question-round' | 'filter' | 'close' | 'sheriff'
+    | 'reddit' | 'facebook' | 'twitter' | 'linked-in' | 'telegram' | 'github' |'discord' |'youtube'
+    | 'edit' | 'remove' | 'plus-round' | 'info' | 'arrow-left' | 'santiment' | 'dots'
     | 'clock' | 'success' | 'error'
 
   let className = ''
