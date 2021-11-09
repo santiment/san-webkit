@@ -26,4 +26,9 @@ export function getSavedJson<T>(key: string, defaultValue?: T): T | undefined {
 export function saveBoolean(key: string, value: boolean) {
   saveValue(key, value ? '+' : '')
 }
-export const getSavedBoolean = (key: string) => !!getSavedValue(key)
+export const getSavedBoolean = (key: string, defaultValue?: boolean) =>
+  !!getSavedValue(key, defaultValue as any)
+
+export function deleteSavedValue(key: string) {
+  window.localStorage.removeItem(key)
+}
