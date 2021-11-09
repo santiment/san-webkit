@@ -41,6 +41,10 @@
   .row {
     justify-content: space-between;
   }
+  :global(.desktop) .row {
+    max-width: 265px;
+    margin-left: auto;
+  }
 
   :global(.phone-xs) a,
   :global(.phone) a,
