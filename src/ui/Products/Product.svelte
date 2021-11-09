@@ -5,9 +5,9 @@
   export let title
   export let href
   export let desc
-  export let note
   export let dimensions
   export let active
+  export let note = undefined
 
   const [w, h] = dimensions
 </script>
