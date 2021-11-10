@@ -28,7 +28,7 @@
         >Terms & Conditions.</a
       >
     </h4>
-    <button class="btn btn-1 btn--green" on:click={allow}>Allow all</button>
+    <button class="btn btn-1" on:click={allow}>Allow all</button>
   </div>
 {/if}
 
@@ -63,10 +63,10 @@
   }
 
   a {
-    color: var(--green);
+    color: var(--accent, var(--green));
   }
   a:hover {
-    color: var(--green-hover);
+    color: var(--accent-hover, var(--green-hover));
   }
 
   .pic {
@@ -80,6 +80,11 @@
     left: 24px;
   }
 
+  button {
+    --color: #fff;
+    --bg: var(--accent, var(--green));
+    --bg-hover: var(--accent-hover, var(--green-hover));
+  }
   :global(body:not(.desktop)) button {
     width: 100%;
     padding: 10px;
