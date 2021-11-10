@@ -24,8 +24,10 @@
     </h2>
     <h4 class="body-2 mrg-xl mrg--b">
       By clicking “Allow all”, you agree to the storing of cookie and accept our
-      <a href="Terms & Conditions" target="_blank" rel="noopener noreferrer"
-        >Terms & Conditions.</a
+      <a
+        href="https://santiment.net/terms-conditions/"
+        target="_blank"
+        rel="noopener noreferrer">Terms & Conditions.</a
       >
     </h4>
     <button class="btn btn-1" on:click={allow}>Allow all</button>
