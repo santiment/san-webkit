@@ -2,7 +2,7 @@
   /* white */
   --white: #fff;
 
-  --whale: #FBFCFE;
+  --whale: #fbfcfe;
   --athens: #f9fafc;
   --porcelain: #e7eaf3;
   --casper: #9faac4;
@@ -41,21 +41,20 @@
   --blue-light-1: #dae0fd;
   --blue-light-2: #ecf0fe;
 
-
   /* Heliotrope */
-  --purple: #8358FF;
-  --purple-hover: #6339DD;
-  --purple-light-1: #F5F4FF;
-  --purple-light-2: #E7E4FF;
-  --purple-light-3: #D4C5FF;
-  --purple-light-4: #C1ABFF;
+  --purple: #8358ff;
+  --purple-hover: #6339dd;
+  --purple-light-1: #f5f4ff;
+  --purple-light-2: #e7e4ff;
+  --purple-light-3: #d4c5ff;
+  --purple-light-4: #c1abff;
 }
 
 .night-mode {
   /* mirage */
   --white: #181b2b;
 
-  --whale: #1A1D2F;
+  --whale: #1a1d2f;
 
   /* ebony-clay */
   --athens: #1c1f31;
@@ -69,11 +68,10 @@
   /* bali-hai */
   --waterloo: #8b93b6;
 
-  --fiord: #A2A7BD;
+  --fiord: #a2a7bd;
 
   /* rhino */
   --mystic: #2f354d;
-
 
   /* white */
   --black: #fff;
@@ -95,10 +93,9 @@
   --red-light-1: #3b2532;
   --red-light-2: #633b4c;
 
-
   /* Heliotrope */
-  --purple-light-1: #1D1E35;
-  --purple-light-2: #28244B;
-  --purple-light-3: #3E3075;
-  --purple-light-4: #4E3995;
+  --purple-light-1: #1d1e35;
+  --purple-light-2: #28244b;
+  --purple-light-3: #3e3075;
+  --purple-light-4: #4e3995;
 }
