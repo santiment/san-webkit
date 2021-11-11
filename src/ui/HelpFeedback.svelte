@@ -21,6 +21,7 @@
     --color: var(--white);
     writing-mode: vertical-lr;
     padding: 12px 6px;
+    z-index: 1;
   }
   .chat {
     transform: rotate(90deg);

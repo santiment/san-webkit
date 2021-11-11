@@ -32,6 +32,7 @@
     left: 48px;
     bottom: 48px;
     transition: opacity 200ms;
+    z-index: 1;
   }
   .hidden {
     opacity: 0;

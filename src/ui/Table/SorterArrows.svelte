@@ -15,7 +15,7 @@
 <style>
   .sorter {
     vertical-align: initial;
-    margin-right: -8px;
+    margin-right: -14px;
   }
   .asc {
     --sorter-up: var(--waterloo);
