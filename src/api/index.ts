@@ -70,12 +70,11 @@ export function query<T extends QueryBase, U extends Variables = Variables>(
     .then(jsonAccessor)
     .then(dataAccessor) as Promise<T>
 
-  if (isWithCache) {
-    const precacher = options?.precacher
-    request = (
-      precacher ? request.then(precacher(options?.variables)) : request
-    ).then(schemeCacheSetter<T>(scheme, options))
+  const precacher = options?.precacher
+  if (precacher) request = request.then(precacher(options?.variables))
 
+  if (isWithCache) {
+    request = request.then(schemeCacheSetter<T>(scheme, options))
     Cache.setInFlightQuery(scheme, options, request)
   }
 
