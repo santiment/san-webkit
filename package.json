@@ -37,7 +37,7 @@
     "patch-package": "^6.4.7",
     "svelte": "^3.42.4",
     "svelte-preprocess": "^4.7.4",
-    "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#0fe6fa7",
+    "svelte-preprocess-cssmodules": "https://github.com/DmitriVanGuard/svelte-preprocess-cssmodules#276a017",
     "svg-sprite": "^1.5.0",
     "svgo": "^2.3.0",
     "ts-jest": "^26.5.6",
