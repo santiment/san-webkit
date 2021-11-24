@@ -76,9 +76,12 @@
   margin-left: var(--margin);
 }
 
+.expl-tooltip {
+  position: relative;
+}
 .expl-tooltip:hover::before {
   position: absolute;
-  content: attr(title);
+  content: attr(aria-label);
   font-size: 12px;
   line-height: 16px;
   background: #505573;
@@ -86,6 +89,6 @@
   border-radius: 4px;
   padding: 5px 12px;
   white-space: nowrap;
-  top: var(--expl-position, -6px);
-  transform: translate(0, var(--expl-align, -100%));
+  top: var(--expl-position-y, -6px);
+  transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
 }
