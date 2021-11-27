@@ -1,17 +1,11 @@
-import type { QueryBase, QueryData, QueryOptions } from './index'
-
-export type Updater<T extends QueryBase> = (data: T) => T
-export type Subscriber<T extends QueryBase> = (data: T) => void
-export type Unsubscriber = () => void
-
 const noop = (_) => _
 const _cache = new Map<string, unknown>()
 const _inFlightCache = new Map<string, unknown>()
-const _cacheSubscribers = new Map<string, Set<Subscriber<any>>>()
+const _cacheSubscribers = new Map<string, Set<SAN.API.Subscriber<any>>>()
 
-function getSubscribers<T extends QueryBase>(
+function getSubscribers<T extends SAN.API.QueryBase>(
   scheme: string
-): Set<Subscriber<T>> {
+): Set<SAN.API.Subscriber<T>> {
   let subscribers = _cacheSubscribers.get(scheme)
   if (!subscribers) {
     subscribers = new Set()
@@ -21,14 +15,17 @@ function getSubscribers<T extends QueryBase>(
 }
 
 export const Cache = {
-  set<T extends QueryBase>(scheme: string, data: T): void {
+  set<T extends SAN.API.QueryBase>(scheme: string, data: T): void {
     _cache.set(scheme, data)
   },
-  get<T extends QueryBase>(key: string): T | null {
+  get<T extends SAN.API.QueryBase>(key: string): T | null {
     return _cache.get(key) as T | null
   },
 
-  set$<T extends QueryBase>(scheme: string, updater: Updater<T> = noop): void {
+  set$<T extends SAN.API.QueryBase>(
+    scheme: string,
+    updater: SAN.API.Updater<T> = noop
+  ): void {
     const cached = Cache.get(scheme)
     if (cached === null) return
 
@@ -37,14 +34,16 @@ export const Cache = {
 
     const subscribers = _cacheSubscribers.get(scheme)
     if (subscribers) {
-      subscribers.forEach((subscriber: Subscriber<T>) => subscriber(updated))
+      subscribers.forEach((subscriber: SAN.API.Subscriber<T>) =>
+        subscriber(updated)
+      )
     }
   },
-  get$<T extends QueryBase>(
+  get$<T extends SAN.API.QueryBase>(
     scheme: string,
-    subscriber: Subscriber<T>
-  ): Unsubscriber {
-    if (!process.browser) return noop as Unsubscriber
+    subscriber: SAN.API.Subscriber<T>
+  ): SAN.API.Unsubscriber {
+    if (!process.browser) return noop as SAN.API.Unsubscriber
 
     const subscribers = getSubscribers<T>(scheme)
     subscribers.add(subscriber)
@@ -54,14 +53,14 @@ export const Cache = {
     }
   },
 
-  getInFlightQuery<T extends QueryBase | null>(
+  getInFlightQuery<T extends SAN.API.QueryBase | null>(
     scheme: string
   ): null | Promise<T> {
     return _inFlightCache.get(scheme) as Promise<T> | null
   },
   setInFlightQuery(
     scheme: string,
-    options: QueryOptions<any, any> | undefined,
+    options: SAN.API.QueryOptions<any, any> | undefined,
     promise: Promise<any>
   ): void {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -77,16 +76,16 @@ export const Cache = {
 
 export const getCacheScheme = (
   scheme: string,
-  options: QueryOptions<any, any> | undefined
+  options: SAN.API.QueryOptions<any, any> | undefined
 ): string =>
   options?.variables ? scheme + JSON.stringify(options.variables) : scheme
 
-type SchemeCacher<T extends QueryBase> = (data: T) => T
+type SchemeCacher<T extends SAN.API.QueryBase> = (data: T) => T
 
 export const schemeCacheSetter =
-  <T extends QueryBase>(
+  <T extends SAN.API.QueryBase>(
     scheme: string,
-    options?: QueryOptions<T, any>
+    options?: SAN.API.QueryOptions<T, any>
   ): SchemeCacher<T> =>
   (data) => {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -101,7 +100,9 @@ export const schemeCacheSetter =
     return data
   }
 
-type SsrCacheCallback<T extends QueryBase> = (...args: any[]) => [string, T]
+type SsrCacheCallback<T extends SAN.API.QueryBase> = (
+  ...args: any[]
+) => [string, T]
 type SsrCacher<T extends (...args: any) => any> = (
   ...args: Parameters<T>
 ) => void

@@ -1,7 +1,6 @@
-import type { Query } from './index'
 import { query, mutate } from './index'
 
-const CURRENT_USER_QUERY = `
+export const CURRENT_USER_QUERY = `
   {
     currentUser {
       id
@@ -10,7 +9,7 @@ const CURRENT_USER_QUERY = `
 `
 
 export type CurrentUser = { id: number } | null
-type CurrentUserQuery = Query<'currentUser', CurrentUser>
+type CurrentUserQuery = SAN.API.Query<'currentUser', CurrentUser>
 
 const currentUserAccessor = ({ currentUser }: CurrentUserQuery) => currentUser
 export const queryCurrentUser = (): Promise<CurrentUser> =>
@@ -26,7 +25,7 @@ type EventData = { [key: string]: string | number }
 export const trackSanEvent = (
   event_name: string,
   created_at: Date,
-  metadata: EventData,
+  metadata: EventData
 ) =>
   queryCurrentUser().then((currentUser) => {
     if (!currentUser) return

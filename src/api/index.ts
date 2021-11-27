@@ -1,23 +1,9 @@
-import type { Updater } from './cache'
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 const fetch = process.browser ? window.fetch : require('node-fetch')
 
-export type Query<T extends string, U> = Record<T, U>
-export type QueryBase = Query<string, unknown>
-export type QueryData<T extends QueryBase> = T[keyof T]
-
 type Variables = { [key: string]: any }
 
-export type QueryOptions<T extends QueryBase, U extends Variables = Variables> =
-  {
-    cache?: boolean
-    /** Caching time in seconds */ cacheTime?: number
-    cachePolicy?: CachePolicy
-    precacher?: (vars?: U) => Updater<T>
-    variables?: U
-  }
-
-export type Data<T extends QueryBase> = {
+export type Data<T extends SAN.API.QueryBase> = {
   data: T
   errors?: any
 }
@@ -27,20 +13,23 @@ export const HEADERS = {
   authorization: null,
 }
 
-const dataAccessor = <T extends QueryBase>({
+const dataAccessor = <T extends SAN.API.QueryBase>({
   data,
   errors,
 }: Data<T>): Promise<T> =>
   errors ? Promise.reject(errors) : Promise.resolve(data)
 
-const jsonAccessor = <T extends QueryBase>(
-  response: Response,
+const jsonAccessor = <T extends SAN.API.QueryBase>(
+  response: Response
 ): Promise<Data<T>> => response.json()
 
-export function query<T extends QueryBase, U extends Variables = Variables>(
+export function query<
+  T extends SAN.API.QueryBase,
+  U extends Variables = Variables
+>(
   scheme: string,
-  options?: QueryOptions<T, U>,
-  requestOptions?: RequestInit,
+  options?: SAN.API.QueryOptions<T, U>,
+  requestOptions?: RequestInit
 ): Promise<T> {
   const isWithCache = process.browser && options?.cache !== false
 
@@ -81,10 +70,10 @@ export function query<T extends QueryBase, U extends Variables = Variables>(
   return request
 }
 
-export function mutate<T extends QueryBase, U extends Variables = Variables>(
-  scheme: string,
-  options?: QueryOptions<T, U>,
-): Promise<T> {
+export function mutate<
+  T extends SAN.API.QueryBase,
+  U extends Variables = Variables
+>(scheme: string, options?: SAN.API.QueryOptions<T, U>): Promise<T> {
   return query<T>(scheme, Object.assign({ cache: false }, options))
 }
 
@@ -100,6 +89,6 @@ export function newSSRQuery<T extends Callback>(clb: T) {
               ...HEADERS,
               cookie: args[args.length - 1].req.headers.cookie,
             },
-          },
+          }
     )
 }

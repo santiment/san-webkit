@@ -18,6 +18,7 @@
     "type": "git",
     "url": "https://github.com/santiment/san-webkit"
   },
+  "types": "lib/types/index.d.ts",
   "lint-staged": {
     "*.{js,ts,svelte,css}": [
       "prettier --write"

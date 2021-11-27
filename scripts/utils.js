@@ -58,6 +58,17 @@ function getSvgSprite(filePath, options, svg) {
   })
 }
 
+function copyFile(entry) {
+  const filePath = entry.replace('src/', '')
+  const libFilePath = path.resolve(LIB, filePath)
+  const srcFilePath = path.resolve(SRC, filePath)
+
+  mkdir(path.dirname(libFilePath))
+
+  const file = fs.readFileSync(srcFilePath)
+  fs.writeFileSync(libFilePath, file)
+}
+
 module.exports = {
   SRC,
   LIB,
@@ -67,4 +78,5 @@ module.exports = {
   optimizeSvg,
   newSpriterOptions,
   getSvgSprite,
+  copyFile,
 }

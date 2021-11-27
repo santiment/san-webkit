@@ -1,4 +1,3 @@
-import type { Query } from './index'
 import { mutate } from './index'
 
 export const NEWSLETTER_EMAIL_LOGIN_MUTATION = `
@@ -9,7 +8,7 @@ export const NEWSLETTER_EMAIL_LOGIN_MUTATION = `
   }
 `
 
-type EmailLoginMutation = Query<
+type EmailLoginMutation = SAN.API.Query<
   'emailLogin',
   {
     success: boolean

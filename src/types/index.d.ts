@@ -9,3 +9,7 @@ declare namespace NodeJS {
     }
   }
 }
+
+interface Window {
+  __onLinkClick?: (e: MouseEvent) => void
+}
