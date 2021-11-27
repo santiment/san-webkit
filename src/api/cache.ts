@@ -10,7 +10,7 @@ const _inFlightCache = new Map<string, unknown>()
 const _cacheSubscribers = new Map<string, Set<Subscriber<any>>>()
 
 function getSubscribers<T extends QueryBase>(
-  scheme: string,
+  scheme: string
 ): Set<Subscriber<T>> {
   let subscribers = _cacheSubscribers.get(scheme)
   if (!subscribers) {
@@ -30,7 +30,7 @@ export const Cache = {
 
   set$<T extends QueryBase>(scheme: string, updater: Updater<T> = noop): void {
     const cached = Cache.get(scheme)
-    if (!cached) return
+    if (cached === null) return
 
     const updated = updater(cached as T)
     Cache.set(scheme, updated)
@@ -42,7 +42,7 @@ export const Cache = {
   },
   get$<T extends QueryBase>(
     scheme: string,
-    subscriber: Subscriber<T>,
+    subscriber: Subscriber<T>
   ): Unsubscriber {
     if (!process.browser) return noop as Unsubscriber
 
@@ -55,14 +55,14 @@ export const Cache = {
   },
 
   getInFlightQuery<T extends QueryBase | null>(
-    scheme: string,
+    scheme: string
   ): null | Promise<T> {
     return _inFlightCache.get(scheme) as Promise<T> | null
   },
   setInFlightQuery(
     scheme: string,
     options: QueryOptions<any, any> | undefined,
-    promise: Promise<any>,
+    promise: Promise<any>
   ): void {
     const cachedScheme = getCacheScheme(scheme, options)
     _inFlightCache.set(
@@ -70,14 +70,14 @@ export const Cache = {
       promise.catch((e) => {
         _inFlightCache.delete(cachedScheme)
         return Promise.reject(e)
-      }),
+      })
     )
   },
 }
 
 export const getCacheScheme = (
   scheme: string,
-  options: QueryOptions<any, any> | undefined,
+  options: QueryOptions<any, any> | undefined
 ): string =>
   options?.variables ? scheme + JSON.stringify(options.variables) : scheme
 
@@ -86,7 +86,7 @@ type SchemeCacher<T extends QueryBase> = (data: T) => T
 export const schemeCacheSetter =
   <T extends QueryBase>(
     scheme: string,
-    options?: QueryOptions<T, any>,
+    options?: QueryOptions<T, any>
   ): SchemeCacher<T> =>
   (data) => {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -108,7 +108,7 @@ type SsrCacher<T extends (...args: any) => any> = (
 
 let wasSsrClientCached = false
 export function newSsrClientCacher<
-  T extends SsrCacheCallback<Parameters<T>[0]>,
+  T extends SsrCacheCallback<Parameters<T>[0]>
 >(clb: T): SsrCacher<T> {
   if (!process.browser) return noop as T
 

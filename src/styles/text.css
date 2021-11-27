@@ -63,3 +63,8 @@
 .txt-b {
   font-weight: 600;
 }
+
+.txt--waterloo {
+  color: var(--waterloo);
+  fill: var(--waterloo);
+}
