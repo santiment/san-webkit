@@ -5,6 +5,7 @@
     | 'reddit' | 'facebook' | 'twitter' | 'linked-in' | 'telegram' | 'github' |'discord' |'youtube'
     | 'edit' | 'remove' | 'plus-round' | 'info' | 'arrow-left' | 'santiment' | 'dots'
     | 'clock' | 'success' | 'error'
+    | 'comment-bubble'
 
   let className = ''
   export { className as class }

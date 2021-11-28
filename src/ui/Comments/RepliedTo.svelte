@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { getContext } from 'svelte'
+  import {
+    getScrollToCommentContext,
+    getGetRepliedToCommentContext,
+  } from './context'
   import Author from '../Author/svelte'
 
-  const scrollToReply = getContext('scrollToReply')
-  const getRepliedToComment = getContext('getRepliedToComment')
+  const scrollToReply = getScrollToCommentContext()
+  const getRepliedToComment = getGetRepliedToCommentContext()
 
   export let id: number
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy, setContext } from 'svelte'
+  import { onDestroy } from 'svelte'
   import Comment from './Comment.svelte'
   import {
     findCommentNode,
@@ -8,6 +8,10 @@
     clearSavedComment,
     adjustHeight,
   } from './utils'
+  import {
+    setScrollToCommentContext,
+    setGetRepliedToCommentContext,
+  } from './context'
   import Svg from '../Svg.svelte'
   import { CommentsType, queryComments } from '../../api/comments'
   import { createLayoutComment } from '../../api/comments/mutate'
@@ -19,9 +23,9 @@
   export let currentUser: null | SAN.CurrentUser = null
   export let onNewComment: (
     commentsFor: SAN.CommentsFor,
-    comments: SAN.Comment[]
+    comments: SAN.Comment[],
   ) => void
-  export let onAnonComment: undefined | (() => void)
+  export let onAnonComment: () => void = noop
   export let onCommentError = noop
 
   let comments = [] as SAN.Comment[]
@@ -53,7 +57,7 @@
     if (!currentUser) {
       saveComment(commentsFor.id, commentNode.value)
       commentNode.value = ''
-      return onAnonComment?.()
+      return onAnonComment()
     }
 
     loading = true
@@ -69,13 +73,13 @@
       .then(() => (loading = false))
   }
 
-  setContext('getRepliedToComment', getRepliedToComment)
+  setGetRepliedToCommentContext(getRepliedToComment)
   function getRepliedToComment(id: number) {
     return comments.find((comment) => comment.id === id)
   }
 
   let removeHighlight: undefined | (() => void)
-  setContext('scrollToComment', onRepliedToClick)
+  setScrollToCommentContext(onRepliedToClick)
   function onRepliedToClick(e: MouseEvent): void {
     e.preventDefault()
     e.stopImmediatePropagation()
