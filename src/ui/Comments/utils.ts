@@ -12,8 +12,19 @@ type ScheduledComment = {
 
 const SCHEDULED_COMMENT = 'SCHEDULED_COMMENT'
 
-export function saveComment(id: number, content: string): void {
-  saveJson(SCHEDULED_COMMENT, { id, content, href: window.location.pathname })
+export function saveComment(
+  type: SAN.CommentsType,
+  id: number,
+  content: string,
+  commentsForTitle: string
+): void {
+  saveJson(SCHEDULED_COMMENT, {
+    type,
+    id,
+    content,
+    commentsForTitle,
+    href: window.location.pathname,
+  })
 }
 
 export function clearSavedComment(): void {
@@ -26,7 +37,7 @@ export const lookupSavedComment = () =>
 type CancelTimer = () => void
 export function scrollToComment(
   comment?: HTMLElement | null,
-  removeHighlight?: () => void,
+  removeHighlight?: () => void
 ): undefined | CancelTimer {
   removeHighlight?.()
 
@@ -50,7 +61,7 @@ export function scrollToComment(
 
 export const findCommentNode = (
   commentsNode: HTMLElement,
-  href: string,
+  href: string
 ): HTMLElement | null => commentsNode.querySelector(`${href} .content`)
 
 export function adjustHeight(node: HTMLTextAreaElement): void {

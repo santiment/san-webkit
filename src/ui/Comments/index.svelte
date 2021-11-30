@@ -23,7 +23,7 @@
   export let currentUser: null | SAN.CurrentUser = null
   export let onNewComment: (
     commentsFor: SAN.CommentsFor,
-    comments: SAN.Comment[],
+    comments: SAN.Comment[]
   ) => void
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
@@ -55,7 +55,7 @@
       .comment as HTMLTextAreaElement
 
     if (!currentUser) {
-      saveComment(commentsFor.id, commentNode.value)
+      saveComment(type, commentsFor.id, commentNode.value, commentsFor.title)
       commentNode.value = ''
       return onAnonComment()
     }

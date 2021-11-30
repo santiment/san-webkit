@@ -13,5 +13,6 @@ declare namespace SAN {
   type CommentsFor = {
     id: number
     user: SAN.Author
+    title: string
   }
 }
