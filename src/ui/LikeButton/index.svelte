@@ -1,24 +1,27 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import Rocket from './Rocket.svelte'
   import Moon from './Moon.svelte'
 
-  export let otherVotes = 0
+  const MAX_VOTES_PER_USER = 20
+
+  export let totalVotes = 0
   export let userVotes = 0
+  export let disabled = false
+  export let onVote = () => {}
 
   let rocketNode: HTMLElement
   let moonNode: HTMLElement
   let mooned = false
-  let timer
-  let votingInterval
-
-  $: totalVotes = otherVotes + userVotes
+  let timer: number
+  let votingInterval: number
 
   function startVote(e: MouseEvent) {
     clearTimeout(timer)
     clearInterval(votingInterval)
 
     vote()
-    votingInterval = setInterval(vote, 350)
+    votingInterval = window.setInterval(vote, 370)
     window.addEventListener(
       e.type === 'mousedown' ? 'mouseup' : 'touchend',
       stopVote,
@@ -27,7 +30,12 @@
   }
 
   function vote() {
-    userVotes += 1
+    if (userVotes < MAX_VOTES_PER_USER) {
+      userVotes += 1
+      totalVotes += 1
+      onVote()
+    }
+
     resetAnimation(rocketNode)
     if (mooned && moonNode) resetAnimation(moonNode)
     mooned = true
@@ -35,7 +43,7 @@
 
   function stopVote() {
     clearInterval(votingInterval)
-    timer = setTimeout(() => (mooned = false), 1000)
+    timer = window.setTimeout(() => (mooned = false), 1000)
   }
 
   function resetAnimation(node: HTMLElement) {
@@ -43,11 +51,17 @@
     node.offsetWidth // NOTE(vanguard): Awaiting style recalc
     node.style.animation = ''
   }
+
+  onDestroy(() => {
+    clearTimeout(timer)
+    clearInterval(votingInterval)
+  })
 </script>
 
 <button
   class="border btn row v-center txt-m"
   class:voted={userVotes > 0}
+  class:disabled
   on:mousedown|preventDefault={startVote}
   on:touchstart|preventDefault={startVote}
 >

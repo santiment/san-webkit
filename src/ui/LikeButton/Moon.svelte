@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import moonPath from './moon.svg'
 
   export let mooned = false
@@ -10,7 +11,6 @@
   let timer
 
   $: changeVisibility(mooned)
-  $: console.log(visible, enter)
 
   function changeVisibility(mooned: boolean) {
     clearTimeout(timer)
@@ -24,6 +24,10 @@
     enter = false
     timer = setTimeout(() => (visible = false), 400)
   }
+
+  onDestroy(() => {
+    clearTimeout(timer)
+  })
 </script>
 
 {#if visible}
