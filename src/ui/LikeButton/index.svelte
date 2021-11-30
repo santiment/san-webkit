@@ -8,7 +8,7 @@
   let className = ''
   export { className as class }
   export let totalVotes = 0
-o export let userVotes = 0
+  export let userVotes = 0
   export let disabled = false
   export let onVote = () => {}
 
@@ -19,7 +19,7 @@ o export let userVotes = 0
   let votingInterval: number
 
   function startVote(e: MouseEvent) {
-    if(disabled) return
+    if (disabled) return
 
     clearTimeout(timer)
     clearInterval(votingInterval)
