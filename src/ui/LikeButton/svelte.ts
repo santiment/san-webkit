@@ -1,1 +1,1 @@
-export { default } from './index.svelt'
+export { default } from './index.svelte'

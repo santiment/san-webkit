@@ -4,7 +4,7 @@
 
   export let mooned = false
   export let totalVotes: number
-  export let moonNode: HTMLElement
+  export let moonNode = undefined
 
   let visible = false
   let enter = false

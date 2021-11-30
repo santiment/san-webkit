@@ -1,7 +1,7 @@
 <script lang="ts">
   import Svg from '../Svg.svelte'
 
-  export let rocketNode: HTMLElement
+  export let rocketNode = undefined
 </script>
 
 <div bind:this={rocketNode} class="rocket row h-center ignited">

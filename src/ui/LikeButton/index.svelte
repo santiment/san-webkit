@@ -5,8 +5,10 @@
 
   const MAX_VOTES_PER_USER = 20
 
+  let className = ''
+  export { className as class }
   export let totalVotes = 0
-  export let userVotes = 0
+o export let userVotes = 0
   export let disabled = false
   export let onVote = () => {}
 
@@ -17,6 +19,8 @@
   let votingInterval: number
 
   function startVote(e: MouseEvent) {
+    if(disabled) return
+
     clearTimeout(timer)
     clearInterval(votingInterval)
 
@@ -59,7 +63,7 @@
 </script>
 
 <button
-  class="border btn row v-center txt-m"
+  class="border btn row v-center txt-m {className}"
   class:voted={userVotes > 0}
   class:disabled
   on:mousedown|preventDefault={startVote}

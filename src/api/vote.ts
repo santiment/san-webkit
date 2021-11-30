@@ -7,9 +7,7 @@ export enum VoteType {
 
 export const VOTE_MUTATION = (id: number, type: VoteType) => `
   mutation {
-    vote(${type}:${id}) {
-      votes
-    }
+    vote(${type}:${id}) { votedAt }
   }
 `
 
