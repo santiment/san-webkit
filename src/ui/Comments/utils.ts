@@ -37,16 +37,14 @@ export const lookupSavedComment = () =>
 type CancelTimer = () => void
 export function scrollToComment(
   comment?: HTMLElement | null,
-  removeHighlight?: () => void
+  removeHighlight?: () => void,
+  block: ScrollIntoViewOptions['block'] = 'nearest'
 ): undefined | CancelTimer {
   removeHighlight?.()
 
   if (!comment) return
 
-  comment.scrollIntoView({
-    behavior: 'smooth',
-    block: 'nearest',
-  })
+  comment.scrollIntoView({ behavior: 'smooth', block })
   comment.style.background = 'var(--green-light-2)'
 
   const timer = setTimeout(undo, 900)

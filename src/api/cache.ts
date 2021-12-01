@@ -21,14 +21,17 @@ export const Cache = {
   get<T extends SAN.API.QueryBase>(key: string): T | null {
     return _cache.get(key) as T | null
   },
+  has(key: string): boolean {
+    return _cache.has(key)
+  },
 
   set$<T extends SAN.API.QueryBase>(
     scheme: string,
     updater: SAN.API.Updater<T> = noop
   ): void {
-    const cached = Cache.get(scheme)
-    if (cached === null) return
+    if (Cache.has(scheme) === false) return
 
+    const cached = Cache.get(scheme)
     const updated = updater(cached as T)
     Cache.set(scheme, updated)
 

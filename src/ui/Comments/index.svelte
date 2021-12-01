@@ -27,6 +27,7 @@
   ) => void
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
+  export let onCommentsLoaded = noop
 
   let comments = [] as SAN.Comment[]
   let loading = false
@@ -35,7 +36,9 @@
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
-  $: queryComments(commentsFor.id, type).then(setComments)
+  $: queryComments(commentsFor.id, type)
+    .then(setComments)
+    .then(onCommentsLoaded)
   $: authorId = commentsFor.user.id
 
   function setComments(data: SAN.Comment[]) {
