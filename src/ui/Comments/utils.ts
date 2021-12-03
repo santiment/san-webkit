@@ -3,6 +3,7 @@ import {
   getSavedJson,
   deleteSavedValue,
 } from '../../utils/localStorage'
+import { getDateFormats } from '../../utils/dates'
 
 type ScheduledComment = {
   id: number
@@ -68,4 +69,9 @@ export function adjustHeight(node: HTMLTextAreaElement): void {
   if (node.value) {
     node.style.height = node.scrollHeight + 2 + 'px'
   }
+}
+
+export function getDatetime(date: string) {
+  const { DD, MMM, YY } = getDateFormats(new Date(date))
+  return `${MMM} ${DD}, ${YY}`
 }

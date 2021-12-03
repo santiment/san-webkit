@@ -78,7 +78,7 @@
 
 <style>
   .btn {
-    padding: 5px 8px 5px 9px;
+    padding: 5px 10px 5px 11px;
     animation-timing-function: cubic-bezier(0.7, -0.53, 0.14, 3.52);
     position: relative;
     border-radius: 100px;

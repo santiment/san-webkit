@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getDatetime } from './utils'
   import Menu from './Menu.svelte'
   import RepliedTo from './RepliedTo.svelte'
   import { DELETE_MSG } from './DeleteDialog.svelte'
@@ -28,6 +29,17 @@
       })
       .then(scrollToNewComment)
   }
+
+  function getCommentDate(
+    insertedAt: string,
+    editedAt: SAN.Comment['editedAt']
+  ) {
+    const insertedDate = getDatetime(insertedAt)
+    return editedAt
+      ? `Posted: ${insertedDate}
+Edited: ${getDatetime(editedAt)}`
+      : insertedDate
+  }
 </script>
 
 {#if parentId}
@@ -43,7 +55,12 @@
       {/if}
     </Author>
 
-    <div class="caption">{time}</div>
+    <div
+      class="caption expl-tooltip"
+      aria-label={getCommentDate(insertedAt, editedAt)}
+    >
+      {time}
+    </div>
   </div>
 
   <div class="content mrg-s mrg--t">{content}</div>
@@ -92,5 +109,11 @@
 
   .reply {
     padding: 6px 12px;
+  }
+
+  .expl-tooltip {
+    --expl-white-space: pre;
+    --expl-right: -2px;
+    --expl-align-y: 24px;
   }
 </style>

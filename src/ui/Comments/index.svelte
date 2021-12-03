@@ -143,6 +143,7 @@
 
   .comments {
     overflow: auto;
+    overflow-x: hidden;
     margin-right: -8px;
     padding-right: 8px;
     flex: 1;

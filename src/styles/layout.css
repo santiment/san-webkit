@@ -88,7 +88,8 @@
   color: #fff;
   border-radius: 4px;
   padding: 5px 12px;
-  white-space: nowrap;
+  right: var(--expl-right);
+  white-space: var(--expl-white-space, nowrap);
   top: var(--expl-position-y, -6px);
   transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
 }
