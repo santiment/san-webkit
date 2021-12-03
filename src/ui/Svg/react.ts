@@ -1,5 +1,5 @@
 import { createElement, useState, useEffect, useRef } from 'react'
-import SvelteSvg from '../Svg.svelte'
+import SvelteSvg from './svelte'
 
 const Svg = ({ id, illus, className, w, h }) => {
   const [mounted, setMounted] = useState<boolean | null>(true)
@@ -7,7 +7,7 @@ const Svg = ({ id, illus, className, w, h }) => {
 
   useEffect(() => {
     const node = ref.current
-    if (!node) return
+    if (!node?.parentNode) return
 
     const fragment = document.createDocumentFragment()
     const svelte = new SvelteSvg({

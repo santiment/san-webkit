@@ -12,7 +12,7 @@
     setScrollToCommentContext,
     setGetRepliedToCommentContext,
   } from './context'
-  import Svg from '../Svg.svelte'
+  import Svg from '../Svg/svelte'
   import { CommentsType, queryComments } from '../../api/comments'
   import { createLayoutComment } from '../../api/comments/mutate'
 

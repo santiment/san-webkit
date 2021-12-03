@@ -8,7 +8,7 @@ import {
   useRef,
 } from 'react'
 import ReactDOM from 'react-dom'
-import SvelteTooltip from '../Tooltip.svelte'
+import SvelteTooltip from './svelte'
 
 export const Tooltip = ({
   trigger,

@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { Align, Position } from './Tooltip/utils'
+  import type { Align, Position } from './utils'
   import { onMount, onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
-  import { getTooltipStyles } from './Tooltip/utils'
+  import { getTooltipStyles } from './utils'
 
   let className = ''
   export { className as class }
@@ -97,7 +97,7 @@
       position,
       align,
       0,
-      10,
+      10
     )
 
     tooltip.style.left = left + 'px'

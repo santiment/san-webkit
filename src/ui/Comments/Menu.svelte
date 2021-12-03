@@ -1,8 +1,8 @@
 <script lang="ts">
   import { showCommentDeleteDialog } from './DeleteDialog.svelte'
   import { showCommentEditDialog } from './EditDialog.svelte'
-  import Svg from '../Svg.svelte'
-  import Tooltip from '../Tooltip.svelte'
+  import Svg from '../Svg/svelte'
+  import Tooltip from '../Tooltip/svelte'
 
   let className = ''
   export { className as class }

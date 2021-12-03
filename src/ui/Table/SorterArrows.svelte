@@ -1,5 +1,5 @@
 <script>
-  import Svg from '../Svg.svelte'
+  import Svg from '../Svg/svelte'
 
   export let isAscending = false
 </script>

@@ -2,7 +2,7 @@
   import { links } from './links'
   import Bottom from './Bottom.svelte'
   import DigestForm from '../DigestForm.svelte'
-  import Svg from '../Svg.svelte'
+  import Svg from '../Svg/svelte'
   import { IsMobile } from '../../stores/responsive'
 
   let className = ''

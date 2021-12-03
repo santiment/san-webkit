@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from '../Svg.svelte'
+  import Svg from '../Svg/svelte'
 
   export let rocketNode = undefined
 </script>

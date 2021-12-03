@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { SvelteComponentModule, DialogController } from './dialogs'
+  import type { SvelteComponentModule } from './dialogs'
   import { onMount } from 'svelte'
   import { get } from 'svelte/store'
   import { dialogs, DialogLock } from './dialogs'
-  import Svg from '../Svg.svelte'
+  import Svg from '../Svg/svelte'
 
   let className = ''
   export const closeDialog = (skipLockChecks = true) =>
     requestDialogClose(skipLockChecks)
   export let i: number
   export let title: string | SvelteComponentModule = ''
-  export let DialogPromise: DialogController
+  export let DialogPromise: SAN.DialogController
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
   export let noBg = false
