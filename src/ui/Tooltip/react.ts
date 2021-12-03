@@ -1,4 +1,5 @@
 import type { SvelteComponent } from 'svelte'
+import type { Props } from './svelte'
 import {
   Fragment,
   createElement,
@@ -9,6 +10,11 @@ import {
 } from 'react'
 import ReactDOM from 'react-dom'
 import SvelteTooltip from './svelte'
+
+type TooltipProps = Props & {
+  trigger: JSX.Element
+  tooltip: JSX.Element
+}
 
 export const Tooltip = ({
   trigger,
@@ -22,7 +28,7 @@ export const Tooltip = ({
   openDelay,
   closeTimeout,
   isEnabled = true,
-}) => {
+}: TooltipProps) => {
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement | null>()
   const svelteRef = useRef<SvelteComponent | null>(null)
   const ref = useRef<HTMLElement>(null)

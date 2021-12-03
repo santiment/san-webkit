@@ -1,16 +1,11 @@
 <script lang="ts">
-  // prettier-ignore
-  export let id: 'user' | 'arrow-down' | 'search' | 'pointer-arrow-right' | 'logout' | 'comment' | 'share' | 'cookies' | 'lightbulb'
-    | 'question-round' | 'filter' | 'close' | 'sheriff'
-    | 'reddit' | 'facebook' | 'twitter' | 'linked-in' | 'telegram' | 'github' |'discord' |'youtube'
-    | 'edit' | 'remove' | 'plus-round' | 'info' | 'arrow-left' | 'santiment' | 'dots'
-    | 'clock' | 'success' | 'error'
-    | 'comment-bubble'
+  import type { Props } from './svelte'
 
   let className = ''
   export { className as class }
-  export let w: string | undefined = undefined,
-    h = w
+  export let id: Props['id']
+  export let w: Props['w']
+  export let h: Props['h'] = w
   export let illus = false
 
   const style = w && `width:${w}px;height:${h}px`

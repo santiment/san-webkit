@@ -1,7 +1,8 @@
+import type { Props } from './svelte'
 import { createElement, useState, useEffect, useRef } from 'react'
 import SvelteSvg from './svelte'
 
-const Svg = ({ id, illus, className, w, h }) => {
+const Svg = ({ id, illus, className, w, h }: Props) => {
   const [mounted, setMounted] = useState<boolean | null>(true)
   const ref = useRef<HTMLElement>(null)
 
