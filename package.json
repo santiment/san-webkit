@@ -57,10 +57,16 @@
     "lint-staged": "^11.0.0",
     "prettier": "^2.3.0",
     "prettier-plugin-svelte": "^2.3.0",
-    "svelte-loader": "^3.1.2"
+    "svelte-loader": "^3.1.2",
+    "react": "^16.x.x",
+    "react-dom": "^16.x.x",
+    "@types/react": "^16.x.x"
   },
   "peerDependencies": {
     "svelte": "^3.42.4",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "react": "^16.x.x",
+    "react-dom": "^16.x.x",
+    "@types/react": "^16.x.x"
   }
 }
