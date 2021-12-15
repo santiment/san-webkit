@@ -13,7 +13,7 @@
 >
   <div class="img mrg-s mrg--r row hv-center">
     {#if user.avatarUrl}
-      <img alt="Avatar" src={user.avatarUrl} />
+      <img alt="Avatar" src={user.avatarUrl} loading="lazy" />
     {:else}
       <Svg id="user" w="16" class="$style.svg" />
     {/if}
