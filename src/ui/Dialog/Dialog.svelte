@@ -47,6 +47,7 @@
   }
 
   onMount(() => {
+    document.body.style.maxWidth = document.body.offsetWidth + 'px'
     document.body.style.overflowY = 'hidden'
     document.body.style.touchAction = 'none'
     window.addEventListener('keyup', onKeyup)
@@ -67,6 +68,7 @@
     }
 
     if (i === 0) {
+      document.body.style.maxWidth = ''
       document.body.style.overflowY = ''
       document.body.style.touchAction = ''
     }
