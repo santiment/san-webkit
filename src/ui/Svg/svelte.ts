@@ -4,10 +4,10 @@ export type Props = {
   className?: string
 
   /** Width of the svg */
-  w?: string
+  w?: string | number
 
   /** Height of the svg, defaults to the 'w' prop value */
-  h?: string
+  h?: string | number
 
   /**
    * Is an illustration?
