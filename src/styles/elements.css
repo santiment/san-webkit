@@ -3,7 +3,8 @@
   pointer-events: none;
 }
 
-input, textarea {
+input,
+textarea {
   outline: none;
   border: 0;
   background: var(--white);
@@ -39,16 +40,40 @@ button,
 .btn {
   cursor: pointer;
   user-select: none;
+  padding: var(--v-padding) var(--h-padding);
 }
 
-.btn-1,
+.btn-1 {
+  --v-padding: 6px;
+  --h-padding: 20px;
+  --color: #fff;
+  --dot-color: #fff;
+  --bg: var(--accent, var(--green));
+  --bg-hover: var(--accent-hover, var(--green-hover));
+}
+
 .btn-2 {
-  border-radius: 4px;
-  padding: 6px 20px;
+  ---border: var(--border, var(--porcelain));
+  --v-padding: 5px;
+  --h-padding: 19px;
+  border: 1px solid var(---border);
 }
-
 .btn-2:hover {
   color: var(--color, var(--green));
+  fill: var(--color, var(--green));
+  border-color: var(--border-hover, var(---border));
+}
+
+.btn-s {
+  --h-padding: 12px;
+}
+.btn-xs {
+  --v-padding: 8px;
+  --h-padding: 8px;
+}
+.btn-2.btn-xs {
+  --v-padding: 7px;
+  --h-padding: 7px;
 }
 
 .btn--green {
@@ -83,7 +108,7 @@ button,
 }
 .loading::after {
   --dot-color: var(--loading-color, var(--color, var(--black)));
-  font-size: var(--loading-size, 5px);
+  font-size: var(--loading-size, 4px);
   position: absolute;
   content: '';
   left: 50%;

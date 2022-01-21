@@ -1,6 +1,7 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import Tooltip from '@/ui/Tooltip.svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import LikeBtn from '@/ui/LikeButton/index.svelte'
 </script>
 
 <Meta
@@ -28,6 +29,11 @@
 />
 
 <Template let:args>
+  <div class="row" style="margin-top: 100px">
+    <LikeBtn />
+    <LikeBtn totalVotes={1} userVotes={1} />
+  </div>
+
   <Tooltip>
     <div slot="trigger">Trigger</div>
 
