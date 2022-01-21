@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from './Svg.svelte'
+  import Svg from './Svg/svelte'
   import { saveBoolean, getSavedBoolean } from '../utils/localStorage'
   import { track } from '../analytics'
 

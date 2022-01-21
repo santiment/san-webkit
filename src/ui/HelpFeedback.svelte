@@ -5,7 +5,7 @@
 </script>
 
 <script>
-  import Svg from './Svg.svelte'
+  import Svg from './Svg/svelte'
 
   let className = ''
   export { className as class }
