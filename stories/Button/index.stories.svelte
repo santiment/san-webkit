@@ -8,6 +8,13 @@
 <Template let:args>
   <div class="row">
     <div>
+      <div class="caption">.btn</div>
+      <div class="btn" style="--color-hover: var(--green)">Text</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
       <div class="caption">.btn-1</div>
       <div class="btn-1">Text</div>
     </div>
@@ -107,6 +114,8 @@
   .row {
     gap: 22px;
     margin: 0 0 16px;
+    border-bottom: 1px solid var(--porcelain);
+    padding: 0 0 16px;
   }
 
   .caption {

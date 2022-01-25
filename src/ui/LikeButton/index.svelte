@@ -41,6 +41,7 @@
     }
 
     resetAnimation(rocketNode)
+    resetAnimation(rocketNode.lastChild)
     if (mooned && moonNode) resetAnimation(moonNode)
     mooned = true
   }
@@ -83,8 +84,11 @@
     position: relative;
     border-radius: 100px;
   }
-  .btn:hover {
+  .btn:hover :global(.rocket) {
     animation: shake 1s infinite;
+  }
+  .btn:hover span {
+    color: var(--green);
   }
 
   .voted {
@@ -102,48 +106,37 @@
 
   @keyframes shake {
     0% {
-      --x: 0;
-      --y: -2%;
+      transform: translate(0, -2%);
     }
     10% {
-      --x: 1%;
-      --y: -1%;
+      transform: translate(1%, -1%);
     }
     20% {
-      --x: 2%;
-      --y: 0;
+      transform: translate(2%, 0);
     }
     30% {
-      --x: -4%;
-      --y: 1%;
+      transform: translate(-4%, 1%);
     }
     40% {
-      --x: 4%;
-      --y: -1%;
+      transform: translate(4%, -1%);
     }
     50% {
-      --x: -4%;
-      --y: 0;
+      transform: translate(-4%, 0);
     }
     60% {
-      --x: 4%;
-      --y: 0;
+      transform: translate(4%, 0);
     }
     70% {
-      --x: -4%;
-      --y: 0;
+      transform: translate(-4%, 0);
     }
     80% {
-      --x: 2%;
-      --y: -2%;
+      transform: translate(2%, -2%);
     }
     90% {
-      --x: -1%;
-      --y: -2%;
+      transform: translate(-1%, -2%);
     }
     100% {
-      --x: 0;
-      --y: -3%;
+      transform: translate(0, -3%);
     }
   }
 </style>

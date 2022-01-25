@@ -4,11 +4,13 @@
   export let rocketNode = undefined
 </script>
 
-<div bind:this={rocketNode} class="rocket row h-center ignited">
+<div bind:this={rocketNode} class="rocket row h-center">
   <Svg id="rocket" w="13.5" h="18" />
-  <div class="fire" />
-  <div class="fire" />
-  <div class="fire" />
+  <div class="ignited">
+    <div class="fire" />
+    <div class="fire" />
+    <div class="fire" />
+  </div>
 </div>
 
 <style>
@@ -20,6 +22,10 @@
   }
   .ignited {
     animation: fire 0.4s;
+    position: absolute;
+    bottom: 0;
+    opacity: 0;
+    left: 6.5px;
   }
 
   .fire {
@@ -28,8 +34,6 @@
     width: 1px;
     height: 3px;
     background: var(--green);
-    opacity: var(--opacity, 0);
-    transition: opacity 0.3s;
   }
   .fire:first-of-type {
     transform: translateX(-3.5px) rotate(30deg);
@@ -40,10 +44,10 @@
 
   @keyframes fire {
     from {
-      --opacity: 1;
+      opacity: 1;
     }
     to {
-      --opacity: 0;
+      opacity: 0;
     }
   }
 </style>
