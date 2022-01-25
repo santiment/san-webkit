@@ -37,7 +37,7 @@
         class="google"
         href="https://play.google.com/store/apps/details?id=net.santiment.sanbase.android"
       >
-        <img alt="Google" src="{process.env.MEDIA_PATH}/icons/google-app.svg" />
+        <img alt="Google" src="{process.env.MEDIA_PATH}/illus/google-app.svg" />
       </a>
     </div>
   </div>

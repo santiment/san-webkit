@@ -6,7 +6,7 @@
 
 <a href="/" class="body-2 txt-m title row v-center {className}">
   <img
-    src="{process.env.MEDIA_PATH}/icons/san-logo.svg"
+    src="{process.env.MEDIA_PATH}/illus/san-logo.svg"
     alt="SAN"
     class="mrg-s mrg--r"
   />

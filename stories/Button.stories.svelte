@@ -8,58 +8,58 @@
 <Template let:args>
   <div class="row">
     <div>
-      <div>.btn.btn-1</div>
+      <div class="caption">.btn.btn-1</div>
       <div class="btn btn-1">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-1.btn-s</div>
+      <div class="caption">.btn.btn-1.btn-s</div>
       <div class="btn btn-1 btn-s">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-1.btn-xs</div>
+      <div class="caption">.btn.btn-1.btn-xs</div>
       <div class="btn btn-1 btn-xs">
         <Svg id="info" w="16" />
       </div>
     </div>
 
     <div>
-      <div>.btn.btn-1.loading</div>
+      <div class="caption">.btn.btn-1.loading</div>
       <div class="btn btn-1 loading">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-1.disabled</div>
+      <div class="caption">.btn.btn-1.disabled</div>
       <div class="btn btn-1 disabled">Text</div>
     </div>
   </div>
 
   <div class="row">
     <div>
-      <div>.btn.btn-1</div>
+      <div class="caption">.btn.btn-1</div>
       <div class="btn btn-2">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-2.btn-s</div>
+      <div class="caption">.btn.btn-2.btn-s</div>
       <div class="btn btn-2 btn-s">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-2.btn-xs</div>
+      <div class="caption">.btn.btn-2.btn-xs</div>
       <div class="btn btn-2 btn-xs">
         <Svg id="info" w="16" />
       </div>
     </div>
 
     <div>
-      <div>.btn.btn-2.loading</div>
+      <div class="caption">.btn.btn-2.loading</div>
       <div class="btn btn-2 loading">Text</div>
     </div>
 
     <div>
-      <div>.btn.btn-2.disabled</div>
+      <div class="caption">.btn.btn-2.disabled</div>
       <div class="btn btn-2 disabled">Text</div>
     </div>
   </div>
@@ -74,6 +74,11 @@
   }
 
   .row {
-    gap: 16px;
+    gap: 22px;
+    margin: 0 0 16px;
+  }
+
+  .caption {
+    font-family: monospace;
   }
 </style>

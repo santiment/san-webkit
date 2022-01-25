@@ -13,6 +13,6 @@
 
 <svg on:click {style} class={className}
   ><use
-    href="{process.env.MEDIA_PATH}/{illus ? 'illus' : 'sprites'}/{id}.svg#0"
+    href="{process.env.MEDIA_PATH}/sprites/{illus ? 'illus/' : ''}{id}.svg#0"
   /></svg
 >

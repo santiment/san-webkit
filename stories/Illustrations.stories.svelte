@@ -8,7 +8,7 @@
 
 <Template let:args>
   <div class="row">
-    {#each illustrations as { key, content, width, height }}
+    {#each illustrations as { key, width, height }}
       <div class="caption border column v-center">
         <div class="icon">
           <Svg illus id={key} w={width} h={height} />
