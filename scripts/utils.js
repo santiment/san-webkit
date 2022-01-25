@@ -4,8 +4,9 @@ const fg = require('fast-glob')
 const { optimize } = require('svgo')
 const SVGSpriter = require('svg-sprite')
 
-const SRC = path.resolve(__dirname, '../src')
-const LIB = path.resolve(__dirname, '../lib')
+const ROOT = path.resolve(__dirname, '..')
+const SRC = path.resolve(ROOT, 'src')
+const LIB = path.resolve(ROOT, 'lib')
 
 const getLibPath = (filePath) => path.resolve(LIB, filePath.replace('lib/', ''))
 
@@ -70,6 +71,7 @@ function copyFile(entry) {
 }
 
 module.exports = {
+  ROOT,
   SRC,
   LIB,
   mkdir,

@@ -1,11 +1,41 @@
 const webpack = require('webpack')
+const fs = require('fs')
 const path = require('path')
 const cssModules = require('svelte-preprocess-cssmodules')
+const utils = require('../scripts/utils')
 
 const API_SERVER = 'https://api-stage.santiment.net'
 
+function extractAttributeValue(string, anchor) {
+  const start = string.indexOf(anchor) + anchor.length + 2
+  const end = string.indexOf('"', start)
+  return string.slice(start, end).toString()
+}
+
+async function prepareIconsData(dir, filename) {
+  const ICONS = []
+  await utils.forFile([utils.SRC + dir + '/**/*.svg'], (entry) => {
+    const file = fs.readFileSync(entry)
+    const key = entry.replace(utils.SRC + dir + '/', '').replace('.svg', '')
+    const width = extractAttributeValue(file, 'width')
+    const height = extractAttributeValue(file, 'height')
+    ICONS.push({ key, width, height })
+  })
+
+  fs.writeFile(
+    path.resolve(utils.ROOT, 'stories', filename + '.json'),
+    JSON.stringify(ICONS),
+    () => {}
+  )
+}
+
 module.exports = {
   webpackFinal: async (config) => {
+    await Promise.all([
+      prepareIconsData('/illus', 'illustrations'),
+      prepareIconsData('/icons', 'icons'),
+    ])
+
     const svelteLoader = config.module.rules.find(
       (r) => r.loader && r.loader.includes('svelte-loader')
     )
