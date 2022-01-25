@@ -14,7 +14,7 @@
 </script>
 
 <Tooltip activeClass="$style.opened" bind:isOpened {closeTimeout}>
-  <div slot="trigger" class="mrg-s mrg--r toggle btn row hv-center {className}">
+  <div slot="trigger" class="mrg-s mrg--r toggle btn-3 {className}">
     <Svg illus id="products/toggle" w="16" />
   </div>
 
@@ -37,8 +37,6 @@
 
 <style>
   .toggle {
-    width: 32px;
-    height: 32px;
     transition: transform 0.2s ease-in-out;
     margin-right: 40px;
   }

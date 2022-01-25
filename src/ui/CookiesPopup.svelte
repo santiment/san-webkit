@@ -30,7 +30,7 @@
         rel="noopener noreferrer">Terms & Conditions.</a
       >
     </h4>
-    <button class="btn btn-1" on:click={allow}>Allow all</button>
+    <button class="btn-1" on:click={allow}>Allow all</button>
   </div>
 {/if}
 
@@ -82,11 +82,6 @@
     left: 24px;
   }
 
-  button {
-    --color: #fff;
-    --bg: var(--accent, var(--green));
-    --bg-hover: var(--accent-hover, var(--green-hover));
-  }
   :global(body:not(.desktop)) button {
     width: 100%;
     padding: 10px;

@@ -18,7 +18,7 @@
 
 <form class="border row {className}" on:submit|preventDefault={onSubmit}>
   <input name="email" type="email" value="" placeholder="Enter your email" />
-  <button type="submit" class="btn btn-1" class:loading>{label}</button>
+  <button type="submit" class="btn-1" class:loading>{label}</button>
 </form>
 
 <style>
@@ -31,11 +31,5 @@
   input {
     padding: 0px 5px;
     flex: 1;
-  }
-
-  .btn {
-    --bg: var(--accent, var(--green));
-    --bg-hover: var(--accent-hover, var(--green-hover));
-    --color: var(--white);
   }
 </style>
