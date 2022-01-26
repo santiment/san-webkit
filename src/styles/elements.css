@@ -121,6 +121,9 @@ button,
   --color: var(--mystic);
   --bg: var(--athens);
 }
+.btn-3.disabled {
+  --bg: none;
+}
 
 .hide {
   display: none;
