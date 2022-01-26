@@ -50,6 +50,9 @@ button,
 .btn-3 {
   cursor: pointer;
   user-select: none;
+}
+.btn-1,
+.btn-2 {
   padding: var(--v-padding) var(--h-padding);
 }
 
