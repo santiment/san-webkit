@@ -16,22 +16,14 @@
   <div class="icon row hv-center" class:active>
     <Svg illus id="products/{id}" {w} {h} />
   </div>
-  <h2 class="body-2 txt-m">{title}</h2>
-  <p>{desc}</p>
+  <h2 class="body-2 txt-m c-black">{title}</h2>
+  <p class="c-waterloo">{desc}</p>
   {#if note}
     <span class="note">{note}</span>
   {/if}
 </a>
 
 <style>
-  h2 {
-    color: var(--black);
-  }
-
-  p {
-    color: var(--waterloo);
-  }
-
   .icon {
     width: 40px;
     height: 40px;

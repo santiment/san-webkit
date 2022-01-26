@@ -2,7 +2,7 @@
   import Socials from './Socials.svelte'
 </script>
 
-<div class="bottom">
+<div class="bottom c-casper">
   <div class="divider" />
 
   <div class="copyright">
@@ -27,7 +27,6 @@
 <style>
   .bottom {
     display: grid;
-    color: var(--casper);
     align-items: center;
     text-align: center;
     grid-template-areas:

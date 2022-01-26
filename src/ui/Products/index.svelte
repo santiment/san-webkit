@@ -51,9 +51,6 @@
 
   h3 {
     margin: 0 0 20px;
-  }
-
-  h3 {
     color: var(--waterloo);
   }
 </style>

@@ -73,7 +73,7 @@
   </tbody>
   <caption>
     {#if isLoading}
-      <div class="loader">Loading...</div>
+      <div class="loader c-casper">Loading...</div>
     {/if}
   </caption>
 </table>
@@ -120,7 +120,6 @@
 
   .loader {
     padding: 10px 20px;
-    color: var(--casper);
     background: var(--athens);
     position: absolute;
     top: 50%;

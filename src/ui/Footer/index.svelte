@@ -10,7 +10,7 @@
 </script>
 
 <footer class={className}>
-  <div class="body-2 row top justify">
+  <div class="body-2 row top justify c-waterloo">
     <div class="description column">
       <a href="https://santiment.net/" class="mrg-l mrg--b">
         <Svg illus id="santiment" w="113" h="22" />
@@ -47,12 +47,10 @@
 
 <style>
   :global(footer a:hover) {
-    color: var(--accent, var(--green));
-    fill: var(--accent, var(--green));
+    --color: var(--accent, var(--green));
   }
 
   .top {
-    color: var(--waterloo);
     padding: 56px 0 40px;
   }
 

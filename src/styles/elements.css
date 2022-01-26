@@ -21,7 +21,10 @@ button {
   border: none;
 }
 
-[class*='btn'] {
+.btn,
+.btn-1,
+.btn-2,
+.btn-3 {
   ---clr: var(--color);
   ---bg: var(--bg);
   color: var(---clr);
@@ -29,7 +32,11 @@ button {
   background: var(---bg);
   border-radius: 4px;
 }
-[class*='btn']:hover {
+
+.btn:hover,
+.btn-1:hover,
+.btn-2:hover,
+.btn-3:hover {
   ---clr-hover: var(--color-hover, var(---clr));
   color: var(---clr-hover);
   fill: var(--fill-hover, var(---clr-hover));
@@ -37,7 +44,10 @@ button {
 }
 
 button,
-[class*='btn'] {
+.btn,
+.btn-1,
+.btn-2,
+.btn-3 {
   cursor: pointer;
   user-select: none;
   padding: var(--v-padding) var(--h-padding);
@@ -84,7 +94,7 @@ button,
   --loading-size: 3px;
 }
 .btn-3.active {
-  --bg: var(--accent-light, var(--green-light-1));
+  --bg: var(--accent-light-1, var(--green-light-1));
   --fill: var(--accent, var(--green));
   --fill-hover: var(--accent-hover, var(--green-hover));
 }

@@ -22,9 +22,10 @@
     <h2 class="h4 txt-m mrg-l mrg--b">
       We are using cookies to improve your experience
     </h2>
-    <h4 class="body-2 mrg-xl mrg--b">
+    <h4 class="body-2 mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to the storing of cookie and accept our
       <a
+        class="c-accent"
         href="https://santiment.net/terms-conditions/"
         target="_blank"
         rel="noopener noreferrer">Terms & Conditions.</a
@@ -60,13 +61,6 @@
     text-align: left;
   }
 
-  h4 {
-    color: var(--waterloo);
-  }
-
-  a {
-    color: var(--accent, var(--green));
-  }
   a:hover {
     color: var(--accent-hover, var(--green-hover));
   }

@@ -7,7 +7,7 @@
 </script>
 
 <a
-  class="row v-center {className}"
+  class="row v-center c-black {className}"
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}
 >
@@ -43,9 +43,6 @@
     overflow: hidden;
   }
 
-  a {
-    color: var(--black);
-  }
   a:hover {
     color: var(--green);
   }

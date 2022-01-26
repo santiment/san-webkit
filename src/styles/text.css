@@ -64,7 +64,15 @@
   font-weight: 600;
 }
 
-.txt--waterloo {
-  color: var(--waterloo);
-  fill: var(--waterloo);
+.c-black {
+  --color: var(--black);
+}
+.c-waterloo {
+  --color: var(--waterloo);
+}
+.c-casper {
+  --color: var(--casper);
+}
+.c-accent {
+  --color: var(--accent, var(--green));
 }

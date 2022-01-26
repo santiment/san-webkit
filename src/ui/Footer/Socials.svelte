@@ -5,10 +5,12 @@
 
 <div class="socials">
   {#if $IsMobile}
-    <h4 class="body-2 txt-m mrg-m mrg--b">Download Santiment app</h4>
+    <h4 class="body-2 txt-m mrg-m mrg--b c-waterloo">
+      Santiment on social media
+    </h4>
   {/if}
 
-  <div class="row">
+  <div class="row c-black">
     <a href="https://twitter.com/santimentfeed" target="_blank">
       <Svg id="twitter" w="20" h="16" />
     </a>
@@ -29,13 +31,11 @@
 
 <style>
   .socials {
-    fill: var(--black);
     grid-area: socials;
   }
 
   h4 {
     text-align: left;
-    color: var(--waterloo);
   }
 
   .row {

@@ -34,7 +34,7 @@
   padding: 0;
   text-decoration: none;
   list-style: none;
-  color: inherit;
+  color: var(--color, inherit);
   font-family: inherit;
   line-height: inherit;
   font-size: inherit;
@@ -59,7 +59,7 @@ body {
 }
 
 svg {
-  fill: inherit;
+  fill: var(--color, inherit);
   box-sizing: initial;
   vertical-align: middle;
 }
