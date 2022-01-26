@@ -59,7 +59,7 @@ body {
 }
 
 svg {
-  fill: var(--color, inherit);
+  fill: inherit;
   box-sizing: initial;
   vertical-align: middle;
 }
