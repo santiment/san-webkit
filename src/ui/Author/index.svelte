@@ -11,7 +11,7 @@
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}
 >
-  <div class="img mrg-s mrg--r row hv-center c-waterloo">
+  <div class="img mrg-s mrg--r row hv-center">
     {#if user.avatarUrl}
       <img alt="Avatar" src={user.avatarUrl} loading="lazy" />
     {:else}
@@ -40,6 +40,7 @@
     background: var(--porcelain);
     border-radius: 50%;
     overflow: hidden;
+    fill: var(--waterloo);
   }
 
   a:hover {

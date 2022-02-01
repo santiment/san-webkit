@@ -40,6 +40,11 @@
       <div class="caption">.btn-1.disabled</div>
       <div class="btn-1 disabled">Text</div>
     </div>
+
+    <div>
+      <div class="caption">.btn-1.btn--orange</div>
+      <div class="btn-1 btn--orange">Text</div>
+    </div>
   </div>
 
   <div class="row">
@@ -68,6 +73,16 @@
     <div>
       <div class="caption">.btn-2.disabled</div>
       <div class="btn-2 disabled">Text</div>
+    </div>
+
+    <div>
+      <div class="caption">.btn-2.btn--orange</div>
+      <div class="btn-2 btn--orange">Text</div>
+    </div>
+
+    <div>
+      <div class="caption">.btn-2.btn-1.btn--orange</div>
+      <div class="btn-2 btn-1 btn--orange">Text</div>
     </div>
   </div>
 

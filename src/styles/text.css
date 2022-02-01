@@ -64,6 +64,9 @@
   font-weight: 600;
 }
 
+.c-white {
+  --color: var(--white);
+}
 .c-black {
   --color: var(--black);
 }
