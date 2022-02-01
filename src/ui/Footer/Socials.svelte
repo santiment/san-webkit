@@ -10,7 +10,7 @@
     </h4>
   {/if}
 
-  <div class="row c-black">
+  <div class="row">
     <a href="https://twitter.com/santimentfeed" target="_blank">
       <Svg id="twitter" w="20" h="16" />
     </a>
@@ -30,6 +30,10 @@
 </div>
 
 <style>
+  a:hover {
+    fill: var(--color);
+  }
+
   .socials {
     grid-area: socials;
   }
