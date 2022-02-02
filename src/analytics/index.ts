@@ -16,24 +16,14 @@ function canTrackBrowser() {
 
 export const isTrackingEnabled =
   process.browser &&
-  (process.env.IS_DEV_MODE
-    ? true
-    : process.env.IS_PROD_BACKEND && canTrackBrowser())
+  (process.env.IS_DEV_MODE ? true : process.env.IS_PROD_BACKEND && canTrackBrowser())
 
 const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN]
 
-type EventData = { [key: string]: string | number }
-type SendEvent = (
-  eventName: string,
-  data?: EventData,
-  trackers?: Tracker[],
-) => number
+type EventData = { [key: string]: string | number | string[] | number[] }
+type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number
 const event: SendEvent = isTrackingEnabled
-  ? (
-      action,
-      { category, label, ...rest } = {},
-      trackers = DEFAULT_TRACKERS,
-    ) => {
+  ? (action, { category, label, ...rest } = {}, trackers = DEFAULT_TRACKERS) => {
       if (process.env.IS_DEV_MODE) {
         const dnt = canTrackBrowser() ? '' : ' (DNT)'
         console.log(
