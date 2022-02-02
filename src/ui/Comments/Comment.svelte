@@ -13,13 +13,12 @@
   export let currentUser: null | SAN.CurrentUser = null
   export let updateComments: any
   export let scrollToNewComment: () => void
+  export let commentsNode: HTMLDivElement
 
   $: ({ content, insertedAt, editedAt, user, parentId } = comment)
 
   $: edited = editedAt ? 'Edited ' : ''
-  $: time =
-    edited +
-    dateDifferenceInWords(new Date(edited ? (editedAt as string) : insertedAt))
+  $: time = edited + dateDifferenceInWords(new Date(edited ? (editedAt as string) : insertedAt))
 
   function onReply() {
     showCommentReplyDialog(commentsFor.id, comment.id)
@@ -30,10 +29,7 @@
       .then(scrollToNewComment)
   }
 
-  function getCommentDate(
-    insertedAt: string,
-    editedAt: SAN.Comment['editedAt']
-  ) {
+  function getCommentDate(insertedAt: string, editedAt: SAN.Comment['editedAt']) {
     const insertedDate = getDatetime(insertedAt)
     return editedAt
       ? `Posted: ${insertedDate}
@@ -55,10 +51,7 @@ Edited: ${getDatetime(editedAt)}`
       {/if}
     </Author>
 
-    <div
-      class="caption expl-tooltip"
-      aria-label={getCommentDate(insertedAt, editedAt)}
-    >
+    <div class="caption expl-tooltip" aria-label={getCommentDate(insertedAt, editedAt)}>
       {time}
     </div>
   </div>
@@ -72,7 +65,7 @@ Edited: ${getDatetime(editedAt)}`
       {/if}
 
       {#if currentUser.id === user.id}
-        <Menu bind:comment />
+        <Menu bind:comment {commentsNode} />
       {/if}
     </div>
   {/if}

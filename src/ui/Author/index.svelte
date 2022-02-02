@@ -5,13 +5,14 @@
   export { className as class }
   export let user: SAN.Author
   export let isTagName = true
+
+  $: if (isTagName && user.username === 'anonymous') isTagName = false
 </script>
 
 <a
   class="row v-center c-black {className}"
   href="/profile/{user.id}"
-  on:click={window.__onLinkClick}
->
+  on:click={window.__onLinkClick}>
   <div class="img mrg-s mrg--r row hv-center">
     {#if user.avatarUrl}
       <img alt="Avatar" src={user.avatarUrl} loading="lazy" />

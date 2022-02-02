@@ -8,10 +8,7 @@
     clearSavedComment,
     adjustHeight,
   } from './utils'
-  import {
-    setScrollToCommentContext,
-    setGetRepliedToCommentContext,
-  } from './context'
+  import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
   import Svg from '../Svg/svelte'
   import { CommentsType, queryComments } from '../../api/comments'
   import { createLayoutComment } from '../../api/comments/mutate'
@@ -21,10 +18,7 @@
   export let type: CommentsType
   export let commentsFor: SAN.CommentsFor
   export let currentUser: null | SAN.CurrentUser = null
-  export let onNewComment: (
-    commentsFor: SAN.CommentsFor,
-    comments: SAN.Comment[]
-  ) => void
+  export let onNewComment: (commentsFor: SAN.CommentsFor, comments: SAN.Comment[]) => void
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
   export let onCommentsLoaded = noop
@@ -36,9 +30,7 @@
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
-  $: queryComments(commentsFor.id, type)
-    .then(setComments)
-    .then(onCommentsLoaded)
+  $: queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
   $: authorId = commentsFor.user.id
 
   function setComments(data: SAN.Comment[]) {
@@ -54,8 +46,7 @@
   function onSubmit({ currentTarget }: Event) {
     if (!commentsFor || loading) return
 
-    const commentNode = (currentTarget as HTMLFormElement)
-      .comment as HTMLTextAreaElement
+    const commentNode = (currentTarget as HTMLFormElement).comment as HTMLTextAreaElement
 
     if (!currentUser) {
       saveComment(type, commentsFor.id, commentNode.value, commentsFor.title)
@@ -106,8 +97,7 @@
     rows="1"
     class="border fluid"
     placeholder="Type your comment here"
-    on:input={(e) => adjustHeight(e.currentTarget)}
-  />
+    on:input={(e) => adjustHeight(e.currentTarget)} />
 
   <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l">
     {currentUser ? 'Post' : 'Sign up to post'}
@@ -117,13 +107,13 @@
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
   {#each comments as comment (comment.id)}
     <Comment
+      {commentsNode}
       {commentsFor}
       {comment}
       {authorId}
       {currentUser}
       {updateComments}
-      {scrollToNewComment}
-    />
+      {scrollToNewComment} />
   {:else}
     <div class="column hv-center">
       <Svg illus id="comment-bubble" w="128" h="98" />

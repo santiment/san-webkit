@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    getScrollToCommentContext,
-    getGetRepliedToCommentContext,
-  } from './context'
+  import { getScrollToCommentContext, getGetRepliedToCommentContext } from './context'
   import Author from '../Author/svelte'
 
   const scrollToReply = getScrollToCommentContext()
@@ -14,11 +11,7 @@
 </script>
 
 {#if comment}
-  <a
-    class="caption btn row"
-    href="#comment-{id}"
-    on:click|capture={scrollToReply}
-  >
+  <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div>
       <Author user={comment.user} class="$style.comment" />
       {' ' + comment.content}
@@ -74,7 +67,7 @@
 
   div,
   .comment {
-    color: var(--fiord) !important;
+    --color: var(--fiord) !important;
   }
 
   @supports not (display: -webkit-box) {
