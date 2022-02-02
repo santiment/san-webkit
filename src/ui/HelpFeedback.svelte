@@ -18,7 +18,7 @@
 
 <style>
   div {
-    --color: var(--white);
+    --color: #fff;
     writing-mode: vertical-lr;
     padding: 12px 6px;
     z-index: 1;
