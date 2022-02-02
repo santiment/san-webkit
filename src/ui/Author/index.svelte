@@ -4,6 +4,7 @@
   let className = ''
   export { className as class }
   export let user: SAN.Author
+  export let isTagName = true
 </script>
 
 <a
@@ -20,7 +21,7 @@
   </div>
 
   <span>
-    {user.username || user.email}
+    {isTagName && user.username ? '@' : ''}{user.username || user.email}
     <slot />
   </span>
 </a>
@@ -44,7 +45,7 @@
   }
 
   a:hover {
-    --color: var(--green);
+    --color: var(--accent, var(--green));
   }
 
   span {
