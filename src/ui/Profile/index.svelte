@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from '../Svg/svelte'
+  import Pic from './Pic.svelte'
 
   let className = ''
   export { className as class }
@@ -13,13 +13,7 @@
   class="row v-center c-black {className}"
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}>
-  <div class="img mrg-s mrg--r row hv-center">
-    {#if user.avatarUrl}
-      <img alt="Avatar" src={user.avatarUrl} loading="lazy" />
-    {:else}
-      <Svg id="user" w="16" class="$style.svg" />
-    {/if}
-  </div>
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r" />
 
   <span>
     {isTagName && user.username ? '@' : ''}{user.username || user.email}
@@ -28,23 +22,6 @@
 </a>
 
 <style>
-  .img,
-  img {
-    --size: var(--img-size, 32px);
-    width: var(--size);
-    height: var(--size);
-    max-width: var(--size);
-    max-height: var(--size);
-    min-width: var(--size);
-  }
-
-  .img {
-    background: var(--porcelain);
-    border-radius: 50%;
-    overflow: hidden;
-    fill: var(--waterloo);
-  }
-
   a:hover {
     --color: var(--accent, var(--green));
   }
@@ -53,9 +30,5 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  }
-
-  .svg {
-    max-width: 50%;
   }
 </style>

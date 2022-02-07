@@ -13,23 +13,16 @@ export const HEADERS = {
   authorization: null,
 }
 
-const dataAccessor = <T extends SAN.API.QueryBase>({
-  data,
-  errors,
-}: Data<T>): Promise<T> =>
+const dataAccessor = <T extends SAN.API.QueryBase>({ data, errors }: Data<T>): Promise<T> =>
   errors ? Promise.reject(errors) : Promise.resolve(data)
 
-const jsonAccessor = <T extends SAN.API.QueryBase>(
-  response: Response
-): Promise<Data<T>> => response.json()
+const jsonAccessor = <T extends SAN.API.QueryBase>(response: Response): Promise<Data<T>> =>
+  response.json()
 
-export function query<
-  T extends SAN.API.QueryBase,
-  U extends Variables = Variables
->(
+export function query<T extends SAN.API.QueryBase, U extends Variables = Variables>(
   scheme: string,
   options?: SAN.API.QueryOptions<T, U>,
-  requestOptions?: RequestInit
+  requestOptions?: RequestInit,
 ): Promise<T> {
   const isWithCache = process.browser && options?.cache !== false
 
@@ -70,10 +63,10 @@ export function query<
   return request
 }
 
-export function mutate<
-  T extends SAN.API.QueryBase,
-  U extends Variables = Variables
->(scheme: string, options?: SAN.API.QueryOptions<T, U>): Promise<T> {
+export function mutate<T extends SAN.API.QueryBase, U extends Variables = Variables>(
+  scheme: string,
+  options?: SAN.API.QueryOptions<T, U>,
+): Promise<T> {
   return query<T>(scheme, Object.assign({ cache: false }, options))
 }
 
@@ -87,8 +80,17 @@ export function newSSRQuery<T extends Callback>(clb: T) {
         : {
             headers: {
               ...HEADERS,
-              cookie: args[args.length - 1].req.headers.cookie,
+              ...getRequestData(args[args.length - 1].req),
             },
-          }
+          },
     )
+}
+
+function getRequestData(req: Request) {
+  return {
+    // @ts-ignore
+    cookie: req.headers.cookie,
+    // @ts-ignore
+    'x-forwarded-for': req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+  }
 }

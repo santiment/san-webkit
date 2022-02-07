@@ -6,11 +6,13 @@
 
 <div bind:this={rocketNode} class="rocket row h-center">
   <Svg id="rocket" w="13.5" h="18" />
-  <div class="ignited">
-    <div class="fire" />
-    <div class="fire" />
-    <div class="fire" />
-  </div>
+  {#if process.browser}
+    <div class="ignited">
+      <div class="fire" />
+      <div class="fire" />
+      <div class="fire" />
+    </div>
+  {/if}
 </div>
 
 <style>

@@ -4,7 +4,7 @@
   import RepliedTo from './RepliedTo.svelte'
   import { DELETE_MSG } from './DeleteDialog.svelte'
   import { showCommentReplyDialog } from './ReplyDialog.svelte'
-  import Author from '../Author/svelte'
+  import Author from '../Profile/svelte'
   import { dateDifferenceInWords } from '../../utils/dates'
 
   export let commentsFor: SAN.CommentsFor

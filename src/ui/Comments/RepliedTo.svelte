@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getScrollToCommentContext, getGetRepliedToCommentContext } from './context'
-  import Author from '../Author/svelte'
+  import Author from '../Profile/svelte'
 
   const scrollToReply = getScrollToCommentContext()
   const getRepliedToComment = getGetRepliedToCommentContext()

@@ -9,4 +9,16 @@ declare namespace SAN {
   type CurrentUser = {
     id: number
   }
+
+  type Subscription = {
+    /** 'ACTIVE' | 'TRIALING' */
+    status: string
+    trialEnd?: string
+    plan: {
+      name: string // 'PRO'
+      product: {
+        id: number
+      }
+    }
+  }
 }

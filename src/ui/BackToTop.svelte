@@ -18,13 +18,12 @@
     class="btn {className}"
     class:hidden
     on:click={() => window.scrollTo(0, 0)}
-    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)"
-  />
+    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)" />
 </ViewportObserver>
 
 <style>
   div {
-    background: var(--img) no-repeat 50%, var(--bg);
+    background: var(--img) no-repeat 50%, var(--bg, var(--accent));
     border-radius: 50%;
     position: fixed;
     width: 48px;
@@ -33,6 +32,7 @@
     bottom: 48px;
     transition: opacity 200ms;
     z-index: 1;
+    --bg-hover: var(--accent-hover);
   }
   .hidden {
     opacity: 0;

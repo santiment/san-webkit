@@ -1,27 +1,25 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import Author from '@/ui/Author/svelte'
+  import Profile from '@/ui/Profile/svelte'
 </script>
 
-<Meta title="Example/Author" component={Author} />
+<Meta title="Example/Profile" component={Profile} />
 
 <Template let:args>
-  <Author
+  <Profile
     user={{
       id: args.id,
       username: args.username,
       email: args.email,
       avatarUrl: args.avatarUrl,
-    }}
-  />
+    }} />
 </Template>
 
 <Story
-  name="Author"
+  name="Profile"
   args={{
     id: 0,
     username: 'Username',
     email: '',
     avatarUrl: '',
-  }}
-/>
+  }} />

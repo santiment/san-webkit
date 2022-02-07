@@ -1,11 +1,12 @@
+export const capitalize = (str: string): string => str[0].toUpperCase() + str.slice(1)
+
 const UsdFormatter = new Intl.NumberFormat('en', {
   style: 'currency',
   currency: 'USD',
   maximumFractionDigits: 2,
 })
 
-export const formatUsd = (amount: number): string =>
-  UsdFormatter.format(amount / 100)
+export const formatUsd = (amount: number): string => UsdFormatter.format(amount / 100)
 
 const SI_PREFIXES = {
   3: 'K',
@@ -33,9 +34,7 @@ export function millify(value: number, precision = 1): string {
 
   const mantissa = str.slice(0, -exponent)
   const exponentIndex = length - exponent
-  const precised = precision
-    ? '.' + str.slice(exponentIndex, exponentIndex + precision)
-    : ''
+  const precised = precision ? '.' + str.slice(exponentIndex, exponentIndex + precision) : ''
 
   return prefix + +(mantissa + precised) + SI_PREFIXES[exponent]
 }

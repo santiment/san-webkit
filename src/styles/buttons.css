@@ -7,7 +7,8 @@ button {
 .btn,
 .btn-1,
 .btn-2,
-.btn-3 {
+.btn-3,
+.btn-ghost {
   ---clr: var(--color);
   ---bg: var(--bg);
   color: var(---clr);
@@ -19,7 +20,8 @@ button {
 .btn:hover,
 .btn-1:hover,
 .btn-2:hover,
-.btn-3:hover {
+.btn-3:hover,
+.btn-ghost:hover {
   ---clr-hover: var(--color-hover, var(---clr));
   color: var(---clr-hover);
   fill: var(--fill-hover, var(---clr-hover));
@@ -30,7 +32,8 @@ button,
 .btn,
 .btn-1,
 .btn-2,
-.btn-3 {
+.btn-3,
+.btn-ghost {
   cursor: pointer;
   user-select: none;
 }
@@ -68,7 +71,7 @@ button,
 }
 
 .btn--l {
-    --v-padding: 10px;
+  --v-padding: 10px;
 }
 .btn--s {
   --h-padding: 12px;
@@ -93,6 +96,13 @@ button,
   --fill-hover: var(--accent-hover, var(--green-hover));
 }
 
+.btn-ghost {
+  padding: 6px 8px;
+  --color: var(--black);
+  --color-hover: var(--green);
+  --bg-hover: var(--athens);
+}
+
 .btn--green {
   --color: #fff;
   --dot-color: #fff;
@@ -107,13 +117,6 @@ button,
   --border-hover: var(--orange-hover);
 }
 
-.btn--ghost {
-  padding: 6px 8px;
-  --color: var(--black);
-  --color-hover: var(--green);
-  --bg-hover: var(--athens);
-}
-
 [class*='btn'][disabled],
 [class*='btn'].disabled {
   --color: var(--mystic);
@@ -122,4 +125,3 @@ button,
 .btn-3.disabled {
   --bg: none;
 }
-

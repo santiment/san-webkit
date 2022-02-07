@@ -30,9 +30,7 @@
     else trigger.removeEventListener(on, startOpenTimer)
   }
 
-  $: activeClass &&
-    trigger &&
-    (trigger as Element).classList.toggle(activeClass, isOpened)
+  $: activeClass && trigger && (trigger as Element).classList.toggle(activeClass, isOpened)
   $: if (tooltip) hookTooltip()
 
   $: if (trigger) {
@@ -91,14 +89,7 @@
   function hookTooltip() {
     if (!tooltip) return
 
-    const { left, top } = getTooltipStyles(
-      tooltip,
-      trigger as HTMLElement,
-      position,
-      align,
-      0,
-      10
-    )
+    const { left, top } = getTooltipStyles(tooltip, trigger as HTMLElement, position, align, 0, 10)
 
     tooltip.style.left = left + 'px'
     tooltip.style.top = top + 'px'
@@ -109,18 +100,14 @@
   }
 
   function onTouchEnd({ target }: TouchEvent) {
-    if (
-      target === trigger ||
-      (target as HTMLElement).closest('[slot="tooltip"]')
-    )
-      return
+    if (target === trigger || (target as HTMLElement).closest('[slot="tooltip"]')) return
 
     window.ontouchend = null
     close()
   }
 </script>
 
-{#if $$slots.trigger && !trigger}
+{#if process.browser && $$slots.trigger && !trigger}
   <p class="hide" bind:this={anchor} />
 {/if}
 
@@ -131,8 +118,7 @@
     class:dark
     class="tooltip border box {className}"
     bind:this={tooltip}
-    transition:fade={transition}
-  >
+    transition:fade={transition}>
     <slot name="tooltip" />
   </div>
 {/if}
