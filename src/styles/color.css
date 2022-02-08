@@ -18,10 +18,11 @@
   --green-hover: #1fac85;
   --green-light-1: #edf8f5;
   --green-light-2: #dcf6ef;
-  --green-light-3: #76e5c2;
+  --green-light-3: #b0ebdb;
 
   --lima: #26c953;
   --lima-hover: #1bad44;
+  --lima-light-1: #d6f6d6;
 
   /* persimmon */
   --red: #ff5b5b;
@@ -83,7 +84,9 @@
   /* jungle-green */
   --green-light-1: #142532;
   --green-light-2: #17343b;
-  --green-light-3: #38876f;
+  --green-light-3: #165e55;
+
+  --lima-light-1: #1b3e33;
 
   /* texas-rose */
   --orange-light-1: #3b3130;

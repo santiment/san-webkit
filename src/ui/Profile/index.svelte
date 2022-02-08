@@ -30,5 +30,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: var(--name-max-width);
   }
 </style>

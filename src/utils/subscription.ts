@@ -26,7 +26,7 @@ export const calculateTrialDaysLeft = (trialEnd: string): number =>
   Math.ceil((+new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
 
 export const checkIsSanbaseSubscription = ({ plan }: SAN.Subscription) =>
-  plan.product.id === ProductId.SANBASE
+  +plan.product.id === ProductId.SANBASE
 
 export function getSanbaseSubscription(subscriptions: SAN.Subscription[]) {
   return subscriptions.find(

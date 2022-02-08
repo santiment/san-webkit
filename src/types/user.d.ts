@@ -17,7 +17,7 @@ declare namespace SAN {
     plan: {
       name: string // 'PRO'
       product: {
-        id: number
+        id: string
       }
     }
   }
