@@ -22,6 +22,7 @@
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
   export let onCommentsLoaded = noop
+  export let titleClass = 'body-2 txt-m'
 
   let comments = [] as SAN.Comment[]
   let loading = false
@@ -88,7 +89,7 @@
   })
 </script>
 
-<div class="body-2 txt-m">Conversations ({comments.length})</div>
+<h4 class={titleClass}>Conversations ({comments.length})</h4>
 
 <form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
   <textarea

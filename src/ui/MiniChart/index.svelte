@@ -1,13 +1,17 @@
 <script lang="ts">
-  import { empty } from 'svelte/internal'
+  import type { Props } from './svelte'
 
-  export let data: { [key: string]: any | number }[] = []
-  export let points = [] as string[]
+  let className = ''
+  export { className as class }
+  export let data: Props['data'] = []
+  export let points: Props['points'] = []
   export let width = 70
   export let height = 50
   export let valueKey: string
+  export let style: Props['style']
 
   $: points = getPoints(data)
+  $: linePoints = points.join(' ')
 
   function getPoints(data) {
     const { length } = data
@@ -31,10 +35,15 @@
   }
 </script>
 
-{#if points}
-  <svg viewBox="0 0 {width} {height}" {height} class:empty={!points.length}>
-    <polyline points={points.join(' ')} />
-    <slot {points} />
+{#if points.length}
+  <svg
+    viewBox="0 0 {width} {height}"
+    {height}
+    {style}
+    class:empty={!points.length}
+    class={className}>
+    <polyline points={linePoints} />
+    <slot {points} {linePoints} />
   </svg>
 {/if}
 
@@ -45,7 +54,7 @@
   polyline {
     fill: none;
     stroke-width: 2;
-    stroke: var(--casper);
+    stroke: var(--color);
   }
 
   .empty {

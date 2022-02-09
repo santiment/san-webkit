@@ -1,7 +1,10 @@
 <script lang="ts" context="module">
   export function percentChange(oldValue: number, newValue: number) {
     const change = (100 * (newValue - oldValue)) / oldValue
-    return +change.toFixed(Math.abs(change) < 1 ? 4 : 2)
+    return formatPercentChange(change)
+  }
+  export function formatPercentChange(value: number): number {
+    return +value.toFixed(Math.abs(value) < 1 ? 4 : 2)
   }
 </script>
 
