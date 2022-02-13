@@ -22,6 +22,9 @@
 </a>
 
 <style>
+  a {
+    min-width: 0;
+  }
   a:hover {
     --color: var(--accent, var(--green));
   }

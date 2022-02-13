@@ -16,9 +16,9 @@
   export let change: number
 </script>
 
-<div class="row v-center change {className}" class:up={change >= 0}>
+<div class="row v-center change {className}" class:down={change < 0}>
   <span class="direction row hv-center mrg-xs mrg--r">
-    <Svg id="triangle" w="6" h="4" />
+    <Svg id="triangle" w="6" h="4" class="$style.arrow" />
   </span>
   {change}%
 </div>
@@ -26,12 +26,16 @@
 <style>
   .change {
     position: relative;
-    --color: var(--red);
-    --bg: var(--red-light-1);
-  }
-  .up {
     --color: var(--lima);
     --bg: var(--lima-light-1);
+  }
+  .down {
+    --color: var(--red);
+    --bg: var(--red-light-1);
+    --transform: rotate(180deg);
+  }
+  .arrow {
+    transform: var(--transform);
   }
 
   .direction {
