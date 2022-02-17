@@ -17,6 +17,16 @@ textarea::placeholder {
   color: var(--casper);
 }
 
+.input {
+  padding: 5px 8px;
+  color: var(--black);
+  border: 1px solid var(--border, var(--porcelain));
+  border-radius: 4px;
+}
+.input:focus,
+.input:hover {
+  border-color: var(--green);
+}
 
 .hide {
   display: none;
@@ -44,12 +54,12 @@ textarea::placeholder {
 
 @keyframes SAN-load {
   0% {
-    box-shadow: -2em 2em 0 -10px var(--dot-color), -2em 2em var(--dot-color),
-      0 2em var(--dot-color), 2em 2em var(--dot-color);
+    box-shadow: -2em 2em 0 -10px var(--dot-color), -2em 2em var(--dot-color), 0 2em var(--dot-color),
+      2em 2em var(--dot-color);
   }
 
   100% {
-    box-shadow: -2em 2em 0 0 var(--dot-color), 0 2em var(--dot-color),
-      2em 2em var(--dot-color), 2em 2em 0 -5px var(--dot-color);
+    box-shadow: -2em 2em 0 0 var(--dot-color), 0 2em var(--dot-color), 2em 2em var(--dot-color),
+      2em 2em 0 -5px var(--dot-color);
   }
 }

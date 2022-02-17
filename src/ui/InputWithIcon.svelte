@@ -8,11 +8,27 @@
   export let placeholder
   export let name
   export let big = false
+  export let constraints
+  export let value = ''
 </script>
 
 <div class="border row v-center {className}" class:big>
-  <Svg id={icon} {w} {h} class="$style.icon" />
-  <input {type} {placeholder} {name} />
+  {#if $$slots.left}
+    <slot name="left" />
+  {:else if icon}
+    <Svg id={icon} {w} {h} class="$style.icon" />
+  {/if}
+  <input
+    {...constraints}
+    {value}
+    {type}
+    {placeholder}
+    {name}
+    on:input
+    on:focus
+    on:blur
+    on:keydown />
+  <slot />
 </div>
 
 <style>

@@ -12,11 +12,13 @@
   export let position: Position = 'bottom'
   export let align: Align = 'start'
   export let on: 'mouseenter' | 'click' = 'mouseenter'
-  export let duration = 150
+  export let duration = 0
   export let openDelay = 0
   export let closeTimeout = 120
   export let dark = false
   export let trigger: Element | undefined = undefined
+  export let offsetX = 0
+  export let offsetY = 10
 
   const transition = { duration }
 
@@ -34,7 +36,7 @@
   $: if (tooltip) hookTooltip()
 
   $: if (trigger) {
-    if (isOpened || openTimer) {
+    if (isEnabled && (isOpened || openTimer)) {
       trigger.addEventListener('mouseleave', closeTooltip)
     } else {
       trigger.removeEventListener('mouseleave', closeTooltip)
@@ -89,10 +91,19 @@
   function hookTooltip() {
     if (!tooltip) return
 
-    const { left, top } = getTooltipStyles(tooltip, trigger as HTMLElement, position, align, 0, 10)
+    const { left, top } = getTooltipStyles(
+      tooltip,
+      trigger as HTMLElement,
+      position,
+      align,
+      offsetX,
+      offsetY,
+    )
 
     tooltip.style.left = left + 'px'
     tooltip.style.top = top + 'px'
+
+    if (!isEnabled) return
 
     tooltip.onmouseenter = openTooltip
     tooltip.onmouseleave = closeTooltip
