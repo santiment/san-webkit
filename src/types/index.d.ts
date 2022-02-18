@@ -11,5 +11,7 @@ declare namespace NodeJS {
 }
 
 interface Window {
+  Stripe?: stripe.StripeStatic
+  StripeInstance?: stripe.Stripe
   __onLinkClick?: (e: MouseEvent) => void
 }
