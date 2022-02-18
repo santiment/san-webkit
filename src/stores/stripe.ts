@@ -1,14 +1,16 @@
+import type { Subscriber, Unsubscriber } from 'svelte/store'
 import { writable } from 'svelte/store'
 import { initStripe, bootStripe } from '../analytics/stripe'
 
-let loaded = false
-const { subscribe, set } = writable<null | stripe.Stripe>(null)
-const onLoad = () => set(bootStripe())
-
+type Value = null | stripe.Stripe
 type Store = {
   load: () => void
-  subscribe: typeof subscribe
+  subscribe: (this: void, run: Subscriber<Value>, invalidate?: any) => Unsubscriber
 }
+
+let loaded = false
+const { subscribe, set } = writable<Value>(null)
+const onLoad = () => set(bootStripe())
 
 export const stripe: Store = {
   load() {

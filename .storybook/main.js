@@ -25,7 +25,7 @@ async function prepareIconsData(dir, filename) {
   fs.writeFile(
     path.resolve(utils.ROOT, 'stories', filename + '.json'),
     JSON.stringify(ICONS),
-    () => {}
+    () => {},
   )
 }
 
@@ -37,12 +37,9 @@ module.exports = {
     ])
 
     const svelteLoader = config.module.rules.find(
-      (r) => r.loader && r.loader.includes('svelte-loader')
+      (r) => r.loader && r.loader.includes('svelte-loader'),
     )
-    svelteLoader.options.preprocess = [
-      cssModules(),
-      require('svelte-preprocess')({}),
-    ]
+    svelteLoader.options.preprocess = [cssModules(), require('svelte-preprocess')({})]
 
     config.resolve.alias['@'] = path.resolve(__dirname, '../src')
 
@@ -53,8 +50,9 @@ module.exports = {
         'process.env.IS_DEV_MODE': true,
         'process.env.MEDIA_PATH': JSON.stringify(''),
         'process.env.ICONS_PATH': JSON.stringify('/icons'),
+        'process.env.IS_STAGE_BACKEND': true,
         'process.env.IS_PROD_BACKEND': false,
-      })
+      }),
     )
 
     return config

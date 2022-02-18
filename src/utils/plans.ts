@@ -12,10 +12,10 @@ export const ProductNameById = {
   [ProductId.SANBASE]: Product.SANBASE,
 } as const
 
-const nonDeprecatedFilter = ({ isDeprecated }) => !isDeprecated
-export const keepNonDeprecatedPlans = (plans) => plans.filter(nonDeprecatedFilter)
+const nonDeprecatedFilter = ({ isDeprecated }: { isDeprecated: boolean }) => !isDeprecated
+export const keepNonDeprecatedPlans = (plans: SAN.Plan[]) => plans.filter(nonDeprecatedFilter)
 
-export const checkIsSanbaseProduct = (product: { id: string | number }) =>
+export const checkIsSanbaseProduct = (product: Pick<SAN.Product, 'id'>) =>
   +product.id === ProductId.SANBASE
 
 export enum Plan {
@@ -28,4 +28,4 @@ export const PlanName = {
   [Plan.PRO_PLUS]: 'Pro+',
 } as const
 
-export const checkIsYearlyPlan = ({ interval }) => interval === 'year'
+export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) => interval === 'year'

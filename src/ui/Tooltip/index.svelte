@@ -1,4 +1,8 @@
 <script lang="ts">
+  /**
+   * If scrolling cousing issues, add class="relative" to the trigger's parent
+   */
+
   import type { Align, Position } from './utils'
   import { onMount, onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
