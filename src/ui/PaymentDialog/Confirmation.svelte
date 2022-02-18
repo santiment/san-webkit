@@ -1,20 +1,22 @@
 <script lang="ts">
   import Input from './Input.svelte'
   import PlanSelector from './PlanSelector.svelte'
+  import Check from './Check.svelte'
   import Skeleton from '../Skeleton.svelte'
   import Svg from '../Svg/svelte'
-  import { PlanName } from '../../utils/plans'
 
-  export let plans
-  export let plan
-  export let isSinglePlan
+  export let plans: SAN.Plan[]
+  export let plan: SAN.Plan
+  export let name: string
+  export let price: string
+  export let isSinglePlan: boolean
 
-  $: selectedNameBilling = `${PlanName[plan.name]} ${plan.interval}ly`
+  $: selectedNameBilling = name ? `${name} ${plan.interval}ly` : ''
 </script>
 
 <div class="confirmation relative">
   <Skeleton isActive={!plans.length}>
-    <PlanSelector bind:plan {selectedNameBilling} {plans} {isSinglePlan} />
+    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {isSinglePlan} />
 
     <Input title="Discount code" name="discount" placeholder="2H8vZG5P" required={false} />
 
@@ -29,23 +31,7 @@
       </div>
     </div>
 
-    <div class="c-waterloo">
-      <div class="row justify mrg-m mrg--b">
-        {selectedNameBilling}
-        <div>$540</div>
-      </div>
-      <div class="row justify">
-        Discount code 20%
-        <div class="c-accent">- $108</div>
-      </div>
-
-      <div class="hr" />
-
-      <div class="total body-2 txt-m row justify v-center c-black">
-        Total due
-        <span class="h4 txt-b">$49</span>
-      </div>
-    </div>
+    <Check {plan} {price} {selectedNameBilling} />
 
     <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t">Pay</button>
   </Skeleton>
@@ -57,11 +43,6 @@
     background: var(--athens);
     border-radius: 4px;
     padding: 27px 32px 24px;
-  }
-
-  .hr {
-    margin: 16px 0;
-    border-top: 1px solid var(--porcelain);
   }
 
   a {

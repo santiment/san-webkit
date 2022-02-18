@@ -2,7 +2,7 @@
   import PaymentDialog from './index.svelte'
   import { dialogs } from '../Dialog'
   import { querySanbasePlans, getCachedSanbasePlans } from '../../api/plans'
-  import { Plan } from '../../utils/plans'
+  import { formatPrice, Plan } from '../../utils/plans'
   import { stripe } from '../../stores/stripe'
 
   export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props)
@@ -18,9 +18,12 @@
 </script>
 
 <script lang="ts">
+  import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import Confirmation from './Confirmation.svelte'
+  import { mapPlans } from './utils'
   import Dialog from '../Dialog'
+  import { PlanName } from '../../utils/plans'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -36,8 +39,10 @@
 
   if (process.browser) getPlans()
 
+  $: name = PlanName[plan.name]
+  $: price = name ? formatPrice(plan) : ''
   $: console.log(plans)
-  $: console.log(plan)
+  $: console.log(name)
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing
@@ -51,36 +56,20 @@
   }
 
   function setPlans(data: SAN.Plan[]) {
-    const PlanBillings = {} as { [key: string]: SAN.Plan[] }
-
-    data.forEach((plan) => {
-      if (!plansFilter(plan)) return
-
-      const planBillings = PlanBillings[plan.name]
-      if (planBillings) planBillings.push(plan)
-      else PlanBillings[plan.name] = [plan]
-    })
-
-    plans = Object.values(PlanBillings).flat()
+    plans = mapPlans(data, plansFilter)
     plan = plans.find(findDefaultPlan) || plans[0]
   }
 
-  function onSubmit({ currentTarget }) {}
+  // function onSubmit({ currentTarget }) {}
 </script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    <div class="banner mrg-l mrg--b">
-      <div class="txt-m mrg-xs mrg--b">Enjoy your 14-day free trial of Sanbase Pro!</div>
-      <div>
-        Your card will be charged <span class="txt-b">$49</span> after the trial period ends. You
-        won't be charged if you cancel anytime before <span class="txt-b">03/03/22</span>
-      </div>
-    </div>
+    <Banner {name} {price} />
 
     <form action="">
       <PayerInfo />
-      <Confirmation bind:plan {plans} {isSinglePlan} />
+      <Confirmation bind:plan {plans} {name} {price} {isSinglePlan} />
     </form>
   </section>
   <section class="footer row hv-center caption txt-m c-waterloo">
@@ -94,11 +83,6 @@
   .dialog {
     padding: 16px 40px 24px;
     overflow: auto;
-  }
-
-  .banner {
-    background: var(--green-light-1);
-    padding: 16px 24px;
   }
 
   form {

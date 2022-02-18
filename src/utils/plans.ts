@@ -29,3 +29,13 @@ export const PlanName = {
 } as const
 
 export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) => interval === 'year'
+
+export const getPrice = (amount: number) => amount / 100
+export function getPlanMonthPrice({ amount, interval }: SAN.Plan): number {
+  const price = getPrice(amount)
+  return interval === 'month' ? price : price / 12
+}
+
+export const priceFormatter = (price: number) => '$' + Math.ceil(price)
+export const formatPrice = (plan: SAN.Plan) => priceFormatter(getPrice(plan.amount))
+export const formatMonthlyPrice = (plan: SAN.Plan) => priceFormatter(getPlanMonthPrice(plan))

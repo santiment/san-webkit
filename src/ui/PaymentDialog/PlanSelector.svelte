@@ -1,12 +1,13 @@
 <script lang="ts">
   import Svg from '../Svg/svelte'
   import Tooltip from '../Tooltip/svelte'
-  import { PlanName, checkIsYearlyPlan } from '../../utils/plans'
+  import { PlanName, checkIsYearlyPlan, formatPrice, formatMonthlyPrice } from '../../utils/plans'
 
-  export let plans
-  export let plan
+  export let plans: SAN.Plan[]
+  export let plan: SAN.Plan
+  export let price: string
   export let selectedNameBilling: string
-  export let isSinglePlan
+  export let isSinglePlan: boolean
 
   let isOpened = false
 
@@ -30,7 +31,8 @@
         {#each plans as option}
           <div class="option btn" class:active={plan === option} on:click={() => select(option)}>
             {isSinglePlan ? 'Bill' : PlanName[option.name]}
-            {option.interval}ly - <span class="txt-b">$249/mo</span>
+            {option.interval}ly -
+            <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 
             {#if checkIsYearlyPlan(option)}
               <span class="mrg-s mrg--l caption c-accent">{SAVED_MSG}</span>
@@ -46,7 +48,7 @@
   </div>
 
   <div class="h3">
-    $49
+    {price}
     <span class="body-1 c-casper">/ {plan.interval}</span>
   </div>
 </div>
