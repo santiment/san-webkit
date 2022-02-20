@@ -16,7 +16,7 @@ export const PLANS_QUERY = `{
 }`
 
 type ProductPlans = SAN.Product & {
-  plans: any[]
+  plans: SAN.Plan[]
 }
 type Query = SAN.API.Query<'productsWithPlans', ProductPlans[]>
 
@@ -37,3 +37,25 @@ export function getCachedSanbasePlans() {
   const cached = Cache.get<Query>(PLANS_QUERY)
   return cached && keepNonDeprecatedPlans(getSanbasePlans(accessor(cached)) as any)
 }
+
+// -------------------------------------
+
+const COUPON_QUERY = (coupon: string) => `{
+  getCoupon(coupon:"${coupon}") {
+    isValid
+    percentOff
+  }
+}`
+
+type CouponQuery = SAN.API.Query<
+  'getCoupon',
+  {
+    percentOff: number
+    isValid: boolean
+  }
+>
+
+const couponOptions = { cache: false }
+const couponAccessor = ({ getCoupon }: CouponQuery) => getCoupon
+export const queryCoupon = (coupon: string) =>
+  query<CouponQuery>(COUPON_QUERY(coupon), couponOptions).then(couponAccessor)

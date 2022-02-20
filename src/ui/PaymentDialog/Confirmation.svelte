@@ -2,6 +2,7 @@
   import Input from './Input.svelte'
   import PlanSelector from './PlanSelector.svelte'
   import Check from './Check.svelte'
+  import DiscountInput from './DiscountInput.svelte'
   import Skeleton from '../Skeleton.svelte'
   import Svg from '../Svg/svelte'
 
@@ -10,6 +11,9 @@
   export let name: string
   export let price: string
   export let isSinglePlan: boolean
+  export let isEligibleForTrial: boolean
+
+  let percentOff = 0
 
   $: selectedNameBilling = name ? `${name} ${plan.interval}ly` : ''
 </script>
@@ -18,7 +22,7 @@
   <Skeleton isActive={!plans.length}>
     <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {isSinglePlan} />
 
-    <Input title="Discount code" name="discount" placeholder="2H8vZG5P" required={false} />
+    <DiscountInput bind:percentOff />
 
     <div class="holder row mrg-xl mrg--b">
       <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
@@ -31,9 +35,10 @@
       </div>
     </div>
 
-    <Check {plan} {price} {selectedNameBilling} />
+    <Check {plan} {price} {selectedNameBilling} {percentOff} />
 
-    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t">Pay</button>
+    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t">
+      {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Pay'}</button>
   </Skeleton>
 </div>
 

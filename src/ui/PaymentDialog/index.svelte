@@ -72,7 +72,7 @@
 
     <form action="">
       <PayerInfo />
-      <Confirmation bind:plan {plans} {name} {price} {isSinglePlan} />
+      <Confirmation bind:plan {plans} {name} {price} {isSinglePlan} {isEligibleForTrial} />
     </form>
   </section>
 

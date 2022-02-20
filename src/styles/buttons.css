@@ -46,7 +46,7 @@ button,
   --v-padding: 6px;
   --h-padding: 20px;
   --color: #fff;
-  --dot-color: #fff;
+  --loading-color: #fff;
   --bg: var(--accent, var(--green));
   --bg-hover: var(--accent-hover, var(--green-hover));
 }
@@ -105,7 +105,7 @@ button,
 
 .btn--green {
   --color: #fff;
-  --dot-color: #fff;
+  --loading-color: #fff;
   --bg: var(--green);
   --bg-hover: var(--green-hover);
 }

@@ -1,7 +1,7 @@
-<script>
+<script lang="ts">
   let className = 'mrg-s mrg--b'
   export { className as class }
-  export let title
+  export let title: string
   export let name = ''
   export let placeholder = ''
   export let required = true
@@ -10,7 +10,8 @@
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="column {className}">
   <div class="caption txt-m c-waterloo">{title}</div>
-  <slot name="input"><input {name} {placeholder} {required} type="text" class="input" /></slot>
+  <slot name="input"
+    ><input {name} {placeholder} {required} type="text" class="input" on:input /></slot>
   <slot />
 </label>
 

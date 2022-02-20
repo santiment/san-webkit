@@ -4,7 +4,7 @@ const path = require('path')
 const cssModules = require('svelte-preprocess-cssmodules')
 const utils = require('../scripts/utils')
 
-const API_SERVER = 'https://api-stage.santiment.net'
+const API_SERVER = process.env.BACKEND_URL
 
 function extractAttributeValue(string, anchor) {
   const start = string.indexOf(anchor) + anchor.length + 2
