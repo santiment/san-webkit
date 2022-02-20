@@ -21,6 +21,7 @@
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import Confirmation from './Confirmation.svelte'
+  import Footer from './Footer.svelte'
   import { mapPlans } from './utils'
   import Dialog from '../Dialog'
   import { PlanName } from '../../utils/plans'
@@ -31,6 +32,8 @@
   export let interval = 'year' as SAN.Plan['interval']
   export let isSinglePlan = false
   export let plansFilter = onlyProLikePlans
+  export let trialDaysLeft = 0
+  export let isEligibleForTrial = false
 
   let closeDialog
   let plans = [] as SAN.Plan[]
@@ -39,7 +42,7 @@
 
   if (process.browser) getPlans()
 
-  $: name = PlanName[plan.name]
+  $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
   $: console.log(plans)
   $: console.log(name)
@@ -65,18 +68,15 @@
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    <Banner {name} {price} />
+    <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
 
     <form action="">
       <PayerInfo />
       <Confirmation bind:plan {plans} {name} {price} {isSinglePlan} />
     </form>
   </section>
-  <section class="footer row hv-center caption txt-m c-waterloo">
-    Fully secured checkout
-    <div class="break" />
-    30 day money back guarantee
-  </section>
+
+  <Footer />
 </Dialog>
 
 <style>
@@ -91,13 +91,10 @@
     gap: 0 32px;
   }
 
-  .footer {
-    fill: var(--casper);
-    background: var(--athens);
-    padding: 15px 24px;
+  .dialog :global(a) {
+    color: var(--green);
   }
-
-  .break {
-    margin: 0 23px;
+  .dialog :global(a:hover) {
+    color: var(--green-hover);
   }
 </style>

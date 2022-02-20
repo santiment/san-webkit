@@ -45,7 +45,8 @@ const ToggleTheme = () => {
   useEffect(() => {
     const iframe = document.getElementById('storybook-preview-iframe')
     const iframeDocument = iframe.contentDocument || iframe.contentWindow?.document
-    if (!iframeDocument || !iframeDocument.body) return
+    if (!iframeDocument) return
+    if (!iframeDocument.body) return
     iframeDocument.body.classList.toggle('night-mode', isDark)
   }, [isDark])
 

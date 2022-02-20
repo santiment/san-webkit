@@ -45,13 +45,6 @@
     padding: 27px 32px 24px;
   }
 
-  a {
-    color: var(--green);
-  }
-  a:hover {
-    color: var(--green-hover);
-  }
-
   .holder {
     padding: 12px;
     background: var(--green-light-1);

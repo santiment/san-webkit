@@ -1,7 +1,5 @@
 <script context="module">
-  export function showIntercom() {
-    if (window.Intercom) window.Intercom('show')
-  }
+  export { showIntercom } from '@/analytics/intercom'
 </script>
 
 <script>

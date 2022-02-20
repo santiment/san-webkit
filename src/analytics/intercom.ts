@@ -37,6 +37,18 @@ export function updateIntercom(
   window.Intercom('update')
 }
 
+export function showIntercom() {
+  window.Intercom?.('show')
+
+  if (process.env.IS_DEV_MODE) {
+    console.log(
+      '%c[DEV ONLY]',
+      'background:#FFCB47;color:black;padding:3px;border-radius:4px',
+      'Showing Intercom',
+    )
+  }
+}
+
 declare global {
   interface Window {
     Intercom: any
