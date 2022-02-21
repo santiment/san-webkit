@@ -5,8 +5,9 @@
   export let price: string
   export let selectedNameBilling: string
   export let percentOff = 0
+  export let sanBalance = 0
 
-  const hasSanDiscount = true
+  const hasSanDiscount = sanBalance >= 1000
 
   $: discount = percentOff ? 'Discount code' : hasSanDiscount && 'SAN Holder discount'
   $: discountPercentOff = percentOff || (hasSanDiscount ? 20 : 0)

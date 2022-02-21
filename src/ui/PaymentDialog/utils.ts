@@ -1,3 +1,6 @@
+import { track } from '../../analytics'
+import { mutateSubscribe } from '../../api/plans'
+
 export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }
 
@@ -46,11 +49,20 @@ export function buyPlan(
     if (error) return Promise.reject(error)
     if (!token) return Promise.reject('Stripe token is missing')
 
-    const variables = { cardToken: token.id, planId: +plan.id } as any
-    if (discount) variables.discount = discount
+    track.event('upgrade', { method: 'Payment submitted' })
 
-    console.log(variables)
-
-    // return subscribeToPlan(variables)
+    return mutateSubscribe(token.id, +plan.id, discount)
+      .then(onPaymentSuccess)
+      .catch(onPaymentError)
   })
+}
+
+function onPaymentSuccess(data) {
+  track.event('upgrade', { method: 'Payment success' })
+  return Promise.resolve(data)
+}
+
+function onPaymentError(error) {
+  track.event('upgrade', { method: 'Payment fail' })
+  return Promise.reject(error)
 }

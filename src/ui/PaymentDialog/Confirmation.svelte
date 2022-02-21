@@ -13,6 +13,7 @@
   export let isSinglePlan: boolean
   export let isEligibleForTrial: boolean
   export let loading: boolean
+  export let sanBalance: number
 
   let percentOff = 0
 
@@ -36,7 +37,7 @@
       </div>
     </div>
 
-    <Check {plan} {price} {selectedNameBilling} {percentOff} />
+    <Check {plan} {price} {selectedNameBilling} {percentOff} {sanBalance} />
 
     <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t" class:loading>
       {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Pay'}</button>

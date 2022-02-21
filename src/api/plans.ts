@@ -1,4 +1,4 @@
-import { query } from './index'
+import { mutate, query } from './index'
 import { keepNonDeprecatedPlans, checkIsSanbaseProduct } from '../utils/plans'
 import { Cache } from './cache'
 
@@ -59,3 +59,43 @@ const couponOptions = { cache: false }
 const couponAccessor = ({ getCoupon }: CouponQuery) => getCoupon
 export const queryCoupon = (coupon: string) =>
   query<CouponQuery>(COUPON_QUERY(coupon), couponOptions).then(couponAccessor)
+
+// -------------------------------------
+
+const SUBSCRIBE_MUTATION = (cardToken: string, planId: number, coupon?: string) => `
+  mutation subscribe($cardToken: String!, $planId: Int!, $coupon: String) {
+    subscribe(
+      cardToken:"${cardToken}"
+      planId:${planId}
+      ${coupon ? 'coupon:"' + coupon + '"' : ''}
+    ) {
+      id
+      trialEnd
+      plan {
+        id
+        name
+        product {
+          id
+        }
+      }
+    }
+  }`
+
+type SubscribeMutation = SAN.API.Query<
+  'subscribe',
+  {
+    id: string | number
+    trialEnd: string | null
+    plan: {
+      id: string | number
+      name: string
+      product: {
+        id: string | number
+      }
+    }
+  }
+>
+
+const subscribeAccessor = ({ subscribe }: SubscribeMutation) => subscribe
+export const mutateSubscribe = (cardToken: string, planId: number, coupon?: string) =>
+  mutate<SubscribeMutation>(SUBSCRIBE_MUTATION(cardToken, planId, coupon)).then(subscribeAccessor)

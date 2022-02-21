@@ -25,6 +25,7 @@
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
   import Dialog from '../Dialog'
   import { PlanName } from '../../utils/plans'
+  import { DialogLock } from '../Dialog/dialogs'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -33,7 +34,10 @@
   export let isSinglePlan = false
   export let plansFilter = onlyProLikePlans
   export let trialDaysLeft = 0
+  export let sanBalance = 0
   export let isEligibleForTrial = false
+  export let onPaymentSuccess
+  export let onPaymentError
 
   let closeDialog
   let plans = [] as SAN.Plan[]
@@ -45,8 +49,6 @@
 
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
-  $: console.log(plans)
-  $: console.log(name)
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing
@@ -64,15 +66,21 @@
     plan = plans.find(findDefaultPlan) || plans[0]
   }
 
+  function onChange() {
+    DialogPromise.locking = DialogLock.WARN
+  }
+
   function onSubmit({ currentTarget }) {
     loading = true
+    DialogPromise.locking = DialogLock.LOCKED
     const data = getPaymentFormData(currentTarget)
 
     buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data)
-      .then(console.log)
-      .catch(console.log)
+      .then(onPaymentSuccess)
+      .catch(onPaymentError)
       .finally(() => {
         loading = false
+        DialogPromise.locking = DialogLock.WARN
       })
   }
 </script>
@@ -81,13 +89,14 @@
   <section class="dialog">
     <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
 
-    <form on:submit|preventDefault={onSubmit}>
+    <form on:submit|preventDefault={onSubmit} on:change={onChange}>
       <PayerInfo bind:StripeCard />
       <Confirmation
         bind:plan
         {plans}
         {name}
         {price}
+        {sanBalance}
         {isSinglePlan}
         {isEligibleForTrial}
         {loading} />
