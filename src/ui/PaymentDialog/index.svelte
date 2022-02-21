@@ -97,13 +97,10 @@
   <Footer />
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     padding: 16px 40px 24px;
     overflow: auto;
-  }
-  :global(body:not(.desktop)) .dialog {
-    padding: 16px;
   }
 
   form {
@@ -111,14 +108,21 @@
     grid: 'info confirmation' 1fr / 1fr 1fr;
     gap: 0 32px;
   }
-  :global(body:not(.desktop)) form {
-    display: block;
+
+  :global(body:not(.desktop)) {
+    .dialog {
+      padding: 16px;
+    }
+
+    form {
+      display: block;
+    }
   }
 
   .dialog :global(a) {
     color: var(--green);
-  }
-  .dialog :global(a:hover) {
-    color: var(--green-hover);
+    &:hover {
+      color: var(--green-hover);
+    }
   }
 </style>

@@ -16,14 +16,15 @@
   <Input title="Street Address" name="address_line1" placeholder="1483 Pearl Street" />
 </div>
 
-<style>
+<style lang="scss">
   .info {
     grid-area: info;
-  }
-  .info :global(label) {
-    margin: 0 0 16px;
-  }
-  .info :global(label:last-child) {
-    margin: 0;
+
+    :global(label) {
+      margin: 0 0 16px;
+      &:last-child {
+        margin: 0;
+      }
+    }
   }
 </style>

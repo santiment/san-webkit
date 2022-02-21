@@ -8,21 +8,24 @@
   <Svg id="dollar" w="13" h="14" class="mrg-s mrg--r" /> 30 day money back guarantee
 </section>
 
-<style>
+<style lang="scss">
   .footer {
     fill: var(--casper);
     background: var(--athens);
     padding: 15px 24px;
-  }
-  :global(body:not(.desktop)) .footer {
-    padding: 16px;
   }
 
   .break {
     margin: 0 23px;
   }
 
-  :global(body:not(.desktop)) .break {
-    margin: 0 12px;
+  :global(body:not(.desktop)) {
+    .footer {
+      padding: 16px;
+    }
+
+    .break {
+      margin: 0 12px;
+    }
   }
 </style>

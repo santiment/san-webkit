@@ -73,11 +73,29 @@
       dialogs.hide(i)
     }
   }
+
+  let out = false
+  function resetAnimation(node: HTMLElement) {
+    node.style.animation = 'none'
+    node.offsetWidth
+  }
+  function transition(node: HTMLElement) {
+    const classes = document.body.classList.toString()
+    if (classes.includes('desktop')) return
+
+    resetAnimation(node)
+    resetAnimation(node.firstChild as HTMLElement)
+
+    out = true
+    return { duration: 180 }
+  }
 </script>
 
 <div
+  out:transition
   class="bg row v-center h-center"
   class:noBg
+  class:out
   on:mousedown={onClickaway}
   on:mouseup={onClickaway}>
   <div class="border box column {className}">
@@ -97,7 +115,7 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
   .bg {
     position: fixed;
     background: rgba(0, 0, 0, 0.7);
@@ -143,21 +161,26 @@
     margin-bottom: 12px;
   }
 
-  :global(.tablet) .bg,
-  :global(.phone) .bg,
-  :global(.phone-xs) .bg {
-    align-items: flex-end;
-    animation: fadeIn 0.15s ease-out both;
-  }
+  :global(body:not(.desktop)) {
+    .bg {
+      align-items: flex-end;
+      animation: fadeIn 0.2s ease-out forwards;
+    }
 
-  :global(.tablet) .column,
-  :global(.phone) .column,
-  :global(.phone-xs) .column {
-    border-radius: 15px 15px 0 0;
-    max-width: 100%;
-    max-height: 90%;
-    width: 100%;
-    animation: slideIn 0.2s ease-out both;
+    .column {
+      border-radius: 15px 15px 0 0;
+      max-width: 100%;
+      max-height: 90%;
+      width: 100%;
+      animation: slideIn 0.2s ease-out forwards;
+    }
+
+    .out {
+      animation: fadeIn 0.17s ease-out reverse forwards !important;
+      .column {
+        animation: slideIn 0.15s ease-out reverse forwards !important;
+      }
+    }
   }
 
   @keyframes fadeIn {

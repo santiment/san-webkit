@@ -17,15 +17,11 @@ async function prepareSvelte() {
     const libFilePath = path.resolve(LIB, filePath)
 
     const file = fs.readFileSync(libFilePath)
-    const { code } = await svelte.preprocess(
-      file.toString(),
-      [preprocess, cssModules()],
-      {
-        filename: libFilePath,
-      },
-    )
+    const { code } = await svelte.preprocess(file.toString(), [preprocess, cssModules()], {
+      filename: libFilePath,
+    })
 
-    fs.writeFileSync(libFilePath, code.replace(' lang="ts"', ''))
+    fs.writeFileSync(libFilePath, code.replace(' lang="ts"', '').replace('lang="scss"', ''))
   })
 }
 
