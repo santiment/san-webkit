@@ -2,7 +2,7 @@
   import Input from './Input.svelte'
   import { stripe } from '../../stores/stripe'
 
-  export let StripeCard
+  export let StripeCard: stripe.elements.Element | undefined
   export let nightMode = false
   let ccNode
 
@@ -25,7 +25,7 @@
 
   function mountCC() {
     StripeCard = $stripe?.elements().create('card', SETTINGS)
-    StripeCard.mount('#card-element')
+    StripeCard?.mount('#card-element')
   }
 </script>
 

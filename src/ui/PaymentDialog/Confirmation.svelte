@@ -12,6 +12,7 @@
   export let price: string
   export let isSinglePlan: boolean
   export let isEligibleForTrial: boolean
+  export let loading: boolean
 
   let percentOff = 0
 
@@ -37,7 +38,7 @@
 
     <Check {plan} {price} {selectedNameBilling} {percentOff} />
 
-    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t">
+    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t" class:loading>
       {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Pay'}</button>
   </Skeleton>
 </div>
@@ -50,6 +51,11 @@
     padding: 27px 32px 24px;
   }
 
+  :global(body:not(.desktop)) .confirmation {
+    padding: 24px 0 0;
+    background: none;
+  }
+
   .holder {
     padding: 12px;
     background: var(--green-light-1);
@@ -59,5 +65,9 @@
   }
   .info {
     margin-top: 2px;
+  }
+
+  :global(body:not(.desktop)) .holder {
+    max-width: unset;
   }
 </style>

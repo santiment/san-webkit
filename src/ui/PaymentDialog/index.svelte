@@ -22,7 +22,7 @@
   import PayerInfo from './PayerInfo.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
-  import { mapPlans } from './utils'
+  import { buyPlan, getPaymentFormData, mapPlans } from './utils'
   import Dialog from '../Dialog'
   import { PlanName } from '../../utils/plans'
 
@@ -39,6 +39,7 @@
   let plans = [] as SAN.Plan[]
   let plan = {} as SAN.Plan
   let loading = false
+  let StripeCard: stripe.elements.Element
 
   if (process.browser) getPlans()
 
@@ -63,16 +64,33 @@
     plan = plans.find(findDefaultPlan) || plans[0]
   }
 
-  // function onSubmit({ currentTarget }) {}
+  function onSubmit({ currentTarget }) {
+    loading = true
+    const data = getPaymentFormData(currentTarget)
+
+    buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data)
+      .then(console.log)
+      .catch(console.log)
+      .finally(() => {
+        loading = false
+      })
+  }
 </script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
     <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
 
-    <form action="">
-      <PayerInfo />
-      <Confirmation bind:plan {plans} {name} {price} {isSinglePlan} {isEligibleForTrial} />
+    <form on:submit|preventDefault={onSubmit}>
+      <PayerInfo bind:StripeCard />
+      <Confirmation
+        bind:plan
+        {plans}
+        {name}
+        {price}
+        {isSinglePlan}
+        {isEligibleForTrial}
+        {loading} />
     </form>
   </section>
 
@@ -84,11 +102,17 @@
     padding: 16px 40px 24px;
     overflow: auto;
   }
+  :global(body:not(.desktop)) .dialog {
+    padding: 16px;
+  }
 
   form {
     display: grid;
     grid: 'info confirmation' 1fr / 1fr 1fr;
     gap: 0 32px;
+  }
+  :global(body:not(.desktop)) form {
+    display: block;
   }
 
   .dialog :global(a) {

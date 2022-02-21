@@ -23,7 +23,7 @@
 <div class="banner mrg-l mrg--b" class:trial={isEligibleForTrial}>
   <div class="txt-m mrg-xs mrg--b">
     {#if isEligibleForTrial}
-      Enjoy your 14-day free trial of Sanbase {name}!
+      Enjoy your 14-day free trial of Sanbase {name || ''}!
     {:else if trialDaysLeft < 1}
       Your Pro trial has expired! If you have accidentally bypassed the free trial, please get in
       touch with <button class="btn c-accent" on:click={showIntercom}>our support team</button>

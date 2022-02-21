@@ -25,7 +25,7 @@ textarea::placeholder {
 }
 .input:focus,
 .input:hover {
-  border-color: var(--green);
+  border-color: var(--accent, var(--green));
 }
 
 .hide {

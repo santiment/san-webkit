@@ -14,8 +14,15 @@
     background: var(--athens);
     padding: 15px 24px;
   }
+  :global(body:not(.desktop)) .footer {
+    padding: 16px;
+  }
 
   .break {
     margin: 0 23px;
+  }
+
+  :global(body:not(.desktop)) .break {
+    margin: 0 12px;
   }
 </style>

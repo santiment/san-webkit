@@ -6,8 +6,7 @@
   import Svg from '../Svg/svelte'
 
   let className = ''
-  export const closeDialog = (skipLockChecks = true) =>
-    requestDialogClose(skipLockChecks)
+  export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
   export let i: number
   export let title: string | SvelteComponentModule = ''
   export let DialogPromise: SAN.DialogController
@@ -18,17 +17,11 @@
 
   let clickAwayMouseDown = false
 
-  const checkIsEditable = ({
-    isContentEditable,
-    localName,
-  }: HTMLElement): boolean =>
+  const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
 
   function onKeyup({ code, target }: KeyboardEvent): void {
-    if (
-      code === 'Escape' &&
-      !(target && checkIsEditable(target as HTMLElement))
-    ) {
+    if (code === 'Escape' && !(target && checkIsEditable(target as HTMLElement))) {
       requestDialogClose()
     }
   }
@@ -86,25 +79,17 @@
   class="bg row v-center h-center"
   class:noBg
   on:mousedown={onClickaway}
-  on:mouseup={onClickaway}
->
+  on:mouseup={onClickaway}>
   <div class="border box column {className}">
     {#if noTitle === false}
-      <h2
-        class="body-2 row v-center justify"
-        class:empty={!title && !$$slots.title}
-      >
+      <h2 class="body-2 row v-center justify" class:empty={!title && !$$slots.title}>
         {#if $$slots.title}
           <slot name="title" />
         {:else}
           {title}
         {/if}
 
-        <Svg
-          id="close"
-          class="btn mrg-a mrg--l $style.close"
-          on:click={requestDialogClose}
-        />
+        <Svg id="close" class="btn mrg-a mrg--l $style.close" on:click={requestDialogClose} />
       </h2>
     {/if}
 
@@ -159,13 +144,15 @@
   }
 
   :global(.tablet) .bg,
-  :global(.phone) .bg {
+  :global(.phone) .bg,
+  :global(.phone-xs) .bg {
     align-items: flex-end;
     animation: fadeIn 0.15s ease-out both;
   }
 
   :global(.tablet) .column,
-  :global(.phone) .column {
+  :global(.phone) .column,
+  :global(.phone-xs) .column {
     border-radius: 15px 15px 0 0;
     max-width: 100%;
     max-height: 90%;

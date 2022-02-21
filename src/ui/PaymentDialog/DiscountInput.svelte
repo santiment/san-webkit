@@ -34,8 +34,10 @@
   }
 
   function onCouponLoaded(data) {
+    if (!data.isValid) return invalidateCoupon
+
     loading = false
-    isValid = data.isValid
+    isValid = true
     percentOff = data.percentOff
   }
 
