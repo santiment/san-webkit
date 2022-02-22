@@ -17,7 +17,7 @@
     background: var(--casper);
     line-height: 0;
     border-radius: 10px;
-    transition: background 200ms;
+    transition: background 185ms;
   }
   .toggle::before {
     display: inline-block;
@@ -27,7 +27,7 @@
     height: 14px;
     background: #fff;
     border-radius: 10px;
-    transition: transform 200ms;
+    transition: transform 185ms;
     left: 3px;
     top: 3px;
   }

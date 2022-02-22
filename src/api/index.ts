@@ -40,11 +40,13 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
 
   let request = fetch(process.env.GQL_SERVER_URL, {
     headers: HEADERS,
-    body: JSON.stringify({
-      query: scheme,
-      variables: options?.variables || null,
-      operationName: null,
-    }),
+    body:
+      requestOptions?.body ||
+      JSON.stringify({
+        query: scheme,
+        variables: options?.variables || null,
+        // operationName: null,
+      }),
     ...requestOptions,
     method: 'post',
     credentials: 'include',
@@ -68,6 +70,24 @@ export function mutate<T extends SAN.API.QueryBase, U extends Variables = Variab
   options?: SAN.API.QueryOptions<T, U>,
 ): Promise<T> {
   return query<T>(scheme, Object.assign({ cache: false }, options))
+}
+
+const getFileName = ({ name }: File) => name
+export function upload<T extends SAN.API.QueryBase>(scheme: string, files: File[]) {
+  if (!files || files.length < 1) return Promise.reject()
+
+  const data = new FormData()
+  data.append('query', scheme)
+  files.forEach((file) => data.append(file.name, file))
+  data.append('variables', JSON.stringify({ files: files.map(getFileName) }))
+
+  return fetch(process.env.GQL_SERVER_URL, {
+    body: data,
+    method: 'post',
+    credentials: 'include',
+  })
+    .then(jsonAccessor)
+    .then(dataAccessor) as Promise<T>
 }
 
 type Callback = (...args: any[]) => any
