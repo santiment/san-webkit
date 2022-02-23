@@ -10,8 +10,10 @@
   export let big = false
   export let constraints
   export let value = ''
+  export let autofocus
 </script>
 
+<!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center {className}" class:big>
   {#if $$slots.left}
     <slot name="left" />
@@ -24,6 +26,7 @@
     {type}
     {placeholder}
     {name}
+    {autofocus}
     on:input
     on:focus
     on:blur

@@ -33,7 +33,10 @@
 
   $: if (trigger) {
     if (isEnabled) trigger.addEventListener(on, startOpenTimer)
-    else trigger.removeEventListener(on, startOpenTimer)
+    else {
+      trigger.removeEventListener(on, startOpenTimer)
+      isOpened = false
+    }
   }
 
   $: activeClass && trigger && (trigger as Element).classList.toggle(activeClass, isOpened)
