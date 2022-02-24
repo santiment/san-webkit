@@ -43,8 +43,8 @@
     ><Svg id="horz-dots" w="16" h="4" /></button>
 
   <div slot="tooltip" class="tooltip">
-    <div class="btn btn--ghost" on:click={onCommentEdit}>Edit</div>
-    <div class="btn btn--ghost" on:click={onCommentDelete}>Delete</div>
+    <div class="btn-ghost" on:click={onCommentEdit}>Edit</div>
+    <div class="btn-ghost" on:click={onCommentDelete}>Delete</div>
   </div>
 </Tooltip>
 

@@ -9,3 +9,11 @@ export function debounce<T extends Callback>(timeout: number, fn: T): [T, () => 
 
   return [debounced as T, clear]
 }
+
+const once = { once: true }
+export function Preloader(dataPreloader: (...args: any) => any) {
+  return (node: HTMLElement) => {
+    node.addEventListener('mouseenter', dataPreloader, once)
+    node.addEventListener('touchstart', dataPreloader, once)
+  }
+}

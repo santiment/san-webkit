@@ -3,16 +3,15 @@
   import { dialogs } from '../Dialog'
   import { querySanbasePlans, getCachedSanbasePlans } from '../../api/plans'
   import { formatPrice, Plan } from '../../utils/plans'
+  import { Preloader } from '../../utils/fn'
   import { stripe } from '../../stores/stripe'
 
   export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props)
 
+  Preloader
   const once = { once: true }
   const preloadData = () => (querySanbasePlans(), stripe.load())
-  export function dataPreloader(node: HTMLElement) {
-    node.addEventListener('mouseenter', preloadData, once)
-    node.addEventListener('touchstart', preloadData, once)
-  }
+  export const dataPreloader = Preloader(preloadData)
 
   export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
 </script>

@@ -3,9 +3,7 @@ const _cache = new Map<string, unknown>()
 const _inFlightCache = new Map<string, unknown>()
 const _cacheSubscribers = new Map<string, Set<SAN.API.Subscriber<any>>>()
 
-function getSubscribers<T extends SAN.API.QueryBase>(
-  scheme: string
-): Set<SAN.API.Subscriber<T>> {
+function getSubscribers<T extends SAN.API.QueryBase>(scheme: string): Set<SAN.API.Subscriber<T>> {
   let subscribers = _cacheSubscribers.get(scheme)
   if (!subscribers) {
     subscribers = new Set()
@@ -24,11 +22,11 @@ export const Cache = {
   has(key: string): boolean {
     return _cache.has(key)
   },
+  delete(scheme: string) {
+    _cache.delete(scheme)
+  },
 
-  set$<T extends SAN.API.QueryBase>(
-    scheme: string,
-    updater: SAN.API.Updater<T> = noop
-  ): void {
+  set$<T extends SAN.API.QueryBase>(scheme: string, updater: SAN.API.Updater<T> = noop): void {
     if (Cache.has(scheme) === false) return
 
     const cached = Cache.get(scheme)
@@ -37,14 +35,12 @@ export const Cache = {
 
     const subscribers = _cacheSubscribers.get(scheme)
     if (subscribers) {
-      subscribers.forEach((subscriber: SAN.API.Subscriber<T>) =>
-        subscriber(updated)
-      )
+      subscribers.forEach((subscriber: SAN.API.Subscriber<T>) => subscriber(updated))
     }
   },
   get$<T extends SAN.API.QueryBase>(
     scheme: string,
-    subscriber: SAN.API.Subscriber<T>
+    subscriber: SAN.API.Subscriber<T>,
   ): SAN.API.Unsubscriber {
     if (!process.browser) return noop as SAN.API.Unsubscriber
 
@@ -56,15 +52,13 @@ export const Cache = {
     }
   },
 
-  getInFlightQuery<T extends SAN.API.QueryBase | null>(
-    scheme: string
-  ): null | Promise<T> {
+  getInFlightQuery<T extends SAN.API.QueryBase | null>(scheme: string): null | Promise<T> {
     return _inFlightCache.get(scheme) as Promise<T> | null
   },
   setInFlightQuery(
     scheme: string,
     options: SAN.API.QueryOptions<any, any> | undefined,
-    promise: Promise<any>
+    promise: Promise<any>,
   ): void {
     const cachedScheme = getCacheScheme(scheme, options)
     _inFlightCache.set(
@@ -72,23 +66,22 @@ export const Cache = {
       promise.catch((e) => {
         _inFlightCache.delete(cachedScheme)
         return Promise.reject(e)
-      })
+      }),
     )
   },
 }
 
 export const getCacheScheme = (
   scheme: string,
-  options: SAN.API.QueryOptions<any, any> | undefined
-): string =>
-  options?.variables ? scheme + JSON.stringify(options.variables) : scheme
+  options: SAN.API.QueryOptions<any, any> | undefined,
+): string => (options?.variables ? scheme + JSON.stringify(options.variables) : scheme)
 
 type SchemeCacher<T extends SAN.API.QueryBase> = (data: T) => T
 
 export const schemeCacheSetter =
   <T extends SAN.API.QueryBase>(
     scheme: string,
-    options?: SAN.API.QueryOptions<T, any>
+    options?: SAN.API.QueryOptions<T, any>,
   ): SchemeCacher<T> =>
   (data) => {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -103,17 +96,13 @@ export const schemeCacheSetter =
     return data
   }
 
-type SsrCacheCallback<T extends SAN.API.QueryBase> = (
-  ...args: any[]
-) => [string, T]
-type SsrCacher<T extends (...args: any) => any> = (
-  ...args: Parameters<T>
-) => void
+type SsrCacheCallback<T extends SAN.API.QueryBase> = (...args: any[]) => [string, T]
+type SsrCacher<T extends (...args: any) => any> = (...args: Parameters<T>) => void
 
 let wasSsrClientCached = false
-export function newSsrClientCacher<
-  T extends SsrCacheCallback<Parameters<T>[0]>
->(clb: T): SsrCacher<T> {
+export function newSsrClientCacher<T extends SsrCacheCallback<Parameters<T>[0]>>(
+  clb: T,
+): SsrCacher<T> {
   if (!process.browser) return noop as T
 
   return ((...args) => {

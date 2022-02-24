@@ -23,6 +23,7 @@
   export let trigger: Element | undefined = undefined
   export let offsetX = 0
   export let offsetY = 10
+  export let scrollParent: Element | undefined = undefined
 
   const transition = { duration }
 
@@ -108,7 +109,7 @@
     )
 
     tooltip.style.left = left + 'px'
-    tooltip.style.top = top + 'px'
+    tooltip.style.top = top - (scrollParent?.scrollTop || 0) + 'px'
 
     if (!isEnabled) return
 
