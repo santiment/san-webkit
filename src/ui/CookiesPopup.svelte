@@ -1,41 +1,43 @@
 <script lang="ts">
+  import {
+    showManageCookiesDialog,
+    COOKIE_POLICY_ACCEPTED,
+    applyCookies,
+  } from './ManageCookiesDialog/index.svelte'
   import Svg from './Svg/svelte'
-  import { saveBoolean, getSavedBoolean } from '../utils/localStorage'
-  import { track } from '../analytics'
+  import { getSavedBoolean } from '../utils/localStorage'
 
   let className = ''
   export { className as class }
 
-  const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
   let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
 
-  function allow() {
+  function onAllowAllClick() {
     isVisible = false
-    saveBoolean(COOKIE_POLICY_ACCEPTED, true)
-    track.event('Cookie policy accepted', { category: 'User' })
+    applyCookies(true, true)
+  }
+
+  function onManageClick() {
+    isVisible = false
+    showManageCookiesDialog()
   }
 </script>
 
 {#if isVisible}
   <div class="cookies border box {className}">
     <Svg illus id="cookies" class="$style.pic" />
-    <h2 class="h4 txt-m mrg-l mrg--b">
-      We are using cookies to improve your experience
-    </h2>
-    <h4 class="body-2 mrg-xl mrg--b c-waterloo">
-      By clicking “Allow all”, you agree to the storing of cookie and accept our
-      <a
-        class="c-accent"
-        href="https://santiment.net/terms-conditions/"
-        target="_blank"
-        rel="noopener noreferrer">Terms & Conditions.</a
-      >
+    <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
+    <h4 class="body-3 mrg-xl mrg--b c-waterloo">
+      By clicking “Allow all”, you agree to use of all cookies. Visit our
+      <a href="https://santiment.net/cookies/" target="_blank" class="c-accent">Cookies Policy</a> to
+      learn more.
     </h4>
-    <button class="btn-1" on:click={allow}>Allow all</button>
+    <button class="btn-1" on:click={onAllowAllClick}>Allow all</button>
+    <button class="manage btn-2 mrg-m mrg--l" on:click={onManageClick}>Manage cookies</button>
   </div>
 {/if}
 
-<style>
+<style lang="scss">
   .cookies {
     position: fixed;
     padding: 24px 16px;
@@ -44,21 +46,6 @@
     right: 0;
     z-index: 9999;
     text-align: center;
-  }
-
-  :global(body:not(.desktop)) .cookies {
-    border-radius: 0;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-
-  :global(.desktop) .cookies {
-    padding: 32px 54px 32px 150px;
-    max-width: 600px;
-    right: initial;
-    left: 20px;
-    bottom: 20px;
-    text-align: left;
   }
 
   a:hover {
@@ -70,14 +57,40 @@
     height: 128px;
     transform: rotate(270deg);
   }
-  :global(.desktop) .pic {
-    transform: initial;
-    position: absolute;
-    left: 24px;
+
+  :global(.desktop) {
+    .cookies {
+      padding: 20px 43px 20px 110px;
+      max-width: 450px;
+      right: initial;
+      left: 20px;
+      bottom: 20px;
+      text-align: left;
+    }
+
+    .pic {
+      transform: initial;
+      position: absolute;
+      left: 24px;
+      width: 70px;
+      height: 88px;
+    }
   }
 
-  :global(body:not(.desktop)) button {
-    width: 100%;
-    padding: 10px;
+  :global(body:not(.desktop)) {
+    .cookies {
+      border-radius: 0;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .manage {
+      margin: 12px 0 0;
+    }
   }
 </style>

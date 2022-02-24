@@ -1,0 +1,103 @@
+<script context="module" lang="ts">
+  import { dialogs } from '../Dialog'
+  import ManageCookiesDialog from './index.svelte'
+  import { saveBoolean } from '../../utils/localStorage'
+  import { track } from '../../analytics'
+
+  export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
+
+  export enum Cookies {
+    Basic = 'BASIC_COOKIES',
+    Functional = 'FUNCTIONAL_COOKIES',
+    Performance = 'PERFORMANCE_COOKIES',
+  }
+
+  export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog)
+
+  export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
+    saveBoolean(Cookies.Basic, true)
+    saveBoolean(Cookies.Functional, isFunctionalAccepted)
+    saveBoolean(Cookies.Performance, isPerformanceAccepted)
+    saveBoolean(COOKIE_POLICY_ACCEPTED, true)
+
+    track.event('Cookie policy accepted', { category: 'User' })
+  }
+</script>
+
+<script lang="ts">
+  import Section from './Section.svelte'
+  import Dialog from '../Dialog'
+  import Toggle from '../Toggle.svelte'
+
+  let closeDialog
+  let isFunctionalAccepted = false
+  let isPerformanceAccepted = false
+
+  const toggleHandler = (fn: () => any) => (e: Event) => {
+    e.stopPropagation()
+    fn()
+  }
+
+  function onSaveClick() {
+    applyCookies(isFunctionalAccepted, isPerformanceAccepted)
+    closeDialog()
+  }
+
+  function onAllowAllClick() {
+    applyCookies(true, true)
+    closeDialog()
+  }
+</script>
+
+<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="$style.dialog">
+  <div class="cookies">
+    When you visit our website, we may store cookies on your browser for your security and to help
+    us better understand user behavior and inform us about which parts of our website you have
+    visited. The information does not usually directly identify you, but it can give you a safe and
+    more personalized web experience. Because we respect your right to privacy, you can choose not
+    to allow some types of cookies. Blocking some types of cookies may impact your experience on the
+    site. <a href="https://santiment.net/cookies/" target="_blank" class="c-accent">Learn more</a>
+
+    <div class="mrg-xl mrg--b" />
+
+    <Section
+      title="Strictly Necessary Cookies"
+      description="These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.">
+      <div class="c-black">Always Active</div>
+    </Section>
+
+    <Section
+      title="Functional Cookies"
+      description="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.">
+      <Toggle
+        isActive={isFunctionalAccepted}
+        on:click={toggleHandler(() => (isFunctionalAccepted = !isFunctionalAccepted))} />
+    </Section>
+
+    <Section
+      title="Performance Cookies"
+      description="These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly.">
+      <Toggle
+        isActive={isPerformanceAccepted}
+        on:click={toggleHandler(() => (isPerformanceAccepted = !isPerformanceAccepted))} />
+    </Section>
+  </div>
+  <div class="bottom row">
+    <div class="btn-1 btn--s" on:click={onSaveClick}>Save cookie settings</div>
+    <div class="btn-2 btn--s mrg-m mrg--l" on:click={onAllowAllClick}>Allow all</div>
+  </div>
+</Dialog>
+
+<style>
+  .dialog {
+    max-width: 600px !important;
+  }
+  .cookies {
+    padding: 20px 24px 0;
+    height: 393px;
+    overflow: auto;
+  }
+  .bottom {
+    padding: 20px 24px;
+  }
+</style>
