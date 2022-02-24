@@ -1,5 +1,5 @@
 <script context="module">
-  export { showIntercom } from '@/analytics/intercom'
+  export { showIntercom } from '../analytics/intercom'
 </script>
 
 <script>

@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { loginWithNewsletter } from '@/api/user'
-
   import { tick } from 'svelte'
 
   let className = ''

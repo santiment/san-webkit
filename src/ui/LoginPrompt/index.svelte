@@ -6,6 +6,8 @@
   import Option from './Option.svelte'
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
+
+  export let onMetamaskClick
 </script>
 
 <Section
@@ -14,7 +16,7 @@
   bottomLabel="New to Santiment?"
   bottomAction="Create an account"
   bottomHref="/sign-up">
-  <Metamask />
+  <Metamask onClick={onMetamaskClick} />
 
   <Divider />
 

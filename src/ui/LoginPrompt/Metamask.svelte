@@ -1,34 +1,21 @@
-<script>
-  // import { goto } from '@sapper/app'
-  // import { startEthLoginFlow } from '@/flow/login'
+<script lang="ts">
   import { track } from '../../analytics'
   import metamaskSvg from './metamask.svg'
   import metamaskInverseSvg from './metamask-inverse.svg'
 
-  export let onMetamaskClick
+  export let onClick: () => Promise<any>
 
   const hasMetamask = process.browser ? !!window.ethereum : true
 
   let loading = false
-  function onClick() {
+  function onLoginClick() {
     loading = true
     track.event('sign_up', { method: 'metamask' })
 
-    onMetamaskClick().catch((e) => {
+    onClick().catch((e) => {
       console.warn(e)
       loading = false
     })
-
-    /*
-    startEthLoginFlow()
-      .then(() => {
-        // goto(getPostponedPaymentInsight() || '/')
-      })
-      .catch((e) => {
-        console.warn(e)
-        loading = false
-      })
-      */
   }
 </script>
 
@@ -36,7 +23,7 @@
   <div
     class="login btn-1 btn--l"
     class:loading
-    on:click={onClick}
+    on:click={onLoginClick}
     style="--url:url({metamaskInverseSvg})">
     Log in with Metamask
   </div>

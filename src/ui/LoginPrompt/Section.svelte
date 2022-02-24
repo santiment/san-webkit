@@ -1,4 +1,5 @@
 <script>
+  import { getContext } from 'svelte'
   import Svg from '../Svg/svelte'
 
   let className = ''
@@ -9,7 +10,7 @@
   export let bottomAction
   export let bottomHref
 
-  const isMobile = false
+  const isMobile = getContext('isMobile') || false
 </script>
 
 <section class="border column h-center {className}">
