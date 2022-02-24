@@ -1,0 +1,123 @@
+.medium-editor-toolbar,
+.medium-editor-toolbar-form {
+  position: absolute;
+  top: 0;
+  background: #2f354d; /* rhino */
+  color: #fff;
+  fill: #fff;
+  border-radius: 4px;
+}
+
+.medium-editor-toolbar {
+  opacity: 0;
+  z-index: -1;
+  box-shadow: 0px 4px 24px rgba(24, 27, 43, 0.05), 0px 2px 6px rgba(24, 27, 43, 0.02);
+  padding: 0 4px;
+}
+
+.medium-editor-toolbar-active {
+  opacity: 1;
+  z-index: 0;
+}
+
+.medium-editor-toolbar-form {
+  min-width: 230px;
+  display: none;
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+.medium-editor-toolbar-form-active {
+  display: flex;
+  align-items: center;
+}
+.medium-editor-toolbar-input {
+  background: #2f354d; /* rhino */
+  margin-left: 6px;
+  height: 100%;
+  flex: 1;
+  &::placeholder {
+    color: #7a859e; /* fiord */
+  }
+}
+.medium-editor-toolbar-save,
+.medium-editor-toolbar-close {
+  width: 32px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.medium-editor-toolbar-close {
+  font-size: 22px;
+}
+
+.medium-editor-toolbar-actions {
+  display: flex !important;
+
+  & > li {
+    display: flex;
+    align-items: center;
+
+    &:nth-child(3)::before,
+    &:nth-child(5)::before {
+      content: '';
+      display: block;
+      margin: 0 8px;
+      width: 1px;
+      height: 20px;
+      background: #676f88;
+    }
+  }
+}
+
+.medium-editor-action {
+  width: 32px;
+  height: 32px;
+
+  &:hover {
+    fill: var(--green-hover);
+  }
+
+  svg {
+    max-width: 16px;
+    max-height: 15px;
+  }
+}
+
+.editor-subtitle {
+  width: 10px;
+  height: 10px;
+}
+
+.medium-editor-button-active {
+  fill: var(--green);
+}
+
+.medium-editor-anchor-preview {
+  display: none;
+  max-width: 240px;
+  position: absolute;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  margin-top: -4px;
+}
+.medium-editor-anchor-preview-active {
+  display: block;
+}
+.medium-editor-toolbar-anchor-preview {
+  display: flex;
+  border-radius: 4px;
+  color: #fff;
+  background: #2f354d; /* rhino */
+}
+
+.medium-editor-anchor-preview a {
+  padding: 3px 12px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

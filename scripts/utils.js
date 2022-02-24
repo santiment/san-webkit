@@ -50,9 +50,7 @@ function getSvgSprite(filePath, options, svg) {
     spriter.add(filePath, undefined, svg)
 
     spriter.compile((error, result, data) => {
-      const sprite = result.symbol.sprite.contents
-        .toString()
-        .replace(`id="${fileName}"`, `id="0"`)
+      const sprite = result.symbol.sprite.contents.toString().replace(`id="${fileName}"`, `id="0"`)
 
       resolve(sprite)
     })

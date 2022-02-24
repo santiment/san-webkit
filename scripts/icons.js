@@ -17,18 +17,16 @@ const ILLUS_OPTIONS = newSpriterOptions()
 async function prepareIcons() {
   mkdir(SPRITES_DIR)
 
-  forFile(['lib/icons/*.svg'], async (entry) => {
+  forFile(['lib/icons/**/*.svg'], async (entry) => {
     const filePath = entry.replace('lib/', '')
     const libFilePath = path.resolve(LIB, filePath)
-    const spritesFilePath = path.resolve(
-      SPRITES_DIR,
-      filePath.replace('icons/', '')
-    )
+    const spritesFilePath = path.resolve(SPRITES_DIR, filePath.replace('icons/', ''))
 
     const svg = optimizeSvg(libFilePath)
     fs.writeFile(libFilePath, svg, () => {})
 
     const sprite = await getSvgSprite(libFilePath, SPRITES_OPTIONS, svg)
+    mkdir(path.dirname(spritesFilePath))
     fs.writeFile(spritesFilePath, sprite, () => {})
   })
 

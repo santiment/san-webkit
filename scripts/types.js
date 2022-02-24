@@ -4,8 +4,7 @@ const { copyFile, LIB, forFile } = require('./utils')
 
 const TYPES_PATH = path.resolve(LIB, 'types', 'index.d.ts')
 
-const normalize = (entry) =>
-  entry.replace('lib/types', '.').replace('.d.ts', '')
+const normalize = (entry) => entry.replace('lib/types', '.').replace('.d.ts', '')
 
 async function prepareTypes() {
   await forFile(['src/**/*.d.ts'], copyFile)
