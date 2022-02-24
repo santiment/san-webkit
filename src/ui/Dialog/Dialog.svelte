@@ -2,8 +2,8 @@
   import type { SvelteComponentModule } from './dialogs'
   import { onMount } from 'svelte'
   import { get } from 'svelte/store'
+  import Svg from '@/ui/Svg/svelte'
   import { dialogs, DialogLock } from './dialogs'
-  import Svg from '../Svg/svelte'
 
   let className = ''
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)

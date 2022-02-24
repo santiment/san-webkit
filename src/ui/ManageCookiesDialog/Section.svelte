@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from '../Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   export let title: string
   export let description: string

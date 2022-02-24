@@ -1,8 +1,8 @@
 <script context="module" lang="ts">
-  import { dialogs } from '../Dialog'
+  import { track } from '@/analytics'
+  import { saveBoolean } from '@/utils/localStorage'
+  import { dialogs } from '@/ui/Dialog'
   import ManageCookiesDialog from './index.svelte'
-  import { saveBoolean } from '../../utils/localStorage'
-  import { track } from '../../analytics'
 
   export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
 
@@ -25,9 +25,9 @@
 </script>
 
 <script lang="ts">
+  import Dialog from '@/ui/Dialog'
+  import Toggle from '@/ui/Toggle.svelte'
   import Section from './Section.svelte'
-  import Dialog from '../Dialog'
-  import Toggle from '../Toggle.svelte'
 
   let closeDialog
   let isFunctionalAccepted = false

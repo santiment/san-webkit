@@ -1,10 +1,9 @@
 <script lang="ts">
-  import Input from './Input.svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import Skeleton from '@/ui/Skeleton.svelte'
   import PlanSelector from './PlanSelector.svelte'
   import Check from './Check.svelte'
   import DiscountInput from './DiscountInput.svelte'
-  import Skeleton from '../Skeleton.svelte'
-  import Svg from '../Svg/svelte'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan

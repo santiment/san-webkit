@@ -3,6 +3,7 @@ const path = require('path')
 const { SRC, LIB, mkdir, forFile } = require('./utils')
 const { prepareTypes } = require('./types')
 const { prepareSvelte } = require('./svelte')
+const { prepareImports } = require('./imports')
 const { prepareIcons } = require('./icons')
 
 function copyFile(entry) {
@@ -21,6 +22,7 @@ async function main() {
 
   prepareTypes()
   prepareSvelte()
+  prepareImports()
   prepareIcons()
 }
 main()

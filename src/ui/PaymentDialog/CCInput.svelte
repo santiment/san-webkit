@@ -1,6 +1,6 @@
 <script lang="ts">
+  import { stripe } from '@/stores/stripe'
   import Input from './Input.svelte'
-  import { stripe } from '../../stores/stripe'
 
   export let StripeCard: stripe.elements.Element | undefined
   export let nightMode = false

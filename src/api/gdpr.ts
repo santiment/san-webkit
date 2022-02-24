@@ -1,4 +1,4 @@
-import { mutate } from './index'
+import { mutate } from '@/api'
 
 const GDPR_MUTATION = (privacyPolicyAccepted: boolean) => `
   mutation {

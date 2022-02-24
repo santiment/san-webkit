@@ -1,4 +1,4 @@
-import { mutate } from './index'
+import { mutate } from '@/api'
 
 export const NEWSLETTER_EMAIL_LOGIN_MUTATION = `
   mutation ($email: String!) {

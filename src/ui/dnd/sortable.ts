@@ -61,8 +61,7 @@ export function newSortableContext(options?: Options) {
 
   function recalcGrid() {
     if (nodes.length === 0) return
-    ctx.nodes = (nodes[0].parentNode as HTMLElement)
-      .children as any as DragElement[]
+    ctx.nodes = (nodes[0].parentNode as HTMLElement).children as any as DragElement[]
     grid.length = 0
     for (let i = 0, len = nodes.length; i < len; i++) {
       updateItem(nodes[i] as DragElement, i)
@@ -185,9 +184,7 @@ export function newDndItem(node: DragElement) {
       newNodeIndex = targetRowNodes[newInRowIndex].dnd.nodeIndex
       isRightShift = newNodeIndex > nodeIndex
       const start = isRightShift ? nodeIndex + +(nodeIndex === 0) : newNodeIndex
-      const end = isRightShift
-        ? newNodeIndex - +(newNodeIndex === nodes.length)
-        : nodeIndex
+      const end = isRightShift ? newNodeIndex - +(newNodeIndex === nodes.length) : nodeIndex
 
       for (let i = start; i <= end; i++) {
         const node = nodes[i]

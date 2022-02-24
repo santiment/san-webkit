@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { debounce } from '@/utils/fn'
+  import InputWithIcon from '@/ui/InputWithIcon.svelte'
   import VirtualList from './index.svelte'
-  import InputWithIcon from '../InputWithIcon.svelte'
-  import { debounce } from '../../utils/fn'
 
   let className = ''
   export { className as class }

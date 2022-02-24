@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { getDatetime } from './utils'
+  import Author from '@/ui/Profile/svelte'
+  import { dateDifferenceInWords } from '@/utils/dates'
   import Menu from './Menu.svelte'
   import RepliedTo from './RepliedTo.svelte'
   import { DELETE_MSG } from './DeleteDialog.svelte'
   import { showCommentReplyDialog } from './ReplyDialog.svelte'
-  import Author from '../Profile/svelte'
-  import { dateDifferenceInWords } from '../../utils/dates'
+  import { getDatetime } from './utils'
 
   export let commentsFor: SAN.CommentsFor
   export let comment: SAN.Comment

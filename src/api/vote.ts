@@ -1,4 +1,4 @@
-import { mutate } from './index'
+import { mutate } from '@/api'
 
 export enum VoteType {
   Layout = 'chartConfigurationId',
@@ -11,5 +11,4 @@ export const VOTE_MUTATION = (id: number, type: VoteType) => `
   }
 `
 
-export const vote = (id: number, type: VoteType) =>
-  mutate<any>(VOTE_MUTATION(id, type))
+export const vote = (id: number, type: VoteType) => mutate<any>(VOTE_MUTATION(id, type))

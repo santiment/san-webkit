@@ -1,6 +1,6 @@
 import type { Subscriber, Unsubscriber } from 'svelte/store'
 import { writable } from 'svelte/store'
-import { initStripe, bootStripe } from '../analytics/stripe'
+import { initStripe, bootStripe } from '@/analytics/stripe'
 
 type Value = null | stripe.Stripe
 type Store = {

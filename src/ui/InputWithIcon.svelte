@@ -1,5 +1,5 @@
 <script>
-  import Svg from './Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   let className = ''
   export { className as class }

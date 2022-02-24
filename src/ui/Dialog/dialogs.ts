@@ -37,16 +37,12 @@ const pipeCatch = (e) => e && Promise.reject(e)
 
 export const dialogs = {
   subscribe,
-  show<T = unknown>(
-    Component: SvelteComponentModule,
-    props: Props = {},
-  ): Promise<T> {
+  show<T = unknown>(Component: SvelteComponentModule, props: Props = {}): Promise<T> {
     const { strict } = props
     delete props.strict
 
     const promise = new Promise<T>(
-      (resolve, reject) =>
-        (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
+      (resolve, reject) => (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
 
     update((dialogs) => {

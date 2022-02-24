@@ -1,6 +1,6 @@
 <script>
-  import Tooltip from '../Tooltip/svelte'
-  import Svg from '../Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   export let type = 'error'
   export let text = ''

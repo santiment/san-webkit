@@ -1,9 +1,5 @@
-import {
-  saveJson,
-  getSavedJson,
-  deleteSavedValue,
-} from '../../utils/localStorage'
-import { getDateFormats } from '../../utils/dates'
+import { saveJson, getSavedJson, deleteSavedValue } from '@/utils/localStorage'
+import { getDateFormats } from '@/utils/dates'
 
 type ScheduledComment = {
   id: number
@@ -17,7 +13,7 @@ export function saveComment(
   type: SAN.CommentsType,
   id: number,
   content: string,
-  commentsForTitle: string
+  commentsForTitle: string,
 ): void {
   saveJson(SCHEDULED_COMMENT, {
     type,
@@ -32,14 +28,13 @@ export function clearSavedComment(): void {
   deleteSavedValue(SCHEDULED_COMMENT)
 }
 
-export const lookupSavedComment = () =>
-  getSavedJson<ScheduledComment>(SCHEDULED_COMMENT)
+export const lookupSavedComment = () => getSavedJson<ScheduledComment>(SCHEDULED_COMMENT)
 
 type CancelTimer = () => void
 export function scrollToComment(
   comment?: HTMLElement | null,
   removeHighlight?: () => void,
-  block: ScrollIntoViewOptions['block'] = 'nearest'
+  block: ScrollIntoViewOptions['block'] = 'nearest',
 ): undefined | CancelTimer {
   removeHighlight?.()
 
@@ -58,10 +53,8 @@ export function scrollToComment(
   return undo
 }
 
-export const findCommentNode = (
-  commentsNode: HTMLElement,
-  href: string
-): HTMLElement | null => commentsNode.querySelector(`${href} .content`)
+export const findCommentNode = (commentsNode: HTMLElement, href: string): HTMLElement | null =>
+  commentsNode.querySelector(`${href} .content`)
 
 export function adjustHeight(node: HTMLTextAreaElement): void {
   node.style.height = '32px'

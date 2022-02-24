@@ -1,7 +1,7 @@
 <script>
-  import InputWithIcon from '../InputWithIcon.svelte'
-  import { track } from '../../analytics'
-  import { mutateEmailLogin } from '../../api/login'
+  import { track } from '@/analytics'
+  import { mutateEmailLogin } from '@/api/login'
+  import InputWithIcon from '@/ui/InputWithIcon.svelte'
 
   export let verifiedEmail = ''
 

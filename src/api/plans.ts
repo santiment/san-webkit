@@ -1,5 +1,5 @@
-import { mutate, query } from './index'
-import { keepNonDeprecatedPlans, checkIsSanbaseProduct } from '../utils/plans'
+import { mutate, query } from '@/api'
+import { keepNonDeprecatedPlans, checkIsSanbaseProduct } from '@/utils/plans'
 import { Cache } from './cache'
 
 export const PLANS_QUERY = `{

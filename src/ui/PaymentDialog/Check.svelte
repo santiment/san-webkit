@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getPrice, priceFormatter } from '../../utils/plans'
+  import { getPrice, priceFormatter } from '@/utils/plans'
 
   export let plan: SAN.Plan
   export let price: string

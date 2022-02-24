@@ -1,6 +1,6 @@
 <script>
-  import Svg from './Svg/svelte'
-  import { getSanbaseSubscription, getTrialDaysLeft } from '../utils/subscription'
+  import Svg from '@/ui/Svg/svelte'
+  import { getSanbaseSubscription, getTrialDaysLeft } from '@/utils/subscription'
 
   export let currentUser
 

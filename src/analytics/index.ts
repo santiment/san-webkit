@@ -1,5 +1,5 @@
+import { trackSanEvent } from '@/api/analytics'
 import { normalizeData } from './utils'
-import { trackSanEvent } from '../api/analytics'
 
 enum Tracker {
   GA = 'ga',

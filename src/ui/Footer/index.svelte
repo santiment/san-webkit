@@ -1,9 +1,9 @@
 <script>
+  import DigestForm from '@/ui/DigestForm.svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
   import { links } from './links'
   import Bottom from './Bottom.svelte'
-  import DigestForm from '../DigestForm.svelte'
-  import Svg from '../Svg/svelte'
-  import { IsMobile } from '../../stores/responsive'
 
   let className = ''
   export { className as class }
@@ -26,17 +26,13 @@
 
     <div class="forms">
       <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
-      <DigestForm
-        class="mrg-xl mrg--b $style.form {$IsMobile ? '' : 'body-3'}"
-        label="Subscribe"
-      />
+      <DigestForm class="mrg-xl mrg--b $style.form {$IsMobile ? '' : 'body-3'}" label="Subscribe" />
 
       <h4 class="txt-m mrg-m mrg--b">Download Santiment app</h4>
       <a
         target="_blank"
         class="google"
-        href="https://play.google.com/store/apps/details?id=net.santiment.sanbase.android"
-      >
+        href="https://play.google.com/store/apps/details?id=net.santiment.sanbase.android">
         <img alt="Google" src="{process.env.MEDIA_PATH}/illus/google-app.svg" />
       </a>
     </div>

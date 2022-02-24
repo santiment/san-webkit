@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
-  import FieldTooltip from '../FieldTooltip/svelte'
-  import Checkbox from '../Checkbox.svelte'
-  import InputWithIcon from '../InputWithIcon.svelte'
-  import { debounce } from '../../utils/fn'
-  import { mutateGdpr } from '../../api/gdpr'
-  import { mutateChangeUsername } from '../../api/user'
+  import { debounce } from '@/utils/fn'
+  import { mutateGdpr } from '@/api/gdpr'
+  import { mutateChangeUsername } from '@/api/user'
+  import FieldTooltip from '@/ui/FieldTooltip/svelte'
+  import Checkbox from '@/ui/Checkbox.svelte'
+  import InputWithIcon from '@/ui/InputWithIcon.svelte'
   import Section from './Section.svelte'
 
   export let onAccept

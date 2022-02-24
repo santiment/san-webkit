@@ -1,13 +1,11 @@
 <script>
-  import Svg from '../Svg/svelte'
-  import { IsMobile } from '../../stores/responsive'
+  import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
 </script>
 
 <div class="socials">
   {#if $IsMobile}
-    <h4 class="body-2 txt-m mrg-m mrg--b c-waterloo">
-      Santiment on social media
-    </h4>
+    <h4 class="body-2 txt-m mrg-m mrg--b c-waterloo">Santiment on social media</h4>
   {/if}
 
   <div class="row">

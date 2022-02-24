@@ -1,9 +1,9 @@
 <script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
   import { business } from './business'
   import { chain } from './chain'
   import Product from './Product.svelte'
-  import Svg from '../Svg/svelte'
-  import Tooltip from '../Tooltip/svelte'
 
   let className = ''
   export { className as class }

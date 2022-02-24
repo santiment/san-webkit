@@ -1,10 +1,10 @@
 <script context="module" lang="ts">
+  import { querySanbasePlans, getCachedSanbasePlans } from '@/api/plans'
+  import { formatPrice, Plan } from '@/utils/plans'
+  import { Preloader } from '@/utils/fn'
+  import { stripe } from '@/stores/stripe'
+  import { dialogs } from '@/ui/Dialog'
   import PaymentDialog from './index.svelte'
-  import { dialogs } from '../Dialog'
-  import { querySanbasePlans, getCachedSanbasePlans } from '../../api/plans'
-  import { formatPrice, Plan } from '../../utils/plans'
-  import { Preloader } from '../../utils/fn'
-  import { stripe } from '../../stores/stripe'
 
   export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props)
 
@@ -17,14 +17,14 @@
 </script>
 
 <script lang="ts">
+  import Dialog from '@/ui/Dialog'
+  import { DialogLock } from '@/ui/Dialog/dialogs'
+  import { PlanName } from '@/utils/plans'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
-  import Dialog from '../Dialog'
-  import { PlanName } from '../../utils/plans'
-  import { DialogLock } from '../Dialog/dialogs'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO

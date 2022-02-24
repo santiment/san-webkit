@@ -1,4 +1,4 @@
-import { mutate } from '../index'
+import { mutate } from '@/api'
 import { CommentsType, COMMENT_FIELDS } from './index'
 
 // -----------------------------
@@ -32,11 +32,7 @@ export const createComment = (variables: CreateCommentVariables) =>
     variables,
   }).then(accessor)
 
-export function createLayoutComment(
-  id: number,
-  content: string,
-  parentId?: number
-) {
+export function createLayoutComment(id: number, content: string, parentId?: number) {
   const variables = { id, content, parentId, type: CommentsType.Layout }
   return createComment(variables)
 }
@@ -62,5 +58,4 @@ export const updateComment = (id: number, content: string): Promise<void> =>
 const DELETE_COMMENT_MUTATION = (id: number) => `
   mutation { deleteComment(commentId:${id}) { id } }
 `
-export const deleteComment = (id: number): Promise<void> =>
-  mutate<any>(DELETE_COMMENT_MUTATION(id))
+export const deleteComment = (id: number): Promise<void> => mutate<any>(DELETE_COMMENT_MUTATION(id))

@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import DeleteDialog from './DeleteDialog.svelte'
-  import { dialogs } from '../Dialog'
+  import { dialogs } from '@/ui/Dialog'
 
   export const DELETE_MSG = 'The comment has been deleted.'
   export const showCommentDeleteDialog = (comment: SAN.Comment) =>
@@ -8,8 +8,8 @@
 </script>
 
 <script lang="ts">
-  import Dialog from '../Dialog'
-  import { deleteComment } from '../../api/comments/mutate'
+  import Dialog from '@/ui/Dialog'
+  import { deleteComment } from '@/api/comments/mutate'
 
   export let DialogPromise: SAN.DialogController
   export let comment: SAN.Comment
@@ -41,15 +41,9 @@
   <div class="dialog-body column">
     Are you sure you want to delete this comment?
     <div class="row v-center mrg-l mrg--t">
-      <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}
-        >Cancel</button
-      >
+      <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>Cancel</button>
 
-      <button
-        on:click={onDelete}
-        class:loading
-        class="btn btn-1 btn--green mrg-l mrg--l"
-      >
+      <button on:click={onDelete} class:loading class="btn btn-1 btn--green mrg-l mrg--l">
         Delete comment
       </button>
     </div>

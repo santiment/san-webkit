@@ -1,9 +1,9 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { queryCoupon } from '@/api/plans'
+  import { debounce } from '@/utils/fn'
+  import Svg from '@/ui/Svg/svelte'
   import Input from './Input.svelte'
-  import Svg from '../Svg/svelte'
-  import { queryCoupon } from '../../api/plans'
-  import { debounce } from '../../utils/fn'
 
   export let percentOff = 20
 

@@ -1,4 +1,4 @@
-import { query } from '../index'
+import { query } from '@/api'
 
 export enum CommentsType {
   Address = 'BLOCKCHAIN_ADDRESS',
@@ -33,10 +33,5 @@ const COMMENTS_QUERY = `
 type CommentsQuery = SAN.API.Query<'comments', SAN.Comment[]>
 
 const accessor = ({ comments }: CommentsQuery) => comments
-export const queryComments = (
-  id: number,
-  type: SAN.CommentsType
-): Promise<SAN.Comment[]> =>
-  query<CommentsQuery>(COMMENTS_QUERY, { variables: { id, type } }).then(
-    accessor
-  )
+export const queryComments = (id: number, type: SAN.CommentsType): Promise<SAN.Comment[]> =>
+  query<CommentsQuery>(COMMENTS_QUERY, { variables: { id, type } }).then(accessor)

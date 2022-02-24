@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { map } from '../../utils'
+  import { map } from '@/utils'
 
   export let target: number
   export let data: any[]

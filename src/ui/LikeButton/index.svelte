@@ -26,11 +26,9 @@
 
     vote()
     votingInterval = window.setInterval(vote, 370)
-    window.addEventListener(
-      e.type === 'mousedown' ? 'mouseup' : 'touchend',
-      stopVote,
-      { once: true }
-    )
+    window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
+      once: true,
+    })
   }
 
   function vote() {
@@ -68,8 +66,7 @@
   class:voted={userVotes > 0}
   class:disabled
   on:mousedown|preventDefault={startVote}
-  on:touchstart|preventDefault={startVote}
->
+  on:touchstart|preventDefault={startVote}>
   <Moon bind:moonNode {mooned} {totalVotes} />
 
   <Rocket bind:rocketNode />

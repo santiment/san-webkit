@@ -1,6 +1,6 @@
 <script>
-  import { getContext } from 'svelte'
-  import Svg from '../Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
 
   let className = ''
   export { className as class }
@@ -9,14 +9,12 @@
   export let bottomLabel
   export let bottomAction
   export let bottomHref
-
-  const isMobile = getContext('isMobile') || false
 </script>
 
 <section class="border column h-center {className}">
   <h2 class="h3 {titleMargin} mrg--b">{title}</h2>
 
-  {#if isMobile}
+  {#if $IsMobile}
     <a href="/" class="close btn"><Svg id="close" w="16" /></a>
   {/if}
 

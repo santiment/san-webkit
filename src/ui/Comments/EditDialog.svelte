@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { updateComment } from '../../api/comments/mutate'
+  import { updateComment } from '@/api/comments/mutate'
   import { showCommentFormDialog } from './CommentFormDialog.svelte'
 
   export function showCommentEditDialog(comment: SAN.Comment) {

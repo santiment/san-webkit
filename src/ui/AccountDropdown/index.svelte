@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Tooltip from '../Tooltip/svelte'
-  import Svg from '../Svg/svelte'
-  import Toggle from '../Toggle.svelte'
-  import Pic from '../Profile/Pic.svelte'
+  import Toggle from '@/ui/Toggle.svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import Pic from '@/ui/Profile/Pic.svelte'
   import UserInfo from './UserInfo.svelte'
 
   export let ui: any

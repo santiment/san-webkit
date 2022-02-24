@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
+  import { createLayoutComment } from '@/api/comments/mutate'
   import { showCommentFormDialog } from './CommentFormDialog.svelte'
-  import { createLayoutComment } from '../../api/comments/mutate'
 
   export function showCommentReplyDialog(entityId: number, parentId: number) {
     return showCommentFormDialog({

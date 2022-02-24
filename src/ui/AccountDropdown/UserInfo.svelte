@@ -1,7 +1,7 @@
 <script>
-  import Svg from '../Svg/svelte'
-  import { ProductNameById, PlanName } from '../../utils/plans'
-  import { checkIsActiveSubscription, getTrialDaysLeft } from '../../utils/subscription'
+  import Svg from '@/ui/Svg/svelte'
+  import { ProductNameById, PlanName } from '@/utils/plans'
+  import { checkIsActiveSubscription, getTrialDaysLeft } from '@/utils/subscription'
 
   export let user
 

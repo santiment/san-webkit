@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Svg from '../Svg/svelte'
-  import Tooltip from '../Tooltip/svelte'
-  import { PlanName, checkIsYearlyPlan, formatPrice, formatMonthlyPrice } from '../../utils/plans'
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import { PlanName, checkIsYearlyPlan, formatPrice, formatMonthlyPrice } from '@/utils/plans'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan

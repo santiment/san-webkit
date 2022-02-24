@@ -8,12 +8,7 @@ export function clearAutoScroll(ctx: Pick<ScrollContext, 'scrollInterval'>) {
   ctx.scrollInterval = undefined
 }
 
-export function autoScroll(
-  ctx: ScrollContext,
-  nodeRect,
-  scrollRect,
-  yDiff: number,
-) {
+export function autoScroll(ctx: ScrollContext, nodeRect, scrollRect, yDiff: number) {
   const { scrollParent } = ctx
 
   if (yDiff < 0) {

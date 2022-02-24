@@ -1,5 +1,8 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { CommentsType, queryComments } from '@/api/comments'
+  import { createLayoutComment } from '@/api/comments/mutate'
+  import Svg from '@/ui/Svg/svelte'
   import Comment from './Comment.svelte'
   import {
     findCommentNode,
@@ -9,9 +12,6 @@
     adjustHeight,
   } from './utils'
   import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
-  import Svg from '../Svg/svelte'
-  import { CommentsType, queryComments } from '../../api/comments'
-  import { createLayoutComment } from '../../api/comments/mutate'
 
   const noop = () => {}
 

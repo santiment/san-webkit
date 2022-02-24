@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { track } from '../../analytics'
+  import { track } from '@/analytics'
   import metamaskSvg from './metamask.svg'
   import metamaskInverseSvg from './metamask-inverse.svg'
 

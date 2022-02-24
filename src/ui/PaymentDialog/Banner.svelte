@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { showIntercom } from '../../analytics/intercom'
-  import { getDateFormats } from '../../utils/dates'
-  import { checkIsYearlyPlan } from '../../utils/plans'
+  import { showIntercom } from '@/analytics/intercom'
+  import { getDateFormats } from '@/utils/dates'
+  import { checkIsYearlyPlan } from '@/utils/plans'
 
   export let plan: SAN.Plan
   export let name: string

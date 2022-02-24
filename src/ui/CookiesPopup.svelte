@@ -3,9 +3,9 @@
     showManageCookiesDialog,
     COOKIE_POLICY_ACCEPTED,
     applyCookies,
-  } from './ManageCookiesDialog/index.svelte'
-  import Svg from './Svg/svelte'
-  import { getSavedBoolean } from '../utils/localStorage'
+  } from '@/ui/ManageCookiesDialog/index.svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import { getSavedBoolean } from '@/utils/localStorage'
 
   let className = ''
   export { className as class }

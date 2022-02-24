@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from '../Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
 </script>
 
 <section class="footer row h-center caption txt-m c-waterloo">

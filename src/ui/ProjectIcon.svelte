@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from './Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   let className = ''
   export { className as class }
@@ -19,8 +19,7 @@
       src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png"
       alt="Project"
       loading="lazy"
-      on:error={() => (error = true)}
-    />
+      on:error={() => (error = true)} />
   {/if}
 </div>
 

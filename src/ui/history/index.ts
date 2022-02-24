@@ -27,8 +27,7 @@ export function newHistory(emitter?: Emitter) {
   let history: Command[] = []
   let cursor = -1
 
-  const emit = (action: Action, cmd: Command) =>
-    emitter?.({ action, name: cmd.name })
+  const emit = (action: Action, cmd: Command) => emitter?.({ action, name: cmd.name })
 
   return {
     get() {
@@ -71,8 +70,7 @@ export function newHistory(emitter?: Emitter) {
 }
 
 export const CONTEXT = 'USER_COMMANDS_HISTORY'
-export const getHistoryContext = (): ReturnType<typeof newHistory> =>
-  getContext(CONTEXT)
+export const getHistoryContext = (): ReturnType<typeof newHistory> => getContext(CONTEXT)
 
 export const newHistoryEmitter = () => writable(undefined) as HistoryEmitter
 
@@ -83,8 +81,7 @@ export function newHistoryContext(emitter?: Emitter) {
 }
 
 export type Scrollable = { scrollIntoView: () => {} }
-export const scroll = <T extends Scrollable>(target: T) =>
-  target?.scrollIntoView()
+export const scroll = <T extends Scrollable>(target: T) => target?.scrollIntoView()
 export function withScroll<T extends Scrollable>(target: T, clb: () => void) {
   return () => {
     clb()

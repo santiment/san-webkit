@@ -1,8 +1,8 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { cubicOut } from 'svelte/easing'
+  import Svg from '@/ui/Svg/svelte'
   import { notifications as store } from './notifications'
-  import Svg from '../Svg/svelte'
 
   const TypeIcon = {
     success: 'checkmark-circle',

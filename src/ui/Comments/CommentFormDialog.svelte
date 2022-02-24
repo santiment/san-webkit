@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
+  import { dialogs } from '@/ui/Dialog'
   import CommentFormDialog from './CommentFormDialog.svelte'
-  import { dialogs } from '../Dialog'
 
   type OnSubmit = (value: string) => Promise<SAN.Comment>
   type Props = {
@@ -15,7 +15,7 @@
 </script>
 
 <script lang="ts">
-  import Dialog from '../Dialog'
+  import Dialog from '@/ui/Dialog'
 
   export let DialogPromise: SAN.DialogController
   export let title: string
@@ -31,8 +31,7 @@
     if (loading) return
 
     loading = true
-    const commentNode = (currentTarget as HTMLFormElement)
-      .comment as HTMLTextAreaElement
+    const commentNode = (currentTarget as HTMLFormElement).comment as HTMLTextAreaElement
 
     onFormSubmit(commentNode.value).then((comment) => {
       DialogPromise.resolve(comment)
@@ -49,19 +48,12 @@
       class="input border"
       name="comment"
       rows="5"
-      placeholder="Type your comment here"
-    />
+      placeholder="Type your comment here" />
 
     <div class="row v-center mrg-l mrg--t">
-      <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}
-        >Cancel</button
-      >
+      <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>Cancel</button>
 
-      <button
-        type="submit"
-        class:loading
-        class="btn btn-1 btn--green mrg-l mrg--l"
-      >
+      <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l">
         {label}
       </button>
     </div>

@@ -1,7 +1,7 @@
-import { notifications } from '../Notifications'
-import { track } from '../../analytics'
-import { mutateSubscribe } from '../../api/plans'
-import { PlanName } from '../../utils/plans'
+import { track } from '@/analytics'
+import { mutateSubscribe } from '@/api/plans'
+import { PlanName } from '@/utils/plans'
+import { notifications } from '@/ui/Notifications'
 
 export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }

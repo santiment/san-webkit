@@ -1,5 +1,5 @@
-import { mutate } from './'
-import { signMessage } from '../utils/web3'
+import { mutate } from '@/api'
+import { signMessage } from '@/utils/web3'
 
 const EMAIL_LOGIN_MUTATION = (
   email: string,

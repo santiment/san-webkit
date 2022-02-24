@@ -1,4 +1,4 @@
-import { query, mutate } from './index'
+import { query, mutate } from '@/api'
 
 export const CURRENT_USER_QUERY = `
   {
@@ -22,11 +22,7 @@ const EVENT_MUTATION = `
 `
 
 type EventData = { [key: string]: string | number }
-export const trackSanEvent = (
-  event_name: string,
-  created_at: Date,
-  metadata: EventData
-) =>
+export const trackSanEvent = (event_name: string, created_at: Date, metadata: EventData) =>
   queryCurrentUser().then((currentUser) => {
     if (!currentUser) return
 
