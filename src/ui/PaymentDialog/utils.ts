@@ -1,5 +1,7 @@
+import { notifications } from '../Notifications'
 import { track } from '../../analytics'
 import { mutateSubscribe } from '../../api/plans'
+import { PlanName } from '../../utils/plans'
 
 export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }
@@ -59,10 +61,22 @@ export function buyPlan(
 
 function onPaymentSuccess(data) {
   track.event('upgrade', { method: 'Payment success' })
+  const { plan } = data
+  const title = PlanName[plan.name] || plan.name
+
+  notifications.show({
+    type: 'success',
+    title: `You have successfully upgraded to the "${title}" plan!`,
+  })
   return Promise.resolve(data)
 }
 
 function onPaymentError(error) {
   track.event('upgrade', { method: 'Payment fail' })
+  notifications.show({
+    type: 'error',
+    title: `Error during the payment`,
+  })
+
   return Promise.reject(error)
 }
