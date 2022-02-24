@@ -6,11 +6,11 @@
 
   export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
 
-  export enum Cookies {
-    Basic = 'BASIC_COOKIES',
-    Functional = 'FUNCTIONAL_COOKIES',
-    Performance = 'PERFORMANCE_COOKIES',
-  }
+  export const Cookies = {
+    Basic: 'BASIC_COOKIES',
+    Functional: 'FUNCTIONAL_COOKIES',
+    Performance: 'PERFORMANCE_COOKIES',
+  } as const
 
   export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog)
 
