@@ -62,13 +62,15 @@
     "prettier": "^2.3.0",
     "prettier-plugin-svelte": "^2.3.0",
     "svelte": "^3.46.3",
-    "svelte-loader": "^3.1.2"
+    "svelte-loader": "^3.1.2",
+    "ethers": "^5.4.4"
   },
   "peerDependencies": {
     "svelte": "^3.46.3",
     "node-fetch": "^2.6.1",
     "react": "^16.x.x",
     "react-dom": "^16.x.x",
-    "@types/react": "^16.x.x"
+    "@types/react": "^16.x.x",
+    "ethers": "^5.4.4"
   }
 }

@@ -17,6 +17,9 @@
 </script>
 
 <a class="btn-2 btn--l row hv-center {className}" {href} sapper:prefetch={prefetch} on:click>
-  {#if icon}<img src="/webkit/icons/{icon}.svg" alt={icon} class="mrg-s mrg--r" />{/if}
+  {#if icon}<img
+      src="{process.env.MEDIA_PATH}/icons/{icon}.svg"
+      alt={icon}
+      class="mrg-s mrg--r" />{/if}
   <slot />
 </a>
