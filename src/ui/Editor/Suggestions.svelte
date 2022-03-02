@@ -1,6 +1,7 @@
 <script lang="ts">
   import { projects } from '../../../stories/allProjects'
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
+  import { getHorizontalCorrection } from '@/ui/Tooltip/utils'
 
   export let position: { x: number; y: number; height: number }
   export let onSelect
@@ -9,27 +10,39 @@
 
   let filtered = projects.slice(0, 5)
 
-  $: ({ x, y, height } = position)
-  $: style = `top:${y + height}px;left:${x}px`
   $: onInput(searchTerm)
+  $: style = node && getPositionStyles(position)
 
-  function onInput(searchTerm) {
+  function onInput(searchTerm: string) {
     const value = searchTerm.toLowerCase()
-    filtered = projects.filter(({name, ticker})=> {
-      return name.toLowerCase().includes(value) || ticker.toLowerCase().includes(value)
-    }).slice(0,5)
+    filtered = projects
+      .filter(({ name, ticker }) => {
+        return name.toLowerCase().includes(value) || ticker.toLowerCase().includes(value)
+      })
+      .slice(0, 5)
+  }
+
+  function getPositionStyles({ x, y, bottom }): string {
+    const { offsetWidth, offsetHeight } = node as any as HTMLElement
+    const { innerHeight } = window
+
+    const isBottom = bottom + offsetHeight > innerHeight
+    const left = x + getHorizontalCorrection(offsetWidth, x)
+    const top = isBottom ? innerHeight - y + 5 : bottom
+
+    return `${isBottom ? 'bottom' : 'top'}:${top}px;left:${left}px`
   }
 </script>
 
 <div class="border box" {style} bind:this={node}>
   {#each filtered.slice(0, 5) as project (project.slug)}
-  {@const { slug, name, ticker } = project}
+    {@const { slug, name, ticker } = project}
     <button class="btn-ghost fluid row v-center" on:click|capture={() => onSelect(project)}>
       <ProjectIcon {slug} class="mrg-s mrg--r" />
       <span class="name">{name}</span>
       <span class="c-waterloo mrg-xs mrg--l">{ticker}</span>
     </button>
-    {:else}
+  {:else}
     No results
   {/each}
 </div>
@@ -40,10 +53,10 @@
     padding: 8px;
     max-width: 220px;
     width: 220px;
+    white-space: nowrap;
   }
 
   .name {
-    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
   }

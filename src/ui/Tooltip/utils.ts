@@ -12,7 +12,7 @@ const PositionSign = {
   bottom: 1,
 }
 
-function getHorizontalCorrection(tooltipWidth: number, left: number): number {
+export function getHorizontalCorrection(tooltipWidth: number, left: number): number {
   if (left < 0) return -left
 
   const { innerWidth } = window
@@ -59,14 +59,12 @@ export function getTooltipStyles(
   let left = isInRelativeCtx ? offsetLeft : triggerLeft
 
   if (position === 'top' || position === 'bottom') {
-    top +=
-      (position === 'top' ? -tooltipHeight : triggerHeight) + sign * offsetY
+    top += (position === 'top' ? -tooltipHeight : triggerHeight) + sign * offsetY
     left += calculateAlignment(triggerWidth, tooltipWidth, align)
     left += getHorizontalCorrection(tooltipWidth, left)
   } else {
     top += calculateAlignment(triggerHeight, tooltipHeight, align)
-    left +=
-      (position === 'left' ? -tooltipWidth : triggerWidth) + sign * offsetX
+    left += (position === 'left' ? -tooltipWidth : triggerWidth) + sign * offsetX
   }
 
   if (isInRelativeCtx === false) {
