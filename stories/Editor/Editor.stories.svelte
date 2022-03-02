@@ -8,3 +8,9 @@
 <Story name="Editor">
   <Editor />
 </Story>
+
+<style>
+  :global(#root) {
+    height: 100%;
+  }
+</style>

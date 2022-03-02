@@ -1,9 +1,10 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte'
-  import MediumEditor from 'medium-editor'
+  import { default as MediumEditor } from 'medium-editor'
   import { TOOLBAR, COMMENTS_TOOLBAR, anchor } from './toolbar'
   import { hookShortcutApplier } from './typedShortcuts'
   import { htmlToMarkdown } from './markdown'
+  import { SuggestionsExtension } from './suggestions'
 
   export let editor: MediumEditor.MediumEditor
   export let node
@@ -19,6 +20,12 @@
       anchor,
       placeholder: placeholder && {
         text: placeholder,
+      },
+      extensions: {
+        suggestions: new SuggestionsExtension(),
+      },
+      anchorPreview: {
+        hideDelay: 150,
       },
     })
 
@@ -53,6 +60,42 @@
       color: var(--casper);
       opacity: 0.5;
       pointer-events: none;
+    }
+  }
+
+  div :global {
+    strong,
+    b {
+      font-weight: bold;
+    }
+    u {
+      text-decoration: underline;
+    }
+
+    h2 {
+      font-size: 21px;
+    }
+
+    h3 {
+      font-size: 18px;
+    }
+
+    a {
+      color: var(--green);
+    }
+
+    ul,
+    ol {
+      padding-left: 30px;
+      margin: 8px 0 24px;
+    }
+
+    ul li {
+      list-style: disc;
+    }
+
+    ol li {
+      list-style: decimal;
     }
   }
 

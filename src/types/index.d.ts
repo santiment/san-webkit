@@ -17,3 +17,23 @@ interface Window {
   provider?: any
   __onLinkClick?: (e: MouseEvent) => void
 }
+
+namespace MediumEditor {
+  interface MediumEditor {
+    Extension: {
+      extend: (any) => any
+    }
+
+    selection: {
+      getSelectionRange: (document: HTMLElement) => Range
+      clearSelection: (document: HTMLElement) => void
+    }
+
+    util: {
+      getKeyCode: (e: KeyboardEvent) => number
+      keyCode: {
+        [key: string]: number
+      }
+    }
+  }
+}
