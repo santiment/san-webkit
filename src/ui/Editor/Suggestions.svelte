@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { projects } from '../../../stories/allProjects'
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
   import { getHorizontalCorrection } from '@/ui/Tooltip/utils'
+  import { queryProjects } from '@/api/projects'
 
-  export let position: { x: number; y: number; height: number }
+  export let position: { x: number; y: number; bottom: number }
   export let onSelect
   export let searchTerm = ''
   export let node = undefined
 
-  let filtered = projects.slice(0, 5)
+  let projects = [] as any[]
 
+  queryProjects().then((data) => (projects = data))
+
+  $: filtered = projects.slice(0, 5)
   $: onInput(searchTerm)
   $: style = node && getPositionStyles(position)
 
@@ -43,7 +46,7 @@
       <span class="c-waterloo mrg-xs mrg--l">{ticker}</span>
     </button>
   {:else}
-    No results
+    {projects.length ? 'No results' : 'Loading...'}
   {/each}
 </div>
 
