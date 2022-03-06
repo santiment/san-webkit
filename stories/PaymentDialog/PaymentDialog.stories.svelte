@@ -1,15 +1,8 @@
 <script>
-  import { onDestroy, onMount } from 'svelte'
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
-  import { dialogs } from '@/ui/Dialog'
-
-  // onMount(() => showPaymentDialog({ isEligibleForTrial: true, trialDaysLeft: 3 }))
-  onMount(() => {
-    console.log('payment mounted')
-  })
-  onDestroy(() => dialogs.hide(0))
+  import OnMount from './OnMount.svelte'
 </script>
 
 <Meta title="Example/PaymentDialog" />
@@ -18,7 +11,17 @@
   <button on:click={showPaymentDialog}>Show dialog</button>
 </Template>
 
-<Story name="PaymentDialog" />
+<Story name="Eligible for trial">
+  <OnMount run={() => showPaymentDialog({ isEligibleForTrial: true })} />
+</Story>
+
+<Story name="Active trial">
+  <OnMount run={() => showPaymentDialog({ isEligibleForTrial: false, trialDaysLeft: 3 })} />
+</Story>
+
+<Story name="Expired trial">
+  <OnMount run={() => showPaymentDialog({ isEligibleForTrial: false, trialDaysLeft: 0 })} />
+</Story>
 
 <Dialogs />
 
