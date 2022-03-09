@@ -59,7 +59,8 @@
     }
 
     loading = true
-    createLayoutComment(commentsFor.id, commentNode.value, undefined, type)
+
+    createLayoutComment(commentsFor.id, value, undefined, type)
       .then((comment) => {
         comments.push(comment)
         setComments(comments)
