@@ -13,6 +13,18 @@ marked.use({ walkTokens })
 
 export const markdownToHTML = (md: string): string => marked(md)
 
+const TEXT = (text: string) => text
+export function markdownToPlainText(md: string) {
+  const renderer = new marked.Renderer()
+  renderer.link = (_, __, text) => text
+  renderer.paragraph = (text) => text + '\n'
+  renderer.heading = TEXT
+  renderer.strong = TEXT
+  renderer.em = TEXT
+
+  return marked(md, { renderer })
+}
+
 const EMPTY_CHAR = String.fromCharCode(160)
 const turndownService = new TurndownService({
   headingStyle: 'atx',

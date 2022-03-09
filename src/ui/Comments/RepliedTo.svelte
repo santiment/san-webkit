@@ -1,5 +1,6 @@
 <script lang="ts">
   import Author from '@/ui/Profile/svelte'
+  import { markdownToPlainText } from '../Editor/markdown'
   import { getScrollToCommentContext, getGetRepliedToCommentContext } from './context'
 
   const scrollToReply = getScrollToCommentContext()
@@ -14,7 +15,7 @@
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div>
       <Author user={comment.user} class="$style.comment" />
-      {' ' + comment.content}
+      {' ' + markdownToPlainText(comment.content)}
     </div>
   </a>
 {/if}
