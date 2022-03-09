@@ -1,12 +1,14 @@
 <script lang="ts">
   import Author from '@/ui/Profile/svelte'
   import { dateDifferenceInWords } from '@/utils/dates'
+  import { markdownToHTML } from '@/ui/Editor/markdown'
   import Menu from './Menu.svelte'
   import RepliedTo from './RepliedTo.svelte'
   import { DELETE_MSG } from './DeleteDialog.svelte'
   import { showCommentReplyDialog } from './ReplyDialog.svelte'
   import { getDatetime } from './utils'
 
+  export let type: CommentsType
   export let commentsFor: SAN.CommentsFor
   export let comment: SAN.Comment
   export let authorId: number
@@ -19,9 +21,10 @@
 
   $: edited = editedAt ? 'Edited ' : ''
   $: time = edited + dateDifferenceInWords(new Date(edited ? (editedAt as string) : insertedAt))
+  $: html = markdownToHTML(content)
 
   function onReply() {
-    showCommentReplyDialog(commentsFor.id, comment.id)
+    showCommentReplyDialog(commentsFor.id, comment.id, type)
       .then((newComment) => {
         if (!newComment) return
         updateComments((comments) => (comments.push(newComment), comments))
@@ -56,7 +59,7 @@ Edited: ${getDatetime(editedAt)}`
     </div>
   </div>
 
-  <div class="content mrg-s mrg--t">{content}</div>
+  <div class="content mrg-s mrg--t">{@html html}</div>
 
   {#if currentUser}
     <div class="actions row v-center txt-m">
@@ -71,15 +74,28 @@ Edited: ${getDatetime(editedAt)}`
   {/if}
 </div>
 
-<style>
+<style lang="scss">
   .content {
     padding: 16px;
     background: var(--athens);
     border-radius: 8px;
-    white-space: pre-line;
     word-break: break-word;
     transition: background 700ms;
     scroll-margin: 50px;
+
+    :global {
+      a {
+        color: var(--green);
+        &:hover {
+          color: var(--green-hover);
+        }
+      }
+
+      strong,
+      b {
+        font-weight: bold;
+      }
+    }
   }
 
   .actions {

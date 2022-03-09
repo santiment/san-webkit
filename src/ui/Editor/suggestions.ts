@@ -1,4 +1,5 @@
 import { default as Editor } from 'medium-editor'
+import { queryProjects } from '@/api/projects'
 import Suggestions from './Suggestions.svelte'
 
 const TRIGGER = '$'
@@ -20,6 +21,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
   startOffset: null,
 
   init() {
+    queryProjects()
     this.subscribe('editableClick', (e) => {
       e.preventDefault()
       this.hide()

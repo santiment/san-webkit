@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { queryProjects } from '@/api/projects'
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
   import { getHorizontalCorrection } from '@/ui/Tooltip/utils'
-  import { queryProjects } from '@/api/projects'
 
   export let position: { x: number; y: number; bottom: number }
   export let onSelect

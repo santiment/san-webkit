@@ -1,6 +1,7 @@
 <script>
-  import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
+  import { Meta, Story } from '@storybook/addon-svelte-csf'
   import Comments from '@/ui/Comments/svelte'
+  import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { CommentsType } from '@/api/comments'
 </script>
 
@@ -12,7 +13,10 @@
     commentsFor={{
       id: 16436,
       user: {
-        id: 0,
+        id: 113,
       },
-    }} />
+    }}
+    currentUser={{ id: '113' }} />
 </Story>
+
+<Dialogs />

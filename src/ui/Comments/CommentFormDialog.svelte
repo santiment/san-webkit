@@ -11,11 +11,12 @@
   }
 
   export const showCommentFormDialog = (props: Props) =>
-    dialogs.show<undefined | SAN.Comment>(CommentFormDialog, props)
+    dialogs.show<undefined | SAN.Comment>(CommentFormDialog, Object.assign({ strict: true }, props))
 </script>
 
 <script lang="ts">
   import Dialog from '@/ui/Dialog'
+  import Editor from '@/ui/Editor'
 
   export let DialogPromise: SAN.DialogController
   export let title: string
@@ -26,14 +27,17 @@
 
   let closeDialog
   let loading = false
+  let editor
 
-  function onSubmit({ currentTarget }: Event) {
+  function onSubmit() {
     if (loading) return
 
     loading = true
-    const commentNode = (currentTarget as HTMLFormElement).comment as HTMLTextAreaElement
 
-    onFormSubmit(commentNode.value).then((comment) => {
+    const value = editor.serialize()
+    if (!value) return
+
+    onFormSubmit(value).then((comment) => {
       DialogPromise.resolve(comment)
       closeDialog()
     })
@@ -42,12 +46,11 @@
 
 <Dialog {...$$props} {title} bind:closeDialog>
   <form class="dialog-body column" on:submit|preventDefault={onSubmit}>
-    <textarea
-      {value}
-      required
-      class="input border"
-      name="comment"
-      rows="5"
+    <Editor
+      isComments
+      bind:editor
+      html={value}
+      class="input $style.input"
       placeholder="Type your comment here" />
 
     <div class="row v-center mrg-l mrg--t">
@@ -61,7 +64,7 @@
 </Dialog>
 
 <style>
-  textarea {
+  .input {
     padding: 9px 12px;
     min-height: 40px;
     width: 400px;

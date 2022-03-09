@@ -103,6 +103,7 @@
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
   {#each comments as comment (comment.id)}
     <Comment
+      {type}
       {commentsNode}
       {commentsFor}
       {comment}
