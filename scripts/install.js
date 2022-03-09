@@ -21,8 +21,9 @@ async function main() {
   await forFile(['src/**', '!src/**/*.ts'], copyFile)
 
   prepareTypes()
-  prepareSvelte()
-  prepareImports()
   prepareIcons()
+
+  await prepareSvelte()
+  prepareImports()
 }
 main()
