@@ -1,7 +1,6 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
   import Tooltip from '@/ui/Tooltip/svelte'
-  import LikeBtn from '@/ui/LikeButton/index.svelte'
 </script>
 
 <Meta
@@ -25,26 +24,116 @@
     duration: { control: 'number' },
     openDelay: { control: 'number' },
     closeTimeout: { control: 'number' },
-  }}
-/>
+  }} />
 
 <Template let:args>
-  <div class="row" style="margin-top: 100px">
-    <LikeBtn />
-    <LikeBtn totalVotes={1} userVotes={1} />
+  <div class="row justify">
+    <Tooltip>
+      <div slot="trigger">Bottom / start align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip align="center">
+      <div slot="trigger">Bottom / center align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip align="end">
+      <div slot="trigger">Bottom / end align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
   </div>
 
-  <Tooltip>
-    <div slot="trigger">Trigger</div>
+  <div class="row justify mrg-xxl mrg--t">
+    <Tooltip position="right">
+      <div slot="trigger">Right / start align</div>
 
-    <svelte:fragment slot="tooltip">TOOOLTIP</svelte:fragment>
-  </Tooltip>
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="right" align="center">
+      <div slot="trigger">Right / center align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="right" align="end">
+      <div slot="trigger">Right / end align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+  </div>
+
+  <div class="row justify mrg-xxl mrg--t">
+    <Tooltip position="left">
+      <div slot="trigger">Left / start align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="left" align="center">
+      <div slot="trigger">Left / center align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="left" align="end">
+      <div slot="trigger">Left / end align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+  </div>
+
+  <div class="row justify mrg-xxl mrg--t">
+    <Tooltip position="top">
+      <div slot="trigger">Top / start align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="top" align="center">
+      <div slot="trigger">Top / center align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+    <Tooltip position="top" align="end">
+      <div slot="trigger">Top / end align</div>
+
+      <div slot="tooltip" class="tooltip">
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+      </div>
+    </Tooltip>
+  </div>
 </Template>
 
 <Story
-  name="Primary"
+  name="Tooltip"
   args={{
     primary: true,
     label: 'Button',
-  }}
-/>
+  }} />
+
+<style>
+  .tooltip {
+    padding: 8px 12px;
+    max-width: 250px;
+  }
+</style>

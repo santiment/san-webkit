@@ -6,6 +6,8 @@
   import { htmlToMarkdown } from './markdown'
   import { SuggestionsExtension } from './suggestions'
 
+  let className = ''
+  export { className as class }
   export let editor: MediumEditor.MediumEditor
   export let node
   export let html = ''
@@ -47,7 +49,7 @@
   })
 </script>
 
-<div bind:this={node} />
+<div bind:this={node} class={className} />
 
 <style lang="scss">
   div {

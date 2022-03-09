@@ -12,7 +12,7 @@ const preprocess = sveltePreprocess({
 })
 
 async function prepareSvelte() {
-  forFile(['lib/**/*.svelte'], async (entry) => {
+  return forFile(['lib/**/*.svelte'], async (entry) => {
     const filePath = entry.replace('lib/', '')
     const libFilePath = path.resolve(LIB, filePath)
 
