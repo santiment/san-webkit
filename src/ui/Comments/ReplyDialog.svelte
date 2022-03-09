@@ -1,12 +1,13 @@
 <script context="module" lang="ts">
-  import { createLayoutComment } from '@/api/comments/mutate'
+  import type { CommentsType } from '@/api/comments'
+  import { createComment } from '@/api/comments/mutate'
   import { showCommentFormDialog } from './CommentFormDialog.svelte'
 
-  export function showCommentReplyDialog(entityId: number, parentId: number) {
+  export function showCommentReplyDialog(entityId: number, parentId: number, type: CommentsType) {
     return showCommentFormDialog({
       title: 'Replying',
       label: 'Submit reply',
-      onSubmit: (value) => createLayoutComment(entityId, value, parentId),
+      onSubmit: (value) => createComment({ id: entityId, content: value, parentId, type }),
     })
   }
 </script>

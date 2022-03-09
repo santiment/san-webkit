@@ -99,8 +99,9 @@ export const SuggestionsExtension = Editor.Extension.extend({
 
       this.startOffset = offset
       const position = range.getBoundingClientRect()
+
       this.node = new Suggestions({
-        target: window.document.body,
+        target: document.body,
         props: {
           position,
           onSelect: onProjectSelect,

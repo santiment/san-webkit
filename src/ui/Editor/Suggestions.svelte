@@ -29,11 +29,14 @@
     const { offsetWidth, offsetHeight } = node as any as HTMLElement
     const { innerHeight } = window
 
-    const isBottom = bottom + offsetHeight > innerHeight
-    const left = x + getHorizontalCorrection(offsetWidth, x)
-    const top = isBottom ? innerHeight - y + 5 : bottom
+    const isBottom = bottom + offsetHeight + 40 > innerHeight
 
-    return `${isBottom ? 'bottom' : 'top'}:${top}px;left:${left}px`
+    const yPosition = isBottom
+      ? `bottom:${innerHeight - y + 5 - window.scrollY}`
+      : `top:${bottom + window.scrollY}`
+    const xPosition = x + getHorizontalCorrection(offsetWidth, x)
+
+    return `${yPosition}px;left:${xPosition}px`
   }
 </script>
 
@@ -57,6 +60,7 @@
     max-width: 220px;
     width: 220px;
     white-space: nowrap;
+    z-index: 100;
   }
 
   .name {

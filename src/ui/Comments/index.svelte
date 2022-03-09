@@ -1,17 +1,11 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { CommentsType, queryComments } from '@/api/comments'
-  import { createLayoutComment } from '@/api/comments/mutate'
+  import { createComment } from '@/api/comments/mutate'
   import Svg from '@/ui/Svg/svelte'
   import Editor from '@/ui/Editor'
   import Comment from './Comment.svelte'
-  import {
-    findCommentNode,
-    scrollToComment,
-    saveComment,
-    clearSavedComment,
-    adjustHeight,
-  } from './utils'
+  import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils'
   import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
 
   const noop = () => {}
@@ -59,7 +53,7 @@
     }
 
     loading = true
-    createLayoutComment(commentsFor.id, value)
+    createComment({ id: commentsFor.id, content: value, type })
       .then((comment) => {
         comments.push(comment)
         setComments(comments)

@@ -34,5 +34,6 @@
 
   .svg {
     max-width: 50%;
+    min-width: 0 !important;
   }
 </style>
