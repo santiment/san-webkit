@@ -3,6 +3,7 @@ import { mutate } from '@/api'
 export enum VoteType {
   Layout = 'chartConfigurationId',
   Insight = 'insightId',
+  Watchlist = 'watchlistId',
 }
 
 export const VOTE_MUTATION = (id: number, type: VoteType) => `
