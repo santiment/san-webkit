@@ -32,8 +32,15 @@ export const createComment = (variables: CreateCommentVariables) =>
     variables,
   }).then(accessor)
 
-export function createLayoutComment(id: number, content: string, parentId?: number) {
-  const variables = { id, content, parentId, type: CommentsType.Layout }
+export function createLayoutComment(
+  id: number,
+  content: string,
+  parentId?: number,
+  type = CommentsType.Layout,
+) {
+  const variables = { id, content, parentId, type }
+  return createComment(variables)
+}
   return createComment(variables)
 }
 
