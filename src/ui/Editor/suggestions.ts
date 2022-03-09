@@ -4,7 +4,7 @@ import Suggestions from './Suggestions.svelte'
 const TRIGGER = '$'
 
 function getComponentNode(component) {
-  return component.$$.ctx[component.$$.props.node]
+  return component?.$$.ctx[component.$$.props.node]
 }
 
 enum ArrowKeyCode {
@@ -28,7 +28,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
       this.handleInput(e)
     })
     this.subscribe('blur', (e) => {
-      if (this.getHTMLNode().contains(e.target)) return
+      if (this.getHTMLNode()?.contains(e.target)) return
       this.hide()
     })
   },

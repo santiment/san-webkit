@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
+  let className = ''
+  export { className as class }
   export let editor = undefined
   export let node = undefined
   export let isComments = false
@@ -16,4 +18,11 @@
   })
 </script>
 
-<svelte:component this={Editor} bind:editor bind:node {html} {isComments} {placeholder} />
+<svelte:component
+  this={Editor}
+  bind:editor
+  bind:node
+  {html}
+  {isComments}
+  {placeholder}
+  class={className} />

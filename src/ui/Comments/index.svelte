@@ -3,6 +3,7 @@
   import { CommentsType, queryComments } from '@/api/comments'
   import { createLayoutComment } from '@/api/comments/mutate'
   import Svg from '@/ui/Svg/svelte'
+  import Editor from '@/ui/Editor'
   import Comment from './Comment.svelte'
   import {
     findCommentNode,
@@ -27,6 +28,7 @@
   let comments = [] as SAN.Comment[]
   let loading = false
   let commentsNode: HTMLElement
+  let editor
 
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
@@ -44,23 +46,24 @@
     removeHighlight = scrollToComment(node as HTMLElement)
   }
 
-  function onSubmit({ currentTarget }: Event) {
+  function onSubmit() {
     if (!commentsFor || loading) return
 
-    const commentNode = (currentTarget as HTMLFormElement).comment as HTMLTextAreaElement
+    const value = editor.serialize()
+    if (!value) return
 
     if (!currentUser) {
-      saveComment(type, commentsFor.id, commentNode.value, commentsFor.title)
-      commentNode.value = ''
+      saveComment(type, commentsFor.id, value, commentsFor.title)
+      editor.resetContent()
       return onAnonComment()
     }
 
     loading = true
-    createLayoutComment(commentsFor.id, commentNode.value)
+    createLayoutComment(commentsFor.id, value)
       .then((comment) => {
         comments.push(comment)
         setComments(comments)
-        commentNode.value = ''
+        editor.resetContent()
         clearSavedComment()
       })
       .then(scrollToNewComment)
@@ -92,13 +95,11 @@
 <h4 class={titleClass}>Conversations ({comments.length})</h4>
 
 <form class="row mrg-l mrg--t" on:submit|preventDefault={onSubmit}>
-  <textarea
-    name="comment"
-    required
-    rows="1"
-    class="border fluid"
-    placeholder="Type your comment here"
-    on:input={(e) => adjustHeight(e.currentTarget)} />
+  <Editor
+    isComments
+    bind:editor
+    class="border fluid $style.input"
+    placeholder="Type your comment here" />
 
   <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l">
     {currentUser ? 'Post' : 'Sign up to post'}
@@ -125,10 +126,9 @@
 </div>
 
 <style>
-  textarea {
-    resize: none;
+  .input {
     padding: 5px 10px;
-    height: 32px;
+    min-height: 32px;
     min-height: 100%;
   }
 
@@ -142,5 +142,9 @@
 
   .column {
     height: 100%;
+  }
+
+  button {
+    max-height: 52px;
   }
 </style>

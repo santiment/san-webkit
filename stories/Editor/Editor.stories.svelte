@@ -1,8 +1,8 @@
 <script>
-  import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
+  import { onDestroy } from 'svelte'
+  import { Meta, Story } from '@storybook/addon-svelte-csf'
   import Editor from '@/ui/Editor'
   import { debounce } from '@/utils/fn'
-  import { onDestroy } from 'svelte'
 
   let editor
   let markdown = ''
