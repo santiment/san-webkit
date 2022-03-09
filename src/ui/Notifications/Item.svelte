@@ -103,17 +103,19 @@
     height: 16px;
     fill: var(--waterloo);
 
-    &.success {
-      fill: var(--green);
-    }
-    &.error {
-      fill: var(--red);
-    }
-    &.warning {
-      fill: var(--orange);
-    }
-    &.info {
-      fill: var(--blue);
+    :global {
+      &.success {
+        fill: var(--green);
+      }
+      &.error {
+        fill: var(--red);
+      }
+      &.warning {
+        fill: var(--orange);
+      }
+      &.info {
+        fill: var(--blue);
+      }
     }
   }
 
