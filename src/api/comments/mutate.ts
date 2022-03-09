@@ -41,8 +41,6 @@ export function createLayoutComment(
   const variables = { id, content, parentId, type }
   return createComment(variables)
 }
-  return createComment(variables)
-}
 
 // -----------------------------
 // UPDATE COMMENT
