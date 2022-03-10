@@ -24,15 +24,17 @@
   export let offsetX = 0
   export let offsetY = 10
   export let scrollParent: Element | undefined = undefined
+  export let passive = false
 
   const transition = { duration }
+  const setTrigger = (value?: Element) => (trigger = value)
 
   let anchor: HTMLElement | undefined
   let tooltip: HTMLElement | undefined
   let timer: number | undefined
   let openTimer: number | undefined
 
-  $: if (trigger) {
+  $: if (!passive && trigger) {
     if (isEnabled) trigger.addEventListener(on, startOpenTimer)
     else {
       trigger.removeEventListener(on, startOpenTimer)
@@ -99,6 +101,8 @@
   function hookTooltip() {
     if (!tooltip) return
 
+    if (passive) trigger?.parentNode?.append(tooltip)
+
     const { left, top } = getTooltipStyles(
       tooltip,
       trigger as HTMLElement,
@@ -131,6 +135,7 @@
 {/if}
 
 <slot name="trigger" />
+<slot {on} {setTrigger} {startOpenTimer} />
 
 {#if isOpened}
   <div
