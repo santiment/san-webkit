@@ -31,7 +31,7 @@ const turndownService = new TurndownService({
   bulletListMarker: '-',
 })
 function modifyRule(id) {
-  const rule = (turndownService.options as any).rule[id]
+  const rule = (turndownService.options as any).rules[id]
   return turndownService.rules.array.find((r) => r === rule) as TurndownService.Rule
 }
 
