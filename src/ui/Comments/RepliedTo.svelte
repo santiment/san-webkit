@@ -13,7 +13,7 @@
 
 {#if comment}
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
-    <div>
+    <div class="line-clamp">
       <Author user={comment.user} class="$style.comment" />
       {' ' + markdownToPlainText(comment.content)}
     </div>
@@ -48,11 +48,6 @@
 
   div {
     --img-size: 16px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
   }
   div :global(.img) {
     margin: 0 4px 0 0;
@@ -69,11 +64,5 @@
   div,
   .comment {
     --color: var(--fiord) !important;
-  }
-
-  @supports not (display: -webkit-box) {
-    div {
-      white-space: nowrap;
-    }
   }
 </style>

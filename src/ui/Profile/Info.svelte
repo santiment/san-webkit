@@ -1,9 +1,10 @@
 <script lang="ts">
   import FollowButton from '@/ui/FollowButton/index.svelte'
+  import CreationCard from './CreationCard.svelte'
   import Profile from './index.svelte'
 
   export let user: SAN.Author & { name?: string }
-  export let isFollowing = true
+  export let isFollowing = false
 
   $: ({ name, username } = user)
 </script>
@@ -18,6 +19,11 @@
     </Profile>
 
     <FollowButton {user} bind:isFollowing class="mrg-xl mrg--l" />
+  </div>
+
+  <div class="mrg-xl mrg--t row justify">
+    <CreationCard />
+    <CreationCard />
   </div>
 </div>
 

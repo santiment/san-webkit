@@ -82,3 +82,16 @@
 .c-accent {
   --color: var(--accent, var(--green));
 }
+
+.line-clamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--line-clamp, 2);
+  -webkit-box-orient: vertical;
+}
+@supports not (display: -webkit-box) {
+  .line-clamp {
+    white-space: nowrap;
+  }
+}
