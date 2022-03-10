@@ -31,8 +31,8 @@ const turndownService = new TurndownService({
   bulletListMarker: '-',
 })
 function modifyRule(id) {
-  const rule = turndownService.options.rules[id]
-  return turndownService.rules.array.find((r) => r === rule)
+  const rule = (turndownService.options as any).rule[id]
+  return turndownService.rules.array.find((r) => r === rule) as TurndownService.Rule
 }
 
 modifyRule('paragraph').replacement = (content) => {
@@ -42,7 +42,7 @@ modifyRule('paragraph').replacement = (content) => {
 
 modifyRule('listItem').replacement = (rawContent, node) => {
   const content = rawContent.trim() + '\n'
-  const list = node.parentNode
+  const list = node.parentNode as HTMLElement
 
   if (list.nodeName === 'OL') {
     const index = Array.prototype.indexOf.call(list.children, node) + 1
