@@ -16,8 +16,12 @@
   <Pic src={user.avatarUrl} class="mrg-s mrg--r" />
 
   <span>
-    {isTagName && user.username ? '@' : ''}{user.username || user.email}
-    <slot />
+    {#if $$slots.name}
+      <slot name="name" />
+    {:else}
+      {isTagName && user.username ? '@' : ''}{user.username || user.email}
+      <slot />
+    {/if}
   </span>
 </a>
 
