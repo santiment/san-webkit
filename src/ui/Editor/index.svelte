@@ -18,11 +18,15 @@
   })
 </script>
 
-<svelte:component
-  this={Editor}
-  bind:editor
-  bind:node
-  {html}
-  {isComments}
-  {placeholder}
-  class={className} />
+{#if Editor}
+  <svelte:component
+    this={Editor}
+    bind:editor
+    bind:node
+    {html}
+    {isComments}
+    {placeholder}
+    class={className} />
+{:else}
+  <div class={className} />
+{/if}
