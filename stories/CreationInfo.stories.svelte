@@ -19,7 +19,6 @@
       onEditClick={console.log}
       comments={{
         count: 4,
-        class: '',
         active: false,
         onClick: console.log,
       }}

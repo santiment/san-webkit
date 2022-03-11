@@ -18,7 +18,6 @@
   export let type: CreationType
   export let comments: {
     count: number
-    class?: string
     active?: boolean
     onClick: () => any
   }
