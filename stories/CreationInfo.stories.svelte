@@ -9,7 +9,8 @@
 <Story name="CreationInfo">
   <div class="row v-center">
     <CreationInfo
-      type={CreationType.Layout}
+      id={10}
+      type={CreationType.Watchlist}
       title="Creation info title"
       user={{
         id: 113,
