@@ -1,10 +1,23 @@
 <script lang="ts">
+  import { queryUserLayouts } from '@/api/user/layouts'
+  import { queryUserWatchlists } from '@/api/user/watchlists'
   import FollowButton from '@/ui/FollowButton/index.svelte'
-  import CreationCard from './CreationCard.svelte'
   import Profile from './index.svelte'
+  import CreationCard from './CreationCard/index.svelte'
+  import { CreationType } from './types'
 
   export let user: SAN.Author & { name?: string }
   export let isFollowing = false
+  export let type: CreationType
+
+  let creations: any[] = []
+
+  const QueryCreations = {
+    [CreationType.Layout]: queryUserLayouts,
+    [CreationType.Watchlist]: queryUserWatchlists,
+  }
+  const setCreations = (data: any[]) => (creations = data.slice(0, 2))
+  if (type) QueryCreations[type](user.id).then(setCreations)
 
   $: ({ name, username } = user)
 </script>
@@ -21,10 +34,13 @@
     <FollowButton {user} bind:isFollowing class="mrg-xl mrg--l" />
   </div>
 
-  <div class="mrg-xl mrg--t row justify">
-    <CreationCard />
-    <CreationCard />
-  </div>
+  {#if creations.length}
+    <div class="mrg-xl mrg--t row justify">
+      {#each creations as creation}
+        <CreationCard {type} {creation} />
+      {/each}
+    </div>
+  {/if}
 </div>
 
 <style>
