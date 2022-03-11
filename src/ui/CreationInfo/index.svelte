@@ -13,7 +13,7 @@
   export let id: number
   export let title: string
   export let user: SAN.Author
-  export let currentUser: SAN.CurrentUser | undefined
+  export let currentUser: SAN.CurrentUser | null
   export let onEditClick: () => any
   export let type: CreationType
   export let comments: {

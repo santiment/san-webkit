@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
   export type Votes = {
-    totalVotes: 0
-    userVotes: 0
+    totalVotes: number
+    userVotes: number
   }
 </script>
 
