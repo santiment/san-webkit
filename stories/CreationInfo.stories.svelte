@@ -1,6 +1,6 @@
 <script>
   import { Meta, Story } from '@storybook/addon-svelte-csf'
-  import CreationInfo from '@/ui/CreationInfo/index.svelte'
+  import CreationInfo from '@/ui/CreationInfo/svelte'
   import { CreationType } from '@/ui/Profile/types'
 </script>
 

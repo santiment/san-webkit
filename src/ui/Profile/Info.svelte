@@ -1,13 +1,14 @@
 <script lang="ts">
+  import type { CurrentUser } from '@/ui/FollowButton/flow'
   import { queryUserLayouts } from '@/api/user/layouts'
   import { queryUserWatchlists } from '@/api/user/watchlists'
-  import FollowButton from '@/ui/FollowButton/index.svelte'
-  import Profile from './index.svelte'
+  import FollowButton from '@/ui/FollowButton/svelte'
   import CreationCard from './CreationCard/index.svelte'
+  import Profile from './index.svelte'
   import { CreationType } from './types'
 
   export let user: SAN.Author & { name?: string }
-  export let isFollowing = false
+  export let currentUser: SAN.CurrentUser & CurrentUser
   export let type: CreationType
 
   let creations: any[] = []
@@ -31,7 +32,11 @@
       </svelte:fragment>
     </Profile>
 
-    <FollowButton {user} bind:isFollowing class="mrg-xl mrg--l" />
+    {#if currentUser && +currentUser.id === +user.id}
+      <a href="/account" class="btn-1" on:click={window.__onLinkClick}>Account settings</a>
+    {:else}
+      <FollowButton {user} {currentUser} class="mrg-xl mrg--l" />
+    {/if}
   </div>
 
   {#if creations.length}

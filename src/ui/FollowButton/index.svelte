@@ -1,17 +1,28 @@
+<script context="module" lang="ts">
+  export const EVENT = 'ANON_FOLLOW_CLICKED'
+</script>
+
 <script lang="ts">
+  import type { CurrentUser } from './flow'
   import Svg from '@/ui/Svg/svelte'
-  // import { startFollowFlow } from '@/flow/follow'
+  import { checkIsFollowing, startFollowFlow } from './flow'
 
   let className = ''
   export { className as class }
   export let user: Pick<SAN.Author, 'id'>
-  export let isFollowing = false
+  export let currentUser: CurrentUser
+
+  let isFollowing = checkIsFollowing(currentUser, user.id)
 
   $: postfix = isFollowing ? 'ing' : ''
 
   function onFollow() {
+    if (!currentUser) {
+      return window.dispatchEvent(new CustomEvent(EVENT))
+    }
+
     isFollowing = !isFollowing
-    // startFollowFlow(user.id)
+    startFollowFlow(currentUser, user.id)
   }
 </script>
 
