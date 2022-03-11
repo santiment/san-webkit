@@ -40,5 +40,9 @@
     &:hover h3 {
       color: var(--accent);
     }
+
+    &:first-child {
+      margin-right: 8px;
+    }
   }
 </style>

@@ -80,7 +80,13 @@
     animation-timing-function: cubic-bezier(0.7, -0.53, 0.14, 3.52);
     position: relative;
     border-radius: 100px;
+    --color-hover: var(--green);
   }
+  .btn:not(.disabled) {
+    --color: var(--waterloo);
+    --fill-hover: var(--waterloo);
+  }
+
   .btn:hover :global(.rocket) {
     animation: shake 1s infinite;
   }
@@ -88,12 +94,13 @@
     color: var(--green);
   }
 
-  .voted {
+  .btn.voted {
     background: var(--green-light-1);
     --border: var(--green);
     --color: var(--green);
     --color-hover: var(--green-hover);
     --border-hover: var(--green-hover);
+    --fill-hover: var(--green-hover);
   }
 
   span {

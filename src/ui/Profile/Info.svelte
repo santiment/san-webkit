@@ -35,7 +35,7 @@
   </div>
 
   {#if creations.length}
-    <div class="mrg-xl mrg--t row justify">
+    <div class="mrg-xl mrg--t row">
       {#each creations as creation}
         <CreationCard {type} {creation} />
       {/each}
@@ -46,6 +46,7 @@
 <style>
   .info {
     padding: 16px 24px 24px;
+    min-width: 320px;
     --img-size: 40px;
   }
 
