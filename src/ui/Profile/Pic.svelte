@@ -3,7 +3,7 @@
 
   let className = ''
   export { className as class }
-  export let src: string | null
+  export let src: string | null | undefined = undefined
 </script>
 
 <div class="img row hv-center {className}">
