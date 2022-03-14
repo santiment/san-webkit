@@ -1,11 +1,13 @@
 import { default as Editor } from 'medium-editor'
 import { queryProjects } from '@/api/projects'
-import Suggestions from './Suggestions.svelte'
+import AssetSuggestions from './Suggestions/Assets.svelte'
+import UserSuggestions from './Suggestions/Users.svelte'
+import TrendSuggestions from './Suggestions/Trends.svelte'
 
-const TRIGGER = '$'
-
-function getComponentNode(component) {
-  return component?.$$.ctx[component.$$.props.node]
+const SuggestionsTrigger = {
+  $: AssetSuggestions,
+  '@': UserSuggestions,
+  '#': TrendSuggestions,
 }
 
 enum ArrowKeyCode {
@@ -19,6 +21,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
   name: 'suggestions',
   node: null,
   startOffset: null,
+  htmlNode: null,
 
   init() {
     queryProjects()
@@ -30,7 +33,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
       this.handleInput(e)
     })
     this.subscribe('blur', (e) => {
-      if (this.getHTMLNode()?.contains(e.target)) return
+      if (this.htmlNode.contains(e.target)) return
       this.hide()
     })
   },
@@ -40,11 +43,8 @@ export const SuggestionsExtension = Editor.Extension.extend({
     if (this.node) {
       this.node.$destroy()
       this.node = null
+      this.htmlNode = null
     }
-  },
-
-  getHTMLNode(): HTMLElement {
-    return getComponentNode(this.node)
   },
 
   handleInput(e) {
@@ -72,14 +72,17 @@ export const SuggestionsExtension = Editor.Extension.extend({
 
     const offset = startOffset - 1
     const textContent = startContainer.textContent as string
-    const isTrigger = textContent[offset] === TRIGGER
+    const trigger = textContent[offset]
+    const Suggestions = SuggestionsTrigger[trigger]
 
-    if (isTrigger && !this.node) {
-      const onProjectSelect = (project) => {
+    if (Suggestions && !this.node) {
+      const onItemSelect = (item) => {
         if (!this.node) return
 
-        this.hide()
+        const href = this.node.href(item)
+        const label = this.node.label(item)
 
+        this.hide()
         this.base.stopSelectionUpdates()
 
         const range = Editor.selection.getSelectionRange(this.document)
@@ -88,10 +91,10 @@ export const SuggestionsExtension = Editor.Extension.extend({
         range.setEnd(startContainer, endOffset)
 
         const a = document.createElement('a')
-        a.href = 'https://app.santiment.net/projects/' + project.slug
+        a.href = href
 
         range.surroundContents(a)
-        a.textContent = '$' + project.ticker.toUpperCase()
+        a.textContent = label
         a.contentEditable = 'false'
 
         Editor.selection.clearSelection(this.document)
@@ -106,12 +109,13 @@ export const SuggestionsExtension = Editor.Extension.extend({
         target: document.body,
         props: {
           position,
-          onSelect: onProjectSelect,
+          onSelect: onItemSelect,
+          setNode: (node) => (this.htmlNode = node),
         },
       })
     } else if (this.node) {
       this.node.$set({
-        searchTerm: textContent.slice(this.startOffset + 1, startOffset),
+        searchTerm: textContent.slice(this.startOffset + 1, startOffset).toLowerCase(),
       })
     }
   },
