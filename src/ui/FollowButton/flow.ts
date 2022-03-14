@@ -1,5 +1,7 @@
 import { mutateFollowUser } from '@/api/follow'
 
+export const EVENT = 'ANON_FOLLOW_CLICKED'
+
 type Id = number | string
 export type CurrentUser = {
   following: {

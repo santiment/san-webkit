@@ -1,11 +1,7 @@
-<script context="module">
-  export const EVENT = 'ANON_FOLLOW_CLICKED'
-</script>
-
 <script lang="ts">
   import type { CurrentUser } from './flow'
   import Svg from '@/ui/Svg/svelte'
-  import { checkIsFollowing, startFollowFlow } from './flow'
+  import { EVENT, checkIsFollowing, startFollowFlow } from './flow'
 
   let className = ''
   export { className as class }

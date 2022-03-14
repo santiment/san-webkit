@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
   import { getHorizontalCorrection } from '@/ui/Tooltip/utils'
 
-  export let key: string
+  export let key = ''
   export let items = [] as any[]
   export let position: { x: number; y: number; bottom: number }
   export let onSelect

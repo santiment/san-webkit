@@ -1,1 +1,2 @@
-export { default, EVENT } from './index.svelte'
+export { default } from './index.svelte'
+export { EVENT } from './flow'
