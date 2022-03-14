@@ -33,7 +33,8 @@
     </Profile>
 
     {#if currentUser && +currentUser.id === +user.id}
-      <a href="/account" class="btn-1" on:click={window.__onLinkClick}>Account settings</a>
+      <a href="/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}
+        >Account settings</a>
     {:else}
       <FollowButton {user} {currentUser} class="mrg-xl mrg--l" />
     {/if}

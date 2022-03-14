@@ -1,10 +1,7 @@
 <script lang="ts">
   import type { CurrentUser } from './flow'
-  import { createEventDispatcher } from 'svelte'
   import Svg from '@/ui/Svg/svelte'
-  import { EVENT, checkIsFollowing, startFollowFlow } from './flow'
-
-  const dispatch = createEventDispatcher()
+  import { EVENT, ANON_EVENT, checkIsFollowing, startFollowFlow } from './flow'
 
   let className = ''
   export { className as class }
@@ -16,12 +13,12 @@
 
   function onFollow() {
     if (!currentUser) {
-      return window.dispatchEvent(new CustomEvent(EVENT))
+      return window.dispatchEvent(new CustomEvent(ANON_EVENT))
     }
 
     isFollowing = !isFollowing
     startFollowFlow(currentUser, user.id)
-    dispatch('click')
+    return window.dispatchEvent(new CustomEvent(EVENT))
   }
 </script>
 

@@ -102,7 +102,7 @@
 </form>
 
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
-  <UserInfoTooltipCtx {type} {comments} {commentsNode}>
+  <UserInfoTooltipCtx {type} {comments} {commentsNode} {currentUser}>
     {#each comments as comment (comment.id)}
       <Comment
         {type}

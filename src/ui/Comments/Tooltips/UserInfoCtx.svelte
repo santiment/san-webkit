@@ -14,6 +14,7 @@
   export let comments: any[]
   export let commentsNode: HTMLElement
   export let type: CommentsType
+  export let currentUser
 
   const once = { once: true }
   const HREF = '/profile/'
@@ -33,6 +34,7 @@
 
       const id = node.href.slice(node.href.indexOf(HREF) + HREF.length)
       node.addEventListener('mouseenter', () => queryUser(id), once)
+      node.parentNode.classList.add('relative')
       ref.tooltip(node, { id })
     })
   }
@@ -47,6 +49,6 @@
   <slot />
 
   <svelte:fragment slot="tooltip" let:props>
-    <UserInfo {...props} type={Type[type]} />
+    <UserInfo {...props} {currentUser} type={Type[type]} />
   </svelte:fragment>
 </Context>
