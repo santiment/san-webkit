@@ -33,7 +33,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
       this.handleInput(e)
     })
     this.subscribe('blur', (e) => {
-      if (this.htmlNode.contains(e.target)) return
+      if (this.htmlNode?.contains(e.target)) return
       this.hide()
     })
   },

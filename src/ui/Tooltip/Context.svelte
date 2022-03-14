@@ -4,12 +4,13 @@
 
   export let id: string
   export let settings
+  export let ref = {}
 
   let props
 </script>
 
 <Tooltip {...settings} passive let:on let:setTrigger let:startOpenTimer>
-  <ContextProvider {id} {on} {setTrigger} {startOpenTimer} bind:props>
+  <ContextProvider {id} {ref} {on} {setTrigger} {startOpenTimer} bind:props>
     <slot />
   </ContextProvider>
 

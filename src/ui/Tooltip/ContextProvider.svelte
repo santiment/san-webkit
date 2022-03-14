@@ -5,6 +5,7 @@
   export let on: string
   export let setTrigger, startOpenTimer
   export let props
+  export let ref
 
   let trigger
 
@@ -15,7 +16,7 @@
     startOpenTimer()
   }
 
-  setContext(id, (node: Element, data: any) => {
+  ref.tooltip = (node: Element, data: any) => {
     node.addEventListener(on, onEvent)
     // @ts-ignore
     node.__props__ = data
@@ -27,7 +28,8 @@
         if (node === trigger) props = data
       },
     }
-  })
+  }
+  setContext(id, ref.tooltip)
 </script>
 
 <slot />

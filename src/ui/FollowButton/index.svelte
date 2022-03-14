@@ -1,14 +1,16 @@
 <script lang="ts">
   import type { CurrentUser } from './flow'
+  import { createEventDispatcher } from 'svelte'
   import Svg from '@/ui/Svg/svelte'
   import { EVENT, checkIsFollowing, startFollowFlow } from './flow'
+
+  const dispatch = createEventDispatcher()
 
   let className = ''
   export { className as class }
   export let user: Pick<SAN.Author, 'id'>
   export let currentUser: CurrentUser
-
-  let isFollowing = checkIsFollowing(currentUser, user.id)
+  export let isFollowing = checkIsFollowing(currentUser, user.id)
 
   $: postfix = isFollowing ? 'ing' : ''
 
@@ -19,6 +21,7 @@
 
     isFollowing = !isFollowing
     startFollowFlow(currentUser, user.id)
+    dispatch('click')
   }
 </script>
 

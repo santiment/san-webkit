@@ -5,6 +5,7 @@
   import Svg from '@/ui/Svg/svelte'
   import Editor from '@/ui/Editor'
   import Comment from './Comment.svelte'
+  import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte'
   import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils'
   import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
 
@@ -101,23 +102,25 @@
 </form>
 
 <div bind:this={commentsNode} class="comments mrg-l mrg--t">
-  {#each comments as comment (comment.id)}
-    <Comment
-      {type}
-      {commentsNode}
-      {commentsFor}
-      {comment}
-      {authorId}
-      {currentUser}
-      {updateComments}
-      {scrollToNewComment} />
-  {:else}
-    <div class="column hv-center">
-      <Svg illus id="comment-bubble" w="128" h="98" />
-      <div class="body-2 txt-m mrg-xl mrg--t">No comments yet</div>
-      Be the first to comment
-    </div>
-  {/each}
+  <UserInfoTooltipCtx {type} {comments} {commentsNode}>
+    {#each comments as comment (comment.id)}
+      <Comment
+        {type}
+        {commentsNode}
+        {commentsFor}
+        {comment}
+        {authorId}
+        {currentUser}
+        {updateComments}
+        {scrollToNewComment} />
+    {:else}
+      <div class="column hv-center">
+        <Svg illus id="comment-bubble" w="128" h="98" />
+        <div class="body-2 txt-m mrg-xl mrg--t">No comments yet</div>
+        Be the first to comment
+      </div>
+    {/each}
+  </UserInfoTooltipCtx>
 </div>
 
 <style>
