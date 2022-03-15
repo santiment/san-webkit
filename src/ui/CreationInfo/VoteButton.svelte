@@ -3,6 +3,8 @@
     totalVotes: number
     userVotes: number
   }
+
+  export const newVotes = () => ({ totalVotes: 0, userVotes: 0 })
 </script>
 
 <script lang="ts">
@@ -15,7 +17,7 @@
   export let id: number
   export let type: CreationType
   export let disabled = false
-  export let votes: Votes = { totalVotes: 0, userVotes: 0 }
+  export let votes: Votes = newVotes()
   export let onVote
 
   function onClick() {
