@@ -35,9 +35,9 @@ const ADDRESS_WATCHLISTS_QUERY = (userId: number | string) => `{
     watchlists(type:BLOCKCHAIN_ADDRESS) {
       id
       title:name
-      changes:historicalStats(from:"utc_now-1d", to: "utc_now", interval:"12h") {  
-        marketcap
-      }
+      stats {
+        blockchainAddressesCount
+			}
     }
   }
 }`
@@ -48,6 +48,9 @@ type AddressQuery = SAN.API.Query<
     watchlists: {
       id: number
       title: string
+      stats: {
+        blockchainAddressesCount: number
+      }
     }[]
   }
 >
