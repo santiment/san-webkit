@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Change, { percentChange, formatPercentChange } from '@/ui/Change.svelte'
   import Area from '@/ui/MiniChart/Area.svelte'
   import { millify } from '@/utils/formatting'
@@ -7,7 +7,7 @@
 
   $: ({ title, changes } = creation)
   $: first = changes[0].marketcap
-  $: last = changes[changes.length - 1].marketcap
+  $: last = changes[changes.length - 1]?.marketcap
   $: change = percentChange(first, last)
 </script>
 
