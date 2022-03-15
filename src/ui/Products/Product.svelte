@@ -61,5 +61,6 @@
     background: var(--product-active-bg, var(--green-light-1)) !important;
     --product-color-1: var(--product-active-1, var(--green));
     --product-color-2: var(--product-active-2, #89e1c9);
+    --product-color-3: var(--product-active-1, var(--green));
   }
 </style>

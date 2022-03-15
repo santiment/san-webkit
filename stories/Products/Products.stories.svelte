@@ -16,8 +16,7 @@
   args={{
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
 
 <Story
   name="Sanbase"
@@ -25,8 +24,7 @@
     active: 'sanbase',
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
 
 <Story
   name="Sansheets"
@@ -34,8 +32,7 @@
     active: 'sansheets',
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
 
 <Story
   name="SanAPI"
@@ -43,8 +40,15 @@
     active: 'sanapi',
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
+
+<Story
+  name="SanX"
+  args={{
+    active: 'sanx',
+    isOpened: true,
+    closeTimeout: 9999999,
+  }} />
 
 <Story
   name="SanR"
@@ -52,8 +56,7 @@
     active: 'sanr',
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
 
 <!-- <Story
   name="Sanhunters"
@@ -70,8 +73,7 @@
     active: 'insights',
     isOpened: true,
     closeTimeout: 9999999,
-  }}
-/>
+  }} />
 
 <Story
   name="Custom active colors"
@@ -80,8 +82,7 @@
     isOpened: true,
     closeTimeout: 9999999,
     dropdownClassName: '$style.purple',
-  }}
-/>
+  }} />
 
 <style>
   .purple {
