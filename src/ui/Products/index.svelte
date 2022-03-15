@@ -14,21 +14,21 @@
 </script>
 
 <Tooltip activeClass="$style.opened" bind:isOpened {closeTimeout}>
-  <div slot="trigger" class="mrg-s mrg--r toggle btn-3 {className}">
-    <Svg illus id="products/toggle" w="16" />
+  <div slot="trigger" class="toggle mrg-s mrg--r btn {className}">
+    <Svg id="products-toggle" w="16" />
   </div>
 
   <div slot="tooltip" class="dropdown row {dropdownClassName}">
-    <div class="column mrg-xl mrg--r">
-      <h3>SAN Business</h3>
-      {#each business as product}
+    <div class="column chain">
+      <h3>SAN Chain</h3>
+      {#each chain as product}
         <Product {...product} active={active === product.id} />
       {/each}
     </div>
 
-    <div class="column chain">
-      <h3>SAN Chain</h3>
-      {#each chain as product}
+    <div class="column mrg-xl mrg--l">
+      <h3>SAN Business</h3>
+      {#each business as product}
         <Product {...product} active={active === product.id} />
       {/each}
     </div>
@@ -39,10 +39,11 @@
   .toggle {
     transition: transform 0.2s ease-in-out;
     margin-right: 40px;
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
   }
   .opened {
-    --bg: var(--athens);
-    transform: rotate(90deg);
+    fill: var(--green);
   }
 
   .dropdown {
@@ -50,7 +51,7 @@
   }
 
   h3 {
-    margin: 0 0 20px;
+    margin: 0 0 20px 16px;
     color: var(--waterloo);
   }
 </style>
