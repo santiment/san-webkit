@@ -47,7 +47,6 @@
 
     const id = node.href.slice(node.href.indexOf(HREF) + HREF.length)
     node.addEventListener('mouseenter', () => queryUser(id), once)
-    node.parentNode?.classList.add('relative')
     ref.tooltip(node, { id })
   }
 </script>
@@ -57,6 +56,7 @@
   {ref}
   settings={{
     openDelay: 200,
+    scrollParent: commentsNode,
   }}>
   <slot />
 

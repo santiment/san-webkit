@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { CurrentUser } from '@/ui/FollowButton/flow'
   import { queryUserLayouts } from '@/api/user/layouts'
-  import { queryUserWatchlists } from '@/api/user/watchlists'
+  import { queryUserAddressWatchlists, queryUserWatchlists } from '@/api/user/watchlists'
   import FollowButton from '@/ui/FollowButton/svelte'
   import CreationCard from './CreationCard/index.svelte'
   import Profile from './index.svelte'
@@ -16,6 +16,7 @@
   const QueryCreations = {
     [CreationType.Layout]: queryUserLayouts,
     [CreationType.Watchlist]: queryUserWatchlists,
+    [CreationType.AddressWatchlist]: queryUserAddressWatchlists,
   }
   const setCreations = (data: any[]) => (creations = data.slice(0, 2))
   if (type) QueryCreations[type](user.id).then(setCreations)

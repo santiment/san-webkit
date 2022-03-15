@@ -1,5 +1,6 @@
 <script lang="ts">
   import Watchlist from './Watchlist.svelte'
+  import AddressWatchlist from './AddressWatchlist.svelte'
   import { CreationType } from '../types'
   import { getSEOLinkFromIdAndTitle } from '@/utils/url'
 
@@ -15,6 +16,8 @@
         return '/charts/' + seoLink
       case CreationType.Watchlist:
         return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink
+      case CreationType.AddressWatchlist:
+        return '/watchlist/addresses/' + seoLink
     }
   }
 </script>
@@ -23,9 +26,13 @@
   <h3 class="mrg-m mrg--b txt-m line-clamp">{creation.title}</h3>
 
   {#if type === CreationType.Layout}
-    <div class="mrg-a mrg--t c-waterloo txt-m">1 assets · {creation.metrics.length} metrics</div>
+    <div class="nowrap mrg-a mrg--t c-waterloo txt-m">
+      1 assets · {creation.metrics.length} metrics
+    </div>
   {:else if type === CreationType.Watchlist}
     <Watchlist {creation} />
+  {:else if type === CreationType.AddressWatchlist}
+    <AddressWatchlist {creation} />
   {/if}
 </a>
 
@@ -44,5 +51,9 @@
     &:first-child {
       margin-right: 8px;
     }
+  }
+
+  .nowrap {
+    white-space: nowrap;
   }
 </style>
