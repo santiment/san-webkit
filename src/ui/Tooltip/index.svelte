@@ -4,7 +4,7 @@
    */
 
   import type { Align, Position } from './utils'
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount, onDestroy, tick } from 'svelte'
   import { fade } from 'svelte/transition'
   import { getTooltipStyles } from './utils'
 
@@ -43,7 +43,8 @@
   }
 
   $: activeClass && trigger && (trigger as Element).classList.toggle(activeClass, isOpened)
-  $: if (tooltip) hookTooltip()
+  $: tooltip && hookTooltip()
+  $: tooltip && trigger && updateTooltipPosition()
 
   $: if (trigger) {
     if (isEnabled && (isOpened || openTimer)) {
@@ -59,12 +60,17 @@
     if (!anchor) return
     trigger = anchor.nextElementSibling as Element
   })
-  onDestroy(() => {
-    if (process.browser) window.clearTimeout(openTimer)
+  onDestroy(destroy)
+
+  function destroy() {
+    if (process.browser) {
+      window.clearTimeout(openTimer)
+      window.clearTimeout(timer)
+    }
 
     openTimer = undefined
     isOpened = false
-  })
+  }
 
   function startOpenTimer() {
     if (openDelay) {
@@ -103,6 +109,16 @@
 
     if (passive) trigger?.parentNode?.append(tooltip)
 
+    if (!isEnabled) return
+
+    tooltip.onmouseenter = openTooltip
+    tooltip.onmouseleave = closeTooltip
+    window.ontouchend = onTouchEnd
+  }
+
+  function updateTooltipPosition() {
+    if (!tooltip) return
+
     const { left, top } = getTooltipStyles(
       tooltip,
       trigger as HTMLElement,
@@ -114,12 +130,6 @@
 
     tooltip.style.left = left + 'px'
     tooltip.style.top = top - (scrollParent?.scrollTop || 0) + 'px'
-
-    if (!isEnabled) return
-
-    tooltip.onmouseenter = openTooltip
-    tooltip.onmouseleave = closeTooltip
-    window.ontouchend = onTouchEnd
   }
 
   function onTouchEnd({ target }: TouchEvent) {
@@ -135,13 +145,13 @@
 {/if}
 
 <slot name="trigger" />
-<slot {on} {setTrigger} {startOpenTimer} />
+<slot {on} {setTrigger} {startOpenTimer} {destroy} />
 
 {#if isOpened}
   <div
-    class:dark
-    class="tooltip border box {className}"
     bind:this={tooltip}
+    class="tooltip border box {className}"
+    class:dark
     transition:fade={transition}>
     <slot name="tooltip" />
   </div>

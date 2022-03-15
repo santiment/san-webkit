@@ -1,9 +1,14 @@
 <script lang="ts">
   import { setContext } from 'svelte'
 
+  type Props = {
+    isEnabled: boolean
+    [key: string]: any
+  }
+
   export let id: string
   export let on: string
-  export let setTrigger, startOpenTimer
+  export let setTrigger, startOpenTimer, destroy
   export let props
   export let ref
 
@@ -16,16 +21,26 @@
     startOpenTimer()
   }
 
-  ref.tooltip = (node: Element, data: any) => {
-    node.addEventListener(on, onEvent)
+  ref.tooltip = (node: Element, data: Props) => {
+    node.removeEventListener(on, onEvent)
+
+    if (data.isEnabled === false) return
+
     // @ts-ignore
     node.__props__ = data
+    node.addEventListener(on, onEvent)
 
     return {
-      update(data: any) {
+      update(data: Props) {
         // @ts-ignore
         node.__props__ = data
         if (node === trigger) props = data
+      },
+      destroy() {
+        if (node !== trigger) return
+        trigger = null
+        setTrigger(null)
+        destroy()
       },
     }
   }

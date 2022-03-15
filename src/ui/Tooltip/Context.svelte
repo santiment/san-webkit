@@ -9,8 +9,8 @@
   let props
 </script>
 
-<Tooltip {...settings} passive let:on let:setTrigger let:startOpenTimer>
-  <ContextProvider {id} {ref} {on} {setTrigger} {startOpenTimer} bind:props>
+<Tooltip {...settings} passive let:on let:destroy let:setTrigger let:startOpenTimer>
+  <ContextProvider {id} {ref} {on} {destroy} {setTrigger} {startOpenTimer} bind:props>
     <slot />
   </ContextProvider>
 
