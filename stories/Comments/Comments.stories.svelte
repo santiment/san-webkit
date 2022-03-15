@@ -16,7 +16,12 @@
         id: 113,
       },
     }}
-    currentUser={{ id: '113' }} />
+    currentUser={{
+      id: '113',
+      following: {
+        users: [],
+      },
+    }} />
 </Story>
 
 <Dialogs />

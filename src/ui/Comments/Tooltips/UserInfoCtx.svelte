@@ -1,8 +1,16 @@
-<script context="module">
-  import { getContext, tick } from 'svelte'
+<script context="module" lang="ts">
+  import { getContext, setContext, tick } from 'svelte'
 
   const ID = 'UserInfoTooltipCtx'
   export const getUserInfoTooltip = () => getContext(ID)
+
+  const HREF = '/profile/'
+  export const getProfileLinks = (node: HTMLElement) =>
+    Array.from(node.querySelectorAll(`a[href*="${HREF}"]`))
+
+  const HOOK_ID = 'UserInfoTooltipHook'
+  const setUserInfoTooltipHook = (ctx: any) => setContext(HOOK_ID, ctx)
+  export const getUserInfoTooltipHook = () => getContext(HOOK_ID) as (node: Element) => any
 </script>
 
 <script lang="ts">
@@ -17,7 +25,6 @@
   export let currentUser
 
   const once = { once: true }
-  const HREF = '/profile/'
   const Type = {
     [CommentsType.Layout]: CreationType.Layout,
     [CommentsType.Watchlist]: CreationType.Watchlist,
@@ -25,18 +32,23 @@
 
   let ref = {}
 
-  $: commentsNode && comments.length && tick().then(hookTooltip)
+  $: commentsNode && comments.length && tick().then(() => hookTooltip(commentsNode))
 
-  function hookTooltip() {
-    Array.from(commentsNode.querySelectorAll(`a[href*="${HREF}"]`)).forEach((node) => {
-      const isInReply = node.closest('.caption')
-      if (isInReply) return
+  setUserInfoTooltipHook(hookTooltip)
+  function hookTooltip(node: HTMLElement) {
+    getProfileLinks(node).forEach(hookTooltipNode)
+  }
 
-      const id = node.href.slice(node.href.indexOf(HREF) + HREF.length)
-      node.addEventListener('mouseenter', () => queryUser(id), once)
-      node.parentNode.classList.add('relative')
-      ref.tooltip(node, { id })
-    })
+  function hookTooltipNode(node: HTMLElement) {
+    const isInReply = node.closest('.caption')
+    const isAnonComment = node.textContent?.includes('anonymous')
+    if (isInReply || isAnonComment) return
+    if (node.__props__) return
+
+    const id = node.href.slice(node.href.indexOf(HREF) + HREF.length)
+    node.addEventListener('mouseenter', () => queryUser(id), once)
+    node.parentNode?.classList.add('relative')
+    ref.tooltip(node, { id })
   }
 </script>
 

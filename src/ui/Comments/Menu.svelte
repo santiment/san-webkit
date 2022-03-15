@@ -1,18 +1,26 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
+  import { markdownToPlainText } from '@/ui/Editor/markdown'
   import { showCommentDeleteDialog } from './DeleteDialog.svelte'
   import { showCommentEditDialog } from './EditDialog.svelte'
+  import { getUserInfoTooltipHook } from './Tooltips/UserInfoCtx.svelte'
 
   let className = ''
   export { className as class }
   export let comment: SAN.Comment
   export let commentsNode: HTMLDivElement
 
+  const hookUserInfoTooltip = getUserInfoTooltipHook()
+
   function onCommentEdit() {
     showCommentEditDialog(comment)
       .then((edited) => edited && (comment = edited))
       .then(() => updateReplies(true))
+      .then(() => {
+        const commentNode = commentsNode.querySelector(`#comment-${comment.id} .content`)
+        if (commentNode) hookUserInfoTooltip(commentNode)
+      })
   }
 
   function onCommentDelete() {
@@ -22,19 +30,19 @@
   }
 
   function updateReplies(isWithTagname = true) {
-    const comments = commentsNode.querySelectorAll(`a[href="#comment-${comment.id}"]`)
-    for (let i = 0; i < comments.length; i++) {
-      const reply = comments[i].firstChild
-      if (!reply) continue
+    const id = '#comment-' + comment.id
+    Array.from(commentsNode.querySelectorAll(`a[href="${id}"]`)).forEach((commentNode) => {
+      const reply = commentNode.firstChild
+      if (!reply) return
 
       const authorNode = reply.firstChild?.lastChild
       const textNode = reply.lastChild
 
-      if (textNode) textNode.textContent = comment.content
+      if (textNode) textNode.textContent = markdownToPlainText(comment.content)
       if (authorNode) {
         authorNode.textContent = (isWithTagname ? '@' : '') + comment.user.username
       }
-    }
+    })
   }
 </script>
 
