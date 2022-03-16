@@ -98,7 +98,7 @@
     min-width: fit-content;
 
     :global(span) {
-      max-width: 140px;
+      max-width: 140px !important;
     }
   }
 
