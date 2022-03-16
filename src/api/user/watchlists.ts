@@ -24,9 +24,9 @@ type Query = SAN.API.Query<
   }
 >
 
-const accessor = ({ getUser }: Query) => getUser.watchlists
+const accessor = ({ getUser }) => getUser.watchlists
 export const queryUserWatchlists = (userId: number | string) =>
-  query<Query>(WATCHLISTS_QUERY(userId)).then(accessor)
+  query<Query>(WATCHLISTS_QUERY(userId)).then(accessor) as Promise<Query>
 
 // ----------------
 
@@ -56,4 +56,4 @@ type AddressQuery = SAN.API.Query<
 >
 
 export const queryUserAddressWatchlists = (userId: number | string) =>
-  query<AddressQuery>(ADDRESS_WATCHLISTS_QUERY(userId)).then(accessor)
+  query<AddressQuery>(ADDRESS_WATCHLISTS_QUERY(userId)).then(accessor) as Promise<AddressQuery>
