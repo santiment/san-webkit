@@ -58,7 +58,7 @@ module.exports = {
     return config
   },
   stories: [
-    //"../src/**/*.stories.mdx",
+    '../stories/**/*.stories.mdx',
     '../src/styles/*.css',
     '../stories/**/*.stories.@(js|jsx|ts|tsx|svelte)',
   ],

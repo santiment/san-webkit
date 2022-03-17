@@ -1,0 +1,139 @@
+import { Meta } from '@storybook/addon-docs'
+
+<Meta title='Example/Introduction' />
+
+<style>{`
+body {
+font-size: initial;
+line-height: initial;
+}
+
+* {
+  list-style: initial;
+}
+
+code {
+font-family: monospace;
+}
+`}</style>
+
+# Welcome to san-webkit
+
+[san-webkit](https://github.com/santiment/san-webkit/) is the fastest way to build new Santiment web
+application.
+
+# Layout
+
+All layout related classes are listed in the
+[src/styles/layout.css](https://github.com/santiment/san-webkit/blob/master/src/styles/layout.css)
+file.
+
+## Positioning
+
+- `.row` is equivalent to `display: flex` rule;
+- `.column` is the same as `.row` but the items are placed from top to bottom;
+- `.justify` is used to justify the children of the flex container
+  (`justify-content: space-between`);
+- `.h-center` is used to center horizontally children of the flex container
+  (`justify-content: center`);
+- `.v-center` is used to center vertically children of the flex container (`align-items: center`);
+- `.hv-center` is used to center children of the flex container;
+- `.fluid` is equivalent to `width: 100%` rule.
+
+### Example
+
+```html
+<div class="row justify">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+
+<div class="column hv-center">
+  <div>Item 1</div>
+  <div>Item 2</div>
+</div>
+```
+
+## Margin
+
+Margin can be controlled using classes like `mrg-[size]` and `mrg--[side]`. Class list may include
+multiple `mrg--[side]` classes, but only one `mrg-[size]` class.
+
+Here is the list of available margin `size`s:
+
+| `mrg-[size]` | Margin's value |
+| :----------: | :------------: |
+|     `xs`     |     `4px`      |
+|     `s`      |     `8px`      |
+|     `m`      |     `12px`     |
+|     `l`      |     `16px`     |
+|     `xl`     |     `24px`     |
+|    `xxl`     |     `32px`     |
+
+The next step is to select the side (`side`) of the margin:
+
+| `mrg--[side]` | Margin's side |
+| :-----------: | :-----------: |
+|      `t`      |      Top      |
+|      `r`      |     Right     |
+|      `b`      |    Bottom     |
+|      `l`      |     Left      |
+|      `a`      |    `auto`     |
+
+### Example
+
+```html
+<h1 class="mrg-s mrg--b">Hello!</h1>
+<div>Description</div>
+
+<div>Item 1</div>
+<div class="mrg-l mrg--t mrg--b">Item 2</div>
+<div>Item 3</div>
+```
+
+# Typography
+
+All typography related classes are listed in the
+[src/styles/text.css](https://github.com/santiment/san-webkit/blob/master/src/styles/text.css) file.
+
+[Typography](/story/example-typography--typography) story demonstrates all available classes and
+text's weight modifications like `.txt-m` and `txt-b`.
+
+## Text colors
+
+Text color can be changed by adding `c-[color]` class. Available `color` values: `white`, `black`,
+`waterloo`, `casper`, `accent`.
+
+### Example
+
+<!-- prettier-ignore -->
+```html
+<div class="body-1 txt-m">
+  Hello <span class="c-waterloo">world!</span>
+</div>
+```
+
+# Elements
+
+## Loaders
+
+`.loading` - dots like loaded.
+
+`.loading-spin` - loading spinner.
+
+`--dot-color` css variable controls the size of the loaders.
+
+## Buttons
+
+All button related classes are listed in the
+[src/styles/buttons.css](https://github.com/santiment/san-webkit/blob/master/src/styles/buttons.css)
+file.
+
+[Buttons](/story/example-buttons--buttons) story demonstrates all available button-like elements.
+
+These elements, that includes `.btn` or `.btn-[type]` class, have the following variables:
+
+- `--color` - text color;
+- `--color-hover` - text color when the button is hovered;
+- `--fill` - svg color. `--color` is used as a fallback;
+- `--fill-hover` - svg color when the button is hovered. `--color-hover` is used as a fallback;
