@@ -9,7 +9,7 @@
   const subscriptions = user.subscriptions.filter(checkIsActiveSubscription).map((subscription) => {
     const { plan } = subscription
     const product = ProductNameById[plan.product.id]
-    const name = PlanName[plan.name]
+    const name = PlanName[plan.name] || plan.name
     return `${product}: ${name} plan` + getTrialInfo(subscription)
   })
 
