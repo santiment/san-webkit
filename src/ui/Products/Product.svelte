@@ -43,11 +43,12 @@
   }
 
   .product {
-    width: 292px;
     position: relative;
     cursor: pointer;
   }
+
   .large {
+    width: 292px;
     padding: 12px 16px 12px 68px;
     border-radius: 4px;
 
@@ -61,6 +62,7 @@
   }
 
   .compact {
+    width: 260px;
     margin: 0 0 12px;
 
     &:last-child {
