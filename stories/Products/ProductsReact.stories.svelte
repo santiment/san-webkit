@@ -5,10 +5,8 @@
   import Products from '@/ui/Products/react'
   import OnMount from './OnMount.svelte'
 
-  const mount = (props) =>
-    ReactDOM.render(createElement(Products, props), document.querySelector('#root'))
-
-  const destroy = () => ReactDOM.unmountComponentAtNode(document.querySelector('#root'))
+  const mount = (root, props) => ReactDOM.render(createElement(Products, props), root)
+  const destroy = (root) => ReactDOM.unmountComponentAtNode(root)
 </script>
 
 <Meta title="Example/Products" />
@@ -17,10 +15,10 @@
   <OnMount {mount} {destroy} />
 </Story>
 
-<Story name="React - custon trigger">
+<Story name="React - custom trigger">
   <OnMount
-    mount={() =>
-      mount({
+    mount={(root) =>
+      mount(root, {
         trigger: createElement('div', null, 'Custom trigger'),
       })}
     {destroy} />

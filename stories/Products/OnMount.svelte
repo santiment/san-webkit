@@ -4,7 +4,12 @@
   export let mount
   export let destroy
 
-  onMount(mount)
+  let root
 
-  onDestroy(destroy)
+  onMount(() => mount(root))
+  onDestroy(() => destroy(root))
 </script>
+
+<slot>
+  <div bind:this={root} />
+</slot>

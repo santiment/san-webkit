@@ -33,6 +33,7 @@ const Products = ({
       m(target, anchor) {
         insert(target, node, anchor)
       },
+      d() {},
     })
 
     const fragment = document.createDocumentFragment()
