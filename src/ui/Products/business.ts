@@ -5,6 +5,7 @@ export const business = [
     desc: 'Behavior analysis & monitoring platform for 1000+ crypto assets',
     href: 'https://app.santiment.net',
     dimensions: [23.75, 23.74],
+    accent: 'var(--green)',
   },
   {
     id: 'sansheets',
@@ -12,6 +13,7 @@ export const business = [
     desc: 'Google Spreadsheets plugin for importing Santiment data',
     href: 'https://sheets.santiment.net',
     dimensions: [22, 20],
+    accent: '#21B074',
   },
   {
     id: 'sanapi',
@@ -19,5 +21,6 @@ export const business = [
     desc: 'The most comprehensive crypto API on the market',
     href: 'https://api.santiment.net',
     dimensions: [24, 22],
+    accent: 'var(--blue)',
   },
 ]

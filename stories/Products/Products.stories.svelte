@@ -19,6 +19,23 @@
   }} />
 
 <Story
+  name="Compact"
+  args={{
+    isOpened: true,
+    closeTimeout: 9999999,
+    isCompact: true,
+  }} />
+
+<Story
+  name="Compact - column"
+  args={{
+    isOpened: true,
+    closeTimeout: 9999999,
+    isCompact: true,
+    isColumn: true,
+  }} />
+
+<Story
   name="Sanbase"
   args={{
     active: 'sanbase',

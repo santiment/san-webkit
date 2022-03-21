@@ -7,15 +7,23 @@
   export let desc
   export let dimensions
   export let active
+  export let accent
   export let note = undefined
+  export let isCompact = false
 
   const [w, h] = dimensions
+  const large = !isCompact
 </script>
 
-<a {href} class="product" on:click>
-  <div class="icon row hv-center" class:active>
-    <Svg illus id="products/{id}" {w} {h} />
-  </div>
+<a {href} class="product" class:compact={isCompact} class:large style="--accent:{accent}" on:click>
+  {#if large}
+    <div class="icon row hv-center" class:active>
+      <Svg illus id="products/{id}" {w} {h} />
+    </div>
+  {:else}
+    <Svg id="pointer" w="14" h="9" class="$style.pointer" />
+  {/if}
+
   <h2 class="body-2 txt-m c-black">{title}</h2>
   <p class="c-waterloo">{desc}</p>
   {#if note}
@@ -23,7 +31,7 @@
   {/if}
 </a>
 
-<style>
+<style lang="scss">
   .icon {
     width: 40px;
     height: 40px;
@@ -36,16 +44,44 @@
 
   .product {
     width: 292px;
-    padding: 12px 16px 12px 68px;
     position: relative;
     cursor: pointer;
+  }
+  .large {
+    padding: 12px 16px 12px 68px;
     border-radius: 4px;
+
+    &:hover {
+      background: var(--athens);
+
+      .icon {
+        background-color: var(--white);
+      }
+    }
   }
-  .product:hover {
-    background: var(--athens);
+
+  .compact {
+    margin: 0 0 12px;
+
+    &:last-child {
+      margin: 0;
+    }
+
+    &:hover {
+      --black: var(--accent);
+      fill: var(--accent);
+
+      .pointer {
+        display: block;
+      }
+    }
   }
-  .product:hover .icon {
-    background-color: var(--white);
+
+  .pointer {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    display: none;
   }
 
   .note {
