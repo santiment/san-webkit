@@ -2,7 +2,7 @@ import { Fragment, createElement, cloneElement, useState, useEffect, useRef } fr
 import { insert } from 'svelte/internal'
 import SvelteProducts from './svelte'
 
-type TooltipProps = {
+type Props = {
   trigger: JSX.Element
   active: string
   isCompact: boolean
@@ -20,7 +20,7 @@ const Products = ({
   className,
   activeClassName,
   dropdownClassName,
-}: TooltipProps) => {
+}: Props) => {
   const ref = useRef<HTMLElement>(null)
   const [mounted, setMounted] = useState<boolean | null>(true)
 
