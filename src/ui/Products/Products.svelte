@@ -10,7 +10,7 @@
   export let active = undefined
 </script>
 
-<div class="dropdown row {className}" class:compact={isCompact} class:column={isColumn}>
+<div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
   <div class="chain column">
     <h3>SAN Chain</h3>
     {#each chain as product}
@@ -27,7 +27,7 @@
 </div>
 
 <style lang="scss">
-  .dropdown {
+  .products {
     padding: 32px 32px 24px;
 
     &.compact {
@@ -43,7 +43,7 @@
     margin: 0 0 16px;
   }
 
-  .dropdown.column {
+  .products.column {
     flex-direction: column-reverse;
 
     .business {

@@ -15,30 +15,36 @@
   const large = !isCompact
 </script>
 
-<a {href} class="product" class:compact={isCompact} class:large style="--accent:{accent}" on:click>
+<a
+  {href}
+  class="product row"
+  class:compact={isCompact}
+  class:large
+  style="--accent:{accent}"
+  on:click>
   {#if large}
-    <div class="icon row hv-center" class:active>
+    <div class="icon row hv-center mrg-m mrg--r" class:active>
       <Svg illus id="products/{id}" {w} {h} />
     </div>
   {:else}
     <Svg id="pointer" w="14" h="9" class="$style.pointer" />
   {/if}
 
-  <h2 class="body-2 txt-m c-black">{title}</h2>
-  <p class="c-waterloo">{desc}</p>
-  {#if note}
-    <span class="note">{note}</span>
-  {/if}
+  <div>
+    <h2 class="body-2 txt-m c-black">{title}</h2>
+    <p class="c-waterloo">{desc}</p>
+    {#if note}
+      <span class="note caption">{note}</span>
+    {/if}
+  </div>
 </a>
 
 <style lang="scss">
   .icon {
-    width: 40px;
-    height: 40px;
+    width: var(--product-icon-size, 40px);
+    min-width: var(--product-icon-size, 40px);
+    height: var(--product-icon-size, 40px);
     background: var(--athens);
-    position: absolute;
-    left: 16px;
-    top: 12px;
     border-radius: 4px;
   }
 
@@ -49,7 +55,7 @@
 
   .large {
     width: 292px;
-    padding: 12px 16px 12px 68px;
+    padding: 12px 16px;
     border-radius: 4px;
 
     &:hover {
@@ -89,7 +95,7 @@
   .note {
     color: var(--orange);
     margin-top: 4px;
-    padding: 1px 8px;
+    padding: 4px 8px;
     background: var(--orange-light-1);
     border-radius: 4px;
     display: inline-block;
