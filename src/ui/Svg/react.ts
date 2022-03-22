@@ -16,7 +16,7 @@ const Svg = ({ id, illus, className, w, h }: Props) => {
       props: {
         id,
         illus,
-        className,
+        class: className,
         w,
         h,
         $$scope: { ctx: {} },
