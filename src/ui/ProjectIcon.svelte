@@ -7,18 +7,26 @@
   export let size = 20
   export let placeholderSize = size / 2.5
 
+  let loading = true
+
   // @ts-ignore
   $: error = (slug, false)
 </script>
 
-<div class="img row hv-center {className}" class:error style="--size:{size}px">
+<div class="img row hv-center {className}" class:bg={loading || error} style="--size:{size}px">
   {#if error}
     <Svg id="asset-small" w={placeholderSize} class="$style.placeholder" />
   {:else}
+    {#if loading}
+      <Svg id="asset-small" w={placeholderSize} class="$style.placeholder" />
+    {/if}
+
     <img
       src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png"
       alt="Project"
       loading="lazy"
+      class:loader={loading}
+      on:load={() => (loading = false)}
       on:error={() => (error = true)} />
   {/if}
 </div>
@@ -27,10 +35,11 @@
   .img {
     border-radius: 50%;
   }
-  .error {
+  .bg {
     background: var(--porcelain);
+    fill: var(--waterloo);
   }
-  :global(.night-mode) .error {
+  :global(.night-mode) .bg {
     background: var(--mystic);
   }
 
@@ -39,5 +48,10 @@
     width: var(--size);
     height: var(--size);
     min-width: var(--size);
+  }
+
+  .loader {
+    position: absolute;
+    visibility: hidden;
   }
 </style>

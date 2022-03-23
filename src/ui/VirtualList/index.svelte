@@ -8,11 +8,13 @@
   export let renderAmount = 10
   export let maxHeight: number
   export let defaultItemHeight = 0
+  export let viewportNode: HTMLElement | undefined = undefined
+  export let renderHeight
+  export let hideEmptyResults = false
 
   const delayItems = 3
   const updateListHeight = () => (listHeight = listNode?.scrollHeight) // TODO: Think of better way [@vanguard | Sep 15, 2021]
 
-  let viewportNode
   let listNode
   let listHeight = defaultItemHeight * items.length
 
@@ -29,10 +31,17 @@
   $: style = listHeight ? `height:${scrollHeight}px` : ''
   $: listNode && setTimeout(updateListHeight, 300)
 
-  $: viewportStyle =
-    scrollHeight && maxHeight
-      ? `height:${scrollHeight <= maxHeight ? scrollHeight : maxHeight}px`
-      : ''
+  $: viewportStyle = scrollHeight && maxHeight ? getViewportStyle() : ''
+
+  function getViewportStyle() {
+    tick().then(() => {
+      const listHeight = listNode ? listNode.offsetHeight + 1 : scrollHeight
+      const height = scrollHeight <= maxHeight ? listHeight : maxHeight
+      viewportStyle = `height:${height}px`
+    })
+
+    return ''
+  }
 
   async function onScroll() {
     const { scrollTop } = viewportNode
@@ -62,12 +71,12 @@
   style={viewportStyle}>
   <div class="scroll" {style}>
     <div class="list" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
-      {#each renderItems as item (key ? item[key] : item)}
-        <slot {item} />
+      {#each renderItems as item, i (key ? item[key] : item)}
+        <slot {item} i={start + i} />
       {/each}
     </div>
   </div>
-  {#if !renderItems.length}
+  {#if !hideEmptyResults && !renderItems.length}
     <slot name="empty">
       <div class="c-waterloo mrg-s mrg--l">No results found</div>
     </slot>

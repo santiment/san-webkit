@@ -6,10 +6,8 @@
   import { dialogs } from '@/ui/Dialog'
   import PaymentDialog from './index.svelte'
 
-  export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props)
+  export const showPaymentDialog = (props?: any) => dialogs.show(PaymentDialog, props)
 
-  Preloader
-  const once = { once: true }
   const preloadData = () => (querySanbasePlans(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
 
