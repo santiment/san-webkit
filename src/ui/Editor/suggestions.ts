@@ -95,7 +95,6 @@ export const SuggestionsExtension = Editor.Extension.extend({
 
         range.surroundContents(a)
         a.textContent = label
-        a.contentEditable = 'false'
 
         Editor.selection.clearSelection(this.document)
 

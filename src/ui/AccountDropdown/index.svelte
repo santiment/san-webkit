@@ -8,8 +8,7 @@
   export let ui: any
   export let currentUser
   export let onLogoutClick
-
-  let isOpened = false
+  export let isOpened = false
 
   function onLogout() {
     isOpened = false

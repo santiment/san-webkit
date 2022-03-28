@@ -1,6 +1,6 @@
 import { Socket } from 'phoenix'
 
-export const socket = new Socket('wss://api-stage.santiment.net/socket')
+export const socket = new Socket('wss://api.santiment.net/socket')
 socket.connect()
 socket.onError(() => console.log('there was an error with the connection!'))
 socket.onClose(() => console.log('the connection dropped'))
