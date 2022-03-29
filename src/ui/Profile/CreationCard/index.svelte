@@ -30,7 +30,9 @@
       1 assets · {creation.metrics.length} metrics
     </div>
   {:else if type === CreationType.Watchlist}
-    <Watchlist {creation} />
+    {#if creation.changes.length}
+      <Watchlist {creation} />
+    {/if}
   {:else if type === CreationType.AddressWatchlist}
     <AddressWatchlist {creation} />
   {/if}
