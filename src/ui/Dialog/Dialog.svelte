@@ -6,6 +6,7 @@
   import { dialogs, DialogLock } from './dialogs'
 
   let className = ''
+  export { className as class }
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
   export let i: number
   export let title: string | SvelteComponentModule = ''
@@ -13,7 +14,7 @@
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
   export let noBg = false
-  export { className as class }
+  export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
 
   let clickAwayMouseDown = false
 
@@ -21,8 +22,10 @@
     isContentEditable || localName === 'input' || localName === 'textarea'
 
   function onKeyup({ code, target }: KeyboardEvent): void {
-    if (code === 'Escape' && !(target && checkIsEditable(target as HTMLElement))) {
-      requestDialogClose()
+    if (code === 'Escape' && target) {
+      if (checkIsEditable(target as HTMLElement))
+        onEditableEscaped?.(target as HTMLElement, requestDialogClose)
+      else requestDialogClose()
     }
   }
 
@@ -80,9 +83,6 @@
     node.offsetWidth
   }
   function transition(node: HTMLElement) {
-    const classes = document.body.classList.toString()
-    if (classes.includes('desktop')) return
-
     resetAnimation(node)
     resetAnimation(node.firstChild as HTMLElement)
 
@@ -98,7 +98,7 @@
   class:out
   on:mousedown={onClickaway}
   on:mouseup={onClickaway}>
-  <div class="border box column {className}">
+  <div class="dialog border box column {className}">
     {#if noTitle === false}
       <h2 class="body-2 row v-center justify" class:empty={!title && !$$slots.title}>
         {#if $$slots.title}
@@ -124,12 +124,13 @@
     top: 0;
     bottom: 0;
     z-index: 100;
+    animation: fadeIn 0.2s ease-out forwards;
   }
   .noBg {
     background: transparent;
   }
 
-  .column {
+  .dialog {
     max-width: 96%;
     max-height: 92%;
     position: relative;
@@ -154,6 +155,10 @@
     --fill-hover: var(--green);
   }
 
+  .out {
+    animation: fadeIn 0.17s ease-out reverse forwards !important;
+  }
+
   :global(.dialog-body) {
     overflow-y: auto;
     overflow-x: hidden;
@@ -164,10 +169,9 @@
   :global(body:not(.desktop)) {
     .bg {
       align-items: flex-end;
-      animation: fadeIn 0.2s ease-out forwards;
     }
 
-    .column {
+    .dialog {
       border-radius: 15px 15px 0 0;
       max-width: 100%;
       max-height: 90%;
@@ -175,11 +179,18 @@
       animation: slideIn 0.2s ease-out forwards;
     }
 
-    .out {
-      animation: fadeIn 0.17s ease-out reverse forwards !important;
-      .column {
-        animation: slideIn 0.15s ease-out reverse forwards !important;
-      }
+    .out .dialog {
+      animation: slideIn 0.15s ease-out reverse forwards !important;
+    }
+  }
+
+  :global(body.desktop) {
+    .dialog {
+      animation: zoomIn 0.25s ease-out forwards;
+    }
+
+    .out .dialog {
+      animation: zoomIn 0.17s ease-out reverse forwards !important;
     }
   }
 
@@ -198,6 +209,18 @@
     }
     100% {
       transform: translateY(0);
+    }
+  }
+
+  @keyframes zoomIn {
+    0% {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 </style>
