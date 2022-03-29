@@ -186,7 +186,7 @@
 
   :global(body.desktop) {
     .dialog {
-      animation: zoomIn 0.25s ease-out forwards;
+      animation: zoomIn 0.2s ease-out forwards;
     }
 
     .out .dialog {

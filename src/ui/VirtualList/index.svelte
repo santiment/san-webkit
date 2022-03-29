@@ -13,15 +13,16 @@
   export let hideEmptyResults = false
 
   const delayItems = 3
-  const updateListHeight = () => (listHeight = listNode?.scrollHeight) // TODO: Think of better way [@vanguard | Sep 15, 2021]
 
   let listNode
   let listHeight = defaultItemHeight * items.length
+  let offsetTop = 0
+  let start = 0
+  let end = renderAmount
 
-  $: viewportNode && (items, (viewportNode.scrollTop = 0))
-  $: offsetTop = (items, 0)
-  $: start = (items, 0)
-  $: end = (items, renderAmount)
+  $: items && reset()
+  $: listNode && tick().then(tick).then(updateListHeight)
+
   $: renderItems = items.slice(start, end)
   $: renderHeight = listHeight / renderAmount
   $: scrollHeight = renderHeight * items.length
@@ -29,8 +30,6 @@
   $: offsetRenderDelay = renderHeight * delayItems
 
   $: style = listHeight ? `height:${scrollHeight}px` : ''
-  $: listNode && setTimeout(updateListHeight, 300)
-
   $: viewportStyle = scrollHeight && maxHeight ? getViewportStyle() : ''
 
   function getViewportStyle() {
@@ -62,13 +61,25 @@
     const diff = offsetRenderDelay - newDelay
     offsetTop = diff <= 0 || diff - renderHeight < offsetTop ? start * renderHeight : offsetTop
   }
+
+  function reset() {
+    if (viewportNode) viewportNode.scrollTop = 0
+    offsetTop = 0
+    start = 0
+    end = renderAmount
+  }
+
+  function updateListHeight() {
+    listNode.offsetWidth // NOTE(vanguard): Awaiting style recalc
+    listHeight = listNode.scrollHeight
+  }
 </script>
 
 <div
-  class="viewport relative {className}"
   bind:this={viewportNode}
-  on:scroll={onScroll}
-  style={viewportStyle}>
+  style={viewportStyle}
+  class="viewport relative {className}"
+  on:scroll={onScroll}>
   <div class="scroll" {style}>
     <div class="list" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
       {#each renderItems as item, i (key ? item[key] : item)}
@@ -76,6 +87,7 @@
       {/each}
     </div>
   </div>
+
   {#if !hideEmptyResults && !renderItems.length}
     <slot name="empty">
       <div class="c-waterloo mrg-s mrg--l">No results found</div>
@@ -86,6 +98,7 @@
 <style>
   .viewport {
     overflow-y: auto;
+    height: 100%;
   }
 
   .scroll {

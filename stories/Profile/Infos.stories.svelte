@@ -1,5 +1,5 @@
 <script>
-  import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
+  import { Meta, Story } from '@storybook/addon-svelte-csf'
   import Info from '@/ui/Profile/Info.svelte'
   import { CreationType } from '@/ui/Profile/types'
 
