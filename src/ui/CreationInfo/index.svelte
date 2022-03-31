@@ -16,6 +16,7 @@
   export let currentUser: SAN.CurrentUser | null
   export let onEditClick: () => any
   export let type: CreationType
+  export let fallback = 'Unsaved layout'
   export let comments: {
     count: number
     active?: boolean
@@ -37,7 +38,7 @@
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
-        <Info {user} {type} />
+        <Info {user} {type} {currentUser} />
       </svelte:fragment>
     </Tooltip>
 
@@ -64,7 +65,7 @@
   <ProfilePic class="mrg-m mrg--r" />
 
   <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-  <span on:mouseover={showEdit} on:mouseleave={hide}>Unsaved layout</span>
+  <span on:mouseover={showEdit} on:mouseleave={hide}>{fallback}</span>
 {/if}
 
 {#if currentUser}
