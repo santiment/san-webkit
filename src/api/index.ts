@@ -22,7 +22,7 @@ const jsonAccessor = <T extends SAN.API.QueryBase>(response: Response): Promise<
 export function query<T extends SAN.API.QueryBase, U extends Variables = Variables>(
   scheme: string,
   options?: SAN.API.QueryOptions<T, U>,
-  requestOptions?: RequestInit,
+  requestOptions?: SAN.API.RequestOptions,
 ): Promise<T> {
   const isWithCache = process.browser && options?.cache !== false
 

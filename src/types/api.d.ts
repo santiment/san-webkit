@@ -1,3 +1,7 @@
+interface Request extends RequestInit {
+  headers: Record<string, string | null>
+}
+
 declare namespace SAN {
   declare namespace API {
     type Query<T extends string, U> = Record<T, U>
@@ -11,6 +15,8 @@ declare namespace SAN {
       precacher?: (vars?: U) => Updater<T>
       variables?: U
     }
+
+    type RequestOptions = Omit<RequestInit, 'headers'> & { headers?: Record<string, string | null> }
 
     type CachePolicy = import('../api/cache').CachePolicy
     type Updater<T extends QueryBase> = (data: T) => T

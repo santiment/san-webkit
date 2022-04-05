@@ -18,7 +18,7 @@
 </script>
 
 <Suggestions {...$$props} {items} key="id" let:item>
-  <ProfilePic user={item} class="$style.pic mrg-s mrg--r" />
+  <ProfilePic src={item.avatar_url} class="$style.pic mrg-s mrg--r" />
   <span>
     @{item.username}
   </span>
