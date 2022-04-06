@@ -56,6 +56,7 @@
     min-height: 100%;
     outline: none;
     flex: 1;
+    word-break: break-word;
 
     &:empty::before {
       content: attr(data-placeholder);

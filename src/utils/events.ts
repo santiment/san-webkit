@@ -19,7 +19,10 @@ export function newGlobalShortcut(shortcut: string, clb: () => any) {
   function onKeyPress(e: KeyboardEvent) {
     const { key, target, metaKey, ctrlKey, shiftKey, altKey } = e
 
-    if (EDITABLE_TAGS.has((target as HTMLElement).tagName)) return
+    if (target) {
+      const { isContentEditable, tagName } = target as HTMLElement
+      if (isContentEditable || EDITABLE_TAGS.has(tagName)) return
+    }
 
     if (
       isCmdKey === (metaKey || ctrlKey) &&
