@@ -7,8 +7,10 @@
   export let w: Props['w'] = undefined
   export let h: Props['h'] = w
   export let illus = false
+  export let fill = 'none'
 
-  const style = w && `width:${w}px;height:${h}px;min-width:${w}px`
+  let style = `fill:${fill};`
+  style += w && `width:${w}px;height:${h}px;min-width:${w}px`
 </script>
 
 <svg on:click {style} class={className}
