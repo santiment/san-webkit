@@ -10,7 +10,9 @@
   export let fill = 'none'
 
   let style = `fill:${fill};`
-  style += w && `width:${w}px;height:${h}px;min-width:${w}px`
+  if (w) {
+    style += `width:${w}px;height:${h}px;min-width:${w}px`
+  }
 </script>
 
 <svg on:click {style} class={className}
