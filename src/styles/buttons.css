@@ -125,3 +125,7 @@ button,
 .btn-3.disabled {
   --bg: none;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}

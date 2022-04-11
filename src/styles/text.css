@@ -67,6 +67,18 @@
   font-weight: 600;
 }
 
+.txt-right {
+  text-align: right;
+}
+
+.txt-center {
+  text-align: center;
+}
+
+.txt-left {
+  text-align: left;
+}
+
 .c-white {
   --color: var(--white);
 }
