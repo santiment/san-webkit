@@ -10,7 +10,8 @@
     "install": "npm run lib",
     "test": "jest",
     "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -p 3000 -s ./lib --ci",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prepare": "husky install"
   },
   "keywords": [],
   "license": "ISC",
@@ -20,7 +21,7 @@
   },
   "types": "lib/types/index.d.ts",
   "lint-staged": {
-    "*.{js,ts,svelte,css}": [
+    "*.{js,ts,svelte,css,md,mdx}": [
       "prettier --write"
     ]
   },
@@ -61,6 +62,7 @@
     "babel-loader": "^8.2.2",
     "eslint": "^7.26.0",
     "ethers": "^5.4.4",
+    "husky": "^7.0.4",
     "jest": "^26.6.3",
     "lint-staged": "^11.0.0",
     "marked": "^4.0.12",
