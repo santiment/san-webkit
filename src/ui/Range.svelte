@@ -1,30 +1,25 @@
 <script>
     export let items = []
     export let hasAllWithLabel;
-    export let onChange = (index, value) => {}
-    let className = ''
+    export let selectedIndex = 0
+    export let onChange = value => {}
     export {className as class}
-    export let style;
 
-    let index = 0;
-    $: if (hasAllWithLabel) items = [...items, hasAllWithLabel]
+    let className = ''
+    items = hasAllWithLabel ? [...items, hasAllWithLabel] : items
 
-    function clickHandler() {
-        index += 1;
-        if (index + 1 > items.length) {
-            index = 0
-        }
-        onChange(index, items[index])
+    function onClick() {
+        selectedIndex = ++selectedIndex % items.length
+        onChange(items[selectedIndex])
     }
 </script>
 
-<button class="btn btn-2 {className}" on:click={clickHandler} {style}>
-    {items[index]}
+<button class="btn-2 btn--s {className}" on:click={onClick}>
+    {items[selectedIndex]}
 </button>
 
 <style>
 button {
     --v-padding: 6px;
-    --h-padding: 12px;
 }
 </style>
