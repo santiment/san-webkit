@@ -107,13 +107,16 @@ export function newSSRQuery<T extends Callback>(clb: T) {
 }
 
 function getRequestData(req: Request) {
-  return {
+  const headers = {
     // @ts-ignore
     cookie: req.headers.cookie,
     // @ts-ignore
     'x-forwarded-for': req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+  } as { [key: string]: string | null }
 
-    // @ts-ignore
-    origin: process.env.API_FETCH_ORIGIN,
+  if (process.env.API_FETCH_ORIGIN) {
+    headers.origin = process.env.API_FETCH_ORIGIN
   }
+
+  return headers
 }
