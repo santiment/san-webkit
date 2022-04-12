@@ -1,10 +1,12 @@
 ## Installing
+
 ```
 npm i https://github.com/santiment/san-webkit
 # yarn add https://github.com/santiment/san-webkit
 ```
 
 ## Environment variables
+
 ```
 process.browser
 process.env.IS_DEV_MODE

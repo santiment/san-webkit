@@ -11,8 +11,7 @@
     slug: { control: 'text' },
     size: { control: 'number' },
     placeholderSize: { control: 'number' },
-  }}
-/>
+  }} />
 
 <Template let:args>
   <div class="column mrg-xl mrg--b">

@@ -13,5 +13,4 @@
   name="Sanbase"
   args={{
     title: 'Sanbase',
-  }}
-/>
+  }} />

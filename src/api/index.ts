@@ -114,6 +114,6 @@ function getRequestData(req: Request) {
     'x-forwarded-for': req.headers['x-forwarded-for'] || req.connection.remoteAddress,
 
     // @ts-ignore
-    // origin: process.env.API_FETCH_ORIGIN,
+    origin: process.env.API_FETCH_ORIGIN,
   }
 }
