@@ -8,6 +8,7 @@
 </script>
 
 <script lang="ts">
+  import { track } from '@/analytics'
   import Dialog from '@/ui/Dialog'
   import { deleteComment } from '@/api/comments/mutate'
 
@@ -31,6 +32,7 @@
         username: 'anonymous',
       }
 
+      track.event('comments_delete', { id: comment.id })
       DialogPromise.resolve(comment)
       closeDialog()
     })

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { track } from '@/analytics'
   import { CommentsType, queryComments } from '@/api/comments'
   import { createComment } from '@/api/comments/mutate'
   import Svg from '@/ui/Svg/svelte'
@@ -54,8 +55,11 @@
     }
 
     loading = true
+
     createComment({ id: commentsFor.id, content: value, type })
       .then((comment) => {
+        track.event('comments_new', { entity: commentsFor.id, type })
+
         comments.push(comment)
         setComments(comments)
         editor.resetContent()
