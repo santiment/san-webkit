@@ -23,6 +23,7 @@ type Props = {
   [key: string]: any
 } & {
   strict?: boolean
+  single?: boolean
   DialogPromise?: {
     resolve: (value: unknown) => void
     reject: (reason?: any) => void
@@ -38,15 +39,18 @@ const pipeCatch = (e) => e && Promise.reject(e)
 export const dialogs = {
   subscribe,
   show<T = unknown>(Component: SvelteComponentModule, props: Props = {}): Promise<T> {
-    const { strict } = props
-    delete props.strict
+    const { strict, single, ...rest } = props
+
+    if (single && dialogs.has(Component)) {
+      return Promise.reject()
+    }
 
     const promise = new Promise<T>(
-      (resolve, reject) => (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
+      (resolve, reject) => (rest.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
 
     update((dialogs) => {
-      dialogs.push({ Component, props })
+      dialogs.push({ Component, props: rest })
       return dialogs
     })
 

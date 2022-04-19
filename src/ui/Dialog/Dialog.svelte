@@ -15,6 +15,7 @@
   export let noTitle = false
   export let noBg = false
   export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
+  export let animated = true
 
   let clickAwayMouseDown = false
 
@@ -83,6 +84,8 @@
     node.offsetWidth
   }
   function transition(node: HTMLElement) {
+    if (!animated) return
+
     resetAnimation(node)
     resetAnimation(node.firstChild as HTMLElement)
 
@@ -96,6 +99,7 @@
   class="bg row v-center h-center"
   class:noBg
   class:out
+  class:still={!animated}
   on:mousedown={onClickaway}
   on:mouseup={onClickaway}>
   <div class="dialog border box column {className}">
@@ -128,6 +132,12 @@
   }
   .noBg {
     background: transparent;
+  }
+  .still {
+    animation: none;
+    .dialog {
+      animation: none !important;
+    }
   }
 
   .dialog {
