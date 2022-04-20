@@ -21,7 +21,7 @@
   let end = renderAmount
 
   $: items && reset()
-  $: listNode && tick().then(tick).then(updateListHeight)
+  $: listNode && items && tick().then(tick).then(updateListHeight)
 
   $: renderItems = items.slice(start, end)
   $: renderHeight = listHeight / renderAmount

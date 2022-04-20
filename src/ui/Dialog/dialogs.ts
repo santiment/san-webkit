@@ -39,11 +39,7 @@ const pipeCatch = (e) => e && Promise.reject(e)
 export const dialogs = {
   subscribe,
   show<T = unknown>(Component: SvelteComponentModule, props: Props = {}): Promise<T> {
-    const { strict, single, ...rest } = props
-
-    if (single && dialogs.has(Component)) {
-      return Promise.reject()
-    }
+    const { strict, ...rest } = props
 
     const promise = new Promise<T>(
       (resolve, reject) => (rest.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
@@ -55,6 +51,13 @@ export const dialogs = {
     })
 
     return strict ? promise : promise.catch(pipeCatch)
+  },
+  /** Only single entity of the Component can be mounted at the same time */
+  showOnce<T = unknown>(
+    Component: SvelteComponentModule,
+    props: Props = {},
+  ): undefined | Promise<T> {
+    return dialogs.has(Component) ? undefined : dialogs.show(Component, props)
   },
   hide(index: number): void {
     update((dialogs) => {
