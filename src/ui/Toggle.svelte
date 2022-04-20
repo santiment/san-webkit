@@ -2,22 +2,21 @@
   let className = ''
   export { className as class }
   export let isActive = false
+  export let disabled = false
 </script>
 
-<div class="toggle {className}" on:click class:isActive>
+<div class="toggle btn relative {className}" on:click class:isActive class:disabled>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/toggle.svg" />
 </div>
 
 <style>
   .toggle {
-    user-select: none;
-    position: relative;
-    cursor: pointer;
     display: inline-block;
-    background: var(--casper);
     line-height: 0;
     border-radius: 10px;
     transition: background 185ms;
+    --bg: var(--casper);
+    --bg-hover: var(--waterloo);
   }
   .toggle::before {
     display: inline-block;
@@ -33,9 +32,15 @@
   }
 
   .isActive {
-    background: var(--green);
+    --bg: var(--green);
+    --bg-hover: var(--green-hover);
   }
   .isActive::before {
     transform: translateX(calc(100% + 2px));
+  }
+
+  .disabled {
+    background: var(--porcelain) !important;
+    pointer-events: none !important;
   }
 </style>
