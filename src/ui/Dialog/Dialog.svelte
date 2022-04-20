@@ -44,7 +44,7 @@
   }
 
   onMount(() => {
-    document.body.style.maxWidth = document.body.offsetWidth + 'px'
+    document.body.style.width = document.body.offsetWidth + 'px'
     document.body.style.overflowY = 'hidden'
     document.body.style.touchAction = 'none'
     window.addEventListener('keyup', onKeyup)
@@ -124,10 +124,10 @@
     position: fixed;
     background: rgba(0, 0, 0, 0.7);
     left: 0;
-    right: 0;
     top: 0;
     bottom: 0;
     z-index: 100;
+    width: 100vw;
     animation: fadeIn 0.2s ease-out forwards;
   }
   .noBg {

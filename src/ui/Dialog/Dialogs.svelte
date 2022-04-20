@@ -7,3 +7,9 @@
     <svelte:component this={Component} {...props} {i} />
   {/each}
 </div>
+
+<style>
+  div {
+    width: 100vw;
+  }
+</style>
