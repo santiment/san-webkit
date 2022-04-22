@@ -68,8 +68,8 @@
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",
     "phoenix": "^1.6.6",
-    "prettier": "^2.3.0",
-    "prettier-plugin-svelte": "^2.3.0",
+    "prettier": "^2.6.2",
+    "prettier-plugin-svelte": "^2.7.0",
     "svelte": "^3.46.3",
     "svelte-loader": "^3.1.2",
     "turndown": "^7.1.1"

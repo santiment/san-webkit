@@ -1,6 +1,9 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
 
+  let className = ''
+  export { className as class }
+
   const features = [
     'Sanbase metrics - full historical and present-day data',
     'Access to 20 Sanbase alerts',
@@ -13,10 +16,13 @@
   ]
 </script>
 
-<div class="plan txt-center">
+<div class="plan txt-center relative {className}">
   <div class="name h4 txt-m c-accent">PRO</div>
 
-  <div class="c-waterloo mrg-l mrg--t mrg--b">Advanced crypto metrics and market insights</div>
+  <div class="trial label">Your trial plan</div>
+  <div class="discount label">50% Off</div>
+
+  <div class="description c-waterloo">Advanced crypto metrics and market insights</div>
 
   <div class="h2 txt-m mrg-xs mrg--b">
     $49<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>
@@ -39,6 +45,7 @@
     --accent: var(--orange);
     --accent-hover: var(--orange-hover);
     --accent-light-1: var(--orange-light-1);
+    padding: 32px var(--h-padding, 24px);
   }
 
   .name {
@@ -46,6 +53,31 @@
     background: var(--accent-light-1);
     border-radius: 4px;
     display: inline-block;
+    text-transform: uppercase;
+  }
+
+  .label {
+    position: absolute;
+    padding: 4px 8px;
+    top: 9px;
+    border-radius: 4px;
+  }
+
+  .trial {
+    left: 9px;
+    color: var(--fiord);
+    background: var(--athens);
+  }
+
+  .discount {
+    right: 9px;
+    color: var(--green);
+    background: var(--green-light-1);
+  }
+
+  .description {
+    margin: 16px auto;
+    max-width: 160px;
   }
 
   .btn-1 {
