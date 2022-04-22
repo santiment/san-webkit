@@ -7,11 +7,12 @@
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
 
+  export let title = 'Welcome to Insights'
   export let onMetamaskClick
 </script>
 
 <Section
-  title="Welcome to Insights"
+  {title}
   titleMargin="mrg-xxl"
   bottomLabel="New to Santiment?"
   bottomAction="Create an account"

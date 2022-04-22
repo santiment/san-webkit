@@ -11,7 +11,7 @@ export const chain = [
     id: 'sanr',
     title: 'SanR',
     desc: 'Decentralized marketplace for crypto price signals',
-    href: 'https://sanr.santiment.net',
+    href: 'https://sanr.app',
     dimensions: [24, 24],
     accent: '#0DB67A',
   },
