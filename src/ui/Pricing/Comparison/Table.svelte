@@ -5,12 +5,14 @@
   export let plans
 </script>
 
-<div class="comparison body-2">
+<div class="table body-2">
+  <slot />
+
   {#each COMPARE_TABLE as { category, features }}
     <h4 class="body-1 txt-b">{category}</h4>
 
     {#each features as feature}
-      <div class="feature">
+      <div class="tr">
         <Feature {plans} {feature} />
       </div>
     {/each}
@@ -18,25 +20,39 @@
 </div>
 
 <style lang="scss">
-  .comparison {
-    --accent: var(--orange);
-  }
-
   h4 {
     padding: 40px 24px 16px;
-    &:first-child {
-      border-top: 1px solid var(--porcelain);
+  }
+
+  .table :global {
+    h4,
+    .tr {
+      border-bottom: 1px solid var(--porcelain);
     }
-  }
 
-  h4,
-  .feature {
-    border-bottom: 1px solid var(--porcelain);
-  }
+    .tr {
+      display: flex;
+      text-align: center;
+    }
 
-  .feature {
-    display: flex;
-    // align-items: center;
-    text-align: center;
+    .td,
+    .td-h {
+      padding: 14px 24px;
+      border-left: 1px solid var(--porcelain);
+      flex: 1;
+      fill: var(--accent);
+      display: flex;
+      align-items: center;
+    }
+
+    .td-h {
+      max-width: 240px;
+      min-width: 201px;
+      border: 0;
+
+      :global(.desktop) & {
+        max-width: 350px;
+      }
+    }
   }
 </style>

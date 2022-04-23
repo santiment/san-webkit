@@ -59,13 +59,13 @@
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
-    bottom: var(--indicators-bottom);
+    bottom: calc(var(--indicators-bottom) - 4px);
   }
 
   .indicator {
     width: 8px;
     height: 8px;
-    background: var(--porcelain);
+    background: var(--mystic);
     border-radius: 50%;
   }
 
