@@ -21,7 +21,7 @@
 <!-- svelte-ignore redundant-event-modifier -->
 
 <div class="relative {className}">
-  <div bind:this={node} class="slides" on:scroll|passive={onScroll}>
+  <div bind:this={node} class="slides no-scrollbar" on:scroll|passive={onScroll}>
     <slot />
   </div>
 
@@ -40,12 +40,7 @@
     overflow-x: auto;
     display: flex;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none;
     padding: var(--slides-v-padding);
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
 
     & > :global(*) {
       scroll-snap-align: center;

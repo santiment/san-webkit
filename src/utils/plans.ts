@@ -28,12 +28,18 @@ export const PlanName = {
   [Plan.PRO_PLUS]: 'Pro+',
 } as const
 
-export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) => interval === 'year'
+export enum Billing {
+  MONTH = 'month',
+  YEAR = 'year',
+}
+
+export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
+  interval === Billing.YEAR
 
 export const getPrice = (amount: number) => amount / 100
 export function getPlanMonthPrice({ amount, interval }: SAN.Plan): number {
   const price = getPrice(amount)
-  return interval === 'month' ? price : price / 12
+  return interval === Billing.MONTH ? price : price / 12
 }
 
 export const priceFormatter = (price: number) => '$' + Math.ceil(price)

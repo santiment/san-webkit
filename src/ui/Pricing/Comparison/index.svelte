@@ -5,6 +5,9 @@
   import { PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES } from './comapre'
   import { Device, responsive$ } from '@/responsive'
 
+  let className = ''
+  export { className as class }
+
   const PLANS = [PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES]
 
   let activeSlide = 0
@@ -22,7 +25,7 @@
   }
 </script>
 
-<div class="comparison">
+<div class="comparison {className}">
   <Table {plans}>
     <div class="tr">
       {#if plans.length > 1}

@@ -24,6 +24,7 @@
 {#each plans as cell}
   {@const value = getValue(cell[name])}
   {@const isCheckmark = isCheck || !defaultValue}
+
   <div class="item td" class:disabled={isCheckmark && value === false}>
     {#if isCheckmark}
       {#if value !== false}

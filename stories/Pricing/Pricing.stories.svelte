@@ -1,25 +1,12 @@
 <script>
   import { Meta, Story } from '@storybook/addon-svelte-csf'
-  import Plan from '@/ui/Pricing/Plan.svelte'
-  import Comparison from '@/ui/Pricing/Comparison/index.svelte'
-  import Slides from '@/ui/Slides.svelte'
+  import Page from '@/ui/Pricing/Page.svelte'
 </script>
 
-<Meta title="Example/Plan" component={Plan} />
+<Meta title="Example/Plan" component={Page} />
 
 <Story name="Plan">
-  <div class="slides">
-    <Slides amount={2}>
-      <div class="border">123</div>
-      <div class="border">456</div>
-    </Slides>
-  </div>
-
-  <Comparison />
-
-  <div class="border">
-    <Plan />
-  </div>
+  <Page />
 </Story>
 
 <style>
@@ -29,7 +16,7 @@
   }
 
   .slides {
-    max-width: 200px;
-    height: 100px;
+    max-width: 300px;
+    /* height: 100px; */
   }
 </style>

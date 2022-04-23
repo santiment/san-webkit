@@ -96,3 +96,10 @@
   top: var(--expl-position-y, -6px);
   transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
 }
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}
