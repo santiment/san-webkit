@@ -3,6 +3,7 @@
   import BillingToggle from './BillingToggle.svelte'
   import Comparison from './Comparison/index.svelte'
   import Plan from './Plan.svelte'
+  import FAQ from './FAQ.svelte'
 </script>
 
 <div class="txt-center">
@@ -24,6 +25,8 @@
 </div>
 
 <Comparison class="$style.comparison" />
+
+<FAQ />
 
 <div class="bottom">
   <Footer class="$style.footer" />
