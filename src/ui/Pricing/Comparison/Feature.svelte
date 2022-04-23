@@ -1,16 +1,15 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
-  import { PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES } from './comapre'
 
+  export let plans
   export let feature
+
   const { name, description, isLimit, isAccess, isCheck } = feature
   const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : ''
 
   function getValue(value) {
     return value !== undefined ? value : defaultValue
   }
-
-  const CELLS = [PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES]
 </script>
 
 <div class="header cell txt-left">
@@ -22,10 +21,10 @@
   {/if}
 </div>
 
-{#each CELLS as cell}
+{#each plans as cell}
   {@const value = getValue(cell[name])}
   {@const isCheckmark = isCheck || !defaultValue}
-  <div class="cell" class:disabled={isCheckmark && value === false}>
+  <div class="item cell" class:disabled={isCheckmark && value === false}>
     {#if isCheckmark}
       {#if value !== false}
         <Svg id="checkmark-circle-filled" w="24" />
@@ -52,6 +51,7 @@
 
   .header {
     max-width: 240px;
+    min-width: 201px;
 
     :global(.desktop) & {
       max-width: 350px;
@@ -60,6 +60,14 @@
 
   .info {
     --fill: var(--waterloo);
+  }
+
+  .item {
+    justify-content: center;
+
+    :global(.desktop) & {
+      justify-content: unset;
+    }
   }
 
   .disabled {

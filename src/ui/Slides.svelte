@@ -1,8 +1,10 @@
 <script>
-  export let amount
+  let className = ''
+  export { className as class }
+  export let amount = 1
+  export let active = 0
 
   let node
-  let active = 0
 
   function onScroll({ currentTarget }) {
     const { scrollWidth, scrollLeft } = currentTarget
@@ -11,25 +13,25 @@
   }
 
   const SCROLL_OPTIONS = { behavior: 'smooth', block: 'nearest', inline: 'nearest' }
-  function onClick({ target }) {
-    node.children[+target.dataset.i].scrollIntoView(SCROLL_OPTIONS)
+  function onClick({ currentTarget }) {
+    node.children[+currentTarget.dataset.i].scrollIntoView(SCROLL_OPTIONS)
   }
 </script>
 
 <!-- svelte-ignore redundant-event-modifier -->
-<div bind:this={node} class="slides" on:scroll|passive={onScroll}>
-  <slot />
-</div>
 
-<div class="row mrg-xl mrg--t h-center">
-  {#each Array(amount) as _, i}
-    <div
-      data-i={i}
-      class="indicator btn mrg-l mrg--r"
-      class:active={i === active}
-      on:click={onClick}
-    />
-  {/each}
+<div class="relative {className}">
+  <div bind:this={node} class="slides" on:scroll|passive={onScroll}>
+    <slot />
+  </div>
+
+  <div class="indicators row">
+    {#each Array(amount) as _, i}
+      <div data-i={i} class="btn mrg-s mrg--r" on:click={onClick}>
+        <div class="indicator" class:active={i === active} />
+      </div>
+    {/each}
+  </div>
 </div>
 
 <style lang="scss">
@@ -39,6 +41,7 @@
     display: flex;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    padding: var(--slides-v-padding);
 
     &::-webkit-scrollbar {
       display: none;
@@ -48,12 +51,15 @@
       scroll-snap-align: center;
       min-width: 100%;
       min-height: 100%;
-      margin-right: 32px;
-
-      &:last-child {
-        margin: 0;
-      }
+      padding: 0 var(--slides-h-padding, 0);
     }
+  }
+
+  .indicators {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: var(--indicators-bottom);
   }
 
   .indicator {
@@ -61,7 +67,10 @@
     height: 8px;
     background: var(--porcelain);
     border-radius: 50%;
+  }
 
+  .btn {
+    padding: 4px;
     &:last-child {
       margin: 0;
     }
