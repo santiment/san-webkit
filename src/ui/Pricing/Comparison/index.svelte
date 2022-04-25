@@ -31,12 +31,12 @@
       {#if comparedPlans.length > 1}
         <div class="td-h" />
         {#each comparedPlans as plan (plan.id)}
-          <div class="td"><Plan {plan} /></div>
+          <div class="td"><Plan {plan} {plans} /></div>
         {/each}
       {:else}
         <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
           {#each plans as plan (plan.id)}
-            <Plan {plan} />
+            <Plan {plan} {plans} />
           {/each}
         </Slides>
       {/if}

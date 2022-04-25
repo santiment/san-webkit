@@ -24,33 +24,53 @@
   }
 </script>
 
-<div class="txt-center">
-  <h2 class="h3 txt-m mrg-m mrg--b">Be ahead of the game in crypto</h2>
+<main>
+  <div class="txt-center">
+    <h2 class="h3 txt-m mrg-m mrg--b">Be ahead of the game in crypto</h2>
 
-  <h3 class="body-1 c-waterloo">
-    Choose the plan which fits your needs and enjoy our premium metrics
-  </h3>
+    <h3 class="body-1 c-waterloo">
+      Choose the plan which fits your needs and enjoy our premium metrics
+    </h3>
 
-  <BillingToggle bind:billing />
-</div>
-
-<section id="plans" class="row no-scrollbar">
-  <div class="scroll row border">
-    {#each billingPlans as plan (plan.id)}
-      <Plan {plan} {plans} class="$style.plan" />
-    {/each}
+    <BillingToggle bind:billing />
   </div>
-</section>
 
-<Comparison plans={billingPlans} class="$style.comparison" />
+  <section id="plans" class="row no-scrollbar">
+    <div class="scroll row border">
+      {#each billingPlans as plan (plan.id)}
+        <Plan {plan} {plans} class="$style.plan" />
+      {/each}
+    </div>
+  </section>
 
-<FAQ />
+  <Comparison plans={billingPlans} class="$style.comparison" />
 
-<Suggestions />
+  <section id="referenced-by">
+    <h2>You are in good company</h2>
+  </section>
+
+  <FAQ />
+
+  <Suggestions />
+</main>
 
 <Footer class="$style.footer" />
 
 <style lang="scss">
+  main {
+    :global(section h2) {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 500;
+      text-align: center;
+      margin: 0 auto 32px;
+
+      :global(.desktop) & {
+        margin-bottom: 60px;
+      }
+    }
+  }
+
   #plans {
     padding: 0 16px;
     margin: 0 0 80px;

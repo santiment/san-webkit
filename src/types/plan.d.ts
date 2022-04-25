@@ -1,6 +1,6 @@
 declare namespace SAN {
   type Plan = {
-    id: stirng | number
+    id: string | number
     name: string
     interval: 'month' | 'year'
     amount: number

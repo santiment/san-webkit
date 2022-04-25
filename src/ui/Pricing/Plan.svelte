@@ -8,14 +8,18 @@
     PlanName,
     priceFormatter,
   } from '@/utils/plans'
+  import PlanButton from './PlanButton.svelte'
   import { PlanDescription } from './description'
 
   let className = ''
   export { className as class }
   export let plan: SAN.Plan
   export let plans: SAN.Plan[]
+  export let discount = 0
+  export let subscription: undefined | SAN.Subscription
+  export let isEligibleForTrial: boolean
 
-  $: ({ name, interval } = plan)
+  $: ({ id, name, interval } = plan)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
 
@@ -28,7 +32,8 @@
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   <div class="trial label">Your trial plan</div>
-  <div class="discount label">50% Off</div>
+
+  {#if discount}<div class="discount label">50% Off</div>{/if}
 
   <div class="description c-waterloo">{description}</div>
 
@@ -42,7 +47,7 @@
       : formatMonthlyPrice(altPlan) + ' if billed yearly'}
   </div>
 
-  <button class="btn-1 fluid body-2 mrg-l mrg--t mrg--b" on:click>Start 14-day Free trial</button>
+  <PlanButton {plan} {plans} {subscription} {isEligibleForTrial} class="mrg-l mrg--t mrg--b" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
@@ -90,10 +95,6 @@
   .description {
     margin: 16px auto;
     max-width: 160px;
-  }
-
-  .btn-1 {
-    --v-padding: 8px;
   }
 
   .checkmark {

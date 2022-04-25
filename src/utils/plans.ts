@@ -37,7 +37,10 @@ export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
   interval === Billing.YEAR
 
 export const getPrice = (amount: number) => amount / 100
-export function getPlanMonthPrice({ amount, interval }: SAN.Plan): number {
+export function getPlanMonthPrice({
+  amount,
+  interval,
+}: Pick<SAN.Plan, 'amount' | 'interval'>): number {
   const price = getPrice(amount)
   return interval === Billing.MONTH ? price : price / 12
 }

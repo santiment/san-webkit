@@ -54,6 +54,8 @@
 </script>
 
 <section id="faq">
+  <h2>Frequently Asked Questions</h2>
+
   {#each QA as { question, answer } (question)}
     {@const isOpened = opened.has(question)}
 

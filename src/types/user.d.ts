@@ -15,8 +15,11 @@ declare namespace SAN {
     status: string
     trialEnd?: string
     plan: {
+      id: string
       name: string // 'PRO'
       product: SAN.Product
+      amount: number
+      interval: string
     }
   }
 }

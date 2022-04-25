@@ -1,10 +1,16 @@
+<script>
+  import { showIntercom } from '@/analytics/intercom'
+</script>
+
 <section>
   <div>
     <h4 class="h4 txt-b mrg-l mrg--b">Let's the platform speak for itself</h4>
 
     <p>Add your credit card to try all Sanbase Pro features FREE for 2 weeks</p>
 
-    <button class="btn body-2 mrg-xl mrg--t">Start your free trial</button>
+    <a href="/login" class="btn body-2 mrg-xl mrg--t" on:click={window.__onLinkClick}
+      >Start your free trial</a
+    >
   </div>
 
   <div>
@@ -12,7 +18,7 @@
 
     <p>Request a demo to have one of our product specialists walk you through the platform</p>
 
-    <button class="btn body-2 mrg-xl mrg--t">Request a demo</button>
+    <button class="btn body-2 mrg-xl mrg--t" on:click={showIntercom}>Request a demo</button>
   </div>
 </section>
 
@@ -40,6 +46,7 @@
   }
 
   .btn {
+    display: inline-block;
     padding: 8px 10px;
     --bg: var(--white);
     --color: var(--blue);
