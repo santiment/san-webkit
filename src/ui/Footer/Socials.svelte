@@ -27,7 +27,7 @@
   </div>
 </div>
 
-<style>
+<style lang="scss">
   a:hover {
     fill: var(--color);
   }
@@ -48,15 +48,16 @@
     margin-left: auto;
   }
 
-  :global(.phone-xs) a,
-  :global(.phone) a,
-  :global(.tablet) a {
-    border: 1px solid var(--porcelain);
-    height: 40px;
-    width: 46px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
+  :global(.phone-xs),
+  :global(.phone) {
+    a {
+      border: 1px solid var(--porcelain);
+      height: 40px;
+      width: 46px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+    }
   }
 </style>

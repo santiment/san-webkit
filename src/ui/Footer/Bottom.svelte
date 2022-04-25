@@ -15,13 +15,14 @@
     <a
       href="https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776"
       target="_blank"
-      class="mrg-a mrg--r">Media Kit</a>
+      class="mrg-a mrg--r">Media Kit</a
+    >
   </div>
 
   <Socials />
 </div>
 
-<style>
+<style lang="scss">
   .bottom {
     display: grid;
     align-items: center;
@@ -48,20 +49,42 @@
     margin: 16px 0 56px;
   }
 
-  :global(.desktop) .bottom {
-    text-align: left;
-    grid-template-areas:
-      'divider divider divider'
-      'copyright extras socials';
-    padding: 0 0 24px;
+  :global(.tablet) {
+    .bottom {
+      grid-template-areas:
+        'divider divider divider'
+        'socials extras extras'
+        'socials copyright copyright';
+    }
+
+    .copyright,
+    .extras {
+      text-align: right;
+    }
   }
 
-  :global(.desktop) .divider {
-    margin: 0 0 24px;
+  :global(.desktop) {
+    .bottom {
+      grid-template-areas:
+        'divider divider divider'
+        'copyright extras socials';
+    }
   }
 
-  :global(.desktop) .copyright {
-    margin: 0;
+  :global(.tablet),
+  :global(.desktop) {
+    .bottom {
+      text-align: left;
+      padding: 0 0 24px;
+    }
+
+    .divider {
+      margin: 0 0 24px;
+    }
+
+    .copyright {
+      margin: 0;
+    }
   }
 
   a {
