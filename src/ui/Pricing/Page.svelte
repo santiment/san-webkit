@@ -1,9 +1,26 @@
 <script>
   import Footer from '@/ui/Footer/svelte'
+  import { Billing, onlyProLikePlans } from '@/utils/plans'
   import BillingToggle from './BillingToggle.svelte'
   import Comparison from './Comparison/index.svelte'
   import Plan from './Plan.svelte'
   import FAQ from './FAQ.svelte'
+  import { querySanbasePlans } from '@/api/plans'
+
+  export let billing = Billing.MONTH
+
+  let plans = []
+  $: billingPlans = (billing, plans.filter(billingFilter))
+
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProLikePlans)
+  })
+
+  $: console.log(billingPlans)
+
+  function billingFilter({ interval }) {
+    return interval === billing
+  }
 </script>
 
 <div class="txt-center">
@@ -13,18 +30,18 @@
     Choose the plan which fits your needs and enjoy our premium metrics
   </h3>
 
-  <BillingToggle />
+  <BillingToggle bind:billing />
 </div>
 
 <div class="plans row no-scrollbar">
   <div class="scroll row border">
-    <Plan class="$style.plan" />
-    <Plan class="$style.plan" />
-    <Plan class="$style.plan" />
+    {#each billingPlans as plan (plan.id)}
+      <Plan {plan} class="$style.plan" />
+    {/each}
   </div>
 </div>
 
-<Comparison class="$style.comparison" />
+<Comparison plans={billingPlans} class="$style.comparison" />
 
 <FAQ />
 

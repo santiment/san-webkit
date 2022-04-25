@@ -171,3 +171,8 @@ export const PRO_PLUS_COMPARED_FEATURES = {
   'API calls / hour': '3000 API calls / hour',
   'API calls / month': '300K API calls / mo',
 }
+
+export const PlanFeatures = {
+  [Plan.PRO]: PRO_COMPARED_FEATURES,
+  [Plan.PRO_PLUS]: PRO_PLUS_COMPARED_FEATURES,
+}

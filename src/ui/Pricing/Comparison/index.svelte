@@ -1,41 +1,43 @@
 <script lang="ts">
+  import { Device, responsive$ } from '@/responsive'
   import Slides from '@/ui/Slides.svelte'
   import Table from './Table.svelte'
   import Plan from './Plan.svelte'
-  import { PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES } from './comapre'
-  import { Device, responsive$ } from '@/responsive'
+  import { PlanFeatures } from './comapre'
 
   let className = ''
   export { className as class }
-
-  const PLANS = [PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES]
+  export let plans: SAN.Plan[]
 
   let activeSlide = 0
 
-  $: plans = getPlansLayout(activeSlide, $responsive$)
+  $: comparedPlans = getPlansLayout(plans, activeSlide, $responsive$)
+  $: plansFeatures = comparedPlans.map(({ name }) => PlanFeatures[name]).filter(Boolean)
 
-  function getPlansLayout(slide: number, device: string) {
+  function getPlansLayout(plans: SAN.Plan[], slide: number, device: string) {
     switch (device) {
       case Device.Desktop:
       case Device.Tablet:
-        return PLANS
+        return plans
     }
 
-    return PLANS.slice(slide, slide + 1)
+    return plans.slice(slide, slide + 1)
   }
 </script>
 
 <div class="comparison {className}">
-  <Table {plans}>
+  <Table plans={plansFeatures}>
     <div class="tr">
-      {#if plans.length > 1}
+      {#if comparedPlans.length > 1}
         <div class="td-h" />
-        <div class="td"><Plan /></div>
-        <div class="td"><Plan /></div>
+        {#each comparedPlans as plan (plan.id)}
+          <div class="td"><Plan {plan} /></div>
+        {/each}
       {:else}
-        <Slides amount={2} bind:active={activeSlide} class="$style.slides fluid">
-          <Plan />
-          <Plan />
+        <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
+          {#each plans as plan (plan.id)}
+            <Plan {plan} />
+          {/each}
         </Slides>
       {/if}
     </div>

@@ -1,6 +1,6 @@
 <script>
   import Feature from './Feature.svelte'
-  import { COMPARE_TABLE, PRO_COMPARED_FEATURES, PRO_PLUS_COMPARED_FEATURES } from './comapre'
+  import { COMPARE_TABLE } from './comapre'
 
   export let plans
 </script>

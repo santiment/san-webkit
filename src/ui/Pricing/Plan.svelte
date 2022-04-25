@@ -1,8 +1,14 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
+  import { formatMonthlyPrice, formatPrice, PlanName } from '@/utils/plans'
 
   let className = ''
   export { className as class }
+  export let plan
+
+  $: console.log(plan)
+
+  $: ({ name, interval, amount } = plan)
 
   const features = [
     'Sanbase metrics - full historical and present-day data',
@@ -17,7 +23,7 @@
 </script>
 
 <div class="plan txt-center relative {className}">
-  <div class="name h4 txt-m c-accent">PRO</div>
+  <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   <div class="trial label">Your trial plan</div>
   <div class="discount label">50% Off</div>
@@ -25,7 +31,7 @@
   <div class="description c-waterloo">Advanced crypto metrics and market insights</div>
 
   <div class="h2 txt-m mrg-xs mrg--b">
-    $49<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>
+    {formatMonthlyPrice(plan)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>
   </div>
 
   <div class="body-2 c-waterloo">$44 if billed yearly</div>

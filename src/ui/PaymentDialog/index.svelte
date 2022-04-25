@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import { querySanbasePlans, getCachedSanbasePlans } from '@/api/plans'
-  import { formatPrice, Plan } from '@/utils/plans'
+  import { formatPrice, onlyProLikePlans, Plan } from '@/utils/plans'
   import { Preloader } from '@/utils/fn'
   import { stripe } from '@/stores/stripe'
   import { dialogs } from '@/ui/Dialog'
@@ -10,8 +10,6 @@
 
   const preloadData = () => (querySanbasePlans(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
-
-  export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
 </script>
 
 <script lang="ts">
@@ -96,7 +94,8 @@
         {sanBalance}
         {isSinglePlan}
         {isEligibleForTrial}
-        {loading} />
+        {loading}
+      />
     </form>
   </section>
 
