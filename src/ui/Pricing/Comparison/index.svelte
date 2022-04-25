@@ -25,7 +25,7 @@
   }
 </script>
 
-<div class="comparison {className}">
+<section id="comparison" class={className}>
   <Table plans={plansFeatures}>
     <div class="tr">
       {#if comparedPlans.length > 1}
@@ -42,10 +42,10 @@
       {/if}
     </div>
   </Table>
-</div>
+</section>
 
 <style lang="scss">
-  .comparison {
+  #comparison {
     --accent: var(--orange);
     --accent-hover: var(--orange-hover);
     --accent-light-1: var(--orange-light-1);

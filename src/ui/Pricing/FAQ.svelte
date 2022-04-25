@@ -53,7 +53,7 @@
   }
 </script>
 
-<div id="faq">
+<section id="faq">
   {#each QA as { question, answer } (question)}
     {@const isOpened = opened.has(question)}
 
@@ -73,7 +73,7 @@
       </div>
     {/if}
   {/each}
-</div>
+</section>
 
 <style lang="scss">
   #faq {

@@ -1,11 +1,12 @@
 <script>
   import Footer from '@/ui/Footer/svelte'
+  import { querySanbasePlans } from '@/api/plans'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
   import BillingToggle from './BillingToggle.svelte'
   import Comparison from './Comparison/index.svelte'
   import Plan from './Plan.svelte'
   import FAQ from './FAQ.svelte'
-  import { querySanbasePlans } from '@/api/plans'
+  import Suggestions from './Suggestions.svelte'
 
   export let billing = Billing.MONTH
 
@@ -33,24 +34,24 @@
   <BillingToggle bind:billing />
 </div>
 
-<div class="plans row no-scrollbar">
+<section id="plans" class="row no-scrollbar">
   <div class="scroll row border">
     {#each billingPlans as plan (plan.id)}
       <Plan {plan} class="$style.plan" />
     {/each}
   </div>
-</div>
+</section>
 
 <Comparison plans={billingPlans} class="$style.comparison" />
 
 <FAQ />
 
-<div class="bottom">
-  <Footer class="$style.footer" />
-</div>
+<Suggestions />
+
+<Footer class="$style.footer" />
 
 <style lang="scss">
-  .plans {
+  #plans {
     padding: 0 16px;
     margin: 0 0 80px;
     overflow: auto;
@@ -73,16 +74,11 @@
 
   .comparison {
     margin: 0 auto 80px;
-    max-width: 1152px;
+    max-width: var(--page-width, 1140px);
   }
 
   .bottom {
     background: var(--athens);
     padding: 0 24px;
-  }
-
-  .footer {
-    max-width: 1152px;
-    margin: 0 auto;
   }
 </style>
