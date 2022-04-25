@@ -37,7 +37,7 @@
 <section id="plans" class="row no-scrollbar">
   <div class="scroll row border">
     {#each billingPlans as plan (plan.id)}
-      <Plan {plan} class="$style.plan" />
+      <Plan {plan} {plans} class="$style.plan" />
     {/each}
   </div>
 </section>

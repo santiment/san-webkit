@@ -42,8 +42,12 @@ export function getPlanMonthPrice({ amount, interval }: SAN.Plan): number {
   return interval === Billing.MONTH ? price : price / 12
 }
 
-export const priceFormatter = (price: number) => '$' + Math.ceil(price)
+export const priceFormatter = (price: number) => '$' + Math.round(price)
 export const formatPrice = (plan: SAN.Plan) => priceFormatter(getPrice(plan.amount))
 export const formatMonthlyPrice = (plan: SAN.Plan) => priceFormatter(getPlanMonthPrice(plan))
 
 export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
+
+export function getAlternativePlan(plan: SAN.Plan, plans: SAN.Plan[]) {
+  return plans.find(({ name, interval }) => name === plan.name && interval !== plan.interval)
+}

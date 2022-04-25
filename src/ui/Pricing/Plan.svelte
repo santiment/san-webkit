@@ -1,25 +1,27 @@
-<script>
+<script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import { formatMonthlyPrice, formatPrice, PlanName } from '@/utils/plans'
+  import {
+    Billing,
+    formatMonthlyPrice,
+    getAlternativePlan,
+    getPrice,
+    PlanName,
+    priceFormatter,
+  } from '@/utils/plans'
+  import { PlanDescription } from './description'
 
   let className = ''
   export { className as class }
-  export let plan
+  export let plan: SAN.Plan
+  export let plans: SAN.Plan[]
 
-  $: console.log(plan)
+  $: ({ name, interval } = plan)
+  $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
+  $: ({ description, features } = PlanDescription[name])
 
-  $: ({ name, interval, amount } = plan)
-
-  const features = [
-    'Sanbase metrics - full historical and present-day data',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-    'Access to 20 Sanbase alerts',
-  ]
+  function getSavedAmount() {
+    return priceFormatter(getPrice(altPlan.amount * 12 - plan.amount))
+  }
 </script>
 
 <div class="plan txt-center relative {className}">
@@ -28,13 +30,17 @@
   <div class="trial label">Your trial plan</div>
   <div class="discount label">50% Off</div>
 
-  <div class="description c-waterloo">Advanced crypto metrics and market insights</div>
+  <div class="description c-waterloo">{description}</div>
 
   <div class="h2 txt-m mrg-xs mrg--b">
     {formatMonthlyPrice(plan)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>
   </div>
 
-  <div class="body-2 c-waterloo">$44 if billed yearly</div>
+  <div class="body-2 c-waterloo">
+    {interval === Billing.YEAR
+      ? `You save ${getSavedAmount()} a year`
+      : formatMonthlyPrice(altPlan) + ' if billed yearly'}
+  </div>
 
   <button class="btn-1 fluid body-2 mrg-l mrg--t mrg--b" on:click>Start 14-day Free trial</button>
 
