@@ -15,7 +15,9 @@
     {#if subscriptions.length === 0}
       <a
         class="upgrade btn-2 btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
-        href="https://app.santiment.net/pricing">
+        href="https://app.santiment.net/pricing"
+        on:click={window.__onLinkClick}
+      >
         <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
         Upgrade
       </a>

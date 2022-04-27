@@ -9,6 +9,7 @@
   export let currentUser
   export let onLogoutClick
   export let isOpened = false
+  export let tooltipClass = ''
 
   function onLogout() {
     isOpened = false
@@ -16,7 +17,13 @@
   }
 </script>
 
-<Tooltip duration={130} activeClass="$style.active" align="center" bind:isOpened>
+<Tooltip
+  duration={130}
+  activeClass="$style.active"
+  align="center"
+  bind:isOpened
+  class={tooltipClass}
+>
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" />
   </svelte:fragment>
@@ -28,10 +35,24 @@
       <hr />
 
       <section>
-        <a class="btn-ghost" href="https://app.santiment.net/alerts?tab=1">My signals</a>
-        <a class="btn-ghost" href="https://app.santiment.net/assets">My watchlists</a>
-        <a class="btn-ghost" href="/my">My insights</a>
-        <a href="/new" class="write btn-1 btn--s">Write insight</a>
+        <a
+          class="btn-ghost"
+          href="https://app.santiment.net/alerts?tab=1"
+          on:click={window.__onLinkClick}>My signals</a
+        >
+        <a class="btn-ghost" href="https://app.santiment.net/assets" on:click={window.__onLinkClick}
+          >My watchlists</a
+        >
+        <a
+          class="btn-ghost"
+          href="https://insights.santiment.net/my"
+          on:click={window.__onLinkClick}>My insights</a
+        >
+        <a
+          href="https://insights.santiment.net/new"
+          class="write btn-1 btn--s"
+          on:click={window.__onLinkClick}>Write insight</a
+        >
       </section>
       <hr />
     {/if}
@@ -42,17 +63,28 @@
         <Toggle isActive={$ui.nightMode} />
       </div>
 
+      <a href="https://app.santiment.net/labs" class="btn-ghost" on:click={window.__onLinkClick}
+        >Labs</a
+      >
+
       {#if currentUser}
-        <a href="https://app.santiment.net/labs" class="btn-ghost">Labs</a>
-        <a href="https://app.santiment.net/account" class="btn-ghost">Account Settings</a>
-        <div class="btn-ghost" on:click={() => window.Intercom && window.Intercom('show')}>
-          Contact us
-        </div>
+        <a
+          href="https://app.santiment.net/account"
+          class="btn-ghost"
+          on:click={window.__onLinkClick}>Account Settings</a
+        >
+      {/if}
+
+      <div class="btn-ghost" on:click={() => window.Intercom && window.Intercom('show')}>
+        Contact us
+      </div>
+
+      {#if currentUser}
         <div class="btn-ghost logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
         </div>
       {:else}
-        <a href="/login" class="btn-ghost">Login</a>
+        <a href="/login" class="btn-ghost" on:click={window.__onLinkClick}>Create an account</a>
       {/if}
     </section>
   </div>
