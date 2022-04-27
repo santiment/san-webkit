@@ -79,7 +79,8 @@
           placeholder="username"
           class="body-3"
           on:input={onInput}
-          on:blur={onBlur}>
+          on:blur={onBlur}
+        >
           <span slot="left">@</span>
         </InputWithIcon>
       </FieldTooltip>
@@ -92,15 +93,20 @@
     <Checkbox class="mrg-m mrg--r" {isActive} />
     I accept
     <a href="https://santiment.net/terms" target="_blank" rel="noopener noreferrer">Terms</a> and
-    <a href="https://app.santiment.net/privacy-policy" target="_blank" rel="noopener noreferrer"
-      >Privacy Policy</a>
+    <a
+      href="https://app.santiment.net/privacy-policy"
+      target="_blank"
+      rel="noopener noreferrer"
+      on:click={window.__onLinkClick}>Privacy Policy</a
+    >
   </div>
 
   <button
     class="submit btn-1 btn--l mrg-xxl mrg--t"
     class:loading
     class:disabled={isDisabled}
-    on:click={onSubmit}>Continue</button>
+    on:click={onSubmit}>Continue</button
+  >
 </Section>
 
 <style>

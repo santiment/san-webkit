@@ -16,12 +16,13 @@
   titleMargin="mrg-xxl"
   bottomLabel="New to Santiment?"
   bottomAction="Create an account"
-  bottomHref="/sign-up">
+  bottomHref="/sign-up"
+>
   <Metamask onClick={onMetamaskClick} />
 
   <Divider />
 
-  <Option href="/login/email" prefetch>
+  <Option href="/login/email" prefetch on:click={window.__onLinkClick}>
     <Svg id="email" w="16" h="12" class="mrg-s mrg--r $style.icon" />
     Log in with Email
   </Option>

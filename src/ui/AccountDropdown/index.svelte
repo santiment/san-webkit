@@ -38,7 +38,7 @@
         <a
           class="btn-ghost"
           href="https://app.santiment.net/alerts?tab=1"
-          on:click={window.__onLinkClick}>My signals</a
+          on:click={window.__onLinkClick}>My alerts</a
         >
         <a class="btn-ghost" href="https://app.santiment.net/assets" on:click={window.__onLinkClick}
           >My watchlists</a
