@@ -7,6 +7,7 @@
   import Plan from './Plan.svelte'
   import FAQ from './FAQ.svelte'
   import Suggestions from './Suggestions.svelte'
+  import SpecialOfferBanner from './SpecialOfferBanner.svelte'
 
   export let billing = Billing.MONTH
 
@@ -31,6 +32,8 @@
     <h3 class="body-1 c-waterloo">
       Choose the plan which fits your needs and enjoy our premium metrics
     </h3>
+
+    <SpecialOfferBanner />
 
     <BillingToggle bind:billing />
   </div>

@@ -2,6 +2,7 @@
   import { Meta, Story } from '@storybook/addon-svelte-csf'
   import Page from '@/ui/Pricing/Page.svelte'
   import Plan from '@/ui/Pricing/Plan.svelte'
+  import SpecialOfferBanner from '@/ui/Pricing/SpecialOfferBanner.svelte'
 
   const plans = [
     {
@@ -80,6 +81,11 @@
       </div>
     {/each}
   </div>
+</Story>
+
+<Story name="Special Offer Banner">
+  <SpecialOfferBanner percentOff={35} expireAt={'2022-05-08T06:04:12.552Z'} />
+  <SpecialOfferBanner percentOff={50} expireAt={'2022-05-08T06:04:12.552Z'} />
 </Story>
 
 <style>

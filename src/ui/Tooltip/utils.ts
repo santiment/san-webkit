@@ -60,7 +60,7 @@ export function getTooltipStyles(
 
   if (position === 'top' || position === 'bottom') {
     top += (position === 'top' ? -tooltipHeight : triggerHeight) + sign * offsetY
-    left += calculateAlignment(triggerWidth, tooltipWidth, align)
+    left += calculateAlignment(triggerWidth, tooltipWidth, align) + offsetX
     left += getHorizontalCorrection(tooltipWidth, left)
   } else {
     top += calculateAlignment(triggerHeight, tooltipHeight, align)
