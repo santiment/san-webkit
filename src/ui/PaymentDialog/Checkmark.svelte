@@ -1,13 +1,13 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
 
-  let className = 'mrg-a mrg--l'
+  let className = ''
   export { className as class }
   export let light = false
   export let disabled = false
 </script>
 
-<div class="check hv-center {className}">
+<div class="check hv-center mrg-a mrg--l {className}">
   <Svg id="checkmark" w="8" h="6" />
 </div>
 

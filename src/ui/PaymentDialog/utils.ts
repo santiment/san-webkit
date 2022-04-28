@@ -44,6 +44,18 @@ function submitPayment(plan: SAN.Plan, discount: any, cardTokenId?: string) {
   return mutateSubscribe(cardTokenId, +plan.id, discount)
 }
 
+export function createCardToken(
+  stripe: stripe.Stripe,
+  card: stripe.elements.Element,
+  checkoutInfo: { [key: string]: any },
+) {
+  return stripe.createToken(card, checkoutInfo).then(({ token, error }) => {
+    if (error) return Promise.reject(error)
+    if (!token) return Promise.reject('Stripe token is missing')
+    return token
+  })
+}
+
 export function buyPlan(
   plan: SAN.Plan,
   stripe: stripe.Stripe,
@@ -55,11 +67,9 @@ export function buyPlan(
 
   const promise = savedCard
     ? submitPayment(plan, discount)
-    : stripe.createToken(card, checkoutInfo).then(({ token, error }) => {
-        if (error) return Promise.reject(error)
-        if (!token) return Promise.reject('Stripe token is missing')
-        return submitPayment(plan, discount, token.id)
-      })
+    : createCardToken(stripe, card, checkoutInfo).then((token) =>
+        submitPayment(plan, discount, token.id),
+      )
 
   return promise.then(onPaymentSuccess).catch(onPaymentError)
 }

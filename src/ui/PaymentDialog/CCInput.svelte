@@ -3,7 +3,7 @@
   import Input from './Input.svelte'
 
   export let StripeCard: stripe.elements.Element | undefined
-  export let nightMode = false
+  export let nightMode = process.browser ? document.body.classList.contains('night-mode') : false
   let ccNode
 
   const INPUT_STYLE = {
