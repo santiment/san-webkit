@@ -59,3 +59,8 @@ export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
 export function getAlternativePlan(plan: SAN.Plan, plans: SAN.Plan[]) {
   return plans.find(({ name, interval }) => name === plan.name && interval !== plan.interval)
 }
+
+export function getSavedAmount(plan: SAN.Plan, altPlan: SAN.Plan, percentOff?: number) {
+  const price = plan.amount * calcDiscount(percentOff)
+  return priceFormatter(getPrice(altPlan.amount * 12 - price))
+}

@@ -108,7 +108,7 @@
   .dialog {
     padding: 16px 40px 24px;
     overflow: auto;
-    width: 860px;
+    width: 900px;
     max-width: 100%;
   }
 

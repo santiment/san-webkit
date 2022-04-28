@@ -25,7 +25,7 @@
 
 <div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
-    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {isSinglePlan} />
+    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} {isSinglePlan} />
 
     {#if isAnnualPlan && annualDiscount.isEligible}
       <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.discount.percentOff} />

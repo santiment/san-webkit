@@ -2,12 +2,10 @@
   import Svg from '@/ui/Svg/svelte'
   import {
     Billing,
-    calcDiscount,
     formatMonthlyPrice,
     getAlternativePlan,
-    getPrice,
+    getSavedAmount,
     PlanName,
-    priceFormatter,
   } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
   import PlanButton from './PlanButton.svelte'
@@ -28,11 +26,6 @@
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
   $: percentOff = annualDiscount.discount?.percentOff || 0
-
-  function getSavedAmount() {
-    const price = plan.amount * calcDiscount(percentOff)
-    return priceFormatter(getPrice(altPlan.amount * 12 - price))
-  }
 </script>
 
 <div class="plan txt-center relative {className}">
@@ -51,7 +44,7 @@
 
   <div class="body-2 c-waterloo">
     {isAnnualPlan
-      ? `You save ${getSavedAmount()} a year`
+      ? `You save ${getSavedAmount(plan, altPlan, percentOff)} a year`
       : formatMonthlyPrice(altPlan, percentOff) + ' if billed yearly'}
   </div>
 

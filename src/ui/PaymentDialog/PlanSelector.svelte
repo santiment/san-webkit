@@ -1,15 +1,26 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
-  import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing } from '@/utils/plans'
+  import {
+    PlanName,
+    checkIsYearlyPlan,
+    formatMonthlyPrice,
+    Billing,
+    getAlternativePlan,
+    getSavedAmount,
+  } from '@/utils/plans'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
   export let price: string
   export let selectedNameBilling: string
   export let isSinglePlan: boolean
+  export let annualDiscount: SAN.AnnualDiscount
 
   let isOpened = false
+
+  $: annualPercentOff = annualDiscount.discount?.percentOff || 10
+  $: altPlan = getAlternativePlan(plan, plans)
 
   function select(option) {
     plan = option
@@ -43,7 +54,11 @@
     </Tooltip>
 
     <div class="caption txt-m c-accent">
-      {checkIsYearlyPlan(plan) ? SAVED_MSG : 'Save 10% with yearly billing'}
+      {#if checkIsYearlyPlan(plan)}
+        {altPlan ? `You save ${getSavedAmount(plan, altPlan)} a year 🎉` : SAVED_MSG}
+      {:else}
+        Save {annualPercentOff}% with yearly billing
+      {/if}
     </div>
   </div>
 
