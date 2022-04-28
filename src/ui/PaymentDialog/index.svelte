@@ -31,6 +31,7 @@
   export let trialDaysLeft = 0
   export let sanBalance = 0
   export let isEligibleForTrial = false
+  export let annualDiscount = {} as SAN.AnnualDiscount
   export let onPaymentSuccess
   export let onPaymentError
 
@@ -92,6 +93,7 @@
         {name}
         {price}
         {sanBalance}
+        {annualDiscount}
         {isSinglePlan}
         {isEligibleForTrial}
         {loading}
@@ -106,6 +108,8 @@
   .dialog {
     padding: 16px 40px 24px;
     overflow: auto;
+    width: 860px;
+    max-width: 100%;
   }
 
   form {

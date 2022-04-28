@@ -4,6 +4,8 @@
   import PlanSelector from './PlanSelector.svelte'
   import Check from './Check.svelte'
   import DiscountInput from './DiscountInput.svelte'
+  import { Billing } from '@/utils/plans'
+  import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
@@ -13,33 +15,50 @@
   export let isEligibleForTrial: boolean
   export let loading: boolean
   export let sanBalance: number
+  export let annualDiscount = {} as SAN.AnnualDiscount
 
   let percentOff = 0
 
-  $: selectedNameBilling = name ? `${name} ${plan.interval}ly` : ''
+  $: isAnnualPlan = plan.interval === Billing.YEAR
+  $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : ''
 </script>
 
-<div class="confirmation relative">
+<div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
     <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {isSinglePlan} />
 
-    <DiscountInput bind:percentOff />
+    {#if isAnnualPlan && annualDiscount.isEligible}
+      <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.discount.percentOff} />
+    {:else}
+      <DiscountInput bind:percentOff />
 
-    <div class="holder row mrg-xl mrg--b">
-      <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
-      <div>
-        Holding 1000 SAN tokens will result in a 20% discount.
-        <a
-          href="https://santiment.net/about-santiment/how-to-buy-san/"
-          target="_blank"
-          rel="noopener noreferrer">Learn how to buy SAN.</a>
+      <div class="holder row mrg-xl mrg--b">
+        <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
+        <div>
+          Holding 1000 SAN tokens will result in a 20% discount.
+          <a
+            href="https://santiment.net/about-santiment/how-to-buy-san/"
+            target="_blank"
+            rel="noopener noreferrer">Learn how to buy SAN.</a
+          >
+        </div>
       </div>
-    </div>
+    {/if}
 
-    <Check {plan} {price} {selectedNameBilling} {percentOff} {sanBalance} />
+    <Check
+      {plan}
+      {price}
+      {selectedNameBilling}
+      {percentOff}
+      {sanBalance}
+      {isAnnualPlan}
+      {isEligibleForTrial}
+      annualDiscount={isAnnualPlan ? annualDiscount : {}}
+    />
 
     <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t" class:loading>
-      {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Pay'}</button>
+      {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Purchase'}</button
+    >
   </Skeleton>
 </div>
 

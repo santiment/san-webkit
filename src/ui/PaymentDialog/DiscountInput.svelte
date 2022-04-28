@@ -51,12 +51,13 @@
 </script>
 
 <Input
-  title="Discount code"
+  title="Have a promo code?"
   name="discount"
   placeholder="2H8vZG5P"
   required={false}
   class="relative mrg-s mrg--b"
-  on:input={onInput}>
+  on:input={onInput}
+>
   {#if value}
     {#if loading}
       <div class="loading-spin $style.status" />
@@ -64,7 +65,8 @@
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="$style.status {isValid ? '$style.valid' : ''}" />
+        class="$style.status {isValid ? '$style.valid' : ''}"
+      />
     {/if}
   {/if}
 </Input>

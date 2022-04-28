@@ -23,6 +23,38 @@
   <OnMount run={() => showPaymentDialog({ isEligibleForTrial: false, trialDaysLeft: 0 })} />
 </Story>
 
+<Story name="Trial - Annual discount">
+  <OnMount
+    run={() =>
+      showPaymentDialog({
+        isEligibleForTrial: false,
+        trialDaysLeft: 1,
+        annualDiscount: {
+          isEligible: true,
+          discount: {
+            percentOff: 35,
+          },
+        },
+      })}
+  />
+</Story>
+
+<Story name="Expired trial - Annual discount">
+  <OnMount
+    run={() =>
+      showPaymentDialog({
+        isEligibleForTrial: false,
+        trialDaysLeft: 0,
+        annualDiscount: {
+          isEligible: true,
+          discount: {
+            percentOff: 50,
+          },
+        },
+      })}
+  />
+</Story>
+
 <Dialogs />
 
 <style>

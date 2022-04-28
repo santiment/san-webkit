@@ -7,7 +7,7 @@
   export let plans: SAN.Plan[]
   export let subscription: undefined | SAN.Subscription
   export let isEligibleForTrial: boolean = true
-  export let annualDiscountEligibility = {} as SAN.AnnualDiscount
+  export let annualDiscount = {} as SAN.AnnualDiscount
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription?.plan.id === id
@@ -16,9 +16,9 @@
   $: label = (plan, subscription, getLabel())
 
   function getLabel() {
-    if (annualDiscountEligibility.isEligible) {
+    if (annualDiscount.isEligible) {
       if (plan.interval === Billing.YEAR)
-        return `Pay now ${annualDiscountEligibility.discount?.percentOff}% Off`
+        return `Pay now ${annualDiscount.discount?.percentOff}% Off`
       return 'Pay now'
     }
 
@@ -46,7 +46,7 @@
 
 <button
   class="btn-1 fluid body-2 {className}"
-  class:disabled={isCurrentPlan && !annualDiscountEligibility.isEligible}
+  class:disabled={isCurrentPlan && !annualDiscount.isEligible}
   class:downgrade={isDowngrade}
   on:click>{label}</button
 >

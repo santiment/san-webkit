@@ -51,14 +51,14 @@
     <div class="card border"><Plan plan={plans[0]} {plans} isEligibleForTrial={false} /></div>
   </div>
 
-  annualDiscountEligibility 35% year | 50% year plans
+  annualDiscount 35% year | 50% year plans
   <div class="row">
     <div class="card border">
       <Plan
         plan={plans[0]}
         {plans}
         isEligibleForTrial={false}
-        annualDiscountEligibility={{
+        annualDiscount={{
           isEligible: true,
           discount: { percentOff: 35 },
         }}
@@ -74,7 +74,7 @@
         plan={plans[2]}
         {plans}
         isEligibleForTrial={false}
-        annualDiscountEligibility={{
+        annualDiscount={{
           isEligible: true,
           discount: { percentOff: 35 },
         }}
@@ -86,7 +86,7 @@
         plan={plans[0]}
         {plans}
         isEligibleForTrial={false}
-        annualDiscountEligibility={{
+        annualDiscount={{
           isEligible: true,
           discount: { percentOff: 50 },
         }}
@@ -98,7 +98,7 @@
         plan={plans[2]}
         {plans}
         isEligibleForTrial={false}
-        annualDiscountEligibility={{
+        annualDiscount={{
           isEligible: true,
           discount: { percentOff: 50 },
         }}

@@ -11,7 +11,7 @@
 
   export let billing = Billing.MONTH
 
-  let annualDiscountEligibility = {} as SAN.AnnualDiscount
+  let annualDiscount = {} as SAN.AnnualDiscount
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
 
@@ -34,8 +34,8 @@
       Choose the plan which fits your needs and enjoy our premium metrics
     </h3>
 
-    {#if annualDiscountEligibility.isEligible}
-      <SpecialOfferBanner />
+    {#if annualDiscount.isEligible}
+      <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
     <BillingToggle bind:billing />

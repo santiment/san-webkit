@@ -19,7 +19,7 @@
   export let plans: SAN.Plan[]
   export let subscription: undefined | SAN.Subscription
   export let isEligibleForTrial: boolean
-  export let annualDiscountEligibility = {} as SAN.AnnualDiscount
+  export let annualDiscount = {} as SAN.AnnualDiscount
 
   $: ({ id, name, interval } = plan)
   $: isOnTrial = checkIsTrialSubscription(subscription)
@@ -27,7 +27,7 @@
   $: isAnnualPlan = interval === Billing.YEAR
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
-  $: percentOff = annualDiscountEligibility.discount?.percentOff || 0
+  $: percentOff = annualDiscount.discount?.percentOff || 0
 
   function getSavedAmount() {
     const price = plan.amount * calcDiscount(percentOff)
@@ -60,7 +60,7 @@
     {plans}
     {subscription}
     {isEligibleForTrial}
-    {annualDiscountEligibility}
+    {annualDiscount}
     class="mrg-l mrg--t mrg--b"
   />
 

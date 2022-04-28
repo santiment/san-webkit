@@ -1,7 +1,7 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
-  import { PlanName, checkIsYearlyPlan, formatPrice, formatMonthlyPrice } from '@/utils/plans'
+  import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing } from '@/utils/plans'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
@@ -19,7 +19,7 @@
   const SAVED_MSG = 'Save 10% 🎉'
 </script>
 
-<div class="row v-center justify mrg-xl mrg--b">
+<div class="row justify mrg-l mrg--b">
   <div class="relative">
     <Tooltip bind:isOpened on="click" offsetY={0} activeClass="$style.opened">
       <div slot="trigger" class="selector btn body-1 txt-b" on:click>
@@ -31,7 +31,7 @@
         {#each plans as option}
           <div class="option btn" class:active={plan === option} on:click={() => select(option)}>
             {isSinglePlan ? 'Bill' : PlanName[option.name]}
-            {option.interval}ly -
+            {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 
             {#if checkIsYearlyPlan(option)}
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="h3">
+  <div class="h4">
     {price}
     <span class="body-1 c-casper">/ {plan.interval}</span>
   </div>
