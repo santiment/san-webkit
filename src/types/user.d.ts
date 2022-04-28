@@ -22,4 +22,9 @@ declare namespace SAN {
       interval: string
     }
   }
+
+  type AnnualDiscount = {
+    isEligible: false
+    discount: null | { percentOff: number; expireAt: string }
+  }
 }

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Footer from '@/ui/Footer/svelte'
   import { querySanbasePlans } from '@/api/plans'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
@@ -11,6 +11,7 @@
 
   export let billing = Billing.MONTH
 
+  let annualDiscountEligibility = {} as SAN.AnnualDiscount
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
 
@@ -33,7 +34,9 @@
       Choose the plan which fits your needs and enjoy our premium metrics
     </h3>
 
-    <SpecialOfferBanner />
+    {#if annualDiscountEligibility.isEligible}
+      <SpecialOfferBanner />
+    {/if}
 
     <BillingToggle bind:billing />
   </div>

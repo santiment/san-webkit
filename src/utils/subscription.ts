@@ -6,6 +6,9 @@ export enum Status {
   TRIALING = 'TRIALING',
 }
 
+export const checkIsTrialSubscription = ({ status } = {} as SAN.Subscription) =>
+  status === Status.TRIALING
+
 export const checkIsActiveSubscription = ({ status }: SAN.Subscription): boolean =>
   status === Status.ACTIVE || status === Status.TRIALING
 

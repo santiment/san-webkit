@@ -44,10 +44,66 @@
 </Story>
 
 <Story name="Plan card">
+  Trial eligible | Non-trial eligible
   <div class="row">
     <div class="card border"><Plan plan={plans[0]} {plans} /></div>
 
     <div class="card border"><Plan plan={plans[0]} {plans} isEligibleForTrial={false} /></div>
+  </div>
+
+  annualDiscountEligibility 35% year | 50% year plans
+  <div class="row">
+    <div class="card border">
+      <Plan
+        plan={plans[0]}
+        {plans}
+        isEligibleForTrial={false}
+        annualDiscountEligibility={{
+          isEligible: true,
+          discount: { percentOff: 35 },
+        }}
+        subscription={{
+          status: 'TRIALING',
+          plan: plans[0],
+        }}
+      />
+    </div>
+
+    <div class="card border">
+      <Plan
+        plan={plans[2]}
+        {plans}
+        isEligibleForTrial={false}
+        annualDiscountEligibility={{
+          isEligible: true,
+          discount: { percentOff: 35 },
+        }}
+      />
+    </div>
+
+    <div class="card border">
+      <Plan
+        plan={plans[0]}
+        {plans}
+        isEligibleForTrial={false}
+        annualDiscountEligibility={{
+          isEligible: true,
+          discount: { percentOff: 50 },
+        }}
+      />
+    </div>
+
+    <div class="card border">
+      <Plan
+        plan={plans[2]}
+        {plans}
+        isEligibleForTrial={false}
+        annualDiscountEligibility={{
+          isEligible: true,
+          discount: { percentOff: 50 },
+        }}
+      />
+    </div>
   </div>
 
   <div class="row">

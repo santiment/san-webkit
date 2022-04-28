@@ -36,18 +36,23 @@ export enum Billing {
 export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
   interval === Billing.YEAR
 
-export const getPrice = (amount: number) => amount / 100
-export function getPlanMonthPrice({
-  amount,
-  interval,
-}: Pick<SAN.Plan, 'amount' | 'interval'>): number {
-  const price = getPrice(amount)
+export const calcDiscount = (percentOff?: number) => (100 - (percentOff || 0)) / 100
+
+export const getPrice = (amount: number, percentOff = 0) =>
+  (amount / 100) * calcDiscount(percentOff)
+
+export function getPlanMonthPrice(
+  { amount, interval }: Pick<SAN.Plan, 'amount' | 'interval'>,
+  percentOff = 0,
+): number {
+  const price = getPrice(amount, percentOff)
   return interval === Billing.MONTH ? price : price / 12
 }
 
 export const priceFormatter = (price: number) => '$' + Math.round(price)
 export const formatPrice = (plan: SAN.Plan) => priceFormatter(getPrice(plan.amount))
-export const formatMonthlyPrice = (plan: SAN.Plan) => priceFormatter(getPlanMonthPrice(plan))
+export const formatMonthlyPrice = (plan: SAN.Plan, percentOff = 0) =>
+  priceFormatter(getPlanMonthPrice(plan, percentOff))
 
 export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
 

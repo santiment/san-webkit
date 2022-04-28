@@ -2,12 +2,14 @@
   import Svg from '@/ui/Svg/svelte'
   import {
     Billing,
+    calcDiscount,
     formatMonthlyPrice,
     getAlternativePlan,
     getPrice,
     PlanName,
     priceFormatter,
   } from '@/utils/plans'
+  import { checkIsTrialSubscription } from '@/utils/subscription'
   import PlanButton from './PlanButton.svelte'
   import { PlanDescription } from './description'
 
@@ -15,39 +17,52 @@
   export { className as class }
   export let plan: SAN.Plan
   export let plans: SAN.Plan[]
-  export let discount = 0
   export let subscription: undefined | SAN.Subscription
   export let isEligibleForTrial: boolean
+  export let annualDiscountEligibility = {} as SAN.AnnualDiscount
 
   $: ({ id, name, interval } = plan)
+  $: isOnTrial = checkIsTrialSubscription(subscription)
+  $: isTrialPlan = isOnTrial && subscription?.plan.id === id
+  $: isAnnualPlan = interval === Billing.YEAR
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
+  $: percentOff = annualDiscountEligibility.discount?.percentOff || 0
 
   function getSavedAmount() {
-    return priceFormatter(getPrice(altPlan.amount * 12 - plan.amount))
+    const price = plan.amount * calcDiscount(percentOff)
+    return priceFormatter(getPrice(altPlan.amount * 12 - price))
   }
 </script>
 
 <div class="plan txt-center relative {className}">
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
-  <div class="trial label">Your trial plan</div>
+  {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
-  {#if discount}<div class="discount label">50% Off</div>{/if}
+  {#if isAnnualPlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
 
   <div class="description c-waterloo">{description}</div>
 
   <div class="h2 txt-m mrg-xs mrg--b">
-    {formatMonthlyPrice(plan)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>
+    {formatMonthlyPrice(plan, percentOff)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span
+    >
   </div>
 
   <div class="body-2 c-waterloo">
-    {interval === Billing.YEAR
+    {isAnnualPlan
       ? `You save ${getSavedAmount()} a year`
-      : formatMonthlyPrice(altPlan) + ' if billed yearly'}
+      : formatMonthlyPrice(altPlan, percentOff) + ' if billed yearly'}
   </div>
 
-  <PlanButton {plan} {plans} {subscription} {isEligibleForTrial} class="mrg-l mrg--t mrg--b" />
+  <PlanButton
+    {plan}
+    {plans}
+    {subscription}
+    {isEligibleForTrial}
+    {annualDiscountEligibility}
+    class="mrg-l mrg--t mrg--b"
+  />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
