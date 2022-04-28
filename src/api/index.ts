@@ -120,3 +120,13 @@ function getRequestData(req: Request) {
 
   return headers
 }
+
+/*
+export function query$() {
+  return {
+    query() {},
+    subscribe() {},
+    clear() {},
+  }
+}
+*/

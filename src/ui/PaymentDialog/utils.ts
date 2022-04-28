@@ -39,24 +39,29 @@ export function getPaymentFormData(form: HTMLFormElement) {
   return data
 }
 
+function submitPayment(plan: SAN.Plan, discount: any, cardTokenId?: string) {
+  track.event('upgrade', { method: 'Payment submitted' })
+  return mutateSubscribe(cardTokenId, +plan.id, discount)
+}
+
 export function buyPlan(
   plan: SAN.Plan,
   stripe: stripe.Stripe,
   card: stripe.elements.Element,
   form: { [key: string]: any },
+  savedCard?: SAN.PaymentCard,
 ) {
   const { discount, ...checkoutInfo } = form
 
-  return stripe.createToken(card, checkoutInfo).then(({ token, error }) => {
-    if (error) return Promise.reject(error)
-    if (!token) return Promise.reject('Stripe token is missing')
+  const promise = savedCard
+    ? submitPayment(plan, discount)
+    : stripe.createToken(card, checkoutInfo).then(({ token, error }) => {
+        if (error) return Promise.reject(error)
+        if (!token) return Promise.reject('Stripe token is missing')
+        return submitPayment(plan, discount, token.id)
+      })
 
-    track.event('upgrade', { method: 'Payment submitted' })
-
-    return mutateSubscribe(token.id, +plan.id, discount)
-      .then(onPaymentSuccess)
-      .catch(onPaymentError)
-  })
+  return promise.then(onPaymentSuccess).catch(onPaymentError)
 }
 
 function onPaymentSuccess(data) {

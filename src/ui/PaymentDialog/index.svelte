@@ -18,6 +18,7 @@
   import { PlanName } from '@/utils/plans'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
+  import SavedCard from './SavedCard.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
@@ -31,6 +32,7 @@
   export let trialDaysLeft = 0
   export let sanBalance = 0
   export let isEligibleForTrial = false
+  export let savedCard: undefined | SAN.PaymentCard
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let onPaymentSuccess
   export let onPaymentError
@@ -71,7 +73,7 @@
     DialogPromise.locking = DialogLock.LOCKED
     const data = getPaymentFormData(currentTarget)
 
-    buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data)
+    buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data, savedCard)
       .then(onPaymentSuccess)
       .catch(onPaymentError)
       .finally(() => {
@@ -86,7 +88,12 @@
     <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
 
     <form on:submit|preventDefault={onSubmit} on:change={onChange}>
-      <PayerInfo bind:StripeCard />
+      {#if savedCard}
+        <SavedCard bind:savedCard />
+      {:else}
+        <PayerInfo bind:StripeCard />
+      {/if}
+
       <Confirmation
         bind:plan
         {plans}

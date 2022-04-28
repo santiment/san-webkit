@@ -62,10 +62,10 @@ export const queryCoupon = (coupon: string) =>
 
 // -------------------------------------
 
-const SUBSCRIBE_MUTATION = (cardToken: string, planId: number, coupon?: string) => `
-  mutation subscribe($cardToken: String!, $planId: Int!, $coupon: String) {
+const SUBSCRIBE_MUTATION = (cardToken: undefined | string, planId: number, coupon?: string) => `
+  mutation {
     subscribe(
-      cardToken:"${cardToken}"
+      ${cardToken ? `cardToken:"${cardToken}"` : ''}
       planId:${planId}
       ${coupon ? 'coupon:"' + coupon + '"' : ''}
     ) {
@@ -97,5 +97,5 @@ type SubscribeMutation = SAN.API.Query<
 >
 
 const subscribeAccessor = ({ subscribe }: SubscribeMutation) => subscribe
-export const mutateSubscribe = (cardToken: string, planId: number, coupon?: string) =>
+export const mutateSubscribe = (cardToken: undefined | string, planId: number, coupon?: string) =>
   mutate<SubscribeMutation>(SUBSCRIBE_MUTATION(cardToken, planId, coupon)).then(subscribeAccessor)

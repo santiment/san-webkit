@@ -55,6 +55,17 @@
   />
 </Story>
 
+<Story name="Saved card">
+  <OnMount
+    run={() =>
+      showPaymentDialog({
+        isEligibleForTrial: false,
+        trialDaysLeft: 0,
+        savedCard: { last4: '5467', expMonth: 11, expYear: 25, brand: 'Visa' },
+      })}
+  />
+</Story>
+
 <Dialogs />
 
 <style>

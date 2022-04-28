@@ -27,4 +27,11 @@ declare namespace SAN {
     isEligible: false
     discount: null | { percentOff: number; expireAt: string }
   }
+
+  type PaymentCard = {
+    brand: 'MasterCard' | 'UnionPay' | 'Visa' | 'Unknown'
+    last4: string
+    expMonth: number
+    expYear: number
+  }
 }
