@@ -1,8 +1,10 @@
 import { track } from '@/analytics'
 import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
+import { customerData$ } from '@/stores/user'
 import { notifications } from '@/ui/Notifications'
 import { clearPaymentCardQuery } from '@/api/subscription'
+import { subscription$ } from '@/stores/subscription'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
@@ -90,6 +92,8 @@ function onPaymentSuccess(data) {
     type: 'success',
     title: `You have successfully upgraded to the "${title}" plan!`,
   })
+  subscription$.refetch()
+  customerData$.refetch()
   return Promise.resolve(data)
 }
 

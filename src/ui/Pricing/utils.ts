@@ -1,6 +1,8 @@
+import { subscription$ } from '@/stores/subscription'
 import { notifications } from '@/ui/Notifications'
 
 export function onPlanChangeSuccess(planName: string) {
+  subscription$.refetch()
   notifications.show({
     type: 'success',
     title: `You have successfully changed your plan to the "${planName}"!`,

@@ -2,6 +2,8 @@
   import Footer from '@/ui/Footer/svelte'
   import { querySanbasePlans } from '@/api/plans'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
+  import { subscription$ } from '@/stores/subscription'
+  import { customerData$ } from '@/stores/user'
   import BillingToggle from './BillingToggle.svelte'
   import FAQ from './FAQ.svelte'
   import Suggestions from './Suggestions.svelte'
@@ -12,9 +14,9 @@
   let className = ''
   export { className as class }
   export let billing = Billing.MONTH
-  export let subscription: undefined | SAN.Subscription
-  export let isEligibleForTrial: boolean
-  export let annualDiscount = {} as SAN.AnnualDiscount
+
+  $: subscription = $subscription$
+  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
 
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
@@ -22,8 +24,6 @@
   querySanbasePlans().then((data) => {
     plans = data.filter(onlyProLikePlans)
   })
-
-  $: console.log(billingPlans)
 
   function billingFilter({ interval }) {
     return interval === billing
@@ -64,7 +64,10 @@
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
+    <div />
   </section>
+
+  <section id="twitter" />
 
   <FAQ />
 

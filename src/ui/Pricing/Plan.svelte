@@ -20,7 +20,7 @@
   export let annualDiscount = {} as SAN.AnnualDiscount
 
   $: ({ id, name, interval } = plan)
-  $: isOnTrial = checkIsTrialSubscription(subscription)
+  $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
   $: isTrialPlan = isOnTrial && subscription?.plan.id === id
   $: isAnnualPlan = interval === Billing.YEAR
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan

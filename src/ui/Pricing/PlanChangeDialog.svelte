@@ -9,6 +9,7 @@
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import Svg from '@/ui/Svg/svelte'
+  import { subscription$ } from '@/stores/subscription'
   import { Billing, formatPrice, PlanName } from '@/utils/plans'
   import { getDateFormats } from '@/utils/dates'
   import { mutateUpdateSubscription } from '@/api/subscription'
@@ -16,12 +17,12 @@
 
   export let DialogPromise: SAN.DialogController
   export let plan
-  export let subscription: SAN.Subscription
   export let isUpgrade = false
 
   let closeDialog
   let loading = false
 
+  const subscription = $subscription$
   const newName = PlanName[plan.name] || plan.name
   const isNewBillingMonthly = plan.interval === Billing.MONTH
   const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'

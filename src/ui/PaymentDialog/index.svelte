@@ -17,6 +17,7 @@
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import { PlanName } from '@/utils/plans'
+  import { customerData$ } from '@/stores/user'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import SavedCard from './SavedCard.svelte'
@@ -31,9 +32,6 @@
   export let isSinglePlan = false
   export let plansFilter = onlyProLikePlans
   export let trialDaysLeft = 0
-  export let sanBalance = 0
-  export let isEligibleForTrial = false
-  export let annualDiscount = {} as SAN.AnnualDiscount
   export let onPaymentSuccess
   export let onPaymentError
 
@@ -49,6 +47,8 @@
     getPlans()
   }
 
+  // TODO: make customer data accesible via context
+  $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customerData$)
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
 

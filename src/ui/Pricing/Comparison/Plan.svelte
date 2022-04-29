@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { subscription$ } from '@/stores/subscription'
   import { formatMonthlyPrice, PlanName } from '@/utils/plans'
   import PlanButton from '../PlanButton.svelte'
 
@@ -18,7 +19,7 @@
     <span class="c-waterloo mrg-a mrg--l">{formatMonthlyPrice(plan)} / mo</span>
   </h3>
 
-  <PlanButton {plan} {plans} class="mrg-m mrg--t" />
+  <PlanButton {plan} {plans} subscription={$subscription$} class="mrg-m mrg--t" />
 </div>
 
 <style>
