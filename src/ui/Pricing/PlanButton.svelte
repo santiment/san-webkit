@@ -6,10 +6,10 @@
   let className = ''
   export { className as class }
   export let plan: SAN.Plan
-  export let plans: SAN.Plan[]
   export let subscription: undefined | SAN.Subscription
   export let isEligibleForTrial: boolean = true
   export let annualDiscount = {} as SAN.AnnualDiscount
+  export let isLoggednIn = false
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription?.plan.id === id
@@ -25,7 +25,7 @@
     }
 
     if (isCurrentPlan) return 'Your current plan'
-    if (isEligibleForTrial) return 'Start 14-day Free trial'
+    if (isEligibleForTrial || !isLoggednIn) return 'Start 14-day Free trial'
     if (isUpgrade) return 'Upgrade'
     if (isDowngrade) return 'Downgrade'
 
@@ -46,6 +46,10 @@
   }
 
   function onClick() {
+    if (!isLoggednIn) {
+      return window.__onLinkClick('/login')
+    }
+
     if (!annualDiscount.isEligible) {
       if (isUpgrade || isDowngrade) {
         return showPlanChangeDialog({ isUpgrade, plan, subscription })

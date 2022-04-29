@@ -16,8 +16,9 @@
   export let plan: SAN.Plan
   export let plans: SAN.Plan[]
   export let subscription: undefined | SAN.Subscription
-  export let isEligibleForTrial: boolean
   export let annualDiscount = {} as SAN.AnnualDiscount
+  export let isEligibleForTrial: boolean
+  export let isLoggedIn = false
 
   $: ({ id, name, interval } = plan)
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
@@ -52,8 +53,9 @@
     {plan}
     {plans}
     {subscription}
-    {isEligibleForTrial}
     {annualDiscount}
+    {isEligibleForTrial}
+    {isLoggedIn}
     class="mrg-l mrg--t mrg--b"
   />
 

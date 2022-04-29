@@ -6,6 +6,8 @@
   export let plan: SAN.Plan
   export let plans: SAN.Plan[]
   export let discount = 0
+  export let isEligibleForTrial: boolean
+  export let isLoggedIn = false
 
   $: ({ name } = plan)
 </script>
@@ -19,7 +21,14 @@
     <span class="c-waterloo mrg-a mrg--l">{formatMonthlyPrice(plan)} / mo</span>
   </h3>
 
-  <PlanButton {plan} {plans} subscription={$subscription$} class="mrg-m mrg--t" />
+  <PlanButton
+    {plan}
+    {plans}
+    {isEligibleForTrial}
+    {isLoggedIn}
+    subscription={$subscription$}
+    class="mrg-m mrg--t"
+  />
 </div>
 
 <style>

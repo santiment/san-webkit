@@ -19,6 +19,7 @@ const CUSTOMER_DATA_QUERY = `{
 const queryCustomerData = () => query<any>(CUSTOMER_DATA_QUERY)
 
 type CustomerData = {
+  isLoggedIn: boolean
   sanBalance: number
   isEligibleForTrial: boolean
   annualDiscount: SAN.AnnualDiscount
@@ -27,6 +28,7 @@ type CustomerData = {
 const store = {
   fetched: false,
   value: {
+    isLoggedIn: false,
     sanBalance: 0,
     isEligibleForTrial: false,
     annualDiscount: {},
@@ -35,7 +37,7 @@ const store = {
 
 const { subscribe, set } = writable<CustomerData>(store.value)
 function accessor({ currentUser, annualDiscount }) {
-  set(Object.assign({ annualDiscount }, currentUser))
+  set(Object.assign({ annualDiscount, isLoggedIn: !!currentUser }, currentUser))
 }
 export const customerData$ = {
   set,

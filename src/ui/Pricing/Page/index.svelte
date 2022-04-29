@@ -16,7 +16,7 @@
   export let billing = Billing.MONTH
 
   $: subscription = $subscription$
-  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)
 
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
@@ -53,6 +53,7 @@
           {plans}
           {subscription}
           {annualDiscount}
+          {isLoggedIn}
           {isEligibleForTrial}
           class="$style.plan"
         />
@@ -60,7 +61,7 @@
     </div>
   </section>
 
-  <Comparison plans={billingPlans} class="$style.comparison" />
+  <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
