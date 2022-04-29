@@ -48,7 +48,7 @@
   function onClick() {
     if (!annualDiscount.isEligible) {
       if (isUpgrade || isDowngrade) {
-        return showPlanChangeDialog({ isUpgrade, plan, currentPlan: subscription.plan })
+        return showPlanChangeDialog({ isUpgrade, plan, subscription })
       }
     }
 

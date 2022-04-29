@@ -4,6 +4,7 @@
   import Plan from '@/ui/Pricing/Plan.svelte'
   import Page from '@/ui/Pricing/Page/index.svelte'
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
+  import Notifications from '@/ui/Notifications'
 
   const plans = [
     {
@@ -146,6 +147,8 @@
 </Story>
 
 <Dialogs />
+
+<Notifications />
 
 <style>
   .card {

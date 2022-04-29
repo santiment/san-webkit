@@ -65,7 +65,8 @@
   class="panel box not"
   style="--y-offset: {yOffset}"
   bind:clientHeight={height}
-  transition:notify>
+  transition:notify
+>
   <div class="row v-center">
     <Svg id={TypeIcon[type] || type} class="$style.icon {type}" />
     <div class="title txt-m">{title}</div>
@@ -102,20 +103,20 @@
     width: 16px;
     height: 16px;
     fill: var(--waterloo);
+  }
 
-    :global {
-      &.success {
-        fill: var(--green);
-      }
-      &.error {
-        fill: var(--red);
-      }
-      &.warning {
-        fill: var(--orange);
-      }
-      &.info {
-        fill: var(--blue);
-      }
+  :global {
+    .icon.success {
+      fill: var(--green);
+    }
+    .icon.error {
+      fill: var(--red);
+    }
+    .icon.warning {
+      fill: var(--orange);
+    }
+    .icon.info {
+      fill: var(--blue);
     }
   }
 

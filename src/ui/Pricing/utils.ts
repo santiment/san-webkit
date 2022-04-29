@@ -1,0 +1,13 @@
+import { notifications } from '@/ui/Notifications'
+
+export function onPlanChangeSuccess(planName: string) {
+  notifications.show({
+    type: 'success',
+    title: `You have successfully changed your plan to the "${planName}"!`,
+  })
+}
+
+export function onPlanChangeError(error) {
+  notifications.show({ type: 'error', title: `Error during plan change` })
+  return Promise.reject(error)
+}

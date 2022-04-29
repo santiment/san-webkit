@@ -9,23 +9,45 @@
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import Svg from '@/ui/Svg/svelte'
-  import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { Billing, formatPrice, PlanName } from '@/utils/plans'
+  import { getDateFormats } from '@/utils/dates'
+  import { mutateUpdateSubscription } from '@/api/subscription'
+  import { onPlanChangeError, onPlanChangeSuccess } from './utils'
 
   export let DialogPromise: SAN.DialogController
   export let plan
-  export let currentPlan
+  export let subscription: SAN.Subscription
   export let isUpgrade = false
-  export let onSuccess
-  export let onError
 
   let closeDialog
   let loading = false
 
-  $: newName = PlanName[plan.name] || plan.name
-  $: isNewBillingMonthly = plan.interval === Billing.MONTH
-  $: newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'
-  $: currentPlanName = PlanName[currentPlan.name] || currentPlan.name
+  const newName = PlanName[plan.name] || plan.name
+  const isNewBillingMonthly = plan.interval === Billing.MONTH
+  const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'
+
+  const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription
+  const currentPlanName = PlanName[currentPlan.name] || currentPlan.name
+
+  function formatDate() {
+    const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
+    return `${MMMM} ${DD}, ${YYYY}`
+  }
+
+  function onClick() {
+    loading = true
+
+    mutateUpdateSubscription(subscription.id, plan.id)
+      .then((data) => {
+        onPlanChangeSuccess(newName)
+        closeDialog()
+        return data
+      })
+      .catch(onPlanChangeError)
+      .finally(() => {
+        DialogPromise.locking = DialogLock.FREE
+      })
+  }
 </script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
@@ -39,15 +61,15 @@
 
     <p>
       Your current plan ({currentPlanName}
-      {formatPrice(currentPlan)}/{currentPlan.interval}ly) is active until November 07, 2022.
-      Starting from this date your card will be charged {formatPrice(plan)} per {plan.interval}.{isNewBillingMonthly
+      {formatPrice(currentPlan)}/{currentPlan.interval}ly) is active until {formatDate()}. Starting
+      from this date your card will be charged {formatPrice(plan)} per {plan.interval}.{isNewBillingMonthly
         ? ' With annual plan you can save up to 10%. '
         : ''}
       <a href="/account" class="btn">Update your billing information here.</a>
     </p>
 
     <div class="mrg-xl mrg--t">
-      <button class="btn-1" class:btn--orange={isUpgrade}
+      <button class="btn-1" class:btn--orange={isUpgrade} class:loading on:click={onClick}
         >{isUpgrade ? 'Upgrade' : 'Downgrade'} to {newName} {newBilling} plan</button
       >
 
@@ -56,7 +78,7 @@
   </div>
 </Dialog>
 
-<style lang="scss">
+<style>
   .dialog {
     padding: 24px 32px;
     max-width: 600px;

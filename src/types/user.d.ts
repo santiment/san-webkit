@@ -11,6 +11,7 @@ declare namespace SAN {
   }
 
   type Subscription = {
+    id: number
     /** 'ACTIVE' | 'TRIALING' */
     status: string
     trialEnd?: string

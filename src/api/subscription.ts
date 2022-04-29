@@ -26,3 +26,17 @@ const UPDATE_PAYMENT_CARD_MUTATION = (cardToken: string) => `mutation {
 
 export const mutateUpdatePaymentCard = (cardToken: string) =>
   mutate<any>(UPDATE_PAYMENT_CARD_MUTATION(cardToken))
+
+// ------------------------------------
+
+export const UPDATE_SUBSCRIPTION_MUTATION = (
+  currentSubscriptionId: number,
+  planId: number,
+) => `mutation {
+    updateSubscription(subscriptionId:${currentSubscriptionId}, planId:${planId}) {
+      id
+    }
+  }`
+
+export const mutateUpdateSubscription = (currentSubscriptionId: number, planId: number) =>
+  mutate<any>(UPDATE_SUBSCRIPTION_MUTATION(currentSubscriptionId, planId))
