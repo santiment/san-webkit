@@ -2,6 +2,12 @@ import { track } from '@/analytics'
 import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
 import { notifications } from '@/ui/Notifications'
+import { clearPaymentCardQuery } from '@/api/subscription'
+
+export const CardBrandIllustration = {
+  MasterCard: { id: 'mastercard', w: 33, h: 20 },
+  Visa: { id: 'visa', w: 46.5, h: 16 },
+}
 
 export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }
@@ -67,9 +73,10 @@ export function buyPlan(
 
   const promise = savedCard
     ? submitPayment(plan, discount)
-    : createCardToken(stripe, card, checkoutInfo).then((token) =>
-        submitPayment(plan, discount, token.id),
-      )
+    : createCardToken(stripe, card, checkoutInfo).then((token) => {
+        clearPaymentCardQuery()
+        return submitPayment(plan, discount, token.id)
+      })
 
   return promise.then(onPaymentSuccess).catch(onPaymentError)
 }

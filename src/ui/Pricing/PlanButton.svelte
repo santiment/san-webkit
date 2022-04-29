@@ -1,5 +1,7 @@
 <script lang="ts">
-  import { Billing, getAlternativePlan } from '@/utils/plans'
+  import { Billing } from '@/utils/plans'
+  import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
+  import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
 
   let className = ''
   export { className as class }
@@ -42,13 +44,29 @@
 
     return subscribed.interval === Billing.MONTH
   }
+
+  function onClick() {
+    if (!annualDiscount.isEligible) {
+      if (isUpgrade || isDowngrade) {
+        return showPlanChangeDialog({ isUpgrade, plan, currentPlan: subscription.plan })
+      }
+    }
+
+    showPaymentDialog({
+      plan: plan.name,
+      interval: plan.interval,
+      isEligibleForTrial,
+      annualDiscount,
+    })
+  }
 </script>
 
 <button
   class="btn-1 fluid body-2 {className}"
   class:disabled={isCurrentPlan && !annualDiscount.isEligible}
   class:downgrade={isDowngrade}
-  on:click>{label}</button
+  on:click={onClick}
+  use:dataPreloader>{label}</button
 >
 
 <style>

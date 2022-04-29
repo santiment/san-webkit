@@ -1,8 +1,9 @@
 <script>
   import { Meta, Story } from '@storybook/addon-svelte-csf'
-  import Page from '@/ui/Pricing/Page.svelte'
+  import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import Plan from '@/ui/Pricing/Plan.svelte'
-  import SpecialOfferBanner from '@/ui/Pricing/SpecialOfferBanner.svelte'
+  import Page from '@/ui/Pricing/Page/index.svelte'
+  import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
 
   const plans = [
     {
@@ -143,6 +144,8 @@
   <SpecialOfferBanner percentOff={35} expireAt={'2022-05-08T06:04:12.552Z'} />
   <SpecialOfferBanner percentOff={50} expireAt={'2022-05-08T06:04:12.552Z'} />
 </Story>
+
+<Dialogs />
 
 <style>
   .card {

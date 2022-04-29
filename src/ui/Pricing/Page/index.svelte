@@ -3,15 +3,19 @@
   import { querySanbasePlans } from '@/api/plans'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
   import BillingToggle from './BillingToggle.svelte'
-  import Comparison from './Comparison/index.svelte'
-  import Plan from './Plan.svelte'
   import FAQ from './FAQ.svelte'
   import Suggestions from './Suggestions.svelte'
   import SpecialOfferBanner from './SpecialOfferBanner.svelte'
+  import Plan from '../Plan.svelte'
+  import Comparison from '../Comparison/index.svelte'
 
+  let className = ''
+  export { className as class }
   export let billing = Billing.MONTH
+  export let subscription: undefined | SAN.Subscription
+  export let isEligibleForTrial: boolean
+  export let annualDiscount = {} as SAN.AnnualDiscount
 
-  let annualDiscount = {} as SAN.AnnualDiscount
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
 
@@ -26,7 +30,7 @@
   }
 </script>
 
-<main>
+<main class={className}>
   <div class="txt-center">
     <h2 class="h3 txt-m mrg-m mrg--b">Be ahead of the game in crypto</h2>
 
@@ -44,7 +48,14 @@
   <section id="plans" class="row no-scrollbar">
     <div class="scroll row border">
       {#each billingPlans as plan (plan.id)}
-        <Plan {plan} {plans} class="$style.plan" />
+        <Plan
+          {plan}
+          {plans}
+          {subscription}
+          {annualDiscount}
+          {isEligibleForTrial}
+          class="$style.plan"
+        />
       {/each}
     </div>
   </section>

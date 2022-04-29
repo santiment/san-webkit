@@ -14,6 +14,7 @@ declare namespace SAN {
     /** 'ACTIVE' | 'TRIALING' */
     status: string
     trialEnd?: string
+    currentPeriodEnd: string
     plan: {
       id: string
       name: string // 'PRO'

@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
   import { querySanbasePlans, getCachedSanbasePlans } from '@/api/plans'
+  import { queryPaymentCard } from '@/api/subscription'
   import { formatPrice, onlyProLikePlans, Plan } from '@/utils/plans'
   import { Preloader } from '@/utils/fn'
   import { stripe } from '@/stores/stripe'
@@ -8,7 +9,7 @@
 
   export const showPaymentDialog = (props?: any) => dialogs.show(PaymentDialog, props)
 
-  const preloadData = () => (querySanbasePlans(), stripe.load())
+  const preloadData = () => (querySanbasePlans(), queryPaymentCard(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
 </script>
 
@@ -32,7 +33,6 @@
   export let trialDaysLeft = 0
   export let sanBalance = 0
   export let isEligibleForTrial = false
-  export let savedCard: undefined | SAN.PaymentCard
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let onPaymentSuccess
   export let onPaymentError
@@ -42,8 +42,12 @@
   let plan = {} as SAN.Plan
   let loading = false
   let StripeCard: stripe.elements.Element
+  let savedCard: undefined | SAN.PaymentCard
 
-  if (process.browser) getPlans()
+  if (process.browser) {
+    queryPaymentCard().then((card) => (savedCard = card))
+    getPlans()
+  }
 
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
@@ -74,7 +78,10 @@
     const data = getPaymentFormData(currentTarget)
 
     buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data, savedCard)
-      .then(onPaymentSuccess)
+      .then((data) => {
+        closeDialog()
+        onPaymentSuccess(data)
+      })
       .catch(onPaymentError)
       .finally(() => {
         loading = false

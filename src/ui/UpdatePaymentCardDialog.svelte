@@ -15,7 +15,11 @@
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import Svg from '@/ui/Svg/svelte'
-  import { createCardToken, getPaymentFormData } from '@/ui/PaymentDialog/utils'
+  import {
+    CardBrandIllustration,
+    createCardToken,
+    getPaymentFormData,
+  } from '@/ui/PaymentDialog/utils'
   import PayerInfo from '@/ui/PaymentDialog/PayerInfo.svelte'
   import Checkmark from '@/ui/PaymentDialog/Checkmark.svelte'
   import { mutateUpdatePaymentCard } from '@/api/subscription'
@@ -45,7 +49,10 @@
 
     createCardToken($stripe as stripe.Stripe, StripeCard, checkoutInfo)
       .then((token) => mutateUpdatePaymentCard(token.id))
-      .then(onSuccess)
+      .then((data) => {
+        closeDialog()
+        onSuccess(data)
+      })
       .catch(onError)
       .finally(() => {
         loading = false
@@ -61,8 +68,8 @@
     <section class="confirmation column">
       <div class="card border mrg-l mrg--b">
         <div class="status row v-center">
-          <Svg illus id="visa" w="46.5" h="16" class="mrg-m mrg--r" />
-          <Svg illus id="mastercard" w="33" h="20" />
+          <Svg illus {...CardBrandIllustration.Visa} class="mrg-m mrg--r" />
+          <Svg illus {...CardBrandIllustration.MasterCard} />
 
           <Checkmark class="$style.checkmark {isCardValid ? '$style.valid' : ''}" />
         </div>

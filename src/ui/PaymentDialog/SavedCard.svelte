@@ -1,21 +1,17 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Checkmark from './Checkmark.svelte'
+  import { CardBrandIllustration } from './utils'
 
   export let savedCard: SAN.PaymentCard
 
   $: ({ last4, expMonth, expYear, brand } = savedCard || {})
-
-  const CARD = {
-    MasterCard: { id: 'mastercard', w: 33, h: 20 },
-    Visa: { id: 'visa', w: 46.5, h: 16 },
-  }
 </script>
 
 <section class="body-2">
   <div class="card border">
     <div class="row justify">
-      <Svg illus {...CARD[brand]} />
+      <Svg illus {...CardBrandIllustration[brand]} />
       <Checkmark />
     </div>
 
