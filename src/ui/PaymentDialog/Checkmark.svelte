@@ -3,8 +3,6 @@
 
   let className = ''
   export { className as class }
-  export let light = false
-  export let disabled = false
 </script>
 
 <div class="check hv-center mrg-a mrg--l {className}">
