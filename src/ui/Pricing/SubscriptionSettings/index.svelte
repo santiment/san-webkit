@@ -12,6 +12,9 @@
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
 
+  let className = ''
+  export { className as class }
+
   let isBillingLoading = true
   let billingHistory = []
 
@@ -32,7 +35,7 @@
   }
 </script>
 
-<section id="subscription" class="border">
+<section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting>

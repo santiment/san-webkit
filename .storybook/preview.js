@@ -1,6 +1,7 @@
 import { startResponsiveController } from '@/responsive'
 
 startResponsiveController()
+window.__onLinkClick = (e) => console.log('Link clicked', e)
 
 document.body.style = 'padding:0'
 

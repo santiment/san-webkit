@@ -5,14 +5,14 @@
   export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardDialog)
 </script>
 
-<script lang="ts">
+<script>
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import Svg from '@/ui/Svg/svelte'
   import { mutateDeletePaymentCard } from '@/api/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
 
-  export let DialogPromise: SAN.DialogController
+  export let DialogPromise
 
   let closeDialog
   let loading = false

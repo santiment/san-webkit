@@ -1,6 +1,8 @@
 import { subscription$ } from '@/stores/subscription'
 import { notifications } from '@/ui/Notifications'
 
+export const PLAN_BUTTON_CLICKED = 'PLAN_BUTTON_CLICKED'
+
 export function onPlanChangeSuccess(planName: string) {
   subscription$.refetch()
   notifications.show({

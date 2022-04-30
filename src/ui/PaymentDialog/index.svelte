@@ -8,7 +8,7 @@
 
   export const showPaymentDialog = (props?: any) => dialogs.show(PaymentDialog, props)
 
-  const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load())
+  const preloadData = () => (querySanbasePlans(), paymentCard_.query(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
 </script>
 
@@ -23,7 +23,7 @@
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
-  import { paymentCard$ } from '@/stores/paymentCard'
+  import { paymentCard$, paymentCard_ } from '@/stores/paymentCard'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO

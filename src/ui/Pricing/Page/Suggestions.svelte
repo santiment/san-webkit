@@ -2,7 +2,7 @@
   import { showIntercom } from '@/analytics/intercom'
 </script>
 
-<section>
+<section id="suggestions">
   <div>
     <h4 class="h4 txt-b mrg-l mrg--b">Let's the platform speak for itself</h4>
 
@@ -32,6 +32,10 @@
     :global(.desktop) & {
       grid-template-columns: 1fr 1fr;
     }
+  }
+
+  :global(body:not(.desktop)) section {
+    padding: 0 16px;
   }
 
   div {

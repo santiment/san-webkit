@@ -2,6 +2,7 @@
   import { Billing } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
+  import { PLAN_BUTTON_CLICKED } from './utils'
 
   let className = ''
   export { className as class }
@@ -9,7 +10,7 @@
   export let subscription: undefined | SAN.Subscription
   export let isEligibleForTrial: boolean = true
   export let annualDiscount = {} as SAN.AnnualDiscount
-  export let isLoggednIn = false
+  export let isLoggedIn = false
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription?.plan.id === id
@@ -25,7 +26,7 @@
     }
 
     if (isCurrentPlan) return 'Your current plan'
-    if (isEligibleForTrial || !isLoggednIn) return 'Start 14-day Free trial'
+    if (isEligibleForTrial || !isLoggedIn) return 'Start 14-day Free trial'
     if (isUpgrade) return 'Upgrade'
     if (isDowngrade) return 'Downgrade'
 
@@ -46,7 +47,9 @@
   }
 
   function onClick() {
-    if (!isLoggednIn) {
+    window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED))
+
+    if (!isLoggedIn) {
       return window.__onLinkClick('/login')
     }
 

@@ -92,6 +92,10 @@
     }
   }
 
+  :global(body:not(.desktop)) #faq {
+    padding: 0 16px;
+  }
+
   .question {
     padding: 16px 24px;
     --bg: var(--athens);
