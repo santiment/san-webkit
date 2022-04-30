@@ -100,6 +100,6 @@
 .no-scrollbar {
   scrollbar-width: none;
 }
-.no-scroll::-webkit-scrollbar {
+.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
