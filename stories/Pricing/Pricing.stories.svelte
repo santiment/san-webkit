@@ -4,6 +4,7 @@
   import Plan from '@/ui/Pricing/Plan.svelte'
   import Page from '@/ui/Pricing/Page/index.svelte'
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
+  import SubscriptionSettings from '@/ui/Pricing/SubscriptionSettings/index.svelte'
   import Notifications from '@/ui/Notifications'
 
   const plans = [
@@ -146,6 +147,12 @@
   <SpecialOfferBanner percentOff={50} expireAt={'2022-05-08T06:04:12.552Z'} />
 </Story>
 
+<Story name="Subscription Settings - Free">
+  <div class="padding">
+    <SubscriptionSettings />
+  </div>
+</Story>
+
 <Dialogs />
 
 <Notifications />
@@ -154,5 +161,9 @@
   .card {
     margin: 30px 15px;
     width: 300px;
+  }
+
+  .padding {
+    margin: 16px;
   }
 </style>

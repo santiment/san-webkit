@@ -10,6 +10,7 @@
   import SpecialOfferBanner from './SpecialOfferBanner.svelte'
   import Plan from '../Plan.svelte'
   import Comparison from '../Comparison/index.svelte'
+  import Plans from './Plans.svelte'
 
   let className = ''
   export { className as class }
@@ -45,21 +46,7 @@
     <BillingToggle bind:billing />
   </div>
 
-  <section id="plans" class="row no-scrollbar">
-    <div class="scroll row border">
-      {#each billingPlans as plan (plan.id)}
-        <Plan
-          {plan}
-          {plans}
-          {subscription}
-          {annualDiscount}
-          {isLoggedIn}
-          {isEligibleForTrial}
-          class="$style.plan"
-        />
-      {/each}
-    </div>
-  </section>
+  <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
   <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
@@ -89,27 +76,6 @@
       :global(.desktop) & {
         margin-bottom: 60px;
       }
-    }
-  }
-
-  #plans {
-    padding: 0 16px;
-    margin: 0 0 80px;
-    overflow: auto;
-  }
-
-  .scroll {
-    margin: 0 auto;
-  }
-
-  .plan {
-    flex: 1;
-    min-width: 256px;
-    max-width: 400px;
-    border-right: 1px solid var(--porcelain);
-
-    &:last-child {
-      border: 0;
     }
   }
 
