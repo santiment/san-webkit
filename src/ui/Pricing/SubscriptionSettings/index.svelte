@@ -1,11 +1,25 @@
-<script>
+<script lang="ts">
   import Svg from '@/ui/Svg/svelte'
+  import { subscription$ } from '@/stores/subscription'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
-  import Setting from './Setting.svelte'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
+  import Setting from './Setting.svelte'
   import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
+  import { formatPrice, PlanName } from '@/utils/plans'
+  import { getDateFormats } from '@/utils/dates'
+  import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
+  import { paymentCard$ } from '@/stores/paymentCard'
 
-  let brand = 'Visa'
+  $: subscription = $subscription$
+  $: periodEnd = subscription?.currentPeriodEnd
+  $: isCanceled = !!subscription?.cancelAtPeriodEnd
+  $: plan = subscription?.plan
+  $: paymentCard = $paymentCard$
+
+  function formatDate(date) {
+    const { MMMM, DD, YYYY } = getDateFormats(new Date(date))
+    return `${MMMM} ${DD}, ${YYYY}`
+  }
 </script>
 
 <section id="subscription" class="border">
@@ -14,41 +28,66 @@
   <Setting>
     <div class="plan border row justify fluid v-center">
       <div>
-        <div class="h4">Pro Plan</div>
+        <div class="h4">{plan ? PlanName[plan.name] || plan.name : 'Free'} Plan</div>
 
         <div class="c-waterloo mrg-s mrg--t">
-          $529 per year. <span class="btn c-accent" on:click={() => showPlanSummaryDialog()}
-            >Change billing period</span
-          >
-          <br />
-          Will automatically renew on June 15, 2022
+          {#if plan}
+            {formatPrice(plan)} per {plan.interval}.
+            <span class="btn c-accent" on:click={() => showPlanSummaryDialog()}
+              >Change billing period</span
+            >
+            <br />
+            Will automatically {isCanceled ? 'cancel' : 'renew'} on {formatDate(periodEnd)}
+          {:else}
+            You can see data <span class="btn c-accent">generated 24h ago.</span>
+            <br />
+            Upgrade your plan to get more abilities
+          {/if}
         </div>
       </div>
 
-      <button class="btn-1" on:click={() => showPlanSummaryDialog()}>Change plan</button>
-    </div>
-  </Setting>
-
-  <Setting>
-    <div>
-      Payment method
-      <div class="card row v-center mrg-s mrg--t">
-        <Svg illus {...CardBrandIllustration[brand]} class="mrg-m mrg--r" />
-
-        <div class="dots c-waterloo mrg-s mrg--r">····</div>
-        5678
-
-        <Svg id="locked" w="14" h="15" class="mrg-m mrg--l" />
-      </div>
-    </div>
-
-    <div class="txt-right">
-      <button class="btn btn--red">Remove</button>
-      <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}
-        >Update card</button
+      <button class="btn-1" on:click={() => showPlanSummaryDialog()}
+        >{plan ? 'Change plan' : 'Upgrade plan'}</button
       >
     </div>
   </Setting>
+
+  {#if subscription && !isCanceled}
+    <Setting>
+      <div>
+        Cancel subscription
+        <div class="c-waterloo">
+          If you cancel your subscription, you will not be able to see the most recent data
+        </div>
+      </div>
+      <div class="btn c-accent" on:click={window.showCancelSubscriptionDialog}>
+        Cancel subscription
+      </div>
+    </Setting>
+  {/if}
+
+  {#if paymentCard}
+    <Setting>
+      <div>
+        Payment method
+        <div class="card row v-center mrg-s mrg--t">
+          <Svg illus {...CardBrandIllustration[paymentCard.brand]} class="mrg-m mrg--r" />
+
+          <div class="dots c-waterloo mrg-s mrg--r">····</div>
+          {paymentCard.last4}
+
+          <Svg id="locked" w="14" h="15" class="mrg-m mrg--l" />
+        </div>
+      </div>
+
+      <div class="txt-right">
+        <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
+        <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}
+          >Update card</button
+        >
+      </div>
+    </Setting>
+  {/if}
 
   <Setting>
     <div>
@@ -60,7 +99,7 @@
   </Setting>
 </section>
 
-<style>
+<style lang="scss">
   h4 {
     background: var(--athens);
     padding: 12px 24px;
@@ -74,6 +113,7 @@
   .plan {
     padding: 24px;
     background: var(--athens);
+    flex-wrap: wrap;
   }
 
   .dots {
@@ -85,5 +125,13 @@
 
   .card {
     fill: var(--waterloo);
+  }
+
+  :global(.phone),
+  :global(.phone-xs) {
+    .btn-1 {
+      width: 100%;
+      margin-top: 8px;
+    }
   }
 </style>

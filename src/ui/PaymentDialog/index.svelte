@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
   import { querySanbasePlans, getCachedSanbasePlans } from '@/api/plans'
-  import { queryPaymentCard } from '@/api/subscription'
   import { formatPrice, onlyProLikePlans, Plan } from '@/utils/plans'
   import { Preloader } from '@/utils/fn'
   import { stripe } from '@/stores/stripe'
@@ -9,7 +8,7 @@
 
   export const showPaymentDialog = (props?: any) => dialogs.show(PaymentDialog, props)
 
-  const preloadData = () => (querySanbasePlans(), queryPaymentCard(), stripe.load())
+  const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
 </script>
 
@@ -24,6 +23,7 @@
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
+  import { paymentCard$ } from '@/stores/paymentCard'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -43,7 +43,6 @@
   let savedCard: undefined | SAN.PaymentCard
 
   if (process.browser) {
-    queryPaymentCard().then((card) => (savedCard = card))
     getPlans()
   }
 
@@ -51,6 +50,7 @@
   $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customerData$)
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
+  $: savedCard = $paymentCard$
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing

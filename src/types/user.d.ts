@@ -16,6 +16,7 @@ declare namespace SAN {
     status: string
     trialEnd?: string
     currentPeriodEnd: string
+    cancelAtPeriodEnd?: boolean
     plan: {
       id: string
       name: string // 'PRO'

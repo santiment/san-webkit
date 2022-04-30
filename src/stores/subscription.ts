@@ -9,6 +9,7 @@ const USER_SANBASE_SUBSCRIPTION_QUERY = `{
       status
       trialEnd
       currentPeriodEnd
+      cancelAtPeriodEnd
       plan {
         id
         name
@@ -37,7 +38,7 @@ export const subscription$ = {
     store.fetched = true
     return querySanbaseSubscription().then(accessor)
   },
-  subscribe(run, invalidate) {
+  subscribe(run, invalidate): ReturnType<typeof subscribe> {
     if (!store.fetched) subscription$.query()
     return subscribe(run, invalidate)
   },

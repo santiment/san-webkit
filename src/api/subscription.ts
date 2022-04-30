@@ -12,10 +12,8 @@ const PAYMENT_CARD_QUERY = `{
 
 type PaymentCardQuery = SAN.API.Query<'card', undefined | SAN.PaymentCard>
 
-const noop = () => {}
 const accessor = ({ card }) => card
-export const queryPaymentCard = () =>
-  query<PaymentCardQuery>(PAYMENT_CARD_QUERY).then(accessor).catch(noop)
+export const queryPaymentCard = () => query<PaymentCardQuery>(PAYMENT_CARD_QUERY).then(accessor)
 export const clearPaymentCardQuery = () => Cache.delete(PAYMENT_CARD_QUERY)
 
 // ----------------------------------
@@ -26,6 +24,14 @@ const UPDATE_PAYMENT_CARD_MUTATION = (cardToken: string) => `mutation {
 
 export const mutateUpdatePaymentCard = (cardToken: string) =>
   mutate<any>(UPDATE_PAYMENT_CARD_MUTATION(cardToken))
+
+// -------------------------------
+
+const DELETE_PAYMENT_CARD_MUTATION = `mutation {
+    deleteDefaultPaymentInstrument
+  }`
+
+export const mutateDeletePaymentCard = () => mutate<any>(DELETE_PAYMENT_CARD_MUTATION)
 
 // ------------------------------------
 

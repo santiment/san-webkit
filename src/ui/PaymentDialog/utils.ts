@@ -3,8 +3,8 @@ import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
 import { customerData$ } from '@/stores/user'
 import { notifications } from '@/ui/Notifications'
-import { clearPaymentCardQuery } from '@/api/subscription'
 import { subscription$ } from '@/stores/subscription'
+import { paymentCard$ } from '@/stores/paymentCard'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
@@ -76,7 +76,6 @@ export function buyPlan(
   const promise = savedCard
     ? submitPayment(plan, discount)
     : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        clearPaymentCardQuery()
         return submitPayment(plan, discount, token.id)
       })
 
@@ -94,6 +93,7 @@ function onPaymentSuccess(data) {
   })
   subscription$.refetch()
   customerData$.refetch()
+  paymentCard$.refetch()
   return Promise.resolve(data)
 }
 

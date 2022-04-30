@@ -16,6 +16,7 @@ interface Window {
   ethereum?: any
   provider?: any
   __onLinkClick?: (e: MouseEvent) => void
+  showCancelSubscriptionDialog?: (e: MouseEvent) => void
 }
 
 namespace MediumEditor {
