@@ -46,3 +46,18 @@ export const UPDATE_SUBSCRIPTION_MUTATION = (
 
 export const mutateUpdateSubscription = (currentSubscriptionId: number, planId: number) =>
   mutate<any>(UPDATE_SUBSCRIPTION_MUTATION(currentSubscriptionId, planId))
+
+// ---------------------------
+
+const BILLING_HISTORY_QUERY = `{
+  payments {
+    amount
+    createdAt
+    description
+    status
+  }
+}`
+
+const billingHistoryAccessor = ({ payments }) => payments
+export const queryBillingHistory = () =>
+  query<any>(BILLING_HISTORY_QUERY).then(billingHistoryAccessor)

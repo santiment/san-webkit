@@ -1,20 +1,30 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import { subscription$ } from '@/stores/subscription'
+  import { queryBillingHistory } from '@/api/subscription'
+  import { paymentCard$ } from '@/stores/paymentCard'
+  import { formatPrice, PlanName } from '@/utils/plans'
+  import { getDateFormats } from '@/utils/dates'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
   import Setting from './Setting.svelte'
   import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
-  import { formatPrice, PlanName } from '@/utils/plans'
-  import { getDateFormats } from '@/utils/dates'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
-  import { paymentCard$ } from '@/stores/paymentCard'
+  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+
+  let isBillingLoading = true
+  let billingHistory = []
 
   $: subscription = $subscription$
   $: periodEnd = subscription?.currentPeriodEnd
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
   $: plan = subscription?.plan
   $: paymentCard = $paymentCard$
+
+  queryBillingHistory().then((data) => {
+    isBillingLoading = false
+    billingHistory = data
+  })
 
   function formatDate(date) {
     const { MMMM, DD, YYYY } = getDateFormats(new Date(date))
@@ -95,7 +105,18 @@
       <p class="c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
-    <div class="c-waterloo nowrap">No history yet</div>
+    {#if isBillingLoading}
+      <div class="loading-spin" />
+    {:else if billingHistory.length}
+      <div
+        class="btn c-accent nowrap"
+        on:click={() => showBillingHistoryDialog({ history: billingHistory })}
+      >
+        Show history
+      </div>
+    {:else}
+      <div class="c-waterloo nowrap">No history yet</div>
+    {/if}
   </Setting>
 </section>
 
