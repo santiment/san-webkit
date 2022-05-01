@@ -1,8 +1,8 @@
 import { getSavedJson, saveJson } from './localStorage'
 
-const KEY = 'RECENT_ITEMS'
+export const KEY = 'RECENT_ITEMS'
 
-enum RecentType {
+export enum RecentType {
   CHART_LAYOUT = 'chart_layout',
   WATCHLIST = 'watchlist',
   SCREENER = 'screener',
