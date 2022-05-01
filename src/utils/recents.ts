@@ -21,7 +21,7 @@ export const saveRecents = (recents: Recent[], maxAmount = 30) =>
   saveJson(KEY, recents.slice(0, maxAmount))
 
 export const removeRecent = (type: RecentType, id: number | string) =>
-  getRecents().filter((recent) => recent.type === type && recent.id === id)
+  getRecents().filter((recent) => recent.type === type && +recent.id === +id)
 
 export function addRecent(type: RecentType, id: number, maxAmount = 30) {
   return saveRecents([{ type, id }, ...removeRecent(type, id)], maxAmount)
