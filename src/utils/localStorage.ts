@@ -9,8 +9,9 @@ function parseJson<T>(data: string): T | undefined {
 export function saveValue(key: string, value: string) {
   window.localStorage.setItem(key, value)
 }
-export function saveJson<T>(key: string, value: T) {
+export function saveJson<T>(key: string, value: T): T {
   saveValue(key, JSON.stringify(value))
+  return value
 }
 
 export function getSavedValue(key: string, defaultValue?: string) {
