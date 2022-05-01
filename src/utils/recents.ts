@@ -11,7 +11,7 @@ export enum RecentType {
 type Recent = {
   [key: string]: any
   type: RecentType
-  id: number
+  id: number | string
 }
 
 export const getRecents = (maxAmount = 30) =>
@@ -23,6 +23,6 @@ export const saveRecents = (recents: Recent[], maxAmount = 30) =>
 export const removeRecent = (type: RecentType, id: number | string) =>
   getRecents().filter((recent) => recent.type === type && +recent.id === +id)
 
-export function addRecent(type: RecentType, id: number, maxAmount = 30) {
+export function addRecent(type: RecentType, id: number | string, maxAmount = 30) {
   return saveRecents([{ type, id }, ...removeRecent(type, id)], maxAmount)
 }
