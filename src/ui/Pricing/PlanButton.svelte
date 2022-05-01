@@ -71,7 +71,7 @@
 <button
   class="btn-1 fluid body-2 {className}"
   class:disabled={isCurrentPlan && !annualDiscount.isEligible}
-  class:downgrade={isDowngrade}
+  class:downgrade={label === 'Downgrade'}
   on:click={onClick}
   use:dataPreloader>{label}</button
 >

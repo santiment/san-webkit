@@ -7,7 +7,7 @@ export const COMPARE_TABLE = [
       { name: 'Browser tabs', isLimit: true },
       {
         name: 'Bi-weekly report',
-        description: '123',
+        description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a biweekly basis`,
         isCheck: true,
       },
       { name: 'Pro Insights', isAccess: true },
@@ -36,7 +36,11 @@ export const COMPARE_TABLE = [
   {
     category: 'Charts',
     features: [
-      { name: "Chart's data period", description: '123', isAccess: true },
+      {
+        name: "Chart's data period",
+        description: `<b>Limited data!</b> For users on the Free plan, some data has time range limitations`,
+        isAccess: true,
+      },
       { name: 'Hide watermark on charts', isCheck: true },
       { name: 'Download chart as SCV', isCheck: true },
       { name: 'Embed charts', isAccess: true },
@@ -47,7 +51,12 @@ export const COMPARE_TABLE = [
     category: 'Alerts',
     features: [
       { name: 'Custom Alerts', isLimit: true },
-      { name: 'Alert durations', description: '', isLimit: true },
+      {
+        name: 'Alert durations',
+        description:
+          '<b>Duration restriction!</b> For users on the Free plan, any Alert will be valid just for 30 days.',
+        isLimit: true,
+      },
       {
         name: 'Webhooks',
         isCheck: true,

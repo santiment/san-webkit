@@ -1,5 +1,6 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
 
   export let plans
   export let feature
@@ -15,9 +16,18 @@
 <div class="td-h txt-left">
   {name}
   {#if description}
-    <div class="info btn">
-      <Svg id="info" w="12" class="mrg-s mrg--l" />
-    </div>
+    <Tooltip
+      position="bottom"
+      align="center"
+      offsetY={4}
+      closeTimeout={0}
+      activeClass="$style.opened"
+    >
+      <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
+        <Svg id="info" w="12" />
+      </div>
+      <div slot="tooltip" class="description">{@html description}</div>
+    </Tooltip>
   {/if}
 </div>
 
@@ -38,7 +48,9 @@
 
 <style lang="scss">
   .info {
-    --fill: var(--waterloo);
+    height: 24px;
+    width: 24px;
+    fill: var(--waterloo);
   }
 
   .item {
@@ -51,5 +63,21 @@
 
   .disabled {
     background: var(--athens);
+  }
+
+  .description {
+    padding: 14px 20px;
+    max-width: 252px;
+    color: var(--rhino);
+
+    :global(b) {
+      font-weight: 600;
+      color: var(--black);
+    }
+  }
+
+  .opened {
+    --bg: var(--athens);
+    fill: var(--black) !important;
   }
 </style>
