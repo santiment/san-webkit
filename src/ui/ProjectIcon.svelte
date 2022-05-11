@@ -6,6 +6,7 @@
   export let slug: string
   export let size = 20
   export let placeholderSize = size / 2.5
+  export let logoUrl = ''
 
   let loading = true
 
@@ -22,12 +23,14 @@
     {/if}
 
     <img
-      src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{slug}.png"
+      src={logoUrl ||
+        `https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_${slug}.png`}
       alt="Project"
       loading="lazy"
       class:loader={loading}
       on:load={() => (loading = false)}
-      on:error={() => (error = true)} />
+      on:error={() => (error = true)}
+    />
   {/if}
 </div>
 
