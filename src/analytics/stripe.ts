@@ -1,7 +1,7 @@
 import { newHeadScript } from './utils'
 
 const STRIPE_KEY =
-  process.env.BACKEND_URL === process.env.IS_STAGE_BACKEND || process.env.IS_DEV_MODE
+  process.env.IS_STAGE_BACKEND || process.env.IS_DEV_MODE
     ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
     : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 
