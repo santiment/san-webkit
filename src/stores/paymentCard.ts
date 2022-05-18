@@ -24,6 +24,3 @@ export const paymentCard$ = {
     return paymentCard$.query()
   },
 }
-
-// TODO: paymentCard$.query() doesn't work in context="module", because preprocesssor cuts everything after '$'
-export const paymentCard_ = paymentCard$
