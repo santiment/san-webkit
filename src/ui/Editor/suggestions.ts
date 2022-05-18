@@ -44,7 +44,41 @@ export const SuggestionsExtension = Editor.Extension.extend({
       this.node.$destroy()
       this.node = null
       this.htmlNode = null
+      this.ctx = null
     }
+
+    this.base.unsubscribe('editableKeydown', this.handleSuggestionNavigation)
+  },
+
+  openSuggestions(Suggestions, position, onItemSelect) {
+    this.ctx = { onSelect: onItemSelect }
+    this.node = new Suggestions({
+      target: document.body,
+      props: {
+        position,
+        ctx: this.ctx,
+        setNode: (node) => (this.htmlNode = node),
+      },
+    })
+
+    this.handleSuggestionNavigation = (e) => {
+      const key = Editor.util.getKeyCode(e)
+
+      switch (key) {
+        case Editor.util.keyCode.ENTER:
+          e.preventDefault()
+          return this.ctx?.selectCursored()
+        case ArrowKeyCode.Up:
+        case ArrowKeyCode.Down:
+          e.preventDefault()
+          break
+        default:
+          return
+      }
+
+      this.ctx?.moveCursor(key === ArrowKeyCode.Up ? -1 : 1)
+    }
+    this.base.subscribe('editableKeydown', this.handleSuggestionNavigation)
   },
 
   handleInput(e) {
@@ -64,10 +98,12 @@ export const SuggestionsExtension = Editor.Extension.extend({
       case Editor.util.keyCode.ESCAPE:
       case Editor.util.keyCode.TAB:
       case ArrowKeyCode.Left:
-      case ArrowKeyCode.Up:
       case ArrowKeyCode.Right:
-      case ArrowKeyCode.Down:
         return this.hide()
+    }
+
+    if ((startContainer.parentNode as HTMLElement).tagName === 'A') {
+      return
     }
 
     const offset = startOffset - 1
@@ -102,16 +138,7 @@ export const SuggestionsExtension = Editor.Extension.extend({
       }
 
       this.startOffset = offset
-      const position = range.getBoundingClientRect()
-
-      this.node = new Suggestions({
-        target: document.body,
-        props: {
-          position,
-          onSelect: onItemSelect,
-          setNode: (node) => (this.htmlNode = node),
-        },
-      })
+      this.openSuggestions(Suggestions, range.getBoundingClientRect(), onItemSelect)
     } else if (this.node) {
       this.node.$set({
         searchTerm: textContent.slice(this.startOffset + 1, startOffset).toLowerCase(),

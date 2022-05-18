@@ -5,13 +5,21 @@
   export let key = ''
   export let items = [] as any[]
   export let position: { x: number; y: number; bottom: number }
-  export let onSelect
   export let loading = false
   export let setNode
+  export let ctx = {}
 
   let node: HTMLDivElement | undefined = undefined
 
+  $: cursor = (items, 0)
+  $: suggestions = items.slice(0, 5)
   $: style = node && getPositionStyles(position)
+
+  ctx.moveCursor = (diff) => {
+    const newCursor = (cursor + diff) % suggestions.length
+    cursor = newCursor < 0 ? suggestions.length - 1 : newCursor
+  }
+  ctx.selectCursored = () => ctx.onSelect(suggestions[cursor])
 
   function getPositionStyles({ x, y, bottom }): string {
     const { offsetWidth, offsetHeight } = node as any as HTMLElement
@@ -31,8 +39,12 @@
 </script>
 
 <div class="border box" {style} bind:this={node}>
-  {#each items.slice(0, 5) as item (item[key])}
-    <button class="btn-ghost fluid row v-center" on:click|capture={() => onSelect(item)}>
+  {#each suggestions as item, i (item[key])}
+    <button
+      class="btn-ghost fluid row v-center"
+      class:cursored={cursor === i}
+      on:click|capture={() => ctx.onSelect(item)}
+    >
       <slot {item} />
     </button>
   {:else}
@@ -48,5 +60,9 @@
     width: 220px;
     white-space: nowrap;
     z-index: 100;
+  }
+
+  .cursored {
+    background: var(--athens);
   }
 </style>

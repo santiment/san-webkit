@@ -44,6 +44,6 @@
     border-left: 1px solid var(--black);
     height: 100%;
     font-family: monospace;
-    white-space: pre;
+    white-space: pre-line;
   }
 </style>
