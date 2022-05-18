@@ -17,9 +17,9 @@ export const COMPARE_TABLE = [
   {
     category: 'API',
     features: [
-      { name: 'API calls / minute' },
-      { name: 'API calls / hour' },
-      { name: 'API calls / month' },
+      { name: 'API calls / minute', postfix: ' API calls / min' },
+      { name: 'API calls / hour', postfix: ' API calls / hour' },
+      { name: 'API calls / month', postfix: ' API calls / min' },
     ],
   },
 
@@ -162,9 +162,9 @@ export const COMPARE_TABLE = [
 export const PRO_COMPARED_FEATURES = {
   'Browser tabs': 'Up to 4',
 
-  'API calls / minute': '100 API calls / min',
-  'API calls / hour': '1000 API calls / hour',
-  'API calls / month': '5K API calls / mo',
+  'API calls / minute': 100,
+  'API calls / hour': 1000,
+  'API calls / month': '5K',
 
   'Dedicated account manager': false,
   'Custom onboarding & education': false,
@@ -176,9 +176,9 @@ export const PRO_COMPARED_FEATURES = {
 }
 
 export const PRO_PLUS_COMPARED_FEATURES = {
-  'API calls / minute': '300 API calls / min',
-  'API calls / hour': '3000 API calls / hour',
-  'API calls / month': '300K API calls / mo',
+  'API calls / minute': 300,
+  'API calls / hour': 3000,
+  'API calls / month': '300K',
 }
 
 export const PlanFeatures = {

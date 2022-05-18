@@ -5,7 +5,7 @@
   export let plans
   export let feature
 
-  const { name, description, isLimit, isAccess, isCheck } = feature
+  const { name, description, isLimit, isAccess, isCheck, postfix = '' } = feature
   const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : ''
 
   function getValue(value) {
@@ -33,7 +33,7 @@
 
 {#each plans as cell}
   {@const value = getValue(cell[name])}
-  {@const isCheckmark = isCheck || !defaultValue}
+  {@const isCheckmark = isCheck || !(defaultValue || postfix)}
 
   <div class="item td" class:disabled={isCheckmark && value === false}>
     {#if isCheckmark}
@@ -41,7 +41,7 @@
         <Svg id="checkmark-circle-filled" w="24" />
       {/if}
     {:else}
-      {value}
+      {value}{postfix}
     {/if}
   </div>
 {/each}
