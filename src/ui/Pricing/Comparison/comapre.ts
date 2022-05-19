@@ -19,7 +19,7 @@ export const COMPARE_TABLE = [
     features: [
       { name: 'API calls / minute', postfix: ' API calls / min' },
       { name: 'API calls / hour', postfix: ' API calls / hour' },
-      { name: 'API calls / month', postfix: ' API calls / min' },
+      { name: 'API calls / month', postfix: ' API calls / mo' },
     ],
   },
 
