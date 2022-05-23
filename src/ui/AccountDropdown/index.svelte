@@ -25,7 +25,7 @@
   class={tooltipClass}
 >
   <svelte:fragment slot="trigger">
-    <Pic class="btn mrg-m mrg--l $style.pic" />
+    <Pic class="btn mrg-m mrg--l $style.pic" src={currentUser ? currentUser.avatarUrl : ''} />
   </svelte:fragment>
 
   <div class="tooltip" slot="tooltip">
