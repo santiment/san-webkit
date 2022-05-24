@@ -1,9 +1,11 @@
 import { trackSanEvent } from '@/api/analytics'
 import { normalizeData } from './utils'
+import { TwitterTrackActions } from './twitter'
 
-enum Tracker {
+export enum Tracker {
   GA = 'ga',
   SAN = 'san',
+  TWQ = 'twq',
 }
 
 const noop = () => {} // eslint-disable-line
@@ -41,6 +43,16 @@ const event: SendEvent = isTrackingEnabled
 
       const date = Date.now()
 
+      if (trackers.includes(Tracker.TWQ) && window.twq) {
+        window.twq(
+          'track',
+          action,
+          normalizeData({
+            ...rest,
+          }),
+        )
+      }
+
       if (trackers.includes(Tracker.GA) && window.gtag) {
         window.gtag(
           'event',
@@ -76,6 +88,10 @@ export const track = {
       app_name,
       page_path: window.location.pathname,
     })
+
+    if (typeof window.twq === 'function') {
+      event(TwitterTrackActions.pageview, {}, [Tracker.TWQ])
+    }
   },
   timedPageview(prevTimer: number, timeout = 10000): number {
     window.clearTimeout(prevTimer)

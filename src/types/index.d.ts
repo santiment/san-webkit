@@ -17,6 +17,7 @@ interface Window {
   provider?: any
   __onLinkClick?: (e: MouseEvent) => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
+  twq?: any
 }
 
 namespace MediumEditor {
