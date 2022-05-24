@@ -1,6 +1,8 @@
 import { newHeadScript } from './utils'
 
-export function initTwitterPixel(): void {
+const PID_IDS = ['o8scf', 'o8scy']
+
+export function initTwitterPixel(id: string): void {
   newHeadScript(`!function(e,t,n,s,u,a){
   e.twq||(s=e.twq=function(){
   s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
@@ -8,26 +10,21 @@ export function initTwitterPixel(): void {
   u.src='//static.ads-twitter.com/uwt.js',
   a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))
   }(window,document,'script');
-  twq('init','o0e0e');
+  twq('init','${id}');
 `)
+
   newHeadScript(undefined, {
     async: true,
-    src: `//static.ads-twitter.com/oct.js`,
-    type: `text/javascript`,
+    src: `https://static.ads-twitter.com/oct.js`,
   })
-  newHeadScript(
-    `twttr.conversion.trackPid('o8scf', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
-    {
-      async: true,
-      type: `text/javascript`,
-    },
-  )
-  newHeadScript(
-    `twttr.conversion.trackPid('o8scy', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
-    {
-      async: true,
-      type: `text/javascript`,
-    },
+
+  PID_IDS.forEach((pidId) =>
+    newHeadScript(
+      `twttr.conversion.trackPid('${pidId}', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
+      {
+        async: true,
+      },
+    ),
   )
 }
 

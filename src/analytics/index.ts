@@ -44,13 +44,7 @@ const event: SendEvent = isTrackingEnabled
       const date = Date.now()
 
       if (trackers.includes(Tracker.TWQ) && window.twq) {
-        window.twq(
-          'track',
-          action,
-          normalizeData({
-            ...rest,
-          }),
-        )
+        window.twq('track', action, normalizeData(rest))
       }
 
       if (trackers.includes(Tracker.GA) && window.gtag) {
