@@ -21,6 +21,11 @@
   function startVote(e: MouseEvent) {
     if (disabled) return
 
+    // Checking right button mouse click
+    if (e.button === 2) {
+      return
+    }
+
     clearTimeout(timer)
     clearInterval(votingInterval)
 

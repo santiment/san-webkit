@@ -16,7 +16,9 @@
         id: 113,
         username: 'MyUsername',
       }}
-      currentUser={null}
+      currentUser={{
+        id: 1,
+      }}
       onEditClick={console.log}
       comments={{
         count: 4,
