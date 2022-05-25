@@ -2,7 +2,7 @@ import { newHeadScript } from './utils'
 
 const PID_IDS = ['o8scf', 'o8scy']
 
-export function initTwitterPixel(id: string): void {
+export function initTwitterPixel(id = 'o0e0e', pids = ['o8scf', 'o8scy']): void {
   newHeadScript(`!function(e,t,n,s,u,a){
   e.twq||(s=e.twq=function(){
   s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
@@ -18,7 +18,7 @@ export function initTwitterPixel(id: string): void {
     src: `https://static.ads-twitter.com/oct.js`,
   })
 
-  PID_IDS.forEach((pidId) =>
+  pids.forEach((pidId) =>
     newHeadScript(
       `twttr.conversion.trackPid('${pidId}', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
       {
