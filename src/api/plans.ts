@@ -74,6 +74,7 @@ const SUBSCRIBE_MUTATION = (cardToken: undefined | string, planId: number, coupo
       plan {
         id
         name
+        amount
         product {
           id
         }
