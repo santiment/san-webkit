@@ -45,7 +45,7 @@ export const customerData$ = {
     store.fetched = true
     return queryCustomerData().then(accessor)
   },
-  subscribe(run, invalidate) {
+  subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
     if (!store.fetched) customerData$.query()
     return subscribe(run, invalidate)
   },

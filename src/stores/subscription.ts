@@ -38,7 +38,7 @@ export const subscription$ = {
     store.fetched = true
     return querySanbaseSubscription().then(accessor)
   },
-  subscribe(run, invalidate): ReturnType<typeof subscribe> {
+  subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
     if (!store.fetched) subscription$.query()
     return subscribe(run, invalidate)
   },

@@ -26,7 +26,7 @@ export const stripe: Store = {
       )
     }
   },
-  subscribe(run, invalidate) {
+  subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
     stripe.load()
     return subscribe(run, invalidate)
   },

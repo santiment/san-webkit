@@ -10,7 +10,7 @@
       label: 'Submit reply',
       onSubmit: (value) => {
         track.event('comments_reply', { entity: entityId, parent: parentId, type })
-        createComment({ id: entityId, content: value, parentId, type })
+        return createComment({ id: entityId, content: value, parentId, type })
       },
     })
   }

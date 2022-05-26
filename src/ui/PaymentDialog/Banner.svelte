@@ -1,13 +1,17 @@
 <script lang="ts">
   import { showIntercom } from '@/analytics/intercom'
+  import { subscription$ } from '@/stores/subscription'
   import { getDateFormats } from '@/utils/dates'
   import { checkIsYearlyPlan } from '@/utils/plans'
+  import { calculateTrialDaysLeft } from '@/utils/subscription'
 
   export let plan: SAN.Plan
   export let name: string
   export let price: string
-  export let trialDaysLeft: number
   export let isEligibleForTrial: boolean = true
+
+  $: subscription = $subscription$
+  $: trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
 
   function getNextPaymentDates(plan: SAN.Plan) {
     const target = checkIsYearlyPlan(plan) ? 'FullYear' : 'Month'
