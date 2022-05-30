@@ -1,7 +1,5 @@
 import { newHeadScript } from './utils'
 
-const PID_IDS = ['o8scf', 'o8scy']
-
 export function initTwitterPixel(id = 'o0e0e', pids = ['o8scf', 'o8scy']): void {
   newHeadScript(`!function(e,t,n,s,u,a){
   e.twq||(s=e.twq=function(){
@@ -13,18 +11,22 @@ export function initTwitterPixel(id = 'o0e0e', pids = ['o8scf', 'o8scy']): void 
   twq('init','${id}');
 `)
 
-  newHeadScript(undefined, {
-    async: true,
-    src: `https://static.ads-twitter.com/oct.js`,
-  })
-
-  pids.forEach((pidId) =>
-    newHeadScript(
-      `twttr.conversion.trackPid('${pidId}', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
-      {
-        async: true,
-      },
-    ),
+  newHeadScript(
+    undefined,
+    {
+      async: true,
+      src: `https://static.ads-twitter.com/oct.js`,
+    },
+    () => {
+      pids.forEach((pidId) =>
+        newHeadScript(
+          `window.twttr.conversion.trackPid('${pidId}', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
+          {
+            async: true,
+          },
+        ),
+      )
+    },
   )
 }
 
