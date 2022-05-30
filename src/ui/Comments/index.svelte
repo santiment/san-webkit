@@ -65,7 +65,7 @@
         setComments(comments)
         editor.resetContent()
         clearSavedComment()
-        onCommentSubmitted(comment)
+        onCommentSubmitted?.(comment)
       })
       .then(scrollToNewComment)
       .catch(onCommentError)
