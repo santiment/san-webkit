@@ -19,6 +19,7 @@
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
   export let onCommentsLoaded = noop
+  export let onCommentSubmitted = (comment: SAN.Comment) => void
   export let titleClass = 'body-2 txt-m'
 
   let comments = [] as SAN.Comment[]
@@ -64,6 +65,7 @@
         setComments(comments)
         editor.resetContent()
         clearSavedComment()
+        onCommentSubmitted(comment)
       })
       .then(scrollToNewComment)
       .catch(onCommentError)

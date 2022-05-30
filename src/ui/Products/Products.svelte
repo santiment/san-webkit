@@ -28,6 +28,8 @@
 
 <style lang="scss">
   .products {
+    position: relative;
+    z-index: 300;
     padding: 32px 32px 24px;
 
     &.compact {
