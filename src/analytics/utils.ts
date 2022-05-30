@@ -8,11 +8,7 @@ export function newHeadScript(
   const script = scriptTag()
   if (content) script.text = content
   Object.assign(script, options)
-  if (onload) {
-    script.onload = function () {
-      onload()
-    }
-  }
+  if (onload) script.onload = onload
   document.head.appendChild(script)
   return script
 }
