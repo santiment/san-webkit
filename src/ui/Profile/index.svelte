@@ -13,7 +13,7 @@
   class="row v-center c-black {className}"
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" />
 
   <span>
     {#if $$slots.name}
@@ -29,8 +29,17 @@
   a {
     min-width: 0;
   }
+
   a:hover {
     --color: var(--accent, var(--green));
+  }
+
+  a:hover .caption {
+    color: var(--green);
+  }
+
+  a:hover .pic {
+    border: 1px solid var(--green);
   }
 
   span {
