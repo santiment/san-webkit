@@ -4,14 +4,17 @@
   let className = ''
   export { className as class }
   export let user: SAN.Author & { name?: string }
+  export let followers: number = 0
 
-  $: ({ name, username } = user)
+  $: ({ username } = user)
 </script>
 
 <Profile {user} class="txt-m {className}">
   <svelte:fragment slot="name">
-    {name || 'No full name'}
-    <div class="caption c-waterloo txt-r">@{username}</div>
+    <div class="">
+      <div class="caption body-3  txt-r">@{username}</div>
+      <div class="caption txt-r c-waterloo">{followers} Followers</div>
+    </div>
   </svelte:fragment>
 </Profile>
 
