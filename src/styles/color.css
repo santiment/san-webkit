@@ -40,6 +40,8 @@
   --orange-hover: #fd9317;
   --orange-light-1: #fff3e4;
   --orange-light-2: #ffe7ca;
+  --orange-light-3: #ffd6a6;
+  --orange-pale: #fff9f0;
 
   /* dodger-blue */
   --blue: #5275ff;
@@ -93,8 +95,11 @@
   --yellow-light-1: #2c2929;
 
   /* texas-rose */
+  --orange-hover: #ffa030;
   --orange-light-1: #3b3130;
   --orange-light-2: #503f3d;
+  --orange-light-3: #2a262d;
+  --orange-pale: #292424;
 
   /* dodger-blue */
   --blue-light-1: #21284b;
