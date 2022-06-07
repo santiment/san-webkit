@@ -7,7 +7,6 @@
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import CommentsButton from '@/ui/Comments/Button.svelte'
-  import HoverEdit from './HoverEdit.svelte'
   import VoteButton from './VoteButton.svelte'
 
   export let id: number
@@ -17,6 +16,7 @@
   export let onEditClick: () => any
   export let type: CreationType
   export let fallback = 'Unsaved layout'
+  export let editLabel = 'Edit'
   export let comments: {
     count: number
     active?: boolean
@@ -24,14 +24,10 @@
   }
   export let votes: Votes
   export let onVote
-
-  let isEditVisible, showEdit, hideEdit
-
-  $: hide = isEditVisible ? null : hideEdit
 </script>
 
 {#if title}
-  <div class="creation row v-center mrg-l mrg--r">
+  <div class="creation row v-center mrg-m mrg--r">
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
         <Profile {user} class="$style.author" />
@@ -44,13 +40,29 @@
 
     <div class="divider" />
 
-    <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-    <span class="title body-2" on:mouseover={showEdit} on:mouseleave={hide}>
-      {title}
-    </span>
+    <Tooltip
+      isEnabled={!!currentUser}
+      openDelay={110}
+      duration={65}
+      dark
+      position="top"
+      align="center"
+    >
+      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+      <span
+        slot="trigger"
+        class="title body-2 btn"
+        class:enabled={currentUser}
+        on:click={currentUser ? onEditClick : null}
+      >
+        {title}
+      </span>
 
-    <Tooltip openDelay={110}>
-      <div slot="trigger" class="btn info mrg-s mrg--l row v-center">
+      <div slot="tooltip" class="caption">{editLabel}</div>
+    </Tooltip>
+
+    <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
+      <div slot="trigger" class="btn info row v-center">
         <Svg id="info" w="16" />
       </div>
       <div slot="tooltip" class="tooltip">
@@ -65,11 +77,7 @@
   <ProfilePic class="mrg-m mrg--r" />
 
   <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-  <span on:mouseover={showEdit} on:mouseleave={hide}>{fallback}</span>
-{/if}
-
-{#if currentUser}
-  <HoverEdit bind:isEditVisible bind:showEdit bind:hideEdit onClick={onEditClick} />
+  <span>{fallback}</span>
 {/if}
 
 <style lang="scss">
@@ -78,8 +86,10 @@
   }
 
   .info {
+    padding: 8px;
     --fill: var(--waterloo);
-    --fill-hover: var(--green);
+    --fill-hover: var(--black);
+    --bg-hover: var(--athens);
   }
 
   .tooltip {
@@ -107,5 +117,11 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding: 4px 10px;
+  }
+
+  .enabled {
+    --color-hover: var(--green);
+    --bg-hover: var(--green-light-1);
   }
 </style>
