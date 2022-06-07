@@ -10,6 +10,8 @@
   export let onLogoutClick
   export let isOpened = false
   export let tooltipClass = ''
+  export let appVersionState: number | undefined = undefined
+  export let versionLabel: string = ''
 
   function onLogout() {
     isOpened = false
@@ -22,8 +24,7 @@
   activeClass="$style.active"
   align="center"
   bind:isOpened
-  class={tooltipClass}
->
+  class={tooltipClass}>
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" src={currentUser ? currentUser.avatarUrl : ''} />
   </svelte:fragment>
@@ -38,41 +39,58 @@
         <a
           class="btn-ghost"
           href="https://app.santiment.net/alerts?tab=1"
-          on:click={window.__onLinkClick}>My alerts</a
-        >
+          on:click={window.__onLinkClick}>My alerts</a>
         <a class="btn-ghost" href="https://app.santiment.net/assets" on:click={window.__onLinkClick}
-          >My watchlists</a
-        >
+          >My watchlists</a>
         <a
           class="btn-ghost"
           href="https://insights.santiment.net/my"
-          on:click={window.__onLinkClick}>My insights</a
-        >
+          on:click={window.__onLinkClick}>My insights</a>
         <a
           href="https://insights.santiment.net/new"
           class="write btn-1 btn--s"
-          on:click={window.__onLinkClick}>Write insight</a
-        >
+          on:click={window.__onLinkClick}>Write insight</a>
       </section>
       <hr />
     {/if}
 
     <section>
+      {#if !currentUser}
+        <a href="/login" class="loginbtn" on:click={window.__onLinkClick}>
+          <Svg id="user" w="16" class="mrg-s mrg--r" />
+          <span>Log in</span>
+        </a>
+      {/if}
+
+      {#if appVersionState !== undefined && appVersionState >= 0}
+        <div class="appversion">
+          {#if appVersionState === 0}
+            <div class="latest">
+              You have the latest version!
+              <div class="caption c-waterloo">{versionLabel}</div>
+            </div>
+          {/if}
+          {#if appVersionState === 1}
+            <button class="latest btn-ghost fluid" on:click={() => window.location.reload()}>
+              Update available. Restart now
+            </button>
+          {/if}
+        </div>
+      {/if}
+
       <div class="btn-ghost" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
       </div>
 
       <a href="https://app.santiment.net/labs" class="btn-ghost" on:click={window.__onLinkClick}
-        >Labs</a
-      >
+        >Labs</a>
 
       {#if currentUser}
         <a
           href="https://app.santiment.net/account"
           class="btn-ghost"
-          on:click={window.__onLinkClick}>Account Settings</a
-        >
+          on:click={window.__onLinkClick}>Account Settings</a>
       {/if}
 
       <div class="btn-ghost" on:click={() => window.Intercom && window.Intercom('show')}>
@@ -83,17 +101,48 @@
         <div class="btn-ghost logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
         </div>
-      {:else}
-        <a href="/login" class="btn-ghost" on:click={window.__onLinkClick}>Create an account</a>
       {/if}
     </section>
   </div>
 </Tooltip>
 
 <style>
-  .pic {
-    --img-bg: var(--green-light-1);
-    --img-fill: var(--green);
+  .loginbtn {
+    display: flex;
+    align-items: center;
+    color: var(--green);
+    fill: var(--green);
+    padding: 6px 8px;
+    border-radius: 4px;
+  }
+
+  .loginbtn:hover {
+    background: var(--athens);
+  }
+
+  .appversion {
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .appversion::before,
+  .appversion::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--porcelain);
+    border: none;
+  }
+
+  .appversion .latest {
+    padding: 8px;
+  }
+
+  .pic:hover {
+    stroke: var(--green);
+    stroke-width: 0.3px;
   }
 
   .active {
