@@ -52,29 +52,31 @@
           on:click={window.__onLinkClick}>Write insight</a>
       </section>
       <hr />
-    {/if}
-
-    <section>
-      {#if !currentUser}
+    {:else}
+      <section>
         <a href="/login" class="login btn-ghost" on:click={window.__onLinkClick}>
           <Svg id="user" w="16" class="mrg-s mrg--r" />
           Log in
         </a>
+      </section>
+    {/if}
+
+    <hr />
+    <section class="version">
+      {#if isAppUpdateAvailable}
+        <button class="btn-ghost fluid" on:click={() => window.location.reload()}>
+          Update available. Restart now
+        </button>
+      {:else}
+        <div class="caption">
+          You have the latest version!
+          <div class="c-waterloo">{version}</div>
+        </div>
       {/if}
+    </section>
+    <hr />
 
-      <div class="version">
-        {#if isAppUpdateAvailable}
-          <button class="latest btn-ghost fluid" on:click={() => window.location.reload()}>
-            Update available. Restart now
-          </button>
-        {:else}
-          <div class="latest caption">
-            You have the latest version!
-            <div class="c-waterloo">{version}</div>
-          </div>
-        {/if}
-      </div>
-
+    <section>
       <div class="btn-ghost" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
@@ -105,23 +107,8 @@
 
 <style>
   .version {
-    margin-top: 6px;
-    margin-bottom: 6px;
-  }
-
-  .version::before,
-  .version::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--porcelain);
-    border: none;
-  }
-
-  .latest {
-    padding: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   .active {
