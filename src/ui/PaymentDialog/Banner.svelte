@@ -13,14 +13,25 @@
   $: subscription = $subscription$
   $: trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
 
+  function formatDate(date) {
+    const { DD, MM, YY } = getDateFormats(date)
+    return `${DD}/${MM}/${YY}`
+  }
+
   function getNextPaymentDates(plan: SAN.Plan) {
     const target = checkIsYearlyPlan(plan) ? 'FullYear' : 'Month'
 
     const date = new Date()
     date['set' + target](date['get' + target]() + 1)
 
-    const { DD, MM, YY } = getDateFormats(date)
-    return `${DD}/${MM}/${YY}`
+    return formatDate(date)
+  }
+
+  function getTrialEndDate() {
+    const date = new Date()
+    date.setDate(date.getDate() + 14)
+
+    return formatDate(date)
   }
 </script>
 
@@ -40,7 +51,7 @@
   <div>
     {#if isEligibleForTrial}
       Your card will be charged <b>{price}</b> after the trial period ends. You won't be charged if
-      you cancel anytime before <b>03/03/22</b>
+      you cancel anytime before <b>{getTrialEndDate()}</b>
     {:else}
       Your card will be charged <b>{price}</b> every {plan.interval} until your decide to unsubscribe.
       Your next payment: <b>{getNextPaymentDates(plan)}</b>.
