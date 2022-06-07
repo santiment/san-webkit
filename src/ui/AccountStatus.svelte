@@ -13,23 +13,20 @@
   {#if subscription}
     <a
       href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-      class="pro btn-1 btn--s caption row v-center"
-    >
+      class="pro btn-1 btn--s caption row v-center">
       <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
-      Pro{trialPostfix}</a
-    >
+      Pro{trialPostfix}</a>
   {:else}
     <div class="free caption c-waterloo">
       Free plan
       <a
         href="https://app.santiment.net/pricing"
         class="upgrade btn"
-        on:click={window.__onLinkClick}>Upgrade</a
-      >
+        on:click={window.__onLinkClick}>Upgrade</a>
     </div>
   {/if}
 {:else}
-  <a href="/login" class="caption c-waterloo" on:click={window.__onLinkClick}>Sign in</a>
+  <a href="/login" class="btn-1" on:click={window.__onLinkClick}>Sign up</a>
 {/if}
 
 <style>

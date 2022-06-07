@@ -10,6 +10,8 @@
   export let onLogoutClick
   export let isOpened = false
   export let tooltipClass = ''
+  export let isAppUpdateAvailable = false
+  export let version: string = '1.0.0'
 
   function onLogout() {
     isOpened = false
@@ -54,8 +56,29 @@
           on:click={window.__onLinkClick}>Write insight</a
         >
       </section>
-      <hr />
+    {:else}
+      <section>
+        <a href="/login" class="login btn-ghost" on:click={window.__onLinkClick}>
+          <Svg id="user" w="16" class="mrg-s mrg--r" />
+          Log in
+        </a>
+      </section>
     {/if}
+
+    <hr />
+    <section>
+      {#if isAppUpdateAvailable}
+        <button class="btn-ghost fluid" on:click={() => window.location.reload()}>
+          Update available. Restart now
+        </button>
+      {:else}
+        <div class="latest caption">
+          You have the latest version!
+          <div class="c-waterloo">{version}</div>
+        </div>
+      {/if}
+    </section>
+    <hr />
 
     <section>
       <div class="btn-ghost" on:click={ui.toggleNightMode}>
@@ -83,19 +106,12 @@
         <div class="btn-ghost logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
         </div>
-      {:else}
-        <a href="/login" class="btn-ghost" on:click={window.__onLinkClick}>Create an account</a>
       {/if}
     </section>
   </div>
 </Tooltip>
 
 <style>
-  .pic {
-    --img-bg: var(--green-light-1);
-    --img-fill: var(--green);
-  }
-
   .active {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
@@ -123,6 +139,15 @@
 
   section {
     padding: 8px;
+  }
+
+  .login {
+    --color: var(--green);
+    justify-content: start;
+  }
+
+  .latest {
+    padding: 2px 8px;
   }
 
   .logout {
