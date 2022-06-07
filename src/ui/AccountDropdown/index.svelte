@@ -24,7 +24,8 @@
   activeClass="$style.active"
   align="center"
   bind:isOpened
-  class={tooltipClass}>
+  class={tooltipClass}
+>
   <svelte:fragment slot="trigger">
     <Pic class="btn mrg-m mrg--l $style.pic" src={currentUser ? currentUser.avatarUrl : ''} />
   </svelte:fragment>
@@ -39,19 +40,22 @@
         <a
           class="btn-ghost"
           href="https://app.santiment.net/alerts?tab=1"
-          on:click={window.__onLinkClick}>My alerts</a>
+          on:click={window.__onLinkClick}>My alerts</a
+        >
         <a class="btn-ghost" href="https://app.santiment.net/assets" on:click={window.__onLinkClick}
-          >My watchlists</a>
+          >My watchlists</a
+        >
         <a
           class="btn-ghost"
           href="https://insights.santiment.net/my"
-          on:click={window.__onLinkClick}>My insights</a>
+          on:click={window.__onLinkClick}>My insights</a
+        >
         <a
           href="https://insights.santiment.net/new"
           class="write btn-1 btn--s"
-          on:click={window.__onLinkClick}>Write insight</a>
+          on:click={window.__onLinkClick}>Write insight</a
+        >
       </section>
-      <hr />
     {:else}
       <section>
         <a href="/login" class="login btn-ghost" on:click={window.__onLinkClick}>
@@ -62,13 +66,13 @@
     {/if}
 
     <hr />
-    <section class="version">
+    <section>
       {#if isAppUpdateAvailable}
         <button class="btn-ghost fluid" on:click={() => window.location.reload()}>
           Update available. Restart now
         </button>
       {:else}
-        <div class="caption">
+        <div class="latest caption">
           You have the latest version!
           <div class="c-waterloo">{version}</div>
         </div>
@@ -83,13 +87,15 @@
       </div>
 
       <a href="https://app.santiment.net/labs" class="btn-ghost" on:click={window.__onLinkClick}
-        >Labs</a>
+        >Labs</a
+      >
 
       {#if currentUser}
         <a
           href="https://app.santiment.net/account"
           class="btn-ghost"
-          on:click={window.__onLinkClick}>Account Settings</a>
+          on:click={window.__onLinkClick}>Account Settings</a
+        >
       {/if}
 
       <div class="btn-ghost" on:click={() => window.Intercom && window.Intercom('show')}>
@@ -106,11 +112,6 @@
 </Tooltip>
 
 <style>
-  .version {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
   .active {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
@@ -140,14 +141,18 @@
     padding: 8px;
   }
 
+  .login {
+    --color: var(--green);
+    justify-content: start;
+  }
+
+  .latest {
+    padding: 2px 8px;
+  }
+
   .logout {
     --color: var(--red);
     --color-hover: var(--red-hover);
     justify-content: initial;
-  }
-
-  .login {
-    --color: var(--green);
-    justify-content: start;
   }
 </style>
