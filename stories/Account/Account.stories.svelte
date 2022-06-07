@@ -11,13 +11,16 @@
   <AccountDropdown
     isOpened
     {ui}
-    currentUser={{
-      id: args.id,
-      username: args.username,
-      email: args.email,
-      avatarUrl: args.avatarUrl,
-      subscriptions: [],
-    }} />
+    currentUser={args.isLoggedIn
+      ? {
+          id: args.id,
+          username: args.username,
+          email: args.email,
+          avatarUrl: args.avatarUrl,
+          subscriptions: [],
+        }
+      : null}
+  />
 </Template>
 
 <Story
@@ -27,4 +30,6 @@
     username: 'Username',
     email: '',
     avatarUrl: '',
-  }} />
+    isLoggedIn: true,
+  }}
+/>

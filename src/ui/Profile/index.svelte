@@ -34,10 +34,12 @@
     --color: var(--accent, var(--green));
   }
 
+  /* eslint-disable-next-line */
   a:hover .caption {
     color: var(--green);
   }
 
+  /* eslint-disable-next-line */
   a:hover .pic {
     border: 1px solid var(--green);
   }
