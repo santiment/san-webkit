@@ -11,7 +11,7 @@
   export let isOpened = false
   export let tooltipClass = ''
   export let appVersionState: number | undefined = undefined
-  export let versionLabel: string = ''
+  export let versionLabel: string = '1.0.0'
 
   function onLogout() {
     isOpened = false
