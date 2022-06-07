@@ -8,7 +8,16 @@
 <Meta title="Example/Profile" component={AccountDropdown} />
 
 <Template let:args>
-  <AccountDropdown isOpened {ui} currentUser={null} />
+  <AccountDropdown
+    isOpened
+    {ui}
+    currentUser={{
+      id: args.id,
+      username: args.username,
+      email: args.email,
+      avatarUrl: args.avatarUrl,
+      subscriptions: [],
+    }} />
 </Template>
 
 <Story

@@ -10,8 +10,8 @@
   export let onLogoutClick
   export let isOpened = false
   export let tooltipClass = ''
-  export let appVersionState: number | undefined = undefined
-  export let versionLabel: string = '1.0.0'
+  export let isAppUpdateAvailable = false
+  export let version: string = '1.0.0'
 
   function onLogout() {
     isOpened = false
@@ -56,27 +56,24 @@
 
     <section>
       {#if !currentUser}
-        <a href="/login" class="loginbtn" on:click={window.__onLinkClick}>
+        <a href="/login" class="login btn-ghost" on:click={window.__onLinkClick}>
           <Svg id="user" w="16" class="mrg-s mrg--r" />
-          <span>Log in</span>
+          Log in
         </a>
       {/if}
 
-      {#if appVersionState !== undefined && appVersionState >= 0}
-        <div class="appversion">
-          {#if appVersionState === 0}
-            <div class="latest">
-              You have the latest version!
-              <div class="caption c-waterloo">{versionLabel}</div>
-            </div>
-          {/if}
-          {#if appVersionState === 1}
-            <button class="latest btn-ghost fluid" on:click={() => window.location.reload()}>
-              Update available. Restart now
-            </button>
-          {/if}
-        </div>
-      {/if}
+      <div class="version">
+        {#if isAppUpdateAvailable}
+          <button class="latest btn-ghost fluid" on:click={() => window.location.reload()}>
+            Update available. Restart now
+          </button>
+        {:else}
+          <div class="latest caption">
+            You have the latest version!
+            <div class="c-waterloo">{version}</div>
+          </div>
+        {/if}
+      </div>
 
       <div class="btn-ghost" on:click={ui.toggleNightMode}>
         Night mode
@@ -107,26 +104,13 @@
 </Tooltip>
 
 <style>
-  .loginbtn {
-    display: flex;
-    align-items: center;
-    color: var(--green);
-    fill: var(--green);
-    padding: 6px 8px;
-    border-radius: 4px;
-  }
-
-  .loginbtn:hover {
-    background: var(--athens);
-  }
-
-  .appversion {
+  .version {
     margin-top: 6px;
     margin-bottom: 6px;
   }
 
-  .appversion::before,
-  .appversion::after {
+  .version::before,
+  .version::after {
     content: '';
     position: absolute;
     left: 0;
@@ -136,13 +120,8 @@
     border: none;
   }
 
-  .appversion .latest {
+  .latest {
     padding: 8px;
-  }
-
-  .pic:hover {
-    stroke: var(--green);
-    stroke-width: 0.3px;
   }
 
   .active {
@@ -178,5 +157,10 @@
     --color: var(--red);
     --color-hover: var(--red-hover);
     justify-content: initial;
+  }
+
+  .login {
+    --color: var(--green);
+    justify-content: start;
   }
 </style>

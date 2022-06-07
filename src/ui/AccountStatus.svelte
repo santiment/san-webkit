@@ -26,7 +26,7 @@
     </div>
   {/if}
 {:else}
-  <a href="/login" class="btn btn-1" on:click={window.__onLinkClick}>Sign up</a>
+  <a href="/login" class="btn-1" on:click={window.__onLinkClick}>Sign up</a>
 {/if}
 
 <style>
