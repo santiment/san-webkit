@@ -8,6 +8,7 @@
 <Meta title="Example/Profile" component={AccountDropdown} />
 
 <Template let:args>
+  <div style="height: 50px;width: 100%;margin: 0;padding:0" />
   <AccountDropdown
     isOpened
     {ui}
@@ -19,8 +20,7 @@
           avatarUrl: args.avatarUrl,
           subscriptions: [],
         }
-      : null}
-  />
+      : null} />
 </Template>
 
 <Story
@@ -28,8 +28,7 @@
   args={{
     id: 0,
     username: 'Username',
-    email: '',
+    email: 'tim12joser@gmail.com',
     avatarUrl: '',
     isLoggedIn: true,
-  }}
-/>
+  }} />
