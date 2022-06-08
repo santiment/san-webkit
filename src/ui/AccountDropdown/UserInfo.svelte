@@ -1,5 +1,4 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import ProfileNames from '@/ui/Profile/Names.svelte'
 
@@ -14,11 +13,9 @@
   <div class="caption c-waterloo">
     {#if subscriptions.length === 0}
       <a
-        class="upgrade btn-2 btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
+        class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
         href="https://app.santiment.net/pricing"
-        on:click={window.__onLinkClick}
-      >
-        <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
+        on:click={window.__onLinkClick}>
         Upgrade
       </a>
     {/if}

@@ -17,11 +17,10 @@
       <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
       Pro{trialPostfix}</a>
   {:else}
-    <div class="free caption c-waterloo">
-      Free plan
+    <div class="caption c-waterloo">
       <a
         href="https://app.santiment.net/pricing"
-        class="upgrade btn"
+        class="btn-1 btn--orange"
         on:click={window.__onLinkClick}>Upgrade</a>
     </div>
   {/if}
@@ -30,29 +29,6 @@
 {/if}
 
 <style>
-  .upgrade {
-    position: absolute;
-    right: 0;
-    bottom: -15px;
-    transition: opacity 200ms;
-    opacity: 0;
-    pointer-events: none;
-    --color: var(--orange);
-    --color-hover: var(--orange-hover);
-  }
-
-  .free {
-    position: relative;
-    transition: transform 200ms;
-  }
-  .free:hover {
-    transform: translateY(-6px);
-  }
-  .free:hover .upgrade {
-    pointer-events: all;
-    opacity: 1;
-  }
-
   .pro {
     --bg: var(--orange-light-1);
     --bg-hover: var(--orange-light-1);
