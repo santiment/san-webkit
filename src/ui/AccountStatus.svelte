@@ -1,7 +1,6 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
   import { getSanbaseSubscription, getTrialDaysLeft } from '@/utils/subscription'
-  import { customerData$ } from '@/stores/user'
 
   export let currentUser
 
