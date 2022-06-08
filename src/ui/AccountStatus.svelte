@@ -8,7 +8,6 @@
   $: subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
   $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
   $: trialPostfix = trialDaysLeft ? ` Trial (${trialDaysLeft})` : ''
-  $: ({ isEligibleForTrial } = $customerData$)
 </script>
 
 {#if currentUser}
@@ -23,7 +22,7 @@
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange"
-        on:click={window.__onLinkClick}>{isEligibleForTrial ? 'Start Free 14-day Trial' : ''}</a>
+        on:click={window.__onLinkClick}>Upgrade</a>
     </div>
   {/if}
 {:else}
