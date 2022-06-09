@@ -8,9 +8,7 @@
 
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: trialSpecialOfferPercent =
-    !annualDiscount || !annualDiscount.isEligible || !annualDiscount.discount
-      ? 0
-      : annualDiscount.discount.percentOff
+    annualDiscount  && annualDiscount.isEligible && annualDiscount.discount.percentOff 
   $: subscription = $subscription$
   $: currentPlanName = subscription
     ? PlanName[subscription.plan.name] || subscription.plan.name
