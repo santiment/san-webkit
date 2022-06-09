@@ -1,21 +1,55 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
-  import { getSanbaseSubscription, getTrialDaysLeft } from '@/utils/subscription'
+  import { customerData$ } from '@/stores/user'
+  import { subscription$ } from '@/stores/subscription'
+  import { PlanName } from '@/utils/plans'
 
   export let currentUser
+  export let variant = 0
 
-  $: subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
-  $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
-  $: trialPostfix = trialDaysLeft ? ` Trial (${trialDaysLeft})` : ''
+  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+  $: trialSpecialOfferPercent =
+    !annualDiscount || !annualDiscount.isEligible || !annualDiscount.discount
+      ? 0
+      : annualDiscount.discount.percentOff
+  $: subscription = $subscription$
+  $: currentPlanName = subscription
+    ? PlanName[subscription.plan.name] || subscription.plan.name
+    : null
 </script>
 
 {#if currentUser}
-  {#if subscription}
-    <a
-      href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-      class="pro btn-1 btn--s caption row v-center">
-      <Svg id="crown" w="13" h="10" class="mrg-s mrg--r" />
-      Pro{trialPostfix}</a>
+  {#if currentPlanName}
+    <div class="row v-center">
+      {#if trialSpecialOfferPercent > 0}
+        <a
+          href="https://app.santiment.net/pricing"
+          class="btn-1 btn-2 btn--orange mrg--r mrg-m"
+          on:click={window.__onLinkClick}
+          >Special offer! {trialSpecialOfferPercent}% OFF
+        </a>
+      {/if}
+      <a
+        href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
+        class="pro btn-1 btn--s caption row v-center">
+        {currentPlanName}
+      </a>
+    </div>
+  {:else if isEligibleForTrial}
+    <div class="caption c-waterloo">
+      <a
+        href="https://app.santiment.net/pricing"
+        class="btn-1 btn--orange"
+        on:click={window.__onLinkClick}>{variant === 0 ? 'Start Free 14-day Trial' : 'Upgrade'}</a>
+    </div>
+  {:else if trialSpecialOfferPercent > 0}
+    {#if variant === 0}
+      <div class="caption c-waterloo">
+        <a
+          href="https://app.santiment.net/pricing"
+          class="btn-1 btn-2 btn--orange"
+          on:click={window.__onLinkClick}>Special offer! {trialSpecialOfferPercent}% OFF</a>
+      </div>
+    {/if}
   {:else}
     <div class="caption c-waterloo">
       <a
