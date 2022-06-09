@@ -18,7 +18,7 @@
 </script>
 
 {#if currentUser}
-  {#if currentPlanName}
+  {#if currentPlanName && currentPlanName.toString().toUpperCase().includes('PRO')}
     <div class="row v-center">
       {#if trialSpecialOfferPercent > 0}
         <a
