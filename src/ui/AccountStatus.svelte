@@ -10,9 +10,7 @@
   $: trialSpecialOfferPercent =
     annualDiscount  && annualDiscount.isEligible && annualDiscount.discount.percentOff 
   $: subscription = $subscription$
-  $: currentPlanName = subscription
-    ? PlanName[subscription.plan.name] || subscription.plan.name
-    : null
+  $: currentPlanName = subscription && (PlanName[subscription.plan.name] || subscription.plan.name)
 </script>
 
 {#if currentUser}
