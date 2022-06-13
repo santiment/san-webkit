@@ -22,7 +22,6 @@ export const PlanDescription = {
       'Google Sheets / Excel Plugin',
       'Closed chat with Santiment analytics',
       'Tailored market reports and token analysis',
-      'Exclusive private video tutorials for market alpha',
     ],
   },
 }
