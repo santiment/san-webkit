@@ -2,13 +2,18 @@
   import { customerData$ } from '@/stores/user'
   import { subscription$ } from '@/stores/subscription'
   import { PlanName } from '@/utils/plans'
+  import { AccountDropdown } from '@/utils/enums'
 
   export let currentUser
-  export let variant = 0
+  export let variant = AccountDropdown.Version1
 
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: trialSpecialOfferPercent =
-    annualDiscount  && annualDiscount.isEligible && annualDiscount.discount.percentOff 
+    (annualDiscount &&
+      annualDiscount.isEligible &&
+      annualDiscount.discount &&
+      annualDiscount.discount.percentOff) ||
+    0
   $: subscription = $subscription$
   $: currentPlanName = subscription && (PlanName[subscription.plan.name] || subscription.plan.name)
 </script>
@@ -35,10 +40,11 @@
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange"
-        on:click={window.__onLinkClick}>{variant === 0 ? 'Start Free 14-day Trial' : 'Upgrade'}</a>
+        on:click={window.__onLinkClick}
+        >{variant === AccountDropdown.Version1 ? 'Start Free 14-day Trial' : 'Upgrade'}</a>
     </div>
   {:else if trialSpecialOfferPercent > 0}
-    {#if variant === 0}
+    {#if variant === AccountDropdown.Version1}
       <div class="caption c-waterloo">
         <a
           href="https://app.santiment.net/pricing"
