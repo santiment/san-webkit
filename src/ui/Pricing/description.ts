@@ -22,6 +22,7 @@ export const PlanDescription = {
       'Google Sheets / Excel Plugin',
       'Closed chat with Santiment analytics',
       'Tailored market reports and token analysis',
+      'White-labeled embeddable charts',
     ],
   },
 }
