@@ -7,20 +7,16 @@
   export let followers: number | undefined = undefined
 
   $: ({ username, email } = user)
-  $: hasCaption = (followers && followers >= 0) || email
+  $: subtitle = followers && followers >= 0 ? `${followers} Followers` : email
 </script>
 
 <Profile {user} class="txt-m {className}">
   <svelte:fragment slot="name">
     <div class="">
       <div class="caption body-3  txt-r">@{username}</div>
-      {#if hasCaption}
+      {#if subtitle}
         <div class="caption txt-r c-waterloo">
-          {#if followers && followers >= 0}
-            {followers} Followers
-          {:else}
-            {email}
-          {/if}
+          {subtitle}
         </div>
       {/if}
     </div>
