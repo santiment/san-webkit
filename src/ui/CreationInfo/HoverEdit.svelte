@@ -1,59 +1,42 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import Svg from '@/ui/Svg/svelte'
+<script>
+  import Tooltip from '@/ui/Tooltip/svelte'
 
-  export let isEditVisible = false
-  export let onClick
-
-  let width = 0
-  let timer
-  let node
-  let trigger
-
-  $: node && trigger && trigger.after(node)
-
-  export function showEdit({ currentTarget }) {
-    trigger = currentTarget
-    timer = setTimeout(() => (isEditVisible = true), 100)
-    width = currentTarget.clientWidth
-  }
-  export function hideEdit() {
-    clearTimeout(timer)
-    isEditVisible = false
-  }
-
-  onDestroy(() => clearTimeout(timer))
+  let className = ''
+  export { className as class }
+  export let currentUser
+  export let editLabel = 'Edit'
+  export let titleHoverTooltipClass = ''
+  export let onEditClick
 </script>
 
-{#if isEditVisible}
-  <div
-    bind:this={node}
-    class="edit mrg-s mrg--l"
-    style="--width:{width}px"
-    on:mouseleave={hideEdit}
-    on:click={onClick}>
-    <div class="btn-3">
-      <Svg id="pencil" w="16" />
-    </div>
-  </div>
-{/if}
+<Tooltip
+  isEnabled={!!currentUser}
+  openDelay={110}
+  duration={65}
+  dark
+  position="top"
+  align="center"
+  class="caption {titleHoverTooltipClass}"
+>
+  <span
+    slot="trigger"
+    class="btn {className}"
+    class:enabled={currentUser}
+    on:click={currentUser ? onEditClick : null}
+  >
+    <slot />
+  </span>
+
+  <svelte:fragment slot="tooltip">{editLabel}</svelte:fragment>
+</Tooltip>
 
 <style>
-  .edit {
-    position: relative;
+  span {
+    padding: 4px 10px;
   }
-  .edit::before {
-    content: '';
-    position: absolute;
-    width: calc(var(--width) + 40px);
-    height: 25px;
-    top: 2px;
-    right: 0;
-    cursor: pointer;
-  }
-  .btn-3 {
-    --color: var(--waterloo);
-    z-index: 2;
-    position: relative;
+
+  .enabled {
+    --color-hover: var(--green);
+    --bg-hover: var(--green-light-1);
   }
 </style>

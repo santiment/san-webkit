@@ -8,6 +8,7 @@
   import Tooltip from '@/ui/Tooltip/svelte'
   import CommentsButton from '@/ui/Comments/Button.svelte'
   import VoteButton from './VoteButton.svelte'
+  import HoverEdit from './HoverEdit.svelte'
 
   export let id: number
   export let title: string
@@ -24,6 +25,7 @@
   }
   export let votes: Votes
   export let onVote
+  export let titleHoverTooltipClass = ''
 </script>
 
 {#if title}
@@ -40,26 +42,9 @@
 
     <div class="divider" />
 
-    <Tooltip
-      isEnabled={!!currentUser}
-      openDelay={110}
-      duration={65}
-      dark
-      position="top"
-      align="center"
+    <HoverEdit class="title body-2" {currentUser} {editLabel} {onEditClick} {titleHoverTooltipClass}
+      >{title}</HoverEdit
     >
-      <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-      <span
-        slot="trigger"
-        class="title body-2 btn"
-        class:enabled={currentUser}
-        on:click={currentUser ? onEditClick : null}
-      >
-        {title}
-      </span>
-
-      <div slot="tooltip" class="caption">{editLabel}</div>
-    </Tooltip>
 
     <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
       <div slot="trigger" class="btn info row v-center">
@@ -76,8 +61,9 @@
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 
-  <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-  <span>{fallback}</span>
+  <HoverEdit {currentUser} editLabel="Save as" {onEditClick} {titleHoverTooltipClass}
+    >{fallback}</HoverEdit
+  >
 {/if}
 
 <style lang="scss">
@@ -117,11 +103,5 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 4px 10px;
-  }
-
-  .enabled {
-    --color-hover: var(--green);
-    --bg-hover: var(--green-light-1);
   }
 </style>
