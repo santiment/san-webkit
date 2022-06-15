@@ -7,19 +7,18 @@
   export let followers: number | undefined = undefined
 
   $: ({ username, email } = user)
+  $: subtitle = followers >= 0 ? `${followers} Followers` : email
 </script>
 
 <Profile {user} class="txt-m {className}">
   <svelte:fragment slot="name">
     <div class="">
       <div class="caption body-3  txt-r">@{username}</div>
-      <div class="caption txt-r c-waterloo">
-        {#if followers && followers >= 0}
-          {followers} Followers
-        {:else}
-          {email}
-        {/if}
-      </div>
+      {#if subtitle}
+        <div class="caption txt-r c-waterloo">
+          {subtitle}
+        </div>
+      {/if}
     </div>
   </svelte:fragment>
 </Profile>
