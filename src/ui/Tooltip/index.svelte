@@ -4,7 +4,7 @@
    */
 
   import type { Align, Position } from './utils'
-  import { onMount, onDestroy, tick } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
   import { getTooltipStyles } from './utils'
 
@@ -113,7 +113,7 @@
 
     tooltip.onmouseenter = openTooltip
     tooltip.onmouseleave = closeTooltip
-    window.ontouchend = onTouchEnd
+    window.addEventListener('touchend', onTouchEnd)
   }
 
   function updateTooltipPosition() {
@@ -133,9 +133,15 @@
   }
 
   function onTouchEnd({ target }: TouchEvent) {
-    if (target === trigger || (target as HTMLElement).closest('[slot="tooltip"]')) return
+    if (
+      target === trigger ||
+      (target as HTMLElement).closest('[slot="tooltip"]') ||
+      tooltip?.contains(target as HTMLElement)
+    ) {
+      return
+    }
 
-    window.ontouchend = null
+    window.removeEventListener('touchend', onTouchEnd)
     close()
   }
 </script>
@@ -152,7 +158,8 @@
     bind:this={tooltip}
     class="tooltip border box {className}"
     class:dark
-    transition:fade={transition}>
+    transition:fade={transition}
+  >
     <slot name="tooltip" />
   </div>
 {/if}

@@ -12,7 +12,8 @@
 <a
   class="row v-center c-black {className}"
   href="/profile/{user.id}"
-  on:click={window.__onLinkClick}>
+  on:click={window.__onLinkClick}
+>
   <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" />
 
   <span>
@@ -25,23 +26,17 @@
   </span>
 </a>
 
-<style>
+<style lang="scss">
   a {
     min-width: 0;
-  }
 
-  a:hover {
-    --color: var(--accent, var(--green));
-  }
+    &:hover {
+      --color: var(--accent, var(--green));
 
-  /* eslint-disable-next-line */
-  a:hover .caption {
-    color: var(--green);
-  }
-
-  /* eslint-disable-next-line */
-  a:hover .pic {
-    border: 1px solid var(--green);
+      & .pic {
+        border: 1px solid var(--green);
+      }
+    }
   }
 
   span {
