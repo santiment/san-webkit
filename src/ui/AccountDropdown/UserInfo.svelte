@@ -4,18 +4,20 @@
 
   export let user
 
-  const subscriptions = user.subscriptions.filter(checkIsActiveSubscription)
+  const { subscription } = user
+  const hasActiveSubscription = subscription && checkIsActiveSubscription(subscription)
 </script>
 
 <section>
   <ProfileNames {user} />
 
   <div class="caption c-waterloo">
-    {#if subscriptions.length === 0}
+    {#if !hasActiveSubscription}
       <a
         class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
         href="https://app.santiment.net/pricing"
-        on:click={window.__onLinkClick}>
+        on:click={window.__onLinkClick}
+      >
         Upgrade
       </a>
     {/if}
