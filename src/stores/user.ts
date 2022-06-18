@@ -18,7 +18,7 @@ const CUSTOMER_DATA_QUERY = `{
 
 const queryCustomerData = () => query<any>(CUSTOMER_DATA_QUERY)
 
-type CustomerData = {
+export type CustomerData = {
   isLoggedIn: boolean
   sanBalance: number
   isEligibleForTrial: boolean
