@@ -31,19 +31,33 @@ export type CustomerData = {
   annualDiscount?: SAN.AnnualDiscount
 }
 
-const { subscribe, set } = writable<CustomerData>({
+const DEFAULT = {
   isLoggedIn: false,
   sanBalance: 0,
   isEligibleForTrial: false,
   annualDiscount: undefined,
-} as CustomerData)
+} as CustomerData
+
+const { subscribe, set } = writable<CustomerData>(DEFAULT)
 
 export const customerData$ = {
   fetched: false,
   set,
+  setValue(value) {
+    customerData$.set(value)
+    return value
+  },
+  setDefault() {
+    this.set(DEFAULT)
+  },
   query() {
     this.fetched = true
-    return queryCustomerData().then(customerData$.set)
+    return queryCustomerData()
+      .then(this.setValue)
+      .catch((e) => {
+        console.error(e)
+        this.set(DEFAULT)
+      })
   },
   subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
     if (!this.fetched) this.query()
