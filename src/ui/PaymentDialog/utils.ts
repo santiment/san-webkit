@@ -84,7 +84,6 @@ export function buyPlan(
 }
 
 function onPaymentSuccess(data) {
-  track.event('upgrade', { method: 'Payment success' })
   const { plan } = data
   const { name, amount } = plan
   const title = PlanName[name] || name
