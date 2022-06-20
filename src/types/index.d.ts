@@ -14,6 +14,7 @@ interface Window {
   Stripe?: stripe.StripeStatic
   StripeInstance?: stripe.Stripe
   ethereum?: any
+  twttr?: any
   provider?: any
   __onLinkClick?: (e: MouseEvent) => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void

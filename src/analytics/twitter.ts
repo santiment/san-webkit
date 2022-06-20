@@ -18,21 +18,15 @@ export function initTwitterPixel(id = 'o0e0e'): void {
 }
 
 export function trackTwitterPurchaseEvent() {
-  newHeadScript(
-    `window.twttr.conversion.trackPid('o8scf', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
-    {
-      async: true,
-    },
-  )
+  if (window.twttr) {
+    window.twttr.conversion.trackPid('o8scf', { tw_sale_amount: 0, tw_order_quantity: 0 })
+  }
 }
 
 export function trackTwitterSignUpEvent() {
-  newHeadScript(
-    `window.twttr.conversion.trackPid('o8scy', { tw_sale_amount: 0, tw_order_quantity: 0 });`,
-    {
-      async: true,
-    },
-  )
+  if (window.twttr) {
+    window.twttr.conversion.trackPid('o8scy', { tw_sale_amount: 0, tw_order_quantity: 0 })
+  }
 }
 
 export enum TwitterTrackActions {
