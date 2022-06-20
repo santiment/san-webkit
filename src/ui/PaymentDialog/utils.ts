@@ -1,5 +1,5 @@
 import { track, Tracker } from '@/analytics'
-import { TwitterTrackActions } from '@/analytics/twitter'
+import { trackTwitterPurchaseEvent, TwitterTrackActions } from '@/analytics/twitter'
 import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
 import { customerData$ } from '@/stores/user'
@@ -89,6 +89,8 @@ function onPaymentSuccess(data) {
   const { name, amount } = plan
   const title = PlanName[name] || name
 
+  trackTwitterPurchaseEvent()
+
   track.event(
     TwitterTrackActions.purchase,
     {
@@ -98,6 +100,10 @@ function onPaymentSuccess(data) {
     },
     [Tracker.TWQ],
   )
+
+  track.event('Purchase', {
+    category: 'User',
+  })
 
   notifications.show({
     type: 'success',
