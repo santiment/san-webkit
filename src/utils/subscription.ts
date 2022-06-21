@@ -1,5 +1,6 @@
+import type { CustomerData } from '@/stores/user'
 import { ONE_DAY_IN_MS } from './dates'
-import { checkIsSanbaseProduct } from './plans'
+import { PlanName, checkIsSanbaseProduct } from './plans'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -30,4 +31,26 @@ export function getTrialDaysLeft(subscription: SAN.Subscription): string | undef
   if (daysLeft < 1) return
 
   return daysLeft === 1 ? 'last day' : `${daysLeft} days left`
+}
+
+export function getUserSubscriptionInfo(
+  customerData: Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>,
+  subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>,
+) {
+  const { isEligibleForTrial, annualDiscount } = customerData
+  const annualDiscountPercent = annualDiscount?.isEligible && annualDiscount.discount?.percentOff
+  const discountExpireAt = annualDiscount?.isEligible && annualDiscount.discount?.expireAt
+  const subscriptionPlan = subscription?.plan.name
+  const userPlanName = PlanName[subscriptionPlan] || subscriptionPlan
+  const trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
+
+  return {
+    isEligibleForTrial,
+    annualDiscount,
+    annualDiscountPercent,
+    offerEndsIn: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
+    subscriptionPlan,
+    userPlanName,
+    trialDaysLeft,
+  }
 }
