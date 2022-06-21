@@ -8,6 +8,12 @@
 
   const fiveDaysLater = new Date()
   fiveDaysLater.setDate(fiveDaysLater.getDate() + 5)
+
+  const currentUser = {
+    id: 1,
+    username: 'test',
+    email: 'test@local.dev',
+  }
 </script>
 
 <Meta title="Example/Profile" component={AccountDropdown} />
@@ -23,14 +29,7 @@
     <section>
       <div class="h4">Login. New user. Free trial available</div>
       <div class="row v-center">
-        <AccountDropdown
-          {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
-          customerData={{ isEligibleForTrial: true }} />
+        <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: true }} />
       </div>
     </section>
     <section>
@@ -38,11 +37,7 @@
       <div class="row v-center">
         <AccountDropdown
           {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
+          {currentUser}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
           customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
       </div>
@@ -52,11 +47,7 @@
       <div class="row v-center">
         <AccountDropdown
           {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
+          {currentUser}
           variant={AccountStatusType.Second}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
           customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
@@ -67,11 +58,7 @@
       <div class="row v-center">
         <AccountDropdown
           {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
+          {currentUser}
           subscription={{ plan: { name: 'PRO' } }}
           customerData={{
             annualDiscount: {
@@ -86,11 +73,7 @@
       <div class="row v-center">
         <AccountDropdown
           {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
+          {currentUser}
           subscription={{ plan: { name: 'PRO' } }}
           variant={AccountStatusType.Second}
           customerData={{
@@ -104,27 +87,13 @@
     <section>
       <div class="h4">Login. Pro Plan</div>
       <div class="row v-center">
-        <AccountDropdown
-          {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
-          subscription={{ plan: { name: 'PRO' } }} />
+        <AccountDropdown {ui} {currentUser} subscription={{ plan: { name: 'PRO' } }} />
       </div>
     </section>
     <section>
       <div class="h4">Login. Free Plan. Trial finished</div>
       <div class="row v-center">
-        <AccountDropdown
-          {ui}
-          currentUser={{
-            id: 1,
-            username: 'test',
-            email: 'test@local.dev',
-          }}
-          customerData={{ isEligibleForTrial: false }} />
+        <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: false }} />
       </div>
     </section>
   </div>
