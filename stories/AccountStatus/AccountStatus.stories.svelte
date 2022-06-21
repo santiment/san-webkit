@@ -81,6 +81,13 @@
       <AccountStatus currentUser={{}} subscription={{ plan: { name: 'PRO' } }} />
     </div>
   </section>
+
+  <section>
+    <div class="h4">Login. Free Plan. Trial finished</div>
+    <div class="row v-center">
+      <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: false }} />
+    </div>
+  </section>
 </Story>
 
 <style>

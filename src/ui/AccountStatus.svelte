@@ -7,24 +7,19 @@
 
 <script lang="ts">
   import type { CustomerData } from '@/stores/user'
-  import { PlanName } from '@/utils/plans'
-  import { calculateTrialDaysLeft } from '@/utils/subscription'
+  import { getUserSubscriptionInfo } from '@/utils/subscription'
 
   export let currentUser
   export let variant: AccountStatusType = AccountStatusType.First
   export let subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
 
-  $: ({ isEligibleForTrial, annualDiscount } = customerData)
-  $: annualDiscountPercent = annualDiscount?.isEligible && annualDiscount.discount?.percentOff
-  $: subscriptionPlan = subscription?.plan.name
-  $: userPlanName = PlanName[subscriptionPlan] || subscriptionPlan
-  $: trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
-  $: showOffer = variant !== AccountStatusType.Second
+  $: ({ annualDiscountPercent, userPlanName, trialDaysLeft, isEligibleForTrial } =
+    getUserSubscriptionInfo(customerData, subscription))
 </script>
 
 {#if currentUser}
-  {#if annualDiscountPercent && showOffer}
+  {#if annualDiscountPercent && variant !== AccountStatusType.Second}
     <a
       href="https://app.santiment.net/pricing"
       class="btn-2 btn-1 btn--orange mrg-m mrg--r"
