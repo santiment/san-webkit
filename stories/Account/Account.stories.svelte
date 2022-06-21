@@ -2,49 +2,18 @@
   import { writable } from 'svelte/store'
   import { Meta, Story } from '@storybook/addon-svelte-csf'
   import AccountDropdown from '@/ui/AccountDropdown/index.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   const ui = writable({})
 
   const fiveDaysLater = new Date()
-  fiveDaysLater.setDate(fiveDaysLater.getDate() + 3)
-
-  // {
-  //   id: number
-  //   /** 'ACTIVE' | 'TRIALING' */
-  //   status: string
-  //   trialEnd?: string
-  //   currentPeriodEnd: string
-  //   cancelAtPeriodEnd?: boolean
-  //   plan: {
-  //     id: string
-  //     name: string // 'PRO'
-  //     product: SAN.Product
-  //     amount: number
-  //     interval: string
-  //   }
-  // }
+  fiveDaysLater.setDate(fiveDaysLater.getDate() + 5)
 </script>
 
 <Meta title="Example/Profile" component={AccountDropdown} />
 
-<!-- <Template let:args>
-  <div style="height: 50px;width: 100%;margin: 0;padding:0" />
-  <AccountDropdown
-    isOpened
-    {ui}
-    currentUser={args.isLoggedIn
-      ? {
-          id: args.id,
-          username: args.username,
-          email: args.email,
-          avatarUrl: args.avatarUrl,
-          subscriptions: [],
-        }
-      : null} />
-</Template> -->
-
 <Story name="Account">
-  <div class="row fluid justify">
+  <div class="row">
     <section>
       <div class="h4">Anonymous</div>
       <div class="row v-center">
@@ -52,18 +21,117 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. New user. Free trial available (Variant 1)</div>
+      <div class="h4">Login. New user. Free trial available</div>
       <div class="row v-center">
         <AccountDropdown
-          isOpened
           {ui}
           currentUser={{
             id: 1,
             username: 'test',
             email: 'test@local.dev',
-            subscriptions: [{ trialEnd: fiveDaysLater }],
+          }}
+          customerData={{ isEligibleForTrial: true }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. User on free trial (Variant 1)</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. User on free trial (Variant 2)</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          variant={AccountStatusType.Second}
+          subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. Pro Plan. First month offer (Variant 1)</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          subscription={{ plan: { name: 'PRO' } }}
+          customerData={{
+            annualDiscount: {
+              isEligible: true,
+              discount: { percentOff: 35, expireAt: fiveDaysLater },
+            },
           }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. Pro Plan. First month offer (Variant 2)</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          subscription={{ plan: { name: 'PRO' } }}
+          variant={AccountStatusType.Second}
+          customerData={{
+            annualDiscount: {
+              isEligible: true,
+              discount: { percentOff: 35, expireAt: fiveDaysLater },
+            },
+          }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. Pro Plan</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          subscription={{ plan: { name: 'PRO' } }} />
+      </div>
+    </section>
+    <section>
+      <div class="h4">Login. Free Plan. Trial finished</div>
+      <div class="row v-center">
+        <AccountDropdown
+          {ui}
+          currentUser={{
+            id: 1,
+            username: 'test',
+            email: 'test@local.dev',
+          }}
+          customerData={{ isEligibleForTrial: false }} />
       </div>
     </section>
   </div>
 </Story>
+
+<style>
+  .h4 {
+    margin: 0 0 8px;
+  }
+</style>
