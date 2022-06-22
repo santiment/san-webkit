@@ -42,8 +42,12 @@
 
     <div class="divider" />
 
-    <HoverEdit class="title body-2" {currentUser} {editLabel} {onEditClick} {titleHoverTooltipClass}
-      >{title}</HoverEdit
+    <HoverEdit
+      class="$style.title body-2"
+      {currentUser}
+      {editLabel}
+      {onEditClick}
+      {titleHoverTooltipClass}>{title}</HoverEdit
     >
 
     <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
@@ -61,8 +65,12 @@
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 
-  <HoverEdit {currentUser} editLabel="Save as" {onEditClick} {titleHoverTooltipClass}
-    >{fallback}</HoverEdit
+  <HoverEdit
+    class="$style.title body-2"
+    {currentUser}
+    editLabel="Save as"
+    {onEditClick}
+    {titleHoverTooltipClass}>{fallback}</HoverEdit
   >
 {/if}
 
