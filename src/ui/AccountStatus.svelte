@@ -41,8 +41,8 @@
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange"
       on:click={window.__onLinkClick}>
-      {#if isEligibleForTrial}
-        {variant === AccountStatusType.First ? 'Start Free 14-day Trial' : 'Upgrade'}
+      {#if isEligibleForTrial && variant === AccountStatusType.First}
+        Start Free 14-day Trial
       {:else}
         Upgrade
       {/if}

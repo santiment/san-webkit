@@ -14,7 +14,7 @@
   export let onLogoutClick
   export let isOpened = false
   export let tooltipClass = ''
-  export let variant: AccountStatusType = AccountStatusType.First
+  export let variant = AccountStatusType.First
   export let subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
   export let isAppUpdateAvailable = false
