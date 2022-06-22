@@ -19,7 +19,7 @@
     trialDaysLeft,
   } = subscriptionInfo)
 
-  $: getButtonLabel = () => {
+  function getButtonLabel() {
     const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
 
     if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
@@ -32,7 +32,7 @@
     return 'Upgrade'
   }
 
-  $: getNoteText = () => {
+  function getNoteText() {
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
 
     if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
@@ -42,7 +42,7 @@
     }
   }
 
-  $: getSanbasePlan = () => {
+  function getSanbasePlan() {
     if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
 
     if (userPlanName) return `Sanbase: ${userPlanName} plan`
@@ -51,6 +51,8 @@
   }
 
   $: note = getNoteText()
+  $: buttonLabel = getButtonLabel()
+  $: sunbasePlan = getSanbasePlan()
 </script>
 
 <section>
@@ -61,14 +63,14 @@
       {#if userPlanName && !trialDaysLeft}
         SanAPI: Basic plan<br />
       {/if}
-      {getSanbasePlan()}
+      {sunbasePlan}
     </div>
     {#if !hasActiveSubscription}
       <a
         class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
         href="https://app.santiment.net/pricing"
         on:click={window.__onLinkClick}>
-        {getButtonLabel()}
+        {buttonLabel}
       </a>
     {/if}
   </div>
