@@ -10,16 +10,10 @@
   const { subscription } = user
   const hasActiveSubscription = subscription && checkIsActiveSubscription(subscription)
 
-  $: ({
-    isEligibleForTrial,
-    annualDiscountPercent,
-    subscriptionPlan,
-    annualDiscountDaysLeft,
-    userPlanName,
-    trialDaysLeft,
-  } = subscriptionInfo)
+  function getButtonLabel(subscriptionInfo, variant) {
+    const { subscriptionPlan, isEligibleForTrial, annualDiscountPercent, trialDaysLeft } =
+      subscriptionInfo
 
-  function getButtonLabel() {
     const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
 
     if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
@@ -32,7 +26,9 @@
     return 'Upgrade'
   }
 
-  function getNoteText() {
+  function getNoteText(subscriptionInfo, variant) {
+    const { isEligibleForTrial, trialDaysLeft, annualDiscountDaysLeft } = subscriptionInfo
+
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
 
     if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
@@ -42,7 +38,9 @@
     }
   }
 
-  function getSanbasePlan() {
+  function getSanbasePlan(subscriptionInfo) {
+    const { trialDaysLeft, userPlanName } = subscriptionInfo
+
     if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
 
     if (userPlanName) return `Sanbase: ${userPlanName} plan`
@@ -50,9 +48,9 @@
     return 'Sanbase: free plan'
   }
 
-  $: note = getNoteText()
-  $: buttonLabel = getButtonLabel()
-  $: sunbasePlan = getSanbasePlan()
+  $: buttonLabel = getButtonLabel(subscriptionInfo, variant)
+  $: note = getNoteText(subscriptionInfo, variant)
+  $: sunbasePlan = getSanbasePlan(subscriptionInfo)
 </script>
 
 <section>
@@ -60,7 +58,7 @@
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
-      {#if userPlanName && !trialDaysLeft}
+      {#if subscriptionInfo.userPlanName && !subscriptionInfo.trialDaysLeft}
         SanAPI: Basic plan<br />
       {/if}
       {sunbasePlan}
