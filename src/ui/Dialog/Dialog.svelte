@@ -65,6 +65,7 @@
     }
 
     if (i === 0) {
+      document.body.style.width = ''
       document.body.style.maxWidth = ''
       document.body.style.overflowY = ''
       document.body.style.touchAction = ''
@@ -101,7 +102,8 @@
   class:out
   class:still={!animated}
   on:mousedown={onClickaway}
-  on:mouseup={onClickaway}>
+  on:mouseup={onClickaway}
+>
   <div class="dialog border box column {className}">
     {#if noTitle === false}
       <h2 class="body-2 row v-center justify" class:empty={!title && !$$slots.title}>
