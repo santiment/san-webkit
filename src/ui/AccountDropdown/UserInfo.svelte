@@ -1,14 +1,10 @@
 <script>
-  import { checkIsActiveSubscription } from '@/utils/subscription'
   import ProfileNames from '@/ui/Profile/Names.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let user
   export let subscriptionInfo
   export let variant = AccountStatusType.First
-
-  const { subscription } = user
-  const hasActiveSubscription = subscription && checkIsActiveSubscription(subscription)
 
   function getButtonLabel(subscriptionInfo, variant) {
     const { subscriptionPlan, isEligibleForTrial, annualDiscountPercent, trialDaysLeft } =
@@ -63,14 +59,12 @@
       {/if}
       {sunbasePlan}
     </div>
-    {#if !hasActiveSubscription}
-      <a
-        class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
-        href="https://app.santiment.net/pricing"
-        on:click={window.__onLinkClick}>
-        {buttonLabel}
-      </a>
-    {/if}
+    <a
+      class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
+      href="https://app.santiment.net/pricing"
+      on:click={window.__onLinkClick}>
+      {buttonLabel}
+    </a>
   </div>
   {#if note}
     <div class="note mrg-xs mrg--t">{note}</div>
