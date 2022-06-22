@@ -1,13 +1,13 @@
 <script lang="ts">
+  import type { CustomerData } from '@/stores/user'
   import { getUserSubscriptionInfo } from '@/utils/subscription'
   import Toggle from '@/ui/Toggle.svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import Svg from '@/ui/Svg/svelte'
   import Pic from '@/ui/Profile/Pic.svelte'
-  import type { CustomerData } from '@/stores/user'
   import UserInfo from './UserInfo.svelte'
   import VersionInfo from './VersionInfo.svelte'
-  import { AccountStatusType } from '../AccountStatus.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let ui: any
   export let currentUser
