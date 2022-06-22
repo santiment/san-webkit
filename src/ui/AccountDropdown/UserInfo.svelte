@@ -10,8 +10,8 @@
   const { subscription } = user
   const hasActiveSubscription = subscription && checkIsActiveSubscription(subscription)
 
-  function getButtonLabel(subscriptionInfo) {
-    const { subscriptionPlan, isEligibleForTrial, variant, annualDiscountPercent, trialDaysLeft } =
+  function getButtonLabel(subscriptionInfo, variant) {
+    const { subscriptionPlan, isEligibleForTrial, annualDiscountPercent, trialDaysLeft } =
       subscriptionInfo
 
     const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
@@ -26,8 +26,8 @@
     return 'Upgrade'
   }
 
-  function getNoteText(subscriptionInfo) {
-    const { isEligibleForTrial, trialDaysLeft, variant, annualDiscountDaysLeft } = subscriptionInfo
+  function getNoteText(subscriptionInfo, variant) {
+    const { isEligibleForTrial, trialDaysLeft, annualDiscountDaysLeft } = subscriptionInfo
 
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
 
@@ -48,8 +48,8 @@
     return 'Sanbase: free plan'
   }
 
-  $: buttonLabel = getButtonLabel(subscriptionInfo)
-  $: note = getNoteText(subscriptionInfo)
+  $: buttonLabel = getButtonLabel(subscriptionInfo, variant)
+  $: note = getNoteText(subscriptionInfo, variant)
   $: sunbasePlan = getSanbasePlan(subscriptionInfo)
 </script>
 
