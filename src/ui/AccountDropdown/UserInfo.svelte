@@ -1,7 +1,7 @@
 <script>
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import ProfileNames from '@/ui/Profile/Names.svelte'
-  import { AccountStatusType } from '../AccountStatus.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let user
   export let subscriptionInfo
@@ -14,36 +14,43 @@
     isEligibleForTrial,
     annualDiscountPercent,
     subscriptionPlan,
-    offerEndsIn,
+    annualDiscountDaysLeft,
     userPlanName,
     trialDaysLeft,
   } = subscriptionInfo)
 
   $: getButtonLabel = () => {
+    const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
+
     if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
       if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`
-      if (subscriptionPlan && !isEligibleForTrial) return `Get ${annualDiscountPercent}% OFF`
+      if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`
     }
-    if (subscriptionPlan && !isEligibleForTrial && !annualDiscountPercent) return 'Learn about Pro'
+
+    if (isTrialPassedwithActivePlan && !annualDiscountPercent) return 'Learn about Pro'
+
     return 'Upgrade'
   }
 
   $: getNoteText = () => {
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
+
     if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
-    if (variant === AccountStatusType.First && offerEndsIn > 0) {
-      return `Special offer ends in: ${offerEndsIn} days `
+
+    if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
+      return `Special offer ends in: ${annualDiscountDaysLeft} days`
     }
-    return null
   }
 
   $: getSanbasePlan = () => {
     if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
+
     if (userPlanName) return `Sanbase: ${userPlanName} plan`
+
     return 'Sanbase: free plan'
   }
 
-  $: noteText = getNoteText()
+  $: note = getNoteText()
 </script>
 
 <section>
@@ -65,8 +72,8 @@
       </a>
     {/if}
   </div>
-  {#if noteText !== null}
-    <div class="noteText">{noteText}</div>
+  {#if note}
+    <div class="note mrg-xs mrg--t">{note}</div>
   {/if}
 </section>
 
@@ -84,8 +91,7 @@
     display: inline-flex;
   }
 
-  .noteText {
+  .note {
     color: var(--orange-hover);
-    margin-top: 4px;
   }
 </style>

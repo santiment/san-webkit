@@ -48,8 +48,7 @@ export function getUserSubscriptionInfo(
     isEligibleForTrial,
     annualDiscount,
     annualDiscountPercent,
-    offerEndsIn: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
-    subscriptionPlan,
+    annualDiscountDaysLeft: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
     userPlanName,
     trialDaysLeft,
   }

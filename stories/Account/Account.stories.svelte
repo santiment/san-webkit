@@ -27,13 +27,13 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. New user. Free trial available</div>
+      <div class="h4">Logged in + New user. Free trial available</div>
       <div class="row v-center">
         <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: true }} />
       </div>
     </section>
     <section>
-      <div class="h4">Login. User on free trial (Variant 1)</div>
+      <div class="h4">Logged in + User on free trial (Variant 1)</div>
       <div class="row v-center">
         <AccountDropdown
           {ui}
@@ -43,7 +43,7 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. User on free trial (Variant 2)</div>
+      <div class="h4">Logged in + User on free trial (Variant 2)</div>
       <div class="row v-center">
         <AccountDropdown
           {ui}
@@ -54,7 +54,7 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. Pro Plan. First month offer (Variant 1)</div>
+      <div class="h4">Logged in + Pro Plan. First month offer (Variant 1)</div>
       <div class="row v-center">
         <AccountDropdown
           {ui}
@@ -69,7 +69,7 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. Pro Plan. First month offer (Variant 2)</div>
+      <div class="h4">Logged in + Pro Plan. First month offer (Variant 2)</div>
       <div class="row v-center">
         <AccountDropdown
           {ui}
@@ -85,13 +85,13 @@
       </div>
     </section>
     <section>
-      <div class="h4">Login. Pro Plan</div>
+      <div class="h4">Logged in + Pro Plan</div>
       <div class="row v-center">
         <AccountDropdown {ui} {currentUser} subscription={{ plan: { name: 'PRO' } }} />
       </div>
     </section>
     <section>
-      <div class="h4">Login. Free Plan. Trial finished</div>
+      <div class="h4">Logged in + Free Plan. Trial finished</div>
       <div class="row v-center">
         <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: false }} />
       </div>
