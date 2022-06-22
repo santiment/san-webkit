@@ -1,26 +1,25 @@
 <script lang="ts" context="module">
   export enum AccountStatusType {
     First,
+    Second,
   }
 </script>
 
 <script lang="ts">
   import type { CustomerData } from '@/stores/user'
-  import { PlanName } from '@/utils/plans'
+  import { getUserSubscriptionInfo } from '@/utils/subscription'
 
   export let currentUser
   export let variant = AccountStatusType.First
-  export let subscription: Pick<SAN.Subscription, 'plan'>
+  export let subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
 
-  $: ({ isEligibleForTrial, annualDiscount } = customerData)
-  $: annualDiscountPercent = annualDiscount?.isEligible && annualDiscount.discount?.percentOff
-  $: subscriptionPlan = subscription?.plan.name
-  $: userPlanName = PlanName[subscriptionPlan] || subscriptionPlan
+  $: ({ annualDiscountPercent, userPlanName, trialDaysLeft, isEligibleForTrial } =
+    getUserSubscriptionInfo(customerData, subscription))
 </script>
 
 {#if currentUser}
-  {#if annualDiscountPercent}
+  {#if annualDiscountPercent && variant !== AccountStatusType.Second}
     <a
       href="https://app.santiment.net/pricing"
       class="btn-2 btn-1 btn--orange mrg-m mrg--r"
@@ -30,18 +29,18 @@
   {/if}
 
   {#if userPlanName}
-    <a
-      href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-      class="pro btn-1 btn--s"
-    >
-      {userPlanName}
-    </a>
+    {#if trialDaysLeft === 0}
+      <a
+        href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
+        class="pro btn-1 btn--s">
+        {userPlanName}
+      </a>
+    {/if}
   {:else}
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange"
-      on:click={window.__onLinkClick}
-    >
+      on:click={window.__onLinkClick}>
       {#if isEligibleForTrial}
         {variant === AccountStatusType.First ? 'Start Free 14-day Trial' : 'Upgrade'}
       {:else}

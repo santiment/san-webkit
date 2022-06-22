@@ -1,27 +1,82 @@
 <script>
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import ProfileNames from '@/ui/Profile/Names.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let user
+  export let subscriptionInfo
+  export let variant = AccountStatusType.First
 
   const { subscription } = user
   const hasActiveSubscription = subscription && checkIsActiveSubscription(subscription)
+
+  $: ({
+    isEligibleForTrial,
+    annualDiscountPercent,
+    subscriptionPlan,
+    annualDiscountDaysLeft,
+    userPlanName,
+    trialDaysLeft,
+  } = subscriptionInfo)
+
+  function getButtonLabel() {
+    const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
+
+    if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
+      if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`
+      if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`
+    }
+
+    if (isTrialPassedwithActivePlan && !annualDiscountPercent) return 'Learn about Pro'
+
+    return 'Upgrade'
+  }
+
+  function getNoteText() {
+    if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
+
+    if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
+
+    if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
+      return `Special offer ends in: ${annualDiscountDaysLeft} days`
+    }
+  }
+
+  function getSanbasePlan() {
+    if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
+
+    if (userPlanName) return `Sanbase: ${userPlanName} plan`
+
+    return 'Sanbase: free plan'
+  }
+
+  $: note = getNoteText()
+  $: buttonLabel = getButtonLabel()
+  $: sunbasePlan = getSanbasePlan()
 </script>
 
 <section>
   <ProfileNames {user} />
 
   <div class="caption c-waterloo">
+    <div class="mrg-s mrg--t">
+      {#if userPlanName && !trialDaysLeft}
+        SanAPI: Basic plan<br />
+      {/if}
+      {sunbasePlan}
+    </div>
     {#if !hasActiveSubscription}
       <a
         class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
         href="https://app.santiment.net/pricing"
-        on:click={window.__onLinkClick}
-      >
-        Upgrade
+        on:click={window.__onLinkClick}>
+        {buttonLabel}
       </a>
     {/if}
   </div>
+  {#if note}
+    <div class="note mrg-xs mrg--t">{note}</div>
+  {/if}
 </section>
 
 <style>
@@ -36,5 +91,9 @@
 
   .upgrade {
     display: inline-flex;
+  }
+
+  .note {
+    color: var(--orange-hover);
   }
 </style>
