@@ -7,8 +7,13 @@
   export let variant = AccountStatusType.First
 
   function getButtonLabel(subscriptionInfo, variant) {
-    const { subscriptionPlan, isEligibleForTrial, annualDiscountPercent, trialDaysLeft } =
-      subscriptionInfo
+    const {
+      subscriptionPlan,
+      isEligibleForTrial,
+      annualDiscountPercent,
+      trialDaysLeft,
+      userPlanName,
+    } = subscriptionInfo
 
     const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
 
@@ -17,7 +22,7 @@
       if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`
     }
 
-    if (isTrialPassedwithActivePlan && !annualDiscountPercent) return 'Learn about Pro'
+    if (userPlanName) return 'Learn about Pro'
 
     return 'Upgrade'
   }
