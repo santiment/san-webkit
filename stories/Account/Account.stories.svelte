@@ -19,7 +19,7 @@
 <Meta title="Example/Profile" component={AccountDropdown} />
 
 <Story name="Account">
-  <div class="row">
+  <div class="row mrg-xl mrg--t">
     <section>
       <div class="h4">Anonymous</div>
       <div class="row v-center">
