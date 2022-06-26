@@ -1,8 +1,8 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Background from './Background.svelte'
-  import { FeatureWalkthrough$ } from './context'
   import Feature from './Feature.svelte'
+  import { FeatureWalkthrough$ } from './context'
 
   export let features: SAN.Walkthrough[]
 
