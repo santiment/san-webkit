@@ -40,3 +40,11 @@ namespace MediumEditor {
     }
   }
 }
+
+declare namespace SAN {
+  type Walkthrough = {
+    id: string
+    title: string
+    description: string
+  }
+}
