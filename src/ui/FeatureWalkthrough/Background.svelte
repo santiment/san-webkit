@@ -1,13 +1,23 @@
 <script>
   export let rect
+
+  const { scrollHeight } = document.scrollingElement || {}
+
   $: ({ x, y, width, height } = rect)
 </script>
 
-<svg>
+<svg height={scrollHeight} width="100%">
   <defs>
     <mask id="walkthrough">
       <rect class="rect" fill="white" />
-      <rect x={x - 7} y={y - 7} width={width + 14} height={height + 14} fill="black" rx="4" />
+      <rect
+        x={x - 7}
+        y={window.scrollY + y - 7}
+        width={width + 14}
+        height={height + 14}
+        fill="black"
+        rx="4"
+      />
     </mask>
   </defs>
 
@@ -21,8 +31,9 @@
     left: 0;
     opacity: 0.6;
     pointer-events: none;
+    z-index: 99999;
   }
-  svg,
+
   mask,
   .rect {
     width: 100%;

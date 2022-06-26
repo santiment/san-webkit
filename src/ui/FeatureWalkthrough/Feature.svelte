@@ -1,5 +1,6 @@
 <script>
   export let feature
+
   $: ({ title, description } = feature)
 </script>
 

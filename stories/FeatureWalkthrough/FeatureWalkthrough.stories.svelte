@@ -1,5 +1,5 @@
 <script>
-  import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
+  import { Meta, Story } from '@storybook/addon-svelte-csf'
   import FeatureWalkthrough from '@/ui/FeatureWalkthrough/index.svelte'
   import { FeatureWalkthrough$ } from '@/ui/FeatureWalkthrough/context'
   import selectorSrc from './selector.jpg'
@@ -19,9 +19,9 @@
 <Story name="Default">
   <main>
     <button class="btn-2" id="wk-test" on:click={start}>Test</button>
-
-    <FeatureWalkthrough />
   </main>
+
+  <FeatureWalkthrough />
 </Story>
 
 <style>

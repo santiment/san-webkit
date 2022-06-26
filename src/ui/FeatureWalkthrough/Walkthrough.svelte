@@ -4,33 +4,31 @@
   import { FeatureWalkthrough$ } from './context'
   import Feature from './Feature.svelte'
 
-  export let features
+  export let features: SAN.Walkthrough[]
 
   let cursor = 0
 
   $: feature = features[cursor]
   $: highlightedNode = document.querySelector('#' + feature.id)
+  $: highlightedNode?.scrollIntoView({ block: 'center' })
   $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
+  $: ({ bottom, x } = rect)
 
   $: hasPrevious = cursor > 0
   $: hasNext = cursor < features.length - 1
 
   function onClose() {
+    FeatureWalkthrough$.complete()
     FeatureWalkthrough$.clear()
   }
 
-  function onNext() {
-    cursor++
-  }
-
-  function onPrevious() {
-    cursor--
-  }
+  const onNext = () => cursor++
+  const onPrevious = () => cursor--
 </script>
 
 <Background {rect} />
 
-<div class="border" style="top:{rect.bottom + 14}px;left:{rect.x - 7}px">
+<div class="border" style="top:{window.scrollY + bottom + 14}px;left:{x - 7}px">
   <Feature {feature} />
 
   <button class="close btn" on:click={onClose}>

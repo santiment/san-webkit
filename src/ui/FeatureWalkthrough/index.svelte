@@ -3,9 +3,8 @@
   import { FeatureWalkthrough$ } from './context'
 
   $: features = $FeatureWalkthrough$
-  $: console.log(features)
 </script>
 
 {#if features.length}
-  <Walkthrough {features} />
+  <div><Walkthrough {features} /></div>
 {/if}
