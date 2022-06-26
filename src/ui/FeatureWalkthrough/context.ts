@@ -9,7 +9,7 @@ export const FeatureWalkthrough$ = {
   show(walkthrough) {
     clearTimeout(this.timer)
     this.value.push(walkthrough)
-    this.timer = setTimeout(() => set(this.value.slice()), 400)
+    this.timer = setTimeout(() => set(this.value.slice()), 250)
   },
   clear() {
     clearTimeout(this.timer)

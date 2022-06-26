@@ -1,13 +1,23 @@
 <script>
   export let feature
+  $: ({ title, description } = feature)
 </script>
 
-<h2 class="body-1 txt-m mrg-m mrg--b">New master select</h2>
+<h2 class="body-1 txt-m mrg-m mrg--b">{title}</h2>
 
-<p>Paste the concrete smart contract address for fetching relevant metrics for it</p>
+<div>
+  {@html description}
+</div>
 
-<style>
+<style lang="scss">
   h2 {
     margin-right: 30px;
+  }
+
+  div :global {
+    img {
+      border-radius: 4px;
+      max-width: 100%;
+    }
   }
 </style>

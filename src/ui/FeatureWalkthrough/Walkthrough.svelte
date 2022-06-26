@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Background from './Background.svelte'
   import { FeatureWalkthrough$ } from './context'
@@ -8,13 +8,12 @@
 
   let cursor = 0
 
-  const highlightedNode = document.querySelector('#test')
+  $: feature = features[cursor]
+  $: highlightedNode = document.querySelector('#' + feature.id)
+  $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
 
   $: hasPrevious = cursor > 0
   $: hasNext = cursor < features.length - 1
-  $: feature = features[cursor]
-
-  $: rect = highlightedNode.getBoundingClientRect()
 
   function onClose() {
     FeatureWalkthrough$.clear()
@@ -40,13 +39,15 @@
 
   <div class="row v-center mrg-xl mrg--t">
     <div class="dots row mrg-a mrg--r">
-      {#each features as _, i}
-        <div
-          class="dot btn mrg-s mrg--r"
-          class:active={cursor === i}
-          on:click={() => (cursor = i)}
-        />
-      {/each}
+      {#if features.length > 1}
+        {#each features as _, i}
+          <div
+            class="dot btn mrg-s mrg--r"
+            class:active={cursor === i}
+            on:click={() => (cursor = i)}
+          />
+        {/each}
+      {/if}
     </div>
 
     {#if hasPrevious}
