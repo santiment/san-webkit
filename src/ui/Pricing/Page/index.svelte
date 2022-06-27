@@ -8,7 +8,7 @@
 <script lang="ts">
   import Footer from '@/ui/Footer/svelte'
   import { querySanbasePlans } from '@/api/plans'
-  import { Billing, onlyProAndFreeLikePlans, onlyProLikePlans } from '@/utils/plans'
+  import { Billing, onlyProAndFreeLikePlans, onlyProLikePlans, Plan } from '@/utils/plans'
   import { subscription$ } from '@/stores/subscription'
   import { customerData$ } from '@/stores/user'
   import BillingToggle from './BillingToggle.svelte'
@@ -37,8 +37,8 @@
     }
   })
 
-  function billingFilter({ interval }) {
-    return interval === billing
+  function billingFilter({ interval, name }) {
+    return interval === billing || name.includes(Plan.FREE)
   }
 </script>
 
