@@ -3,14 +3,15 @@
   import Rocket from './Rocket.svelte'
   import Moon from './Moon.svelte'
 
-  const MAX_VOTES_PER_USER = 20
-
   let className = ''
   export { className as class }
   export let totalVotes = 0
   export let userVotes = 0
   export let disabled = false
   export let onVote = () => {}
+  export let hasBorder = true
+  export let maxVotesPerUser = 20
+  export let voteInterval = 370
 
   let rocketNode: HTMLElement
   let moonNode: HTMLElement
@@ -30,14 +31,14 @@
     clearInterval(votingInterval)
 
     vote()
-    votingInterval = window.setInterval(vote, 370)
+    votingInterval = window.setInterval(vote, voteInterval)
     window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
       once: true,
     })
   }
 
   function vote() {
-    if (userVotes < MAX_VOTES_PER_USER) {
+    if (userVotes < maxVotesPerUser) {
       userVotes += 1
       totalVotes += 1
       onVote()
@@ -67,9 +68,10 @@
 </script>
 
 <button
-  class="border btn row v-center txt-m {className}"
+  class="btn row v-center txt-m {className}"
   class:voted={userVotes > 0}
   class:disabled
+  class:border={hasBorder}
   on:mousedown|preventDefault={startVote}
   on:touchstart|preventDefault={startVote}>
   <Moon bind:moonNode {mooned} {totalVotes} />
