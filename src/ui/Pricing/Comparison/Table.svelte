@@ -3,13 +3,41 @@
   import Feature from './Feature.svelte'
   import { COMPARE_TABLE } from './comapre'
 
-  export let plans
+  export let plans = []
+  export let isShowLess = false
+
+  function filterTableCompareItems(items, shouldFilter) {
+    const plansFeatures = items
+      ? new Set([
+          ...items.reduce((acc, curr) => {
+            const keys = Object.keys(curr)
+
+            return acc.concat(keys)
+          }, []),
+        ])
+      : new Set()
+
+    if (shouldFilter) {
+      return COMPARE_TABLE.reduce((acc, curr) => {
+        const features = curr.features.filter((feature) => plansFeatures.has(feature.name))
+
+        if (features.length > 0) {
+          return [...acc, { ...curr, features }]
+        }
+        return acc
+      }, [])
+    }
+
+    return COMPARE_TABLE
+  }
+
+  $: tableItems = filterTableCompareItems(plans, isShowLess)
 </script>
 
 <div class="table body-2">
   <slot />
 
-  {#each COMPARE_TABLE as { category, features, link }}
+  {#each tableItems as { category, features, link }}
     <div class="head row v-center justify">
       <h4 class="body-1 txt-b">
         {category}

@@ -9,7 +9,7 @@
   let className = ''
   export { className as class }
   export let plans: SAN.Plan[]
-  export let showLessFeatures = true
+  export let isShowLess = true
 
   let activeSlide = 0
 
@@ -25,10 +25,14 @@
 
     return plans.slice(slide, slide + 1)
   }
+
+  function showMoreFeatures() {
+    isShowLess = !isShowLess
+  }
 </script>
 
 <section id="comparison" class={className}>
-  <Table plans={plansFeatures}>
+  <Table {isShowLess} plans={plansFeatures}>
     <div class="tr">
       {#if comparedPlans.length > 1}
         <div class="td-h" />
@@ -44,7 +48,7 @@
       {/if}
     </div>
   </Table>
-  <FeaturesToggle bind:active={showLessFeatures} />
+  <FeaturesToggle bind:active={isShowLess} onClick={showMoreFeatures} />
 </section>
 
 <style lang="scss">
