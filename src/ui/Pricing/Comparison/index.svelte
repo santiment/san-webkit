@@ -2,12 +2,14 @@
   import { Device, responsive$ } from '@/responsive'
   import Slides from '@/ui/Slides.svelte'
   import Table from './Table.svelte'
+  import FeaturesToggle from './FeaturesToggle.svelte'
   import Plan from './Plan.svelte'
   import { PlanFeatures } from './comapre'
 
   let className = ''
   export { className as class }
   export let plans: SAN.Plan[]
+  export let showLessFeatures = true
 
   let activeSlide = 0
 
@@ -42,6 +44,7 @@
       {/if}
     </div>
   </Table>
+  <FeaturesToggle bind:active={showLessFeatures} />
 </section>
 
 <style lang="scss">

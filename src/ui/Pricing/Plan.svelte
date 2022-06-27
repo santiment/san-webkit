@@ -5,6 +5,7 @@
     formatMonthlyPrice,
     getAlternativePlan,
     getSavedAmount,
+    Plan,
     PlanName,
   } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
@@ -20,33 +21,44 @@
   export let isEligibleForTrial: boolean
   export let isLoggedIn = false
 
-  $: ({ id, name, interval } = plan)
+  $: ({ id, name: planName, interval } = plan)
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
   $: isTrialPlan = isOnTrial && subscription?.plan.id === id
   $: isAnnualPlan = interval === Billing.YEAR
+  $: isFreePlan = planName.includes(Plan.FREE)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
-  $: ({ description, features } = PlanDescription[name])
+  $: ({ description, features } = PlanDescription[planName])
   $: percentOff = annualDiscount.discount?.percentOff || 0
+  $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
+
+  function getBillingDescription() {
+    if (isFreePlan) {
+      return 'Free forever'
+    }
+
+    if (isAnnualPlan) {
+      return `You save ${getSavedAmount(plan, altPlan, percentOff)} a year`
+    }
+
+    return `${formatMonthlyPrice(altPlan, percentOff)} if billed yearly`
+  }
 </script>
 
 <div class="plan txt-center relative {className}">
-  <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
+  <div class="name h4 txt-m c-accent" class:freePlan={isFreePlan}>{PlanName[planName]}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
-  {#if isAnnualPlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
+  {#if isAnnualPlan && !isFreePlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
 
   <div class="description c-waterloo">{description}</div>
 
   <div class="h2 txt-m mrg-xs mrg--b">
-    {formatMonthlyPrice(plan, percentOff)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span
-    >
+    {monthlyPrice}{#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>{/if}
   </div>
 
   <div class="body-2 c-waterloo">
-    {isAnnualPlan
-      ? `You save ${getSavedAmount(plan, altPlan, percentOff)} a year`
-      : formatMonthlyPrice(altPlan, percentOff) + ' if billed yearly'}
+    {getBillingDescription()}
   </div>
 
   <PlanButton
@@ -56,11 +68,11 @@
     {annualDiscount}
     {isEligibleForTrial}
     {isLoggedIn}
-    class="mrg-l mrg--t mrg--b"
-  />
+    {isFreePlan}
+    class="mrg-l mrg--t mrg--b" />
 
   {#each features as feature}
-    <div class="row txt-left mrg-l mrg--t">
+    <div class="row txt-left mrg-l mrg--t" class:freeCheckmark={isFreePlan}>
       <Svg id="checkmark-circle" w="16" class="$style.checkmark" />
       {feature}
     </div>
@@ -81,6 +93,11 @@
     border-radius: 4px;
     display: inline-block;
     text-transform: uppercase;
+  }
+
+  .freePlan {
+    background: var(--athens);
+    color: var(--fiord);
   }
 
   .label {
@@ -107,8 +124,12 @@
     max-width: 160px;
   }
 
+  .freeCheckmark {
+    --fill-checkmark: var(--waterloo);
+  }
+
   .checkmark {
     margin: 2px 10px 0 0;
-    fill: var(--accent);
+    fill: var(--fill-checkmark, var(--accent));
   }
 </style>

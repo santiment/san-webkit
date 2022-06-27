@@ -1,6 +1,6 @@
 <script lang="ts">
   import { subscription$ } from '@/stores/subscription'
-  import { formatMonthlyPrice, PlanName } from '@/utils/plans'
+  import { formatMonthlyPrice, Plan, PlanName } from '@/utils/plans'
   import PlanButton from '../PlanButton.svelte'
 
   export let plan: SAN.Plan
@@ -9,16 +9,20 @@
   export let isEligibleForTrial: boolean
   export let isLoggedIn = false
 
-  $: ({ name } = plan)
+  $: ({ name: planName } = plan)
+  $: isFreePlan = planName.includes(Plan.FREE)
 </script>
 
 <div class="fluid">
   <h3 class="row v-center">
-    <span class="h4 txt-m">{PlanName[name]}</span>
+    <span class="h4 txt-m">{PlanName[planName]}</span>
 
-    {#if discount}<span class="discount mrg-m mrg--l">50% Off</span>{/if}
+    {#if discount && !isFreePlan}<span class="discount mrg-m mrg--l">50% Off</span>{/if}
 
-    <span class="c-waterloo mrg-a mrg--l">{formatMonthlyPrice(plan)} / mo</span>
+    <span class="c-waterloo mrg-a mrg--l">
+      {formatMonthlyPrice(plan)}
+      {#if !isFreePlan}/ mo{/if}
+    </span>
   </h3>
 
   <PlanButton
@@ -26,9 +30,9 @@
     {plans}
     {isEligibleForTrial}
     {isLoggedIn}
+    {isFreePlan}
     subscription={$subscription$}
-    class="mrg-m mrg--t"
-  />
+    class="mrg-m mrg--t" />
 </div>
 
 <style>

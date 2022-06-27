@@ -1,14 +1,13 @@
 <script lang="ts">
   import Footer from '@/ui/Footer/svelte'
   import { querySanbasePlans } from '@/api/plans'
-  import { Billing, onlyProLikePlans } from '@/utils/plans'
+  import { Billing, onlyProAndFreeLikePlans } from '@/utils/plans'
   import { subscription$ } from '@/stores/subscription'
   import { customerData$ } from '@/stores/user'
   import BillingToggle from './BillingToggle.svelte'
   import FAQ from './FAQ.svelte'
   import Suggestions from './Suggestions.svelte'
   import SpecialOfferBanner from './SpecialOfferBanner.svelte'
-  import Plan from '../Plan.svelte'
   import Comparison from '../Comparison/index.svelte'
   import Plans from './Plans.svelte'
 
@@ -23,7 +22,7 @@
   $: billingPlans = (billing, plans.filter(billingFilter))
 
   querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans)
+    plans = data.filter(onlyProAndFreeLikePlans)
   })
 
   function billingFilter({ interval }) {
@@ -39,7 +38,7 @@
       Choose the plan which fits your needs and enjoy our premium metrics
     </h3>
 
-    {#if annualDiscount.isEligible}
+    {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 

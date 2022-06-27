@@ -16,6 +16,10 @@ export const COMPARE_TABLE = [
 
   {
     category: 'API',
+    link: {
+      title: 'Advanced API Plans',
+      url: 'https://api.santiment.net/#pricing',
+    },
     features: [
       { name: 'API calls / minute', postfix: ' API calls / min' },
       { name: 'API calls / hour', postfix: ' API calls / hour' },
@@ -70,7 +74,7 @@ export const COMPARE_TABLE = [
       { name: 'Screeners', isLimit: true },
       {
         name: 'Screener filters',
-        isCheck: true,
+        isAccess: true,
       },
     ],
   },
@@ -159,8 +163,38 @@ export const COMPARE_TABLE = [
   },
 ]
 
-export const PRO_COMPARED_FEATURES = {
+export const FREE_COMPARED_FEATURES = {
   'Browser tabs': 'Up to 4',
+  'Bi-weekly report': false,
+  'Pro Insights': false,
+
+  'API calls / minute': 100,
+  'API calls / hour': 500,
+  'API calls / month': '1K',
+
+  'Priority support': false,
+  'Dedicated account manager': false,
+  'Custom onboarding & education': false,
+
+  "Chart's data period": false,
+  'Download chart as SCV': false,
+  'Hide watermark on charts': false,
+  'Embed charts': 'Limited',
+
+  'Custom Alerts': 3,
+  'Alert durations': '30 days',
+  Webhooks: false,
+
+  Screeners: 1,
+  'Screener filters': 'Limited',
+
+  'Google Sheets Plugin': false,
+  CSV: false,
+}
+
+export const PRO_COMPARED_FEATURES = {
+  'Browser tabs': 'Unlimited',
+  'Bi-weekly report': true,
 
   'API calls / minute': 100,
   'API calls / hour': 1000,
@@ -176,12 +210,15 @@ export const PRO_COMPARED_FEATURES = {
 }
 
 export const PRO_PLUS_COMPARED_FEATURES = {
+  'Bi-weekly report': true,
+
   'API calls / minute': 300,
   'API calls / hour': 3000,
   'API calls / month': '300K',
 }
 
 export const PlanFeatures = {
+  [Plan.FREE]: FREE_COMPARED_FEATURES,
   [Plan.PRO]: PRO_COMPARED_FEATURES,
   [Plan.PRO_PLUS]: PRO_PLUS_COMPARED_FEATURES,
 }

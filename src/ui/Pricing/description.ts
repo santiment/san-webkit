@@ -1,6 +1,18 @@
 import { Plan, PlanName } from '@/utils/plans'
 
 export const PlanDescription = {
+  [Plan.FREE]: {
+    description: 'Basic metrics with a 30-day lag',
+    features: [
+      'Sanbase metrics, 30 days behind real-time data',
+      '2 years of historical data',
+      'Personalized asset watchlists',
+      'Basic Santiment screener access, without PRO metrics & filters',
+      'Access to basic coin movement alerts',
+      'Up to 10 simultaneous alerts',
+    ],
+  },
+
   [Plan.PRO]: {
     description: 'Advanced crypto metrics and market insights',
     features: [
