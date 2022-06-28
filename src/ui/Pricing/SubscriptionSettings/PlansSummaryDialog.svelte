@@ -43,7 +43,7 @@
 
 <Dialog {...$$props} title="Change your plan" bind:closeDialog>
   <div class="dialog-body">
-    {#if annualDiscount.isEligible}
+    {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
@@ -57,8 +57,7 @@
       {subscription}
       {annualDiscount}
       {isLoggedIn}
-      {isEligibleForTrial}
-    />
+      {isEligibleForTrial} />
   </div>
 </Dialog>
 
