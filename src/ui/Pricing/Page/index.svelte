@@ -39,7 +39,7 @@
       Choose the plan which fits your needs and enjoy our premium metrics
     </h3>
 
-    {#if annualDiscount.isEligible}
+    {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
