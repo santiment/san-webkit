@@ -4,34 +4,17 @@
   import { COMPARE_TABLE } from './comapre'
 
   export let plans = []
-  export let isShowLess = false
+  export let isShowingMore = false
 
   function filterTableCompareItems(items, shouldFilter) {
-    const plansFeatures = items
-      ? new Set([
-          ...items.reduce((acc, curr) => {
-            const keys = Object.keys(curr)
-
-            return acc.concat(keys)
-          }, []),
-        ])
-      : new Set()
-
     if (shouldFilter) {
-      return COMPARE_TABLE.reduce((acc, curr) => {
-        const features = curr.features.filter((feature) => plansFeatures.has(feature.name))
-
-        if (features.length > 0) {
-          return [...acc, { ...curr, features }]
-        }
-        return acc
-      }, [])
+      return COMPARE_TABLE.slice(0, 7)
     }
 
     return COMPARE_TABLE
   }
 
-  $: tableItems = filterTableCompareItems(plans, isShowLess)
+  $: tableItems = filterTableCompareItems(plans, isShowingMore)
 </script>
 
 <div class="table body-2">
@@ -44,7 +27,7 @@
       </h4>
 
       {#if link && link.url}
-        <a href={link.url} target="_blank" class="link btn-3 row v-center">
+        <a href={link.url} target="_blank" class="link btn row v-center">
           {link.title}
           <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--l" />
         </a>
@@ -68,7 +51,6 @@
     --color: var(--green);
     --color-hover: var(--green-hover);
     height: 26px;
-    width: auto;
   }
 
   .table :global {

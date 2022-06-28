@@ -21,44 +21,45 @@
   export let isEligibleForTrial: boolean
   export let isLoggedIn = false
 
-  $: ({ id, name: planName, interval } = plan)
+  $: ({ id, name, interval } = plan)
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
   $: isTrialPlan = isOnTrial && subscription?.plan.id === id
   $: isAnnualPlan = interval === Billing.YEAR
-  $: isFreePlan = planName.includes(Plan.FREE)
+  $: isFreePlan = name.includes(Plan.FREE)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
-  $: ({ description, features } = PlanDescription[planName])
+  $: ({ description, features } = PlanDescription[name])
   $: percentOff = annualDiscount.discount?.percentOff || 0
   $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
 
-  function getBillingDescription() {
+  function getBillingDescription(currentPlan, fallbackPlan, discount) {
     if (isFreePlan) {
       return 'Free forever'
     }
 
     if (isAnnualPlan) {
-      return `You save ${getSavedAmount(plan, altPlan, percentOff)} a year`
+      return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`
     }
 
-    return `${formatMonthlyPrice(altPlan, percentOff)} if billed yearly`
+    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`
   }
 </script>
 
-<div class="plan txt-center relative {className}">
-  <div class="name h4 txt-m c-accent" class:freePlan={isFreePlan}>{PlanName[planName]}</div>
+<div class="plan txt-center relative {className}" class:free={isFreePlan}>
+  <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
-  {#if isAnnualPlan && !isFreePlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
+  {#if isAnnualPlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
 
   <div class="description c-waterloo">{description}</div>
 
-  <div class="h2 txt-m mrg-xs mrg--b">
-    {monthlyPrice}{#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span>{/if}
+  <div class="price row h-center h2 txt-m mrg-xs mrg--b">
+    {monthlyPrice}
+    {#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>{/if}
   </div>
 
   <div class="body-2 c-waterloo">
-    {getBillingDescription()}
+    {getBillingDescription(plan, altPlan, percentOff)}
   </div>
 
   <PlanButton
@@ -69,7 +70,8 @@
     {isEligibleForTrial}
     {isLoggedIn}
     {isFreePlan}
-    class="mrg-l mrg--t mrg--b" />
+    class="mrg-l mrg--t mrg--b"
+  />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t" class:freeCheckmark={isFreePlan}>
@@ -89,15 +91,20 @@
 
   .name {
     padding: 4px 12px;
-    background: var(--accent-light-1);
+    background: var(--name-bg, var(--accent-light-1));
     border-radius: 4px;
     display: inline-block;
     text-transform: uppercase;
+    color: var(--name-color, var(--accent));
   }
 
-  .freePlan {
-    background: var(--athens);
-    color: var(--fiord);
+  .price {
+    align-items: flex-end;
+  }
+
+  .free {
+    --name-bg: var(--athens);
+    --name-color: var(--fiord);
   }
 
   .label {

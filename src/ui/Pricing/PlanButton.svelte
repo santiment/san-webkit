@@ -21,7 +21,6 @@
 
   function getLabel() {
     if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started'
-    if (!isLoggedIn) return 'Get started'
 
     if (annualDiscount.isEligible) {
       if (plan.interval === Billing.YEAR)
@@ -78,7 +77,8 @@
   class:downgrade={label === 'Downgrade'}
   class:free={isFreePlan && !isLoggedIn}
   on:click={onClick}
-  use:dataPreloader>{label}</button>
+  use:dataPreloader>{label}</button
+>
 
 <style lang="scss">
   .btn-1 {
@@ -98,11 +98,8 @@
   }
 
   .free {
-    background: var(--green);
+    --bg: var(--green);
     --color: var(--white);
-
-    &:hover {
-      background: var(--green-hover);
-    }
+    --bg-hover: var(--green-hover);
   }
 </style>

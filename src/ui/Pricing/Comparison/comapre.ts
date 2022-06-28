@@ -193,9 +193,6 @@ export const FREE_COMPARED_FEATURES = {
 }
 
 export const PRO_COMPARED_FEATURES = {
-  'Browser tabs': 'Unlimited',
-  'Bi-weekly report': true,
-
   'API calls / minute': 100,
   'API calls / hour': 1000,
   'API calls / month': '5K',
@@ -210,8 +207,6 @@ export const PRO_COMPARED_FEATURES = {
 }
 
 export const PRO_PLUS_COMPARED_FEATURES = {
-  'Bi-weekly report': true,
-
   'API calls / minute': 300,
   'API calls / hour': 3000,
   'API calls / month': '300K',

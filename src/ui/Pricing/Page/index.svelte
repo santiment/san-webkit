@@ -30,11 +30,7 @@
   $: billingPlans = (billing, plans.filter(billingFilter))
 
   querySanbasePlans().then((data) => {
-    if (variant === PricingType.Second) {
-      plans = data.filter(onlyProAndFreeLikePlans)
-    } else {
-      plans = data.filter(onlyProLikePlans)
-    }
+    plans = data.filter(variant === PricingType.Second ? onlyProAndFreeLikePlans : onlyProLikePlans)
   })
 
   function billingFilter({ interval, name }) {

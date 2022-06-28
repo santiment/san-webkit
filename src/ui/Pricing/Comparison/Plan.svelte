@@ -9,13 +9,13 @@
   export let isEligibleForTrial: boolean
   export let isLoggedIn = false
 
-  $: ({ name: planName } = plan)
-  $: isFreePlan = planName.includes(Plan.FREE)
+  $: ({ name } = plan)
+  $: isFreePlan = name.includes(Plan.FREE)
 </script>
 
 <div class="fluid">
   <h3 class="row v-center">
-    <span class="h4 txt-m">{PlanName[planName]}</span>
+    <span class="h4 txt-m">{PlanName[name]}</span>
 
     {#if discount && !isFreePlan}<span class="discount mrg-m mrg--l">50% Off</span>{/if}
 
@@ -32,7 +32,8 @@
     {isLoggedIn}
     {isFreePlan}
     subscription={$subscription$}
-    class="mrg-m mrg--t" />
+    class="mrg-m mrg--t"
+  />
 </div>
 
 <style>

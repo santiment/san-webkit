@@ -2,14 +2,14 @@
   import { Device, responsive$ } from '@/responsive'
   import Slides from '@/ui/Slides.svelte'
   import Table from './Table.svelte'
-  import FeaturesToggle from './FeaturesToggle.svelte'
+  import MoreFeaturesButton from './MoreFeaturesButton.svelte'
   import Plan from './Plan.svelte'
   import { PlanFeatures } from './comapre'
 
   let className = ''
   export { className as class }
   export let plans: SAN.Plan[]
-  export let isShowLess = true
+  export let isShowingMore = false
 
   let activeSlide = 0
 
@@ -25,14 +25,10 @@
 
     return plans.slice(slide, slide + 1)
   }
-
-  function showMoreFeatures() {
-    isShowLess = !isShowLess
-  }
 </script>
 
 <section id="comparison" class={className}>
-  <Table {isShowLess} plans={plansFeatures}>
+  <Table {isShowingMore} plans={plansFeatures}>
     <div class="tr">
       {#if comparedPlans.length > 1}
         <div class="td-h" />
@@ -48,7 +44,7 @@
       {/if}
     </div>
   </Table>
-  <FeaturesToggle bind:active={isShowLess} onClick={showMoreFeatures} />
+  <MoreFeaturesButton bind:isShowingMore />
 </section>
 
 <style lang="scss">
