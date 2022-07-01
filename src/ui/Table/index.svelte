@@ -10,32 +10,31 @@
   export let keyProp: string
   export let minRows: undefined | number = undefined
   export let sortedColumn: undefined | Column = undefined
+  export let sticky = false
   export let isLoading = false
+  export let applySort = (sorter, items) => items.slice().sort(sorter)
 
   const noop = (_) => _
-  const ascSort: Sorter = (a, b) =>
-    sortedColumnAccessor(a) - sortedColumnAccessor(b)
-  const descSort: Sorter = (a, b) =>
-    sortedColumnAccessor(b) - sortedColumnAccessor(a)
+  const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
+  const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
 
   let currentSort = descSort
 
   $: rowsPadding = getMinRows(minRows, items.length, columns.length)
   $: sortedColumnAccessor = (sortedColumn?.sortAccessor || noop) as SortAccessor
-  $: sortedItems = sortedColumn ? items.slice().sort(currentSort) : items
+  $: sortedItems = sortedColumn ? applySort(currentSort, items) : items
 
   function changeSort({ currentTarget }: MouseEvent) {
     const i = (currentTarget as HTMLElement).dataset.i as string
     const column = columns[+i]
     if (!column.sortAccessor) return
 
-    currentSort =
-      sortedColumn === column && currentSort === descSort ? ascSort : descSort
+    currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort
     sortedColumn = column
   }
 </script>
 
-<table class={className}>
+<table class={className} class:sticky-header={sticky}>
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
@@ -78,14 +77,21 @@
   </caption>
 </table>
 
-<style>
-  :global(.cell-auto) {
-    max-width: 0;
-    width: 100%;
-  }
+<style lang="scss">
+  :global {
+    .cell-auto {
+      max-width: 0;
+      width: 100%;
+    }
 
-  :global(.cell-min) {
-    width: 1px;
+    .cell-min {
+      width: 1px;
+    }
+
+    .cell-sticky {
+      position: sticky;
+      left: 0;
+    }
   }
 
   table {
@@ -93,29 +99,31 @@
     border-spacing: 0;
     text-align: left;
     position: relative;
-  }
 
-  table :global(th),
-  table :global(td) {
-    white-space: nowrap;
-  }
+    :global {
+      th,
+      td {
+        white-space: nowrap;
+      }
 
-  table :global(th) {
-    font-weight: 500;
-    padding: 5px 15px;
-    color: var(--casper);
-    background: var(--athens);
-    border-bottom: 1px solid var(--porcelain);
-  }
+      th {
+        font-weight: 500;
+        padding: 5px 15px;
+        color: var(--casper);
+        background: var(--athens);
+        border-bottom: 1px solid var(--porcelain);
+      }
 
-  table :global(td) {
-    padding: 8px 15px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+      td {
+        padding: 8px 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
 
-  table :global(tbody tr:hover td) {
-    background: var(--athens);
+      tbody tr:hover td {
+        background: var(--athens);
+      }
+    }
   }
 
   .loader {
@@ -136,5 +144,13 @@
   .sorted {
     color: var(--black);
     user-select: none;
+  }
+
+  .sticky-header :global {
+    thead {
+      z-index: 1;
+      position: sticky;
+      top: var(--thead-top, 0);
+    }
   }
 </style>
