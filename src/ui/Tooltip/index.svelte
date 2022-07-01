@@ -22,7 +22,7 @@
   export let dark = false
   export let trigger: Element | undefined = undefined
   export let offsetX = 0
-  export let offsetY = 10
+  export let offsetY = 8
   export let scrollParent: Element | undefined = undefined
   export let passive = false
 
