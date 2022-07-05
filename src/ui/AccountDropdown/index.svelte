@@ -37,7 +37,7 @@
   class={tooltipClass}>
   <svelte:fragment slot="trigger">
     <a
-      href={`/profile/${currentUser ? currentUser.id : ''}`}
+      href={`https://app.santiment.net/profile/${currentUser ? currentUser.id : ''}`}
       on:click={window.__onLinkClick}
       class:pro={isPro}>
       <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
@@ -55,10 +55,12 @@
       <section>
         <a
           class="btn-ghost row justify v-center"
-          href="/alerts?tab=1"
+          href="https://app.santiment.net/alerts?tab=1"
           on:click={window.__onLinkClick}>My alerts</a>
-        <a class="btn-ghost row justify v-center" href="t/assets" on:click={window.__onLinkClick}
-          >My watchlists</a>
+        <a
+          class="btn-ghost row justify v-center"
+          href="https://app.santiment.net/assets"
+          on:click={window.__onLinkClick}>My watchlists</a>
         <a
           class="btn-ghost row justify v-center"
           href="https://insights.santiment.net/my"
@@ -75,7 +77,7 @@
     <section>
       {#if !currentUser}
         <a
-          href="/login"
+          href="https://app.santiment.net/login"
           class="login btn-ghost row justify v-center"
           on:click={window.__onLinkClick}>
           <Svg id="user" w="16" class="mrg-s mrg--r" />
@@ -88,12 +90,16 @@
         <Toggle isActive={$ui.nightMode} />
       </div>
 
-      <a href="/labs" class="btn-ghost row justify v-center" on:click={window.__onLinkClick}
-        >Labs</a>
+      <a
+        href="https://app.santiment.net/labs"
+        class="btn-ghost row justify v-center"
+        on:click={window.__onLinkClick}>Labs</a>
 
       {#if currentUser}
-        <a href="/account" class="btn-ghost row justify v-center" on:click={window.__onLinkClick}
-          >Account Settings</a>
+        <a
+          href="https://app.santiment.net/account"
+          class="btn-ghost row justify v-center"
+          on:click={window.__onLinkClick}>Account Settings</a>
       {/if}
 
       <div
@@ -116,7 +122,7 @@
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro .box {
+  .pro {
     --green: var(--orange-hover);
   }
 
