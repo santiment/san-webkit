@@ -19,7 +19,6 @@
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
   export let isAppUpdateAvailable = false
   export let version: string = '1.0.0'
-  export let linkProfilePic = false
 
   function onLogout() {
     isOpened = false
@@ -32,18 +31,17 @@
 
 <Tooltip
   duration={130}
-  activeClass={isPro ? '$style.activePro' : '$style.active'}
   align="center"
   bind:isOpened
+  activeClass="$style.active"
   class={tooltipClass}>
   <svelte:fragment slot="trigger">
-    {#if linkProfilePic}
-      <a href={`/profile/${currentUser ? currentUser.id : ''}`} on:click={window.__onLinkClick}>
-        <Pic class="btn mrg-m mrg--l" src={currentUser ? currentUser.avatarUrl : ''} />
-      </a>
-    {:else}
-      <Pic class="btn mrg-m mrg--l" src={currentUser ? currentUser.avatarUrl : ''} />
-    {/if}
+    <a
+      href={`/profile/${currentUser ? currentUser.id : ''}`}
+      on:click={window.__onLinkClick}
+      class:pro={isPro}>
+      <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
+    </a>
   </svelte:fragment>
 
   <div class="tooltip" slot="tooltip">
@@ -114,12 +112,12 @@
 </Tooltip>
 
 <style>
-  .active {
+  .active .box {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .activePro {
-    box-shadow: inset 0px 0px 0px 1px var(--orange-hover);
+  .pro .box {
+    --green: var(--orange-hover);
   }
 
   hr {

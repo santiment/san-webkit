@@ -8,6 +8,9 @@
     username: 'Username',
     email: '',
     avatarUrl: '',
+    followers: {
+      count: 10,
+    },
   }
 </script>
 
