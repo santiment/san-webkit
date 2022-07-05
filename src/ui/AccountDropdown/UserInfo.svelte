@@ -55,7 +55,7 @@
 </script>
 
 <section>
-  <ProfileNames {user} />
+  <ProfileNames {user} followers={user && user.followers ? user.followers.count : undefined} />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
