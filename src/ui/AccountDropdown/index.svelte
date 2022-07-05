@@ -77,7 +77,7 @@
     <section>
       {#if !currentUser}
         <a
-          href="https://app.santiment.net/login"
+          href="/login"
           class="login btn-ghost row justify v-center"
           on:click={window.__onLinkClick}>
           <Svg id="user" w="16" class="mrg-s mrg--r" />
