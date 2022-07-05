@@ -75,7 +75,7 @@
   class="btn-1 fluid body-2 {className}"
   class:disabled={isCurrentPlan && !annualDiscount.isEligible}
   class:downgrade={label === 'Downgrade'}
-  class:free={isFreePlan && !isLoggedIn}
+  class:btn--green={isFreePlan && !isLoggedIn}
   on:click={onClick}
   use:dataPreloader>{label}</button
 >
@@ -95,11 +95,5 @@
     --color: var(--black);
     --v-padding: 7px;
     --color-hover: var(--accent);
-  }
-
-  .free {
-    --bg: var(--green);
-    --color: var(--white);
-    --bg-hover: var(--green-hover);
   }
 </style>

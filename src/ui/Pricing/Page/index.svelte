@@ -1,14 +1,7 @@
-<script lang="ts" context="module">
-  export enum PricingType {
-    First,
-    Second,
-  }
-</script>
-
 <script lang="ts">
   import Footer from '@/ui/Footer/svelte'
   import { querySanbasePlans } from '@/api/plans'
-  import { Billing, onlyProAndFreeLikePlans, onlyProLikePlans, Plan } from '@/utils/plans'
+  import { Billing, onlyProAndFreeLikePlans, Plan } from '@/utils/plans'
   import { subscription$ } from '@/stores/subscription'
   import { customerData$ } from '@/stores/user'
   import BillingToggle from './BillingToggle.svelte'
@@ -21,7 +14,6 @@
   let className = ''
   export { className as class }
   export let billing = Billing.MONTH
-  export let variant = PricingType.First
 
   $: subscription = $subscription$
   $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)
@@ -30,7 +22,7 @@
   $: billingPlans = (billing, plans.filter(billingFilter))
 
   querySanbasePlans().then((data) => {
-    plans = data.filter(variant === PricingType.Second ? onlyProAndFreeLikePlans : onlyProLikePlans)
+    plans = data.filter(onlyProAndFreeLikePlans)
   })
 
   function billingFilter({ interval, name }) {

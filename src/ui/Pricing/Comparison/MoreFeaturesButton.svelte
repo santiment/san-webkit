@@ -5,7 +5,7 @@
 </script>
 
 <button
-  class="btn fluid btn--accent row hv-center"
+  class="btn fluid btn--accent c-accent row hv-center"
   class:more={isShowingMore}
   on:click={() => (isShowingMore = !isShowingMore)}
 >

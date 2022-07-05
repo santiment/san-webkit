@@ -118,7 +118,7 @@ button,
 }
 
 .btn--accent {
-  --color: var(--green);
+  --accent: var(--green);
   --color-hover: var(--green-hover);
 }
 

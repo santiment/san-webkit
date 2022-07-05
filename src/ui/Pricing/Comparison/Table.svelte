@@ -6,15 +6,14 @@
   export let plans = []
   export let isShowingMore = false
 
+  $: tableItems = filterTableCompareItems(plans, isShowingMore)
+
   function filterTableCompareItems(items, shouldFilter) {
     if (shouldFilter) {
       return COMPARE_TABLE.slice(0, 7)
     }
-
     return COMPARE_TABLE
   }
-
-  $: tableItems = filterTableCompareItems(plans, isShowingMore)
 </script>
 
 <div class="table body-2">
