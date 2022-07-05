@@ -19,29 +19,36 @@
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
   export let isAppUpdateAvailable = false
   export let version: string = '1.0.0'
+  export let linkProfilePic = false
 
   function onLogout() {
     isOpened = false
     onLogoutClick()
   }
+
+  $: subscriptionInfo = getUserSubscriptionInfo(customerData, subscription)
+  $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 </script>
 
 <Tooltip
   duration={130}
-  activeClass="$style.active"
+  activeClass={isPro ? '$style.activePro' : '$style.active'}
   align="center"
   bind:isOpened
   class={tooltipClass}>
   <svelte:fragment slot="trigger">
-    <Pic class="btn mrg-m mrg--l $style.pic" src={currentUser ? currentUser.avatarUrl : ''} />
+    {#if linkProfilePic}
+      <a href={`/profile/${currentUser ? currentUser.id : ''}`} on:click={window.__onLinkClick}>
+        <Pic class="btn mrg-m mrg--l" src={currentUser ? currentUser.avatarUrl : ''} />
+      </a>
+    {:else}
+      <Pic class="btn mrg-m mrg--l" src={currentUser ? currentUser.avatarUrl : ''} />
+    {/if}
   </svelte:fragment>
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
-      <UserInfo
-        user={currentUser}
-        subscriptionInfo={getUserSubscriptionInfo(customerData, subscription)}
-        {variant} />
+      <UserInfo user={currentUser} {subscriptionInfo} {variant} />
 
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />
@@ -50,12 +57,10 @@
       <section>
         <a
           class="btn-ghost row justify v-center"
-          href="https://app.santiment.net/alerts?tab=1"
+          href="/alerts?tab=1"
           on:click={window.__onLinkClick}>My alerts</a>
-        <a
-          class="btn-ghost row justify v-center"
-          href="https://app.santiment.net/assets"
-          on:click={window.__onLinkClick}>My watchlists</a>
+        <a class="btn-ghost row justify v-center" href="t/assets" on:click={window.__onLinkClick}
+          >My watchlists</a>
         <a
           class="btn-ghost row justify v-center"
           href="https://insights.santiment.net/my"
@@ -67,8 +72,10 @@
       </section>
 
       <hr />
-    {:else}
-      <section>
+    {/if}
+
+    <section>
+      {#if !currentUser}
         <a
           href="/login"
           class="login btn-ghost row justify v-center"
@@ -76,29 +83,19 @@
           <Svg id="user" w="16" class="mrg-s mrg--r" />
           Log in
         </a>
-      </section>
+      {/if}
 
-      <hr />
-      <VersionInfo {isAppUpdateAvailable} {version} />
-      <hr />
-    {/if}
-
-    <section>
       <div class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
       </div>
 
-      <a
-        href="https://app.santiment.net/labs"
-        class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Labs</a>
+      <a href="/labs" class="btn-ghost row justify v-center" on:click={window.__onLinkClick}
+        >Labs</a>
 
       {#if currentUser}
-        <a
-          href="https://app.santiment.net/account"
-          class="btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>Account Settings</a>
+        <a href="/account" class="btn-ghost row justify v-center" on:click={window.__onLinkClick}
+          >Account Settings</a>
       {/if}
 
       <div
@@ -119,6 +116,10 @@
 <style>
   .active {
     box-shadow: inset 0px 0px 0px 1px var(--green);
+  }
+
+  .activePro {
+    box-shadow: inset 0px 0px 0px 1px var(--orange-hover);
   }
 
   hr {

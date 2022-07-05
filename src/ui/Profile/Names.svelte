@@ -7,7 +7,7 @@
   export let followers: number | undefined = undefined
 
   $: ({ username, email } = user)
-  $: subtitle = followers >= 0 ? `${followers} Followers` : email
+  $: subtitle = followers && followers >= 0 ? `${followers} Followers` : email
 </script>
 
 <Profile {user} class="txt-m {className}">
