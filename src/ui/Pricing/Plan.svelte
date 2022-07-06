@@ -5,6 +5,7 @@
     formatMonthlyPrice,
     getAlternativePlan,
     getSavedAmount,
+    Plan,
     PlanName,
   } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
@@ -24,12 +25,26 @@
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
   $: isTrialPlan = isOnTrial && subscription?.plan.id === id
   $: isAnnualPlan = interval === Billing.YEAR
+  $: isFreePlan = name.includes(Plan.FREE)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
   $: percentOff = annualDiscount.discount?.percentOff || 0
+  $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
+
+  function getBillingDescription(currentPlan, fallbackPlan, discount) {
+    if (isFreePlan) {
+      return 'Free forever'
+    }
+
+    if (isAnnualPlan) {
+      return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`
+    }
+
+    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`
+  }
 </script>
 
-<div class="plan txt-center relative {className}">
+<div class="plan txt-center relative {className}" class:free={isFreePlan}>
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
@@ -38,15 +53,13 @@
 
   <div class="description c-waterloo">{description}</div>
 
-  <div class="h2 txt-m mrg-xs mrg--b">
-    {formatMonthlyPrice(plan, percentOff)}<span class="h4 txt-r c-waterloo mrg-xs mrg--l">/ mo</span
-    >
+  <div class="price row h-center h2 txt-m mrg-xs mrg--b">
+    {monthlyPrice}
+    {#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>{/if}
   </div>
 
   <div class="body-2 c-waterloo">
-    {isAnnualPlan
-      ? `You save ${getSavedAmount(plan, altPlan, percentOff)} a year`
-      : formatMonthlyPrice(altPlan, percentOff) + ' if billed yearly'}
+    {getBillingDescription(plan, altPlan, percentOff)}
   </div>
 
   <PlanButton
@@ -56,6 +69,7 @@
     {annualDiscount}
     {isEligibleForTrial}
     {isLoggedIn}
+    {isFreePlan}
     class="mrg-l mrg--t mrg--b"
   />
 
@@ -77,10 +91,21 @@
 
   .name {
     padding: 4px 12px;
-    background: var(--accent-light-1);
+    background: var(--name-bg, var(--accent-light-1));
     border-radius: 4px;
     display: inline-block;
     text-transform: uppercase;
+    color: var(--name-color, var(--accent));
+  }
+
+  .price {
+    align-items: flex-end;
+  }
+
+  .free {
+    --name-bg: var(--athens);
+    --name-color: var(--fiord);
+    --fill-checkmark: var(--waterloo);
   }
 
   .label {
@@ -109,6 +134,6 @@
 
   .checkmark {
     margin: 2px 10px 0 0;
-    fill: var(--accent);
+    fill: var(--fill-checkmark, var(--accent));
   }
 </style>

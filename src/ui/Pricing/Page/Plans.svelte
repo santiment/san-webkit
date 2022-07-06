@@ -19,16 +19,15 @@
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="$style.plan"
-      />
+        class="$style.plan" />
     {/each}
   </div>
 </section>
 
 <style lang="scss">
   #plans {
-    padding: 0 16px;
-    margin: 0 0 80px;
+    max-width: var(--page-width, 1140px);
+    margin: 0 auto 80px;
     overflow: auto;
   }
 
@@ -37,9 +36,11 @@
   }
 
   .plan {
+    --h-padding: 40px;
     flex: 1;
+    width: 100%;
     min-width: 256px;
-    max-width: 400px;
+    max-width: 386px;
     border-right: 1px solid var(--porcelain);
 
     &:last-child {

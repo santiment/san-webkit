@@ -11,6 +11,7 @@
   export let isEligibleForTrial: boolean = true
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let isLoggedIn = false
+  export let isFreePlan = false
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription?.plan.id === id
@@ -19,6 +20,8 @@
   $: label = (plan, subscription, getLabel())
 
   function getLabel() {
+    if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started'
+
     if (annualDiscount.isEligible) {
       if (plan.interval === Billing.YEAR)
         return `Pay now ${annualDiscount.discount?.percentOff}% Off`
@@ -26,7 +29,7 @@
     }
 
     if (isCurrentPlan) return 'Your current plan'
-    if (isEligibleForTrial || !isLoggedIn) return 'Start 14-day Free trial'
+    if (isEligibleForTrial) return 'Start 14-day Free trial'
     if (isUpgrade) return 'Upgrade'
     if (isDowngrade) return 'Downgrade'
 
@@ -72,11 +75,12 @@
   class="btn-1 fluid body-2 {className}"
   class:disabled={isCurrentPlan && !annualDiscount.isEligible}
   class:downgrade={label === 'Downgrade'}
+  class:btn--green={isFreePlan && !isLoggedIn}
   on:click={onClick}
   use:dataPreloader>{label}</button
 >
 
-<style>
+<style lang="scss">
   .btn-1 {
     --v-padding: 8px;
   }

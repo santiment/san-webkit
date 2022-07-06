@@ -9,6 +9,13 @@
 
   const plans = [
     {
+      amount: 0,
+      id: '11',
+      interval: 'month',
+      isDeprecated: false,
+      name: 'FREE',
+    },
+    {
       amount: 4900,
       id: '201',
       interval: 'month',
@@ -49,16 +56,16 @@
 <Story name="Plan card">
   Trial eligible | Non-trial eligible
   <div class="row">
-    <div class="card border"><Plan plan={plans[0]} {plans} /></div>
+    <div class="card border"><Plan plan={plans[2]} {plans} isEligibleForTrial={true} /></div>
 
-    <div class="card border"><Plan plan={plans[0]} {plans} isEligibleForTrial={false} /></div>
+    <div class="card border"><Plan plan={plans[2]} {plans} isEligibleForTrial={false} /></div>
   </div>
 
   annualDiscount 35% year | 50% year plans
   <div class="row">
     <div class="card border">
       <Plan
-        plan={plans[0]}
+        plan={plans[1]}
         {plans}
         isEligibleForTrial={false}
         annualDiscount={{
@@ -67,7 +74,7 @@
         }}
         subscription={{
           status: 'TRIALING',
-          plan: plans[0],
+          plan: plans[1],
         }}
       />
     </div>
@@ -86,7 +93,7 @@
 
     <div class="card border">
       <Plan
-        plan={plans[0]}
+        plan={plans[1]}
         {plans}
         isEligibleForTrial={false}
         annualDiscount={{
@@ -112,7 +119,7 @@
   <div class="row">
     {#each plans as plan}
       <div class="card border">
-        <Plan {plan} {plans} subscription={{ plan: plans[0] }} isEligibleForTrial={false} />
+        <Plan {plan} {plans} subscription={{ plan: plans[1] }} isEligibleForTrial={false} />
       </div>
     {/each}
   </div>

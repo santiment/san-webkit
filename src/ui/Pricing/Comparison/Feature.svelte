@@ -26,7 +26,7 @@
       <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
         <Svg id="info" w="12" />
       </div>
-      <div slot="tooltip" class="description">{@html description}</div>
+      <div slot="tooltip" class="description body-3">{@html description}</div>
     </Tooltip>
   {/if}
 </div>
@@ -35,12 +35,12 @@
   {@const value = getValue(cell[name])}
   {@const isCheckmark = isCheck || !(defaultValue || postfix)}
 
-  <div class="item td" class:disabled={isCheckmark && value === false}>
+  <div class="row hv-center td" class:disabled={value === false || value === 'None'}>
     {#if isCheckmark}
       {#if value !== false}
         <Svg id="checkmark-circle-filled" w="24" />
       {/if}
-    {:else}
+    {:else if value}
       {value}{postfix}
     {/if}
   </div>
@@ -51,14 +51,6 @@
     height: 24px;
     width: 24px;
     fill: var(--waterloo);
-  }
-
-  .item {
-    justify-content: center;
-
-    :global(.desktop) & {
-      justify-content: unset;
-    }
   }
 
   .disabled {

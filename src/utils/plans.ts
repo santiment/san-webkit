@@ -19,11 +19,13 @@ export const checkIsSanbaseProduct = (product: Pick<SAN.Product, 'id'>) =>
   +product.id === ProductId.SANBASE
 
 export enum Plan {
+  FREE = 'FREE',
   PRO = 'PRO',
   PRO_PLUS = 'PRO_PLUS',
 }
 
 export const PlanName = {
+  [Plan.FREE]: 'Free',
   [Plan.PRO]: 'Pro',
   [Plan.PRO_PLUS]: 'Pro+',
 } as const
@@ -55,6 +57,8 @@ export const formatMonthlyPrice = (plan: SAN.Plan, percentOff = 0) =>
   priceFormatter(getPlanMonthPrice(plan, percentOff))
 
 export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
+export const onlyProAndFreeLikePlans = ({ name }: SAN.Plan) =>
+  name.includes(Plan.PRO) || name.includes(Plan.FREE)
 
 export function getAlternativePlan(plan: SAN.Plan, plans: SAN.Plan[]) {
   return plans.find(({ name, interval }) => name === plan.name && interval !== plan.interval)

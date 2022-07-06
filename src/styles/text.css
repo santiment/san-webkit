@@ -91,6 +91,10 @@
 .c-casper {
   --color: var(--casper);
 }
+.c-green {
+  --color: var(--green);
+  --color-hover: var(--green-hover);
+}
 .c-accent {
   --color: var(--accent, var(--green));
 }

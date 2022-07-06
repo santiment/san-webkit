@@ -8,15 +8,13 @@
   <div
     class="bill"
     class:active={billing === Billing.MONTH}
-    on:click={() => (billing = Billing.MONTH)}
-  >
+    on:click={() => (billing = Billing.MONTH)}>
     Monthly
   </div>
   <div
     class="bill"
     class:active={billing === Billing.YEAR}
-    on:click={() => (billing = Billing.YEAR)}
-  >
+    on:click={() => (billing = Billing.YEAR)}>
     Annually<span class="mrg-s mrg--l body-3">Save 10% 😍</span>
   </div>
 </div>
@@ -31,6 +29,10 @@
   .bill {
     padding: 8px 16px;
     color: var(--waterloo);
+
+    &:hover {
+      color: var(--green);
+    }
   }
 
   span {
@@ -43,6 +45,11 @@
   .active {
     background: var(--green-light-1);
     color: var(--green);
+
+    &:hover {
+      color: var(--green-hover);
+    }
+
     span {
       background: var(--white);
     }

@@ -1,15 +1,30 @@
 <script>
+  import Svg from '@/ui/Svg/svelte'
   import Feature from './Feature.svelte'
   import { COMPARE_TABLE } from './comapre'
 
-  export let plans
+  export let plans = []
+  export let isShowingMore = false
+
+  $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7)
 </script>
 
 <div class="table body-2">
   <slot />
 
-  {#each COMPARE_TABLE as { category, features }}
-    <h4 class="body-1 txt-b">{category}</h4>
+  {#each items as { category, features, link }}
+    <div class="head row v-center justify">
+      <h4 class="body-1 txt-b">
+        {category}
+      </h4>
+
+      {#if link && link.url}
+        <a href={link.url} target="_blank" class="link btn btn--accent c-green row v-center">
+          {link.title}
+          <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--l" />
+        </a>
+      {/if}
+    </div>
 
     {#each features as feature}
       <div class="tr">
@@ -20,13 +35,17 @@
 </div>
 
 <style lang="scss">
-  h4 {
+  .head {
     padding: 40px 24px 16px;
   }
 
+  .link {
+    height: 26px;
+  }
+
   .table :global {
-    h4,
-    .tr {
+    .tr,
+    .head {
       border-bottom: 1px solid var(--porcelain);
     }
 

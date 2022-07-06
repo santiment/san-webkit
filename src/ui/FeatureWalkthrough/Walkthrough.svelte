@@ -52,7 +52,7 @@
       <div class="btn-2 mrg-s mrg--r" on:click={onPrevious}>Previous</div>
     {/if}
 
-    <div class="btn-1 btn--accent" on:click={hasNext ? onNext : onClose}>
+    <div class="btn-1" on:click={hasNext ? onNext : onClose}>
       {hasNext ? 'Next' : 'Close'}
     </div>
   </div>
