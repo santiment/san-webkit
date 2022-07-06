@@ -49,14 +49,14 @@
     </a>
   {/if}
 {:else}
-  <a href="/login" class="btn-1" on:click={window.__onLinkClick}>Sign up</a>
+  <a href="/sign-up" class="btn-1" on:click={window.__onLinkClick}>Sign up</a>
 {/if}
 
 <style>
   .pro {
     text-transform: uppercase;
     --bg: var(--orange-light-1);
-    --bg-hover: var(--orange-light-1);
+    --bg-hover: var(--orange-light-2);
     --color: var(--orange);
     --color-hover: var(--orange-hover);
   }

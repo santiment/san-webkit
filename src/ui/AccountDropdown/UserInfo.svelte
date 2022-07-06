@@ -52,10 +52,13 @@
   $: buttonLabel = getButtonLabel(subscriptionInfo, variant)
   $: note = getNoteText(subscriptionInfo, variant)
   $: sunbasePlan = getSanbasePlan(subscriptionInfo)
+  $: href = subscriptionInfo.userPlanName
+    ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
+    : 'https://app.santiment.net/pricing'
 </script>
 
 <section>
-  <ProfileNames {user} />
+  <ProfileNames {user} followers={user && user.followers ? user.followers.count : undefined} />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
@@ -66,7 +69,7 @@
     </div>
     <a
       class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
-      href="https://app.santiment.net/pricing"
+      {href}
       on:click={window.__onLinkClick}>
       {buttonLabel}
     </a>

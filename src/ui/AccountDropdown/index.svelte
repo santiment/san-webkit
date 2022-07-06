@@ -24,24 +24,29 @@
     isOpened = false
     onLogoutClick()
   }
+
+  $: subscriptionInfo = getUserSubscriptionInfo(customerData, subscription)
+  $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 </script>
 
 <Tooltip
   duration={130}
-  activeClass="$style.active"
   align="center"
   bind:isOpened
+  activeClass="$style.active"
   class={tooltipClass}>
   <svelte:fragment slot="trigger">
-    <Pic class="btn mrg-m mrg--l $style.pic" src={currentUser ? currentUser.avatarUrl : ''} />
+    <a
+      href={`https://app.santiment.net/profile/${currentUser ? currentUser.id : ''}`}
+      on:click={window.__onLinkClick}
+      class:pro={isPro}>
+      <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
+    </a>
   </svelte:fragment>
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
-      <UserInfo
-        user={currentUser}
-        subscriptionInfo={getUserSubscriptionInfo(customerData, subscription)}
-        {variant} />
+      <UserInfo user={currentUser} {subscriptionInfo} {variant} />
 
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />
@@ -67,8 +72,10 @@
       </section>
 
       <hr />
-    {:else}
-      <section>
+    {/if}
+
+    <section>
+      {#if !currentUser}
         <a
           href="/login"
           class="login btn-ghost row justify v-center"
@@ -76,14 +83,8 @@
           <Svg id="user" w="16" class="mrg-s mrg--r" />
           Log in
         </a>
-      </section>
+      {/if}
 
-      <hr />
-      <VersionInfo {isAppUpdateAvailable} {version} />
-      <hr />
-    {/if}
-
-    <section>
       <div class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
@@ -117,8 +118,12 @@
 </Tooltip>
 
 <style>
-  .active {
+  .active .box {
     box-shadow: inset 0px 0px 0px 1px var(--green);
+  }
+
+  .pro .box {
+    --green: var(--orange-hover);
   }
 
   hr {
