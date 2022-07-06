@@ -74,7 +74,7 @@
   />
 
   {#each features as feature}
-    <div class="row txt-left mrg-l mrg--t" class:freeCheckmark={isFreePlan}>
+    <div class="row txt-left mrg-l mrg--t">
       <Svg id="checkmark-circle" w="16" class="$style.checkmark" />
       {feature}
     </div>
@@ -105,6 +105,7 @@
   .free {
     --name-bg: var(--athens);
     --name-color: var(--fiord);
+    --fill-checkmark: var(--waterloo);
   }
 
   .label {
@@ -129,10 +130,6 @@
   .description {
     margin: 16px auto;
     max-width: 160px;
-  }
-
-  .freeCheckmark {
-    --fill-checkmark: var(--waterloo);
   }
 
   .checkmark {

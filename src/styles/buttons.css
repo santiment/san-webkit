@@ -118,8 +118,8 @@ button,
 }
 
 .btn--accent {
-  --accent: var(--green);
-  --color-hover: var(--green-hover);
+  --color: var(--accent, var(--green));
+  --color-hover: var(--accent-hover, var(--green-hover));
 }
 
 [class*='btn'][disabled],

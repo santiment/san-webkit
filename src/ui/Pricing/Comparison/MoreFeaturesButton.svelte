@@ -5,11 +5,11 @@
 </script>
 
 <button
-  class="btn fluid btn--accent c-accent row hv-center"
+  class="btn fluid btn--accent c-green row hv-center"
   class:more={isShowingMore}
   on:click={() => (isShowingMore = !isShowingMore)}
 >
-  Show {isShowingMore ? 'more' : 'less'} features
+  Show {isShowingMore ? 'less' : 'more'} features
   <Svg id="arrow-down" w="10" h="5.5" class="$style.arrow mrg-m mrg--l" />
 </button>
 
@@ -21,10 +21,10 @@
   }
 
   .more {
-    --rotate: rotate(0deg);
+    --rotate: rotate(180deg);
   }
 
   .arrow {
-    transform: var(--rotate, rotate(180deg));
+    transform: var(--rotate, rotate(0deg));
   }
 </style>

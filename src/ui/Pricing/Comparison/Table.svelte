@@ -6,27 +6,20 @@
   export let plans = []
   export let isShowingMore = false
 
-  $: tableItems = filterTableCompareItems(plans, isShowingMore)
-
-  function filterTableCompareItems(items, shouldFilter) {
-    if (shouldFilter) {
-      return COMPARE_TABLE.slice(0, 7)
-    }
-    return COMPARE_TABLE
-  }
+  $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7)
 </script>
 
 <div class="table body-2">
   <slot />
 
-  {#each tableItems as { category, features, link }}
+  {#each items as { category, features, link }}
     <div class="head row v-center justify">
       <h4 class="body-1 txt-b">
         {category}
       </h4>
 
       {#if link && link.url}
-        <a href={link.url} target="_blank" class="link btn row v-center">
+        <a href={link.url} target="_blank" class="link btn btn--accent c-green row v-center">
           {link.title}
           <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--l" />
         </a>
@@ -47,8 +40,6 @@
   }
 
   .link {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
     height: 26px;
   }
 
