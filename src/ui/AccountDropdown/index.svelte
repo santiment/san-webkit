@@ -122,7 +122,7 @@
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro {
+  .pro .box {
     --green: var(--orange-hover);
   }
 
