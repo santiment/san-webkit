@@ -9,85 +9,87 @@
 <Meta title="Example/Profile" component={AccountStatus} />
 
 <Story name="Status">
-  <section>
-    <div class="h4">Anonymous user</div>
-    <div class="row v-center">
-      <AccountStatus />
-    </div>
-  </section>
+  <div class="column">
+    <section>
+      <div class="h4">Anonymous user</div>
+      <div class="row v-center">
+        <AccountStatus />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Free trial available (Variant 1)</div>
-    <div class="row v-center">
-      <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: true }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Free trial available (Variant 1)</div>
+      <div class="row v-center">
+        <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: true }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Free trial available (Variant 2)</div>
-    <div class="row v-center">
-      <AccountStatus
-        currentUser={{}}
-        customerData={{ isEligibleForTrial: true }}
-        variant={AccountStatusType.Second} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Free trial available (Variant 2)</div>
+      <div class="row v-center">
+        <AccountStatus
+          currentUser={{}}
+          customerData={{ isEligibleForTrial: true }}
+          variant={AccountStatusType.Second} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + User on free trial (Variant 1)</div>
-    <div class="row v-center">
-      <AccountStatus
-        currentUser={{}}
-        subscription={{ plan: { name: 'PRO' }, trialEnd: threeDaysLater }}
-        customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + User on free trial (Variant 1)</div>
+      <div class="row v-center">
+        <AccountStatus
+          currentUser={{}}
+          subscription={{ plan: { name: 'PRO' }, trialEnd: threeDaysLater }}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + User on free trial (Variant 2)</div>
-    <div class="row v-center">
-      <AccountStatus
-        currentUser={{}}
-        subscription={{ plan: { name: 'PRO' }, trialEnd: threeDaysLater }}
-        variant={AccountStatusType.Second}
-        customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + User on free trial (Variant 2)</div>
+      <div class="row v-center">
+        <AccountStatus
+          currentUser={{}}
+          subscription={{ plan: { name: 'PRO' }, trialEnd: threeDaysLater }}
+          variant={AccountStatusType.Second}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Pro Plan. First month offer (Variant 1)</div>
-    <div class="row v-center">
-      <AccountStatus
-        currentUser={{}}
-        subscription={{ plan: { name: 'PRO' } }}
-        customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 35 } } }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Pro Plan. First month offer (Variant 1)</div>
+      <div class="row v-center">
+        <AccountStatus
+          currentUser={{}}
+          subscription={{ plan: { name: 'PRO' } }}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 35 } } }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Pro Plan. First month offer (Variant 2)</div>
-    <div class="row v-center">
-      <AccountStatus
-        currentUser={{}}
-        subscription={{ plan: { name: 'PRO' } }}
-        variant={AccountStatusType.Second}
-        customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 35 } } }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Pro Plan. First month offer (Variant 2)</div>
+      <div class="row v-center">
+        <AccountStatus
+          currentUser={{}}
+          subscription={{ plan: { name: 'PRO' } }}
+          variant={AccountStatusType.Second}
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 35 } } }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Pro Plan</div>
-    <div class="row v-center">
-      <AccountStatus currentUser={{}} subscription={{ plan: { name: 'PRO' } }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Pro Plan</div>
+      <div class="row v-center">
+        <AccountStatus currentUser={{}} subscription={{ plan: { name: 'PRO' } }} />
+      </div>
+    </section>
 
-  <section>
-    <div class="h4">Logged in + Free Plan. Trial finished</div>
-    <div class="row v-center">
-      <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: false }} />
-    </div>
-  </section>
+    <section>
+      <div class="h4">Logged in + Free Plan. Trial finished</div>
+      <div class="row v-center">
+        <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: false }} />
+      </div>
+    </section>
+  </div>
 </Story>
 
 <style>
