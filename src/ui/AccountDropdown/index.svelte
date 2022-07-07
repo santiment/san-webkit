@@ -19,7 +19,7 @@
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
   export let isAppUpdateAvailable = false
   export let version: string = '1.0.0'
-  export let showFollowers = true
+  export let isShowingFollowers = true
 
   function onLogout() {
     isOpened = false
@@ -47,7 +47,7 @@
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
-      <UserInfo user={currentUser} {subscriptionInfo} {variant} {showFollowers} />
+      <UserInfo user={currentUser} {subscriptionInfo} {variant} {isShowingFollowers} />
 
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />

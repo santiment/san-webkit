@@ -5,7 +5,7 @@
   export let user
   export let subscriptionInfo
   export let variant = AccountStatusType.First
-  export let showFollowers = true
+  export let isShowingFollowers = true
 
   function getButtonLabel(subscriptionInfo, variant) {
     const {
@@ -61,7 +61,7 @@
 <section>
   <ProfileNames
     {user}
-    followers={showFollowers && user && user.followers ? user.followers.count : undefined} />
+    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined} />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
