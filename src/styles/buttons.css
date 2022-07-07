@@ -5,6 +5,7 @@ button {
 }
 
 .btn,
+.btn-0,
 .btn-1,
 .btn-2,
 .btn-3,
@@ -18,6 +19,7 @@ button {
 }
 
 .btn:hover,
+.btn-0:hover,
 .btn-1:hover,
 .btn-2:hover,
 .btn-3:hover,
@@ -30,6 +32,7 @@ button {
 
 button,
 .btn,
+.btn-0,
 .btn-1,
 .btn-2,
 .btn-3,
@@ -42,10 +45,18 @@ button,
   padding: var(--v-padding) var(--h-padding);
 }
 
+.btn-0 {
+  --color: var(--accent, var(--green));
+  --color-hover: var(--accent-hover, var(--green-hover));
+  --bg: none !important;
+  --bg-hover: none !important;
+}
+
 .btn-1 {
   --v-padding: 6px;
   --h-padding: 20px;
   --color: #fff;
+  --color-hover: #fff;
   --loading-color: #fff;
   --bg: var(--accent, var(--green));
   --bg-hover: var(--accent-hover, var(--green-hover));
@@ -103,6 +114,15 @@ button,
   --bg-hover: var(--athens);
 }
 
+[class*='btn'][disabled],
+[class*='btn'].disabled {
+  --color: var(--mystic);
+  --bg: var(--athens);
+}
+.btn-3.disabled {
+  --bg: none;
+}
+
 .btn--green {
   --color: #fff;
   --loading-color: #fff;
@@ -115,18 +135,4 @@ button,
   --border: var(--orange);
   --accent-hover: var(--orange-hover);
   --border-hover: var(--orange-hover);
-}
-
-.btn--accent {
-  --color: var(--accent, var(--green));
-  --color-hover: var(--accent-hover, var(--green-hover));
-}
-
-[class*='btn'][disabled],
-[class*='btn'].disabled {
-  --color: var(--mystic);
-  --bg: var(--athens);
-}
-.btn-3.disabled {
-  --bg: none;
 }

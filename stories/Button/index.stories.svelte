@@ -15,6 +15,18 @@
 
   <div class="row">
     <div>
+      <div class="caption">.btn-0</div>
+      <div class="btn-0">Text</div>
+    </div>
+
+    <div>
+      <div class="caption">.btn-0.btn--orange</div>
+      <div class="btn-0 btn--orange">Text</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
       <div class="caption">.btn-1</div>
       <div class="btn-1">Text</div>
     </div>
