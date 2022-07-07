@@ -29,7 +29,7 @@
   {/if}
 
   {#if userPlanName}
-    {#if trialDaysLeft === 0}
+    {#if !trialDaysLeft}
       <a
         href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
         class="pro btn-1 btn--s">
