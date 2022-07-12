@@ -19,22 +19,22 @@
 <Meta title="Example/Profile" component={AccountDropdown} />
 
 <Story name="Account">
-  <div class="row mrg-xl mrg--t">
+  <div class="column mrg-xl mrg--t">
     <section>
       <div class="h4">Anonymous</div>
-      <div class="row v-center">
-        <AccountDropdown isOpened {ui} />
+      <div class="row">
+        <AccountDropdown {ui} />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + New user. Free trial available</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: true }} />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + User on free trial (Variant 1)</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown
           {ui}
           {currentUser}
@@ -44,7 +44,7 @@
     </section>
     <section>
       <div class="h4">Logged in + User on free trial (Variant 2)</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown
           {ui}
           {currentUser}
@@ -55,7 +55,7 @@
     </section>
     <section>
       <div class="h4">Logged in + Pro Plan. First month offer (Variant 1)</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown
           {ui}
           {currentUser}
@@ -70,7 +70,7 @@
     </section>
     <section>
       <div class="h4">Logged in + Pro Plan. First month offer (Variant 2)</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown
           {ui}
           {currentUser}
@@ -86,13 +86,13 @@
     </section>
     <section>
       <div class="h4">Logged in + Pro Plan</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown {ui} {currentUser} subscription={{ plan: { name: 'PRO' } }} />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + Free Plan. Trial finished</div>
-      <div class="row v-center">
+      <div class="row">
         <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: false }} />
       </div>
     </section>
