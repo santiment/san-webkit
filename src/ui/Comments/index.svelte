@@ -7,7 +7,13 @@
   import Editor from '@/ui/Editor'
   import Comment from './Comment.svelte'
   import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte'
-  import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils'
+  import {
+    findCommentNode,
+    scrollToComment,
+    saveComment,
+    clearSavedComment,
+    sanitize,
+  } from './utils'
   import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
 
   const noop = () => {}
@@ -21,6 +27,10 @@
   export let onCommentsLoaded = noop
   export let onCommentSubmitted: (comment: SAN.Comment) => void = noop
   export let titleClass = 'body-2 txt-m'
+  export let mapComment = (comment: SAN.Comment) => {
+    comment.content = sanitize(comment.content)
+    return comment
+  }
 
   let comments = [] as SAN.Comment[]
   let loading = false
@@ -30,11 +40,12 @@
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
-  $: queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
+  $: if (process.browser)
+    queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
   $: authorId = commentsFor.user.id
 
   function setComments(data: SAN.Comment[]) {
-    comments = data
+    comments = mapComment ? data.map(mapComment) : data
     onNewComment?.(commentsFor, data)
   }
 
@@ -100,7 +111,8 @@
     isComments
     bind:editor
     class="border fluid $style.input"
-    placeholder="Type your comment here" />
+    placeholder="Type your comment here"
+  />
 
   <button type="submit" class:loading class="btn btn-1 btn--green mrg-l mrg--l">
     {currentUser ? 'Post' : 'Sign up to post'}
@@ -118,7 +130,8 @@
         {authorId}
         {currentUser}
         {updateComments}
-        {scrollToNewComment} />
+        {scrollToNewComment}
+      />
     {:else}
       <div class="column hv-center">
         <Svg illus id="comment-bubble" w="128" h="98" />
