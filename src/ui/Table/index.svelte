@@ -7,7 +7,7 @@
   export { className as class }
   export let columns: Column[]
   export let items: Item[]
-  export let keyProp: string
+  export let keyProp: undefined | string = undefined
   export let minRows: undefined | number = undefined
   export let sortedColumn: undefined | Column = undefined
   export let sticky = false
@@ -53,7 +53,7 @@
     </tr>
   </thead>
   <tbody>
-    {#each sortedItems as item, i (item[keyProp])}
+    {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
         {#each columns as { title, className, format, Component } (title)}
           <td class={className || ''}>

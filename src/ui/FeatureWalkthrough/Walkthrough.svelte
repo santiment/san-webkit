@@ -10,9 +10,15 @@
 
   $: feature = features[cursor]
   $: highlightedNode = document.querySelector('#' + feature.id)
-  $: highlightedNode?.scrollIntoView({ block: 'center' })
+  $: highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
-  $: ({ bottom, x } = rect)
+  $: align = (rect, 'left')
+  $: ({ bottom, x, right } = rect)
+  $: xPosition = x - 7
+  $: if (x + 200 >= window.innerWidth) {
+    align = 'right'
+    xPosition = window.innerWidth - right - 7
+  }
 
   $: hasPrevious = cursor > 0
   $: hasNext = cursor < features.length - 1
@@ -28,7 +34,7 @@
 
 <Background {rect} />
 
-<div class="border" style="top:{window.scrollY + bottom + 14}px;left:{x - 7}px">
+<div class="border" style="top:{window.scrollY + bottom + 14}px;{align}:{xPosition}px">
   <Feature {feature} />
 
   <button class="close btn" on:click={onClose}>
@@ -61,7 +67,7 @@
 <style lang="scss">
   .border {
     position: absolute;
-    z-index: 99999;
+    z-index: 99;
     background: var(--white);
     padding: 20px 24px 32px;
     max-width: 400px;

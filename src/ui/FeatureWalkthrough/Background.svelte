@@ -31,7 +31,7 @@
     left: 0;
     opacity: 0.6;
     pointer-events: none;
-    z-index: 99999;
+    z-index: 99;
   }
 
   mask,

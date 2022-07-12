@@ -111,8 +111,8 @@
 
     if (!isEnabled) return
 
-    tooltip.onmouseenter = openTooltip
-    tooltip.onmouseleave = closeTooltip
+    tooltip.onmouseenter = closeTimeout ? openTooltip : null
+    tooltip.onmouseleave = closeTimeout ? closeTooltip : null
     window.addEventListener('touchend', onTouchEnd)
   }
 
