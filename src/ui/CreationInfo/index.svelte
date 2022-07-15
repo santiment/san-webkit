@@ -50,14 +50,16 @@
       {titleHoverTooltipClass}>{title}</HoverEdit
     >
 
-    <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
-      <div slot="trigger" class="btn info row v-center">
-        <Svg id="info" w="16" />
-      </div>
-      <div slot="tooltip" class="tooltip">
-        <slot name="info" />
-      </div>
-    </Tooltip>
+    {#if $$slots.info}
+      <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
+        <div slot="trigger" class="btn info row v-center">
+          <Svg id="info" w="16" />
+        </div>
+        <div slot="tooltip" class="tooltip">
+          <slot name="info" />
+        </div>
+      </Tooltip>
+    {/if}
   </div>
 
   <CommentsButton {...comments} on:click={comments.onClick} class="mrg-s mrg--r" />

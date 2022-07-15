@@ -2,6 +2,7 @@ button {
   background: none;
   outline: none;
   border: none;
+  text-align: inherit;
 }
 
 .btn,
