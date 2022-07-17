@@ -20,40 +20,42 @@
   </a>
 {/if}
 
-<style>
+<style lang="scss">
   a {
     --bg-hover: var(--athens);
     margin: 0 0 4px 32px;
     padding: 8px;
     position: relative;
-  }
 
-  a::before,
-  a::after {
-    content: '';
-    position: absolute;
-    background: var(--porcelain);
-    top: 16px;
-    left: -17px;
-    z-index: -2;
-  }
-  a::before {
-    width: 1px;
-    height: calc(100% - 17px);
-  }
-  a::after {
-    width: 17px;
-    height: 1px;
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      background: var(--porcelain);
+      top: 16px;
+      left: -17px;
+      z-index: -2;
+    }
+    &::before {
+      width: 1px;
+      height: calc(100% - 17px);
+    }
+    &::after {
+      width: 17px;
+      height: 1px;
+    }
   }
 
   div {
     --img-size: 16px;
-  }
-  div :global(.img) {
-    margin: 0 4px 0 0;
-    vertical-align: middle;
-    display: inline-block;
-    text-align: center;
+    pointer-events: none;
+
+    :global(.img) {
+      margin: 0 4px 0 0;
+      vertical-align: middle;
+      display: inline-block;
+      text-align: center;
+    }
   }
 
   .comment {

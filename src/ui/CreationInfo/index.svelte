@@ -72,8 +72,10 @@
     {currentUser}
     editLabel="Save as"
     {onEditClick}
-    {titleHoverTooltipClass}>{fallback}</HoverEdit
+    {titleHoverTooltipClass}
   >
+    {fallback}
+  </HoverEdit>
 {/if}
 
 <style lang="scss">

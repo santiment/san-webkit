@@ -33,8 +33,8 @@
     &:hover {
       --color: var(--accent, var(--green));
 
-      & .pic {
-        border: 1px solid var(--green);
+      .pic {
+        box-shadow: inset 0px 0px 0px 1px var(--green);
       }
     }
   }
