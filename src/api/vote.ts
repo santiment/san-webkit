@@ -4,6 +4,7 @@ export enum VoteType {
   Layout = 'chartConfigurationId',
   Insight = 'insightId',
   Watchlist = 'watchlistId',
+  Dashboard = 'dashboardId',
 }
 
 export const VOTE_MUTATION = (id: number, type: VoteType) => `

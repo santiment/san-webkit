@@ -34,6 +34,8 @@
         return VoteType.Layout
       case CreationType.Watchlist:
         return VoteType.Watchlist
+      case CreationType.Dashboard:
+        return VoteType.Dashboard
     }
   }
 </script>
@@ -43,4 +45,5 @@
   {disabled}
   class={className}
   bind:userVotes={votes.userVotes}
-  bind:totalVotes={votes.totalVotes} />
+  bind:totalVotes={votes.totalVotes}
+/>

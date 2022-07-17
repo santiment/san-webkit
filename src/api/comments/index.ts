@@ -7,6 +7,7 @@ export enum CommentsType {
   TimelineEvent = 'TIMELINE_EVENT',
   Proposal = 'WALLET_HUNTERS_PROPOSAL',
   Watchlist = 'WATCHLIST',
+  Dashboard = 'DASHBOARD',
 }
 
 export const COMMENT_FIELDS = `id
