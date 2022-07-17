@@ -54,7 +54,7 @@ export function Socket(url: string) {
   }
 }
 
-const socket = Socket('wss://api.santiment.net/socket')
+export const socket = Socket('wss://api.santiment.net/socket')
 socket.send('users:common', 'phx_join')
 
 // TODO: Add caching [@vanguard]
