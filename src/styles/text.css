@@ -95,6 +95,9 @@
   --color: var(--green);
   --color-hover: var(--green-hover);
 }
+.c-orange {
+  --color: var(--orange);
+}
 .c-accent {
   --color: var(--accent, var(--green));
 }

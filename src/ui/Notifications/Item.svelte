@@ -2,7 +2,7 @@
   import { onMount, onDestroy } from 'svelte'
   import { cubicOut } from 'svelte/easing'
   import Svg from '@/ui/Svg/svelte'
-  import { notifications as store } from './notifications'
+  import { notifications$ } from './notifications'
 
   const TypeIcon = {
     success: 'checkmark-circle',
@@ -42,7 +42,7 @@
     for (let j = i + 1; j < notifications.length; j++) {
       notifications[j].offset += diff
     }
-    store.hide(notification)
+    notifications$.hide(notification)
   }
 
   function notify() {

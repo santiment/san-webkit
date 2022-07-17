@@ -1,9 +1,9 @@
 <script>
   import Item from './Item.svelte'
-  import { notifications as store } from './notifications'
+  import { notifications$ } from './notifications'
 
   let parentNode
-  $: notifications = [...$store]
+  $: notifications = [...$notifications$]
 </script>
 
 <div bind:this={parentNode}>

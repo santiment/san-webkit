@@ -8,13 +8,12 @@ export type Notification = {
   dismissAfter?: number
 }
 
-export const link = (text: string, href: string): string =>
-  `<a href="${href}">${text}</a>`
+export const link = (text: string, href: string): string => `<a href="${href}">${text}</a>`
 
 const { subscribe, update } = writable<Set<Notification>>(new Set())
 
 let id = 1
-export const notifications = {
+export const notifications$ = {
   subscribe,
   show: (notification: Notification): void => {
     notification.id = id++

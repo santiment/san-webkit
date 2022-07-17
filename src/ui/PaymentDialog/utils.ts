@@ -3,7 +3,7 @@ import { trackTwitterPurchaseEvent, TwitterTrackActions } from '@/analytics/twit
 import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
 import { customerData$ } from '@/stores/user'
-import { notifications } from '@/ui/Notifications'
+import { notifications$ } from '@/ui/Notifications'
 import { subscription$ } from '@/stores/subscription'
 import { paymentCard$ } from '@/stores/paymentCard'
 
@@ -104,7 +104,7 @@ function onPaymentSuccess(data) {
     category: 'User',
   })
 
-  notifications.show({
+  notifications$.show({
     type: 'success',
     title: `You have successfully upgraded to the "${title}" plan!`,
   })
@@ -116,7 +116,7 @@ function onPaymentSuccess(data) {
 
 function onPaymentError(error) {
   track.event('upgrade', { method: 'Payment fail' })
-  notifications.show({
+  notifications$.show({
     type: 'error',
     title: `Error during the payment`,
   })
