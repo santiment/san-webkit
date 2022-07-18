@@ -154,9 +154,20 @@
   <SpecialOfferBanner percentOff={50} expireAt={'2022-05-08T06:04:12.552Z'} />
 </Story>
 
-<Story name="Subscription Settings - Free">
+<Story name="Subscription account settings">
   <div class="padding">
+    <h2 class="h4 mrg-l mrg--b">Free, no card</h2>
     <SubscriptionSettings />
+  </div>
+
+  <div class="padding mrg-xl mrg--t">
+    <h2 class="h4 mrg-l mrg--b">Free, with card</h2>
+    <SubscriptionSettings
+      paymentCard={{
+        brand: 'MasterCard',
+        last4: '0000',
+      }}
+    />
   </div>
 </Story>
 

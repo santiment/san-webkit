@@ -1,8 +1,6 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import { subscription$ } from '@/stores/subscription'
   import { queryBillingHistory } from '@/api/subscription'
-  import { paymentCard$ } from '@/stores/paymentCard'
   import { formatPrice, PlanName } from '@/utils/plans'
   import { getDateFormats } from '@/utils/dates'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
@@ -14,15 +12,15 @@
 
   let className = ''
   export { className as class }
+  export let subscription: SAN.Subscription | undefined
+  export let paymentCard: SAN.PaymentCard | undefined
 
   let isBillingLoading = true
   let billingHistory = []
 
-  $: subscription = $subscription$
   $: periodEnd = subscription?.currentPeriodEnd
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
   $: plan = subscription?.plan
-  $: paymentCard = $paymentCard$
 
   queryBillingHistory().then((data) => {
     isBillingLoading = false
@@ -79,10 +77,11 @@
     </Setting>
   {/if}
 
-  {#if paymentCard}
-    <Setting>
-      <div>
-        Payment method
+  <Setting>
+    <div>
+      Payment method
+
+      {#if paymentCard}
         <div class="card row v-center mrg-s mrg--t">
           <Svg illus {...CardBrandIllustration[paymentCard.brand]} class="mrg-m mrg--r" />
 
@@ -91,16 +90,19 @@
 
           <Svg id="locked" w="14" h="15" class="mrg-m mrg--l" />
         </div>
-      </div>
+      {/if}
+    </div>
 
-      <div class="txt-right">
+    <div class="txt-right">
+      {#if paymentCard}
         <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
-        <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}
-          >Update card</button
-        >
-      </div>
-    </Setting>
-  {/if}
+      {/if}
+
+      <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}>
+        {paymentCard ? 'Update' : 'Add'} card
+      </button>
+    </div>
+  </Setting>
 
   <Setting>
     <div>
