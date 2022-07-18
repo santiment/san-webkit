@@ -6,6 +6,8 @@
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
   import SubscriptionSettings from '@/ui/Pricing/SubscriptionSettings/index.svelte'
   import Notifications from '@/ui/Notifications'
+  import { showCancelSubscriptionDialog } from '@/ui/Pricing/CancelSubscriptionDialog.svelte'
+  import OnMount from '../PaymentDialog/OnMount.svelte'
 
   const plans = [
     {
@@ -169,6 +171,10 @@
       }}
     />
   </div>
+</Story>
+
+<Story name="Subscription cancel dialog">
+  <OnMount run={() => showCancelSubscriptionDialog()} />
 </Story>
 
 <Dialogs />
