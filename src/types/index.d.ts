@@ -19,6 +19,7 @@ interface Window {
   __onLinkClick?: (e: MouseEvent) => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
   twq?: any
+  __SAPPER__?: any
 }
 
 namespace MediumEditor {
@@ -44,6 +45,7 @@ namespace MediumEditor {
 declare namespace SAN {
   type Walkthrough = {
     id: string
+    nodeId?: string
     title: string
     description: string
   }

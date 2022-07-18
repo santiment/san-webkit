@@ -9,7 +9,7 @@
   let cursor = 0
 
   $: feature = features[cursor]
-  $: highlightedNode = document.querySelector('#' + feature.id)
+  $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id))
   $: highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
   $: align = (rect, 'left')
