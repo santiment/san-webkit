@@ -2,8 +2,7 @@
   import { dialogs } from '@/ui/Dialog'
   import CancelSubscriptionDialog from './CancelSubscriptionDialog.svelte'
 
-  export const showCancelSubscriptionDialog = (props?: any) =>
-    dialogs.show(CancelSubscriptionDialog, props)
+  export const showCancelSubscriptionDialog = () => dialogs.show(CancelSubscriptionDialog)
 
   const REASONS = [
     'Found other tool that fits my needs better',
@@ -29,21 +28,45 @@
   import Checkbox from '@/ui/Checkbox.svelte'
   import { track } from '@/analytics'
   import { showIntercom } from '@/analytics/intercom'
+  import { mutateCancelSubscription } from '@/api/subscription'
+  import { notifications$ } from '@/ui/Notifications'
+  import { subscription$ } from '@/stores/subscription'
 
-  export let DialogPromise: SAN.DialogController
-  export let plan
-
-  let screen = Screen.Feedback
+  let screen = Screen.Suggestions
   let closeDialog
   let reasons = new Set()
   let feedback = ''
 
+  $: subscription = $subscription$
   $: disabled = screen === Screen.Feedback && (reasons.size === 0 || !feedback)
 
+  const formatError = (msg) => msg.replace('GraphQL error: ', '')
   function onCancellationClick() {
     if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
 
+    if (!subscription) return
+
     track.event(Event.GiveFeedback, { feedback })
+
+    mutateCancelSubscription(subscription.id)
+      .then(() => {
+        closeDialog()
+        subscription$.refetch()
+        notifications$.show({
+          type: 'success',
+          title: 'You have successfully canceled your subscription.',
+          description: 'We will miss you!',
+        })
+      })
+      .catch((e) => {
+        const { message } = e[0] || e
+        notifications$.show({
+          type: 'error',
+          title: 'Error during the cancellation',
+          description: formatError(message),
+          // actions: contactAction,
+        })
+      })
   }
 
   function onReasonSelect(reason) {

@@ -9,6 +9,7 @@
   import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog.svelte'
 
   let className = ''
   export { className as class }
@@ -71,7 +72,7 @@
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <div class="btn c-accent" on:click={window.showCancelSubscriptionDialog}>
+      <div class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
       </div>
     </Setting>

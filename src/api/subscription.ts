@@ -61,3 +61,16 @@ const BILLING_HISTORY_QUERY = `{
 const billingHistoryAccessor = ({ payments }) => payments
 export const queryBillingHistory = () =>
   query<any>(BILLING_HISTORY_QUERY).then(billingHistoryAccessor)
+
+// ----------------------------
+
+const CANCEL_SUBSCRIPTION_MUTATION = (id: number) => `
+  mutation {
+    cancelSubscription(subscriptionId:${id}) {
+      isScheduledForCancellation
+      scheduledForCancellationAt
+    }
+  }
+`
+
+export const mutateCancelSubscription = (id: number) => mutate(CANCEL_SUBSCRIPTION_MUTATION(id))
