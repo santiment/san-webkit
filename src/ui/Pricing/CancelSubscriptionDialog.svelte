@@ -17,14 +17,18 @@
     Suggestions,
     Feedback,
   }
+  enum Event {
+    SelectReason = 'cancel_subscribtion_select_reason',
+    GiveFeedback = 'cancel_subscribtion_give_feedback',
+  }
 </script>
 
 <script lang="ts">
   import Dialog from '@/ui/Dialog'
   import Svg from '@/ui/Svg/svelte'
   import Checkbox from '@/ui/Checkbox.svelte'
+  import { track } from '@/analytics'
   import { showIntercom } from '@/analytics/intercom'
-  import Suggestions from '../Editor/Suggestions/Suggestions.svelte'
 
   export let DialogPromise: SAN.DialogController
   export let plan
@@ -38,11 +42,18 @@
 
   function onCancellationClick() {
     if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
+
+    track.event(Event.GiveFeedback, { feedback })
   }
 
   function onReasonSelect(reason) {
-    if (reasons.has(reason)) reasons.delete(reason)
-    else reasons.add(reason)
+    if (reasons.has(reason)) {
+      reasons.delete(reason)
+    } else {
+      track.event(Event.SelectReason, { reason })
+      reasons.add(reason)
+    }
+
     reasons = reasons
   }
 </script>
@@ -87,7 +98,7 @@
             {/each}
           </div>
 
-          {#if reasons.size}
+          <div class="collapsable" class:visible={reasons.size}>
             <h3 class="c-waterloo txt-b mrg-s mrg--b">Just one last thing</h3>
             <textarea
               cols="30"
@@ -96,7 +107,7 @@
               class="input"
               bind:value={feedback}
             />
-          {/if}
+          </div>
         {:else}
           <a
             class="suggestion btn-2"
@@ -116,21 +127,23 @@
         {/if}
       </div>
 
-      {#if screen === Screen.Suggestions || reasons.size > 0}
-        <div class="column mrg-xxl mrg--t">
-          <button class="cancel btn-2 btn-1 btn--l" class:disabled on:click={onCancellationClick}
-            >Continue cancellation</button
-          >
-          <button
-            class="contact btn-2 btn--l mrg-m mrg--t"
-            class:disabled
-            on:click={() => {
-              showIntercom()
-              closeDialog()
-            }}>Contact Customer Service</button
-          >
-        </div>
-      {/if}
+      <div
+        class="column mrg-xxl mrg--t"
+        class:collapsable={screen === Screen.Feedback}
+        class:visible={screen === Screen.Feedback && reasons.size > 0}
+      >
+        <button class="cancel btn-2 btn-1 btn--l" class:disabled on:click={onCancellationClick}
+          >Continue cancellation</button
+        >
+        <button
+          class="contact btn-2 btn--l mrg-m mrg--t"
+          class:disabled
+          on:click={() => {
+            showIntercom()
+            closeDialog()
+          }}>Contact Customer Service</button
+        >
+      </div>
     </section>
 
     {#if screen === Screen.Feedback}
@@ -198,5 +211,15 @@
     border-left: 1px solid var(--porcelain);
     margin-left: 56px;
     padding: 0 50px 0 106px;
+  }
+
+  .collapsable {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 400ms ease-in-out;
+  }
+
+  .visible {
+    max-height: 300px;
   }
 </style>
