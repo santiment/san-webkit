@@ -9,7 +9,7 @@
   import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
-  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog.svelte'
+  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
 
   let className = ''
   export { className as class }

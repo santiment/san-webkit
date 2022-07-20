@@ -6,7 +6,7 @@
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
   import SubscriptionSettings from '@/ui/Pricing/SubscriptionSettings/index.svelte'
   import Notifications from '@/ui/Notifications'
-  import { showCancelSubscriptionDialog } from '@/ui/Pricing/CancelSubscriptionDialog.svelte'
+  import { showCancelSubscriptionDialog } from '@/ui/Pricing/CancelSubscriptionDialog'
   import OnMount from '../PaymentDialog/OnMount.svelte'
 
   const plans = [
