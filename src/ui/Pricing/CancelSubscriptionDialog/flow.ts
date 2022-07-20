@@ -28,7 +28,7 @@ export function startCancellationFlow(
 ) {
   track.event(Event.GiveFeedback, { feedback })
 
-  mutateCancelSubscription(subscription.id)
+  return mutateCancelSubscription(subscription.id)
     .then(() => {
       closeDialog()
       subscription$.refetch()

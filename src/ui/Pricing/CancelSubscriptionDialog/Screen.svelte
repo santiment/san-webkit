@@ -1,5 +1,6 @@
 <script>
   export let reasons
+  export let loading
   export let disabled
   export let isFeedbackScreen
   export let onCancellationClick
@@ -24,7 +25,12 @@
     class:reveal={isFeedbackScreen}
     class:revealed={isFeedbackScreen && reasons.size > 0}
   >
-    <button class="cancel btn-2 btn-1 btn--l" class:disabled on:click={onCancellationClick}>
+    <button
+      class="cancel btn-2 btn-1 btn--l"
+      class:disabled
+      class:loading
+      on:click={onCancellationClick}
+    >
       Continue cancellation
     </button>
 

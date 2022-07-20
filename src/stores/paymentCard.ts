@@ -11,7 +11,7 @@ export const paymentCard$ = {
     store.fetched = true
     return queryPaymentCard().then(set).catch(reset)
   },
-  subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
+  subscribe(run: Parameters<typeof subscribe>[0], invalidate?: any): ReturnType<typeof subscribe> {
     if (!store.fetched) paymentCard$.query()
     return subscribe(run, invalidate)
   },
@@ -22,5 +22,8 @@ export const paymentCard$ = {
   refetch() {
     paymentCard$.clear()
     return paymentCard$.query()
+  },
+  setDefault() {
+    reset()
   },
 }

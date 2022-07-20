@@ -31,7 +31,7 @@ export type CustomerData = {
   annualDiscount?: SAN.AnnualDiscount
 }
 
-const DEFAULT = {
+export const DEFAULT = {
   isLoggedIn: false,
   sanBalance: 0,
   isEligibleForTrial: false,

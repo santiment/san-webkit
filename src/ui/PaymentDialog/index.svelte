@@ -13,6 +13,7 @@
 </script>
 
 <script lang="ts">
+  import { onDestroy } from 'svelte'
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import { PlanName } from '@/utils/plans'
@@ -23,6 +24,7 @@
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
+  import { subscription$ } from '@/stores/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
 
   export let DialogPromise: SAN.DialogController
@@ -32,7 +34,7 @@
   export let isSinglePlan = false
   export let plansFilter = onlyProLikePlans
   export let trialDaysLeft = 0
-  export let onPaymentSuccess
+  export let onPaymentSuccess = () => {}
   export let onPaymentError
 
   let closeDialog
@@ -40,17 +42,18 @@
   let plan = {} as SAN.Plan
   let loading = false
   let StripeCard: stripe.elements.Element
-  let savedCard: undefined | SAN.PaymentCard
+  let savedCard = $paymentCard$
 
   if (process.browser) {
     getPlans()
   }
 
+  $: subscription = $subscription$
+  $: isNotCanceled = !subscription?.cancelAtPeriodEnd
   // TODO: make customer data accesible via context
   $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customerData$)
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
-  $: savedCard = $paymentCard$
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing
@@ -88,11 +91,19 @@
         DialogPromise.locking = DialogLock.WARN
       })
   }
+
+  onDestroy(
+    paymentCard$.subscribe((value) => {
+      savedCard = value
+    }),
+  )
 </script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
+    {#if isNotCanceled}
+      <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
+    {/if}
 
     <form on:submit|preventDefault={onSubmit} on:change={onChange}>
       {#if savedCard}

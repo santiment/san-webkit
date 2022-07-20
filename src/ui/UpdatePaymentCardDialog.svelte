@@ -23,9 +23,10 @@
   import PayerInfo from '@/ui/PaymentDialog/PayerInfo.svelte'
   import Checkmark from '@/ui/PaymentDialog/Checkmark.svelte'
   import { mutateUpdatePaymentCard } from '@/api/subscription'
+  import { paymentCard$ } from '@/stores/paymentCard'
 
   export let DialogPromise: SAN.DialogController
-  export let onSuccess
+  export let onSuccess = (data: any) => {}
   export let onError
 
   let closeDialog
@@ -52,6 +53,7 @@
       .then((data) => {
         closeDialog()
         onSuccess(data)
+        paymentCard$.refetch()
       })
       .catch(onError)
       .finally(() => {

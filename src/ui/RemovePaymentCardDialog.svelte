@@ -23,7 +23,8 @@
 
     mutateDeletePaymentCard()
       .then(() => {
-        paymentCard$.refetch()
+        paymentCard$.clear()
+        paymentCard$.setDefault()
         closeDialog()
       })
       .catch(() => {

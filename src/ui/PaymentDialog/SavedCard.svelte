@@ -3,7 +3,7 @@
   import Checkmark from './Checkmark.svelte'
   import { CardBrandIllustration } from './utils'
 
-  export let savedCard: SAN.PaymentCard
+  export let savedCard: SAN.PaymentCard | null
 
   $: ({ last4, expMonth, expYear, brand } = savedCard || {})
 </script>
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <div class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = undefined)}>
+  <div class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = null)}>
     Use another card
   </div>
 

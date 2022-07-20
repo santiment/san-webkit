@@ -100,9 +100,7 @@ function onPaymentSuccess(data) {
     [Tracker.TWQ],
   )
 
-  track.event('Purchase', {
-    category: 'User',
-  })
+  track.event('Purchase', { category: 'User' })
 
   notifications$.show({
     type: 'success',

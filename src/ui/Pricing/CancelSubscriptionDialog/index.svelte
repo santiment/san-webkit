@@ -11,6 +11,7 @@
   let closeDialog
   let reasons = new Set()
   let feedback = ''
+  let loading = false
 
   $: subscription = $subscription$
   $: isFeedbackScreen = screen === Screen.Feedback
@@ -22,7 +23,10 @@
 
     if (!subscription) return
 
-    startCancellationFlow(subscription, feedback, closeDialog)
+    loading = true
+    startCancellationFlow(subscription, feedback, closeDialog).then(() => {
+      loading = false
+    })
   }
 
   function onServiceClick() {
@@ -48,6 +52,7 @@
       this={DialogScreen}
       bind:reasons
       bind:feedback
+      {loading}
       {disabled}
       {isFeedbackScreen}
       {onCancellationClick}
