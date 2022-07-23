@@ -68,8 +68,9 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
 export function mutate<T extends SAN.API.QueryBase, U extends Variables = Variables>(
   scheme: string,
   options?: SAN.API.QueryOptions<T, U>,
+  requestOptions?: SAN.API.RequestOptions,
 ): Promise<T> {
-  return query<T>(scheme, Object.assign({ cache: false }, options))
+  return query<T>(scheme, Object.assign({ cache: false }, options), requestOptions)
 }
 
 const getFileName = ({ name }: File) => name
