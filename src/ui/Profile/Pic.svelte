@@ -7,7 +7,7 @@
   export let width = 16
 </script>
 
-<div class="img relative row hv-center {className}">
+<div class="img row hv-center {className}">
   {#if src}
     <img alt="A" {src} loading="lazy" />
   {:else}
@@ -30,6 +30,7 @@
   .img {
     background: var(--img-bg, var(--porcelain));
     border-radius: 50%;
+    overflow: var(--overflow, hidden);
     fill: var(--img-fill, var(--waterloo));
   }
 
