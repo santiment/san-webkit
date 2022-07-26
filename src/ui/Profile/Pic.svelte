@@ -4,14 +4,14 @@
   let className = ''
   export { className as class }
   export let src: string | null | undefined = undefined
-  export let width = 16
+  export let placeholderWidth = 16
 </script>
 
 <div class="img row hv-center {className}">
   {#if src}
     <img alt="A" {src} loading="lazy" />
   {:else}
-    <Svg id="user" w={width} class="$style.svg" />
+    <Svg id="user" w={placeholderWidth} class="$style.svg" />
   {/if}
   <slot />
 </div>
@@ -30,7 +30,7 @@
   .img {
     background: var(--img-bg, var(--porcelain));
     border-radius: 50%;
-    overflow: var(--overflow, hidden);
+    overflow: var(--img-overflow, hidden);
     fill: var(--img-fill, var(--waterloo));
   }
 
