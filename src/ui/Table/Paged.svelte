@@ -79,7 +79,11 @@
     max={pagesAmount}
   />
 
-  <span class="c-waterloo">of {pagesAmount}</span>
+  <span class="c-waterloo"
+    >of {pagesAmount}
+    <span class="mrg-s mrg--l" />
+    ({items.length} rows total)</span
+  >
 
   <div
     class="btn-2 btn--s row hv-center mrg-a mrg--l"
