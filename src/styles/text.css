@@ -98,6 +98,9 @@
 .c-orange {
   --color: var(--orange);
 }
+.c-red {
+  --color: var(--red);
+}
 .c-accent {
   --color: var(--accent, var(--green));
 }
