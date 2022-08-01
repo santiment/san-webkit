@@ -8,13 +8,13 @@
   export { className as class }
   export let plan: SAN.Plan
   export let subscription: undefined | SAN.Subscription
-  export let isEligibleForTrial: boolean = true
+  export let isEligibleForTrial: boolean = false
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let isLoggedIn = false
   export let isFreePlan = false
 
   $: ({ id } = plan)
-  $: isCurrentPlan = subscription?.plan.id === id
+  $: isCurrentPlan = subscription?.plan.id === id || (!subscription && isFreePlan && isLoggedIn)
   $: isUpgrade = checkIsUpgrade(plan, subscription)
   $: isDowngrade = isUpgrade !== undefined && !isUpgrade
   $: label = (plan, subscription, getLabel())

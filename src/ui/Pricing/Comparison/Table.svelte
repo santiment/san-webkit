@@ -19,7 +19,7 @@
       </h4>
 
       {#if link && link.url}
-        <a href={link.url} target="_blank" class="link btn-0 row v-center">
+        <a href={link.url} target="_blank" class="link btn-0 c-green row v-center">
           {link.title}
           <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--l" />
         </a>

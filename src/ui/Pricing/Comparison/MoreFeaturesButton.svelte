@@ -5,7 +5,7 @@
 </script>
 
 <button
-  class="btn-0 fluid row hv-center"
+  class="btn-0 c-green fluid row hv-center"
   class:more={isShowingMore}
   on:click={() => (isShowingMore = !isShowingMore)}
 >
