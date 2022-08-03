@@ -18,6 +18,8 @@
     padding: 12px;
     border-radius: 0;
     --bg-hover: var(--porcelain);
+    --accent: var(--green);
+    --accent-hover: var(--green-hover);
   }
 
   .more {
