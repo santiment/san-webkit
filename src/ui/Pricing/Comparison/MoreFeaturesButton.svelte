@@ -5,7 +5,7 @@
 </script>
 
 <button
-  class="btn-0 c-green fluid row hv-center"
+  class="btn-0 fluid row hv-center"
   class:more={isShowingMore}
   on:click={() => (isShowingMore = !isShowingMore)}
 >
@@ -18,6 +18,8 @@
     padding: 12px;
     border-radius: 0;
     --bg-hover: var(--porcelain);
+    --accent: var(--green);
+    --accent-hover: var(--green-hover);
   }
 
   .more {

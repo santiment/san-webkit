@@ -14,7 +14,7 @@
   export let isFreePlan = false
 
   $: ({ id } = plan)
-  $: isCurrentPlan = subscription?.plan.id === id || (!subscription && isFreePlan && isLoggedIn)
+  $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn
   $: isUpgrade = checkIsUpgrade(plan, subscription)
   $: isDowngrade = isUpgrade !== undefined && !isUpgrade
   $: label = (plan, subscription, getLabel())
