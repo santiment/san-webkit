@@ -34,7 +34,7 @@ export type CustomerData = {
 export const DEFAULT = {
   isLoggedIn: false,
   sanBalance: 0,
-  isEligibleForTrial: false,
+  isEligibleForTrial: true,
   annualDiscount: undefined,
 } as CustomerData
 

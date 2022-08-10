@@ -1,15 +1,18 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
+  import Setting from './Setting.svelte'
+  import SubscriptionCard from './SubscriptionCard/SubscriptionCard.svelte'
+  import SubscriptionProPlan from './SubscriptionCard/SubscriptionProPlan.svelte'
+  import { SubscriptionCardType } from './SubscriptionCard/utils'
   import { queryBillingHistory } from '@/api/subscription'
-  import { formatPrice, PlanName } from '@/utils/plans'
-  import { getDateFormats } from '@/utils/dates'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
-  import Setting from './Setting.svelte'
-  import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
+  import { customerData$ } from '../../../stores/user'
+  import { querySanbasePlans } from '../../../api/plans'
+  import { onlyProAndFreeLikePlans, Plan } from '../../../utils/plans'
 
   let className = ''
   export { className as class }
@@ -18,50 +21,61 @@
 
   let isBillingLoading = true
   let billingHistory = []
+  let plans = []
 
   $: periodEnd = subscription?.currentPeriodEnd
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
-  $: plan = subscription?.plan
+  $: freePlan = plans.find(({ name }) => name === Plan.FREE)
+  $: plan = subscription?.plan || freePlan
+  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+  $: shouldHideSecondCard = !annualDiscount?.isEligible && plan?.name === Plan.PRO
+  $: shouldHideThirdCard = !annualDiscount?.isEligible && plan?.name === Plan.PRO_PLUS
+
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProAndFreeLikePlans)
+  })
 
   queryBillingHistory().then((data) => {
     isBillingLoading = false
     billingHistory = data
   })
-
-  function formatDate(date) {
-    const { MMMM, DD, YYYY } = getDateFormats(new Date(date))
-    return `${MMMM} ${DD}, ${YYYY}`
-  }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting>
-    <div class="plan border row justify fluid v-center">
-      <div>
-        <div class="h4">{plan ? PlanName[plan.name] || plan.name : 'Free'} Plan</div>
-
-        <div class="c-waterloo mrg-s mrg--t">
-          {#if plan}
-            {formatPrice(plan)} per {plan.interval}.
-            <span class="btn c-accent" on:click={() => showPlanSummaryDialog()}
-              >Change billing period</span
-            >
-            <br />
-            Will automatically {isCanceled ? 'cancel' : 'renew'} on {formatDate(periodEnd)}
-          {:else}
-            You can see data <span class="btn c-accent">generated 24h ago.</span>
-            <br />
-            Upgrade your plan to get more abilities
-          {/if}
-        </div>
-      </div>
-
-      <button class="btn-1" on:click={() => showPlanSummaryDialog()}
-        >{plan ? 'Change plan' : 'Upgrade plan'}</button
-      >
-    </div>
+    <SubscriptionCard
+      type={SubscriptionCardType.Current}
+      {plan}
+      {subscription}
+      {isEligibleForTrial}
+      {annualDiscount}
+      {plans}
+    />
+    {#if !shouldHideSecondCard}
+      <SubscriptionCard
+        type={SubscriptionCardType.Suggested}
+        {plan}
+        {subscription}
+        {isEligibleForTrial}
+        {annualDiscount}
+        {plans}
+      />
+    {/if}
+    {#if !shouldHideThirdCard}
+      <SubscriptionCard
+        type={SubscriptionCardType.Next}
+        {plan}
+        {subscription}
+        {isEligibleForTrial}
+        {annualDiscount}
+        {plans}
+      />
+    {/if}
+    {#if shouldHideThirdCard}
+      <SubscriptionProPlan />
+    {/if}
   </Setting>
 
   {#if subscription && !isCanceled}

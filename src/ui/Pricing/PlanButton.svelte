@@ -2,7 +2,7 @@
   import { Billing } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
-  import { PLAN_BUTTON_CLICKED } from './utils'
+  import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils'
 
   let className = ''
   export { className as class }
@@ -34,19 +34,6 @@
     if (isDowngrade) return 'Downgrade'
 
     return 'Buy now'
-  }
-
-  function checkIsUpgrade(plan: SAN.Plan, subscription?: SAN.Subscription) {
-    if (!subscription) return undefined
-
-    const subscribed = subscription.plan
-    const isPlanCheaper = subscribed.amount > plan.amount
-
-    if (subscribed.interval === plan.interval) {
-      return !isPlanCheaper
-    }
-
-    return subscribed.interval === Billing.MONTH
   }
 
   function onClick() {

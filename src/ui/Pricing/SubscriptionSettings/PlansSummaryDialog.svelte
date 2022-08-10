@@ -57,7 +57,8 @@
       {subscription}
       {annualDiscount}
       {isLoggedIn}
-      {isEligibleForTrial} />
+      {isEligibleForTrial}
+    />
   </div>
 </Dialog>
 
