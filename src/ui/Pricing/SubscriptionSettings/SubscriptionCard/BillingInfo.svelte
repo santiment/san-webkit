@@ -4,6 +4,7 @@
     formatMonthlyPrice,
     formatPrice,
     getAlternativePlan,
+    getPlanPrice,
     getSavedAmount,
     Plan,
   } from '@/utils/plans'
@@ -27,13 +28,14 @@
   $: yearProPlusPlan = plans.find(
     ({ interval, name }) => interval === Billing.YEAR && name === Plan.PRO_PLUS,
   )
+  $: planMonthlyPrice = plan && getPlanPrice({ plan })
 </script>
 
 {#if type === SubscriptionCardType.Current}
   {#if subscriptionType !== SubscriptionType.OnTrial && subscriptionType !== SubscriptionType.ProFirstMonth}
     <div class="billing-info column">
       <div class="caption txt-m c-waterloo">Billed monthly:</div>
-      <div class="body-1 txt-m">{plan && formatPrice(plan)}</div>
+      <div class="body-1 txt-m">{planMonthlyPrice}</div>
     </div>
   {/if}
 {/if}

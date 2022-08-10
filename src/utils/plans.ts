@@ -68,3 +68,11 @@ export function getSavedAmount(plan: SAN.Plan, altPlan: SAN.Plan, percentOff?: n
   const price = plan.amount * calcDiscount(percentOff)
   return priceFormatter(getPrice(altPlan.amount * 12 - price))
 }
+
+export function getPlanPrice({ plan }) {
+  if (plan.interval === 'month') {
+    return formatPrice(plan)
+  }
+
+  return formatMonthlyPrice(plan)
+}

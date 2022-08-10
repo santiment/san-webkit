@@ -1,7 +1,7 @@
 <script lang="ts">
+  import { getDateFormats } from '@/utils/dates'
+  import { getPlanPrice } from '@/utils/plans'
   import { SubscriptionCardType, SubscriptionType } from './utils'
-  import { formatPrice } from '../../../../utils/plans'
-  import { getDateFormats } from '../../../../utils/dates'
 
   export let type: SubscriptionCardType
   export let subscriptionType: SubscriptionType
@@ -10,6 +10,7 @@
 
   $: periodEnd =
     subscription?.currentPeriodEnd && getDateFormats(new Date(subscription.currentPeriodEnd))
+  $: planMonthlyPrice = plan && getPlanPrice({ plan })
 </script>
 
 {#if type === SubscriptionCardType.Current}
@@ -20,13 +21,13 @@
     </div>
   {:else if subscriptionType === SubscriptionType.OnTrial}
     <div class="description mrg-m mrg--b">
-      Your card will be charged <span class="txt-m c-black">{formatPrice(plan)} after</span> your
+      Your card will be charged <span class="txt-m c-black">{planMonthlyPrice} after</span> your
       trial will finish on
       <span class="txt-m c-black">{periodEnd.MMMM} {periodEnd.DD}, {periodEnd.YYYY}</span>
     </div>
   {:else}
     <div class="description mrg-m mrg--b">
-      Your card will be charged <span class="txt-m c-black">{formatPrice(plan)} per month.</span> It
+      Your card will be charged <span class="txt-m c-black">{planMonthlyPrice} per month.</span> It
       will automatically renewed on
       <span class="txt-m c-black">{periodEnd.MMMM} {periodEnd.DD}, {periodEnd.YYYY}</span>
     </div>
