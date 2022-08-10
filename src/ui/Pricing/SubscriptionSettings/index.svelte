@@ -1,18 +1,18 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import Setting from './Setting.svelte'
-  import SubscriptionCard from './SubscriptionCard/SubscriptionCard.svelte'
-  import SubscriptionProPlan from './SubscriptionCard/SubscriptionProPlan.svelte'
-  import { SubscriptionCardType } from './SubscriptionCard/utils'
   import { queryBillingHistory } from '@/api/subscription'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
-  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { customerData$ } from '@/stores/user'
+  import { querySanbasePlans } from '@/api/plans'
+  import { onlyProAndFreeLikePlans, Plan } from '@/utils/plans'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
-  import { customerData$ } from '../../../stores/user'
-  import { querySanbasePlans } from '../../../api/plans'
-  import { onlyProAndFreeLikePlans, Plan } from '../../../utils/plans'
+  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import Setting from './Setting.svelte'
+  import SubscriptionCard from './SubscriptionCard/SubscriptionCard.svelte'
+  import SubscriptionProPlan from './SubscriptionCard/SubscriptionProPlan.svelte'
+  import { SubscriptionCardType } from './SubscriptionCard/utils'
 
   let className = ''
   export { className as class }
@@ -28,8 +28,10 @@
   $: freePlan = plans.find(({ name }) => name === Plan.FREE)
   $: plan = subscription?.plan || freePlan
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
-  $: shouldHideSecondCard = !annualDiscount?.isEligible && plan?.name === Plan.PRO
-  $: shouldHideThirdCard = !annualDiscount?.isEligible && plan?.name === Plan.PRO_PLUS
+  $: ({ shouldHideSecondCard, shouldHideThirdCard } = checkCardsVisibility({
+    annualDiscount,
+    plan,
+  }))
 
   querySanbasePlans().then((data) => {
     plans = data.filter(onlyProAndFreeLikePlans)
@@ -39,12 +41,27 @@
     isBillingLoading = false
     billingHistory = data
   })
+
+  function checkCardsVisibility({ annualDiscount, plan }) {
+    let shouldHideSecondCard = false
+    let shouldHideThirdCard = false
+
+    if (!annualDiscount?.isEligible && plan?.name === Plan.PRO) {
+      shouldHideSecondCard = true
+    }
+
+    if (!annualDiscount?.isEligible && plan?.name === Plan.PRO_PLUS) {
+      shouldHideThirdCard = true
+    }
+
+    return { shouldHideSecondCard, shouldHideThirdCard }
+  }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting>
+  <Setting class="$style.subscriptions">
     <SubscriptionCard
       type={SubscriptionCardType.Current}
       {plan}
@@ -53,7 +70,7 @@
       {annualDiscount}
       {plans}
     />
-    {#if !shouldHideSecondCard}
+    {#if !shouldHideSecondCard && !shouldHideThirdCard}
       <SubscriptionCard
         type={SubscriptionCardType.Suggested}
         {plan}
@@ -168,11 +185,24 @@
     fill: var(--waterloo);
   }
 
+  .subscriptions {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
   :global(.phone),
   :global(.phone-xs) {
     .btn-1 {
       width: 100%;
       margin-top: 8px;
+    }
+  }
+
+  :global(.phone),
+  :global(.tablet),
+  :global(.phone-xs) {
+    .subscriptions {
+      flex-direction: column;
     }
   }
 </style>

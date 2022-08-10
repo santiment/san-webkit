@@ -40,7 +40,7 @@
 {#if type === SubscriptionCardType.Next}
   {#if subscriptionType === SubscriptionType.Free || subscriptionType === SubscriptionType.FreeTrialFinished || subscriptionType === SubscriptionType.Pro}
     <div class="card card-white next row hv-center txt-m">
-      <Svg id="rocket-filled" w="16" h="18" class="mrg--r mrg-s" /> Popular
+      <Svg id="rocket-filled" w="16" h="18" class="mrg-s mrg--r" /> Popular
     </div>
   {:else if subscriptionType === SubscriptionType.OnTrial || subscriptionType === SubscriptionType.ProFirstMonth}
     <div class="card card-white next row hv-center txt-m">

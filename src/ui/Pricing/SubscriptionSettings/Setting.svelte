@@ -1,4 +1,9 @@
-<div class="setting row justify v-center">
+<script lang="ts">
+  let className = ''
+  export { className as class }
+</script>
+
+<div class="setting row justify v-center {className}">
   <slot />
 </div>
 

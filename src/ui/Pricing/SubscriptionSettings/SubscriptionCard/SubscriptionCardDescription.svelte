@@ -14,18 +14,18 @@
 
 {#if type === SubscriptionCardType.Current}
   {#if subscriptionType === SubscriptionType.Free || subscriptionType === SubscriptionType.FreeTrialFinished}
-    <div class="description mrg--b mrg-m">
+    <div class="description mrg-m mrg--b">
       Starter plan with limited access to Sanbase features. Check all plans
       <a href="https://app.santiment.net/pricing" target="_blank" class="c-accent">here!</a>
     </div>
   {:else if subscriptionType === SubscriptionType.OnTrial}
-    <div class="description mrg--b mrg-m">
+    <div class="description mrg-m mrg--b">
       Your card will be charged <span class="txt-m c-black">{formatPrice(plan)} after</span> your
       trial will finish on
       <span class="txt-m c-black">{periodEnd.MMMM} {periodEnd.DD}, {periodEnd.YYYY}</span>
     </div>
   {:else}
-    <div class="description mrg--b mrg-m">
+    <div class="description mrg-m mrg--b">
       Your card will be charged <span class="txt-m c-black">{formatPrice(plan)} per month.</span> It
       will automatically renewed on
       <span class="txt-m c-black">{periodEnd.MMMM} {periodEnd.DD}, {periodEnd.YYYY}</span>
@@ -34,14 +34,14 @@
 {/if}
 
 {#if type === SubscriptionCardType.Suggested}
-  <div class="description mrg--b mrg-m">
+  <div class="description mrg-m mrg--b">
     Get access to advanced crypto metrics, market insights and more! Check all plans
     <a href="https://app.santiment.net/pricing" target="_blank" class="c-accent">here!</a>
   </div>
 {/if}
 
 {#if type === SubscriptionCardType.Next}
-  <div class="description mrg--b mrg-m">
+  <div class="description mrg-m mrg--b">
     Advanced plan with complete access to analytics, backtesting framework. Check all plans
     <a href="https://app.santiment.net/pricing" target="_blank" class="c-accent">here!</a>
   </div>

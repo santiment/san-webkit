@@ -5,17 +5,17 @@
 </script>
 
 <div class="card column relative">
-  <div class="caption txt-m c-waterloo mrg--b mrg-l">You have full access!</div>
+  <div class="caption txt-m c-waterloo mrg-l mrg--b">You have full access!</div>
   <div class="content column">
-    <div class="h4 txt-m mrg--b mrg-xs">Use Pro plan wisely</div>
-    <div class="c-waterloo mrg--b mrg-m">
+    <div class="h4 txt-m mrg-xs mrg--b">Use Pro plan wisely</div>
+    <div class="c-waterloo mrg-m mrg--b">
       One on one staff assistance and educational calls upon your request
     </div>
     <div class="bottom row">
       <a href="https://academy.santiment.net/" target="_blank" class="btn-1 row hv-center">
-        Academy <Svg id="external-link" w="12" h="12" class="mrg--l mrg-s" />
+        Academy <Svg id="external-link" w="12" h="12" class="mrg-s mrg--l" />
       </a>
-      <button on:click={() => showIntercom()} class="btn-2 row hv-center mrg--l mrg-m">
+      <button on:click={() => showIntercom()} class="btn-2 row hv-center mrg-m mrg--l">
         Contact support
       </button>
     </div>
@@ -25,6 +25,7 @@
 
 <style lang="scss">
   .card {
+    min-width: 460px;
     width: 100%;
     max-width: 544px;
     padding: 16px 16px 16px 24px;

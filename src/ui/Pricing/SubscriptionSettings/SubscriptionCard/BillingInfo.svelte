@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { SubscriptionCardType, SubscriptionType } from './utils'
   import {
     Billing,
     formatMonthlyPrice,
@@ -7,7 +6,8 @@
     getAlternativePlan,
     getSavedAmount,
     Plan,
-  } from '../../../../utils/plans'
+  } from '@/utils/plans'
+  import { SubscriptionCardType, SubscriptionType } from './utils'
 
   export let type: SubscriptionCardType
   export let subscriptionType: SubscriptionType

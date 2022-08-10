@@ -102,7 +102,7 @@
     <SubscriptionTag {type} {subscriptionType} {subscription} {annualDiscount} />
   </div>
   <div class="column">
-    <div class="h4 txt-m mrg--b mrg-xs">{planName}</div>
+    <div class="h4 txt-m mrg-xs mrg--b">{planName}</div>
     <SubscriptionCardDescription {type} {subscriptionType} {plan} {subscription} />
     <div class="bottom row" class:justify={!shouldHideBillingInfo}>
       <div class="row">
@@ -149,6 +149,7 @@
   }
 
   .wide {
+    min-width: 460px;
     max-width: 544px;
   }
 

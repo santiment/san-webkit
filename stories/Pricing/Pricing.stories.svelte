@@ -51,41 +51,67 @@
     },
   ]
 
-  const subscriptions = [
-    null,
-    {
-      __typename: 'SubscriptionPlan',
-      cancelAtPeriodEnd: false,
-      currentPeriodEnd: '2022-10-20T10:43:03Z',
-      id: '1104',
-      plan: {
-        __typename: 'Plan',
-        amount: 4900,
-        id: '201',
-        interval: 'month',
-        name: 'F',
-        product: { __typename: 'Product', id: '2' },
-      },
-      status: 'TRIALING',
-      trialEnd: '2022-10-20T10:43:03Z',
+  const noSubscription = null
+
+  const freeSubscription = {
+    cancelAtPeriodEnd: false,
+    currentPeriodEnd: null,
+    id: '1104',
+    plan: {
+      amount: 0,
+      id: '11',
+      interval: 'month',
+      isDeprecated: false,
+      name: 'FREE',
     },
-    {
-      __typename: 'SubscriptionPlan',
-      cancelAtPeriodEnd: false,
-      currentPeriodEnd: '2022-10-20T10:43:03Z',
-      id: '1104',
-      plan: {
-        __typename: 'Plan',
-        amount: 4900,
-        id: '201',
-        interval: 'month',
-        name: 'F',
-        product: { __typename: 'Product', id: '2' },
-      },
-      status: 'ACTIVE',
-      trialEnd: null,
+    status: 'Active',
+    trialEnd: null,
+  }
+
+  const trialSubscription = {
+    cancelAtPeriodEnd: false,
+    currentPeriodEnd: '2022-10-20T10:43:03Z',
+    id: '1104',
+    plan: {
+      amount: 4900,
+      id: '201',
+      interval: 'month',
+      isDeprecated: false,
+      name: 'PRO',
     },
-  ]
+    status: 'TRIALING',
+    trialEnd: '2022-10-20T10:43:03Z',
+  }
+
+  const activeSubscription = {
+    cancelAtPeriodEnd: false,
+    currentPeriodEnd: '2022-10-20T10:43:03Z',
+    id: '1104',
+    plan: {
+      amount: 4900,
+      id: '201',
+      interval: 'month',
+      isDeprecated: false,
+      name: 'PRO',
+    },
+    status: 'ACTIVE',
+    trialEnd: null,
+  }
+
+  const proPlusSubscription = {
+    cancelAtPeriodEnd: false,
+    currentPeriodEnd: '2022-10-20T10:43:03Z',
+    id: '1104',
+    plan: {
+      amount: 270000,
+      id: '204',
+      interval: 'year',
+      isDeprecated: false,
+      name: 'PRO_PLUS',
+    },
+    status: 'ACTIVE',
+    trialEnd: null,
+  }
 
   const annualDiscounts = [
     {
@@ -213,13 +239,23 @@
 <Story name="Subscription account settings">
   <div class="padding">
     <h2 class="h4 mrg-l mrg--b">Free, no card</h2>
-    <SubscriptionSettings subscription={subscriptions[0]} />
+    <SubscriptionSettings subscription={freeSubscription} />
+  </div>
+
+  <div class="padding">
+    <h2 class="h4 mrg-l mrg--b">Pro, no card</h2>
+    <SubscriptionSettings subscription={activeSubscription} />
+  </div>
+
+  <div class="padding">
+    <h2 class="h4 mrg-l mrg--b">Pro+, no card</h2>
+    <SubscriptionSettings subscription={proPlusSubscription} />
   </div>
 
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Free, with card</h2>
     <SubscriptionSettings
-      subscription={subscriptions[0]}
+      subscription={freeSubscription}
       paymentCard={{
         brand: 'MasterCard',
         last4: '0000',
@@ -235,24 +271,24 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[0]}
-        subscription={subscriptions[0]}
-        isEligibleForTrial={true}
+        subscription={noSubscription}
+        isEligibleForTrial
         annualDiscount={annualDiscounts[0]}
         {plans}
       />
       <SubscriptionCard
         type={SubscriptionCardType.Suggested}
         plan={plans[0]}
-        subscription={subscriptions[0]}
-        isEligibleForTrial={true}
+        subscription={noSubscription}
+        isEligibleForTrial
         annualDiscount={annualDiscounts[0]}
         {plans}
       />
       <SubscriptionCard
         type={SubscriptionCardType.Next}
         plan={plans[0]}
-        subscription={subscriptions[0]}
-        isEligibleForTrial={true}
+        subscription={noSubscription}
+        isEligibleForTrial
         annualDiscount={annualDiscounts[0]}
         {plans}
       />
@@ -265,7 +301,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[1]}
-        subscription={subscriptions[1]}
+        subscription={trialSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[1]}
         {plans}
@@ -273,7 +309,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Suggested}
         plan={plans[1]}
-        subscription={subscriptions[1]}
+        subscription={trialSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[1]}
         {plans}
@@ -281,7 +317,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Next}
         plan={plans[1]}
-        subscription={subscriptions[1]}
+        subscription={trialSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[1]}
         {plans}
@@ -295,7 +331,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[0]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
@@ -303,7 +339,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Suggested}
         plan={plans[0]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
@@ -311,7 +347,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Next}
         plan={plans[0]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
@@ -325,7 +361,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[1]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[2]}
         {plans}
@@ -333,7 +369,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Suggested}
         plan={plans[1]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[2]}
         {plans}
@@ -341,7 +377,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Next}
         plan={plans[1]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[2]}
         {plans}
@@ -355,7 +391,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[1]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
@@ -363,7 +399,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Next}
         plan={plans[1]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
@@ -377,7 +413,7 @@
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[2]}
-        subscription={subscriptions[2]}
+        subscription={activeSubscription}
         isEligibleForTrial={false}
         annualDiscount={annualDiscounts[0]}
         {plans}
