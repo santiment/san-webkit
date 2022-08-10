@@ -41,6 +41,8 @@
 
   .link {
     height: 26px;
+    --accent: var(--green);
+    --accent-hover: var(--green-hover);
   }
 
   .table :global {
