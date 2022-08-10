@@ -6,9 +6,11 @@
   import Option from './Option.svelte'
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
+  import WalletConnect from './WalletConnect/index.svelte'
 
   export let title = 'Welcome to Insights'
   export let onMetamaskClick
+  export let onWalletConnectLogin
 </script>
 
 <Section
@@ -27,6 +29,7 @@
     Log in with Email
   </Option>
 
+  <WalletConnect onLogin={onWalletConnectLogin} />
   <Google />
   <Twitter />
 </Section>
