@@ -6,13 +6,16 @@
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { customerData$ } from '@/stores/user'
   import { querySanbasePlans } from '@/api/plans'
-  import { onlyProAndFreeLikePlans, Plan } from '@/utils/plans'
+  import { onlyProAndFreeLikePlans, onlyProLikePlans, Plan, PlanName } from '@/utils/plans'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import Setting from './Setting.svelte'
   import SubscriptionCard from './SubscriptionCard/SubscriptionCard.svelte'
   import SubscriptionProPlan from './SubscriptionCard/SubscriptionProPlan.svelte'
   import { SubscriptionCardType } from './SubscriptionCard/utils'
+  import Card from './SubscriptionCard/Card.svelte'
+  import PlanCard from './SubscriptionCard/PlanCard.svelte'
+  import { getSuggestions } from './SubscriptionCard/suggestions'
 
   let className = ''
   export { className as class }
@@ -21,26 +24,45 @@
 
   let isBillingLoading = true
   let billingHistory = []
-  let plans = []
+  let plans = [] as SAN.Plan[]
 
-  $: periodEnd = subscription?.currentPeriodEnd
-  $: isCanceled = !!subscription?.cancelAtPeriodEnd
+  $: ({ plan, currentPeriodEnd, cancelAtPeriodEnd } = subscription || ({} as SAN.Subscription))
+  $: periodEnd = currentPeriodEnd
+  $: isCanceled = !!cancelAtPeriodEnd
   $: freePlan = plans.find(({ name }) => name === Plan.FREE)
-  $: plan = subscription?.plan || freePlan
+  // $: plan = subscription?.plan || freePlan
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: ({ shouldHideSecondCard, shouldHideThirdCard } = checkCardsVisibility({
     annualDiscount,
     plan,
   }))
+  $: isEligibleForAnnualDiscount = annualDiscount?.isEligible
+  $: isNonFreePlan = plan?.name !== Plan.FREE
+
+  $: suggestions = getSuggestions(plan, annualDiscount)
+  $: suggestedPlans = getPlanSuggestions(plans, annualDiscount)
 
   querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProAndFreeLikePlans)
+    // plans = data.filter(onlyProAndFreeLikePlans)
+    plans = data.filter(onlyProLikePlans)
   })
 
   queryBillingHistory().then((data) => {
     isBillingLoading = false
     billingHistory = data
   })
+
+  function getPlanSuggestions() {
+    console.log(suggestions)
+    return plans.filter((plan) => {
+      const isSameBilling = plan.interval === suggestions.billing
+      if (suggestions.discount) {
+        return isSameBilling
+      }
+
+      return suggestions[plan.name] && isSameBilling
+    })
+  }
 
   function checkCardsVisibility({ annualDiscount, plan }) {
     let shouldHideSecondCard = false
@@ -60,6 +82,21 @@
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
+
+  <Setting class="$style.subscriptions">
+    <PlanCard {plan} label="Current plan" isChecked isActive={isNonFreePlan} />
+
+    {#each suggestedPlans as suggestion}
+      <PlanCard
+        {...suggestions[suggestion.name]}
+        discount={suggestions.discount}
+        plan={suggestion}
+        userPlan={plan}
+      />
+    {:else}
+      <Card label="You have full access!" yellow />
+    {/each}
+  </Setting>
 
   <Setting class="$style.subscriptions">
     <SubscriptionCard
@@ -186,7 +223,6 @@
   }
 
   .subscriptions {
-    flex-wrap: wrap;
     gap: 16px;
   }
 

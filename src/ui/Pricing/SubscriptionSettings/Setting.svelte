@@ -1,9 +1,9 @@
 <script lang="ts">
-  let className = ''
+  let className = 'justify'
   export { className as class }
 </script>
 
-<div class="setting row justify v-center {className}">
+<div class="setting row v-center {className}">
   <slot />
 </div>
 
