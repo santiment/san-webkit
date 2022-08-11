@@ -6,7 +6,7 @@
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { customerData$ } from '@/stores/user'
   import { querySanbasePlans } from '@/api/plans'
-  import { onlyProLikePlans } from '@/utils/plans'
+  import { onlyProLikePlans, Plan } from '@/utils/plans'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import Setting from './Setting.svelte'
@@ -24,11 +24,11 @@
   let billingHistory = []
   let plans = [] as SAN.Plan[]
 
-  $: ({ plan, cancelAtPeriodEnd } = subscription || ({} as SAN.Subscription))
-  $: isCanceled = !!cancelAtPeriodEnd
+  $: isCanceled = !!subscription?.cancelAtPeriodEnd
+  $: plan = subscription?.plan || { name: Plan.FREE, amount: 0 }
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: suggestions = getSuggestions(plan, annualDiscount)
-  $: suggestedPlans = getPlanSuggestions(plans, annualDiscount)
+  $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
 
   querySanbasePlans().then((data) => {
     plans = data.filter(onlyProLikePlans)
