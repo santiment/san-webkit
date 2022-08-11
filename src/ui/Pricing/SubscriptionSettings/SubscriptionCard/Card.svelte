@@ -1,11 +1,13 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
+  import { dataPreloader } from '@/ui/PaymentDialog/index.svelte'
 
   export let title
   export let label
   export let price
   export let billing
   export let badge
+  export let link
   export let badgeIcon
   export let action, subaction
   export let green = false
@@ -13,12 +15,16 @@
   export let yellow = false
   export let isChecked = false
   export let isActive = false
+  export let onActionClick, onSubactionClick
 </script>
 
 <article class="relative fluid" class:green class:orange class:yellow>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
-  <p>Your card will be charged $49 after your trial will finish on September 19, 2021</p>
+
+  <slot>
+    <p>Your card will be charged $49 after your trial will finish on September 19, 2021</p>
+  </slot>
 
   {#if badge || isChecked}
     <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
@@ -32,9 +38,21 @@
   {/if}
 
   <div class="actions mrg-xl mrg--t">
-    <button class="btn-1">{action}</button>
+    <svelte:element
+      this={link ? 'a' : 'button'}
+      class="btn-1 v-center"
+      on:click={onActionClick}
+      {...link}
+      use:dataPreloader
+    >
+      {action}
+      {#if link}
+        <Svg id="external-link" w="12" class="mrg-s mrg--l" />
+      {/if}
+    </svelte:element>
+
     {#if subaction}
-      <button class="btn-2 mrg-m mrg--l">{subaction}</button>
+      <button class="btn-2 mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
 
@@ -52,6 +70,10 @@
     border-radius: 8px;
     background: var(--athens);
     min-width: 350px;
+
+    & > :global(p) {
+      max-width: 300px;
+    }
   }
 
   .green {
@@ -100,6 +122,7 @@
   }
 
   .btn-1 {
+    display: inline-flex;
     --bg: var(--primary, var(--green));
     --bg-hover: var(--primary-hover, var(--green-hover));
   }

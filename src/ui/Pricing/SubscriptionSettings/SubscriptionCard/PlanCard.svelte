@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
+
   import {
     checkIsYearlyPlan,
     formatMonthlyPrice,
@@ -12,9 +14,12 @@
   export let plan: SAN.Plan
   export let altPlan: SAN.Plan = plan
   export let discount: undefined | number
+  export let action = 'Buy now'
   export let label, badge, badgeIcon
   export let isEligibleForTrial = false
   export let isTrial = false
+  export let isUpgrade = false
+  export let onActionClick = () => showPaymentDialog({ plan: plan.name, interval: plan.interval })
 
   $: ({ name } = plan)
   $: annual = checkIsYearlyPlan(plan) ? ' / Annual' : ''
@@ -41,11 +46,14 @@
   {...$$restProps}
   {billing}
   {price}
+  {onActionClick}
   action={discount
     ? `Pay now ${discount}% Off`
     : isEligibleForTrial
     ? 'Start 14-day Free Trial'
-    : 'Buy now'}
+    : isUpgrade
+    ? 'Upgrade'
+    : action}
   title={PlanName[name] + (isTrial ? ' Trial' : '') + annual}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}

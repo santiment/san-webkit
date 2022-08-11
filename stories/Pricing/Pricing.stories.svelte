@@ -276,8 +276,8 @@
     <h2 class="h4 mrg-l mrg--b">Free plan</h2>
     <div class="row justify">
       <UserPlanCard plan={plans[0]} />
-      <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} />
-      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
+      <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} isEligibleForTrial />
+      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} isEligibleForTrial />
     </div>
 
     <div class="row justify">
@@ -430,7 +430,7 @@
     <h2 class="h4 mrg-l mrg--b">Pro plan</h2>
     <div class="row justify">
       <UserPlanCard plan={trialSubscription.plan} subscription={activeSubscription} />
-      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
+      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} isUpgrade />
     </div>
 
     <div class="row justify">

@@ -2,7 +2,7 @@
   import { dialogs } from '@/ui/Dialog'
   import PlansSummaryDialog from './PlansSummaryDialog.svelte'
 
-  export const showPlanSummaryDialog = (props?: any) => dialogs.show(PlansSummaryDialog, props)
+  export const showPlanSummaryDialog = () => dialogs.show(PlansSummaryDialog)
 </script>
 
 <script>

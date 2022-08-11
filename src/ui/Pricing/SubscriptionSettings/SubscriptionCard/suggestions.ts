@@ -36,6 +36,8 @@ export function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: SAN.An
 
   if (userPlan?.name !== Plan.PRO) {
     suggestion[Plan.PRO] = PRO_SUGGESTION
+  } else {
+    suggestion.isUpgrade = true
   }
 
   return suggestion

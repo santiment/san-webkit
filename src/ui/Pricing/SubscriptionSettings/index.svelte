@@ -93,6 +93,7 @@
         {...suggestions[suggestion.name]}
         {isEligibleForTrial}
         discount={suggestions.discount}
+        isUpgrade={suggestions.isUpgrade}
         plan={suggestion}
         altPlan={plan}
       />

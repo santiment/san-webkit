@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onlyProAndFreeLikePlans, onlyProLikePlans, Plan, PlanName } from '@/utils/plans'
   import { getTrialDaysLeft } from '@/utils/subscription'
+  import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
+  import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
   import PlanCard from './PlanCard.svelte'
 
   export let plan
@@ -17,5 +19,8 @@
   badge={trialDaysLeft}
   isTrial={trialDaysLeft}
   isActive={isNonFreePlan && !trialDaysLeft}
-  subaction="Cancel Subscription"
+  action={isNonFreePlan ? 'Change plan' : 'Upgrade'}
+  onActionClick={showPlanSummaryDialog}
+  subaction={isNonFreePlan && 'Cancel Subscription'}
+  onSubactionClick={showCancelSubscriptionDialog}
 />
