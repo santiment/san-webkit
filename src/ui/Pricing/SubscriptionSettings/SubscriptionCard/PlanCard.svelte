@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
-
   import {
     checkIsYearlyPlan,
     formatMonthlyPrice,
@@ -8,7 +6,7 @@
     getSavedAmount,
     PlanName,
   } from '@/utils/plans'
-
+  import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import Card from './Card.svelte'
 
   export let plan: SAN.Plan
@@ -58,4 +56,19 @@
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
   badgeIcon={discount ? null : badgeIcon}
-/>
+>
+  <slot>
+    <p>
+      {#if badge === 'Popular'}
+        Get access to advanced crypto metrics, market insights and more!
+      {:else}
+        Advanced plan with complete access to analytics, backtesting framework.
+      {/if}
+
+      Check all plans
+      <a href="https://app.santiment.net/pricing" class="btn-0" on:click={window.__onLinkClick}
+        >here!</a
+      >
+    </p>
+  </slot>
+</Card>

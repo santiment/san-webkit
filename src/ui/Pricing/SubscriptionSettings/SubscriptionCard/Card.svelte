@@ -72,7 +72,7 @@
     min-width: 350px;
 
     & > :global(p) {
-      max-width: 300px;
+      max-width: 375px;
     }
   }
 

@@ -2,8 +2,7 @@
   import { showIntercom } from '@/analytics/intercom'
   import { subscription$ } from '@/stores/subscription'
   import { getDateFormats } from '@/utils/dates'
-  import { checkIsYearlyPlan } from '@/utils/plans'
-  import { calculateTrialDaysLeft } from '@/utils/subscription'
+  import { calculateTrialDaysLeft, getNextPaymentDate } from '@/utils/subscription'
 
   export let plan: SAN.Plan
   export let name: string
@@ -19,12 +18,7 @@
   }
 
   function getNextPaymentDates(plan: SAN.Plan) {
-    const target = checkIsYearlyPlan(plan) ? 'FullYear' : 'Month'
-
-    const date = new Date()
-    date['set' + target](date['get' + target]() + 1)
-
-    return formatDate(date)
+    return formatDate(getNextPaymentDate(plan))
   }
 
   function getTrialEndDate() {
