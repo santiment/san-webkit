@@ -8,9 +8,6 @@
   import Notifications from '@/ui/Notifications'
   import { showCancelSubscriptionDialog } from '@/ui/Pricing/CancelSubscriptionDialog'
   import OnMount from '../PaymentDialog/OnMount.svelte'
-  import SubscriptionCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/SubscriptionCard.svelte'
-  import SubscriptionProPlan from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/SubscriptionProPlan.svelte'
-  import { SubscriptionCardType } from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/utils'
   import UserPlanCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/UserPlanCard.svelte'
   import SuggestedPlanCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/PlanCard.svelte'
   import {
@@ -279,33 +276,6 @@
       <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} isEligibleForTrial />
       <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} isEligibleForTrial />
     </div>
-
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[0]}
-        subscription={noSubscription}
-        isEligibleForTrial
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Suggested}
-        plan={plans[0]}
-        subscription={noSubscription}
-        isEligibleForTrial
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        plan={plans[0]}
-        subscription={noSubscription}
-        isEligibleForTrial
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-    </div>
   </div>
 
   <div class="padding mrg-xl mrg--t">
@@ -321,32 +291,6 @@
         discount={50}
       />
     </div>
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[1]}
-        subscription={trialSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[1]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Suggested}
-        plan={plans[1]}
-        subscription={trialSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[1]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        plan={plans[1]}
-        subscription={trialSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[1]}
-        {plans}
-      />
-    </div>
   </div>
 
   <div class="padding mrg-xl mrg--t">
@@ -355,33 +299,6 @@
       <UserPlanCard plan={plans[0]} subscription={activeSubscription} />
       <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} />
       <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
-    </div>
-
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[0]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Suggested}
-        plan={plans[0]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        plan={plans[0]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
     </div>
   </div>
 
@@ -397,33 +314,6 @@
         discount={35}
       />
     </div>
-
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[1]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[2]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Suggested}
-        plan={plans[1]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[2]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        plan={plans[1]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[2]}
-        {plans}
-      />
-    </div>
   </div>
 
   <div class="padding mrg-xl mrg--t">
@@ -432,25 +322,6 @@
       <UserPlanCard plan={trialSubscription.plan} subscription={activeSubscription} />
       <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} isUpgrade />
     </div>
-
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[1]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        plan={plans[1]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-    </div>
   </div>
 
   <div class="padding mrg-xl mrg--t">
@@ -458,18 +329,6 @@
     <div class="row justify">
       <UserPlanCard plan={plans[2]} subscription={activeSubscription} />
       <FullAccessCard />
-    </div>
-
-    <div class="row justify">
-      <SubscriptionCard
-        type={SubscriptionCardType.Current}
-        plan={plans[2]}
-        subscription={activeSubscription}
-        isEligibleForTrial={false}
-        annualDiscount={annualDiscounts[0]}
-        {plans}
-      />
-      <SubscriptionProPlan />
     </div>
   </div>
 </Story>

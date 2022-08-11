@@ -6,14 +6,10 @@
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { customerData$ } from '@/stores/user'
   import { querySanbasePlans } from '@/api/plans'
-  import { onlyProAndFreeLikePlans, onlyProLikePlans, Plan, PlanName } from '@/utils/plans'
+  import { onlyProLikePlans } from '@/utils/plans'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import Setting from './Setting.svelte'
-  import SubscriptionCard from './SubscriptionCard/SubscriptionCard.svelte'
-  import SubscriptionProPlan from './SubscriptionCard/SubscriptionProPlan.svelte'
-  import { SubscriptionCardType } from './SubscriptionCard/utils'
-  import Card from './SubscriptionCard/Card.svelte'
   import PlanCard from './SubscriptionCard/PlanCard.svelte'
   import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
   import { getSuggestions } from './SubscriptionCard/suggestions'
@@ -28,24 +24,13 @@
   let billingHistory = []
   let plans = [] as SAN.Plan[]
 
-  $: ({ plan, currentPeriodEnd, cancelAtPeriodEnd } = subscription || ({} as SAN.Subscription))
-  $: periodEnd = currentPeriodEnd
+  $: ({ plan, cancelAtPeriodEnd } = subscription || ({} as SAN.Subscription))
   $: isCanceled = !!cancelAtPeriodEnd
-  $: freePlan = plans.find(({ name }) => name === Plan.FREE)
-  // $: plan = subscription?.plan || freePlan
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
-  $: ({ shouldHideSecondCard, shouldHideThirdCard } = checkCardsVisibility({
-    annualDiscount,
-    plan,
-  }))
-  $: isEligibleForAnnualDiscount = annualDiscount?.isEligible
-  $: isNonFreePlan = plan?.name !== Plan.FREE
-
   $: suggestions = getSuggestions(plan, annualDiscount)
   $: suggestedPlans = getPlanSuggestions(plans, annualDiscount)
 
   querySanbasePlans().then((data) => {
-    // plans = data.filter(onlyProAndFreeLikePlans)
     plans = data.filter(onlyProLikePlans)
   })
 
@@ -55,7 +40,6 @@
   })
 
   function getPlanSuggestions() {
-    console.log(suggestions)
     return plans.filter((plan) => {
       const isSameBilling = plan.interval === suggestions.billing
       if (suggestions.discount) {
@@ -65,28 +49,13 @@
       return suggestions[plan.name] && isSameBilling
     })
   }
-
-  function checkCardsVisibility({ annualDiscount, plan }) {
-    let shouldHideSecondCard = false
-    let shouldHideThirdCard = false
-
-    if (!annualDiscount?.isEligible && plan?.name === Plan.PRO) {
-      shouldHideSecondCard = true
-    }
-
-    if (!annualDiscount?.isEligible && plan?.name === Plan.PRO_PLUS) {
-      shouldHideThirdCard = true
-    }
-
-    return { shouldHideSecondCard, shouldHideThirdCard }
-  }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting class="$style.subscriptions">
-    <UserPlanCard {plan} />
+    <UserPlanCard {plan} {subscription} />
 
     {#each suggestedPlans as suggestion}
       <PlanCard
@@ -100,40 +69,6 @@
     {:else}
       <FullAccessCard />
     {/each}
-  </Setting>
-
-  <Setting class="$style.subscriptions">
-    <SubscriptionCard
-      type={SubscriptionCardType.Current}
-      {plan}
-      {subscription}
-      {isEligibleForTrial}
-      {annualDiscount}
-      {plans}
-    />
-    {#if !shouldHideSecondCard && !shouldHideThirdCard}
-      <SubscriptionCard
-        type={SubscriptionCardType.Suggested}
-        {plan}
-        {subscription}
-        {isEligibleForTrial}
-        {annualDiscount}
-        {plans}
-      />
-    {/if}
-    {#if !shouldHideThirdCard}
-      <SubscriptionCard
-        type={SubscriptionCardType.Next}
-        {plan}
-        {subscription}
-        {isEligibleForTrial}
-        {annualDiscount}
-        {plans}
-      />
-    {/if}
-    {#if shouldHideThirdCard}
-      <SubscriptionProPlan />
-    {/if}
   </Setting>
 
   {#if subscription && !isCanceled}
