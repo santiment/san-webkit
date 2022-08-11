@@ -1,15 +1,19 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import { queryBillingHistory } from '@/api/subscription'
-  import { formatPrice, PlanName } from '@/utils/plans'
-  import { getDateFormats } from '@/utils/dates'
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
-  import Setting from './Setting.svelte'
-  import { showPlanSummaryDialog } from './PlansSummaryDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
-  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { customerData$ } from '@/stores/user'
+  import { querySanbasePlans } from '@/api/plans'
+  import { onlyProLikePlans } from '@/utils/plans'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
+  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import Setting from './Setting.svelte'
+  import PlanCard from './SubscriptionCard/PlanCard.svelte'
+  import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
+  import { getSuggestions } from './SubscriptionCard/suggestions'
+  import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
 
   let className = ''
   export { className as class }
@@ -18,50 +22,53 @@
 
   let isBillingLoading = true
   let billingHistory = []
+  let plans = [] as SAN.Plan[]
 
-  $: periodEnd = subscription?.currentPeriodEnd
-  $: isCanceled = !!subscription?.cancelAtPeriodEnd
-  $: plan = subscription?.plan
+  $: ({ plan, cancelAtPeriodEnd } = subscription || ({} as SAN.Subscription))
+  $: isCanceled = !!cancelAtPeriodEnd
+  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+  $: suggestions = getSuggestions(plan, annualDiscount)
+  $: suggestedPlans = getPlanSuggestions(plans, annualDiscount)
+
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProLikePlans)
+  })
 
   queryBillingHistory().then((data) => {
     isBillingLoading = false
     billingHistory = data
   })
 
-  function formatDate(date) {
-    const { MMMM, DD, YYYY } = getDateFormats(new Date(date))
-    return `${MMMM} ${DD}, ${YYYY}`
+  function getPlanSuggestions() {
+    return plans.filter((plan) => {
+      const isSameBilling = plan.interval === suggestions.billing
+      if (suggestions.discount) {
+        return isSameBilling
+      }
+
+      return suggestions[plan.name] && isSameBilling
+    })
   }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting>
-    <div class="plan border row justify fluid v-center">
-      <div>
-        <div class="h4">{plan ? PlanName[plan.name] || plan.name : 'Free'} Plan</div>
+  <Setting class="$style.subscriptions">
+    <UserPlanCard {plan} {subscription} />
 
-        <div class="c-waterloo mrg-s mrg--t">
-          {#if plan}
-            {formatPrice(plan)} per {plan.interval}.
-            <span class="btn c-accent" on:click={() => showPlanSummaryDialog()}
-              >Change billing period</span
-            >
-            <br />
-            Will automatically {isCanceled ? 'cancel' : 'renew'} on {formatDate(periodEnd)}
-          {:else}
-            You can see data <span class="btn c-accent">generated 24h ago.</span>
-            <br />
-            Upgrade your plan to get more abilities
-          {/if}
-        </div>
-      </div>
-
-      <button class="btn-1" on:click={() => showPlanSummaryDialog()}
-        >{plan ? 'Change plan' : 'Upgrade plan'}</button
-      >
-    </div>
+    {#each suggestedPlans as suggestion}
+      <PlanCard
+        {...suggestions[suggestion.name]}
+        {isEligibleForTrial}
+        discount={suggestions.discount}
+        isUpgrade={suggestions.isUpgrade}
+        plan={suggestion}
+        altPlan={plan}
+      />
+    {:else}
+      <FullAccessCard />
+    {/each}
   </Setting>
 
   {#if subscription && !isCanceled}
@@ -154,11 +161,23 @@
     fill: var(--waterloo);
   }
 
+  .subscriptions {
+    gap: 16px;
+  }
+
   :global(.phone),
   :global(.phone-xs) {
     .btn-1 {
       width: 100%;
       margin-top: 8px;
+    }
+  }
+
+  :global(.phone),
+  :global(.tablet),
+  :global(.phone-xs) {
+    .subscriptions {
+      flex-direction: column;
     }
   }
 </style>

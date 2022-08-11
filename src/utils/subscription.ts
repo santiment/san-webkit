@@ -1,6 +1,6 @@
 import type { CustomerData } from '@/stores/user'
-import { ONE_DAY_IN_MS } from './dates'
-import { PlanName, checkIsSanbaseProduct } from './plans'
+import { getDateFormats, ONE_DAY_IN_MS } from './dates'
+import { PlanName, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -52,4 +52,13 @@ export function getUserSubscriptionInfo(
     userPlanName,
     trialDaysLeft,
   }
+}
+
+export function getNextPaymentDate(plan: SAN.Plan) {
+  const target = checkIsYearlyPlan(plan) ? 'FullYear' : 'Month'
+
+  const date = new Date()
+  date['set' + target](date['get' + target]() + 1)
+
+  return date
 }

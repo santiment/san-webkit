@@ -27,7 +27,7 @@ declare namespace SAN {
   }
 
   type AnnualDiscount = {
-    isEligible: false
+    isEligible: boolean
     discount: null | { percentOff: number; expireAt: string }
   }
 
