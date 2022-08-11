@@ -1,13 +1,13 @@
 import { Billing, Plan } from '@/utils/plans'
 
-const PRO_SUGGESTION = {
+export const PRO_SUGGESTION = {
   label: 'Suggested for you',
   badge: 'Popular',
   badgeIcon: { id: 'star-filled', w: 16 },
   green: true,
 }
 
-const PRO_PLUS_SUGGESTION = {
+export const PRO_PLUS_SUGGESTION = {
   label: 'Next level',
   badge: 'Advanced',
   badgeIcon: { id: 'rocket-filled', w: 17 },
@@ -17,7 +17,6 @@ const PRO_PLUS_SUGGESTION = {
 export function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: SAN.AnnualDiscount) {
   if (annualDiscount?.discount) {
     return {
-      label: 'Special offer',
       discount: annualDiscount.discount.percentOff,
       billing: Billing.YEAR,
     }

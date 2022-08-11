@@ -11,6 +11,13 @@
   import SubscriptionCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/SubscriptionCard.svelte'
   import SubscriptionProPlan from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/SubscriptionProPlan.svelte'
   import { SubscriptionCardType } from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/utils'
+  import UserPlanCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/UserPlanCard.svelte'
+  import SuggestedPlanCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/PlanCard.svelte'
+  import {
+    PRO_PLUS_SUGGESTION,
+    PRO_SUGGESTION,
+  } from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/suggestions'
+  import FullAccessCard from '@/ui/Pricing/SubscriptionSettings/SubscriptionCard/FullAccessCard.svelte'
 
   const plans = [
     {
@@ -268,6 +275,12 @@
   <div class="padding">
     <h2 class="h4 mrg-l mrg--b">Free plan</h2>
     <div class="row justify">
+      <UserPlanCard plan={plans[0]} />
+      <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} />
+      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
+    </div>
+
+    <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[0]}
@@ -297,6 +310,17 @@
 
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Free on trial</h2>
+
+    <div class="row justify">
+      <UserPlanCard plan={trialSubscription.plan} subscription={trialSubscription} />
+      <SuggestedPlanCard plan={plans[3]} altPlan={plans[1]} {...PRO_SUGGESTION} discount={50} />
+      <SuggestedPlanCard
+        plan={plans[4]}
+        altPlan={plans[2]}
+        {...PRO_PLUS_SUGGESTION}
+        discount={50}
+      />
+    </div>
     <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}
@@ -328,6 +352,12 @@
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Free trial has finished</h2>
     <div class="row justify">
+      <UserPlanCard plan={plans[0]} subscription={activeSubscription} />
+      <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} />
+      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
+    </div>
+
+    <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[0]}
@@ -357,6 +387,17 @@
 
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Pro plan, monthly - 1st month</h2>
+    <div class="row justify">
+      <UserPlanCard plan={trialSubscription.plan} subscription={activeSubscription} />
+      <SuggestedPlanCard plan={plans[3]} altPlan={plans[1]} {...PRO_SUGGESTION} discount={35} />
+      <SuggestedPlanCard
+        plan={plans[4]}
+        altPlan={plans[2]}
+        {...PRO_PLUS_SUGGESTION}
+        discount={35}
+      />
+    </div>
+
     <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}
@@ -388,6 +429,11 @@
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Pro plan</h2>
     <div class="row justify">
+      <UserPlanCard plan={trialSubscription.plan} subscription={activeSubscription} />
+      <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
+    </div>
+
+    <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}
         plan={plans[1]}
@@ -409,6 +455,11 @@
 
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Pro+ plan</h2>
+    <div class="row justify">
+      <UserPlanCard plan={plans[2]} subscription={activeSubscription} />
+      <FullAccessCard />
+    </div>
+
     <div class="row justify">
       <SubscriptionCard
         type={SubscriptionCardType.Current}

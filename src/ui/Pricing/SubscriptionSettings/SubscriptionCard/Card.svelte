@@ -1,12 +1,13 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
 
-  export let title = 'Pro'
-  export let label = 'Special offer'
-  export let price = '249'
-  export let billing = 'Billed monthly'
-  export let badge = 'Popular'
-  export let badgeIcon = { id: 'star-filled', w: 16 }
+  export let title
+  export let label
+  export let price
+  export let billing
+  export let badge
+  export let badgeIcon
+  export let action, subaction
   export let green = false
   export let orange = false
   export let yellow = false
@@ -19,18 +20,22 @@
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
   <p>Your card will be charged $49 after your trial will finish on September 19, 2021</p>
 
-  <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
-    {#if isChecked}
-      <Svg id="checkmark-large" w="14" h="10" />
-    {:else}
-      {#if badgeIcon}<Svg {...badgeIcon} class="mrg-xs mrg--r" />{/if}
-      {badge}
-    {/if}
-  </div>
+  {#if badge || isChecked}
+    <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
+      {#if isChecked}
+        <Svg id="checkmark-large" w="14" h="10" />
+      {:else}
+        {#if badgeIcon}<Svg {...badgeIcon} class="mrg-xs mrg--r" />{/if}
+        {badge}
+      {/if}
+    </div>
+  {/if}
 
   <div class="actions mrg-xl mrg--t">
-    <button class="btn-1">Change plan</button>
-    <button class="btn-2 mrg-m mrg--l">Cancel Subscription</button>
+    <button class="btn-1">{action}</button>
+    {#if subaction}
+      <button class="btn-2 mrg-m mrg--l">{subaction}</button>
+    {/if}
   </div>
 
   {#if billing}

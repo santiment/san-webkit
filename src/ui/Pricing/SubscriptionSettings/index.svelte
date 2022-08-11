@@ -15,7 +15,9 @@
   import { SubscriptionCardType } from './SubscriptionCard/utils'
   import Card from './SubscriptionCard/Card.svelte'
   import PlanCard from './SubscriptionCard/PlanCard.svelte'
+  import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
   import { getSuggestions } from './SubscriptionCard/suggestions'
+  import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
 
   let className = ''
   export { className as class }
@@ -84,17 +86,18 @@
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting class="$style.subscriptions">
-    <PlanCard {plan} label="Current plan" isChecked isActive={isNonFreePlan} />
+    <UserPlanCard {plan} />
 
     {#each suggestedPlans as suggestion}
       <PlanCard
         {...suggestions[suggestion.name]}
+        {isEligibleForTrial}
         discount={suggestions.discount}
         plan={suggestion}
-        userPlan={plan}
+        altPlan={plan}
       />
     {:else}
-      <Card label="You have full access!" yellow />
+      <FullAccessCard />
     {/each}
   </Setting>
 
