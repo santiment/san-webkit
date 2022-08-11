@@ -14,7 +14,10 @@ export const PRO_PLUS_SUGGESTION = {
   orange: true,
 }
 
-export function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: SAN.AnnualDiscount) {
+export function getSuggestions(
+  userPlan: null | SAN.Plan,
+  annualDiscount: null | SAN.AnnualDiscount,
+) {
   if (annualDiscount?.discount) {
     return {
       discount: annualDiscount.discount.percentOff,
@@ -23,16 +26,13 @@ export function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: SAN.An
   }
 
   if (userPlan?.name === Plan.PRO_PLUS) {
-    return {
-      label: 'You have full access',
-      fullAccess: true,
-    }
+    return { fullAccess: true }
   }
 
   const suggestion = {
     billing: Billing.MONTH,
     [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION,
-  }
+  } as any
 
   if (userPlan?.name !== Plan.PRO) {
     suggestion[Plan.PRO] = PRO_SUGGESTION

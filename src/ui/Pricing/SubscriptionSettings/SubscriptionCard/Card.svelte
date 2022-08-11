@@ -22,9 +22,7 @@
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
 
-  <slot>
-    <p>Your card will be charged $49 after your trial will finish on September 19, 2021</p>
-  </slot>
+  <slot />
 
   {#if badge || isChecked}
     <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
@@ -41,8 +39,8 @@
     <svelte:element
       this={link ? 'a' : 'button'}
       class="btn-1 v-center"
-      on:click={onActionClick}
       {...link}
+      on:click={onActionClick}
       use:dataPreloader
     >
       {action}

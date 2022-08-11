@@ -2,14 +2,14 @@
   import { getDateFormats } from '@/utils/dates'
   import { formatPrice, Plan } from '@/utils/plans'
   import { getNextPaymentDate, getTrialDaysLeft } from '@/utils/subscription'
+  import PlanCard from './PlanCard.svelte'
   import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
-  import PlanCard from './PlanCard.svelte'
 
   export let plan
   export let subscription
 
-  $: isNonFreePlan = plan?.name !== Plan.FREE
+  $: isPaidPlan = plan?.name !== Plan.FREE
   $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
 
   function formatDate(date) {
@@ -24,14 +24,14 @@
   label="Current plan"
   badge={trialDaysLeft}
   isTrial={trialDaysLeft}
-  isActive={isNonFreePlan && !trialDaysLeft}
-  action={isNonFreePlan ? 'Change plan' : 'Upgrade'}
+  isActive={isPaidPlan && !trialDaysLeft}
+  action={isPaidPlan ? 'Change plan' : 'Upgrade'}
   onActionClick={showPlanSummaryDialog}
-  subaction={isNonFreePlan && 'Cancel Subscription'}
+  subaction={isPaidPlan && 'Cancel Subscription'}
   onSubactionClick={showCancelSubscriptionDialog}
 >
   <p>
-    {#if isNonFreePlan}
+    {#if isPaidPlan}
       {@const price = formatPrice(plan)}
       {#if trialDaysLeft}
         Your card will be charged <b>{price} after</b> your trial will finish on
