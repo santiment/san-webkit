@@ -1,14 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-const {
-  LIB,
-  forFile,
-  mkdir,
-  getLibPath,
-  optimizeSvg,
-  newSpriterOptions,
-  getSvgSprite,
-} = require('./utils')
+const { LIB, forFile, mkdir, getLibPath } = require('./utils')
+const { optimizeSvg, newSpriterOptions, getSvgSprite } = require('./svg')
 
 const SPRITES_DIR = path.resolve(LIB, 'sprites')
 const SPRITES_OPTIONS = newSpriterOptions({ removeAttrs: { attrs: ['fill'] } })
