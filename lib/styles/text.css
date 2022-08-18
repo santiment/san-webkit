@@ -1,0 +1,123 @@
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('../fonts/ProximaNova-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('../fonts/ProximaNova-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('../fonts/ProximaNova-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+.caption {
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.body-3 {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.body-2 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.body-1 {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.h4 {
+  font-size: 24px;
+  line-height: 32px;
+}
+
+.h3 {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.h2 {
+  font-size: 40px;
+  line-height: 48px;
+}
+
+.txt-r {
+  font-weight: 400;
+}
+.txt-m {
+  font-weight: 500;
+}
+.txt-b {
+  font-weight: 600;
+}
+
+.txt-right {
+  text-align: right;
+}
+
+.txt-center {
+  text-align: center;
+}
+
+.txt-left {
+  text-align: left;
+}
+
+.c-white {
+  --color: var(--white);
+}
+.c-black {
+  --color: var(--black);
+}
+.c-waterloo {
+  --color: var(--waterloo);
+}
+.c-casper {
+  --color: var(--casper);
+}
+.c-green {
+  --color: var(--green);
+  --color-hover: var(--green-hover);
+}
+.c-orange {
+  --color: var(--orange);
+}
+.c-red {
+  --color: var(--red);
+}
+.c-accent {
+  --color: var(--accent, var(--green));
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.line-clamp {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: var(--line-clamp, 2);
+  -webkit-box-orient: vertical;
+}
+@supports not (display: -webkit-box) {
+  .line-clamp {
+    white-space: nowrap;
+  }
+}
