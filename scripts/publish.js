@@ -31,12 +31,13 @@ async function publish() {
   await exec('git add -f lib')
   await exec('git add -f .gitignore')
 
-  await exec('git commit -m "Library release"', false)
+  const [commit] = await exec('git commit -m "Library release"', false)
   await exec('git push --set-upstream origin lib --force')
 
   await exec('git clean -fd', false)
   await exec('git checkout master')
 
+  console.log(commit.slice(commit.indexOf('..')))
   console.log('\n✅ Library published\n')
 }
 

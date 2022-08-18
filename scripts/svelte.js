@@ -36,7 +36,7 @@ const RoutesPreprocess = (root) => ({
   script: ({ content, filename }) => ({
     code: replaceModuleAliases(root, filename, content),
   }),
-  markup: ({ content, filename }) => {
+  markup: ({ content }) => {
     const expressions = content.match(/{.*(\?\.).*}/g)
 
     if (expressions) {

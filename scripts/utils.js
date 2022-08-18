@@ -1,9 +1,6 @@
 const fs = require('fs')
 const path = require('path')
 const fg = require('fast-glob')
-const { optimize } = require('svgo')
-const SVGSpriter = require('svg-sprite')
-const { exec } = require('child_process')
 
 const ROOT = path.resolve(__dirname, '..')
 const SRC = path.resolve(ROOT, 'src')
@@ -39,7 +36,7 @@ const newSpriterOptions = (plugins = []) => ({
   },
 })
 
-const optimizeSvg = (path) => optimize(fs.readFileSync(path), { path }).data
+const optimizeSvg = (path) => require('svgo').optimize(fs.readFileSync(path), { path }).data
 
 function getSvgSprite(filePath, options, svg) {
   const fileName = path.basename(filePath, '.svg')
@@ -47,6 +44,7 @@ function getSvgSprite(filePath, options, svg) {
   return new Promise((resolve) => {
     if (!svg) svg = optimizeSvg(filePath)
 
+    const SVGSpriter = require('svg-sprite')
     const spriter = new SVGSpriter(options)
     spriter.add(filePath, undefined, svg)
 
@@ -69,13 +67,6 @@ function copyFile(entry) {
   fs.writeFileSync(libFilePath, file)
 }
 
-function installLib() {
-  const path = require.resolve('san-webkit')
-  if (path) {
-    exec('npm run lib', { cwd: path })
-  }
-}
-
 module.exports = {
   ROOT,
   SRC,
@@ -87,5 +78,4 @@ module.exports = {
   newSpriterOptions,
   getSvgSprite,
   copyFile,
-  installLib,
 }
