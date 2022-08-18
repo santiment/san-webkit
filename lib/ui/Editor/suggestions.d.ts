@@ -1,1 +1,1 @@
-export declare const SuggestionsExtension: any
+export declare const SuggestionsExtension: any;

@@ -1,51 +1,47 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  import Tooltip from './../../ui/Tooltip/svelte'
-  import Table from './index.svelte'
-  let className = ''
-  export { className as class }
-  export let items
-  export let pageSize = 25
-  export let page = 0
-  export let rows = [10, 25, 50]
-  let isPageSizeOpened = false
+<script>import Svg from './../../ui/Svg/svelte';
+import Tooltip from './../../ui/Tooltip/svelte';
+import Table from './index.svelte';
+let className = '';
+export { className as class };
+export let items;
+export let pageSize = 25;
+export let page = 0;
+export let rows = [10, 25, 50];
+let isPageSizeOpened = false;
 
-  $: pagesAmount = Math.ceil(items.length / pageSize)
+$: pagesAmount = Math.ceil(items.length / pageSize);
 
-  $: maxPage = pagesAmount - 1
+$: maxPage = pagesAmount - 1;
 
-  $: pageOffset = page * pageSize
+$: pageOffset = page * pageSize;
 
-  $: pageEndOffset = pageOffset + pageSize
+$: pageEndOffset = pageOffset + pageSize;
 
-  $: pageItems = items.slice(pageOffset, pageEndOffset)
+$: pageItems = items.slice(pageOffset, pageEndOffset);
 
-  const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
+const applySort = sorter => items.slice().sort(sorter).slice(pageOffset, pageEndOffset);
 
-  function onPageInput({ currentTarget }) {
-    const value = +currentTarget.value
-    if (!value || value < 1) page = 0
-    else if (value > pagesAmount) page = maxPage
-    else page = value - 1
-    currentTarget.value = page + 1
-  }
+function onPageInput({
+  currentTarget
+}) {
+  const value = +currentTarget.value;
+  if (!value || value < 1) page = 0;else if (value > pagesAmount) page = maxPage;else page = value - 1;
+  currentTarget.value = page + 1;
+}
 
-  function onPageSizeChange(size) {
-    isPageSizeOpened = false
-    pageSize = size
-    page = 0
-  }
+function onPageSizeChange(size) {
+  isPageSizeOpened = false;
+  pageSize = size;
+  page = 0;
+}
 
-  function onNextPage() {
-    if (page >= pagesAmount) page = maxPage
-    else page++
-  }
+function onNextPage() {
+  if (page >= pagesAmount) page = maxPage;else page++;
+}
 
-  function onPrevPage() {
-    if (page <= 1) page = 0
-    else page--
-  }
-</script>
+function onPrevPage() {
+  if (page <= 1) page = 0;else page--;
+}</script>
 
 <div class={className}>
   <Table {...$$restProps} items={pageItems} {applySort} />
@@ -103,34 +99,31 @@
   </div>
 </div>
 
-<style>
-  :global(.left-1PSkR) {
-    transform: rotate(180deg);
-  }
+<style >:global(.left-1PSkR) {
+  transform: rotate(180deg);
+}
 
-  .rows {
-    min-width: 97px;
-  }
+.rows {
+  min-width: 97px;
+}
 
-  .paged {
-    --fill: var(--waterloo);
-  }
+.paged {
+  --fill: var(--waterloo);
+}
 
-  .pages {
-    padding: 8px;
-  }
+.pages {
+  padding: 8px;
+}
 
-  .active {
-    --color: var(--green);
-  }
+.active {
+  --color: var(--green);
+}
 
-  input {
-    width: 45px;
-    -moz-appearance: textfield;
-  }
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-</style>
+input {
+  width: 45px;
+  -moz-appearance: textfield;
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}</style>

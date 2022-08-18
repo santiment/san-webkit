@@ -1,12 +1,10 @@
-<script>
-  import Tooltip from './../../ui/Tooltip/svelte'
-  let className = ''
-  export { className as class }
-  export let currentUser
-  export let editLabel = 'Edit'
-  export let titleHoverTooltipClass = ''
-  export let onEditClick
-</script>
+<script>import Tooltip from './../../ui/Tooltip/svelte';
+let className = '';
+export { className as class };
+export let currentUser;
+export let editLabel = 'Edit';
+export let titleHoverTooltipClass = '';
+export let onEditClick;</script>
 
 <Tooltip
   isEnabled={!!currentUser}

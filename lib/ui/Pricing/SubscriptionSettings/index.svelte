@@ -1,62 +1,61 @@
-<script>
-  import Svg from './../../../ui/Svg/svelte'
-  import { queryBillingHistory } from './../../../api/subscription'
-  import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils'
-  import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte'
-  import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte'
-  import { customerData$ } from './../../../stores/user'
-  import { querySanbasePlans } from './../../../api/plans'
-  import { onlyProLikePlans, Plan } from './../../../utils/plans'
-  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
-  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
-  import Setting from './Setting.svelte'
-  import PlanCard from './SubscriptionCard/PlanCard.svelte'
-  import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
-  import { getSuggestions } from './SubscriptionCard/suggestions'
-  import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
-  let className = ''
-  export { className as class }
-  export let subscription
-  export let paymentCard
-  let isBillingLoading = true
-  let billingHistory = []
-  let plans = []
+<script>import Svg from './../../../ui/Svg/svelte';
+import { queryBillingHistory } from './../../../api/subscription';
+import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
+import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
+import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
+import { customerData$ } from './../../../stores/user';
+import { querySanbasePlans } from './../../../api/plans';
+import { onlyProLikePlans, Plan } from './../../../utils/plans';
+import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
+import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
+import Setting from './Setting.svelte';
+import PlanCard from './SubscriptionCard/PlanCard.svelte';
+import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
+import { getSuggestions } from './SubscriptionCard/suggestions';
+import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte';
+let className = '';
+export { className as class };
+export let subscription;
+export let paymentCard;
+let isBillingLoading = true;
+let billingHistory = [];
+let plans = [];
 
-  $: isCanceled = !!(subscription === null || subscription === void 0
-    ? void 0
-    : subscription.cancelAtPeriodEnd)
+$: isCanceled = !!(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
 
-  $: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || {
-    name: Plan.FREE,
-    amount: 0,
-  }
+$: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || {
+  name: Plan.FREE,
+  amount: 0
+};
 
-  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+$: ({
+  isEligibleForTrial,
+  annualDiscount
+} = $customerData$);
 
-  $: suggestions = getSuggestions(plan, annualDiscount)
+$: suggestions = getSuggestions(plan, annualDiscount);
 
-  $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
+$: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions());
 
-  querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans)
-  })
-  queryBillingHistory().then((data) => {
-    isBillingLoading = false
-    billingHistory = data
-  })
+querySanbasePlans().then(data => {
+  plans = data.filter(onlyProLikePlans);
+});
+queryBillingHistory().then(data => {
+  isBillingLoading = false;
+  billingHistory = data;
+});
 
-  function getPlanSuggestions() {
-    return plans.filter((plan) => {
-      const isSameBilling = plan.interval === suggestions.billing
+function getPlanSuggestions() {
+  return plans.filter(plan => {
+    const isSameBilling = plan.interval === suggestions.billing;
 
-      if (suggestions.discount) {
-        return isSameBilling
-      }
+    if (suggestions.discount) {
+      return isSameBilling;
+    }
 
-      return suggestions[plan.name] && isSameBilling
-    })
-  }
-</script>
+    return suggestions[plan.name] && isSameBilling;
+  });
+}</script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
@@ -140,47 +139,45 @@
   </Setting>
 </section>
 
-<style>
-  h4 {
-    background: var(--athens);
-    padding: 12px 24px;
-  }
+<style >h4 {
+  background: var(--athens);
+  padding: 12px 24px;
+}
 
-  .btn--red {
-    --color: var(--red);
-    --color-hover: var(--red-hover);
-  }
+.btn--red {
+  --color: var(--red);
+  --color-hover: var(--red-hover);
+}
 
-  .plan {
-    padding: 24px;
-    background: var(--athens);
-    flex-wrap: wrap;
-  }
+.plan {
+  padding: 24px;
+  background: var(--athens);
+  flex-wrap: wrap;
+}
 
-  .dots {
-    font-size: 30px;
-    line-height: 4px;
-    letter-spacing: 2px;
-    margin-top: -4px;
-  }
+.dots {
+  font-size: 30px;
+  line-height: 4px;
+  letter-spacing: 2px;
+  margin-top: -4px;
+}
 
-  .card {
-    fill: var(--waterloo);
-  }
+.card {
+  fill: var(--waterloo);
+}
 
-  :global(.subscriptions-3psSsa) {
-    gap: 16px;
-  }
+:global(.subscriptions-3psSsa) {
+  gap: 16px;
+}
 
-  :global(.phone) .btn-1,
-  :global(.phone-xs) .btn-1 {
-    width: 100%;
-    margin-top: 8px;
-  }
+:global(.phone) .btn-1,
+:global(.phone-xs) .btn-1 {
+  width: 100%;
+  margin-top: 8px;
+}
 
-  :global(.phone) :global(.subscriptions-3psSsa),
-  :global(.tablet) :global(.subscriptions-3psSsa),
-  :global(.phone-xs) :global(.subscriptions-3psSsa) {
-    flex-direction: column;
-  }
-</style>
+:global(.phone) :global(.subscriptions-3psSsa),
+:global(.tablet) :global(.subscriptions-3psSsa),
+:global(.phone-xs) :global(.subscriptions-3psSsa) {
+  flex-direction: column;
+}</style>

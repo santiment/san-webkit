@@ -1,49 +1,49 @@
-<script context="module">
-  import { dialogs } from './../../ui/Dialog'
-  import PlanChangeDialog from './PlanChangeDialog.svelte'
-  export const showPlanChangeDialog = (props) => dialogs.show(PlanChangeDialog, props)
-</script>
+<script context="module">import { dialogs } from './../../ui/Dialog';
+import PlanChangeDialog from './PlanChangeDialog.svelte';
+export const showPlanChangeDialog = props => dialogs.show(PlanChangeDialog, props);</script>
 
-<script lang="ts">
-  import Dialog from './../../ui/Dialog'
-  import { DialogLock } from './../../ui/Dialog/dialogs'
-  import Svg from './../../ui/Svg/svelte'
-  import { subscription$ } from './../../stores/subscription'
-  import { Billing, formatPrice, PlanName } from './../../utils/plans'
-  import { getDateFormats } from './../../utils/dates'
-  import { mutateUpdateSubscription } from './../../api/subscription'
-  import { onPlanChangeError, onPlanChangeSuccess } from './utils'
-  export let DialogPromise
-  export let plan
-  export let isUpgrade = false
-  let closeDialog
-  let loading = false
-  const subscription = $subscription$
-  const newName = PlanName[plan.name] || plan.name
-  const isNewBillingMonthly = plan.interval === Billing.MONTH
-  const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'
-  const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription
-  const currentPlanName = PlanName[currentPlan.name] || currentPlan.name
+<script lang="ts">import Dialog from './../../ui/Dialog';
+import { DialogLock } from './../../ui/Dialog/dialogs';
+import Svg from './../../ui/Svg/svelte';
+import { subscription$ } from './../../stores/subscription';
+import { Billing, formatPrice, PlanName } from './../../utils/plans';
+import { getDateFormats } from './../../utils/dates';
+import { mutateUpdateSubscription } from './../../api/subscription';
+import { onPlanChangeError, onPlanChangeSuccess } from './utils';
+export let DialogPromise;
+export let plan;
+export let isUpgrade = false;
+let closeDialog;
+let loading = false;
+const subscription = $subscription$;
+const newName = PlanName[plan.name] || plan.name;
+const isNewBillingMonthly = plan.interval === Billing.MONTH;
+const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual';
+const {
+  currentPeriodEnd = Date.now(),
+  plan: currentPlan
+} = subscription;
+const currentPlanName = PlanName[currentPlan.name] || currentPlan.name;
 
-  function formatDate() {
-    const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
-    return `${MMMM} ${DD}, ${YYYY}`
-  }
+function formatDate() {
+  const {
+    MMMM,
+    DD,
+    YYYY
+  } = getDateFormats(new Date(currentPeriodEnd));
+  return `${MMMM} ${DD}, ${YYYY}`;
+}
 
-  function onClick() {
-    loading = true
-    mutateUpdateSubscription(subscription.id, plan.id)
-      .then((data) => {
-        onPlanChangeSuccess(newName)
-        closeDialog()
-        return data
-      })
-      .catch(onPlanChangeError)
-      .finally(() => {
-        DialogPromise.locking = DialogLock.FREE
-      })
-  }
-</script>
+function onClick() {
+  loading = true;
+  mutateUpdateSubscription(subscription.id, plan.id).then(data => {
+    onPlanChangeSuccess(newName);
+    closeDialog();
+    return data;
+  }).catch(onPlanChangeError).finally(() => {
+    DialogPromise.locking = DialogLock.FREE;
+  });
+}</script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
   <div class="dialog body-2">

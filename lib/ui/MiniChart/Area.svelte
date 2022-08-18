@@ -1,19 +1,17 @@
-<script>
-  import Chart from './index.svelte'
-  let className = ''
-  export { className as class }
-  export let id = ''
-  export let data
-  export let width
-  export let height
-  export let valueKey
-  export let style
-  export function getAreaPoints(points, linePoints) {
-    const [startX, startY] = points[0].split(',')
-    const [lastX] = points[points.length - 1].split(',')
-    return `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`
-  }
-</script>
+<script>import Chart from './index.svelte';
+let className = '';
+export { className as class };
+export let id = '';
+export let data;
+export let width;
+export let height;
+export let valueKey;
+export let style;
+export function getAreaPoints(points, linePoints) {
+  const [startX, startY] = points[0].split(',');
+  const [lastX] = points[points.length - 1].split(',');
+  return `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`;
+}</script>
 
 <Chart {data} {width} {height} {valueKey} {className} {style} let:points let:linePoints>
   <polyline points={getAreaPoints(points, linePoints)} fill="url(#{id}area)" />

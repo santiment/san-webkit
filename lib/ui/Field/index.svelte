@@ -1,9 +1,7 @@
-<script>
-  export let title
-  export let value
-  export let placeholder = undefined
-  export let required = false
-</script>
+<script>export let title;
+export let value;
+export let placeholder = undefined;
+export let required = false;</script>
 
 <div class="caption txt-m c-waterloo mrg-xs mrg--b">{title}</div>
 <slot classes="fluid mrg-xl mrg--b">

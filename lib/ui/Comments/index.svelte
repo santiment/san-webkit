@@ -1,119 +1,101 @@
-<script>
-  import { onDestroy } from 'svelte'
-  import { track } from './../../analytics'
-  import { queryComments } from './../../api/comments'
-  import { createComment } from './../../api/comments/mutate'
-  import Svg from './../../ui/Svg/svelte'
-  import Editor from './../../ui/Editor'
-  import Comment from './Comment.svelte'
-  import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte'
-  import {
-    findCommentNode,
-    scrollToComment,
-    saveComment,
-    clearSavedComment,
-    sanitize,
-  } from './utils'
-  import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
+<script>import { onDestroy } from 'svelte';
+import { track } from './../../analytics';
+import { queryComments } from './../../api/comments';
+import { createComment } from './../../api/comments/mutate';
+import Svg from './../../ui/Svg/svelte';
+import Editor from './../../ui/Editor';
+import Comment from './Comment.svelte';
+import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte';
+import { findCommentNode, scrollToComment, saveComment, clearSavedComment, sanitize } from './utils';
+import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context';
 
-  const noop = () => {}
+const noop = () => {};
 
-  export let type
-  export let commentsFor
-  export let currentUser = null
-  export let onNewComment
-  export let onAnonComment = noop
-  export let onCommentError = noop
-  export let onCommentsLoaded = noop
-  export let onCommentSubmitted = noop
-  export let titleClass = 'body-2 txt-m'
-  export let mapComment = (comment) => {
-    comment.content = sanitize(comment.content)
-    return comment
-  }
-  let comments = []
-  let loading = false
-  let commentsNode
-  let editor
+export let type;
+export let commentsFor;
+export let currentUser = null;
+export let onNewComment;
+export let onAnonComment = noop;
+export let onCommentError = noop;
+export let onCommentsLoaded = noop;
+export let onCommentSubmitted = noop;
+export let titleClass = 'body-2 txt-m';
+export let mapComment = comment => {
+  comment.content = sanitize(comment.content);
+  return comment;
+};
+let comments = [];
+let loading = false;
+let commentsNode;
+let editor;
 
-  const updateComments = (clb) => setComments(clb(comments))
+const updateComments = clb => setComments(clb(comments));
 
-  $: if (process.browser)
-    queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
+$: if (process.browser) queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded);
 
-  $: authorId = commentsFor.user.id
+$: authorId = commentsFor.user.id;
 
-  function setComments(data) {
-    comments = mapComment ? data.map(mapComment) : data
-    onNewComment === null || onNewComment === void 0 ? void 0 : onNewComment(commentsFor, data)
-  }
+function setComments(data) {
+  comments = mapComment ? data.map(mapComment) : data;
+  onNewComment === null || onNewComment === void 0 ? void 0 : onNewComment(commentsFor, data);
+}
 
-  function scrollToNewComment() {
-    var _a
+function scrollToNewComment() {
+  var _a;
 
-    const node =
-      (_a = commentsNode.lastElementChild) === null || _a === void 0
-        ? void 0
-        : _a.querySelector('.content')
-    removeHighlight = scrollToComment(node)
-  }
+  const node = (_a = commentsNode.lastElementChild) === null || _a === void 0 ? void 0 : _a.querySelector('.content');
+  removeHighlight = scrollToComment(node);
+}
 
-  function onSubmit() {
-    if (!commentsFor || loading) return
-    const value = editor.serialize()
-    if (!value) return
+function onSubmit() {
+  if (!commentsFor || loading) return;
+  const value = editor.serialize();
+  if (!value) return;
 
-    if (!currentUser) {
-      saveComment(type, commentsFor.id, value, commentsFor.title)
-      editor.resetContent()
-      return onAnonComment()
-    }
-
-    loading = true
-    createComment({
-      id: commentsFor.id,
-      content: value,
-      type,
-    })
-      .then((comment) => {
-        track.event('comments_new', {
-          entity: commentsFor.id,
-          type,
-        })
-        comments.push(comment)
-        setComments(comments)
-        editor.resetContent()
-        clearSavedComment()
-        onCommentSubmitted === null || onCommentSubmitted === void 0
-          ? void 0
-          : onCommentSubmitted(comment)
-      })
-      .then(scrollToNewComment)
-      .catch(onCommentError)
-      .then(() => (loading = false))
+  if (!currentUser) {
+    saveComment(type, commentsFor.id, value, commentsFor.title);
+    editor.resetContent();
+    return onAnonComment();
   }
 
-  setGetRepliedToCommentContext(getRepliedToComment)
+  loading = true;
+  createComment({
+    id: commentsFor.id,
+    content: value,
+    type
+  }).then(comment => {
+    track.event('comments_new', {
+      entity: commentsFor.id,
+      type
+    });
+    comments.push(comment);
+    setComments(comments);
+    editor.resetContent();
+    clearSavedComment();
+    onCommentSubmitted === null || onCommentSubmitted === void 0 ? void 0 : onCommentSubmitted(comment);
+  }).then(scrollToNewComment).catch(onCommentError).then(() => loading = false);
+}
 
-  function getRepliedToComment(id) {
-    return comments.find((comment) => comment.id === id)
-  }
+setGetRepliedToCommentContext(getRepliedToComment);
 
-  let removeHighlight
-  setScrollToCommentContext(onRepliedToClick)
+function getRepliedToComment(id) {
+  return comments.find(comment => comment.id === id);
+}
 
-  function onRepliedToClick(e) {
-    e.preventDefault()
-    e.stopImmediatePropagation()
-    const href = e.currentTarget.getAttribute('href')
-    const comment = findCommentNode(commentsNode, href || '')
-    removeHighlight = scrollToComment(comment, removeHighlight)
-  }
+let removeHighlight;
+setScrollToCommentContext(onRepliedToClick);
 
-  onDestroy(() => {
-    removeHighlight === null || removeHighlight === void 0 ? void 0 : removeHighlight()
-  })
-</script>
+function onRepliedToClick(e) {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  const href = e.currentTarget.getAttribute('href');
+  const comment = findCommentNode(commentsNode, href || '');
+  removeHighlight = scrollToComment(comment, removeHighlight);
+}
+
+onDestroy(() => {
+  removeHighlight === null || removeHighlight === void 0 ? void 0 : removeHighlight();
+});</script>
 
 <h4 class={titleClass}>Conversations ({comments.length})</h4>
 

@@ -1,9 +1,14 @@
-<script>
-  export let rect
-  const { scrollHeight } = document.scrollingElement || {}
+<script>export let rect;
+const {
+  scrollHeight
+} = document.scrollingElement || {};
 
-  $: ({ x, y, width, height } = rect)
-</script>
+$: ({
+  x,
+  y,
+  width,
+  height
+} = rect);</script>
 
 <svg height={scrollHeight} width="100%">
   <defs>

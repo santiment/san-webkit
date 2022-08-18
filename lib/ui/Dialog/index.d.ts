@@ -1,2 +1,2 @@
-export { default } from './Dialog.svelte'
-export { dialogs } from './dialogs'
+export { default } from './Dialog.svelte';
+export { dialogs } from './dialogs';

@@ -1,2 +1,2 @@
-export declare const isMac: boolean
-export declare const CMD: string
+export declare const isMac: boolean;
+export declare const CMD: string;

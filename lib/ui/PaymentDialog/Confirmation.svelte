@@ -1,26 +1,24 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  import Skeleton from './../../ui/Skeleton.svelte'
-  import PlanSelector from './PlanSelector.svelte'
-  import Check from './Check.svelte'
-  import DiscountInput from './DiscountInput.svelte'
-  import { Billing } from './../../utils/plans'
-  import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
-  export let plans
-  export let plan
-  export let name
-  export let price
-  export let isSinglePlan
-  export let isEligibleForTrial
-  export let loading
-  export let sanBalance
-  export let annualDiscount = {}
-  let percentOff = 0
+<script>import Svg from './../../ui/Svg/svelte';
+import Skeleton from './../../ui/Skeleton.svelte';
+import PlanSelector from './PlanSelector.svelte';
+import Check from './Check.svelte';
+import DiscountInput from './DiscountInput.svelte';
+import { Billing } from './../../utils/plans';
+import SpecialOfferDiscount from './SpecialOfferDiscount.svelte';
+export let plans;
+export let plan;
+export let name;
+export let price;
+export let isSinglePlan;
+export let isEligibleForTrial;
+export let loading;
+export let sanBalance;
+export let annualDiscount = {};
+let percentOff = 0;
 
-  $: isAnnualPlan = plan.interval === Billing.YEAR
+$: isAnnualPlan = plan.interval === Billing.YEAR;
 
-  $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : ''
-</script>
+$: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';</script>
 
 <div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
@@ -61,31 +59,29 @@
   </Skeleton>
 </div>
 
-<style>
-  .confirmation {
-    grid-area: confirmation;
-    background: var(--athens);
-    border-radius: 4px;
-    padding: 27px 32px 24px;
-  }
+<style >.confirmation {
+  grid-area: confirmation;
+  background: var(--athens);
+  border-radius: 4px;
+  padding: 27px 32px 24px;
+}
 
-  .holder {
-    padding: 12px;
-    background: var(--green-light-1);
-    border-radius: 4px;
-    fill: var(--waterloo);
-    max-width: 355px;
-  }
+.holder {
+  padding: 12px;
+  background: var(--green-light-1);
+  border-radius: 4px;
+  fill: var(--waterloo);
+  max-width: 355px;
+}
 
-  :global(.info-23X6U) {
-    margin-top: 2px;
-  }
+:global(.info-23X6U) {
+  margin-top: 2px;
+}
 
-  :global(body:not(.desktop)) .confirmation {
-    padding: 24px 0 0;
-    background: none;
-  }
-  :global(body:not(.desktop)) .holder {
-    max-width: unset;
-  }
-</style>
+:global(body:not(.desktop)) .confirmation {
+  padding: 24px 0 0;
+  background: none;
+}
+:global(body:not(.desktop)) .holder {
+  max-width: unset;
+}</style>

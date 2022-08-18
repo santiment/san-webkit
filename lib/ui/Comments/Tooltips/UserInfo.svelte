@@ -1,33 +1,31 @@
-<script context="module">
-  import { query } from './../../../api'
+<script context="module">import { query } from './../../../api';
 
-  const QUERY = (id) => `{
+const QUERY = id => `{
     getUser(selector:{id:${id}}) {
       name
       username
       avatarUrl
     }
-  }`
+  }`;
 
-  const accessor = ({ getUser }) => getUser
+const accessor = ({
+  getUser
+}) => getUser;
 
-  export const queryUser = (id) => query(QUERY(id)).then(accessor)
-</script>
+export const queryUser = id => query(QUERY(id)).then(accessor);</script>
 
-<script lang="ts">
-  import Info from './../../../ui/Profile/Info.svelte'
-  export let id
-  export let currentUser
-  export let type
-  let user = null
+<script lang="ts">import Info from './../../../ui/Profile/Info.svelte';
+export let id;
+export let currentUser;
+export let type;
+let user = null;
 
-  $: queryUser(id).then(setUser)
+$: queryUser(id).then(setUser);
 
-  function setUser(data) {
-    data.id = id
-    user = data
-  }
-</script>
+function setUser(data) {
+  data.id = id;
+  user = data;
+}</script>
 
 {#if user}
   <div>

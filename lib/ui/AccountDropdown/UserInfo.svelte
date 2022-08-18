@@ -1,63 +1,65 @@
-<script>
-  import ProfileNames from './../../ui/Profile/Names.svelte'
-  import { AccountStatusType } from './../../ui/AccountStatus.svelte'
-  export let user
-  export let subscriptionInfo
-  export let variant = AccountStatusType.First
-  export let isShowingFollowers = true
+<script>import ProfileNames from './../../ui/Profile/Names.svelte';
+import { AccountStatusType } from './../../ui/AccountStatus.svelte';
+export let user;
+export let subscriptionInfo;
+export let variant = AccountStatusType.First;
+export let isShowingFollowers = true;
 
-  function getButtonLabel(subscriptionInfo, variant) {
-    const {
-      subscriptionPlan,
-      isEligibleForTrial,
-      annualDiscountPercent,
-      trialDaysLeft,
-      userPlanName,
-    } = subscriptionInfo
-    const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
+function getButtonLabel(subscriptionInfo, variant) {
+  const {
+    subscriptionPlan,
+    isEligibleForTrial,
+    annualDiscountPercent,
+    trialDaysLeft,
+    userPlanName
+  } = subscriptionInfo;
+  const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial;
 
-    if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
-      if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`
-      if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`
-    }
-
-    if (userPlanName) return 'Learn about Pro'
-    return 'Upgrade'
+  if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
+    if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`;
+    if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`;
   }
 
-  function getNoteText(subscriptionInfo, variant) {
-    const { isEligibleForTrial, trialDaysLeft, annualDiscountDaysLeft } = subscriptionInfo
-    if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
-    if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
+  if (userPlanName) return 'Learn about Pro';
+  return 'Upgrade';
+}
 
-    if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
-      return `Special offer ends in: ${annualDiscountDaysLeft} days`
-    }
+function getNoteText(subscriptionInfo, variant) {
+  const {
+    isEligibleForTrial,
+    trialDaysLeft,
+    annualDiscountDaysLeft
+  } = subscriptionInfo;
+  if (isEligibleForTrial) return 'and get 14-day Pro Trial!';
+  if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`;
+
+  if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
+    return `Special offer ends in: ${annualDiscountDaysLeft} days`;
   }
+}
 
-  function getSanbasePlan(subscriptionInfo) {
-    const { trialDaysLeft, userPlanName } = subscriptionInfo
-    if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
-    if (userPlanName) return `Sanbase: ${userPlanName} plan`
-    return 'Sanbase: free plan'
-  }
+function getSanbasePlan(subscriptionInfo) {
+  const {
+    trialDaysLeft,
+    userPlanName
+  } = subscriptionInfo;
+  if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial';
+  if (userPlanName) return `Sanbase: ${userPlanName} plan`;
+  return 'Sanbase: free plan';
+}
 
-  $: buttonLabel = getButtonLabel(subscriptionInfo, variant)
+$: buttonLabel = getButtonLabel(subscriptionInfo, variant);
 
-  $: note = getNoteText(subscriptionInfo, variant)
+$: note = getNoteText(subscriptionInfo, variant);
 
-  $: sunbasePlan = getSanbasePlan(subscriptionInfo)
+$: sunbasePlan = getSanbasePlan(subscriptionInfo);
 
-  $: href = subscriptionInfo.userPlanName
-    ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
-    : 'https://app.santiment.net/pricing'
-</script>
+$: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/' : 'https://app.santiment.net/pricing';</script>
 
 <section>
   <ProfileNames
     {user}
-    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined}
-  />
+    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined} />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
@@ -69,8 +71,7 @@
     <a
       class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
       {href}
-      on:click={window.__onLinkClick}
-    >
+      on:click={window.__onLinkClick}>
       {buttonLabel}
     </a>
   </div>

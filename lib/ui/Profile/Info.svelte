@@ -1,29 +1,24 @@
-<script>
-  var _a
+<script>var _a;
 
-  import { queryUserLayouts } from './../../api/user/layouts'
-  import { queryUserAddressWatchlists, queryUserWatchlists } from './../../api/user/watchlists'
-  import FollowButton from './../../ui/FollowButton/svelte'
-  import CreationCard from './CreationCard/index.svelte'
-  import ProfileNames from './Names.svelte'
-  import { CreationType } from './types'
-  export let user
-  export let currentUser
-  export let type
-  let creations = []
-  const QueryCreations = {
-    [CreationType.Layout]: queryUserLayouts,
-    [CreationType.Watchlist]: queryUserWatchlists,
-    [CreationType.AddressWatchlist]: queryUserAddressWatchlists,
-  }
+import { queryUserLayouts } from './../../api/user/layouts';
+import { queryUserAddressWatchlists, queryUserWatchlists } from './../../api/user/watchlists';
+import FollowButton from './../../ui/FollowButton/svelte';
+import CreationCard from './CreationCard/index.svelte';
+import ProfileNames from './Names.svelte';
+import { CreationType } from './types';
+export let user;
+export let currentUser;
+export let type;
+let creations = [];
+const QueryCreations = {
+  [CreationType.Layout]: queryUserLayouts,
+  [CreationType.Watchlist]: queryUserWatchlists,
+  [CreationType.AddressWatchlist]: queryUserAddressWatchlists
+};
 
-  const setCreations = (data) => (creations = data.slice(0, 2))
+const setCreations = data => creations = data.slice(0, 2);
 
-  if (type)
-    (_a = QueryCreations[type]) === null || _a === void 0
-      ? void 0
-      : _a.call(QueryCreations, user.id).then(setCreations)
-</script>
+if (type) (_a = QueryCreations[type]) === null || _a === void 0 ? void 0 : _a.call(QueryCreations, user.id).then(setCreations);</script>
 
 <div class="info">
   <div class="row v-center justify">

@@ -1,7 +1,5 @@
-<script>
-  export let isAppUpdateAvailable
-  export let version
-</script>
+<script>export let isAppUpdateAvailable;
+export let version;</script>
 
 <section>
   {#if isAppUpdateAvailable}

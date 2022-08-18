@@ -1,1 +1,1 @@
-export declare function initGA(id: string): void
+export declare function initGA(id: string): void;

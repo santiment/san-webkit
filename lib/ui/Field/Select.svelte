@@ -1,22 +1,20 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  import Tooltip from './../../ui/Tooltip/svelte'
-  import Field from './index.svelte'
-  let className = ''
-  export { className as class }
-  export let title
-  export let options
-  export let selected = options[0]
-  export let onSelect
-  export let checkIsActive = (selected, option) => selected === option
-  let isOpened = false
+<script>import Svg from './../../ui/Svg/svelte';
+import Tooltip from './../../ui/Tooltip/svelte';
+import Field from './index.svelte';
+let className = '';
+export { className as class };
+export let title;
+export let options;
+export let selected = options[0];
+export let onSelect;
+export let checkIsActive = (selected, option) => selected === option;
+let isOpened = false;
 
-  function onOptionSelect(option) {
-    selected = option
-    isOpened = false
-    onSelect === null || onSelect === void 0 ? void 0 : onSelect(option)
-  }
-</script>
+function onOptionSelect(option) {
+  selected = option;
+  isOpened = false;
+  onSelect === null || onSelect === void 0 ? void 0 : onSelect(option);
+}</script>
 
 <Field {title}>
   <div class="relative {className}">

@@ -1,17 +1,17 @@
-<script>
-  import { subscription$ } from './../../../stores/subscription'
-  import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans'
-  import PlanButton from '../PlanButton.svelte'
-  export let plan
-  export let plans
-  export let discount = 0
-  export let isEligibleForTrial
-  export let isLoggedIn = false
+<script>import { subscription$ } from './../../../stores/subscription';
+import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans';
+import PlanButton from '../PlanButton.svelte';
+export let plan;
+export let plans;
+export let discount = 0;
+export let isEligibleForTrial;
+export let isLoggedIn = false;
 
-  $: ({ name } = plan)
+$: ({
+  name
+} = plan);
 
-  $: isFreePlan = name.includes(Plan.FREE)
-</script>
+$: isFreePlan = name.includes(Plan.FREE);</script>
 
 <div class="fluid">
   <h3 class="row v-center">

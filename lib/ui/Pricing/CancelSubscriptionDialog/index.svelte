@@ -1,39 +1,37 @@
-<script>
-  import Dialog from './../../../ui/Dialog'
-  import Svg from './../../../ui/Svg/svelte'
-  import { showIntercom } from './../../../analytics/intercom'
-  import { subscription$ } from './../../../stores/subscription'
-  import { Screen, startCancellationFlow } from './flow'
-  import SuggestionsScreen from './SuggestionsScreen.svelte'
-  import FeedbackScreen from './FeedbackScreen.svelte'
-  let screen = Screen.Suggestions
-  let closeDialog
-  let reasons = new Set()
-  let feedback = ''
-  let loading = false
+<script>import Dialog from './../../../ui/Dialog';
+import Svg from './../../../ui/Svg/svelte';
+import { showIntercom } from './../../../analytics/intercom';
+import { subscription$ } from './../../../stores/subscription';
+import { Screen, startCancellationFlow } from './flow';
+import SuggestionsScreen from './SuggestionsScreen.svelte';
+import FeedbackScreen from './FeedbackScreen.svelte';
+let screen = Screen.Suggestions;
+let closeDialog;
+let reasons = new Set();
+let feedback = '';
+let loading = false;
 
-  $: subscription = $subscription$
+$: subscription = $subscription$;
 
-  $: isFeedbackScreen = screen === Screen.Feedback
+$: isFeedbackScreen = screen === Screen.Feedback;
 
-  $: disabled = isFeedbackScreen && (reasons.size === 0 || !feedback)
+$: disabled = isFeedbackScreen && (reasons.size === 0 || !feedback);
 
-  $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen
+$: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen;
 
-  function onCancellationClick() {
-    if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
-    if (!subscription) return
-    loading = true
-    startCancellationFlow(subscription, feedback, closeDialog).then(() => {
-      loading = false
-    })
-  }
+function onCancellationClick() {
+  if (screen === Screen.Suggestions) return screen = Screen.Feedback;
+  if (!subscription) return;
+  loading = true;
+  startCancellationFlow(subscription, feedback, closeDialog).then(() => {
+    loading = false;
+  });
+}
 
-  function onServiceClick() {
-    showIntercom()
-    closeDialog()
-  }
-</script>
+function onServiceClick() {
+  showIntercom();
+  closeDialog();
+}</script>
 
 <Dialog {...$$props} bind:closeDialog>
   <svelte:fragment slot="title">
@@ -61,31 +59,29 @@
   </div>
 </Dialog>
 
-<style>
-  .dialog-body {
-    padding: 32px 16px;
-  }
-  :global(.desktop) .dialog-body {
-    padding: 32px 56px;
-  }
+<style >.dialog-body {
+  padding: 32px 16px;
+}
+:global(.desktop) .dialog-body {
+  padding: 32px 56px;
+}
 
-  .back {
-    --fill: var(--waterloo);
-    --color-hover: var(--green);
-  }
-  .back :global(svg) {
-    transform: rotate(180deg);
-  }
+.back {
+  --fill: var(--waterloo);
+  --color-hover: var(--green);
+}
+.back :global(svg) {
+  transform: rotate(180deg);
+}
 
-  .dialog-body :global(section) {
-    flex: 1;
-  }
-  .dialog-body :global(.reveal) {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 400ms ease-in-out;
-  }
-  .dialog-body :global(.revealed) {
-    max-height: 300px;
-  }
-</style>
+.dialog-body :global(section) {
+  flex: 1;
+}
+.dialog-body :global(.reveal) {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 400ms ease-in-out;
+}
+.dialog-body :global(.revealed) {
+  max-height: 300px;
+}</style>

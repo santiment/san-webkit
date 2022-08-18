@@ -1,49 +1,45 @@
-<script context="module">
-  import { track } from './../../analytics'
-  import { saveBoolean } from './../../utils/localStorage'
-  import { dialogs } from './../../ui/Dialog'
-  import ManageCookiesDialog from './index.svelte'
-  export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
-  export const Cookies = {
-    Basic: 'BASIC_COOKIES',
-    Functional: 'FUNCTIONAL_COOKIES',
-    Performance: 'PERFORMANCE_COOKIES',
-  }
-  export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog)
-  export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
-    saveBoolean(Cookies.Basic, true)
-    saveBoolean(Cookies.Functional, isFunctionalAccepted)
-    saveBoolean(Cookies.Performance, isPerformanceAccepted)
-    saveBoolean(COOKIE_POLICY_ACCEPTED, true)
-    track.event('Cookie policy accepted', {
-      category: 'User',
-    })
-  }
-</script>
+<script context="module">import { track } from './../../analytics';
+import { saveBoolean } from './../../utils/localStorage';
+import { dialogs } from './../../ui/Dialog';
+import ManageCookiesDialog from './index.svelte';
+export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED';
+export const Cookies = {
+  Basic: 'BASIC_COOKIES',
+  Functional: 'FUNCTIONAL_COOKIES',
+  Performance: 'PERFORMANCE_COOKIES'
+};
+export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog);
+export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
+  saveBoolean(Cookies.Basic, true);
+  saveBoolean(Cookies.Functional, isFunctionalAccepted);
+  saveBoolean(Cookies.Performance, isPerformanceAccepted);
+  saveBoolean(COOKIE_POLICY_ACCEPTED, true);
+  track.event('Cookie policy accepted', {
+    category: 'User'
+  });
+}</script>
 
-<script lang="ts">
-  import Dialog from './../../ui/Dialog'
-  import Toggle from './../../ui/Toggle.svelte'
-  import Section from './Section.svelte'
-  let closeDialog
-  let isFunctionalAccepted = false
-  let isPerformanceAccepted = false
+<script lang="ts">import Dialog from './../../ui/Dialog';
+import Toggle from './../../ui/Toggle.svelte';
+import Section from './Section.svelte';
+let closeDialog;
+let isFunctionalAccepted = false;
+let isPerformanceAccepted = false;
 
-  const toggleHandler = (fn) => (e) => {
-    e.stopPropagation()
-    fn()
-  }
+const toggleHandler = fn => e => {
+  e.stopPropagation();
+  fn();
+};
 
-  function onSaveClick() {
-    applyCookies(isFunctionalAccepted, isPerformanceAccepted)
-    closeDialog()
-  }
+function onSaveClick() {
+  applyCookies(isFunctionalAccepted, isPerformanceAccepted);
+  closeDialog();
+}
 
-  function onAllowAllClick() {
-    applyCookies(true, true)
-    closeDialog()
-  }
-</script>
+function onAllowAllClick() {
+  applyCookies(true, true);
+  closeDialog();
+}</script>
 
 <Dialog {...$$props} title="Cookie settings" bind:closeDialog class="dialog-1yD3NJ">
   <div class="cookies">
@@ -58,29 +54,24 @@
 
     <Section
       title="Strictly Necessary Cookies"
-      description="These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information."
-    >
+      description="These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.">
       <div class="c-black">Always Active</div>
     </Section>
 
     <Section
       title="Functional Cookies"
-      description="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
-    >
+      description="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.">
       <Toggle
         isActive={isFunctionalAccepted}
-        on:click={toggleHandler(() => (isFunctionalAccepted = !isFunctionalAccepted))}
-      />
+        on:click={toggleHandler(() => (isFunctionalAccepted = !isFunctionalAccepted))} />
     </Section>
 
     <Section
       title="Performance Cookies"
-      description="These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly."
-    >
+      description="These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly.">
       <Toggle
         isActive={isPerformanceAccepted}
-        on:click={toggleHandler(() => (isPerformanceAccepted = !isPerformanceAccepted))}
-      />
+        on:click={toggleHandler(() => (isPerformanceAccepted = !isPerformanceAccepted))} />
     </Section>
   </div>
   <div class="bottom row">

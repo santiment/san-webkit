@@ -1,7 +1,5 @@
-<script>
-  import { fade } from 'svelte/transition'
-  export let isActive = true
-</script>
+<script>import { fade } from 'svelte/transition';
+export let isActive = true;</script>
 
 <slot />
 {#if isActive}<div class="row" out:fade />{/if}

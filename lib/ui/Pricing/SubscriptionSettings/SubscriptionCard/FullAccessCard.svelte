@@ -1,7 +1,5 @@
-<script>
-  import { showIntercom } from './../../../../analytics/intercom'
-  import Card from './Card.svelte'
-</script>
+<script>import { showIntercom } from './../../../../analytics/intercom';
+import Card from './Card.svelte';</script>
 
 <Card
   yellow

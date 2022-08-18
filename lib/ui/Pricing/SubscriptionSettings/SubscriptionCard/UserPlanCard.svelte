@@ -1,22 +1,24 @@
-<script>
-  import { getDateFormats } from './../../../../utils/dates'
-  import { formatPrice, Plan } from './../../../../utils/plans'
-  import { getNextPaymentDate, getTrialDaysLeft } from './../../../../utils/subscription'
-  import PlanCard from './PlanCard.svelte'
-  import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
-  import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
-  export let plan
-  export let subscription
+<script>import { getDateFormats } from './../../../../utils/dates';
+import { formatPrice, Plan } from './../../../../utils/plans';
+import { getNextPaymentDate, getTrialDaysLeft } from './../../../../utils/subscription';
+import PlanCard from './PlanCard.svelte';
+import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte';
+import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog';
+export let plan;
+export let subscription;
 
-  $: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE
+$: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE;
 
-  $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
+$: trialDaysLeft = subscription && getTrialDaysLeft(subscription);
 
-  function formatDate(date) {
-    const { DD, MMMM, YYYY } = getDateFormats(date)
-    return `${MMMM} ${DD}, ${YYYY}`
-  }
-</script>
+function formatDate(date) {
+  const {
+    DD,
+    MMMM,
+    YYYY
+  } = getDateFormats(date);
+  return `${MMMM} ${DD}, ${YYYY}`;
+}</script>
 
 <PlanCard
   {plan}

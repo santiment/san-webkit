@@ -1,9 +1,7 @@
-<script>
-  let className = ''
-  export { className as class }
-  export let isActive = false
-  export let disabled = false
-</script>
+<script>let className = '';
+export { className as class };
+export let isActive = false;
+export let disabled = false;</script>
 
 <div class="toggle btn relative {className}" on:click class:isActive class:disabled>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/toggle.svg" />

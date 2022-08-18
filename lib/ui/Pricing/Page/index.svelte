@@ -1,35 +1,40 @@
-<script>
-  import Footer from './../../../ui/Footer/svelte'
-  import { querySanbasePlans } from './../../../api/plans'
-  import { Billing, onlyProAndFreeLikePlans, Plan } from './../../../utils/plans'
-  import { subscription$ } from './../../../stores/subscription'
-  import { customerData$ } from './../../../stores/user'
-  import BillingToggle from './BillingToggle.svelte'
-  import FAQ from './FAQ.svelte'
-  import Suggestions from './Suggestions.svelte'
-  import SpecialOfferBanner from './SpecialOfferBanner.svelte'
-  import Comparison from '../Comparison/index.svelte'
-  import Plans from './Plans.svelte'
-  let className = ''
-  export { className as class }
-  export let billing = Billing.MONTH
+<script>import Footer from './../../../ui/Footer/svelte';
+import { querySanbasePlans } from './../../../api/plans';
+import { Billing, onlyProAndFreeLikePlans, Plan } from './../../../utils/plans';
+import { subscription$ } from './../../../stores/subscription';
+import { customerData$ } from './../../../stores/user';
+import BillingToggle from './BillingToggle.svelte';
+import FAQ from './FAQ.svelte';
+import Suggestions from './Suggestions.svelte';
+import SpecialOfferBanner from './SpecialOfferBanner.svelte';
+import Comparison from '../Comparison/index.svelte';
+import Plans from './Plans.svelte';
+let className = '';
+export { className as class };
+export let billing = Billing.MONTH;
 
-  $: subscription = $subscription$
+$: subscription = $subscription$;
 
-  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)
+$: ({
+  isLoggedIn,
+  isEligibleForTrial,
+  annualDiscount
+} = $customerData$);
 
-  let plans = []
+let plans = [];
 
-  $: billingPlans = (billing, plans.filter(billingFilter))
+$: billingPlans = (billing, plans.filter(billingFilter));
 
-  querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProAndFreeLikePlans)
-  })
+querySanbasePlans().then(data => {
+  plans = data.filter(onlyProAndFreeLikePlans);
+});
 
-  function billingFilter({ interval, name }) {
-    return interval === billing || name.includes(Plan.FREE)
-  }
-</script>
+function billingFilter({
+  interval,
+  name
+}) {
+  return interval === billing || name.includes(Plan.FREE);
+}</script>
 
 <main class={className}>
   <div class="txt-center">
@@ -64,25 +69,23 @@
 
 <Footer class="" />
 
-<style>
-  main :global(section h2) {
-    font-size: 32px;
-    line-height: 40px;
-    font-weight: 500;
-    text-align: center;
-    margin: 0 auto 32px;
-  }
-  :global(.desktop) main :global(section h2) {
-    margin-bottom: 60px;
-  }
+<style >main :global(section h2) {
+  font-size: 32px;
+  line-height: 40px;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 auto 32px;
+}
+:global(.desktop) main :global(section h2) {
+  margin-bottom: 60px;
+}
 
-  :global(.comparison-VGkPm9) {
-    margin: 0 auto 80px;
-    max-width: var(--page-width, 1140px);
-  }
+:global(.comparison-VGkPm9) {
+  margin: 0 auto 80px;
+  max-width: var(--page-width, 1140px);
+}
 
-  .bottom {
-    background: var(--athens);
-    padding: 0 24px;
-  }
-</style>
+.bottom {
+  background: var(--athens);
+  padding: 0 24px;
+}</style>

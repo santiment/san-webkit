@@ -1,22 +1,22 @@
-<script context="module">
-  export var AccountStatusType
+<script context="module">export var AccountStatusType;
 
-  ;(function (AccountStatusType) {
-    AccountStatusType[(AccountStatusType['First'] = 0)] = 'First'
-    AccountStatusType[(AccountStatusType['Second'] = 1)] = 'Second'
-  })(AccountStatusType || (AccountStatusType = {}))
-</script>
+(function (AccountStatusType) {
+  AccountStatusType[AccountStatusType["First"] = 0] = "First";
+  AccountStatusType[AccountStatusType["Second"] = 1] = "Second";
+})(AccountStatusType || (AccountStatusType = {}));</script>
 
-<script lang="ts">
-  import { getUserSubscriptionInfo } from './../utils/subscription'
-  export let currentUser
-  export let variant = AccountStatusType.First
-  export let subscription
-  export let customerData = {}
+<script lang="ts">import { getUserSubscriptionInfo } from './../utils/subscription';
+export let currentUser;
+export let variant = AccountStatusType.First;
+export let subscription;
+export let customerData = {};
 
-  $: ({ annualDiscountPercent, userPlanName, trialDaysLeft, isEligibleForTrial } =
-    getUserSubscriptionInfo(customerData, subscription))
-</script>
+$: ({
+  annualDiscountPercent,
+  userPlanName,
+  trialDaysLeft,
+  isEligibleForTrial
+} = getUserSubscriptionInfo(customerData, subscription));</script>
 
 {#if currentUser}
   {#if annualDiscountPercent && variant !== AccountStatusType.Second}
@@ -32,8 +32,7 @@
     {#if trialDaysLeft < 1}
       <a
         href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-        class="pro btn-1 btn--s"
-      >
+        class="pro btn-1 btn--s">
         {userPlanName}
       </a>
     {/if}
@@ -41,8 +40,7 @@
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange"
-      on:click={window.__onLinkClick}
-    >
+      on:click={window.__onLinkClick}>
       {#if isEligibleForTrial && variant === AccountStatusType.First}
         Start Free 14-day Trial
       {:else}
