@@ -17,7 +17,7 @@ async function publish() {
   }
 
   await exec('git checkout lib')
-  await exec('git pull')
+  await exec('git pull', false)
 
   await exec('npm run lib')
 
