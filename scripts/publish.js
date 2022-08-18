@@ -19,11 +19,12 @@ async function publish() {
   await exec('git checkout lib')
   await exec('git pull', false)
 
-  await exec('npm run lib')
-
+  await exec('git rm --cached -r lib', false)
   await exec('git rm --cached -r stories', false)
   await exec('git rm --cached -r .storybook', false)
   await exec('git rm --cached -r .husky', false)
+
+  await exec('npm run lib')
 
   const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '')
   fs.writeFileSync('.gitignore', gitignore)
