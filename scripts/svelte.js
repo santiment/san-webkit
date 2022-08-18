@@ -64,7 +64,7 @@ async function prepareSvelte() {
     const file = fs.readFileSync(libFilePath)
     const { code } = await svelte.preprocess(
       file.toString(),
-      [preprocess, cssModules(), routesPreprocess],
+      [routesPreprocess, preprocess, cssModules()],
       { filename: libFilePath },
     )
 

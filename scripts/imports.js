@@ -5,6 +5,7 @@ const { LIB, forFile, ROOT } = require('./utils')
 const ROUTE_REGEX = /from '@\//g
 const IMPORT_REGEX = /import '@\//g
 const DYN_IMPORT_REGEX = /import\('@\//g
+const REQUIRE_REGEX = /require\('@\//g
 
 async function prepareImports() {
   forFile(['lib/**/*.ts', 'lib/**/*.js', 'lib/**/*.svelte'], async (entry) => {
@@ -22,6 +23,7 @@ function replaceModuleAliases(root, filePath, fileContent) {
     .replace(ROUTE_REGEX, `from '${diff}/`)
     .replace(IMPORT_REGEX, `import '${diff}/`)
     .replace(DYN_IMPORT_REGEX, `import('${diff}/`)
+    .replace(REQUIRE_REGEX, `require('${diff}/`)
     .replace(/from 'san-chart/g, `from '@santiment-network/chart`)
     .replace(/from 'webkit/g, `from 'san-webkit/lib`)
     .replace(/from 'studio/g, `from 'san-studio/lib`)
