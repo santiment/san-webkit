@@ -14,8 +14,6 @@ async function publish() {
     return console.error('❗️ Commit/push your changes first ❗️')
   }
 
-  return
-
   await exec('git branch -d lib')
   await exec('git checkout -b lib')
 
