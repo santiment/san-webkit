@@ -34,9 +34,10 @@ async function publish() {
   await exec('git commit -m "Library release"', false)
   await exec('git push --set-upstream origin lib --force')
 
+  await exec('git clean -fd')
   await exec('git checkout master')
 
-  console.log('✅ Lib published')
+  console.log('\n✅ Library published\n')
 }
 
 if (process.argv[2] === '--run') publish()
