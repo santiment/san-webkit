@@ -3,10 +3,10 @@ const fs = require('fs')
 
 function exec(cmd, includeStdout = true) {
   return new Promise((resolve) => {
-    const process = _exec(cmd, (error, stdout, stderr) => {
+    const executed = _exec(cmd, (error, stdout, stderr) => {
       return resolve([stdout, error || stderr])
     })
-    if (includeStdout) process.stdout.pipe(process.stdout)
+    if (includeStdout) executed.stdout.pipe(process.stdout)
   })
 }
 
