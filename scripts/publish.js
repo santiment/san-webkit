@@ -10,9 +10,11 @@ function exec(cmd) {
 
 async function publish() {
   const [status] = await exec('git status')
-  if (!status.includes('nothing to commit') || status.includes('Your branch is ahead of')) {
+  if (status.includes('Your branch is ahead of') || !status.includes('nothing to commit')) {
     return console.error('❗️ Commit/push your changes first ❗️')
   }
+
+  return
 
   await exec('git branch -d lib')
   await exec('git checkout -b lib')
