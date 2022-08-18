@@ -21,16 +21,17 @@ async function publish() {
 
   await exec('npm run lib')
 
-  await exec('git add -f lib')
-
-  await exec('git rm --cached -r stories')
-  await exec('git rm --cached -r .storybook')
-  await exec('git rm --cached -r husky')
+  await exec('git rm --cached -r stories', false)
+  await exec('git rm --cached -r .storybook', false)
+  await exec('git rm --cached -r .husky', false)
 
   const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '')
   fs.writeFileSync('.gitignore', gitignore)
 
-  await exec('git commit -m "Library release"')
+  await exec('git add -f lib')
+  await exec('git add -f .gitignore')
+
+  await exec('git commit -m "Library release"', false)
   await exec('git push --set-upstream origin lib --force')
 
   await exec('git checkout master')
