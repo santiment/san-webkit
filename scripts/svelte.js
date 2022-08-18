@@ -3,13 +3,58 @@ const path = require('path')
 const svelte = require('svelte/compiler')
 const sveltePreprocess = require('svelte-preprocess')
 const cssModules = require('svelte-preprocess-cssmodules')
+const babel = require('@babel/core')
 const { LIB, forFile } = require('./utils')
+const { replaceModuleAliases } = require('./imports')
 
-const preprocess = sveltePreprocess({
-  typescript: {
-    tsconfigDirectory: path.resolve(__dirname, '../'),
+const BABEL = {
+  assumptions: { noDocumentAll: true },
+  plugins: ['@babel/plugin-proposal-optional-chaining'],
+}
+
+const Preprocess = (options) =>
+  sveltePreprocess({
+    babel: BABEL,
+    ...options,
+  })
+
+const TEMPS = /(\([\w$\.]* = [\w$\.]*\))/g
+function replaceTemps(code) {
+  const matches = code.match(TEMPS)
+  if (!matches) return code
+
+  matches.reverse().forEach((match) => {
+    const [temp, variable] = match.slice(1, -1).split(' = ')
+    code = code.replace(match, variable)
+    code = code.replace(new RegExp(temp.replace('$', '\\$'), 'g'), variable)
+  })
+
+  return code
+}
+
+const RoutesPreprocess = (root) => ({
+  script: ({ content, filename }) => ({
+    code: replaceModuleAliases(root, filename, content),
+  }),
+  markup: ({ content, filename }) => {
+    const expressions = content.match(/{.*(\?\.).*}/g)
+
+    if (expressions) {
+      expressions.forEach((expr) => {
+        const result = babel.transform(expr.slice(1, -1), BABEL).code.split('\n')[2].slice(0, -1)
+        content = content.replace(expr, `{${replaceTemps(result)}}`)
+      })
+    }
+
+    return { code: content }
   },
 })
+
+const preprocess = Preprocess({
+  typescript: { tsconfigDirectory: path.resolve(__dirname, '../') },
+})
+
+const routesPreprocess = RoutesPreprocess(LIB)
 
 async function prepareSvelte() {
   return forFile(['lib/**/*.svelte'], async (entry) => {
@@ -17,12 +62,14 @@ async function prepareSvelte() {
     const libFilePath = path.resolve(LIB, filePath)
 
     const file = fs.readFileSync(libFilePath)
-    const { code } = await svelte.preprocess(file.toString(), [preprocess, cssModules()], {
-      filename: libFilePath,
-    })
+    const { code } = await svelte.preprocess(
+      file.toString(),
+      [preprocess, cssModules(), routesPreprocess],
+      { filename: libFilePath },
+    )
 
     fs.writeFileSync(libFilePath, code.replace(' lang="ts"', '').replace('lang="scss"', ''))
   })
 }
 
-module.exports = { prepareSvelte }
+module.exports = { prepareSvelte, Preprocess, RoutesPreprocess }
