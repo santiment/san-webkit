@@ -6,6 +6,7 @@
   "scripts": {
     "ts": "tsc --outDir ./lib --declaration",
     "lib": "npm run ts && node scripts/install.js",
+    "lib:publish": "node scripts/publish --run",
     "test": "jest",
     "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -p 3000 -s ./lib --ci",
     "build-storybook": "build-storybook",
