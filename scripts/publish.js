@@ -34,10 +34,9 @@ async function publish() {
   await exec('git commit -m "Library release"', false)
   await exec('git push --set-upstream origin lib --force')
 
+  const [hash] = await exec('git rev-parse --short HEAD', false)
   await exec('git clean -fd', false)
   await exec('git checkout master')
-
-  const [hash] = await exec('git rev-parse --short HEAD', false)
 
   console.log(`\n✅ Library published. Hash: ${hash}\n`)
 }
