@@ -20,6 +20,7 @@ async function publish() {
   await exec('npm run lib')
 
   await exec('git add -f lib')
+  await exec('git commit -m "Library release"')
   await exec('git push --set-upstream origin lib --force')
 
   await exec('git checkout master')
