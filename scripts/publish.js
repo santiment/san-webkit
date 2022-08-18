@@ -1,10 +1,12 @@
 const { exec: _exec } = require('child_process')
+const fs = require('fs')
 
-function exec(cmd) {
+function exec(cmd, includeStdout = true) {
   return new Promise((resolve) => {
-    _exec(cmd, (error, stdout, stderr) => {
+    const process = _exec(cmd, (error, stdout, stderr) => {
       return resolve([stdout, error || stderr])
-    }).stdout.pipe(process.stdout)
+    })
+    if (includeStdout) process.stdout.pipe(process.stdout)
   })
 }
 
@@ -20,6 +22,14 @@ async function publish() {
   await exec('npm run lib')
 
   await exec('git add -f lib')
+
+  await exec('git rm --cached -r stories')
+  await exec('git rm --cached -r .storybook')
+  await exec('git rm --cached -r husky')
+
+  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '')
+  fs.writeFileSync('.gitignore', gitignore)
+
   await exec('git commit -m "Library release"')
   await exec('git push --set-upstream origin lib --force')
 

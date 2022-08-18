@@ -39,11 +39,7 @@
     "@types/react": "^16.x.x",
     "@types/stripe-v3": "^3.1.26",
     "@types/turndown": "^5.0.1",
-    "@walletconnect/client": "^1.8.0",
-    "@walletconnect/qrcode-modal": "^1.8.0",
-    "patch-package": "^6.4.7",
-    "react": "^16.x.x",
-    "react-dom": "^16.x.x"
+    "patch-package": "^6.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -73,7 +69,11 @@
     "svgo": "^2.8.0",
     "ts-jest": "^26.5.6",
     "turndown": "^7.1.1",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "@walletconnect/client": "^1.8.0",
+    "@walletconnect/qrcode-modal": "^1.8.0",
+    "react": "^16.x.x",
+    "react-dom": "^16.x.x"
   },
   "peerDependencies": {
     "svelte": "^3.46.3",
@@ -84,6 +84,8 @@
     "ethers": "^5.4.4",
     "turndown": "^7.1.1",
     "medium-editor": "^5.23.3",
-    "marked": "^4.0.12"
+    "marked": "^4.0.12",
+    "@walletconnect/client": "^1.8.0",
+    "@walletconnect/qrcode-modal": "^1.8.0"
   }
 }
