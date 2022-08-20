@@ -1,0 +1,11 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+local_branch_name="$(git rev-parse --abbrev-ref HEAD)"
+
+if [[ $local_branch_name == "lib" ]]; then
+    exit 0
+fi
+
+npm test
+npx lint-staged

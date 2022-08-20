@@ -16,23 +16,24 @@ async function publish() {
     return console.error('❗️ Commit/push your changes first ❗️')
   }
 
-  await exec('git branch -d lib')
-  await exec('git checkout -b lib')
+  await exec('git checkout lib')
+  await exec('git merge master -X theirs', false)
+
+  await exec('git rm --cached -r lib', false)
+  await exec('git rm --cached -r .storybook', false)
+  await exec('git rm --cached -r stories', false)
+  await exec('git rm --cached -r .husky', false)
 
   await exec('npm run lib')
 
-  await exec('git rm --cached -r stories', false)
-  await exec('git rm --cached -r .storybook', false)
-  await exec('git rm --cached -r .husky', false)
-
-  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '')
+  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '.husky\nstories')
   fs.writeFileSync('.gitignore', gitignore)
 
   await exec('git add -f lib')
   await exec('git add -f .gitignore')
 
   await exec('git commit -m "Library release"', false)
-  await exec('git push --set-upstream origin lib --force')
+  await exec('git push')
 
   const [hash] = await exec('git rev-parse --short HEAD', false)
   await exec('git clean -fd', false)

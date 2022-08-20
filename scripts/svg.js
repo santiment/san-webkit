@@ -1,3 +1,6 @@
+const fs = require('fs')
+const path = require('path')
+
 const newSpriterOptions = (plugins = []) => ({
   mode: { symbol: { example: false } },
   shape: {

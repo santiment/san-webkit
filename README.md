@@ -2,7 +2,12 @@
 
 ```
 npm i https://github.com/santiment/san-webkit
-# yarn add https://github.com/santiment/san-webkit
+```
+
+## Publishing library
+
+```
+npm run lib:publish
 ```
 
 ## Environment variables
