@@ -17,7 +17,10 @@ async function publish() {
   }
 
   await exec('git checkout lib')
-  const [mergeMsg] = await exec('git merge master -X theirs', false)
+  const [mergeMsg] = await exec(
+    'git merge master -X theirs -m "Merge branch \'master\' into lib"',
+    false,
+  )
 
   if (mergeMsg.includes('merge failed')) {
     return
