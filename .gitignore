@@ -6,3 +6,6 @@
 
 stories/illustrations.json
 stories/icons.json
+
+.husky
+stories
