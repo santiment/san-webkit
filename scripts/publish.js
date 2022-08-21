@@ -16,17 +16,27 @@ async function publish() {
     return console.error('❗️ Commit/push your changes first ❗️')
   }
 
+  await exec('git pull', false)
+
   await exec('git checkout lib')
   await exec('git pull', false)
 
+  const [mergeMsg] = await exec(
+    'git merge master -X theirs -m "Merge branch \'master\' into lib"',
+    false,
+  )
+  if (mergeMsg.includes('merge failed')) {
+    return console.error('❗️ Resolve merge conflicts and then run script again ❗️')
+  }
+
   await exec('git rm --cached -r lib', false)
-  await exec('git rm --cached -r stories', false)
   await exec('git rm --cached -r .storybook', false)
+  await exec('git rm --cached -r stories', false)
   await exec('git rm --cached -r .husky', false)
 
   await exec('npm run lib')
 
-  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '')
+  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '.husky\nstories')
   fs.writeFileSync('.gitignore', gitignore)
 
   await exec('git add -f lib')
