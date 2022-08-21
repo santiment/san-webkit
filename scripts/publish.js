@@ -16,7 +16,11 @@ async function publish() {
     return console.error('❗️ Commit/push your changes first ❗️')
   }
 
+  await exec('git pull', false)
+
   await exec('git checkout lib')
+  await exec('git pull', false)
+
   const [mergeMsg] = await exec(
     'git merge master -X theirs -m "Merge branch \'master\' into lib"',
     false,
