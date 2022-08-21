@@ -21,9 +21,8 @@ async function publish() {
     'git merge master -X theirs -m "Merge branch \'master\' into lib"',
     false,
   )
-
   if (mergeMsg.includes('merge failed')) {
-    return
+    return console.error('❗️ Resolve merge conflicts and then run script again ❗️')
   }
 
   await exec('git rm --cached -r lib', false)
