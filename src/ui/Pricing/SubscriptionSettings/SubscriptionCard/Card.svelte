@@ -6,6 +6,7 @@
   export let label
   export let price
   export let billing
+  export let discount
   export let badge
   export let link
   export let badgeIcon
@@ -13,6 +14,7 @@
   export let green = false
   export let orange = false
   export let yellow = false
+  export let disabled = false
   export let isChecked = false
   export let isActive = false
   export let onActionClick, onSubactionClick
@@ -29,7 +31,7 @@
       {#if isChecked}
         <Svg id="checkmark-large" w="14" h="10" />
       {:else}
-        {#if badgeIcon}<Svg {...badgeIcon} class="mrg-xs mrg--r" />{/if}
+        {#if badgeIcon}<Svg {...badgeIcon} class="mrg-s mrg--r" />{/if}
         {badge}
       {/if}
     </div>
@@ -39,6 +41,7 @@
     <svelte:element
       this={link ? 'a' : 'button'}
       class="btn-1 v-center"
+      class:disabled
       {...link}
       on:click={onActionClick}
       use:dataPreloader
@@ -54,23 +57,26 @@
     {/if}
   </div>
 
-  {#if billing}
+  {#if billing && !(discount && subaction)}
     <div class="billing caption txt-m c-waterloo txt-right">
       {billing}:
-      <h3 class="body-1 c-black">{price}</h3>
+      <h3 class="body-1 c-black">
+        {price}{#if discount}/mo{/if}
+      </h3>
     </div>
   {/if}
 </article>
 
 <style lang="scss">
   article {
-    padding: 16px 24px;
+    padding: 16px 16px 16px 24px;
     border-radius: 8px;
     background: var(--athens);
     min-width: 350px;
 
     & > :global(p) {
-      max-width: 375px;
+      max-width: 318px;
+      color: var(--fiord);
     }
   }
 
@@ -95,6 +101,16 @@
     background: var(--yellow-light-1);
     --primary: var(--fiord);
     --primary-hover: var(--black);
+
+    & > :global(p) {
+      color: var(--waterloo);
+    }
+  }
+
+  .disabled {
+    --color: var(--mystic);
+    --primary: var(--athens);
+    border: 1px solid var(--porcelain);
   }
 
   .badge {

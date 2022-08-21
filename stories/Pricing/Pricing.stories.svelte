@@ -55,8 +55,6 @@
     },
   ]
 
-  const noSubscription = null
-
   const freeSubscription = {
     cancelAtPeriodEnd: false,
     currentPeriodEnd: null,
@@ -116,21 +114,6 @@
     status: 'ACTIVE',
     trialEnd: null,
   }
-
-  const annualDiscounts = [
-    {
-      discount: null,
-      isEligible: false,
-    },
-    {
-      discount: { percentOff: 50, expireAt: '2022-10-20T10:43:03Z' },
-      isEligible: true,
-    },
-    {
-      discount: { percentOff: 35, expireAt: '2022-10-20T10:43:03Z' },
-      isEligible: true,
-    },
-  ]
 </script>
 
 <Meta title="Example/Pricing" />
@@ -272,7 +255,7 @@
   <div class="padding">
     <h2 class="h4 mrg-l mrg--b">Free plan</h2>
     <div class="row justify">
-      <UserPlanCard plan={plans[0]} />
+      <UserPlanCard plan={plans[0]} isEligibleForTrial />
       <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} isEligibleForTrial />
       <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} isEligibleForTrial />
     </div>
@@ -296,7 +279,7 @@
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Free trial has finished</h2>
     <div class="row justify">
-      <UserPlanCard plan={plans[0]} subscription={activeSubscription} />
+      <UserPlanCard plan={plans[0]} subscription={freeSubscription} />
       <SuggestedPlanCard plan={plans[1]} {...PRO_SUGGESTION} />
       <SuggestedPlanCard plan={plans[2]} {...PRO_PLUS_SUGGESTION} />
     </div>
@@ -305,7 +288,7 @@
   <div class="padding mrg-xl mrg--t">
     <h2 class="h4 mrg-l mrg--b">Pro plan, monthly - 1st month</h2>
     <div class="row justify">
-      <UserPlanCard plan={trialSubscription.plan} subscription={activeSubscription} />
+      <UserPlanCard plan={plans[1]} subscription={activeSubscription} />
       <SuggestedPlanCard plan={plans[3]} altPlan={plans[1]} {...PRO_SUGGESTION} discount={35} />
       <SuggestedPlanCard
         plan={plans[4]}

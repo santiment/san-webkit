@@ -55,7 +55,7 @@
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting class="$style.subscriptions">
-    <UserPlanCard {plan} {subscription} />
+    <UserPlanCard {plan} {subscription} {isEligibleForTrial} discount={suggestions.discount} />
 
     {#each suggestedPlans as suggestion}
       <PlanCard

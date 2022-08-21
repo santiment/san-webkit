@@ -44,6 +44,7 @@
   {...$$restProps}
   {billing}
   {price}
+  {discount}
   {onActionClick}
   action={discount
     ? `Pay now ${discount}% Off`
@@ -52,6 +53,7 @@
     : isUpgrade
     ? 'Upgrade'
     : action}
+  disabled={action === 'Default plan'}
   title={PlanName[name] + (isTrial ? ' Trial' : '') + annual}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
