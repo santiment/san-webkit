@@ -8,6 +8,8 @@
 
   export let plan
   export let subscription
+  export let discount
+  export let suggestionsCount
   export let isEligibleForTrial = false
 
   $: isPaidPlan = plan?.name !== Plan.FREE
@@ -30,6 +32,7 @@
   onActionClick={showPlanSummaryDialog}
   subaction={isPaidPlan && 'Cancel subscription'}
   onSubactionClick={showCancelSubscriptionDialog}
+  shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
   <p>
     {#if isPaidPlan}

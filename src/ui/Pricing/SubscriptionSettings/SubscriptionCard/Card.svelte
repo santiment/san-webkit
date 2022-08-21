@@ -10,6 +10,7 @@
   export let badge
   export let link
   export let badgeIcon
+  export let isFullAccess = false
   export let action, subaction
   export let green = false
   export let orange = false
@@ -17,10 +18,11 @@
   export let disabled = false
   export let isChecked = false
   export let isActive = false
+  export let shouldHideBillingInfo = false
   export let onActionClick, onSubactionClick
 </script>
 
-<article class="relative fluid" class:green class:orange class:yellow>
+<article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
 
@@ -57,7 +59,7 @@
     {/if}
   </div>
 
-  {#if billing && !(discount && subaction)}
+  {#if billing && !shouldHideBillingInfo}
     <div class="billing caption txt-m c-waterloo txt-right">
       {billing}:
       <h3 class="body-1 c-black">
@@ -77,6 +79,12 @@
     & > :global(p) {
       max-width: 318px;
       color: var(--fiord);
+    }
+  }
+
+  .wide {
+    & > :global(p) {
+      max-width: 300px;
     }
   }
 

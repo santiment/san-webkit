@@ -6,14 +6,14 @@
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
   import { customerData$ } from '@/stores/user'
   import { querySanbasePlans } from '@/api/plans'
-  import { onlyProLikePlans, Plan } from '@/utils/plans'
-  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
-  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from '@/utils/plans'
   import Setting from './Setting.svelte'
   import PlanCard from './SubscriptionCard/PlanCard.svelte'
   import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
-  import { getSuggestions } from './SubscriptionCard/suggestions'
   import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
+  import { getSuggestions } from './SubscriptionCard/suggestions'
+  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
 
   let className = ''
   export { className as class }
@@ -25,7 +25,7 @@
   let plans = [] as SAN.Plan[]
 
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
-  $: plan = subscription?.plan || { name: Plan.FREE, amount: 0 }
+  $: plan = subscription?.plan || { name: Plan.FREE, amount: 0, interval: Billing.MONTH }
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: suggestions = getSuggestions(plan, annualDiscount)
   $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
@@ -41,12 +41,15 @@
 
   function getPlanSuggestions() {
     return plans.filter((plan) => {
-      const isSameBilling = plan.interval === suggestions.billing
-      if (suggestions.discount) {
+      const isSameBilling = plan.interval === suggestions[0].billing
+      if (suggestions[0].discount) {
         return isSameBilling
       }
 
-      return suggestions[plan.name] && isSameBilling
+      return (
+        (suggestions[0][plan.name] || (suggestions[1] && suggestions[1][plan.name])) &&
+        isSameBilling
+      )
     })
   }
 </script>
@@ -55,16 +58,24 @@
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
   <Setting class="$style.subscriptions">
-    <UserPlanCard {plan} {subscription} {isEligibleForTrial} discount={suggestions.discount} />
+    <UserPlanCard
+      {plan}
+      {subscription}
+      {isEligibleForTrial}
+      discount={suggestions[0].discount}
+      suggestionsCount={suggestedPlans.length}
+    />
 
-    {#each suggestedPlans as suggestion}
+    {#each suggestedPlans as suggestion, index}
+      {@const altPlan = getAlternativePlan(suggestion, plans)}
       <PlanCard
-        {...suggestions[suggestion.name]}
+        {...suggestions[index][suggestion.name]}
         {isEligibleForTrial}
-        discount={suggestions.discount}
-        isUpgrade={suggestions.isUpgrade}
+        {altPlan}
+        discount={suggestions[index].discount}
+        isUpgrade={suggestions[index].isUpgrade}
+        suggestionsCount={suggestedPlans.length}
         plan={suggestion}
-        altPlan={plan}
       />
     {:else}
       <FullAccessCard />
