@@ -1,0 +1,105 @@
+.border {
+  ---border: var(--border, var(--porcelain));
+  border-radius: 4px;
+  border: 1px solid var(---border);
+  background: var(--white);
+}
+.border:hover {
+  border-color: var(--border-hover, var(---border));
+}
+
+.box {
+  box-shadow: 0 4px 8px rgba(24, 27, 43, 4%), 0 8px 16px rgba(24, 27, 43, 5%),
+    0 12px 32px rgba(24, 27, 43, 5%);
+}
+
+.row,
+.column {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.justify {
+  justify-content: space-between;
+}
+
+.hv-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.h-center {
+  justify-content: center;
+}
+.v-center {
+  align-items: center;
+}
+
+.fluid {
+  width: 100%;
+}
+
+.mrg-a {
+  --margin: auto;
+}
+.mrg-xxl {
+  --margin: 32px;
+}
+.mrg-xl {
+  --margin: 24px;
+}
+.mrg-l {
+  --margin: 16px;
+}
+.mrg-m {
+  --margin: 12px;
+}
+.mrg-s {
+  --margin: 8px;
+}
+.mrg-xs {
+  --margin: 4px;
+}
+.mrg--t {
+  margin-top: var(--margin);
+}
+.mrg--r {
+  margin-right: var(--margin);
+}
+.mrg--b {
+  margin-bottom: var(--margin);
+}
+.mrg--l {
+  margin-left: var(--margin);
+}
+
+.relative {
+  position: relative;
+}
+.expl-tooltip {
+  position: relative;
+}
+.expl-tooltip:hover::before {
+  position: absolute;
+  content: attr(aria-label);
+  font-size: 12px;
+  line-height: 16px;
+  background: #505573;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  right: var(--expl-right);
+  white-space: var(--expl-white-space, nowrap);
+  top: var(--expl-position-y, -6px);
+  transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"gdpr.js","sourceRoot":"","sources":["../../src/api/gdpr.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,MAAM,EAAE,MAAM,OAAO,CAAA;AAE9B,MAAM,aAAa,GAAG,CAAC,qBAA8B,EAAE,EAAE,CAAC;;qDAEL,qBAAqB;;;;CAIzE,CAAA;AAED,MAAM,CAAC,MAAM,UAAU,GAAG,CAAC,qBAA8B,EAAE,EAAE,CAC3D,MAAM,CAAC,aAAa,CAAC,qBAAqB,CAAC,CAAC,CAAA"}
