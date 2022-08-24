@@ -17,6 +17,7 @@
   export let isEligibleForTrial = false
   export let isTrial = false
   export let isUpgrade = false
+  export let shouldHideBillingInfo
   export let onActionClick = () => showPaymentDialog({ plan: plan.name, interval: plan.interval })
 
   $: ({ name } = plan)
@@ -32,7 +33,7 @@
     }
 
     return {
-      price: formatMonthlyPrice(plan),
+      price: formatMonthlyPrice(plan, discount),
       billing: annual
         ? `You save ${getSavedAmount(plan, altPlan, discount)} this year`
         : 'Billed monthly',
@@ -44,6 +45,8 @@
   {...$$restProps}
   {billing}
   {price}
+  {discount}
+  {shouldHideBillingInfo}
   {onActionClick}
   action={discount
     ? `Pay now ${discount}% Off`
@@ -52,6 +55,7 @@
     : isUpgrade
     ? 'Upgrade'
     : action}
+  disabled={action === 'Default plan'}
   title={PlanName[name] + (isTrial ? ' Trial' : '') + annual}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}

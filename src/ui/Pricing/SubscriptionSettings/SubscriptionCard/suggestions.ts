@@ -18,27 +18,43 @@ export function getSuggestions(
   userPlan: null | SAN.Plan,
   annualDiscount: null | SAN.AnnualDiscount,
 ) {
+  const suggestions = [] as any
+
   if (annualDiscount?.discount) {
-    return {
+    const suggestion = {
       discount: annualDiscount.discount.percentOff,
       billing: Billing.YEAR,
+    } as any
+
+    suggestions.push({ ...suggestion, [Plan.PRO]: PRO_SUGGESTION })
+
+    if (userPlan?.name === Plan.PRO) {
+      suggestions.push({ ...suggestion, [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION })
     }
+
+    return suggestions
   }
 
   if (userPlan?.name === Plan.PRO_PLUS) {
-    return { fullAccess: true }
+    return [{ fullAccess: true }]
   }
 
   const suggestion = {
-    billing: Billing.MONTH,
-    [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION,
+    billing: userPlan?.interval || Billing.MONTH,
   } as any
 
   if (userPlan?.name !== Plan.PRO) {
-    suggestion[Plan.PRO] = PRO_SUGGESTION
-  } else {
-    suggestion.isUpgrade = true
+    suggestions.push({
+      ...suggestion,
+      [Plan.PRO]: PRO_SUGGESTION,
+    })
   }
 
-  return suggestion
+  suggestions.push({
+    ...suggestion,
+    [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION,
+    isUpgrade: userPlan?.name === Plan.PRO,
+  })
+
+  return suggestions
 }

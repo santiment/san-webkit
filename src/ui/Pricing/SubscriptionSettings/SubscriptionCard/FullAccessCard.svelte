@@ -11,6 +11,7 @@
   subaction="Contact support"
   link={{ href: 'https://academy.santiment.net/', target: '_blank' }}
   onSubactionClick={showIntercom}
+  isFullAccess
 >
   <p class="c-waterloo">One on one staff assistance and educational calls upon your request</p>
   <img src="{process.env.MEDIA_PATH}/illus/alien.svg" alt="Alien" />

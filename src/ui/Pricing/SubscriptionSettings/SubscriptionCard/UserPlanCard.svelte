@@ -8,6 +8,9 @@
 
   export let plan
   export let subscription
+  export let discount
+  export let suggestionsCount
+  export let isEligibleForTrial = false
 
   $: isPaidPlan = plan?.name !== Plan.FREE
   $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
@@ -25,10 +28,11 @@
   badge={trialDaysLeft}
   isTrial={trialDaysLeft}
   isActive={isPaidPlan && !trialDaysLeft}
-  action={isPaidPlan ? 'Change plan' : 'Upgrade'}
+  action={isPaidPlan ? 'Change plan' : isEligibleForTrial ? 'Default plan' : 'Upgrade'}
   onActionClick={showPlanSummaryDialog}
-  subaction={isPaidPlan && 'Cancel Subscription'}
+  subaction={isPaidPlan && 'Cancel subscription'}
   onSubactionClick={showCancelSubscriptionDialog}
+  shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
   <p>
     {#if isPaidPlan}
