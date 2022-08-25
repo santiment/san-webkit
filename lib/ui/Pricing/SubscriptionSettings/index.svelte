@@ -72,12 +72,14 @@ function getPlanSuggestions() {
 
     {#each suggestedPlans as suggestion, index}
       {@const altPlan = getAlternativePlan(suggestion, plans)}
+      {@const currentSuggestion = suggestions[index] || {}}
+      {@const planInfo = currentSuggestion[suggestion.name] || {}}
       <PlanCard
-        {...suggestions[index][suggestion.name]}
+        {...planInfo}
         {isEligibleForTrial}
         {altPlan}
-        discount={suggestions[index].discount}
-        isUpgrade={suggestions[index].isUpgrade}
+        discount={currentSuggestion.discount}
+        isUpgrade={currentSuggestion.isUpgrade}
         suggestionsCount={suggestedPlans.length}
         plan={suggestion}
       />
