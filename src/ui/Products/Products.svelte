@@ -11,6 +11,15 @@
 </script>
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
+  {#if isColumn}
+    <div class="santimentlink body-2 c-waterloo mrg-xl mrg--t">
+      To learn more about Santiment's products, team, or available jobs, visit <a
+        class="c-green"
+        href="https://santiment.net/">santiment.net</a
+      >
+    </div>
+  {/if}
+
   <div class="chain column">
     <h3>SAN Chain</h3>
     {#each chain as product}
@@ -51,5 +60,10 @@
       padding: 0 0 24px;
       border-bottom: 1px solid var(--porcelain);
     }
+  }
+
+  .santimentlink {
+    padding-top: 24px;
+    border-top: 1px solid var(--porcelain);
   }
 </style>
