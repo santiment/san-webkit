@@ -15,6 +15,7 @@
     <div class="santimentlink body-2 c-waterloo mrg-xl mrg--t">
       To learn more about Santiment's products, team, or available jobs, visit <a
         class="c-green"
+        target="_blank"
         href="https://santiment.net/">santiment.net</a
       >
     </div>
