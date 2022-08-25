@@ -3,6 +3,8 @@
 /.vscode/
 .DS_Store
 .log/
+.husky
+stories
 stories/illustrations.json
 stories/icons.json
 /.idea/
