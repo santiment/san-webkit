@@ -6,6 +6,9 @@ import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte';
 import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog';
 export let plan;
 export let subscription;
+export let discount;
+export let suggestionsCount;
+export let isEligibleForTrial = false;
 
 $: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE;
 
@@ -27,10 +30,11 @@ function formatDate(date) {
   badge={trialDaysLeft}
   isTrial={trialDaysLeft}
   isActive={isPaidPlan && !trialDaysLeft}
-  action={isPaidPlan ? 'Change plan' : 'Upgrade'}
+  action={isPaidPlan ? 'Change plan' : isEligibleForTrial ? 'Default plan' : 'Upgrade'}
   onActionClick={showPlanSummaryDialog}
-  subaction={isPaidPlan && 'Cancel Subscription'}
+  subaction={isPaidPlan && 'Cancel subscription'}
   onSubactionClick={showCancelSubscriptionDialog}
+  shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
   <p>
     {#if isPaidPlan}

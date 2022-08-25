@@ -42,6 +42,11 @@
   line-height: 26px;
 }
 
+.body-0 {
+  font-size: 20px;
+  line-height: 30px;
+}
+
 .h4 {
   font-size: 24px;
   line-height: 32px;
@@ -55,6 +60,11 @@
 .h2 {
   font-size: 40px;
   line-height: 48px;
+}
+
+.h2-l {
+  font-size: 48px;
+  line-height: 56px;
 }
 
 .txt-r {

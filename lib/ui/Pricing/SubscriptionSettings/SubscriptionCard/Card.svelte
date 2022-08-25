@@ -4,18 +4,22 @@ export let title;
 export let label;
 export let price;
 export let billing;
+export let discount;
 export let badge;
 export let link;
 export let badgeIcon;
+export let isFullAccess = false;
 export let action, subaction;
 export let green = false;
 export let orange = false;
 export let yellow = false;
+export let disabled = false;
 export let isChecked = false;
 export let isActive = false;
+export let shouldHideBillingInfo = false;
 export let onActionClick, onSubactionClick;</script>
 
-<article class="relative fluid" class:green class:orange class:yellow>
+<article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
 
@@ -26,7 +30,7 @@ export let onActionClick, onSubactionClick;</script>
       {#if isChecked}
         <Svg id="checkmark-large" w="14" h="10" />
       {:else}
-        {#if badgeIcon}<Svg {...badgeIcon} class="mrg-xs mrg--r" />{/if}
+        {#if badgeIcon}<Svg {...badgeIcon} class="mrg-s mrg--r" />{/if}
         {badge}
       {/if}
     </div>
@@ -36,6 +40,7 @@ export let onActionClick, onSubactionClick;</script>
     <svelte:element
       this={link ? 'a' : 'button'}
       class="btn-1 v-center"
+      class:disabled
       {...link}
       on:click={onActionClick}
       use:dataPreloader
@@ -51,22 +56,29 @@ export let onActionClick, onSubactionClick;</script>
     {/if}
   </div>
 
-  {#if billing}
+  {#if billing && !shouldHideBillingInfo}
     <div class="billing caption txt-m c-waterloo txt-right">
       {billing}:
-      <h3 class="body-1 c-black">{price}</h3>
+      <h3 class="body-1 c-black">
+        {price}{#if discount}/mo{/if}
+      </h3>
     </div>
   {/if}
 </article>
 
 <style >article {
-  padding: 16px 24px;
+  padding: 16px 16px 16px 24px;
   border-radius: 8px;
   background: var(--athens);
   min-width: 350px;
 }
 article > :global(p) {
-  max-width: 375px;
+  max-width: 318px;
+  color: var(--fiord);
+}
+
+.wide > :global(p) {
+  max-width: 300px;
 }
 
 .green {
@@ -90,6 +102,15 @@ article > :global(p) {
   background: var(--yellow-light-1);
   --primary: var(--fiord);
   --primary-hover: var(--black);
+}
+.yellow > :global(p) {
+  color: var(--waterloo);
+}
+
+.disabled {
+  --color: var(--mystic);
+  --primary: var(--athens);
+  border: 1px solid var(--porcelain);
 }
 
 .badge {

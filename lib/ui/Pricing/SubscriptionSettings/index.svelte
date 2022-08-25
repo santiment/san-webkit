@@ -5,14 +5,14 @@ import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDial
 import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
 import { customerData$ } from './../../../stores/user';
 import { querySanbasePlans } from './../../../api/plans';
-import { onlyProLikePlans, Plan } from './../../../utils/plans';
-import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
-import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
+import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
 import Setting from './Setting.svelte';
 import PlanCard from './SubscriptionCard/PlanCard.svelte';
 import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
-import { getSuggestions } from './SubscriptionCard/suggestions';
 import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte';
+import { getSuggestions } from './SubscriptionCard/suggestions';
+import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
+import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
 let className = '';
 export { className as class };
 export let subscription;
@@ -25,7 +25,8 @@ $: isCanceled = !!(subscription === null || subscription === void 0 ? void 0 : s
 
 $: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || {
   name: Plan.FREE,
-  amount: 0
+  amount: 0,
+  interval: Billing.MONTH
 };
 
 $: ({
@@ -47,30 +48,38 @@ queryBillingHistory().then(data => {
 
 function getPlanSuggestions() {
   return plans.filter(plan => {
-    const isSameBilling = plan.interval === suggestions.billing;
+    const isSameBilling = plan.interval === suggestions[0].billing;
 
-    if (suggestions.discount) {
+    if (suggestions[0].discount) {
       return isSameBilling;
     }
 
-    return suggestions[plan.name] && isSameBilling;
+    return (suggestions[0][plan.name] || suggestions[1] && suggestions[1][plan.name]) && isSameBilling;
   });
 }</script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-3psSsa">
-    <UserPlanCard {plan} {subscription} />
+  <Setting class="subscriptions-1UpSe5">
+    <UserPlanCard
+      {plan}
+      {subscription}
+      {isEligibleForTrial}
+      discount={suggestions[0].discount}
+      suggestionsCount={suggestedPlans.length}
+    />
 
-    {#each suggestedPlans as suggestion}
+    {#each suggestedPlans as suggestion, index}
+      {@const altPlan = getAlternativePlan(suggestion, plans)}
       <PlanCard
-        {...suggestions[suggestion.name]}
+        {...suggestions[index][suggestion.name]}
         {isEligibleForTrial}
-        discount={suggestions.discount}
-        isUpgrade={suggestions.isUpgrade}
+        {altPlan}
+        discount={suggestions[index].discount}
+        isUpgrade={suggestions[index].isUpgrade}
+        suggestionsCount={suggestedPlans.length}
         plan={suggestion}
-        altPlan={plan}
       />
     {:else}
       <FullAccessCard />
@@ -166,7 +175,7 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-3psSsa) {
+:global(.subscriptions-1UpSe5) {
   gap: 16px;
 }
 
@@ -176,8 +185,8 @@ function getPlanSuggestions() {
   margin-top: 8px;
 }
 
-:global(.phone) :global(.subscriptions-3psSsa),
-:global(.tablet) :global(.subscriptions-3psSsa),
-:global(.phone-xs) :global(.subscriptions-3psSsa) {
+:global(.phone) :global(.subscriptions-1UpSe5),
+:global(.tablet) :global(.subscriptions-1UpSe5),
+:global(.phone-xs) :global(.subscriptions-1UpSe5) {
   flex-direction: column;
 }</style>
