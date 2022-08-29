@@ -12,9 +12,9 @@
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
   {#if isColumn}
-    <div class="santimentlink body-2 c-waterloo mrg-xl mrg--t">
+    <div class="more body-2 c-waterloo mrg-xl mrg--t">
       To learn more about Santiment's products, team, or available jobs, visit <a
-        class="c-green"
+        class="btn-0"
         target="_blank"
         href="https://santiment.net/">santiment.net</a
       >
@@ -63,7 +63,7 @@
     }
   }
 
-  .santimentlink {
+  .more {
     padding-top: 24px;
     border-top: 1px solid var(--porcelain);
   }
