@@ -1,15 +1,20 @@
-<script>
-  import Svg from './../../../ui/Svg/svelte'
-  import Tooltip from './../../../ui/Tooltip/svelte'
-  export let plans
-  export let feature
-  const { name, description, isLimit, isAccess, isCheck, postfix = '' } = feature
-  const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : ''
+<script>import Svg from './../../../ui/Svg/svelte';
+import Tooltip from './../../../ui/Tooltip/svelte';
+export let plans;
+export let feature;
+const {
+  name,
+  description,
+  isLimit,
+  isAccess,
+  isCheck,
+  postfix = ''
+} = feature;
+const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : '';
 
-  function getValue(value) {
-    return value !== undefined ? value : defaultValue
-  }
-</script>
+function getValue(value) {
+  return value !== undefined ? value : defaultValue;
+}</script>
 
 <div class="td-h txt-left">
   {name}
@@ -44,29 +49,27 @@
   </div>
 {/each}
 
-<style>
-  .info {
-    height: 24px;
-    width: 24px;
-    fill: var(--waterloo);
-  }
+<style >.info {
+  height: 24px;
+  width: 24px;
+  fill: var(--waterloo);
+}
 
-  .disabled {
-    background: var(--athens);
-  }
+.disabled {
+  background: var(--athens);
+}
 
-  .description {
-    padding: 14px 20px;
-    max-width: 252px;
-    color: var(--rhino);
-  }
-  .description :global(b) {
-    font-weight: 600;
-    color: var(--black);
-  }
+.description {
+  padding: 14px 20px;
+  max-width: 252px;
+  color: var(--rhino);
+}
+.description :global(b) {
+  font-weight: 600;
+  color: var(--black);
+}
 
-  :global(.opened-2Nknz7) {
-    --bg: var(--athens);
-    fill: var(--black) !important;
-  }
-</style>
+:global(.opened-2Nknz7) {
+  --bg: var(--athens);
+  fill: var(--black) !important;
+}</style>

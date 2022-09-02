@@ -1,25 +1,23 @@
-<script>
-  import Profile from './../../ui/Profile/svelte'
-  import ProfilePic from './../../ui/Profile/Pic.svelte'
-  import Info from './../../ui/Profile/Info.svelte'
-  import Svg from './../../ui/Svg/svelte'
-  import Tooltip from './../../ui/Tooltip/svelte'
-  import CommentsButton from './../../ui/Comments/Button.svelte'
-  import VoteButton from './VoteButton.svelte'
-  import HoverEdit from './HoverEdit.svelte'
-  export let id
-  export let title
-  export let user
-  export let currentUser
-  export let onEditClick
-  export let type
-  export let fallback = 'Unsaved layout'
-  export let editLabel = 'Edit'
-  export let comments
-  export let votes
-  export let onVote
-  export let titleHoverTooltipClass = ''
-</script>
+<script>import Profile from './../../ui/Profile/svelte';
+import ProfilePic from './../../ui/Profile/Pic.svelte';
+import Info from './../../ui/Profile/Info.svelte';
+import Svg from './../../ui/Svg/svelte';
+import Tooltip from './../../ui/Tooltip/svelte';
+import CommentsButton from './../../ui/Comments/Button.svelte';
+import VoteButton from './VoteButton.svelte';
+import HoverEdit from './HoverEdit.svelte';
+export let id;
+export let title;
+export let user;
+export let currentUser;
+export let onEditClick;
+export let type;
+export let fallback = 'Unsaved layout';
+export let editLabel = 'Edit';
+export let comments;
+export let votes;
+export let onVote;
+export let titleHoverTooltipClass = '';</script>
 
 {#if title}
   <div class="creation row v-center mrg-m mrg--r">
@@ -71,41 +69,39 @@
   </HoverEdit>
 {/if}
 
-<style>
-  .creation {
-    overflow: hidden;
-  }
+<style >.creation {
+  overflow: hidden;
+}
 
-  .info {
-    padding: 8px;
-    --fill: var(--waterloo);
-    --fill-hover: var(--black);
-    --bg-hover: var(--athens);
-  }
+.info {
+  padding: 8px;
+  --fill: var(--waterloo);
+  --fill-hover: var(--black);
+  --bg-hover: var(--athens);
+}
 
-  .tooltip {
-    padding: 24px;
-    width: 484px;
-  }
+.tooltip {
+  padding: 24px;
+  width: 484px;
+}
 
-  .divider {
-    height: 32px;
-    width: 1px;
-    background: var(--mystic);
-    margin: 0 12px;
-  }
+.divider {
+  height: 32px;
+  width: 1px;
+  background: var(--mystic);
+  margin: 0 12px;
+}
 
-  :global(.author-1Sc6B8) {
-    overflow: hidden;
-    min-width: fit-content;
-  }
-  :global(.author-1Sc6B8) :global(span) {
-    max-width: 140px !important;
-  }
+:global(.author-1Sc6B8) {
+  overflow: hidden;
+  min-width: fit-content;
+}
+:global(.author-1Sc6B8) :global(span) {
+  max-width: 140px !important;
+}
 
-  :global(.title-3QDKB0) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-</style>
+:global(.title-3QDKB0) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}</style>

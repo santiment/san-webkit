@@ -1,6 +1,4 @@
-<script>
-  import Socials from './Socials.svelte'
-</script>
+<script>import Socials from './Socials.svelte';</script>
 
 <div class="bottom c-casper">
   <div class="divider" />
@@ -22,60 +20,58 @@
   <Socials />
 </div>
 
-<style>
-  .bottom {
-    display: grid;
-    align-items: center;
-    text-align: center;
-    grid-template-areas: 'socials' 'divider' 'extras' 'copyright';
-  }
+<style >.bottom {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  grid-template-areas: "socials" "divider" "extras" "copyright";
+}
 
-  .extras {
-    grid-area: extras;
-  }
+.extras {
+  grid-area: extras;
+}
 
-  .divider {
-    grid-area: divider;
-    border-top: 1px solid var(--porcelain);
-    margin: 40px 0;
-  }
+.divider {
+  grid-area: divider;
+  border-top: 1px solid var(--porcelain);
+  margin: 40px 0;
+}
 
-  .copyright {
-    grid-area: copyright;
-    margin: 16px 0 56px;
-  }
+.copyright {
+  grid-area: copyright;
+  margin: 16px 0 56px;
+}
 
-  :global(.tablet) .bottom {
-    grid-template-areas: 'divider divider divider' 'socials extras extras' 'socials copyright copyright';
-  }
-  :global(.tablet) .copyright,
-  :global(.tablet) .extras {
-    text-align: right;
-  }
+:global(.tablet) .bottom {
+  grid-template-areas: "divider divider divider" "socials extras extras" "socials copyright copyright";
+}
+:global(.tablet) .copyright,
+:global(.tablet) .extras {
+  text-align: right;
+}
 
-  :global(.desktop) .bottom {
-    grid-template-areas: 'divider divider divider' 'copyright extras socials';
-  }
+:global(.desktop) .bottom {
+  grid-template-areas: "divider divider divider" "copyright extras socials";
+}
 
-  :global(.tablet) .bottom,
-  :global(.desktop) .bottom {
-    text-align: left;
-    padding: 0 0 24px;
-  }
-  :global(.tablet) .divider,
-  :global(.desktop) .divider {
-    margin: 0 0 24px;
-  }
-  :global(.tablet) .copyright,
-  :global(.desktop) .copyright {
-    margin: 0;
-  }
+:global(.tablet) .bottom,
+:global(.desktop) .bottom {
+  text-align: left;
+  padding: 0 0 24px;
+}
+:global(.tablet) .divider,
+:global(.desktop) .divider {
+  margin: 0 0 24px;
+}
+:global(.tablet) .copyright,
+:global(.desktop) .copyright {
+  margin: 0;
+}
 
-  a {
-    margin-left: 35px;
-  }
+a {
+  margin-left: 35px;
+}
 
-  a:first-child {
-    margin-left: auto;
-  }
-</style>
+a:first-child {
+  margin-left: auto;
+}</style>

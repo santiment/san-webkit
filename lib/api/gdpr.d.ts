@@ -1,1 +1,1 @@
-export declare const mutateGdpr: (privacyPolicyAccepted: boolean) => Promise<SAN.API.QueryBase>
+export declare const mutateGdpr: (privacyPolicyAccepted: boolean) => Promise<SAN.API.QueryBase>;

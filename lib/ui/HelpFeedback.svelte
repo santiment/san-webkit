@@ -1,12 +1,8 @@
-<script context="module">
-  export { showIntercom } from './../analytics/intercom'
-</script>
+<script context="module">export { showIntercom } from './../analytics/intercom';</script>
 
-<script>
-  import Svg from './Svg/svelte'
-  let className = ''
-  export { className as class }
-</script>
+<script>import Svg from './Svg/svelte';
+let className = '';
+export { className as class };</script>
 
 <div class="btn row v-center {className}" on:click>
   <Svg id="chat" w="14" h="16" class="chat-qObR1j mrg-s mrg--b" />

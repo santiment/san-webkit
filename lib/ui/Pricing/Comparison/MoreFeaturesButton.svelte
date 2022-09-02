@@ -1,7 +1,5 @@
-<script>
-  import Svg from './../../../ui/Svg/svelte'
-  export let isShowingMore = false
-</script>
+<script>import Svg from './../../../ui/Svg/svelte';
+export let isShowingMore = false;</script>
 
 <button
   class="btn-0 fluid row hv-center"
@@ -12,20 +10,18 @@
   <Svg id="arrow-down" w="10" h="5.5" class="arrow-1RBLBt mrg-m mrg--l" />
 </button>
 
-<style>
-  button {
-    padding: 12px;
-    border-radius: 0;
-    --bg-hover: var(--porcelain);
-    --accent: var(--green);
-    --accent-hover: var(--green-hover);
-  }
+<style >button {
+  padding: 12px;
+  border-radius: 0;
+  --bg-hover: var(--porcelain);
+  --accent: var(--green);
+  --accent-hover: var(--green-hover);
+}
 
-  .more {
-    --rotate: rotate(180deg);
-  }
+.more {
+  --rotate: rotate(180deg);
+}
 
-  :global(.arrow-1RBLBt) {
-    transform: var(--rotate, rotate(0deg));
-  }
-</style>
+:global(.arrow-1RBLBt) {
+  transform: var(--rotate, rotate(0deg));
+}</style>

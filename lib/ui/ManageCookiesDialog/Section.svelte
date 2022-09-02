@@ -1,16 +1,13 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  export let title
-  export let description
-  let isOpened = false
-</script>
+<script>import Svg from './../../ui/Svg/svelte';
+export let title;
+export let description;
+let isOpened = false;</script>
 
 <section>
   <div
     class="btn row v-center justify"
     class:opened={isOpened}
-    on:click={() => (isOpened = !isOpened)}
-  >
+    on:click={() => (isOpened = !isOpened)}>
     <div class="row v-center">
       <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--r" />
       {title}

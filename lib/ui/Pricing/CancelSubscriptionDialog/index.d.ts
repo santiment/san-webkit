@@ -1,1 +1,1 @@
-export declare const showCancelSubscriptionDialog: () => Promise<unknown>
+export declare const showCancelSubscriptionDialog: () => Promise<unknown>;

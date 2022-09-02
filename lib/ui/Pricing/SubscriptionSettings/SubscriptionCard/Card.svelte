@@ -1,25 +1,23 @@
-<script>
-  import Svg from './../../../../ui/Svg/svelte'
-  import { dataPreloader } from './../../../../ui/PaymentDialog/index.svelte'
-  export let title
-  export let label
-  export let price
-  export let billing
-  export let discount
-  export let badge
-  export let link
-  export let badgeIcon
-  export let isFullAccess = false
-  export let action, subaction
-  export let green = false
-  export let orange = false
-  export let yellow = false
-  export let disabled = false
-  export let isChecked = false
-  export let isActive = false
-  export let shouldHideBillingInfo = false
-  export let onActionClick, onSubactionClick
-</script>
+<script>import Svg from './../../../../ui/Svg/svelte';
+import { dataPreloader } from './../../../../ui/PaymentDialog/index.svelte';
+export let title;
+export let label;
+export let price;
+export let billing;
+export let discount;
+export let badge;
+export let link;
+export let badgeIcon;
+export let isFullAccess = false;
+export let action, subaction;
+export let green = false;
+export let orange = false;
+export let yellow = false;
+export let disabled = false;
+export let isChecked = false;
+export let isActive = false;
+export let shouldHideBillingInfo = false;
+export let onActionClick, onSubactionClick;</script>
 
 <article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
@@ -68,89 +66,87 @@
   {/if}
 </article>
 
-<style>
-  article {
-    padding: 16px 16px 16px 24px;
-    border-radius: 8px;
-    background: var(--athens);
-    min-width: 350px;
-  }
-  article > :global(p) {
-    max-width: 318px;
-    color: var(--fiord);
-  }
+<style >article {
+  padding: 16px 16px 16px 24px;
+  border-radius: 8px;
+  background: var(--athens);
+  min-width: 350px;
+}
+article > :global(p) {
+  max-width: 318px;
+  color: var(--fiord);
+}
 
-  .wide > :global(p) {
-    max-width: 300px;
-  }
+.wide > :global(p) {
+  max-width: 300px;
+}
 
-  .green {
-    background: var(--green-light-1);
-    --badge-color: var(--green);
-  }
+.green {
+  background: var(--green-light-1);
+  --badge-color: var(--green);
+}
 
-  .orange {
-    background: var(--orange-light-1);
-    --badge-color: var(--orange);
-  }
+.orange {
+  background: var(--orange-light-1);
+  --badge-color: var(--orange);
+}
 
-  .green,
-  .orange {
-    --primary: var(--orange);
-    --primary-hover: var(--orange-hover);
-    --badge: var(--white);
-  }
+.green,
+.orange {
+  --primary: var(--orange);
+  --primary-hover: var(--orange-hover);
+  --badge: var(--white);
+}
 
-  .yellow {
-    background: var(--yellow-light-1);
-    --primary: var(--fiord);
-    --primary-hover: var(--black);
-  }
-  .yellow > :global(p) {
-    color: var(--waterloo);
-  }
+.yellow {
+  background: var(--yellow-light-1);
+  --primary: var(--fiord);
+  --primary-hover: var(--black);
+}
+.yellow > :global(p) {
+  color: var(--waterloo);
+}
 
-  .disabled {
-    --color: var(--mystic);
-    --primary: var(--athens);
-    border: 1px solid var(--porcelain);
-  }
+.disabled {
+  --color: var(--mystic);
+  --primary: var(--athens);
+  border: 1px solid var(--porcelain);
+}
 
-  .badge {
-    background: var(--badge, var(--porcelain));
-    --color: var(--badge-color, var(--fiord));
-    fill: var(--color);
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    padding: 6px 12px;
-    border-radius: 6px;
-  }
+.badge {
+  background: var(--badge, var(--porcelain));
+  --color: var(--badge-color, var(--fiord));
+  fill: var(--color);
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
 
-  .check {
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-  }
+.check {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+}
 
-  .active {
-    fill: var(--white);
-    background: var(--green);
-  }
+.active {
+  fill: var(--white);
+  background: var(--green);
+}
 
-  .btn-1 {
-    display: inline-flex;
-    --bg: var(--primary, var(--green));
-    --bg-hover: var(--primary-hover, var(--green-hover));
-  }
+.btn-1 {
+  display: inline-flex;
+  --bg: var(--primary, var(--green));
+  --bg-hover: var(--primary-hover, var(--green-hover));
+}
 
-  .btn-2 {
-    --bg: var(--white);
-  }
+.btn-2 {
+  --bg: var(--white);
+}
 
-  .billing {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-  }
-</style>
+.billing {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+}</style>

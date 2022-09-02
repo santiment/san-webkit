@@ -1,7 +1,5 @@
-<script>
-  export let isActive
-  export let onComplete
-</script>
+<script>export let isActive;
+export let onComplete;</script>
 
 {#if isActive}
   <div class="panel box">
@@ -9,7 +7,9 @@
       You can click "Proposals" to view <br />
       your local unfinished proposals
     </p>
-    <button class="complete body-3 btn btn-2" on:click={onComplete}>Got it</button>
+    <button class="complete body-3 btn btn-2" on:click={onComplete}
+      >Got it</button
+    >
   </div>
 {/if}
 

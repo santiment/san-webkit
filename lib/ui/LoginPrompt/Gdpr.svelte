@@ -1,70 +1,67 @@
-<script>
-  import { onDestroy } from 'svelte'
-  import { debounce } from './../../utils/fn'
-  import { mutateGdpr } from './../../api/gdpr'
-  import { mutateChangeUsername } from './../../api/user'
-  import FieldTooltip from './../../ui/FieldTooltip/svelte'
-  import Checkbox from './../../ui/Checkbox.svelte'
-  import InputWithIcon from './../../ui/InputWithIcon.svelte'
-  import Section from './Section.svelte'
-  export let onAccept
-  export let currentUser
-  const constraints = {
-    required: true,
-    minlength: 3,
+<script>import { onDestroy } from 'svelte';
+import { debounce } from './../../utils/fn';
+import { mutateGdpr } from './../../api/gdpr';
+import { mutateChangeUsername } from './../../api/user';
+import FieldTooltip from './../../ui/FieldTooltip/svelte';
+import Checkbox from './../../ui/Checkbox.svelte';
+import InputWithIcon from './../../ui/InputWithIcon.svelte';
+import Section from './Section.svelte';
+export let onAccept;
+export let currentUser;
+const constraints = {
+  required: true,
+  minlength: 3
+};
+const defaultUsername = currentUser && currentUser.username;
+let isActive = false;
+let error = '';
+let loading = false;
+
+$: username = defaultUsername;
+
+$: isDisabled = !isActive || !username || error;
+
+const [checkValidity, clearTimer] = debounce(250, input => {
+  const {
+    value
+  } = input;
+
+  if (value.length < 3) {
+    error = 'Username should be at least 3 characters long';
+  } else if (value[0] === '@') {
+    error = '@ is not allowed for the first character';
+  } else {
+    error = '';
   }
-  const defaultUsername = currentUser && currentUser.username
-  let isActive = false
-  let error = ''
-  let loading = false
+});
 
-  $: username = defaultUsername
+function onBlur() {
+  if (username) return;
+  error = '';
+  username = defaultUsername;
+}
 
-  $: isDisabled = !isActive || !username || error
+function onInput({
+  currentTarget
+}) {
+  username = currentTarget.value;
+  checkValidity(currentTarget);
+}
 
-  const [checkValidity, clearTimer] = debounce(250, (input) => {
-    const { value } = input
+function onSubmit() {
+  if (isDisabled) return;
+  loading = true;
+  const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username);
+  usernamePromise.catch(onUsernameChangeError).then(() => mutateGdpr(true)).then(() => currentUser.privacyPolicyAccepted = true).then(onAccept).catch(console.error);
+}
 
-    if (value.length < 3) {
-      error = 'Username should be at least 3 characters long'
-    } else if (value[0] === '@') {
-      error = '@ is not allowed for the first character'
-    } else {
-      error = ''
-    }
-  })
+function onUsernameChangeError() {
+  error = `Username "${username}" is already taken`;
+  loading = false;
+  return Promise.reject();
+}
 
-  function onBlur() {
-    if (username) return
-    error = ''
-    username = defaultUsername
-  }
-
-  function onInput({ currentTarget }) {
-    username = currentTarget.value
-    checkValidity(currentTarget)
-  }
-
-  function onSubmit() {
-    if (isDisabled) return
-    loading = true
-    const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username)
-    usernamePromise
-      .catch(onUsernameChangeError)
-      .then(() => mutateGdpr(true))
-      .then(() => (currentUser.privacyPolicyAccepted = true))
-      .then(onAccept)
-      .catch(console.error)
-  }
-
-  function onUsernameChangeError() {
-    error = `Username "${username}" is already taken`
-    loading = false
-    return Promise.reject()
-  }
-
-  onDestroy(clearTimer)
-</script>
+onDestroy(clearTimer);</script>
 
 <Section title="Welcome to Insights">
   <div class="c-waterloo body-2">

@@ -1,8 +1,6 @@
-<script>
-  import Checkmark from './Checkmark.svelte'
-  export let percentOff
-  export let selectedNameBilling
-</script>
+<script>import Checkmark from './Checkmark.svelte';
+export let percentOff;
+export let selectedNameBilling;</script>
 
 <div class="discount mrg-l mrg--b">
   <div class="body-2 txt-m c-black row v-center">

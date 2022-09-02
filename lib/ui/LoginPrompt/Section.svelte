@@ -1,14 +1,12 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  import { IsMobile } from './../../stores/responsive'
-  let className = ''
-  export { className as class }
-  export let title
-  export let titleMargin = 'mrg-l'
-  export let bottomLabel
-  export let bottomAction
-  export let bottomHref
-</script>
+<script>import Svg from './../../ui/Svg/svelte';
+import { IsMobile } from './../../stores/responsive';
+let className = '';
+export { className as class };
+export let title;
+export let titleMargin = 'mrg-l';
+export let bottomLabel;
+export let bottomAction;
+export let bottomHref;</script>
 
 <section class="border column h-center {className}">
   <h2 class="h3 {titleMargin} mrg--b">{title}</h2>

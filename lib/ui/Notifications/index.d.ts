@@ -1,2 +1,2 @@
-export { default } from './index.svelte'
-export { notifications$ } from './notifications'
+export { default } from './index.svelte';
+export { notifications$ } from './notifications';

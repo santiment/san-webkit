@@ -1,34 +1,28 @@
-<script context="module">
-  import { dialogs } from './../ui/Dialog'
-  import RemovePaymentCardDialog from './RemovePaymentCardDialog.svelte'
-  export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardDialog)
-</script>
+<script context="module">import { dialogs } from './../ui/Dialog';
+import RemovePaymentCardDialog from './RemovePaymentCardDialog.svelte';
+export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardDialog);</script>
 
-<script>
-  import Dialog from './../ui/Dialog'
-  import { DialogLock } from './../ui/Dialog/dialogs'
-  import Svg from './../ui/Svg/svelte'
-  import { mutateDeletePaymentCard } from './../api/subscription'
-  import { paymentCard$ } from './../stores/paymentCard'
-  export let DialogPromise
-  let closeDialog
-  let loading = false
+<script>import Dialog from './../ui/Dialog';
+import { DialogLock } from './../ui/Dialog/dialogs';
+import Svg from './../ui/Svg/svelte';
+import { mutateDeletePaymentCard } from './../api/subscription';
+import { paymentCard$ } from './../stores/paymentCard';
+export let DialogPromise;
+let closeDialog;
+let loading = false;
 
-  function onClick() {
-    loading = true
-    DialogPromise.locking = DialogLock.LOCKED
-    mutateDeletePaymentCard()
-      .then(() => {
-        paymentCard$.clear()
-        paymentCard$.setDefault()
-        closeDialog()
-      })
-      .catch(() => {
-        loading = false
-        DialogPromise.locking = DialogLock.FREE
-      })
-  }
-</script>
+function onClick() {
+  loading = true;
+  DialogPromise.locking = DialogLock.LOCKED;
+  mutateDeletePaymentCard().then(() => {
+    paymentCard$.clear();
+    paymentCard$.setDefault();
+    closeDialog();
+  }).catch(() => {
+    loading = false;
+    DialogPromise.locking = DialogLock.FREE;
+  });
+}</script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
   <div class="dialog body-2">

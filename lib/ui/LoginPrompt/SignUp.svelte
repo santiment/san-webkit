@@ -1,12 +1,10 @@
-<script>
-  import Section from './Section.svelte'
-  import Divider from './Divider.svelte'
-  import Google from './Google.svelte'
-  import Twitter from './Twitter.svelte'
-  import EmailForm from './EmailForm.svelte'
-  import EmailConfirmation from './EmailConfirmation.svelte'
-  export let verifiedEmail
-</script>
+<script>import Section from './Section.svelte';
+import Divider from './Divider.svelte';
+import Google from './Google.svelte';
+import Twitter from './Twitter.svelte';
+import EmailForm from './EmailForm.svelte';
+import EmailConfirmation from './EmailConfirmation.svelte';
+export let verifiedEmail;</script>
 
 {#if verifiedEmail}
   <EmailConfirmation email={verifiedEmail} />
@@ -16,8 +14,7 @@
     titleMargin="mrg-xxl"
     bottomLabel="Have an account?"
     bottomAction="Log in"
-    bottomHref="/login"
-  >
+    bottomHref="/login">
     <Google />
     <Twitter />
 

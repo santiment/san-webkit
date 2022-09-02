@@ -1,25 +1,19 @@
-<script>
-  import {
-    showManageCookiesDialog,
-    COOKIE_POLICY_ACCEPTED,
-    applyCookies,
-  } from './../ui/ManageCookiesDialog/index.svelte'
-  import Svg from './../ui/Svg/svelte'
-  import { getSavedBoolean } from './../utils/localStorage'
-  let className = ''
-  export { className as class }
-  let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
+<script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
+import Svg from './../ui/Svg/svelte';
+import { getSavedBoolean } from './../utils/localStorage';
+let className = '';
+export { className as class };
+let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
 
-  function onAllowAllClick() {
-    isVisible = false
-    applyCookies(true, true)
-  }
+function onAllowAllClick() {
+  isVisible = false;
+  applyCookies(true, true);
+}
 
-  function onManageClick() {
-    isVisible = false
-    showManageCookiesDialog()
-  }
-</script>
+function onManageClick() {
+  isVisible = false;
+  showManageCookiesDialog();
+}</script>
 
 {#if isVisible}
   <div class="cookies border box {className}">
@@ -35,53 +29,51 @@
   </div>
 {/if}
 
-<style>
-  .cookies {
-    position: fixed;
-    padding: 24px 16px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    text-align: center;
-  }
+<style >.cookies {
+  position: fixed;
+  padding: 24px 16px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  text-align: center;
+}
 
-  a:hover {
-    color: var(--accent-hover, var(--green-hover));
-  }
+a:hover {
+  color: var(--accent-hover, var(--green-hover));
+}
 
-  :global(.pic-jZbext) {
-    width: 102px;
-    height: 128px;
-    transform: rotate(270deg);
-  }
+:global(.pic-jZbext) {
+  width: 102px;
+  height: 128px;
+  transform: rotate(270deg);
+}
 
-  :global(.desktop) .cookies {
-    padding: 20px 43px 20px 110px;
-    max-width: 450px;
-    right: initial;
-    left: 20px;
-    bottom: 20px;
-    text-align: left;
-  }
-  :global(.desktop) :global(.pic-jZbext) {
-    transform: initial;
-    position: absolute;
-    left: 24px;
-    width: 70px;
-    height: 88px;
-  }
+:global(.desktop) .cookies {
+  padding: 20px 43px 20px 110px;
+  max-width: 450px;
+  right: initial;
+  left: 20px;
+  bottom: 20px;
+  text-align: left;
+}
+:global(.desktop) :global(.pic-jZbext) {
+  transform: initial;
+  position: absolute;
+  left: 24px;
+  width: 70px;
+  height: 88px;
+}
 
-  :global(body:not(.desktop)) .cookies {
-    border-radius: 0;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-  :global(body:not(.desktop)) button {
-    width: 100%;
-    padding: 10px;
-  }
-  :global(body:not(.desktop)) .manage {
-    margin: 12px 0 0;
-  }
-</style>
+:global(body:not(.desktop)) .cookies {
+  border-radius: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+:global(body:not(.desktop)) button {
+  width: 100%;
+  padding: 10px;
+}
+:global(body:not(.desktop)) .manage {
+  margin: 12px 0 0;
+}</style>

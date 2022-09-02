@@ -1,10 +1,8 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  let className = ''
-  export { className as class }
-  export let src = undefined
-  export let placeholderWidth = 16
-</script>
+<script>import Svg from './../../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let src = undefined;
+export let placeholderWidth = 16;</script>
 
 <div class="img row hv-center {className}">
   {#if src}

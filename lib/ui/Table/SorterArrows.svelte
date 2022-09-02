@@ -1,15 +1,12 @@
-<script>
-  import Svg from './../../ui/Svg/svelte'
-  export let isAscending = false
-</script>
+<script>import Svg from './../../ui/Svg/svelte';
+export let isAscending = false;</script>
 
 <Svg
   illus
   id="sorted"
   w="6"
   h="8"
-  class="sorter-2JeLOD mrg-xs mrg--l {isAscending ? 'asc-2zkcND' : ''}"
-/>
+  class="sorter-2JeLOD mrg-xs mrg--l {isAscending ? 'asc-2zkcND' : ''}" />
 
 <style>
   :global(.sorter-2JeLOD) {

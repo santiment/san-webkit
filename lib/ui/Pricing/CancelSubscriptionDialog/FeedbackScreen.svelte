@@ -1,28 +1,26 @@
-<script>
-  import Svg from './../../../ui/Svg/svelte'
-  import Checkbox from './../../../ui/Checkbox.svelte'
-  import { track } from './../../../analytics'
-  import { Event, REASONS } from './flow'
-  import Screen from './Screen.svelte'
-  import { IsMobile as isMobile$ } from './../../../stores/responsive'
-  export let feedback
-  export let reasons
+<script>import Svg from './../../../ui/Svg/svelte';
+import Checkbox from './../../../ui/Checkbox.svelte';
+import { track } from './../../../analytics';
+import { Event, REASONS } from './flow';
+import Screen from './Screen.svelte';
+import { IsMobile as isMobile$ } from './../../../stores/responsive';
+export let feedback;
+export let reasons;
 
-  $: isMobile = $isMobile$
+$: isMobile = $isMobile$;
 
-  function onReasonSelect(reason) {
-    if (reasons.has(reason)) {
-      reasons.delete(reason)
-    } else {
-      track.event(Event.SelectReason, {
-        reason,
-      })
-      reasons.add(reason)
-    }
-
-    reasons = reasons
+function onReasonSelect(reason) {
+  if (reasons.has(reason)) {
+    reasons.delete(reason);
+  } else {
+    track.event(Event.SelectReason, {
+      reason
+    });
+    reasons.add(reason);
   }
-</script>
+
+  reasons = reasons;
+}</script>
 
 <Screen {...$$props}>
   <svelte:fragment slot="title">We’re sorry to see you go 😔</svelte:fragment>
@@ -60,19 +58,17 @@
   </svelte:fragment>
 </Screen>
 
-<style>
-  .reasons {
-    gap: 12px;
-  }
+<style >.reasons {
+  gap: 12px;
+}
 
-  textarea {
-    resize: vertical;
-    min-height: 72px;
-  }
+textarea {
+  resize: vertical;
+  min-height: 72px;
+}
 
-  .cat {
-    border-left: 1px solid var(--porcelain);
-    margin-left: 56px;
-    padding: 0 50px 0 106px;
-  }
-</style>
+.cat {
+  border-left: 1px solid var(--porcelain);
+  margin-left: 56px;
+  padding: 0 50px 0 106px;
+}</style>

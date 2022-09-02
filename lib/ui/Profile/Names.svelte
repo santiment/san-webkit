@@ -1,14 +1,15 @@
-<script>
-  import Profile from './index.svelte'
-  let className = ''
-  export { className as class }
-  export let user
-  export let followers = undefined
+<script>import Profile from './index.svelte';
+let className = '';
+export { className as class };
+export let user;
+export let followers = undefined;
 
-  $: ({ username, email } = user)
+$: ({
+  username,
+  email
+} = user);
 
-  $: subtitle = followers >= 0 ? `${followers} Followers` : email
-</script>
+$: subtitle = followers >= 0 ? `${followers} Followers` : email;</script>
 
 <Profile {user} class="txt-m {className}">
   <svelte:fragment slot="name">

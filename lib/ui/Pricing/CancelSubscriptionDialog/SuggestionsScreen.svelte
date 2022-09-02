@@ -1,7 +1,5 @@
-<script>
-  import Screen from './Screen.svelte'
-  import { showIntercom } from './../../../analytics/intercom'
-</script>
+<script>import Screen from './Screen.svelte';
+import { showIntercom } from './../../../analytics/intercom';</script>
 
 <Screen {...$$props}>
   <svelte:fragment slot="title">Cancel subscription?</svelte:fragment>
@@ -24,10 +22,8 @@
   </svelte:fragment>
 </Screen>
 
-<style>
-  .suggestion {
-    padding: 14px;
-    margin-top: 12px;
-    --bg: var(--white);
-  }
-</style>
+<style >.suggestion {
+  padding: 14px;
+  margin-top: 12px;
+  --bg: var(--white);
+}</style>

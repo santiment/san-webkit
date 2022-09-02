@@ -1,18 +1,20 @@
-<script>
-  import Suggestions from './Suggestions.svelte'
-  import { searchUserByUsername } from './../../../api/ws'
-  import ProfilePic from './../../../ui/Profile/Pic.svelte'
-  export let searchTerm = ''
-  export const href = ({ id }) => 'https://app.santiment.net/profile/' + id
-  export const label = ({ username }) => '@' + username
-  let items = []
+<script>import Suggestions from './Suggestions.svelte';
+import { searchUserByUsername } from './../../../api/ws';
+import ProfilePic from './../../../ui/Profile/Pic.svelte';
+export let searchTerm = '';
+export const href = ({
+  id
+}) => 'https://app.santiment.net/profile/' + id;
+export const label = ({
+  username
+}) => '@' + username;
+let items = [];
 
-  $: onInput(searchTerm)
+$: onInput(searchTerm);
 
-  function onInput(searchTerm) {
-    searchUserByUsername(searchTerm).then((data) => (items = data.slice(0, 5)))
-  }
-</script>
+function onInput(searchTerm) {
+  searchUserByUsername(searchTerm).then(data => items = data.slice(0, 5));
+}</script>
 
 <Suggestions {...$$props} {items} key="id" let:item>
   <ProfilePic src={item.avatar_url} class="pic-1SU2tC mrg-s mrg--r" />

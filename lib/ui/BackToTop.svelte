@@ -1,24 +1,21 @@
-<script>
-  import ViewportObserver from './../ui/ViewportObserver.svelte'
-  let className = ''
-  export { className as class }
-  export let options = {
-    rootMargin: '0px 0px -100px',
-  }
-  let hidden = true
+<script>import ViewportObserver from './../ui/ViewportObserver.svelte';
+let className = '';
+export { className as class };
+export let options = {
+  rootMargin: '0px 0px -100px'
+};
+let hidden = true;
 
-  const onIntersect = () => (hidden = true)
+const onIntersect = () => hidden = true;
 
-  const onLeaving = () => (hidden = false)
-</script>
+const onLeaving = () => hidden = false;</script>
 
 <ViewportObserver {options} on:intersect={onIntersect} on:leaving={onLeaving}>
   <div
     class="btn {className}"
     class:hidden
     on:click={() => window.scrollTo(0, 0)}
-    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)"
-  />
+    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)" />
 </ViewportObserver>
 
 <style>

@@ -1,46 +1,46 @@
-<script>
-  import Author from './../../ui/Profile/svelte'
-  import { dateDifferenceInWords } from './../../utils/dates'
-  import { markdownToHTML } from './../../ui/Editor/markdown'
-  import Menu from './Menu.svelte'
-  import RepliedTo from './RepliedTo.svelte'
-  import { DELETE_MSG } from './DeleteDialog.svelte'
-  import { showCommentReplyDialog } from './ReplyDialog.svelte'
-  import { getDatetime } from './utils'
-  export let type
-  export let commentsFor
-  export let comment
-  export let authorId
-  export let currentUser = null
-  export let updateComments
-  export let scrollToNewComment
-  export let commentsNode
+<script>import Author from './../../ui/Profile/svelte';
+import { dateDifferenceInWords } from './../../utils/dates';
+import { markdownToHTML } from './../../ui/Editor/markdown';
+import Menu from './Menu.svelte';
+import RepliedTo from './RepliedTo.svelte';
+import { DELETE_MSG } from './DeleteDialog.svelte';
+import { showCommentReplyDialog } from './ReplyDialog.svelte';
+import { getDatetime } from './utils';
+export let type;
+export let commentsFor;
+export let comment;
+export let authorId;
+export let currentUser = null;
+export let updateComments;
+export let scrollToNewComment;
+export let commentsNode;
 
-  $: ({ content, insertedAt, editedAt, user, parentId } = comment)
+$: ({
+  content,
+  insertedAt,
+  editedAt,
+  user,
+  parentId
+} = comment);
 
-  $: edited = editedAt ? 'Edited ' : ''
+$: edited = editedAt ? 'Edited ' : '';
 
-  $: time = edited + dateDifferenceInWords(new Date(edited ? editedAt : insertedAt))
+$: time = edited + dateDifferenceInWords(new Date(edited ? editedAt : insertedAt));
 
-  $: html = markdownToHTML(content)
+$: html = markdownToHTML(content);
 
-  function onReply() {
-    showCommentReplyDialog(commentsFor.id, comment.id, type)
-      .then((newComment) => {
-        if (!newComment) return
-        updateComments((comments) => (comments.push(newComment), comments))
-      })
-      .then(scrollToNewComment)
-  }
+function onReply() {
+  showCommentReplyDialog(commentsFor.id, comment.id, type).then(newComment => {
+    if (!newComment) return;
+    updateComments(comments => (comments.push(newComment), comments));
+  }).then(scrollToNewComment);
+}
 
-  function getCommentDate(insertedAt, editedAt) {
-    const insertedDate = getDatetime(insertedAt)
-    return editedAt
-      ? `Posted: ${insertedDate}
-Edited: ${getDatetime(editedAt)}`
-      : insertedDate
-  }
-</script>
+function getCommentDate(insertedAt, editedAt) {
+  const insertedDate = getDatetime(insertedAt);
+  return editedAt ? `Posted: ${insertedDate}
+Edited: ${getDatetime(editedAt)}` : insertedDate;
+}</script>
 
 {#if parentId}
   <RepliedTo id={comment.parentId} />
@@ -75,52 +75,50 @@ Edited: ${getDatetime(editedAt)}`
   {/if}
 </div>
 
-<style>
-  .content {
-    padding: 16px;
-    background: var(--athens);
-    border-radius: 8px;
-    word-break: break-word;
-    transition: background 700ms;
-    scroll-margin: 50px;
-  }
-  .content :global(a) {
-    color: var(--green);
-  }
-  .content :global(a:hover) {
-    color: var(--green-hover);
-  }
-  .content :global(strong),
-  .content :global(b) {
-    font-weight: bold;
-  }
+<style >.content {
+  padding: 16px;
+  background: var(--athens);
+  border-radius: 8px;
+  word-break: break-word;
+  transition: background 700ms;
+  scroll-margin: 50px;
+}
+.content :global(a) {
+  color: var(--green);
+}
+.content :global(a:hover) {
+  color: var(--green-hover);
+}
+.content :global(strong),
+.content :global(b) {
+  font-weight: bold;
+}
 
-  .actions {
-    --color: var(--waterloo);
-    --color-hover: var(--green);
-    position: relative;
-  }
+.actions {
+  --color: var(--waterloo);
+  --color-hover: var(--green);
+  position: relative;
+}
 
-  :global(.user-bDjYrr) {
-    max-width: 60%;
-  }
+:global(.user-bDjYrr) {
+  max-width: 60%;
+}
 
-  .author {
-    font-size: 10px;
-    line-height: 12px;
-    color: var(--orange);
-    padding: 3px 4px;
-    border-radius: 4px;
-    background: var(--orange-light-1);
-  }
+.author {
+  font-size: 10px;
+  line-height: 12px;
+  color: var(--orange);
+  padding: 3px 4px;
+  border-radius: 4px;
+  background: var(--orange-light-1);
+}
 
-  .reply {
-    padding: 6px 12px;
-  }
+.reply {
+  padding: 6px 12px;
+}
 
-  .expl-tooltip {
-    --expl-white-space: pre;
-    --expl-right: -2px;
-    --expl-align-y: 24px;
-  }
-</style>
+.expl-tooltip {
+  --expl-white-space: pre;
+  --expl-right: -2px;
+  --expl-align-y: 24px;
+}</style>

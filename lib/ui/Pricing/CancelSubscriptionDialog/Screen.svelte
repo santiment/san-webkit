@@ -1,11 +1,9 @@
-<script>
-  export let reasons
-  export let loading
-  export let disabled
-  export let isFeedbackScreen
-  export let onCancellationClick
-  export let onServiceClick
-</script>
+<script>export let reasons;
+export let loading;
+export let disabled;
+export let isFeedbackScreen;
+export let onCancellationClick;
+export let onServiceClick;</script>
 
 <section class="txt-center">
   <h2 class="h4 txt-m mrg-xl mrg--b">
@@ -42,23 +40,21 @@
 
 <slot name="right" />
 
-<style>
-  .help {
-    padding: 24px 32px;
-    background: var(--athens);
-    border-radius: 4px;
-  }
+<style >.help {
+  padding: 24px 32px;
+  background: var(--athens);
+  border-radius: 4px;
+}
 
-  .cancel {
-    --border: var(--green);
-    --color-hover: var(--green-hover);
-  }
-  .cancel.disabled {
-    --border: var(--porcelain);
-    background: var(--athens);
-  }
+.cancel {
+  --border: var(--green);
+  --color-hover: var(--green-hover);
+}
+.cancel.disabled {
+  --border: var(--porcelain);
+  background: var(--athens);
+}
 
-  .contact {
-    background: none;
-  }
-</style>
+.contact {
+  background: none;
+}</style>

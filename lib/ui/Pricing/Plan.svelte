@@ -1,60 +1,55 @@
-<script>
-  var _a
+<script>var _a;
 
-  import Svg from './../../ui/Svg/svelte'
-  import {
-    Billing,
-    formatMonthlyPrice,
-    getAlternativePlan,
-    getSavedAmount,
-    Plan,
-    PlanName,
-  } from './../../utils/plans'
-  import { checkIsTrialSubscription } from './../../utils/subscription'
-  import PlanButton from './PlanButton.svelte'
-  import { PlanDescription } from './description'
-  let className = ''
-  export { className as class }
-  export let plan
-  export let plans
-  export let subscription
-  export let annualDiscount = {}
-  export let isEligibleForTrial
-  export let isLoggedIn = false
+import Svg from './../../ui/Svg/svelte';
+import { Billing, formatMonthlyPrice, getAlternativePlan, getSavedAmount, Plan, PlanName } from './../../utils/plans';
+import { checkIsTrialSubscription } from './../../utils/subscription';
+import PlanButton from './PlanButton.svelte';
+import { PlanDescription } from './description';
+let className = '';
+export { className as class };
+export let plan;
+export let plans;
+export let subscription;
+export let annualDiscount = {};
+export let isEligibleForTrial;
+export let isLoggedIn = false;
 
-  $: ({ id, name, interval } = plan)
+$: ({
+  id,
+  name,
+  interval
+} = plan);
 
-  $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
+$: isOnTrial = subscription && checkIsTrialSubscription(subscription);
 
-  $: isTrialPlan =
-    isOnTrial &&
-    (subscription === null || subscription === void 0 ? void 0 : subscription.plan.id) === id
+$: isTrialPlan = isOnTrial && (subscription === null || subscription === void 0 ? void 0 : subscription.plan.id) === id;
 
-  $: isAnnualPlan = interval === Billing.YEAR
+$: isAnnualPlan = interval === Billing.YEAR;
 
-  $: isFreePlan = name.includes(Plan.FREE)
+$: isFreePlan = name.includes(Plan.FREE);
 
-  $: altPlan = getAlternativePlan(plan, plans)
+$: altPlan = getAlternativePlan(plan, plans);
 
-  $: ({ description, features } = PlanDescription[name])
+$: ({
+  description,
+  features
+} = PlanDescription[name]);
 
-  $: percentOff =
-    ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 0
+$: percentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 0;
 
-  $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
+$: monthlyPrice = formatMonthlyPrice(plan, percentOff);
 
-  function getBillingDescription(currentPlan, fallbackPlan, discount) {
-    if (isFreePlan) {
-      return 'Free forever'
-    }
-
-    if (isAnnualPlan) {
-      return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`
-    }
-
-    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`
+function getBillingDescription(currentPlan, fallbackPlan, discount) {
+  if (isFreePlan) {
+    return 'Free forever';
   }
-</script>
+
+  if (isAnnualPlan) {
+    return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`;
+  }
+
+  return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`;
+}</script>
 
 <div class="plan txt-center relative {className}" class:free={isFreePlan}>
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>

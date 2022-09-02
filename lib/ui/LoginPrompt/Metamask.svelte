@@ -1,30 +1,27 @@
-<script>
-  import { track } from './../../analytics'
-  import metamaskSvg from './metamask.svg'
-  import metamaskInverseSvg from './metamask-inverse.svg'
-  export let onClick
-  const hasMetamask = process.browser ? !!window.ethereum : true
-  let loading = false
+<script>import { track } from './../../analytics';
+import metamaskSvg from './metamask.svg';
+import metamaskInverseSvg from './metamask-inverse.svg';
+export let onClick;
+const hasMetamask = process.browser ? !!window.ethereum : true;
+let loading = false;
 
-  function onLoginClick() {
-    loading = true
-    track.event('sign_up', {
-      method: 'metamask',
-    })
-    onClick().catch((e) => {
-      console.warn(e)
-      loading = false
-    })
-  }
-</script>
+function onLoginClick() {
+  loading = true;
+  track.event('sign_up', {
+    method: 'metamask'
+  });
+  onClick().catch(e => {
+    console.warn(e);
+    loading = false;
+  });
+}</script>
 
 {#if hasMetamask}
   <div
     class="login btn-1 btn--l"
     class:loading
     on:click={onLoginClick}
-    style="--url:url({metamaskInverseSvg})"
-  >
+    style="--url:url({metamaskInverseSvg})">
     Log in with Metamask
   </div>
 {:else}

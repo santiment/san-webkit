@@ -1,50 +1,44 @@
-<script>
-  import {
-    checkIsYearlyPlan,
-    formatMonthlyPrice,
-    formatPrice,
-    getSavedAmount,
-    PlanName,
-  } from './../../../../utils/plans'
-  import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte'
-  import Card from './Card.svelte'
-  export let plan
-  export let altPlan = plan
-  export let discount
-  export let action = 'Buy now'
-  export let label, badge, badgeIcon
-  export let isEligibleForTrial = false
-  export let isTrial = false
-  export let isUpgrade = false
-  export let shouldHideBillingInfo
-  export let onActionClick = () =>
-    showPaymentDialog({
-      plan: plan.name,
-      interval: plan.interval,
-    })
+<script>import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName } from './../../../../utils/plans';
+import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
+import Card from './Card.svelte';
+export let plan;
+export let altPlan = plan;
+export let discount;
+export let action = 'Buy now';
+export let label, badge, badgeIcon;
+export let isEligibleForTrial = false;
+export let isTrial = false;
+export let isUpgrade = false;
+export let shouldHideBillingInfo;
+export let onActionClick = () => showPaymentDialog({
+  plan: plan.name,
+  interval: plan.interval
+});
 
-  $: ({ name } = plan)
+$: ({
+  name
+} = plan);
 
-  $: annual = checkIsYearlyPlan(plan) ? ' / Annual' : ''
+$: annual = checkIsYearlyPlan(plan) ? ' / Annual' : '';
 
-  $: ({ billing, price } = getBillingPrice(plan, altPlan, annual))
+$: ({
+  billing,
+  price
+} = getBillingPrice(plan, altPlan, annual));
 
-  function getBillingPrice(plan, altPlan, annual) {
-    if (plan === altPlan) {
-      return {
-        price: formatPrice(plan),
-        billing: `Billed ${plan.interval}ly`,
-      }
-    }
-
+function getBillingPrice(plan, altPlan, annual) {
+  if (plan === altPlan) {
     return {
-      price: formatMonthlyPrice(plan, discount),
-      billing: annual
-        ? `You save ${getSavedAmount(plan, altPlan, discount)} this year`
-        : 'Billed monthly',
-    }
+      price: formatPrice(plan),
+      billing: `Billed ${plan.interval}ly`
+    };
   }
-</script>
+
+  return {
+    price: formatMonthlyPrice(plan, discount),
+    billing: annual ? `You save ${getSavedAmount(plan, altPlan, discount)} this year` : 'Billed monthly'
+  };
+}</script>
 
 <Card
   {...$$restProps}

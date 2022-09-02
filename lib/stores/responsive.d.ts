@@ -1,1 +1,1 @@
-export declare const IsMobile: import('svelte/store').Writable<boolean>
+export declare const IsMobile: import("svelte/store").Writable<boolean>;

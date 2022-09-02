@@ -1,36 +1,34 @@
-<script>
-  import { showIntercom } from './../../analytics/intercom'
-  import { subscription$ } from './../../stores/subscription'
-  import { getDateFormats } from './../../utils/dates'
-  import { calculateTrialDaysLeft, getNextPaymentDate } from './../../utils/subscription'
-  export let plan
-  export let name
-  export let price
-  export let isEligibleForTrial = true
+<script>import { showIntercom } from './../../analytics/intercom';
+import { subscription$ } from './../../stores/subscription';
+import { getDateFormats } from './../../utils/dates';
+import { calculateTrialDaysLeft, getNextPaymentDate } from './../../utils/subscription';
+export let plan;
+export let name;
+export let price;
+export let isEligibleForTrial = true;
 
-  $: subscription = $subscription$
+$: subscription = $subscription$;
 
-  $: trialDaysLeft = (
-    subscription === null || subscription === void 0 ? void 0 : subscription.trialEnd
-  )
-    ? calculateTrialDaysLeft(subscription.trialEnd)
-    : 0
+$: trialDaysLeft = (subscription === null || subscription === void 0 ? void 0 : subscription.trialEnd) ? calculateTrialDaysLeft(subscription.trialEnd) : 0;
 
-  function formatDate(date) {
-    const { DD, MM, YY } = getDateFormats(date)
-    return `${DD}/${MM}/${YY}`
-  }
+function formatDate(date) {
+  const {
+    DD,
+    MM,
+    YY
+  } = getDateFormats(date);
+  return `${DD}/${MM}/${YY}`;
+}
 
-  function getNextPaymentDates(plan) {
-    return formatDate(getNextPaymentDate(plan))
-  }
+function getNextPaymentDates(plan) {
+  return formatDate(getNextPaymentDate(plan));
+}
 
-  function getTrialEndDate() {
-    const date = new Date()
-    date.setDate(date.getDate() + 14)
-    return formatDate(date)
-  }
-</script>
+function getTrialEndDate() {
+  const date = new Date();
+  date.setDate(date.getDate() + 14);
+  return formatDate(date);
+}</script>
 
 <div class="banner mrg-l mrg--b" class:trial={isEligibleForTrial}>
   <div class="txt-m mrg-xs mrg--b">

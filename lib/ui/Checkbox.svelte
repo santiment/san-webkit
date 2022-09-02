@@ -1,15 +1,12 @@
-<script>
-  export let isActive = false
-  let className = ''
-  export { className as class }
-</script>
+<script>export let isActive = false;
+let className = '';
+export { className as class };</script>
 
 <button
   style="--bg:url({process.env.ICONS_PATH}/checkmark.svg)"
   class:isActive
   class={className}
-  on:click
-/>
+  on:click />
 
 <style>
   button {
