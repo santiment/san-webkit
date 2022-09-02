@@ -1,1 +1,0 @@
-{"version":3,"file":"ga.js","sourceRoot":"","sources":["../../src/analytics/ga.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,SAAS,CAAA;AAEvC,MAAM,UAAU,MAAM,CAAC,EAAU;IAC/B,aAAa,CAAC,SAAS,EAAE;QACvB,KAAK,EAAE,IAAI;QACX,GAAG,EAAE,+CAA+C,EAAE,EAAE;KACzD,CAAC,CAAA;IAEF,aAAa,CAAC;;;kBAGE,EAAE,KAAK,CAAC,CAAA;AAC1B,CAAC"}
