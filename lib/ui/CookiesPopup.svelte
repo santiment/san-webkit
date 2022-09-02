@@ -17,7 +17,7 @@ function onManageClick() {
 
 {#if isVisible}
   <div class="cookies border box {className}">
-    <Svg illus id="cookies" class="pic-2J7Aeh" />
+    <Svg illus id="cookies" class="pic-2xc-ON" />
     <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
     <h4 class="body-3 mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -43,7 +43,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-2J7Aeh) {
+:global(.pic-2xc-ON) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -57,7 +57,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-2J7Aeh) {
+:global(.desktop) :global(.pic-2xc-ON) {
   transform: initial;
   position: absolute;
   left: 24px;

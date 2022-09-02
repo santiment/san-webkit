@@ -68,7 +68,7 @@ onDestroy(clearTimer);</script>
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
 
-      <FieldTooltip text={error} activeClass="error--9sgu_">
+      <FieldTooltip text={error} activeClass="error-2yHMrm">
         <InputWithIcon
           {constraints}
           value={username}
@@ -134,7 +134,7 @@ onDestroy(clearTimer);</script>
     color: var(--green-hover);
   }
 
-  :global(.error--9sgu_) {
+  :global(.error-2yHMrm) {
     --border: var(--red);
   }
 </style>
