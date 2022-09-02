@@ -21,6 +21,12 @@ async function publish() {
   await exec('git checkout lib')
   await exec('git pull', false)
 
+  const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
+
+  if (!currentBranchMsg.includes('lib')) {
+    return console.error(` Current branch is "${currentBranchMsg}" but should be "lib" ❗️`)
+  }
+
   const [mergeMsg] = await exec(
     'git merge master -X theirs -m "Merge branch \'master\' into lib"',
     false,
