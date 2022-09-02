@@ -91,7 +91,7 @@
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-2iV9Kj mrg-m mrg--l" />
+    <Svg id="arrow-right" w="5" h="8" class="left-3aZ9ra mrg-m mrg--l" />
   </div>
   <div
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
@@ -104,7 +104,7 @@
 </div>
 
 <style>
-  :global(.left-2iV9Kj) {
+  :global(.left-3aZ9ra) {
     transform: rotate(180deg);
   }
 

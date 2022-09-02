@@ -13,7 +13,7 @@
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}
 >
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-38IYur" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-21nEk4" />
 
   <span>
     {#if $$slots.name}
@@ -32,7 +32,7 @@
   a:hover {
     --color: var(--accent, var(--green));
   }
-  a:hover :global(.pic-38IYur) {
+  a:hover :global(.pic-21nEk4) {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 

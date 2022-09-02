@@ -51,7 +51,7 @@
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-tLliK_" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-TXsrft" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -79,7 +79,7 @@
     max-width: 600px;
   }
 
-  :global(.close-tLliK_) {
+  :global(.close-TXsrft) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

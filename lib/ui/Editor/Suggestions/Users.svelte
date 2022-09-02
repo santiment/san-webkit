@@ -15,14 +15,14 @@
 </script>
 
 <Suggestions {...$$props} {items} key="id" let:item>
-  <ProfilePic src={item.avatar_url} class="pic-HEyysX mrg-s mrg--r" />
+  <ProfilePic src={item.avatar_url} class="pic-1SU2tC mrg-s mrg--r" />
   <span>
     @{item.username}
   </span>
 </Suggestions>
 
 <style>
-  :global(.pic-HEyysX) {
+  :global(.pic-1SU2tC) {
     --img-size: 24px;
   }
 

@@ -71,7 +71,7 @@
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
 
-      <FieldTooltip text={error} activeClass="error--9sgu_">
+      <FieldTooltip text={error} activeClass="error-3bbuTd">
         <InputWithIcon
           {constraints}
           value={username}
@@ -137,7 +137,7 @@
     color: var(--green-hover);
   }
 
-  :global(.error--9sgu_) {
+  :global(.error-3bbuTd) {
     --border: var(--red);
   }
 </style>

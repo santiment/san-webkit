@@ -44,7 +44,7 @@
       isComments
       bind:editor
       html={value}
-      class="input input-1gld7S"
+      class="input input-1adxPl"
       placeholder="Type your comment here"
     />
 
@@ -59,7 +59,7 @@
 </Dialog>
 
 <style>
-  :global(.input-1gld7S) {
+  :global(.input-1adxPl) {
     padding: 9px 12px;
     min-height: 40px;
     width: 400px;

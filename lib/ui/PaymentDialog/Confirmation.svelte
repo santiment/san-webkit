@@ -32,7 +32,7 @@
       <DiscountInput bind:percentOff />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-tuHBnD mrg-s mrg--r" />
+        <Svg id="info" w="16" class="info-1b8v6D mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -77,7 +77,7 @@
     max-width: 355px;
   }
 
-  :global(.info-tuHBnD) {
+  :global(.info-1b8v6D) {
     margin-top: 2px;
   }
 

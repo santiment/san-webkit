@@ -17,7 +17,7 @@
 
 <div class="row v-center change {className}" class:down={change < 0}>
   <span class="direction row hv-center mrg-xs mrg--r">
-    <Svg id="triangle" w="6" h="4" class="arrow-3aeeHS" />
+    <Svg id="triangle" w="6" h="4" class="arrow-2e4G6l" />
   </span>
   {change}%
 </div>
@@ -33,7 +33,7 @@
     --bg: var(--red-light-1);
     --transform: rotate(180deg);
   }
-  :global(.arrow-3aeeHS) {
+  :global(.arrow-2e4G6l) {
     transform: var(--transform);
   }
 

@@ -59,25 +59,25 @@
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin status-3_Luym" />
+      <div class="loading-spin status-mSq6K7" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="status-3_Luym {isValid ? 'valid-2uCgj7' : ''}"
+        class="status-mSq6K7 {isValid ? 'valid-1v_ZF0' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  :global(.status-3_Luym) {
+  :global(.status-mSq6K7) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  :global(.valid-2uCgj7) {
+  :global(.valid-1v_ZF0) {
     fill: var(--green);
   }
 </style>

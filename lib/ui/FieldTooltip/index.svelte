@@ -10,7 +10,7 @@
 <Tooltip
   isOpened={!!text}
   isEnabled={false}
-  class="caption c-black tooltip-1L9Xnq"
+  class="caption c-black tooltip-2-s2DH"
   {offsetY}
   {activeClass}
 >
@@ -23,7 +23,7 @@
 </Tooltip>
 
 <style>
-  :global(.tooltip-1L9Xnq) {
+  :global(.tooltip-2-s2DH) {
     padding: 6px 8px;
     fill: var(--red);
   }

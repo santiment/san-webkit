@@ -18,7 +18,7 @@
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="plan-3VBsjd"
+        class="plan-1oPa6Z"
       />
     {/each}
   </div>
@@ -35,7 +35,7 @@
     margin: 0 auto;
   }
 
-  :global(.plan-3VBsjd) {
+  :global(.plan-1oPa6Z) {
     --h-padding: 40px;
     flex: 1;
     width: 100%;
@@ -43,7 +43,7 @@
     max-width: 386px;
     border-right: 1px solid var(--porcelain);
   }
-  :global(.plan-3VBsjd:last-child) {
+  :global(.plan-1oPa6Z:last-child) {
     border: 0;
   }
 </style>

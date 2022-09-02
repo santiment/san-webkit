@@ -106,7 +106,7 @@
           <Svg illus {...CardBrandIllustration.Visa} class="mrg-m mrg--r" />
           <Svg illus {...CardBrandIllustration.MasterCard} />
 
-          <Checkmark class="checkmark-1Pg9NB {isCardValid ? 'valid-b_Gmej' : ''}" />
+          <Checkmark class="checkmark-2WDHrd {isCardValid ? 'valid-3psZB3' : ''}" />
         </div>
 
         <div class="dots row c-waterloo">
@@ -187,11 +187,11 @@
     border: 1px solid var(--porcelain);
   }
 
-  :global(.checkmark-1Pg9NB) {
+  :global(.checkmark-2WDHrd) {
     background: var(--porcelain) !important;
   }
 
-  :global(.valid-b_Gmej) {
+  :global(.valid-3psZB3) {
     background: var(--green-light-1) !important;
     fill: var(--green) !important;
   }

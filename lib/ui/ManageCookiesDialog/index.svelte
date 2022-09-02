@@ -45,7 +45,7 @@
   }
 </script>
 
-<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="dialog-1basTQ">
+<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="dialog-2wHqbb">
   <div class="cookies">
     When you visit our website, we may store cookies on your browser for your security and to help
     us better understand user behavior and inform us about which parts of our website you have
@@ -90,7 +90,7 @@
 </Dialog>
 
 <style>
-  :global(.dialog-1basTQ) {
+  :global(.dialog-2wHqbb) {
     max-width: 600px !important;
   }
   .cookies {

@@ -65,7 +65,7 @@
     >
       {question}
 
-      <Svg id="arrow-down" w="14" h="8" class={'arrow-12ThRq'} />
+      <Svg id="arrow-down" w="14" h="8" class={'arrow-2qwpvz'} />
     </div>
 
     {#if isOpened}
@@ -107,14 +107,14 @@
     opacity: 0;
   }
 
-  :global(.arrow-12ThRq) {
+  :global(.arrow-2qwpvz) {
     transition: 0.25s transform;
   }
 
   .opened {
     background: none;
   }
-  .opened :global(.arrow-12ThRq) {
+  .opened :global(.arrow-2qwpvz) {
     transform: rotate(-180deg);
   }
 </style>

@@ -48,7 +48,7 @@
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
-  <Comparison class="comparison-1XbFRh" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-2xohjL" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -76,7 +76,7 @@
     margin-bottom: 60px;
   }
 
-  :global(.comparison-1XbFRh) {
+  :global(.comparison-2xohjL) {
     margin: 0 auto 80px;
     max-width: var(--page-width, 1140px);
   }

@@ -24,7 +24,7 @@
   <Divider />
 
   <Option href="/login/email" prefetch on:click={window.__onLinkClick}>
-    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-1IJmpv" />
+    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-ddJf5U" />
     Log in with Email
   </Option>
 
@@ -34,7 +34,7 @@
 </Section>
 
 <style>
-  :global(.icon-1IJmpv) {
+  :global(.icon-ddJf5U) {
     fill: var(--casper);
   }
 </style>

@@ -17,7 +17,7 @@
   {#if $$slots.left}
     <slot name="left" />
   {:else if icon}
-    <Svg id={icon} {w} {h} class="icon-3WGouS" />
+    <Svg id={icon} {w} {h} class="icon-1_myQF" />
   {/if}
   <input
     {...constraints}
@@ -54,7 +54,7 @@
     color: var(--black);
   }
 
-  :global(.icon-3WGouS) {
+  :global(.icon-1_myQF) {
     position: absolute;
     left: 14px;
   }

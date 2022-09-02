@@ -28,7 +28,7 @@
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
           <DigestForm
-            class="mrg-xl mrg--b form-1LLyIa {$IsMobile ? '' : 'body-3'}"
+            class="mrg-xl mrg--b form-3Ls55N {$IsMobile ? '' : 'body-3'}"
             label="Subscribe"
           />
         </div>
@@ -74,7 +74,7 @@
     --max-width: 100%;
   }
 
-  :global(.form-1LLyIa) {
+  :global(.form-3Ls55N) {
     width: 386px;
   }
 
@@ -99,8 +99,8 @@
   :global(.phone) .top {
     flex-direction: column;
   }
-  :global(.phone-xs) :global(.form-1LLyIa),
-  :global(.phone) :global(.form-1LLyIa) {
+  :global(.phone-xs) :global(.form-3Ls55N),
+  :global(.phone) :global(.form-3Ls55N) {
     margin-bottom: 40px;
   }
 

@@ -20,7 +20,7 @@
 
 <Field {title}>
   <div class="relative {className}">
-    <Tooltip on="click" class="tooltip-1hYWi7" bind:isOpened>
+    <Tooltip on="click" class="tooltip-1vZurq" bind:isOpened>
       <button slot="trigger" type="button" class="btn-2 btn--s row v-center justify fluid">
         <slot />
         <Svg id="arrow-down" w="8" h="5" class="mrg-xl mrg--l" />
@@ -43,7 +43,7 @@
 </Field>
 
 <style>
-  :global(.tooltip-1hYWi7) {
+  :global(.tooltip-1vZurq) {
     padding: 8px;
     width: 100%;
   }

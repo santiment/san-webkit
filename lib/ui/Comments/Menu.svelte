@@ -45,7 +45,7 @@
   }
 </script>
 
-<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-2WY94L">
+<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-10rLhe">
   <button slot="trigger" class="btn row hv-center mrg-a mrg--l {className}"
     ><Svg id="horz-dots" w="16" h="4" /></button
   >
@@ -61,7 +61,7 @@
     width: 32px;
     height: 32px;
   }
-  :global(.active-2WY94L) {
+  :global(.active-10rLhe) {
     --bg: var(--green-light-1);
     --color: var(--green);
     --color-hover: var(--green-hover);

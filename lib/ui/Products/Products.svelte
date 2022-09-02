@@ -10,6 +10,16 @@
 </script>
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
+  {#if isColumn}
+    <div class="more body-2 c-waterloo mrg-xl mrg--t">
+      To learn more about Santiment's products, team, or available jobs, visit <a
+        class="btn-0"
+        target="_blank"
+        href="https://santiment.net/">santiment.net</a
+      >
+    </div>
+  {/if}
+
   <div class="chain column">
     <h3>SAN Chain</h3>
     {#each chain as product}
@@ -49,5 +59,10 @@
     margin: 0 0 24px;
     padding: 0 0 24px;
     border-bottom: 1px solid var(--porcelain);
+  }
+
+  .more {
+    padding-top: 24px;
+    border-top: 1px solid var(--porcelain);
   }
 </style>

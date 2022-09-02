@@ -87,7 +87,7 @@
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-UC-TIu" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-xj5nvn" />
       {feature}
     </div>
   {/each}
@@ -144,7 +144,7 @@
     max-width: 160px;
   }
 
-  :global(.checkmark-UC-TIu) {
+  :global(.checkmark-xj5nvn) {
     margin: 2px 10px 0 0;
     fill: var(--fill-checkmark, var(--accent));
   }

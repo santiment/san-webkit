@@ -37,7 +37,7 @@
           <div class="td"><Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} /></div>
         {/each}
       {:else}
-        <Slides amount={plans.length} bind:active={activeSlide} class="slides-3vV8Mt fluid">
+        <Slides amount={plans.length} bind:active={activeSlide} class="slides-2yj2mc fluid">
           {#each plans as plan (plan.id)}
             <Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} />
           {/each}
@@ -59,7 +59,7 @@
     border-radius: 4px;
   }
 
-  :global(.slides-3vV8Mt) {
+  :global(.slides-2yj2mc) {
     --slides-v-padding: 22px 0 52px;
     --slides-h-padding: 16px;
     --indicators-bottom: 20px;

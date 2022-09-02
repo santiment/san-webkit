@@ -40,7 +40,7 @@
 
 <Dialog {...$$props} title="Billing history">
   <div class="dialog-body">
-    <Table {columns} items={history} class="border table-1daP9P" />
+    <Table {columns} items={history} class="border table-1NM9UI" />
   </div>
 </Dialog>
 
@@ -52,7 +52,7 @@
     overflow: auto;
   }
 
-  :global(.table-1daP9P) :global(thead) {
+  :global(.table-1NM9UI) :global(thead) {
     position: sticky;
     top: -21px;
   }

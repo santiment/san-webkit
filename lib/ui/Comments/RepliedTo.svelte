@@ -12,7 +12,7 @@
 {#if comment}
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div class="line-clamp">
-      <Author user={comment.user} class="comment-2pV7nT" />
+      <Author user={comment.user} class="comment-38CpTX" />
       {' ' + markdownToPlainText(comment.content)}
     </div>
   </a>
@@ -54,13 +54,13 @@
     text-align: center;
   }
 
-  :global(.comment-2pV7nT) {
+  :global(.comment-38CpTX) {
     display: inline-flex !important;
     align-items: baseline !important;
   }
 
   div,
-  :global(.comment-2pV7nT) {
+  :global(.comment-38CpTX) {
     --color: var(--fiord) !important;
   }
 </style>

@@ -9,7 +9,7 @@
   }
 
   function end(node) {
-    node.classList.add('loaded-1qTboF')
+    node.classList.add('loaded-Bm3HX_')
     return {
       duration: 800,
     }
@@ -42,7 +42,7 @@
     transition: transform 3s cubic-bezier(0.4, 1, 1, 1);
   }
 
-  :global(.loaded-1qTboF) {
+  :global(.loaded-Bm3HX_) {
     transition: transform 400ms cubic-bezier(0, 0, 0.4, 0) !important;
     transform: translateX(0) !important;
     animation: fade 250ms 350ms forwards;
