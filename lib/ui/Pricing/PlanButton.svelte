@@ -24,10 +24,12 @@ $: isDowngrade = isUpgrade !== undefined && !isUpgrade;
 $: label = (plan, subscription, getLabel());
 
 function getLabel() {
+  var _a;
+
   if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started';
 
   if (annualDiscount.isEligible) {
-    if (plan.interval === Billing.YEAR) return `Pay now ${annualDiscount.discount == null ? void 0 : annualDiscount.discount.percentOff}% Off`;
+    if (plan.interval === Billing.YEAR) return `Pay now ${(_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff}% Off`;
     return 'Pay now';
   }
 
