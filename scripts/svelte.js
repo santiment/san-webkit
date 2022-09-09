@@ -40,7 +40,13 @@ const RoutesPreprocess = (root) => ({
     const expressions = content.match(/{.*(\?\.).*}/g)
 
     if (expressions) {
+      const scriptStart = content.indexOf('<script')
+      const scriptEnd = content.indexOf('</script')
+
       expressions.forEach((expr) => {
+        const index = content.indexOf(expr)
+        if (index > scriptStart && index < scriptEnd) return
+
         const result = babel.transform(expr.slice(1, -1), BABEL).code.split('\n')[2].slice(0, -1)
         content = content.replace(expr, `{${replaceTemps(result)}}`)
       })
