@@ -1,6 +1,6 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import CookiesPopup from '@/ui/CookiesPopup.svelte'
+  import CookiesPopup, { POPUP_TYPE } from '@/ui/CookiesPopup.svelte'
   import { deleteSavedValue } from '@/utils/localStorage'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { showManageCookiesDialog } from '@/ui/ManageCookiesDialog/index.svelte'
@@ -12,7 +12,7 @@
 <Meta title="Example/Cookies" component={CookiesPopup} />
 
 <Template let:args>
-  <CookiesPopup {...args} />
+  <CookiesPopup {...args} popupType={POPUP_TYPE.BASIC} />
 </Template>
 
 <Story name="Green accent" />
