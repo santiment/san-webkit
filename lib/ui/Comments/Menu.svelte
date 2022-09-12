@@ -38,7 +38,7 @@ function updateReplies(isWithTagname = true) {
   });
 }</script>
 
-<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-3h7jGY">
+<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-2WY94L">
   <button slot="trigger" class="btn row hv-center mrg-a mrg--l {className}"
     ><Svg id="horz-dots" w="16" h="4" /></button>
 
@@ -53,7 +53,7 @@ function updateReplies(isWithTagname = true) {
     width: 32px;
     height: 32px;
   }
-  :global(.active-3h7jGY) {
+  :global(.active-2WY94L) {
     --bg: var(--green-light-1);
     --color: var(--green);
     --color-hover: var(--green-hover);
