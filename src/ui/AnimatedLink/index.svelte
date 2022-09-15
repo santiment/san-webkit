@@ -8,7 +8,7 @@
   export let label
 </script>
 
-<a {href} {target} {rel} class="btn-0 {className} animhover">
+<a {href} {target} {rel} class="btn-0 {className} animhover" {...$$props}>
   <div>
     <span>{label}</span>
     {#if hasArrow}
@@ -21,31 +21,31 @@
 </a>
 
 <style>
-  a.animhover {
+  .animhover {
     padding: 0 4px;
   }
 
-  a.animhover div {
+  .animhover div {
     display: flex;
     align-items: center;
   }
 
-  a.animhover img {
+  .animhover img {
     width: 14px;
     margin-left: 4px;
     transform: translateX(-2px);
     transition: transform 0.3s;
   }
 
-  a.animhover:hover img {
+  .animhover:hover img {
     transform: translateX(0);
   }
 
-  a.animhover span {
+  .animhover span {
     position: relative;
   }
 
-  a.animhover span:after {
+  .animhover span:after {
     content: '';
     position: absolute;
     background-color: var(--green);
@@ -57,7 +57,7 @@
     transition: width 0.3s;
   }
 
-  a.animhover:hover span:after {
+  .animhover:hover span:after {
     width: 100%;
   }
 </style>
