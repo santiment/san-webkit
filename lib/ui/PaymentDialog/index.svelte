@@ -45,8 +45,7 @@ if (process.browser) {
 
 $: subscription = $subscription$;
 
-$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd); // TODO: make customer data accesible via context
-
+$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
 
 $: ({
   sanBalance,

@@ -1,20 +1,14 @@
-<script context="module">export var POPUP_TYPE;
+<script context="module">export const CookiesStyle = {
+  API: 'api-3B0KAH',
+  SHEETS: 'sheets-2tk-J'
+};</script>
 
-(function (POPUP_TYPE) {
-  POPUP_TYPE[POPUP_TYPE["BASIC"] = 0] = "BASIC";
-  POPUP_TYPE[POPUP_TYPE["API"] = 1] = "API";
-  POPUP_TYPE[POPUP_TYPE["SHEETS"] = 2] = "SHEETS";
-})(POPUP_TYPE || (POPUP_TYPE = {}));</script>
-
-<script lang="ts">import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
+<script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
 import Svg from './../ui/Svg/svelte';
 import { getSavedBoolean } from './../utils/localStorage';
 let className = '';
 export { className as class };
-export let popupType = POPUP_TYPE.BASIC;
-
-$: svgId = getSvgId();
-
+export let style = '';
 let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
 
 function onAllowAllClick() {
@@ -25,17 +19,11 @@ function onAllowAllClick() {
 function onManageClick() {
   isVisible = false;
   showManageCookiesDialog();
-}
-
-function getSvgId() {
-  if (popupType === POPUP_TYPE.API) return 'cookies-api';
-  if (popupType === POPUP_TYPE.SHEETS) return 'cookies-sheets';
-  return 'cookies-basic';
 }</script>
 
 {#if isVisible}
-  <div class="cookies border box {className}">
-    <Svg illus id={svgId} class="pic-2J7Aeh" />
+  <div class="cookies border box {className} {style}">
+    <Svg illus id="cookies" class="pic-29-Rxg" />
     <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
     <h4 class="body-3 mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -57,11 +45,21 @@ function getSvgId() {
   text-align: center;
 }
 
+:global(.api-3B0KAH) {
+  --fill: #dae0fd;
+  --shadow: #5275ff;
+}
+
+:global(.sheets-2tk-J) {
+  --fill: #b0ebdb;
+  --shadow: #21b074;
+}
+
 a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-2J7Aeh) {
+:global(.pic-29-Rxg) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -75,7 +73,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-2J7Aeh) {
+:global(.desktop) :global(.pic-29-Rxg) {
   transform: initial;
   position: absolute;
   left: 24px;

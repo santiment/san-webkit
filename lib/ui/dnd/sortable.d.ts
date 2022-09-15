@@ -29,7 +29,6 @@ export declare type DragElement = HTMLElement & {
         };
     };
 };
-/** Requires all sortable nodes to be present in the same parent node */
 export declare function newSortableContext(options?: Options): {
     ctx: Context;
     toggle(value: boolean): void;

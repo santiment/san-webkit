@@ -70,8 +70,7 @@ function reset() {
 }
 
 function updateListHeight() {
-  listNode.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-
+  listNode.offsetWidth;
   listHeight = listNode.scrollHeight;
 }</script>
 

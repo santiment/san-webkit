@@ -1,4 +1,4 @@
-<script>import { dialogs } from './dialogs';</script>
+<script>import { dialogs } from './';</script>
 
 <div id="dialogs">
   {#each $dialogs as { Component, props }, i}

@@ -17,7 +17,7 @@ let timer;
 let votingInterval;
 
 function startVote(e) {
-  if (disabled) return; // Checking right button mouse click
+  if (disabled) return;
 
   if (e.button === 2) {
     return;
@@ -52,8 +52,7 @@ function stopVote() {
 
 function resetAnimation(node) {
   node.style.animation = 'none';
-  node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-
+  node.offsetWidth;
   node.style.animation = '';
 }
 
