@@ -90,6 +90,11 @@ a.animhover {
   padding: 0 4px;
 }
 
+a.animhover div {
+  display: flex;
+  align-items: center;
+}
+
 a.animhover img {
   width: 14px;
   margin-top: -2px;
