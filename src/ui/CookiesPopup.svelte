@@ -1,8 +1,7 @@
-<script context="module" lang="ts">
-  export enum POPUP_TYPE {
-    BASIC,
-    API,
-    SHEETS,
+<script context="module">
+  export const CookiesStyle = {
+    API: '$style.api',
+    SHEETS: '$style.sheets',
   }
 </script>
 
@@ -17,9 +16,7 @@
 
   let className = ''
   export { className as class }
-  export let popupType = POPUP_TYPE.BASIC
-
-  $: svgId = getSvgId()
+  export let style: '' | keyof typeof CookiesStyle = ''
 
   let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
 
@@ -32,18 +29,11 @@
     isVisible = false
     showManageCookiesDialog()
   }
-
-  function getSvgId() {
-    if (popupType === POPUP_TYPE.API) return 'cookies-api'
-    if (popupType === POPUP_TYPE.SHEETS) return 'cookies-sheets'
-
-    return 'cookies-basic'
-  }
 </script>
 
 {#if isVisible}
-  <div class="cookies border box {className}">
-    <Svg illus id={svgId} class="$style.pic" />
+  <div class="cookies border box {className} {style}">
+    <Svg illus id="cookies" class="$style.pic" />
     <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
     <h4 class="body-3 mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -64,6 +54,15 @@
     right: 0;
     z-index: 9999;
     text-align: center;
+  }
+
+  .api {
+    --fill: #dae0fd;
+    --shadow: #5275ff;
+  }
+  .sheets {
+    --fill: #b0ebdb;
+    --shadow: #21b074;
   }
 
   a:hover {
