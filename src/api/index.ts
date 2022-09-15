@@ -24,6 +24,14 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
   options?: SAN.API.QueryOptions<T, U>,
   requestOptions?: SAN.API.RequestOptions,
 ): Promise<T> {
+  if (process.env.IS_DEV_MODE) {
+    console.log(
+      '%c[DEV ONLY] New query',
+      'background:#FFCB47;color:black;padding:3px;border-radius:4px',
+      JSON.stringify(scheme),
+    )
+  }
+
   const isWithCache = process.browser && options?.cache !== false
 
   if (isWithCache) {
@@ -105,6 +113,21 @@ export function newSSRQuery<T extends Callback>(clb: T) {
             },
           },
     )
+}
+
+export function SSR<T extends Callback>(clb: T) {
+  return (...args: Parameters<T>): ReturnType<T> => {
+    if (process.browser) return clb(...args)
+
+    const { request, getClientAddress } = args[args.length - 1]
+    return clb(...args.slice(0, -1), {
+      headers: {
+        ...HEADERS,
+        cookie: request.headers.get('cookie'),
+        'x-forwarded-for': getClientAddress(),
+      },
+    })
+  }
 }
 
 function getRequestData(req: Request) {

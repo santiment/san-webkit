@@ -1,5 +1,5 @@
 <script>
-  import { dialogs } from './dialogs'
+  import { dialogs } from './'
 </script>
 
 <div id="dialogs">
