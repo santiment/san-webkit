@@ -14,7 +14,7 @@
   <div class="row v-center">
     <span class="relative">{label}</span>
     {#if hasArrow}
-      <Svg id="pointer" w={14} class="$style.svg" />
+      <Svg id="right-arrow" w={14} class="$style.svg" />
     {/if}
   </div>
 </a>
@@ -25,13 +25,19 @@
   }
 
   .animhover .svg {
-    margin-left: 2px;
+    margin-left: 8px;
+    margin-right: 2px;
     transform: translateX(-2px);
     transition: transform 0.3s;
   }
 
   .animhover:hover .svg {
-    transform: translateX(0);
+    transform: translateX(2px);
+  }
+
+  .animhover span {
+    box-sizing: border-box;
+    margin-bottom: 1px;
   }
 
   .animhover span:after {
