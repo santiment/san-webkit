@@ -7,7 +7,6 @@
   export let label: string
 </script>
 
-<!-- svelte-ignore a11y-missing-attribute -->
 <a {...$$props} {href} class="link-pointer v-center {className}">
   {label}
   <Svg id="right-arrow" w={10} h={5} class="$style.svg" />
