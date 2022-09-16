@@ -22,7 +22,7 @@ export let onWalletConnectLogin;</script>
   <Divider />
 
   <Option href="/login/email" prefetch on:click={window.__onLinkClick}>
-    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-287XoD" />
+    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-ddJf5U" />
     Log in with Email
   </Option>
 
@@ -32,7 +32,7 @@ export let onWalletConnectLogin;</script>
 </Section>
 
 <style>
-  :global(.icon-287XoD) {
+  :global(.icon-ddJf5U) {
     fill: var(--casper);
   }
 </style>
