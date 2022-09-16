@@ -44,11 +44,6 @@
     text-align: left;
   }
 
-  .btn {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
-  }
-
   .login {
     background: var(--url) no-repeat 10px 50%, #f6851b;
   }
