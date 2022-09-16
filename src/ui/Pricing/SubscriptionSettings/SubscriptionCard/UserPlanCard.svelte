@@ -48,7 +48,7 @@
       Starter plan with limited access to Sanbase features. Check all plans
       <a
         href="https://app.santiment.net/pricing"
-        class="btn-0 link-pointer"
+        class="link-pointer"
         on:click={window.__onLinkClick}>here!</a
       >
     {/if}

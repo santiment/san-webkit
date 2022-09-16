@@ -37,7 +37,7 @@
     <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
     <h4 class="body-3 mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
-      <a href="https://santiment.net/cookies/" target="_blank" class="c-accent link-pointer"
+      <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
     </h4>

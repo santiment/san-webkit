@@ -56,7 +56,7 @@
     visited. The information does not usually directly identify you, but it can give you a safe and
     more personalized web experience. Because we respect your right to privacy, you can choose not
     to allow some types of cookies. Blocking some types of cookies may impact your experience on the
-    site. <a href="https://santiment.net/cookies/" target="_blank" class="c-accent link-pointer"
+    site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
       >Learn more</a
     >
 
