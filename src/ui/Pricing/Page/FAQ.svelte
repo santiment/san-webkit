@@ -2,7 +2,7 @@
   import Svg from '@/ui/Svg/svelte'
 
   const link = (content, href = content) =>
-    `<a href="${href}" target="_blank" rel="noopener noreferrer">${content}</a>`
+    `<a href="${href}" target="_blank" rel="noopener noreferrer" class="link-pointer">${content}</a>`
   const QA = [
     {
       question: 'Can I cancel my paid subscription at any time?',

@@ -23,7 +23,7 @@
   {#if bottomLabel}
     <div class="body-2 c-waterloo mrg-xl mrg--t">
       {bottomLabel}
-      <a href={bottomHref} class="btn" sapper:prefetch>{bottomAction}</a>
+      <a href={bottomHref} class="btn link-pointer" sapper:prefetch>{bottomAction}</a>
     </div>
   {/if}
 </section>
