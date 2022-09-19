@@ -35,9 +35,7 @@
       Enjoy your 14-day free trial of Sanbase {name || ''}!
     {:else if trialDaysLeft < 1}
       Your Pro trial has expired! If you have accidentally bypassed the free trial, please get in
-      touch with <button class="btn c-accent link-pointer" on:click={showIntercom}
-        >our support team</button
-      >
+      touch with <button class="link-pointer" on:click={showIntercom}>our support team</button>
     {:else}
       Your trial will end in {trialDaysLeft} day{trialDaysLeft === 1 ? '' : 's'}, you are free to
       upgrade it right now.

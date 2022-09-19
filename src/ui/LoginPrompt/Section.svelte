@@ -34,6 +34,7 @@
     text-align: center;
     position: relative;
   }
+
   :global(.desktop) section {
     padding: 39px 99px;
     min-width: 540px;
@@ -44,11 +45,6 @@
     align-self: flex-start;
     height: 85vh;
     flex: 1;
-  }
-
-  a {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
   }
 
   .close {
