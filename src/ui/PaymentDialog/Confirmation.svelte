@@ -39,6 +39,7 @@
           <a
             href="https://santiment.net/about-santiment/how-to-buy-san/"
             target="_blank"
+            class="link-pointer"
             rel="noopener noreferrer">Learn how to buy SAN.</a
           >
         </div>
