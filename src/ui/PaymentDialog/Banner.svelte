@@ -58,12 +58,9 @@
     background: var(--orange-light-1);
     padding: 16px 24px;
   }
+
   .trial {
     background: var(--green-light-1);
-  }
-
-  button {
-    --color-hover: var(--accent-hover, var(--green-hover));
   }
 
   b {
