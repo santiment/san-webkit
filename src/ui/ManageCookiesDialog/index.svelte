@@ -56,30 +56,37 @@
     visited. The information does not usually directly identify you, but it can give you a safe and
     more personalized web experience. Because we respect your right to privacy, you can choose not
     to allow some types of cookies. Blocking some types of cookies may impact your experience on the
-    site. <a href="https://santiment.net/cookies/" target="_blank" class="c-accent">Learn more</a>
+    site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
+      >Learn more</a
+    >
 
     <div class="mrg-xl mrg--b" />
 
     <Section
       title="Strictly Necessary Cookies"
-      description="These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information.">
+      description="These cookies are necessary for the website to function and cannot be switched off in our systems. They are usually only set in response to actions made by you which amount to a request for services, such as setting your privacy preferences, logging in or filling in forms. You can set your browser to block or alert you about these cookies, but some parts of the site will not then work. These cookies do not store any personally identifiable information."
+    >
       <div class="c-black">Always Active</div>
     </Section>
 
     <Section
       title="Functional Cookies"
-      description="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance.">
+      description="These cookies allow us to count visits and traffic sources so we can measure and improve the performance of our site. They help us to know which pages are the most and least popular and see how visitors move around the site. All information these cookies collect is aggregated and therefore anonymous. If you do not allow these cookies we will not know when you have visited our site, and will not be able to monitor its performance."
+    >
       <Toggle
         isActive={isFunctionalAccepted}
-        on:click={toggleHandler(() => (isFunctionalAccepted = !isFunctionalAccepted))} />
+        on:click={toggleHandler(() => (isFunctionalAccepted = !isFunctionalAccepted))}
+      />
     </Section>
 
     <Section
       title="Performance Cookies"
-      description="These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly.">
+      description="These cookies enable the website to provide enhanced functionality and personalisation. They may be set by us or by third party providers whose services we have added to our pages. If you do not allow these cookies then some or all of these services may not function properly."
+    >
       <Toggle
         isActive={isPerformanceAccepted}
-        on:click={toggleHandler(() => (isPerformanceAccepted = !isPerformanceAccepted))} />
+        on:click={toggleHandler(() => (isPerformanceAccepted = !isPerformanceAccepted))}
+      />
     </Section>
   </div>
   <div class="bottom row">
