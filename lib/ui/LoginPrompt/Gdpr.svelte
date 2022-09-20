@@ -88,11 +88,18 @@ onDestroy(clearTimer);</script>
   <div class="btn row v-center body-2" on:click={() => (isActive = !isActive)}>
     <Checkbox class="mrg-m mrg--r" {isActive} />
     I accept
-    <a href="https://santiment.net/terms" target="_blank" rel="noopener noreferrer">Terms</a> and
+    <a
+      href="https://santiment.net/terms"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link-pointer">Terms</a
+    >
+    and
     <a
       href="https://app.santiment.net/privacy-policy"
       target="_blank"
       rel="noopener noreferrer"
+      class="link-pointer"
       on:click={window.__onLinkClick}>Privacy Policy</a
     >
   </div>

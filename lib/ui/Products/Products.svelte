@@ -11,7 +11,7 @@ export let active = undefined;</script>
   {#if isColumn}
     <div class="more body-2 c-waterloo mrg-xl mrg--t">
       To learn more about Santiment's products, team, or available jobs, visit <a
-        class="btn-0"
+        class="link-pointer"
         target="_blank"
         href="https://santiment.net/">santiment.net</a
       >

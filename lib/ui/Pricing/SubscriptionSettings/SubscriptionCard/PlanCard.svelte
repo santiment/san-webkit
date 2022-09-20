@@ -69,8 +69,10 @@ function getBillingPrice(plan, altPlan, annual) {
       {/if}
 
       Check all plans
-      <a href="https://app.santiment.net/pricing" class="btn-0" on:click={window.__onLinkClick}
-        >here!</a
+      <a
+        href="https://app.santiment.net/pricing"
+        class="link-pointer"
+        on:click={window.__onLinkClick}>here!</a
       >
     </p>
   </slot>

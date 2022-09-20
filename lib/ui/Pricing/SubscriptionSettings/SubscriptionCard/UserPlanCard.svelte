@@ -48,8 +48,10 @@ function formatDate(date) {
       {/if}
     {:else}
       Starter plan with limited access to Sanbase features. Check all plans
-      <a href="https://app.santiment.net/pricing" class="btn-0" on:click={window.__onLinkClick}
-        >here!</a
+      <a
+        href="https://app.santiment.net/pricing"
+        class="link-pointer"
+        on:click={window.__onLinkClick}>here!</a
       >
     {/if}
   </p>
