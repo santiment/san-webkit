@@ -1,5 +1,6 @@
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
-export function newGlobalShortcut(shortcut: string, clb: () => any) {
+
+export function newGlobalShortcut(shortcut: string, clb: () => any, disableInputs = true) {
   const keys = shortcut.split('+')
 
   let isCmdKey = false
@@ -19,7 +20,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any) {
   function onKeyPress(e: KeyboardEvent) {
     const { key, target, metaKey, ctrlKey, shiftKey, altKey } = e
 
-    if (target) {
+    if (disableInputs && target) {
       const { isContentEditable, tagName } = target as HTMLElement
       if (isContentEditable || EDITABLE_TAGS.has(tagName)) return
     }
