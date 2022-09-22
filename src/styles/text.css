@@ -115,13 +115,18 @@
   --color: var(--accent, var(--green));
 }
 
-.nowrap {
+.nowrap,
+.single-line {
   white-space: nowrap;
 }
 
+.single-line,
 .line-clamp {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.line-clamp {
   display: -webkit-box;
   -webkit-line-clamp: var(--line-clamp, 2);
   -webkit-box-orient: vertical;
