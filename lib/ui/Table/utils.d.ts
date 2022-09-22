@@ -4,11 +4,12 @@ export declare type Item = {
 };
 export declare type Sorter = (a: Item, b: Item) => number;
 export declare type SortAccessor = (item: Item) => number;
-export declare type Column = {
+export declare type Column<T = Item> = {
     title: string;
-    format: (item: Item, i: number) => number | string;
+    format: (item: T, i: number) => number | string;
     className?: string;
     sortAccessor?: SortAccessor;
     Component?: SvelteComponentDev;
+    Header?: SvelteComponentDev;
 };
 export declare function getMinRows(minRows: undefined | number, itemsLength: number, columnsLength: number): string;

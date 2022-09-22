@@ -48,7 +48,7 @@ function closing(node) {
     >
       {question}
 
-      <Svg id="arrow-down" w="14" h="8" class={'arrow-2qwpvz'} />
+      <Svg id="arrow-down" w="14" h="8" class={'arrow-1eyAJC'} />
     </div>
 
     {#if isOpened}
@@ -89,13 +89,13 @@ function closing(node) {
   opacity: 0;
 }
 
-:global(.arrow-2qwpvz) {
+:global(.arrow-1eyAJC) {
   transition: 0.25s transform;
 }
 
 .opened {
   background: none;
 }
-.opened :global(.arrow-2qwpvz) {
+.opened :global(.arrow-1eyAJC) {
   transform: rotate(-180deg);
 }</style>

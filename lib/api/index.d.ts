@@ -3,6 +3,7 @@ declare type Variables = {
 };
 export declare type Data<T extends SAN.API.QueryBase> = {
     data: T;
+    error?: any;
     errors?: any;
 };
 export declare const HEADERS: {

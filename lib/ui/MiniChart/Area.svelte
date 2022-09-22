@@ -14,7 +14,7 @@ export function getAreaPoints(points, linePoints) {
 }</script>
 
 <Chart {data} {width} {height} {valueKey} {className} {style} let:points let:linePoints>
-  <polyline points={getAreaPoints(points, linePoints)} fill="url(#{id}area)" />
+  <polyline points={getAreaPoints(points, linePoints)} fill="url(#{id}-area)" />
   <defs>
     <linearGradient id="{id}area" x1="0" x2="0" y1="0" y2="2">
       <stop offset="0%" stop-color="var(--color)" stop-opacity="0.3" />

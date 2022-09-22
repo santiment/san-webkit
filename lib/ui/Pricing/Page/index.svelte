@@ -53,7 +53,7 @@ function billingFilter({
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
-  <Comparison class="comparison-2xohjL" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-VGkPm9" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -80,7 +80,7 @@ function billingFilter({
   margin-bottom: 60px;
 }
 
-:global(.comparison-2xohjL) {
+:global(.comparison-VGkPm9) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }

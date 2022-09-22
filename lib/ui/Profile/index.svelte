@@ -11,7 +11,7 @@ $: if (isTagName && user.username === 'anonymous') isTagName = false;</script>
   href="/profile/{user.id}"
   on:click={window.__onLinkClick}
 >
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-21nEk4" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-2h6aIf" />
 
   <span>
     {#if $$slots.name}
@@ -29,7 +29,7 @@ $: if (isTagName && user.username === 'anonymous') isTagName = false;</script>
 a:hover {
   --color: var(--accent, var(--green));
 }
-a:hover :global(.pic-21nEk4) {
+a:hover :global(.pic-2h6aIf) {
   box-shadow: inset 0px 0px 0px 1px var(--green);
 }
 

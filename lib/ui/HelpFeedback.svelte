@@ -5,7 +5,7 @@ let className = '';
 export { className as class };</script>
 
 <div class="btn row v-center {className}" on:click>
-  <Svg id="chat" w="14" h="16" class="chat-qObR1j mrg-s mrg--b" />
+  <Svg id="chat" w="14" h="16" class="chat-1o1nIT mrg-s mrg--b" />
   Help & Feedback
 </div>
 
@@ -16,7 +16,7 @@ export { className as class };</script>
     padding: 12px 6px;
     z-index: 1;
   }
-  :global(.chat-qObR1j) {
+  :global(.chat-1o1nIT) {
     transform: rotate(90deg);
   }
 </style>
