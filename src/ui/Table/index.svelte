@@ -38,15 +38,21 @@
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
+        {@const { className, title, sortAccessor, Header } = column}
         <th
-          class={column.className || ''}
+          class={className || ''}
           class:sorted={sortedColumn === column}
-          class:sortable={column.sortAccessor}
+          class:sortable={sortAccessor}
           data-i={i}
           on:click={changeSort}
-          >{column.title}
-          {#if sortedColumn === column}
-            <SorterArrows isAscending={currentSort === ascSort} />
+        >
+          {#if Header}
+            <svelte:component this={Header} />
+          {:else}
+            {title}
+            {#if sortedColumn === column}
+              <SorterArrows isAscending={currentSort === ascSort} />
+            {/if}
           {/if}
         </th>
       {/each}
