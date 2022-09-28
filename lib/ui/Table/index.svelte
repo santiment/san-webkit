@@ -1,4 +1,5 @@
-<script>import { getMinRows } from './utils';
+<script>import { noop } from './../../utils';
+import { getMinRows } from './utils';
 import SorterArrows from './SorterArrows.svelte';
 let className = '';
 export { className as class };
@@ -10,9 +11,8 @@ export let sortedColumn = undefined;
 export let sticky = false;
 export let isLoading = false;
 export let applySort = (sorter, items) => items.slice().sort(sorter);
+export let onSortClick = noop;
 export let itemProps;
-
-const noop = _ => _;
 
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 
@@ -34,6 +34,7 @@ function changeSort({
   if (!column.sortAccessor) return;
   currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort;
   sortedColumn = column;
+  onSortClick(sortedColumn);
 }</script>
 
 <table class={className} class:sticky-header={sticky}>
@@ -63,12 +64,13 @@ function changeSort({
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
-        {#each columns as { title, className, format, Component } (title)}
+        {#each columns as { title, className, format, Component, valueKey } (title)}
+          {@const value = item[valueKey]}
           <td class={className || ''}>
             {#if Component}
-              <svelte:component this={Component} {item} {...itemProps} />
+              <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
-              {format(item, i)}
+              {format(item, i, value)}
             {/if}
           </td>
         {/each}
