@@ -7,11 +7,12 @@ export type SortAccessor = (item: Item) => number
 
 export type Column<T = Item> = {
   title: string
-  format: (item: T, i: number) => number | string
+  format: (item: T, i: number, value?: T) => number | string
   className?: string
   sortAccessor?: SortAccessor
   Component?: SvelteComponentDev
   Header?: SvelteComponentDev
+  valueKey?: string
 }
 
 const COLUMN_PADDING = '<td></td>'
