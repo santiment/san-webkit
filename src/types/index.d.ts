@@ -48,5 +48,6 @@ declare namespace SAN {
     nodeId?: string
     title: string
     description: string
+    align?: 'left' | 'right'
   }
 }

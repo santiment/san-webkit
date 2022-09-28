@@ -68,7 +68,9 @@
         {#each columns as { title, className, format, Component, valueKey } (title)}
           {@const value = item[valueKey]}
           <td class={className || ''}>
-            {#if Component}
+            {#if valueKey && value === undefined}
+              <div class="skeleton" />
+            {:else if Component}
               <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
               {format(item, i, value)}
