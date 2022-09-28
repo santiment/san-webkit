@@ -12,11 +12,13 @@
   $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id))
   $: highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' })
   $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
-  $: align = (rect, 'left')
+  $: align = (rect, feature.align || 'left')
   $: ({ bottom, x, right } = rect)
   $: xPosition = x - 7
   $: if (x + 200 >= window.innerWidth) {
     align = 'right'
+  }
+  $: if (align === 'right') {
     xPosition = window.innerWidth - right - 7
   }
 
