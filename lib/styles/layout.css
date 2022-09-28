@@ -91,10 +91,14 @@
   color: #fff;
   border-radius: 4px;
   padding: 5px 12px;
-  right: var(--expl-right);
+  width: var(--expl-width, auto);
   white-space: var(--expl-white-space, nowrap);
+  right: var(--expl-right);
+  left: var(--expl-left);
+  bottom: var(--expl-bottom);
   top: var(--expl-position-y, -6px);
   transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+  z-index: var(--expl-z-index, 30);
 }
 
 .no-scrollbar {
