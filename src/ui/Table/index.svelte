@@ -13,6 +13,7 @@
   export let sticky = false
   export let isLoading = false
   export let applySort = (sorter, items) => items.slice().sort(sorter)
+  export let itemProps: { [key: string]: any }
 
   const noop = (_) => _
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
@@ -47,7 +48,7 @@
           on:click={changeSort}
         >
           {#if Header}
-            <svelte:component this={Header} />
+            <svelte:component this={Header} {...itemProps} />
           {:else}
             {title}
             {#if sortedColumn === column}
@@ -64,7 +65,7 @@
         {#each columns as { title, className, format, Component } (title)}
           <td class={className || ''}>
             {#if Component}
-              <svelte:component this={Component} {item} />
+              <svelte:component this={Component} {item} {...itemProps} />
             {:else}
               {format(item, i)}
             {/if}
