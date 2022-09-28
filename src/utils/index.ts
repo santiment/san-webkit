@@ -1,3 +1,5 @@
+export const noop = (_) => _
+
 function newCopyNode(text: string): HTMLTextAreaElement {
   const node = document.createElement('textarea')
   node.value = text
