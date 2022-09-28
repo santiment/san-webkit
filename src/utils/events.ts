@@ -1,5 +1,6 @@
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 
+const options = { capture: true }
 export function newGlobalShortcut(shortcut: string, clb: () => any, disableInputs = true) {
   const keys = shortcut.split('+')
 
@@ -36,7 +37,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
     }
   }
 
-  window.addEventListener('keydown', onKeyPress)
+  window.addEventListener('keydown', onKeyPress, options)
 
-  return () => window.removeEventListener('keydown', onKeyPress)
+  return () => window.removeEventListener('keydown', onKeyPress, options)
 }
