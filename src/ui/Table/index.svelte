@@ -15,7 +15,7 @@
   export let sticky = false
   export let isLoading = false
   export let applySort = (sorter, items) => items.slice().sort(sorter)
-  export let onSortClick = noop
+  export let onSortClick = noop as (column: SAN.Table.Column, isAscSort: boolean) => void
   export let itemProps: { [key: string]: any }
 
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
@@ -24,17 +24,20 @@
   let currentSort = descSort
 
   $: rowsPadding = getMinRows(minRows, items.length, columns.length)
-  $: sortedColumnAccessor = (sortedColumn?.sortAccessor || noop) as SortAccessor
-  $: sortedItems = sortedColumn ? applySort(currentSort, items) : items
+  $: sortedColumnAccessor = sortedColumn?.sortAccessor as SortAccessor
+  $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items
 
   function changeSort({ currentTarget }: MouseEvent) {
     const i = (currentTarget as HTMLElement).dataset.i as string
     const column = columns[+i]
-    if (!column.sortAccessor) return
 
-    currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort
+    const { sortAccessor, isSortable = sortAccessor } = column
+    if (!isSortable) return
+
+    const isAscSort = sortedColumn === column && currentSort === descSort
+    currentSort = isAscSort ? ascSort : descSort
     sortedColumn = column
-    onSortClick(sortedColumn)
+    onSortClick(sortedColumn, isAscSort)
   }
 </script>
 
@@ -42,11 +45,11 @@
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
-        {@const { className, title, sortAccessor, Header } = column}
+        {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
           class={className || ''}
           class:sorted={sortedColumn === column}
-          class:sortable={sortAccessor}
+          class:sortable={isSortable}
           data-i={i}
           on:click={changeSort}
         >
@@ -161,7 +164,7 @@
 
   .sticky-header :global {
     thead {
-      z-index: 1;
+      z-index: var(--thead-z-index, 2);
       position: sticky;
       top: var(--thead-top, 0);
     }
