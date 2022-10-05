@@ -9,6 +9,7 @@ export declare type Data<T extends SAN.API.QueryBase> = {
 export declare const HEADERS: {
     'Content-Type': string;
     authorization: null;
+    origin: any;
 };
 export declare function query<T extends SAN.API.QueryBase, U extends Variables = Variables>(scheme: string, options?: SAN.API.QueryOptions<T, U>, requestOptions?: SAN.API.RequestOptions): Promise<T>;
 export declare function mutate<T extends SAN.API.QueryBase, U extends Variables = Variables>(scheme: string, options?: SAN.API.QueryOptions<T, U>, requestOptions?: SAN.API.RequestOptions): Promise<T>;

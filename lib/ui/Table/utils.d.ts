@@ -12,5 +12,6 @@ export declare type Column<T = Item> = {
     Component?: SvelteComponentDev;
     Header?: SvelteComponentDev;
     valueKey?: string;
+    isSortable?: boolean;
 };
 export declare function getMinRows(minRows: undefined | number, itemsLength: number, columnsLength: number): string;

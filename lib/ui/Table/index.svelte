@@ -22,30 +22,35 @@ let currentSort = descSort;
 
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
 
-$: sortedColumnAccessor = (sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) || noop;
+$: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
 
-$: sortedItems = sortedColumn ? applySort(currentSort, items) : items;
+$: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
 
 function changeSort({
   currentTarget
 }) {
   const i = currentTarget.dataset.i;
   const column = columns[+i];
-  if (!column.sortAccessor) return;
-  currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort;
+  const {
+    sortAccessor,
+    isSortable = sortAccessor
+  } = column;
+  if (!isSortable) return;
+  const isAscSort = sortedColumn === column && currentSort === descSort;
+  currentSort = isAscSort ? ascSort : descSort;
   sortedColumn = column;
-  onSortClick(sortedColumn);
+  onSortClick(sortedColumn, isAscSort);
 }</script>
 
 <table class={className} class:sticky-header={sticky}>
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
-        {@const { className, title, sortAccessor, Header } = column}
+        {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
           class={className || ''}
           class:sorted={sortedColumn === column}
-          class:sortable={sortAccessor}
+          class:sortable={isSortable}
           data-i={i}
           on:click={changeSort}
         >
@@ -149,7 +154,7 @@ table :global(tbody) :global(tr:hover) :global(td) {
 }
 
 .sticky-header :global(thead) {
-  z-index: 1;
+  z-index: var(--thead-z-index, 2);
   position: sticky;
   top: var(--thead-top, 0);
 }</style>
