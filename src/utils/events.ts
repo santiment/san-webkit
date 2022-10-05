@@ -33,6 +33,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
       targetKey === key.toUpperCase()
     ) {
       e.preventDefault()
+      e.stopImmediatePropagation()
       clb()
     }
   }

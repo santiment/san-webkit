@@ -13,6 +13,7 @@ export type Column<T = Item> = {
   Component?: SvelteComponentDev
   Header?: SvelteComponentDev
   valueKey?: string
+  isSortable?: boolean
 }
 
 const COLUMN_PADDING = '<td></td>'

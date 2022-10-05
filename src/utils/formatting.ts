@@ -27,7 +27,7 @@ export function millify(value: number, precision = 1): string {
   }
 
   if (!exponent) {
-    return prefix + +str
+    return (+value.toFixed(precision)).toString()
   }
 
   if (exponent > 12) exponent = 12
