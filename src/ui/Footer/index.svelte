@@ -33,17 +33,6 @@
             label="Subscribe"
           />
         </div>
-
-        <div class="download">
-          <h4 class="txt-m mrg-m mrg--b">Download Santiment app</h4>
-          <a
-            target="_blank"
-            class="google"
-            href="https://play.google.com/store/apps/details?id=net.santiment.sanbase.android"
-          >
-            <img alt="Google" src="{process.env.MEDIA_PATH}/illus/google-app.svg" />
-          </a>
-        </div>
       </div>
     </div>
 
@@ -117,10 +106,6 @@
       width: 100%;
       display: flex;
       margin-top: 28px;
-    }
-
-    .download {
-      margin-right: 100px;
     }
   }
 
