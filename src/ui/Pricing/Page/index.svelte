@@ -10,6 +10,7 @@
   import SpecialOfferBanner from './SpecialOfferBanner.svelte'
   import Comparison from '../Comparison/index.svelte'
   import Plans from './Plans.svelte'
+  import PromoSanTokenBanner from './PromoSanTokenBanner.svelte'
 
   let className = ''
   export { className as class }
@@ -45,17 +46,9 @@
     <BillingToggle bind:billing />
   </div>
 
-  <Plans
-    {plans}
-    {billingPlans}
-    {subscription}
-    {annualDiscount}
-    {isLoggedIn}
-    {isEligibleForTrial}
-    hasUnderPlansSlot={$$slots.underplans}
-  />
+  <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
-  <slot name="underplans" />
+  <PromoSanTokenBanner />
 
   <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 

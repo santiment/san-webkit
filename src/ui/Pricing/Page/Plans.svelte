@@ -7,10 +7,9 @@
   export let annualDiscount
   export let isLoggedIn
   export let isEligibleForTrial
-  export let hasUnderPlansSlot = false
 </script>
 
-<section id="plans" class="row no-scrollbar" class:hasUnderPlansSlot>
+<section id="plans" class="row no-scrollbar">
   <div class="scroll row border">
     {#each billingPlans as plan (plan.id)}
       <Plan
@@ -27,10 +26,6 @@
 </section>
 
 <style lang="scss">
-  .hasUnderPlansSlot {
-    --plans-margin-bottom: 24px;
-  }
-
   #plans {
     max-width: var(--page-width, 1140px);
     margin: 0 auto var(--plans-margin-bottom, 80px);
