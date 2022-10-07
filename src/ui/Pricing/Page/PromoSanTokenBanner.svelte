@@ -110,9 +110,6 @@
 </div>
 
 <style lang="scss">
-  :root {
-    --plans-margin-bottom: 24px;
-  }
   .santokenbanner {
     max-width: 800px;
     background: var(--whale);

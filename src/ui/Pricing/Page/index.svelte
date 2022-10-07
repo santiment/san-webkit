@@ -45,7 +45,15 @@
     <BillingToggle bind:billing />
   </div>
 
-  <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
+  <Plans
+    {plans}
+    {billingPlans}
+    {subscription}
+    {annualDiscount}
+    {isLoggedIn}
+    {isEligibleForTrial}
+    hasUnderPlansSlot={$$slots.underplans}
+  />
 
   <slot name="underplans" />
 
