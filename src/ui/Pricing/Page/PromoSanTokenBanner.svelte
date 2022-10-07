@@ -110,8 +110,10 @@
 </div>
 
 <style lang="scss">
-  .santokenbanner {
+  :root {
     --plans-margin-bottom: 24px;
+  }
+  .santokenbanner {
     max-width: 800px;
     background: var(--whale);
     border: 1px solid var(--porcelain);
@@ -119,7 +121,6 @@
     padding: 32px 48px;
     margin-bottom: 80px;
     margin: 0 auto 80px;
-    max-width: 800px;
   }
 
   .leftinfo {
