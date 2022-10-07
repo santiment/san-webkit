@@ -47,6 +47,8 @@
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
+  <slot name="underplans" />
+
   <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">

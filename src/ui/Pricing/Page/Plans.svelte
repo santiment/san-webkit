@@ -19,7 +19,8 @@
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="$style.plan" />
+        class="$style.plan"
+      />
     {/each}
   </div>
 </section>
@@ -27,7 +28,7 @@
 <style lang="scss">
   #plans {
     max-width: var(--page-width, 1140px);
-    margin: 0 auto 80px;
+    margin: 0 auto var(--plans-margin-bottom, 80px);
     overflow: auto;
   }
 
