@@ -27,6 +27,7 @@
 
 <style lang="scss">
   #plans {
+    --plans-margin-bottom: 24px;
     max-width: var(--page-width, 1140px);
     margin: 0 auto var(--plans-margin-bottom, 80px);
     overflow: auto;
