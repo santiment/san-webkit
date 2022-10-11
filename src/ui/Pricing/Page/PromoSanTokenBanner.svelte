@@ -34,7 +34,6 @@
     background: var(--whale);
     border-radius: 8px;
     padding: 32px 48px;
-    margin-bottom: 80px;
     margin: 0 auto 80px;
   }
 
