@@ -9,6 +9,7 @@ import Suggestions from './Suggestions.svelte';
 import SpecialOfferBanner from './SpecialOfferBanner.svelte';
 import Comparison from '../Comparison/index.svelte';
 import Plans from './Plans.svelte';
+import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
 let className = '';
 export { className as class };
 export let billing = Billing.MONTH;
@@ -52,6 +53,8 @@ function billingFilter({
   </div>
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
+
+  <PromoSanTokenBanner />
 
   <Comparison class="comparison-VGkPm9" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
