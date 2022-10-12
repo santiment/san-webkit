@@ -34,7 +34,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
-            href="https://santiment.net/about-santiment/how-to-buy-san/"
+            href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
             target="_blank"
             class="link-pointer"
             rel="noopener noreferrer">Learn how to buy SAN.</a

@@ -16,7 +16,7 @@ export { className as class };</script>
       >
     </p>
     <a
-      href="https://academy.santiment.net/san-tokens/how-to-buy-san/"
+      href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
       target="_blank"
       rel="noopener noreferrer"
       class="btn-1">Buy SAN token</a
