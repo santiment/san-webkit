@@ -18,6 +18,8 @@ export let offsetX = 0;
 export let offsetY = 8;
 export let scrollParent = undefined;
 export let passive = false;
+let _static = false;
+export { _static as static };
 const transition = {
   duration
 };
@@ -32,7 +34,7 @@ let openTimer;
 $: if (!passive && trigger) {
   if (isEnabled) trigger.addEventListener(on, startOpenTimer);else {
     trigger.removeEventListener(on, startOpenTimer);
-    isOpened = false;
+    if (!_static) isOpened = false;
   }
 }
 
@@ -154,7 +156,7 @@ function onTouchEnd({
   .tooltip {
     position: absolute;
     opacity: 1;
-    z-index: 10;
+    z-index: var(--tooltip-z-index, 10);
     overflow: hidden;
     border-radius: 4px;
   }

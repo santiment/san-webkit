@@ -26,20 +26,9 @@ export { className as class };</script>
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
           <DigestForm
-            class="mrg-xl mrg--b form-3Ls55N {$IsMobile ? '' : 'body-3'}"
+            class="mrg-xl mrg--b form-U2ad5e {$IsMobile ? '' : 'body-3'}"
             label="Subscribe"
           />
-        </div>
-
-        <div class="download">
-          <h4 class="txt-m mrg-m mrg--b">Download Santiment app</h4>
-          <a
-            target="_blank"
-            class="google"
-            href="https://play.google.com/store/apps/details?id=net.santiment.sanbase.android"
-          >
-            <img alt="Google" src="{process.env.MEDIA_PATH}/illus/google-app.svg" />
-          </a>
         </div>
       </div>
     </div>
@@ -71,7 +60,7 @@ footer {
   --max-width: 100%;
 }
 
-:global(.form-3Ls55N) {
+:global(.form-U2ad5e) {
   width: 386px;
 }
 
@@ -96,8 +85,8 @@ footer {
 :global(.phone) .top {
   flex-direction: column;
 }
-:global(.phone-xs) :global(.form-3Ls55N),
-:global(.phone) :global(.form-3Ls55N) {
+:global(.phone-xs) :global(.form-U2ad5e),
+:global(.phone) :global(.form-U2ad5e) {
   margin-bottom: 40px;
 }
 
@@ -109,9 +98,6 @@ footer {
   width: 100%;
   display: flex;
   margin-top: 28px;
-}
-:global(.tablet) .download {
-  margin-right: 100px;
 }
 
 :global(.desktop) .description {

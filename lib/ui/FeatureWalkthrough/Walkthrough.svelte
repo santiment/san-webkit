@@ -19,7 +19,7 @@ $: rect = (highlightedNode === null || highlightedNode === void 0 ? void 0 : hig
   x: 7
 };
 
-$: align = (rect, 'left');
+$: align = (rect, feature.align || 'left');
 
 $: ({
   bottom,
@@ -31,6 +31,9 @@ $: xPosition = x - 7;
 
 $: if (x + 200 >= window.innerWidth) {
   align = 'right';
+}
+
+$: if (align === 'right') {
   xPosition = window.innerWidth - right - 7;
 }
 

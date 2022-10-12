@@ -1,4 +1,5 @@
-<script>import { getMinRows } from './utils';
+<script>import { noop } from './../../utils';
+import { getMinRows } from './utils';
 import SorterArrows from './SorterArrows.svelte';
 let className = '';
 export { className as class };
@@ -10,8 +11,8 @@ export let sortedColumn = undefined;
 export let sticky = false;
 export let isLoading = false;
 export let applySort = (sorter, items) => items.slice().sort(sorter);
-
-const noop = _ => _;
+export let onSortClick = noop;
+export let itemProps;
 
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 
@@ -21,33 +22,45 @@ let currentSort = descSort;
 
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
 
-$: sortedColumnAccessor = (sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) || noop;
+$: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
 
-$: sortedItems = sortedColumn ? applySort(currentSort, items) : items;
+$: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
 
 function changeSort({
   currentTarget
 }) {
   const i = currentTarget.dataset.i;
   const column = columns[+i];
-  if (!column.sortAccessor) return;
-  currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort;
+  const {
+    sortAccessor,
+    isSortable = sortAccessor
+  } = column;
+  if (!isSortable) return;
+  const isAscSort = sortedColumn === column && currentSort === descSort;
+  currentSort = isAscSort ? ascSort : descSort;
   sortedColumn = column;
+  onSortClick(sortedColumn, isAscSort);
 }</script>
 
 <table class={className} class:sticky-header={sticky}>
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
+        {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
-          class={column.className || ''}
+          class={className || ''}
           class:sorted={sortedColumn === column}
-          class:sortable={column.sortAccessor}
+          class:sortable={isSortable}
           data-i={i}
           on:click={changeSort}
-          >{column.title}
-          {#if sortedColumn === column}
-            <SorterArrows isAscending={currentSort === ascSort} />
+        >
+          {#if Header}
+            <svelte:component this={Header} {...itemProps} />
+          {:else}
+            {title}
+            {#if sortedColumn === column}
+              <SorterArrows isAscending={currentSort === ascSort} />
+            {/if}
           {/if}
         </th>
       {/each}
@@ -56,12 +69,15 @@ function changeSort({
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
-        {#each columns as { title, className, format, Component } (title)}
+        {#each columns as { title, className, format, Component, valueKey } (title)}
+          {@const value = item[valueKey]}
           <td class={className || ''}>
-            {#if Component}
-              <svelte:component this={Component} {item} />
+            {#if valueKey && value === undefined}
+              <div class="skeleton" />
+            {:else if Component}
+              <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
-              {format(item, i)}
+              {format(item, i, value)}
             {/if}
           </td>
         {/each}
@@ -138,7 +154,7 @@ table :global(tbody) :global(tr:hover) :global(td) {
 }
 
 .sticky-header :global(thead) {
-  z-index: 1;
+  z-index: var(--thead-z-index, 2);
   position: sticky;
   top: var(--thead-top, 0);
 }</style>

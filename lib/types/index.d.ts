@@ -3,6 +3,7 @@
 /// <reference types="./dialog" />
 /// <reference types="./index" />
 /// <reference types="./plan" />
+/// <reference types="./table" />
 /// <reference types="./user" />
 declare namespace NodeJS {
   interface Process {
@@ -54,5 +55,6 @@ declare namespace SAN {
     nodeId?: string
     title: string
     description: string
+    align?: 'left' | 'right'
   }
 }
