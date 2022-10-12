@@ -13,6 +13,7 @@ export let isLoading = false;
 export let applySort = (sorter, items) => items.slice().sort(sorter);
 export let onSortClick = noop;
 export let itemProps;
+export let offset = 0;
 
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 
@@ -36,10 +37,10 @@ function changeSort({
     isSortable = sortAccessor
   } = column;
   if (!isSortable) return;
-  const isAscSort = sortedColumn === column && currentSort === descSort;
-  currentSort = isAscSort ? ascSort : descSort;
+  const isDescSort = sortedColumn === column && currentSort === descSort;
+  currentSort = isDescSort ? ascSort : descSort;
   sortedColumn = column;
-  onSortClick(sortedColumn, isAscSort);
+  onSortClick(sortedColumn, isDescSort);
 }</script>
 
 <table class={className} class:sticky-header={sticky}>
@@ -77,7 +78,7 @@ function changeSort({
             {:else if Component}
               <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
-              {format(item, i, value)}
+              {format(item, i + offset, value)}
             {/if}
           </td>
         {/each}

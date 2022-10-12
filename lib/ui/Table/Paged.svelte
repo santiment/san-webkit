@@ -1,4 +1,5 @@
-<script>import Svg from './../../ui/Svg/svelte';
+<script>import { noop } from './../../utils';
+import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
 import Table from './index.svelte';
 let className = '';
@@ -7,6 +8,8 @@ export let items;
 export let pageSize = 25;
 export let page = 0;
 export let rows = [10, 25, 50];
+export let pageOffset = 0;
+export let onPageChange = noop;
 let isPageSizeOpened = false;
 
 $: pagesAmount = Math.ceil(items.length / pageSize);
@@ -27,24 +30,28 @@ function onPageInput({
   const value = +currentTarget.value;
   if (!value || value < 1) page = 0;else if (value > pagesAmount) page = maxPage;else page = value - 1;
   currentTarget.value = page + 1;
+  onPageChange(page);
 }
 
 function onPageSizeChange(size) {
   isPageSizeOpened = false;
   pageSize = size;
   page = 0;
+  onPageChange(page);
 }
 
 function onNextPage() {
   if (page >= pagesAmount) page = maxPage;else page++;
+  onPageChange(page);
 }
 
 function onPrevPage() {
   if (page <= 1) page = 0;else page--;
+  onPageChange(page);
 }</script>
 
 <div class={className}>
-  <Table {...$$restProps} items={pageItems} {applySort} />
+  <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort} />
 </div>
 
 <div class="paged row v-center mrg-l mrg--t">
@@ -87,7 +94,7 @@ function onPrevPage() {
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-3aZ9ra mrg-m mrg--l" />
+    <Svg id="arrow-right" w="5" h="8" class="left-1PSkR mrg-m mrg--l" />
   </div>
   <div
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
@@ -99,7 +106,7 @@ function onPrevPage() {
   </div>
 </div>
 
-<style >:global(.left-3aZ9ra) {
+<style >:global(.left-1PSkR) {
   transform: rotate(180deg);
 }
 
