@@ -1,5 +1,7 @@
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
-export function newGlobalShortcut(shortcut: string, clb: () => any) {
+
+const options = { capture: true }
+export function newGlobalShortcut(shortcut: string, clb: () => any, disableInputs = true) {
   const keys = shortcut.split('+')
 
   let isCmdKey = false
@@ -19,7 +21,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any) {
   function onKeyPress(e: KeyboardEvent) {
     const { key, target, metaKey, ctrlKey, shiftKey, altKey } = e
 
-    if (target) {
+    if (disableInputs && target) {
       const { isContentEditable, tagName } = target as HTMLElement
       if (isContentEditable || EDITABLE_TAGS.has(tagName)) return
     }
@@ -31,11 +33,12 @@ export function newGlobalShortcut(shortcut: string, clb: () => any) {
       targetKey === key.toUpperCase()
     ) {
       e.preventDefault()
+      e.stopImmediatePropagation()
       clb()
     }
   }
 
-  window.addEventListener('keydown', onKeyPress)
+  window.addEventListener('keydown', onKeyPress, options)
 
-  return () => window.removeEventListener('keydown', onKeyPress)
+  return () => window.removeEventListener('keydown', onKeyPress, options)
 }

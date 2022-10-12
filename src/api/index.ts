@@ -5,16 +5,26 @@ type Variables = { [key: string]: any }
 
 export type Data<T extends SAN.API.QueryBase> = {
   data: T
+  error?: any
   errors?: any
 }
 
 export const HEADERS = {
   'Content-Type': 'application/json',
   authorization: null,
+  origin: process.env.API_FETCH_ORIGIN,
 }
 
-const dataAccessor = <T extends SAN.API.QueryBase>({ data, errors }: Data<T>): Promise<T> =>
-  errors ? Promise.reject(errors) : Promise.resolve(data)
+function dataAccessor<T extends SAN.API.QueryBase>({ data, error, errors }: Data<T>): Promise<T> {
+  const queryError = error || errors
+
+  if (queryError) {
+    console.log(queryError)
+    return Promise.reject(queryError)
+  }
+
+  return Promise.resolve(data)
+}
 
 const jsonAccessor = <T extends SAN.API.QueryBase>(response: Response): Promise<Data<T>> =>
   response.json()

@@ -1,36 +1,43 @@
 <script lang="ts">
-  import type { Item, Column, Sorter, SortAccessor } from './utils'
+  import type { Sorter, SortAccessor } from './utils'
+
+  import { noop } from '@/utils'
   import { getMinRows } from './utils'
   import SorterArrows from './SorterArrows.svelte'
 
   let className = ''
   export { className as class }
-  export let columns: Column[]
-  export let items: Item[]
+  export let columns: SAN.Table.Column[]
+  export let items: SAN.Table.Item[]
   export let keyProp: undefined | string = undefined
   export let minRows: undefined | number = undefined
-  export let sortedColumn: undefined | Column = undefined
+  export let sortedColumn: undefined | SAN.Table.Column = undefined
   export let sticky = false
   export let isLoading = false
   export let applySort = (sorter, items) => items.slice().sort(sorter)
+  export let onSortClick = noop as (column: SAN.Table.Column, isAscSort: boolean) => void
+  export let itemProps: { [key: string]: any }
 
-  const noop = (_) => _
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
 
   let currentSort = descSort
 
   $: rowsPadding = getMinRows(minRows, items.length, columns.length)
-  $: sortedColumnAccessor = (sortedColumn?.sortAccessor || noop) as SortAccessor
-  $: sortedItems = sortedColumn ? applySort(currentSort, items) : items
+  $: sortedColumnAccessor = sortedColumn?.sortAccessor as SortAccessor
+  $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items
 
   function changeSort({ currentTarget }: MouseEvent) {
     const i = (currentTarget as HTMLElement).dataset.i as string
     const column = columns[+i]
-    if (!column.sortAccessor) return
 
-    currentSort = sortedColumn === column && currentSort === descSort ? ascSort : descSort
+    const { sortAccessor, isSortable = sortAccessor } = column
+    if (!isSortable) return
+
+    const isAscSort = sortedColumn === column && currentSort === descSort
+    currentSort = isAscSort ? ascSort : descSort
     sortedColumn = column
+    onSortClick(sortedColumn, isAscSort)
   }
 </script>
 
@@ -38,15 +45,21 @@
   <thead>
     <tr>
       {#each columns as column, i (column.title)}
+        {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
-          class={column.className || ''}
+          class={className || ''}
           class:sorted={sortedColumn === column}
-          class:sortable={column.sortAccessor}
+          class:sortable={isSortable}
           data-i={i}
           on:click={changeSort}
-          >{column.title}
-          {#if sortedColumn === column}
-            <SorterArrows isAscending={currentSort === ascSort} />
+        >
+          {#if Header}
+            <svelte:component this={Header} {...itemProps} />
+          {:else}
+            {title}
+            {#if sortedColumn === column}
+              <SorterArrows isAscending={currentSort === ascSort} />
+            {/if}
           {/if}
         </th>
       {/each}
@@ -55,12 +68,15 @@
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
-        {#each columns as { title, className, format, Component } (title)}
+        {#each columns as { title, className, format, Component, valueKey } (title)}
+          {@const value = item[valueKey]}
           <td class={className || ''}>
-            {#if Component}
-              <svelte:component this={Component} {item} />
+            {#if valueKey && value === undefined}
+              <div class="skeleton" />
+            {:else if Component}
+              <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
-              {format(item, i)}
+              {format(item, i, value)}
             {/if}
           </td>
         {/each}
@@ -148,7 +164,7 @@
 
   .sticky-header :global {
     thead {
-      z-index: 1;
+      z-index: var(--thead-z-index, 2);
       position: sticky;
       top: var(--thead-top, 0);
     }

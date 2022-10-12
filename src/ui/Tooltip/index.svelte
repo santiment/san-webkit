@@ -25,6 +25,8 @@
   export let offsetY = 8
   export let scrollParent: Element | undefined = undefined
   export let passive = false
+  let _static = false
+  export { _static as static }
 
   const transition = { duration }
   const setTrigger = (value?: Element) => (trigger = value)
@@ -38,7 +40,7 @@
     if (isEnabled) trigger.addEventListener(on, startOpenTimer)
     else {
       trigger.removeEventListener(on, startOpenTimer)
-      isOpened = false
+      if (!_static) isOpened = false
     }
   }
 
@@ -168,7 +170,7 @@
   .tooltip {
     position: absolute;
     opacity: 1;
-    z-index: 10;
+    z-index: var(--tooltip-z-index, 10);
     overflow: hidden;
     border-radius: 4px;
   }

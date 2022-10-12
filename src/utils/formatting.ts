@@ -15,7 +15,7 @@ const SI_PREFIXES = {
   12: 'T',
 } as const
 
-export function millify(value: number, precision = 1): string {
+export function millify(value: number, precision = 1, smallPrecision = 6): string {
   const absValue = Math.abs(value)
   const str = Math.floor(absValue).toString()
   const { length } = str
@@ -27,7 +27,7 @@ export function millify(value: number, precision = 1): string {
   }
 
   if (!exponent) {
-    return prefix + +str
+    return (+value.toFixed(absValue < 2 ? smallPrecision : precision)).toString()
   }
 
   if (exponent > 12) exponent = 12
