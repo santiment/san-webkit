@@ -15,8 +15,9 @@
   export let sticky = false
   export let isLoading = false
   export let applySort = (sorter, items) => items.slice().sort(sorter)
-  export let onSortClick = noop as (column: SAN.Table.Column, isAscSort: boolean) => void
+  export let onSortClick = noop as (column: SAN.Table.Column, isDescSort: boolean) => void
   export let itemProps: { [key: string]: any }
+  export let offset = 0
 
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
@@ -34,10 +35,10 @@
     const { sortAccessor, isSortable = sortAccessor } = column
     if (!isSortable) return
 
-    const isAscSort = sortedColumn === column && currentSort === descSort
-    currentSort = isAscSort ? ascSort : descSort
+    const isDescSort = sortedColumn === column && currentSort === descSort
+    currentSort = isDescSort ? ascSort : descSort
     sortedColumn = column
-    onSortClick(sortedColumn, isAscSort)
+    onSortClick(sortedColumn, isDescSort)
   }
 </script>
 
@@ -76,7 +77,7 @@
             {:else if Component}
               <svelte:component this={Component} {item} {value} {...itemProps} />
             {:else}
-              {format(item, i, value)}
+              {format(item, i + offset, value)}
             {/if}
           </td>
         {/each}
