@@ -1,4 +1,5 @@
 <script>
+  import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import Table from './index.svelte'
@@ -9,6 +10,8 @@
   export let pageSize = 25
   export let page = 0
   export let rows = [10, 25, 50]
+  export let pageOffset = 0
+  export let onPageChange = noop
 
   let isPageSizeOpened = false
 
@@ -28,27 +31,31 @@
     else page = value - 1
 
     currentTarget.value = page + 1
+    onPageChange(page)
   }
 
   function onPageSizeChange(size) {
     isPageSizeOpened = false
     pageSize = size
     page = 0
+    onPageChange(page)
   }
 
   function onNextPage() {
     if (page >= pagesAmount) page = maxPage
     else page++
+    onPageChange(page)
   }
 
   function onPrevPage() {
     if (page <= 1) page = 0
     else page--
+    onPageChange(page)
   }
 </script>
 
 <div class={className}>
-  <Table {...$$restProps} items={pageItems} {applySort} />
+  <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort} />
 </div>
 
 <div class="paged row v-center mrg-l mrg--t">
