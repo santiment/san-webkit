@@ -17,7 +17,7 @@ export const links = [
     title: 'Historical balance',
   },
   {
-    href: 'https://academy.santiment.net/san-tokens/how-to-buy-san/',
+    href: 'https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/',
     title: 'Buy SAN',
   },
 
