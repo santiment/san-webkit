@@ -1,13 +1,19 @@
 <script>
+  import { IsMobile } from '@/stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
 
   let className = ''
   export { className as class }
 </script>
 
-<section class="row v-center justify border body-2 {className}">
+<section class="{$IsMobile ? 'column' : 'row'} v-center justify border body-2 {className}">
   <div class="left">
     <h3 class="h3 mrg--b mrg-l">Hold SAN, Pay Less</h3>
+    {#if $IsMobile}
+      <div class="row h-center mrg--b mrg-l">
+        <img src={sanTokenBanner} class="center" alt="San Token Banner" />
+      </div>
+    {/if}
     <p class="mrg--b mrg-xl">
       Enjoy a 20% discount on all Santiment products, and you can burn or provide SAN liquidity for
       full PRO access.
@@ -25,12 +31,15 @@
       class="btn-1">Buy SAN token</a
     >
   </div>
-  <img src={sanTokenBanner} alt="San Token Banner" />
+  {#if !$IsMobile}
+    <img src={sanTokenBanner} alt="San Token Banner" />
+  {/if}
 </section>
 
 <style>
   section {
-    max-width: 800px;
+    max-width: 100%;
+    width: 800px;
     background: var(--whale);
     border-radius: 8px;
     padding: 32px 48px;
@@ -38,7 +47,8 @@
   }
 
   .left {
-    max-width: 424px;
+    max-width: 100%;
+    width: 424px;
   }
 
   p {
