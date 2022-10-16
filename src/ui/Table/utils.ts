@@ -5,16 +5,16 @@ export type Item = { [key: string]: any }
 export type Sorter = (a: Item, b: Item) => number
 export type SortAccessor = (item: Item) => number
 
+export type Format<T = Item> = (item: T, i: number, value?: any) => number | string
 export type Column<T = Item> = {
   title: string
-  format: (item: T, i: number, value?: T) => number | string
   className?: string
   sortAccessor?: SortAccessor
-  Component?: SvelteComponentDev
+
   Header?: SvelteComponentDev
   valueKey?: string
   isSortable?: boolean
-}
+} & ({ format: Format<T> } | { Component: SvelteComponentDev })
 
 const COLUMN_PADDING = '<td></td>'
 export function getMinRows(
