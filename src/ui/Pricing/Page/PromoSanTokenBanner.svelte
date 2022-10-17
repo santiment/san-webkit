@@ -5,7 +5,7 @@
   export { className as class }
 </script>
 
-<section class="justify v-center border body-2 {className}">
+<section class="row justify v-center border body-2 {className}">
   <img src={sanTokenBanner} class="row h-center mrg--b mrg-xxl" alt="San Token Banner" />
   <div class="left">
     <h3 class="h3 txt-m mrg--b mrg-l">Hold SAN, Pay Less</h3>
@@ -31,7 +31,6 @@
 
 <style lang="scss">
   section {
-    display: flex;
     max-width: 100%;
     width: 800px;
     background: var(--whale);
