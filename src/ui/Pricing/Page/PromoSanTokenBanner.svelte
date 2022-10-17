@@ -6,9 +6,7 @@
 </script>
 
 <section class="justify v-center border body-2 {className}">
-  <div class="row h-center mrg--b mrg-xxl show-mobile">
-    <img src={sanTokenBanner} class="center" alt="San Token Banner" />
-  </div>
+  <img src={sanTokenBanner} class="row h-center mrg--b mrg-xxl" alt="San Token Banner" />
   <div class="left">
     <h3 class="h3 txt-m mrg--b mrg-l">Hold SAN, Pay Less</h3>
     <p>
@@ -28,7 +26,7 @@
       class="btn-1">Buy SAN token</a
     >
   </div>
-  <img src={sanTokenBanner} alt="San Token Banner" class="hide-mobile" />
+  <img src={sanTokenBanner} alt="San Token Banner" />
 </section>
 
 <style lang="scss">
@@ -55,11 +53,13 @@
   .btn-1 {
     padding: 8px 20px;
   }
-  .show-mobile {
-    display: none;
-  }
-  .hide-mobile {
+
+  img {
     display: block;
+
+    &.row {
+      display: none;
+    }
   }
 
   :global(.phone-xs),
@@ -77,15 +77,17 @@
     .btn-0 {
       display: inline;
     }
-    .show-mobile {
-      display: block;
-    }
-    .hide-mobile {
-      display: none;
-    }
 
     p {
       margin-bottom: 32px;
+    }
+
+    img {
+      display: none;
+
+      &.row {
+        display: block;
+      }
     }
   }
 </style>
