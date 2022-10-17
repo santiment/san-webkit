@@ -1,24 +1,17 @@
 <script>
-  import { IsMobileOnly } from '@/stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
 
   let className = ''
   export { className as class }
 </script>
 
-<section
-  class="{$IsMobileOnly
-    ? 'mobile column h-center'
-    : 'row'} v-center justify border body-2 {className}"
->
+<section class="flex border body-2 {className}">
   <div class="left">
-    {#if $IsMobileOnly}
-      <div class="row h-center mrg--b mrg-xxl">
-        <img src={sanTokenBanner} class="center" alt="San Token Banner" />
-      </div>
-    {/if}
+    <div class="row h-center mrg--b mrg-xxl showmobile">
+      <img src={sanTokenBanner} class="center" alt="San Token Banner" />
+    </div>
     <h3 class="h3 mrg--b mrg-l">Hold SAN, Pay Less</h3>
-    <p class="mrg--b {$IsMobileOnly ? 'mrg-xxl' : 'mrg-xl'}">
+    <p class="mrg--b">
       Enjoy a 20% discount on all Santiment products, and you can burn or provide SAN liquidity for
       full PRO access.
       <a
@@ -35,13 +28,14 @@
       class="btn-1">Buy SAN token</a
     >
   </div>
-  {#if !$IsMobileOnly}
-    <img src={sanTokenBanner} alt="San Token Banner" />
-  {/if}
+  <img src={sanTokenBanner} alt="San Token Banner" class="hidemobile" />
 </section>
 
 <style lang="scss">
   section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     max-width: 100%;
     width: 800px;
     background: var(--whale);
@@ -54,9 +48,37 @@
     font-weight: 500;
   }
 
-  .mobile {
-    padding: 24px 32px;
-    max-width: 95% !important;
+  .left {
+    max-width: 100%;
+    width: 424px;
+  }
+
+  p {
+    color: var(--fiord);
+
+    &.mrg--b {
+      --margin: 24px;
+    }
+  }
+
+  .btn-1 {
+    padding: 8px 20px;
+  }
+
+  .showmobile {
+    display: none;
+  }
+  .hidemobile {
+    display: block;
+  }
+
+  :global(.phone-xs),
+  :global(.phone) {
+    section {
+      flex-direction: column;
+      padding: 24px 32px;
+      max-width: 95%;
+    }
 
     .left {
       text-align: center;
@@ -65,18 +87,15 @@
     .btn-0 {
       display: inline;
     }
-  }
+    .showmobile {
+      display: block;
+    }
+    .hidemobile {
+      display: none;
+    }
 
-  .left {
-    max-width: 100%;
-    width: 424px;
-  }
-
-  p {
-    color: var(--fiord);
-  }
-
-  .btn-1 {
-    padding: 8px 20px;
+    p.mrg--b {
+      --margin: 32px;
+    }
   }
 </style>
