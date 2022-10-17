@@ -5,13 +5,13 @@
   export { className as class }
 </script>
 
-<section class="border body-2 {className}">
+<section class="justify v-center border body-2 {className}">
+  <div class="row h-center mrg--b mrg-xxl show-mobile">
+    <img src={sanTokenBanner} class="center" alt="San Token Banner" />
+  </div>
   <div class="left">
-    <div class="row h-center mrg--b mrg-xxl showmobile">
-      <img src={sanTokenBanner} class="center" alt="San Token Banner" />
-    </div>
-    <h3 class="h3 mrg--b mrg-l">Hold SAN, Pay Less</h3>
-    <p class="mrg--b">
+    <h3 class="h3 txt-m mrg--b mrg-l">Hold SAN, Pay Less</h3>
+    <p>
       Enjoy a 20% discount on all Santiment products, and you can burn or provide SAN liquidity for
       full PRO access.
       <a
@@ -28,24 +28,18 @@
       class="btn-1">Buy SAN token</a
     >
   </div>
-  <img src={sanTokenBanner} alt="San Token Banner" class="hidemobile" />
+  <img src={sanTokenBanner} alt="San Token Banner" class="hide-mobile" />
 </section>
 
 <style lang="scss">
   section {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     max-width: 100%;
     width: 800px;
     background: var(--whale);
     border-radius: 8px;
     padding: 32px 48px;
     margin: 0 auto 80px;
-  }
-
-  h3 {
-    font-weight: 500;
   }
 
   .left {
@@ -55,20 +49,16 @@
 
   p {
     color: var(--fiord);
-
-    &.mrg--b {
-      --margin: 24px;
-    }
+    margin-bottom: 24px;
   }
 
   .btn-1 {
     padding: 8px 20px;
   }
-
-  .showmobile {
+  .show-mobile {
     display: none;
   }
-  .hidemobile {
+  .hide-mobile {
     display: block;
   }
 
@@ -87,15 +77,15 @@
     .btn-0 {
       display: inline;
     }
-    .showmobile {
+    .show-mobile {
       display: block;
     }
-    .hidemobile {
+    .hide-mobile {
       display: none;
     }
 
-    p.mrg--b {
-      --margin: 32px;
+    p {
+      margin-bottom: 32px;
     }
   }
 </style>
