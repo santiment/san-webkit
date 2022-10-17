@@ -5,7 +5,7 @@
   export { className as class }
 </script>
 
-<section class="flex border body-2 {className}">
+<section class="border body-2 {className}">
   <div class="left">
     <div class="row h-center mrg--b mrg-xxl showmobile">
       <img src={sanTokenBanner} class="center" alt="San Token Banner" />
