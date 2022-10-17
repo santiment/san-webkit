@@ -6,15 +6,14 @@
 </script>
 
 <section class="row justify v-center border body-2 {className}">
-  <img src={sanTokenBanner} class="row h-center mrg--b mrg-xxl" alt="San Token Banner" />
-  <div class="left">
-    <h3 class="h3 txt-m mrg--b mrg-l">Hold SAN, Pay Less</h3>
-    <p>
+  <div class="text">
+    <h3 class="h3 txt-m mrg-l mrg--b">Hold SAN, Pay Less</h3>
+    <p class="mrg-xl mrg--b">
       Enjoy a 20% discount on all Santiment products, and you can burn or provide SAN liquidity for
       full PRO access.
       <a
         href="https://academy.santiment.net/san-tokens/san-tokens-holding-benefits"
-        class="btn-0 row"
+        class="learn row btn-0"
         rel="noopener noreferrer"
         target="_blank">Learn more here!</a
       >
@@ -23,9 +22,10 @@
       href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
       target="_blank"
       rel="noopener noreferrer"
-      class="btn-1">Buy SAN token</a
+      class="buy btn-1">Buy SAN token</a
     >
   </div>
+
   <img src={sanTokenBanner} alt="San Token Banner" />
 </section>
 
@@ -39,54 +39,36 @@
     margin: 0 auto 80px;
   }
 
-  .left {
+  .text {
     max-width: 100%;
     width: 424px;
   }
 
   p {
     color: var(--fiord);
-    margin-bottom: 24px;
   }
 
-  .btn-1 {
+  .buy {
+    display: inline-block;
     padding: 8px 20px;
-  }
-
-  img {
-    display: block;
-
-    &.row {
-      display: none;
-    }
   }
 
   :global(.phone-xs),
   :global(.phone) {
     section {
-      flex-direction: column;
-      padding: 24px 32px;
-      max-width: 95%;
-    }
-
-    .left {
+      flex-direction: column-reverse;
+      padding: 32px 24px;
+      max-width: calc(100% - 40px);
+      gap: 35px;
       text-align: center;
     }
 
-    .btn-0 {
+    .learn {
       display: inline;
     }
 
     p {
-      margin-bottom: 32px;
-    }
-
-    img {
-      display: none;
-
-      &.row {
-        display: block;
-      }
+      margin: 0 0 32px;
     }
   }
 </style>
