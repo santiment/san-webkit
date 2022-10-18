@@ -16,7 +16,7 @@ export { className as class };</script>
       >
     </p>
     <a
-      href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
+      href="https://kyberswap.com/swap/ethereum/eth-to-san"
       target="_blank"
       rel="noopener noreferrer"
       class="buy btn-1">Buy SAN token</a
