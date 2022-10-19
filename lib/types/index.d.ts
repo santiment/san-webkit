@@ -1,3 +1,9 @@
+/// <reference types="./api" />
+/// <reference types="./comment" />
+/// <reference types="./dialog" />
+/// <reference types="./plan" />
+/// <reference types="./table" />
+/// <reference types="./user" />
 declare namespace NodeJS {
   interface Process {
     browser: boolean
