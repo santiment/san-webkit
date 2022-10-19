@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const { SRC, LIB, mkdir, forFile } = require('./utils')
-const { prepareTypes } = require('./types')
+const { prepareTypes, indexTypes } = require('./types')
 const { prepareSvelte } = require('./svelte')
 const { prepareImports } = require('./imports')
 const { prepareIcons } = require('./icons')
@@ -21,6 +21,7 @@ async function main() {
   await forFile(['src/**', '!src/**/*.ts'], copyFile)
 
   prepareTypes()
+  indexTypes()
   prepareIcons()
 
   await prepareSvelte()
