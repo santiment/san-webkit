@@ -41,7 +41,7 @@ function onAllowAllClick() {
   closeDialog();
 }</script>
 
-<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="dialog-2wHqbb">
+<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="dialog-1yD3NJ">
   <div class="cookies">
     When you visit our website, we may store cookies on your browser for your security and to help
     us better understand user behavior and inform us about which parts of our website you have
@@ -88,7 +88,7 @@ function onAllowAllClick() {
 </Dialog>
 
 <style>
-  :global(.dialog-2wHqbb) {
+  :global(.dialog-1yD3NJ) {
     max-width: 600px !important;
   }
   .cookies {
