@@ -12,7 +12,9 @@ async function prepareTypes() {
   const file = fs.readFileSync(TYPES_PATH)
   let refs = ''
 
-  await forFile(['lib/types/*.d.ts'], (entry) => {
+  await forFile(['lib/types/**/*.d.ts'], (entry) => {
+    if (TYPES_PATH.includes(entry)) return
+
     refs += `/// <reference types="${normalize(entry)}" />\n`
   })
 
