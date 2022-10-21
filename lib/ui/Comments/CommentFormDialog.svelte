@@ -4,7 +4,7 @@ export const showCommentFormDialog = props => dialogs.show(CommentFormDialog, Ob
   strict: true
 }, props));</script>
 
-<script lang="ts">import Dialog from './../../ui/Dialog';
+<script>import Dialog from './../../ui/Dialog';
 import Editor from './../../ui/Editor';
 export let DialogPromise;
 export let title;

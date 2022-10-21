@@ -2,7 +2,7 @@
 import PlanChangeDialog from './PlanChangeDialog.svelte';
 export const showPlanChangeDialog = props => dialogs.show(PlanChangeDialog, props);</script>
 
-<script lang="ts">import Dialog from './../../ui/Dialog';
+<script>import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
 import Svg from './../../ui/Svg/svelte';
 import { subscription$ } from './../../stores/subscription';

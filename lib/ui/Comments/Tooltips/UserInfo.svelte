@@ -14,7 +14,7 @@ const accessor = ({
 
 export const queryUser = id => query(QUERY(id)).then(accessor);</script>
 
-<script lang="ts">import Info from './../../../ui/Profile/Info.svelte';
+<script>import Info from './../../../ui/Profile/Info.svelte';
 export let id;
 export let currentUser;
 export let type;

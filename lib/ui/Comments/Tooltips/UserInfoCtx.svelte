@@ -9,7 +9,7 @@ const setUserInfoTooltipHook = ctx => setContext(HOOK_ID, ctx);
 
 export const getUserInfoTooltipHook = () => getContext(HOOK_ID);</script>
 
-<script lang="ts">import Context from './../../../ui/Tooltip/Context.svelte';
+<script>import Context from './../../../ui/Tooltip/Context.svelte';
 import UserInfo, { queryUser } from './UserInfo.svelte';
 import { CommentsType } from './../../../api/comments';
 import { CreationType } from './../../../ui/Profile/types';

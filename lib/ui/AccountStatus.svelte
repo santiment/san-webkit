@@ -5,7 +5,7 @@
   AccountStatusType[AccountStatusType["Second"] = 1] = "Second";
 })(AccountStatusType || (AccountStatusType = {}));</script>
 
-<script lang="ts">import { getUserSubscriptionInfo } from './../utils/subscription';
+<script>import { getUserSubscriptionInfo } from './../utils/subscription';
 export let currentUser;
 export let variant = AccountStatusType.First;
 export let subscription;

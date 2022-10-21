@@ -3,7 +3,7 @@
   userVotes: 0
 });</script>
 
-<script lang="ts">import { vote, VoteType } from './../../api/vote';
+<script>import { vote, VoteType } from './../../api/vote';
 import LikeButton from './../../ui/LikeButton/svelte';
 import { CreationType } from './../../ui/Profile/types';
 let className = '';

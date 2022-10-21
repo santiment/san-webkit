@@ -2,7 +2,7 @@
 import BillingHistoryDialog from './BillingHistoryDialog.svelte';
 export const showBillingHistoryDialog = props => dialogs.show(BillingHistoryDialog, props);</script>
 
-<script lang="ts">import Dialog from './../../../ui/Dialog';
+<script>import Dialog from './../../../ui/Dialog';
 import Table from './../../../ui/Table/svelte';
 import { getDateFormats } from './../../../utils/dates';
 import { getPrice, priceFormatter } from './../../../utils/plans';

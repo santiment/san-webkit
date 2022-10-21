@@ -5,7 +5,7 @@ export const showCommentDeleteDialog = comment => dialogs.show(DeleteDialog, {
   comment
 });</script>
 
-<script lang="ts">import { track } from './../../analytics';
+<script>import { track } from './../../analytics';
 import Dialog from './../../ui/Dialog';
 import { deleteComment } from './../../api/comments/mutate';
 export let DialogPromise;

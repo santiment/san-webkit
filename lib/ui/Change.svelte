@@ -6,7 +6,7 @@ export function formatPercentChange(value) {
   return +value.toFixed(Math.abs(value) < 1 ? 4 : 2);
 }</script>
 
-<script lang="ts">import Svg from './../ui/Svg/svelte';
+<script>import Svg from './../ui/Svg/svelte';
 let className = '';
 export { className as class };
 export let change;</script>

@@ -10,7 +10,7 @@ const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.loa
 
 export const dataPreloader = Preloader(preloadData);</script>
 
-<script lang="ts">import { onDestroy } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
 import { PlanName } from './../../utils/plans';

@@ -19,7 +19,7 @@ export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted
   });
 }</script>
 
-<script lang="ts">import Dialog from './../../ui/Dialog';
+<script>import Dialog from './../../ui/Dialog';
 import Toggle from './../../ui/Toggle.svelte';
 import Section from './Section.svelte';
 let closeDialog;
