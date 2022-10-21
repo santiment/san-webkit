@@ -62,6 +62,8 @@ const preprocess = Preprocess({
 
 const routesPreprocess = RoutesPreprocess(LIB)
 
+const LANG_TS_REGEX = / lang="ts"/g
+
 async function prepareSvelte() {
   return forFile(['lib/**/*.svelte'], async (entry) => {
     const filePath = entry.replace('lib/', '')
@@ -74,7 +76,7 @@ async function prepareSvelte() {
       { filename: libFilePath },
     )
 
-    fs.writeFileSync(libFilePath, code.replace(' lang="ts"', '').replace('lang="scss"', ''))
+    fs.writeFileSync(libFilePath, code.replace(LANG_TS_REGEX, '').replace('lang="scss"', ''))
   })
 }
 
