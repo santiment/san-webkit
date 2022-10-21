@@ -9,28 +9,28 @@ export let active = undefined;</script>
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
   {#if isColumn}
-    <div class="more body-2 c-waterloo mrg-xl mrg--t">
+    <section class="more body-2 c-waterloo mrg-xl mrg--t">
       To learn more about Santiment's products, team, or available jobs, visit <a
         class="link-pointer"
         target="_blank"
         href="https://santiment.net/">santiment.net</a
       >
-    </div>
+    </section>
   {/if}
 
-  <div class="chain column">
+  <section class="chain column">
     <h3>SAN Chain</h3>
     {#each chain as product}
       <Product {...product} active={active === product.id} {isCompact} />
     {/each}
-  </div>
+  </section>
 
-  <div class="business column mrg-xl mrg--l">
+  <section class="business column mrg-xl mrg--l">
     <h3>SAN Business</h3>
     {#each business as product}
       <Product {...product} active={active === product.id} {isCompact} />
     {/each}
-  </div>
+  </section>
 </div>
 
 <style >.products {
@@ -61,4 +61,5 @@ h3 {
 .more {
   padding-top: 24px;
   border-top: 1px solid var(--porcelain);
+  max-width: 260px;
 }</style>
