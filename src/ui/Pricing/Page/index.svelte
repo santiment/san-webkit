@@ -82,9 +82,7 @@
   }
 
   .header {
-    :global(.phone-xs) &,
-    :global(.phone) &,
-    :global(.tablet) & {
+    :global(body:not(.desktop)) & {
       padding: 0 46px;
     }
   }

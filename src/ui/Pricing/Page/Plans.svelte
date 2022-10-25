@@ -31,9 +31,7 @@
     margin: 0 auto 24px;
     overflow: auto;
 
-    :global(.phone-xs) &,
-    :global(.phone) &,
-    :global(.tablet) & {
+    :global(body:not(.desktop)) & {
       margin: 0 16px 24px;
     }
   }
@@ -54,9 +52,7 @@
       border: 0;
     }
 
-    :global(.phone-xs) &,
-    :global(.phone) &,
-    :global(.tablet) & {
+    :global(body:not(.desktop)) & {
       --h-padding: 24px;
     }
   }

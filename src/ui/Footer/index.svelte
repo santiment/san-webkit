@@ -67,9 +67,7 @@
   .form {
     width: 386px;
 
-    :global(.phone-xs) &,
-    :global(.phone) &,
-    :global(.tablet) & {
+    :global(body:not(.desktop)) & {
       width: auto;
     }
   }
