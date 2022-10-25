@@ -13,6 +13,7 @@
   } from '@/ui/ManageCookiesDialog/index.svelte'
   import Svg from '@/ui/Svg/svelte'
   import { getSavedBoolean } from '@/utils/localStorage'
+  import { IsMobile } from '@/stores/responsive'
 
   let className = ''
   export { className as class }
@@ -29,20 +30,33 @@
     isVisible = false
     showManageCookiesDialog()
   }
+
+  function onCloseClick() {
+    isVisible = false
+  }
 </script>
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
+    {#if $IsMobile}
+      <button class="btn close" on:click={onCloseClick}>
+        <Svg id="close" w="12" />
+      </button>
+    {/if}
     <Svg illus id="cookies" class="$style.pic" />
-    <h2 class="body-2 txt-m mrg-s mrg--b">We are using cookies to improve your experience!</h2>
-    <h4 class="body-3 mrg-xl mrg--b c-waterloo">
+    <h2 class="{$IsMobile ? 'h4 txt-center mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
+      We are using cookies to improve your experience!
+    </h2>
+    <h4 class="{$IsMobile ? 'body-2' : 'body-3'} mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
       <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
     </h4>
-    <button class="btn-1" on:click={onAllowAllClick}>Allow all</button>
-    <button class="manage btn-2 mrg-m mrg--l" on:click={onManageClick}>Manage cookies</button>
+    <button class="btn-1 {$IsMobile ? 'body-2' : ''}" on:click={onAllowAllClick}>Allow all</button>
+    <button class="manage btn-2 {$IsMobile ? 'body-2' : ''} mrg-m mrg--l" on:click={onManageClick}
+      >Manage cookies</button
+    >
   </div>
 {/if}
 
@@ -55,6 +69,10 @@
     right: 0;
     z-index: 9999;
     text-align: center;
+
+    :global(body:not(.desktop)) & {
+      padding: 24px 20px;
+    }
   }
 
   .api {
@@ -74,6 +92,15 @@
     width: 102px;
     height: 128px;
     transform: rotate(270deg);
+  }
+
+  .close {
+    width: 12px !important;
+    height: 12px !important;
+    position: absolute;
+    top: 24px;
+    right: 20px;
+    padding: 0 !important;
   }
 
   :global(.desktop) {

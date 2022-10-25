@@ -1,5 +1,6 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
 
   export let title: string
   export let description: string
@@ -11,8 +12,9 @@
   <div
     class="btn row v-center justify"
     class:opened={isOpened}
-    on:click={() => (isOpened = !isOpened)}>
-    <div class="row v-center">
+    on:click={() => (isOpened = !isOpened)}
+  >
+    <div class="row v-center {$IsMobile ? 'body-2' : ''}">
       <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--r" />
       {title}
     </div>
@@ -21,7 +23,7 @@
   </div>
 
   {#if isOpened}
-    <p class="mrg-m mrg--b">{description}</p>
+    <p class="mrg-m mrg--b {$IsMobile ? 'body-2' : ''}">{description}</p>
   {/if}
 </section>
 

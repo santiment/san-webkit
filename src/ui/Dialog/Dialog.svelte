@@ -152,6 +152,11 @@
     padding: 12px 20px;
     white-space: nowrap;
     border-bottom: 1px solid var(--porcelain);
+
+    :global(body:not(.desktop)) & {
+      padding: 14px 16px;
+      color: var(--fiord);
+    }
   }
   .empty {
     border: 0;
