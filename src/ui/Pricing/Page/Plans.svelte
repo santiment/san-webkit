@@ -30,6 +30,12 @@
     max-width: var(--page-width, 1140px);
     margin: 0 auto 24px;
     overflow: auto;
+
+    :global(.phone-xs) &,
+    :global(.phone) &,
+    :global(.tablet) & {
+      margin: 0 16px 24px;
+    }
   }
 
   .scroll {
@@ -46,6 +52,12 @@
 
     &:last-child {
       border: 0;
+    }
+
+    :global(.phone-xs) &,
+    :global(.phone) &,
+    :global(.tablet) & {
+      --h-padding: 24px;
     }
   }
 </style>
