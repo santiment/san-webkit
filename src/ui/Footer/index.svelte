@@ -66,6 +66,10 @@
 
   .form {
     width: 386px;
+
+    :global(body:not(.desktop)) & {
+      width: auto;
+    }
   }
 
   .google {

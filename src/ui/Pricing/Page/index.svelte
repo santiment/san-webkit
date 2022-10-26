@@ -32,7 +32,7 @@
 </script>
 
 <main class={className}>
-  <div class="txt-center">
+  <div class="txt-center header">
     <h2 class="h3 txt-m mrg-m mrg--b">Be ahead of the game in crypto</h2>
 
     <h3 class="body-1 c-waterloo">
@@ -78,6 +78,12 @@
       :global(.desktop) & {
         margin-bottom: 60px;
       }
+    }
+  }
+
+  .header {
+    :global(body:not(.desktop)) & {
+      padding: 0 46px;
     }
   }
 

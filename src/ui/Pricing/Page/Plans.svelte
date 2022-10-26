@@ -30,6 +30,10 @@
     max-width: var(--page-width, 1140px);
     margin: 0 auto 24px;
     overflow: auto;
+
+    :global(body:not(.desktop)) & {
+      margin: 0 16px 24px;
+    }
   }
 
   .scroll {
@@ -46,6 +50,10 @@
 
     &:last-child {
       border: 0;
+    }
+
+    :global(body:not(.desktop)) & {
+      --h-padding: 24px;
     }
   }
 </style>
