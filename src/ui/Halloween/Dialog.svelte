@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import { dialogs } from '@/ui/Dialog'
-  import HalloweenPopup from './HalloweenPopup.svelte'
+  import HalloweenPopup from './Dialog.svelte'
 
   export const showHalloweenPopup = () => dialogs.show(HalloweenPopup)
 </script>
@@ -9,64 +9,45 @@
   import Svg from '@/ui/Svg'
   import Dialog from '@/ui/Dialog'
   import { halloweenData$ } from '@/stores/halloween'
-  import { copy } from '@/utils'
-
-  const DISCOUNT = 'SANHALLOWEEN2022'
+  import FlamePumpkin from './FlamePumpkin.svelte'
+  import DiscountCode from './DiscountCode.svelte'
 
   let closeDialog
-  let title = ''
-  let description = ''
-  let buttonText = ''
-  let padding = ''
-  let copyLabel = 'Copy discount'
+  let title = 'Enjoy your 27% off discount!'
+  let description =
+    "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!"
+  let buttonText = 'Let’s go!'
+  let padding = 18
   let hasDiscount
   let isClueShown = false
 
-  $: ({ pages } = $halloweenData$)
+  $: pages = $halloweenData$
   $: pages, setContent()
-  $: hasDiscount = pages.length === 3
+  $: hasDiscount = pages.size === 3
 
   function setContent() {
-    switch (pages.length) {
-      case 1: {
-        title = 'One Down, Two to Go!'
-        description =
-          'Great job! You have collected one pumpkin, and there are two left. Collect three and receive your 27% off discount off all Santiment products!'
-        buttonText = 'Continue!'
-        padding = '0 30px'
-        break
-      }
-      case 2: {
-        title = 'Two Down, One to Go!'
-        description =
-          'Great job! You have collected two pumpkin, and there are one left. Collect three and receive your 27% off discount off all Santiment products!'
-        buttonText = 'Continue!'
-        padding = '0 30px'
-        break
-      }
-      case 3: {
-        title = 'Congratulations'
-        description =
-          'on collecting all three pumpkins! This promo code is available between now and November 5th!'
-        buttonText = 'Use Promocode'
-        padding = '0 22px'
-        break
-      }
-      default: {
-        title = 'Enjoy your 27% off discount!'
-        description =
-          "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!"
-        buttonText = 'Let’s go!'
-        padding = '0 18px'
-        break
-      }
-    }
-  }
+    if (pages.size === 0) return
 
-  function onCopy(e) {
-    e.preventDefault()
-    copyLabel = 'Copied!'
-    copy(DISCOUNT, () => (copyLabel = 'Copy discount'), 1500)
+    if (pages.size === 3) {
+      title = 'Congratulations'
+      description =
+        'on collecting all three pumpkins! This promo code is available between now and November 5th!'
+      buttonText = 'Use Promocode'
+      padding = 22
+      return
+    }
+
+    if (pages.size === 1 || pages.size === 2) {
+      const [collectedAmount, remainingAmount] = pages.size === 1 ? ['One', 'Two'] : ['Two', 'One']
+
+      title = `${collectedAmount} Down, ${remainingAmount} to Go!`
+      description = `Great job! You have collected ${collectedAmount.toLowerCase()} pumpkin${
+        pages.size > 1 ? 's' : ''
+      }, and there are ${remainingAmount.toLowerCase()} left. Collect three and receive your 27% off discount off all Santiment products!`
+      buttonText = 'Continue!'
+      padding = 30
+      return
+    }
   }
 </script>
 
@@ -74,27 +55,22 @@
   <button class="btn close" on:click={closeDialog}>
     <Svg id="close" w="16" h="16" />
   </button>
-  {#if !hasDiscount}
-    <div class="flame-pumpkin row hv-center relative">
-      <span class="pumpkin">🎃</span>
-      <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" class="flame" />
-    </div>
-  {:else}
+  {#if hasDiscount}
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-27.svg"
       alt="Discount"
       class="discount"
     />
+  {:else}
+    <FlamePumpkin class="$style.flame-pumpkin" />
   {/if}
   <div class="column hv-center txt-center">
     <h4 class="h4 txt-m mrg-s mrg--b">{title}</h4>
-    <p class="description body-2 c-waterloo" style="padding: {padding}">
+    <p class="description body-2 c-waterloo" style="padding: 0 {padding}px">
       {description}
     </p>
     {#if hasDiscount}
-      <button class="btn copy expl-tooltip" aria-label={copyLabel} on:click={onCopy}>
-        {DISCOUNT}
-      </button>
+      <DiscountCode class="$style.copy" discount="SANHALLOWEEN2022" />
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange body-2"
@@ -126,7 +102,7 @@
   </div>
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     width: 480px;
     padding: 113px 40px 32px;
@@ -152,18 +128,6 @@
     left: calc(50% - 58px);
   }
 
-  .flame {
-    width: 116px;
-    height: 133px;
-  }
-
-  .pumpkin {
-    z-index: 2;
-    position: absolute;
-    bottom: 20px;
-    font-size: 48px;
-  }
-
   .description {
     margin-bottom: 20px;
   }
@@ -174,7 +138,6 @@
   }
 
   .copy {
-    --bg: var(--athens);
     padding: 8px 69px;
     margin-top: -8px;
     margin-bottom: 24px;

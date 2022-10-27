@@ -1,6 +1,6 @@
 <script lang="ts">
   import Footer from '@/ui/Footer/svelte'
-  import HalloweenBanner from '@/ui/Halloween/HalloweenBanner.svelte'
+  import HalloweenBanner from '../../Halloween/Banner.svelte'
   import { querySanbasePlans } from '@/api/plans'
   import { Billing, onlyProAndFreeLikePlans, Plan } from '@/utils/plans'
   import { subscription$ } from '@/stores/subscription'

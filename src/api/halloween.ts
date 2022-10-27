@@ -7,9 +7,8 @@ mutation {
 
 type UpdatePumpkinsMutation = SAN.API.Query<'updatePumpkins', boolean>
 
-const updatePumpkinsAccessor = (updated) => updated
 export const mutateUpdatePumpkins = (page: string) =>
-  mutate<UpdatePumpkinsMutation>(UPDATE_PUMPKINS_MUTATION(page)).then(updatePumpkinsAccessor)
+  mutate<UpdatePumpkinsMutation>(UPDATE_PUMPKINS_MUTATION(page))
 
 const CREATE_PUMPKIN_CODE_MUTATION = `
 mutation {

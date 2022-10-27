@@ -1,11 +1,11 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import HalloweenBtn from '@/ui/Halloween/HalloweenBtn.svelte'
+  import HalloweenBtn from '@/ui/Halloween/Button.svelte'
   import Pumpkin from '@/ui/Halloween/Pumpkin.svelte'
-  import HalloweenBanner from '@/ui/Halloween/HalloweenBanner.svelte'
-  import HalloweenAcademy from '@/ui/Halloween/HalloweenAcademy.svelte'
+  import HalloweenBanner from '@/ui/Halloween/Banner.svelte'
+  import HalloweenAcademy from '@/ui/Halloween/Academy.svelte'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
-  import { showHalloweenPopup } from '@/ui/Halloween/HalloweenPopup.svelte'
+  import { showHalloweenPopup } from '@/ui/Halloween/Dialog.svelte'
   import OnMount from './PaymentDialog/OnMount.svelte'
 </script>
 

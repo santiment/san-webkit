@@ -3,38 +3,31 @@
   import { customerData$ } from '@/stores/user'
   import { halloweenData$ } from '@/stores/halloween'
   import { mutateCreatePumpkinCode } from '@/api/halloween'
-  import { copy } from '@/utils'
+  import DiscountCode from './DiscountCode.svelte'
 
-  let copyLabel = 'Copy discount'
-  let discount = 'SANHALLOWEEN2022'
+  let discount
+  let pagesLength = 0
 
   $: ({ isLoggedIn } = $customerData$)
-  $: ({ pages } = $halloweenData$)
+  $: pages = $halloweenData$
+  $: pagesLength = pages.size
 
-  function onCopy(e) {
-    e.preventDefault()
-    copyLabel = 'Copied!'
-    copy(discount, () => (copyLabel = 'Copy discount'), 1500)
-  }
-
-  onMount(() => pages.length === 3 && mutateCreatePumpkinCode().then((code) => (discount = code)))
+  onMount(() => mutateCreatePumpkinCode().then((code) => (discount = code)))
 </script>
 
-{#if isLoggedIn && pages.length === 3}
+{#if isLoggedIn && pagesLength === 3}
   <div class="wrapper column hv-center txt-center">
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
       alt="Discount"
-      class="discount"
+      class="$style.discount"
     />
-    <p class="body-1 txt-m mrg-s mrg--b">Congratulations!</p>
+    <h3 class="body-1 txt-m mrg-s mrg--b">Congratulations!</h3>
     <p class="mrg-m mrg--b">
       Let’s put your outstanding skills to use and seek an alpha! This promo code is available
       between now and November 5th!
     </p>
-    <button class="btn fluid copy expl-tooltip" aria-label={copyLabel} on:click={onCopy}>
-      {discount}
-    </button>
+    <DiscountCode class="fluid $style.copy" {discount} />
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange fluid mrg-l mrg--t"
@@ -61,7 +54,6 @@
   }
 
   .copy {
-    --bg: var(--athens);
     padding: 6px 0;
   }
 
