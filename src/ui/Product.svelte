@@ -1,21 +1,45 @@
 <script lang="ts">
+  import Svg from '@/ui/Svg'
+
   let className = ''
   export { className as class }
   export let title: string
+  export let isHalloween: string
 </script>
 
-<a href="/" class="body-2 txt-m title row v-center {className}" on:click={window.__onLinkClick}>
-  <img src="{process.env.MEDIA_PATH}/illus/san-logo.svg" alt="SAN" class="mrg-s mrg--r" />
-  {title}
-</a>
+<div class="relative">
+  {#if isHalloween}
+    <Svg illus id="batman" w="57" h="52" class="$style.batman" />
+  {/if}
+  <a
+    href="/"
+    class="body-2 txt-m title row v-center relative {className}"
+    on:click={window.__onLinkClick}
+  >
+    <img
+      src="{process.env.MEDIA_PATH}/illus/{isHalloween ? 'san-logo-halloween' : 'san-logo'}.svg"
+      alt="SAN"
+      class="product mrg-s mrg--r"
+    />
+    {title}
+  </a>
+</div>
 
 <style>
   a {
+    z-index: 3;
     color: var(--black);
   }
 
-  img {
+  .product {
     width: 32px;
     height: 32px;
+  }
+
+  .batman {
+    z-index: 2;
+    position: absolute;
+    left: -12px;
+    top: -10px;
   }
 </style>
