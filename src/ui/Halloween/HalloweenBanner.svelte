@@ -3,8 +3,8 @@
 </script>
 
 <div class="wrapper column fluid relative">
-  <Svg illus id="halloween/halloween-back" class="$style.back" />
   <Svg illus id="halloween/halloween-banner" class="$style.banner" />
+  <div class="back" />
   <Svg illus id="santiment" class="$style.santiment" />
   <Svg illus id="halloween/halloween-sales" class="$style.sales" />
   <h1 class="txt-b">27% Off</h1>
@@ -36,8 +36,9 @@
     position: absolute;
     top: 0;
     right: 0;
-    width: 543px;
+    width: 36px;
     height: 320px;
+    background-color: var(--mystic);
   }
 
   .banner {
