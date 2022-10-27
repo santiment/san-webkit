@@ -1,8 +1,10 @@
 <script>import Footer from './../../../ui/Footer/svelte';
+import HalloweenBanner from '../../Halloween/Banner.svelte';
 import { querySanbasePlans } from './../../../api/plans';
 import { Billing, onlyProAndFreeLikePlans, Plan } from './../../../utils/plans';
 import { subscription$ } from './../../../stores/subscription';
 import { customerData$ } from './../../../stores/user';
+import { IsMobile as isMobile$ } from './../../../stores/responsive';
 import BillingToggle from './BillingToggle.svelte';
 import FAQ from './FAQ.svelte';
 import Suggestions from './Suggestions.svelte';
@@ -22,6 +24,8 @@ $: ({
   annualDiscount
 } = $customerData$);
 
+$: isMobile = $isMobile$;
+
 let plans = [];
 
 $: billingPlans = (billing, plans.filter(billingFilter));
@@ -38,7 +42,7 @@ function billingFilter({
 }</script>
 
 <main class={className}>
-  <div class="txt-center">
+  <div class="txt-center header">
     <h2 class="h3 txt-m mrg-m mrg--b">Be ahead of the game in crypto</h2>
 
     <h3 class="body-1 c-waterloo">
@@ -56,7 +60,11 @@ function billingFilter({
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-VGkPm9" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  {#if !isMobile}
+    <HalloweenBanner />
+  {/if}
+
+  <Comparison class="comparison-3LjnLC" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -83,7 +91,11 @@ function billingFilter({
   margin-bottom: 60px;
 }
 
-:global(.comparison-VGkPm9) {
+:global(body:not(.desktop)) .header {
+  padding: 0 46px;
+}
+
+:global(.comparison-3LjnLC) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }

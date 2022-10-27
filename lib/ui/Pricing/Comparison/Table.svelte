@@ -6,7 +6,7 @@ export let isShowingMore = false;
 
 $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7);</script>
 
-<div class="table body-2">
+<div class="table body-2 relative">
   <slot />
 
   {#each items as { category, features, link }}

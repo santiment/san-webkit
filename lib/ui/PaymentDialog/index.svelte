@@ -10,9 +10,10 @@ const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.loa
 
 export const dataPreloader = Preloader(preloadData);</script>
 
-<script>import { onDestroy } from 'svelte';
+<script>import { onDestroy, onMount } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
+import { track } from './../../analytics';
 import { PlanName } from './../../utils/plans';
 import { customerData$ } from './../../stores/user';
 import Banner from './Banner.svelte';
@@ -93,6 +94,9 @@ function onSubmit({
   });
 }
 
+onMount(() => track.event('Payment form opened', {
+  category: 'User'
+}));
 onDestroy(paymentCard$.subscribe(value => {
   savedCard = value;
 }));</script>

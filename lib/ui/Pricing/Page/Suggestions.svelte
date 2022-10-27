@@ -6,7 +6,7 @@
 
     <p>Add your credit card to try all Sanbase Pro features FREE for 2 weeks</p>
 
-    <a href="/login" class="btn body-2 mrg-xl mrg--t" on:click={window.__onLinkClick}
+    <a href="/login" class="btn txt-center body-2 mrg-xl mrg--t" on:click={window.__onLinkClick}
       >Start your free trial</a
     >
   </div>
@@ -16,7 +16,9 @@
 
     <p>Request a demo to have one of our product specialists walk you through the platform</p>
 
-    <button class="btn body-2 mrg-xl mrg--t" on:click={showIntercom}>Request a demo</button>
+    <button class="btn txt-center body-2 mrg-xl mrg--t" on:click={showIntercom}
+      >Request a demo</button
+    >
   </div>
 </section>
 
