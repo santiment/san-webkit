@@ -3,8 +3,9 @@
 
   let className = ''
   export { className as class }
-  let copyLabel = 'Copy discount'
   export let discount
+
+  let copyLabel = 'Copy discount'
 
   function onCopy(e) {
     e.preventDefault()
