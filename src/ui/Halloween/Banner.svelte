@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Svg from '@/ui/Svg'
+  import Svg from '@/ui/Svg/svelte'
 </script>
 
 <div class="wrapper column fluid relative">
