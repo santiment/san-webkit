@@ -18,10 +18,13 @@
 
 <style lang="scss">
   .wrapper {
-    max-width: 1152px;
+    overflow: hidden;
+    max-width: 1140px;
     height: 320px;
     padding: 28px 0 32px 48px;
     background-color: var(--athens);
+    margin: 40px auto;
+    border-radius: 6px;
   }
 
   .santiment {
