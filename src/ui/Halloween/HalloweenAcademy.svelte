@@ -23,7 +23,7 @@
 {#if isLoggedIn && count === 3}
   <div class="wrapper column hv-center txt-center">
     <img
-      src="{process.env.MEDIA_PATH}/illus/halloween-discount-54.svg"
+      src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
       alt="Discount"
       class="discount"
     />

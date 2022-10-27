@@ -9,7 +9,7 @@
 
 <div class="relative">
   {#if isHalloween}
-    <Svg illus id="batman" w="57" h="52" class="$style.batman" />
+    <Svg illus id="halloween/batman" w="57" h="52" class="$style.batman" />
   {/if}
   <a
     href="/"
@@ -17,7 +17,9 @@
     on:click={window.__onLinkClick}
   >
     <img
-      src="{process.env.MEDIA_PATH}/illus/{isHalloween ? 'san-logo-halloween' : 'san-logo'}.svg"
+      src="{process.env.MEDIA_PATH}/illus/{isHalloween
+        ? 'halloween/san-logo-halloween'
+        : 'san-logo'}.svg"
       alt="SAN"
       class="product mrg-s mrg--r"
     />

@@ -20,7 +20,7 @@
 {#if isLoggedIn && showOn === count}
   <button class="btn row hv-center relative {className}" on:click={onPumpkinClick}>
     <span class="pumpkin">🎃</span>
-    <img src="{process.env.MEDIA_PATH}/illus/flame.svg" alt="Flame" class="flame" />
+    <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" class="flame" />
   </button>
 {/if}
 

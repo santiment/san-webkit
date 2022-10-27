@@ -77,11 +77,11 @@
   {#if !hasDiscount}
     <div class="flame-pumpkin row hv-center relative">
       <span class="pumpkin">🎃</span>
-      <img src="{process.env.MEDIA_PATH}/illus/flame.svg" alt="Flame" class="flame" />
+      <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" class="flame" />
     </div>
   {:else}
     <img
-      src="{process.env.MEDIA_PATH}/illus/halloween-discount-27.svg"
+      src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-27.svg"
       alt="Discount"
       class="discount"
     />

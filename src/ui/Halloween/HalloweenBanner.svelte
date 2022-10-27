@@ -3,10 +3,10 @@
 </script>
 
 <div class="wrapper column fluid relative">
-  <Svg illus id="halloween-back" class="$style.back" />
-  <Svg illus id="halloween-banner" class="$style.banner" />
+  <Svg illus id="halloween/halloween-back" class="$style.back" />
+  <Svg illus id="halloween/halloween-banner" class="$style.banner" />
   <Svg illus id="santiment" class="$style.santiment" />
-  <Svg illus id="halloween-sales" class="$style.sales" />
+  <Svg illus id="halloween/halloween-sales" class="$style.sales" />
   <h1 class="txt-b">27% Off</h1>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2">
