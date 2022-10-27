@@ -33,7 +33,7 @@
   }
 
   .sales {
-    margin: 24px 0 6px;
+    margin: 28px 0 6px;
   }
 
   h2 {
