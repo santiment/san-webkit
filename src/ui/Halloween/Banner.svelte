@@ -9,9 +9,9 @@
   <h2 class="txt-b">27% Off</h2>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2 rules">
-    Collect pumpkins that we hide on app.sanbase and get <span>27% discount</span>. Want more? Find
-    our special offer, <span>54% off</span> for all Santiment products. Hurry up! Promo code will be
-    valid till the <span>5th of October</span>
+    Collect pumpkins that we hide on app.sanbase and get <u>27% discount</u>. Want more? Find our
+    special offer, <u>54% off</u> for all Santiment products. Hurry up! Promo code will be valid
+    till the <u>5th of October</u>
   </p>
 </div>
 
@@ -59,9 +59,5 @@
   .rules {
     line-height: 20px;
     color: var(--fiord);
-  }
-
-  span {
-    text-decoration: underline;
   }
 </style>

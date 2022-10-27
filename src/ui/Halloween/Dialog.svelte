@@ -20,7 +20,6 @@
   let buttonText = 'Let’s go!'
   let padding = 18
   let hasDiscount
-  let isClueShown = false
 
   $: pages = $halloweenData$
   $: pages, setContent()
@@ -38,17 +37,14 @@
       return
     }
 
-    if (pages.size === 1 || pages.size === 2) {
-      const [collectedAmount, remainingAmount] = pages.size === 1 ? ['One', 'Two'] : ['Two', 'One']
+    const [collectedAmount, remainingAmount] = pages.size === 1 ? ['One', 'Two'] : ['Two', 'One']
 
-      title = `${collectedAmount} Down, ${remainingAmount} to Go!`
-      description = `Great job! You have collected ${collectedAmount.toLowerCase()} pumpkin${
-        pages.size > 1 ? 's' : ''
-      }, and there are ${remainingAmount.toLowerCase()} left. Collect three and receive your 27% off discount off all Santiment products!`
-      buttonText = 'Continue!'
-      padding = 30
-      return
-    }
+    title = `${collectedAmount} Down, ${remainingAmount} to Go!`
+    description = `Great job! You have collected ${collectedAmount.toLowerCase()} pumpkin${
+      pages.size > 1 ? 's' : ''
+    }, and there are ${remainingAmount.toLowerCase()} left. Collect three and receive your 27% off discount off all Santiment products!`
+    buttonText = 'Continue!'
+    padding = 30
   }
 </script>
 
@@ -79,16 +75,11 @@
       >
         {buttonText}
       </a>
-      <button class="btn c-waterloo keep mrg-m mrg--t" on:click={() => (isClueShown = true)}>
-        Keep hunting to double down and get 54% discount
-      </button>
+      <Clue />
     {:else}
       <button class="btn-1 btn--orange body-2" on:click={closeDialog}>
         {buttonText}
       </button>
-    {/if}
-    {#if isClueShown}
-      <Clue />
     {/if}
   </div>
 </Dialog>
@@ -132,11 +123,5 @@
     padding: 8px 69px;
     margin-top: -8px;
     margin-bottom: 24px;
-  }
-
-  .keep {
-    --color-hover: var(--casper);
-    max-width: 228px;
-    text-decoration: underline;
   }
 </style>

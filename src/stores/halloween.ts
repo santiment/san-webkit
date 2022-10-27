@@ -7,7 +7,7 @@ export const PUMPKINS_COUNT_QUERY = `{
 
 type Query = SAN.API.Query<'getPumpkins', string[]>
 
-const accessor = ({ getPumpkins }: Query) => new Set([...getPumpkins])
+const accessor = ({ getPumpkins }: Query) => new Set(getPumpkins)
 export const queryPumpkinsCount = () => query<Query>(PUMPKINS_COUNT_QUERY).then(accessor)
 
 export type HalloweenData = Set<string>

@@ -7,13 +7,12 @@
   export { className as class }
 
   $: ({ isLoggedIn } = $customerData$)
-  $: pages = $halloweenData$
 </script>
 
 {#if isLoggedIn}
   <button class="btn-1 btn--orange row v-center {className}" on:click={showHalloweenPopup}>
     <span class="body-2">🎃</span>
-    {pages.size === 0 ? 'Get a discount' : 'Keep Haunting!'}
+    {$halloweenData$.size === 0 ? 'Get a discount' : 'Keep Haunting!'}
   </button>
 {/if}
 
