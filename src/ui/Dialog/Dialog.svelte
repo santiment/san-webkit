@@ -7,6 +7,7 @@
 
   let className = ''
   export { className as class }
+  export let titleClassName = ''
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
   export let i: number
   export let title: string | SvelteComponentModule = ''
@@ -106,7 +107,10 @@
 >
   <div class="dialog border box column {className}">
     {#if noTitle === false}
-      <h2 class="body-2 row v-center justify" class:empty={!title && !$$slots.title}>
+      <h2
+        class="body-2 row v-center justify {titleClassName}"
+        class:empty={!title && !$$slots.title}
+      >
         {#if $$slots.title}
           <slot name="title" />
         {:else}
