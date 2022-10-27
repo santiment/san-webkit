@@ -31,20 +31,10 @@
       isVisible = false
     })
   }
-
-  function onCloseClick() {
-    applyCookies()
-    isVisible = false
-  }
 </script>
 
 {#if isVisible}
   <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
-    {#if $IsMobile}
-      <button class="btn close" on:click={onCloseClick}>
-        <Svg id="close" w="12" />
-      </button>
-    {/if}
     <Svg illus id="cookies" class="$style.pic" />
     <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
@@ -67,7 +57,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 99;
     text-align: center;
   }
 
@@ -88,15 +78,6 @@
     width: 102px;
     height: 128px;
     transform: rotate(270deg);
-  }
-
-  .close {
-    width: 12px !important;
-    height: 12px !important;
-    position: absolute;
-    top: 24px;
-    right: 20px;
-    padding: 0 !important;
   }
 
   :global(.desktop) {

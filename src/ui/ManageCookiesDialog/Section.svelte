@@ -8,7 +8,7 @@
   let isOpened = false
 </script>
 
-<section class:body-2={$IsMobile}>
+<section>
   <div
     class="btn row v-center justify"
     class:opened={isOpened}
