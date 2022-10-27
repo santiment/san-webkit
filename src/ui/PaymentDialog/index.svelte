@@ -13,9 +13,10 @@
 </script>
 
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
+  import { track } from '@/analytics'
   import { PlanName } from '@/utils/plans'
   import { customerData$ } from '@/stores/user'
   import Banner from './Banner.svelte'
@@ -91,6 +92,8 @@
         DialogPromise.locking = DialogLock.WARN
       })
   }
+
+  onMount(() => track.event('Payment form opened', { category: 'User' }))
 
   onDestroy(
     paymentCard$.subscribe((value) => {

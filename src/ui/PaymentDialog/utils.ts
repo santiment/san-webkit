@@ -49,7 +49,7 @@ export function getPaymentFormData(form: HTMLFormElement) {
 }
 
 function submitPayment(plan: SAN.Plan, discount: any, cardTokenId?: string) {
-  track.event('upgrade', { method: 'Payment submitted' })
+  track.event('Payment form submitted', { category: 'User' })
   return mutateSubscribe(cardTokenId, +plan.id, discount)
 }
 
@@ -100,7 +100,7 @@ function onPaymentSuccess(data) {
     [Tracker.TWQ],
   )
 
-  track.event('Purchase', { category: 'User' })
+  track.event('Payment success', { category: 'User' })
 
   notifications$.show({
     type: 'success',
@@ -113,7 +113,8 @@ function onPaymentSuccess(data) {
 }
 
 function onPaymentError(error) {
-  track.event('upgrade', { method: 'Payment fail' })
+  track.event('Payment failed', { category: 'User' })
+
   notifications$.show({
     type: 'error',
     title: `Error during the payment`,
