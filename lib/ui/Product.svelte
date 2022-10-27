@@ -1,4 +1,4 @@
-<script>import Svg from './../ui/Svg';
+<script>import Svg from './../ui/Svg/svelte';
 let className = '';
 export { className as class };
 export let title;

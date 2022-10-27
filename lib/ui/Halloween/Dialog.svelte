@@ -2,7 +2,7 @@
 import HalloweenPopup from './Dialog.svelte';
 export const showHalloweenPopup = () => dialogs.show(HalloweenPopup);</script>
 
-<script>import Svg from './../../ui/Svg';
+<script>import Svg from './../../ui/Svg/svelte';
 import Dialog from './../../ui/Dialog';
 import { halloweenData$ } from './../../stores/halloween';
 import FlamePumpkin from './FlamePumpkin.svelte';

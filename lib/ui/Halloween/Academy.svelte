@@ -1,22 +1,20 @@
-<script>import { onMount } from 'svelte';
-import { customerData$ } from './../../stores/user';
+<script>import { customerData$ } from './../../stores/user';
 import { halloweenData$ } from './../../stores/halloween';
 import { mutateCreatePumpkinCode } from './../../api/halloween';
 import DiscountCode from './DiscountCode.svelte';
 let discount;
-let pagesLength = 0;
 
 $: ({
   isLoggedIn
 } = $customerData$);
 
-$: pages = $halloweenData$;
+$: pages = $halloweenData$.size;
 
-$: pagesLength = pages.size;
+$: if (pages === 3) {
+  mutateCreatePumpkinCode().then(code => discount = code);
+}</script>
 
-onMount(() => mutateCreatePumpkinCode().then(code => discount = code));</script>
-
-{#if isLoggedIn && pagesLength === 3}
+{#if isLoggedIn && discount}
   <div class="wrapper column hv-center txt-center">
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"

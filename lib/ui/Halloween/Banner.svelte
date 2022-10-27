@@ -1,4 +1,4 @@
-<script>import Svg from './../../ui/Svg';</script>
+<script>import Svg from './../../ui/Svg/svelte';</script>
 
 <div class="wrapper column fluid relative">
   <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-3AsOgA" />
