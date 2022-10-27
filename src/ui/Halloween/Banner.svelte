@@ -60,4 +60,8 @@
     line-height: 20px;
     color: var(--fiord);
   }
+
+  u {
+    text-decoration: underline;
+  }
 </style>
