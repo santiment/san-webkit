@@ -13,7 +13,8 @@
     Performance: 'PERFORMANCE_COOKIES',
   } as const
 
-  export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog)
+  export const showManageCookiesDialog = (props) =>
+    dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props))
 
   export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
     saveBoolean(Cookies.Basic, true)
@@ -30,6 +31,7 @@
   import Toggle from '@/ui/Toggle.svelte'
   import Section from './Section.svelte'
 
+  export let DialogPromise: SAN.DialogController
   let closeDialog
   let isFunctionalAccepted = false
   let isPerformanceAccepted = false
@@ -41,11 +43,13 @@
 
   function onSaveClick() {
     applyCookies(isFunctionalAccepted, isPerformanceAccepted)
+    DialogPromise.resolve()
     closeDialog()
   }
 
   function onAllowAllClick() {
     applyCookies(true, true)
+    DialogPromise.resolve()
     closeDialog()
   }
 </script>

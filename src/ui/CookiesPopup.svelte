@@ -22,18 +22,19 @@
   let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
 
   function onAllowAllClick() {
-    isVisible = false
     applyCookies(true, true)
+    isVisible = false
   }
 
   function onManageClick() {
-    isVisible = false
-    showManageCookiesDialog()
+    showManageCookiesDialog().then(() => {
+      isVisible = false
+    })
   }
 
   function onCloseClick() {
-    isVisible = false
     applyCookies()
+    isVisible = false
   }
 </script>
 
