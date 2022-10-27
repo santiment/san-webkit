@@ -22,12 +22,12 @@
   let hasDiscount
   let isClueShown = false
 
-  $: ({ count } = $halloweenData$)
-  $: count, setContent()
-  $: hasDiscount = count === 3
+  $: ({ pages } = $halloweenData$)
+  $: pages, setContent()
+  $: hasDiscount = pages.length === 3
 
   function setContent() {
-    switch (count) {
+    switch (pages.length) {
       case 1: {
         title = 'One Down, Two to Go!'
         description =

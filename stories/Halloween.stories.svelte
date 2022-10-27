@@ -6,7 +6,6 @@
   import HalloweenAcademy from '@/ui/Halloween/HalloweenAcademy.svelte'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { showHalloweenPopup } from '@/ui/Halloween/HalloweenPopup.svelte'
-  import { updatePumpkinsCount } from '@/ui/Halloween/utils'
   import OnMount from './PaymentDialog/OnMount.svelte'
 </script>
 
@@ -14,8 +13,6 @@
 
 <Template let:args>
   <HalloweenBtn {...args} />
-  <button on:click={() => updatePumpkinsCount(-1)} class="btn-1">-1</button>
-  <button on:click={() => updatePumpkinsCount(1)} class="btn-1">+1</button>
 </Template>
 
 <Story name="Halloween Button" />
@@ -25,9 +22,9 @@
 </Story>
 
 <Story name="Halloween Pumpkins">
-  <Pumpkin showOn={0} />
-  <Pumpkin showOn={1} />
-  <Pumpkin showOn={2} />
+  <Pumpkin showOn="insights" />
+  <Pumpkin showOn="explorer" />
+  <Pumpkin showOn="charts" />
 </Story>
 
 <Story name="Halloween Banners">

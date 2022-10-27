@@ -9,7 +9,7 @@
   let discount = 'SANHALLOWEEN2022'
 
   $: ({ isLoggedIn } = $customerData$)
-  $: ({ count } = $halloweenData$)
+  $: ({ pages } = $halloweenData$)
 
   function onCopy(e) {
     e.preventDefault()
@@ -17,10 +17,10 @@
     copy(discount, () => (copyLabel = 'Copy discount'), 1500)
   }
 
-  onMount(() => mutateCreatePumpkinCode().then((code) => (discount = code)))
+  onMount(() => pages.length === 3 && mutateCreatePumpkinCode().then((code) => (discount = code)))
 </script>
 
-{#if isLoggedIn && count === 3}
+{#if isLoggedIn && pages.length === 3}
   <div class="wrapper column hv-center txt-center">
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"

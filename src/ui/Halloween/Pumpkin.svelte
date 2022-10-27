@@ -1,23 +1,23 @@
 <script lang="ts">
   import { customerData$ } from '@/stores/user'
   import { halloweenData$ } from '@/stores/halloween'
-  import { updatePumpkinsCount } from '@/ui/Halloween/utils'
+  import { updatePumpkins } from '@/ui/Halloween/utils'
   import { showHalloweenPopup } from './HalloweenPopup.svelte'
 
   let className = ''
   export { className as class }
   let label = ''
-  export let showOn = 0
+  export let showOn = ''
 
   $: ({ isLoggedIn } = $customerData$)
-  $: ({ count } = $halloweenData$)
+  $: ({ pages } = $halloweenData$)
 
   function onPumpkinClick() {
-    updatePumpkinsCount(1).then(showHalloweenPopup)
+    updatePumpkins(showOn).then(showHalloweenPopup)
   }
 </script>
 
-{#if isLoggedIn && showOn === count}
+{#if isLoggedIn && !pages.includes(showOn)}
   <button class="btn row hv-center relative {className}" on:click={onPumpkinClick}>
     <span class="pumpkin">🎃</span>
     <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" class="flame" />

@@ -8,11 +8,11 @@
   let label = ''
 
   $: ({ isLoggedIn } = $customerData$)
-  $: ({ count } = $halloweenData$)
-  $: count, setLabel()
+  $: ({ pages } = $halloweenData$)
+  $: pages, setLabel()
 
   function setLabel() {
-    switch (count) {
+    switch (pages.length) {
       case 1:
       case 2: {
         label = 'Keep Haunting!'

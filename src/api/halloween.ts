@@ -1,15 +1,15 @@
 import { mutate } from '@/api'
 
-const UPDATE_PUMPKINS_MUTATION = (count: number) => `
+const UPDATE_PUMPKINS_MUTATION = (page: string) => `
 mutation {
-  updatePumpkins(count:${count})
+  updatePumpkins(page:"${page}")
 }`
 
 type UpdatePumpkinsMutation = SAN.API.Query<'updatePumpkins', boolean>
 
 const updatePumpkinsAccessor = (updated) => updated
-export const mutateUpdatePumpkins = (count: number) =>
-  mutate<UpdatePumpkinsMutation>(UPDATE_PUMPKINS_MUTATION(count)).then(updatePumpkinsAccessor)
+export const mutateUpdatePumpkins = (page: string) =>
+  mutate<UpdatePumpkinsMutation>(UPDATE_PUMPKINS_MUTATION(page)).then(updatePumpkinsAccessor)
 
 const CREATE_PUMPKIN_CODE_MUTATION = `
 mutation {

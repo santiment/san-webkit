@@ -3,20 +3,20 @@ import { Cache } from '@/api/cache'
 import { writable } from 'svelte/store'
 
 export const PUMPKINS_COUNT_QUERY = `{
-  getPumpkinsCount
+  getPumpkins
 }`
 
-type Query = SAN.API.Query<'getPumpkinsCount', { getPumpkinsCount: number }>
+type Query = SAN.API.Query<'getPumpkins', { getPumpkins: string[] }>
 
-const accessor = ({ getPumpkinsCount: count }: Query) => ({ count })
+const accessor = ({ getPumpkins: pages }: Query) => ({ pages })
 export const queryPumpkinsCount = () => query<Query>(PUMPKINS_COUNT_QUERY).then(accessor)
 
 export type HalloweenData = {
-  count: number
+  pages: string[]
 }
 
 export const DEFAULT = {
-  count: 0,
+  pages: [],
 } as HalloweenData
 
 const { subscribe, set } = writable<HalloweenData>(DEFAULT)
