@@ -16,10 +16,12 @@
   export let change: number
 </script>
 
-<div class="row v-center change {className}" class:down={change < 0}>
-  <span class="direction row hv-center mrg-xs mrg--r">
-    <Svg id="triangle" w="6" h="4" class="$style.arrow" />
-  </span>
+<div class="row v-center change {className}" class:down={change < 0} class:zero={change === 0}>
+  {#if change !== 0}
+    <span class="direction row hv-center mrg-xs mrg--r">
+      <Svg id="triangle" w="6" h="4" class="$style.arrow" />
+    </span>
+  {/if}
   {change}%
 </div>
 
@@ -36,6 +38,10 @@
   }
   .arrow {
     transform: var(--transform);
+  }
+
+  .zero {
+    --color: var(--orange);
   }
 
   .direction {

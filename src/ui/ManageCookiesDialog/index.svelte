@@ -2,6 +2,7 @@
   import { track } from '@/analytics'
   import { saveBoolean } from '@/utils/localStorage'
   import { dialogs } from '@/ui/Dialog'
+  import { IsMobile } from '@/stores/responsive'
   import ManageCookiesDialog from './index.svelte'
 
   export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
@@ -12,7 +13,8 @@
     Performance: 'PERFORMANCE_COOKIES',
   } as const
 
-  export const showManageCookiesDialog = () => dialogs.show(ManageCookiesDialog)
+  export const showManageCookiesDialog = (props) =>
+    dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props))
 
   export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
     saveBoolean(Cookies.Basic, true)
@@ -29,6 +31,7 @@
   import Toggle from '@/ui/Toggle.svelte'
   import Section from './Section.svelte'
 
+  export let DialogPromise: SAN.DialogController
   let closeDialog
   let isFunctionalAccepted = false
   let isPerformanceAccepted = false
@@ -40,25 +43,35 @@
 
   function onSaveClick() {
     applyCookies(isFunctionalAccepted, isPerformanceAccepted)
+    DialogPromise.resolve()
     closeDialog()
   }
 
   function onAllowAllClick() {
     applyCookies(true, true)
+    DialogPromise.resolve()
     closeDialog()
   }
 </script>
 
-<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="$style.dialog">
-  <div class="cookies">
-    When you visit our website, we may store cookies on your browser for your security and to help
-    us better understand user behavior and inform us about which parts of our website you have
-    visited. The information does not usually directly identify you, but it can give you a safe and
-    more personalized web experience. Because we respect your right to privacy, you can choose not
-    to allow some types of cookies. Blocking some types of cookies may impact your experience on the
-    site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
-      >Learn more</a
-    >
+<Dialog
+  {...$$props}
+  title="Cookie settings"
+  bind:closeDialog
+  class="$style.dialog"
+  titleClassName="$style.title"
+>
+  <div class="cookies" class:body-2={$IsMobile}>
+    <p>
+      When you visit our website, we may store cookies on your browser for your security and to help
+      us better understand user behavior and inform us about which parts of our website you have
+      visited. The information does not usually directly identify you, but it can give you a safe
+      and more personalized web experience. Because we respect your right to privacy, you can choose
+      not to allow some types of cookies. Blocking some types of cookies may impact your experience
+      on the site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
+        >Learn more</a
+      >
+    </p>
 
     <div class="mrg-xl mrg--b" />
 
@@ -89,22 +102,56 @@
       />
     </Section>
   </div>
-  <div class="bottom row">
-    <div class="btn-1 btn--s" on:click={onSaveClick}>Save cookie settings</div>
-    <div class="btn-2 btn--s mrg-m mrg--l" on:click={onAllowAllClick}>Allow all</div>
+  <div class="bottom row txt-center" class:body-2={$IsMobile}>
+    <div class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
+      Save cookie settings
+    </div>
+    <div class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}>Allow all</div>
   </div>
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     max-width: 600px !important;
   }
+
   .cookies {
     padding: 20px 24px 0;
     height: 393px;
-    overflow: auto;
+    overflow-y: auto;
   }
+
+  p {
+    color: var(--fiord);
+  }
+
   .bottom {
     padding: 20px 24px;
+    gap: 12px;
+  }
+
+  :global(body:not(.desktop)) {
+    .dialog {
+      height: 100%;
+    }
+
+    .title {
+      padding: 14px 16px !important;
+      color: var(--fiord);
+    }
+
+    .cookies {
+      height: 100%;
+      padding: 24px 16px 0;
+    }
+
+    .btn--s {
+      padding: 8px 0;
+    }
+
+    .bottom {
+      padding: 24px 20px;
+      flex-direction: column-reverse;
+    }
   }
 </style>

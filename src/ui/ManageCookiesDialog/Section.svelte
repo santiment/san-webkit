@@ -11,7 +11,8 @@
   <div
     class="btn row v-center justify"
     class:opened={isOpened}
-    on:click={() => (isOpened = !isOpened)}>
+    on:click={() => (isOpened = !isOpened)}
+  >
     <div class="row v-center">
       <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--r" />
       {title}
