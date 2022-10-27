@@ -12,7 +12,7 @@
 
 <Profile {user} class="txt-m {className}">
   <svelte:fragment slot="name">
-    <div class="">
+    <div>
       <div class="caption body-3  txt-r">@{username}</div>
       {#if subtitle}
         <div class="caption txt-r c-waterloo">

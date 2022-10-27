@@ -6,7 +6,7 @@
 </script>
 
 <script lang="ts">
-  import Svg from '@/ui/Svg'
+  import Svg from '@/ui/Svg/svelte'
   import Dialog from '@/ui/Dialog'
   import { halloweenData$ } from '@/stores/halloween'
   import FlamePumpkin from './FlamePumpkin.svelte'
