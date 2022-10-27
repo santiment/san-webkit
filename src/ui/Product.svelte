@@ -4,7 +4,7 @@
   let className = ''
   export { className as class }
   export let title: string
-  export let isHalloween: string
+  export let isHalloween: boolean
 </script>
 
 <div class="relative">
@@ -33,7 +33,7 @@
     color: var(--black);
   }
 
-  .product {
+  img {
     width: 32px;
     height: 32px;
   }
