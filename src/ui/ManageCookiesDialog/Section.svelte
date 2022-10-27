@@ -1,6 +1,5 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import { IsMobile } from '@/stores/responsive'
 
   export let title: string
   export let description: string
