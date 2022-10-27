@@ -19,7 +19,6 @@
     "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!"
   let buttonText = 'Let’s go!'
   let padding = 18
-  let hasDiscount
 
   $: pages = $halloweenData$
   $: pages, setContent()
