@@ -120,7 +120,6 @@
 
   .copy {
     padding: 8px 69px;
-    margin-top: -8px;
-    margin-bottom: 24px;
+    margin: -8px 0 24px;
   }
 </style>
