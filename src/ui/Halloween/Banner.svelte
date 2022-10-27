@@ -3,9 +3,9 @@
 </script>
 
 <div class="wrapper column fluid relative">
-  <Svg illus id="halloween/halloween-banner" class="$style.banner" />
-  <Svg illus id="santiment" class="$style.santiment" />
-  <Svg illus id="halloween/halloween-sales" class="$style.sales" />
+  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="$style.banner" />
+  <Svg illus id="santiment" w="97" h="18" class="$style.santiment" />
+  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="$style.sales" />
   <h2 class="txt-b">27% Off</h2>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2 rules">
@@ -26,22 +26,13 @@
     border-radius: 6px;
   }
 
-  .santiment {
-    width: 97px;
-    height: 18px;
-  }
-
   .banner {
     position: absolute;
     top: 0;
     right: 0;
-    width: 706px;
-    height: 320px;
   }
 
   .sales {
-    width: 181px;
-    height: 18px;
     margin: 24px 0 6px;
   }
 

@@ -19,7 +19,6 @@
     "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!"
   let buttonText = 'Let’s go!'
   let padding = 18
-  let hasDiscount
 
   $: pages = $halloweenData$
   $: pages, setContent()
@@ -50,7 +49,7 @@
 
 <Dialog {...$$props} noTitle bind:closeDialog class="$style.dialog">
   <button class="btn close" on:click={closeDialog}>
-    <Svg id="close" w="16" h="16" />
+    <Svg id="close" w="16" />
   </button>
   {#if hasDiscount}
     <img
@@ -121,7 +120,6 @@
 
   .copy {
     padding: 8px 69px;
-    margin-top: -8px;
-    margin-bottom: 24px;
+    margin: -8px 0 24px;
   }
 </style>
