@@ -7,29 +7,26 @@
   export let isHalloween: boolean
 </script>
 
-<div class="relative">
+<a
+  href="/"
+  class="body-2 txt-m title row v-center relative {className}"
+  on:click={window.__onLinkClick}
+>
   {#if isHalloween}
     <Svg illus id="halloween/batman" w="57" h="52" class="$style.batman" />
   {/if}
-  <a
-    href="/"
-    class="body-2 txt-m title row v-center relative {className}"
-    on:click={window.__onLinkClick}
-  >
-    <img
-      src="{process.env.MEDIA_PATH}/illus/{isHalloween
-        ? 'halloween/san-logo-halloween'
-        : 'san-logo'}.svg"
-      alt="SAN"
-      class="product mrg-s mrg--r"
-    />
-    {title}
-  </a>
-</div>
+  <img
+    src="{process.env.MEDIA_PATH}/illus/{isHalloween
+      ? 'halloween/san-logo-halloween'
+      : 'san-logo'}.svg"
+    alt="SAN"
+    class="product mrg-s mrg--r"
+  />
+  {title}
+</a>
 
 <style>
   a {
-    z-index: 3;
     color: var(--black);
   }
 
@@ -39,7 +36,7 @@
   }
 
   .batman {
-    z-index: 2;
+    z-index: -1;
     position: absolute;
     left: -12px;
     top: -10px;
