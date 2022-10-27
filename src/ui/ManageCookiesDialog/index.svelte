@@ -50,9 +50,15 @@
   }
 </script>
 
-<Dialog {...$$props} title="Cookie settings" bind:closeDialog class="$style.dialog">
-  <div class="cookies">
-    <p class={$IsMobile ? 'body-2' : ''}>
+<Dialog
+  {...$$props}
+  title="Cookie settings"
+  bind:closeDialog
+  class="$style.dialog"
+  titleClassName="$style.title"
+>
+  <div class="cookies" class:body-2={$IsMobile}>
+    <p>
       When you visit our website, we may store cookies on your browser for your security and to help
       us better understand user behavior and inform us about which parts of our website you have
       visited. The information does not usually directly identify you, but it can give you a safe
@@ -92,54 +98,54 @@
       />
     </Section>
   </div>
-  <div class="bottom row txt-center {$IsMobile ? 'body-2' : ''}">
-    <div class="btn--s {$IsMobile ? 'btn-2 mrg-m mrg--t' : 'btn-1'}" on:click={onSaveClick}>
+  <div class="bottom row txt-center" class:body-2={$IsMobile}>
+    <div class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
       Save cookie settings
     </div>
-    <div class="btn--s {$IsMobile ? 'btn-1' : 'btn-2 mrg--l mrg-m'}" on:click={onAllowAllClick}>
-      Allow all
-    </div>
+    <div class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}>Allow all</div>
   </div>
 </Dialog>
 
 <style lang="scss">
   .dialog {
     max-width: 600px !important;
-
-    :global(body:not(.desktop)) & {
-      height: 100%;
-
-      h2 {
-        padding: 14px 16px;
-      }
-    }
   }
 
   .cookies {
     padding: 20px 24px 0;
     height: 393px;
     overflow-y: auto;
-
-    :global(body:not(.desktop)) & {
-      height: 100%;
-      padding: 24px 16px 0;
-    }
   }
 
   p {
     color: var(--fiord);
   }
 
-  .btn--s {
-    :global(body:not(.desktop)) & {
-      padding: 8px 0;
-    }
-  }
-
   .bottom {
     padding: 20px 24px;
+    gap: 12px;
+  }
 
-    :global(body:not(.desktop)) & {
+  :global(body:not(.desktop)) {
+    .dialog {
+      height: 100%;
+    }
+
+    .title {
+      padding: 14px 16px !important;
+      color: var(--fiord);
+    }
+
+    .cookies {
+      height: 100%;
+      padding: 24px 16px 0;
+    }
+
+    .btn--s {
+      padding: 8px 0;
+    }
+
+    .bottom {
       padding: 24px 20px;
       flex-direction: column-reverse;
     }

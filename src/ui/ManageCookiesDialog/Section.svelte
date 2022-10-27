@@ -8,13 +8,13 @@
   let isOpened = false
 </script>
 
-<section>
+<section class:body-2={$IsMobile}>
   <div
     class="btn row v-center justify"
     class:opened={isOpened}
     on:click={() => (isOpened = !isOpened)}
   >
-    <div class="row v-center {$IsMobile ? 'body-2' : ''}">
+    <div class="row v-center">
       <Svg id="arrow-right" w="5.5" h="10" class="mrg-m mrg--r" />
       {title}
     </div>
@@ -23,7 +23,7 @@
   </div>
 
   {#if isOpened}
-    <p class="mrg-m mrg--b {$IsMobile ? 'body-2' : ''}">{description}</p>
+    <p class="mrg-m mrg--b">{description}</p>
   {/if}
 </section>
 
