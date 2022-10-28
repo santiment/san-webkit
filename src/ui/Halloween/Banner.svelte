@@ -11,7 +11,7 @@
   <p class="body-2 rules">
     Collect pumpkins that we hide on app.sanbase and get <u>27% discount</u>. Want more? Find our
     special offer, <u>54% off</u> for all Santiment products. Hurry up! Promo code will be valid
-    till the <u>5th of October</u>
+    till the <u>5th of November</u>
   </p>
 </div>
 
