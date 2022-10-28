@@ -10,7 +10,7 @@ export let isHalloween;</script>
   on:click={window.__onLinkClick}
 >
   {#if isHalloween}
-    <Svg illus id="halloween/batman" w="57" h="52" class="batman-3-JIlT" />
+    <Svg illus id="halloween/batman" w="57" h="52" class="batman-3i0ffE" />
   {/if}
   <img
     src="{process.env.MEDIA_PATH}/illus/{isHalloween
@@ -32,7 +32,7 @@ export let isHalloween;</script>
     height: 32px;
   }
 
-  :global(.batman-3-JIlT) {
+  :global(.batman-3i0ffE) {
     z-index: -1;
     position: absolute;
     left: -12px;

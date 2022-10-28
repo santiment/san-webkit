@@ -64,7 +64,7 @@ function billingFilter({
     <HalloweenBanner />
   {/if}
 
-  <Comparison class="comparison-3LjnLC" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-tVLSGb" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -95,7 +95,7 @@ function billingFilter({
   padding: 0 46px;
 }
 
-:global(.comparison-3LjnLC) {
+:global(.comparison-tVLSGb) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }
