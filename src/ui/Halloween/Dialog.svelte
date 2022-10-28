@@ -2,7 +2,7 @@
   import { dialogs } from '@/ui/Dialog'
   import HalloweenPopup from './Dialog.svelte'
 
-  export const showHalloweenPopup = () => dialogs.show(HalloweenPopup)
+  export const showHalloweenPopup = (props) => dialogs.show(HalloweenPopup, props)
 </script>
 
 <script lang="ts">

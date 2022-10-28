@@ -17,11 +17,14 @@
   export let noBg = false
   export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
   export let animated = true
+  export let shouldCloseOnClickAway = true
 
   let clickAwayMouseDown = false
 
   const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
+
+  const handleOnClickAway = shouldCloseOnClickAway ? onClickaway : undefined
 
   function onKeyup({ code, target }: KeyboardEvent): void {
     if (code === 'Escape' && target) {
@@ -102,8 +105,8 @@
   class:noBg
   class:out
   class:still={!animated}
-  on:mousedown={onClickaway}
-  on:mouseup={onClickaway}
+  on:mousedown={handleOnClickAway}
+  on:mouseup={handleOnClickAway}
 >
   <div class="dialog border box column {className}">
     {#if noTitle === false}

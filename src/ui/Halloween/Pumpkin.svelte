@@ -5,14 +5,13 @@
   import { showHalloweenPopup } from './Dialog.svelte'
   import FlamePumpkin from './FlamePumpkin.svelte'
 
-  let label = ''
   export let showOn = ''
 
   $: ({ isLoggedIn } = $customerData$)
   $: pages = $halloweenData$
 
   function onPumpkinClick() {
-    updatePumpkins(showOn).then(showHalloweenPopup)
+    updatePumpkins(showOn).then(() => showHalloweenPopup({ shouldCloseOnClickAway: false }))
   }
 </script>
 
