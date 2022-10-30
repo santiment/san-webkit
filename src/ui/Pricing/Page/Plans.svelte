@@ -28,7 +28,7 @@
 <style lang="scss">
   #plans {
     max-width: var(--page-width, 1140px);
-    margin: 0 auto 24px;
+    margin: 0 auto 40px;
     overflow: auto;
 
     :global(body:not(.desktop)) & {

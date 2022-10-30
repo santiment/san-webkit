@@ -11,7 +11,7 @@
   $: pages = $halloweenData$
 
   function onPumpkinClick() {
-    updatePumpkins(showOn).then(() => showHalloweenPopup({ shouldCloseOnClickAway: false }))
+    updatePumpkins(showOn).then(() => showHalloweenPopup({ isClickawayDisabled: true }))
   }
 </script>
 
