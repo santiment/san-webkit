@@ -5,15 +5,10 @@
   import { createComment } from '@/api/comments/mutate'
   import Svg from '@/ui/Svg/svelte'
   import Editor from '@/ui/Editor'
+  import { sanitize } from '@/ui/Editor/sanitize'
   import Comment from './Comment.svelte'
   import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte'
-  import {
-    findCommentNode,
-    scrollToComment,
-    saveComment,
-    clearSavedComment,
-    sanitize,
-  } from './utils'
+  import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils'
   import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
 
   const noop = () => {}

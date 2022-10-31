@@ -5,6 +5,7 @@
   import { hookShortcutApplier } from './typedShortcuts'
   import { htmlToMarkdown } from './markdown'
   import { SuggestionsExtension } from './suggestions'
+  import { sanitize } from './sanitize'
 
   let className = ''
   export { className as class }
@@ -41,7 +42,7 @@
 
     hookShortcutApplier(editor, isComments)
 
-    editor.serialize = () => htmlToMarkdown(node)
+    editor.serialize = () => sanitize(htmlToMarkdown(node))
   })
 
   onDestroy(() => {
