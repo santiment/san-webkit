@@ -17,6 +17,7 @@
   export let noBg = false
   export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
   export let animated = true
+  export let isClickawayDisabled = false
 
   let isOpening = true
   let clickAwayMouseDown = false
@@ -36,6 +37,7 @@
   }
 
   function onClickaway({ type, target, currentTarget }: MouseEvent): void {
+    if (isClickawayDisabled) return
     if (isOpening) return
 
     if (target === currentTarget) {

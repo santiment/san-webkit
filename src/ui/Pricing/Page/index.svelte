@@ -46,16 +46,16 @@
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
+    {#if !isMobile}
+      <HalloweenBanner />
+    {/if}
+
     <BillingToggle bind:billing />
   </div>
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
   <PromoSanTokenBanner />
-
-  {#if !isMobile}
-    <HalloweenBanner />
-  {/if}
 
   <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
