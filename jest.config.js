@@ -1,11 +1,12 @@
 module.exports = {
-  transform: { '.ts': 'ts-jest' },
-  testEnvironment: 'node',
+  transform: {
+    '^.+\\.[tj]s$': [
+      'ts-jest',
+      {
+        isolatedModules: true,
+      },
+    ],
+  },
   testRegex: '\\.(test)\\.(ts)',
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
-    },
-  },
 }
