@@ -1,8 +1,8 @@
-import { htmlToMarkdown, markdownToHTML } from './markdown'
-
 /**
  * @jest-environment jsdom
  */
+
+import { htmlToMarkdown, markdownToHTML } from './markdown'
 
 const sanitize = (md: string) => {
   const div = document.createElement('div')

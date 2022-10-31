@@ -1,6 +1,3 @@
-const LINKS_REGEX = /\]\(.+\)/g
-const LINKS_CONNECTOR_REGEX = /\]:\s*\(/g // regex for "]:    ("
-
 export function sanitizeLinks(link: string) {
   return link.startsWith('https://') ? link : ''
 }
