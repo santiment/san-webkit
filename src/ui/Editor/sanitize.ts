@@ -1,4 +1,4 @@
-export function sanitizeLinks(link: string) {
+export function sanitizeLink(link: string) {
   return link.startsWith('https://') ? link : ''
 }
 

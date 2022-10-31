@@ -1,6 +1,6 @@
 import { marked } from 'marked'
 import TurndownService from 'turndown'
-import { sanitizeLinks } from './sanitize'
+import { sanitizeLink } from './sanitize'
 
 function walkTokens(token) {
   const { type } = token
@@ -8,7 +8,7 @@ function walkTokens(token) {
   if (type === 'heading') {
     token.depth = token.depth > 1 ? token.depth : 2 // Heading to start at h2
   } else if (type === 'link' || type === 'image') {
-    token.href = sanitizeLinks(token.href)
+    token.href = sanitizeLink(token.href)
     if (!token.href) token.type = 'text'
   }
 }

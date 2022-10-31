@@ -77,7 +77,7 @@ const EXAMPLES = [
   '![XSS\'"`onerror=prompt(document.cookie)](x)\\',
 ]
 
-describe('sanitizeLinks', () => {
+describe('sanitizing xss links and img', () => {
   const test = (input, expected) => it(input, () => expect(sanitize(input)).toEqual(expected))
 
   test(' [santiment](https://santiment.net/) ', '[santiment](https://santiment.net/)')
