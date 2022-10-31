@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SvelteComponentModule } from './dialogs'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
   import { get } from 'svelte/store'
   import Svg from '@/ui/Svg/svelte'
   import { dialogs, DialogLock } from './dialogs'
@@ -18,13 +18,17 @@
   export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
   export let animated = true
 
+  let isOpening = true
   let clickAwayMouseDown = false
+  let openingTimer: number
 
   const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
 
   function onKeyup({ code, target }: KeyboardEvent): void {
     if (code === 'Escape' && target) {
+      if (isOpening) return
+
       if (checkIsEditable(target as HTMLElement))
         onEditableEscaped?.(target as HTMLElement, requestDialogClose)
       else requestDialogClose()
@@ -32,6 +36,8 @@
   }
 
   function onClickaway({ type, target, currentTarget }: MouseEvent): void {
+    if (isOpening) return
+
     if (target === currentTarget) {
       if (type === 'mousedown') {
         clickAwayMouseDown = true
@@ -45,13 +51,21 @@
   }
 
   onMount(() => {
+    openingTimer = window.setTimeout(() => (isOpening = false), 250)
+
     document.body.style.width = document.body.offsetWidth + 'px'
     document.body.style.overflowY = 'hidden'
     document.body.style.touchAction = 'none'
     window.addEventListener('keyup', onKeyup)
   })
 
+  onDestroy(() => {
+    clearTimeout(openingTimer)
+  })
+
   function requestDialogClose(skipLockChecks?: boolean | MouseEvent) {
+    if (isOpening) return
+
     if (skipLockChecks !== true) {
       onBeforeDialogClose()
 
@@ -121,7 +135,7 @@
       </h2>
     {/if}
 
-    <slot />
+    <slot {closeDialog} />
   </div>
 </div>
 
