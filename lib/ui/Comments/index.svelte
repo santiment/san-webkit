@@ -4,9 +4,10 @@ import { queryComments } from './../../api/comments';
 import { createComment } from './../../api/comments/mutate';
 import Svg from './../../ui/Svg/svelte';
 import Editor from './../../ui/Editor';
+import { sanitize } from './../../ui/Editor/sanitize';
 import Comment from './Comment.svelte';
 import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte';
-import { findCommentNode, scrollToComment, saveComment, clearSavedComment, sanitize } from './utils';
+import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils';
 import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context';
 
 const noop = () => {};
@@ -103,7 +104,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-2ZxFiQ"
+    class="border fluid input-ca7mEJ"
     placeholder="Type your comment here"
   />
 
@@ -136,7 +137,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-2ZxFiQ) {
+  :global(.input-ca7mEJ) {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

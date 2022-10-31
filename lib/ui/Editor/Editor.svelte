@@ -4,6 +4,7 @@ import { TOOLBAR, COMMENTS_TOOLBAR, anchor } from './toolbar';
 import { hookShortcutApplier } from './typedShortcuts';
 import { htmlToMarkdown } from './markdown';
 import { SuggestionsExtension } from './suggestions';
+import { sanitize } from './sanitize';
 let className = '';
 export { className as class };
 export let editor;
@@ -41,7 +42,7 @@ onMount(() => {
 
   hookShortcutApplier(editor, isComments);
 
-  editor.serialize = () => htmlToMarkdown(node);
+  editor.serialize = () => sanitize(htmlToMarkdown(node));
 });
 onDestroy(() => {
   editor.destroy();

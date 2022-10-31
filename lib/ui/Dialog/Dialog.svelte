@@ -1,4 +1,4 @@
-<script>import { onMount } from 'svelte';
+<script>import { onDestroy, onMount } from 'svelte';
 import { get } from 'svelte/store';
 import Svg from './../../ui/Svg/svelte';
 import { dialogs, DialogLock } from './dialogs';
@@ -14,7 +14,10 @@ export let noTitle = false;
 export let noBg = false;
 export let onEditableEscaped;
 export let animated = true;
+export let isClickawayDisabled = false;
+let isOpening = true;
 let clickAwayMouseDown = false;
+let openingTimer;
 
 const checkIsEditable = ({
   isContentEditable,
@@ -26,6 +29,7 @@ function onKeyup({
   target
 }) {
   if (code === 'Escape' && target) {
+    if (isOpening) return;
     if (checkIsEditable(target)) onEditableEscaped === null || onEditableEscaped === void 0 ? void 0 : onEditableEscaped(target, requestDialogClose);else requestDialogClose();
   }
 }
@@ -35,6 +39,9 @@ function onClickaway({
   target,
   currentTarget
 }) {
+  if (isClickawayDisabled) return;
+  if (isOpening) return;
+
   if (target === currentTarget) {
     if (type === 'mousedown') {
       clickAwayMouseDown = true;
@@ -48,13 +55,19 @@ function onClickaway({
 }
 
 onMount(() => {
+  openingTimer = window.setTimeout(() => isOpening = false, 250);
   document.body.style.width = document.body.offsetWidth + 'px';
   document.body.style.overflowY = 'hidden';
   document.body.style.touchAction = 'none';
   window.addEventListener('keyup', onKeyup);
 });
+onDestroy(() => {
+  clearTimeout(openingTimer);
+});
 
 function requestDialogClose(skipLockChecks) {
+  if (isOpening) return;
+
   if (skipLockChecks !== true) {
     onBeforeDialogClose();
     if (DialogPromise.locking === DialogLock.LOCKED) return;
@@ -120,11 +133,11 @@ function transition(node) {
           {title}
         {/if}
 
-        <Svg id="close" class="btn mrg-a mrg--l close-1zmqjB" on:click={requestDialogClose} />
+        <Svg id="close" class="btn mrg-a mrg--l close-1welIV" on:click={requestDialogClose} />
       </h2>
     {/if}
 
-    <slot />
+    <slot {closeDialog} />
   </div>
 </div>
 
@@ -169,7 +182,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-1zmqjB) {
+:global(.close-1welIV) {
   width: 12px;
   height: 12px;
   --fill: var(--waterloo);

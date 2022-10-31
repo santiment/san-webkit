@@ -31,14 +31,14 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
   duration={130}
   align="center"
   bind:isOpened
-  activeClass="active-J5uZCr"
+  activeClass="active-3KrFTl"
   class={tooltipClass}>
   <svelte:fragment slot="trigger">
     <a
       href={`https://app.santiment.net/profile/${currentUser ? currentUser.id : ''}`}
       on:click={window.__onLinkClick}
       class:pro={isPro}>
-      <Pic class="btn mrg-m mrg--l box-3e99CC" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l box-2lTYzR" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </svelte:fragment>
 
@@ -116,11 +116,11 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 </Tooltip>
 
 <style>
-  :global(.active-J5uZCr) :global(.box-3e99CC) {
+  :global(.active-3KrFTl) :global(.box-2lTYzR) {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro :global(.box-3e99CC) {
+  .pro :global(.box-2lTYzR) {
     --green: var(--orange-hover);
   }
 

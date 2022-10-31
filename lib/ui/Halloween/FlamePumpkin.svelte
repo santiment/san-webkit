@@ -18,6 +18,7 @@ span {
   left: 33px;
   bottom: 27px;
   font-size: 48px;
+  transition: all 100ms ease-in-out;
 }
 
 .small {
@@ -32,4 +33,7 @@ span {
   left: 10px;
   bottom: 7px;
   font-size: 24px;
+}
+.small:hover span {
+  transform: scale(1.1);
 }</style>
