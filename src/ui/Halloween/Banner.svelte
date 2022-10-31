@@ -2,7 +2,7 @@
   import Svg from '@/ui/Svg/svelte'
 </script>
 
-<div class="wrapper column fluid relative">
+<div class="wrapper column fluid relative txt-left">
   <Svg illus id="halloween/halloween-banner" w="706" h="320" class="$style.banner" />
   <Svg illus id="santiment" w="97" h="18" class="$style.santiment" />
   <Svg illus id="halloween/halloween-sales" w="181" h="18" class="$style.sales" />
@@ -22,7 +22,7 @@
     height: 320px;
     padding: 28px 0 32px 48px;
     background-color: var(--athens);
-    margin: 40px auto;
+    margin: 40px auto 8px;
     border-radius: 6px;
   }
 
@@ -39,7 +39,7 @@
   h2 {
     font-size: 60px;
     line-height: 73px;
-    margin-bottom: 14px;
+    margin: auto auto 14px 0;
   }
 
   p {
