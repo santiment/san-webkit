@@ -7,7 +7,7 @@
   let discount
 
   $: ({ isLoggedIn } = $customerData$)
-  $: pages = $halloweenData$.size
+  $: pages = $halloweenData$.pages.size
 
   $: if (pages === 3) {
     mutateCreatePumpkinCode().then((code) => (discount = code))
