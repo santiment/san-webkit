@@ -20,11 +20,20 @@
   let buttonText = 'Let’s go!'
   let padding = 18
 
-  $: pages = $halloweenData$
-  $: pages, setContent()
+  $: ({ pages, code } = $halloweenData$)
+  $: pages, code, setContent()
   $: hasDiscount = pages.size === 3
 
   function setContent() {
+    if (code) {
+      title = 'Congratulations'
+      description =
+        'Let’s put your outstanding skills to use and seek an alpha! This promo code is available between now and November 5th!'
+      buttonText = 'Use Promocode'
+      padding = 22
+      return
+    }
+
     if (pages.size === 0) return
 
     if (pages.size === 3) {
@@ -51,7 +60,13 @@
   <button class="btn close" on:click={closeDialog}>
     <Svg id="close" w="16" />
   </button>
-  {#if hasDiscount}
+  {#if code}
+    <img
+      src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
+      alt="Discount"
+      class="discount"
+    />
+  {:else if hasDiscount}
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-27.svg"
       alt="Discount"
@@ -65,8 +80,8 @@
     <p class="description body-2 c-waterloo" style="padding: 0 {padding}px">
       {description}
     </p>
-    {#if hasDiscount}
-      <DiscountCode class="$style.copy" discount="SANHALLOWEEN2022" />
+    {#if hasDiscount || code}
+      <DiscountCode class="$style.copy" discount={code || 'SANHALLOWEEN2022'} />
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange body-2"
@@ -74,7 +89,9 @@
       >
         {buttonText}
       </a>
-      <Clue />
+      {#if !code}
+        <Clue />
+      {/if}
     {:else}
       <button class="btn-1 btn--orange body-2" on:click={closeDialog}>
         {buttonText}
