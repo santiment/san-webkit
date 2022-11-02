@@ -2,13 +2,11 @@
   import { customerData$ } from '@/stores/user'
   import { halloweenData$ } from '@/stores/halloween'
   import { showHalloweenPopup } from './Dialog.svelte'
-  import { getPumpkinCode } from './flow'
 
   let className = ''
   export { className as class }
 
   $: ({ isLoggedIn } = $customerData$)
-  $: isLoggedIn && !$halloweenData$.code && getPumpkinCode($halloweenData$.pages)
 </script>
 
 {#if isLoggedIn}

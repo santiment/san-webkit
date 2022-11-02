@@ -1,4 +1,4 @@
-import { mutate, query } from '@/api'
+import { mutate } from '@/api'
 
 const UPDATE_PUMPKINS_MUTATION = (page: string) => `
 mutation {
@@ -20,13 +20,3 @@ type CreatePumpkinCodeMutation = SAN.API.Query<'createPumpkinCode', string>
 const createPumpkinCodeAccessor = ({ createPumpkinCode: code }): string => code
 export const mutateCreatePumpkinCode = () =>
   mutate<CreatePumpkinCodeMutation>(CREATE_PUMPKIN_CODE_MUTATION).then(createPumpkinCodeAccessor)
-
-const GET_PUMPKIN_CODE_QUERY = `{
-  getPumpkinCode
-}`
-
-type GetPumpkinCodeQuery = SAN.API.Query<'getPumpkinCode', string>
-
-const accessor = ({ getPumpkinCode }: GetPumpkinCodeQuery) => getPumpkinCode
-export const queryGetPumpkinCode = () =>
-  query<GetPumpkinCodeQuery>(GET_PUMPKIN_CODE_QUERY).then(accessor)
