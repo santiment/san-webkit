@@ -6,14 +6,11 @@ export const PUMPKINS_QUERY = `{
    code:getPumpkinCode
 }`
 
-type Query = SAN.API.AdvancedQuery<{
-  pages: string[]
-  code: string | null
-}>
+type Query = SAN.API.Query<'pages', string[]> & SAN.API.Query<'code', string | null>
 
-const accessor = (data: Query) => ({
-  pages: new Set(data.pages),
-  code: data.code,
+const accessor = ({ pages, code }: Query) => ({
+  pages: new Set(pages),
+  code: code,
 })
 export const queryPumpkins = () => query<Query>(PUMPKINS_QUERY).then(accessor)
 

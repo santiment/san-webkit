@@ -5,8 +5,7 @@ interface Request extends RequestInit {
 declare namespace SAN {
   declare namespace API {
     type Query<T extends string, U> = Record<T, U>
-    type AdvancedQuery<T> = T
-    type QueryBase = Query<string, unknown> | AdvancedQuery<Record<string, unknown>>
+    type QueryBase = Query<string, unknown>
     type QueryData<T extends QueryBase> = T[keyof T]
 
     type QueryOptions<T extends QueryBase, U extends Variables = Variables> = {
