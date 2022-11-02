@@ -27,9 +27,6 @@ const GET_PUMPKIN_CODE_QUERY = `{
 
 type GetPumpkinCodeQuery = SAN.API.Query<'getPumpkinCode', string>
 
-const accessor = ({ getPumpkinCode }: GetPumpkinCodeQuery) => {
-  console.log(getPumpkinCode)
-  return getPumpkinCode
-}
+const accessor = ({ getPumpkinCode }: GetPumpkinCodeQuery) => getPumpkinCode
 export const queryGetPumpkinCode = () =>
   query<GetPumpkinCodeQuery>(GET_PUMPKIN_CODE_QUERY).then(accessor)

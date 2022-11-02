@@ -20,8 +20,7 @@
   let buttonText = 'Let’s go!'
   let padding = 18
 
-  $: pages = $halloweenData$.pages
-  $: code = $halloweenData$.code
+  $: ({ pages, code } = $halloweenData$)
   $: pages, code, setContent()
   $: hasDiscount = pages.size === 3
 
