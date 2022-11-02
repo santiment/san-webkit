@@ -12,7 +12,11 @@
 {#if isLoggedIn}
   <button class="btn-1 btn--orange row v-center {className}" on:click={showHalloweenPopup}>
     <span class="body-2">🎃</span>
-    {$halloweenData$.size === 0 ? 'Get a discount' : 'Keep Haunting!'}
+    {#if $halloweenData$.code}
+      Wow! 54% OFF
+    {:else}
+      {$halloweenData$.pages.size === 0 ? 'Get a discount' : 'Keep Haunting!'}
+    {/if}
   </button>
 {/if}
 

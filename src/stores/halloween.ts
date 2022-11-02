@@ -1,21 +1,27 @@
 import { query } from '@/api'
 import { QueryStore } from '@/stores/utils'
 
-export const PUMPKINS_COUNT_QUERY = `{
-  getPumpkins
+export const PUMPKINS_QUERY = `{
+   pages:getPumpkins
+   code:getPumpkinCode
 }`
 
-type Query = SAN.API.Query<'getPumpkins', string[]>
+type Query = SAN.API.Query<'pages', string[]> & SAN.API.Query<'code', string | null>
 
-const accessor = ({ getPumpkins }: Query) => new Set(getPumpkins)
-export const queryPumpkinsCount = () => query<Query>(PUMPKINS_COUNT_QUERY).then(accessor)
+const accessor = ({ pages, code }: Query) => ({
+  pages: new Set(pages),
+  code: code,
+})
+export const queryPumpkins = () => query<Query>(PUMPKINS_QUERY).then(accessor)
 
-export type HalloweenData = Set<string>
+export type HalloweenData = {
+  pages: Set<string>
+  code: string | null
+}
 
-export const DEFAULT = new Set([])
+export const DEFAULT = {
+  pages: new Set([]),
+  code: null,
+}
 
-export const halloweenData$ = QueryStore<HalloweenData>(
-  DEFAULT,
-  queryPumpkinsCount,
-  PUMPKINS_COUNT_QUERY,
-)
+export const halloweenData$ = QueryStore<HalloweenData>(DEFAULT, queryPumpkins, PUMPKINS_QUERY)
