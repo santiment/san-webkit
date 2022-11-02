@@ -9,7 +9,7 @@
     "lib:clean": "node scripts/clean.js",
     "lib:publish": "node scripts/publish --run",
     "test": "jest",
-    "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -h local.santiment.net -p 3000 -s ./lib --ci",
+    "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -p 3000 -s ./lib --ci",
     "build-storybook": "build-storybook",
     "prepare": "husky install"
   },
