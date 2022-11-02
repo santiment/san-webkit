@@ -14,13 +14,24 @@ let description = "Click on three pumpkins scattered around Santiment's platform
 let buttonText = 'Let’s go!';
 let padding = 18;
 
-$: pages = $halloweenData$;
+$: ({
+  pages,
+  code
+} = $halloweenData$);
 
-$: pages, setContent();
+$: pages, code, setContent();
 
 $: hasDiscount = pages.size === 3;
 
 function setContent() {
+  if (code) {
+    title = 'Congratulations';
+    description = 'Let’s put your outstanding skills to use and seek an alpha! This promo code is available between now and November 5th!';
+    buttonText = 'Use Promocode';
+    padding = 22;
+    return;
+  }
+
   if (pages.size === 0) return;
 
   if (pages.size === 3) {
@@ -38,26 +49,32 @@ function setContent() {
   padding = 30;
 }</script>
 
-<Dialog {...$$props} noTitle bind:closeDialog class="dialog-ehSqoZ">
+<Dialog {...$$props} noTitle bind:closeDialog class="dialog-3C2MNE">
   <button class="btn close" on:click={closeDialog}>
     <Svg id="close" w="16" />
   </button>
-  {#if hasDiscount}
+  {#if code}
+    <img
+      src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
+      alt="Discount"
+      class="discount"
+    />
+  {:else if hasDiscount}
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-27.svg"
       alt="Discount"
       class="discount"
     />
   {:else}
-    <FlamePumpkin class="flame-pumpkin-b39fmI" />
+    <FlamePumpkin class="flame-pumpkin-3q-Knr" />
   {/if}
   <div class="column hv-center txt-center">
     <h4 class="h4 txt-m mrg-s mrg--b">{title}</h4>
     <p class="description body-2 c-waterloo" style="padding: 0 {padding}px">
       {description}
     </p>
-    {#if hasDiscount}
-      <DiscountCode class="copy-1idOl" discount="SANHALLOWEEN2022" />
+    {#if hasDiscount || code}
+      <DiscountCode class="copy-1I-oh2" discount={code || 'SANHALLOWEEN2022'} />
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange body-2"
@@ -65,7 +82,9 @@ function setContent() {
       >
         {buttonText}
       </a>
-      <Clue />
+      {#if !code}
+        <Clue />
+      {/if}
     {:else}
       <button class="btn-1 btn--orange body-2" on:click={closeDialog}>
         {buttonText}
@@ -74,7 +93,7 @@ function setContent() {
   </div>
 </Dialog>
 
-<style >:global(.dialog-ehSqoZ) {
+<style >:global(.dialog-3C2MNE) {
   width: 480px;
   padding: 113px 40px 32px;
 }
@@ -93,7 +112,7 @@ function setContent() {
   height: 62px;
 }
 
-:global(.flame-pumpkin-b39fmI) {
+:global(.flame-pumpkin-3q-Knr) {
   position: absolute;
   top: -28px;
   left: calc(50% - 58px);
@@ -108,7 +127,7 @@ function setContent() {
   padding: 8px 28px;
 }
 
-:global(.copy-1idOl) {
+:global(.copy-1I-oh2) {
   padding: 8px 69px;
   margin: -8px 0 24px;
 }</style>

@@ -1,7 +1,16 @@
-export declare const PUMPKINS_COUNT_QUERY = "{\n  getPumpkins\n}";
-export declare const queryPumpkinsCount: () => Promise<Set<string>>;
-export declare type HalloweenData = Set<string>;
-export declare const DEFAULT: Set<never>;
+export declare const PUMPKINS_QUERY = "{\n   pages:getPumpkins\n   code:getPumpkinCode\n}";
+export declare const queryPumpkins: () => Promise<{
+    pages: Set<string>;
+    code: string | null;
+}>;
+export declare type HalloweenData = {
+    pages: Set<string>;
+    code: string | null;
+};
+export declare const DEFAULT: {
+    pages: Set<never>;
+    code: null;
+};
 export declare const halloweenData$: {
     DEFAULT: HalloweenData;
     fetched: boolean;

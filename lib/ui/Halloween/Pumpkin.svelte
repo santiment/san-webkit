@@ -9,14 +9,12 @@ $: ({
   isLoggedIn
 } = $customerData$);
 
-$: pages = $halloweenData$;
-
 function onPumpkinClick() {
   updatePumpkins(showOn).then(() => showHalloweenPopup({
     isClickawayDisabled: true
   }));
 }</script>
 
-{#if isLoggedIn && !pages.has(showOn)}
+{#if isLoggedIn && !$halloweenData$.pages.has(showOn)}
   <FlamePumpkin class="btn" small on:click={onPumpkinClick} />
 {/if}

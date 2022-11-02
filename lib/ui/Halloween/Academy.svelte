@@ -8,7 +8,7 @@ $: ({
   isLoggedIn
 } = $customerData$);
 
-$: pages = $halloweenData$.size;
+$: pages = $halloweenData$.pages.size;
 
 $: if (pages === 3) {
   mutateCreatePumpkinCode().then(code => discount = code);
@@ -19,14 +19,14 @@ $: if (pages === 3) {
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
       alt="Discount"
-      class="discount-2SehpF"
+      class="discount-1Utvpe"
     />
     <h3 class="body-1 txt-m mrg-s mrg--b">Congratulations!</h3>
     <p class="mrg-m mrg--b">
       Let’s put your outstanding skills to use and seek an alpha! This promo code is available
       between now and November 5th!
     </p>
-    <DiscountCode class="fluid copy-ZOpbRq" {discount} />
+    <DiscountCode class="fluid copy-2Gyoy5" {discount} />
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange fluid mrg-l mrg--t"
@@ -44,14 +44,14 @@ $: if (pages === 3) {
   border-radius: 8px;
 }
 
-:global(.discount-2SehpF) {
+:global(.discount-1Utvpe) {
   width: 134px;
   height: 41px;
   margin-bottom: 16px;
   margin-left: 10px;
 }
 
-:global(.copy-ZOpbRq) {
+:global(.copy-2Gyoy5) {
   padding: 6px 0;
 }
 
