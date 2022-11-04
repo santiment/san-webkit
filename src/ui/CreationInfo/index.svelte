@@ -26,7 +26,7 @@
   export let votes: Votes
   export let onVote
   export let titleHoverTooltipClass = ''
-  export let hideInfo = false
+  export let hasInfo = true
 </script>
 
 {#if title}
@@ -51,7 +51,7 @@
       {titleHoverTooltipClass}>{title}</HoverEdit
     >
 
-    {#if $$slots.info && !hideInfo}
+    {#if $$slots.info && hasInfo}
       <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
         <div slot="trigger" class="btn info row v-center">
           <Svg id="info" w="16" />
