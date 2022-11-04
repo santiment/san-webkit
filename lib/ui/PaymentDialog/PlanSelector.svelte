@@ -24,10 +24,10 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
 
 <div class="row justify mrg-l mrg--b">
   <div class="relative">
-    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-3Vev5E">
+    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-27jPEy">
       <div slot="trigger" class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="8" h="4.5" class="arrow-1tNuuS mrg-xs mrg--l" />
+        <Svg id="arrow" w="8" h="4.5" class="arrow-cHvGLx mrg-xs mrg--l" />
       </div>
 
       <div slot="tooltip" class="column">
@@ -65,11 +65,11 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
     --fill: var(--casper);
     --fill-hover: var(--accent);
   }
-  :global(.opened-3Vev5E) {
+  :global(.opened-27jPEy) {
     --rotate: 0;
   }
 
-  :global(.arrow-1tNuuS) {
+  :global(.arrow-cHvGLx) {
     transform: rotate(var(--rotate, 180deg));
   }
 

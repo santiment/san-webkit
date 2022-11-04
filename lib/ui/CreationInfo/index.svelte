@@ -17,13 +17,14 @@ export let editLabel = 'Edit';
 export let comments;
 export let votes;
 export let onVote;
-export let titleHoverTooltipClass = '';</script>
+export let titleHoverTooltipClass = '';
+export let hasInfo = true;</script>
 
 {#if title}
   <div class="creation row v-center mrg-m mrg--r">
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
-        <Profile {user} class="author-NsnnQ7" />
+        <Profile {user} class="author-1Sc6B8" />
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
@@ -34,14 +35,14 @@ export let titleHoverTooltipClass = '';</script>
     <div class="divider" />
 
     <HoverEdit
-      class="title-1W47AU body-2"
+      class="title-3QDKB0 body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
       {titleHoverTooltipClass}>{title}</HoverEdit
     >
 
-    {#if $$slots.info}
+    {#if $$slots.info && hasInfo}
       <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
         <div slot="trigger" class="btn info row v-center">
           <Svg id="info" w="16" />
@@ -59,7 +60,7 @@ export let titleHoverTooltipClass = '';</script>
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="title-1W47AU body-2"
+    class="title-3QDKB0 body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -92,15 +93,15 @@ export let titleHoverTooltipClass = '';</script>
   margin: 0 12px;
 }
 
-:global(.author-NsnnQ7) {
+:global(.author-1Sc6B8) {
   overflow: hidden;
   min-width: fit-content;
 }
-:global(.author-NsnnQ7) :global(span) {
+:global(.author-1Sc6B8) :global(span) {
   max-width: 140px !important;
 }
 
-:global(.title-1W47AU) {
+:global(.title-3QDKB0) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
