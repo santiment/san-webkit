@@ -34,7 +34,7 @@
 </script>
 
 <svelte:element this={tag} bind:this={node} class="snap-grid {className}">
-  {#each layout as item, i}
+  {#each layout as item, i (item)}
     <slot {i} class="snap-item" style={getStyle(item)} onMouseDown={onDragStart} />
   {/each}
 </svelte:element>

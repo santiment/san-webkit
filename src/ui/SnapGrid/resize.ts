@@ -14,7 +14,7 @@ export const Resizer = Draggable((layout, settings) => {
 
     if (!draggedNode) return // Returning true to signal early exit
 
-    const { columnSize, rowSize } = settings
+    const { columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
     const dropzoneNode = Dropzone(draggedNode)
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
 
@@ -38,11 +38,11 @@ export const Resizer = Draggable((layout, settings) => {
       const leftDiff = Math.round(xDiff / columnSize)
       const topDiff = Math.round(yDiff / (rowSize + yMargin))
 
-      draggedNode.style.width = Math.max(nodeWidth + xDiff, columnSize) + 'px'
-      draggedNode.style.height = Math.max(nodeHeight + yDiff, rowSize) + 'px'
+      draggedNode.style.width = Math.max(nodeWidth + xDiff, columnSize * minCols) + 'px'
+      draggedNode.style.height = Math.max(nodeHeight + yDiff, calcHeight(minRows, settings)) + 'px'
 
-      const width = minMax(draggedWidth + leftDiff, settings.minCols, settings.maxCols)
-      const height = minMax(draggedHeight + topDiff, settings.minRows, settings.maxRows)
+      const width = minMax(draggedWidth + leftDiff, minCols, maxCols)
+      const height = minMax(draggedHeight + topDiff, minRows, maxRows)
 
       if (width === draggedItem[Field.WIDTH] && height === draggedItem[Field.HEIGHT]) {
         return
