@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tick } from 'svelte'
   import { setSnapGridCtx } from './context'
   import { SnapGrid } from './index'
   import { calcHeight, getResponsiveTranslate, getWidth } from './style'
@@ -17,11 +18,11 @@
   export let minRows: number
 
   let node
-  const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
-  const snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
-  const { onDragStart } = snapGrid
+  $: settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
+  $: snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
+  $: ({ onDragStart } = snapGrid)
 
-  $: if (node) snapGrid.mount(node)
+  $: if (node && snapGrid) tick().then(() => snapGrid.mount(node))
 
   function getStyle(item) {
     const [, , , height] = item

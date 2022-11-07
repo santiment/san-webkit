@@ -41,8 +41,8 @@ export const Resizer = Draggable((layout, settings) => {
       draggedNode.style.width = Math.max(nodeWidth + xDiff, columnSize) + 'px'
       draggedNode.style.height = Math.max(nodeHeight + yDiff, rowSize) + 'px'
 
-      const width = minMax(draggedWidth + leftDiff, 1, settings.maxCols)
-      const height = minMax(draggedHeight + topDiff, 1, settings.maxRows)
+      const width = minMax(draggedWidth + leftDiff, settings.minCols, settings.maxCols)
+      const height = minMax(draggedHeight + topDiff, settings.minRows, settings.maxRows)
 
       if (width === draggedItem[Field.WIDTH] && height === draggedItem[Field.HEIGHT]) {
         return
