@@ -1,11 +1,13 @@
 <script>
+  import { IsMobile } from '@/stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
+  import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg'
 
   let className = ''
   export { className as class }
 </script>
 
-<section class="row justify v-center border body-2 {className}">
+<section class="row justify v-center border body-2 relative {className}">
   <div class="text">
     <h3 class="h3 txt-m mrg-l mrg--b">Hold SAN, Pay Less</h3>
     <p class="mrg-xl mrg--b">
@@ -26,22 +28,40 @@
     >
   </div>
 
-  <img src={sanTokenBanner} alt="San Token Banner" />
+  <img
+    src={$IsMobile ? sanTokenBanner : sanTokenBannerDesktop}
+    alt="San Token Banner"
+    class:banner-mobile={$IsMobile}
+  />
 </section>
 
 <style lang="scss">
   section {
     max-width: 100%;
-    width: 800px;
+    width: 1140px;
     background: var(--whale);
     border-radius: 8px;
-    padding: 32px 48px;
+    padding: 40px 89px 48px 72px;
     margin: 0 auto 80px;
   }
 
   .text {
     max-width: 100%;
-    width: 424px;
+    width: 472px;
+  }
+
+  h3 {
+    color: var(--black);
+  }
+
+  img {
+    position: absolute;
+    right: 89px;
+    bottom: 0;
+  }
+
+  :global(.night-mode) h3 {
+    color: #dfe1ec;
   }
 
   p {
@@ -54,7 +74,8 @@
   }
 
   :global(.phone-xs),
-  :global(.phone) {
+  :global(.phone),
+  :global(.tablet) {
     section {
       flex-direction: column-reverse;
       padding: 32px 24px;
@@ -69,6 +90,12 @@
 
     p {
       margin: 0 0 32px;
+    }
+
+    .banner-mobile {
+      position: relative;
+      right: unset;
+      bottom: unset;
     }
   }
 </style>
