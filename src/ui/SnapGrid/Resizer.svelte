@@ -6,7 +6,7 @@
   const { onDragStart } = Resizer(snapGrid.layout, snapGrid)
 </script>
 
-<div on:mousedown={onDragStart} />
+<div on:mousedown|capture={onDragStart} />
 
 <style>
   div {

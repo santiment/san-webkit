@@ -43,9 +43,10 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
   const [xMargin, yMargin = xMargin] = margin
 
   const ctx = {
+    gridWidth,
     layout,
     cols,
-    columnSize: gridWidth || 0, // LAYOUT_WIDTH / settings.cols,
+    columnSize: (gridWidth || 0) / cols, // LAYOUT_WIDTH / settings.cols,
 
     rowSize,
     margin: [xMargin, yMargin],
@@ -74,7 +75,8 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
     const [xMargin] = ctx.margin
     const margin = xMargin - (xMargin / settings.cols) * 2
 
-    ctx.columnSize = gridWidth / settings.cols - margin / 2
+    ctx.gridWidth = gridWidth
+    ctx.columnSize = gridWidth / settings.cols - margin / 2 // TODO: don't subtract margin?
   }
 
   return ctx

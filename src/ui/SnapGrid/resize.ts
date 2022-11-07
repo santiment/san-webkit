@@ -14,7 +14,7 @@ export const Resizer = Draggable((layout, settings) => {
 
     if (!draggedNode) return // Returning true to signal early exit
 
-    const { columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
+    const { cols, columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
     const dropzoneNode = Dropzone(draggedNode)
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
 
@@ -24,7 +24,11 @@ export const Resizer = Draggable((layout, settings) => {
     let { offsetWidth: nodeWidth, offsetHeight: nodeHeight } = draggedNode
 
     let sortedLayout = sortLayout(layout)
-    const [, yMargin] = settings.margin
+    const [xMargin, yMargin] = settings.margin
+
+    // TODO: recalc using raw settings.columnSize
+    const minWidth = (settings.gridWidth / cols) * minCols - (xMargin / cols) * (cols - minCols)
+    const minHeight = calcHeight(minRows, settings)
 
     function onEnd() {
       draggedNode.style.height = dropzoneNode.style.height
@@ -38,8 +42,8 @@ export const Resizer = Draggable((layout, settings) => {
       const leftDiff = Math.round(xDiff / columnSize)
       const topDiff = Math.round(yDiff / (rowSize + yMargin))
 
-      draggedNode.style.width = Math.max(nodeWidth + xDiff, columnSize * minCols) + 'px'
-      draggedNode.style.height = Math.max(nodeHeight + yDiff, calcHeight(minRows, settings)) + 'px'
+      draggedNode.style.width = Math.max(nodeWidth + xDiff, minWidth) + 'px'
+      draggedNode.style.height = Math.max(nodeHeight + yDiff, minHeight) + 'px'
 
       const width = minMax(draggedWidth + leftDiff, minCols, maxCols)
       const height = minMax(draggedHeight + topDiff, minRows, maxRows)
