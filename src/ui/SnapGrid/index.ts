@@ -77,7 +77,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
 
     let bottom = 0
     Array.from(gridContainerNode.children).forEach((node: HTMLElement, i) => {
-      const item = layout[i]
+      const item = ctx.layout[i]
       node.dataset.i = i.toString()
       item[Field.NODE] = node
 

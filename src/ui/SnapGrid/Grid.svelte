@@ -42,7 +42,6 @@
 
 <style>
   .snap-grid {
-    min-height: 100%;
     transition: height 0.2s;
   }
 </style>
