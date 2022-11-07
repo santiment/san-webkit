@@ -1,5 +1,5 @@
 <script>
-  import { IsMobile } from '@/stores/responsive'
+  import { IsPhone } from '@/stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
   import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg'
 
@@ -29,9 +29,9 @@
   </div>
 
   <img
-    src={$IsMobile ? sanTokenBanner : sanTokenBannerDesktop}
+    src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop}
     alt="San Token Banner"
-    class:banner-mobile={$IsMobile}
+    class:banner-phone={$IsPhone}
   />
 </section>
 
@@ -43,6 +43,7 @@
     border-radius: 8px;
     padding: 40px 89px 48px 72px;
     margin: 0 auto 80px;
+    overflow: hidden;
   }
 
   .text {
@@ -73,9 +74,24 @@
     padding: 8px 20px;
   }
 
-  :global(.phone-xs),
-  :global(.phone),
   :global(.tablet) {
+    section {
+      max-width: calc(100% - 40px);
+      padding: 40px 48px;
+    }
+
+    img {
+      right: -90px;
+      width: 432px;
+    }
+
+    .text {
+      width: 402px;
+    }
+  }
+
+  :global(.phone-xs),
+  :global(.phone) {
     section {
       flex-direction: column-reverse;
       padding: 32px 24px;
@@ -92,7 +108,7 @@
       margin: 0 0 32px;
     }
 
-    .banner-mobile {
+    .banner-phone {
       position: relative;
       right: unset;
       bottom: unset;
