@@ -33,5 +33,5 @@ export const map = (
   targetMax: number,
 ) => targetMin + ((target - valueMin) * (targetMax - targetMin)) / (valueMax - valueMin)
 
-export const minMax = (value: number, min: number, max: number) =>
-  value < min ? min : max < value ? max : value
+export const minMax = (value: number, min: number, max?: number) =>
+  (value < min ? min : (max as number) < value ? max : value) as number
