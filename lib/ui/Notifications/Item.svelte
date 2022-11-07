@@ -66,9 +66,9 @@ onDestroy(() => {
   transition:notify
 >
   <div class="row v-center">
-    <Svg id={TypeIcon[type] || type} class="icon-ab7XUX {type}" />
+    <Svg id={TypeIcon[type] || type} class="icon-3u0xmt {type}" />
     <div class="title txt-m">{title}</div>
-    <Svg id="close" class="btn close-3a_DU6" on:click={destroy} />
+    <Svg id="close" class="btn close-1wRLtH" on:click={destroy} />
   </div>
   {#if description}
     <p>{@html description}</p>
@@ -95,22 +95,22 @@ onDestroy(() => {
   width: 100%;
 }
 
-:global(.icon-ab7XUX) {
+:global(.icon-3u0xmt) {
   width: 16px;
   height: 16px;
   fill: var(--waterloo);
 }
 
-:global(.icon-ab7XUX.success) {
+:global(.icon-3u0xmt.success) {
   fill: var(--green);
 }
-:global(.icon-ab7XUX.error) {
+:global(.icon-3u0xmt.error) {
   fill: var(--red);
 }
-:global(.icon-ab7XUX.warning) {
+:global(.icon-3u0xmt.warning) {
   fill: var(--orange);
 }
-:global(.icon-ab7XUX.info) {
+:global(.icon-3u0xmt.info) {
   fill: var(--blue);
 }
 
@@ -118,7 +118,7 @@ onDestroy(() => {
   margin: 0 24px 0 16px;
 }
 
-:global(.close-3a_DU6) {
+:global(.close-1wRLtH) {
   width: 12px;
   height: 12px;
   cursor: pointer;

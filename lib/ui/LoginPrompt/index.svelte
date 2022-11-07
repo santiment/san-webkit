@@ -21,7 +21,7 @@ export let onMetamaskClick; // export let onWalletConnectLogin</script>
   <Divider />
 
   <Option href="/login/email" prefetch on:click={window.__onLinkClick}>
-    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-ddJf5U" />
+    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-287XoD" />
     Log in with Email
   </Option>
 
@@ -31,7 +31,7 @@ export let onMetamaskClick; // export let onWalletConnectLogin</script>
 </Section>
 
 <style>
-  :global(.icon-ddJf5U) {
+  :global(.icon-287XoD) {
     fill: var(--casper);
   }
 </style>
