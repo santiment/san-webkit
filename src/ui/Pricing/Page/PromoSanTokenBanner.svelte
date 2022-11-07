@@ -28,11 +28,7 @@
     >
   </div>
 
-  <img
-    src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop}
-    alt="San Token Banner"
-    class:banner-phone={$IsPhone}
-  />
+  <img src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop} alt="San Token Banner" />
 </section>
 
 <style lang="scss">
@@ -104,7 +100,7 @@
       margin: 0 0 32px;
     }
 
-    .banner-phone {
+    img {
       position: static;
     }
   }
