@@ -12,7 +12,9 @@ export type SnapItem = [number, number, number, number, HTMLElement]
 export type Margin = [number, number]
 
 export type SnapGridController = {
+  gridContainerNode: HTMLElement
   gridWidth: number
+
   layout: SnapItem[]
   cols: number
   margin: Margin

@@ -2,7 +2,7 @@ import type { SnapItem } from './types'
 import type { DraggableCtx } from './event'
 
 import { Draggable } from './event'
-import { Dropzone, normalizeGrid, sortLayout } from './layout'
+import { Dropzone, normalizeGrid, sortLayout, updateGridContainerHeight } from './layout'
 import { calcHeight, calcY, getWidth, translateLayoutItem } from './style'
 import { Field } from './types'
 import { minMax } from '@/utils'
@@ -79,6 +79,8 @@ export const Resizer = Draggable((settings) => {
       changed.forEach((item: any) => {
         translateLayoutItem(item[Field.NODE], item, settings)
       })
+
+      updateGridContainerHeight(settings)
     }
 
     return { onEnd, onMove }

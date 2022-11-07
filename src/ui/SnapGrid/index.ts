@@ -4,7 +4,14 @@ import type { DraggableCtx } from './event'
 import { minMax } from '@/utils'
 import { Field } from './types'
 import { Draggable } from './event'
-import { normalizeGrid, resolveDraggedCollisions, Dropzone, sortLayout } from './layout'
+import {
+  normalizeGrid,
+  resolveDraggedCollisions,
+  Dropzone,
+  sortLayout,
+  updateGridContainerHeight,
+  setGridContainerHeight,
+} from './layout'
 import { calcY, getTranslate, translateLayoutItem } from './style'
 import './snap-grid.css'
 
@@ -44,6 +51,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
 
   const ctx = {
     gridWidth,
+
     layout,
     cols,
     columnSize: (gridWidth || 0) / cols, // LAYOUT_WIDTH / settings.cols,
@@ -64,12 +72,20 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
   Object.assign(ctx, ItemMover(ctx))
 
   function mount(gridContainerNode: HTMLElement) {
+    ctx.gridContainerNode = gridContainerNode
     resize(gridContainerNode.offsetWidth)
 
+    let bottom = 0
     Array.from(gridContainerNode.children).forEach((node: HTMLElement, i) => {
+      const item = layout[i]
       node.dataset.i = i.toString()
-      layout[i][Field.NODE] = node
+      item[Field.NODE] = node
+
+      const iBottom = item[Field.TOP] + item[Field.HEIGHT]
+      if (bottom < iBottom) bottom = iBottom
     })
+
+    setGridContainerHeight(bottom, ctx)
   }
 
   function resize(gridWidth: number) {
@@ -140,6 +156,8 @@ const ItemMover = Draggable((settings) => {
       changed.forEach((item) => {
         translateLayoutItem(item[Field.NODE], item, settings)
       })
+
+      updateGridContainerHeight(settings)
     }
 
     return { onMove }
