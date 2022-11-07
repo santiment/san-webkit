@@ -7,6 +7,7 @@
   let className = ''
   export { className as class }
   export let tag = 'div'
+  export let isDragging = false
 
   export let cols = 12
   export let rowSize = 30
@@ -19,7 +20,7 @@
 
   let node
   const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
-  const snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
+  const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, { onStart, onEnd }))
   const { onDragStart } = snapGrid
 
   $: if (node) snapGrid.updateLayout(layout)
@@ -31,6 +32,13 @@
     return `width:${getWidth(item, snapGrid)};
       height:${calcHeight(height, snapGrid)}px;
       transform:${getResponsiveTranslate(item, snapGrid)}`
+  }
+
+  function onStart() {
+    isDragging = true
+  }
+  function onEnd() {
+    setTimeout(() => (isDragging = false), 150)
   }
 </script>
 

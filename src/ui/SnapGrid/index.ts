@@ -1,4 +1,4 @@
-import type { Margin, SnapGridController, SnapItem } from './types'
+import type { Handlers, Margin, SnapGridController, SnapItem } from './types'
 import type { DraggableCtx } from './event'
 
 import { minMax } from '@/utils'
@@ -36,7 +36,7 @@ type Settings = {
   minRows?: number
 }
 
-export function SnapGrid(layout: SnapItem[], settings: Settings) {
+export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handlers) {
   const {
     cols,
     rowSize,
@@ -69,7 +69,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
     updateLayout,
   } as SnapGridController
 
-  Object.assign(ctx, ItemMover(ctx))
+  Object.assign(ctx, ItemMover(ctx, handlers))
 
   function mount(gridContainerNode: HTMLElement) {
     ctx.gridContainerNode = gridContainerNode

@@ -1,4 +1,4 @@
-import { Field, SnapGridController, SnapItem } from './types'
+import { Field, Handlers, SnapGridController, SnapItem } from './types'
 
 import { translateLayoutItem } from './style'
 
@@ -24,7 +24,7 @@ export function Draggable(
   clb: (settings: SnapGridController) => (e: MouseEvent, ctx: DraggableCtx) => DragController,
   activeClassName: string,
 ) {
-  return (settings: SnapGridController) => {
+  return (settings: SnapGridController, handlers: Handlers = {}) => {
     const { layout } = settings
     const onStart = clb(settings)
 
@@ -49,6 +49,8 @@ export function Draggable(
 
       draggedNode.classList.add(activeClassName)
 
+      if (handlers.onStart) handlers.onStart()
+
       function onMouseMove(e: MouseEvent) {
         ctx.xDiff = e.pageX - ctx.pageX
         ctx.yDiff = e.pageY - ctx.pageY
@@ -72,6 +74,8 @@ export function Draggable(
          setResponsiveTranslate(item, settings)
          })
          }, 250) */
+
+        if (handlers.onEnd) handlers.onEnd()
       }
 
       window.addEventListener('mousemove', onMouseMove)

@@ -33,3 +33,8 @@ export type SnapGridController = {
 
   onDragStart: (e: MouseEvent) => void
 }
+
+export type Handlers = Partial<{
+  onStart: () => void
+  onEnd: () => void
+}>
