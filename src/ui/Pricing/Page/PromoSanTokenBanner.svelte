@@ -52,17 +52,13 @@
   }
 
   h3 {
-    color: var(--black);
+    color: var(--rhino);
   }
 
   img {
     position: absolute;
     right: 89px;
     bottom: 0;
-  }
-
-  :global(.night-mode) h3 {
-    color: #dfe1ec;
   }
 
   p {
@@ -109,9 +105,7 @@
     }
 
     .banner-phone {
-      position: relative;
-      right: unset;
-      bottom: unset;
+      position: static;
     }
   }
 </style>
