@@ -104,9 +104,8 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
 }
 
 const ItemMover = Draggable((settings) => {
-  function onStart(e: MouseEvent, ctx: DraggableCtx) {
+  function onStart(draggedNode: HTMLElement, ctx: DraggableCtx) {
     const { layout } = settings
-    const draggedNode = e.currentTarget as HTMLElement
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
     const dropzoneNode = Dropzone(draggedNode)
     const { columnSize, rowSize } = settings

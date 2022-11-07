@@ -13,15 +13,16 @@ export type DraggableCtx = {
   draggedItem: SnapItem
 }
 
-type DragController =
-  | undefined
-  | {
-      onMove: (e: MouseEvent) => void
-      onEnd?: () => void
-    }
+type DragController = {
+  onMove: (e: MouseEvent) => void
+  onEnd?: () => void
+}
 
+const THRESHOLD = 10
 export function Draggable(
-  clb: (settings: SnapGridController) => (e: MouseEvent, ctx: DraggableCtx) => DragController,
+  clb: (
+    settings: SnapGridController,
+  ) => (currentTarget: HTMLElement, ctx: DraggableCtx) => undefined | DragController,
   activeClassName: string,
 ) {
   return (settings: SnapGridController, handlers: Handlers = {}) => {
@@ -34,32 +35,50 @@ export function Draggable(
       e.preventDefault()
       clearTimeout(timer)
 
-      layout.forEach((item) => {
-        translateLayoutItem(item[Field.NODE], item, settings)
-      })
-
-      const { pageX, pageY } = e
+      const { pageX, pageY, currentTarget } = e
       const ctx = { pageX, pageY } as DraggableCtx
-      const dragCtx = onStart(e, ctx)
 
-      if (!dragCtx) return
+      let isRegularClick = true
+      let dragCtx: DragController | undefined
 
-      const { draggedNode, dropzoneNode, draggedItem } = ctx
-      const { onMove, onEnd } = dragCtx
+      function enableDragging() {
+        layout.forEach((item) => {
+          translateLayoutItem(item[Field.NODE], item, settings)
+        })
 
-      draggedNode.classList.add(activeClassName)
+        dragCtx = onStart(currentTarget as HTMLElement, ctx)
+        if (!dragCtx) return
 
-      if (handlers.onStart) handlers.onStart()
+        ctx.draggedNode.classList.add(activeClassName)
+
+        if (handlers.onStart) handlers.onStart()
+
+        isRegularClick = false
+      }
 
       function onMouseMove(e: MouseEvent) {
         ctx.xDiff = e.pageX - ctx.pageX
         ctx.yDiff = e.pageY - ctx.pageY
 
+        if (isRegularClick) {
+          const { xDiff, yDiff } = ctx
+          if (Math.max(Math.abs(xDiff), Math.abs(yDiff)) > THRESHOLD) {
+            enableDragging()
+          }
+          return
+        }
+
+        const { onMove } = dragCtx as DragController
         onMove(e)
       }
 
       function onMouseUp() {
         window.removeEventListener('mousemove', onMouseMove)
+
+        if (isRegularClick) return
+
+        const { draggedNode, dropzoneNode, draggedItem } = ctx
+        const { onEnd } = dragCtx as DragController
 
         if (onEnd) onEnd()
 
