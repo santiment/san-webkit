@@ -18,11 +18,12 @@
   export let minRows: number
 
   let node
-  $: settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
-  $: snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
-  $: ({ onDragStart } = snapGrid)
+  const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
+  const snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
+  const { onDragStart } = snapGrid
 
-  $: if (node && snapGrid) tick().then(() => snapGrid.mount(node))
+  $: if (node) snapGrid.updateLayout(layout)
+  $: if (node && layout) tick().then(() => snapGrid.mount(node))
 
   function getStyle(item) {
     const [, , , height] = item

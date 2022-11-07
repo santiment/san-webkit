@@ -27,6 +27,7 @@ export type SnapGridController = {
 
   mount: (gridContainerNode: HTMLElement) => void
   resize: (gridWidth: number) => void
+  updateLayout: (layout: SnapItem[]) => void
 
   onDragStart: (e: MouseEvent) => void
 }

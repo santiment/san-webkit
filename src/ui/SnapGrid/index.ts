@@ -58,9 +58,10 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
 
     mount,
     resize,
+    updateLayout,
   } as SnapGridController
 
-  Object.assign(ctx, ItemMover(layout, ctx))
+  Object.assign(ctx, ItemMover(ctx))
 
   function mount(gridContainerNode: HTMLElement) {
     resize(gridContainerNode.offsetWidth)
@@ -79,11 +80,16 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
     ctx.columnSize = gridWidth / settings.cols - margin / 2 // TODO: don't subtract margin?
   }
 
+  function updateLayout(layout: SnapItem[]) {
+    ctx.layout = layout
+  }
+
   return ctx
 }
 
-const ItemMover = Draggable((layout, settings) => {
+const ItemMover = Draggable((settings) => {
   function onStart(e: MouseEvent, ctx: DraggableCtx) {
+    const { layout } = settings
     const draggedNode = e.currentTarget as HTMLElement
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
     const dropzoneNode = Dropzone(draggedNode)

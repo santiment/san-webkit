@@ -7,14 +7,14 @@ import { calcHeight, calcY, getWidth, translateLayoutItem } from './style'
 import { Field } from './types'
 import { minMax } from '@/utils'
 
-export const Resizer = Draggable((layout, settings) => {
+export const Resizer = Draggable((settings) => {
   function onStart(e: MouseEvent, ctx: DraggableCtx) {
     const resizerNode = e.currentTarget as HTMLElement
     const draggedNode = resizerNode.closest('.snap-item') as HTMLElement
 
     if (!draggedNode) return // Returning true to signal early exit
 
-    const { cols, columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
+    const { layout, cols, columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
     const dropzoneNode = Dropzone(draggedNode)
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
 

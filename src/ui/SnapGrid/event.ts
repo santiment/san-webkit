@@ -21,14 +21,12 @@ type DragController =
     }
 
 export function Draggable(
-  clb: (
-    layout: SnapItem[],
-    settings: SnapGridController,
-  ) => (e: MouseEvent, ctx: DraggableCtx) => DragController,
+  clb: (settings: SnapGridController) => (e: MouseEvent, ctx: DraggableCtx) => DragController,
   activeClassName: string,
 ) {
-  return (layout: SnapItem[], settings: any) => {
-    const onStart = clb(layout, settings)
+  return (settings: SnapGridController) => {
+    const { layout } = settings
+    const onStart = clb(settings)
 
     let timer
     function onDragStart(e: MouseEvent) {
