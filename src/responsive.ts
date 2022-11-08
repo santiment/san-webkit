@@ -45,3 +45,5 @@ export const responsive$ = {
     }) as Unsubscriber
   },
 }
+
+export const phoneDevices = new Set([Device.Phone, Device.PhoneXs])
