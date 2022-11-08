@@ -1,5 +1,6 @@
 import { Field, Handlers, SnapGridController, SnapItem } from './types'
 
+import { clearAutoScroll } from '@/ui/dnd/scroll'
 import { translateLayoutItem } from './style'
 
 export type DraggableCtx = {
@@ -85,6 +86,8 @@ export function Draggable(
         translateLayoutItem(draggedNode, draggedItem, settings)
         draggedNode.classList.remove(activeClassName)
         dropzoneNode.remove()
+
+        clearAutoScroll(settings)
 
         // NOTE: Because of scroll bar, relative translate will not be equal to absolute translate
         /*

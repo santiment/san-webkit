@@ -2,6 +2,7 @@ import type { Handlers, Margin, SnapGridController, SnapItem } from './types'
 import type { DraggableCtx } from './event'
 
 import { minMax } from '@/utils'
+import { autoScroll, getScrollingParent } from '@/ui/dnd/scroll'
 import { Field } from './types'
 import { Draggable } from './event'
 import {
@@ -86,6 +87,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
     })
 
     setGridContainerHeight(bottom, ctx)
+    ctx.scrollParent = getScrollingParent(gridContainerNode)
   }
 
   function resize(gridWidth: number) {
@@ -105,10 +107,9 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
 
 const ItemMover = Draggable((settings) => {
   function onStart(draggedNode: HTMLElement, ctx: DraggableCtx) {
-    const { layout } = settings
+    const { layout, scrollParent, columnSize, rowSize } = settings
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
     const dropzoneNode = Dropzone(draggedNode)
-    const { columnSize, rowSize } = settings
 
     Object.assign(ctx, { draggedNode, draggedItem, dropzoneNode })
 
@@ -118,6 +119,10 @@ const ItemMover = Draggable((settings) => {
     let sortedLayout = sortLayout(layout)
 
     const [, yMargin] = settings.margin
+
+    const nodeRect = draggedNode.getBoundingClientRect()
+    const scrollStart = scrollParent?.scrollTop || 0
+    const scrollRect = { top: 0, bottom: window.innerHeight }
 
     function onMove(e: MouseEvent) {
       const { xDiff, yDiff } = ctx
@@ -157,6 +162,10 @@ const ItemMover = Draggable((settings) => {
       })
 
       updateGridContainerHeight(settings)
+
+      if (scrollParent) {
+        autoScroll(settings, nodeRect, scrollRect, yDiff - (scrollParent?.scrollTop - scrollStart))
+      }
     }
 
     return { onMove }
