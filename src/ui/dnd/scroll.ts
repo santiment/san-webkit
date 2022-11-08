@@ -13,11 +13,11 @@ export function autoScroll(ctx: ScrollContext, nodeRect, scrollRect, yDiff: numb
 
   if (yDiff < 0) {
     if (scrollParent.scrollTop && nodeRect.top + yDiff < scrollRect.top) {
-      return startAutoScroll(ctx, -6)
+      return startAutoScroll(ctx, -7)
     }
   } else {
     if (nodeRect.bottom + yDiff > scrollRect.bottom) {
-      return startAutoScroll(ctx, 6)
+      return startAutoScroll(ctx, 7)
     }
   }
 
@@ -36,6 +36,7 @@ function startAutoScroll(ctx: ScrollContext, delta: number) {
 
 export function getScrollingParent(node: null | HTMLElement) {
   if (!node) return null
+  if (node === document.body) return document.scrollingElement
 
   const styles = window.getComputedStyle(node)
   if (styles.overflow === 'auto' || styles.overflow === 'scroll') return node

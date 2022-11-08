@@ -1,10 +1,18 @@
-import type { Margin, SnapGridController, SnapItem } from './types'
+import type { Handlers, Margin, SnapGridController, SnapItem } from './types'
 import type { DraggableCtx } from './event'
 
 import { minMax } from '@/utils'
+import { autoScroll, getScrollingParent } from '@/ui/dnd/scroll'
 import { Field } from './types'
 import { Draggable } from './event'
-import { normalizeGrid, resolveDraggedCollisions, Dropzone, sortLayout } from './layout'
+import {
+  normalizeGrid,
+  resolveDraggedCollisions,
+  Dropzone,
+  sortLayout,
+  updateGridContainerHeight,
+  setGridContainerHeight,
+} from './layout'
 import { calcY, getTranslate, translateLayoutItem } from './style'
 import './snap-grid.css'
 
@@ -29,7 +37,7 @@ type Settings = {
   minRows?: number
 }
 
-export function SnapGrid(layout: SnapItem[], settings: Settings) {
+export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handlers) {
   const {
     cols,
     rowSize,
@@ -43,9 +51,11 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
   const [xMargin, yMargin = xMargin] = margin
 
   const ctx = {
+    gridWidth,
+
     layout,
     cols,
-    columnSize: gridWidth || 0, // LAYOUT_WIDTH / settings.cols,
+    columnSize: (gridWidth || 0) / cols, // LAYOUT_WIDTH / settings.cols,
 
     rowSize,
     margin: [xMargin, yMargin],
@@ -57,35 +67,49 @@ export function SnapGrid(layout: SnapItem[], settings: Settings) {
 
     mount,
     resize,
+    updateLayout,
   } as SnapGridController
 
-  Object.assign(ctx, ItemMover(layout, ctx))
+  Object.assign(ctx, ItemMover(ctx, handlers))
 
   function mount(gridContainerNode: HTMLElement) {
+    ctx.gridContainerNode = gridContainerNode
     resize(gridContainerNode.offsetWidth)
 
+    let bottom = 0
     Array.from(gridContainerNode.children).forEach((node: HTMLElement, i) => {
+      const item = ctx.layout[i]
       node.dataset.i = i.toString()
-      layout[i][Field.NODE] = node
+      item[Field.NODE] = node
+
+      const iBottom = item[Field.TOP] + item[Field.HEIGHT]
+      if (bottom < iBottom) bottom = iBottom
     })
+
+    setGridContainerHeight(bottom, ctx)
+    ctx.scrollParent = getScrollingParent(gridContainerNode)
   }
 
   function resize(gridWidth: number) {
     const [xMargin] = ctx.margin
     const margin = xMargin - (xMargin / settings.cols) * 2
 
-    ctx.columnSize = gridWidth / settings.cols - margin / 2
+    ctx.gridWidth = gridWidth
+    ctx.columnSize = gridWidth / settings.cols - margin / 2 // TODO: don't subtract margin?
+  }
+
+  function updateLayout(layout: SnapItem[]) {
+    ctx.layout = layout
   }
 
   return ctx
 }
 
-const ItemMover = Draggable((layout, settings) => {
-  function onStart(e: MouseEvent, ctx: DraggableCtx) {
-    const draggedNode = e.currentTarget as HTMLElement
+const ItemMover = Draggable((settings) => {
+  function onStart(draggedNode: HTMLElement, ctx: DraggableCtx) {
+    const { layout, scrollParent, columnSize, rowSize } = settings
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
     const dropzoneNode = Dropzone(draggedNode)
-    const { columnSize, rowSize } = settings
 
     Object.assign(ctx, { draggedNode, draggedItem, dropzoneNode })
 
@@ -95,6 +119,10 @@ const ItemMover = Draggable((layout, settings) => {
     let sortedLayout = sortLayout(layout)
 
     const [, yMargin] = settings.margin
+
+    const nodeRect = draggedNode.getBoundingClientRect()
+    const scrollStart = scrollParent?.scrollTop || 0
+    const scrollRect = { top: 0, bottom: window.innerHeight }
 
     function onMove(e: MouseEvent) {
       const { xDiff, yDiff } = ctx
@@ -132,6 +160,12 @@ const ItemMover = Draggable((layout, settings) => {
       changed.forEach((item) => {
         translateLayoutItem(item[Field.NODE], item, settings)
       })
+
+      updateGridContainerHeight(settings)
+
+      if (scrollParent) {
+        autoScroll(settings, nodeRect, scrollRect, yDiff - (scrollParent?.scrollTop - scrollStart))
+      }
     }
 
     return { onMove }

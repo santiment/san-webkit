@@ -1,11 +1,13 @@
 <script>
+  import { IsPhone } from '@/stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
+  import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg'
 
   let className = ''
   export { className as class }
 </script>
 
-<section class="row justify v-center border body-2 {className}">
+<section class="row justify v-center border body-2 relative {className}">
   <div class="text">
     <h3 class="h3 txt-m mrg-l mrg--b">Hold SAN, Pay Less</h3>
     <p class="mrg-xl mrg--b">
@@ -26,22 +28,33 @@
     >
   </div>
 
-  <img src={sanTokenBanner} alt="San Token Banner" />
+  <img src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop} alt="San Token Banner" />
 </section>
 
 <style lang="scss">
   section {
     max-width: 100%;
-    width: 800px;
+    width: 1140px;
     background: var(--whale);
     border-radius: 8px;
-    padding: 32px 48px;
+    padding: 40px 89px 48px 72px;
     margin: 0 auto 80px;
+    overflow: hidden;
   }
 
   .text {
     max-width: 100%;
-    width: 424px;
+    width: 472px;
+  }
+
+  h3 {
+    color: var(--rhino);
+  }
+
+  img {
+    position: absolute;
+    right: 89px;
+    bottom: 0;
   }
 
   p {
@@ -51,6 +64,22 @@
   .buy {
     display: inline-block;
     padding: 8px 20px;
+  }
+
+  :global(.tablet) {
+    section {
+      max-width: calc(100% - 40px);
+      padding: 40px 48px;
+    }
+
+    img {
+      right: -90px;
+      width: 432px;
+    }
+
+    .text {
+      width: 402px;
+    }
   }
 
   :global(.phone-xs),
@@ -69,6 +98,10 @@
 
     p {
       margin: 0 0 32px;
+    }
+
+    img {
+      position: static;
     }
   }
 </style>

@@ -7,6 +7,7 @@
   let className = ''
   export { className as class }
   export let tag = 'div'
+  export let isDragging = false
 
   export let cols = 12
   export let rowSize = 30
@@ -18,11 +19,12 @@
   export let minRows: number
 
   let node
-  $: settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
-  $: snapGrid = setSnapGridCtx(SnapGrid(layout, settings))
-  $: ({ onDragStart } = snapGrid)
+  const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
+  const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, { onStart, onEnd }))
+  const { onDragStart } = snapGrid
 
-  $: if (node && snapGrid) tick().then(() => snapGrid.mount(node))
+  $: if (node) snapGrid.updateLayout(layout)
+  $: if (node && layout) tick().then(() => snapGrid.mount(node))
 
   function getStyle(item) {
     const [, , , height] = item
@@ -31,16 +33,23 @@
       height:${calcHeight(height, snapGrid)}px;
       transform:${getResponsiveTranslate(item, snapGrid)}`
   }
+
+  function onStart() {
+    isDragging = true
+  }
+  function onEnd() {
+    setTimeout(() => (isDragging = false), 150)
+  }
 </script>
 
 <svelte:element this={tag} bind:this={node} class="snap-grid {className}">
-  {#each layout as item, i}
+  {#each layout as item, i (item)}
     <slot {i} class="snap-item" style={getStyle(item)} onMouseDown={onDragStart} />
   {/each}
 </svelte:element>
 
 <style>
   .snap-grid {
-    height: 100%;
+    transition: height 0.2s;
   }
 </style>

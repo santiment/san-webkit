@@ -1,5 +1,6 @@
-import { Field, SnapGridController, SnapItem } from './types'
+import { Field, Handlers, SnapGridController, SnapItem } from './types'
 
+import { clearAutoScroll } from '@/ui/dnd/scroll'
 import { translateLayoutItem } from './style'
 
 export type DraggableCtx = {
@@ -13,22 +14,21 @@ export type DraggableCtx = {
   draggedItem: SnapItem
 }
 
-type DragController =
-  | undefined
-  | {
-      onMove: (e: MouseEvent) => void
-      onEnd?: () => void
-    }
+type DragController = {
+  onMove: (e: MouseEvent) => void
+  onEnd?: () => void
+}
 
+const THRESHOLD = 10
 export function Draggable(
   clb: (
-    layout: SnapItem[],
     settings: SnapGridController,
-  ) => (e: MouseEvent, ctx: DraggableCtx) => DragController,
+  ) => (currentTarget: HTMLElement, ctx: DraggableCtx) => undefined | DragController,
   activeClassName: string,
 ) {
-  return (layout: SnapItem[], settings: any) => {
-    const onStart = clb(layout, settings)
+  return (settings: SnapGridController, handlers: Handlers = {}) => {
+    const { layout } = settings
+    const onStart = clb(settings)
 
     let timer
     function onDragStart(e: MouseEvent) {
@@ -36,36 +36,58 @@ export function Draggable(
       e.preventDefault()
       clearTimeout(timer)
 
-      layout.forEach((item) => {
-        translateLayoutItem(item[Field.NODE], item, settings)
-      })
-
-      const { pageX, pageY } = e
+      const { pageX, pageY, currentTarget } = e
       const ctx = { pageX, pageY } as DraggableCtx
-      const dragCtx = onStart(e, ctx)
 
-      if (!dragCtx) return
+      let isRegularClick = true
+      let dragCtx: DragController | undefined
 
-      const { draggedNode, dropzoneNode, draggedItem } = ctx
-      const { onMove, onEnd } = dragCtx
+      function enableDragging() {
+        layout.forEach((item) => {
+          translateLayoutItem(item[Field.NODE], item, settings)
+        })
 
-      draggedNode.classList.add(activeClassName)
+        dragCtx = onStart(currentTarget as HTMLElement, ctx)
+        if (!dragCtx) return
+
+        ctx.draggedNode.classList.add(activeClassName)
+
+        if (handlers.onStart) handlers.onStart()
+
+        isRegularClick = false
+      }
 
       function onMouseMove(e: MouseEvent) {
         ctx.xDiff = e.pageX - ctx.pageX
         ctx.yDiff = e.pageY - ctx.pageY
 
+        if (isRegularClick) {
+          const { xDiff, yDiff } = ctx
+          if (Math.max(Math.abs(xDiff), Math.abs(yDiff)) > THRESHOLD) {
+            enableDragging()
+          }
+          return
+        }
+
+        const { onMove } = dragCtx as DragController
         onMove(e)
       }
 
       function onMouseUp() {
         window.removeEventListener('mousemove', onMouseMove)
 
+        if (isRegularClick) return
+
+        const { draggedNode, dropzoneNode, draggedItem } = ctx
+        const { onEnd } = dragCtx as DragController
+
         if (onEnd) onEnd()
 
         translateLayoutItem(draggedNode, draggedItem, settings)
         draggedNode.classList.remove(activeClassName)
         dropzoneNode.remove()
+
+        clearAutoScroll(settings)
 
         // NOTE: Because of scroll bar, relative translate will not be equal to absolute translate
         /*
@@ -74,6 +96,8 @@ export function Draggable(
          setResponsiveTranslate(item, settings)
          })
          }, 250) */
+
+        if (handlers.onEnd) handlers.onEnd()
       }
 
       window.addEventListener('mousemove', onMouseMove)

@@ -1,4 +1,4 @@
-import type { SnapItem } from './types'
+import type { SnapGridController, SnapItem } from './types'
 
 import { Field } from './types'
 
@@ -43,8 +43,8 @@ export function Grid() {
 
 export function normalizeGrid(
   sortedLayout: SnapItem[],
-  changedItems: Set<SnapItem>,
-  draggedItem: SnapItem,
+  changedItems?: Set<SnapItem>,
+  draggedItem?: SnapItem,
   onDraggedItemNormalize?: (oldTop: number, newTop: number) => void,
 ) {
   const grid = Grid()
@@ -59,7 +59,7 @@ export function normalizeGrid(
 
     if (top !== iTop) {
       item[Field.TOP] = top
-      if (item !== draggedItem) changedItems.add(item)
+      if (changedItems && item !== draggedItem) changedItems.add(item)
       else if (onDraggedItemNormalize) onDraggedItemNormalize(iTop, top)
     }
 
@@ -112,4 +112,24 @@ export function resolveDraggedCollisions(
   }
 
   return changed
+}
+
+export function updateGridContainerHeight(settings: SnapGridController) {
+  const { layout } = settings
+  let bottom = 0
+
+  for (let i = 0; i < layout.length; i++) {
+    const item = layout[i]
+    const iBottom = item[Field.TOP] + item[Field.HEIGHT]
+    if (bottom < iBottom) bottom = iBottom
+  }
+
+  setGridContainerHeight(bottom, settings)
+}
+
+export function setGridContainerHeight(
+  rows: number,
+  { gridContainerNode, rowSize, margin }: SnapGridController,
+) {
+  gridContainerNode.style.height = rows * (rowSize + margin[1]) + 'px'
 }
