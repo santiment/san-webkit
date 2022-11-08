@@ -43,8 +43,8 @@ export function Grid() {
 
 export function normalizeGrid(
   sortedLayout: SnapItem[],
-  changedItems: Set<SnapItem>,
-  draggedItem: SnapItem,
+  changedItems?: Set<SnapItem>,
+  draggedItem?: SnapItem,
   onDraggedItemNormalize?: (oldTop: number, newTop: number) => void,
 ) {
   const grid = Grid()
@@ -59,7 +59,7 @@ export function normalizeGrid(
 
     if (top !== iTop) {
       item[Field.TOP] = top
-      if (item !== draggedItem) changedItems.add(item)
+      if (changedItems && item !== draggedItem) changedItems.add(item)
       else if (onDraggedItemNormalize) onDraggedItemNormalize(iTop, top)
     }
 
