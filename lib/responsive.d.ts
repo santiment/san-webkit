@@ -10,4 +10,5 @@ declare type Unsubscriber = () => {};
 export declare const responsive$: {
     subscribe(subscriber: (device: Device) => any): Unsubscriber;
 };
+export declare const phoneDevices: Set<Device>;
 export {};

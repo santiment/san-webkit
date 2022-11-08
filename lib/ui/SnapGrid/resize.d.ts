@@ -1,4 +1,6 @@
-import type { SnapItem } from './types';
-export declare const Resizer: (layout: SnapItem[], settings: any) => {
+export declare const Resizer: (settings: import("./types").SnapGridController, handlers?: Partial<{
+    onStart: () => void;
+    onEnd: () => void;
+}>) => {
     onDragStart: (e: MouseEvent) => void;
 };

@@ -3,9 +3,9 @@ import { Resizer } from './resize';
 const snapGrid = getSnapGridCtx();
 const {
   onDragStart
-} = Resizer(snapGrid.layout, snapGrid);</script>
+} = Resizer(snapGrid);</script>
 
-<div on:mousedown={onDragStart} />
+<div on:mousedown|capture={onDragStart} />
 
 <style>
   div {

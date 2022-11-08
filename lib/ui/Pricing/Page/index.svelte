@@ -1,10 +1,8 @@
 <script>import Footer from './../../../ui/Footer/svelte';
-import HalloweenBanner from '../../Halloween/Banner.svelte';
 import { querySanbasePlans } from './../../../api/plans';
 import { Billing, onlyProAndFreeLikePlans, Plan } from './../../../utils/plans';
 import { subscription$ } from './../../../stores/subscription';
 import { customerData$ } from './../../../stores/user';
-import { IsMobile as isMobile$ } from './../../../stores/responsive';
 import BillingToggle from './BillingToggle.svelte';
 import FAQ from './FAQ.svelte';
 import Suggestions from './Suggestions.svelte';
@@ -23,8 +21,6 @@ $: ({
   isEligibleForTrial,
   annualDiscount
 } = $customerData$);
-
-$: isMobile = $isMobile$;
 
 let plans = [];
 
@@ -51,10 +47,6 @@ function billingFilter({
 
     {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
-    {/if}
-
-    {#if !isMobile}
-      <HalloweenBanner />
     {/if}
 
     <BillingToggle bind:billing />

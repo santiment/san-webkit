@@ -1,4 +1,4 @@
-import { SnapGridController, SnapItem } from './types';
+import { Handlers, SnapGridController, SnapItem } from './types';
 export declare type DraggableCtx = {
     pageX: number;
     pageY: number;
@@ -8,11 +8,11 @@ export declare type DraggableCtx = {
     dropzoneNode: HTMLElement;
     draggedItem: SnapItem;
 };
-declare type DragController = undefined | {
+declare type DragController = {
     onMove: (e: MouseEvent) => void;
     onEnd?: () => void;
 };
-export declare function Draggable(clb: (layout: SnapItem[], settings: SnapGridController) => (e: MouseEvent, ctx: DraggableCtx) => DragController, activeClassName: string): (layout: SnapItem[], settings: any) => {
+export declare function Draggable(clb: (settings: SnapGridController) => (currentTarget: HTMLElement, ctx: DraggableCtx) => undefined | DragController, activeClassName: string): (settings: SnapGridController, handlers?: Handlers) => {
     onDragStart: (e: MouseEvent) => void;
 };
 export {};

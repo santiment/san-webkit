@@ -1,3 +1,4 @@
+import type { ScrollContext } from '../dnd/scroll';
 export declare const enum Field {
     LEFT = 0,
     TOP = 1,
@@ -8,6 +9,8 @@ export declare const enum Field {
 export declare type SnapItem = [number, number, number, number, HTMLElement];
 export declare type Margin = [number, number];
 export declare type SnapGridController = {
+    gridContainerNode: HTMLElement;
+    gridWidth: number;
     layout: SnapItem[];
     cols: number;
     margin: Margin;
@@ -19,5 +22,10 @@ export declare type SnapGridController = {
     minRows: number;
     mount: (gridContainerNode: HTMLElement) => void;
     resize: (gridWidth: number) => void;
+    updateLayout: (layout: SnapItem[]) => void;
     onDragStart: (e: MouseEvent) => void;
-};
+} & ScrollContext;
+export declare type Handlers = Partial<{
+    onStart: () => void;
+    onEnd: () => void;
+}>;

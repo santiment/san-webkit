@@ -1,1 +1,1 @@
-{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/ui/SnapGrid/types.ts"],"names":[],"mappings":"AAAA,MAAM,CAAN,IAAkB,KAMjB;AAND,WAAkB,KAAK;IACrB,iCAAQ,CAAA;IACR,+BAAO,CAAA;IACP,mCAAS,CAAA;IACT,qCAAU,CAAA;IACV,iCAAQ,CAAA;AACV,CAAC,EANiB,KAAK,KAAL,KAAK,QAMtB"}
+{"version":3,"file":"types.js","sourceRoot":"","sources":["../../../src/ui/SnapGrid/types.ts"],"names":[],"mappings":"AAEA,MAAM,CAAN,IAAkB,KAMjB;AAND,WAAkB,KAAK;IACrB,iCAAQ,CAAA;IACR,+BAAO,CAAA;IACP,mCAAS,CAAA;IACT,qCAAU,CAAA;IACV,iCAAQ,CAAA;AACV,CAAC,EANiB,KAAK,KAAL,KAAK,QAMtB"}

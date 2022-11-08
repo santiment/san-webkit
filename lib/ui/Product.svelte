@@ -1,24 +1,13 @@
-<script>import Svg from './../ui/Svg/svelte';
-let className = '';
+<script>let className = '';
 export { className as class };
-export let title;
-export let isHalloween;</script>
+export let title;</script>
 
 <a
   href="/"
   class="body-2 txt-m title row v-center relative {className}"
   on:click={window.__onLinkClick}
 >
-  {#if isHalloween}
-    <Svg illus id="halloween/batman" w="57" h="52" class="batman-3-JIlT" />
-  {/if}
-  <img
-    src="{process.env.MEDIA_PATH}/illus/{isHalloween
-      ? 'halloween/san-logo-halloween'
-      : 'san-logo'}.svg"
-    alt="SAN"
-    class="product mrg-s mrg--r"
-  />
+  <img src="{process.env.MEDIA_PATH}/illus/san-logo.svg" alt="SAN" class="product mrg-s mrg--r" />
   {title}
 </a>
 
@@ -30,12 +19,5 @@ export let isHalloween;</script>
   img {
     width: 32px;
     height: 32px;
-  }
-
-  :global(.batman-3-JIlT) {
-    z-index: -1;
-    position: absolute;
-    left: -12px;
-    top: -10px;
   }
 </style>
