@@ -13,6 +13,7 @@
       email: 'test@gmail.com',
       avatarUrl: '',
     }}
+    path="test.com/watchlists"
   />
 </Story>
 
