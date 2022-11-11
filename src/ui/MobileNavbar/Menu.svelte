@@ -21,24 +21,15 @@
       link: '/pricing',
     },
   ]
-
-  export function getFullLink(link, slug = '') {
-    const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : ''
-
-    return pathname + link + slug
-  }
 </script>
 
 <script lang="ts">
   import Profile from '@/ui/Profile/svelte'
   import { showIntercom } from '@/analytics/intercom'
-  import { customerData$ } from '@/stores/user'
 
   export let user
   export let isMenuOpened
   export let isFullLink
-
-  $: ({ isLoggedIn } = $customerData$)
 
   function onLinkClick(event) {
     event.preventDefault()
@@ -49,6 +40,12 @@
   function onHelpClick() {
     showIntercom()
     isMenuOpened = false
+  }
+
+  function getFullLink(link, slug = '') {
+    const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : ''
+
+    return pathname + link + slug
   }
 </script>
 
@@ -67,7 +64,7 @@
   </nav>
   <div class="divider fluid mrg-l mrg--t mrg--b" />
   <button class="btn-0 link body-1 mrg-l mrg--b" on:click={onHelpClick}>Help & Feedback</button>
-  {#if isLoggedIn}
+  {#if user}
     {@const accountLink = isFullLink ? getFullLink('/account') : '/account'}
     <div class="column body-2 mrg-a mrg--t">
       <Profile {user} class="mrg-l mrg--b">

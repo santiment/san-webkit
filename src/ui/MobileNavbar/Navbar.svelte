@@ -3,51 +3,45 @@
     {
       title: 'Market',
       icon: 'market',
-      link: '/assets',
+      href: '/assets',
     },
     {
       title: 'Chart',
       icon: 'chart',
-      link: '/projects',
+      href: '/projects',
       slug: '/bitcoin',
     },
     {
       title: 'Watchlist',
       icon: 'watchlist',
-      link: '/watchlists',
+      href: '/watchlists',
     },
     {
       title: 'Insights',
       icon: 'insights',
-      link: '/insights',
-    },
-    {
-      title: 'Menu',
-      icon: 'mobile-menu',
-      isMenuNav: true,
+      href: '/insights',
     },
   ]
 </script>
 
 <script lang="ts">
-  import Menu, { getFullLink } from './Menu.svelte'
+  import Menu from './Menu.svelte'
   import NavItem from './NavItem.svelte'
 
-  export let user: SAN.Author & { name?: string }
+  export let user: SAN.Author | undefined
   export let path = ''
   export let isFullLink = false
+  export let links = MOBILE_NAVBAR_LINKS
+  export let isMenuOpened = false
 
-  let isMenuOpened = false
+  $: isMenuOpened = (path, false)
+  $: links = links.map(({ href, slug = '', ...rest }) => ({
+    href: href + slug,
+    ...rest,
+  }))
 
-  function onMenuClick(event, isMenuNav) {
-    event.preventDefault()
-
-    if (isMenuNav) isMenuOpened = !isMenuOpened
-
-    if (!isMenuNav) {
-      window.__onLinkClick(event)
-      isMenuOpened = false
-    }
+  function onMenuClick() {
+    isMenuOpened = !isMenuOpened
   }
 </script>
 
@@ -55,16 +49,22 @@
   <Menu {user} {isFullLink} bind:isMenuOpened />
 {/if}
 
-<nav class="fluid">
-  <ul class="row justify v-center">
-    {#each MOBILE_NAVBAR_LINKS as { title, icon, link, slug = '', isMenuNav }}
-      {@const href = isFullLink ? getFullLink(link, slug) : link + slug}
-      {@const active = isMenuNav ? isMenuOpened : path.includes(link)}
-      <li>
-        <NavItem {title} {icon} {href} {active} on:click={(e) => onMenuClick(e, isMenuNav)} />
-      </li>
-    {/each}
-  </ul>
+<nav class="fluid row justify v-center">
+  {#each links as link}
+    <NavItem
+      {...link}
+      active={!isMenuOpened && path.startsWith(link.href)}
+      on:click={window.__onLinkClick}
+    />
+  {/each}
+
+  <NavItem
+    tag="button"
+    title="Menu"
+    icon="mobile-menu"
+    active={isMenuOpened}
+    on:click={onMenuClick}
+  />
 </nav>
 
 <style lang="scss">
@@ -76,9 +76,5 @@
     padding: 16px 20px;
     background: var(--whale);
     border-top: 1px solid var(--athens);
-  }
-
-  ul {
-    list-style-type: none;
   }
 </style>
