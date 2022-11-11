@@ -1,7 +1,8 @@
 export declare enum Tracker {
     GA = "ga",
     SAN = "san",
-    TWQ = "twq"
+    TWQ = "twq",
+    AMPLITUDE = "AMPLITUDE"
 }
 export declare const isTrackingEnabled: any;
 declare type EventData = {

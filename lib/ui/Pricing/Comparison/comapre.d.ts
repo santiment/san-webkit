@@ -19,18 +19,6 @@ export declare const COMPARE_TABLE: ({
         description?: undefined;
         isCheck?: undefined;
     })[];
-    link?: undefined;
-    isCheck?: undefined;
-} | {
-    category: string;
-    link: {
-        title: string;
-        url: string;
-    };
-    features: {
-        name: string;
-        postfix: string;
-    }[];
     isCheck?: undefined;
 } | {
     category: string;
@@ -38,7 +26,6 @@ export declare const COMPARE_TABLE: ({
     features: {
         name: string;
     }[];
-    link?: undefined;
 } | {
     category: string;
     features: ({
@@ -57,7 +44,6 @@ export declare const COMPARE_TABLE: ({
         description?: undefined;
         isCheck?: undefined;
     })[];
-    link?: undefined;
     isCheck?: undefined;
 } | {
     category: string;
@@ -77,16 +63,12 @@ export declare const COMPARE_TABLE: ({
         isLimit?: undefined;
         description?: undefined;
     })[];
-    link?: undefined;
     isCheck?: undefined;
 })[];
 export declare const FREE_COMPARED_FEATURES: {
     'Browser tabs': string;
     'Bi-weekly report': boolean;
     'Pro Insights': boolean;
-    'API calls / minute': number;
-    'API calls / hour': number;
-    'API calls / month': string;
     'Priority support': boolean;
     'Dedicated account manager': boolean;
     'Custom onboarding & education': boolean;
@@ -103,28 +85,18 @@ export declare const FREE_COMPARED_FEATURES: {
     CSV: boolean;
 };
 export declare const PRO_COMPARED_FEATURES: {
-    'API calls / minute': number;
-    'API calls / hour': number;
-    'API calls / month': string;
     'Dedicated account manager': boolean;
     'Custom onboarding & education': boolean;
     'Hide watermark on charts': boolean;
     'Embed charts': string;
     'Custom Alerts': number;
 };
-export declare const PRO_PLUS_COMPARED_FEATURES: {
-    'API calls / minute': number;
-    'API calls / hour': number;
-    'API calls / month': string;
-};
+export declare const PRO_PLUS_COMPARED_FEATURES: {};
 export declare const PlanFeatures: {
     FREE: {
         'Browser tabs': string;
         'Bi-weekly report': boolean;
         'Pro Insights': boolean;
-        'API calls / minute': number;
-        'API calls / hour': number;
-        'API calls / month': string;
         'Priority support': boolean;
         'Dedicated account manager': boolean;
         'Custom onboarding & education': boolean;
@@ -141,18 +113,11 @@ export declare const PlanFeatures: {
         CSV: boolean;
     };
     PRO: {
-        'API calls / minute': number;
-        'API calls / hour': number;
-        'API calls / month': string;
         'Dedicated account manager': boolean;
         'Custom onboarding & education': boolean;
         'Hide watermark on charts': boolean;
         'Embed charts': string;
         'Custom Alerts': number;
     };
-    PRO_PLUS: {
-        'API calls / minute': number;
-        'API calls / hour': number;
-        'API calls / month': string;
-    };
+    PRO_PLUS: {};
 };

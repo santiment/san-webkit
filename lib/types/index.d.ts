@@ -26,6 +26,10 @@ interface Window {
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
   twq?: any
   __SAPPER__?: any
+
+  amplitude?: {
+    track: (action: string, eventProperties: { [key: string]: any }) => void
+  }
 }
 
 namespace MediumEditor {
