@@ -23,7 +23,7 @@
   }
 </script>
 
-<Suggestions {items} {loading} {filter} {searchTerm} let:item onItemClick={window.__onLinkClick}>
+<Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
   <ProfilePic src={item.avatar_url} placeholderWidth="24" class="$style.icon" />
   <span class="name single-line line-clamp">
     @{item.username}

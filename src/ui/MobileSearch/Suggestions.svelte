@@ -5,7 +5,6 @@
   export let items = [] as any[]
   export let loading = false
   export let filter
-  export let searchTerm
   export let onItemClick = (event, item) => {}
 
   function handleItemClick(event, item) {
@@ -15,7 +14,7 @@
 </script>
 
 <div class="wrapper column mrg-xxl mrg--t mrg--b">
-  {#each items.slice(0, 50) as item}
+  {#each items.slice(0, 100) as item}
     {@const href = getItemLink(item, filter)}
     <a
       class="btn body-2 fluid row v-center"

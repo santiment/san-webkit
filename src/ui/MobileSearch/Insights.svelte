@@ -19,7 +19,7 @@
   }
 </script>
 
-<Suggestions {items} {loading} {filter} {searchTerm} let:item onItemClick={window.__onLinkClick}>
+<Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
   <img src="{process.env.MEDIA_PATH}/icons/insight-icon.svg" alt="Insight" class="$style.icon" />
   <span class="name single-line line-clamp">{item.title}</span>
 </Suggestions>

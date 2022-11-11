@@ -25,7 +25,7 @@
   }
 </script>
 
-<Suggestions {items} {loading} {filter} {searchTerm} let:item onItemClick={window.__onLinkClick}>
+<Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
   <ProjectIcon slug={item.slug} size="24" class="$style.icon" />
   <span class="name single-line line-clamp">{item.name}</span>
   <span class="c-waterloo mrg-xs mrg--l">({item.ticker})</span>

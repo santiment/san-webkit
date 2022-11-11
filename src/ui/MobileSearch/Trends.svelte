@@ -24,7 +24,7 @@
   }
 </script>
 
-<Suggestions {items} {loading} {filter} {searchTerm} let:item onItemClick={window.__onLinkClick}>
+<Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
   <img src="{process.env.MEDIA_PATH}/icons/trend-icon.svg" alt="Trend" class="$style.icon" />
   <span class="name single-line line-clamp">{item}</span>
 </Suggestions>
