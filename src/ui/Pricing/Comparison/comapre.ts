@@ -15,19 +15,6 @@ export const COMPARE_TABLE = [
   },
 
   {
-    category: 'API',
-    link: {
-      title: 'Advanced API Plans',
-      url: 'https://api.santiment.net/#pricing',
-    },
-    features: [
-      { name: 'API calls / minute', postfix: ' API calls / min' },
-      { name: 'API calls / hour', postfix: ' API calls / hour' },
-      { name: 'API calls / month', postfix: ' API calls / mo' },
-    ],
-  },
-
-  {
     category: 'Support',
     isCheck: true,
     features: [
@@ -168,10 +155,6 @@ export const FREE_COMPARED_FEATURES = {
   'Bi-weekly report': false,
   'Pro Insights': false,
 
-  'API calls / minute': 100,
-  'API calls / hour': 500,
-  'API calls / month': '1K',
-
   'Priority support': false,
   'Dedicated account manager': false,
   'Custom onboarding & education': false,
@@ -193,10 +176,6 @@ export const FREE_COMPARED_FEATURES = {
 }
 
 export const PRO_COMPARED_FEATURES = {
-  'API calls / minute': 100,
-  'API calls / hour': 1000,
-  'API calls / month': '5K',
-
   'Dedicated account manager': false,
   'Custom onboarding & education': false,
 
@@ -206,11 +185,7 @@ export const PRO_COMPARED_FEATURES = {
   'Custom Alerts': 20,
 }
 
-export const PRO_PLUS_COMPARED_FEATURES = {
-  'API calls / minute': 300,
-  'API calls / hour': 3000,
-  'API calls / month': '300K',
-}
+export const PRO_PLUS_COMPARED_FEATURES = {}
 
 export const PlanFeatures = {
   [Plan.FREE]: FREE_COMPARED_FEATURES,
