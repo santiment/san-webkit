@@ -6,6 +6,7 @@ export enum Tracker {
   GA = 'ga',
   SAN = 'san',
   TWQ = 'twq',
+  AMPLITUDE = 'AMPLITUDE',
 }
 
 const noop = () => {} // eslint-disable-line
@@ -20,7 +21,11 @@ export const isTrackingEnabled =
   process.browser &&
   (process.env.IS_DEV_MODE ? true : process.env.IS_PROD_BACKEND && canTrackBrowser())
 
-const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN]
+const DEFAULT_TRACKERS = [
+  Tracker.GA,
+  Tracker.SAN,
+  // Tracker.AMPLITUDE
+]
 
 type EventData = { [key: string]: string | number | string[] | number[] }
 type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number
@@ -63,6 +68,17 @@ const event: SendEvent = isTrackingEnabled
         trackSanEvent(
           action,
           new Date(date),
+          normalizeData({
+            event_category: category,
+            event_label: label,
+            ...rest,
+          }),
+        )
+      }
+
+      if (trackers.includes(Tracker.AMPLITUDE) && window.amplitude) {
+        window.amplitude.track(
+          action,
           normalizeData({
             event_category: category,
             event_label: label,
