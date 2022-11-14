@@ -67,7 +67,8 @@ onDestroy(() => {
   class:disabled
   class:border={hasBorder}
   on:mousedown|preventDefault={startVote}
-  on:touchstart|preventDefault={startVote}>
+  on:touchstart|preventDefault={startVote}
+>
   <Moon bind:moonNode {mooned} {totalVotes} />
 
   <Rocket bind:rocketNode />

@@ -11,6 +11,7 @@ export declare const CardBrandIllustration: {
         h: number;
     };
 };
+export declare const checkSanDiscount: (sanBalance: number) => boolean;
 export declare function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean): any;
 declare type FormData = {
     name: string;
@@ -22,5 +23,5 @@ export declare function createCardToken(stripe: stripe.Stripe, card: stripe.elem
 }): Promise<stripe.Token>;
 export declare function buyPlan(plan: SAN.Plan, stripe: stripe.Stripe, card: stripe.elements.Element, form: {
     [key: string]: any;
-}, savedCard?: SAN.PaymentCard): Promise<any>;
+}, savedCard?: SAN.PaymentCard, hasSanTokensDiscount?: boolean): Promise<any>;
 export {};

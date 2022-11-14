@@ -1,8 +1,10 @@
 declare namespace SAN {
+  type PlanInterval = 'month' | 'year'
+
   type Plan = {
     id: string | number
     name: string
-    interval: 'month' | 'year'
+    interval: PlanInterval
     amount: number
     isDeprecated: boolean
   }

@@ -18,7 +18,8 @@ export let comments;
 export let votes;
 export let onVote;
 export let titleHoverTooltipClass = '';
-export let hasInfo = true;</script>
+export let hasInfo = true;
+export let source;</script>
 
 {#if title}
   <div class="creation row v-center mrg-m mrg--r">
@@ -55,7 +56,15 @@ export let hasInfo = true;</script>
   </div>
 
   <CommentsButton {...comments} on:click={comments.onClick} class="mrg-s mrg--r" />
-  <VoteButton {id} {type} {votes} {onVote} disabled={!currentUser} class="mrg-xxl mrg--r" />
+  <VoteButton
+    {id}
+    {type}
+    {votes}
+    {source}
+    {onVote}
+    disabled={!currentUser}
+    class="mrg-xxl mrg--r"
+  />
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 

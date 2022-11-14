@@ -1,13 +1,14 @@
 <script>var _a;
 
 import { getPrice, priceFormatter } from './../../utils/plans';
+import { checkSanDiscount } from './utils';
 export let plan;
 export let percentOff = 0;
 export let sanBalance = 0;
 export let isAnnualPlan;
 export let isEligibleForTrial;
 export let annualDiscount;
-const hasSanDiscount = sanBalance >= 1000;
+const hasSanDiscount = checkSanDiscount(sanBalance);
 
 $: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount);
 

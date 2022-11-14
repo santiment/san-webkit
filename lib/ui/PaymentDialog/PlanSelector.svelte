@@ -1,5 +1,6 @@
 <script>var _a;
 
+import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
 import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount } from './../../utils/plans';
@@ -18,6 +19,11 @@ $: altPlan = getAlternativePlan(plan, plans);
 function select(option) {
   plan = option;
   isOpened = false;
+  trackPaymentFormPlanSelect({
+    plan: plan.name,
+    billing: plan.interval,
+    amount: plan.amount
+  });
 }
 
 const SAVED_MSG = 'Save 10% 🎉';</script>

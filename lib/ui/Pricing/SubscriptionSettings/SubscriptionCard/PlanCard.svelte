@@ -1,5 +1,6 @@
 <script>import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName } from './../../../../utils/plans';
 import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
+import { trackPaymentFormOpened } from './../../../../analytics/events/payment';
 import Card from './Card.svelte';
 export let plan;
 export let altPlan = plan;
@@ -10,10 +11,19 @@ export let isEligibleForTrial = false;
 export let isTrial = false;
 export let isUpgrade = false;
 export let shouldHideBillingInfo;
-export let onActionClick = () => showPaymentDialog({
-  plan: plan.name,
-  interval: plan.interval
-});
+export let onActionClick = () => {
+  trackPaymentFormOpened({
+    plan: plan.name,
+    planId: +plan.id,
+    amount: plan.amount,
+    billing: plan.interval,
+    source: 'account-subscription-suggestions'
+  });
+  return showPaymentDialog({
+    plan: plan.name,
+    interval: plan.interval
+  });
+};
 
 $: ({
   name

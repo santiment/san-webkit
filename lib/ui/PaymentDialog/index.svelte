@@ -16,14 +16,15 @@ import { DialogLock } from './../../ui/Dialog/dialogs';
 import { track } from './../../analytics';
 import { PlanName } from './../../utils/plans';
 import { customerData$ } from './../../stores/user';
+import { subscription$ } from './../../stores/subscription';
+import { paymentCard$ } from './../../stores/paymentCard';
+import { trackPaymentFormClosed } from './../../analytics/events/payment';
 import Banner from './Banner.svelte';
 import PayerInfo from './PayerInfo.svelte';
 import SavedCard from './SavedCard.svelte';
 import Confirmation from './Confirmation.svelte';
 import Footer from './Footer.svelte';
-import { buyPlan, getPaymentFormData, mapPlans } from './utils';
-import { subscription$ } from './../../stores/subscription';
-import { paymentCard$ } from './../../stores/paymentCard';
+import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils';
 export let DialogPromise;
 let defaultPlan = Plan.PRO;
 export { defaultPlan as plan };
@@ -85,7 +86,7 @@ function onSubmit({
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;
   const data = getPaymentFormData(currentTarget);
-  buyPlan(plan, $stripe, StripeCard, data, savedCard).then(data => {
+  buyPlan(plan, $stripe, StripeCard, data, savedCard, checkSanDiscount(sanBalance)).then(data => {
     closeDialog();
     onPaymentSuccess(data);
   }).catch(onPaymentError).finally(() => {
@@ -97,9 +98,13 @@ function onSubmit({
 onMount(() => track.event('Payment form opened', {
   category: 'User'
 }));
-onDestroy(paymentCard$.subscribe(value => {
+const unsub = paymentCard$.subscribe(value => {
   savedCard = value;
-}));</script>
+});
+onDestroy(() => {
+  unsub();
+  if (process.browser) trackPaymentFormClosed();
+});</script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">

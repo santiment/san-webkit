@@ -1,5 +1,6 @@
 <script>import { Billing } from './../../utils/plans';
 import { dataPreloader, showPaymentDialog } from './../../ui/PaymentDialog/index.svelte';
+import { trackPaymentFormOpened } from './../../analytics/events/payment';
 import { showPlanChangeDialog } from './PlanChangeDialog.svelte';
 import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils';
 let className = '';
@@ -10,6 +11,7 @@ export let isEligibleForTrial = false;
 export let annualDiscount = {};
 export let isLoggedIn = false;
 export let isFreePlan = false;
+export let source;
 
 $: ({
   id
@@ -62,6 +64,13 @@ function onClick() {
     interval: plan.interval,
     isEligibleForTrial,
     annualDiscount
+  });
+  trackPaymentFormOpened({
+    plan: plan.name,
+    planId: +plan.id,
+    amount: plan.amount,
+    billing: plan.interval,
+    source
   });
 }</script>
 
