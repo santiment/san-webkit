@@ -27,7 +27,9 @@ const DEFAULT_TRACKERS = [
   // Tracker.AMPLITUDE
 ]
 
-type EventData = { [key: string]: string | number | string[] | number[] }
+export type EventData = {
+  [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
+}
 type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number
 const event: SendEvent = isTrackingEnabled
   ? (action, { category, label, ...rest } = {}, trackers = DEFAULT_TRACKERS) => {
