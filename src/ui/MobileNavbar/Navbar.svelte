@@ -67,7 +67,7 @@
 
 <style>
   nav {
-    z-index: 100;
+    z-index: 98;
     position: fixed;
     bottom: 0;
     left: 0;
