@@ -1,6 +1,6 @@
 <script>
   import { Story, Meta } from '@storybook/addon-svelte-csf'
-  import LikeBtn from '@/ui/LikeButton/index.svelte'
+  import LikeBtn from '@/ui/LikeButton/LikeButton.svelte'
 </script>
 
 <Meta title="Example/LikeButton" />

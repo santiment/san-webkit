@@ -1,16 +1,10 @@
-<script context="module" lang="ts">
-  export type Votes = {
-    totalVotes: number
-    userVotes: number
-  }
-
-  export const newVotes = () => ({ totalVotes: 0, userVotes: 0 })
-</script>
-
 <script lang="ts">
-  import { vote, VoteType } from '@/api/vote'
+  import type { Votes } from '../LikeButton/index.svelte'
+
+  import { VoteType } from '@/api/vote'
   import LikeButton from '@/ui/LikeButton/svelte'
   import { CreationType } from '@/ui/Profile/types'
+  import { newVotes } from '../LikeButton/index.svelte'
 
   let className = ''
   export { className as class }
@@ -19,31 +13,21 @@
   export let disabled = false
   export let votes: Votes = newVotes()
   export let onVote
+  export let source: string
 
-  function onClick() {
-    onVote?.()
-    vote(id, getVoteType()).catch(() => {
-      votes.totalVotes -= 1
-      votes.userVotes -= 1
-    })
-  }
-
-  function getVoteType() {
-    switch (type) {
-      case CreationType.Layout:
-        return VoteType.Layout
-      case CreationType.Watchlist:
-        return VoteType.Watchlist
-      case CreationType.Dashboard:
-        return VoteType.Dashboard
-    }
+  const CreationVoteType = {
+    [CreationType.Layout]: VoteType.Layout,
+    [CreationType.Watchlist]: VoteType.Watchlist,
+    [CreationType.Dashboard]: VoteType.Dashboard,
   }
 </script>
 
 <LikeButton
-  onVote={onClick}
+  type={CreationVoteType[type]}
+  {id}
+  {onVote}
   {disabled}
   class={className}
-  bind:userVotes={votes.userVotes}
-  bind:totalVotes={votes.totalVotes}
+  {source}
+  bind:votes
 />

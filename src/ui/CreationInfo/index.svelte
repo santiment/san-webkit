@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { CreationType } from '@/ui/Profile/types'
-  import type { Votes } from './VoteButton.svelte'
+  import type { Votes } from '@/ui/LikeButton/index.svelte'
+
   import Profile from '@/ui/Profile/svelte'
   import ProfilePic from '@/ui/Profile/Pic.svelte'
   import Info from '@/ui/Profile/Info.svelte'
@@ -27,6 +28,7 @@
   export let onVote
   export let titleHoverTooltipClass = ''
   export let hasInfo = true
+  export let source: string
 </script>
 
 {#if title}
@@ -64,7 +66,15 @@
   </div>
 
   <CommentsButton {...comments} on:click={comments.onClick} class="mrg-s mrg--r" />
-  <VoteButton {id} {type} {votes} {onVote} disabled={!currentUser} class="mrg-xxl mrg--r" />
+  <VoteButton
+    {id}
+    {type}
+    {votes}
+    {source}
+    {onVote}
+    disabled={!currentUser}
+    class="mrg-xxl mrg--r"
+  />
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 
