@@ -22,12 +22,21 @@ export function trackLogin(type: LoginType) {
     month: date.getMonth() + 1,
     year: date.getFullYear(),
     timestamp: +date,
+    source_url: window.location.href,
   })
 }
 
-export const trackLogout = () => track('logout', { timestamp: Date.now() })
+export const trackLogout = () =>
+  track('logout', {
+    timestamp: Date.now(),
+    source_url: window.location.href,
+  })
 
-export const trackError = (data: any) => track('error', data)
+export const trackError = (data: any) =>
+  track('error', {
+    ...data,
+    source_url: window.location.href,
+  })
 
 export enum PageType {
   CHARTS = 'charts',

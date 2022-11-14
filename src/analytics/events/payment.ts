@@ -7,7 +7,7 @@ export enum CurrencyType {
 }
 
 export const trackPaymentFormOpened = (currency = CurrencyType.USD) =>
-  track('payment_form_opened', { currency })
+  track('payment_form_opened', { currency, source_url: window.location.href })
 
 export const trackPaymentFormSubmitted = ({
   amount,
@@ -32,7 +32,8 @@ export const trackPaymentFormSubmitted = ({
     subscription_tier,
     timeframe,
     san_tokens_discount,
+    source_url: window.location.href,
   })
 
 export const trackPaymentSuccess = (payment_success: boolean) =>
-  track('payment_success', { payment_success })
+  track('payment_success', { payment_success, source_url: window.location.href })
