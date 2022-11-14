@@ -6,11 +6,14 @@ import { customerData$ } from '@/stores/user'
 import { notifications$ } from '@/ui/Notifications'
 import { subscription$ } from '@/stores/subscription'
 import { paymentCard$ } from '@/stores/paymentCard'
+import { trackPaymentFormSubmitted, trackPaymentSuccess } from '@/analytics/events/payment'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
   Visa: { id: 'visa', w: 46.5, h: 16 },
 }
+
+export const checkSanDiscount = (sanBalance: number) => sanBalance >= 1000
 
 export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }
@@ -48,8 +51,20 @@ export function getPaymentFormData(form: HTMLFormElement) {
   return data
 }
 
-function submitPayment(plan: SAN.Plan, discount: any, cardTokenId?: string) {
-  track.event('Payment form submitted', { category: 'User' })
+function submitPayment(
+  plan: SAN.Plan,
+  discount: any,
+  cardTokenId?: string,
+  hasSanTokensDiscount = false,
+) {
+  // track.event('Payment form submitted', { category: 'User' })
+  trackPaymentFormSubmitted({
+    plan: plan.name,
+    amount: plan.amount,
+    billing: plan.interval,
+    promocode: discount,
+    hasSanTokensDiscount,
+  })
   return mutateSubscribe(cardTokenId, +plan.id, discount)
 }
 
@@ -71,13 +86,14 @@ export function buyPlan(
   card: stripe.elements.Element,
   form: { [key: string]: any },
   savedCard?: SAN.PaymentCard,
+  hasSanTokensDiscount = false,
 ) {
   const { discount, ...checkoutInfo } = form
 
   const promise = savedCard
-    ? submitPayment(plan, discount)
+    ? submitPayment(plan, discount, undefined, hasSanTokensDiscount)
     : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        return submitPayment(plan, discount, token.id)
+        return submitPayment(plan, discount, token.id, hasSanTokensDiscount)
       })
 
   return promise.then(onPaymentSuccess).catch(onPaymentError)
@@ -100,7 +116,8 @@ function onPaymentSuccess(data) {
     [Tracker.TWQ],
   )
 
-  track.event('Payment success', { category: 'User' })
+  // track.event('Payment success', { category: 'User' })
+  trackPaymentSuccess()
 
   notifications$.show({
     type: 'success',

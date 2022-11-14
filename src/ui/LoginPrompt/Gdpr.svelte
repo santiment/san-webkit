@@ -6,6 +6,7 @@
   import FieldTooltip from '@/ui/FieldTooltip/svelte'
   import Checkbox from '@/ui/Checkbox.svelte'
   import InputWithIcon from '@/ui/InputWithIcon.svelte'
+  import { trackGdprAccept } from '@/analytics/events/onboarding'
   import Section from './Section.svelte'
 
   export let onAccept
@@ -52,7 +53,10 @@
 
     usernamePromise
       .catch(onUsernameChangeError)
-      .then(() => mutateGdpr(true))
+      .then(() => {
+        trackGdprAccept(true)
+        return mutateGdpr(true)
+      })
       .then(() => (currentUser.privacyPolicyAccepted = true))
       .then(onAccept)
       .catch(console.error)

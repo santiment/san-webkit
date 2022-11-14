@@ -18,8 +18,7 @@ function canTrackBrowser() {
 }
 
 export const isTrackingEnabled =
-  process.browser &&
-  (process.env.IS_DEV_MODE ? true : process.env.IS_PROD_BACKEND && canTrackBrowser())
+  process.browser && (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true)
 
 const DEFAULT_TRACKERS = [
   Tracker.GA,
@@ -27,11 +26,13 @@ const DEFAULT_TRACKERS = [
   // Tracker.AMPLITUDE
 ]
 
-type EventData = { [key: string]: string | number | string[] | number[] }
+export type EventData = {
+  [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
+}
 type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number
 const event: SendEvent = isTrackingEnabled
   ? (action, { category, label, ...rest } = {}, trackers = DEFAULT_TRACKERS) => {
-      if (process.env.IS_DEV_MODE) {
+      if (process.env.IS_DEV_MODE || process.env.IS_PROD_BACKEND === false) {
         const dnt = canTrackBrowser() ? '' : ' (DNT)'
         console.log(
           '%c[DEV ONLY] Analytics' + dnt,

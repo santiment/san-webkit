@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Billing } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
+  import { trackPaymentFormOpened } from '@/analytics/events/payment'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
   import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils'
 
@@ -12,6 +13,7 @@
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let isLoggedIn = false
   export let isFreePlan = false
+  export let source: string
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn
@@ -54,6 +56,13 @@
       interval: plan.interval,
       isEligibleForTrial,
       annualDiscount,
+    })
+    trackPaymentFormOpened({
+      plan: plan.name,
+      planId: +plan.id,
+      amount: plan.amount,
+      billing: plan.interval,
+      source,
     })
   }
 </script>

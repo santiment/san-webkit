@@ -71,6 +71,7 @@
     {isLoggedIn}
     {isFreePlan}
     class="mrg-l mrg--t mrg--b"
+    source="pricing-card"
   />
 
   {#each features as feature}
