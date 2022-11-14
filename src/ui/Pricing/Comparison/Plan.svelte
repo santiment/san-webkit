@@ -33,6 +33,7 @@
     {isFreePlan}
     subscription={$subscription$}
     class="mrg-m mrg--t"
+    source="pricing-compare-table"
   />
 </div>
 

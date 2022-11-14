@@ -1,3 +1,4 @@
+import type { Billing } from '@/utils/plans'
 import { TrackCategory } from './utils'
 
 const track = TrackCategory('Payment')
@@ -6,21 +7,43 @@ export enum CurrencyType {
   USD = 'USD',
 }
 
-export const trackPaymentFormOpened = (currency = CurrencyType.USD) =>
-  track('payment_form_opened', { currency, source_url: window.location.href })
+export const trackPaymentFormOpened = ({
+  plan,
+  planId,
+  amount,
+  billing,
+  source,
+  currency = CurrencyType.USD,
+}: {
+  plan: string
+  planId: number
+  amount: number
+  billing: SAN.PlanInterval
+  currency?: CurrencyType
+  source: string
+}) =>
+  track('payment_form_opened', {
+    plan,
+    plan_id: planId,
+    amount,
+    billing,
+    source,
+    currency,
+    source_url: window.location.href,
+  })
 
 export const trackPaymentFormSubmitted = ({
   amount,
   promocode,
-  subscription_tier,
-  timeframe,
+  plan,
+  billing,
   currency = CurrencyType.USD,
   san_tokens_discount = false,
 }: {
   amount: number
   promocode?: string
-  subscription_tier: string
-  timeframe: 'monthly' | 'yearly'
+  plan: string
+  billing: Billing
   currency: CurrencyType
   san_tokens_discount: boolean
 }) =>
@@ -29,8 +52,8 @@ export const trackPaymentFormSubmitted = ({
     // method,
     amount,
     promocode,
-    subscription_tier,
-    timeframe,
+    plan,
+    billing,
     san_tokens_discount,
     source_url: window.location.href,
   })
