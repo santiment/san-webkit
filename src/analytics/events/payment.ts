@@ -40,14 +40,14 @@ export const trackPaymentFormSubmitted = ({
   plan,
   billing,
   currency = CurrencyType.USD,
-  san_tokens_discount = false,
+  hasSanTokensDiscount = false,
 }: {
   amount: number
   promocode?: string
   plan: string
-  billing: Billing
-  currency: CurrencyType
-  san_tokens_discount: boolean
+  billing: SAN.PlanInterval
+  currency?: CurrencyType
+  hasSanTokensDiscount: boolean
 }) =>
   track('payment_form_submitted', {
     currency,
@@ -56,9 +56,28 @@ export const trackPaymentFormSubmitted = ({
     promocode,
     plan,
     billing,
-    san_tokens_discount,
+    san_tokens_discount: hasSanTokensDiscount,
     source_url: window.location.href,
   })
 
-export const trackPaymentSuccess = (payment_success: boolean) =>
-  track('payment_success', { payment_success, source_url: window.location.href })
+export const trackPaymentSuccess = () =>
+  track('payment_success', { source_url: window.location.href })
+
+export const trackPaymentFormPlanSelect = ({
+  amount,
+  plan,
+  billing,
+  currency = CurrencyType.USD,
+}: {
+  amount: number
+  plan: string
+  billing: SAN.PlanInterval
+  currency?: CurrencyType
+}) =>
+  track('payment_form_plan_select', {
+    currency,
+    amount,
+    plan,
+    billing,
+    source_url: window.location.href,
+  })

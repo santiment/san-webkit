@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getPrice, priceFormatter } from '@/utils/plans'
+  import { checkSanDiscount } from './utils'
 
   export let plan: SAN.Plan
   export let percentOff = 0
@@ -8,7 +9,7 @@
   export let isEligibleForTrial: boolean
   export let annualDiscount: SAN.AnnualDiscount
 
-  const hasSanDiscount = sanBalance >= 1000
+  const hasSanDiscount = checkSanDiscount(sanBalance)
 
   $: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount)
   $: discountPercentOff =

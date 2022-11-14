@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trackPaymentFormPlanSelect } from '@/analytics/events/payment'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import {
@@ -25,6 +26,12 @@
   function select(option) {
     plan = option
     isOpened = false
+
+    trackPaymentFormPlanSelect({
+      plan: plan.name,
+      billing: plan.interval,
+      amount: plan.amount,
+    })
   }
 
   const SAVED_MSG = 'Save 10% 🎉'

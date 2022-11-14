@@ -27,7 +27,7 @@
   import SavedCard from './SavedCard.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
-  import { buyPlan, getPaymentFormData, mapPlans } from './utils'
+  import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -82,7 +82,14 @@
     DialogPromise.locking = DialogLock.LOCKED
     const data = getPaymentFormData(currentTarget)
 
-    buyPlan(plan, $stripe as stripe.Stripe, StripeCard, data, savedCard)
+    buyPlan(
+      plan,
+      $stripe as stripe.Stripe,
+      StripeCard,
+      data,
+      savedCard,
+      checkSanDiscount(sanBalance),
+    )
       .then((data) => {
         closeDialog()
         onPaymentSuccess(data)
