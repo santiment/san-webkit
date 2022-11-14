@@ -1,8 +1,8 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
 
-  export let title = ''
-  export let icon = ''
+  export let title
+  export let icon
   export let active = false
   export let tag = 'a'
 </script>
@@ -14,7 +14,7 @@
   on:click
   class:active
 >
-  <Svg id={icon} w="20" h="20" class="icon" />
+  <Svg id={icon} w="20" class="icon" />
   {title}
 </svelte:element>
 

@@ -35,10 +35,6 @@
   export let isMenuOpened = false
 
   $: isMenuOpened = (path, false)
-  $: links = links.map(({ href, slug = '', ...rest }) => ({
-    href: href + slug,
-    ...rest,
-  }))
 
   function onMenuClick() {
     isMenuOpened = !isMenuOpened
@@ -51,8 +47,10 @@
 
 <nav class="fluid row justify v-center">
   {#each links as link}
+    {@const { href, slug = '' } = link}
     <NavItem
       {...link}
+      href={href + slug}
       active={!isMenuOpened && path.startsWith(link.href)}
       on:click={window.__onLinkClick}
     />
@@ -67,7 +65,7 @@
   />
 </nav>
 
-<style lang="scss">
+<style>
   nav {
     z-index: 100;
     position: fixed;
