@@ -7,6 +7,8 @@ export enum CurrencyType {
   USD = 'USD',
 }
 
+export const trackPaymentFormClosed = () => track('payment_form_closed')
+
 export const trackPaymentFormOpened = ({
   plan,
   planId,

@@ -19,14 +19,15 @@
   import { track } from '@/analytics'
   import { PlanName } from '@/utils/plans'
   import { customerData$ } from '@/stores/user'
+  import { subscription$ } from '@/stores/subscription'
+  import { paymentCard$ } from '@/stores/paymentCard'
+  import { trackPaymentFormClosed } from '@/analytics/events/payment'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import SavedCard from './SavedCard.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, getPaymentFormData, mapPlans } from './utils'
-  import { subscription$ } from '@/stores/subscription'
-  import { paymentCard$ } from '@/stores/paymentCard'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -95,11 +96,13 @@
 
   onMount(() => track.event('Payment form opened', { category: 'User' }))
 
-  onDestroy(
-    paymentCard$.subscribe((value) => {
-      savedCard = value
-    }),
-  )
+  const unsub = paymentCard$.subscribe((value) => {
+    savedCard = value
+  })
+  onDestroy(() => {
+    unsub()
+    if (process.browser) trackPaymentFormClosed()
+  })
 </script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
