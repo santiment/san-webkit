@@ -6,7 +6,14 @@ export const trackAppOpen = () => track('app_open')
 
 export const trackAppClose = () => track('app_close')
 
-export function trackLogin(type: string) {
+export enum LoginType {
+  EMAIL = 'email',
+  METAMASK = 'metamask',
+  GOOGLE = 'google',
+  TWITTER = 'twitter',
+  WALLET = 'wallet',
+}
+export function trackLogin(type: LoginType) {
   const date = new Date()
 
   return track('login', {
@@ -18,14 +25,26 @@ export function trackLogin(type: string) {
   })
 }
 
-export const trackLogout = () => track('logout', { timestramp: Date.now() })
+export const trackLogout = () => track('logout', { timestamp: Date.now() })
 
 export const trackError = (data: any) => track('error', data)
 
-// TODO
-export const trackPageView = ({ id, page_type, pageview_source }) =>
-  track('page_view', {
-    id,
-    page_type,
-    pageview_source,
-  })
+export enum PageType {
+  CHARTS = 'charts',
+  DASHBOARDS = 'dashboards',
+  WATCHLIST = 'watchlist',
+  SCREENER = 'screener',
+  ALERTS = 'alerts',
+  INSIGHTS = 'insights',
+  PROFILE = 'profile',
+  ACCOUNT = 'account',
+}
+export const trackPageView = ({
+  url = window.location.href,
+  type,
+  source,
+}: {
+  url: string
+  type: PageType
+  source: PageType
+}) => track('page_view', { url, type, source })

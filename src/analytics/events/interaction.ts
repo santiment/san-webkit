@@ -2,37 +2,34 @@ import { TrackCategory } from './utils'
 
 const track = TrackCategory('Interaction')
 
-export const trackLike = ({ liked_feature, liked_source }) =>
-  track('like', {
-    liked_feature,
-    liked_source,
-  })
+export const trackLike = ({
+  id,
+  feature,
+  source,
+}: {
+  id: number
+  feature: string
+  source: string
+}) => track('like', { id, feature, source })
 
-export const trackSaveCSV = ({ save_csv_source, liked_content_id }) =>
-  track('save_csv', {
-    save_csv_source,
-    liked_content_id,
-  })
+export const trackSaveCSV = ({ id, source }) => track('save_csv', { id, source })
 
-export const trackComment = ({ commented_feature, commented_feature_id, is_reply }) =>
+export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
   track('comment', {
-    commented_feature,
-    commented_feature_id,
-    is_reply,
-  })
-
-export const trackFormOpen = ({ shared_from }) => track('share_form_open', { shared_from })
-
-export const trackFormSubmit = ({ shared_to }) => track('share_form_submit', { shared_to })
-
-export const trackShareLinkCopy = ({ share_link_id }) => track('share_link_copy', { share_link_id })
-
-export const trackFollowUser = ({ id, user_name, click_source }) =>
-  track('follow_user', { id, user_name, click_source })
-
-export const trackProfileClick = ({ id, user_name, click_source }) =>
-  track('user_profile_click', {
     id,
-    user_name,
-    click_source,
+    type,
+    replied_to: repliedTo,
+    is_reply: isReply,
   })
+
+export const trackFormOpen = (type: string) => track('share_form_open', { type })
+
+export const trackFormSubmit = (shared_to: string) => track('share_form_submit', { shared_to })
+
+export const trackShareLinkCopy = (url: string) => track('share_link_copy', { url })
+
+export const trackFollowUser = ({ id, username, source }) =>
+  track('follow_user', { id, username, source })
+
+export const trackProfileClick = ({ id, username, source }) =>
+  track('user_profile_click', { id, username, source })
