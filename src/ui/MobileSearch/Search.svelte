@@ -8,6 +8,7 @@
   import { FILTER_ITEMS } from './utils'
 
   export let show = true
+
   let searchTerm = ''
   let filter = FILTER_ITEMS.Assets
 </script>
@@ -28,9 +29,9 @@
   </section>
 {/if}
 
-<style lang="scss">
+<style>
   section {
-    background-color: var(--white);
+    background: var(--white);
     height: 100vh;
     width: 100%;
     position: fixed;

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { queryPeople } from '@/api/people'
   import ProfilePic from '@/ui/Profile/Pic.svelte'
   import Suggestions from './Suggestions.svelte'
+  import { queryPeople } from './api'
 
   export let searchTerm
   export let filter
@@ -25,7 +25,7 @@
 
 <Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
   <ProfilePic src={item.avatar_url} placeholderWidth="24" class="$style.icon" />
-  <span class="name single-line line-clamp">
+  <span class="name single-line">
     @{item.username}
   </span>
 </Suggestions>

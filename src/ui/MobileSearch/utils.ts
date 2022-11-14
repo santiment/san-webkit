@@ -1,16 +1,10 @@
+import { getSEOLinkFromIdAndTitle } from '@/utils/url'
+
 export enum FILTER_ITEMS {
   Assets = 'Assets',
   Trends = 'Trends',
   Insights = 'Insights',
   People = 'People',
-}
-
-export function getSEOLinkFromIdAndTitle({ id, title }) {
-  if (!title) {
-    return id
-  }
-
-  return encodeURIComponent(encodeURIComponent(`${title.toLowerCase().split(' ').join('-')}-${id}`))
 }
 
 export function getItemLink(item, filter) {

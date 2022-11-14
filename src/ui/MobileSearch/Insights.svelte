@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { queryInsights } from '@/api/insights'
   import Suggestions from './Suggestions.svelte'
+  import { queryInsights } from './api'
 
   export let searchTerm
   export let filter
@@ -20,8 +20,10 @@
 </script>
 
 <Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
-  <img src="{process.env.MEDIA_PATH}/icons/insight-icon.svg" alt="Insight" class="$style.icon" />
-  <span class="name single-line line-clamp">{item.title}</span>
+  <div class="wrapper row hv-center">
+    <img src="{process.env.MEDIA_PATH}/icons/description-filled.svg" alt="Insights" class="icon" />
+  </div>
+  <span class="name line-clamp">{item.title}</span>
 </Suggestions>
 
 <style>
@@ -29,9 +31,16 @@
     display: block;
   }
 
-  .icon {
+  .wrapper {
+    min-width: 24px;
     height: 24px;
-    width: 24px;
+    background: var(--orange-light-1);
+    border-radius: 24px;
     margin-right: 10px;
+  }
+
+  .icon {
+    width: 11px;
+    height: 13px;
   }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { queryTrends } from '@/api/trends'
+  import Svg from '@/ui/Svg/svelte'
   import Suggestions from './Suggestions.svelte'
+  import { queryTrends } from './api'
 
   export let searchTerm
   export let filter
@@ -25,8 +26,10 @@
 </script>
 
 <Suggestions {items} {loading} {filter} let:item onItemClick={window.__onLinkClick}>
-  <img src="{process.env.MEDIA_PATH}/icons/trend-icon.svg" alt="Trend" class="$style.icon" />
-  <span class="name single-line line-clamp">{item}</span>
+  <div class="wrapper row hv-center">
+    <Svg id="fire-filled" w="11" h="14" class="$style.icon" />
+  </div>
+  <span class="name single-line">{item}</span>
 </Suggestions>
 
 <style>
@@ -34,9 +37,15 @@
     display: block;
   }
 
-  .icon {
+  .wrapper {
+    min-width: 24px;
     height: 24px;
-    width: 24px;
+    background: var(--blue-light-1);
+    border-radius: 24px;
     margin-right: 10px;
+  }
+
+  .icon {
+    fill: var(--blue);
   }
 </style>

@@ -10,10 +10,12 @@
   let projects = [] as any[]
   let items = projects
 
-  queryProjects().then((data) => {
-    projects = data
-    loading = false
-  })
+  if (process.browser) {
+    queryProjects().then((data) => {
+      projects = data
+      loading = false
+    })
+  }
 
   $: projects, onInput(searchTerm)
 

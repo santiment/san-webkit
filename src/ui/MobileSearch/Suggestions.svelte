@@ -6,11 +6,6 @@
   export let loading = false
   export let filter
   export let onItemClick = (event, item) => {}
-
-  function handleItemClick(event, item) {
-    event.preventDefault()
-    onItemClick(event, item)
-  }
 </script>
 
 <div class="wrapper column mrg-xxl mrg--t mrg--b">
@@ -19,7 +14,7 @@
     <a
       class="btn body-2 fluid row v-center"
       {href}
-      on:click={(event) => handleItemClick(event, item)}
+      on:click|preventDefault={(event) => onItemClick(event, item)}
     >
       <slot {item} />
     </a>
