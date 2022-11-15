@@ -6,7 +6,7 @@
 
   export const newVotes = () => ({ totalVotes: 0, userVotes: 0 })
 
-  const VoteTypeFeature: { [K in VoteType]: string } = {
+  export const VoteTypeFeature: { [K in VoteType]: string } = {
     [VoteType.Insight]: 'insight',
     [VoteType.Dashboard]: 'dashboard',
     [VoteType.Watchlist]: 'watchlist',
