@@ -23,7 +23,7 @@
       class="$style.input body-2"
     >
       <div class="search row hv-center" slot="left">
-        <Svg id="search" w="16" />
+        <Svg id="search" w="12" />
       </div>
       {#if searchTerm}
         <button class="btn close row hv-center" on:click={() => (searchTerm = '')}>
@@ -53,9 +53,11 @@
   }
 
   .search {
+    height: 16px;
+    width: 16px;
     position: absolute;
     top: 11px;
-    left: 12px;
+    left: 11px;
     fill: var(--waterloo);
   }
 
