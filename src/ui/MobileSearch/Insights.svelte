@@ -1,6 +1,6 @@
 <script lang="ts">
   import Suggestions from './Suggestions.svelte'
-  import { queryInsights } from './api'
+  import { queryInsights, queryInsightsBySearchTerm } from './api'
 
   export let searchTerm
   export let filter
@@ -8,11 +8,19 @@
   let loading = true
   let items = [] as any[]
 
-  $: searchTerm, onInput(searchTerm)
+  $: searchTerm ? onInput(searchTerm) : getInsights()
 
   function onInput(searchTerm: string) {
     loading = true
-    queryInsights(searchTerm).then((data) => {
+    queryInsightsBySearchTerm(searchTerm).then((data) => {
+      items = data
+      loading = false
+    })
+  }
+
+  function getInsights() {
+    loading = true
+    queryInsights().then((data) => {
       items = data
       loading = false
     })

@@ -10,10 +10,12 @@
   let trends = [] as any[]
   let items = trends
 
-  queryTrends().then((data) => {
-    trends = data
-    loading = false
-  })
+  if (process.browser) {
+    queryTrends().then((data) => {
+      trends = data
+      loading = false
+    })
+  }
 
   $: trends, onInput(searchTerm)
 
@@ -22,6 +24,10 @@
     items = trends.filter((word) => {
       return word.toLowerCase().includes(value)
     })
+
+    if (items.length === 0) {
+      items = [searchTerm]
+    }
   }
 </script>
 

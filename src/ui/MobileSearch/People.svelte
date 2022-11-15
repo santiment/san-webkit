@@ -10,10 +10,12 @@
   let people = [] as any[]
   let items = people
 
-  queryPeople().then((data) => {
-    people = data
-    loading = false
-  })
+  if (process.browser) {
+    queryPeople().then((data) => {
+      people = data
+      loading = false
+    })
+  }
 
   $: people, onInput(searchTerm)
 

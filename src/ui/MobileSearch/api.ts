@@ -1,13 +1,13 @@
 import { query } from '@/api'
 
-const INSIGHTS_QUERY = (searchTerm) => `{
+const INSIGHTS_BY_SEARCH_TERM_QUERY = (searchTerm) => `{
     allInsightsBySearchTerm(searchTerm: "${searchTerm}") {
         id
         title
     }
 }`
 
-type InsightsQuery = SAN.API.Query<
+type InsightsBySearchTermQuery = SAN.API.Query<
   'allInsightsBySearchTerm',
   {
     id: string
@@ -15,11 +15,33 @@ type InsightsQuery = SAN.API.Query<
   }[]
 >
 
-const insightsAccessor = ({ allInsightsBySearchTerm }: InsightsQuery) => {
+const insightsBySearchTermAccessor = ({ allInsightsBySearchTerm }: InsightsBySearchTermQuery) => {
   return allInsightsBySearchTerm || ([] as any[])
 }
-export const queryInsights = (searchTerm) =>
-  query<InsightsQuery>(INSIGHTS_QUERY(searchTerm)).then(insightsAccessor)
+export const queryInsightsBySearchTerm = (searchTerm) =>
+  query<InsightsBySearchTermQuery>(INSIGHTS_BY_SEARCH_TERM_QUERY(searchTerm)).then(
+    insightsBySearchTermAccessor,
+  )
+
+const INSIGHTS_QUERY = () => `{
+    allInsights(page: 1, pageSize: 50, from: "utc_now-7d", to: "utc_now") {
+        id
+        title
+    }
+}`
+
+type InsightsQuery = SAN.API.Query<
+  'allInsights',
+  {
+    id: string
+    title: string
+  }[]
+>
+
+const insightsAccessor = ({ allInsights }: InsightsQuery) => {
+  return allInsights || ([] as any[])
+}
+export const queryInsights = () => query<InsightsQuery>(INSIGHTS_QUERY()).then(insightsAccessor)
 
 const PEOPLE_QUERY = `{
     popularInsightAuthors {
