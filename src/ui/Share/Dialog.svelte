@@ -86,7 +86,6 @@
     <button
       class="copy btn row hv-center fluid expl-tooltip"
       aria-label={copyLabel}
-      class:disabled
       on:click|preventDefault={onCopy}
     >
       <Svg id="link" w="16" class="$style.copy-icon mrg-m mrg--r" />
