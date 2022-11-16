@@ -24,10 +24,11 @@ export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
     source_url: window.location.href,
   })
 
-export const trackFormOpen = (type: string) =>
-  track('share_form_open', { type, source_url: window.location.href })
+export const trackShareFormOpen = (source: string) =>
+  track('share_form_open', { source, source_url: window.location.href })
 
-export const trackFormSubmit = (shared_to: string) => track('share_form_submit', { shared_to })
+export const trackShareFormSubmit = ({ url, media }) =>
+  track('share_form_submit', { url, media, source_url: window.location.href })
 
 export const trackShareLinkCopy = (url: string) =>
   track('share_link_copy', { url, source_url: window.location.href })

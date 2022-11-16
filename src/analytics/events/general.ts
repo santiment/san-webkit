@@ -57,6 +57,9 @@ export enum PageType {
   INSIGHTS = 'insights',
   PROFILE = 'profile',
   ACCOUNT = 'account',
+  SOCIAL_TOOL = 'social_tool',
+  HISTORICAL_BALANCE = 'historical_balance',
+  LABS = 'labs',
 }
 export const trackPageView = ({
   url = window.location.href,

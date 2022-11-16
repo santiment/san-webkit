@@ -20,11 +20,7 @@ function canTrackBrowser() {
 export const isTrackingEnabled =
   process.browser && (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true)
 
-const DEFAULT_TRACKERS = [
-  Tracker.GA,
-  Tracker.SAN,
-  // Tracker.AMPLITUDE
-]
+const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE]
 
 export type EventData = {
   [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
