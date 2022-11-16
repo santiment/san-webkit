@@ -60,13 +60,10 @@
   <section class="column body-2 mrg-a mrg--t">
     {#if user}
       {@const accountLink = isFullLink ? getFullLink('/account') : '/account'}
-      <Profile {user} class="$style.profile">
-        <svelte:fragment slot="name">
-          <div class="mrg-xs mrg--l">
-            <div class="txt-m">@{user.username}</div>
-            <div class="body-3 c-waterloo">{user.email}</div>
-          </div>
-        </svelte:fragment>
+      <Profile {user} class="$style.profile txt-m">
+        {#if user.username && user.email}
+          <div class="body-3 txt-r c-waterloo">{user.email}</div>
+        {/if}
       </Profile>
       <a href={accountLink} on:click={window.__onLinkClick} class="btn-2 row hv-center">
         Account settings
@@ -82,14 +79,12 @@
 
 <style lang="scss">
   nav {
-    overflow-y: auto;
-    height: calc(100vh - 155px);
     z-index: 100;
     position: fixed;
-    margin-top: 73px;
-    margin-bottom: 83px;
+    top: 73px;
+    bottom: 83px;
     padding: 24px 40px 32px;
-    background-color: var(--white);
+    background: var(--white);
   }
 
   section {
