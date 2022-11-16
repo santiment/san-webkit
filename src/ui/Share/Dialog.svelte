@@ -76,14 +76,7 @@
         <div class="action row v-center justify">
           {isPublic ? 'Public' : 'Private'}
           {shareType}
-          <Toggle
-            isActive={isPublic}
-            on:click={() => {
-              onChangePrivacy()
-              isPublic = !isPublic
-            }}
-            big
-          />
+          <Toggle isActive={isPublic} on:click={onChangePrivacy} big />
         </div>
       </div>
     {/if}
