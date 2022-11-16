@@ -15,6 +15,9 @@ export const trackVote = ({
 export const trackSaveCSV = ({ id, source }) =>
   track('save_csv', { id, source, source_url: window.location.href })
 
+export const trackShowComments = ({ id, source }: { id: number | string; source: string }) =>
+  track('show_comments', { id, source, source_url: window.location.href })
+
 export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
   track('comment', {
     id,
@@ -24,16 +27,24 @@ export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
     source_url: window.location.href,
   })
 
-export const trackFormOpen = (type: string) =>
-  track('share_form_open', { type, source_url: window.location.href })
+export const trackShareFormOpen = (source: string) =>
+  track('share_form_open', { source, source_url: window.location.href })
 
-export const trackFormSubmit = (shared_to: string) => track('share_form_submit', { shared_to })
+export const trackShareFormSubmit = ({ url, media }) =>
+  track('share_form_submit', { url, media, source_url: window.location.href })
 
-export const trackShareLinkCopy = (url: string) =>
-  track('share_link_copy', { url, source_url: window.location.href })
+export const trackShareLinkCopy = ({ url, source }) =>
+  track('share_link_copy', { url, source, source_url: window.location.href })
 
 export const trackFollowUser = ({ id, username, source }) =>
   track('follow_user', { id, username, source, source_url: window.location.href })
 
-export const trackProfileClick = ({ id, username, source }) =>
-  track('user_profile_click', { id, username, source, source_url: window.location.href })
+export const trackProfileClick = ({
+  id,
+  username,
+  source,
+}: {
+  id: number
+  username?: string
+  source: string
+}) => track('user_profile_click', { id, username, source, source_url: window.location.href })

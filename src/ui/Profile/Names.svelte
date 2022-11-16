@@ -10,7 +10,7 @@
   $: subtitle = followers >= 0 ? `${followers} Followers` : email
 </script>
 
-<Profile {user} class="txt-m {className}">
+<Profile {user} source="profile_info_tooltip" class="txt-m {className}">
   <svelte:fragment slot="name">
     <div>
       <div class="caption body-3  txt-r">@{username}</div>

@@ -1,13 +1,18 @@
 import type { LoginType } from './general'
-import { TrackCategory } from './utils'
+
+import { saveLoginMethod, TrackCategory } from './utils'
 
 const track = TrackCategory('Onboarding')
 
-export const trackSignupStart = (type: LoginType) =>
-  track('signup_start', {
-    type, //wallet, email
+export function trackSignupStart(method: LoginType) {
+  saveLoginMethod(method)
+  return track('signup_start', {
+    method, //wallet, email
+    source_url: window.location.href,
   })
+}
 
-export const trackSignupFinish = () => track('signup_finish')
+export const trackSignupFinish = (method: LoginType) => track('signup_finish', { method })
 
-export const trackGdprAccept = (accepted: boolean) => track('gdpr_accept', { accepted })
+export const trackGdprAccept = (accepted: boolean) =>
+  track('gdpr_accept', { accepted, source_url: window.location.href })

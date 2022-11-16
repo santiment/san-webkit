@@ -1,19 +1,27 @@
 <script lang="ts">
+  import { trackProfileClick } from '@/analytics/events/interaction'
   import Pic from './Pic.svelte'
 
   let className = ''
   export { className as class }
   export let user: SAN.Author
   export let isTagName = true
+  export let source: string
 
   $: if (isTagName && user.username === 'anonymous') isTagName = false
+
+  function onClick(e) {
+    trackProfileClick({
+      id: user.id,
+      username: user.username || undefined,
+      source,
+    })
+
+    window.__onLinkClick?.(e)
+  }
 </script>
 
-<a
-  class="row v-center c-black {className}"
-  href="/profile/{user.id}"
-  on:click={window.__onLinkClick}
->
+<a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
   <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" />
 
   <span>

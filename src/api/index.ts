@@ -35,9 +35,15 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
   requestOptions?: SAN.API.RequestOptions,
 ): Promise<T> {
   if (process.env.IS_DEV_MODE) {
+    const key = getCacheScheme(scheme, options)
+    let status = ''
+
+    if (Cache.get<T>(key)) status = ' (CACHED)'
+    else if (Cache.getInFlightQuery<T>(key)) status = ' (IN FLIGHT)'
+
     console.log(
-      '%c[DEV ONLY] New query',
-      'background:#FFCB47;color:black;padding:3px;border-radius:4px',
+      '%c[DEV ONLY] New query' + status,
+      'background:#478FFF;color:black;padding:3px;border-radius:4px',
       JSON.stringify(scheme),
     )
   }
