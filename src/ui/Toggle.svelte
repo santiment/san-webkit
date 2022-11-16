@@ -9,20 +9,16 @@
 </script>
 
 <div class="toggle btn relative {className}" on:click class:isActive class:big class:disabled>
-  {#if isActive}
-    <Svg id="checkmark-large" w={big ? 12 : 11} class="$style.toggle-on" />
-  {:else}
-    <Svg id="eye-crossed" w={big ? 14 : 11} class="$style.toggle-off" />
-  {/if}
+  <Svg id="toggle" w={big ? 40 : 36} h={big ? 18 : 13} class="$style.toggle-icon" />
 </div>
 
 <style lang="scss">
   .toggle {
-    height: 20px;
-    width: 36px;
+    height: var(--toggle-height, 20px);
+    width: var(--toggle-width, 36px);
     display: inline-block;
     line-height: 0;
-    border-radius: 10px;
+    border-radius: var(--toggle-radius, 10px);
     transition: background 185ms;
     --bg: var(--casper);
     --bg-hover: var(--waterloo);
@@ -31,28 +27,21 @@
       display: inline-block;
       content: '';
       position: absolute;
-      width: 14px;
-      height: 14px;
-      background: #fff;
+      width: var(--toggle-before-width, 14px);
+      height: var(--toggle-before-height, 14px);
       border-radius: 10px;
+      background: #fff;
       transition: transform 185ms;
-      left: 3px;
-      top: 3px;
+      left: var(--toggle-before-icon-left, 3px);
+      top: var(--toggle-before-icon-top, 3px);
     }
   }
 
-  .toggle-on {
+  .toggle-icon {
+    position: absolute;
     fill: var(--white);
-    position: absolute;
-    top: 5px;
-    left: 5px;
-  }
-
-  .toggle-off {
-    fill: var(--porcelain);
-    position: absolute;
-    right: 5px;
-    top: 5px;
+    top: var(--toggle-icon-top, 3px);
+    left: var(--toggle-icon-left, 0);
   }
 
   .isActive {
@@ -60,7 +49,7 @@
     --bg-hover: var(--green-hover);
 
     &::before {
-      transform: translateX(calc(100% + 2px));
+      transform: var(--toggle-before-active, translateX(calc(100% + 2px)));
     }
   }
 
@@ -70,31 +59,18 @@
   }
 
   .big {
-    width: 48px;
-    height: 24px;
-    border-radius: 20px;
+    --toggle-width: 48px;
+    --toggle-height: 24px;
+    --toggle-radius: 20px;
 
-    .toggle-on {
-      top: 6px;
-      left: 8px;
-    }
+    --toggle-icon-top: 3px;
+    --toggle-icon-left: 4px;
 
-    .toggle-off {
-      right: 7px;
-    }
+    --toggle-before-width: 18px;
+    --toggle-before-height: 18px;
+    --toggle-before-icon-top: 3px;
+    --toggle-before-icon-left: 4px;
 
-    &::before {
-      width: 18px;
-      height: 18px;
-      border-radius: 10px;
-      left: 4px;
-      top: 3px;
-    }
-
-    &:global(.isActive) {
-      &::before {
-        transform: translateX(calc(100% + 4px));
-      }
-    }
+    --toggle-before-active: translateX(calc(100% + 4px));
   }
 </style>

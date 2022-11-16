@@ -42,12 +42,13 @@
   import Svg from '@/ui/Svg/svelte'
   import Toggle from '@/ui/Toggle.svelte'
   import Dialog from '@/ui/Dialog'
-  import { copy } from '@/utils'
+  import { copy, noop } from '@/utils'
 
   export let shareType
   export let shareLink
   export let shareText
-  export let onChangePrivacy = () => {}
+  export let onChangePrivacy = noop
+
   let copyLabel = 'Copy'
   let isPublic = false
 
@@ -59,10 +60,6 @@
   function onCopy() {
     copyLabel = 'Copied!'
     copy(shareLink, () => (copyLabel = 'Copy'), 1500)
-  }
-
-  async function onToggleClick() {
-    await onChangePrivacy()
   }
 </script>
 
@@ -79,7 +76,14 @@
         <div class="action row v-center justify">
           {isPublic ? 'Public' : 'Private'}
           {shareType}
-          <Toggle isActive={isPublic} on:click={onToggleClick} big />
+          <Toggle
+            isActive={isPublic}
+            on:click={() => {
+              onChangePrivacy()
+              isPublic = !isPublic
+            }}
+            big
+          />
         </div>
       </div>
     {/if}
@@ -89,6 +93,7 @@
       on:click|preventDefault={onCopy}
     >
       <Svg id="link" w="16" class="$style.copy-icon mrg-m mrg--r" />
+
       Copy link
     </button>
     <div class="links">
