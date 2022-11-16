@@ -1,28 +1,22 @@
 import { newHeadScript } from './utils'
 
 export function initAmplitude(): void {
-  newHeadScript(`(function(e,t){var n=e.amplitude||{_q:[],_iq:{}};var r=t.createElement("script")
-  ;r.type="text/javascript"
-  ;r.integrity="sha384-+EO59vL/X7v6VE2s6/F4HxfHlK0nDUVWKVg8K9oUlvffAeeaShVBmbORTC2D3UF+"
-  ;r.crossOrigin="anonymous";r.async=true
-  ;r.src="https://cdn.amplitude.com/libs/amplitude-8.17.0-min.gz.js"
-  ;r.onload=function(){if(!e.amplitude.runQueuedFunctions){
-  console.log("[Amplitude] Error: could not load SDK")}}
-  ;var i=t.getElementsByTagName("script")[0];i.parentNode.insertBefore(r,i)
-  ;function s(e,t){e.prototype[t]=function(){
-  this._q.push([t].concat(Array.prototype.slice.call(arguments,0)));return this}}
-  var o=function(){this._q=[];return this}
-  ;var a=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove"]
-  ;for(var c=0;c<a.length;c++){s(o,a[c])}n.Identify=o;var u=function(){this._q=[]
-  ;return this}
-  ;var l=["setProductId","setQuantity","setPrice","setRevenueType","setEventProperties"]
-  ;for(var p=0;p<l.length;p++){s(u,l[p])}n.Revenue=u
-  ;var d=["init","track","logEvent","logRevenue","setUserId","setUserProperties","setOptOut","setVersionName","setDomain","setDeviceId","enableTracking","setGlobalUserProperties","identify","clearUserProperties","setGroup","logRevenueV2","regenerateDeviceId","groupIdentify","onInit","logEventWithTimestamp","logEventWithGroups","setSessionId","resetSessionId"]
-  ;function v(e){function t(t){e[t]=function(){
-  e._q.push([t].concat(Array.prototype.slice.call(arguments,0)))}}
-  for(var n=0;n<d.length;n++){t(d[n])}}v(n);n.getInstance=function(e){
-  e=(!e||e.length===0?"$default_instance":e).toLowerCase()
-  ;if(!Object.prototype.hasOwnProperty.call(n._iq,e)){n._iq[e]={_q:[]};v(n._iq[e])
-  }return n._iq[e]};e.amplitude=n})(window,document);
-  amplitude.getInstance().init("4acc1be0881406053d73b6e7429248d5");`)
+  newHeadScript(`!function(){"use strict";!function(e,t){var r=e.amplitude||{_q:[],_iq:[]};if(r.invoked)e.console&&console.error&&console.error("Amplitude snippet has been loaded.");else{r.invoked=!0;var n=t.createElement("script");n.type="text/javascript",n.integrity="sha384-KhsNZzlMl/yE+u/MowsLKm9jvghmBxiXW8aKvciqaaMaeHrm5uGeQluaVkpD9C7I",n.crossOrigin="anonymous",n.async=!0,n.src="https://cdn.amplitude.com/libs/analytics-browser-1.5.1-min.js.gz",n.onload=function(){e.amplitude.runQueuedFunctions||console.log("[Amplitude] Error: could not load SDK")};var s=t.getElementsByTagName("script")[0];function v(e,t){e.prototype[t]=function(){return this._q.push({name:t,args:Array.prototype.slice.call(arguments,0)}),this}}s.parentNode.insertBefore(n,s);for(var o=function(){return this._q=[],this},i=["add","append","clearAll","prepend","set","setOnce","unset","preInsert","postInsert","remove","getUserProperties"],a=0;a<i.length;a++)v(o,i[a]);r.Identify=o;for(var u=function(){return this._q=[],this},c=["getEventProperties","setProductId","setQuantity","setPrice","setRevenue","setRevenueType","setEventProperties"],l=0;l<c.length;l++)v(u,c[l]);r.Revenue=u;var p=["getDeviceId","setDeviceId","getSessionId","setSessionId","getUserId","setUserId","setOptOut","setTransport","reset"],d=["init","add","remove","track","logEvent","identify","groupIdentify","setGroup","revenue","flush"];function f(e){function t(t,r){e[t]=function(){var n={promise:new Promise((r=>{e._q.push({name:t,args:Array.prototype.slice.call(arguments,0),resolve:r})}))};if(r)return n}}for(var r=0;r<p.length;r++)t(p[r],!1);for(var n=0;n<d.length;n++)t(d[n],!0)}f(r),r.createInstance=function(){var e=r._iq.push({_q:[]})-1;return f(r._iq[e]),r._iq[e]},e.amplitude=r}}(window,document)}();
+  amplitude.init("4acc1be0881406053d73b6e7429248d5");`)
+}
+
+export function updateAmplitude(
+  user_id?: number,
+  name?: string | null,
+  email?: string | null,
+): void {
+  if (process.env.IS_DEV_MODE) return
+  if (!window.amplitude) return
+
+  const identity = new window.amplitude.Identify()
+  identity.set('user_id', user_id)
+  identity.set('name', name)
+  identity.set('email', email)
+
+  window.amplitude.identify(identity)
 }
