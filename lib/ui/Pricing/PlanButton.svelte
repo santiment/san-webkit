@@ -63,7 +63,8 @@ function onClick() {
     plan: plan.name,
     interval: plan.interval,
     isEligibleForTrial,
-    annualDiscount
+    annualDiscount,
+    source
   });
   trackPaymentFormOpened({
     plan: plan.name,

@@ -21,7 +21,8 @@ export let onActionClick = () => {
   });
   return showPaymentDialog({
     plan: plan.name,
-    interval: plan.interval
+    interval: plan.interval,
+    source: 'account-subscription-suggestions'
   });
 };
 

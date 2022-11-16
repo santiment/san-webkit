@@ -34,6 +34,7 @@ export let plansFilter = onlyProLikePlans;
 export let trialDaysLeft = 0;
 export let onPaymentSuccess = () => {};
 export let onPaymentError;
+export let source;
 let closeDialog;
 let plans = [];
 let plan = {};
@@ -86,9 +87,9 @@ function onSubmit({
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;
   const data = getPaymentFormData(currentTarget);
-  buyPlan(plan, $stripe, StripeCard, data, savedCard, checkSanDiscount(sanBalance)).then(data => {
+  buyPlan(plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance)).then(data => {
     closeDialog();
-    onPaymentSuccess(data);
+    onPaymentSuccess(data, source);
   }).catch(onPaymentError).finally(() => {
     loading = false;
     DialogPromise.locking = DialogLock.WARN;

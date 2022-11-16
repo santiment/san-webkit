@@ -10,18 +10,22 @@ export declare const trackPaymentFormOpened: ({ plan, planId, amount, billing, s
     currency?: CurrencyType | undefined;
     source: string;
 }) => number;
-export declare const trackPaymentFormSubmitted: ({ amount, promocode, plan, billing, currency, hasSanTokensDiscount, }: {
+export declare const trackPaymentFormSubmitted: ({ source, amount, promocode, plan, planId, billing, currency, hasSanTokensDiscount, }: {
     amount: number;
     promocode?: string | undefined;
     plan: string;
+    planId: number;
     billing: SAN.PlanInterval;
     currency?: CurrencyType | undefined;
     hasSanTokensDiscount: boolean;
+    source: string;
 }) => number;
-export declare const trackPaymentSuccess: () => number;
-export declare const trackPaymentFormPlanSelect: ({ amount, plan, billing, currency, }: {
+export declare const trackPaymentSuccess: (source: any) => number;
+export declare const trackPaymentFail: (source: any) => number;
+export declare const trackPaymentFormPlanSelect: ({ amount, plan, planId, billing, currency, }: {
     amount: number;
     plan: string;
+    planId: number;
     billing: SAN.PlanInterval;
     currency?: CurrencyType | undefined;
 }) => number;

@@ -66,6 +66,7 @@ function onSubmit() {
     type
   }).then(comment => {
     track.event('comments_new', {
+      category: 'Interaction',
       entity: commentsFor.id,
       type
     });

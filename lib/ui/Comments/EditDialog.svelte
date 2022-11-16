@@ -9,6 +9,7 @@ export function showCommentEditDialog(comment) {
     value: markdownToHTML(comment.content),
     onSubmit: value => updateComment(comment.id, value).then(() => {
       track.event('comments_edit', {
+        category: 'Interaction',
         id: comment.id
       });
       comment.content = value;

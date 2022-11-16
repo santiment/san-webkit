@@ -7,6 +7,7 @@ export function showCommentReplyDialog(entityId, parentId, type) {
     label: 'Submit reply',
     onSubmit: value => {
       track.event('comments_reply', {
+        category: 'Interaction',
         entity: entityId,
         parent: parentId,
         type
