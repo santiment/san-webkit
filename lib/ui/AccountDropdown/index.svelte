@@ -1,4 +1,5 @@
 <script>import { getUserSubscriptionInfo } from './../../utils/subscription';
+import { trackLogout } from './../../analytics/events/general';
 import Toggle from './../../ui/Toggle.svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
 import Svg from './../../ui/Svg/svelte';
@@ -20,6 +21,7 @@ export let isShowingFollowers = true;
 
 function onLogout() {
   isOpened = false;
+  trackLogout();
   onLogoutClick();
 }
 
@@ -32,12 +34,14 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
   align="center"
   bind:isOpened
   activeClass="active-3KrFTl"
-  class={tooltipClass}>
+  class={tooltipClass}
+>
   <svelte:fragment slot="trigger">
     <a
       href={`https://app.santiment.net/profile/${currentUser ? currentUser.id : ''}`}
       on:click={window.__onLinkClick}
-      class:pro={isPro}>
+      class:pro={isPro}
+    >
       <Pic class="btn mrg-m mrg--l box-2lTYzR" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </svelte:fragment>
@@ -54,19 +58,23 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
         <a
           class="btn-ghost row justify v-center"
           href="https://app.santiment.net/alerts?tab=1"
-          on:click={window.__onLinkClick}>My alerts</a>
+          on:click={window.__onLinkClick}>My alerts</a
+        >
         <a
           class="btn-ghost row justify v-center"
           href="https://app.santiment.net/assets"
-          on:click={window.__onLinkClick}>My watchlists</a>
+          on:click={window.__onLinkClick}>My watchlists</a
+        >
         <a
           class="btn-ghost row justify v-center"
           href="https://insights.santiment.net/my"
-          on:click={window.__onLinkClick}>My insights</a>
+          on:click={window.__onLinkClick}>My insights</a
+        >
         <a
           href="https://insights.santiment.net/new"
           class="write btn-1 btn--s"
-          on:click={window.__onLinkClick}>Write insight</a>
+          on:click={window.__onLinkClick}>Write insight</a
+        >
       </section>
 
       <hr />
@@ -77,7 +85,8 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
         <a
           href="/login"
           class="login btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>
+          on:click={window.__onLinkClick}
+        >
           <Svg id="user" w="16" class="mrg-s mrg--r" />
           Log in
         </a>
@@ -91,18 +100,21 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
       <a
         href="https://app.santiment.net/labs"
         class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Labs</a>
+        on:click={window.__onLinkClick}>Labs</a
+      >
 
       {#if currentUser}
         <a
           href="https://app.santiment.net/account"
           class="btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>Account Settings</a>
+          on:click={window.__onLinkClick}>Account Settings</a
+        >
       {/if}
 
       <div
         class="btn-ghost row justify v-center"
-        on:click={() => window.Intercom && window.Intercom('show')}>
+        on:click={() => window.Intercom && window.Intercom('show')}
+      >
         Contact us
       </div>
 

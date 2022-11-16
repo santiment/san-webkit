@@ -1,16 +1,25 @@
-<script>import Pic from './Pic.svelte';
+<script>import { trackProfileClick } from './../../analytics/events/interaction';
+import Pic from './Pic.svelte';
 let className = '';
 export { className as class };
 export let user;
 export let isTagName = true;
+export let source;
 
-$: if (isTagName && user.username === 'anonymous') isTagName = false;</script>
+$: if (isTagName && user.username === 'anonymous') isTagName = false;
 
-<a
-  class="row v-center c-black {className}"
-  href="/profile/{user.id}"
-  on:click={window.__onLinkClick}
->
+function onClick(e) {
+  var _a;
+
+  trackProfileClick({
+    id: user.id,
+    username: user.username || undefined,
+    source
+  });
+  (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
+}</script>
+
+<a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
   <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-2h6aIf" />
 
   <span>

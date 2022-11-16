@@ -2,7 +2,7 @@
   totalVotes: 0,
   userVotes: 0
 });
-const VoteTypeFeature = {
+export const VoteTypeFeature = {
   [VoteType.Insight]: 'insight',
   [VoteType.Dashboard]: 'dashboard',
   [VoteType.Watchlist]: 'watchlist',

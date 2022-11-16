@@ -1,4 +1,4 @@
 import type { LoginType } from './general';
-export declare const trackSignupStart: (type: LoginType) => number;
-export declare const trackSignupFinish: () => number;
+export declare function trackSignupStart(method: LoginType): number;
+export declare const trackSignupFinish: (method: LoginType) => number;
 export declare const trackGdprAccept: (accepted: boolean) => number;

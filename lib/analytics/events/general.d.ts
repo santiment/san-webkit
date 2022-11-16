@@ -7,10 +7,12 @@ export declare enum LoginType {
     TWITTER = "twitter",
     WALLET = "wallet"
 }
-export declare function trackLogin(type: LoginType): number;
+export declare function trackLoginStart(method: LoginType): number;
+export declare const trackLoginFinish: (method: LoginType) => number;
 export declare const trackLogout: () => number;
 export declare const trackError: (data: any) => number;
 export declare enum PageType {
+    EXPLORER = "explorer",
     CHARTS = "charts",
     DASHBOARDS = "dashboards",
     WATCHLIST = "watchlist",
@@ -18,10 +20,14 @@ export declare enum PageType {
     ALERTS = "alerts",
     INSIGHTS = "insights",
     PROFILE = "profile",
-    ACCOUNT = "account"
+    ACCOUNT = "account",
+    SOCIAL_TOOL = "social_tool",
+    HISTORICAL_BALANCE = "historical_balance",
+    LABS = "labs"
 }
-export declare const trackPageView: ({ url, type, source, }: {
+export declare const trackPageView: ({ url, type, sourceType, sourceUrl, }: {
     url: string;
     type: PageType;
-    source: PageType;
+    sourceType: PageType;
+    sourceUrl: string;
 }) => number;
