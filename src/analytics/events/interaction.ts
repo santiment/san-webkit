@@ -35,5 +35,12 @@ export const trackShareLinkCopy = (url: string) =>
 export const trackFollowUser = ({ id, username, source }) =>
   track('follow_user', { id, username, source, source_url: window.location.href })
 
-export const trackProfileClick = ({ id, username, source }) =>
-  track('user_profile_click', { id, username, source, source_url: window.location.href })
+export const trackProfileClick = ({
+  id,
+  username,
+  source,
+}: {
+  id: number
+  username?: string
+  source: string
+}) => track('user_profile_click', { id, username, source, source_url: window.location.href })

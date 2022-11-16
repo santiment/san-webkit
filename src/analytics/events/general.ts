@@ -1,10 +1,16 @@
-import { TrackCategory } from './utils'
+import { saveLoginMethod, TrackCategory } from './utils'
 
 const track = TrackCategory('General')
 
-export const trackAppOpen = () => track('app_open')
+export const trackAppOpen = () =>
+  track('app_open', {
+    source_url: window.location.href,
+  })
 
-export const trackAppClose = () => track('app_close')
+export const trackAppClose = () =>
+  track('app_close', {
+    source_url: window.location.href,
+  })
 
 export enum LoginType {
   EMAIL = 'email',
@@ -13,11 +19,12 @@ export enum LoginType {
   TWITTER = 'twitter',
   WALLET = 'wallet',
 }
-export function trackLogin(type: LoginType) {
+export function trackLoginStart(method: LoginType) {
   const date = new Date()
+  saveLoginMethod(method)
 
-  return track('login', {
-    type, // email, wallet, etc.
+  return track('login_start', {
+    method, // email, wallet, etc.
     day: date.getDate(),
     month: date.getMonth() + 1,
     year: date.getFullYear(),
@@ -25,6 +32,8 @@ export function trackLogin(type: LoginType) {
     source_url: window.location.href,
   })
 }
+
+export const trackLoginFinish = (method: LoginType) => track('login_finish', { method })
 
 export const trackLogout = () =>
   track('logout', {
@@ -39,6 +48,7 @@ export const trackError = (data: any) =>
   })
 
 export enum PageType {
+  EXPLORER = 'explorer',
   CHARTS = 'charts',
   DASHBOARDS = 'dashboards',
   WATCHLIST = 'watchlist',
@@ -51,9 +61,11 @@ export enum PageType {
 export const trackPageView = ({
   url = window.location.href,
   type,
-  source,
+  sourceType,
+  sourceUrl,
 }: {
   url: string
   type: PageType
-  source: PageType
-}) => track('page_view', { url, type, source })
+  sourceType: PageType
+  sourceUrl: string
+}) => track('page_view', { url, type, source_type: sourceType, source_url: sourceUrl })

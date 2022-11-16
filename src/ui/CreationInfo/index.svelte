@@ -35,7 +35,7 @@
   <div class="creation row v-center mrg-m mrg--r">
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
-        <Profile {user} class="$style.author" />
+        <Profile {user} {source} class="$style.author" />
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
