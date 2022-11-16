@@ -7,6 +7,7 @@
   export let user: SAN.Author
   export let isTagName = true
   export let source: string
+  export let feature: string
 
   $: if (isTagName && user.username === 'anonymous') isTagName = false
 
@@ -14,6 +15,7 @@
     trackProfileClick({
       id: user.id,
       username: user.username || undefined,
+      feature,
       source,
     })
 

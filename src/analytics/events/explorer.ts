@@ -16,8 +16,5 @@ export const trackExplorerFeaturesFilter = ({
   isRemoved: boolean
 }) => track('explorer_features_filter', { feature, features, is_removed: isRemoved })
 
-export const trackExplorerItemCopyLink = ({ id, type }: { id: string; type: string }) =>
-  track('explorer_item_copy_link', { id, type })
-
 export const trackExplorerShowMore = ({ page, size }: { page: number; size: number }) =>
   track('explorer_show_more', { page, size })
