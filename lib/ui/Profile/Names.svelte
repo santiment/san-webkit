@@ -3,6 +3,7 @@ let className = '';
 export { className as class };
 export let user;
 export let followers = undefined;
+export let feature;
 
 $: ({
   username,
@@ -11,7 +12,7 @@ $: ({
 
 $: subtitle = followers >= 0 ? `${followers} Followers` : email;</script>
 
-<Profile {user} source="profile_info_tooltip" class="txt-m {className}">
+<Profile {user} {feature} source="profile_info_tooltip" class="txt-m {className}">
   <svelte:fragment slot="name">
     <div>
       <div class="caption body-3  txt-r">@{username}</div>

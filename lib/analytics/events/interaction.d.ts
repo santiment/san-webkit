@@ -3,12 +3,14 @@ export declare const trackVote: ({ id, feature, source, }: {
     feature: string;
     source: string;
 }) => number;
-export declare const trackSaveCSV: ({ id, source }: {
+export declare const trackSaveCSV: ({ id, feature, source }: {
     id: any;
+    feature: any;
     source: any;
 }) => number;
-export declare const trackShowComments: ({ id, source }: {
+export declare const trackShowComments: ({ id, feature, source, }: {
     id: number | string;
+    feature: string;
     source: string;
 }) => number;
 export declare const trackComment: ({ type, id, repliedTo, isReply }: {
@@ -17,13 +19,17 @@ export declare const trackComment: ({ type, id, repliedTo, isReply }: {
     repliedTo: any;
     isReply?: boolean | undefined;
 }) => number;
-export declare const trackShareFormOpen: (source: string) => number;
+export declare const trackShareFormOpen: ({ feature, source }: {
+    feature: any;
+    source: any;
+}) => number;
 export declare const trackShareFormSubmit: ({ url, media }: {
     url: any;
     media: any;
 }) => number;
-export declare const trackShareLinkCopy: ({ url, source }: {
+export declare const trackShareLinkCopy: ({ url, feature, source }: {
     url: any;
+    feature: any;
     source: any;
 }) => number;
 export declare const trackFollowUser: ({ id, username, source }: {
@@ -31,8 +37,9 @@ export declare const trackFollowUser: ({ id, username, source }: {
     username: any;
     source: any;
 }) => number;
-export declare const trackProfileClick: ({ id, username, source, }: {
+export declare const trackProfileClick: ({ id, username, feature, source, }: {
     id: number;
+    feature?: string | undefined;
     username?: string | undefined;
     source: string;
 }) => number;

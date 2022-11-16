@@ -22,7 +22,11 @@ if (type) (_a = QueryCreations[type]) === null || _a === void 0 ? void 0 : _a.ca
 
 <div class="info">
   <div class="row v-center justify">
-    <ProfileNames {user} followers={user && user.followers ? user.followers.count : undefined} />
+    <ProfileNames
+      {user}
+      feature={type}
+      followers={user && user.followers ? user.followers.count : undefined}
+    />
 
     {#if currentUser && +currentUser.id === +user.id}
       <a href="/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}

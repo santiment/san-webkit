@@ -4,10 +4,6 @@ export declare const trackExplorerFeaturesFilter: ({ feature, features, isRemove
     features: string[];
     isRemoved: boolean;
 }) => number;
-export declare const trackExplorerItemCopyLink: ({ id, type }: {
-    id: string;
-    type: string;
-}) => number;
 export declare const trackExplorerShowMore: ({ page, size }: {
     page: number;
     size: number;

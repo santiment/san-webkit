@@ -5,6 +5,7 @@ export { className as class };
 export let user;
 export let isTagName = true;
 export let source;
+export let feature;
 
 $: if (isTagName && user.username === 'anonymous') isTagName = false;
 
@@ -14,6 +15,7 @@ function onClick(e) {
   trackProfileClick({
     id: user.id,
     username: user.username || undefined,
+    feature,
     source
   });
   (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
