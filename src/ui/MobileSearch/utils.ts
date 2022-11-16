@@ -7,20 +7,20 @@ export enum FILTER_ITEMS {
   People = 'People',
 }
 
-export function getItemLink(item, filter) {
-  if (filter === FILTER_ITEMS.Assets) {
+export function getItemLink(item, type) {
+  if (type === FILTER_ITEMS.Assets) {
     return 'https://app.santiment.net/projects/' + item.slug
   }
 
-  if (filter === FILTER_ITEMS.Trends) {
+  if (type === FILTER_ITEMS.Trends) {
     return 'https://app.santiment.net/labs/trends/explore/' + item
   }
 
-  if (filter === FILTER_ITEMS.Insights) {
+  if (type === FILTER_ITEMS.Insights) {
     return 'https://insights.santiment.net/read/' + getSEOLinkFromIdAndTitle(item)
   }
 
-  if (filter === FILTER_ITEMS.People) {
+  if (type === FILTER_ITEMS.People) {
     return 'https://app.santiment.net/profile/' + item.id
   }
 }

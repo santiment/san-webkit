@@ -1,12 +1,12 @@
 <script lang="ts">
   import { FILTER_ITEMS } from './utils'
 
-  export let filter
+  export let type
 </script>
 
 <div class="wrapper row v-center justify body-2">
   {#each Object.keys(FILTER_ITEMS) as item}
-    <button class:active={filter === item} on:click={() => (filter = item)}>
+    <button class:active={type === item} on:click={() => (type = item)}>
       {FILTER_ITEMS[item]}
     </button>
   {/each}
@@ -20,7 +20,7 @@
 
   .divider {
     height: 1px;
-    background-color: var(--porcelain);
+    background: var(--porcelain);
     margin: -1px 20px 0;
   }
 

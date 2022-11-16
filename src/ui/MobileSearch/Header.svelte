@@ -62,8 +62,7 @@
   }
 
   .close {
-    --fill: var(--waterloo);
-    --fill-hover: var(--waterloo);
+    fill: var(--waterloo);
 
     height: 32px;
     width: 32px;
