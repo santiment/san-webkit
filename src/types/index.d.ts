@@ -23,6 +23,8 @@ interface Window {
 
   amplitude?: {
     track: (action: string, eventProperties: { [key: string]: any }) => void
+    Identify: any
+    identify: any
   }
 }
 

@@ -73,7 +73,7 @@ const event: SendEvent = isTrackingEnabled
         )
       }
 
-      if (trackers.includes(Tracker.AMPLITUDE) && window.amplitude) {
+      if (trackers.includes(Tracker.AMPLITUDE) && window.amplitude && window.amplitude.track) {
         window.amplitude.track(
           action,
           normalizeData({
