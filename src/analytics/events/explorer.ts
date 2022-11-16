@@ -19,8 +19,5 @@ export const trackExplorerFeaturesFilter = ({
 export const trackExplorerItemCopyLink = ({ id, type }: { id: string; type: string }) =>
   track('explorer_item_copy_link', { id, type })
 
-export const trackExplorerItemShowComments = ({ id, type }: { id: string; type: string }) =>
-  track('explorer_item_show_comments', { id, type })
-
 export const trackExplorerShowMore = ({ page, size }: { page: number; size: number }) =>
   track('explorer_show_more', { page, size })

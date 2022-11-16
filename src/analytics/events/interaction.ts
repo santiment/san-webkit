@@ -15,6 +15,9 @@ export const trackVote = ({
 export const trackSaveCSV = ({ id, source }) =>
   track('save_csv', { id, source, source_url: window.location.href })
 
+export const trackShowComments = ({ id, source }: { id: number | string; source: string }) =>
+  track('show_comments', { id, source, source_url: window.location.href })
+
 export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
   track('comment', {
     id,
@@ -30,8 +33,8 @@ export const trackShareFormOpen = (source: string) =>
 export const trackShareFormSubmit = ({ url, media }) =>
   track('share_form_submit', { url, media, source_url: window.location.href })
 
-export const trackShareLinkCopy = (url: string) =>
-  track('share_link_copy', { url, source_url: window.location.href })
+export const trackShareLinkCopy = ({ url, source }) =>
+  track('share_link_copy', { url, source, source_url: window.location.href })
 
 export const trackFollowUser = ({ id, username, source }) =>
   track('follow_user', { id, username, source, source_url: window.location.href })

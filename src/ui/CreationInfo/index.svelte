@@ -8,6 +8,7 @@
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import CommentsButton from '@/ui/Comments/Button.svelte'
+  import { trackShowComments } from '@/analytics/events/interaction'
   import VoteButton from './VoteButton.svelte'
   import HoverEdit from './HoverEdit.svelte'
 
@@ -65,7 +66,15 @@
     {/if}
   </div>
 
-  <CommentsButton {...comments} on:click={comments.onClick} class="mrg-s mrg--r" />
+  <CommentsButton
+    {...comments}
+    on:click={(e) => {
+      trackShowComments({ id, source })
+      if (comments.onClick) comments.onClick(e)
+    }}
+    class="mrg-s mrg--r"
+  />
+
   <VoteButton
     {id}
     {type}

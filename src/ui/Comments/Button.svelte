@@ -9,7 +9,7 @@
 </script>
 
 {#if href}
-  <a {href} sapper:prefetch class="btn-2 {className}" class:active>
+  <a {href} sapper:prefetch class="btn-2 {className}" class:active on:click>
     <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
     {count}
   </a>
