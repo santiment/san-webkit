@@ -12,11 +12,18 @@ export const trackVote = ({
   source: string
 }) => track('vote', { id, feature, source, source_url: window.location.href })
 
-export const trackSaveCSV = ({ id, source }) =>
-  track('save_csv', { id, source, source_url: window.location.href })
+export const trackSaveCSV = ({ id, feature, source }) =>
+  track('save_csv', { id, feature, source, source_url: window.location.href })
 
-export const trackShowComments = ({ id, source }: { id: number | string; source: string }) =>
-  track('show_comments', { id, source, source_url: window.location.href })
+export const trackShowComments = ({
+  id,
+  feature,
+  source,
+}: {
+  id: number | string
+  feature: string
+  source: string
+}) => track('show_comments', { id, feature, source, source_url: window.location.href })
 
 export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
   track('comment', {
@@ -27,14 +34,14 @@ export const trackComment = ({ type, id, repliedTo, isReply = false }) =>
     source_url: window.location.href,
   })
 
-export const trackShareFormOpen = (source: string) =>
-  track('share_form_open', { source, source_url: window.location.href })
+export const trackShareFormOpen = ({ feature, source }) =>
+  track('share_form_open', { feature, source, source_url: window.location.href })
 
 export const trackShareFormSubmit = ({ url, media }) =>
   track('share_form_submit', { url, media, source_url: window.location.href })
 
-export const trackShareLinkCopy = ({ url, source }) =>
-  track('share_link_copy', { url, source, source_url: window.location.href })
+export const trackShareLinkCopy = ({ url, feature, source }) =>
+  track('share_link_copy', { url, feature, source, source_url: window.location.href })
 
 export const trackFollowUser = ({ id, username, source }) =>
   track('follow_user', { id, username, source, source_url: window.location.href })
@@ -42,9 +49,12 @@ export const trackFollowUser = ({ id, username, source }) =>
 export const trackProfileClick = ({
   id,
   username,
+  feature,
   source,
 }: {
   id: number
+  feature?: string
   username?: string
   source: string
-}) => track('user_profile_click', { id, username, source, source_url: window.location.href })
+}) =>
+  track('user_profile_click', { id, username, feature, source, source_url: window.location.href })

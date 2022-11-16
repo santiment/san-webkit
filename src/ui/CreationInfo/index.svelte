@@ -36,11 +36,11 @@
   <div class="creation row v-center mrg-m mrg--r">
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
-        <Profile {user} {source} class="$style.author" />
+        <Profile {user} {source} feature={type} class="$style.author" />
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
-        <Info {user} {type} {currentUser} />
+        <Info {user} {type} feature={type} {currentUser} />
       </svelte:fragment>
     </Tooltip>
 
@@ -69,7 +69,7 @@
   <CommentsButton
     {...comments}
     on:click={(e) => {
-      trackShowComments({ id, source })
+      trackShowComments({ id, source, feature: type })
       if (comments.onClick) comments.onClick(e)
     }}
     class="mrg-s mrg--r"

@@ -1,6 +1,6 @@
 export enum CreationType {
-  Layout = 1,
-  Watchlist,
-  AddressWatchlist,
-  Dashboard,
+  Layout = 'chart_layout',
+  Watchlist = 'watchlist',
+  AddressWatchlist = 'address_watchlist',
+  Dashboard = 'dashboard',
 }
