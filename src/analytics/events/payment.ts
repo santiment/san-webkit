@@ -1,4 +1,3 @@
-import type { Billing } from '@/utils/plans'
 import { TrackCategory } from './utils'
 
 const track = TrackCategory('Payment')
@@ -35,9 +34,11 @@ export const trackPaymentFormOpened = ({
   })
 
 export const trackPaymentFormSubmitted = ({
+  source,
   amount,
   promocode,
   plan,
+  planId,
   billing,
   currency = CurrencyType.USD,
   hasSanTokensDiscount = false,
@@ -45,32 +46,41 @@ export const trackPaymentFormSubmitted = ({
   amount: number
   promocode?: string
   plan: string
+  planId: number
   billing: SAN.PlanInterval
   currency?: CurrencyType
   hasSanTokensDiscount: boolean
+  source: string
 }) =>
   track('payment_form_submitted', {
     currency,
     // method,
+    source,
     amount,
     promocode,
     plan,
+    plan_id: planId,
     billing,
     san_tokens_discount: hasSanTokensDiscount,
     source_url: window.location.href,
   })
 
-export const trackPaymentSuccess = () =>
-  track('payment_success', { source_url: window.location.href })
+export const trackPaymentSuccess = (source) =>
+  track('payment_success', { source, source_url: window.location.href })
+
+export const trackPaymentFail = (source) =>
+  track('payment_fail', { source, source_url: window.location.href })
 
 export const trackPaymentFormPlanSelect = ({
   amount,
   plan,
+  planId,
   billing,
   currency = CurrencyType.USD,
 }: {
   amount: number
   plan: string
+  planId: number
   billing: SAN.PlanInterval
   currency?: CurrencyType
 }) =>
@@ -78,6 +88,7 @@ export const trackPaymentFormPlanSelect = ({
     currency,
     amount,
     plan,
+    planId,
     billing,
     source_url: window.location.href,
   })

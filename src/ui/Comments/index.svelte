@@ -65,7 +65,7 @@
 
     createComment({ id: commentsFor.id, content: value, type })
       .then((comment) => {
-        track.event('comments_new', { entity: commentsFor.id, type })
+        track.event('comments_new', { category: 'Interaction', entity: commentsFor.id, type })
 
         comments.push(comment)
         setComments(comments)

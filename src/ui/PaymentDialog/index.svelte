@@ -38,6 +38,7 @@
   export let trialDaysLeft = 0
   export let onPaymentSuccess = () => {}
   export let onPaymentError
+  export let source: string
 
   let closeDialog
   let plans = [] as SAN.Plan[]
@@ -87,12 +88,13 @@
       $stripe as stripe.Stripe,
       StripeCard,
       data,
+      source,
       savedCard,
       checkSanDiscount(sanBalance),
     )
       .then((data) => {
         closeDialog()
-        onPaymentSuccess(data)
+        onPaymentSuccess(data, source)
       })
       .catch(onPaymentError)
       .finally(() => {

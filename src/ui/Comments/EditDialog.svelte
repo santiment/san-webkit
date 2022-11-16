@@ -11,7 +11,7 @@
       value: markdownToHTML(comment.content),
       onSubmit: (value) =>
         updateComment(comment.id, value).then(() => {
-          track.event('comments_edit', { id: comment.id })
+          track.event('comments_edit', { category: 'Interaction', id: comment.id })
 
           comment.content = value
           comment.editedAt = new Date().toISOString()

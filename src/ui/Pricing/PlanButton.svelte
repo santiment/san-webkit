@@ -56,6 +56,7 @@
       interval: plan.interval,
       isEligibleForTrial,
       annualDiscount,
+      source,
     })
     trackPaymentFormOpened({
       plan: plan.name,
