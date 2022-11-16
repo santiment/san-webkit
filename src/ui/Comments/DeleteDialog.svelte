@@ -32,7 +32,7 @@
         username: 'anonymous',
       }
 
-      track.event('comments_delete', { id: comment.id })
+      track.event('comments_delete', { category: 'Interaction', id: comment.id })
       DialogPromise.resolve(comment)
       closeDialog()
     })

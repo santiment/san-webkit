@@ -6,7 +6,11 @@ import { customerData$ } from '@/stores/user'
 import { notifications$ } from '@/ui/Notifications'
 import { subscription$ } from '@/stores/subscription'
 import { paymentCard$ } from '@/stores/paymentCard'
-import { trackPaymentFormSubmitted, trackPaymentSuccess } from '@/analytics/events/payment'
+import {
+  trackPaymentFail,
+  trackPaymentFormSubmitted,
+  trackPaymentSuccess,
+} from '@/analytics/events/payment'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
@@ -54,16 +58,19 @@ export function getPaymentFormData(form: HTMLFormElement) {
 function submitPayment(
   plan: SAN.Plan,
   discount: any,
+  source: string,
   cardTokenId?: string,
   hasSanTokensDiscount = false,
 ) {
   // track.event('Payment form submitted', { category: 'User' })
   trackPaymentFormSubmitted({
     plan: plan.name,
+    planId: +plan.id,
     amount: plan.amount,
     billing: plan.interval,
     promocode: discount,
     hasSanTokensDiscount,
+    source,
   })
   return mutateSubscribe(cardTokenId, +plan.id, discount)
 }
@@ -85,21 +92,24 @@ export function buyPlan(
   stripe: stripe.Stripe,
   card: stripe.elements.Element,
   form: { [key: string]: any },
+  source: string,
   savedCard?: SAN.PaymentCard,
   hasSanTokensDiscount = false,
 ) {
   const { discount, ...checkoutInfo } = form
 
   const promise = savedCard
-    ? submitPayment(plan, discount, undefined, hasSanTokensDiscount)
+    ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)
     : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        return submitPayment(plan, discount, token.id, hasSanTokensDiscount)
+        return submitPayment(plan, discount, source, token.id, hasSanTokensDiscount)
       })
 
-  return promise.then(onPaymentSuccess).catch(onPaymentError)
+  return promise
+    .then((data) => onPaymentSuccess(data, source))
+    .catch((data) => onPaymentError(data, source))
 }
 
-function onPaymentSuccess(data) {
+function onPaymentSuccess(data, source) {
   const { plan } = data
   const { name, amount } = plan
   const title = PlanName[name] || name
@@ -117,7 +127,7 @@ function onPaymentSuccess(data) {
   )
 
   // track.event('Payment success', { category: 'User' })
-  trackPaymentSuccess()
+  trackPaymentSuccess(source)
 
   notifications$.show({
     type: 'success',
@@ -129,8 +139,9 @@ function onPaymentSuccess(data) {
   return Promise.resolve(data)
 }
 
-function onPaymentError(error) {
-  track.event('Payment failed', { category: 'User' })
+function onPaymentError(error, source) {
+  // track.event('Payment failed', { category: 'User' })
+  trackPaymentFail(source)
 
   notifications$.show({
     type: 'error',

@@ -27,7 +27,11 @@
       billing: plan.interval,
       source: 'account-subscription-suggestions',
     })
-    return showPaymentDialog({ plan: plan.name, interval: plan.interval })
+    return showPaymentDialog({
+      plan: plan.name,
+      interval: plan.interval,
+      source: 'account-subscription-suggestions',
+    })
   }
 
   $: ({ name } = plan)

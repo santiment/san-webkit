@@ -9,7 +9,12 @@
       title: 'Replying',
       label: 'Submit reply',
       onSubmit: (value) => {
-        track.event('comments_reply', { entity: entityId, parent: parentId, type })
+        track.event('comments_reply', {
+          category: 'Interaction',
+          entity: entityId,
+          parent: parentId,
+          type,
+        })
         return createComment({ id: entityId, content: value, parentId, type })
       },
     })
