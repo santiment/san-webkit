@@ -1,4 +1,4 @@
-<script>import { track } from './../../analytics';
+<script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
 import { mutateEmailLogin } from './../../api/login';
 import InputWithIcon from './../../ui/InputWithIcon.svelte';
 export let verifiedEmail = '';
@@ -11,9 +11,7 @@ function onSubmit({
   email = currentTarget.email.value;
   loading = true;
   mutateEmailLogin(email).then(onSuccess);
-  track.event('sign_up', {
-    method: 'email'
-  });
+  trackLoginStart(LoginType.EMAIL);
 }
 
 function onSuccess({
@@ -31,8 +29,10 @@ function onSuccess({
     icon="envelope"
     w="16"
     h="12"
-    name="email" />
+    name="email"
+  />
 
   <button class="btn-1 btn--l row h-center fluid mrg-l mrg--t" type="submit" class:loading
-    >Continue</button>
+    >Continue</button
+  >
 </form>
