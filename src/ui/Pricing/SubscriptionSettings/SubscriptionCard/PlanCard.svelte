@@ -7,7 +7,6 @@
     PlanName,
   } from '@/utils/plans'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
-  import { trackPaymentFormOpened } from '@/analytics/events/payment'
   import Card from './Card.svelte'
 
   export let plan: SAN.Plan
@@ -20,16 +19,10 @@
   export let isUpgrade = false
   export let shouldHideBillingInfo
   export let onActionClick = () => {
-    trackPaymentFormOpened({
-      plan: plan.name,
-      planId: +plan.id,
-      amount: plan.amount,
-      billing: plan.interval,
-      source: 'account-subscription-suggestions',
-    })
     return showPaymentDialog({
       plan: plan.name,
       interval: plan.interval,
+      planData: plan,
       source: 'account-subscription-suggestions',
     })
   }
