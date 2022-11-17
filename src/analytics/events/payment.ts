@@ -88,7 +88,7 @@ export const trackPaymentFormPlanSelect = ({
     currency,
     amount,
     plan,
-    planId,
+    plan_id: planId,
     billing,
     source_url: window.location.href,
   })
