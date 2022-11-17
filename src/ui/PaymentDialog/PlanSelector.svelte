@@ -29,6 +29,7 @@
 
     trackPaymentFormPlanSelect({
       plan: plan.name,
+      planId: +plan.id,
       billing: plan.interval,
       amount: plan.amount,
     })
