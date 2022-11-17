@@ -51,7 +51,7 @@ if (process.browser) {
   } = planData || {};
   trackPaymentFormOpened({
     plan: name,
-    planId: +id,
+    planId: planData && +id,
     billing: interval,
     amount,
     source
