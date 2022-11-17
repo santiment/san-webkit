@@ -1,7 +1,7 @@
 import type { LoginType } from './general'
 import type { EventData } from '../index'
 
-import { getSavedJson, saveJson } from '@/utils/localStorage'
+import { deleteSavedValue, getSavedJson, saveJson } from '@/utils/localStorage'
 import { track } from '../index'
 
 export function TrackCategory(category: string) {
@@ -15,5 +15,7 @@ export function saveLoginMethod(method: LoginType) {
   return saveJson(LOGIN_METHOD, { method, timestamp: Date.now() })
 }
 export function getSaveLoginMethod() {
-  return getSavedJson(LOGIN_METHOD)
+  const value = getSavedJson(LOGIN_METHOD)
+  deleteSavedValue(LOGIN_METHOD)
+  return value
 }
