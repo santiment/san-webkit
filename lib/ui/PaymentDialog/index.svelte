@@ -10,15 +10,15 @@ const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.loa
 
 export const dataPreloader = Preloader(preloadData);</script>
 
-<script>import { onDestroy, onMount } from 'svelte';
+<script>import { onDestroy } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
-import { track } from './../../analytics';
+import './../../analytics';
 import { PlanName } from './../../utils/plans';
 import { customerData$ } from './../../stores/user';
 import { subscription$ } from './../../stores/subscription';
 import { paymentCard$ } from './../../stores/paymentCard';
-import { trackPaymentFormClosed } from './../../analytics/events/payment';
+import { trackPaymentFormClosed, trackPaymentFormOpened } from './../../analytics/events/payment';
 import Banner from './Banner.svelte';
 import PayerInfo from './PayerInfo.svelte';
 import SavedCard from './SavedCard.svelte';
@@ -35,6 +35,7 @@ export let trialDaysLeft = 0;
 export let onPaymentSuccess = () => {};
 export let onPaymentError;
 export let source;
+export let planData;
 let closeDialog;
 let plans = [];
 let plan = {};
@@ -43,6 +44,18 @@ let StripeCard;
 let savedCard = $paymentCard$;
 
 if (process.browser) {
+  const {
+    id,
+    name,
+    amount
+  } = planData || {};
+  trackPaymentFormOpened({
+    plan: name,
+    planId: +id,
+    billing: interval,
+    amount,
+    source
+  });
   getPlans();
 }
 
@@ -96,9 +109,6 @@ function onSubmit({
   });
 }
 
-onMount(() => track.event('Payment form opened', {
-  category: 'User'
-}));
 const unsub = paymentCard$.subscribe(value => {
   savedCard = value;
 });

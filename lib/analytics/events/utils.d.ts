@@ -5,4 +5,7 @@ export declare function saveLoginMethod(method: LoginType): {
     method: LoginType;
     timestamp: number;
 };
-export declare function getSavedLoginMethod(): unknown;
+export declare function getSavedLoginMethod(): {
+    method: string;
+    timestamp: number;
+} | undefined;
