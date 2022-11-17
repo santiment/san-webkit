@@ -15,7 +15,7 @@ export function saveLoginMethod(method: LoginType) {
   return saveJson(LOGIN_METHOD, { method, timestamp: Date.now() })
 }
 export function getSavedLoginMethod() {
-  const value = getSavedJson(LOGIN_METHOD)
+  const value = getSavedJson<{ method: string; timestamp: number }>(LOGIN_METHOD)
   deleteSavedValue(LOGIN_METHOD)
   return value
 }

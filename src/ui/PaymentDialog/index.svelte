@@ -21,7 +21,7 @@
   import { customerData$ } from '@/stores/user'
   import { subscription$ } from '@/stores/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
-  import { trackPaymentFormClosed } from '@/analytics/events/payment'
+  import { trackPaymentFormClosed, trackPaymentFormOpened } from '@/analytics/events/payment'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
   import SavedCard from './SavedCard.svelte'
@@ -39,6 +39,7 @@
   export let onPaymentSuccess = () => {}
   export let onPaymentError
   export let source: string
+  export let planData
 
   let closeDialog
   let plans = [] as SAN.Plan[]
@@ -48,6 +49,15 @@
   let savedCard = $paymentCard$
 
   if (process.browser) {
+    const { id, name, amount } = planData || {}
+    trackPaymentFormOpened({
+      plan: name,
+      planId: +id,
+      billing: interval,
+      amount,
+      source,
+    })
+
     getPlans()
   }
 
@@ -102,8 +112,6 @@
         DialogPromise.locking = DialogLock.WARN
       })
   }
-
-  onMount(() => track.event('Payment form opened', { category: 'User' }))
 
   const unsub = paymentCard$.subscribe((value) => {
     savedCard = value

@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Billing } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
-  import { trackPaymentFormOpened } from '@/analytics/events/payment'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
   import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils'
 
@@ -54,15 +53,9 @@
     showPaymentDialog({
       plan: plan.name,
       interval: plan.interval,
+      planData: plan,
       isEligibleForTrial,
       annualDiscount,
-      source,
-    })
-    trackPaymentFormOpened({
-      plan: plan.name,
-      planId: +plan.id,
-      amount: plan.amount,
-      billing: plan.interval,
       source,
     })
   }
