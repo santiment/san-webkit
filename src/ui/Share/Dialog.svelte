@@ -40,7 +40,7 @@
 
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import Toggle from '@/ui/Toggle.svelte'
+  import ToggleVisibility from '@/ui/ToggleVisibility.svelte'
   import Dialog from '@/ui/Dialog'
   import { copy, noop } from '@/utils'
 
@@ -76,7 +76,7 @@
         <div class="action row v-center justify">
           {isPublic ? 'Public' : 'Private'}
           {shareType}
-          <Toggle isActive={isPublic} on:click={onChangePrivacy} big />
+          <ToggleVisibility isActive={isPublic} handleClick={onChangePrivacy} />
         </div>
       </div>
     {/if}

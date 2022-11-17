@@ -1,15 +1,13 @@
 <script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
   let className = ''
   export { className as class }
   export let isActive = false
-  export let big = false
   export let disabled = false
+  export let icon = 'toggle'
 </script>
 
-<div class="toggle btn relative {className}" on:click class:isActive class:big class:disabled>
-  <Svg id="toggle" w={big ? 40 : 36} h={big ? 18 : 13} class="$style.toggle-icon" />
+<div class="toggle btn relative {className}" on:click class:isActive class:disabled>
+  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="$style.toggle-icon" />
 </div>
 
 <style lang="scss">
@@ -38,10 +36,7 @@
   }
 
   .toggle-icon {
-    position: absolute;
-    fill: var(--white);
-    top: var(--toggle-icon-top, 3px);
-    left: var(--toggle-icon-left, 0);
+    margin: var(--toggle-icon-margin, 0);
   }
 
   .isActive {
@@ -56,21 +51,5 @@
   .disabled {
     background: var(--porcelain) !important;
     pointer-events: none !important;
-  }
-
-  .big {
-    --toggle-width: 48px;
-    --toggle-height: 24px;
-    --toggle-radius: 20px;
-
-    --toggle-icon-top: 3px;
-    --toggle-icon-left: 4px;
-
-    --toggle-before-width: 18px;
-    --toggle-before-height: 18px;
-    --toggle-before-icon-top: 3px;
-    --toggle-before-icon-left: 4px;
-
-    --toggle-before-active: translateX(calc(100% + 4px));
   }
 </style>
