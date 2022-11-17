@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { track } from '@/analytics'
+  import { LoginType, trackLoginStart } from '@/analytics/events/general'
   import metamaskSvg from './metamask.svg'
   import metamaskInverseSvg from './metamask-inverse.svg'
 
@@ -10,7 +10,7 @@
   let loading = false
   function onLoginClick() {
     loading = true
-    track.event('sign_up', { method: 'metamask' })
+    trackLoginStart(LoginType.METAMASK)
 
     onClick().catch((e) => {
       console.warn(e)
