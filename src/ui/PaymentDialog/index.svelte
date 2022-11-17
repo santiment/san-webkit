@@ -52,7 +52,7 @@
     const { id, name, amount } = planData || {}
     trackPaymentFormOpened({
       plan: name,
-      planId: +id,
+      planId: planData && +id,
       billing: interval,
       amount,
       source,
