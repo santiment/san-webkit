@@ -5,8 +5,8 @@
   export let searchTerm
   export let type
   export let Component
-  export let filter = (searchTerm, items) => Promise.resolve([])
-  export let query = () => Promise.resolve([])
+  export let filter
+  export let query
   let items = []
   let filteredItems = []
   let loading = true
@@ -16,15 +16,16 @@
 
   async function filterItems(searchTerm) {
     loading = true
-    filteredItems = await filter(searchTerm, items)
+    filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items
     loading = false
+
+    return filteredItems
   }
 
   async function getItems(query) {
     loading = true
-    const data = await query()
-    items = data
-    filteredItems = data
+    items = await query()
+    filteredItems = await filterItems(searchTerm)
     loading = false
   }
 </script>
@@ -36,10 +37,9 @@
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
-      {@const href = getItemLink(item, type)}
       <a
         class="btn body-2 fluid row v-center"
-        {href}
+        href={getItemLink(item, type)}
         on:click|preventDefault={window.__onLinkClick}
       >
         <svelte:component this={Component} {item} />

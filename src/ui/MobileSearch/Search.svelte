@@ -10,11 +10,11 @@
   export const TABS_CONTENT = {
     [FILTER_ITEMS.Assets]: {
       query: queryProjects,
-      filter: async (searchTerm, items) => {
-        const value = searchTerm.toLowerCase()
-        let projects = items.filter(({ name, ticker }) => {
-          return name.toLowerCase().includes(value) || ticker.toLowerCase().includes(value)
-        })
+      filter: (searchTerm, items) => {
+        const projects = items.filter(
+          ({ name, ticker }) =>
+            name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm),
+        )
 
         if (!searchTerm) {
           return items
@@ -26,10 +26,9 @@
     },
     [FILTER_ITEMS.Trends]: {
       query: queryTrends,
-      filter: async (searchTerm, items) => {
-        const value = searchTerm.toLowerCase()
+      filter: (searchTerm, items) => {
         let trends = items.filter((word) => {
-          return word.toLowerCase().includes(value)
+          return word.toLowerCase().includes(searchTerm)
         })
 
         if (trends.length === 0 && searchTerm) {
@@ -42,22 +41,21 @@
     },
     [FILTER_ITEMS.Insights]: {
       query: queryInsights,
-      filter: async (searchTerm, items) => {
-        let projects = await queryInsightsBySearchTerm(searchTerm)
+      filter: (searchTerm, items) => {
+        const insights = queryInsightsBySearchTerm(searchTerm)
 
         if (!searchTerm) {
           return items
         }
 
-        return projects
+        return insights
       },
       Component: Insight,
     },
     [FILTER_ITEMS.People]: {
       query: queryPeople,
-      filter: async (searchTerm, items) => {
-        const value = searchTerm.toLowerCase()
-        const people = items.filter(({ username }) => username.toLowerCase().includes(value))
+      filter: (searchTerm, items) => {
+        const people = items.filter(({ username }) => username.toLowerCase().includes(searchTerm))
 
         if (!searchTerm) {
           return items
