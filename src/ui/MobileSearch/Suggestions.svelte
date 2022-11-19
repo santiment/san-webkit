@@ -7,6 +7,7 @@
   export let Component
   export let filter
   export let query
+
   let items = []
   let filteredItems = []
   let loading = true
@@ -18,15 +19,12 @@
     loading = true
     filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items
     loading = false
-
-    return filteredItems
   }
 
   async function getItems(query) {
     loading = true
     items = await query()
-    filteredItems = await filterItems(searchTerm)
-    loading = false
+    await filterItems(searchTerm)
   }
 </script>
 

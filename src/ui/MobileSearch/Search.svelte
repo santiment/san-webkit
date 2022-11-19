@@ -10,24 +10,17 @@
   export const TABS_CONTENT = {
     [FILTER_ITEMS.Assets]: {
       query: queryProjects,
-      filter: (searchTerm, items) => {
-        const projects = items.filter(
+      filter: (searchTerm, items) =>
+        items.filter(
           ({ name, ticker }) =>
             name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm),
-        )
-
-        if (!searchTerm) {
-          return items
-        }
-
-        return projects
-      },
+        ),
       Component: Asset,
     },
     [FILTER_ITEMS.Trends]: {
       query: queryTrends,
       filter: (searchTerm, items) => {
-        let trends = items.filter((word) => {
+        const trends = items.filter((word) => {
           return word.toLowerCase().includes(searchTerm)
         })
 
@@ -41,28 +34,13 @@
     },
     [FILTER_ITEMS.Insights]: {
       query: queryInsights,
-      filter: (searchTerm, items) => {
-        const insights = queryInsightsBySearchTerm(searchTerm)
-
-        if (!searchTerm) {
-          return items
-        }
-
-        return insights
-      },
+      filter: (searchTerm) => queryInsightsBySearchTerm(searchTerm),
       Component: Insight,
     },
     [FILTER_ITEMS.People]: {
       query: queryPeople,
-      filter: (searchTerm, items) => {
-        const people = items.filter(({ username }) => username.toLowerCase().includes(searchTerm))
-
-        if (!searchTerm) {
-          return items
-        }
-
-        return people
-      },
+      filter: (searchTerm, items) =>
+        items.filter(({ username }) => username.toLowerCase().includes(searchTerm)),
       Component: Person,
     },
   }
