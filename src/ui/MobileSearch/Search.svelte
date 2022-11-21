@@ -24,11 +24,7 @@
           return word.toLowerCase().includes(searchTerm)
         })
 
-        if (trends.length === 0 && searchTerm) {
-          return [searchTerm]
-        }
-
-        return trends
+        return trends.length ? trends : [searchTerm]
       },
       Component: Trend,
     },
