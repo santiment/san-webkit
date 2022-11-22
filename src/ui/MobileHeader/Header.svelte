@@ -1,8 +1,10 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Product from '@/ui/Product.svelte'
+  import { noop } from '@/utils'
 
   export let title = ''
+  export let onSearchClick = noop
 </script>
 
 <header class="row v-center justify fluid">
@@ -20,7 +22,7 @@
       <slot name="right" />
     {:else}
       <slot name="share" />
-      <button class="search row hv-center">
+      <button class="search row hv-center" on:click={onSearchClick}>
         <Svg id="search" w="18" />
       </button>
     {/if}
