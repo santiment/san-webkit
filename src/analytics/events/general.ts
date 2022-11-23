@@ -5,6 +5,7 @@ const track = TrackCategory('General')
 export const trackAppOpen = () =>
   track('app_open', {
     source_url: window.location.href,
+    referrer: document.referrer,
   })
 
 export const trackAppClose = () =>
