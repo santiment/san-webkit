@@ -26,7 +26,7 @@ export let source;</script>
   <div class="creation row v-center mrg-m mrg--r">
     <Tooltip openDelay={110}>
       <svelte:fragment slot="trigger">
-        <Profile {user} {source} feature={type} class="author-NsnnQ7" />
+        <Profile {user} {source} feature={type} class="author-krpWDF" />
       </svelte:fragment>
 
       <svelte:fragment slot="tooltip">
@@ -37,7 +37,7 @@ export let source;</script>
     <div class="divider" />
 
     <HoverEdit
-      class="title-1W47AU body-2"
+      class="title-1dApTE body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
@@ -78,7 +78,7 @@ export let source;</script>
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="title-1W47AU body-2"
+    class="title-1dApTE body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -111,15 +111,15 @@ export let source;</script>
   margin: 0 12px;
 }
 
-:global(.author-NsnnQ7) {
+:global(.author-krpWDF) {
   overflow: hidden;
   min-width: fit-content;
 }
-:global(.author-NsnnQ7) :global(span) {
+:global(.author-krpWDF) :global(span) {
   max-width: 140px !important;
 }
 
-:global(.title-1W47AU) {
+:global(.title-1dApTE) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

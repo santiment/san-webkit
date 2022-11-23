@@ -51,21 +51,13 @@ function onCopy() {
   copy(shareLink, () => copyLabel = 'Copy', 1500);
 }</script>
 
-<<<<<<< HEAD
 <Dialog {...$$props} title="Share" titleClassName="title--jBop3 body-2 txt-m">
-=======
-<Dialog {...$$props} title="Share" titleClassName="title-2Qi9lE body-2 txt-m">
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   <section class="body-2">
     {#if shareType}
       <div class="privacy">
         {#if !isPublic}
           <div class="row info body-3 mrg-m mrg--b">
-<<<<<<< HEAD
             <Svg id="warning" w="16" h="14" class="info-icon-3XeAH_ mrg-s mrg--r" />
-=======
-            <Svg id="warning" w="16" h="14" class="info-icon-2L_V0N mrg-s mrg--r" />
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
             Your watchlist is private. To able to share, please, switch it to “Public” first
           </div>
         {/if}
@@ -81,11 +73,7 @@ function onCopy() {
       aria-label={copyLabel}
       on:click|preventDefault={onCopy}
     >
-<<<<<<< HEAD
       <Svg id="link" w="16" class="copy-icon-2qWYTA mrg-m mrg--r" />
-=======
-      <Svg id="link" w="16" class="copy-icon-36Daqe mrg-m mrg--r" />
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
 
       Copy link
     </button>
@@ -104,11 +92,7 @@ function onCopy() {
             class="media row hv-center mrg-m mrg--r"
             style="background: {disabled ? 'var(--mystic)' : background}"
           >
-<<<<<<< HEAD
             <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-3vdQ63" />
-=======
-            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-6AeNf1" />
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
           </div>
           {title}
         </a>
@@ -117,11 +101,7 @@ function onCopy() {
   </section>
 </Dialog>
 
-<<<<<<< HEAD
 <style >:global(.title--jBop3) {
-=======
-<style >:global(.title-2Qi9lE) {
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   padding: 12px 30px 12px 20px;
   color: var(--fiord);
   background: var(--whale);
@@ -153,11 +133,7 @@ a:active {
   border-radius: 6px;
 }
 
-<<<<<<< HEAD
 :global(.info-icon-3XeAH_) {
-=======
-:global(.info-icon-2L_V0N) {
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   fill: var(--orange-hover);
   margin-top: 4px;
 }
@@ -174,19 +150,11 @@ a:active {
   margin-bottom: 20px;
 }
 
-<<<<<<< HEAD
 .disabled :global(.copy-icon-2qWYTA) {
   fill: var(--porcelain);
 }
 
 :global(.copy-icon-2qWYTA) {
-=======
-.disabled :global(.copy-icon-36Daqe) {
-  fill: var(--porcelain);
-}
-
-:global(.copy-icon-36Daqe) {
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   fill: var(--waterloo);
 }
 
@@ -210,10 +178,6 @@ a:active {
   border-radius: 100%;
 }
 
-<<<<<<< HEAD
 :global(.media-icon-3vdQ63) {
-=======
-:global(.media-icon-6AeNf1) {
->>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   fill: var(--white);
 }</style>
