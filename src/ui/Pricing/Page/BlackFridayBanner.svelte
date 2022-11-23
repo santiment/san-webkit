@@ -40,7 +40,7 @@
     border: 1px solid #222639;
     border-radius: 8px;
     padding: 40px 0 40px 72px;
-    margin: 0 auto 80px;
+    margin: 32px auto 48px;
     overflow: hidden;
     background: #1a1d2f;
   }
@@ -57,6 +57,7 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #ffffff;
+    white-space: nowrap;
   }
 
   .condition {

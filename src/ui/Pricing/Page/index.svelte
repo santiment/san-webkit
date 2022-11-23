@@ -44,10 +44,10 @@
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
+    <BlackFridayBanner />
+
     <BillingToggle bind:billing />
   </div>
-
-  <BlackFridayBanner />
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
