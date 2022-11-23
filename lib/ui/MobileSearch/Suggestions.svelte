@@ -5,6 +5,7 @@ export let type;
 export let Component;
 export let filter;
 export let query;
+export let show;
 let items = [];
 let filteredItems = [];
 let loading = true;
@@ -23,6 +24,12 @@ async function getItems(query) {
   loading = true;
   items = await query();
   await filterItems(searchTerm);
+}
+
+function onItemClick(event) {
+  window.__onLinkClick(event);
+
+  show = false;
 }</script>
 
 <div class="wrapper column mrg-xxl mrg--t mrg--b">
@@ -35,7 +42,7 @@ async function getItems(query) {
       <a
         class="btn body-2 fluid row v-center"
         href={getItemLink(item, type)}
-        on:click|preventDefault={window.__onLinkClick}
+        on:click|preventDefault={onItemClick}
       >
         <svelte:component this={Component} {item} />
       </a>

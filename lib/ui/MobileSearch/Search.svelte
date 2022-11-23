@@ -49,7 +49,7 @@ let type = FILTER_ITEMS.Assets;</script>
   <section class="relative">
     <Header bind:searchTerm bind:show />
     <Filter bind:type />
-    <Suggestions {searchTerm} {type} {...TABS_CONTENT[type]} />
+    <Suggestions {searchTerm} {type} bind:show {...TABS_CONTENT[type]} />
   </section>
 {/if}
 
