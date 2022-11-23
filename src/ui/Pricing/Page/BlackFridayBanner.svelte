@@ -14,7 +14,7 @@
     <a class="btn btn-1 body-1 mrg--b mrg-l" href="https://santiment.net/discord"
       >Claim your promo code!</a
     >
-    <em class="body-2">You will find your promo code in our dicord channel</em>
+    <p class="body-2">You will find your promo code in our dicord channel</p>
   </article>
 </section>
 
@@ -65,7 +65,7 @@
     margin-bottom: 28px;
   }
 
-  em {
+  p {
     display: block;
     font-style: italic;
     letter-spacing: 0.01em;
@@ -110,7 +110,7 @@
       --h-padding: 20.5px;
     }
 
-    em {
+    p {
       max-width: 224px;
       margin: auto;
     }
