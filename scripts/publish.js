@@ -19,7 +19,11 @@ async function publish() {
   await exec('git pull', false)
 
   await exec('git checkout lib')
-  await exec('git pull', false)
+
+  const [pullMsg] = await exec('git pull', false)
+  if (pullMsg.includes('have diverged')) {
+    return console.error(`${pullMsg}  ❗️`)
+  }
 
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
 
