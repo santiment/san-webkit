@@ -6,6 +6,7 @@
 </script>
 
 <section class="row justify v-center border body-2 relative {className}">
+  <img src={blackFriday} alt="Black Friday Bear" />
   <div class="text">
     <div class="title">Buy this bear market dip</div>
     <div class="value">35% Off</div>
@@ -15,7 +16,6 @@
     >
     <div class="note">You will find your promo code in our dicord channel</div>
   </div>
-  <img src={blackFriday} alt="Black Friday Bear" />
 </section>
 
 <style lang="scss">
@@ -75,5 +75,55 @@
     line-height: 26px;
     letter-spacing: 0.01em;
     color: #f7f8fb;
+  }
+
+  :global(.tablet) {
+    section {
+      max-width: calc(100% - 40px);
+      padding: 40px 48px;
+    }
+
+    img {
+      right: -40%;
+    }
+  }
+
+  :global(.phone-xs),
+  :global(.phone) {
+    section {
+      max-width: calc(100% - 30px);
+      flex-direction: column;
+      border-radius: 6px;
+      padding: 0;
+    }
+
+    .text {
+      max-width: 100%;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 29.5px;
+    }
+
+    .condition {
+      margin-bottom: 40px;
+    }
+
+    .btn {
+      --margin: 24px;
+      --v-padding: 7px;
+      --h-padding: 20.5px;
+    }
+
+    .note {
+      max-width: 224px;
+      margin: auto;
+    }
+
+    img {
+      position: static;
+      height: 336px;
+      transform: translateX(125px);
+    }
   }
 </style>
