@@ -5,7 +5,7 @@
   export { className as class }
 </script>
 
-<section class="row justify v-center border body-2 relative {className}">
+<section class="row justify v-center border body-2 relative txt-left {className}">
   <img src={blackFriday} alt="Black Friday Bear" />
   <article>
     <h4 class="h4 title">Buy this bear market dip</h4>
