@@ -33,7 +33,7 @@ function onSubmit() {
       isComments
       bind:editor
       html={value}
-      class="input input-2vLgo"
+      class="input input-1gld7S"
       placeholder="Type your comment here" />
 
     <div class="row v-center mrg-l mrg--t">
@@ -47,7 +47,7 @@ function onSubmit() {
 </Dialog>
 
 <style>
-  :global(.input-2vLgo) {
+  :global(.input-1gld7S) {
     padding: 9px 12px;
     min-height: 40px;
     width: 400px;

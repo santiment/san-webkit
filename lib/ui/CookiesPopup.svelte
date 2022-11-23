@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-  API: 'api--sbb03',
-  SHEETS: 'sheets-2r5a3L'
+  API: 'api-f1zicz',
+  SHEETS: 'sheets-xjsVjb'
 };</script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
@@ -25,7 +25,7 @@ function onManageClick() {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
-    <Svg illus id="cookies" class="pic-22Cit0" />
+    <Svg illus id="cookies" class="pic-9JSy-c" />
     <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
     </h2>
@@ -50,12 +50,12 @@ function onManageClick() {
   text-align: center;
 }
 
-:global(.api--sbb03) {
+:global(.api-f1zicz) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-2r5a3L) {
+:global(.sheets-xjsVjb) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -64,7 +64,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-22Cit0) {
+:global(.pic-9JSy-c) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -78,7 +78,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-22Cit0) {
+:global(.desktop) :global(.pic-9JSy-c) {
   transform: initial;
   position: absolute;
   left: 24px;

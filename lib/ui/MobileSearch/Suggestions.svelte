@@ -35,7 +35,11 @@ function onItemClick(event) {
 <div class="wrapper column mrg-xxl mrg--t mrg--b">
   {#if loading}
     <div class="logo-wrapper column hv-center">
+<<<<<<< HEAD
       <Svg illus id="san-logo" w="72" class="logo-1FVJ7Q" />
+=======
+      <Svg illus id="san-logo" w="72" class="logo-3IH_2U" />
+>>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
@@ -74,7 +78,11 @@ a:focus, a:visited, a:active {
   height: 100%;
 }
 
+<<<<<<< HEAD
 :global(.logo-1FVJ7Q) {
+=======
+:global(.logo-3IH_2U) {
+>>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   animation: load 1s infinite alternate;
 }
 

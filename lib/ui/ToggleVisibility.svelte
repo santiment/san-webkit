@@ -2,9 +2,15 @@
 import Toggle from './Toggle.svelte';
 export let handleClick = noop;</script>
 
+<<<<<<< HEAD
 <Toggle class="toggle-xeobh5" on:click={handleClick} icon="toggle-visibility" {...$$restProps} />
 
 <style >:global(.toggle-xeobh5) {
+=======
+<Toggle class="toggle-2NVJ-B" on:click={handleClick} icon="toggle-visibility" {...$$restProps} />
+
+<style >:global(.toggle-2NVJ-B) {
+>>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   --toggle-width: 48px;
   --toggle-height: 24px;
   --toggle-radius: 20px;

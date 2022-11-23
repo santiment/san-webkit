@@ -48,7 +48,11 @@ function getFullLink(link, slug = '') {
   <section class="column body-2 mrg-a mrg--t">
     {#if user}
       {@const accountLink = isFullLink ? getFullLink('/account') : '/account'}
+<<<<<<< HEAD
       <Profile {user} class="profile-oQ0w5M txt-m">
+=======
+      <Profile {user} class="profile-26QFs3 txt-m">
+>>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
         {#if user.username && user.email}
           <div class="body-3 txt-r c-waterloo">{user.email}</div>
         {/if}
@@ -88,7 +92,11 @@ section {
   margin: 20px 0;
 }
 
+<<<<<<< HEAD
 :global(.profile-oQ0w5M) {
+=======
+:global(.profile-26QFs3) {
+>>>>>>> 7a01f87f5ef161038b1901bf4d9fb36cee23e677
   --img-size: 48px;
 }
 
