@@ -7,15 +7,15 @@
 
 <section class="row justify v-center border body-2 relative {className}">
   <img src={blackFriday} alt="Black Friday Bear" />
-  <div class="text">
-    <div class="title">Buy this bear market dip</div>
-    <div class="value">35% Off</div>
-    <div class="condition">for all subscriptions till Nov 30th</div>
+  <article>
+    <h4 class="h4 title">Buy this bear market dip</h4>
+    <h3>35% Off</h3>
+    <h4 class="h4 condition">for all subscriptions till Nov 30th</h4>
     <a class="btn btn-1 body-1 mrg--b mrg-l" href="https://santiment.net/discord"
       >Claim your promo code!</a
     >
-    <div class="note">You will find your promo code in our dicord channel</div>
-  </div>
+    <em class="body-2">You will find your promo code in our dicord channel</em>
+  </article>
 </section>
 
 <style lang="scss">
@@ -25,7 +25,7 @@
     height: 100%;
   }
 
-  .text {
+  article {
     max-width: 380px;
 
     .btn {
@@ -46,13 +46,11 @@
   }
 
   .title {
-    font-size: 22px;
-    line-height: 27px;
     letter-spacing: 0.02em;
     color: #d2d6e7;
   }
 
-  .value {
+  h3 {
     font-weight: 600;
     font-size: 68px;
     line-height: 83px;
@@ -62,17 +60,14 @@
   }
 
   .condition {
-    font-size: 22px;
-    line-height: 27px;
     letter-spacing: 0.01em;
     color: #ffffff;
     margin-bottom: 28px;
   }
 
-  .note {
+  em {
+    display: block;
     font-style: italic;
-    font-size: 16px;
-    line-height: 26px;
     letter-spacing: 0.01em;
     color: #f7f8fb;
   }
@@ -84,7 +79,7 @@
     }
 
     img {
-      right: -40%;
+      right: -43%;
     }
   }
 
@@ -97,7 +92,7 @@
       padding: 0;
     }
 
-    .text {
+    article {
       max-width: 100%;
       flex-direction: column;
       justify-content: center;
@@ -115,7 +110,7 @@
       --h-padding: 20.5px;
     }
 
-    .note {
+    em {
       max-width: 224px;
       margin: auto;
     }
