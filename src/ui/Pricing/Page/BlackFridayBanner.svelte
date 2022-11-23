@@ -21,18 +21,19 @@
 <style lang="scss">
   img {
     position: absolute;
-    right: 0;
+    right: -35px;
     height: 100%;
   }
 
   .text {
     max-width: 380px;
 
-    a {
+    .btn {
       display: inline-flex;
       --v-padding: 9.6px;
     }
   }
+
   section {
     max-width: 100%;
     width: 1140px;
@@ -41,7 +42,7 @@
     padding: 40px 0 40px 72px;
     margin: 0 auto 80px;
     overflow: hidden;
-    background-color: #1a1d2f;
+    background: #1a1d2f;
   }
 
   .title {
@@ -61,7 +62,6 @@
   }
 
   .condition {
-    font-weight: 400;
     font-size: 22px;
     line-height: 27px;
     letter-spacing: 0.01em;
@@ -71,7 +71,6 @@
 
   .note {
     font-style: italic;
-    font-weight: 400;
     font-size: 16px;
     line-height: 26px;
     letter-spacing: 0.01em;
