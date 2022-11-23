@@ -11,6 +11,7 @@
   import Comparison from '../Comparison/index.svelte'
   import Plans from './Plans.svelte'
   import PromoSanTokenBanner from './PromoSanTokenBanner.svelte'
+  import BlackFridayBanner from './BlackFridayBanner.svelte'
 
   let className = ''
   export { className as class }
@@ -45,6 +46,8 @@
 
     <BillingToggle bind:billing />
   </div>
+
+  <BlackFridayBanner />
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
