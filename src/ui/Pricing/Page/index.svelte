@@ -43,11 +43,9 @@
     {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
-  </div>
 
-  <BlackFridayBanner />
+    <BlackFridayBanner />
 
-  <div class="txt-center header">
     <BillingToggle bind:billing />
   </div>
 
@@ -86,9 +84,10 @@
     }
   }
 
-  .header {
+  .header h2,
+  .header h3 {
     :global(body:not(.desktop)) & {
-      padding: 0 10px;
+      padding: 0 20px;
     }
   }
 
