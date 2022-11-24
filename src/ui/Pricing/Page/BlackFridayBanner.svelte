@@ -57,7 +57,6 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: #ffffff;
-    white-space: nowrap;
   }
 
   .condition {
@@ -120,6 +119,11 @@
       position: static;
       height: 336px;
       transform: translateX(125px);
+    }
+
+    h3 {
+      font-size: 54px;
+      letter-spacing: 0.01em;
     }
   }
 </style>
