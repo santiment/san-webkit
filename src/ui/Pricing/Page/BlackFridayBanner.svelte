@@ -5,7 +5,7 @@
   export { className as class }
 </script>
 
-<section class="row justify v-center border body-2 relative {className}">
+<section class="row justify v-center border body-2 relative txt-left {className}">
   <img src={blackFriday} alt="Black Friday Bear" />
   <article>
     <h4 class="h4 title">Buy this bear market dip</h4>
@@ -40,7 +40,7 @@
     border: 1px solid #222639;
     border-radius: 8px;
     padding: 40px 0 40px 72px;
-    margin: 0 auto 80px;
+    margin: 32px auto 48px;
     overflow: hidden;
     background: #1a1d2f;
   }
@@ -119,6 +119,11 @@
       position: static;
       height: 336px;
       transform: translateX(125px);
+    }
+
+    h3 {
+      font-size: 54px;
+      letter-spacing: 0.01em;
     }
   }
 </style>

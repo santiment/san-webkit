@@ -44,10 +44,10 @@
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
+    <BlackFridayBanner />
+
     <BillingToggle bind:billing />
   </div>
-
-  <BlackFridayBanner />
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
@@ -84,9 +84,10 @@
     }
   }
 
-  .header {
+  .header h2,
+  .header h3 {
     :global(body:not(.desktop)) & {
-      padding: 0 46px;
+      padding: 0 20px;
     }
   }
 
