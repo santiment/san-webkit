@@ -50,16 +50,16 @@ function billingFilter({
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
+    <BlackFridayBanner />
+
     <BillingToggle bind:billing />
   </div>
-
-  <BlackFridayBanner />
 
   <Plans {plans} {billingPlans} {subscription} {annualDiscount} {isLoggedIn} {isEligibleForTrial} />
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-19BAkz" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-2XzvCE" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -86,11 +86,12 @@ function billingFilter({
   margin-bottom: 60px;
 }
 
-:global(body:not(.desktop)) .header {
-  padding: 0 46px;
+:global(body:not(.desktop)) .header h2,
+:global(body:not(.desktop)) .header h3 {
+  padding: 0 20px;
 }
 
-:global(.comparison-19BAkz) {
+:global(.comparison-2XzvCE) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }
