@@ -41,7 +41,7 @@
     </h2>
     <h4 class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
-      <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
+      <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
     </h4>

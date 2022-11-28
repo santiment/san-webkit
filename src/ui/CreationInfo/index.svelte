@@ -34,17 +34,19 @@
 
 {#if title}
   <div class="creation row v-center mrg-m mrg--r">
-    <Tooltip openDelay={110}>
-      <svelte:fragment slot="trigger">
-        <Profile {user} {source} feature={type} class="$style.author" />
-      </svelte:fragment>
+    {#if user}
+      <Tooltip openDelay={110}>
+        <svelte:fragment slot="trigger">
+          <Profile {user} {source} feature={type} class="$style.author" />
+        </svelte:fragment>
 
-      <svelte:fragment slot="tooltip">
-        <Info {user} {type} feature={type} {currentUser} />
-      </svelte:fragment>
-    </Tooltip>
+        <svelte:fragment slot="tooltip">
+          <Info {user} {type} feature={type} {currentUser} />
+        </svelte:fragment>
+      </Tooltip>
 
-    <div class="divider" />
+      <div class="divider" />
+    {/if}
 
     <HoverEdit
       class="$style.title body-2"

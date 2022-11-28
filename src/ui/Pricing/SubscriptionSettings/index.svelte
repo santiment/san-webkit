@@ -92,9 +92,9 @@
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <div class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
-      </div>
+      </button>
     </Setting>
   {/if}
 
@@ -134,12 +134,12 @@
     {#if isBillingLoading}
       <div class="loading-spin" />
     {:else if billingHistory.length}
-      <div
+      <button
         class="btn c-accent nowrap"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
-      </div>
+      </button>
     {:else}
       <div class="c-waterloo nowrap">No history yet</div>
     {/if}

@@ -24,9 +24,9 @@
     </div>
   </div>
 
-  <div class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = null)}>
+  <button class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = null)}>
     Use another card
-  </div>
+  </button>
 
   <p class="caption c-waterloo">
     Santiment never stores your payment credentials. All details are encrypted on not accessible to

@@ -1,0 +1,41 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "globals": {
+    "SAN": "readonly"
+  },
+  "plugins": ["react", "@typescript-eslint", "svelte3"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "settings": {
+    "svelte3/typescript": true
+  },
+  "parserOptions": {
+    "project": ["./tsconfig.json"],
+    "extraFileExtensions": [".svelte"]
+  },
+  "rules": {
+    "quotes": ["error", "single"],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/prop-types": "off",
+    "jsx-quotes": ["error", "prefer-single"],
+    "no-fallthrough": "off",
+    "css-unused-selector": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ]
+  }
+}

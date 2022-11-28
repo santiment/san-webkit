@@ -59,6 +59,7 @@
   {#each QA as { question, answer } (question)}
     {@const isOpened = opened.has(question)}
 
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div
       class="question btn row justify v-center body-1 txt-m mrg-l mrg--t"
       class:opened={isOpened}

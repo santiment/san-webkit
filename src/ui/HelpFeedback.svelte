@@ -9,13 +9,13 @@
   export { className as class }
 </script>
 
-<div class="btn row v-center {className}" on:click>
+<button class="btn row v-center {className}" on:click>
   <Svg id="chat" w="14" h="16" class="$style.chat mrg-s mrg--b" />
   Help & Feedback
-</div>
+</button>
 
 <style>
-  div {
+  button {
     --color: #fff;
     writing-mode: vertical-lr;
     padding: 12px 6px;

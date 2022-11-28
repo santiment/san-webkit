@@ -47,7 +47,7 @@
     <div class="dots row mrg-a mrg--r">
       {#if features.length > 1}
         {#each features as _, i}
-          <div
+          <button
             class="dot btn mrg-s mrg--r"
             class:active={cursor === i}
             on:click={() => (cursor = i)}
@@ -57,12 +57,12 @@
     </div>
 
     {#if hasPrevious}
-      <div class="btn-2 mrg-s mrg--r" on:click={onPrevious}>Previous</div>
+      <button class="btn-2 mrg-s mrg--r" on:click={onPrevious}>Previous</button>
     {/if}
 
-    <div class="btn-1" on:click={hasNext ? onNext : onClose}>
+    <button class="btn-1" on:click={hasNext ? onNext : onClose}>
       {hasNext ? 'Next' : 'Close'}
-    </div>
+    </button>
   </div>
 </div>
 

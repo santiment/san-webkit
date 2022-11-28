@@ -1,4 +1,4 @@
-import { Plan, PlanName } from '@/utils/plans'
+import { Plan } from '@/utils/plans'
 
 export const PlanDescription = {
   [Plan.FREE]: {
@@ -29,6 +29,7 @@ export const PlanDescription = {
     description: 'Complete analytics & backtesting framework',
     features: [
       'All features from PRO plus:',
+      // eslint-disable-next-line quotes
       "Access to Santiment's API",
       'Dedicated Account Manager',
       'Google Sheets / Excel Plugin',

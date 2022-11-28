@@ -47,17 +47,18 @@
 </script>
 
 <Tooltip on="click" duration={0} position="top" align="end" activeClass="$style.active">
-  <button slot="trigger" class="btn row hv-center mrg-a mrg--l {className}"
-    ><Svg id="horz-dots" w="16" h="4" /></button>
+  <button slot="trigger" class="menu btn row hv-center mrg-a mrg--l {className}"
+    ><Svg id="horz-dots" w="16" h="4" /></button
+  >
 
   <div slot="tooltip" class="tooltip">
-    <div class="btn-ghost" on:click={onCommentEdit}>Edit</div>
-    <div class="btn-ghost" on:click={onCommentDelete}>Delete</div>
+    <button class="btn-ghost fluid" on:click={onCommentEdit}>Edit</button>
+    <button class="btn-ghost fluid" on:click={onCommentDelete}>Delete</button>
   </div>
 </Tooltip>
 
 <style>
-  button {
+  .menu {
     width: 32px;
     height: 32px;
   }

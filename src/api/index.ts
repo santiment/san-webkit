@@ -1,7 +1,7 @@
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 const fetch = process.browser ? window.fetch : require('node-fetch')
 
-type Variables = { [key: string]: any }
+export type Variables = { [key: string]: any }
 
 export type Data<T extends SAN.API.QueryBase> = {
   data: T
