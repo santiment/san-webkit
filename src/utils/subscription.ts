@@ -1,5 +1,6 @@
 import type { CustomerData } from '@/stores/user'
-import { getDateFormats, ONE_DAY_IN_MS } from './dates'
+
+import { ONE_DAY_IN_MS } from './dates'
 import { PlanName, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
 
 export enum Status {

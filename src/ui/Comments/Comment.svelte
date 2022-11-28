@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { CommentsType } from '@/api/comments'
+
   import Author from '@/ui/Profile/svelte'
   import { dateDifferenceInWords } from '@/utils/dates'
   import { markdownToHTML } from '@/ui/Editor/markdown'

@@ -13,7 +13,7 @@ export function initTwitterPixel(id = 'o0e0e'): void {
 
   newHeadScript(undefined, {
     async: true,
-    src: `https://static.ads-twitter.com/oct.js`,
+    src: 'https://static.ads-twitter.com/oct.js',
   })
 }
 
