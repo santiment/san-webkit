@@ -18,7 +18,7 @@ export { className as class };</script>
 
       <div class="grid">
         {#each links as { href, title }}
-          <a {href} target="_blank" class="link">{title}</a>
+          <a {href} target="_blank" rel="noreferrer" class="link">{title}</a>
         {/each}
       </div>
 
@@ -26,7 +26,7 @@ export { className as class };</script>
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
           <DigestForm
-            class="mrg-xl mrg--b form-2aidct {$IsMobile ? '' : 'body-3'}"
+            class="mrg-xl mrg--b form-bqYszF {$IsMobile ? '' : 'body-3'}"
             label="Subscribe"
           />
         </div>
@@ -60,10 +60,10 @@ footer {
   --max-width: 100%;
 }
 
-:global(.form-2aidct) {
+:global(.form-bqYszF) {
   width: 386px;
 }
-:global(body:not(.desktop)) :global(.form-2aidct) {
+:global(body:not(.desktop)) :global(.form-bqYszF) {
   width: auto;
 }
 
@@ -88,8 +88,8 @@ footer {
 :global(.phone) .top {
   flex-direction: column;
 }
-:global(.phone-xs) :global(.form-2aidct),
-:global(.phone) :global(.form-2aidct) {
+:global(.phone-xs) :global(.form-bqYszF),
+:global(.phone) :global(.form-bqYszF) {
   margin-bottom: 40px;
 }
 

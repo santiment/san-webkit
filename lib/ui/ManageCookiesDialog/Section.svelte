@@ -4,6 +4,7 @@ export let description;
 let isOpened = false;</script>
 
 <section>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="btn row v-center justify"
     class:opened={isOpened}

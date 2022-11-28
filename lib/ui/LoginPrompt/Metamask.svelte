@@ -15,14 +15,14 @@ function onLoginClick() {
 }</script>
 
 {#if hasMetamask}
-  <div
-    class="login btn-1 btn--l"
+  <button
+    class="login fluid btn-1 btn--l"
     class:loading
     on:click={onLoginClick}
     style="--url:url({metamaskInverseSvg})"
   >
     Log in with Metamask
-  </div>
+  </button>
 {:else}
   <div class="metamask" style="--url:url({metamaskSvg})">
     <h3 class="body-2 txt-m mrg-xs mrg--b">We can't detect Metamask!</h3>

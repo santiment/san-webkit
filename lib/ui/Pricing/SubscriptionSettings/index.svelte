@@ -61,7 +61,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-1AnT2l">
+  <Setting class="subscriptions-3psSsa">
     <UserPlanCard
       {plan}
       {subscription}
@@ -96,9 +96,9 @@ function getPlanSuggestions() {
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <div class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
-      </div>
+      </button>
     </Setting>
   {/if}
 
@@ -138,12 +138,12 @@ function getPlanSuggestions() {
     {#if isBillingLoading}
       <div class="loading-spin" />
     {:else if billingHistory.length}
-      <div
+      <button
         class="btn c-accent nowrap"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
-      </div>
+      </button>
     {:else}
       <div class="c-waterloo nowrap">No history yet</div>
     {/if}
@@ -177,7 +177,7 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-1AnT2l) {
+:global(.subscriptions-3psSsa) {
   gap: 16px;
 }
 
@@ -187,8 +187,8 @@ function getPlanSuggestions() {
   margin-top: 8px;
 }
 
-:global(.phone) :global(.subscriptions-1AnT2l),
-:global(.tablet) :global(.subscriptions-1AnT2l),
-:global(.phone-xs) :global(.subscriptions-1AnT2l) {
+:global(.phone) :global(.subscriptions-3psSsa),
+:global(.tablet) :global(.subscriptions-3psSsa),
+:global(.phone-xs) :global(.subscriptions-3psSsa) {
   flex-direction: column;
 }</style>

@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-  API: 'api-1zmvVa',
-  SHEETS: 'sheets-1VLAnP'
+  API: 'api--sbb03',
+  SHEETS: 'sheets-2r5a3L'
 };</script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
@@ -25,13 +25,13 @@ function onManageClick() {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
-    <Svg illus id="cookies" class="pic-1uupRv" />
+    <Svg illus id="cookies" class="pic-22Cit0" />
     <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
     </h2>
     <h4 class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
-      <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
+      <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
     </h4>
@@ -50,12 +50,12 @@ function onManageClick() {
   text-align: center;
 }
 
-:global(.api-1zmvVa) {
+:global(.api--sbb03) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-1VLAnP) {
+:global(.sheets-2r5a3L) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -64,7 +64,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-1uupRv) {
+:global(.pic-22Cit0) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -78,7 +78,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-1uupRv) {
+:global(.desktop) :global(.pic-22Cit0) {
   transform: initial;
   position: absolute;
   left: 24px;

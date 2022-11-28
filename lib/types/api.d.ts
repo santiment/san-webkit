@@ -8,6 +8,8 @@ declare namespace SAN {
     type QueryBase = Query<string, unknown>
     type QueryData<T extends QueryBase> = T[keyof T]
 
+    type Variables = import('../api').Variables
+
     type QueryOptions<T extends QueryBase, U extends Variables = Variables> = {
       cache?: boolean
       /** Caching time in seconds */ cacheTime?: number

@@ -88,25 +88,25 @@ function onPrevPage() {
     ({items.length} rows total)</span
   >
 
-  <div
+  <button
     class="btn-2 btn--s row hv-center mrg-a mrg--l"
     class:disabled={page <= 0}
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-3aZ9ra mrg-m mrg--l" />
-  </div>
-  <div
+    <Svg id="arrow-right" w="5" h="8" class="left-1PSkR mrg-m mrg--l" />
+  </button>
+  <button
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
     class:disabled={page >= maxPage}
     on:click={onNextPage}
   >
     <Svg id="arrow-right" w="5" h="8" class="mrg-m mrg--r" />
     Next
-  </div>
+  </button>
 </div>
 
-<style >:global(.left-3aZ9ra) {
+<style >:global(.left-1PSkR) {
   transform: rotate(180deg);
 }
 

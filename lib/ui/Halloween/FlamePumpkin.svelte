@@ -2,10 +2,10 @@
 export { className as class };
 export let small = false;</script>
 
-<div class="relative {className}" class:small on:click>
+<button class="relative {className}" class:small on:click>
   <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" />
   <span>🎃</span>
-</div>
+</button>
 
 <style >img {
   width: 116px;

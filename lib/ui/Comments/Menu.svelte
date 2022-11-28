@@ -38,22 +38,23 @@ function updateReplies(isWithTagname = true) {
   });
 }</script>
 
-<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-10rLhe">
-  <button slot="trigger" class="btn row hv-center mrg-a mrg--l {className}"
-    ><Svg id="horz-dots" w="16" h="4" /></button>
+<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-16e8io">
+  <button slot="trigger" class="menu btn row hv-center mrg-a mrg--l {className}"
+    ><Svg id="horz-dots" w="16" h="4" /></button
+  >
 
   <div slot="tooltip" class="tooltip">
-    <div class="btn-ghost" on:click={onCommentEdit}>Edit</div>
-    <div class="btn-ghost" on:click={onCommentDelete}>Delete</div>
+    <button class="btn-ghost fluid" on:click={onCommentEdit}>Edit</button>
+    <button class="btn-ghost fluid" on:click={onCommentDelete}>Delete</button>
   </div>
 </Tooltip>
 
 <style>
-  button {
+  .menu {
     width: 32px;
     height: 32px;
   }
-  :global(.active-10rLhe) {
+  :global(.active-16e8io) {
     --bg: var(--green-light-1);
     --color: var(--green);
     --color-hover: var(--green-hover);

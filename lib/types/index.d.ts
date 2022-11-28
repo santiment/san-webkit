@@ -17,7 +17,9 @@ declare namespace NodeJS {
 }
 
 interface Window {
+  // eslint-disable-next-line no-undef
   Stripe?: stripe.StripeStatic
+  // eslint-disable-next-line no-undef
   StripeInstance?: stripe.Stripe
   ethereum?: any
   twttr?: any
@@ -34,7 +36,9 @@ interface Window {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 namespace MediumEditor {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface MediumEditor {
     Extension: {
       extend: (any) => any

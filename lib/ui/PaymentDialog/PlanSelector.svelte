@@ -31,15 +31,15 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
 
 <div class="row justify mrg-l mrg--b">
   <div class="relative">
-    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-27jPEy">
-      <div slot="trigger" class="selector btn body-1 txt-b" on:click>
+    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-34YGAM">
+      <button slot="trigger" class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="8" h="4.5" class="arrow-cHvGLx mrg-xs mrg--l" />
-      </div>
+        <Svg id="arrow" w="8" h="4.5" class="arrow-1EMdcc mrg-xs mrg--l" />
+      </button>
 
       <div slot="tooltip" class="column">
         {#each plans as option}
-          <div class="option btn" class:active={plan === option} on:click={() => select(option)}>
+          <button class="option btn" class:active={plan === option} on:click={() => select(option)}>
             {isSinglePlan ? 'Bill' : PlanName[option.name]}
             {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
@@ -47,7 +47,7 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
             {#if checkIsYearlyPlan(option)}
               <span class="mrg-s mrg--l caption c-accent">{SAVED_MSG}</span>
             {/if}
-          </div>
+          </button>
         {/each}
       </div>
     </Tooltip>
@@ -72,11 +72,11 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
     --fill: var(--casper);
     --fill-hover: var(--accent);
   }
-  :global(.opened-27jPEy) {
+  :global(.opened-34YGAM) {
     --rotate: 0;
   }
 
-  :global(.arrow-cHvGLx) {
+  :global(.arrow-1EMdcc) {
     transform: rotate(var(--rotate, 180deg));
   }
 

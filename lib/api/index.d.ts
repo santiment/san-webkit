@@ -1,4 +1,4 @@
-declare type Variables = {
+export declare type Variables = {
     [key: string]: any;
 };
 export declare type Data<T extends SAN.API.QueryBase> = {

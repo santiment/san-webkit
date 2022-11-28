@@ -51,8 +51,8 @@ function onAllowAllClick() {
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-2kmjeH"
-  titleClassName="title-3FRYoA"
+  class="dialog-12NeI5"
+  titleClassName="title-2TjuEO"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -61,8 +61,11 @@ function onAllowAllClick() {
       visited. The information does not usually directly identify you, but it can give you a safe
       and more personalized web experience. Because we respect your right to privacy, you can choose
       not to allow some types of cookies. Blocking some types of cookies may impact your experience
-      on the site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
-        >Learn more</a
+      on the site. <a
+        href="https://santiment.net/cookies/"
+        target="_blank"
+        rel="noreferrer"
+        class="link-pointer">Learn more</a
       >
     </p>
 
@@ -96,14 +99,16 @@ function onAllowAllClick() {
     </Section>
   </div>
   <div class="bottom row txt-center" class:body-2={$IsMobile}>
-    <div class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
+    <button class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
       Save cookie settings
-    </div>
-    <div class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}>Allow all</div>
+    </button>
+    <button class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}
+      >Allow all</button
+    >
   </div>
 </Dialog>
 
-<style >:global(.dialog-2kmjeH) {
+<style >:global(.dialog-12NeI5) {
   max-width: 600px !important;
 }
 
@@ -122,10 +127,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-2kmjeH) {
+:global(body:not(.desktop)) :global(.dialog-12NeI5) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-3FRYoA) {
+:global(body:not(.desktop)) :global(.title-2TjuEO) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

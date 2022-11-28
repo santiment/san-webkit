@@ -33,7 +33,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
   duration={130}
   align="center"
   bind:isOpened
-  activeClass="active-1v7yow"
+  activeClass="active-kh1Tjl"
   class={tooltipClass}
 >
   <svelte:fragment slot="trigger">
@@ -42,7 +42,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l box-1sZrPC" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l box-Ga2XWK" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </svelte:fragment>
 
@@ -92,10 +92,10 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
         </a>
       {/if}
 
-      <div class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
+      <button class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
-      </div>
+      </button>
 
       <a
         href="https://app.santiment.net/labs"
@@ -111,28 +111,28 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
         >
       {/if}
 
-      <div
+      <button
         class="btn-ghost row justify v-center"
         on:click={() => window.Intercom && window.Intercom('show')}
       >
         Contact us
-      </div>
+      </button>
 
       {#if currentUser}
-        <div class="btn-ghost row justify v-center logout" on:click={onLogout}>
+        <button class="btn-ghost row justify v-center logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
-        </div>
+        </button>
       {/if}
     </section>
   </div>
 </Tooltip>
 
 <style>
-  :global(.active-1v7yow) :global(.box-1sZrPC) {
+  :global(.active-kh1Tjl) :global(.box-Ga2XWK) {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro :global(.box-1sZrPC) {
+  .pro :global(.box-Ga2XWK) {
     --green: var(--orange-hover);
   }
 
@@ -140,6 +140,10 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
     background: var(--porcelain);
     height: 1px;
     border: none;
+  }
+
+  button {
+    width: 100%;
   }
 
   .write {
