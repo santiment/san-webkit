@@ -10,6 +10,7 @@ import SpecialOfferBanner from './SpecialOfferBanner.svelte';
 import Comparison from '../Comparison/index.svelte';
 import Plans from './Plans.svelte';
 import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
+import BlackFridayBanner from './BlackFridayBanner.svelte';
 let className = '';
 export { className as class };
 export let billing = Billing.MONTH;
@@ -49,6 +50,8 @@ function billingFilter({
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
 
+    <BlackFridayBanner />
+
     <BillingToggle bind:billing />
   </div>
 
@@ -56,7 +59,7 @@ function billingFilter({
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-3LjnLC" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-2XzvCE" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -83,11 +86,12 @@ function billingFilter({
   margin-bottom: 60px;
 }
 
-:global(body:not(.desktop)) .header {
-  padding: 0 46px;
+:global(body:not(.desktop)) .header h2,
+:global(body:not(.desktop)) .header h3 {
+  padding: 0 20px;
 }
 
-:global(.comparison-3LjnLC) {
+:global(.comparison-2XzvCE) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }

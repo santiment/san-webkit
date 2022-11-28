@@ -19,7 +19,12 @@ async function publish() {
   await exec('git pull', false)
 
   await exec('git checkout lib')
-  await exec('git pull', false)
+
+  const [, pullError] = await exec('git pull', false)
+  // const [, pullError] = await exec('git pull --ff -X theirs -m "Merge branch \'master\' into lib"', false)
+  if (pullError) {
+    return console.error(`${pullError}  \n Failed to do "git pull" ❗️`)
+  }
 
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
 
