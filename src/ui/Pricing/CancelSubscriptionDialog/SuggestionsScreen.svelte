@@ -12,11 +12,15 @@
     <a
       class="suggestion btn-2"
       target="_blank"
+      rel="noreferrer"
       href="https://academy.santiment.net/education-and-use-cases/"
       >Discover use cases on our Academy</a
     >
-    <a class="suggestion btn-2" target="_blank" href="https://www.youtube.com/c/SantimentNetwork"
-      >Gain insights on our Youtube channel</a
+    <a
+      class="suggestion btn-2"
+      target="_blank"
+      rel="noreferrer"
+      href="https://www.youtube.com/c/SantimentNetwork">Gain insights on our Youtube channel</a
     >
     <button class="suggestion btn-2" on:click={showIntercom}
       >Request a custom subscription plan</button

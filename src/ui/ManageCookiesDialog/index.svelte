@@ -68,8 +68,11 @@
       visited. The information does not usually directly identify you, but it can give you a safe
       and more personalized web experience. Because we respect your right to privacy, you can choose
       not to allow some types of cookies. Blocking some types of cookies may impact your experience
-      on the site. <a href="https://santiment.net/cookies/" target="_blank" class="link-pointer"
-        >Learn more</a
+      on the site. <a
+        href="https://santiment.net/cookies/"
+        target="_blank"
+        rel="noreferrer"
+        class="link-pointer">Learn more</a
       >
     </p>
 
@@ -103,10 +106,12 @@
     </Section>
   </div>
   <div class="bottom row txt-center" class:body-2={$IsMobile}>
-    <div class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
+    <button class="btn--s {$IsMobile ? 'btn-2' : 'btn-1'}" on:click={onSaveClick}>
       Save cookie settings
-    </div>
-    <div class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}>Allow all</div>
+    </button>
+    <button class="btn--s {$IsMobile ? 'btn-1' : 'btn-2'}" on:click={onAllowAllClick}
+      >Allow all</button
+    >
   </div>
 </Dialog>
 

@@ -14,15 +14,16 @@
 </script>
 
 <ViewportObserver {options} on:intersect={onIntersect} on:leaving={onLeaving}>
-  <div
+  <button
     class="btn {className}"
     class:hidden
     on:click={() => window.scrollTo(0, 0)}
-    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)" />
+    style="--img:url({process.env.MEDIA_PATH}/icons/back-to-top.svg)"
+  />
 </ViewportObserver>
 
 <style>
-  div {
+  button {
     background: var(--img) no-repeat 50%, var(--bg, var(--accent));
     border-radius: 50%;
     position: fixed;

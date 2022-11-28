@@ -93,6 +93,7 @@
     <p>Review and accept our Privacy Policy to continue using Sanbase</p>
   </div>
 
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="btn row v-center body-2" on:click={() => (isActive = !isActive)}>
     <Checkbox class="mrg-m mrg--r" {isActive} />
     I accept

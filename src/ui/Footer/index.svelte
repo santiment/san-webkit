@@ -21,7 +21,7 @@
 
       <div class="grid">
         {#each links as { href, title }}
-          <a {href} target="_blank" class="link">{title}</a>
+          <a {href} target="_blank" rel="noreferrer" class="link">{title}</a>
         {/each}
       </div>
 

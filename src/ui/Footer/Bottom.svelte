@@ -10,10 +10,11 @@
   </div>
 
   <div class="extras">
-    <a href="https://santiment.net/terms/" target="_blank">Terms</a>
-    <a href="https://app.santiment.net/privacy-policy" target="_blank">Privacy</a>
+    <a href="https://santiment.net/terms/" rel="noreferrer" target="_blank">Terms</a>
+    <a href="https://app.santiment.net/privacy-policy" rel="noreferrer" target="_blank">Privacy</a>
     <a
       href="https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776"
+      rel="noreferrer"
       target="_blank"
       class="mrg-a mrg--r">Media Kit</a
     >

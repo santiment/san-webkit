@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CustomerData } from '@/stores/user'
+
   import { getUserSubscriptionInfo } from '@/utils/subscription'
   import { trackLogout } from '@/analytics/events/general'
   import Toggle from '@/ui/Toggle.svelte'
@@ -95,10 +96,10 @@
         </a>
       {/if}
 
-      <div class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
+      <button class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
         Night mode
         <Toggle isActive={$ui.nightMode} />
-      </div>
+      </button>
 
       <a
         href="https://app.santiment.net/labs"
@@ -114,17 +115,17 @@
         >
       {/if}
 
-      <div
+      <button
         class="btn-ghost row justify v-center"
         on:click={() => window.Intercom && window.Intercom('show')}
       >
         Contact us
-      </div>
+      </button>
 
       {#if currentUser}
-        <div class="btn-ghost row justify v-center logout" on:click={onLogout}>
+        <button class="btn-ghost row justify v-center logout" on:click={onLogout}>
           <Svg id="logout" w="16" class="mrg-s mrg--r" /> Logout
-        </div>
+        </button>
       {/if}
     </section>
   </div>
@@ -143,6 +144,10 @@
     background: var(--porcelain);
     height: 1px;
     border: none;
+  }
+
+  button {
+    width: 100%;
   }
 
   .write {
