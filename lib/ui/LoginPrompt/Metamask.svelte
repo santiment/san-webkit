@@ -1,6 +1,7 @@
 <script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
 import { trackSignupStart } from './../../analytics/events/onboarding';
 import Option from './Option.svelte';
+import metamaskSvg from '../../icons/metamask.svg';
 export let isSignUp = false;
 export let onClick;
 const hasMetamask = process.browser ? !!window.ethereum : true;

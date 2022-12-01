@@ -54,9 +54,13 @@ function onSubmit() {
   loading = true;
   const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username);
   usernamePromise.catch(onUsernameChangeError).then(() => {
-    trackGdprAccept(true);
     return mutateGdpr(true);
-  }).then(() => currentUser.privacyPolicyAccepted = true).then(onAccept).catch(console.error);
+  }).then(() => {
+    currentUser.privacyPolicyAccepted = true;
+    if (window.onGdprAccept) window.onGdprAccept();
+    trackGdprAccept(true);
+    return true;
+  }).then(onAccept).catch(console.error);
 }
 
 function onUsernameChangeError() {
