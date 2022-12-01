@@ -1,37 +1,33 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import Section from './Section.svelte';
+<script>import Section from './Section.svelte';
 import Metamask from './Metamask.svelte';
 import Divider from './Divider.svelte';
-import Option from './Option.svelte';
 import Google from './Google.svelte';
-import Twitter from './Twitter.svelte'; // import WalletConnect from './WalletConnect/index.svelte'
+import Twitter from './Twitter.svelte';
+import EmailForm from './EmailForm.svelte';
+import EmailConfirmation from './EmailConfirmation.svelte'; // import WalletConnect from './WalletConnect/index.svelte'
 
-export let title = 'Welcome to Insights';
-export let onMetamaskClick; // export let onWalletConnectLogin</script>
+export let title;
+export let onMetamaskClick;
+export let bottomLabel = 'New to Santiment?';
+export let bottomAction = 'Create an account';
+export let bottomHref = '/sign-up';
+export let isSignUp = false; // export let onWalletConnectLogin
 
-<Section
-  {title}
-  titleMargin="mrg-xxl"
-  bottomLabel="New to Santiment?"
-  bottomAction="Create an account"
-  bottomHref="/sign-up"
->
-  <Metamask onClick={onMetamaskClick} />
+let verifiedEmail;</script>
 
-  <Divider />
+{#if verifiedEmail}
+  <EmailConfirmation email={verifiedEmail} />
+{:else}
+  <Section {title} class="body-2" titleMargin="mrg-xl" {bottomLabel} {bottomAction} {bottomHref}>
+    <Metamask {isSignUp} onClick={onMetamaskClick} />
 
-  <Option href="/login/email" prefetch on:click={window.__onLinkClick}>
-    <Svg id="email" w="16" h="12" class="mrg-s mrg--r icon-287XoD" />
-    Log in with Email
-  </Option>
+    <Google {isSignUp} />
+    <Twitter {isSignUp} />
 
-  <!-- <WalletConnect onLogin={onWalletConnectLogin} /> -->
-  <Google />
-  <Twitter />
-</Section>
+    <Divider />
 
-<style>
-  :global(.icon-287XoD) {
-    fill: var(--casper);
-  }
-</style>
+    <EmailForm bind:verifiedEmail {isSignUp} />
+
+    <!-- <WalletConnect onLogin={onWalletConnectLogin} /> -->
+  </Section>
+{/if}
