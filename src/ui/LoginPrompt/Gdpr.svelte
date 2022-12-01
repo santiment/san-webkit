@@ -54,10 +54,16 @@
     usernamePromise
       .catch(onUsernameChangeError)
       .then(() => {
-        trackGdprAccept(true)
         return mutateGdpr(true)
       })
-      .then(() => (currentUser.privacyPolicyAccepted = true))
+      .then(() => {
+        currentUser.privacyPolicyAccepted = true
+
+        if (window.onGdprAccept) window.onGdprAccept()
+        trackGdprAccept(true)
+
+        return true
+      })
       .then(onAccept)
       .catch(console.error)
   }
