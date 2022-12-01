@@ -11,7 +11,6 @@
   import Comparison from '../Comparison/index.svelte'
   import Plans from './Plans.svelte'
   import PromoSanTokenBanner from './PromoSanTokenBanner.svelte'
-  import BlackFridayBanner from './BlackFridayBanner.svelte'
 
   let className = ''
   export { className as class }
@@ -43,8 +42,6 @@
     {#if annualDiscount && annualDiscount.isEligible}
       <SpecialOfferBanner {...annualDiscount.discount} />
     {/if}
-
-    <BlackFridayBanner />
 
     <BillingToggle bind:billing />
   </div>
@@ -84,10 +81,9 @@
     }
   }
 
-  .header h2,
-  .header h3 {
+  .header {
     :global(body:not(.desktop)) & {
-      padding: 0 20px;
+      padding: 0 46px;
     }
   }
 
