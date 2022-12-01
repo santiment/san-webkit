@@ -18,3 +18,6 @@ export const trackExplorerFeaturesFilter = ({
 
 export const trackExplorerShowMore = ({ page, size }: { page: number; size: number }) =>
   track('explorer_show_more', { page, size })
+
+export const trackExplorerItemOpened = ({ id, feature }) =>
+  track('explorer_item_opened', { id, feature })
