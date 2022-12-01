@@ -1,9 +1,12 @@
 <script>import { getSnapGridCtx } from './context';
 import { Resizer } from './resize';
+export let onEnd;
 const snapGrid = getSnapGridCtx();
 const {
   onDragStart
-} = Resizer(snapGrid);</script>
+} = Resizer(snapGrid, {
+  onEnd
+});</script>
 
 <div on:mousedown|capture={onDragStart} />
 

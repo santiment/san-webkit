@@ -27,7 +27,7 @@ export let source;</script>
     {#if user}
       <Tooltip openDelay={110}>
         <svelte:fragment slot="trigger">
-          <Profile {user} {source} feature={type} class="author-1Sc6B8" />
+          <Profile {user} {source} feature={type} class="author-krpWDF" />
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
@@ -39,7 +39,7 @@ export let source;</script>
     {/if}
 
     <HoverEdit
-      class="title-3QDKB0 body-2"
+      class="title-1dApTE body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
@@ -67,20 +67,22 @@ export let source;</script>
     class="mrg-s mrg--r"
   />
 
-  <VoteButton
-    {id}
-    {type}
-    {votes}
-    {source}
-    {onVote}
-    disabled={!currentUser}
-    class="mrg-xxl mrg--r"
-  />
+  {#if votes}
+    <VoteButton
+      {id}
+      {type}
+      {votes}
+      {source}
+      {onVote}
+      disabled={!currentUser}
+      class="mrg-xxl mrg--r"
+    />
+  {/if}
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="title-3QDKB0 body-2"
+    class="title-1dApTE body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -113,15 +115,15 @@ export let source;</script>
   margin: 0 12px;
 }
 
-:global(.author-1Sc6B8) {
+:global(.author-krpWDF) {
   overflow: hidden;
   min-width: fit-content;
 }
-:global(.author-1Sc6B8) :global(span) {
+:global(.author-krpWDF) :global(span) {
   max-width: 140px !important;
 }
 
-:global(.title-3QDKB0) {
+:global(.title-1dApTE) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

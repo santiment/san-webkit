@@ -7,13 +7,13 @@ let items = [0];</script>
 
 <Suggestions {...$$props} {items}>
   <div class="c-black">
-    <Svg id="fire" w="12" h="15" class="svg-3rDUO4 mrg-xs mrg--r" />
+    <Svg id="fire" w="12" h="15" class="svg-2l3ek2 mrg-xs mrg--r" />
     Link trend
   </div>
 </Suggestions>
 
 <style>
-  :global(.svg-3rDUO4) {
+  :global(.svg-2l3ek2) {
     fill: var(--black);
     margin-top: -2px;
   }
