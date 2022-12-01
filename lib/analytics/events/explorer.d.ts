@@ -8,3 +8,7 @@ export declare const trackExplorerShowMore: ({ page, size }: {
     page: number;
     size: number;
 }) => number;
+export declare const trackExplorerItemOpened: ({ id, feature }: {
+    id: any;
+    feature: any;
+}) => number;
