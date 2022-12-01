@@ -77,15 +77,17 @@
     class="mrg-s mrg--r"
   />
 
-  <VoteButton
-    {id}
-    {type}
-    {votes}
-    {source}
-    {onVote}
-    disabled={!currentUser}
-    class="mrg-xxl mrg--r"
-  />
+  {#if votes}
+    <VoteButton
+      {id}
+      {type}
+      {votes}
+      {source}
+      {onVote}
+      disabled={!currentUser}
+      class="mrg-xxl mrg--r"
+    />
+  {/if}
 {:else}
   <ProfilePic class="mrg-m mrg--r" />
 
