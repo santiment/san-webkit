@@ -1,8 +1,9 @@
 <script lang="ts">
   import { LoginType, trackLoginStart } from '@/analytics/events/general'
-  import metamaskSvg from './metamask.svg'
-  import metamaskInverseSvg from './metamask-inverse.svg'
+  import { trackSignupStart } from '@/analytics/events/onboarding'
+  import Option from './Option.svelte'
 
+  export let isSignUp = false
   export let onClick: () => Promise<any>
 
   const hasMetamask = process.browser ? !!window.ethereum : true
@@ -10,7 +11,12 @@
   let loading = false
   function onLoginClick() {
     loading = true
-    trackLoginStart(LoginType.METAMASK)
+
+    if (isSignUp) {
+      trackSignupStart(LoginType.METAMASK)
+    } else {
+      trackLoginStart(LoginType.METAMASK)
+    }
 
     onClick().catch((e) => {
       console.warn(e)
@@ -20,14 +26,14 @@
 </script>
 
 {#if hasMetamask}
-  <button
-    class="login fluid btn-1 btn--l"
-    class:loading
+  <Option
+    tag="button"
+    title="Metamask"
+    {loading}
     on:click={onLoginClick}
-    style="--url:url({metamaskInverseSvg})"
-  >
-    Log in with Metamask
-  </button>
+    icon="metamask"
+    {isSignUp}
+  />
 {:else}
   <div class="metamask" style="--url:url({metamaskSvg})">
     <h3 class="body-2 txt-m mrg-xs mrg--b">We can't detect Metamask!</h3>
@@ -42,9 +48,5 @@
     padding: 16px 20px 16px 64px;
     max-width: 344px;
     text-align: left;
-  }
-
-  .login {
-    background: var(--url) no-repeat 10px 50%, #f6851b;
   }
 </style>

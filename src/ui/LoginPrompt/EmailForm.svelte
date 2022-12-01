@@ -1,9 +1,11 @@
 <script>
   import { LoginType, trackLoginStart } from '@/analytics/events/general'
+  import { trackSignupStart } from '@/analytics/events/onboarding'
   import { mutateEmailLogin } from '@/api/login'
   import InputWithIcon from '@/ui/InputWithIcon.svelte'
 
   export let verifiedEmail = ''
+  export let isSignUp
 
   let email = ''
   let loading = false
@@ -14,7 +16,11 @@
 
     mutateEmailLogin(email).then(onSuccess)
 
-    trackLoginStart(LoginType.EMAIL)
+    if (isSignUp) {
+      trackSignupStart(LoginType.EMAIL)
+    } else {
+      trackLoginStart(LoginType.EMAIL)
+    }
   }
 
   function onSuccess({ emailLogin }) {
@@ -34,7 +40,7 @@
     name="email"
   />
 
-  <button class="btn-1 btn--l row h-center fluid mrg-l mrg--t" type="submit" class:loading
-    >Continue</button
-  >
+  <button class="btn-1 btn--l row h-center fluid mrg-l mrg--t" type="submit" class:loading>
+    {isSignUp ? 'Sign up' : 'Log in'}
+  </button>
 </form>

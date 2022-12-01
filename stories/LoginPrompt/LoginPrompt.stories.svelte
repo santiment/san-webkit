@@ -2,19 +2,19 @@
   import { Meta, Story } from '@storybook/addon-svelte-csf'
   import LoginPrompt from '@/ui/LoginPrompt/index.svelte'
   import Gdpr from '@/ui/LoginPrompt/Gdpr.svelte'
-  import SingUp from '@/ui/LoginPrompt/SignUp.svelte'
+  import SignUp from '@/ui/LoginPrompt/SignUp.svelte'
   import EmailLogin from '@/ui/LoginPrompt/EmailLogin.svelte'
   import EmailConfirmation from '@/ui/LoginPrompt/EmailConfirmation.svelte'
 </script>
 
 <Meta title="Example/LoginPrompt" component={LoginPrompt} />
 
-<Story name="Login">
-  <div><LoginPrompt /></div>
+<Story id="login" name="Login">
+  <div><LoginPrompt title="Welcome back" /></div>
 </Story>
 
-<Story name="Sign up">
-  <div><SingUp /></div>
+<Story id="signup" name="Sign up">
+  <div><SignUp title="Welcome to Sanbase" /></div>
 </Story>
 
 <Story name="Email login">
