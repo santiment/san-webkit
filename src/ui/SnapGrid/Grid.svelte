@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tick } from 'svelte'
+  import { noop } from '@/utils'
   import { setSnapGridCtx } from './context'
   import { SnapGrid } from './index'
   import { calcHeight, getResponsiveTranslate, getWidth } from './style'
@@ -17,6 +18,8 @@
   export let minCols: number
   export let maxRows: number
   export let minRows: number
+
+  export let onLayoutChange = noop as () => void
 
   let node
   const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
@@ -38,7 +41,10 @@
     isDragging = true
   }
   function onEnd() {
-    setTimeout(() => (isDragging = false), 150)
+    setTimeout(() => {
+      isDragging = false
+      onLayoutChange()
+    }, 150)
   }
 </script>
 
