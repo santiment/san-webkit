@@ -82,7 +82,8 @@ const event: SendEvent = isTrackingEnabled
             ...rest,
           }),
         )
-        window.amplitude.flush()
+        // NOTE: Was causing issues, since was called before amplitude's internal config init
+        // window.amplitude.flush()
       }
 
       return date
