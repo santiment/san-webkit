@@ -82,6 +82,7 @@ const event: SendEvent = isTrackingEnabled
             ...rest,
           }),
         )
+        window.amplitude.flush()
       }
 
       return date

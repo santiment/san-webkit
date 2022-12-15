@@ -124,7 +124,7 @@
   <div class="dialog border box column {className}">
     {#if noTitle === false}
       <h2
-        class="body-2 row v-center justify {titleClassName}"
+        class="body-2 row v-center justify single-line {titleClassName}"
         class:empty={!title && !$$slots.title}
       >
         {#if $$slots.title}
@@ -170,7 +170,6 @@
 
   .body-2 {
     padding: 12px 20px;
-    white-space: nowrap;
     border-bottom: 1px solid var(--porcelain);
   }
   .empty {

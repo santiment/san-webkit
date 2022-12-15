@@ -25,6 +25,7 @@ interface Window {
 
   amplitude?: {
     track: (action: string, eventProperties: { [key: string]: any }) => void
+    flush: () => void
     Identify: any
     identify: any
   }
