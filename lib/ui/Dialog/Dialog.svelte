@@ -124,7 +124,7 @@ function transition(node) {
   <div class="dialog border box column {className}">
     {#if noTitle === false}
       <h2
-        class="body-2 row v-center justify {titleClassName}"
+        class="body-2 row v-center justify single-line {titleClassName}"
         class:empty={!title && !$$slots.title}
       >
         {#if $$slots.title}
@@ -133,7 +133,7 @@ function transition(node) {
           {title}
         {/if}
 
-        <Svg id="close" class="btn mrg-a mrg--l close-2VWMjg" on:click={requestDialogClose} />
+        <Svg id="close" class="btn mrg-a mrg--l close-2m9JR" on:click={requestDialogClose} />
       </h2>
     {/if}
 
@@ -171,7 +171,6 @@ function transition(node) {
 
 .body-2 {
   padding: 12px 20px;
-  white-space: nowrap;
   border-bottom: 1px solid var(--porcelain);
 }
 
@@ -182,7 +181,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-2VWMjg) {
+:global(.close-2m9JR) {
   width: 12px;
   height: 12px;
   --fill: var(--waterloo);

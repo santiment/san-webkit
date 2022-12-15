@@ -6,14 +6,14 @@ export let isAscending = false;</script>
   id="sorted"
   w="6"
   h="8"
-  class="sorter-2JeLOD mrg-xs mrg--l {isAscending ? 'asc-2zkcND' : ''}" />
+  class="sorter-1_p9bO mrg-xs mrg--l {isAscending ? 'asc-C-Nyz4' : ''}" />
 
 <style>
-  :global(.sorter-2JeLOD) {
+  :global(.sorter-1_p9bO) {
     vertical-align: initial;
     margin-right: -14px;
   }
-  :global(.asc-2zkcND) {
+  :global(.asc-C-Nyz4) {
     --sorter-up: var(--waterloo);
     --sorter-down: var(--mystic);
   }
