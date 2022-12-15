@@ -51,13 +51,13 @@ function onCopy() {
   copy(shareLink, () => copyLabel = 'Copy', 1500);
 }</script>
 
-<Dialog {...$$props} title="Share" titleClassName="title--jBop3 body-2 txt-m">
+<Dialog {...$$props} title="Share" titleClassName="title-E8UeTT body-2 txt-m">
   <section class="body-2">
     {#if shareType}
       <div class="privacy">
         {#if !isPublic}
           <div class="row info body-3 mrg-m mrg--b">
-            <Svg id="warning" w="16" h="14" class="info-icon-3XeAH_ mrg-s mrg--r" />
+            <Svg id="warning" w="16" h="14" class="info-icon-2Y_ObS mrg-s mrg--r" />
             Your watchlist is private. To able to share, please, switch it to “Public” first
           </div>
         {/if}
@@ -73,7 +73,7 @@ function onCopy() {
       aria-label={copyLabel}
       on:click|preventDefault={onCopy}
     >
-      <Svg id="link" w="16" class="copy-icon-2qWYTA mrg-m mrg--r" />
+      <Svg id="link" w="16" class="copy-icon-91icI2 mrg-m mrg--r" />
 
       Copy link
     </button>
@@ -92,7 +92,7 @@ function onCopy() {
             class="media row hv-center mrg-m mrg--r"
             style="background: {disabled ? 'var(--mystic)' : background}"
           >
-            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-3vdQ63" />
+            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-1rPpFQ" />
           </div>
           {title}
         </a>
@@ -101,7 +101,7 @@ function onCopy() {
   </section>
 </Dialog>
 
-<style >:global(.title--jBop3) {
+<style >:global(.title-E8UeTT) {
   padding: 12px 30px 12px 20px;
   color: var(--fiord);
   background: var(--whale);
@@ -133,7 +133,7 @@ a:active {
   border-radius: 6px;
 }
 
-:global(.info-icon-3XeAH_) {
+:global(.info-icon-2Y_ObS) {
   fill: var(--orange-hover);
   margin-top: 4px;
 }
@@ -150,11 +150,11 @@ a:active {
   margin-bottom: 20px;
 }
 
-.disabled :global(.copy-icon-2qWYTA) {
+.disabled :global(.copy-icon-91icI2) {
   fill: var(--porcelain);
 }
 
-:global(.copy-icon-2qWYTA) {
+:global(.copy-icon-91icI2) {
   fill: var(--waterloo);
 }
 
@@ -178,6 +178,6 @@ a:active {
   border-radius: 100%;
 }
 
-:global(.media-icon-3vdQ63) {
+:global(.media-icon-1rPpFQ) {
   fill: var(--white);
 }</style>
