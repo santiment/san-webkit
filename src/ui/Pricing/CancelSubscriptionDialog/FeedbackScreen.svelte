@@ -38,7 +38,7 @@
       {/each}
     </div>
 
-    <div class="reveal" class:revealed={reasons.size}>
+    <div class="reveal revealed">
       <h3 class="c-waterloo txt-b mrg-s mrg--b">Just one last thing</h3>
       <textarea
         cols="30"

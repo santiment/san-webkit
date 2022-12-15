@@ -23,7 +23,7 @@
   <div
     class="column mrg-xxl mrg--t"
     class:reveal={isFeedbackScreen}
-    class:revealed={isFeedbackScreen && reasons.size > 0}
+    class:revealed={isFeedbackScreen}
   >
     <button
       class="cancel btn-2 btn-1 btn--l"
@@ -34,7 +34,7 @@
       Continue cancellation
     </button>
 
-    <button class="contact btn-2 btn--l mrg-m mrg--t" class:disabled on:click={onServiceClick}>
+    <button class="contact btn-2 btn--l mrg-m mrg--t" on:click={onServiceClick}>
       Contact Customer Service
     </button>
   </div>
