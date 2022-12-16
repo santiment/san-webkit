@@ -15,3 +15,11 @@
     title: 'Sanbase',
   }}
 />
+
+<Story
+  name="Sanbase Xmas"
+  args={{
+    title: 'Sanbase',
+    isXmas: true,
+  }}
+/>
