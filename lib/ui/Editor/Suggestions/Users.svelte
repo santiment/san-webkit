@@ -17,14 +17,14 @@ function onInput(searchTerm) {
 }</script>
 
 <Suggestions {...$$props} {items} key="id" let:item>
-  <ProfilePic src={item.avatar_url} class="pic-2j6jls mrg-s mrg--r" />
+  <ProfilePic src={item.avatar_url} class="pic-lHnfu3 mrg-s mrg--r" />
   <span>
     @{item.username}
   </span>
 </Suggestions>
 
 <style>
-  :global(.pic-2j6jls) {
+  :global(.pic-lHnfu3) {
     --img-size: 24px;
   }
 
