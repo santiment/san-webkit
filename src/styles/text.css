@@ -95,6 +95,12 @@
 .c-black {
   --color: var(--black);
 }
+.c-rhino {
+  --color: var(--rhino);
+}
+.c-fiord {
+  --color: var(--fiord);
+}
 .c-waterloo {
   --color: var(--waterloo);
 }
