@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const cssModules = require('svelte-preprocess-cssmodules')
 const utils = require('../scripts/utils')
+const { getSvgId } = require('../scripts/icons')
 
 const API_SERVER = process.env.BACKEND_URL
 
@@ -16,7 +17,7 @@ async function prepareIconsData(dir, filename) {
   const ICONS = []
   await utils.forFile([utils.SRC + dir + '/**/*.svg'], (entry) => {
     const file = fs.readFileSync(entry)
-    const key = entry.replace(utils.SRC + dir + '/', '').replace('.svg', '')
+    const key = getSvgId(utils.SRC + dir + '/', entry)
     const width = extractAttributeValue(file, 'width')
     const height = extractAttributeValue(file, 'height')
     ICONS.push({ key, width, height })

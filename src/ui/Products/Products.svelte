@@ -7,7 +7,7 @@
   export { className as class }
   export let isCompact = false
   export let isColumn = false
-  export let active = undefined
+  export let active: string | undefined = undefined
 </script>
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>

@@ -1,10 +1,11 @@
 const fs = require('fs')
 const path = require('path')
-const { SRC, LIB, mkdir, forFile } = require('./utils')
+const { emitDts } = require('svelte2tsx')
+const { SRC, LIB, ROOT, mkdir, forFile } = require('./utils')
 const { prepareTypes } = require('./types')
 const { prepareSvelte } = require('./svelte')
 const { prepareImports } = require('./imports')
-const { prepareIcons } = require('./icons')
+const { prepareIcons, replaceSvgComponentIds } = require('./icons')
 
 function copyFile(entry) {
   const filePath = entry.replace('src/', '')
@@ -25,6 +26,14 @@ async function main() {
   prepareIcons()
 
   await prepareSvelte()
+
+  await emitDts({
+    libRoot: ROOT,
+    declarationDir: LIB,
+    svelteShimsPath: require.resolve('svelte2tsx/svelte-shims.d.ts'),
+  })
+
+  replaceSvgComponentIds()
   prepareImports()
 }
 main()

@@ -23,4 +23,4 @@ export const business = [
     dimensions: [24, 22],
     accent: 'var(--blue)',
   },
-]
+] as const
