@@ -31,4 +31,4 @@ export const chain = [
     dimensions: [20, 20],
     accent: 'var(--orange)',
   },
-]
+] as const

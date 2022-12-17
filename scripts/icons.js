@@ -7,6 +7,12 @@ const SPRITES_DIR = path.resolve(LIB, 'sprites')
 const SPRITES_OPTIONS = newSpriterOptions({ removeAttrs: { attrs: ['fill'] } })
 const ILLUS_OPTIONS = newSpriterOptions()
 
+const SVG_IDS = []
+
+function getSvgId(dir, path) {
+  return path.replace(dir, '').replace('.svg', '')
+}
+
 async function prepareIcons() {
   mkdir(SPRITES_DIR)
 
@@ -21,6 +27,8 @@ async function prepareIcons() {
     const sprite = await getSvgSprite(libFilePath, SPRITES_OPTIONS, svg)
     mkdir(path.dirname(spritesFilePath))
     fs.writeFile(spritesFilePath, sprite, () => {})
+
+    SVG_IDS.push(getSvgId('lib/icons/', entry))
   })
 
   forFile(['lib/illus/**/*.svg'], async (entry) => {
@@ -35,7 +43,18 @@ async function prepareIcons() {
 
     const sprite = await getSvgSprite(libFilePath, ILLUS_OPTIONS, svg)
     fs.writeFile(spritesFilePath, sprite, () => {})
+
+    SVG_IDS.push(getSvgId('lib/illus/', entry))
   })
 }
 
-module.exports = { prepareIcons }
+function replaceSvgComponentIds() {
+  const libFilePath = path.resolve(LIB, 'ui/svg/svelte.d.ts')
+  const file = fs.readFileSync(libFilePath)
+
+  const ids = SVG_IDS.map((id) => `"${id}"`).join(' | ')
+
+  fs.writeFileSync(libFilePath, file.toString().replace(`id: string`, `id: ${ids}`))
+}
+
+module.exports = { getSvgId, prepareIcons, replaceSvgComponentIds }
