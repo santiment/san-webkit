@@ -1,19 +1,17 @@
 <script>
-  export let reasons
   export let loading
-  export let disabled
   export let isFeedbackScreen
   export let onCancellationClick
   export let onServiceClick
 </script>
 
 <section class="txt-center">
-  <h2 class="h4 txt-m mrg-xl mrg--b">
+  <h2 class="h4 mrg-xl mrg--b">
     <slot name="title" />
   </h2>
 
   <div class="help column">
-    <h3 class="c-waterloo txt-b mrg-xs mrg--b">
+    <h3 class="txt-m mrg-xs mrg--b row v-center">
       <slot name="subtitle" />
     </h3>
 
@@ -27,14 +25,14 @@
   >
     <button
       class="cancel btn-2 btn-1 btn--l"
-      class:disabled
       class:loading
+      class:disabled={loading}
       on:click={onCancellationClick}
     >
       Continue cancellation
     </button>
 
-    <button class="contact btn-2 btn--l mrg-m mrg--t" on:click={onServiceClick}>
+    <button class="contact btn-2 btn--l mrg--t mrg-l" on:click={onServiceClick}>
       Contact Customer Service
     </button>
   </div>
@@ -43,7 +41,12 @@
 <slot name="right" />
 
 <style lang="scss">
+  h3 {
+    color: var(--rhino);
+  }
+
   .help {
+    min-width: 385px;
     padding: 24px 32px;
     background: var(--athens);
     border-radius: 4px;

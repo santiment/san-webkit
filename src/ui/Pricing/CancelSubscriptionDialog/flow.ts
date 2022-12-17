@@ -1,3 +1,4 @@
+import { writable } from 'svelte/store'
 import { track } from '@/analytics'
 import { mutateCancelSubscription } from '@/api/subscription'
 import { subscription$ } from '@/stores/subscription'
@@ -15,12 +16,32 @@ export enum Screen {
   Suggestions,
   Feedback,
 }
+
 export enum Event {
   SelectReason = 'cancel_subscribtion_select_reason',
   GiveFeedback = 'cancel_subscribtion_give_feedback',
 }
 
+export enum FieldError {
+  Reasons,
+  Feedback,
+}
+
+export const fieldErrorsStore = writable(new Set<FieldError>())
+
+export function getFieldErrors(reasons: Set<unknown>, feedback = ''): Set<FieldError> {
+  const fieldErrors = new Set<FieldError>()
+  if (reasons.size < 1) {
+    fieldErrors.add(FieldError.Reasons)
+  }
+  if (feedback.length < 1) {
+    fieldErrors.add(FieldError.Feedback)
+  }
+  return fieldErrors
+}
+
 const formatError = (msg) => msg.replace('GraphQL error: ', '')
+
 export function startCancellationFlow(
   subscription: SAN.Subscription,
   feedback: string,

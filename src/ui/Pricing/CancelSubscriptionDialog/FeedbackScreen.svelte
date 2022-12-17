@@ -1,8 +1,9 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import Checkbox from '@/ui/Checkbox.svelte'
+  import FieldLabelError from '@/ui/FieldLabelError'
   import { track } from '@/analytics'
-  import { Event, REASONS } from './flow'
+  import { Event, REASONS, fieldErrorsStore, FieldError } from './flow'
   import Screen from './Screen.svelte'
   import { IsMobile as isMobile$ } from '@/stores/responsive'
 
@@ -10,6 +11,13 @@
   export let reasons
 
   $: isMobile = $isMobile$
+
+  $: $fieldErrorsStore.size > 0 &&
+    fieldErrorsStore.update((errors) => {
+      if (reasons.size > 0) errors.delete(FieldError.Reasons)
+      if (feedback.length > 0) errors.delete(FieldError.Feedback)
+      return errors
+    })
 
   function onReasonSelect(reason) {
     if (reasons.has(reason)) {
@@ -26,10 +34,13 @@
 <Screen {...$$props}>
   <svelte:fragment slot="title">We’re sorry to see you go 😔</svelte:fragment>
 
-  <svelte:fragment slot="subtitle">Help us understand why:</svelte:fragment>
+  <svelte:fragment slot="subtitle">
+    Help us understand why*
+    <FieldLabelError visible={$fieldErrorsStore.has(FieldError.Reasons)} />
+  </svelte:fragment>
 
   <svelte:fragment slot="help">
-    <div class="reasons column mrg-l mrg--t mrg--b nowrap">
+    <div class="reasons column nowrap">
       {#each REASONS as reason}
         <button class="btn row v-center" on:click={() => onReasonSelect(reason)}>
           <Checkbox class="mrg-s mrg--r" isActive={reasons.has(reason)} />
@@ -39,7 +50,10 @@
     </div>
 
     <div class="reveal revealed">
-      <h3 class="c-waterloo txt-b mrg-s mrg--b">Just one last thing</h3>
+      <h3 class="mrg-l mrg--b txt-m txt-left row v-center">
+        Just one last thing*
+        <FieldLabelError visible={$fieldErrorsStore.has(FieldError.Feedback)} />
+      </h3>
       <textarea
         cols="30"
         rows="3"
@@ -60,7 +74,12 @@
 </Screen>
 
 <style lang="scss">
+  h3 {
+    color: var(--rhino);
+  }
+
   .reasons {
+    margin: 16px 0 24px;
     gap: 12px;
   }
 

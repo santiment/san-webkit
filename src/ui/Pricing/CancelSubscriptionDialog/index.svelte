@@ -3,7 +3,7 @@
   import Svg from '@/ui/Svg/svelte'
   import { showIntercom } from '@/analytics/intercom'
   import { subscription$ } from '@/stores/subscription'
-  import { Screen, startCancellationFlow } from './flow'
+  import { Screen, startCancellationFlow, fieldErrorsStore, getFieldErrors } from './flow'
   import SuggestionsScreen from './SuggestionsScreen.svelte'
   import FeedbackScreen from './FeedbackScreen.svelte'
 
@@ -17,9 +17,15 @@
   $: isFeedbackScreen = screen === Screen.Feedback
   $: disabled = isFeedbackScreen && (reasons.size === 0 || !feedback)
   $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen
+  $: fieldErrors = getFieldErrors(reasons, feedback)
 
   function onCancellationClick() {
     if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
+
+    if (fieldErrors.size > 0) {
+      fieldErrorsStore.set(fieldErrors)
+      return
+    }
 
     if (!subscription) return
 
