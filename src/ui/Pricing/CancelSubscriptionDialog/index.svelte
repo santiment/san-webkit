@@ -17,11 +17,11 @@
   $: isFeedbackScreen = screen === Screen.Feedback
   $: disabled = isFeedbackScreen && (reasons.size === 0 || !feedback)
   $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen
-  $: fieldErrors = getFieldErrors(reasons, feedback)
 
   function onCancellationClick() {
     if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
 
+    const fieldErrors = getFieldErrors(reasons, feedback)
     if (fieldErrors.size > 0) {
       fieldErrorsStore.set(fieldErrors)
       return
