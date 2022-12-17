@@ -5,7 +5,7 @@ export let slug;
 export let size = 20;
 export let placeholderSize = size / 2.5;
 export let logoUrl = '';
-let loading = true;
+let loading = true; // @ts-ignore
 
 $: error = (slug, false);</script>
 

@@ -9,11 +9,13 @@ const INPUT_STYLE = {
     color: nightMode ? '#fff' : '#2f354d',
     fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
-      color: nightMode ? '#363a52' : '#cad0de'
+      color: nightMode ? '#363a52' : '#cad0de' // casper
+
     }
   },
   invalid: {
-    color: '#ff5b5b'
+    color: '#ff5b5b' // red
+
   }
 };
 const SETTINGS = {

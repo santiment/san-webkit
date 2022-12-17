@@ -17,11 +17,13 @@ function onEvent({
 
 ref.tooltip = (node, data) => {
   node.removeEventListener(on, onEvent);
-  if (data.isEnabled === false) return;
+  if (data.isEnabled === false) return; // @ts-ignore
+
   node.__props__ = data;
   node.addEventListener(on, onEvent);
   return {
     update(data) {
+      // @ts-ignore
       node.__props__ = data;
       if (node === trigger) props = data;
     },

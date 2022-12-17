@@ -1,4 +1,5 @@
 import type { SnapGridController, SnapItem } from './types';
+/** Ascending sort - top-to-bottom & left-to-right */
 export declare const sortLayout: (layout: SnapItem[]) => SnapItem[];
 export declare function Dropzone(draggedNode: HTMLElement): HTMLDivElement;
 export declare type GridController = ReturnType<typeof Grid>;

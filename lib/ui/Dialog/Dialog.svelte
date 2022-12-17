@@ -133,7 +133,7 @@ function transition(node) {
           {title}
         {/if}
 
-        <Svg id="close" class="btn mrg-a mrg--l close-1GoPfI" on:click={requestDialogClose} />
+        <Svg id="close" class="btn mrg-a mrg--l close-2m9JR" on:click={requestDialogClose} />
       </h2>
     {/if}
 
@@ -181,7 +181,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-1GoPfI) {
+:global(.close-2m9JR) {
   width: 12px;
   height: 12px;
   --fill: var(--waterloo);

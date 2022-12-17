@@ -10,7 +10,7 @@ export let isXmas = false;</script>
   on:click={window.__onLinkClick}
 >
   {#if isXmas}
-    <Svg illus id="christmas/xmas-hat" w="33" h="18" class="xmas-30sTBY" />
+    <Svg illus id="christmas/xmas-hat" w="33" h="18" class="xmas-1NQlmJ" />
   {/if}
   <img src="{process.env.MEDIA_PATH}/illus/san-logo.svg" alt="SAN" class="product mrg-s mrg--r" />
   {title}
@@ -26,7 +26,7 @@ export let isXmas = false;</script>
     height: 32px;
   }
 
-  :global(.xmas-30sTBY) {
+  :global(.xmas-1NQlmJ) {
     position: absolute;
     top: -7px;
     left: 9px;

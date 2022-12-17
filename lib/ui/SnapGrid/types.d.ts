@@ -6,6 +6,7 @@ export declare const enum Field {
     HEIGHT = 3,
     NODE = 4
 }
+/**  [left, top, width, height, htmlNode] */
 export declare type SnapItem = [number, number, number, number, HTMLElement];
 export declare type Margin = [number, number];
 export declare type SnapGridController = {
