@@ -1,14 +1,14 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
 
-  export let id
-  export let title
-  export let href
-  export let desc
+  export let id: string
+  export let title: string
+  export let href: string
+  export let desc: string
   export let dimensions
-  export let active
-  export let accent
-  export let note = undefined
+  export let active: boolean
+  export let accent: string
+  export let note: string | undefined = undefined
   export let isCompact = false
 
   const [w, h] = dimensions
@@ -21,7 +21,8 @@
   class:compact={isCompact}
   class:large
   style="--accent:{accent}"
-  on:click>
+  on:click
+>
   {#if large}
     <div class="icon row hv-center mrg-m mrg--r" class:active>
       <Svg illus id="products/{id}" {w} {h} />

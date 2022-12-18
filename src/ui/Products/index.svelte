@@ -11,7 +11,7 @@
   export let isCompact = false
   export let isColumn = false
   export let isOpened = undefined
-  export let active = undefined
+  export let active: string | undefined = undefined
   export let closeTimeout = undefined
 </script>
 
