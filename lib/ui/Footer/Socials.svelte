@@ -7,19 +7,19 @@ import { IsMobile } from './../../stores/responsive';</script>
   {/if}
 
   <div class="row">
-    <a href="https://twitter.com/santimentfeed" target="_blank">
+    <a href="https://twitter.com/santimentfeed" target="_blank" rel="noreferrer">
       <Svg id="twitter" w="20" h="16" />
     </a>
-    <a href="https://github.com/santiment" target="_blank">
+    <a href="https://github.com/santiment" target="_blank" rel="noreferrer">
       <Svg id="github" w="20" h="20" />
     </a>
-    <a href="https://santiment.net/discord" target="_blank">
+    <a href="https://santiment.net/discord" target="_blank" rel="noreferrer">
       <Svg id="discord" w="20" h="14" />
     </a>
-    <a href="https://t.me/santiment_network" target="_blank">
+    <a href="https://t.me/santiment_network" target="_blank" rel="noreferrer">
       <Svg id="telegram" w="20" h="16" />
     </a>
-    <a href="https://www.youtube.com/c/santimentnetwork" target="_blank">
+    <a href="https://www.youtube.com/c/santimentnetwork" target="_blank" rel="noreferrer">
       <Svg id="youtube" w="20" h="14" />
     </a>
   </div>

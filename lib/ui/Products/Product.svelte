@@ -17,7 +17,8 @@ const large = !isCompact;</script>
   class:compact={isCompact}
   class:large
   style="--accent:{accent}"
-  on:click>
+  on:click
+>
   {#if large}
     <div class="icon row hv-center mrg-m mrg--r" class:active>
       <Svg illus id="products/{id}" {w} {h} />

@@ -1,14 +1,14 @@
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        id: any;
-        title: any;
-        href: any;
-        desc: any;
+        id: string;
+        title: string;
+        href: string;
+        desc: string;
         dimensions: any;
-        active: any;
-        accent: any;
-        note?: undefined;
+        active: boolean;
+        accent: string;
+        note?: string | undefined;
         isCompact?: boolean | undefined;
     };
     events: {

@@ -8,7 +8,7 @@ declare const __propDef: {
         isCompact?: boolean | undefined;
         isColumn?: boolean | undefined;
         isOpened?: undefined;
-        active?: undefined;
+        active?: string | undefined;
         closeTimeout?: undefined;
     };
     events: {
