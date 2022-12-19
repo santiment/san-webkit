@@ -1,5 +1,6 @@
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
-const fetch = process.browser ? window.fetch : require('node-fetch')
+// eslint-disable-next-line no-undef
+const fetch: any = globalThis.fetch || process.env.SERVER_FETCH
 
 export type Variables = { [key: string]: any }
 
@@ -115,52 +116,6 @@ export function upload<T extends SAN.API.QueryBase>(scheme: string, files: File[
     .then(dataAccessor) as Promise<T>
 }
 
-type Callback = (...args: any[]) => any
-export function newSSRQuery<T extends Callback>(clb: T) {
-  return (...args): ReturnType<T> =>
-    clb(
-      ...args.slice(0, -1),
-      process.browser
-        ? undefined
-        : {
-            headers: {
-              ...HEADERS,
-              ...getRequestData(args[args.length - 1].req),
-            },
-          },
-    )
-}
-
-export function SSR<T extends Callback>(clb: T) {
-  return (...args: Parameters<T>): ReturnType<T> => {
-    if (process.browser) return clb(...args)
-
-    const { request, getClientAddress } = args[args.length - 1]
-    return clb(...args.slice(0, -1), {
-      headers: {
-        ...HEADERS,
-        cookie: request.headers.get('cookie'),
-        'x-forwarded-for': getClientAddress(),
-      },
-    })
-  }
-}
-
-function getRequestData(req: Request) {
-  const headers = {
-    // @ts-ignore
-    cookie: req.headers.cookie,
-    // @ts-ignore
-    'x-forwarded-for': req.headers['x-forwarded-for'] || req.connection.remoteAddress,
-  } as { [key: string]: string | null }
-
-  if (process.env.API_FETCH_ORIGIN) {
-    headers.origin = process.env.API_FETCH_ORIGIN
-  }
-
-  return headers
-}
-
 /*
 export function query$() {
   return {
@@ -170,3 +125,45 @@ export function query$() {
   }
 }
 */
+
+export type RequestEvent = {
+  request?: { headers: Headers }
+  getClientAddress?: () => string
+}
+
+function ServerQuery(requestEvent?: RequestEvent) {
+  if (!requestEvent) return query
+
+  const { request, getClientAddress } = requestEvent
+  if (!request || !getClientAddress) return query
+
+  return ((scheme, options) => {
+    return query(scheme, options, {
+      headers: {
+        ...HEADERS,
+        cookie: request.headers.get('cookie') as string | null,
+        'x-forwarded-for': getClientAddress(),
+      },
+    })
+  }) as Query
+}
+
+/** It's used for creating queryFunctions that can be used on server and client side. On server side it makes possible to attach user's cookies to the fetch request by passing requestEvent as the last argument to the constructed queryFunction. */
+export function Universal<T extends (query: Query) => Callback>(clb: T) {
+  type Fn = ReturnType<T>
+
+  return ((...args) => {
+    const data = args.slice(0, -1)
+
+    const _query = process.browser ? query : ServerQuery(args[args.length - 1])
+
+    return clb(_query as Query)(...data)
+  }) as Universal<Fn, [requestEvent?: RequestEvent]>
+}
+
+type Query = typeof query
+type Callback = (...args: any) => any
+// eslint-disable-next-line no-redeclare
+type Universal<T extends Callback, K extends [...args: any]> = (
+  ...args: [...Parameters<T>, ...K]
+) => ReturnType<T>

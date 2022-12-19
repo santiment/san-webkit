@@ -13,11 +13,9 @@
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
   {#if isColumn}
     <section class="more body-2 c-waterloo mrg-xl mrg--t">
-      To learn more about Santiment's products, team, or available jobs, visit <a
-        class="link-pointer"
-        target="_blank"
-        href="https://santiment.net/">santiment.net</a
-      >
+      <!-- svelte-ignore security-anchor-rel-noreferrer -->
+      To learn more about Santiment's products, team, or available jobs, visit
+      <a class="link-pointer" target="_blank" href="https://santiment.net/">santiment.net</a>
     </section>
   {/if}
 

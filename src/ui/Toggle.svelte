@@ -6,9 +6,9 @@
   export let icon = 'toggle'
 </script>
 
-<div class="toggle btn relative {className}" on:click class:isActive class:disabled>
+<button class="toggle btn relative {className}" on:click class:isActive class:disabled>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="$style.toggle-icon" />
-</div>
+</button>
 
 <style lang="scss">
   .toggle {
