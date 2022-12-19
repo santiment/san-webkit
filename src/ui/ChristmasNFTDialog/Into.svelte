@@ -1,9 +1,15 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import introSvg from './intro.svg'
+
+  export let closeDialog
 </script>
 
 <main class="column" style="--svg:url({introSvg})">
+  <button class="close btn" on:click={closeDialog}>
+    <Svg id="close" w="16" />
+  </button>
+
   <h2 class="h3 txt-m txt-center mrg-xl mrg--b">San NFT Christmas Game!</h2>
 
   <p class="txt-center c-fiord">
@@ -32,7 +38,7 @@
     </li>
   </ul>
 
-  <button class="btn-1 btn--l">Start the Game</button>
+  <button class="start btn-1 btn--l">Start the Game</button>
 </main>
 
 <style>
@@ -57,8 +63,16 @@
     gap: 12px;
   }
 
-  button {
+  .start {
     margin: 40px auto 0;
     padding: 8px 44px;
+  }
+
+  .close {
+    position: absolute;
+    top: 22px;
+    right: 24px;
+    --fill: var(--waterloo);
+    --fill-hover: var(--green);
   }
 </style>

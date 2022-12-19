@@ -11,8 +11,8 @@
   import Intro from './Into.svelte'
 </script>
 
-<Dialog {...$$props} noTitle class="$style.dialog body-2">
-  <Intro />
+<Dialog {...$$props} noTitle class="$style.dialog body-2" let:closeDialog>
+  <Intro {closeDialog} />
 </Dialog>
 
 <style>
