@@ -126,16 +126,18 @@ export function query$() {
 }
 */
 
-type RequestEvent = {
-  request: {
-    headers: Map<'cookie', string>
-  }
-  getClientAddress: () => string
+export type RequestEvent = {
+  request?: { headers: Headers }
+  getClientAddress?: () => string
 }
 
-function ServerQuery(requestEvent) {
-  return (scheme, options) => {
-    const { request, getClientAddress } = requestEvent
+function ServerQuery(requestEvent?: RequestEvent) {
+  if (!requestEvent) return query
+
+  const { request, getClientAddress } = requestEvent
+  if (!request || !getClientAddress) return query
+
+  return ((scheme, options) => {
     return query(scheme, options, {
       headers: {
         ...HEADERS,
@@ -143,7 +145,7 @@ function ServerQuery(requestEvent) {
         'x-forwarded-for': getClientAddress(),
       },
     })
-  }
+  }) as Query
 }
 
 /** It's used for creating queryFunctions that can be used on server and client side. On server side it makes possible to attach user's cookies to the fetch request by passing requestEvent as the last argument to the constructed queryFunction. */
@@ -156,7 +158,7 @@ export function Universal<T extends (query: Query) => Callback>(clb: T) {
     const _query = process.browser ? query : ServerQuery(args[args.length - 1])
 
     return clb(_query as Query)(...data)
-  }) as Universal<Fn, [requestEvent: RequestEvent]>
+  }) as Universal<Fn, [requestEvent?: RequestEvent]>
 }
 
 type Query = typeof query
