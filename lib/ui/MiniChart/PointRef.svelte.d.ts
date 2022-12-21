@@ -1,4 +1,8 @@
 import { SvelteComponentTyped } from "svelte";
+export declare function getRefCoordinates(data: any[], points: string[], target: number, datetimeKey?: string): {
+    index: number;
+    coordinates: string[];
+};
 declare const __propDef: {
     props: {
         target: number;
