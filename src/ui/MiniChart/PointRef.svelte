@@ -1,4 +1,4 @@
-<script context="module">
+<script context="module" lang="ts">
   export function getRefCoordinates(
     data: any[],
     points: string[],
