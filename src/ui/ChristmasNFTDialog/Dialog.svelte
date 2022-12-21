@@ -9,14 +9,30 @@
 <script lang="ts">
   import Dialog from '@/ui/Dialog'
   import Intro from './Into.svelte'
+  import Insight from './Insight.svelte'
+
+  // let route = 'insight'
+  let route = ''
 </script>
 
-<Dialog {...$$props} noTitle class="$style.dialog body-2" let:closeDialog>
-  <Intro {closeDialog} />
+<Dialog
+  {...$$props}
+  noTitle={!route}
+  title={route && 'Game details'}
+  class="$style.dialog body-2"
+  let:closeDialog
+>
+  {#if !route}
+    <Intro {closeDialog} bind:route />
+  {:else if route === 'insight'}
+    <Insight />
+  {/if}
 </Dialog>
 
 <style>
   .dialog {
     padding: 0 !important;
+    width: 960px;
+    height: 600px;
   }
 </style>

@@ -2,6 +2,7 @@
   import Svg from '@/ui/Svg/svelte'
   import introSvg from './intro.svg'
 
+  export let route: string
   export let closeDialog
 </script>
 
@@ -38,14 +39,14 @@
     </li>
   </ul>
 
-  <button class="start btn-1 btn--l">Start the Game</button>
+  <button class="start btn-1 btn--l" on:click={() => (route = 'insight')}>Start the Game</button>
 </main>
 
 <style>
   main {
     padding: 68px;
-    width: 960px;
     background: var(--svg) no-repeat;
+    flex: 1;
   }
 
   p {
