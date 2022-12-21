@@ -25,4 +25,8 @@ export declare function Universal<T extends (query: Query) => Callback>(clb: T):
 declare type Query = typeof query;
 declare type Callback = (...args: any) => any;
 declare type Universal<T extends Callback, K extends [...args: any]> = (...args: [...Parameters<T>, ...K]) => ReturnType<T>;
+/**
+ * @deprecated Will be removed soon. Use Universal contructor
+ * */
+export declare function newSSRQuery<T extends (...args: any[]) => any>(clb: T): (...args: any[]) => ReturnType<T>;
 export {};
