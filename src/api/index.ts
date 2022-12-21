@@ -167,3 +167,38 @@ type Callback = (...args: any) => any
 type Universal<T extends Callback, K extends [...args: any]> = (
   ...args: [...Parameters<T>, ...K]
 ) => ReturnType<T>
+
+// TODO: Remove old newSSRQuery constructor [@vanguard | 21 Dec, 2022]
+
+/**
+ * @deprecated Will be removed soon. Use Universal contructor
+ * */
+export function newSSRQuery<T extends (...args: any[]) => any>(clb: T) {
+  return (...args): ReturnType<T> =>
+    clb(
+      ...args.slice(0, -1),
+      process.browser
+        ? undefined
+        : {
+            headers: {
+              ...HEADERS,
+              ...getRequestData(args[args.length - 1].req),
+            },
+          },
+    )
+}
+
+function getRequestData(req: Request) {
+  const headers = {
+    // @ts-ignore
+    cookie: req.headers.cookie,
+    // @ts-ignore
+    'x-forwarded-for': req.headers['x-forwarded-for'] || req.connection.remoteAddress,
+  } as { [key: string]: string | null }
+
+  if (process.env.API_FETCH_ORIGIN) {
+    headers.origin = process.env.API_FETCH_ORIGIN
+  }
+
+  return headers
+}
