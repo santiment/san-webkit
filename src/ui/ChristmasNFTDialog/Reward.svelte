@@ -1,4 +1,9 @@
 <script lang="ts">
+  import {
+    PageName,
+    trackNftBattleGameDetailsPage,
+    trackNftBattleLinkClick,
+  } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import { Page } from './types'
 
@@ -14,9 +19,11 @@
   <p>
     ⚠️ To participate in the battle, <a
       href="https://insights.santiment.net/new"
+      on:click={trackNftBattleLinkClick}
       target="_blank"
       rel="noopener noreferrer"
-      class="link-pointer">Create an Insight</a
+      class="link-pointer"
+      data-source={PageName[Page.Reward]}>Create an Insight</a
     >
   </p>
 {/if}
@@ -28,8 +35,12 @@
 </p>
 
 <p>
-  <button class="btn-0" on:click={() => (page = Page.Info)}
-    >Learn more about the Santiment NFT utility</button
+  <button
+    class="btn-0"
+    on:click={() => {
+      trackNftBattleGameDetailsPage(Page.Info, 'learn_more', page)
+      page = Page.Info
+    }}>Learn more about the Santiment NFT utility</button
   >
 </p>
 
@@ -45,9 +56,11 @@
     <p class="mrg-s mrg--t">
       <a
         href="https://insights.santiment.net/new"
+        on:click={trackNftBattleLinkClick}
         target="_blank"
         rel="noopener noreferrer"
-        class="link-pointer">Create Insight</a
+        class="link-pointer"
+        data-source={PageName[Page.Reward]}>Create Insight</a
       >
     </p>
   </div>

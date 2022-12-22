@@ -22,4 +22,9 @@ export function updateAmplitude(
   identity.set('email', email)
 
   window.amplitude.identify(identity)
+
+  window.identifyAmplitude = (clb: any) => {
+    clb(identity)
+    window.amplitude?.identify(identity)
+  }
 }

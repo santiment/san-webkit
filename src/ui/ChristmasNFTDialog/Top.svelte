@@ -1,6 +1,8 @@
 <script>
+  import { PageName, trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import Li from './Li.svelte'
+  import { Page } from './types'
 
   const SOCIALS = [
     ['twitter', 'https://twitter.com/', '#56A8DC'],
@@ -47,9 +49,11 @@
     <div>
       Go to <a
         href="https://sanr.app/"
+        on:click={trackNftBattleLinkClick}
         target="_blank"
         rel="noopener noreferrer"
-        class="link-pointer">sanr.app</a
+        class="link-pointer"
+        data-source={PageName[Page.Top]}>sanr.app</a
       >. Click “Connect Wallet” to connect your Metamask account
     </div>
   </Li>

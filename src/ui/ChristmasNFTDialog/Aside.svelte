@@ -3,6 +3,7 @@
   import Check from './Check.svelte'
   import nftSvg from './nft.svg'
   import celebSvg from './celeb.svg'
+  import { trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
 
   export let insights = []
 
@@ -24,9 +25,11 @@
       <div class="insights column relative">
         <a
           href="https://insights.santiment.net/read/{getSEOLinkFromIdAndTitle(id, title)}"
+          on:click={trackNftBattleLinkClick}
           target="_blank"
           rel="noopener noreferrer"
           class="row"
+          data-source="sidebar"
         >
           <Check small class="mrg-s mrg--r" />
           <span class="line-clamp">
@@ -40,9 +43,11 @@
       To participate in the battle,
       <a
         href="https://insights.santiment.net/new?ref=nftbattle"
+        on:click={trackNftBattleLinkClick}
         class="link-pointer"
         target="_blank"
         rel="noopener noreferrer"
+        data-source="sidebar"
       >
         Create an Insight
       </a>
