@@ -1,4 +1,5 @@
 import { query } from '@/api'
+import { getSavedBoolean, saveBoolean } from '@/utils/localStorage'
 
 export const NFT_BATTLE_TAG = 'NFTBATTLE'
 
@@ -17,3 +18,7 @@ const filter = ({ publishedAt, tags }) =>
 const accessor = ({ currentUser }) => (currentUser ? currentUser.insights.filter(filter) : [])
 
 export const queryUserNftInsights = () => query<any>(NFT_INSIGHTS_QUERY).then(accessor)
+
+const KEY = 'NFT_BATTLE_STARTED'
+export const checkIsGameStarted = () => getSavedBoolean(KEY)
+export const startGame = () => saveBoolean(KEY, true)

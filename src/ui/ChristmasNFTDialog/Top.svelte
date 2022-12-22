@@ -89,13 +89,6 @@
     font-weight: bold;
   }
 
-  .error {
-    padding: 6px 10px;
-    margin: 6px 0 0;
-    box-shadow: 0px 4px 8px rgba(24, 27, 43, 0.08);
-    fill: var(--red);
-  }
-
   .socials {
     fill: var(--white);
     gap: 12px;

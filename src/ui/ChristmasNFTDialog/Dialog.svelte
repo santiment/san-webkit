@@ -2,10 +2,9 @@
   import { dialogs } from '@/ui/Dialog'
   import { Preloader } from '@/utils/fn'
   import ChristmasNFTDialog from './Dialog.svelte'
-  import { queryUserNftInsights } from './api'
+  import { checkIsGameStarted, queryUserNftInsights } from './api'
 
-  export const showChristmasNFTDialog = (props?: any) =>
-    dialogs.showOnce(ChristmasNFTDialog, Object.assign({ strict: true }, props))
+  export const showChristmasNFTDialog = (props?: any) => dialogs.showOnce(ChristmasNFTDialog, props)
 
   export const dataPreloader = Preloader(queryUserNftInsights)
 </script>
@@ -20,7 +19,7 @@
   import Reward from './Reward.svelte'
   import Info from './Info.svelte'
 
-  export let page = Page.Intro
+  export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
 
   let insights = []
 

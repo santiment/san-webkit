@@ -2,10 +2,16 @@
   import Svg from '@/ui/Svg/svelte'
   import Li from './Li.svelte'
   import { Page } from './types'
+  import { startGame } from './api'
   import introSvg from './intro.svg'
 
   export let page: Page
   export let closeDialog
+
+  function onStart() {
+    page = Page.Insight
+    startGame()
+  }
 </script>
 
 <main class="column body-2" style="--svg:url({introSvg})">
@@ -42,7 +48,7 @@
     <Li>Claim your NFT – We’ll announce 10 winners at the end of January 2023</Li>
   </ul>
 
-  <button class="start btn-1 btn--l" on:click={() => (page = Page.Insight)}>Start the Game</button>
+  <button class="start btn-1 btn--l" on:click={onStart}>Start the Game</button>
 </main>
 
 <style>
