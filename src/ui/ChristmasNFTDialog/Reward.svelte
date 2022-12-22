@@ -1,10 +1,12 @@
 <script>
   import Svg from '@/ui/Svg/svelte'
 
-  export let isParticipating = false
+  export let insights = []
+
+  $: hasInsights = insights.length > 0
 </script>
 
-{#if isParticipating}
+{#if hasInsights}
   <p>🎉 You’re in the Battle now! Thank you for competing.</p>
 {:else}
   <p>

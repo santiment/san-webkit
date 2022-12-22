@@ -1,9 +1,13 @@
 <script context="module" lang="ts">
   import { dialogs } from '@/ui/Dialog'
+  import { Preloader } from '@/utils/fn'
   import ChristmasNFTDialog from './Dialog.svelte'
+  import { queryUserNftInsights } from './api'
 
   export const showChristmasNFTDialog = (props?: any) =>
     dialogs.showOnce(ChristmasNFTDialog, Object.assign({ strict: true }, props))
+
+  export const dataPreloader = Preloader(queryUserNftInsights)
 </script>
 
 <script lang="ts">
@@ -17,6 +21,14 @@
   import Info from './Info.svelte'
 
   export let page = Page.Intro
+
+  let insights = []
+
+  if (process.browser) {
+    queryUserNftInsights().then((data) => {
+      insights = data
+    })
+  }
 
   const pages = {
     [Page.Insight]: {
@@ -49,8 +61,8 @@
     <Intro {closeDialog} bind:page />
   {:else}
     {@const { title, Component } = pages[page]}
-    <PageLayout {title} bind:page>
-      <svelte:component this={Component} />
+    <PageLayout {title} bind:page {insights}>
+      <svelte:component this={Component} {insights} />
     </PageLayout>
   {/if}
 </Dialog>

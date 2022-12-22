@@ -1,10 +1,12 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
 
+  let className = 'mrg-m mrg--r'
+  export { className as class }
   export let small = false
 </script>
 
-<span class="check mrg-m mrg--r">
+<span class="check {className}">
   <Svg id="checkmark-circle-filled" w={small ? 16 : 24} />
 </span>
 

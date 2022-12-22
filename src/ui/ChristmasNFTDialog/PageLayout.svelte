@@ -6,6 +6,8 @@
 
   export let page: Page
   export let title: string
+
+  export let insights = []
 </script>
 
 <div class="wrapper row">
@@ -41,7 +43,7 @@
     </main>
   </section>
 
-  <Aside />
+  <Aside {insights} />
 </div>
 
 <style lang="scss">
