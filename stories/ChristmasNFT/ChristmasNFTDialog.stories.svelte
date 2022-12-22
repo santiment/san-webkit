@@ -3,6 +3,7 @@
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import OnMount from '../PaymentDialog/OnMount.svelte'
   import { showChristmasNFTDialog } from '@/ui/ChristmasNFTDialog/Dialog.svelte'
+  import Button from '@/ui/ChristmasNFTDialog/Button.svelte'
 </script>
 
 <Meta title="Example/ChristmasNFTDialog" />
@@ -10,6 +11,10 @@
 <Template>
   <button on:click={showChristmasNFTDialog}>Show dialog</button>
 </Template>
+
+<Story name="NFT Button">
+  <Button />
+</Story>
 
 <Story name="Intro - 0">
   <OnMount run={() => showChristmasNFTDialog()} />
