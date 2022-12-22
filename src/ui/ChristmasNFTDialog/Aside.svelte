@@ -1,6 +1,5 @@
 <script>
   import { getSEOLinkFromIdAndTitle } from '@/utils/url'
-
   import Check from './Check.svelte'
   import nftSvg from './nft.svg'
   import celebSvg from './celeb.svg'
