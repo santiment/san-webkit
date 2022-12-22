@@ -3,16 +3,17 @@
 
   let className = ''
   export { className as class }
+  export let small = false
 </script>
 
 <span class="check mrg-m mrg--r">
-  <Svg id="checkmark-circle-filled" w="24" />
+  <Svg id="checkmark-circle-filled" w={small ? 16 : 24} />
 </span>
 
 <style>
   .check {
     position: relative;
-    fill: var(--check);
+    fill: var(--check, var(--green-light-1));
     align-self: flex-start;
   }
   .check::after {
@@ -22,7 +23,7 @@
     top: 22%;
     width: 60%;
     height: 60%;
-    background: var(--check-fill);
+    background: var(--check-fill, var(--green));
     z-index: -1;
   }
 </style>

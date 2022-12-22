@@ -39,8 +39,6 @@
   ul {
     margin: 20px 0 0;
     gap: 16px;
-    --check: var(--green-light-1);
-    --check-fill: var(--green);
   }
 
   .error {

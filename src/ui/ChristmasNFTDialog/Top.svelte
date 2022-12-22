@@ -60,8 +60,6 @@
   ul {
     margin: 20px 0 40px;
     gap: 16px;
-    --check: var(--green-light-1);
-    --check-fill: var(--green);
   }
 
   strong {

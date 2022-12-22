@@ -11,8 +11,24 @@
   <button on:click={showChristmasNFTDialog}>Show dialog</button>
 </Template>
 
-<Story name="Welcome dialog">
+<Story name="Intro - 0">
   <OnMount run={() => showChristmasNFTDialog()} />
+</Story>
+
+<Story name="Insights - 1">
+  <OnMount run={() => showChristmasNFTDialog({ page: 1 })} />
+</Story>
+
+<Story name="Top Ten - 2">
+  <OnMount run={() => showChristmasNFTDialog({ page: 2 })} />
+</Story>
+
+<Story name="Rewards - 3">
+  <OnMount run={() => showChristmasNFTDialog({ page: 3 })} />
+</Story>
+
+<Story name="Info - 4">
+  <OnMount run={() => showChristmasNFTDialog({ page: 4 })} />
 </Story>
 
 <Dialogs />

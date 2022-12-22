@@ -2,7 +2,7 @@
   import { dialogs } from '@/ui/Dialog'
   import ChristmasNFTDialog from './Dialog.svelte'
 
-  export const showChristmasNFTDialog = (props) =>
+  export const showChristmasNFTDialog = (props?: any) =>
     dialogs.showOnce(ChristmasNFTDialog, Object.assign({ strict: true }, props))
 </script>
 
@@ -14,9 +14,9 @@
   import { Page } from './types'
   import Top from './Top.svelte'
   import Reward from './Reward.svelte'
+  import Info from './Info.svelte'
 
-  // let route = 'insight'
-  let page = Page.Intro
+  export let page = Page.Intro
 
   const pages = {
     [Page.Insight]: {
@@ -33,7 +33,7 @@
     },
     [Page.Info]: {
       title: 'About the Santiment Holiday NFT',
-      Component: Insight,
+      Component: Info,
     },
   }
 </script>
