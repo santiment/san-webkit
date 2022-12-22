@@ -1,14 +1,25 @@
-<script>import Svg from './../../ui/Svg/svelte';
+<script>import { trackNftBattleLinkClick, trackNftBattleStartGame } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
 import Li from './Li.svelte';
 import { Page } from './types';
-import { startGame } from './api';
+import { queryCurrentUserInsights, startGame } from './api';
 import introSvg from './intro.svg';
 export let page;
 export let closeDialog;
 
 function onStart() {
-  page = Page.Insight;
-  startGame();
+  queryCurrentUserInsights().then(currentUser => {
+    var _a, _b;
+
+    if (!currentUser) {
+      return (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
+    }
+
+    page = Page.Insight;
+    trackNftBattleStartGame();
+    (_b = window.onNftGameStart) === null || _b === void 0 ? void 0 : _b.call(window);
+    return startGame();
+  });
 }</script>
 
 <main class="column body-2" style="--svg:url({introSvg})">
@@ -32,9 +43,11 @@ function onStart() {
         Publish your trading idea on
         <a
           href="https://insights.santiment.net/"
+          on:click={trackNftBattleLinkClick}
           target="_blank"
           rel="noopener noreferrer"
-          class="link-pointer">insights.santiment.net</a
+          class="link-pointer"
+          data-source="intro">insights.santiment.net</a
         >
         by <br /> January 6, 2023
       </span>

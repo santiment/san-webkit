@@ -1,13 +1,16 @@
-<script>import Svg from './../../ui/Svg/svelte';
+<script>import { trackNftBattleCTA } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
 import { dataPreloader, showChristmasNFTDialog } from './Dialog.svelte';
 let className = '';
-export { className as class };</script>
+export { className as class };
+export let source = 'navbar';
 
-<button
-  class="btn-1 btn--s v-center {className}"
-  use:dataPreloader
-  on:click={() => showChristmasNFTDialog()}
->
+function onClick() {
+  showChristmasNFTDialog();
+  trackNftBattleCTA(source);
+}</script>
+
+<button class="btn-1 btn--s v-center {className}" use:dataPreloader on:click={onClick}>
   <Svg id="rocket" w="10.5" h="14" />
   Win NFT</button
 >

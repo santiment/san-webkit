@@ -4,6 +4,7 @@
   border: 1px solid var(---border);
   background: var(--white);
 }
+
 .border:hover {
   border-color: var(--border-hover, var(---border));
 }
@@ -34,6 +35,7 @@
 .h-center {
   justify-content: center;
 }
+
 .v-center {
   align-items: center;
 }
@@ -45,33 +47,43 @@
 .mrg-a {
   --margin: auto;
 }
+
 .mrg-xxl {
   --margin: 32px;
 }
+
 .mrg-xl {
   --margin: 24px;
 }
+
 .mrg-l {
   --margin: 16px;
 }
+
 .mrg-m {
   --margin: 12px;
 }
+
 .mrg-s {
   --margin: 8px;
 }
+
 .mrg-xs {
   --margin: 4px;
 }
+
 .mrg--t {
   margin-top: var(--margin);
 }
+
 .mrg--r {
   margin-right: var(--margin);
 }
+
 .mrg--b {
   margin-bottom: var(--margin);
 }
+
 .mrg--l {
   margin-left: var(--margin);
 }
@@ -79,9 +91,11 @@
 .relative {
   position: relative;
 }
+
 .expl-tooltip {
   position: relative;
 }
+
 .expl-tooltip:hover::before {
   position: absolute;
   content: attr(aria-label);
@@ -104,6 +118,16 @@
 .no-scrollbar {
   scrollbar-width: none;
 }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.hover-scroll {
+  overflow: hidden;
+}
+
+.hover-scroll:hover {
+  overflow-y: auto;
+  overflow-y: overlay;
 }

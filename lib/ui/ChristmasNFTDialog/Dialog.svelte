@@ -5,7 +5,9 @@ import { checkIsGameStarted, queryUserNftInsights } from './api';
 export const showChristmasNFTDialog = props => dialogs.showOnce(ChristmasNFTDialog, props);
 export const dataPreloader = Preloader(queryUserNftInsights);</script>
 
-<script>import Dialog from './../../ui/Dialog';
+<script>import { onDestroy, onMount } from 'svelte';
+import { trackNftBattleDialogClose, trackNftBattleDialogOpen } from './../../analytics/events/nftbattle';
+import Dialog from './../../ui/Dialog';
 import PageLayout from './PageLayout.svelte';
 import Intro from './Intro.svelte';
 import Insight from './Insight.svelte';
@@ -39,7 +41,11 @@ const pages = {
     title: 'About the Santiment Holiday NFT',
     Component: Info
   }
-};</script>
+};
+onMount(trackNftBattleDialogOpen);
+onDestroy(() => {
+  if (process.browser) trackNftBattleDialogClose(page);
+});</script>
 
 <Dialog
   {...$$props}

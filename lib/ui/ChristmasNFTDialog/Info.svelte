@@ -1,5 +1,7 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import Li from './Li.svelte';</script>
+<script>import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
+import Li from './Li.svelte';
+import { Page } from './types';</script>
 
 <p class="mrg-s mrg--b">
   Our first collection of Santiment NFTs is here! Catch all the details below – plus a spoiler for
@@ -36,9 +38,11 @@ import Li from './Li.svelte';</script>
     Publish an Insight with your trading idea and set the NFTbattle toggle “On” at
     <a
       href="https://insights.santiment.net/"
+      on:click={trackNftBattleLinkClick}
       target="_blank"
       rel="noopener noreferrer"
-      class="link-pointer">insights.santiment.net</a
+      class="link-pointer"
+      data-source={PageName[Page.Info]}>insights.santiment.net</a
     >
   </p>
 </div>
@@ -69,8 +73,13 @@ import Li from './Li.svelte';</script>
 
 <div class="bonus border">
   <span class="c-green">The Bonus!</span> We will be giving away 3 more NFT’s for Signal creators on
-  <a href="https://sanr.app/" target="_blank" rel="noopener noreferrer" class="link-pointer"
-    >sanr.app</a
+  <a
+    href="https://sanr.app/"
+    on:click={trackNftBattleLinkClick}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="link-pointer"
+    data-source={PageName[Page.Info]}>sanr.app</a
   >. Only the best predictions based on #nftbattle Insights will be considered! The more closed
   signals with the positive performance you will get in the end, the more chances you have to win a
   prized NFT!
