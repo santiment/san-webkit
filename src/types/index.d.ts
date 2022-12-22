@@ -19,6 +19,8 @@ interface Window {
   twttr?: any
   provider?: any
   __onLinkClick?: (e: MouseEvent | string) => void
+  identifyAmplitude?: (identity: any) => void
+  onNftGameStart?: () => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
   twq?: any
   __SAPPER__?: any
