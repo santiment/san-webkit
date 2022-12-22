@@ -8,24 +8,25 @@
 
 <script lang="ts">
   import Dialog from '@/ui/Dialog'
-  import Intro from './Into.svelte'
+  import Intro from './Intro.svelte'
   import Insight from './Insight.svelte'
+  import { Page } from './types'
 
   // let route = 'insight'
-  let route = ''
+  let page = Page.Intro
 </script>
 
 <Dialog
   {...$$props}
-  noTitle={!route}
-  title={route && 'Game details'}
-  class="$style.dialog body-2"
+  noTitle={!page}
+  title={page ? 'Game details' : undefined}
+  class="$style.dialog"
   let:closeDialog
 >
-  {#if !route}
-    <Intro {closeDialog} bind:route />
-  {:else if route === 'insight'}
-    <Insight />
+  {#if page === Page.Intro}
+    <Intro {closeDialog} bind:page />
+  {:else if page === Page.Insight}
+    <Insight bind:page />
   {/if}
 </Dialog>
 
@@ -34,5 +35,6 @@
     padding: 0 !important;
     width: 960px;
     height: 600px;
+    max-height: 600px;
   }
 </style>

@@ -1,12 +1,13 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
   import introSvg from './intro.svg'
+  import { Page } from './types'
 
-  export let route: string
+  export let page: Page
   export let closeDialog
 </script>
 
-<main class="column" style="--svg:url({introSvg})">
+<main class="column body-2" style="--svg:url({introSvg})">
   <button class="close btn" on:click={closeDialog}>
     <Svg id="close" w="16" />
   </button>
@@ -39,13 +40,13 @@
     </li>
   </ul>
 
-  <button class="start btn-1 btn--l" on:click={() => (route = 'insight')}>Start the Game</button>
+  <button class="start btn-1 btn--l" on:click={() => (page = Page.Insight)}>Start the Game</button>
 </main>
 
 <style>
   main {
     padding: 68px;
-    background: var(--svg) no-repeat;
+    background: var(--svg) no-repeat center 100%;
     flex: 1;
   }
 
