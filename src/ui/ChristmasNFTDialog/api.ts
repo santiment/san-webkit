@@ -12,12 +12,15 @@ const NFT_INSIGHTS_QUERY = `{ currentUser {
         }
     }}`
 
+const currentUserAcessor = ({ currentUser }) => currentUser
+export const queryCurrentUserInsights = () =>
+  query<any>(NFT_INSIGHTS_QUERY).then(currentUserAcessor)
+
 const filter = ({ publishedAt, tags }) =>
   publishedAt && tags.some(({ name }) => name.toUpperCase() === NFT_BATTLE_TAG)
-
-const accessor = ({ currentUser }) => (currentUser ? currentUser.insights.filter(filter) : [])
-
-export const queryUserNftInsights = () => query<any>(NFT_INSIGHTS_QUERY).then(accessor)
+const accessor = (currentUser: null | { insights: any[] }) =>
+  currentUser ? currentUser.insights.filter(filter) : []
+export const queryUserNftInsights = () => queryCurrentUserInsights().then(accessor)
 
 const KEY = 'NFT_BATTLE_STARTED'
 export const checkIsGameStarted = () => getSavedBoolean(KEY)

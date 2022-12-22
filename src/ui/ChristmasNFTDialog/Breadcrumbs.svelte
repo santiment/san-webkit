@@ -1,30 +1,39 @@
 <script lang="ts">
+  import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
+
   import Svg from '@/ui/Svg/svelte'
   import { Page } from './types'
 
   export let page: Page
+
+  function changePage(newPage: Page) {
+    if (newPage === page) return
+
+    trackNftBattleGameDetailsPage(newPage, 'breadcrumbs', page)
+    page = newPage
+  }
 </script>
 
 <nav class="breadcrumbs row v-center">
   <button
     class="page btn"
     class:active={page === Page.Insight}
-    on:click={() => (page = Page.Insight)}>Publish Insight</button
+    on:click={() => changePage(Page.Insight)}>Publish Insight</button
   >
   <Svg id="arrow-right" h="10" w="5.5" />
-  <button class="page btn" class:active={page === Page.Top} on:click={() => (page = Page.Top)}>
+  <button class="page btn" class:active={page === Page.Top} on:click={() => changePage(Page.Top)}>
     Reach the Top Ten
   </button>
   <Svg id="arrow-right" h="10" w="5.5" />
   <button
     class="page btn"
     class:active={page === Page.Reward}
-    on:click={() => (page = Page.Reward)}
+    on:click={() => changePage(Page.Reward)}
   >
     Get Reward
   </button>
 
-  <button class="info btn row v-center mrg-a mrg--l" on:click={() => (page = Page.Info)}>
+  <button class="info btn row v-center mrg-a mrg--l" on:click={() => changePage(Page.Info)}>
     <Svg id="nft" w="16" class="mrg-s mrg--r" />
     INFO
   </button>

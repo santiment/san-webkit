@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte'
+  import { trackNftBattleDialogClose, trackNftBattleDialogOpen } from '@/analytics/events/nftbattle'
   import Dialog from '@/ui/Dialog'
   import PageLayout from './PageLayout.svelte'
   import Intro from './Intro.svelte'
@@ -19,9 +21,10 @@
   import Reward from './Reward.svelte'
   import Info from './Info.svelte'
 
-  export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
+  // export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
+  export let page = Page.Intro
 
-  let insights = []
+  let insights = [] as any[]
 
   if (process.browser) {
     queryUserNftInsights().then((data) => {
@@ -47,6 +50,12 @@
       Component: Info,
     },
   }
+
+  onMount(trackNftBattleDialogOpen)
+
+  onDestroy(() => {
+    if (process.browser) trackNftBattleDialogClose(page)
+  })
 </script>
 
 <Dialog

@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { trackNftBattleLinkClick, PageName } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import Li from './Li.svelte'
+  import { Page } from './types'
 </script>
 
 <p>
@@ -14,9 +16,11 @@
     <span>
       Go to <a
         href="https://insights.santiment.net/"
+        on:click={trackNftBattleLinkClick}
         target="_blank"
         rel="noopener noreferrer"
-        class="link-pointer">insights.santiment.net</a
+        class="link-pointer"
+        data-source={PageName[Page.Insight]}>insights.santiment.net</a
       >. Click “Become an Author”
     </span>
   </Li>
@@ -26,9 +30,11 @@
       Write your Insight. Include images and embed chart layouts. To learn more about how to create
       a good Insight, visit our <a
         href="https://academy.santiment.net/sanbase/insights/#create-a-new-insight"
+        on:click={trackNftBattleLinkClick}
         target="_blank"
         rel="noopener noreferrer"
-        class="link-pointer">Academy page</a
+        class="link-pointer"
+        data-source={PageName[Page.Insight]}>Academy page</a
       >
     </span>
   </Li>

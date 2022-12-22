@@ -18,7 +18,7 @@ interface Window {
   ethereum?: any
   twttr?: any
   provider?: any
-  __onLinkClick?: (e: MouseEvent) => void
+  __onLinkClick?: (e: MouseEvent | string) => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
   twq?: any
   __SAPPER__?: any
