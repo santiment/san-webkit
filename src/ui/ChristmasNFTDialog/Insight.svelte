@@ -12,14 +12,24 @@
 <ul class="column">
   <Li>
     <span>
-      Go to <a href="/" class="link-pointer">insights.santiment.net</a>. Click “Become an Author”
+      Go to <a
+        href="https://insights.santiment.net/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-pointer">insights.santiment.net</a
+      >. Click “Become an Author”
     </span>
   </Li>
 
   <Li>
     <span>
       Write your Insight. Include images and embed chart layouts. To learn more about how to create
-      a good Insight, visit our <a href="/" class="link-pointer">Academy page</a>
+      a good Insight, visit our <a
+        href="https://academy.santiment.net/sanbase/insights/#create-a-new-insight"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-pointer">Academy page</a
+      >
     </span>
   </Li>
   <Li>

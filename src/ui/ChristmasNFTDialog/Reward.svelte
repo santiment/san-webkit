@@ -1,6 +1,8 @@
-<script>
+<script lang="ts">
   import Svg from '@/ui/Svg/svelte'
+  import { Page } from './types'
 
+  export let page: Page
   export let insights = []
 
   $: hasInsights = insights.length > 0
@@ -12,6 +14,8 @@
   <p>
     ⚠️ To participate in the battle, <a
       href="https://insights.santiment.net/new"
+      target="_blank"
+      rel="noopener noreferrer"
       class="link-pointer">Create an Insight</a
     >
   </p>
@@ -24,7 +28,9 @@
 </p>
 
 <p>
-  <a href="/" class="link-pointer">Learn more about the Santiment NFT utility</a>
+  <button class="btn-0" on:click={() => (page = Page.Info)}
+    >Learn more about the Santiment NFT utility</button
+  >
 </p>
 
 <div class="hint border relative mrg-xl mrg--t">
@@ -37,7 +43,12 @@
     </p>
 
     <p class="mrg-s mrg--t">
-      <a href="https://insights.santiment.net/new" class="link-pointer">Create Insight</a>
+      <a
+        href="https://insights.santiment.net/new"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-pointer">Create Insight</a
+      >
     </p>
   </div>
 </div>

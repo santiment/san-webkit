@@ -36,7 +36,12 @@
   ⭐
   <p class="mrg-s mrg--l">
     Publish an Insight with your trading idea and set the NFTbattle toggle “On” at
-    <a href="https://insights.santiment.net" class="link-pointer">insights.santiment.net</a>
+    <a
+      href="https://insights.santiment.net/"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="link-pointer">insights.santiment.net</a
+    >
   </p>
 </div>
 
@@ -66,9 +71,11 @@
 
 <div class="bonus border">
   <span class="c-green">The Bonus!</span> We will be giving away 3 more NFT’s for Signal creators on
-  <a href="https://sanr.app/" class="link-pointer">sanr.app</a>. Only the best predictions based on
-  #nftbattle Insights will be considered! The more closed signals with the positive performance you
-  will get in the end, the more chances you have to win a prized NFT!
+  <a href="https://sanr.app/" target="_blank" rel="noopener noreferrer" class="link-pointer"
+    >sanr.app</a
+  >. Only the best predictions based on #nftbattle Insights will be considered! The more closed
+  signals with the positive performance you will get in the end, the more chances you have to win a
+  prized NFT!
 </div>
 
 <style lang="scss">

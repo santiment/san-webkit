@@ -45,8 +45,12 @@
 <ul class="column">
   <Li>
     <div>
-      Go to <a href="https://sanr.app" class="link-pointer">sanr.app</a>. Click “Connect Wallet” to
-      connect your Metamask account
+      Go to <a
+        href="https://sanr.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="link-pointer">sanr.app</a
+      >. Click “Connect Wallet” to connect your Metamask account
     </div>
   </Li>
 
@@ -66,7 +70,7 @@
 
 <div class="socials row">
   {#each SOCIALS as [social, href, bg]}
-    <a {href} rel="noopener noreferrer" class="social row v-center border">
+    <a {href} target="_blank" rel="noopener noreferrer" class="social row v-center border">
       <span class="circle row hv-center" style="background:{bg}"
         ><Svg id={social} w="12" h="10" /></span
       >

@@ -62,7 +62,7 @@
   {:else}
     {@const { title, Component } = pages[page]}
     <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} />
+      <svelte:component this={Component} {insights} bind:page />
     </PageLayout>
   {/if}
 </Dialog>
