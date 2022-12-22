@@ -25,6 +25,8 @@
       <div class="insights column relative">
         <a
           href="https://insights.santiment.net/read/{getSEOLinkFromIdAndTitle(id, title)}"
+          target="_blank"
+          rel="noopener noreferrer"
           class="row"
         >
           <Check small class="mrg-s mrg--r" />
@@ -40,6 +42,7 @@
       <a
         href="https://insights.santiment.net/new?ref=nftbattle"
         class="link-pointer"
+        target="_blank"
         rel="noopener noreferrer"
       >
         Create an Insight
