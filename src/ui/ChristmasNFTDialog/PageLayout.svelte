@@ -1,9 +1,9 @@
 <script lang="ts">
+  import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import Breadcrumbs from './Breadcrumbs.svelte'
   import { Page } from './types'
   import Aside from './Aside.svelte'
-  import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
 
   export let page: Page
   export let title: string

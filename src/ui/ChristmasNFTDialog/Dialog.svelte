@@ -21,8 +21,7 @@
   import Reward from './Reward.svelte'
   import Info from './Info.svelte'
 
-  // export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
-  export let page = Page.Intro
+  export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
 
   let insights = [] as any[]
 

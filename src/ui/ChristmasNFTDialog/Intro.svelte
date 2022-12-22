@@ -1,10 +1,10 @@
 <script lang="ts">
+  import { trackNftBattleLinkClick, trackNftBattleStartGame } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import Li from './Li.svelte'
   import { Page } from './types'
   import { queryCurrentUserInsights, startGame } from './api'
   import introSvg from './intro.svg'
-  import { trackNftBattleLinkClick, trackNftBattleStartGame } from '@/analytics/events/nftbattle'
 
   export let page: Page
   export let closeDialog
@@ -17,6 +17,7 @@
 
       page = Page.Insight
       trackNftBattleStartGame()
+      window.onNftGameStart?.()
       return startGame()
     })
   }

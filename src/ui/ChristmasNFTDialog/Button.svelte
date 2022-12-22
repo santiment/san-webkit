@@ -1,6 +1,5 @@
 <script>
   import { trackNftBattleCTA } from '@/analytics/events/nftbattle'
-
   import Svg from '@/ui/Svg/svelte'
   import { dataPreloader, showChristmasNFTDialog } from './Dialog.svelte'
 

@@ -40,7 +40,6 @@ export const trackNftBattleGameDetailsPage = (page: Page, source: string, source
     page: PageName[page],
   })
 
-// export const trackNftBattleLinkClick = (source: string, source_page: string) =>
 export function trackNftBattleLinkClick(e: MouseEvent) {
   const node = e.currentTarget as HTMLAnchorElement
 

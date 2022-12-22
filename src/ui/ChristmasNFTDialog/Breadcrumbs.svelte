@@ -1,6 +1,5 @@
 <script lang="ts">
   import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
-
   import Svg from '@/ui/Svg/svelte'
   import { Page } from './types'
 
