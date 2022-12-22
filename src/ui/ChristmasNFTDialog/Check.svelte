@@ -1,8 +1,6 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
 
-  let className = ''
-  export { className as class }
   export let small = false
 </script>
 
@@ -15,6 +13,7 @@
     position: relative;
     fill: var(--check, var(--green-light-1));
     align-self: flex-start;
+    margin-top: -1px;
   }
   .check::after {
     content: '';

@@ -12,13 +12,17 @@
     on:click={() => (page = Page.Insight)}>Publish Insight</button
   >
   <Svg id="arrow-right" h="10" w="5.5" />
-  <button class="page btn" class:active={page === Page.Top} on:click={() => (page = Page.Top)}
-    >Get into Top Ten</button
-  >
+  <button class="page btn" class:active={page === Page.Top} on:click={() => (page = Page.Top)}>
+    Reach the Top Ten
+  </button>
   <Svg id="arrow-right" h="10" w="5.5" />
-  <button class="page btn" class:active={page === Page.Reward} on:click={() => (page = Page.Reward)}
-    >What’s now?</button
+  <button
+    class="page btn"
+    class:active={page === Page.Reward}
+    on:click={() => (page = Page.Reward)}
   >
+    Get Reward
+  </button>
 
   <button class="info btn row v-center mrg-a mrg--l" on:click={() => (page = Page.Info)}>
     <Svg id="nft" w="16" class="mrg-s mrg--r" />

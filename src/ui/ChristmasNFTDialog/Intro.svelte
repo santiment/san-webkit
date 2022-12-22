@@ -16,9 +16,11 @@
   <h2 class="h3 txt-m txt-center mrg-xl mrg--b">San NFT Christmas Game!</h2>
 
   <p class="txt-center c-fiord">
-    We are hosting a Christmas event to reward the best Sanbase crypto analysts in our community!
-    Participate in our Insight writing competition, and get 1 of 10 NFT’s that unlock three months
-    of Sanbase PRO access alongside a lifetime 18% discount.
+    Think you know where crypto is headed next? Got a killer analysis you want to show off? Enter it
+    in our Santiment Holiday Insight competition and win 1 of only 10 special NFTs that unlock <span
+      class="txt-b">three free months of Sanbase PRO</span
+    >
+    alongside a <span class="txt-b">lifetime 18% discount!</span>
   </p>
 
   <ul class="column c-rhino">
@@ -26,12 +28,13 @@
       <span>
         Publish your trading idea on
         <a href="https://insights.santiment.net" class="link-pointer">insights.santiment.net</a>
+        by <br /> January 6, 2023
       </span>
     </Li>
 
-    <Li>Get into the top ten insights by using just three criteria</Li>
+    <Li>Get into the top ten insights by <br /> using just three criteria</Li>
 
-    <Li>Claim your NFT. We’ll announce 10 winners on January 9, 2023</Li>
+    <Li>Claim your NFT – We’ll announce 10 winners at the end of January 2023</Li>
   </ul>
 
   <button class="start btn-1 btn--l" on:click={() => (page = Page.Insight)}>Start the Game</button>
@@ -42,6 +45,7 @@
     padding: 68px;
     background: var(--svg) no-repeat center 100%;
     flex: 1;
+    height: 100%;
   }
 
   p {
@@ -50,10 +54,11 @@
   }
 
   ul {
-    max-width: 300px;
-    fill: var(--fiord);
+    max-width: 313px;
     margin: 0 auto;
     gap: 24px;
+    --check: var(--fiord);
+    --check-fill: none;
   }
 
   .start {

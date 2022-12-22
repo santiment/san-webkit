@@ -1,5 +1,13 @@
 <script>
+  import Svg from '@/ui/Svg/svelte'
   import Li from './Li.svelte'
+
+  const SOCIALS = [
+    ['twitter', 'https://twitter.com/', '#56A8DC'],
+    ['discord', 'https://discord.com/', '#5B65EA'],
+    ['reddit', 'https://www.reddit.com/', '#EB5528'],
+    ['telegram', 'https://telegram.org/', '#5AAADB'],
+  ]
 </script>
 
 <p>
@@ -56,6 +64,17 @@
   possible to your Insight via links on social media:
 </p>
 
+<div class="socials row">
+  {#each SOCIALS as [social, href, bg]}
+    <a {href} rel="noopener noreferrer" class="social row v-center border">
+      <span class="circle row hv-center" style="background:{bg}"
+        ><Svg id={social} w="12" h="10" /></span
+      >
+      {social}</a
+    >
+  {/each}
+</div>
+
 <style lang="scss">
   ul {
     margin: 20px 0 40px;
@@ -71,5 +90,23 @@
     margin: 6px 0 0;
     box-shadow: 0px 4px 8px rgba(24, 27, 43, 0.08);
     fill: var(--red);
+  }
+
+  .socials {
+    fill: var(--white);
+    gap: 12px;
+    margin: 20px 0 0;
+  }
+
+  .social {
+    padding: 10px 12px;
+    text-transform: capitalize;
+    gap: 8px;
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
   }
 </style>
