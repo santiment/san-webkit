@@ -1,7 +1,8 @@
 <script lang="ts">
   import Svg from '@/ui/Svg/svelte'
-  import introSvg from './intro.svg'
+  import Li from './Li.svelte'
   import { Page } from './types'
+  import introSvg from './intro.svg'
 
   export let page: Page
   export let closeDialog
@@ -20,24 +21,17 @@
     of Sanbase PRO access alongside a lifetime 18% discount.
   </p>
 
-  <ul class="c-rhino">
-    <li class="row">
-      <Svg id="checkmark-circle-filled" w="24" />
+  <ul class="column c-rhino">
+    <Li>
       <span>
         Publish your trading idea on
         <a href="https://insights.santiment.net" class="link-pointer">insights.santiment.net</a>
       </span>
-    </li>
+    </Li>
 
-    <li class="row">
-      <Svg id="checkmark-circle-filled" w="24" />
-      Get into the top ten insights by using just three criteria
-    </li>
+    <Li>Get into the top ten insights by using just three criteria</Li>
 
-    <li class="row">
-      <Svg id="checkmark-circle-filled" w="24" />
-      Claim your NFT. We’ll announce 10 winners on January 9, 2023
-    </li>
+    <Li>Claim your NFT. We’ll announce 10 winners on January 9, 2023</Li>
   </ul>
 
   <button class="start btn-1 btn--l" on:click={() => (page = Page.Insight)}>Start the Game</button>
@@ -59,10 +53,7 @@
     max-width: 300px;
     fill: var(--fiord);
     margin: 0 auto;
-  }
-
-  li {
-    gap: 12px;
+    gap: 24px;
   }
 
   .start {
