@@ -27,8 +27,11 @@
     <Li>
       <span>
         Publish your trading idea on
-        <a href="https://insights.santiment.net/" target="_blank" class="link-pointer"
-          >insights.santiment.net</a
+        <a
+          href="https://insights.santiment.net/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-pointer">insights.santiment.net</a
         >
         by <br /> January 6, 2023
       </span>
