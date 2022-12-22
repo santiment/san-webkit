@@ -12,7 +12,8 @@ function onStart() {
     var _a, _b;
 
     if (!currentUser) {
-      return (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
+      (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
+      return closeDialog();
     }
 
     page = Page.Insight;
