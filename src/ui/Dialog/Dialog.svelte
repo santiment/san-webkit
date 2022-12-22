@@ -133,7 +133,12 @@
           {title}
         {/if}
 
-        <Svg id="close" class="btn mrg-a mrg--l $style.close" on:click={requestDialogClose} />
+        <Svg
+          id="close"
+          w="12"
+          class="btn mrg-a mrg--l $style.close"
+          on:click={requestDialogClose}
+        />
       </h2>
     {/if}
 
@@ -180,8 +185,6 @@
   }
 
   .close {
-    width: 12px;
-    height: 12px;
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
