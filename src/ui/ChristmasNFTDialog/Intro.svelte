@@ -12,7 +12,8 @@
   function onStart() {
     queryCurrentUserInsights().then((currentUser) => {
       if (!currentUser) {
-        return window.__onLinkClick?.('/login')
+        window.__onLinkClick?.('/login')
+        return closeDialog()
       }
 
       page = Page.Insight
