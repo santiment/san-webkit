@@ -8,12 +8,34 @@
 
 <script lang="ts">
   import Dialog from '@/ui/Dialog'
+  import PageLayout from './PageLayout.svelte'
   import Intro from './Intro.svelte'
   import Insight from './Insight.svelte'
   import { Page } from './types'
+  import Top from './Top.svelte'
+  import Reward from './Reward.svelte'
 
   // let route = 'insight'
   let page = Page.Intro
+
+  const pages = {
+    [Page.Insight]: {
+      title: 'Publish your Insight',
+      Component: Insight,
+    },
+    [Page.Top]: {
+      title: 'Winning Criteria',
+      Component: Top,
+    },
+    [Page.Reward]: {
+      title: 'Sit back and watch the action',
+      Component: Reward,
+    },
+    [Page.Info]: {
+      title: 'About the Santiment Holiday NFT',
+      Component: Insight,
+    },
+  }
 </script>
 
 <Dialog
@@ -25,8 +47,11 @@
 >
   {#if page === Page.Intro}
     <Intro {closeDialog} bind:page />
-  {:else if page === Page.Insight}
-    <Insight bind:page />
+  {:else}
+    {@const { title, Component } = pages[page]}
+    <PageLayout {title} bind:page>
+      <svelte:component this={Component} />
+    </PageLayout>
   {/if}
 </Dialog>
 

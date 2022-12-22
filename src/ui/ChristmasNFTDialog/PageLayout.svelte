@@ -9,42 +9,51 @@
 </script>
 
 <div class="wrapper row">
-  <main class="column">
+  <section class="column">
     <Breadcrumbs bind:page />
 
-    <h2 class="h4 txt-m mrg-xl mrg--b">{title}</h2>
+    <main class="column">
+      <h2 class="h4 txt-m mrg-xl mrg--b">{title}</h2>
 
-    <slot />
+      <slot />
 
-    <nav class="row justify mrg-a mrg--t">
-      <button
-        class="pagination btn row v-center"
-        class:disabled={page < Page.Top}
-        on:click={() => (page -= 1)}
-      >
-        <Svg id="pointer" w="14" h="8" class="$style.back" />
-        Back
-      </button>
+      {#if page < Page.Info}
+        <nav class="row justify mrg-a mrg--t">
+          <button
+            class="pagination btn row v-center"
+            class:disabled={page < Page.Top}
+            on:click={() => (page -= 1)}
+          >
+            <Svg id="pointer" w="14" h="8" class="$style.back" />
+            Back
+          </button>
 
-      <button class="pagination btn row v-center" on:click={() => (page += 1)}>
-        Next
-        <Svg id="pointer" w="14" h="8" />
-      </button>
-    </nav>
-  </main>
+          <button
+            class="pagination btn row v-center"
+            class:disabled={page >= Page.Reward}
+            on:click={() => (page += 1)}
+          >
+            Next
+            <Svg id="pointer" w="14" h="8" />
+          </button>
+        </nav>
+      {/if}
+    </main>
+  </section>
 
   <Aside />
 </div>
 
 <style lang="scss">
-  .wrapper {
+  .wrapper,
+  section,
+  main {
     flex: 1;
   }
 
   main {
-    flex: 1;
-    padding: 24px 48px;
-    max-height: 549px;
+    padding: 0 48px 24px;
+    max-height: 465px;
     overflow: auto;
   }
 

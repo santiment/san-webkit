@@ -29,7 +29,7 @@
 <style>
   .breadcrumbs {
     gap: 13.5px;
-    margin: 0 0 30px;
+    padding: 24px 48px;
   }
 
   .page {
@@ -44,5 +44,6 @@
     padding: 8px;
     --bg: var(--blue-light-1);
     --color: var(--blue);
+    --bg-hover: var(--blue-light-2);
   }
 </style>
