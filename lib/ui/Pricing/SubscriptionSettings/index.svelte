@@ -1,4 +1,6 @@
-<script>import Svg from './../../../ui/Svg/svelte';
+<script>var _a;
+
+import Svg from './../../../ui/Svg/svelte';
 import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
 import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
@@ -28,6 +30,8 @@ $: plan = (subscription === null || subscription === void 0 ? void 0 : subscript
   amount: 0,
   interval: Billing.MONTH
 };
+
+$: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
 
 $: ({
   isEligibleForTrial,
@@ -88,7 +92,7 @@ function getPlanSuggestions() {
     {/each}
   </Setting>
 
-  {#if subscription && !isCanceled}
+  {#if subscription && !isCanceled && !isFree}
     <Setting>
       <div>
         Cancel subscription

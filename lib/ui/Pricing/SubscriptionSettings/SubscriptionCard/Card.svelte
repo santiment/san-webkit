@@ -51,7 +51,7 @@ export let onActionClick, onSubactionClick;</script>
       {/if}
     </svelte:element>
 
-    {#if subaction}
+    {#if subaction && onSubactionClick}
       <button class="btn-2 mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
