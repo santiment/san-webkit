@@ -30,11 +30,7 @@
     {/if}
   </div>
   <div class="relative">
-    {#if $IsMobile}
-      <img src={bgMobile} alt="xmas" class="bg" />
-    {:else}
-      <img src={bg} alt="xmas" class="bg" />
-    {/if}
+    <img src={$IsMobile ? bgMobile : bg} alt="xmas" class="bg" />
   </div>
 </section>
 
