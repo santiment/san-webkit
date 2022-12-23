@@ -32,7 +32,7 @@
   action={isPaidPlan ? 'Change plan' : isEligibleForTrial ? 'Default plan' : 'Upgrade'}
   onActionClick={showPlanSummaryDialog}
   subaction={isPaidPlan && 'Cancel subscription'}
-  onSubactionClick={showCancelSubscriptionDialog}
+  onSubactionClick={isCancelled ? undefined : showCancelSubscriptionDialog}
   shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
   <p>
