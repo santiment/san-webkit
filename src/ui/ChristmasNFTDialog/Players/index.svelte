@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trackNftBattlePlayersTablePagination } from '@/analytics/events/nftbattle'
   import Table from '@/ui/Table/Paged.svelte'
   import { querySignals } from './api'
   import { COLUMNS } from './columns'
@@ -26,6 +27,8 @@
   }
 
   function onPageChange(newPage: number) {
+    trackNftBattlePlayersTablePagination(newPage, newPage > page ? 'next' : 'prev')
+
     page = newPage
   }
 

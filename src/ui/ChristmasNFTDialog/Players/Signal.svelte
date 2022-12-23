@@ -11,6 +11,6 @@
   target="_blank"
   rel="noopener noreferrer"
   on:click={trackNftBattleLinkClick}
-  data-source="players"
+  data-source="players_table"
   >{symbol} | {direction === 'up' ? 'SanRise' : 'SanSet'} | {closeDate ? 'Closed' : 'Open'}</a
 >

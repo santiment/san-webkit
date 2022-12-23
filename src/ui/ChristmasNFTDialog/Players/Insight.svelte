@@ -30,7 +30,7 @@
       target="_blank"
       rel="noopener noreferrer"
       on:click={trackNftBattleLinkClick}
-      data-source="players">{title}</a
+      data-source="players_table">{title}</a
     >
   </div>
 {:else}

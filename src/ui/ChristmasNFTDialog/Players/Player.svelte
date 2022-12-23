@@ -12,7 +12,7 @@
     target="_blank"
     rel="noopener noreferrer"
     on:click={trackNftBattleLinkClick}
-    data-source="players"
+    data-source="players_table"
   >
     {username}
   </a>
