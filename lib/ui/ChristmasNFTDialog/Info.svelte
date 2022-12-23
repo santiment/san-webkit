@@ -1,6 +1,7 @@
 <script>import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
 import Svg from './../../ui/Svg/svelte';
 import Li from './Li.svelte';
+import Players from './Players/index.svelte';
 import { Page } from './types';</script>
 
 <p class="mrg-s mrg--b">
@@ -84,6 +85,8 @@ import { Page } from './types';</script>
   signals with the positive performance you will get in the end, the more chances you have to win a
   prized NFT!
 </div>
+
+<Players />
 
 <style >.rewards {
   gap: 6px;

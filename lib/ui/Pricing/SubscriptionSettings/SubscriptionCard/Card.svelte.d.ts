@@ -5,12 +5,12 @@ export default class Card extends SvelteComponentTyped<{
     label: any;
     link: any;
     title: any;
+    action: any;
     billing: any;
     discount: any;
     price: any;
     badge: any;
     badgeIcon: any;
-    action: any;
     subaction: any;
     onActionClick: any;
     onSubactionClick: any;
@@ -37,12 +37,12 @@ declare const __propDef: {
         label: any;
         link: any;
         title: any;
+        action: any;
         billing: any;
         discount: any;
         price: any;
         badge: any;
         badgeIcon: any;
-        action: any;
         subaction: any;
         onActionClick: any;
         onSubactionClick: any;

@@ -10,8 +10,8 @@ export default class InputWithIcon extends SvelteComponentTyped<{
     constraints: any;
     autofocus: any;
     type?: string | undefined;
-    big?: boolean | undefined;
     value?: string | undefined;
+    big?: boolean | undefined;
     class?: string | undefined;
 }, {
     input: Event;
@@ -39,8 +39,8 @@ declare const __propDef: {
         constraints: any;
         autofocus: any;
         type?: string | undefined;
-        big?: boolean | undefined;
         value?: string | undefined;
+        big?: boolean | undefined;
         class?: string | undefined;
     };
     events: {

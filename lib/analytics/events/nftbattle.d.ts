@@ -12,3 +12,4 @@ export declare const trackNftBattleDialogClose: (page: Page) => number;
 export declare const trackNftBattleStartGame: () => number;
 export declare const trackNftBattleGameDetailsPage: (page: Page, source: string, source_page: Page) => number;
 export declare function trackNftBattleLinkClick(e: MouseEvent): number;
+export declare const trackNftBattlePlayersTablePagination: (page: number, action: 'next' | 'prev') => number;
