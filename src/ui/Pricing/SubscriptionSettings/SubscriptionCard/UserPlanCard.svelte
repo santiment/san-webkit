@@ -14,6 +14,7 @@
 
   $: isPaidPlan = plan?.name !== Plan.FREE
   $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
+  $: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd)
 
   function formatDate(date) {
     const { DD, MMMM, YYYY } = getDateFormats(date)
@@ -36,13 +37,20 @@
 >
   <p>
     {#if isPaidPlan}
-      {@const price = formatPrice(plan)}
-      {#if trialDaysLeft}
-        Your card will be charged <b>{price} after</b> your trial will finish on
-        <b>{formatDate(new Date(subscription.trialEnd))}</b>
+      {#if isCancelled}
+        Subscription is scheduled for <b>cancellation</b> at the end of the paid period:
+        <b>
+          {formatDate(new Date(subscription.currentPeriodEnd))}
+        </b>
       {:else}
-        Your card will be charged <b>{price} per {plan.interval}</b>. It will automatically renewed
-        on <b>{formatDate(getNextPaymentDate(plan))}</b>
+        {@const price = formatPrice(plan)}
+        {#if trialDaysLeft}
+          Your card will be charged <b>{price} after</b> your trial will finish on
+          <b>{formatDate(new Date(subscription.trialEnd))}</b>
+        {:else}
+          Your card will be charged <b>{price} per {plan.interval}</b>. It will automatically
+          renewed on <b>{formatDate(getNextPaymentDate(plan))}</b>
+        {/if}
       {/if}
     {:else}
       Starter plan with limited access to Sanbase features. Check all plans
