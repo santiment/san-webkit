@@ -10,11 +10,11 @@ export function querySignals(page = 0, pageSize = 5) {
 
   return window
     .fetch(
-      // `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&take=${pageSize}&skip=${
-      //   page * pageSize
+      // `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&sort=issuerAddress:ASC&groupBySort=true&take=${pageSize}&skip=${
+      // page * pageSize
       // }`,
 
-      `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&sort=issuerAddress:ASC&groupBySort=true&take=${pageSize}&skip=${
+      `https://sanr-l2-api.production.internal.santiment.net/api/v1/leaderboards/forecasts?filter=%22sanbaseInsight%22:%7B%22$ne%22:null%7D&groupBy=issuerAddress&sort=performance:DESC&take=${pageSize}&skip=${
         page * pageSize
       }`,
     )
