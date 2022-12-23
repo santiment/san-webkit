@@ -1,7 +1,7 @@
 <script context="module">import { dialogs } from './../../ui/Dialog';
 import { Preloader } from './../../utils/fn';
 import ChristmasNFTDialog from './Dialog.svelte';
-import { checkIsGameStarted, queryUserNftInsights } from './api';
+import { checkIsGameStarted, queryUserNftInsights, saveDialogClose } from './api';
 export const showChristmasNFTDialog = props => dialogs.showOnce(ChristmasNFTDialog, props);
 export const dataPreloader = Preloader(queryUserNftInsights);</script>
 
@@ -44,7 +44,10 @@ const pages = {
 };
 onMount(trackNftBattleDialogOpen);
 onDestroy(() => {
-  if (process.browser) trackNftBattleDialogClose(page);
+  if (process.browser) {
+    trackNftBattleDialogClose(page);
+    saveDialogClose();
+  }
 });</script>
 
 <Dialog
