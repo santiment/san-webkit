@@ -2,13 +2,16 @@
   import Svg from '@/ui/Svg/svelte'
   import { showChristmasNFTDialog } from '@/ui/ChristmasNFTDialog/Dialog.svelte'
   import { IsMobile } from '@/stores/responsive'
+  import battle from './battle.svg'
+  import bgMobile from './banner-bg-mobile.svg'
+  import bg from './banner-bg.svg'
 </script>
 
 <section class="row justify">
   <div class="info column">
     <div class="logo row v-center">
       <Svg illus id="santiment" w="86" h="16" class="$style.santiment" />
-      <Svg illus id="christmas/battle" w="148" h="20" class="mrg-s mrg--l" />
+      <img src={battle} alt="xmas" class="mrg-s mrg--l" />
     </div>
     <h3 class="h3 txt-m nowrap">Predict next market <br /> move. Win NFT!</h3>
     <p class="body-2 mrg-xl mrg--b nowrap">
@@ -28,25 +31,9 @@
   </div>
   <div class="relative">
     {#if $IsMobile}
-      <img
-        src="{process.env.MEDIA_PATH}/illus/christmas/banner-bg-filled-mobile.svg"
-        alt="xmas"
-        class="$style.bg-blur fluid"
-      />
-      <img
-        src="{process.env.MEDIA_PATH}/illus/christmas/banner-bg-filled-mobile.svg"
-        alt="xmas"
-        class="$style.bg-filled fluid"
-      />
-      <img
-        src="{process.env.MEDIA_PATH}/illus/christmas/banner-bg-mobile.svg"
-        alt="xmas"
-        class="bg fluid"
-      />
+      <img src={bgMobile} alt="xmas" class="bg" />
     {:else}
-      <Svg illus id="christmas/banner-bg-filled" w="775" h="295" class="$style.bg-blur" />
-      <Svg illus id="christmas/banner-bg-filled" w="775" h="295" class="$style.bg-filled" />
-      <img src="{process.env.MEDIA_PATH}/illus/christmas/banner-bg.svg" alt="xmas" class="bg" />
+      <img src={bg} alt="xmas" class="bg" />
     {/if}
   </div>
 </section>
@@ -85,25 +72,10 @@
     max-width: 132px;
   }
 
-  .bg-filled {
-    position: absolute;
-    right: 0;
-    z-index: 2;
-    border-radius: 0 8px 8px 0;
-  }
-
-  .bg-blur {
-    position: absolute;
-    right: 0;
-    opacity: 0.8;
-    filter: blur(50px);
-    border-radius: 0 8px 8px 0;
-  }
-
   .bg {
     position: absolute;
-    right: 40px;
-    z-index: 3;
+    top: -100px;
+    right: -100px;
   }
 
   :global(body:not(.desktop)) {
@@ -114,8 +86,9 @@
     }
 
     .bg {
-      top: 32px;
-      right: 0;
+      width: calc(100% + 200px);
+      top: -100px;
+      right: -100px;
     }
 
     .info {

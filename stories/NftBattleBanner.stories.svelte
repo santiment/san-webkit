@@ -1,6 +1,6 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
-  import Banner from '@/ui/NftBattleBanner/Banner.svelte'
+  import Banner from '@/ui/ChristmasNFTDialog/Banner.svelte'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
 </script>
 
