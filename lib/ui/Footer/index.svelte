@@ -26,7 +26,7 @@ export { className as class };</script>
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
           <DigestForm
-            class="mrg-xl mrg--b form-24Ia4U {$IsMobile ? '' : 'body-3'}"
+            class="mrg-xl mrg--b form-bqYszF {$IsMobile ? '' : 'body-3'}"
             label="Subscribe"
           />
         </div>
@@ -60,10 +60,10 @@ footer {
   --max-width: 100%;
 }
 
-:global(.form-24Ia4U) {
+:global(.form-bqYszF) {
   width: 386px;
 }
-:global(body:not(.desktop)) :global(.form-24Ia4U) {
+:global(body:not(.desktop)) :global(.form-bqYszF) {
   width: auto;
 }
 
@@ -88,8 +88,8 @@ footer {
 :global(.phone) .top {
   flex-direction: column;
 }
-:global(.phone-xs) :global(.form-24Ia4U),
-:global(.phone) :global(.form-24Ia4U) {
+:global(.phone-xs) :global(.form-bqYszF),
+:global(.phone) :global(.form-bqYszF) {
   margin-bottom: 40px;
 }
 

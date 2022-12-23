@@ -51,7 +51,7 @@ function onClick() {
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-3vIWKd" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-1GpP11" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -79,7 +79,7 @@ function onClick() {
     max-width: 600px;
   }
 
-  :global(.close-3vIWKd) {
+  :global(.close-1GpP11) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

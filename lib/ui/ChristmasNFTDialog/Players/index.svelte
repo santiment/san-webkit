@@ -48,7 +48,7 @@ function getPagedData(data, empty, pageOffset) {
 <p class="mrg-l mrg--b">Here are the players who have entered the battle.</p>
 
 <Table
-  class="table-1BqRX3 border"
+  class="table-3dsty4 border"
   items={pagedItems}
   columns={COLUMNS}
   rows={[]}
@@ -58,14 +58,14 @@ function getPagedData(data, empty, pageOffset) {
   bind:pageOffset
 />
 
-<style >:global(.table-1BqRX3) :global(.skeleton) {
+<style >:global(.table-3dsty4) :global(.skeleton) {
   height: 20px;
   width: 100px;
 }
-:global(.table-1BqRX3) :global(th) {
+:global(.table-3dsty4) :global(th) {
   border: none !important;
 }
-:global(.table-1BqRX3) :global(td) {
+:global(.table-3dsty4) :global(td) {
   height: 37px;
   border-top: 1px solid var(--porcelain);
 }</style>

@@ -65,7 +65,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-3bwKif">
+  <Setting class="subscriptions-3psSsa">
     <UserPlanCard
       {plan}
       {subscription}
@@ -181,7 +181,7 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-3bwKif) {
+:global(.subscriptions-3psSsa) {
   gap: 16px;
 }
 
@@ -191,8 +191,8 @@ function getPlanSuggestions() {
   margin-top: 8px;
 }
 
-:global(.phone) :global(.subscriptions-3bwKif),
-:global(.tablet) :global(.subscriptions-3bwKif),
-:global(.phone-xs) :global(.subscriptions-3bwKif) {
+:global(.phone) :global(.subscriptions-3psSsa),
+:global(.tablet) :global(.subscriptions-3psSsa),
+:global(.phone-xs) :global(.subscriptions-3psSsa) {
   flex-direction: column;
 }</style>
