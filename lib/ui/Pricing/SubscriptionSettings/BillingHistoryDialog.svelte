@@ -42,7 +42,7 @@ const columns = [{
 
 <Dialog {...$$props} title="Billing history">
   <div class="dialog-body">
-    <Table {columns} items={history} class="border table-3S1-6k" />
+    <Table {columns} items={history} class="border table-31vyN3" />
   </div>
 </Dialog>
 
@@ -54,7 +54,7 @@ const columns = [{
     overflow: auto;
   }
 
-  :global(.table-3S1-6k) :global(thead) {
+  :global(.table-31vyN3) :global(thead) {
     position: sticky;
     top: -21px;
   }
