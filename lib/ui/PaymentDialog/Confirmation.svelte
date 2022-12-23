@@ -30,7 +30,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       <DiscountInput bind:percentOff />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-23X6U mrg-s mrg--r" />
+        <Svg id="info" w="16" class="info-26wLxj mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -75,7 +75,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   max-width: 355px;
 }
 
-:global(.info-23X6U) {
+:global(.info-26wLxj) {
   margin-top: 2px;
 }
 

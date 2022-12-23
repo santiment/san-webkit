@@ -8,7 +8,11 @@ import bg from './banner-bg.svg';</script>
 <section class="row justify">
   <div class="info column">
     <div class="logo row v-center">
+<<<<<<< HEAD
       <Svg illus id="santiment" w="86" h="16" class="santiment-1lSG-a" />
+=======
+      <Svg illus id="santiment" w="86" h="16" class="santiment-35SP2F" />
+>>>>>>> f6032372706f2cbb84d6f12fba342e52e32de478
       <img src={battle} alt="xmas" class="mrg-s mrg--l" />
     </div>
     <h3 class="h3 txt-m nowrap">Predict next market <br /> move. Win NFT!</h3>
@@ -18,7 +22,11 @@ import bg from './banner-bg.svg';</script>
     </p>
     {#if $IsMobile}
       <div class="tip row">
+<<<<<<< HEAD
         <Svg id="light" w="16" h="22" class="light-7c9jnu mrg-m mrg--r" />
+=======
+        <Svg id="light" w="16" h="22" class="light-2HrYp1 mrg-m mrg--r" />
+>>>>>>> f6032372706f2cbb84d6f12fba342e52e32de478
         <span class="body-2 c-fiord">
           Head to Sanbase’s desktop version for the ability to participate in the Battle
         </span>
@@ -47,7 +55,11 @@ import bg from './banner-bg.svg';</script>
   margin-bottom: 26px;
 }
 
+<<<<<<< HEAD
 :global(.santiment-1lSG-a) {
+=======
+:global(.santiment-35SP2F) {
+>>>>>>> f6032372706f2cbb84d6f12fba342e52e32de478
   --black: var(--white);
   margin-bottom: 3px;
 }
@@ -105,6 +117,10 @@ button {
   background: var(--purple-light-1);
   border-radius: 8px;
 }
+<<<<<<< HEAD
 :global(body:not(.desktop)) :global(.light-7c9jnu) {
+=======
+:global(body:not(.desktop)) :global(.light-2HrYp1) {
+>>>>>>> f6032372706f2cbb84d6f12fba342e52e32de478
   fill: var(--purple);
 }</style>
