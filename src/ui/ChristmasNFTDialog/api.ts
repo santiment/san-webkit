@@ -31,3 +31,7 @@ export const queryUserNftInsights = () => queryCurrentUserInsights().then(access
 const KEY = 'NFT_BATTLE_STARTED'
 export const checkIsGameStarted = () => getSavedBoolean(KEY)
 export const startGame = () => saveBoolean(KEY, true)
+
+const DIALOG_CLOSED_KEY = 'NFT_BATTLE_DIALOG_CLOSED'
+export const checkWasNftDialogClosedOnce = () => getSavedBoolean(DIALOG_CLOSED_KEY)
+export const saveDialogClose = () => saveBoolean(DIALOG_CLOSED_KEY, true)

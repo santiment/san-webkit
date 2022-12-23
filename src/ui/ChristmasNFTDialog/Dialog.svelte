@@ -2,7 +2,7 @@
   import { dialogs } from '@/ui/Dialog'
   import { Preloader } from '@/utils/fn'
   import ChristmasNFTDialog from './Dialog.svelte'
-  import { checkIsGameStarted, queryUserNftInsights } from './api'
+  import { checkIsGameStarted, queryUserNftInsights, saveDialogClose } from './api'
 
   export const showChristmasNFTDialog = (props?: any) => dialogs.showOnce(ChristmasNFTDialog, props)
 
@@ -53,7 +53,10 @@
   onMount(trackNftBattleDialogOpen)
 
   onDestroy(() => {
-    if (process.browser) trackNftBattleDialogClose(page)
+    if (process.browser) {
+      trackNftBattleDialogClose(page)
+      saveDialogClose()
+    }
   })
 </script>
 
