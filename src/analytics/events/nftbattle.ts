@@ -52,3 +52,10 @@ export function trackNftBattleLinkClick(e: MouseEvent) {
     source_url: window.location.href,
   })
 }
+
+export const trackNftBattlePlayersTablePagination = (page: number, action: 'next' | 'prev') =>
+  track('nft_battle_players_table_pagination', {
+    page,
+    action,
+    source_url: window.location.href,
+  })

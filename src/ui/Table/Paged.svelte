@@ -59,21 +59,23 @@
 </div>
 
 <div class="paged row v-center mrg-l mrg--t">
-  <Tooltip on="click" position="top" bind:isOpened={isPageSizeOpened}>
-    <div slot="trigger" class="rows btn-2 btn--s mrg-s mrg--r row v-center justify">
-      {pageSize} rows <Svg id="arrow-down" w="8" h="5" />
-    </div>
+  {#if rows.length > 1}
+    <Tooltip on="click" position="top" bind:isOpened={isPageSizeOpened}>
+      <div slot="trigger" class="rows btn-2 btn--s mrg-s mrg--r row v-center justify">
+        {pageSize} rows <Svg id="arrow-down" w="8" h="5" />
+      </div>
 
-    <div slot="tooltip" class="pages column">
-      {#each rows as row}
-        <button
-          class="btn-ghost"
-          class:active={row === pageSize}
-          on:click={() => onPageSizeChange(row)}>{row} rows</button
-        >
-      {/each}
-    </div>
-  </Tooltip>
+      <div slot="tooltip" class="pages column">
+        {#each rows as row}
+          <button
+            class="btn-ghost"
+            class:active={row === pageSize}
+            on:click={() => onPageSizeChange(row)}>{row} rows</button
+          >
+        {/each}
+      </div>
+    </Tooltip>
+  {/if}
 
   <span class="c-waterloo">Page</span>
 
