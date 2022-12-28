@@ -5,9 +5,11 @@
   import { Event, REASONS } from './flow'
   import Screen from './Screen.svelte'
   import { IsMobile as isMobile$ } from '@/stores/responsive'
+  import FieldRequired from './FieldRequired.svelte'
 
   export let feedback
   export let reasons
+  export let error = false
 
   $: isMobile = $isMobile$
 
@@ -26,20 +28,26 @@
 <Screen {...$$props}>
   <svelte:fragment slot="title">We’re sorry to see you go 😔</svelte:fragment>
 
-  <svelte:fragment slot="subtitle">Help us understand why:</svelte:fragment>
-
   <svelte:fragment slot="help">
-    <div class="reasons column mrg-l mrg--t mrg--b nowrap">
+    <h3 class="txt-m row v-center nowrap" class:error={error && reasons.size === 0}>
+      Help us understand why*
+      <FieldRequired />
+    </h3>
+
+    <div class="reasons column nowrap">
       {#each REASONS as reason}
-        <button class="btn row v-center" on:click={() => onReasonSelect(reason)}>
+        <button class="btn row v-center c-fiord" on:click={() => onReasonSelect(reason)}>
           <Checkbox class="mrg-s mrg--r" isActive={reasons.has(reason)} />
           {reason}
         </button>
       {/each}
     </div>
 
-    <div class="reveal" class:revealed={reasons.size}>
-      <h3 class="c-waterloo txt-b mrg-s mrg--b">Just one last thing</h3>
+    <div>
+      <h3 class="txt-m mrg-m mrg--b row v-center nowrap" class:error={error && !feedback}>
+        Just one last thing*
+        <FieldRequired />
+      </h3>
       <textarea
         cols="30"
         rows="3"
@@ -62,6 +70,7 @@
 <style lang="scss">
   .reasons {
     gap: 12px;
+    margin: 12px 0 20px;
   }
 
   textarea {
@@ -73,5 +82,9 @@
     border-left: 1px solid var(--porcelain);
     margin-left: 56px;
     padding: 0 50px 0 106px;
+  }
+
+  .error {
+    --error: visible;
   }
 </style>
