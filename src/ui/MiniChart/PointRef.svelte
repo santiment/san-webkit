@@ -1,3 +1,33 @@
+<script context="module" lang="ts">
+  export function getRefCoordinates(
+    data: any[],
+    points: string[],
+    target: number,
+    datetimeKey = 'd',
+  ) {
+    if (!points || points.length < 3) {
+      return {
+        index: -1,
+        coordinates: [],
+      }
+    }
+
+    const { length } = data
+    const first = +new Date(data[0][datetimeKey])
+    const last = +new Date(data[length - 1][datetimeKey])
+
+    let index = Math.round(map(target, first, last, 0, length))
+    if (index === length) index -= 1
+
+    const point = points[index]
+
+    return {
+      index,
+      coordinates: point ? point.split(',') : [],
+    }
+  }
+</script>
+
 <script lang="ts">
   import { map } from '@/utils'
 
@@ -7,20 +37,7 @@
   export let stroke = 'var(--casper)'
   export let datetimeKey = 'd'
 
-  $: [cx, cy] = getRefCoordinates(points)
-
-  function getRefCoordinates(points) {
-    if (!points || points.length < 3) return []
-
-    const { length } = data
-    const first = +new Date(data[0][datetimeKey])
-    const last = +new Date(data[length - 1][datetimeKey])
-
-    const index = Math.round(map(target, first, last, 0, length))
-    const point = points[index]
-
-    return point ? point.split(',') : []
-  }
+  $: [cx, cy] = getRefCoordinates(data, points, target, datetimeKey).coordinates
 </script>
 
 <circle {cx} {cy} {stroke} r="3.5" />

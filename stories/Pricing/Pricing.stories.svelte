@@ -78,6 +78,21 @@
     trialEnd: '2022-10-20T10:43:03Z',
   }
 
+  const canceledSubscription = {
+    cancelAtPeriodEnd: true,
+    currentPeriodEnd: '2022-10-20T10:43:03Z',
+    id: '1104',
+    plan: {
+      amount: 4900,
+      id: '201',
+      interval: 'month',
+      isDeprecated: false,
+      name: 'PRO',
+    },
+    status: 'TRIALING',
+    trialEnd: '2022-10-20T10:43:03Z',
+  }
+
   const proSubscription = [
     {
       cancelAtPeriodEnd: false,
@@ -267,6 +282,11 @@
   <div class="padding">
     <h2 class="h4 mrg-l mrg--b">Free, no card</h2>
     <SubscriptionSettings subscription={freeSubscription} />
+  </div>
+
+  <div class="padding">
+    <h2 class="h4 mrg-l mrg--b">Pro - Trial, canceled</h2>
+    <SubscriptionSettings subscription={canceledSubscription} />
   </div>
 
   <div class="padding">

@@ -27,9 +27,9 @@
 
   <div class="indicators row">
     {#each Array(amount) as _, i}
-      <div data-i={i} class="btn mrg-s mrg--r" on:click={onClick}>
+      <button data-i={i} class="btn mrg-s mrg--r" on:click={onClick}>
         <div class="indicator" class:active={i === active} />
-      </div>
+      </button>
     {/each}
   </div>
 </div>

@@ -124,7 +124,7 @@
   <div class="dialog border box column {className}">
     {#if noTitle === false}
       <h2
-        class="body-2 row v-center justify {titleClassName}"
+        class="body-2 row v-center justify single-line {titleClassName}"
         class:empty={!title && !$$slots.title}
       >
         {#if $$slots.title}
@@ -133,7 +133,12 @@
           {title}
         {/if}
 
-        <Svg id="close" class="btn mrg-a mrg--l $style.close" on:click={requestDialogClose} />
+        <Svg
+          id="close"
+          w="12"
+          class="btn mrg-a mrg--l $style.close"
+          on:click={requestDialogClose}
+        />
       </h2>
     {/if}
 
@@ -170,7 +175,6 @@
 
   .body-2 {
     padding: 12px 20px;
-    white-space: nowrap;
     border-bottom: 1px solid var(--porcelain);
   }
   .empty {
@@ -181,8 +185,6 @@
   }
 
   .close {
-    width: 12px;
-    height: 12px;
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

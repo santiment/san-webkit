@@ -6,9 +6,11 @@
   import { Event, REASONS, fieldErrorsStore, FieldError } from './flow'
   import Screen from './Screen.svelte'
   import { IsMobile as isMobile$ } from '@/stores/responsive'
+  import FieldRequired from './FieldRequired.svelte'
 
   export let feedback
   export let reasons
+  export let error = false
 
   $: isMobile = $isMobile$
 
@@ -42,7 +44,7 @@
   <svelte:fragment slot="help">
     <div class="reasons column nowrap">
       {#each REASONS as reason}
-        <button class="btn row v-center" on:click={() => onReasonSelect(reason)}>
+        <button class="btn row v-center c-fiord" on:click={() => onReasonSelect(reason)}>
           <Checkbox class="mrg-s mrg--r" isActive={reasons.has(reason)} />
           {reason}
         </button>
@@ -81,6 +83,7 @@
   .reasons {
     margin: 16px 0 24px;
     gap: 12px;
+    margin: 12px 0 20px;
   }
 
   textarea {
@@ -92,5 +95,9 @@
     border-left: 1px solid var(--porcelain);
     margin-left: 56px;
     padding: 0 50px 0 106px;
+  }
+
+  .error {
+    --error: visible;
   }
 </style>

@@ -18,13 +18,16 @@ interface Window {
   ethereum?: any
   twttr?: any
   provider?: any
-  __onLinkClick?: (e: MouseEvent) => void
+  __onLinkClick?: (e: MouseEvent | string) => void
+  identifyAmplitude?: (identity: any) => void
+  onNftGameStart?: () => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
   twq?: any
   __SAPPER__?: any
 
   amplitude?: {
     track: (action: string, eventProperties: { [key: string]: any }) => void
+    flush: () => void
     Identify: any
     identify: any
   }

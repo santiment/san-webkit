@@ -26,6 +26,7 @@
 
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
   $: plan = subscription?.plan || { name: Plan.FREE, amount: 0, interval: Billing.MONTH }
+  $: isFree = plan?.name?.toUpperCase() === Plan.FREE
   $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
   $: suggestions = getSuggestions(plan, annualDiscount)
   $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
@@ -84,7 +85,7 @@
     {/each}
   </Setting>
 
-  {#if subscription && !isCanceled}
+  {#if subscription && !isCanceled && !isFree}
     <Setting>
       <div>
         Cancel subscription

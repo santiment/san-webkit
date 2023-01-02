@@ -12,11 +12,11 @@
     "allowJs": true,
     "checkJs": true,
     "strictNullChecks": true,
-    "removeComments": true,
+
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.d.ts", "src/**/*.ts"],
+  "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.svelte"],
   "exclude": ["node_modules/*", "**/*.test.ts"]
 }

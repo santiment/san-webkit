@@ -55,11 +55,6 @@
   .cancel {
     --border: var(--green);
     --color-hover: var(--green-hover);
-
-    &.disabled {
-      --border: var(--porcelain);
-      background: var(--athens);
-    }
   }
 
   .contact {

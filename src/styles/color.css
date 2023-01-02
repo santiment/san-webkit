@@ -10,6 +10,8 @@
   --fiord: #505573;
   --mystic: #d2d6e7;
   --brown: #413e3c;
+  --cyan: #d7f6fc;
+  --mirage: #181b2b;
 
   /* rhino */
   --black: #2f354d;
@@ -87,6 +89,10 @@
   /* white */
   --black: #fff;
   --rhino: #dfe1ec;
+
+  --cyan: #253a4b;
+
+  --mirage: #f8f9ff;
 
   /* jungle-green */
   --green-light-1: #142532;

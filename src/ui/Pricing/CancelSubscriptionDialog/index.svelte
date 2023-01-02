@@ -12,14 +12,17 @@
   let reasons = new Set()
   let feedback = ''
   let loading = false
+  let error = false
 
   $: subscription = $subscription$
   $: isFeedbackScreen = screen === Screen.Feedback
-  $: disabled = isFeedbackScreen && (reasons.size === 0 || !feedback)
   $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen
 
   function onCancellationClick() {
-    if (screen === Screen.Suggestions) return (screen = Screen.Feedback)
+    if (screen === Screen.Suggestions) {
+      screen = Screen.Feedback
+      return
+    }
 
     const fieldErrors = getFieldErrors(reasons, feedback)
     if (fieldErrors.size > 0) {
@@ -28,6 +31,11 @@
     }
 
     if (!subscription) return
+
+    if (reasons.size === 0 || !feedback) {
+      error = true
+      return
+    }
 
     loading = true
     startCancellationFlow(subscription, feedback, closeDialog).then(() => {
@@ -58,9 +66,8 @@
       this={DialogScreen}
       bind:reasons
       bind:feedback
+      {error}
       {loading}
-      {disabled}
-      {isFeedbackScreen}
       {onCancellationClick}
       {onServiceClick}
     />
@@ -88,16 +95,6 @@
   .dialog-body :global {
     section {
       flex: 1;
-    }
-
-    .reveal {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 400ms ease-in-out;
-    }
-
-    .revealed {
-      max-height: 300px;
     }
   }
 </style>
