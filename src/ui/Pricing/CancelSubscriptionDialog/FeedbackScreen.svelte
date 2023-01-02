@@ -6,7 +6,6 @@
   import { Event, REASONS, fieldErrorsStore, FieldError } from './flow'
   import Screen from './Screen.svelte'
   import { IsMobile as isMobile$ } from '@/stores/responsive'
-  import FieldRequired from './FieldRequired.svelte'
 
   export let feedback
   export let reasons
