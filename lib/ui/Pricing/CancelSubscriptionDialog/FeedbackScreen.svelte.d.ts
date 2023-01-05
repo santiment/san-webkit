@@ -4,6 +4,7 @@ declare const __propDef: {
         [x: string]: any;
         feedback: any;
         reasons: any;
+        error?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

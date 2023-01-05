@@ -2,10 +2,7 @@
 /** @typedef {typeof __propDef.events}  ScreenEvents */
 /** @typedef {typeof __propDef.slots}  ScreenSlots */
 export default class Screen extends SvelteComponentTyped<{
-    reasons: any;
     loading: any;
-    disabled: any;
-    isFeedbackScreen: any;
     onCancellationClick: any;
     onServiceClick: any;
 }, {
@@ -23,10 +20,7 @@ export type ScreenSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        reasons: any;
         loading: any;
-        disabled: any;
-        isFeedbackScreen: any;
         onCancellationClick: any;
         onServiceClick: any;
     };
