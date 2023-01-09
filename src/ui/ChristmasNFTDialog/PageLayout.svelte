@@ -61,7 +61,7 @@
 
   main {
     padding: 0 48px 24px;
-    max-height: 511px;
+    max-height: 549px;
   }
 
   .pagination {
