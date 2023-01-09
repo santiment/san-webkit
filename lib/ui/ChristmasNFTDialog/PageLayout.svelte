@@ -28,7 +28,7 @@ function changePage(newPage) {
             class:disabled={page < Page.Top}
             on:click={() => changePage(page - 1)}
           >
-            <Svg id="pointer" w="14" h="8" class="back-6ZUF1N" />
+            <Svg id="pointer" w="14" h="8" class="back-3ekzf4" />
             Back
           </button>
 
@@ -56,7 +56,7 @@ main {
 
 main {
   padding: 0 48px 24px;
-  max-height: 465px;
+  max-height: 511px;
 }
 
 .pagination {
@@ -70,6 +70,6 @@ main {
   fill: var(--mystic);
 }
 
-:global(.back-6ZUF1N) {
+:global(.back-3ekzf4) {
   transform: rotate(180deg);
 }</style>
