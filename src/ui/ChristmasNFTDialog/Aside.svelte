@@ -1,8 +1,7 @@
 <script>
   import { getSEOLinkFromIdAndTitle } from '@/utils/url'
   import Check from './Check.svelte'
-  import nftSvg from './nft.svg'
-  import celebSvg from './celeb.svg'
+  import clockSvg from './clock.svg'
   import { trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
 
   export let insights = []
@@ -12,7 +11,7 @@
 
 <aside>
   <div class="header txt-center">
-    <img src={hasInsights ? celebSvg : nftSvg} alt="Aside" class="mrg-xl mrg--b" />
+    <img src={clockSvg} alt="Aside" class="mrg-xl mrg--b" />
     <h3 class="body-1 txt-m">
       {hasInsights ? 'Wooo! Your Insight is in the Battle!' : 'Welcome to the NFT battle!'}
     </h3>
