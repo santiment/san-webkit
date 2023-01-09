@@ -6,6 +6,16 @@
   import { Page } from './types'
 </script>
 
+<p class="intro">
+  Everything comes to an end, and our game is no exception. Right now, our team is reviewing all of
+  the entries you’ve shared and will choose the ten best. Check back at the end of January to see
+  the winners!
+</p>
+
+<Players />
+
+<h2 class="h4 about txt-m">About the Santiment Holiday NFT</h2>
+
 <p class="mrg-s mrg--b">
   Our first collection of Santiment NFTs is here! Catch all the details below – plus a spoiler for
   the upcoming New Year.
@@ -88,9 +98,15 @@
   prized NFT!
 </div>
 
-<Players />
-
 <style lang="scss">
+  .intro {
+    margin: 0 0 48px;
+  }
+
+  .about {
+    margin: 64px 0 24px;
+  }
+
   .rewards {
     gap: 6px;
     margin: 0 0 48px 8px;
