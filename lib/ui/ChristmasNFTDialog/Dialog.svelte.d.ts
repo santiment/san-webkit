@@ -5,7 +5,7 @@ import { Page } from './types';
 declare const __propDef: {
     props: {
         [x: string]: any;
-        page?: Page.Intro | Page.Insight | undefined;
+        page?: Page.Info | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

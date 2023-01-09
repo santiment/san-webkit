@@ -1,6 +1,6 @@
 <script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-import Breadcrumbs from './Breadcrumbs.svelte';
+import Svg from './../../ui/Svg/svelte'; // import Breadcrumbs from './Breadcrumbs.svelte'
+
 import { Page } from './types';
 import Aside from './Aside.svelte';
 export let page;
@@ -14,10 +14,10 @@ function changePage(newPage) {
 
 <div class="wrapper row">
   <section class="column">
-    <Breadcrumbs bind:page />
+    <!-- <Breadcrumbs bind:page /> -->
 
     <main class="column hover-scroll">
-      <h2 class="h4 txt-m mrg-xl mrg--b">{title}</h2>
+      <h2 class="h3 txt-m mrg-xl mrg--t mrg--b">{title}</h2>
 
       <slot />
 

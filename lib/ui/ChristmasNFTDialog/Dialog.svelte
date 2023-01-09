@@ -16,6 +16,7 @@ import Top from './Top.svelte';
 import Reward from './Reward.svelte';
 import Info from './Info.svelte';
 export let page = checkIsGameStarted() ? Page.Insight : Page.Intro;
+page = Page.Info;
 let insights = [];
 
 if (process.browser) {
@@ -38,7 +39,7 @@ const pages = {
     Component: Reward
   },
   [Page.Info]: {
-    title: 'About the Santiment Holiday NFT',
+    title: 'Time’s Up ⌛️',
     Component: Info
   }
 };
