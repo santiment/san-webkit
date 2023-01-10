@@ -44,6 +44,7 @@ ${USER_DATA_FRAGMENT}
   }
 `
 
+type EthLoginMutation = SAN.API.Query<'ethLogin', any>
 const getMessage = (address: string) => `Login in Santiment with address ${address}`
 
 const EthMutation = (MUTATION: typeof ETH_LOGIN_MUTATION) => async (USER_DATA_FRAGMENT: string) => {
@@ -55,7 +56,7 @@ const EthMutation = (MUTATION: typeof ETH_LOGIN_MUTATION) => async (USER_DATA_FR
   const address = accounts[0]
   const { signature, messageHash } = await signMessage(getMessage(address))
 
-  return mutate(MUTATION(USER_DATA_FRAGMENT, signature, address, messageHash))
+  return mutate<EthLoginMutation>(MUTATION(USER_DATA_FRAGMENT, signature, address, messageHash))
 }
 
 export const ethLoginMutation = EthMutation(ETH_LOGIN_MUTATION)
