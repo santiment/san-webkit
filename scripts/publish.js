@@ -1,5 +1,7 @@
 const { exec: _exec } = require('child_process')
 const fs = require('fs')
+const path = require('path')
+const { ROOT } = require('./utils')
 
 function exec(cmd, includeStdout = true) {
   return new Promise((resolve) => {
@@ -8,6 +10,17 @@ function exec(cmd, includeStdout = true) {
     })
     if (includeStdout) executed.stdout.pipe(process.stdout)
   })
+}
+
+function updatePkgJson() {
+  const filepath = path.resolve(ROOT, 'package.json')
+  const pkgJson = JSON.parse(fs.readFileSync(filepath))
+
+  delete pkgJson.scripts.install
+  delete pkgJson.scripts.postinstall
+  delete pkgJson.scripts.prepare
+
+  fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
 }
 
 async function publish() {
@@ -46,6 +59,7 @@ async function publish() {
   await exec('git rm --cached -r .husky', false)
 
   await exec('npm run lib')
+  updatePkgJson()
 
   const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '.husky\nstories')
   fs.writeFileSync('.gitignore', gitignore)
