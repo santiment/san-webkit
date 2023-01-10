@@ -1,13 +1,11 @@
 import { writable } from 'svelte/store'
 import { Cache } from '@/api/cache'
 
-if (process.browser) {
-  if (!window.__SAPPER__) {
-    window.__SAPPER__ = { session: {} }
-  }
+if (typeof window !== 'undefined') {
+  if (!window.__SESSION__) window.__SESSION__ = {}
 }
 
-export const getSessionValue = () => window.__SAPPER__.session
+export const getSessionValue = () => window.__SESSION__
 export const setSessionValue = (value) => Object.assign(getSessionValue(), value)
 
 export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: string) {
