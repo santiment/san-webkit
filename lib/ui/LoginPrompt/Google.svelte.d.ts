@@ -2,7 +2,7 @@
 /** @typedef {typeof __propDef.events}  GoogleEvents */
 /** @typedef {typeof __propDef.slots}  GoogleSlots */
 export default class Google extends SvelteComponentTyped<{
-    [x: string]: never;
+    [x: string]: any;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -13,7 +13,7 @@ export type GoogleSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        [x: string]: never;
+        [x: string]: any;
     };
     events: {
         [evt: string]: CustomEvent<any>;

@@ -6,12 +6,9 @@ export let user;
 export let isTagName = true;
 export let source;
 export let feature;
-
 $: if (isTagName && user.username === 'anonymous') isTagName = false;
-
 function onClick(e) {
   var _a;
-
   trackProfileClick({
     id: user.id,
     username: user.username || undefined,
@@ -22,7 +19,7 @@ function onClick(e) {
 }</script>
 
 <a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-2h6aIf" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-V1q_n5" />
 
   <span>
     {#if $$slots.name}
@@ -40,7 +37,7 @@ function onClick(e) {
 a:hover {
   --color: var(--accent, var(--green));
 }
-a:hover :global(.pic-2h6aIf) {
+a:hover :global(.pic-V1q_n5) {
   box-shadow: inset 0px 0px 0px 1px var(--green);
 }
 

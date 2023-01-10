@@ -6,11 +6,8 @@ export let plan;
 export let name;
 export let price;
 export let isEligibleForTrial = true;
-
 $: subscription = $subscription$;
-
 $: trialDaysLeft = (subscription === null || subscription === void 0 ? void 0 : subscription.trialEnd) ? calculateTrialDaysLeft(subscription.trialEnd) : 0;
-
 function formatDate(date) {
   const {
     DD,
@@ -19,11 +16,9 @@ function formatDate(date) {
   } = getDateFormats(date);
   return `${DD}/${MM}/${YY}`;
 }
-
 function getNextPaymentDates(plan) {
   return formatDate(getNextPaymentDate(plan));
 }
-
 function getTrialEndDate() {
   const date = new Date();
   date.setDate(date.getDate() + 14);

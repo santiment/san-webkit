@@ -4,22 +4,22 @@ export declare enum DialogLock {
     LOCKED = 1,
     WARN = 2
 }
-export declare type DialogController = {
+export type DialogController = {
     resolve: (value: unknown) => void;
     reject: (reason?: any) => void;
     locking: DialogLock;
 };
-export declare type SvelteComponentModule = {
+export type SvelteComponentModule = {
     new (options: {
         target: Element;
         props?: any;
     }): SvelteComponentDev;
 };
-declare type DialogsStore = Array<{
+type DialogsStore = Array<{
     Component: SvelteComponentModule;
     props: any;
 }>;
-declare type Props = {
+type Props = {
     [key: string]: any;
 } & {
     strict?: boolean;

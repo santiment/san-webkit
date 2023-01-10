@@ -1,7 +1,6 @@
 <script context="module">const SIGNAL_INSIGHT_QUERY = id => `{
     insight(id:${id}) { id title }
   }`;
-
 const querySignalInsight = insightId => query(SIGNAL_INSIGHT_QUERY(insightId));</script>
 
 <script>import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle';
@@ -11,7 +10,6 @@ export let value; // sanbaseInsight
 
 let id = 0;
 let title = '';
-
 $: querySignalInsight(value).then(({
   insight
 }) => {

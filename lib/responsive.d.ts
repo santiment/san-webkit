@@ -6,7 +6,7 @@ export declare enum Device {
 }
 export declare function mapWidthToDevice(): Device;
 export declare function startResponsiveController(): void;
-declare type Unsubscriber = () => {};
+type Unsubscriber = () => {};
 export declare const responsive$: {
     subscribe(subscriber: (device: Device) => any): Unsubscriber;
 };

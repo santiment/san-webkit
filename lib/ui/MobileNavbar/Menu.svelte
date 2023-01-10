@@ -20,12 +20,10 @@ import { showIntercom } from './../../analytics/intercom';
 export let user;
 export let isMenuOpened;
 export let isFullLink;
-
 function onHelpClick() {
   showIntercom();
   isMenuOpened = false;
 }
-
 function getFullLink(link, slug = '') {
   const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : '';
   return pathname + link + slug;
@@ -48,7 +46,7 @@ function getFullLink(link, slug = '') {
   <section class="column body-2 mrg-a mrg--t">
     {#if user}
       {@const accountLink = isFullLink ? getFullLink('/account') : '/account'}
-      <Profile {user} class="profile-oQ0w5M txt-m">
+      <Profile {user} class="profile-7paSzP txt-m">
         {#if user.username && user.email}
           <div class="body-3 txt-r c-waterloo">{user.email}</div>
         {/if}
@@ -88,7 +86,7 @@ section {
   margin: 20px 0;
 }
 
-:global(.profile-oQ0w5M) {
+:global(.profile-7paSzP) {
   --img-size: 48px;
 }
 

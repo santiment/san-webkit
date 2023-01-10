@@ -9,13 +9,9 @@ export let subscription;
 export let discount;
 export let suggestionsCount;
 export let isEligibleForTrial = false;
-
 $: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE;
-
 $: trialDaysLeft = subscription && getTrialDaysLeft(subscription);
-
 $: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd);
-
 function formatDate(date) {
   const {
     DD,

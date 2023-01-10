@@ -3,7 +3,6 @@ import Svg from './../../ui/Svg/svelte';
 import { Page } from './types';
 export let page;
 export let insights = [];
-
 $: hasInsights = insights.length > 0;</script>
 
 {#if hasInsights}
@@ -38,7 +37,7 @@ $: hasInsights = insights.length > 0;</script>
 </p>
 
 <div class="hint border relative mrg-xl mrg--t">
-  <Svg id="info" w="16" class="icon-wCHHhB mrg-m mrg--r" />
+  <Svg id="info" w="16" class="icon-oF0Ip1 mrg-m mrg--r" />
 
   <div>
     <p class="txt-m">
@@ -66,7 +65,7 @@ $: hasInsights = insights.length > 0;</script>
     --border: var(--yellow);
   }
 
-  :global(.icon-wCHHhB) {
+  :global(.icon-oF0Ip1) {
     position: absolute;
     top: 13px;
     left: 16px;

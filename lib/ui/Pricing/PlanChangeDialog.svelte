@@ -24,7 +24,6 @@ const {
   plan: currentPlan
 } = subscription;
 const currentPlanName = PlanName[currentPlan.name] || currentPlan.name;
-
 function formatDate() {
   const {
     MMMM,
@@ -33,7 +32,6 @@ function formatDate() {
   } = getDateFormats(new Date(currentPeriodEnd));
   return `${MMMM} ${DD}, ${YYYY}`;
 }
-
 function onClick() {
   loading = true;
   mutateUpdateSubscription(subscription.id, plan.id).then(data => {
@@ -51,7 +49,7 @@ function onClick() {
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-1GpP11" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-JKIglo" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -79,7 +77,7 @@ function onClick() {
     max-width: 600px;
   }
 
-  :global(.close-1GpP11) {
+  :global(.close-JKIglo) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

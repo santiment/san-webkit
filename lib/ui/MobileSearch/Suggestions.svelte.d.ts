@@ -13,9 +13,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type SuggestionsProps = typeof __propDef.props;
-export declare type SuggestionsEvents = typeof __propDef.events;
-export declare type SuggestionsSlots = typeof __propDef.slots;
+export type SuggestionsProps = typeof __propDef.props;
+export type SuggestionsEvents = typeof __propDef.events;
+export type SuggestionsSlots = typeof __propDef.slots;
 export default class Suggestions extends SvelteComponentTyped<SuggestionsProps, SuggestionsEvents, SuggestionsSlots> {
 }
 export {};

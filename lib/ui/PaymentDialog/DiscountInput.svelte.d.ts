@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type DiscountInputProps = typeof __propDef.props;
-export declare type DiscountInputEvents = typeof __propDef.events;
-export declare type DiscountInputSlots = typeof __propDef.slots;
+export type DiscountInputProps = typeof __propDef.props;
+export type DiscountInputEvents = typeof __propDef.events;
+export type DiscountInputSlots = typeof __propDef.slots;
 export default class DiscountInput extends SvelteComponentTyped<DiscountInputProps, DiscountInputEvents, DiscountInputSlots> {
 }
 export {};

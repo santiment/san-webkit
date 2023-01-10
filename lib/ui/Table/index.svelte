@@ -14,19 +14,12 @@ export let applySort = (sorter, items) => items.slice().sort(sorter);
 export let onSortClick = noop;
 export let itemProps;
 export let offset = 0;
-
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
-
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
-
 let currentSort = descSort;
-
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
-
 $: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
-
 $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
-
 function changeSort({
   currentTarget
 }) {

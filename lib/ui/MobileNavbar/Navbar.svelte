@@ -24,9 +24,7 @@ export let path = '';
 export let isFullLink = false;
 export let links = MOBILE_NAVBAR_LINKS;
 export let isMenuOpened = false;
-
 $: isMenuOpened = (path, false);
-
 function onMenuClick() {
   isMenuOpened = !isMenuOpened;
 }</script>

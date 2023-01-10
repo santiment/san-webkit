@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type UserPlanCardProps = typeof __propDef.props;
-export declare type UserPlanCardEvents = typeof __propDef.events;
-export declare type UserPlanCardSlots = typeof __propDef.slots;
+export type UserPlanCardProps = typeof __propDef.props;
+export type UserPlanCardEvents = typeof __propDef.events;
+export type UserPlanCardSlots = typeof __propDef.slots;
 export default class UserPlanCard extends SvelteComponentTyped<UserPlanCardProps, UserPlanCardEvents, UserPlanCardSlots> {
 }
 export {};

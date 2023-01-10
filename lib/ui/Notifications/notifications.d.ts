@@ -1,4 +1,4 @@
-export declare type Notification = {
+export type Notification = {
     type?: 'success' | 'error' | 'warning' | 'info';
     title: string;
     description?: string;

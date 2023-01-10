@@ -5,9 +5,7 @@ import { stripe } from './../../stores/stripe';
 import { dialogs } from './../../ui/Dialog';
 import PaymentDialog from './index.svelte';
 export const showPaymentDialog = props => dialogs.show(PaymentDialog, props);
-
 const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load());
-
 export const dataPreloader = Preloader(preloadData);</script>
 
 <script>import { onDestroy } from 'svelte';
@@ -42,7 +40,6 @@ let plan = {};
 let loading = false;
 let StripeCard;
 let savedCard = $paymentCard$;
-
 if (process.browser) {
   const {
     id,
@@ -58,43 +55,33 @@ if (process.browser) {
   });
   getPlans();
 }
-
 $: subscription = $subscription$;
-
-$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd); // TODO: make customer data accesible via context
-
-
+$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+// TODO: make customer data accesible via context
 $: ({
   sanBalance,
   isEligibleForTrial,
   annualDiscount
 } = $customerData$);
-
 $: name = PlanName[plan.name] || plan.name;
-
 $: price = name ? formatPrice(plan) : '';
-
 function findDefaultPlan({
   name,
   interval: billing
 }) {
   return defaultPlan === name && interval === billing;
 }
-
 function getPlans() {
   const cached = getCachedSanbasePlans();
   if (cached) setPlans(cached);else querySanbasePlans().then(setPlans);
 }
-
 function setPlans(data) {
   plans = mapPlans(data, plansFilter);
   plan = plans.find(findDefaultPlan) || plans[0];
 }
-
 function onChange() {
   DialogPromise.locking = DialogLock.WARN;
 }
-
 function onSubmit({
   currentTarget
 }) {
@@ -109,7 +96,6 @@ function onSubmit({
     DialogPromise.locking = DialogLock.WARN;
   });
 }
-
 const unsub = paymentCard$.subscribe(value => {
   savedCard = value;
 });

@@ -11,9 +11,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export declare type SectionProps = typeof __propDef.props;
-export declare type SectionEvents = typeof __propDef.events;
-export declare type SectionSlots = typeof __propDef.slots;
+export type SectionProps = typeof __propDef.props;
+export type SectionEvents = typeof __propDef.events;
+export type SectionSlots = typeof __propDef.slots;
 export default class Section extends SvelteComponentTyped<SectionProps, SectionEvents, SectionSlots> {
 }
 export {};

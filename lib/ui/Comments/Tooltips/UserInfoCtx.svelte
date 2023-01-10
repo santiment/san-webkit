@@ -4,9 +4,7 @@ export const getUserInfoTooltip = () => getContext(ID);
 const HREF = '/profile/';
 export const getProfileLinks = node => Array.from(node.querySelectorAll(`a[href*="${HREF}"]`));
 const HOOK_ID = 'UserInfoTooltipHook';
-
 const setUserInfoTooltipHook = ctx => setContext(HOOK_ID, ctx);
-
 export const getUserInfoTooltipHook = () => getContext(HOOK_ID);</script>
 
 <script>import Context from './../../../ui/Tooltip/Context.svelte';
@@ -25,18 +23,13 @@ const Type = {
   [CommentsType.Watchlist]: CreationType.Watchlist
 };
 let ref = {};
-
 $: commentsNode && comments.length && tick().then(() => hookTooltip(commentsNode));
-
 setUserInfoTooltipHook(hookTooltip);
-
 function hookTooltip(node) {
   getProfileLinks(node).forEach(hookTooltipNode);
 }
-
 function hookTooltipNode(node) {
   var _a;
-
   const isInReply = node.closest('.caption');
   const isAnonComment = (_a = node.textContent) === null || _a === void 0 ? void 0 : _a.includes('anonymous');
   if (isInReply || isAnonComment) return;

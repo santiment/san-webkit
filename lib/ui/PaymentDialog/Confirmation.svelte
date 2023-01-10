@@ -15,9 +15,7 @@ export let loading;
 export let sanBalance;
 export let annualDiscount = {};
 let percentOff = 0;
-
 $: isAnnualPlan = plan.interval === Billing.YEAR;
-
 $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';</script>
 
 <div class="confirmation relative column">
@@ -30,7 +28,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       <DiscountInput bind:percentOff />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-23X6U mrg-s mrg--r" />
+        <Svg id="info" w="16" class="info-nPwh55 mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -75,7 +73,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   max-width: 355px;
 }
 
-:global(.info-23X6U) {
+:global(.info-nPwh55) {
   margin-top: 2px;
 }
 

@@ -15,25 +15,15 @@ let listHeight = defaultItemHeight * items.length;
 let offsetTop = 0;
 let start = 0;
 let end = renderAmount;
-
 $: items && reset();
-
 $: listNode && items && tick().then(tick).then(updateListHeight);
-
 $: renderItems = items.slice(start, end);
-
 $: renderHeight = listHeight / renderAmount;
-
 $: scrollHeight = renderHeight * items.length;
-
 $: scrollStop = scrollHeight - listHeight;
-
 $: offsetRenderDelay = renderHeight * delayItems;
-
 $: style = listHeight ? `height:${scrollHeight}px` : '';
-
 $: viewportStyle = scrollHeight && maxHeight ? getViewportStyle() : '';
-
 function getViewportStyle() {
   tick().then(() => {
     const listHeight = listNode ? listNode.offsetHeight + 1 : scrollHeight;
@@ -42,7 +32,6 @@ function getViewportStyle() {
   });
   return '';
 }
-
 async function onScroll() {
   const {
     scrollTop
@@ -53,25 +42,20 @@ async function onScroll() {
   start = renderOffset > 0 ? renderOffset : 0;
   end = newOffset === scrollStop ? items.length : start + renderAmount;
   await tick();
-
   if (start === 0 && scrollTop === 0) {
     return offsetTop = 0;
   }
-
   const diff = offsetRenderDelay - newDelay;
   offsetTop = diff <= 0 || diff - renderHeight < offsetTop ? start * renderHeight : offsetTop;
 }
-
 function reset() {
   if (viewportNode) viewportNode.scrollTop = 0;
   offsetTop = 0;
   start = 0;
   end = renderAmount;
 }
-
 function updateListHeight() {
   listNode.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-
   listHeight = listNode.scrollHeight;
 }</script>
 

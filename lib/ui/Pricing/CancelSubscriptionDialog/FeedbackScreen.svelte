@@ -8,9 +8,7 @@ import FieldRequired from './FieldRequired.svelte';
 export let feedback;
 export let reasons;
 export let error = false;
-
 $: isMobile = $isMobile$;
-
 function onReasonSelect(reason) {
   if (reasons.has(reason)) {
     reasons.delete(reason);
@@ -20,7 +18,6 @@ function onReasonSelect(reason) {
     });
     reasons.add(reason);
   }
-
   reasons = reasons;
 }</script>
 

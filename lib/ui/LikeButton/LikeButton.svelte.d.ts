@@ -15,9 +15,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type LikeButtonProps = typeof __propDef.props;
-export declare type LikeButtonEvents = typeof __propDef.events;
-export declare type LikeButtonSlots = typeof __propDef.slots;
+export type LikeButtonProps = typeof __propDef.props;
+export type LikeButtonEvents = typeof __propDef.events;
+export type LikeButtonSlots = typeof __propDef.slots;
 export default class LikeButton extends SvelteComponentTyped<LikeButtonProps, LikeButtonEvents, LikeButtonSlots> {
 }
 export {};

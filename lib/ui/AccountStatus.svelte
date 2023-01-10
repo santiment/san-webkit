@@ -1,5 +1,4 @@
 <script context="module">export var AccountStatusType;
-
 (function (AccountStatusType) {
   AccountStatusType[AccountStatusType["First"] = 0] = "First";
   AccountStatusType[AccountStatusType["Second"] = 1] = "Second";
@@ -10,7 +9,6 @@ export let currentUser;
 export let variant = AccountStatusType.First;
 export let subscription;
 export let customerData = {};
-
 $: ({
   annualDiscountPercent,
   userPlanName,

@@ -13,9 +13,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type CookiesPopupProps = typeof __propDef.props;
-export declare type CookiesPopupEvents = typeof __propDef.events;
-export declare type CookiesPopupSlots = typeof __propDef.slots;
+export type CookiesPopupProps = typeof __propDef.props;
+export type CookiesPopupEvents = typeof __propDef.events;
+export type CookiesPopupSlots = typeof __propDef.slots;
 export default class CookiesPopup extends SvelteComponentTyped<CookiesPopupProps, CookiesPopupEvents, CookiesPopupSlots> {
 }
 export {};

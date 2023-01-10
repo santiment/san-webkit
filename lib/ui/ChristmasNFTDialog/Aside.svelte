@@ -3,7 +3,6 @@ import Check from './Check.svelte';
 import clockSvg from './clock.svg';
 import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
 export let insights = [];
-
 $: hasInsights = insights.length > 0;</script>
 
 <aside>

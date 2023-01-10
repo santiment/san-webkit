@@ -11,9 +11,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type LinkPointerProps = typeof __propDef.props;
-export declare type LinkPointerEvents = typeof __propDef.events;
-export declare type LinkPointerSlots = typeof __propDef.slots;
+export type LinkPointerProps = typeof __propDef.props;
+export type LinkPointerEvents = typeof __propDef.events;
+export type LinkPointerSlots = typeof __propDef.slots;
 export default class LinkPointer extends SvelteComponentTyped<LinkPointerProps, LinkPointerEvents, LinkPointerSlots> {
 }
 export {};

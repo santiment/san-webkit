@@ -2,7 +2,6 @@
 const {
   scrollHeight
 } = document.scrollingElement || {};
-
 $: ({
   x,
   y,

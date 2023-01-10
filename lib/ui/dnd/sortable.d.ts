@@ -1,9 +1,9 @@
-export declare type Options = {
+export type Options = {
     scroll?: boolean;
     cloner?: (node: DragElement) => HTMLElement;
     onDragEnd?: (oldIndex: number, newIndex: number) => void;
 };
-export declare type Context = Options & {
+export type Context = Options & {
     grid: [number, DragElement[]][];
     nodes: DragElement[];
     recalcGrid: () => void;
@@ -12,7 +12,7 @@ export declare type Context = Options & {
     scrollParent: HTMLElement | undefined;
     scrollInterval: number | undefined;
 };
-export declare type DragElement = HTMLElement & {
+export type DragElement = HTMLElement & {
     isDndHooked: boolean;
     dnd: {
         ctx: Context;
