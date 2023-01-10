@@ -66,6 +66,7 @@ async function publish() {
 
   await exec('git add -f lib')
   await exec('git add -f .gitignore')
+  await exec('git add -f package.json')
 
   await exec('git commit -m "Library release"', false)
   await exec('git push')
