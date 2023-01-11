@@ -31,7 +31,7 @@ export declare const calcDiscount: (percentOff?: number) => number;
 export declare const getPrice: (amount: number, percentOff?: number) => number;
 export declare function getPlanMonthPrice({ amount, interval }: Pick<SAN.Plan, 'amount' | 'interval'>, percentOff?: number): number;
 export declare const priceFormatter: (price: number) => string;
-export declare const formatPrice: (plan: SAN.Plan) => string;
+export declare const formatPrice: (plan: Pick<SAN.Plan, 'amount'>) => string;
 export declare const formatMonthlyPrice: (plan: SAN.Plan, percentOff?: number) => string;
 export declare const onlyProLikePlans: ({ name }: SAN.Plan) => boolean;
 export declare const onlyProAndFreeLikePlans: ({ name }: SAN.Plan) => boolean;
