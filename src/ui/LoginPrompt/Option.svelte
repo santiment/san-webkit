@@ -20,6 +20,7 @@
   export let isSignUp = false
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={tag}
   class="btn-2 btn--l fluid row v-center {className}"
@@ -28,11 +29,9 @@
   sapper:prefetch={prefetch}
   on:click
 >
-  {#if icon}<img
-      src="{process.env.MEDIA_PATH}/icons/{icon}.svg"
-      alt={icon}
-      class="mrg-s mrg--r"
-    />{/if}
+  {#if icon}
+    <img src="{process.env.MEDIA_PATH}/icons/{icon}.svg" alt={icon} class="mrg-s mrg--r" />
+  {/if}
 
   {isSignUp ? 'Sign up' : 'Log in'} with {title}
 </svelte:element>
