@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { queryUpcomingInvoice } from '@/api/subscription'
   import { getDateFormats } from '@/utils/dates'
   import { formatPrice, Plan } from '@/utils/plans'
-  import { getNextPaymentDate, getTrialDaysLeft } from '@/utils/subscription'
+  import { getTrialDaysLeft } from '@/utils/subscription'
   import PlanCard from './PlanCard.svelte'
   import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
@@ -48,8 +49,10 @@
           Your card will be charged <b>{price} after</b> your trial will finish on
           <b>{formatDate(new Date(subscription.trialEnd))}</b>
         {:else}
-          Your card will be charged <b>{price} per {plan.interval}</b>. It will automatically
-          renewed on <b>{formatDate(getNextPaymentDate(plan))}</b>
+          {#await queryUpcomingInvoice(subscription.id) then { upcomingInvoice }}
+            Your card will be charged <b>{formatPrice(upcomingInvoice)} per {plan.interval}</b>. It
+            will automatically renewed on <b>{formatDate(new Date(upcomingInvoice.dueDate))}</b>
+          {/await}
         {/if}
       {/if}
     {:else}

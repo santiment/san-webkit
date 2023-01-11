@@ -52,7 +52,7 @@ export function getPlanMonthPrice(
 }
 
 export const priceFormatter = (price: number) => '$' + Math.round(price)
-export const formatPrice = (plan: SAN.Plan) => priceFormatter(getPrice(plan.amount))
+export const formatPrice = (plan: Pick<SAN.Plan, 'amount'>) => priceFormatter(getPrice(plan.amount))
 export const formatMonthlyPrice = (plan: SAN.Plan, percentOff = 0) =>
   priceFormatter(getPlanMonthPrice(plan, percentOff))
 

@@ -74,3 +74,22 @@ const CANCEL_SUBSCRIPTION_MUTATION = (id: number) => `
 `
 
 export const mutateCancelSubscription = (id: number) => mutate(CANCEL_SUBSCRIPTION_MUTATION(id))
+
+// ----------------------------
+
+const UPCOMING_INVOICE_QUERY = (subscriptionId: number) => `{
+  upcomingInvoice(subscriptionId: "${subscriptionId}") {
+    dueDate:periodEnd
+    amount:amountDue
+  }
+}`
+type UpcomingInvoiceQuery = SAN.API.Query<
+  'upcomingInvoice',
+  {
+    dueDate: string
+    amount: number
+  }
+>
+
+export const queryUpcomingInvoice = (subscriptionId: number) =>
+  query<UpcomingInvoiceQuery>(UPCOMING_INVOICE_QUERY(subscriptionId))
