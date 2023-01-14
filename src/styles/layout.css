@@ -131,3 +131,18 @@
   overflow-y: auto;
   overflow-y: overlay;
 }
+
+/**
+ * Used for making a background of the relative parent behave like link.
+ * Example: insight's card or feed item.
+ */
+.link-as-bg::before {
+  position: absolute;
+  content: '';
+  display: block;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+}
