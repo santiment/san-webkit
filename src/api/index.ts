@@ -153,11 +153,12 @@ export function Universal<T extends (query: Query) => Callback>(clb: T) {
   type Fn = ReturnType<T>
 
   return ((...args) => {
-    const data = args.slice(0, -1)
+    // const data = args.slice(0, -1)
 
     const _query = process.browser ? query : ServerQuery(args[args.length - 1])
 
-    return clb(_query as Query)(...data)
+    // return clb(_query as Query)(...data)
+    return clb(_query as Query)(...args)
   }) as Universal<Fn, [requestEvent?: RequestEvent]>
 }
 
