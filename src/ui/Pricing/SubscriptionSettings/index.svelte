@@ -86,10 +86,10 @@
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting>
+    <Setting class="$style.cancel body-2 justify">
       <div>
         Cancel subscription
-        <div class="c-waterloo">
+        <div class="c-waterloo info">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
@@ -99,7 +99,7 @@
     </Setting>
   {/if}
 
-  <Setting>
+  <Setting class="$style.payment-method justify">
     <div>
       Payment method
 
@@ -120,16 +120,16 @@
         <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
       {/if}
 
-      <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2 body-2" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
   </Setting>
 
-  <Setting>
+  <Setting class="$style.history justify">
     <div>
       Billing history
-      <p class="c-waterloo">Shows an overview of all charges issued for your account</p>
+      <p class="overview c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
     {#if isBillingLoading}
@@ -142,7 +142,7 @@
         Show history
       </button>
     {:else}
-      <div class="c-waterloo nowrap">No history yet</div>
+      <div class="c-fiord nowrap">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -179,11 +179,63 @@
     gap: 16px;
   }
 
+  .overview {
+    margin-top: 6px;
+  }
+
+  .txt-right .btn-2:not(:first-child) {
+    margin-left: 12px;
+  }
+
   :global(.phone),
   :global(.phone-xs) {
     .btn-1 {
       width: 100%;
       margin-top: 8px;
+    }
+
+    .card {
+      --margin: 6px;
+    }
+
+    .payment-method {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .txt-right {
+        margin-top: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .btn-2 {
+        --v-padding: 7px;
+      }
+    }
+
+    .history {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .nowrap {
+        margin-top: 12px;
+      }
+    }
+
+    .cancel {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .info {
+        margin-top: 6px;
+      }
+
+      button {
+        margin-top: 12px;
+      }
     }
   }
 

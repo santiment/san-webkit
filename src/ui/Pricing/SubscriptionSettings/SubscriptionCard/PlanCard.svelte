@@ -69,7 +69,7 @@
   badgeIcon={discount ? null : badgeIcon}
 >
   <slot>
-    <p>
+    <p class="body-2">
       {#if badge === 'Popular'}
         Get access to advanced crypto metrics, market insights and more!
       {:else}

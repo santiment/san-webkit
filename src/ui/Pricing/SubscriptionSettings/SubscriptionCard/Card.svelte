@@ -23,8 +23,8 @@
 </script>
 
 <article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
-  <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
-  <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
+  <h4 class="label txt-m c-waterloo mrg-l mrg--b">{label}</h4>
+  <h2 class="h4 mrg-xs mrg--b c-rhino">{title}</h2>
 
   <slot />
 
@@ -39,10 +39,19 @@
     </div>
   {/if}
 
-  <div class="actions mrg-xl mrg--t">
+  {#if billing && !shouldHideBillingInfo}
+    <div class="billing txt-m c-waterloo txt-right">
+      {billing}:
+      <h4 class="h4 c-black">
+        {price}{#if discount}/mo{/if}
+      </h4>
+    </div>
+  {/if}
+
+  <div class="actions row v-center mrg-xl mrg--t">
     <svelte:element
       this={link ? 'a' : 'button'}
-      class="btn-1 v-center"
+      class="btn-1 v-center body-2"
       class:disabled
       {...link}
       on:click={onActionClick}
@@ -55,18 +64,9 @@
     </svelte:element>
 
     {#if subaction && onSubactionClick}
-      <button class="btn-2 mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
+      <button class="btn-2 body-2" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
-
-  {#if billing && !shouldHideBillingInfo}
-    <div class="billing caption txt-m c-waterloo txt-right">
-      {billing}:
-      <h3 class="body-1 c-black">
-        {price}{#if discount}/mo{/if}
-      </h3>
-    </div>
-  {/if}
 </article>
 
 <style lang="scss">
@@ -74,10 +74,8 @@
     padding: 16px 16px 16px 24px;
     border-radius: 8px;
     background: var(--athens);
-    min-width: 350px;
 
     & > :global(p) {
-      max-width: 318px;
       color: var(--fiord);
     }
   }
@@ -147,15 +145,45 @@
     display: inline-flex;
     --bg: var(--primary, var(--green));
     --bg-hover: var(--primary-hover, var(--green-hover));
+    --v-padding: 8px;
   }
 
   .btn-2 {
     --bg: var(--white);
+    --v-padding: 7px;
+  }
+
+  .actions .btn-2:not(:first-child) {
+    margin-left: 12px;
+  }
+
+  :global(.phone-xs),
+  :global(.phone) {
+    .actions {
+      --margin: 16px;
+    }
+
+    .label {
+      transform: translateY(25%);
+    }
   }
 
   .billing {
     position: absolute;
     bottom: 16px;
     right: 16px;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+      position: static;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+
+      h4 {
+        margin-left: 8px;
+      }
+    }
   }
 </style>

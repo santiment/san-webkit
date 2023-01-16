@@ -36,7 +36,7 @@
   onSubactionClick={isCancelled ? undefined : showCancelSubscriptionDialog}
   shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
-  <p>
+  <p class="body-2">
     {#if isPaidPlan}
       {#if isCancelled}
         Subscription is scheduled for <b>cancellation</b> at the end of the paid period:
