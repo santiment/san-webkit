@@ -4,7 +4,8 @@ export type Providers = 'google' | 'twitter'
 
 export function getOAuthLink(provider: Providers) {
   const base = `${process.env.BACKEND_URL}/auth/${provider}`
-  const redirectBase = encodeURIComponent(window.location.origin + `/?auth=${provider}`)
+  const origin = process.browser ? window.location.origin : ''
+  const redirectBase = encodeURIComponent(origin + `/?auth=${provider}`)
 
   return (
     base +
