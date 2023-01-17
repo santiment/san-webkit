@@ -6,18 +6,21 @@ export let verifiedEmail = '';
 export let isSignUp;
 let email = '';
 let loading = false;
+
 function onSubmit({
   currentTarget
 }) {
   email = currentTarget.email.value;
   loading = true;
   mutateEmailLogin(email).then(onSuccess);
+
   if (isSignUp) {
     trackSignupStart(LoginType.EMAIL);
   } else {
     trackLoginStart(LoginType.EMAIL);
   }
 }
+
 function onSuccess({
   emailLogin
 }) {

@@ -2,6 +2,7 @@
 import Checkmark from './Checkmark.svelte';
 import { CardBrandIllustration } from './utils';
 export let savedCard;
+
 $: ({
   last4,
   expMonth,

@@ -11,16 +11,20 @@ export let isShowingMore = false;
 export let isLoggedIn = false;
 export let isEligibleForTrial = false;
 let activeSlide = 0;
+
 $: comparedPlans = getPlansLayout(plans, activeSlide, $responsive$);
+
 $: plansFeatures = comparedPlans.map(({
   name
 }) => PlanFeatures[name]).filter(Boolean);
+
 function getPlansLayout(plans, slide, device) {
   switch (device) {
     case Device.Desktop:
     case Device.Tablet:
       return plans;
   }
+
   return plans.slice(slide, slide + 1);
 }</script>
 
@@ -33,7 +37,7 @@ function getPlansLayout(plans, slide, device) {
           <div class="td"><Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} /></div>
         {/each}
       {:else}
-        <Slides amount={plans.length} bind:active={activeSlide} class="slides-ydgq7Q fluid">
+        <Slides amount={plans.length} bind:active={activeSlide} class="slides-3oBijW fluid">
           {#each plans as plan (plan.id)}
             <Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} />
           {/each}
@@ -54,7 +58,7 @@ function getPlansLayout(plans, slide, device) {
   border-radius: 4px;
 }
 
-:global(.slides-ydgq7Q) {
+:global(.slides-3oBijW) {
   --slides-v-padding: 22px 0 52px;
   --slides-h-padding: 16px;
   --indicators-bottom: 20px;

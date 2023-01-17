@@ -1,6 +1,6 @@
-export type Providers = 'google' | 'twitter';
+export declare type Providers = 'google' | 'twitter';
 export declare function getOAuthLink(provider: Providers): string;
-export type SearchParams = {
+export declare type SearchParams = {
     auth: Providers;
     failed?: boolean;
 };

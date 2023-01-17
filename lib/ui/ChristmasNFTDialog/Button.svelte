@@ -4,6 +4,7 @@ import buttonSvg from './button.svg';
 let className = '';
 export { className as class };
 export let source = 'navbar';
+
 function onClick() {
   showChristmasNFTDialog();
   trackNftBattleCTA(source);

@@ -31,17 +31,22 @@ const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, {
 const {
   onDragStart
 } = snapGrid;
+
 $: if (node) snapGrid.updateLayout(layout);
+
 $: if (node && layout) tick().then(() => snapGrid.mount(node));
+
 function getStyle(item) {
   const [,,, height] = item;
   return `width:${getWidth(item, snapGrid)};
       height:${calcHeight(height, snapGrid)}px;
       transform:${getResponsiveTranslate(item, snapGrid)}`;
 }
+
 function onStart() {
   isDragging = true;
 }
+
 function onEnd() {
   setTimeout(() => {
     isDragging = false;

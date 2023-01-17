@@ -4,16 +4,14 @@ import Divider from './Divider.svelte';
 import Google from './Google.svelte';
 import Twitter from './Twitter.svelte';
 import EmailForm from './EmailForm.svelte';
-import EmailConfirmation from './EmailConfirmation.svelte';
-// import WalletConnect from './WalletConnect/index.svelte'
+import EmailConfirmation from './EmailConfirmation.svelte'; // import WalletConnect from './WalletConnect/index.svelte'
 
 export let title;
 export let onMetamaskClick;
 export let bottomLabel = 'New to Santiment?';
 export let bottomAction = 'Create an account';
 export let bottomHref = '/sign-up';
-export let isSignUp = false;
-// export let onWalletConnectLogin
+export let isSignUp = false; // export let onWalletConnectLogin
 
 let verifiedEmail;</script>
 

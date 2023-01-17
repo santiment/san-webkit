@@ -16,9 +16,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type VoteButtonProps = typeof __propDef.props;
-export type VoteButtonEvents = typeof __propDef.events;
-export type VoteButtonSlots = typeof __propDef.slots;
+export declare type VoteButtonProps = typeof __propDef.props;
+export declare type VoteButtonEvents = typeof __propDef.events;
+export declare type VoteButtonSlots = typeof __propDef.slots;
 export default class VoteButton extends SvelteComponentTyped<VoteButtonProps, VoteButtonEvents, VoteButtonSlots> {
 }
 export {};

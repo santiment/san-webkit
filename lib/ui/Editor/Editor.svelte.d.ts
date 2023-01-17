@@ -14,9 +14,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type EditorProps = typeof __propDef.props;
-export type EditorEvents = typeof __propDef.events;
-export type EditorSlots = typeof __propDef.slots;
+export declare type EditorProps = typeof __propDef.props;
+export declare type EditorEvents = typeof __propDef.events;
+export declare type EditorSlots = typeof __propDef.slots;
 export default class Editor extends SvelteComponentTyped<EditorProps, EditorEvents, EditorSlots> {
 }
 export {};

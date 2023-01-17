@@ -13,17 +13,23 @@ import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
 let className = '';
 export { className as class };
 export let billing = Billing.MONTH;
+
 $: subscription = $subscription$;
+
 $: ({
   isLoggedIn,
   isEligibleForTrial,
   annualDiscount
 } = $customerData$);
+
 let plans = [];
+
 $: billingPlans = (billing, plans.filter(billingFilter));
+
 querySanbasePlans().then(data => {
   plans = data.filter(onlyProAndFreeLikePlans);
 });
+
 function billingFilter({
   interval,
   name
@@ -50,7 +56,7 @@ function billingFilter({
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-uZ9oR8" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison--dciSE" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -81,7 +87,7 @@ function billingFilter({
   padding: 0 46px;
 }
 
-:global(.comparison-uZ9oR8) {
+:global(.comparison--dciSE) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }

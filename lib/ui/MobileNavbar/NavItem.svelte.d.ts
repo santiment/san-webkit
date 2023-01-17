@@ -14,9 +14,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type NavItemProps = typeof __propDef.props;
-export type NavItemEvents = typeof __propDef.events;
-export type NavItemSlots = typeof __propDef.slots;
+export declare type NavItemProps = typeof __propDef.props;
+export declare type NavItemEvents = typeof __propDef.events;
+export declare type NavItemSlots = typeof __propDef.slots;
 export default class NavItem extends SvelteComponentTyped<NavItemProps, NavItemEvents, NavItemSlots> {
 }
 export {};

@@ -3,6 +3,7 @@ let className = '';
 export { className as class };
 export let label = 'Leave request';
 let loading = false;
+
 function onSubmit({
   currentTarget
 }) {

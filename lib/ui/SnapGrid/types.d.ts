@@ -7,9 +7,9 @@ export declare const enum Field {
     NODE = 4
 }
 /**  [left, top, width, height, htmlNode] */
-export type SnapItem = [number, number, number, number, HTMLElement];
-export type Margin = [number, number];
-export type SnapGridController = {
+export declare type SnapItem = [number, number, number, number, HTMLElement];
+export declare type Margin = [number, number];
+export declare type SnapGridController = {
     gridContainerNode: HTMLElement;
     gridWidth: number;
     layout: SnapItem[];
@@ -26,7 +26,7 @@ export type SnapGridController = {
     updateLayout: (layout: SnapItem[]) => void;
     onDragStart: (e: MouseEvent) => void;
 } & ScrollContext;
-export type Handlers = Partial<{
+export declare type Handlers = Partial<{
     onStart: () => void;
     onEnd: () => void;
 }>;

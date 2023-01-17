@@ -1,4 +1,5 @@
 <script>var _a;
+
 import Svg from './../../../ui/Svg/svelte';
 import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
@@ -21,19 +22,26 @@ export let paymentCard;
 let isBillingLoading = true;
 let billingHistory = [];
 let plans = [];
+
 $: isCanceled = !!(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+
 $: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || {
   name: Plan.FREE,
   amount: 0,
   interval: Billing.MONTH
 };
+
 $: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
+
 $: ({
   isEligibleForTrial,
   annualDiscount
 } = $customerData$);
+
 $: suggestions = getSuggestions(plan, annualDiscount);
+
 $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions());
+
 querySanbasePlans().then(data => {
   plans = data.filter(onlyProLikePlans);
 });
@@ -41,12 +49,15 @@ queryBillingHistory().then(data => {
   isBillingLoading = false;
   billingHistory = data;
 });
+
 function getPlanSuggestions() {
   return plans.filter(plan => {
     const isSameBilling = plan.interval === suggestions[0].billing;
+
     if (suggestions[0].discount) {
       return isSameBilling;
     }
+
     return (suggestions[0][plan.name] || suggestions[1] && suggestions[1][plan.name]) && isSameBilling;
   });
 }</script>
@@ -54,7 +65,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-JdU8R0">
+  <Setting class="subscriptions-3bwKif">
     <UserPlanCard
       {plan}
       {subscription}
@@ -170,7 +181,7 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-JdU8R0) {
+:global(.subscriptions-3bwKif) {
   gap: 16px;
 }
 
@@ -180,8 +191,8 @@ function getPlanSuggestions() {
   margin-top: 8px;
 }
 
-:global(.phone) :global(.subscriptions-JdU8R0),
-:global(.tablet) :global(.subscriptions-JdU8R0),
-:global(.phone-xs) :global(.subscriptions-JdU8R0) {
+:global(.phone) :global(.subscriptions-3bwKif),
+:global(.tablet) :global(.subscriptions-3bwKif),
+:global(.phone-xs) :global(.subscriptions-3bwKif) {
   flex-direction: column;
 }</style>

@@ -13,9 +13,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type NamesProps = typeof __propDef.props;
-export type NamesEvents = typeof __propDef.events;
-export type NamesSlots = typeof __propDef.slots;
+export declare type NamesProps = typeof __propDef.props;
+export declare type NamesEvents = typeof __propDef.events;
+export declare type NamesSlots = typeof __propDef.slots;
 export default class Names extends SvelteComponentTyped<NamesProps, NamesEvents, NamesSlots> {
 }
 export {};

@@ -18,9 +18,9 @@ declare const __propDef: {
         };
     };
 };
-export type SelectProps = typeof __propDef.props;
-export type SelectEvents = typeof __propDef.events;
-export type SelectSlots = typeof __propDef.slots;
+export declare type SelectProps = typeof __propDef.props;
+export declare type SelectEvents = typeof __propDef.events;
+export declare type SelectSlots = typeof __propDef.slots;
 export default class Select extends SvelteComponentTyped<SelectProps, SelectEvents, SelectSlots> {
 }
 export {};

@@ -6,9 +6,11 @@ export let plans;
 export let discount = 0;
 export let isEligibleForTrial;
 export let isLoggedIn = false;
+
 $: ({
   name
 } = plan);
+
 $: isFreePlan = name.includes(Plan.FREE);</script>
 
 <div class="fluid">

@@ -5,7 +5,7 @@ export let disabled = false;
 export let icon = 'toggle';</script>
 
 <button class="toggle btn relative {className}" on:click class:isActive class:disabled>
-  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="toggle-icon-viZH3u" />
+  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="toggle-icon-1j9qIt" />
 </button>
 
 <style >.toggle {
@@ -31,7 +31,7 @@ export let icon = 'toggle';</script>
   top: var(--toggle-before-icon-top, 3px);
 }
 
-:global(.toggle-icon-viZH3u) {
+:global(.toggle-icon-1j9qIt) {
   margin: var(--toggle-icon-margin, 0);
 }
 

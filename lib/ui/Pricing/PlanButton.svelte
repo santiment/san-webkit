@@ -11,31 +11,43 @@ export let annualDiscount = {};
 export let isLoggedIn = false;
 export let isFreePlan = false;
 export let source;
+
 $: ({
   id
 } = plan);
+
 $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn;
+
 $: isUpgrade = checkIsUpgrade(plan, subscription);
+
 $: isDowngrade = isUpgrade !== undefined && !isUpgrade;
+
 $: label = (plan, subscription, getLabel());
+
 function getLabel() {
   var _a;
+
   if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started';
+
   if (annualDiscount.isEligible) {
     if (plan.interval === Billing.YEAR) return `Pay now ${(_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff}% Off`;
     return 'Pay now';
   }
+
   if (isCurrentPlan) return 'Your current plan';
   if (isEligibleForTrial) return 'Start 14-day Free trial';
   if (isUpgrade) return 'Upgrade';
   if (isDowngrade) return 'Downgrade';
   return 'Buy now';
 }
+
 function onClick() {
   window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
+
   if (!isLoggedIn) {
     return window.__onLinkClick('/login');
   }
+
   if (!annualDiscount.isEligible) {
     if (isUpgrade || isDowngrade) {
       return showPlanChangeDialog({
@@ -45,6 +57,7 @@ function onClick() {
       });
     }
   }
+
   showPaymentDialog({
     plan: plan.name,
     interval: plan.interval,

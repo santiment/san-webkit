@@ -1,4 +1,5 @@
 <script>var _a;
+
 import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
@@ -10,8 +11,11 @@ export let selectedNameBilling;
 export let isSinglePlan;
 export let annualDiscount;
 let isOpened = false;
+
 $: annualPercentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 10;
+
 $: altPlan = getAlternativePlan(plan, plans);
+
 function select(option) {
   plan = option;
   isOpened = false;
@@ -22,14 +26,15 @@ function select(option) {
     amount: plan.amount
   });
 }
+
 const SAVED_MSG = 'Save 10% 🎉';</script>
 
 <div class="row justify mrg-l mrg--b">
   <div class="relative">
-    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-GA_p+e">
+    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-12d6BR">
       <button slot="trigger" class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="8" h="4.5" class="arrow-6qTiD9 mrg-xs mrg--l" />
+        <Svg id="arrow" w="8" h="4.5" class="arrow-3e_p1l mrg-xs mrg--l" />
       </button>
 
       <div slot="tooltip" class="column">
@@ -67,11 +72,11 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
     --fill: var(--casper);
     --fill-hover: var(--accent);
   }
-  :global(.opened-GA_p\+e) {
+  :global(.opened-12d6BR) {
     --rotate: 0;
   }
 
-  :global(.arrow-6qTiD9) {
+  :global(.arrow-3e_p1l) {
     transform: rotate(var(--rotate, 180deg));
   }
 

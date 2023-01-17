@@ -18,11 +18,13 @@ import Info from './Info.svelte';
 export let page = checkIsGameStarted() ? Page.Insight : Page.Intro;
 page = Page.Info;
 let insights = [];
+
 if (process.browser) {
   queryUserNftInsights().then(data => {
     insights = data;
   });
 }
+
 const pages = {
   [Page.Insight]: {
     title: 'Publish your Insight',
@@ -53,7 +55,7 @@ onDestroy(() => {
   {...$$props}
   noTitle={!page}
   title={page ? 'Game details' : undefined}
-  class="dialog-7hhdYP"
+  class="dialog-26Hw3o"
   let:closeDialog
 >
   {#if page === Page.Intro}
@@ -67,7 +69,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-7hhdYP) {
+  :global(.dialog-26Hw3o) {
     padding: 0 !important;
     width: 960px;
     height: 600px;

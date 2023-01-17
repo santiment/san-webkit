@@ -16,9 +16,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type ConfirmationProps = typeof __propDef.props;
-export type ConfirmationEvents = typeof __propDef.events;
-export type ConfirmationSlots = typeof __propDef.slots;
+export declare type ConfirmationProps = typeof __propDef.props;
+export declare type ConfirmationEvents = typeof __propDef.events;
+export declare type ConfirmationSlots = typeof __propDef.slots;
 export default class Confirmation extends SvelteComponentTyped<ConfirmationProps, ConfirmationEvents, ConfirmationSlots> {
 }
 export {};

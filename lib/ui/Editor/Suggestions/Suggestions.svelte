@@ -7,14 +7,20 @@ export let loading = false;
 export let setNode;
 export let ctx = {};
 let node = undefined;
+
 $: cursor = (items, 0);
+
 $: suggestions = items.slice(0, 5);
+
 $: style = node && getPositionStyles(position);
+
 ctx.moveCursor = diff => {
   const newCursor = (cursor + diff) % suggestions.length;
   cursor = newCursor < 0 ? suggestions.length - 1 : newCursor;
 };
+
 ctx.selectCursored = () => ctx.onSelect(suggestions[cursor]);
+
 function getPositionStyles({
   x,
   y,
@@ -32,6 +38,7 @@ function getPositionStyles({
   const xPosition = x + getHorizontalCorrection(offsetWidth, x);
   return `${yPosition}px;left:${xPosition}px`;
 }
+
 onMount(() => setNode(node));</script>
 
 <div class="border box" {style} bind:this={node}>

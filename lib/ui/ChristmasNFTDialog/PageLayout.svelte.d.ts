@@ -13,9 +13,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export type PageLayoutProps = typeof __propDef.props;
-export type PageLayoutEvents = typeof __propDef.events;
-export type PageLayoutSlots = typeof __propDef.slots;
+export declare type PageLayoutProps = typeof __propDef.props;
+export declare type PageLayoutEvents = typeof __propDef.events;
+export declare type PageLayoutSlots = typeof __propDef.slots;
 export default class PageLayout extends SvelteComponentTyped<PageLayoutProps, PageLayoutEvents, PageLayoutSlots> {
 }
 export {};

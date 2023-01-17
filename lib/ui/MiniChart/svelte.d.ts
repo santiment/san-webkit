@@ -1,5 +1,5 @@
 export { default } from './index.svelte';
-export type Props = {
+export declare type Props = {
     data: {
         [key: string]: any | number;
     }[];

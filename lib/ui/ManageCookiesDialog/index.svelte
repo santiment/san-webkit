@@ -29,15 +29,18 @@ export let DialogPromise;
 let closeDialog;
 let isFunctionalAccepted = false;
 let isPerformanceAccepted = false;
+
 const toggleHandler = fn => e => {
   e.stopPropagation();
   fn();
 };
+
 function onSaveClick() {
   applyCookies(isFunctionalAccepted, isPerformanceAccepted);
   DialogPromise.resolve();
   closeDialog();
 }
+
 function onAllowAllClick() {
   applyCookies(true, true);
   DialogPromise.resolve();
@@ -48,8 +51,8 @@ function onAllowAllClick() {
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-lCLiFt"
-  titleClassName="title-LqpPyq"
+  class="dialog-3ULZHM"
+  titleClassName="title-59_TJm"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -105,7 +108,7 @@ function onAllowAllClick() {
   </div>
 </Dialog>
 
-<style >:global(.dialog-lCLiFt) {
+<style >:global(.dialog-3ULZHM) {
   max-width: 600px !important;
 }
 
@@ -124,10 +127,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-lCLiFt) {
+:global(body:not(.desktop)) :global(.dialog-3ULZHM) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-LqpPyq) {
+:global(body:not(.desktop)) :global(.title-59_TJm) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

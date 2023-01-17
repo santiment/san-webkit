@@ -1,6 +1,6 @@
 import type { Align, Position } from './utils';
 export { default } from './index.svelte';
-export type Props = {
+export declare type Props = {
     /** Tooltip's class name */
     className?: string;
     /** Enabling/disabling tooltip triggering */

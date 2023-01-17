@@ -6,9 +6,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type FooterProps = typeof __propDef.props;
-export type FooterEvents = typeof __propDef.events;
-export type FooterSlots = typeof __propDef.slots;
+export declare type FooterProps = typeof __propDef.props;
+export declare type FooterEvents = typeof __propDef.events;
+export declare type FooterSlots = typeof __propDef.slots;
 export default class Footer extends SvelteComponentTyped<FooterProps, FooterEvents, FooterSlots> {
 }
 export {};

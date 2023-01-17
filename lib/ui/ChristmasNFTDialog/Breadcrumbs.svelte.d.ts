@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type BreadcrumbsProps = typeof __propDef.props;
-export type BreadcrumbsEvents = typeof __propDef.events;
-export type BreadcrumbsSlots = typeof __propDef.slots;
+export declare type BreadcrumbsProps = typeof __propDef.props;
+export declare type BreadcrumbsEvents = typeof __propDef.events;
+export declare type BreadcrumbsSlots = typeof __propDef.slots;
 export default class Breadcrumbs extends SvelteComponentTyped<BreadcrumbsProps, BreadcrumbsEvents, BreadcrumbsSlots> {
 }
 export {};

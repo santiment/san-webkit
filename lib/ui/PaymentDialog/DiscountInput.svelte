@@ -8,35 +8,45 @@ let node;
 let value = '';
 let loading = false;
 let isValid = false;
+
 $: node && (node.dataset.isValid = isValid.toString());
+
 const [checkCoupon, clearTimer] = debounce(700, coupon => {
   const onData = data => value === coupon && onCouponLoaded(data);
+
   const onError = () => value === coupon && invalidateCoupon();
+
   queryCoupon(coupon).then(onData).catch(onError);
 });
+
 function onInput({
   currentTarget
 }) {
   node = currentTarget;
   value = node.value;
+
   if (!value) {
     invalidateCoupon();
     return clearTimer();
   }
+
   loading = true;
   checkCoupon(value);
 }
+
 function onCouponLoaded(data) {
   if (!data.isValid) return invalidateCoupon;
   loading = false;
   isValid = true;
   percentOff = data.percentOff;
 }
+
 function invalidateCoupon() {
   loading = false;
   isValid = false;
   percentOff = 0;
 }
+
 onDestroy(clearTimer);</script>
 
 <Input
@@ -49,25 +59,25 @@ onDestroy(clearTimer);</script>
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin status-LJfiFw" />
+      <div class="loading-spin status-2Ke5mB" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="status-LJfiFw {isValid ? 'valid-Dm9PRt' : ''}"
+        class="status-2Ke5mB {isValid ? 'valid-39znv_' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  :global(.status-LJfiFw) {
+  :global(.status-2Ke5mB) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  :global(.valid-Dm9PRt) {
+  :global(.valid-39znv_) {
     fill: var(--green);
   }
 </style>

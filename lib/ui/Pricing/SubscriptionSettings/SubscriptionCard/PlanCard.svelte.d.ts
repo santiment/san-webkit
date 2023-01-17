@@ -22,9 +22,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export type PlanCardProps = typeof __propDef.props;
-export type PlanCardEvents = typeof __propDef.events;
-export type PlanCardSlots = typeof __propDef.slots;
+export declare type PlanCardProps = typeof __propDef.props;
+export declare type PlanCardEvents = typeof __propDef.events;
+export declare type PlanCardSlots = typeof __propDef.slots;
 export default class PlanCard extends SvelteComponentTyped<PlanCardProps, PlanCardEvents, PlanCardSlots> {
 }
 export {};

@@ -14,6 +14,7 @@ export let currentUser = null;
 export let updateComments;
 export let scrollToNewComment;
 export let commentsNode;
+
 $: ({
   content,
   insertedAt,
@@ -21,15 +22,20 @@ $: ({
   user,
   parentId
 } = comment);
+
 $: edited = editedAt ? 'Edited ' : '';
+
 $: time = edited + dateDifferenceInWords(new Date(edited ? editedAt : insertedAt));
+
 $: html = markdownToHTML(content);
+
 function onReply() {
   showCommentReplyDialog(commentsFor.id, comment.id, type).then(newComment => {
     if (!newComment) return;
     updateComments(comments => (comments.push(newComment), comments));
   }).then(scrollToNewComment);
 }
+
 function getCommentDate(insertedAt, editedAt) {
   const insertedDate = getDatetime(insertedAt);
   return editedAt ? `Posted: ${insertedDate}
@@ -42,7 +48,7 @@ Edited: ${getDatetime(editedAt)}` : insertedDate;
 
 <div class="comment mrg-l mrg--b" id="comment-{comment.id}">
   <div class="row v-center">
-    <Author {user} class="mrg-a mrg--r user-vDWrsy">
+    <Author {user} class="mrg-a mrg--r user-2jHznu">
       {#if comment.user.id === authorId}
         <br />
         <span class="author">Author</span>
@@ -94,7 +100,7 @@ Edited: ${getDatetime(editedAt)}` : insertedDate;
   position: relative;
 }
 
-:global(.user-vDWrsy) {
+:global(.user-2jHznu) {
   max-width: 60%;
 }
 

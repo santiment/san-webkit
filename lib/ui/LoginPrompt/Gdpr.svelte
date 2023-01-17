@@ -17,12 +17,16 @@ const defaultUsername = currentUser && currentUser.username;
 let isActive = false;
 let error = '';
 let loading = false;
+
 $: username = defaultUsername;
+
 $: isDisabled = !isActive || !username || error;
+
 const [checkValidity, clearTimer] = debounce(250, input => {
   const {
     value
   } = input;
+
   if (value.length < 3) {
     error = 'Username should be at least 3 characters long';
   } else if (value[0] === '@') {
@@ -31,17 +35,20 @@ const [checkValidity, clearTimer] = debounce(250, input => {
     error = '';
   }
 });
+
 function onBlur() {
   if (username) return;
   error = '';
   username = defaultUsername;
 }
+
 function onInput({
   currentTarget
 }) {
   username = currentTarget.value;
   checkValidity(currentTarget);
 }
+
 function onSubmit() {
   if (isDisabled) return;
   loading = true;
@@ -55,11 +62,13 @@ function onSubmit() {
     return true;
   }).then(onAccept).catch(console.error);
 }
+
 function onUsernameChangeError() {
   error = `Username "${username}" is already taken`;
   loading = false;
   return Promise.reject();
 }
+
 onDestroy(clearTimer);</script>
 
 <Section title="Welcome to Insights">
@@ -67,7 +76,7 @@ onDestroy(clearTimer);</script>
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
 
-      <FieldTooltip text={error} activeClass="error-u4NMT3">
+      <FieldTooltip text={error} activeClass="error-1U7KD0">
         <InputWithIcon
           {constraints}
           value={username}
@@ -141,7 +150,7 @@ onDestroy(clearTimer);</script>
     color: var(--green-hover);
   }
 
-  :global(.error-u4NMT3) {
+  :global(.error-1U7KD0) {
     --border: var(--red);
   }
 </style>

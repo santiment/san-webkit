@@ -9,10 +9,10 @@ export declare const Cache: {
     setInFlightQuery(scheme: string, options: SAN.API.QueryOptions<any, any> | undefined, promise: Promise<any>): void;
 };
 export declare const getCacheScheme: (scheme: string, options: SAN.API.QueryOptions<any, any> | undefined) => string;
-type SchemeCacher<T extends SAN.API.QueryBase> = (data: T) => T;
+declare type SchemeCacher<T extends SAN.API.QueryBase> = (data: T) => T;
 export declare const schemeCacheSetter: <T extends SAN.API.QueryBase>(scheme: string, options?: SAN.API.QueryOptions<T, any> | undefined) => SchemeCacher<T>;
-type SsrCacheCallback<T extends SAN.API.QueryBase> = (...args: any[]) => [string, T];
-type SsrCacher<T extends (...args: any) => any> = (...args: Parameters<T>) => void;
+declare type SsrCacheCallback<T extends SAN.API.QueryBase> = (...args: any[]) => [string, T];
+declare type SsrCacher<T extends (...args: any) => any> = (...args: Parameters<T>) => void;
 export declare function newSsrClientCacher<T extends SsrCacheCallback<Parameters<T>[0]>>(clb: T): SsrCacher<T>;
 export declare enum CachePolicy {
     NewCache = 1

@@ -15,9 +15,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type AssetsProps = typeof __propDef.props;
-export type AssetsEvents = typeof __propDef.events;
-export type AssetsSlots = typeof __propDef.slots;
+export declare type AssetsProps = typeof __propDef.props;
+export declare type AssetsEvents = typeof __propDef.events;
+export declare type AssetsSlots = typeof __propDef.slots;
 export default class Assets extends SvelteComponentTyped<AssetsProps, AssetsEvents, AssetsSlots> {
     get href(): ({ slug }: {
         slug: any;

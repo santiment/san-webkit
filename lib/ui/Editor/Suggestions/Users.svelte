@@ -9,20 +9,22 @@ export const label = ({
   username
 }) => '@' + username;
 let items = [];
+
 $: onInput(searchTerm);
+
 function onInput(searchTerm) {
   searchUserByUsername(searchTerm).then(data => items = data.slice(0, 5));
 }</script>
 
 <Suggestions {...$$props} {items} key="id" let:item>
-  <ProfilePic src={item.avatar_url} class="pic-zbQkF6 mrg-s mrg--r" />
+  <ProfilePic src={item.avatar_url} class="pic-lHnfu3 mrg-s mrg--r" />
   <span>
     @{item.username}
   </span>
 </Suggestions>
 
 <style>
-  :global(.pic-zbQkF6) {
+  :global(.pic-lHnfu3) {
     --img-size: 24px;
   }
 

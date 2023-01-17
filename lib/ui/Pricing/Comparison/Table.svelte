@@ -3,6 +3,7 @@ import Feature from './Feature.svelte';
 import { COMPARE_TABLE } from './comapre';
 export let plans = [];
 export let isShowingMore = false;
+
 $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7);</script>
 
 <div class="table body-2 relative">

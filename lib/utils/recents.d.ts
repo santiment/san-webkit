@@ -4,7 +4,7 @@ export declare enum RecentType {
     WATCHLIST = "watchlist",
     SCREENER = "screener"
 }
-type Recent = {
+declare type Recent = {
     [key: string]: any;
     type: RecentType;
     id: number | string;

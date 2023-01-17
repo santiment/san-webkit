@@ -22,6 +22,7 @@ export let votes = newVotes();
 export let onVote;
 export let onVoted = noop;
 export let source;
+
 function onClick() {
   onVote === null || onVote === void 0 ? void 0 : onVote();
   vote(id, type).then(onVoted).catch(() => {

@@ -1,12 +1,14 @@
 <script>export let preloading;
+
 function start(node) {
   setTimeout(() => {
     node.style.transform = 'translateX(-30%)';
   }, 0);
   return {};
 }
+
 function end(node) {
-  node.classList.add('loaded-iR3sp1');
+  node.classList.add('loaded-31EvBz');
   return {
     duration: 800
   };
@@ -38,7 +40,7 @@ function end(node) {
     transition: transform 3s cubic-bezier(0.4, 1, 1, 1);
   }
 
-  :global(.loaded-iR3sp1) {
+  :global(.loaded-31EvBz) {
     transition: transform 400ms cubic-bezier(0, 0, 0.4, 0) !important;
     transform: translateX(0) !important;
     animation: fade 250ms 350ms forwards;

@@ -10,9 +10,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type RewardProps = typeof __propDef.props;
-export type RewardEvents = typeof __propDef.events;
-export type RewardSlots = typeof __propDef.slots;
+export declare type RewardProps = typeof __propDef.props;
+export declare type RewardEvents = typeof __propDef.events;
+export declare type RewardSlots = typeof __propDef.slots;
 export default class Reward extends SvelteComponentTyped<RewardProps, RewardEvents, RewardSlots> {
 }
 export {};

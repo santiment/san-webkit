@@ -5,11 +5,14 @@ export { className as class };
 export let user;
 export let currentUser;
 export let isFollowing = checkIsFollowing(currentUser, user.id);
+
 $: postfix = isFollowing ? 'ing' : '';
+
 function onFollow() {
   if (!currentUser) {
     return window.dispatchEvent(new CustomEvent(ANON_EVENT));
   }
+
   isFollowing = !isFollowing;
   startFollowFlow(currentUser, user.id);
   return window.dispatchEvent(new CustomEvent(EVENT));

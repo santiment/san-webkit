@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type InsightProps = typeof __propDef.props;
-export type InsightEvents = typeof __propDef.events;
-export type InsightSlots = typeof __propDef.slots;
+export declare type InsightProps = typeof __propDef.props;
+export declare type InsightEvents = typeof __propDef.events;
+export declare type InsightSlots = typeof __propDef.slots;
 export default class Insight extends SvelteComponentTyped<InsightProps, InsightEvents, InsightSlots> {
 }
 export {};

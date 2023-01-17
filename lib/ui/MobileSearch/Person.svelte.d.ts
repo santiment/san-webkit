@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type PersonProps = typeof __propDef.props;
-export type PersonEvents = typeof __propDef.events;
-export type PersonSlots = typeof __propDef.slots;
+export declare type PersonProps = typeof __propDef.props;
+export declare type PersonEvents = typeof __propDef.events;
+export declare type PersonSlots = typeof __propDef.slots;
 export default class Person extends SvelteComponentTyped<PersonProps, PersonEvents, PersonSlots> {
 }
 export {};

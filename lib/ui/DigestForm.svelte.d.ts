@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type DigestFormProps = typeof __propDef.props;
-export type DigestFormEvents = typeof __propDef.events;
-export type DigestFormSlots = typeof __propDef.slots;
+export declare type DigestFormProps = typeof __propDef.props;
+export declare type DigestFormEvents = typeof __propDef.events;
+export declare type DigestFormSlots = typeof __propDef.slots;
 export default class DigestForm extends SvelteComponentTyped<DigestFormProps, DigestFormEvents, DigestFormSlots> {
 }
 export {};

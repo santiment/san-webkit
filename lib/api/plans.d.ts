@@ -1,8 +1,8 @@
 export declare const PLANS_QUERY = "{\n  productsWithPlans {\n    id\n    plans {\n      id\n      name\n      interval\n      amount\n      isDeprecated\n    }\n  }\n}";
-type ProductPlans = SAN.Product & {
+declare type ProductPlans = SAN.Product & {
     plans: SAN.Plan[];
 };
-type ProductGetter = (products: ProductPlans[]) => undefined | ProductPlans['plans'];
+declare type ProductGetter = (products: ProductPlans[]) => undefined | ProductPlans['plans'];
 export declare const queryPlans: () => Promise<ProductPlans[]>;
 export declare const queryProductPlans: (productGetter: ProductGetter, plansFilter?: (plans: SAN.Plan[]) => SAN.Plan[]) => Promise<SAN.Plan[]>;
 export declare const querySanbasePlans: () => Promise<SAN.Plan[]>;

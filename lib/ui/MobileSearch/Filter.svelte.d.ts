@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type FilterProps = typeof __propDef.props;
-export type FilterEvents = typeof __propDef.events;
-export type FilterSlots = typeof __propDef.slots;
+export declare type FilterProps = typeof __propDef.props;
+export declare type FilterEvents = typeof __propDef.events;
+export declare type FilterSlots = typeof __propDef.slots;
 export default class Filter extends SvelteComponentTyped<FilterProps, FilterEvents, FilterSlots> {
 }
 export {};

@@ -11,9 +11,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type FeedbackScreenProps = typeof __propDef.props;
-export type FeedbackScreenEvents = typeof __propDef.events;
-export type FeedbackScreenSlots = typeof __propDef.slots;
+export declare type FeedbackScreenProps = typeof __propDef.props;
+export declare type FeedbackScreenEvents = typeof __propDef.events;
+export declare type FeedbackScreenSlots = typeof __propDef.slots;
 export default class FeedbackScreen extends SvelteComponentTyped<FeedbackScreenProps, FeedbackScreenEvents, FeedbackScreenSlots> {
 }
 export {};

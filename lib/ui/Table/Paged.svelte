@@ -11,12 +11,19 @@ export let rows = [10, 25, 50];
 export let pageOffset = 0;
 export let onPageChange = noop;
 let isPageSizeOpened = false;
+
 $: pagesAmount = Math.ceil(items.length / pageSize);
+
 $: maxPage = pagesAmount - 1;
+
 $: pageOffset = page * pageSize;
+
 $: pageEndOffset = pageOffset + pageSize;
+
 $: pageItems = items.slice(pageOffset, pageEndOffset);
+
 const applySort = sorter => items.slice().sort(sorter).slice(pageOffset, pageEndOffset);
+
 function onPageInput({
   currentTarget
 }) {
@@ -25,16 +32,19 @@ function onPageInput({
   currentTarget.value = page + 1;
   onPageChange(page);
 }
+
 function onPageSizeChange(size) {
   isPageSizeOpened = false;
   pageSize = size;
   page = 0;
   onPageChange(page);
 }
+
 function onNextPage() {
   if (page >= pagesAmount) page = maxPage;else page++;
   onPageChange(page);
 }
+
 function onPrevPage() {
   if (page <= 1) page = 0;else page--;
   onPageChange(page);
@@ -86,7 +96,7 @@ function onPrevPage() {
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-4MgRbA mrg-m mrg--l" />
+    <Svg id="arrow-right" w="5" h="8" class="left-1xI-EA mrg-m mrg--l" />
   </button>
   <button
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
@@ -98,7 +108,7 @@ function onPrevPage() {
   </button>
 </div>
 
-<style >:global(.left-4MgRbA) {
+<style >:global(.left-1xI-EA) {
   transform: rotate(180deg);
 }
 
