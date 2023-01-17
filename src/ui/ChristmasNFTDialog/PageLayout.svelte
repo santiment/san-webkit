@@ -8,7 +8,7 @@
   export let page: Page
   export let title: string
 
-  export let insights = []
+  export let insights = [] as any[]
 
   function changePage(newPage: Page) {
     trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page)

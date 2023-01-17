@@ -32,8 +32,18 @@
   <OnMount run={() => showChristmasNFTDialog({ page: 3 })} />
 </Story>
 
-<Story name="Info - 4">
-  <OnMount run={() => showChristmasNFTDialog({ page: 4 })} />
+<Story name="Info - 4 - Metamask not connected">
+  <OnMount run={() => showChristmasNFTDialog({ page: 4, currentUser: { ethAccounts: [] } })} />
+</Story>
+
+<Story name="Info - 4 - With metamask connected">
+  <OnMount
+    run={() =>
+      showChristmasNFTDialog({
+        page: 4,
+        currentUser: { ethAccounts: ['0xf17d119effa0dcbe24d3fa346860be851150358f'] },
+      })}
+  />
 </Story>
 
 <Dialogs />
