@@ -1,3 +1,5 @@
+import { mutateAddUserEthAddress } from '@/api/web3'
+
 export async function getWeb3Provider() {
   if (!window.ethereum) return Promise.reject()
   if (window.provider) return window.provider
@@ -16,4 +18,22 @@ export async function signMessage(message) {
   const signature = await provider.getSigner().signMessage(message)
 
   return { signature, messageHash }
+}
+
+const handleAccountsChanged = (accounts: string[]) =>
+  accounts.length ? [accounts[0]] : [null, 'Please connect to MetaMask.']
+
+export async function connectWallet() {
+  if (!window.ethereum) return Promise.reject('No metamask found')
+
+  const [address, error] = await window.ethereum
+    .request({ method: 'eth_requestAccounts' })
+    .then(handleAccountsChanged)
+    .catch((e) => [null, e])
+
+  if (error) return Promise.reject(error)
+
+  const { signature, messageHash } = await signMessage(address)
+
+  return mutateAddUserEthAddress(address, signature, messageHash)
 }
