@@ -67,15 +67,30 @@
   line-height: 56px;
 }
 
+:root {
+  --body-2: 16px/24px 'Proxima Nova';
+  --body-1: 18px/26px 'Proxima Nova';
+  --body-0: 20px/30px 'Proxima Nova';
+  --h4: 24px/32px 'Proxima Nova';
+  --h3: 32px/40px 'Proxima Nova';
+  --h2: 40px/48px 'Proxima Nova';
+}
+
+/* Font weight */
+
 .txt-r {
   font-weight: 400;
 }
+
 .txt-m {
   font-weight: 500;
 }
+
 .txt-b {
   font-weight: 600;
 }
+
+/* Font align */
 
 .txt-right {
   text-align: right;
@@ -89,37 +104,50 @@
   text-align: left;
 }
 
+/* Font colors */
+
 .c-white {
   --color: var(--white);
 }
+
 .c-black {
   --color: var(--black);
 }
+
 .c-rhino {
   --color: var(--rhino);
 }
+
 .c-fiord {
   --color: var(--fiord);
 }
+
 .c-waterloo {
   --color: var(--waterloo);
 }
+
 .c-casper {
   --color: var(--casper);
 }
+
 .c-green {
   --color: var(--green);
   --color-hover: var(--green-hover);
 }
+
 .c-orange {
   --color: var(--orange);
 }
+
 .c-red {
   --color: var(--red);
 }
+
 .c-accent {
   --color: var(--accent, var(--green));
 }
+
+/* Text clamp */
 
 .nowrap,
 .single-line {
@@ -137,6 +165,7 @@
   -webkit-line-clamp: var(--line-clamp, 2);
   -webkit-box-orient: vertical;
 }
+
 @supports not (display: -webkit-box) {
   .line-clamp {
     white-space: nowrap;

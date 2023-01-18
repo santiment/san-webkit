@@ -28,7 +28,7 @@
   import Info from './Info.svelte'
 
   export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
-  export let isNftWinner = true
+  export let isNftWinner = false
   export let currentUser: null | CurrentUser
 
   page = Page.Info
