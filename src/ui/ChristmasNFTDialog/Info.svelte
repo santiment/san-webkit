@@ -9,11 +9,11 @@
   import { Page } from './types'
   import Metamask from './Metamask.svelte'
 
-  export let isWinner = false
+  export let isNftWinner = false
   export let currentUser: CurrentUser | null
 </script>
 
-{#if currentUser && isWinner}
+{#if currentUser && isNftWinner}
   <div class="intro">
     <p>Thank you for sharing your amazing idea with the Santiment community!</p>
 

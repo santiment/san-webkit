@@ -8,7 +8,7 @@
 
   export const showChristmasNFTDialog = (props?: {
     page?: number
-    isWinner?: boolean
+    isNftWinner?: boolean
     currentUser?: null | CurrentUser
   }) => dialogs.showOnce(ChristmasNFTDialog, props)
 
@@ -28,7 +28,7 @@
   import Info from './Info.svelte'
 
   export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
-  export let isWinner = true
+  export let isNftWinner = true
   export let currentUser: null | CurrentUser
 
   page = Page.Info
@@ -55,7 +55,7 @@
       Component: Reward,
     },
     [Page.Info]: {
-      title: isWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
+      title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
       Component: Info,
     },
   }
@@ -82,7 +82,7 @@
   {:else}
     {@const { title, Component } = pages[page]}
     <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} {isWinner} {currentUser} bind:page />
+      <svelte:component this={Component} {insights} {isNftWinner} {currentUser} bind:page />
     </PageLayout>
   {/if}
 </Dialog>
