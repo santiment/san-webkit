@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type ReplyDialogProps = typeof __propDef.props;
-export declare type ReplyDialogEvents = typeof __propDef.events;
-export declare type ReplyDialogSlots = typeof __propDef.slots;
+export type ReplyDialogProps = typeof __propDef.props;
+export type ReplyDialogEvents = typeof __propDef.events;
+export type ReplyDialogSlots = typeof __propDef.slots;
 export default class ReplyDialog extends SvelteComponentTyped<ReplyDialogProps, ReplyDialogEvents, ReplyDialogSlots> {
 }
 export {};

@@ -1,7 +1,6 @@
 <script>import Svg from './../../ui/Svg/svelte';
 import InputWithIcon from './../../ui/InputWithIcon.svelte';
 export let searchTerm;
-
 function onInput({
   currentTarget
 }) {
@@ -13,7 +12,7 @@ function onInput({
   on:input={onInput}
   placeholder="Search for assets, trends..."
   big
-  class="input-3QJ-7x body-2"
+  class="input-UciXQ_ body-2"
 >
   <div class="search row hv-center" slot="left">
     <Svg id="search" w="12" />
@@ -25,10 +24,10 @@ function onInput({
   {/if}
 </InputWithIcon>
 
-<style >:global(.input-3QJ-7x) {
+<style >:global(.input-UciXQ_) {
   --left: 36px !important;
 }
-:global(.input-3QJ-7x) > :global(input) {
+:global(.input-UciXQ_) > :global(input) {
   padding: 8px 44px 8px 36px;
 }
 

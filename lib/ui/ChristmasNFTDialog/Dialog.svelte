@@ -16,15 +16,15 @@ import Top from './Top.svelte';
 import Reward from './Reward.svelte';
 import Info from './Info.svelte';
 export let page = checkIsGameStarted() ? Page.Insight : Page.Intro;
+export let isNftWinner = false;
+export let currentUser;
 page = Page.Info;
 let insights = [];
-
 if (process.browser) {
   queryUserNftInsights().then(data => {
     insights = data;
   });
 }
-
 const pages = {
   [Page.Insight]: {
     title: 'Publish your Insight',
@@ -39,7 +39,7 @@ const pages = {
     Component: Reward
   },
   [Page.Info]: {
-    title: 'Time’s Up ⌛️',
+    title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
     Component: Info
   }
 };
@@ -55,7 +55,7 @@ onDestroy(() => {
   {...$$props}
   noTitle={!page}
   title={page ? 'Game details' : undefined}
-  class="dialog-26Hw3o"
+  class="dialog-7hhdYP"
   let:closeDialog
 >
   {#if page === Page.Intro}
@@ -63,13 +63,13 @@ onDestroy(() => {
   {:else}
     {@const { title, Component } = pages[page]}
     <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} bind:page />
+      <svelte:component this={Component} {insights} {isNftWinner} {currentUser} bind:page />
     </PageLayout>
   {/if}
 </Dialog>
 
 <style>
-  :global(.dialog-26Hw3o) {
+  :global(.dialog-7hhdYP) {
     padding: 0 !important;
     width: 960px;
     height: 600px;

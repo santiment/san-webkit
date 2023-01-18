@@ -1,14 +1,32 @@
 <script>import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
 import Svg from './../../ui/Svg/svelte';
+import { showIntercom } from './../../ui/HelpFeedback.svelte';
 import Li from './Li.svelte';
 import Players from './Players/index.svelte';
-import { Page } from './types';</script>
+import { Page } from './types';
+import Metamask from './Metamask.svelte';
+export let isNftWinner = false;
+export let currentUser;</script>
 
-<p class="intro">
-  Everything comes to an end, and our game is no exception. Right now, our team is reviewing all of
-  the entries you’ve shared and will choose the ten best. Check back at the end of January to see
-  the winners!
-</p>
+{#if currentUser && isNftWinner}
+  <div class="intro">
+    <p>Thank you for sharing your amazing idea with the Santiment community!</p>
+
+    <p class="winner">
+      To receive your NFT, connect your Metamask wallet or make sure your address is correct. If you
+      have trouble, please don’t hesitate to
+      <button class="btn-0" on:click={showIntercom}>contact us</button>.
+    </p>
+
+    <Metamask {currentUser} />
+  </div>
+{:else}
+  <p class="intro">
+    Everything comes to an end, and our game is no exception. Right now, our team is reviewing all
+    of the entries you’ve shared and will choose the ten best. Check back at the end of January to
+    see the winners!
+  </p>
+{/if}
 
 <Players />
 
@@ -98,6 +116,10 @@ import { Page } from './types';</script>
 
 <style >.intro {
   margin: 0 0 48px;
+}
+
+.winner {
+  margin: 20px 0 16px;
 }
 
 .about {

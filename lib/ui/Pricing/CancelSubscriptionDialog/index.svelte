@@ -11,32 +11,24 @@ let reasons = new Set();
 let feedback = '';
 let loading = false;
 let error = false;
-
 $: subscription = $subscription$;
-
 $: isFeedbackScreen = screen === Screen.Feedback;
-
 $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen;
-
 function onCancellationClick() {
   if (screen === Screen.Suggestions) {
     screen = Screen.Feedback;
     return;
   }
-
   if (!subscription) return;
-
   if (reasons.size === 0 || !feedback) {
     error = true;
     return;
   }
-
   loading = true;
   startCancellationFlow(subscription, feedback, closeDialog).then(() => {
     loading = false;
   });
 }
-
 function onServiceClick() {
   showIntercom();
   closeDialog();

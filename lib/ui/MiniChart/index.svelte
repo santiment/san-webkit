@@ -6,13 +6,9 @@ export let width = 70;
 export let height = 50;
 export let valueKey;
 export let style;
-
 $: points = getPoints(data);
-
 $: linePoints = points.join(' ');
-
 const getValue = (item, key) => key ? item[key] : item;
-
 function getPoints(data) {
   const {
     length

@@ -4,6 +4,7 @@
 export default class Button extends SvelteComponentTyped<{
     source?: string | undefined;
     class?: string | undefined;
+    isWinner?: boolean | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -16,6 +17,7 @@ declare const __propDef: {
     props: {
         source?: string | undefined;
         class?: string | undefined;
+        isWinner?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

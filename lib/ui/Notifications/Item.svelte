@@ -19,39 +19,30 @@ let {
   description
 } = notification;
 calculateInitialOffset();
-
 const getOffsetSign = () => process.browser && document.body.clientWidth > 450 ? 1 : -1;
-
 $: yOffset = offset * getOffsetSign() + 'px';
-
 $: if (process.env.IS_STAGE) {
   console.log(yOffset, getOffsetSign());
 }
-
 function calculateInitialOffset() {
   const prevChild = parentNode.children[i - 1];
   offset = prevChild ? notifications[i - 1].offset - prevChild.clientHeight - MARGIN : 0;
   notification.offset = offset;
 }
-
 function destroy() {
   clearTimeout(timer);
   const diff = height + MARGIN;
-
   for (let j = i + 1; j < notifications.length; j++) {
     notifications[j].offset += diff;
   }
-
   notifications$.hide(notification);
 }
-
 function notify() {
   return {
     duration: 300,
     css: t => `transform: translate3d(${-130 + cubicOut(t) * 130}%, ${yOffset}, 0);`
   };
 }
-
 onMount(() => {
   timer = setTimeout(destroy, dismissAfter);
 });
@@ -66,9 +57,9 @@ onDestroy(() => {
   transition:notify
 >
   <div class="row v-center">
-    <Svg id={TypeIcon[type] || type} class="icon-3ZA1rt {type}" />
+    <Svg id={TypeIcon[type] || type} class="icon-KrAw36 {type}" />
     <div class="title txt-m">{title}</div>
-    <Svg id="close" class="btn close-1SzUWM" on:click={destroy} />
+    <Svg id="close" class="btn close-5aYjkI" on:click={destroy} />
   </div>
   {#if description}
     <p>{@html description}</p>
@@ -95,22 +86,22 @@ onDestroy(() => {
   width: 100%;
 }
 
-:global(.icon-3ZA1rt) {
+:global(.icon-KrAw36) {
   width: 16px;
   height: 16px;
   fill: var(--waterloo);
 }
 
-:global(.icon-3ZA1rt.success) {
+:global(.icon-KrAw36.success) {
   fill: var(--green);
 }
-:global(.icon-3ZA1rt.error) {
+:global(.icon-KrAw36.error) {
   fill: var(--red);
 }
-:global(.icon-3ZA1rt.warning) {
+:global(.icon-KrAw36.warning) {
   fill: var(--orange);
 }
-:global(.icon-3ZA1rt.info) {
+:global(.icon-KrAw36.info) {
   fill: var(--blue);
 }
 
@@ -118,7 +109,7 @@ onDestroy(() => {
   margin: 0 24px 0 16px;
 }
 
-:global(.close-1SzUWM) {
+:global(.close-5aYjkI) {
   width: 12px;
   height: 12px;
   cursor: pointer;

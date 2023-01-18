@@ -6,9 +6,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type ClueProps = typeof __propDef.props;
-export declare type ClueEvents = typeof __propDef.events;
-export declare type ClueSlots = typeof __propDef.slots;
+export type ClueProps = typeof __propDef.props;
+export type ClueEvents = typeof __propDef.events;
+export type ClueSlots = typeof __propDef.slots;
 export default class Clue extends SvelteComponentTyped<ClueProps, ClueEvents, ClueSlots> {
 }
 export {};

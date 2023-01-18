@@ -9,33 +9,27 @@ export let show;
 let items = [];
 let filteredItems = [];
 let loading = true;
-
 $: filterItems(searchTerm);
-
 $: getItems(query);
-
 async function filterItems(searchTerm) {
   loading = true;
   filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items;
   loading = false;
 }
-
 async function getItems(query) {
   loading = true;
   items = await query();
   await filterItems(searchTerm);
 }
-
 function onItemClick(event) {
   window.__onLinkClick(event);
-
   show = false;
 }</script>
 
 <div class="wrapper column mrg-xxl mrg--t mrg--b">
   {#if loading}
     <div class="logo-wrapper column hv-center">
-      <Svg illus id="san-logo" w="72" class="logo-2GvEqI" />
+      <Svg illus id="san-logo" w="72" class="logo-FNsm4o" />
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
@@ -74,7 +68,7 @@ a:focus, a:visited, a:active {
   height: 100%;
 }
 
-:global(.logo-2GvEqI) {
+:global(.logo-FNsm4o) {
   animation: load 1s infinite alternate;
 }
 

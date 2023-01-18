@@ -8,7 +8,7 @@ export let activeClass = '';</script>
 <Tooltip
   isOpened={!!text}
   isEnabled={false}
-  class="caption c-black tooltip-2zfHEX"
+  class="caption c-black tooltip-rTdj67"
   {offsetY}
   {activeClass}>
   <slot slot="trigger" />
@@ -20,7 +20,7 @@ export let activeClass = '';</script>
 </Tooltip>
 
 <style>
-  :global(.tooltip-2zfHEX) {
+  :global(.tooltip-rTdj67) {
     padding: 6px 8px;
     fill: var(--red);
   }

@@ -1,7 +1,6 @@
 <script>import Item from './Item.svelte';
 import { notifications$ } from './notifications';
 let parentNode;
-
 $: notifications = [...$notifications$];</script>
 
 <div bind:this={parentNode}>

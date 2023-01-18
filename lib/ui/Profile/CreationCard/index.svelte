@@ -5,21 +5,17 @@ import { getSEOLinkFromIdAndTitle } from './../../../utils/url';
 export let type;
 export let creation;
 const href = getHref(creation);
-
 function getHref({
   id,
   title,
   isScreener
 }) {
   const seoLink = getSEOLinkFromIdAndTitle(id, title);
-
   switch (type) {
     case CreationType.Layout:
       return '/charts/' + seoLink;
-
     case CreationType.Watchlist:
       return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink;
-
     case CreationType.AddressWatchlist:
       return '/watchlist/addresses/' + seoLink;
   }

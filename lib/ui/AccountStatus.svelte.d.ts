@@ -16,9 +16,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type AccountStatusProps = typeof __propDef.props;
-export declare type AccountStatusEvents = typeof __propDef.events;
-export declare type AccountStatusSlots = typeof __propDef.slots;
+export type AccountStatusProps = typeof __propDef.props;
+export type AccountStatusEvents = typeof __propDef.events;
+export type AccountStatusSlots = typeof __propDef.slots;
 export default class AccountStatus extends SvelteComponentTyped<AccountStatusProps, AccountStatusEvents, AccountStatusSlots> {
 }
 export {};

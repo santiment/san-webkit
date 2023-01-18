@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type SavedCardProps = typeof __propDef.props;
-export declare type SavedCardEvents = typeof __propDef.events;
-export declare type SavedCardSlots = typeof __propDef.slots;
+export type SavedCardProps = typeof __propDef.props;
+export type SavedCardEvents = typeof __propDef.events;
+export type SavedCardSlots = typeof __propDef.slots;
 export default class SavedCard extends SvelteComponentTyped<SavedCardProps, SavedCardEvents, SavedCardSlots> {
 }
 export {};

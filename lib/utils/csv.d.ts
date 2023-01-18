@@ -1,4 +1,4 @@
-declare type Header<T> = {
+type Header<T> = {
     title: string;
     format: (item: T) => string | number;
 };

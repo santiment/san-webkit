@@ -7,9 +7,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type EditDialogProps = typeof __propDef.props;
-export declare type EditDialogEvents = typeof __propDef.events;
-export declare type EditDialogSlots = typeof __propDef.slots;
+export type EditDialogProps = typeof __propDef.props;
+export type EditDialogEvents = typeof __propDef.events;
+export type EditDialogSlots = typeof __propDef.slots;
 export default class EditDialog extends SvelteComponentTyped<EditDialogProps, EditDialogEvents, EditDialogSlots> {
 }
 export {};

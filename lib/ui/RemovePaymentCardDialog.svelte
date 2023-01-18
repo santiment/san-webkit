@@ -10,7 +10,6 @@ import { paymentCard$ } from './../stores/paymentCard';
 export let DialogPromise;
 let closeDialog;
 let loading = false;
-
 function onClick() {
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;
@@ -29,7 +28,7 @@ function onClick() {
     <div class="h4 txt-m row v-center mrg-m mrg--b">
       Do you want to remove this card?
 
-      <Svg id="close" class="btn mrg-a mrg--l close-3ummR6" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-nnKZHN" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -51,7 +50,7 @@ function onClick() {
     max-width: 480px;
   }
 
-  :global(.close-3ummR6) {
+  :global(.close-nnKZHN) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

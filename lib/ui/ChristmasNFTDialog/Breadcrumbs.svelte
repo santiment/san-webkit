@@ -2,7 +2,6 @@
 import Svg from './../../ui/Svg/svelte';
 import { Page } from './types';
 export let page;
-
 function changePage(newPage) {
   if (newPage === page) return;
   trackNftBattleGameDetailsPage(newPage, 'breadcrumbs', page);

@@ -6,9 +6,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type AcademyProps = typeof __propDef.props;
-export declare type AcademyEvents = typeof __propDef.events;
-export declare type AcademySlots = typeof __propDef.slots;
+export type AcademyProps = typeof __propDef.props;
+export type AcademyEvents = typeof __propDef.events;
+export type AcademySlots = typeof __propDef.slots;
 export default class Academy extends SvelteComponentTyped<AcademyProps, AcademyEvents, AcademySlots> {
 }
 export {};

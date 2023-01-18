@@ -1,12 +1,11 @@
 <script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte'; // import Breadcrumbs from './Breadcrumbs.svelte'
-
+import Svg from './../../ui/Svg/svelte';
+// import Breadcrumbs from './Breadcrumbs.svelte'
 import { Page } from './types';
 import Aside from './Aside.svelte';
 export let page;
 export let title;
 export let insights = [];
-
 function changePage(newPage) {
   trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page);
   page = newPage;
@@ -28,7 +27,7 @@ function changePage(newPage) {
             class:disabled={page < Page.Top}
             on:click={() => changePage(page - 1)}
           >
-            <Svg id="pointer" w="14" h="8" class="back-3Y99t6" />
+            <Svg id="pointer" w="14" h="8" class="back-X0jdrk" />
             Back
           </button>
 
@@ -70,6 +69,6 @@ main {
   fill: var(--mystic);
 }
 
-:global(.back-3Y99t6) {
+:global(.back-X0jdrk) {
   transform: rotate(180deg);
 }</style>

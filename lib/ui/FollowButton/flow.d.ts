@@ -1,7 +1,7 @@
 export declare const EVENT = "FOLLOW_CLICKED";
 export declare const ANON_EVENT = "ANON_FOLLOW_CLICKED";
-declare type Id = number | string;
-export declare type CurrentUser = {
+type Id = number | string;
+export type CurrentUser = {
     following: {
         users: {
             id: Id;

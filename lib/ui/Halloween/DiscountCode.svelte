@@ -3,7 +3,6 @@ let className = '';
 export { className as class };
 export let discount;
 let copyLabel = 'Copy discount';
-
 function onCopy(e) {
   e.preventDefault();
   copyLabel = 'Copied!';

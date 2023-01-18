@@ -8,7 +8,7 @@ export let placeholderWidth = 16;</script>
   {#if src}
     <img alt="A" {src} loading="lazy" />
   {:else}
-    <Svg id="user" w={placeholderWidth} class="svg-2-0cqT" />
+    <Svg id="user" w={placeholderWidth} class="svg-3GRb59" />
   {/if}
   <slot />
 </div>
@@ -31,7 +31,7 @@ export let placeholderWidth = 16;</script>
     fill: var(--img-fill, var(--waterloo));
   }
 
-  :global(.svg-2-0cqT) {
+  :global(.svg-3GRb59) {
     max-width: 50%;
     min-width: 0 !important;
   }

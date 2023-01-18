@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type SpecialOfferDiscountProps = typeof __propDef.props;
-export declare type SpecialOfferDiscountEvents = typeof __propDef.events;
-export declare type SpecialOfferDiscountSlots = typeof __propDef.slots;
+export type SpecialOfferDiscountProps = typeof __propDef.props;
+export type SpecialOfferDiscountEvents = typeof __propDef.events;
+export type SpecialOfferDiscountSlots = typeof __propDef.slots;
 export default class SpecialOfferDiscount extends SvelteComponentTyped<SpecialOfferDiscountProps, SpecialOfferDiscountEvents, SpecialOfferDiscountSlots> {
 }
 export {};

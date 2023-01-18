@@ -1,16 +1,23 @@
-<script>import { getSEOLinkFromIdAndTitle } from './../../utils/url';
+<script>import Svg from './../../ui/Svg/svelte';
+import { getSEOLinkFromIdAndTitle } from './../../utils/url';
+import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+import { showIntercom } from './../../ui/HelpFeedback.svelte';
 import Check from './Check.svelte';
 import clockSvg from './clock.svg';
-import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+import presentSvg from './present.svg';
 export let insights = [];
-
+export let isNftWinner = false;
 $: hasInsights = insights.length > 0;</script>
 
-<aside>
+<aside class="column">
   <div class="header txt-center">
-    <img src={clockSvg} alt="Aside" class="mrg-xl mrg--b" />
+    <img src={isNftWinner ? presentSvg : clockSvg} alt="Aside" class="mrg-xl mrg--b" />
     <h3 class="body-1 txt-m">
-      {hasInsights ? 'Wooo! Your Insight is in the Battle!' : 'Welcome to the NFT battle!'}
+      {#if isNftWinner}
+        You’ve won an NFT!
+      {:else}
+        {hasInsights ? 'Wooo! Your Insight is in the Battle!' : 'Welcome to the NFT battle!'}
+      {/if}
     </h3>
   </div>
 
@@ -34,6 +41,17 @@ $: hasInsights = insights.length > 0;</script>
         </a>
       </div>
     {/each}
+
+    <div class="question border row txt-m mrg-a mrg--t">
+      <Svg id="chat" w="14" h="16" class="question-icon-zuE3KW" />
+
+      <div>
+        Have questions?
+        <br />
+
+        <button class="btn-0 txt-r mrg-xs mrg--t" on:click={showIntercom}>Contact us</button>
+      </div>
+    </div>
   {:else}
     <p class="c-fiord">
       To participate in the battle,
@@ -61,7 +79,7 @@ $: hasInsights = insights.length > 0;</script>
   }
 
   .header {
-    width: 155px;
+    width: 159px;
     margin: 0 auto 40px;
   }
 
@@ -70,5 +88,15 @@ $: hasInsights = insights.length > 0;</script>
     --check-fill: var(--green);
     z-index: 2;
     gap: 10px;
+  }
+
+  .question {
+    fill: var(--casper);
+    padding: 12px 16px;
+    border-radius: 6px;
+  }
+
+  :global(.question-icon-zuE3KW) {
+    margin: 3px 10px 0px 0;
   }
 </style>

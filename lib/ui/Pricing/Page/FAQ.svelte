@@ -1,7 +1,5 @@
 <script>import Svg from './../../../ui/Svg/svelte';
-
 const link = (content, href = content) => `<a href="${href}" target="_blank" rel="noopener noreferrer" class="link-pointer">${content}</a>`;
-
 const QA = [{
   question: 'Can I cancel my paid subscription at any time?',
   answer: 'Yes! A subscription can either be paid for a month or a year in advance. During this time period, you can cancel your subscription at any point. This will let you use your Pro status for the rest of your billing period without any changes.'
@@ -13,7 +11,6 @@ const QA = [{
   answer: `Our ${link('Santiment Academy', 'https://academy.santiment.net/')} is aimed to answer many of your initial questions. But please do not hesitate to contact us, either! You should see a chat icon in the lower right corner of this screen. Click it and you'll have the chance to chat with one of us right away. Both our team and our community are available on Discord, too: ${link('https://santiment.net/discord')}`
 }];
 let opened = new Set();
-
 function onClick({
   currentTarget
 }) {
@@ -21,12 +18,10 @@ function onClick({
   if (opened.has(question)) opened.delete(question);else opened.add(question);
   opened = opened;
 }
-
 function opening(node) {
   node.style.height = node.firstChild.offsetHeight + 16 + 'px';
   node.style.opacity = 1;
 }
-
 function closing(node) {
   node.style.height = 0;
   node.style.opacity = 0;
@@ -49,7 +44,7 @@ function closing(node) {
     >
       {question}
 
-      <Svg id="arrow-down" w="14" h="8" class={'arrow-HMS-eY'} />
+      <Svg id="arrow-down" w="14" h="8" class={'arrow-AjCMeS'} />
     </div>
 
     {#if isOpened}
@@ -90,13 +85,13 @@ function closing(node) {
   opacity: 0;
 }
 
-:global(.arrow-HMS-eY) {
+:global(.arrow-AjCMeS) {
   transition: 0.25s transform;
 }
 
 .opened {
   background: none;
 }
-.opened :global(.arrow-HMS-eY) {
+.opened :global(.arrow-AjCMeS) {
   transform: rotate(-180deg);
 }</style>

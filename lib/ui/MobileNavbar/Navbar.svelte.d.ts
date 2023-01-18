@@ -33,9 +33,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type NavbarProps = typeof __propDef.props;
-export declare type NavbarEvents = typeof __propDef.events;
-export declare type NavbarSlots = typeof __propDef.slots;
+export type NavbarProps = typeof __propDef.props;
+export type NavbarEvents = typeof __propDef.events;
+export type NavbarSlots = typeof __propDef.slots;
 export default class Navbar extends SvelteComponentTyped<NavbarProps, NavbarEvents, NavbarSlots> {
 }
 export {};

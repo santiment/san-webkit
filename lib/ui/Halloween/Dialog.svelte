@@ -13,16 +13,12 @@ let title = 'Enjoy your 27% off discount!';
 let description = "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!";
 let buttonText = 'Let’s go!';
 let padding = 18;
-
 $: ({
   pages,
   code
 } = $halloweenData$);
-
 $: pages, code, setContent();
-
 $: hasDiscount = pages.size === 3;
-
 function setContent() {
   if (code) {
     title = 'Congratulations';
@@ -31,9 +27,7 @@ function setContent() {
     padding = 22;
     return;
   }
-
   if (pages.size === 0) return;
-
   if (pages.size === 3) {
     title = 'Congratulations';
     description = 'on collecting all three pumpkins! This promo code is available between now and November 5th!';
@@ -41,7 +35,6 @@ function setContent() {
     padding = 22;
     return;
   }
-
   const [collectedAmount, remainingAmount] = pages.size === 1 ? ['One', 'Two'] : ['Two', 'One'];
   title = `${collectedAmount} Down, ${remainingAmount} to Go!`;
   description = `Great job! You have collected ${collectedAmount.toLowerCase()} pumpkin${pages.size > 1 ? 's' : ''}, and there are ${remainingAmount.toLowerCase()} left. Collect three and receive your 27% off discount off all Santiment products!`;
@@ -49,7 +42,7 @@ function setContent() {
   padding = 30;
 }</script>
 
-<Dialog {...$$props} noTitle bind:closeDialog class="dialog-2uG7Yq">
+<Dialog {...$$props} noTitle bind:closeDialog class="dialog-380IiQ">
   <button class="btn close" on:click={closeDialog}>
     <Svg id="close" w="16" />
   </button>
@@ -66,7 +59,7 @@ function setContent() {
       class="discount"
     />
   {:else}
-    <FlamePumpkin class="flame-pumpkin-7cyJPi" />
+    <FlamePumpkin class="flame-pumpkin-TJ+yTS" />
   {/if}
   <div class="column hv-center txt-center">
     <h4 class="h4 txt-m mrg-s mrg--b">{title}</h4>
@@ -74,7 +67,7 @@ function setContent() {
       {description}
     </p>
     {#if hasDiscount || code}
-      <DiscountCode class="copy-1UpxQV" discount={code || 'SANHALLOWEEN2022'} />
+      <DiscountCode class="copy-gPfwbj" discount={code || 'SANHALLOWEEN2022'} />
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange body-2"
@@ -93,7 +86,7 @@ function setContent() {
   </div>
 </Dialog>
 
-<style >:global(.dialog-2uG7Yq) {
+<style >:global(.dialog-380IiQ) {
   width: 480px;
   padding: 113px 40px 32px;
 }
@@ -112,7 +105,7 @@ function setContent() {
   height: 62px;
 }
 
-:global(.flame-pumpkin-7cyJPi) {
+:global(.flame-pumpkin-TJ\+yTS) {
   position: absolute;
   top: -28px;
   left: calc(50% - 58px);
@@ -127,7 +120,7 @@ function setContent() {
   padding: 8px 28px;
 }
 
-:global(.copy-1UpxQV) {
+:global(.copy-gPfwbj) {
   padding: 8px 69px;
   margin: -8px 0 24px;
 }</style>

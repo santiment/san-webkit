@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type HeaderProps = typeof __propDef.props;
-export declare type HeaderEvents = typeof __propDef.events;
-export declare type HeaderSlots = typeof __propDef.slots;
+export type HeaderProps = typeof __propDef.props;
+export type HeaderEvents = typeof __propDef.events;
+export type HeaderSlots = typeof __propDef.slots;
 export default class Header extends SvelteComponentTyped<HeaderProps, HeaderEvents, HeaderSlots> {
 }
 export {};

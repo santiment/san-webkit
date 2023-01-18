@@ -17,9 +17,9 @@ declare class __sveltets_Render<T> {
         loader: {};
     };
 }
-export declare type ScrollPaginationProps<T> = ReturnType<__sveltets_Render<T>['props']>;
-export declare type ScrollPaginationEvents<T> = ReturnType<__sveltets_Render<T>['events']>;
-export declare type ScrollPaginationSlots<T> = ReturnType<__sveltets_Render<T>['slots']>;
+export type ScrollPaginationProps<T> = ReturnType<__sveltets_Render<T>['props']>;
+export type ScrollPaginationEvents<T> = ReturnType<__sveltets_Render<T>['events']>;
+export type ScrollPaginationSlots<T> = ReturnType<__sveltets_Render<T>['slots']>;
 export default class ScrollPagination<T> extends SvelteComponentTyped<ScrollPaginationProps<T>, ScrollPaginationEvents<T>, ScrollPaginationSlots<T>> {
     get reset(): () => void;
 }

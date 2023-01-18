@@ -23,9 +23,9 @@ declare const __propDef: {
         };
     };
 };
-export declare type SearchableProps = typeof __propDef.props;
-export declare type SearchableEvents = typeof __propDef.events;
-export declare type SearchableSlots = typeof __propDef.slots;
+export type SearchableProps = typeof __propDef.props;
+export type SearchableEvents = typeof __propDef.events;
+export type SearchableSlots = typeof __propDef.slots;
 export default class Searchable extends SvelteComponentTyped<SearchableProps, SearchableEvents, SearchableSlots> {
 }
 export {};

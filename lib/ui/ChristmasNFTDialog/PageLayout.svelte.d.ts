@@ -4,7 +4,7 @@ declare const __propDef: {
     props: {
         page: Page;
         title: string;
-        insights?: never[] | undefined;
+        insights?: any[] | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
@@ -13,9 +13,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export declare type PageLayoutProps = typeof __propDef.props;
-export declare type PageLayoutEvents = typeof __propDef.events;
-export declare type PageLayoutSlots = typeof __propDef.slots;
+export type PageLayoutProps = typeof __propDef.props;
+export type PageLayoutEvents = typeof __propDef.events;
+export type PageLayoutSlots = typeof __propDef.slots;
 export default class PageLayout extends SvelteComponentTyped<PageLayoutProps, PageLayoutEvents, PageLayoutSlots> {
 }
 export {};

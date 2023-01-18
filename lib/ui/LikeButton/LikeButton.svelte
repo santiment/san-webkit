@@ -15,14 +15,12 @@ let moonNode;
 let mooned = false;
 let timer;
 let votingInterval;
-
 function startVote(e) {
-  if (disabled) return; // Checking right button mouse click
-
+  if (disabled) return;
+  // Checking right button mouse click
   if (e.button === 2) {
     return;
   }
-
   clearTimeout(timer);
   clearInterval(votingInterval);
   vote();
@@ -31,32 +29,26 @@ function startVote(e) {
     once: true
   });
 }
-
 function vote() {
   if (userVotes < maxVotesPerUser) {
     userVotes += 1;
     totalVotes += 1;
     onVote();
   }
-
   resetAnimation(rocketNode);
   resetAnimation(rocketNode.lastChild);
   if (mooned && moonNode) resetAnimation(moonNode);
   mooned = true;
 }
-
 function stopVote() {
   clearInterval(votingInterval);
   timer = window.setTimeout(() => mooned = false, 1000);
 }
-
 function resetAnimation(node) {
   node.style.animation = 'none';
   node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-
   node.style.animation = '';
 }
-
 onDestroy(() => {
   clearTimeout(timer);
   clearInterval(votingInterval);

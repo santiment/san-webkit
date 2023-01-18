@@ -1,6 +1,6 @@
 import { SvelteComponentTyped } from "svelte";
-declare type OnSubmit = (value: string) => Promise<SAN.Comment>;
-declare type Props = {
+type OnSubmit = (value: string) => Promise<SAN.Comment>;
+type Props = {
     title: string;
     value?: string;
     label?: string;
@@ -21,9 +21,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type CommentFormDialogProps = typeof __propDef.props;
-export declare type CommentFormDialogEvents = typeof __propDef.events;
-export declare type CommentFormDialogSlots = typeof __propDef.slots;
+export type CommentFormDialogProps = typeof __propDef.props;
+export type CommentFormDialogEvents = typeof __propDef.events;
+export type CommentFormDialogSlots = typeof __propDef.slots;
 export default class CommentFormDialog extends SvelteComponentTyped<CommentFormDialogProps, CommentFormDialogEvents, CommentFormDialogSlots> {
 }
 export {};

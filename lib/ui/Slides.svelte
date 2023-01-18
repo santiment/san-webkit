@@ -3,7 +3,6 @@ export { className as class };
 export let amount = 1;
 export let active = 0;
 let node;
-
 function onScroll({
   currentTarget
 }) {
@@ -14,13 +13,11 @@ function onScroll({
   const sectionWidth = scrollWidth / amount;
   active = Math.round(scrollLeft / sectionWidth);
 }
-
 const SCROLL_OPTIONS = {
   behavior: 'smooth',
   block: 'nearest',
   inline: 'nearest'
 };
-
 function onClick({
   currentTarget
 }) {

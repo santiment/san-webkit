@@ -18,18 +18,14 @@ export let onActionClick = () => {
     source: 'account-subscription-suggestions'
   });
 };
-
 $: ({
   name
 } = plan);
-
 $: annual = checkIsYearlyPlan(plan) ? ' / Annual' : '';
-
 $: ({
   billing,
   price
 } = getBillingPrice(plan, altPlan, annual));
-
 function getBillingPrice(plan, altPlan, annual) {
   if (plan === altPlan) {
     return {
@@ -37,7 +33,6 @@ function getBillingPrice(plan, altPlan, annual) {
       billing: `Billed ${plan.interval}ly`
     };
   }
-
   return {
     price: formatMonthlyPrice(plan, discount),
     billing: annual ? `You save ${getSavedAmount(plan, altPlan, discount)} this year` : 'Billed monthly'

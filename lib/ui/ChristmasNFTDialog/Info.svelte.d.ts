@@ -1,23 +1,18 @@
-/** @typedef {typeof __propDef.props}  InfoProps */
-/** @typedef {typeof __propDef.events}  InfoEvents */
-/** @typedef {typeof __propDef.slots}  InfoSlots */
-export default class Info extends SvelteComponentTyped<{
-    [x: string]: never;
-}, {
-    [evt: string]: CustomEvent<any>;
-}, {}> {
-}
-export type InfoProps = typeof __propDef.props;
-export type InfoEvents = typeof __propDef.events;
-export type InfoSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
+import type { CurrentUser } from './types';
 declare const __propDef: {
     props: {
-        [x: string]: never;
+        isNftWinner?: boolean | undefined;
+        currentUser: CurrentUser | null;
     };
     events: {
         [evt: string]: CustomEvent<any>;
     };
     slots: {};
 };
+export type InfoProps = typeof __propDef.props;
+export type InfoEvents = typeof __propDef.events;
+export type InfoSlots = typeof __propDef.slots;
+export default class Info extends SvelteComponentTyped<InfoProps, InfoEvents, InfoSlots> {
+}
 export {};

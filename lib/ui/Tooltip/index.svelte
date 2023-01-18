@@ -26,27 +26,20 @@ export { _static as static };
 const transition = {
   duration
 };
-
 const setTrigger = value => trigger = value;
-
 let anchor;
 let tooltip;
 let timer;
 let openTimer;
-
 $: if (!passive && trigger) {
   if (isEnabled) trigger.addEventListener(on, startOpenTimer);else {
     trigger.removeEventListener(on, startOpenTimer);
     if (!_static) isOpened = false;
   }
 }
-
 $: activeClass && trigger && trigger.classList.toggle(activeClass, isOpened);
-
 $: tooltip && hookTooltip();
-
 $: tooltip && trigger && updateTooltipPosition();
-
 $: if (trigger) {
   if (isEnabled && (isOpened || openTimer)) {
     trigger.addEventListener('mouseleave', closeTooltip);
@@ -54,25 +47,20 @@ $: if (trigger) {
     trigger.removeEventListener('mouseleave', closeTooltip);
   }
 }
-
 const stopCloseTimer = () => clearTimeout(timer);
-
 onMount(() => {
   if (!anchor) return;
   trigger = anchor.nextElementSibling;
 });
 onDestroy(destroy);
-
 function destroy() {
   if (process.browser) {
     window.clearTimeout(openTimer);
     window.clearTimeout(timer);
   }
-
   openTimer = undefined;
   isOpened = false;
 }
-
 function startOpenTimer() {
   if (openDelay) {
     openTimer = window.setTimeout(openTooltip, openDelay);
@@ -80,7 +68,6 @@ function startOpenTimer() {
     openTooltip();
   }
 }
-
 function startCloseTimer() {
   if (openTimer) {
     window.clearTimeout(openTimer);
@@ -89,25 +76,20 @@ function startCloseTimer() {
     timer = window.setTimeout(close, closeTimeout);
   }
 }
-
 function close() {
   isOpened = false;
   timer = undefined;
 }
-
 function openTooltip() {
   stopCloseTimer();
   isOpened = true;
   openTimer = undefined;
 }
-
 function closeTooltip() {
   startCloseTimer();
 }
-
 function hookTooltip() {
   var _a;
-
   if (!tooltip) return;
   if (passive) (_a = trigger === null || trigger === void 0 ? void 0 : trigger.parentNode) === null || _a === void 0 ? void 0 : _a.append(tooltip);
   if (!isEnabled) return;
@@ -115,7 +97,6 @@ function hookTooltip() {
   tooltip.onmouseleave = closeTimeout ? closeTooltip : null;
   window.addEventListener('touchend', onTouchEnd);
 }
-
 function updateTooltipPosition() {
   if (!tooltip) return;
   const {
@@ -125,14 +106,12 @@ function updateTooltipPosition() {
   tooltip.style.left = left + 'px';
   tooltip.style.top = top - ((scrollParent === null || scrollParent === void 0 ? void 0 : scrollParent.scrollTop) || 0) + 'px';
 }
-
 function onTouchEnd({
   target
 }) {
   if (target === trigger || target.closest('[slot="tooltip"]') || (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
     return;
   }
-
   window.removeEventListener('touchend', onTouchEnd);
   close();
 }</script>

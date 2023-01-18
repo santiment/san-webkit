@@ -11,7 +11,6 @@ const {
   postfix = ''
 } = feature;
 const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : '';
-
 function getValue(value) {
   return value !== undefined ? value : defaultValue;
 }</script>
@@ -24,7 +23,7 @@ function getValue(value) {
       align="center"
       offsetY={4}
       closeTimeout={0}
-      activeClass="opened-2s7WSG"
+      activeClass="opened-0XrrUK"
     >
       <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
         <Svg id="info" w="12" />
@@ -69,7 +68,7 @@ function getValue(value) {
   color: var(--black);
 }
 
-:global(.opened-2s7WSG) {
+:global(.opened-0XrrUK) {
   --bg: var(--athens);
   fill: var(--black) !important;
 }</style>

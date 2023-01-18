@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type PayerInfoProps = typeof __propDef.props;
-export declare type PayerInfoEvents = typeof __propDef.events;
-export declare type PayerInfoSlots = typeof __propDef.slots;
+export type PayerInfoProps = typeof __propDef.props;
+export type PayerInfoEvents = typeof __propDef.events;
+export type PayerInfoSlots = typeof __propDef.slots;
 export default class PayerInfo extends SvelteComponentTyped<PayerInfoProps, PayerInfoEvents, PayerInfoSlots> {
 }
 export {};

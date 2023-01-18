@@ -10,9 +10,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type MoonProps = typeof __propDef.props;
-export declare type MoonEvents = typeof __propDef.events;
-export declare type MoonSlots = typeof __propDef.slots;
+export type MoonProps = typeof __propDef.props;
+export type MoonEvents = typeof __propDef.events;
+export type MoonSlots = typeof __propDef.slots;
 export default class Moon extends SvelteComponentTyped<MoonProps, MoonEvents, MoonSlots> {
 }
 export {};

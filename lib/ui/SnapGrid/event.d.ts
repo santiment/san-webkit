@@ -1,5 +1,5 @@
 import { Handlers, SnapGridController, SnapItem } from './types';
-export declare type DraggableCtx = {
+export type DraggableCtx = {
     pageX: number;
     pageY: number;
     xDiff: number;
@@ -8,7 +8,7 @@ export declare type DraggableCtx = {
     dropzoneNode: HTMLElement;
     draggedItem: SnapItem;
 };
-declare type DragController = {
+type DragController = {
     onMove: (e: MouseEvent) => void;
     onEnd?: () => void;
 };

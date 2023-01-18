@@ -3,6 +3,7 @@
 /** @typedef {typeof __propDef.slots}  AsideSlots */
 export default class Aside extends SvelteComponentTyped<{
     insights?: any[] | undefined;
+    isNftWinner?: boolean | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -14,6 +15,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         insights?: any[] | undefined;
+        isNftWinner?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

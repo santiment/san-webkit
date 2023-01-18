@@ -1,13 +1,11 @@
 <script context="module">import { dialogs } from './../../ui/Dialog';
 import ShareDialog from './Dialog.svelte';
 export var SHARE_TYPE;
-
 (function (SHARE_TYPE) {
   SHARE_TYPE["Watchlist"] = "watchlist";
   SHARE_TYPE["Alert"] = "alert";
   SHARE_TYPE["Chart"] = "chart";
 })(SHARE_TYPE || (SHARE_TYPE = {}));
-
 const SECRET_LINK_TAG = '__SECRET_LINK_TAG__';
 const SECRET_TEXT_TAG = '__SECRET_TEXT_TAG__';
 export const MEDIA_LINKS = [{
@@ -43,21 +41,19 @@ let copyLabel = 'Copy';
 let isPublic = false;
 const encodedText = encodeURIComponent(shareText);
 const encodedLink = encodeURIComponent(shareLink);
-
 $: disabled = shareType && !isPublic;
-
 function onCopy() {
   copyLabel = 'Copied!';
   copy(shareLink, () => copyLabel = 'Copy', 1500);
 }</script>
 
-<Dialog {...$$props} title="Share" titleClassName="title-3fFNXi body-2 txt-m">
+<Dialog {...$$props} title="Share" titleClassName="title-uSdJ9d body-2 txt-m">
   <section class="body-2">
     {#if shareType}
       <div class="privacy">
         {#if !isPublic}
           <div class="row info body-3 mrg-m mrg--b">
-            <Svg id="warning" w="16" h="14" class="info-icon-3N9p0v mrg-s mrg--r" />
+            <Svg id="warning" w="16" h="14" class="info-icon-cOgDH_ mrg-s mrg--r" />
             Your watchlist is private. To able to share, please, switch it to “Public” first
           </div>
         {/if}
@@ -73,7 +69,7 @@ function onCopy() {
       aria-label={copyLabel}
       on:click|preventDefault={onCopy}
     >
-      <Svg id="link" w="16" class="copy-icon-1JbsJl mrg-m mrg--r" />
+      <Svg id="link" w="16" class="copy-icon-AqCjzz mrg-m mrg--r" />
 
       Copy link
     </button>
@@ -92,7 +88,7 @@ function onCopy() {
             class="media row hv-center mrg-m mrg--r"
             style="background: {disabled ? 'var(--mystic)' : background}"
           >
-            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon--1vMGU" />
+            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-pakB6l" />
           </div>
           {title}
         </a>
@@ -101,7 +97,7 @@ function onCopy() {
   </section>
 </Dialog>
 
-<style >:global(.title-3fFNXi) {
+<style >:global(.title-uSdJ9d) {
   padding: 12px 30px 12px 20px;
   color: var(--fiord);
   background: var(--whale);
@@ -133,7 +129,7 @@ a:active {
   border-radius: 6px;
 }
 
-:global(.info-icon-3N9p0v) {
+:global(.info-icon-cOgDH_) {
   fill: var(--orange-hover);
   margin-top: 4px;
 }
@@ -150,11 +146,11 @@ a:active {
   margin-bottom: 20px;
 }
 
-.disabled :global(.copy-icon-1JbsJl) {
+.disabled :global(.copy-icon-AqCjzz) {
   fill: var(--porcelain);
 }
 
-:global(.copy-icon-1JbsJl) {
+:global(.copy-icon-AqCjzz) {
   fill: var(--waterloo);
 }
 
@@ -178,6 +174,6 @@ a:active {
   border-radius: 100%;
 }
 
-:global(.media-icon--1vMGU) {
+:global(.media-icon-pakB6l) {
   fill: var(--white);
 }</style>

@@ -15,7 +15,6 @@ export { onFormSubmit as onSubmit };
 let closeDialog;
 let loading = false;
 let editor;
-
 function onSubmit() {
   if (loading) return;
   loading = true;
@@ -33,7 +32,7 @@ function onSubmit() {
       isComments
       bind:editor
       html={value}
-      class="input input-6TfkcO"
+      class="input input-rfcU8d"
       placeholder="Type your comment here" />
 
     <div class="row v-center mrg-l mrg--t">
@@ -47,7 +46,7 @@ function onSubmit() {
 </Dialog>
 
 <style>
-  :global(.input-6TfkcO) {
+  :global(.input-rfcU8d) {
     padding: 9px 12px;
     min-height: 40px;
     width: 400px;

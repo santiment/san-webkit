@@ -3,7 +3,7 @@ import Tooltip from './../../ui/Tooltip/svelte';
 import Products from './Products.svelte';
 let className = '';
 export { className as class };
-export let activeClass = 'opened-2-HZV_';
+export let activeClass = 'opened-cPgNgb';
 export let dropdownClassName = '';
 export let tooltipClass = '';
 export let isCompact = false;
@@ -32,7 +32,7 @@ export let closeTimeout = undefined;</script>
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }
-  :global(.opened-2-HZV_) {
+  :global(.opened-cPgNgb) {
     fill: var(--green);
   }
 </style>

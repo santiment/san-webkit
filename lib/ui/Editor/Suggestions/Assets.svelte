@@ -15,9 +15,7 @@ queryProjects().then(data => {
   projects = data;
   loading = false;
 });
-
 $: projects, onInput(searchTerm);
-
 function onInput(searchTerm) {
   const value = searchTerm.toLowerCase();
   items = projects.filter(({
