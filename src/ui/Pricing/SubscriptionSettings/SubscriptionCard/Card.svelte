@@ -161,6 +161,13 @@
   :global(.phone) {
     .actions {
       --margin: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .btn-2:not(:first-child) {
+        margin-left: 0;
+        margin-top: 8px;
+      }
     }
 
     .label {
