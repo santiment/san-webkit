@@ -36,7 +36,7 @@
   onSubactionClick={isCancelled ? undefined : showCancelSubscriptionDialog}
   shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
-  <p class="body-2">
+  <p>
     {#if isPaidPlan}
       {#if isCancelled}
         Subscription is scheduled for <b>cancellation</b> at the end of the paid period:
@@ -66,7 +66,15 @@
   </p>
 </PlanCard>
 
-<style>
+<style lang="scss">
+  :global(.phone),
+  :global(.phone-xs) {
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+
   b {
     font-weight: 500;
   }

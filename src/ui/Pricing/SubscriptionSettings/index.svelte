@@ -86,7 +86,7 @@
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="$style.cancel body-2 justify">
+    <Setting class="$style.cancel justify">
       <div>
         Cancel subscription
         <div class="c-waterloo info">
@@ -99,7 +99,7 @@
     </Setting>
   {/if}
 
-  <Setting class="$style.payment-method justify">
+  <Setting class="$style.setting-mobile justify">
     <div>
       Payment method
 
@@ -120,13 +120,13 @@
         <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
       {/if}
 
-      <button class="btn-2 body-2" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2 second-btn" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
   </Setting>
 
-  <Setting class="$style.history justify">
+  <Setting class="$style.setting-mobile justify">
     <div>
       Billing history
       <p class="overview c-waterloo">Shows an overview of all charges issued for your account</p>
@@ -183,7 +183,7 @@
     margin-top: 6px;
   }
 
-  .txt-right .btn-2:not(:first-child) {
+  .second-btn {
     margin-left: 12px;
   }
 
@@ -198,30 +198,24 @@
       --margin: 6px;
     }
 
-    .payment-method {
+    .setting-mobile {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-
-      .txt-right {
-        margin-top: 12px;
-        display: flex;
-        align-items: center;
-      }
-
-      .btn-2 {
-        --v-padding: 7px;
-      }
     }
 
-    .history {
+    .txt-right {
+      margin-top: 12px;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+    }
 
-      .nowrap {
-        margin-top: 12px;
-      }
+    .btn-2 {
+      --v-padding: 7px;
+    }
+
+    .nowrap {
+      margin-top: 12px;
     }
 
     .cancel {
@@ -236,6 +230,12 @@
       button {
         margin-top: 12px;
       }
+    }
+
+    .cancel,
+    .second-btn {
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 

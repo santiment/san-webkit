@@ -69,7 +69,7 @@
   badgeIcon={discount ? null : badgeIcon}
 >
   <slot>
-    <p class="body-2">
+    <p>
       {#if badge === 'Popular'}
         Get access to advanced crypto metrics, market insights and more!
       {:else}
@@ -85,3 +85,13 @@
     </p>
   </slot>
 </Card>
+
+<style lang="scss">
+  :global(.phone),
+  :global(.phone-xs) {
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+</style>

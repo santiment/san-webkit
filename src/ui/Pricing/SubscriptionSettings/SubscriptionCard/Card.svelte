@@ -24,7 +24,7 @@
 
 <article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
   <h4 class="label txt-m c-waterloo mrg-l mrg--b">{label}</h4>
-  <h2 class="h4 mrg-xs mrg--b c-rhino">{title}</h2>
+  <h2 class="h4 mrg-xs mrg--b">{title}</h2>
 
   <slot />
 
@@ -51,7 +51,7 @@
   <div class="actions row v-center mrg-xl mrg--t">
     <svelte:element
       this={link ? 'a' : 'button'}
-      class="btn-1 v-center body-2"
+      class="btn-1 v-center"
       class:disabled
       {...link}
       on:click={onActionClick}
@@ -64,7 +64,7 @@
     </svelte:element>
 
     {#if subaction && onSubactionClick}
-      <button class="btn-2 body-2" on:click={onSubactionClick}>{subaction}</button>
+      <button class="btn-2 subaction" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
 </article>
@@ -153,8 +153,18 @@
     --v-padding: 7px;
   }
 
-  .actions .btn-2:not(:first-child) {
+  .subaction {
     margin-left: 12px;
+  }
+
+  .billing {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .label {
+    font-size: 12px;
   }
 
   :global(.phone-xs),
@@ -164,24 +174,24 @@
       flex-direction: column;
       align-items: flex-start;
 
-      .btn-2:not(:first-child) {
-        margin-left: 0;
-        margin-top: 8px;
+      button,
+      a {
+        font-size: 16px;
+        line-height: 24px;
       }
+    }
+
+    .subaction {
+      margin-left: 0;
+      margin-top: 8px;
     }
 
     .label {
       transform: translateY(25%);
+      font-size: 16px;
     }
-  }
 
-  .billing {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
-
-    :global(.phone-xs) &,
-    :global(.phone) & {
+    .billing {
       position: static;
       text-align: left;
       display: flex;
