@@ -5,3 +5,5 @@ export enum Page {
   Reward,
   Info,
 }
+
+export type CurrentUser = { ethAccounts: string[] }

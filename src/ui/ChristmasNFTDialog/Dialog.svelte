@@ -1,10 +1,16 @@
 <script context="module" lang="ts">
+  import type { CurrentUser } from './types'
+
   import { dialogs } from '@/ui/Dialog'
   import { Preloader } from '@/utils/fn'
   import ChristmasNFTDialog from './Dialog.svelte'
   import { checkIsGameStarted, queryUserNftInsights, saveDialogClose } from './api'
 
-  export const showChristmasNFTDialog = (props?: any) => dialogs.showOnce(ChristmasNFTDialog, props)
+  export const showChristmasNFTDialog = (props?: {
+    page?: number
+    isNftWinner?: boolean
+    currentUser?: null | CurrentUser
+  }) => dialogs.showOnce(ChristmasNFTDialog, props)
 
   export const dataPreloader = Preloader(queryUserNftInsights)
 </script>
@@ -22,6 +28,9 @@
   import Info from './Info.svelte'
 
   export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
+  export let isNftWinner = false
+  export let currentUser: null | CurrentUser
+
   page = Page.Info
 
   let insights = [] as any[]
@@ -46,7 +55,7 @@
       Component: Reward,
     },
     [Page.Info]: {
-      title: 'Time’s Up ⌛️',
+      title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
       Component: Info,
     },
   }
@@ -73,7 +82,7 @@
   {:else}
     {@const { title, Component } = pages[page]}
     <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} bind:page />
+      <svelte:component this={Component} {insights} {isNftWinner} {currentUser} bind:page />
     </PageLayout>
   {/if}
 </Dialog>
