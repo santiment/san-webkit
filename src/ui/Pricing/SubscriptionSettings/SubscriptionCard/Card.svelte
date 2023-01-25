@@ -184,8 +184,7 @@
 
     .label {
       transform: translateY(2px);
-      font-size: 16px;
-      line-height: 24px;
+      font: var(--body-2);
     }
 
     .billing {
