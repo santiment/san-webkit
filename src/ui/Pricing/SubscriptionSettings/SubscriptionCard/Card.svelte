@@ -179,7 +179,8 @@
 
     .caption {
       transform: translateY(2px);
-      font: var(--body-2);
+      font-size: 14px;
+      line-height: 20px;
     }
 
     .billing {
@@ -187,6 +188,8 @@
       display: flex;
       align-items: center;
       margin-top: 12px;
+      font-size: 14px;
+      line-height: 20px;
     }
 
     .price {

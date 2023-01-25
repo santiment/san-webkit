@@ -117,10 +117,12 @@
 
     <div class="txt-right">
       {#if paymentCard}
-        <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
+        <button class="btn btn--red mrg-l mrg--r" on:click={showRemovePaymentCardDialog}
+          >Remove</button
+        >
       {/if}
 
-      <button class="btn-2 mrg-l mrg--l payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2 payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
@@ -185,14 +187,6 @@
 
   :global(.phone),
   :global(.phone-xs) {
-    .btn--red {
-      margin-right: 16px;
-    }
-
-    .c-waterloo {
-      color: var(--fiord);
-    }
-
     .btn-1 {
       width: 100%;
       margin-top: 8px;
@@ -228,6 +222,10 @@
 
     .nowrap {
       margin-top: 12px;
+    }
+
+    div.nowrap {
+      color: var(--fiord);
     }
 
     .payment-btn {
