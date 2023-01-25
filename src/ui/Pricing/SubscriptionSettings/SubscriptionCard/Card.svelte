@@ -23,7 +23,7 @@
 </script>
 
 <article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
-  <h4 class="label txt-m c-waterloo mrg-l mrg--b">{label}</h4>
+  <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 mrg-xs mrg--b">{title}</h2>
 
   <slot />
@@ -161,11 +161,6 @@
     right: 16px;
   }
 
-  .label {
-    font-size: 12px;
-    line-height: 16px;
-  }
-
   :global(.phone-xs),
   :global(.phone) {
     .actions {
@@ -182,7 +177,7 @@
       margin: 8px 0 0 0;
     }
 
-    .label {
+    .caption {
       transform: translateY(2px);
       font: var(--body-2);
     }

@@ -86,10 +86,10 @@
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="$style.setting-mobile justify">
+    <Setting class="$style.setting justify">
       <div>
         Cancel subscription
-        <div class="c-waterloo info">
+        <div class="c-waterloo description">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
@@ -99,7 +99,7 @@
     </Setting>
   {/if}
 
-  <Setting class="$style.setting-mobile justify">
+  <Setting class="$style.setting justify">
     <div>
       Payment method
 
@@ -120,16 +120,16 @@
         <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
       {/if}
 
-      <button class="btn-2 payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2 mrg-l mrg--l payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
   </Setting>
 
-  <Setting class="$style.setting-mobile justify">
+  <Setting class="$style.setting justify">
     <div>
       Billing history
-      <p class="overview c-waterloo">Shows an overview of all charges issued for your account</p>
+      <p class="description c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
     {#if isBillingLoading}
@@ -142,7 +142,7 @@
         Show history
       </button>
     {:else}
-      <div class="nowrap nohistory">No history yet</div>
+      <div class="nowrap c-waterloo">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -179,21 +179,17 @@
     gap: 16px;
   }
 
-  .overview {
+  .description {
     margin-top: 6px;
-  }
-
-  .second-btn {
-    margin-left: 12px;
-  }
-
-  .nohistory {
-    color: var(--waterloo);
   }
 
   :global(.phone),
   :global(.phone-xs) {
-    .nohistory {
+    .btn--red {
+      margin-right: 16px;
+    }
+
+    .c-waterloo {
       color: var(--fiord);
     }
 
@@ -206,13 +202,13 @@
       --margin: 6px;
     }
 
-    .setting-mobile {
+    .setting {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
 
-    .info {
+    .description {
       margin-top: 6px;
     }
 
@@ -234,7 +230,6 @@
       margin-top: 12px;
     }
 
-    .cancel,
     .payment-btn {
       font: var(--body-2);
     }
