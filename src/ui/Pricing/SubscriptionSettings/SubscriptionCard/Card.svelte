@@ -42,7 +42,7 @@
   {#if billing && !shouldHideBillingInfo}
     <div class="billing txt-m c-waterloo txt-right">
       {billing}:
-      <h4 class="h4 c-black">
+      <h4 class="h4 price c-black">
         {price}{#if discount}/mo{/if}
       </h4>
     </div>
@@ -193,10 +193,10 @@
       display: flex;
       align-items: center;
       margin-top: 12px;
+    }
 
-      h4 {
-        margin-left: 8px;
-      }
+    .price {
+      margin-left: 8px;
     }
   }
 </style>
