@@ -24,7 +24,7 @@
 
 <article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
-  <h2 class="h4 mrg-xs mrg--b">{title}</h2>
+  <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
 
   <slot />
 
@@ -40,9 +40,9 @@
   {/if}
 
   {#if billing && !shouldHideBillingInfo}
-    <div class="billing txt-m c-waterloo txt-right">
+    <div class="billing caption txt-m c-waterloo txt-right">
       {billing}:
-      <h4 class="h4 price c-black">
+      <h4 class="body-1 price c-black">
         {price}{#if discount}/mo{/if}
       </h4>
     </div>
@@ -163,6 +163,9 @@
 
   :global(.phone-xs),
   :global(.phone) {
+    h2 {
+      font-weight: 400;
+    }
     .actions {
       --margin: 16px;
       flex-direction: column;
@@ -177,8 +180,11 @@
       margin: 8px 0 0 0;
     }
 
-    .caption {
+    h4.caption {
       transform: translateY(2px);
+    }
+
+    .caption {
       font-size: 14px;
       line-height: 20px;
     }
