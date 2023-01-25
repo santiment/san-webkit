@@ -86,14 +86,14 @@
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="$style.cancel justify">
+    <Setting class="$style.setting-mobile justify">
       <div>
         Cancel subscription
         <div class="c-waterloo info">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="btn c-accent cancel-btn" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
       </button>
     </Setting>
@@ -120,7 +120,7 @@
         <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
       {/if}
 
-      <button class="btn-2 second-btn" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2 payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
@@ -142,7 +142,7 @@
         Show history
       </button>
     {:else}
-      <div class="c-fiord nowrap">No history yet</div>
+      <div class="nowrap nohistory">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -187,8 +187,16 @@
     margin-left: 12px;
   }
 
+  .nohistory {
+    color: var(--waterloo);
+  }
+
   :global(.phone),
   :global(.phone-xs) {
+    .nohistory {
+      color: var(--fiord);
+    }
+
     .btn-1 {
       width: 100%;
       margin-top: 8px;
@@ -202,6 +210,14 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+    }
+
+    .info {
+      margin-top: 6px;
+    }
+
+    .cancel-btn {
+      margin-top: 12px;
     }
 
     .txt-right {
@@ -218,24 +234,9 @@
       margin-top: 12px;
     }
 
-    .cancel {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-
-      .info {
-        margin-top: 6px;
-      }
-
-      button {
-        margin-top: 12px;
-      }
-    }
-
     .cancel,
-    .second-btn {
-      font-size: 16px;
-      line-height: 24px;
+    .payment-btn {
+      font: var(--body-2);
     }
   }
 

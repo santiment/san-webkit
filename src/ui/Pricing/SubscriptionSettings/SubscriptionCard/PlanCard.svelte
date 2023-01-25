@@ -90,8 +90,7 @@
   :global(.phone),
   :global(.phone-xs) {
     p {
-      font-size: 16px;
-      line-height: 24px;
+      font: var(--body-2);
     }
   }
 </style>

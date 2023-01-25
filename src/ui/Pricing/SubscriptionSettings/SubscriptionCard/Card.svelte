@@ -51,7 +51,7 @@
   <div class="actions row v-center mrg-xl mrg--t">
     <svelte:element
       this={link ? 'a' : 'button'}
-      class="btn-1 v-center"
+      class="btn-1 v-center btn-mobile"
       class:disabled
       {...link}
       on:click={onActionClick}
@@ -64,7 +64,9 @@
     </svelte:element>
 
     {#if subaction && onSubactionClick}
-      <button class="btn-2 subaction" on:click={onSubactionClick}>{subaction}</button>
+      <button class="btn-2 subaction btn-mobile mrg-m mrg--l" on:click={onSubactionClick}
+        >{subaction}</button
+      >
     {/if}
   </div>
 </article>
@@ -153,10 +155,6 @@
     --v-padding: 7px;
   }
 
-  .subaction {
-    margin-left: 12px;
-  }
-
   .billing {
     position: absolute;
     bottom: 16px;
@@ -165,6 +163,7 @@
 
   .label {
     font-size: 12px;
+    line-height: 16px;
   }
 
   :global(.phone-xs),
@@ -173,27 +172,24 @@
       --margin: 16px;
       flex-direction: column;
       align-items: flex-start;
+    }
 
-      button,
-      a {
-        font-size: 16px;
-        line-height: 24px;
-      }
+    .btn-mobile {
+      font: var(--body-2);
     }
 
     .subaction {
-      margin-left: 0;
-      margin-top: 8px;
+      margin: 8px 0 0 0;
     }
 
     .label {
-      transform: translateY(25%);
+      transform: translateY(2px);
       font-size: 16px;
+      line-height: 24px;
     }
 
     .billing {
       position: static;
-      text-align: left;
       display: flex;
       align-items: center;
       margin-top: 12px;
