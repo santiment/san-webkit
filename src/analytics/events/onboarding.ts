@@ -1,3 +1,4 @@
+import type { Tracker } from '../index'
 import type { LoginType } from './general'
 
 import { saveLoginMethod, TrackCategory } from './utils'
@@ -12,7 +13,8 @@ export function trackSignupStart(method: LoginType) {
   })
 }
 
-export const trackSignupFinish = (method: LoginType) => track('signup_finish', { method })
+export const trackSignupFinish = (method: LoginType, trackers?: Tracker[]) =>
+  track('signup_finish', { method }, trackers)
 
 export const trackGdprAccept = (accepted: boolean) =>
   track('gdpr_accept', { accepted, source_url: window.location.href })
