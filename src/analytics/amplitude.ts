@@ -18,6 +18,7 @@ export function updateAmplitude(
 
   const identity = new window.amplitude.Identify()
   identity.set('user_id', user_id)
+  identity.set('userId', user_id)
   identity.set('name', name)
   identity.set('email', email)
 
