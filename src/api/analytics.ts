@@ -1,5 +1,5 @@
-import { getDeviceId } from '@/analytics/device'
 import { query, mutate } from '@/api'
+import { getDeviceId } from '@/analytics/device'
 
 export const CURRENT_USER_QUERY = `
   {
