@@ -6,7 +6,7 @@
   let className = ''
   export { className as class }
   export let user: Pick<SAN.Author, 'id'>
-  export let currentUser: null | CurrentUser
+  export let currentUser: CurrentUser
   export let isFollowing = checkIsFollowing(currentUser, user.id)
 
   $: postfix = isFollowing ? 'ing' : ''
