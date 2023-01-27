@@ -12,7 +12,7 @@ export type CurrentUser = {
   }
 }
 
-export const checkIsFollowing = (currentUser: CurrentUser, userId: Id) =>
+export const checkIsFollowing = (currentUser: null | CurrentUser, userId: Id) =>
   currentUser && currentUser.following.users.some(({ id }) => +id === +userId)
 
 export function startFollowFlow(currentUser: CurrentUser, userId: Id) {

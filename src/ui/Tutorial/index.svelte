@@ -9,9 +9,7 @@
       You can click "Proposals" to view <br />
       your local unfinished proposals
     </p>
-    <button class="complete body-3 btn btn-2" on:click={onComplete}
-      >Got it</button
-    >
+    <button class="complete body-3 btn btn-2" on:click={onComplete}>Got it</button>
   </div>
 {/if}
 

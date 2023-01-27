@@ -19,7 +19,8 @@
   width={150}
   height={32}
   valueKey="marketcap"
-  style="--color:var(--{change < 0 ? 'red' : 'lima'})" />
+  style="--color:var(--{change < 0 ? 'red' : 'lima'})"
+/>
 
 <div class="row v-center caption c-waterloo mrg-l mrg--t">
   <Change change={formatPercentChange(change)} class="mrg-xs mrg--r" />

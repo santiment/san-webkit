@@ -56,9 +56,7 @@ describe('checkIsSameObject', () => {
       })
 
       it('{b: 5, a: [1, 2, 3, 4]} and {a: [1, 2], b: 5}', () => {
-        expect(
-          checkIsSameObject({ b: 5, a: [1, 2, 3, 4] }, { a: [1, 2], b: 5 })
-        ).toEqual(false)
+        expect(checkIsSameObject({ b: 5, a: [1, 2, 3, 4] }, { a: [1, 2], b: 5 })).toEqual(false)
       })
     })
 
@@ -72,9 +70,7 @@ describe('checkIsSameObject', () => {
       })
 
       it('{b: 5, a: [1, 2, 3]} and {a: [1, 2, 3], b: 5}', () => {
-        expect(
-          checkIsSameObject({ b: 5, a: [1, 2, 3] }, { a: [1, 2, 3], b: 5 })
-        ).toEqual(true)
+        expect(checkIsSameObject({ b: 5, a: [1, 2, 3] }, { a: [1, 2, 3], b: 5 })).toEqual(true)
       })
     })
 
@@ -87,23 +83,19 @@ describe('checkIsSameObject', () => {
             },
             {
               a: { b: [{ a: 'test' }, { b: 'test' }] },
-            }
-          )
+            },
+          ),
         ).toEqual(false)
       })
     })
 
     describe('Same nested objects', () => {
       it('{a: {b: "test" }} and {a: {b: "test" }}', () => {
-        expect(
-          checkIsSameObject({ a: { b: 'test' } }, { a: { b: 'test' } })
-        ).toEqual(true)
+        expect(checkIsSameObject({ a: { b: 'test' } }, { a: { b: 'test' } })).toEqual(true)
       })
 
       it('{a: {b: [1,2,3] }} and {a: {b: [1,2,3] }}', () => {
-        expect(
-          checkIsSameObject({ a: { b: [1, 2, 3] } }, { a: { b: [1, 2, 3] } })
-        ).toEqual(true)
+        expect(checkIsSameObject({ a: { b: [1, 2, 3] } }, { a: { b: [1, 2, 3] } })).toEqual(true)
       })
 
       it('{a: {b: [{a: "test"}, {b: "test"}] }} and {a: {b: [{a: "test"}, {b: "test"}] }}', () => {
@@ -114,8 +106,8 @@ describe('checkIsSameObject', () => {
             },
             {
               a: { b: [{ a: 'test' }, { b: 'test' }] },
-            }
-          )
+            },
+          ),
         ).toEqual(true)
       })
 
@@ -129,8 +121,8 @@ describe('checkIsSameObject', () => {
             },
             {
               a: { b: [{ a: 'test', b: 3 }] },
-            }
-          )
+            },
+          ),
         ).toEqual(true)
       })
 
@@ -148,8 +140,8 @@ describe('checkIsSameObject', () => {
                 [1, 2, 3],
                 [4, 5],
               ],
-            }
-          )
+            },
+          ),
         ).toEqual(true)
       })
     })

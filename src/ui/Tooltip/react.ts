@@ -1,13 +1,6 @@
 import type { SvelteComponent } from 'svelte'
 import type { Props } from './svelte'
-import {
-  Fragment,
-  createElement,
-  cloneElement,
-  useState,
-  useEffect,
-  useRef,
-} from 'react'
+import { Fragment, createElement, cloneElement, useState, useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
 import SvelteTooltip from './svelte'
 
@@ -81,7 +74,7 @@ export const Tooltip = ({
     Fragment,
     null,
     cloneElement(trigger, { ref }),
-    tooltipTarget && ReactDOM.createPortal(tooltip, tooltipTarget)
+    tooltipTarget && ReactDOM.createPortal(tooltip, tooltipTarget),
   )
 }
 

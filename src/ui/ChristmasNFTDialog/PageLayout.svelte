@@ -7,7 +7,8 @@
 
   export let page: Page
   export let title: string
-
+  export let isNftWinner = false
+  export let isDiscountWinner = false
   export let insights = [] as any[]
 
   function changePage(newPage: Page) {
@@ -49,7 +50,7 @@
     </main>
   </section>
 
-  <Aside {insights} />
+  <Aside {insights} {isNftWinner} {isDiscountWinner} />
 </div>
 
 <style lang="scss">

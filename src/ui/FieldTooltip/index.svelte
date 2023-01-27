@@ -13,7 +13,8 @@
   isEnabled={false}
   class="caption c-black $style.tooltip"
   {offsetY}
-  {activeClass}>
+  {activeClass}
+>
   <slot slot="trigger" />
 
   <svelte:fragment slot="tooltip">

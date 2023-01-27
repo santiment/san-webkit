@@ -8,7 +8,8 @@
   style="--bg:url({process.env.ICONS_PATH}/checkmark.svg)"
   class:isActive
   class={className}
-  on:click />
+  on:click
+/>
 
 <style>
   button {

@@ -61,7 +61,8 @@
 <section>
   <ProfileNames
     {user}
-    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined} />
+    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined}
+  />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
@@ -73,7 +74,8 @@
     <a
       class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
       {href}
-      on:click={window.__onLinkClick}>
+      on:click={window.__onLinkClick}
+    >
       {buttonLabel}
     </a>
   </div>

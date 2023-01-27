@@ -79,7 +79,8 @@
   bind:this={viewportNode}
   style={viewportStyle}
   class="viewport relative {className}"
-  on:scroll={onScroll}>
+  on:scroll={onScroll}
+>
   <div class="scroll" {style}>
     <div class="list" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
       {#each renderItems as item, i (key ? item[key] : item)}

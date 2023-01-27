@@ -51,7 +51,8 @@
       bind:editor
       html={value}
       class="input $style.input"
-      placeholder="Type your comment here" />
+      placeholder="Type your comment here"
+    />
 
     <div class="row v-center mrg-l mrg--t">
       <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>Cancel</button>

@@ -13,7 +13,8 @@
     title="Welcome back"
     bottomLabel="Or choose"
     bottomAction="another log in option"
-    bottomHref="/login">
+    bottomHref="/login"
+  >
     <p class="body-2 mrg-xxl mrg--b c-waterloo">
       Log in to your Sanbase account to access additional features of our platform
     </p>
