@@ -8,9 +8,10 @@
   export { className as class }
   export let source = 'navbar'
   export let isWinner = false
+  export let props
 
   function onClick() {
-    showChristmasNFTDialog()
+    showChristmasNFTDialog(props)
     trackNftBattleCTA(source)
   }
 </script>
