@@ -13,7 +13,6 @@
   export let isNftWinner = false
   export let currentUser: CurrentUser | null
   export let discountCode: undefined | string
-  export let insights: any[]
   export let isDiscountWinner = false
 
   let copyLabel = 'Copy'
