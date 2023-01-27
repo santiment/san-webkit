@@ -54,4 +54,14 @@
   />
 </Story>
 
+<Story name="Info - 4 - Discount code - Fetching insights">
+  <OnMount
+    run={() =>
+      showChristmasNFTDialog({
+        page: 4,
+        discountCode: 'NFTBATTLE22',
+      })}
+  />
+</Story>
+
 <Dialogs />

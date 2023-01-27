@@ -11,20 +11,37 @@
 
   export let isNftWinner = false
   export let currentUser: CurrentUser | null
+  export let discountCode: undefined | string
+  export let insights: any[]
+  export let isDiscountWinner = false
 </script>
 
-{#if currentUser && isNftWinner}
-  <div class="intro">
-    <p>Thank you for sharing your amazing idea with the Santiment community!</p>
+{#if currentUser && (isNftWinner || isDiscountWinner)}
+  {#if isNftWinner}
+    <div class="intro">
+      <p>Thank you for sharing your amazing idea with the Santiment community!</p>
 
-    <p class="winner">
-      To receive your NFT, connect your Metamask wallet or make sure your address is correct. If you
-      have trouble, please don’t hesitate to
-      <button class="btn-0" on:click={showIntercom}>contact us</button>.
-    </p>
+      <p class="winner">
+        To receive your NFT, connect your Metamask wallet or make sure your address is correct. If
+        you have trouble, please don’t hesitate to
+        <button class="btn-0" on:click={showIntercom}>contact us</button>.
+      </p>
 
-    <Metamask {currentUser} />
-  </div>
+      <Metamask {currentUser} />
+    </div>
+  {:else if isDiscountWinner}
+    <div class="intro">
+      <p>We’re sorry, your submission did not make the top 10</p>
+
+      <p class="winner">
+        But thank you for competing! To show our appreciation, we’d like to offer you something
+        special for your effort. Get a one-time 18% discount on a yearly or monthly Sanbase Pro plan
+        using the code below:
+      </p>
+
+      <button class="discount btn body-2">{discountCode}</button>
+    </div>
+  {/if}
 {:else}
   <p class="intro">
     Everything comes to an end, and our game is no exception. Right now, our team is reviewing all
@@ -162,5 +179,13 @@
   .bonus {
     --border: var(--green-light-3);
     margin: 20px 0 48px;
+  }
+
+  .discount {
+    --bg: var(--green-light-1);
+    --bg-hover: var(--green-light-2);
+    --color: var(--green);
+    padding: 8px 12px;
+    user-select: initial;
   }
 </style>
