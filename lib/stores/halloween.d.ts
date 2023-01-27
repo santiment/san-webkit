@@ -3,7 +3,7 @@ export declare const queryPumpkins: () => Promise<{
     pages: Set<string>;
     code: string | null;
 }>;
-export type HalloweenData = {
+export declare type HalloweenData = {
     pages: Set<string>;
     code: string | null;
 };

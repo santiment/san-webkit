@@ -6,13 +6,16 @@ import { queryCurrentUserInsights, startGame } from './api';
 import introSvg from './intro.svg';
 export let page;
 export let closeDialog;
+
 function onStart() {
   queryCurrentUserInsights().then(currentUser => {
     var _a, _b;
+
     if (!currentUser) {
       (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
       return closeDialog();
     }
+
     page = Page.Insight;
     trackNftBattleStartGame();
     (_b = window.onNftGameStart) === null || _b === void 0 ? void 0 : _b.call(window);

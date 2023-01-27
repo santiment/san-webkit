@@ -5,12 +5,16 @@ import { COLUMNS } from './columns';
 const pageSize = 5;
 let page = 0;
 let totalCount = 0;
-let pageOffset = 0;
-// @ts-expect-error
+let pageOffset = 0; // @ts-expect-error
+
 $: items = (pageOffset, []);
+
 $: emptyData = getEmptyData(totalCount);
+
 $: pagedItems = getPagedData(items, emptyData, pageOffset);
+
 $: getSignals(page);
+
 function getSignals(queryPage) {
   querySignals(queryPage, pageSize).then(({
     data,
@@ -21,15 +25,20 @@ function getSignals(queryPage) {
     items = data;
   });
 }
+
 function onPageChange(newPage) {
   trackNftBattlePlayersTablePagination(newPage, newPage > page ? 'next' : 'prev');
   page = newPage;
 }
+
 function getEmptyData(totalCount) {
   const empty = new Array(totalCount);
+
   for (let i = 0; i < totalCount; i++) empty[i] = empty[i] || {};
+
   return empty;
 }
+
 function getPagedData(data, empty, pageOffset) {
   return empty.slice(0, pageOffset).concat(data).concat(empty.slice(data.length + pageOffset));
 }</script>

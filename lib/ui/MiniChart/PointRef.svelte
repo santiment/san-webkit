@@ -5,6 +5,7 @@
       coordinates: []
     };
   }
+
   const {
     length
   } = data;
@@ -25,6 +26,7 @@ export let data;
 export let points;
 export let stroke = 'var(--casper)';
 export let datetimeKey = 'd';
+
 $: [cx, cy] = getRefCoordinates(data, points, target, datetimeKey).coordinates;</script>
 
 <circle {cx} {cy} {stroke} r="3.5" />

@@ -15,9 +15,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type UsersProps = typeof __propDef.props;
-export type UsersEvents = typeof __propDef.events;
-export type UsersSlots = typeof __propDef.slots;
+export declare type UsersProps = typeof __propDef.props;
+export declare type UsersEvents = typeof __propDef.events;
+export declare type UsersSlots = typeof __propDef.slots;
 export default class Users extends SvelteComponentTyped<UsersProps, UsersEvents, UsersSlots> {
     get href(): ({ id }: {
         id: any;

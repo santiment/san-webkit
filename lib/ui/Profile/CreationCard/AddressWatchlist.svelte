@@ -1,4 +1,5 @@
 <script>export let creation;
+
 $: ({
   blockchainAddressesCount
 } = creation.stats);</script>

@@ -20,10 +20,12 @@ import { showIntercom } from './../../analytics/intercom';
 export let user;
 export let isMenuOpened;
 export let isFullLink;
+
 function onHelpClick() {
   showIntercom();
   isMenuOpened = false;
 }
+
 function getFullLink(link, slug = '') {
   const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : '';
   return pathname + link + slug;

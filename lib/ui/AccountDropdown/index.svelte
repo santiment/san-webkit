@@ -18,12 +18,15 @@ export let customerData = {};
 export let isAppUpdateAvailable = false;
 export let version = '1.0.0';
 export let isShowingFollowers = true;
+
 function onLogout() {
   isOpened = false;
   trackLogout();
   onLogoutClick();
 }
+
 $: subscriptionInfo = getUserSubscriptionInfo(customerData, subscription);
+
 $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0;</script>
 
 <Tooltip

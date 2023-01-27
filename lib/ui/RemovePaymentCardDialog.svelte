@@ -10,6 +10,7 @@ import { paymentCard$ } from './../stores/paymentCard';
 export let DialogPromise;
 let closeDialog;
 let loading = false;
+
 function onClick() {
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;

@@ -6,6 +6,7 @@ export let expireAt = Date.now();
 let condition = percentOff === 35 ? 'the month is finished' : 'your trial expired';
 let daysLeft = getDaysLeft(expireAt);
 let plural = daysLeft > 1 ? 's' : '';
+
 function getDaysLeft(expireAt) {
   const diff = +new Date(expireAt) - Date.now();
   return Math.ceil(diff / ONE_DAY_IN_MS) || 1;

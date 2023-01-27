@@ -8,35 +8,45 @@ let node;
 let value = '';
 let loading = false;
 let isValid = false;
+
 $: node && (node.dataset.isValid = isValid.toString());
+
 const [checkCoupon, clearTimer] = debounce(700, coupon => {
   const onData = data => value === coupon && onCouponLoaded(data);
+
   const onError = () => value === coupon && invalidateCoupon();
+
   queryCoupon(coupon).then(onData).catch(onError);
 });
+
 function onInput({
   currentTarget
 }) {
   node = currentTarget;
   value = node.value;
+
   if (!value) {
     invalidateCoupon();
     return clearTimer();
   }
+
   loading = true;
   checkCoupon(value);
 }
+
 function onCouponLoaded(data) {
   if (!data.isValid) return invalidateCoupon;
   loading = false;
   isValid = true;
   percentOff = data.percentOff;
 }
+
 function invalidateCoupon() {
   loading = false;
   isValid = false;
   percentOff = 0;
 }
+
 onDestroy(clearTimer);</script>
 
 <Input

@@ -7,16 +7,24 @@ import clockSvg from './clock.svg';
 import presentSvg from './present.svg';
 export let insights = [];
 export let isNftWinner = false;
+export let isDiscountWinner = false;
+
 $: hasInsights = insights.length > 0;</script>
 
 <aside class="column">
   <div class="header txt-center">
-    <img src={isNftWinner ? presentSvg : clockSvg} alt="Aside" class="mrg-xl mrg--b" />
+    <img
+      src={isNftWinner || isDiscountWinner ? presentSvg : clockSvg}
+      alt="Aside"
+      class="mrg-xl mrg--b"
+    />
     <h3 class="body-1 txt-m">
       {#if isNftWinner}
         You’ve won an NFT!
+      {:else if hasInsights}
+        {isDiscountWinner ? 'Take your discount' : 'Wooo! Your Insight is in the Battle!'}
       {:else}
-        {hasInsights ? 'Wooo! Your Insight is in the Battle!' : 'Welcome to the NFT battle!'}
+        Welcome to the NFT battle!
       {/if}
     </h3>
   </div>
@@ -53,19 +61,7 @@ $: hasInsights = insights.length > 0;</script>
       </div>
     </div>
   {:else}
-    <p class="c-fiord">
-      To participate in the battle,
-      <a
-        href="https://insights.santiment.net/new?ref=nftbattle"
-        on:click={trackNftBattleLinkClick}
-        class="link-pointer"
-        target="_blank"
-        rel="noopener noreferrer"
-        data-source="sidebar"
-      >
-        Create an Insight
-      </a>
-    </p>
+    <p class="c-fiord">No Insights...</p>
   {/if}
 </aside>
 

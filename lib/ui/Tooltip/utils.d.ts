@@ -1,6 +1,6 @@
-export type Position = 'top' | 'right' | 'bottom' | 'left';
-export type Align = 'start' | 'center' | 'end';
-type Offset = {
+export declare type Position = 'top' | 'right' | 'bottom' | 'left';
+export declare type Align = 'start' | 'center' | 'end';
+declare type Offset = {
     left: number;
     top: number;
 };

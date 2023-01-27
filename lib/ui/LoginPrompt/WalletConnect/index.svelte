@@ -1,5 +1,7 @@
 <script context="module">import { Preloader } from './../../../utils/fn';
+
 const preload = () => Promise.all([import('@walletconnect/client'), import('@walletconnect/qrcode-modal')]);
+
 const preloadHook = Preloader(preload);</script>
 
 <script>import wcSvg from './wallet-connect.svg';
@@ -7,6 +9,7 @@ import { LoginType, trackLoginStart } from './../../../analytics/events/general'
 let className = 'mrg-s mrg--b';
 export { className as class };
 export let onLogin;
+
 function onClick() {
   trackLoginStart(LoginType.WALLET);
   preload().then(([{
@@ -19,9 +22,11 @@ function onClick() {
       // Required
       qrcodeModal: QRCodeModal
     });
+
     if (!connector.connected) {
       connector.createSession();
     }
+
     connector.on('connect', (error, payload) => {
       if (error) throw error;
       const {

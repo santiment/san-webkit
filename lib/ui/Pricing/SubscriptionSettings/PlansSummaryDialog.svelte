@@ -15,22 +15,29 @@ import { PLAN_BUTTON_CLICKED } from '../utils';
 let closeDialog;
 let billing = Billing.MONTH;
 let plans = [];
+
 $: billingPlans = (billing, plans.filter(billingFilter));
+
 $: subscription = $subscription$;
+
 $: ({
   isLoggedIn,
   isEligibleForTrial,
   annualDiscount
 } = $customerData$);
+
 querySanbasePlans().then(data => {
   plans = data.filter(onlyProLikePlans);
 });
+
 function billingFilter({
   interval
 }) {
   return interval === billing;
 }
+
 const close = () => closeDialog();
+
 window.addEventListener(PLAN_BUTTON_CLICKED, close);
 onDestroy(() => {
   window.removeEventListener(PLAN_BUTTON_CLICKED, close);

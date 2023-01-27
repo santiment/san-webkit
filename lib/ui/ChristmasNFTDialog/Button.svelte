@@ -6,6 +6,7 @@ let className = '';
 export { className as class };
 export let source = 'navbar';
 export let isWinner = false;
+
 function onClick() {
   showChristmasNFTDialog();
   trackNftBattleCTA(source);

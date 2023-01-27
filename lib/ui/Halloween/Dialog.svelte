@@ -13,12 +13,16 @@ let title = 'Enjoy your 27% off discount!';
 let description = "Click on three pumpkins scattered around Santiment's platform, and you'll receive a code for 27% off a membership. Find an additional special discount offer to up this to the maximum 54% off!";
 let buttonText = 'Let’s go!';
 let padding = 18;
+
 $: ({
   pages,
   code
 } = $halloweenData$);
+
 $: pages, code, setContent();
+
 $: hasDiscount = pages.size === 3;
+
 function setContent() {
   if (code) {
     title = 'Congratulations';
@@ -27,7 +31,9 @@ function setContent() {
     padding = 22;
     return;
   }
+
   if (pages.size === 0) return;
+
   if (pages.size === 3) {
     title = 'Congratulations';
     description = 'on collecting all three pumpkins! This promo code is available between now and November 5th!';
@@ -35,6 +41,7 @@ function setContent() {
     padding = 22;
     return;
   }
+
   const [collectedAmount, remainingAmount] = pages.size === 1 ? ['One', 'Two'] : ['Two', 'One'];
   title = `${collectedAmount} Down, ${remainingAmount} to Go!`;
   description = `Great job! You have collected ${collectedAmount.toLowerCase()} pumpkin${pages.size > 1 ? 's' : ''}, and there are ${remainingAmount.toLowerCase()} left. Collect three and receive your 27% off discount off all Santiment products!`;

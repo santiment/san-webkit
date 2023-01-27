@@ -5,7 +5,9 @@ export let options = {
   rootMargin: '0px 0px -100px'
 };
 let hidden = true;
+
 const onIntersect = () => hidden = true;
+
 const onLeaving = () => hidden = false;</script>
 
 <ViewportObserver {options} on:intersect={onIntersect} on:leaving={onLeaving}>

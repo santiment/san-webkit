@@ -4,6 +4,7 @@
 export default class Aside extends SvelteComponentTyped<{
     insights?: any[] | undefined;
     isNftWinner?: boolean | undefined;
+    isDiscountWinner?: boolean | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -16,6 +17,7 @@ declare const __propDef: {
     props: {
         insights?: any[] | undefined;
         isNftWinner?: boolean | undefined;
+        isDiscountWinner?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

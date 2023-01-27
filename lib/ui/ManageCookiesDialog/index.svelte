@@ -29,15 +29,18 @@ export let DialogPromise;
 let closeDialog;
 let isFunctionalAccepted = false;
 let isPerformanceAccepted = false;
+
 const toggleHandler = fn => e => {
   e.stopPropagation();
   fn();
 };
+
 function onSaveClick() {
   applyCookies(isFunctionalAccepted, isPerformanceAccepted);
   DialogPromise.resolve();
   closeDialog();
 }
+
 function onAllowAllClick() {
   applyCookies(true, true);
   DialogPromise.resolve();

@@ -1,6 +1,7 @@
 <script>import { connectWallet } from './../../utils/web3';
 import { notifications$ } from './../../ui/Notifications';
 export let currentUser;
+
 function onConnectClick() {
   connectWallet().catch(e => {
     notifications$.show({

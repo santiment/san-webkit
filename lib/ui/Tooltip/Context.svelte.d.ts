@@ -16,9 +16,9 @@ declare const __propDef: {
         };
     };
 };
-export type ContextProps = typeof __propDef.props;
-export type ContextEvents = typeof __propDef.events;
-export type ContextSlots = typeof __propDef.slots;
+export declare type ContextProps = typeof __propDef.props;
+export declare type ContextEvents = typeof __propDef.events;
+export declare type ContextSlots = typeof __propDef.slots;
 export default class Context extends SvelteComponentTyped<ContextProps, ContextEvents, ContextSlots> {
 }
 export {};

@@ -9,7 +9,9 @@ export const label = ({
   username
 }) => '@' + username;
 let items = [];
+
 $: onInput(searchTerm);
+
 function onInput(searchTerm) {
   searchUserByUsername(searchTerm).then(data => items = data.slice(0, 5));
 }</script>

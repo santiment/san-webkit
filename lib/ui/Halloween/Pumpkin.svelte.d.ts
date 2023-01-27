@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type PumpkinProps = typeof __propDef.props;
-export type PumpkinEvents = typeof __propDef.events;
-export type PumpkinSlots = typeof __propDef.slots;
+export declare type PumpkinProps = typeof __propDef.props;
+export declare type PumpkinEvents = typeof __propDef.events;
+export declare type PumpkinSlots = typeof __propDef.slots;
 export default class Pumpkin extends SvelteComponentTyped<PumpkinProps, PumpkinEvents, PumpkinSlots> {
 }
 export {};

@@ -4,17 +4,17 @@ declare const __propDef: {
     props: {
         class?: string | undefined;
         user: Pick<SAN.Author, 'id'>;
-        currentUser: CurrentUser;
-        isFollowing?: boolean | undefined;
+        currentUser: null | CurrentUser;
+        isFollowing?: boolean | null | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
     };
     slots: {};
 };
-export type IndexProps = typeof __propDef.props;
-export type IndexEvents = typeof __propDef.events;
-export type IndexSlots = typeof __propDef.slots;
+export declare type IndexProps = typeof __propDef.props;
+export declare type IndexEvents = typeof __propDef.events;
+export declare type IndexSlots = typeof __propDef.slots;
 export default class Index extends SvelteComponentTyped<IndexProps, IndexEvents, IndexSlots> {
 }
 export {};

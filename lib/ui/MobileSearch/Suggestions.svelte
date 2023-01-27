@@ -9,20 +9,26 @@ export let show;
 let items = [];
 let filteredItems = [];
 let loading = true;
+
 $: filterItems(searchTerm);
+
 $: getItems(query);
+
 async function filterItems(searchTerm) {
   loading = true;
   filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items;
   loading = false;
 }
+
 async function getItems(query) {
   loading = true;
   items = await query();
   await filterItems(searchTerm);
 }
+
 function onItemClick(event) {
   window.__onLinkClick(event);
+
   show = false;
 }</script>
 

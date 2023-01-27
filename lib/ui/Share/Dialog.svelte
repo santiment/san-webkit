@@ -1,11 +1,13 @@
 <script context="module">import { dialogs } from './../../ui/Dialog';
 import ShareDialog from './Dialog.svelte';
 export var SHARE_TYPE;
+
 (function (SHARE_TYPE) {
   SHARE_TYPE["Watchlist"] = "watchlist";
   SHARE_TYPE["Alert"] = "alert";
   SHARE_TYPE["Chart"] = "chart";
 })(SHARE_TYPE || (SHARE_TYPE = {}));
+
 const SECRET_LINK_TAG = '__SECRET_LINK_TAG__';
 const SECRET_TEXT_TAG = '__SECRET_TEXT_TAG__';
 export const MEDIA_LINKS = [{
@@ -41,7 +43,9 @@ let copyLabel = 'Copy';
 let isPublic = false;
 const encodedText = encodeURIComponent(shareText);
 const encodedLink = encodeURIComponent(shareLink);
+
 $: disabled = shareType && !isPublic;
+
 function onCopy() {
   copyLabel = 'Copied!';
   copy(shareLink, () => copyLabel = 'Copy', 1500);

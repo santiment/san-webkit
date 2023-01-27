@@ -11,16 +11,20 @@ export let isShowingMore = false;
 export let isLoggedIn = false;
 export let isEligibleForTrial = false;
 let activeSlide = 0;
+
 $: comparedPlans = getPlansLayout(plans, activeSlide, $responsive$);
+
 $: plansFeatures = comparedPlans.map(({
   name
 }) => PlanFeatures[name]).filter(Boolean);
+
 function getPlansLayout(plans, slide, device) {
   switch (device) {
     case Device.Desktop:
     case Device.Tablet:
       return plans;
   }
+
   return plans.slice(slide, slide + 1);
 }</script>
 

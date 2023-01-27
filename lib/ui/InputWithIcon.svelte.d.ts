@@ -11,8 +11,8 @@ export default class InputWithIcon extends SvelteComponentTyped<{
     autofocus: any;
     type?: string | undefined;
     value?: string | undefined;
-    class?: string | undefined;
     big?: boolean | undefined;
+    class?: string | undefined;
 }, {
     input: Event;
     focus: FocusEvent;
@@ -40,8 +40,8 @@ declare const __propDef: {
         autofocus: any;
         type?: string | undefined;
         value?: string | undefined;
-        class?: string | undefined;
         big?: boolean | undefined;
+        class?: string | undefined;
     };
     events: {
         input: Event;

@@ -15,6 +15,7 @@ export { onFormSubmit as onSubmit };
 let closeDialog;
 let loading = false;
 let editor;
+
 function onSubmit() {
   if (loading) return;
   loading = true;
@@ -33,7 +34,8 @@ function onSubmit() {
       bind:editor
       html={value}
       class="input input-rfcU8d"
-      placeholder="Type your comment here" />
+      placeholder="Type your comment here"
+    />
 
     <div class="row v-center mrg-l mrg--t">
       <button class="btn btn-2 border mrg-a mrg--l" on:click={closeDialog}>Cancel</button>

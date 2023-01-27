@@ -11,10 +11,12 @@ let className = '';
 export { className as class };
 export let style = '';
 let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
+
 function onAllowAllClick() {
   applyCookies(true, true);
   isVisible = false;
 }
+
 function onManageClick() {
   showManageCookiesDialog().then(() => {
     isVisible = false;

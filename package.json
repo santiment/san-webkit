@@ -11,7 +11,6 @@
     "test": "jest",
     "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -p 3000 -s ./lib --ci",
     "build-storybook": "build-storybook",
-    "prepare": "husky install",
     "lint": "eslint src/**/*[^.test].{ts,svelte}",
     "format": "prettier --plugin-search-dir . --write ."
   },

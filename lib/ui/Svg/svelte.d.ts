@@ -1,5 +1,5 @@
 export { default } from './index.svelte';
-export type Props = {
+export declare type Props = {
     className?: string;
     /** Width of the svg */
     w?: string | number;

@@ -9,9 +9,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type MetamaskProps = typeof __propDef.props;
-export type MetamaskEvents = typeof __propDef.events;
-export type MetamaskSlots = typeof __propDef.slots;
+export declare type MetamaskProps = typeof __propDef.props;
+export declare type MetamaskEvents = typeof __propDef.events;
+export declare type MetamaskSlots = typeof __propDef.slots;
 export default class Metamask extends SvelteComponentTyped<MetamaskProps, MetamaskEvents, MetamaskSlots> {
 }
 export {};

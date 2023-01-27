@@ -1,5 +1,5 @@
 /// <reference types="react" />
-type Props = {
+declare type Props = {
     trigger: JSX.Element;
     active: string;
     isCompact: boolean;

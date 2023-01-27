@@ -9,6 +9,7 @@ export let selected = options[0];
 export let onSelect;
 export let checkIsActive = (selected, option) => selected === option;
 let isOpened = false;
+
 function onOptionSelect(option) {
   selected = option;
   isOpened = false;

@@ -10,18 +10,20 @@ const INPUT_STYLE = {
     fontFamily: 'Proxima Nova, sans-serif',
     '::placeholder': {
       color: nightMode ? '#363a52' : '#cad0de' // casper
+
     }
   },
-
   invalid: {
     color: '#ff5b5b' // red
+
   }
 };
-
 const SETTINGS = {
   style: INPUT_STYLE
 };
+
 $: $stripe && ccNode && mountCC();
+
 function mountCC() {
   StripeCard = $stripe === null || $stripe === void 0 ? void 0 : $stripe.elements().create('card', SETTINGS);
   StripeCard === null || StripeCard === void 0 ? void 0 : StripeCard.mount('#card-element');

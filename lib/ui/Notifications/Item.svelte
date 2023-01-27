@@ -19,30 +19,39 @@ let {
   description
 } = notification;
 calculateInitialOffset();
+
 const getOffsetSign = () => process.browser && document.body.clientWidth > 450 ? 1 : -1;
+
 $: yOffset = offset * getOffsetSign() + 'px';
+
 $: if (process.env.IS_STAGE) {
   console.log(yOffset, getOffsetSign());
 }
+
 function calculateInitialOffset() {
   const prevChild = parentNode.children[i - 1];
   offset = prevChild ? notifications[i - 1].offset - prevChild.clientHeight - MARGIN : 0;
   notification.offset = offset;
 }
+
 function destroy() {
   clearTimeout(timer);
   const diff = height + MARGIN;
+
   for (let j = i + 1; j < notifications.length; j++) {
     notifications[j].offset += diff;
   }
+
   notifications$.hide(notification);
 }
+
 function notify() {
   return {
     duration: 300,
     css: t => `transform: translate3d(${-130 + cubicOut(t) * 130}%, ${yOffset}, 0);`
   };
 }
+
 onMount(() => {
   timer = setTimeout(destroy, dismissAfter);
 });

@@ -6,7 +6,8 @@ export let isAscending = false;</script>
   id="sorted"
   w="6"
   h="8"
-  class="sorter-UXZzcj mrg-xs mrg--l {isAscending ? 'asc-pCo7KF' : ''}" />
+  class="sorter-UXZzcj mrg-xs mrg--l {isAscending ? 'asc-pCo7KF' : ''}"
+/>
 
 <style>
   :global(.sorter-UXZzcj) {

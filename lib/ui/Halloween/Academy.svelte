@@ -3,10 +3,13 @@ import { halloweenData$ } from './../../stores/halloween';
 import { mutateCreatePumpkinCode } from './../../api/halloween';
 import DiscountCode from './DiscountCode.svelte';
 let discount;
+
 $: ({
   isLoggedIn
 } = $customerData$);
+
 $: pages = $halloweenData$.pages.size;
+
 $: if (pages === 3) {
   mutateCreatePumpkinCode().then(code => discount = code);
 }</script>

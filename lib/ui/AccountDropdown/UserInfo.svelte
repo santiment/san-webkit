@@ -4,6 +4,7 @@ export let user;
 export let subscriptionInfo;
 export let variant = AccountStatusType.First;
 export let isShowingFollowers = true;
+
 function getButtonLabel(subscriptionInfo, variant) {
   const {
     subscriptionPlan,
@@ -13,13 +14,16 @@ function getButtonLabel(subscriptionInfo, variant) {
     userPlanName
   } = subscriptionInfo;
   const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial;
+
   if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
     if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`;
     if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`;
   }
+
   if (userPlanName) return 'Learn about Pro';
   return 'Upgrade';
 }
+
 function getNoteText(subscriptionInfo, variant) {
   const {
     isEligibleForTrial,
@@ -28,10 +32,12 @@ function getNoteText(subscriptionInfo, variant) {
   } = subscriptionInfo;
   if (isEligibleForTrial) return 'and get 14-day Pro Trial!';
   if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`;
+
   if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
     return `Special offer ends in: ${annualDiscountDaysLeft} days`;
   }
 }
+
 function getSanbasePlan(subscriptionInfo) {
   const {
     trialDaysLeft,
@@ -41,15 +47,20 @@ function getSanbasePlan(subscriptionInfo) {
   if (userPlanName) return `Sanbase: ${userPlanName} plan`;
   return 'Sanbase: free plan';
 }
+
 $: buttonLabel = getButtonLabel(subscriptionInfo, variant);
+
 $: note = getNoteText(subscriptionInfo, variant);
+
 $: sunbasePlan = getSanbasePlan(subscriptionInfo);
+
 $: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/' : 'https://app.santiment.net/pricing';</script>
 
 <section>
   <ProfileNames
     {user}
-    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined} />
+    followers={isShowingFollowers && user && user.followers ? user.followers.count : undefined}
+  />
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
@@ -61,7 +72,8 @@ $: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/product
     <a
       class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
       {href}
-      on:click={window.__onLinkClick}>
+      on:click={window.__onLinkClick}
+    >
       {buttonLabel}
     </a>
   </div>

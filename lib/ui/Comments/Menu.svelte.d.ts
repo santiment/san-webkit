@@ -10,9 +10,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type MenuProps = typeof __propDef.props;
-export type MenuEvents = typeof __propDef.events;
-export type MenuSlots = typeof __propDef.slots;
+export declare type MenuProps = typeof __propDef.props;
+export declare type MenuEvents = typeof __propDef.events;
+export declare type MenuSlots = typeof __propDef.slots;
 export default class Menu extends SvelteComponentTyped<MenuProps, MenuEvents, MenuSlots> {
 }
 export {};

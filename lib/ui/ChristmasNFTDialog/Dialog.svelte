@@ -18,14 +18,19 @@ import Info from './Info.svelte';
 export let page = checkIsGameStarted() ? Page.Insight : Page.Intro;
 export let isNftWinner = false;
 export let currentUser;
+export let discountCode;
 page = Page.Info;
 let insights = [];
+
 if (process.browser) {
   queryUserNftInsights().then(data => {
     insights = data;
   });
 }
-const pages = {
+
+$: isDiscountWinner = Boolean(insights.length && discountCode);
+
+$: pages = {
   [Page.Insight]: {
     title: 'Publish your Insight',
     Component: Insight
@@ -39,10 +44,11 @@ const pages = {
     Component: Reward
   },
   [Page.Info]: {
-    title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
+    title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : isDiscountWinner ? 'No NFT, but a special gift' : 'Time’s Up ⌛️',
     Component: Info
   }
 };
+
 onMount(trackNftBattleDialogOpen);
 onDestroy(() => {
   if (process.browser) {
@@ -62,8 +68,16 @@ onDestroy(() => {
     <Intro {closeDialog} bind:page />
   {:else}
     {@const { title, Component } = pages[page]}
-    <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} {isNftWinner} {currentUser} bind:page />
+    <PageLayout {title} bind:page {insights} {isNftWinner} {isDiscountWinner}>
+      <svelte:component
+        this={Component}
+        {insights}
+        {currentUser}
+        {discountCode}
+        {isNftWinner}
+        {isDiscountWinner}
+        bind:page
+      />
     </PageLayout>
   {/if}
 </Dialog>

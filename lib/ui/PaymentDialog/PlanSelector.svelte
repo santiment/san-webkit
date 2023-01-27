@@ -1,4 +1,5 @@
 <script>var _a;
+
 import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
@@ -10,8 +11,11 @@ export let selectedNameBilling;
 export let isSinglePlan;
 export let annualDiscount;
 let isOpened = false;
+
 $: annualPercentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 10;
+
 $: altPlan = getAlternativePlan(plan, plans);
+
 function select(option) {
   plan = option;
   isOpened = false;
@@ -22,6 +26,7 @@ function select(option) {
     amount: plan.amount
   });
 }
+
 const SAVED_MSG = 'Save 10% 🎉';</script>
 
 <div class="row justify mrg-l mrg--b">

@@ -27,7 +27,8 @@ export let autofocus;</script>
     on:input
     on:focus
     on:blur
-    on:keydown />
+    on:keydown
+  />
   <slot />
 </div>
 

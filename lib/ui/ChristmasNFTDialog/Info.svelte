@@ -1,4 +1,5 @@
-<script>import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+<script>import { copy } from './../../utils';
+import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
 import Svg from './../../ui/Svg/svelte';
 import { showIntercom } from './../../ui/HelpFeedback.svelte';
 import Li from './Li.svelte';
@@ -6,20 +7,46 @@ import Players from './Players/index.svelte';
 import { Page } from './types';
 import Metamask from './Metamask.svelte';
 export let isNftWinner = false;
-export let currentUser;</script>
+export let currentUser;
+export let discountCode;
+export let insights;
+export let isDiscountWinner = false;
+let copyLabel = 'Copy';
 
-{#if currentUser && isNftWinner}
-  <div class="intro">
-    <p>Thank you for sharing your amazing idea with the Santiment community!</p>
+function onCopy() {
+  if (!discountCode) return;
+  copyLabel = 'Copied!';
+  copy(discountCode, () => copyLabel = 'Copy', 1500);
+}</script>
 
-    <p class="winner">
-      To receive your NFT, connect your Metamask wallet or make sure your address is correct. If you
-      have trouble, please don’t hesitate to
-      <button class="btn-0" on:click={showIntercom}>contact us</button>.
-    </p>
+{#if currentUser && (isNftWinner || isDiscountWinner)}
+  {#if isNftWinner}
+    <div class="intro">
+      <p>Thank you for sharing your amazing idea with the Santiment community!</p>
 
-    <Metamask {currentUser} />
-  </div>
+      <p class="winner">
+        To receive your NFT, connect your Metamask wallet or make sure your address is correct. If
+        you have trouble, please don’t hesitate to
+        <button class="btn-0" on:click={showIntercom}>contact us</button>.
+      </p>
+
+      <Metamask {currentUser} />
+    </div>
+  {:else if isDiscountWinner}
+    <div class="intro">
+      <p>We’re sorry, your submission did not make the top 10</p>
+
+      <p class="winner">
+        But thank you for competing! To show our appreciation, we’d like to offer you something
+        special for your effort. Get a one-time 18% discount on a yearly or monthly Sanbase Pro plan
+        using the code below:
+      </p>
+
+      <button class="discount btn body-2 expl-tooltip" aria-label={copyLabel} on:click={onCopy}
+        >{discountCode}</button
+      >
+    </div>
+  {/if}
 {:else}
   <p class="intro">
     Everything comes to an end, and our game is no exception. Right now, our team is reviewing all
@@ -155,4 +182,14 @@ export let currentUser;</script>
 .bonus {
   --border: var(--green-light-3);
   margin: 20px 0 48px;
+}
+
+.discount {
+  --bg: var(--green-light-1);
+  --bg-hover: var(--green-light-2);
+  --color: var(--green);
+  padding: 8px 12px;
+  user-select: initial;
+  --expl-left: 50%;
+  --expl-align-x: -50%;
 }</style>

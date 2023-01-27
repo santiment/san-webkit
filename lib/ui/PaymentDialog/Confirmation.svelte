@@ -15,7 +15,9 @@ export let loading;
 export let sanBalance;
 export let annualDiscount = {};
 let percentOff = 0;
+
 $: isAnnualPlan = plan.interval === Billing.YEAR;
+
 $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';</script>
 
 <div class="confirmation relative column">

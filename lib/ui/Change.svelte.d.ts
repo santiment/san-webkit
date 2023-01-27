@@ -11,9 +11,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type ChangeProps = typeof __propDef.props;
-export type ChangeEvents = typeof __propDef.events;
-export type ChangeSlots = typeof __propDef.slots;
+export declare type ChangeProps = typeof __propDef.props;
+export declare type ChangeEvents = typeof __propDef.events;
+export declare type ChangeSlots = typeof __propDef.slots;
 export default class Change extends SvelteComponentTyped<ChangeProps, ChangeEvents, ChangeSlots> {
 }
 export {};

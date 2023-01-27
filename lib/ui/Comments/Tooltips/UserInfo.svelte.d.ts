@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type UserInfoProps = typeof __propDef.props;
-export type UserInfoEvents = typeof __propDef.events;
-export type UserInfoSlots = typeof __propDef.slots;
+export declare type UserInfoProps = typeof __propDef.props;
+export declare type UserInfoEvents = typeof __propDef.events;
+export declare type UserInfoSlots = typeof __propDef.slots;
 export default class UserInfo extends SvelteComponentTyped<UserInfoProps, UserInfoEvents, UserInfoSlots> {
 }
 export {};

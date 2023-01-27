@@ -3,6 +3,7 @@ import Svg from './../../ui/Svg/svelte';
 import { Page } from './types';
 export let page;
 export let insights = [];
+
 $: hasInsights = insights.length > 0;</script>
 
 {#if hasInsights}

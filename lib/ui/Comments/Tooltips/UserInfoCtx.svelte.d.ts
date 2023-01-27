@@ -17,9 +17,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export type UserInfoCtxProps = typeof __propDef.props;
-export type UserInfoCtxEvents = typeof __propDef.events;
-export type UserInfoCtxSlots = typeof __propDef.slots;
+export declare type UserInfoCtxProps = typeof __propDef.props;
+export declare type UserInfoCtxEvents = typeof __propDef.events;
+export declare type UserInfoCtxSlots = typeof __propDef.slots;
 export default class UserInfoCtx extends SvelteComponentTyped<UserInfoCtxProps, UserInfoCtxEvents, UserInfoCtxSlots> {
 }
 export {};

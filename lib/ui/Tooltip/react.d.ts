@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import type { Props } from './svelte';
-type TooltipProps = Props & {
+declare type TooltipProps = Props & {
     trigger: JSX.Element;
     tooltip: JSX.Element;
 };

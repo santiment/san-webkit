@@ -1,6 +1,7 @@
 <script>import Svg from './../../ui/Svg/svelte';
 import InputWithIcon from './../../ui/InputWithIcon.svelte';
 export let searchTerm;
+
 function onInput({
   currentTarget
 }) {

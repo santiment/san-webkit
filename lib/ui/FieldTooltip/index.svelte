@@ -10,7 +10,8 @@ export let activeClass = '';</script>
   isEnabled={false}
   class="caption c-black tooltip-rTdj67"
   {offsetY}
-  {activeClass}>
+  {activeClass}
+>
   <slot slot="trigger" />
 
   <svelte:fragment slot="tooltip">

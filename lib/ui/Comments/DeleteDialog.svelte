@@ -12,6 +12,7 @@ export let DialogPromise;
 export let comment;
 let closeDialog;
 let loading = false;
+
 function onDelete() {
   if (loading) return;
   loading = true;

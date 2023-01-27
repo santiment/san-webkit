@@ -35,10 +35,13 @@ onMount(() => {
     } = e;
     if (shiftKey && code === 'Enter') e.preventDefault();
   });
+
   node.oninput = () => {
     if (!node.textContent) node.innerHTML = '';
   };
+
   hookShortcutApplier(editor, isComments);
+
   editor.serialize = () => sanitize(htmlToMarkdown(node));
 });
 onDestroy(() => {
@@ -51,7 +54,8 @@ onDestroy(() => {
 :global(.medium-editor-toolbar-form) {
   position: absolute;
   top: 0;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   color: #fff;
   fill: #fff;
   border-radius: 4px;
@@ -79,13 +83,15 @@ onDestroy(() => {
   align-items: center;
 }
 :global(.medium-editor-toolbar-input) {
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   margin-left: 6px;
   height: 100%;
   flex: 1;
 }
 :global(.medium-editor-toolbar-input::placeholder) {
-  color: #7a859e; /* fiord */
+  color: #7a859e;
+  /* fiord */
 }
 :global(.medium-editor-toolbar-save),
 :global(.medium-editor-toolbar-close) {
@@ -148,7 +154,8 @@ onDestroy(() => {
   display: flex;
   border-radius: 4px;
   color: #fff;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
 }
 :global(.medium-editor-anchor-preview) :global(a) {
   padding: 3px 12px;
@@ -201,7 +208,8 @@ div :global(ol) :global(li) {
 :global(.medium-editor-toolbar-form) {
   position: absolute;
   top: 0;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   color: #fff;
   fill: #fff;
   border-radius: 4px;
@@ -229,13 +237,15 @@ div :global(ol) :global(li) {
   align-items: center;
 }
 :global(.medium-editor-toolbar-input) {
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   margin-left: 6px;
   height: 100%;
   flex: 1;
 }
 :global(.medium-editor-toolbar-input::placeholder) {
-  color: #7a859e; /* fiord */
+  color: #7a859e;
+  /* fiord */
 }
 :global(.medium-editor-toolbar-save),
 :global(.medium-editor-toolbar-close) {
@@ -298,7 +308,8 @@ div :global(ol) :global(li) {
   display: flex;
   border-radius: 4px;
   color: #fff;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
 }
 :global(.medium-editor-anchor-preview) :global(a) {
   padding: 3px 12px;

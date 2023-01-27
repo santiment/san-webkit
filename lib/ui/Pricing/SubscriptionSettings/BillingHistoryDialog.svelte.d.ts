@@ -10,9 +10,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type BillingHistoryDialogProps = typeof __propDef.props;
-export type BillingHistoryDialogEvents = typeof __propDef.events;
-export type BillingHistoryDialogSlots = typeof __propDef.slots;
+export declare type BillingHistoryDialogProps = typeof __propDef.props;
+export declare type BillingHistoryDialogEvents = typeof __propDef.events;
+export declare type BillingHistoryDialogSlots = typeof __propDef.slots;
 export default class BillingHistoryDialog extends SvelteComponentTyped<BillingHistoryDialogProps, BillingHistoryDialogEvents, BillingHistoryDialogSlots> {
 }
 export {};

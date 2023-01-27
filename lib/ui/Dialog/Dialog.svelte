@@ -18,10 +18,12 @@ export let isClickawayDisabled = false;
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
+
 const checkIsEditable = ({
   isContentEditable,
   localName
 }) => isContentEditable || localName === 'input' || localName === 'textarea';
+
 function onKeyup({
   code,
   target
@@ -31,6 +33,7 @@ function onKeyup({
     if (checkIsEditable(target)) onEditableEscaped === null || onEditableEscaped === void 0 ? void 0 : onEditableEscaped(target, requestDialogClose);else requestDialogClose();
   }
 }
+
 function onClickaway({
   type,
   target,
@@ -38,6 +41,7 @@ function onClickaway({
 }) {
   if (isClickawayDisabled) return;
   if (isOpening) return;
+
   if (target === currentTarget) {
     if (type === 'mousedown') {
       clickAwayMouseDown = true;
@@ -46,8 +50,10 @@ function onClickaway({
       requestDialogClose();
     }
   }
+
   clickAwayMouseDown = false;
 }
+
 onMount(() => {
   openingTimer = window.setTimeout(() => isOpening = false, 250);
   document.body.style.width = document.body.offsetWidth + 'px';
@@ -58,35 +64,44 @@ onMount(() => {
 onDestroy(() => {
   clearTimeout(openingTimer);
 });
+
 function requestDialogClose(skipLockChecks) {
   if (isOpening) return;
+
   if (skipLockChecks !== true) {
     onBeforeDialogClose();
     if (DialogPromise.locking === DialogLock.LOCKED) return;
+
     if (DialogPromise.locking === DialogLock.WARN && !confirm('Do you want to close the dialog?')) {
       return;
     }
   }
+
   if (i === 0) {
     document.body.style.width = '';
     document.body.style.maxWidth = '';
     document.body.style.overflowY = '';
     document.body.style.touchAction = '';
   }
+
   const {
     length
   } = get(dialogs);
+
   if (i === length - 1) {
     window.removeEventListener('keyup', onKeyup);
     DialogPromise.reject();
     dialogs.hide(i);
   }
 }
+
 let out = false;
+
 function resetAnimation(node) {
   node.style.animation = 'none';
   node.offsetWidth;
 }
+
 function transition(node) {
   if (!animated) return;
   resetAnimation(node);

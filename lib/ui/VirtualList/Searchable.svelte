@@ -16,13 +16,17 @@ export let debounceTime = 180;
 export let filter;
 export let searchPosition = 'top';
 let filtered = items;
+
 $: isSearchAtTop = searchPosition === 'top';
+
 const [filterItems, clearTimer] = debounce(debounceTime, value => {
   filtered = value ? filter(value, items) : items;
 });
+
 const onInput = ({
   currentTarget
 }) => filterItems(currentTarget.value);
+
 onDestroy(clearTimer);</script>
 
 {#if isSearchAtTop}
@@ -32,7 +36,8 @@ onDestroy(clearTimer);</script>
     {placeholder}
     {autofocus}
     class="mrg-s mrg--b"
-    on:input={onInput} />
+    on:input={onInput}
+  />
 {/if}
 
 <VirtualList
@@ -43,7 +48,8 @@ onDestroy(clearTimer);</script>
   {autoHeight}
   {maxHeight}
   class={className}
-  let:item>
+  let:item
+>
   <slot {item} />
 </VirtualList>
 
@@ -54,5 +60,6 @@ onDestroy(clearTimer);</script>
     {placeholder}
     {autofocus}
     class="mrg-s mrg--t"
-    on:input={onInput} />
+    on:input={onInput}
+  />
 {/if}

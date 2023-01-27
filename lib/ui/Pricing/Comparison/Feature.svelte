@@ -11,6 +11,7 @@ const {
   postfix = ''
 } = feature;
 const defaultValue = isLimit ? 'Unlimited' : isAccess ? 'Full access' : isCheck ? true : '';
+
 function getValue(value) {
   return value !== undefined ? value : defaultValue;
 }</script>

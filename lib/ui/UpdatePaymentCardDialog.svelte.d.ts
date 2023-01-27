@@ -13,9 +13,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type UpdatePaymentCardDialogProps = typeof __propDef.props;
-export type UpdatePaymentCardDialogEvents = typeof __propDef.events;
-export type UpdatePaymentCardDialogSlots = typeof __propDef.slots;
+export declare type UpdatePaymentCardDialogProps = typeof __propDef.props;
+export declare type UpdatePaymentCardDialogEvents = typeof __propDef.events;
+export declare type UpdatePaymentCardDialogSlots = typeof __propDef.slots;
 export default class UpdatePaymentCardDialog extends SvelteComponentTyped<UpdatePaymentCardDialogProps, UpdatePaymentCardDialogEvents, UpdatePaymentCardDialogSlots> {
 }
 export {};

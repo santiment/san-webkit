@@ -6,9 +6,12 @@ export let user;
 export let isTagName = true;
 export let source;
 export let feature;
+
 $: if (isTagName && user.username === 'anonymous') isTagName = false;
+
 function onClick(e) {
   var _a;
+
   trackProfileClick({
     id: user.id,
     username: user.username || undefined,

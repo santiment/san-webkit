@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type PlanChangeDialogProps = typeof __propDef.props;
-export type PlanChangeDialogEvents = typeof __propDef.events;
-export type PlanChangeDialogSlots = typeof __propDef.slots;
+export declare type PlanChangeDialogProps = typeof __propDef.props;
+export declare type PlanChangeDialogEvents = typeof __propDef.events;
+export declare type PlanChangeDialogSlots = typeof __propDef.slots;
 export default class PlanChangeDialog extends SvelteComponentTyped<PlanChangeDialogProps, PlanChangeDialogEvents, PlanChangeDialogSlots> {
 }
 export {};

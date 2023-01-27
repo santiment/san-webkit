@@ -1,5 +1,6 @@
 <script>import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle';
 export let item;
+
 $: ({
   symbol,
   direction,

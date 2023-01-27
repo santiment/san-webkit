@@ -8,8 +8,9 @@ export let required = true;</script>
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="column {className}">
   <div class="caption txt-m c-waterloo">{title}</div>
-  <slot name="input"
-    ><input {name} {placeholder} {required} type="text" class="input" on:input /></slot>
+  <slot name="input">
+    <input {name} {placeholder} {required} type="text" class="input" on:input />
+  </slot>
   <slot />
 </label>
 

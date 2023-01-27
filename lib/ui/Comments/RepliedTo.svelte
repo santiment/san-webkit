@@ -4,6 +4,7 @@ import { getScrollToCommentContext, getGetRepliedToCommentContext } from './cont
 const scrollToReply = getScrollToCommentContext();
 const getRepliedToComment = getGetRepliedToCommentContext();
 export let id;
+
 $: comment = getRepliedToComment(id);</script>
 
 {#if comment}

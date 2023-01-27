@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export type DeleteDialogProps = typeof __propDef.props;
-export type DeleteDialogEvents = typeof __propDef.events;
-export type DeleteDialogSlots = typeof __propDef.slots;
+export declare type DeleteDialogProps = typeof __propDef.props;
+export declare type DeleteDialogEvents = typeof __propDef.events;
+export declare type DeleteDialogSlots = typeof __propDef.slots;
 export default class DeleteDialog extends SvelteComponentTyped<DeleteDialogProps, DeleteDialogEvents, DeleteDialogSlots> {
 }
 export {};

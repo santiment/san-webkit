@@ -1,11 +1,14 @@
 <script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-// import Breadcrumbs from './Breadcrumbs.svelte'
+import Svg from './../../ui/Svg/svelte'; // import Breadcrumbs from './Breadcrumbs.svelte'
+
 import { Page } from './types';
 import Aside from './Aside.svelte';
 export let page;
 export let title;
+export let isNftWinner = false;
+export let isDiscountWinner = false;
 export let insights = [];
+
 function changePage(newPage) {
   trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page);
   page = newPage;
@@ -44,7 +47,7 @@ function changePage(newPage) {
     </main>
   </section>
 
-  <Aside {insights} />
+  <Aside {insights} {isNftWinner} {isDiscountWinner} />
 </div>
 
 <style >.wrapper,

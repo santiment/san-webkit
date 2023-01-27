@@ -24,6 +24,7 @@ const {
   plan: currentPlan
 } = subscription;
 const currentPlanName = PlanName[currentPlan.name] || currentPlan.name;
+
 function formatDate() {
   const {
     MMMM,
@@ -32,6 +33,7 @@ function formatDate() {
   } = getDateFormats(new Date(currentPeriodEnd));
   return `${MMMM} ${DD}, ${YYYY}`;
 }
+
 function onClick() {
   loading = true;
   mutateUpdateSubscription(subscription.id, plan.id).then(data => {
