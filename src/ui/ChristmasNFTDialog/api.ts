@@ -1,5 +1,4 @@
 import { query } from '@/api'
-import { Cache } from '@/api/cache'
 import { getSavedBoolean, saveBoolean } from '@/utils/localStorage'
 
 export const NFT_BATTLE_TAG = 'NFTBATTLE'
@@ -11,14 +10,6 @@ const NFT_INSIGHTS_QUERY = `{
       title
       publishedAt
       tags { name }
-    }
-    sanbaseNft {
-      hasValidNft
-      nftCount
-      nftData {
-        address
-        tokenIds
-      }
     }
   }
 }`
@@ -32,15 +23,6 @@ type CurrentUserQuery = SAN.API.Query<
       publishedAt: null | string
       tags: { name: string }[]
     }[]
-
-    sanbaseNft: {
-      hasValidNft: boolean
-      nftCount: number
-      nftData: {
-        address: string
-        tokenIds: string
-      }[]
-    }
   }
 >
 
