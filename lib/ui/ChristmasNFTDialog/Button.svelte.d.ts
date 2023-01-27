@@ -2,6 +2,7 @@
 /** @typedef {typeof __propDef.events}  ButtonEvents */
 /** @typedef {typeof __propDef.slots}  ButtonSlots */
 export default class Button extends SvelteComponentTyped<{
+    props: any;
     source?: string | undefined;
     class?: string | undefined;
     isWinner?: boolean | undefined;
@@ -15,6 +16,7 @@ export type ButtonSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
+        props: any;
         source?: string | undefined;
         class?: string | undefined;
         isWinner?: boolean | undefined;
