@@ -73,3 +73,9 @@ export const trackPageView = ({
   sourceType: PageType
   sourceUrl: string
 }) => track('page_view', { url, type, source_type: sourceType, source_url: sourceUrl })
+
+export const trackSideNavigation = ({ feature, url, source }) =>
+  track('side_nav_navigation', { feature, url, source, source_url: window.location.href })
+
+export const trackSideNavRecents = ({ feature, url, source }) =>
+  track('side_nav_recents', { feature, url, source, source_url: window.location.href })

@@ -21,3 +21,15 @@ export const trackExplorerShowMore = ({ page, size }: { page: number; size: numb
 
 export const trackExplorerItemOpened = ({ id, feature }) =>
   track('explorer_item_opened', { id, feature })
+
+export const trackExplorerSidepanel = ({
+  source,
+  action,
+}: {
+  source: 'social_trends' | 'bi_weekly_reports' | 'sheets_templates'
+  action: 'item_click' | 'show_more' | 'source_page_open'
+}) =>
+  track('explorer_sidepanel', {
+    source,
+    action,
+  })
