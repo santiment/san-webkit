@@ -8,14 +8,6 @@ export declare const queryCurrentUserInsights: () => Promise<{
             name: string;
         }[];
     }[];
-    sanbaseNft: {
-        hasValidNft: boolean;
-        nftCount: number;
-        nftData: {
-            address: string;
-            tokenIds: string;
-        }[];
-    };
 } | null>;
 export declare const queryUserNftInsights: () => Promise<any[]>;
 export declare const checkIsGameStarted: () => boolean;

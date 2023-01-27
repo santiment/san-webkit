@@ -9,7 +9,6 @@ import Metamask from './Metamask.svelte';
 export let isNftWinner = false;
 export let currentUser;
 export let discountCode;
-export let insights;
 export let isDiscountWinner = false;
 let copyLabel = 'Copy';
 

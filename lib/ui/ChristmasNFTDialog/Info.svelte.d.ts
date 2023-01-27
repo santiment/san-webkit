@@ -5,7 +5,6 @@ declare const __propDef: {
         isNftWinner?: boolean | undefined;
         currentUser: CurrentUser | null;
         discountCode: undefined | string;
-        insights: any[];
         isDiscountWinner?: boolean | undefined;
     };
     events: {
