@@ -10,6 +10,7 @@
     page?: number
     isNftWinner?: boolean
     currentUser?: null | CurrentUser
+    discountCode?: string
   }) => dialogs.showOnce(ChristmasNFTDialog, props)
 
   export const dataPreloader = Preloader(queryUserNftInsights)
@@ -30,6 +31,7 @@
   export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
   export let isNftWinner = false
   export let currentUser: null | CurrentUser
+  export let discountCode: undefined | string
 
   page = Page.Info
 
@@ -41,7 +43,9 @@
     })
   }
 
-  const pages = {
+  $: isDiscountWinner = Boolean(insights.length && discountCode)
+
+  $: pages = {
     [Page.Insight]: {
       title: 'Publish your Insight',
       Component: Insight,
@@ -55,7 +59,11 @@
       Component: Reward,
     },
     [Page.Info]: {
-      title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : 'Time’s Up ⌛️',
+      title: isNftWinner
+        ? 'Congratulations! You’re a winner! 🎉'
+        : isDiscountWinner
+        ? 'No NFT, but a special gift'
+        : 'Time’s Up ⌛️',
       Component: Info,
     },
   }
@@ -81,8 +89,16 @@
     <Intro {closeDialog} bind:page />
   {:else}
     {@const { title, Component } = pages[page]}
-    <PageLayout {title} bind:page {insights}>
-      <svelte:component this={Component} {insights} {isNftWinner} {currentUser} bind:page />
+    <PageLayout {title} bind:page {insights} {isNftWinner} {isDiscountWinner}>
+      <svelte:component
+        this={Component}
+        {insights}
+        {currentUser}
+        {discountCode}
+        {isNftWinner}
+        {isDiscountWinner}
+        bind:page
+      />
     </PageLayout>
   {/if}
 </Dialog>
