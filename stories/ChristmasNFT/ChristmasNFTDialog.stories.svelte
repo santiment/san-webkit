@@ -60,6 +60,7 @@
       showChristmasNFTDialog({
         page: 4,
         discountCode: 'NFTBATTLE22',
+        currentUser: {},
       })}
   />
 </Story>

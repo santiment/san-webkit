@@ -26,7 +26,7 @@
   }
 </script>
 
-{#if true || (currentUser && (isNftWinner || isDiscountWinner))}
+{#if currentUser && (isNftWinner || isDiscountWinner)}
   {#if isNftWinner}
     <div class="intro">
       <p>Thank you for sharing your amazing idea with the Santiment community!</p>
