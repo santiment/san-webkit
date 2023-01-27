@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { CurrentUser } from './types'
 
+  import { copy } from '@/utils'
   import { PageName, trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
   import Svg from '@/ui/Svg/svelte'
   import { showIntercom } from '@/ui/HelpFeedback.svelte'
@@ -14,9 +15,18 @@
   export let discountCode: undefined | string
   export let insights: any[]
   export let isDiscountWinner = false
+
+  let copyLabel = 'Copy'
+
+  function onCopy() {
+    if (!discountCode) return
+
+    copyLabel = 'Copied!'
+    copy(discountCode, () => (copyLabel = 'Copy'), 1500)
+  }
 </script>
 
-{#if currentUser && (isNftWinner || isDiscountWinner)}
+{#if true || (currentUser && (isNftWinner || isDiscountWinner))}
   {#if isNftWinner}
     <div class="intro">
       <p>Thank you for sharing your amazing idea with the Santiment community!</p>
@@ -39,7 +49,9 @@
         using the code below:
       </p>
 
-      <button class="discount btn body-2">{discountCode}</button>
+      <button class="discount btn body-2 expl-tooltip" aria-label={copyLabel} on:click={onCopy}
+        >{discountCode}</button
+      >
     </div>
   {/if}
 {:else}
@@ -187,5 +199,7 @@
     --color: var(--green);
     padding: 8px 12px;
     user-select: initial;
+    --expl-left: 50%;
+    --expl-align-x: -50%;
   }
 </style>
