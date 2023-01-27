@@ -21,5 +21,6 @@
       mount(root, {
         trigger: createElement('div', null, 'Custom trigger'),
       })}
-    {destroy} />
+    {destroy}
+  />
 </Story>

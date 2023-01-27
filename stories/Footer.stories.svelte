@@ -15,7 +15,8 @@
   name="Purple accent"
   args={{
     class: '$style.purple',
-  }} />
+  }}
+/>
 
 <style>
   .purple {

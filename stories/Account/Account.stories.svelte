@@ -39,7 +39,8 @@
           {ui}
           {currentUser}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
-          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }}
+        />
       </div>
     </section>
     <section>
@@ -50,7 +51,8 @@
           {currentUser}
           variant={AccountStatusType.Second}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
-          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }} />
+          customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }}
+        />
       </div>
     </section>
     <section>
@@ -65,7 +67,8 @@
               isEligible: true,
               discount: { percentOff: 35, expireAt: fiveDaysLater },
             },
-          }} />
+          }}
+        />
       </div>
     </section>
     <section>
@@ -81,7 +84,8 @@
               isEligible: true,
               discount: { percentOff: 35, expireAt: fiveDaysLater },
             },
-          }} />
+          }}
+        />
       </div>
     </section>
     <section>

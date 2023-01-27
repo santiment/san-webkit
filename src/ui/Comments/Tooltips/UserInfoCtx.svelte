@@ -57,7 +57,8 @@
   settings={{
     openDelay: 200,
     scrollParent: commentsNode,
-  }}>
+  }}
+>
   <slot />
 
   <svelte:fragment slot="tooltip" let:props>

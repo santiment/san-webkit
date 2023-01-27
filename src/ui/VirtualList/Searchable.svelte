@@ -38,7 +38,8 @@
     {placeholder}
     {autofocus}
     class="mrg-s mrg--b"
-    on:input={onInput} />
+    on:input={onInput}
+  />
 {/if}
 
 <VirtualList
@@ -49,7 +50,8 @@
   {autoHeight}
   {maxHeight}
   class={className}
-  let:item>
+  let:item
+>
   <slot {item} />
 </VirtualList>
 
@@ -60,5 +62,6 @@
     {placeholder}
     {autofocus}
     class="mrg-s mrg--t"
-    on:input={onInput} />
+    on:input={onInput}
+  />
 {/if}

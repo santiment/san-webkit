@@ -11,7 +11,8 @@
     {...args}
     selectedIndex={1}
     items={['7', '12h', '24d']}
-    onChange={(value) => console.log(value)} />
+    onChange={(value) => console.log(value)}
+  />
 </Template>
 
 <Story name="Default" />

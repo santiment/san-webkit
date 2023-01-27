@@ -1,5 +1,4 @@
-export const checkIsObject = (value: any): boolean =>
-  value !== null && typeof value === 'object'
+export const checkIsObject = (value: any): boolean => value !== null && typeof value === 'object'
 
 type Value = {
   [key: string]: null | number | string | Value | any[]
@@ -8,10 +7,7 @@ type Value = {
 export const checkAreDiffObjects = (base: null | Value, target: null | Value) =>
   !checkIsSameObject(base, target)
 
-export function checkIsSameObject(
-  base: null | Value,
-  target: null | Value,
-): boolean {
+export function checkIsSameObject(base: null | Value, target: null | Value): boolean {
   // null === null | ref === ref
   if (base === target) return true
   // !null->(true) !== !ref->(false)

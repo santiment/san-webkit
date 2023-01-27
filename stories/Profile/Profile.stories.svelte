@@ -12,7 +12,8 @@
       username: args.username,
       email: args.email,
       avatarUrl: args.avatarUrl,
-    }} />
+    }}
+  />
 </Template>
 
 <Story
@@ -22,4 +23,5 @@
     username: 'Username',
     email: '',
     avatarUrl: '',
-  }} />
+  }}
+/>

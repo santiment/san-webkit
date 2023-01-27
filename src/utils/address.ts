@@ -1,9 +1,10 @@
-const addressChecker = (regexp: RegExp) => (address: string): boolean =>
-  regexp.test(address)
+const addressChecker =
+  (regexp: RegExp) =>
+  (address: string): boolean =>
+    regexp.test(address)
 
 export const isInvalidAddress = addressChecker(/[\W_]/)
-export const isValidAddress = (address: string): boolean =>
-  !isInvalidAddress(address)
+export const isValidAddress = (address: string): boolean => !isInvalidAddress(address)
 
 const isEthAddress = addressChecker(/^0x[a-fA-F0-9]{40}$/)
 
@@ -15,9 +16,7 @@ const isBtcSegwitAddress = addressChecker(
 const isLTCAddress = addressChecker(/(?:^[LM3][a-km-zA-HJ-NP-Z1-9]{26,33}$)/)
 
 const isBCHAddressSimple = addressChecker(/(?:^[13][a-km-zA-HJ-NP-Z1-9]{33}$)/)
-const isBCHAddressPrefix = addressChecker(
-  /(?:^((bitcoincash|bchreg|bchtest):)?(q|p)[a-z0-9]{41})/,
-)
+const isBCHAddressPrefix = addressChecker(/(?:^((bitcoincash|bchreg|bchtest):)?(q|p)[a-z0-9]{41})/)
 
 const isXRPAddress = addressChecker(/(?:^r[0-9a-zA-Z]{24,34}$)/)
 
@@ -29,9 +28,7 @@ export enum Infrastructure {
   BCH = 'BCH',
 }
 
-export function getAddressInfrastructure(
-  address: string,
-): Infrastructure | undefined {
+export function getAddressInfrastructure(address: string): Infrastructure | undefined {
   if (isEthAddress(address)) {
     return Infrastructure.ETH
   }

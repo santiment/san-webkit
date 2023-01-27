@@ -21,7 +21,8 @@
       following: {
         users: [],
       },
-    }} />
+    }}
+  />
 </Story>
 
 <Dialogs />

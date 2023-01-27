@@ -21,7 +21,8 @@
       key="slug"
       placeholder="Search assets"
       maxHeight={200}
-      let:item>
+      let:item
+    >
       <div class="row v-center btn-ghost">
         <ProjectIcon slug={item.slug} class="mrg-s mrg--r" />
         {item.name}

@@ -24,7 +24,8 @@
     duration: { control: 'number' },
     openDelay: { control: 'number' },
     closeTimeout: { control: 'number' },
-  }} />
+  }}
+/>
 
 <Template let:args>
   <div class="row justify">
@@ -129,7 +130,8 @@
   args={{
     primary: true,
     label: 'Button',
-  }} />
+  }}
+/>
 
 <style>
   .tooltip {

@@ -8,13 +8,15 @@
   <div
     class="bill"
     class:active={billing === Billing.MONTH}
-    on:click={() => (billing = Billing.MONTH)}>
+    on:click={() => (billing = Billing.MONTH)}
+  >
     Monthly
   </div>
   <div
     class="bill"
     class:active={billing === Billing.YEAR}
-    on:click={() => (billing = Billing.YEAR)}>
+    on:click={() => (billing = Billing.YEAR)}
+  >
     Annually<span class="mrg-s mrg--l body-3">Save 10% 😍</span>
   </div>
 </div>

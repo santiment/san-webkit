@@ -26,7 +26,8 @@
     {html}
     {isComments}
     {placeholder}
-    class={className} />
+    class={className}
+  />
 {:else}
   <div class={className} />
 {/if}
