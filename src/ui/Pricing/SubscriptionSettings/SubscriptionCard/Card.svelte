@@ -147,7 +147,6 @@
     display: inline-flex;
     --bg: var(--primary, var(--green));
     --bg-hover: var(--primary-hover, var(--green-hover));
-    --v-padding: 8px;
   }
 
   .btn-2 {
@@ -163,8 +162,14 @@
 
   :global(.phone-xs),
   :global(.phone) {
+    .btn-1 {
+      --v-padding: 8px;
+    }
     h2 {
       font-weight: 400;
+      font-size: 32px;
+      line-height: 40px;
+      color: var(--rhino);
     }
     .actions {
       --margin: 16px;
@@ -200,6 +205,9 @@
 
     .price {
       margin-left: 8px;
+      font: var(--h4);
+      font-weight: 500;
+      color: var(--rhino);
     }
   }
 </style>

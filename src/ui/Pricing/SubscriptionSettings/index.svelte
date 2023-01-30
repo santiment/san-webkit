@@ -101,7 +101,7 @@
 
   <Setting class="$style.setting justify">
     <div>
-      Payment method
+      <span class="setting-title">Payment method</span>
 
       {#if paymentCard}
         <div class="card row v-center mrg-s mrg--t">
@@ -130,7 +130,7 @@
 
   <Setting class="$style.setting justify">
     <div>
-      Billing history
+      <span class="setting-title">Billing history</span>
       <p class="description c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
@@ -138,13 +138,13 @@
       <div class="loading-spin" />
     {:else if billingHistory.length}
       <button
-        class="btn c-accent nowrap"
+        class="btn c-accent nowrap showhistory"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
       </button>
     {:else}
-      <div class="nowrap c-waterloo">No history yet</div>
+      <div class="nowrap c-waterloo nohistory setting-title">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -187,6 +187,13 @@
 
   :global(.phone),
   :global(.phone-xs) {
+    .description {
+      line-height: 24px;
+    }
+    .setting-title {
+      line-height: 24px;
+      color: var(--rhino);
+    }
     .btn-1 {
       width: 100%;
       margin-top: 8px;
@@ -200,10 +207,6 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-    }
-
-    .description {
-      margin-top: 6px;
     }
 
     .cancel-btn {
@@ -220,11 +223,11 @@
       --v-padding: 7px;
     }
 
-    .nowrap {
+    .showhistory {
       margin-top: 12px;
     }
 
-    div.nowrap {
+    .nohistory {
       color: var(--fiord);
     }
 
