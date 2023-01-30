@@ -44,10 +44,7 @@
     </div>
 
     <div>
-      <h3 class="txt-m mrg-m mrg--b row v-center nowrap" class:error={error && !feedback}>
-        Just one last thing*
-        <FieldRequired />
-      </h3>
+      <h3 class="txt-m mrg-m mrg--b row v-center nowrap" class:error>Just one last thing</h3>
       <textarea
         cols="30"
         rows="3"
