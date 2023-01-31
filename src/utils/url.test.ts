@@ -1,4 +1,4 @@
-import { getSEOLinkFromIdAndTitle } from './url'
+import { getSEOLinkFromIdAndTitle, parse } from './url'
 
 describe('getSEOLinkFromIdAndTitle', () => {
   const test = (title, expected) =>
@@ -14,4 +14,26 @@ describe('getSEOLinkFromIdAndTitle', () => {
   )
 
   test(' 😀😀 emojis test 😀😀 😀😀', 'emojis-test')
+})
+
+describe('parse - search params - key=value', () => {
+  it('[1;key]={json:true}', () => {
+    const key = '[1;key]'
+    const value = { json: true }
+    const searchQuery = `?${encodeURIComponent(key)}=${encodeURIComponent(JSON.stringify(value))}`
+
+    expect(parse(searchQuery)).toEqual({
+      [key]: JSON.stringify(value),
+    })
+  })
+
+  it('auth=google', () => {
+    const key = 'auth'
+    const value = 'google'
+    const searchQuery = `?${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+
+    expect(parse(searchQuery)).toEqual({
+      [key]: value,
+    })
+  })
 })

@@ -16,13 +16,12 @@ export const getSEOLinkFromIdAndTitle = (id: string | number, title?: string | n
     : `${id}`
 
 export function parse(queryString: string) {
-  const qs = queryString.startsWith('?') ? queryString.slice(1) : queryString
-  const entries = qs.split('&')
-
+  const params = new URLSearchParams(queryString)
   const result = {}
-  for (let i = 0, len = entries.length; i < len; i++) {
-    const [key, value] = entries[i].split('=')
-    result[decodeURIComponent(key)] = decodeURIComponent(value)
-  }
+
+  params.forEach((value, key) => {
+    result[key] = value
+  })
+
   return result
 }
