@@ -67,13 +67,6 @@
 </PlanCard>
 
 <style lang="scss">
-  :global(.phone),
-  :global(.phone-xs) {
-    p {
-      font: var(--body-2);
-    }
-  }
-
   b {
     font-weight: 500;
   }

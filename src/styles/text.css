@@ -68,6 +68,7 @@
 }
 
 :root {
+  --body-3: 14px/20px 'Proxima Nova';
   --body-2: 16px/24px 'Proxima Nova';
   --body-1: 18px/26px 'Proxima Nova';
   --body-0: 20px/30px 'Proxima Nova';

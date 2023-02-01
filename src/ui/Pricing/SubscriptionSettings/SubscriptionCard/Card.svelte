@@ -29,7 +29,7 @@
   <slot />
 
   {#if badge || isChecked}
-    <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
+    <div class="badge txt-m row hv-center body-3" class:check={isChecked} class:active={isActive}>
       {#if isChecked}
         <Svg id="checkmark-large" w="14" h="10" />
       {:else}
@@ -42,16 +42,16 @@
   {#if billing && !shouldHideBillingInfo}
     <div class="billing caption txt-m c-waterloo txt-right">
       {billing}:
-      <h4 class="body-1 price c-black">
+      <h3 class="body-1 price c-black">
         {price}{#if discount}/mo{/if}
-      </h4>
+      </h3>
     </div>
   {/if}
 
   <div class="actions row v-center mrg-xl mrg--t">
     <svelte:element
       this={link ? 'a' : 'button'}
-      class="btn-1 v-center btn-mobile"
+      class="btn-1 v-center"
       class:disabled
       {...link}
       on:click={onActionClick}
@@ -64,9 +64,7 @@
     </svelte:element>
 
     {#if subaction && onSubactionClick}
-      <button class="btn-2 subaction btn-mobile mrg-m mrg--l" on:click={onSubactionClick}
-        >{subaction}</button
-      >
+      <button class="btn-2 subaction mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
 </article>
@@ -165,33 +163,28 @@
     .btn-1 {
       --v-padding: 8px;
     }
+
     h2 {
-      font-weight: 400;
-      font-size: 32px;
-      line-height: 40px;
-      color: var(--rhino);
+      font: var(--h3);
     }
+
     .actions {
       --margin: 16px;
       flex-direction: column;
       align-items: flex-start;
     }
 
-    .btn-mobile {
-      font: var(--body-2);
-    }
-
     .subaction {
       margin: 8px 0 0 0;
     }
 
-    h4.caption {
-      transform: translateY(2px);
+    h4,
+    .billing {
+      font: 500 var(--body-3);
     }
 
-    .caption {
-      font-size: 14px;
-      line-height: 20px;
+    h4 {
+      margin: 6px 0;
     }
 
     .billing {
@@ -199,15 +192,11 @@
       display: flex;
       align-items: center;
       margin-top: 12px;
-      font-size: 14px;
-      line-height: 20px;
     }
 
     .price {
       margin-left: 8px;
-      font: var(--h4);
-      font-weight: 500;
-      color: var(--rhino);
+      font: 500 var(--h4);
     }
   }
 </style>

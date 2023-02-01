@@ -89,11 +89,11 @@
     <Setting class="$style.setting justify">
       <div>
         Cancel subscription
-        <div class="c-waterloo description">
+        <div class="description c-waterloo">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="btn c-accent cancel-btn" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="cancel-btn btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
       </button>
     </Setting>
@@ -101,7 +101,7 @@
 
   <Setting class="$style.setting justify">
     <div>
-      <span class="setting-title">Payment method</span>
+      Payment method
 
       {#if paymentCard}
         <div class="card row v-center mrg-s mrg--t">
@@ -115,14 +115,14 @@
       {/if}
     </div>
 
-    <div class="txt-right">
+    <div class="payment-actions txt-right">
       {#if paymentCard}
         <button class="btn btn--red mrg-l mrg--r" on:click={showRemovePaymentCardDialog}
           >Remove</button
         >
       {/if}
 
-      <button class="btn-2 payment-btn" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
@@ -130,7 +130,8 @@
 
   <Setting class="$style.setting justify">
     <div>
-      <span class="setting-title">Billing history</span>
+      Billing history
+
       <p class="description c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
@@ -138,13 +139,13 @@
       <div class="loading-spin" />
     {:else if billingHistory.length}
       <button
-        class="btn c-accent nowrap showhistory"
+        class="history-btn btn-0 nowrap"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
       </button>
     {:else}
-      <div class="nowrap c-waterloo nohistory setting-title">No history yet</div>
+      <div class="history nowrap c-waterloo">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -187,52 +188,35 @@
 
   :global(.phone),
   :global(.phone-xs) {
-    .description {
-      line-height: 24px;
-    }
-    .setting-title {
-      line-height: 24px;
-      color: var(--rhino);
-    }
-    .btn-1 {
-      width: 100%;
-      margin-top: 8px;
+    section {
+      font: var(--body-2);
     }
 
-    .card {
-      --margin: 6px;
-    }
-
-    .setting {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .cancel-btn {
-      margin-top: 12px;
-    }
-
-    .txt-right {
-      margin-top: 12px;
-      display: flex;
-      align-items: center;
+    h4 {
+      font: var(--body-3);
     }
 
     .btn-2 {
       --v-padding: 7px;
     }
 
-    .showhistory {
+    .setting {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .cancel-btn,
+    .history,
+    .history-btn {
       margin-top: 12px;
     }
 
-    .nohistory {
-      color: var(--fiord);
+    .payment-actions {
+      margin-top: 16px;
     }
 
-    .payment-btn {
-      font: var(--body-2);
+    .history {
+      color: var(--fiord);
     }
   }
 
