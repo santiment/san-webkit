@@ -66,7 +66,7 @@
   </p>
 </PlanCard>
 
-<style>
+<style lang="scss">
   b {
     font-weight: 500;
   }

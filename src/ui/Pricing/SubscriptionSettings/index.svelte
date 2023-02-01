@@ -86,20 +86,20 @@
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting>
+    <Setting class="$style.setting justify">
       <div>
         Cancel subscription
-        <div class="c-waterloo">
+        <div class="description c-waterloo">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="cancel-btn btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
       </button>
     </Setting>
   {/if}
 
-  <Setting>
+  <Setting class="$style.setting justify">
     <div>
       Payment method
 
@@ -115,34 +115,37 @@
       {/if}
     </div>
 
-    <div class="txt-right">
+    <div class="payment-actions txt-right">
       {#if paymentCard}
-        <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
+        <button class="btn btn--red mrg-l mrg--r" on:click={showRemovePaymentCardDialog}
+          >Remove</button
+        >
       {/if}
 
-      <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
   </Setting>
 
-  <Setting>
+  <Setting class="$style.setting justify">
     <div>
       Billing history
-      <p class="c-waterloo">Shows an overview of all charges issued for your account</p>
+
+      <p class="description c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
     {#if isBillingLoading}
       <div class="loading-spin" />
     {:else if billingHistory.length}
       <button
-        class="btn c-accent nowrap"
+        class="history-btn btn-0 nowrap"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
       </button>
     {:else}
-      <div class="c-waterloo nowrap">No history yet</div>
+      <div class="history nowrap c-waterloo">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -179,11 +182,41 @@
     gap: 16px;
   }
 
+  .description {
+    margin-top: 6px;
+  }
+
   :global(.phone),
   :global(.phone-xs) {
-    .btn-1 {
-      width: 100%;
-      margin-top: 8px;
+    section {
+      font: var(--body-2);
+    }
+
+    h4 {
+      font: var(--body-3);
+    }
+
+    .btn-2 {
+      --v-padding: 7px;
+    }
+
+    .setting {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .cancel-btn,
+    .history,
+    .history-btn {
+      margin-top: 12px;
+    }
+
+    .payment-actions {
+      margin-top: 16px;
+    }
+
+    .history {
+      color: var(--fiord);
     }
   }
 

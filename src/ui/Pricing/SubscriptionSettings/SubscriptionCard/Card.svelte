@@ -29,7 +29,7 @@
   <slot />
 
   {#if badge || isChecked}
-    <div class="badge txt-m row hv-center" class:check={isChecked} class:active={isActive}>
+    <div class="badge txt-m row hv-center body-3" class:check={isChecked} class:active={isActive}>
       {#if isChecked}
         <Svg id="checkmark-large" w="14" h="10" />
       {:else}
@@ -39,7 +39,16 @@
     </div>
   {/if}
 
-  <div class="actions mrg-xl mrg--t">
+  {#if billing && !shouldHideBillingInfo}
+    <div class="billing caption txt-m c-waterloo txt-right">
+      {billing}:
+      <h3 class="body-1 price c-black">
+        {price}{#if discount}/mo{/if}
+      </h3>
+    </div>
+  {/if}
+
+  <div class="actions row v-center mrg-xl mrg--t">
     <svelte:element
       this={link ? 'a' : 'button'}
       class="btn-1 v-center"
@@ -55,18 +64,9 @@
     </svelte:element>
 
     {#if subaction && onSubactionClick}
-      <button class="btn-2 mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
+      <button class="btn-2 subaction mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
     {/if}
   </div>
-
-  {#if billing && !shouldHideBillingInfo}
-    <div class="billing caption txt-m c-waterloo txt-right">
-      {billing}:
-      <h3 class="body-1 c-black">
-        {price}{#if discount}/mo{/if}
-      </h3>
-    </div>
-  {/if}
 </article>
 
 <style lang="scss">
@@ -74,10 +74,8 @@
     padding: 16px 16px 16px 24px;
     border-radius: 8px;
     background: var(--athens);
-    min-width: 350px;
 
     & > :global(p) {
-      max-width: 318px;
       color: var(--fiord);
     }
   }
@@ -151,11 +149,54 @@
 
   .btn-2 {
     --bg: var(--white);
+    --v-padding: 7px;
   }
 
   .billing {
     position: absolute;
     bottom: 16px;
     right: 16px;
+  }
+
+  :global(.phone-xs),
+  :global(.phone) {
+    .btn-1 {
+      --v-padding: 8px;
+    }
+
+    h2 {
+      font: var(--h3);
+    }
+
+    .actions {
+      --margin: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .subaction {
+      margin: 8px 0 0 0;
+    }
+
+    h4,
+    .billing {
+      font: 500 var(--body-3);
+    }
+
+    h4 {
+      margin: 6px 0;
+    }
+
+    .billing {
+      position: static;
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .price {
+      margin-left: 8px;
+      font: 500 var(--h4);
+    }
   }
 </style>
