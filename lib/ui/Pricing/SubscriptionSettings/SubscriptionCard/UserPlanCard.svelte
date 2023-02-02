@@ -69,8 +69,6 @@ function formatDate(date) {
   </p>
 </PlanCard>
 
-<style>
-  b {
-    font-weight: 500;
-  }
-</style>
+<style >b {
+  font-weight: 500;
+}</style>

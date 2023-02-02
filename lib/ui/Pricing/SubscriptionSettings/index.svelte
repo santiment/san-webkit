@@ -65,7 +65,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-JdU8R0">
+  <Setting class="subscriptions-AQLah6">
     <UserPlanCard
       {plan}
       {subscription}
@@ -93,20 +93,20 @@ function getPlanSuggestions() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting>
+    <Setting class="setting-gdaL1X justify">
       <div>
         Cancel subscription
-        <div class="c-waterloo">
+        <div class="description c-waterloo">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="cancel-btn btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
         Cancel subscription
       </button>
     </Setting>
   {/if}
 
-  <Setting>
+  <Setting class="setting-gdaL1X justify">
     <div>
       Payment method
 
@@ -122,34 +122,37 @@ function getPlanSuggestions() {
       {/if}
     </div>
 
-    <div class="txt-right">
+    <div class="payment-actions txt-right">
       {#if paymentCard}
-        <button class="btn btn--red" on:click={showRemovePaymentCardDialog}>Remove</button>
+        <button class="btn btn--red mrg-l mrg--r" on:click={showRemovePaymentCardDialog}
+          >Remove</button
+        >
       {/if}
 
-      <button class="btn-2 mrg-l mrg--l" on:click={() => showUpdatePaymentCardDialog()}>
+      <button class="btn-2" on:click={() => showUpdatePaymentCardDialog()}>
         {paymentCard ? 'Update' : 'Add'} card
       </button>
     </div>
   </Setting>
 
-  <Setting>
+  <Setting class="setting-gdaL1X justify">
     <div>
       Billing history
-      <p class="c-waterloo">Shows an overview of all charges issued for your account</p>
+
+      <p class="description c-waterloo">Shows an overview of all charges issued for your account</p>
     </div>
 
     {#if isBillingLoading}
       <div class="loading-spin" />
     {:else if billingHistory.length}
       <button
-        class="btn c-accent nowrap"
+        class="history-btn btn-0 nowrap"
         on:click={() => showBillingHistoryDialog({ history: billingHistory })}
       >
         Show history
       </button>
     {:else}
-      <div class="c-waterloo nowrap">No history yet</div>
+      <div class="history nowrap c-waterloo">No history yet</div>
     {/if}
   </Setting>
 </section>
@@ -181,18 +184,50 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-JdU8R0) {
+:global(.subscriptions-AQLah6) {
   gap: 16px;
 }
 
-:global(.phone) .btn-1,
-:global(.phone-xs) .btn-1 {
-  width: 100%;
-  margin-top: 8px;
+.description {
+  margin-top: 6px;
 }
 
-:global(.phone) :global(.subscriptions-JdU8R0),
-:global(.tablet) :global(.subscriptions-JdU8R0),
-:global(.phone-xs) :global(.subscriptions-JdU8R0) {
+:global(.phone) section,
+:global(.phone-xs) section {
+  font: var(--body-2);
+}
+:global(.phone) h4,
+:global(.phone-xs) h4 {
+  font: var(--body-3);
+}
+:global(.phone) .btn-2,
+:global(.phone-xs) .btn-2 {
+  --v-padding: 7px;
+}
+:global(.phone) :global(.setting-gdaL1X),
+:global(.phone-xs) :global(.setting-gdaL1X) {
+  flex-direction: column;
+  align-items: flex-start;
+}
+:global(.phone) .cancel-btn,
+:global(.phone) .history,
+:global(.phone) .history-btn,
+:global(.phone-xs) .cancel-btn,
+:global(.phone-xs) .history,
+:global(.phone-xs) .history-btn {
+  margin-top: 12px;
+}
+:global(.phone) .payment-actions,
+:global(.phone-xs) .payment-actions {
+  margin-top: 16px;
+}
+:global(.phone) .history,
+:global(.phone-xs) .history {
+  color: var(--fiord);
+}
+
+:global(.phone) :global(.subscriptions-AQLah6),
+:global(.tablet) :global(.subscriptions-AQLah6),
+:global(.phone-xs) :global(.subscriptions-AQLah6) {
   flex-direction: column;
 }</style>

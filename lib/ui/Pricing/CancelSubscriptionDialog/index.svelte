@@ -26,7 +26,7 @@ function onCancellationClick() {
 
   if (!subscription) return;
 
-  if (reasons.size === 0 || !feedback) {
+  if (reasons.size === 0) {
     error = true;
     return;
   }

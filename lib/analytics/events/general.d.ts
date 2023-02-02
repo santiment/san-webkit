@@ -31,3 +31,13 @@ export declare const trackPageView: ({ url, type, sourceType, sourceUrl, }: {
     sourceType: PageType;
     sourceUrl: string;
 }) => number;
+export declare const trackSideNavFeatures: ({ url, type, sourceType, }: {
+    url: string;
+    type: PageType;
+    sourceType: PageType;
+}) => number;
+export declare const trackSideNavRecents: ({ feature, url, source }: {
+    feature: any;
+    url: any;
+    source: any;
+}) => number;

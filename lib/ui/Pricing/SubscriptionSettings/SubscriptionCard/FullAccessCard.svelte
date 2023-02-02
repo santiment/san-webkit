@@ -15,10 +15,11 @@ import Card from './Card.svelte';</script>
   <img src="{process.env.MEDIA_PATH}/illus/alien.svg" alt="Alien" />
 </Card>
 
-<style>
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-</style>
+<style >img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+:global(.phone-xs) img, :global(.phone) img {
+  width: 50%;
+}</style>
