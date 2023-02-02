@@ -23,13 +23,16 @@ export const trackExplorerItemOpened = ({ id, feature }) =>
   track('explorer_item_opened', { id, feature })
 
 export const trackExplorerSidepanel = ({
-  source,
+  type,
   action,
+  error,
 }: {
-  source: 'social_trends' | 'bi_weekly_reports' | 'sheets_templates'
+  type: 'social_trends' | 'bi_weekly_reports' | 'sheets_templates'
   action: 'item_click' | 'show_more' | 'source_page_open'
+  error?: 'free_user'
 }) =>
   track('explorer_sidepanel', {
-    source,
+    type,
     action,
+    error,
   })
