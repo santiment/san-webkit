@@ -26,7 +26,9 @@ export function startCancellationFlow(
   feedback: string,
   closeDialog,
 ) {
-  track.event(Event.GiveFeedback, { feedback })
+  if (feedback) {
+    track.event(Event.GiveFeedback, { feedback })
+  }
 
   return mutateCancelSubscription(subscription.id)
     .then(() => {

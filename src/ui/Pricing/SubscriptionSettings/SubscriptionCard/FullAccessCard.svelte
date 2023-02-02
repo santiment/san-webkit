@@ -17,10 +17,15 @@
   <img src="{process.env.MEDIA_PATH}/illus/alien.svg" alt="Alien" />
 </Card>
 
-<style>
+<style lang="scss">
   img {
     position: absolute;
     bottom: 0;
     right: 0;
+
+    :global(.phone-xs) &,
+    :global(.phone) & {
+      width: 50%;
+    }
   }
 </style>
