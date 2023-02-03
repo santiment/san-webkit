@@ -43,12 +43,8 @@
   scrollbar-color: var(--casper) var(--porcelain);
 }
 
-html,
 body {
   height: 100%;
-}
-
-body {
   font-family: 'Proxima Nova', sans-serif;
   font-size: 14px;
   line-height: 20px;
