@@ -18,7 +18,8 @@ function canTrackBrowser() {
 }
 
 export const isTrackingEnabled =
-  process.browser && (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true)
+  process.browser &&
+  (process.env.IS_DEV_MODE || (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true))
 
 const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE]
 
