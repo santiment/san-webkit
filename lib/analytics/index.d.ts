@@ -4,7 +4,7 @@ export declare enum Tracker {
     TWQ = "twq",
     AMPLITUDE = "AMPLITUDE"
 }
-export declare const isTrackingEnabled: boolean;
+export declare const isTrackingEnabled: any;
 export declare type EventData = {
     [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[];
 };
