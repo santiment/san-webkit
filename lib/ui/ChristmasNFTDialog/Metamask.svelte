@@ -1,6 +1,16 @@
-<script>import { connectWallet } from './../../utils/web3';
-import { notifications$ } from './../../ui/Notifications';
+<script>import { notifications$ } from './../../ui/Notifications';
+import { connectWallet } from './../../utils/web3';
+import { getNftContract } from './web3';
+import { queryNftToClaim } from './api';
 export let currentUser;
+let hasClaimableNfts = false;
+let nftsToClaim = [];
+queryNftToClaim().then(data => {
+  nftsToClaim = data;
+  hasClaimableNfts = data.some(({
+    nonValidTokenIds
+  }) => Boolean(nonValidTokenIds.length));
+});
 
 function onConnectClick() {
   connectWallet().catch(e => {
@@ -10,6 +20,36 @@ function onConnectClick() {
       description: 'Please try again'
     });
     console.error(e);
+  });
+}
+
+async function onClaimClick() {
+  const {
+    clientAddress,
+    contract,
+    error
+  } = await getNftContract().catch(error => ({
+    error
+  }));
+  if (error) return console.error(error);
+  nftsToClaim.forEach(({
+    address,
+    nonValidTokenIds
+  }) => {
+    if (address.toLowerCase() !== clientAddress.toLowerCase()) return;
+    nonValidTokenIds.forEach(tokenId => {
+      contract.activateSubscription(tokenId).then(() => {
+        notifications$.show({
+          type: 'success',
+          title: 'NFT claimed!'
+        });
+      }).catch(() => {
+        notifications$.show({
+          type: 'error',
+          title: `Failed to claim NFT (id: ${tokenId})`
+        });
+      });
+    });
   });
 }</script>
 
@@ -22,6 +62,10 @@ function onConnectClick() {
       {#if currentUser.ethAccounts.length}
         <br />
         Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
+
+        {#if hasClaimableNfts}
+          <button class="btn-1 mrg-s mrg--t" on:click={onClaimClick}>Claim NFT</button>
+        {/if}
       {:else}
         Please follow futher instructions
       {/if}
