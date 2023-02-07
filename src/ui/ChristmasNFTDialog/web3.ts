@@ -1,6 +1,5 @@
 import { getAccount, getWeb3Provider } from '@/utils/web3'
 
-// const ADDRESS = '0x211e14c8cc67f9ef05cc84f80dc036ff2f548949'
 const ADDRESS = '0x13B0125522c6695430a3335111Ef9b0acdf5b6c9'
 
 export async function getNftContract() {
