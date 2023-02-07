@@ -29,11 +29,11 @@
   }
 
   async function onClaimClick() {
-    const { clientAddress, contract, error } = await getNftContract().catch(() => ({
-      error: true,
+    const { clientAddress, contract, error } = await getNftContract().catch((error) => ({
+      error,
     }))
 
-    if (error) return
+    if (error) return console.error(error)
 
     nftsToClaim.forEach(({ address, nonValidTokenIds }) => {
       if (address.toLowerCase() !== clientAddress.toLowerCase()) return
@@ -42,7 +42,7 @@
         contract
           .activateSubscription(tokenId)
           .then(() => {
-            notifications$.show({ type: 'success', title: 'NFT Claimed!' })
+            notifications$.show({ type: 'success', title: 'NFT claimed!' })
           })
           .catch(() => {
             notifications$.show({ type: 'error', title: `Failed to claim NFT (id: ${tokenId})` })
@@ -62,7 +62,7 @@
         <br />
         Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
 
-        {#if true || hasClaimableNfts}
+        {#if hasClaimableNfts}
           <button class="btn-1 mrg-s mrg--t" on:click={onClaimClick}>Claim NFT</button>
         {/if}
       {:else}
