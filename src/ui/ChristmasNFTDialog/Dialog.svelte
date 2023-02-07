@@ -27,6 +27,7 @@
   import Top from './Top.svelte'
   import Reward from './Reward.svelte'
   import Info from './Info.svelte'
+  import { activateSubscription } from './web3'
 
   export let page = checkIsGameStarted() ? Page.Insight : Page.Intro
   export let isNftWinner = false
@@ -76,6 +77,8 @@
       saveDialogClose()
     }
   })
+
+  activateSubscription()
 </script>
 
 <Dialog
