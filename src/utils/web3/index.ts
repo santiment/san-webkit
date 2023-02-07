@@ -23,13 +23,17 @@ export async function signMessage(message) {
 const handleAccountsChanged = (accounts: string[]) =>
   accounts.length ? [accounts[0]] : [null, 'Please connect to MetaMask.']
 
-export async function connectWallet() {
-  if (!window.ethereum) return Promise.reject('No metamask found')
-
-  const [address, error] = await window.ethereum
+export function getAccount(): Promise<[any | null, undefined | any]> {
+  return window.ethereum
     .request({ method: 'eth_requestAccounts' })
     .then(handleAccountsChanged)
     .catch((e) => [null, e])
+}
+
+export async function connectWallet() {
+  if (!window.ethereum) return Promise.reject('No metamask found')
+
+  const [address, error] = await getAccount()
 
   if (error) return Promise.reject(error)
 
