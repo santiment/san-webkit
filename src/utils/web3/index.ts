@@ -33,7 +33,7 @@ export function getAccount(): Promise<[any | null, undefined | any]> {
 export async function connectWallet() {
   if (!window.ethereum) return Promise.reject('No metamask found')
 
-  const [address, error] = getAccount()
+  const [address, error] = await getAccount()
 
   if (error) return Promise.reject(error)
 
