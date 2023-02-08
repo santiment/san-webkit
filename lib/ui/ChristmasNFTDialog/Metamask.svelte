@@ -64,7 +64,9 @@ async function onClaimClick() {
         Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
 
         {#if hasClaimableNfts}
-          <button class="btn-1 mrg-s mrg--t" on:click={onClaimClick}>Claim NFT</button>
+          <button class="btn-1 mrg-s mrg--t" on:click={onClaimClick}>
+            Activate subscription
+          </button>
         {/if}
       {:else}
         Please follow futher instructions
