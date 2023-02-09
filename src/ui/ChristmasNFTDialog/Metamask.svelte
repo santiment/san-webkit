@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { CurrentUser } from './types'
-  import type { NftData } from './api'
 
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
   import { notifications$ } from '@/ui/Notifications'
   import { connectWallet } from '@/utils/web3'
   import { getNftContract } from './web3'
@@ -9,12 +10,13 @@
 
   export let currentUser: CurrentUser
 
-  let hasClaimableNfts = false
-  let nftsToClaim = [] as NftData
+  let selectedTokenId: number
+  let claimableTokenIds = [] as number[]
+  let isOpened = false
 
   queryNftToClaim().then((data) => {
-    nftsToClaim = data
-    hasClaimableNfts = data.some(({ nonValidTokenIds }) => Boolean(nonValidTokenIds.length))
+    claimableTokenIds = data.flatMap(({ nonValidTokenIds }) => nonValidTokenIds)
+    selectedTokenId = claimableTokenIds[0]
   })
 
   function onConnectClick() {
@@ -28,27 +30,29 @@
     })
   }
 
+  function selectTokenId(id: number) {
+    selectedTokenId = id
+    isOpened = false
+  }
+
   async function onClaimClick() {
-    const { clientAddress, contract, error } = await getNftContract().catch((error) => ({
+    const { contract, error } = await getNftContract().catch((error) => ({
       error,
     }))
 
     if (error) return console.error(error)
 
-    nftsToClaim.forEach(({ address, nonValidTokenIds }) => {
-      if (address.toLowerCase() !== clientAddress.toLowerCase()) return
+    contract
+      .activateSubscription(selectedTokenId)
+      .then(() => {
+        notifications$.show({ type: 'success', title: 'NFT claimed!' })
 
-      nonValidTokenIds.forEach((tokenId) => {
-        contract
-          .activateSubscription(tokenId)
-          .then(() => {
-            notifications$.show({ type: 'success', title: 'NFT claimed!' })
-          })
-          .catch(() => {
-            notifications$.show({ type: 'error', title: `Failed to claim NFT (id: ${tokenId})` })
-          })
+        claimableTokenIds = claimableTokenIds.filter((tokenId) => tokenId !== selectedTokenId)
+        selectedTokenId = claimableTokenIds[0]
       })
-    })
+      .catch(() => {
+        notifications$.show({ type: 'error', title: `Failed to claim NFT (id: ${tokenId})` })
+      })
   }
 </script>
 
@@ -62,10 +66,31 @@
         <br />
         Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
 
-        {#if hasClaimableNfts}
-          <button class="btn-1 mrg-s mrg--t" on:click={onClaimClick}>
-            Activate subscription
-          </button>
+        {#if claimableTokenIds.length}
+          <div class="row v-center mrg-s mrg--t relative">
+            Token ID:
+
+            <Tooltip on="click" position="top" bind:isOpened>
+              <button slot="trigger" class="btn-2 btn--s row v-center mrg-s mrg--l mrg--r">
+                {selectedTokenId}
+                <Svg id="arrow-down" w="8" h="5" class="mrg-s mrg--l" />
+              </button>
+
+              <div slot="tooltip" class="tooltip column">
+                {#each claimableTokenIds as tokenId}
+                  <button
+                    class="btn-ghost"
+                    class:active={tokenId === selectedTokenId}
+                    on:click={() => selectTokenId(tokenId)}>{tokenId}</button
+                  >
+                {/each}
+              </div>
+            </Tooltip>
+            –
+            <button class="btn-1 mrg-s mrg--l" on:click={onClaimClick}>
+              Activate subscription
+            </button>
+          </div>
         {/if}
       {:else}
         Please follow futher instructions
@@ -85,5 +110,9 @@
 
   p {
     margin-right: 80px;
+  }
+
+  .tooltip {
+    padding: 8px;
   }
 </style>
