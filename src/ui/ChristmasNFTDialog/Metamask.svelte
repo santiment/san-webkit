@@ -45,13 +45,16 @@
     contract
       .activateSubscription(selectedTokenId)
       .then(() => {
-        notifications$.show({ type: 'success', title: 'NFT claimed!' })
+        notifications$.show({ type: 'success', title: 'Subscription activated' })
 
         claimableTokenIds = claimableTokenIds.filter((tokenId) => tokenId !== selectedTokenId)
         selectedTokenId = claimableTokenIds[0]
       })
       .catch(() => {
-        notifications$.show({ type: 'error', title: `Failed to claim NFT (id: ${tokenId})` })
+        notifications$.show({
+          type: 'error',
+          title: `Failed to activate subscription (id: ${tokenId})`,
+        })
       })
   }
 </script>
