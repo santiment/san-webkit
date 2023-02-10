@@ -1,6 +1,7 @@
 <script>
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
+  import Notifications from '@/ui/Notifications'
   import OnMount from '../PaymentDialog/OnMount.svelte'
   import { showChristmasNFTDialog } from '@/ui/ChristmasNFTDialog/Dialog.svelte'
   import Button from '@/ui/ChristmasNFTDialog/Button.svelte'
@@ -66,3 +67,5 @@
 </Story>
 
 <Dialogs />
+
+<Notifications />

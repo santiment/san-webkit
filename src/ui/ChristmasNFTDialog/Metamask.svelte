@@ -53,7 +53,7 @@
       .catch(() => {
         notifications$.show({
           type: 'error',
-          title: `Failed to activate subscription (id: ${tokenId})`,
+          title: `Failed to activate subscription (id: ${selectedTokenId})`,
         })
       })
   }
