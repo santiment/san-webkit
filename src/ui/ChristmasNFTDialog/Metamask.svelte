@@ -64,7 +64,7 @@
 
       {#if currentUser.ethAccounts.length}
         <br />
-        Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
+        Connected address: <strong class="txt-b">{currentUser.ethAccounts.toString()}</strong>
 
         {#if claimableTokenIds.length}
           <div class="row v-center mrg-s mrg--t relative">
