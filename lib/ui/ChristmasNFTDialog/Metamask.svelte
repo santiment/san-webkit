@@ -42,14 +42,14 @@ async function onClaimClick() {
   contract.activateSubscription(selectedTokenId).then(() => {
     notifications$.show({
       type: 'success',
-      title: 'NFT claimed!'
+      title: 'Subscription activated'
     });
     claimableTokenIds = claimableTokenIds.filter(tokenId => tokenId !== selectedTokenId);
     selectedTokenId = claimableTokenIds[0];
   }).catch(() => {
     notifications$.show({
       type: 'error',
-      title: `Failed to claim NFT (id: ${tokenId})`
+      title: `Failed to activate subscription (id: ${selectedTokenId})`
     });
   });
 }</script>
@@ -62,7 +62,7 @@ async function onClaimClick() {
 
       {#if currentUser.ethAccounts.length}
         <br />
-        Connected address: <strong class="txt-b">{currentUser.ethAccounts}</strong>
+        Connected address: <strong class="txt-b">{currentUser.ethAccounts.toString()}</strong>
 
         {#if claimableTokenIds.length}
           <div class="row v-center mrg-s mrg--t relative">
