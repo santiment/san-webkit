@@ -23,21 +23,22 @@ export async function signMessage(message) {
 const handleAccountsChanged = (accounts: string[]) =>
   accounts.length ? [accounts[0]] : [null, 'Please connect to MetaMask.']
 
-export function getAccount(): Promise<[any | null, undefined | any]> {
+export function getAccount(): Promise<[string | null, undefined | Error]> {
   return window.ethereum
     .request({ method: 'eth_requestAccounts' })
     .then(handleAccountsChanged)
     .catch((e) => [null, e])
 }
 
-export async function connectWallet() {
+export async function connectWallet(msgPrefix = '') {
   if (!window.ethereum) return Promise.reject('No metamask found')
 
   const [address, error] = await getAccount()
 
   if (error) return Promise.reject(error)
+  if (!address) return Promise.reject('No address')
 
-  const { signature, messageHash } = await signMessage(address)
+  const { signature, messageHash } = await signMessage(msgPrefix + address)
 
   return mutateAddUserEthAddress(address, signature, messageHash)
 }
