@@ -1,4 +1,4 @@
 export declare function getNftContract(): Promise<{
-    clientAddress: any;
+    clientAddress: string | null;
     contract: import("ethers").Contract;
 }>;
