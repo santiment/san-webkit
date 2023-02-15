@@ -1,4 +1,4 @@
-import type { SvelteComponentDev } from 'svelte/internal'
+import type { ComponentType } from 'svelte/internal'
 
 export type Item = { [key: string]: any }
 
@@ -11,10 +11,10 @@ export type Column<T = Item> = {
   className?: string
   sortAccessor?: SortAccessor
 
-  Header?: SvelteComponentDev
+  Header?: ComponentType
   valueKey?: string
   isSortable?: boolean
-} & ({ format: Format<T> } | { Component: SvelteComponentDev })
+} & ({ format: Format<T> } | { Component: ComponentType })
 
 const COLUMN_PADDING = '<td></td>'
 export function getMinRows(
