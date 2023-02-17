@@ -1,7 +1,7 @@
 <script>import { onDestroy } from 'svelte';
 import moonPath from './moon.svg';
 export let mooned = false;
-export let totalVotes;
+export let votes;
 export let moonNode = undefined;
 let visible = false;
 let enter = false;
@@ -28,7 +28,7 @@ onDestroy(() => {
 {#if visible}
   <div bind:this={moonNode} class="moon box row v-center caption" class:enter>
     <img src={moonPath} alt="moon" class="mrg-xs mrg--r" />
-    + {totalVotes}
+    + {votes}
   </div>
 {/if}
 

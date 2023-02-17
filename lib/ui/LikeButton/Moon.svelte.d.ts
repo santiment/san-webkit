@@ -2,7 +2,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         mooned?: boolean | undefined;
-        totalVotes: number;
+        votes: number;
         moonNode?: undefined;
     };
     events: {
