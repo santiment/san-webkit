@@ -3,7 +3,7 @@
   import moonPath from './moon.svg'
 
   export let mooned = false
-  export let totalVotes: number
+  export let votes: number
   export let moonNode = undefined
 
   let visible = false
@@ -33,7 +33,7 @@
 {#if visible}
   <div bind:this={moonNode} class="moon box row v-center caption" class:enter>
     <img src={moonPath} alt="moon" class="mrg-xs mrg--r" />
-    + {totalVotes}
+    + {votes}
   </div>
 {/if}
 

@@ -75,7 +75,7 @@
   on:mousedown|preventDefault={startVote}
   on:touchstart|preventDefault={startVote}
 >
-  <Moon bind:moonNode {mooned} {totalVotes} />
+  <Moon bind:moonNode {mooned} votes={userVotes} />
 
   <Rocket bind:rocketNode />
 
