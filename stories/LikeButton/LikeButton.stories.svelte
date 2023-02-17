@@ -9,7 +9,7 @@
   <div class="row mrg-xxl mrg--t">
     <LikeBtn />
     <div class="mrg-xxl mrg--r" />
-    <LikeBtn totalVotes={1} userVotes={1} />
+    <LikeBtn totalVotes={10} userVotes={3} />
 
     <div class="mrg-xxl mrg--r" />
     <LikeBtn totalVotes={1} disabled />
