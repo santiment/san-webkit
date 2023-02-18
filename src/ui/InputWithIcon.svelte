@@ -1,16 +1,18 @@
-<script>
+<script lang="ts">
   import Svg from '@/ui/Svg/svelte'
 
   let className = ''
   export { className as class }
-  export let icon, w, h
+  export let icon: string
+  export let w: number | string
+  export let h = w
   export let type = 'text'
-  export let placeholder
-  export let name
+  export let placeholder: undefined | string
+  export let name: undefined | string = undefined
   export let big = false
-  export let constraints
+  export let constraints: any = undefined
   export let value = ''
-  export let autofocus
+  export let autofocus = false
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
