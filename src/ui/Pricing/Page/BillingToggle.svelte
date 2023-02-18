@@ -5,6 +5,7 @@
 </script>
 
 <div class="btn border body-2">
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="bill"
     class:active={billing === Billing.MONTH}
@@ -12,6 +13,7 @@
   >
     Monthly
   </div>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div
     class="bill"
     class:active={billing === Billing.YEAR}
