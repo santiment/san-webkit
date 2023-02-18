@@ -1,14 +1,16 @@
 <script>import Svg from './../ui/Svg/svelte';
 let className = '';
 export { className as class };
-export let icon, w, h;
+export let icon;
+export let w;
+export let h = w;
 export let type = 'text';
 export let placeholder;
-export let name;
+export let name = undefined;
 export let big = false;
-export let constraints;
+export let constraints = undefined;
 export let value = '';
-export let autofocus;</script>
+export let autofocus = false;</script>
 
 <!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center {className}" class:big>
