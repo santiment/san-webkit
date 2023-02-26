@@ -8,8 +8,8 @@
   export let data: Props['data']
   export let width: number
   export let height: number
-  export let valueKey: Props['valueKey']
-  export let style: Props['style']
+  export let valueKey: Props['valueKey'] = undefined
+  export let style: Props['style'] = undefined
 
   export function getAreaPoints(points: Props['points'], linePoints: string) {
     const [startX, startY] = points[0].split(',')

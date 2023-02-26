@@ -7,7 +7,7 @@
   export let points: Props['points'] = []
   export let width = 70
   export let height = 50
-  export let valueKey: string | undefined
+  export let valueKey: Props['valueKey'] = undefined
   export let style: Props['style']
 
   $: points = getPoints(data)
