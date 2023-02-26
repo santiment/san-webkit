@@ -7,8 +7,8 @@ declare const __propDef: {
         data: Props['data'];
         width: number;
         height: number;
-        valueKey: Props['valueKey'];
-        style: Props['style'];
+        valueKey?: Props['valueKey'];
+        style?: Props['style'];
         getAreaPoints?: ((points: Props['points'], linePoints: string) => string) | undefined;
     };
     events: {

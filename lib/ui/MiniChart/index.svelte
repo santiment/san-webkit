@@ -4,7 +4,7 @@ export let data = [];
 export let points = [];
 export let width = 70;
 export let height = 50;
-export let valueKey;
+export let valueKey = undefined;
 export let style;
 
 $: points = getPoints(data);

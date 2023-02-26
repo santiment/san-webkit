@@ -3,13 +3,13 @@ import type { Props } from './svelte';
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        data?: {
+        data?: number[] | {
             [key: string]: any;
         }[] | undefined;
         points?: string[] | undefined;
         width?: number | undefined;
         height?: number | undefined;
-        valueKey: string | undefined;
+        valueKey?: Props['valueKey'];
         style: Props['style'];
     };
     events: {

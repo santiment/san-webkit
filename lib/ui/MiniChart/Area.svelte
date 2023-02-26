@@ -5,8 +5,8 @@ export let id = '';
 export let data;
 export let width;
 export let height;
-export let valueKey;
-export let style;
+export let valueKey = undefined;
+export let style = undefined;
 export function getAreaPoints(points, linePoints) {
   const [startX, startY] = points[0].split(',');
   const [lastX] = points[points.length - 1].split(',');
