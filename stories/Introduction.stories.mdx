@@ -3,19 +3,21 @@ import { Meta } from '@storybook/addon-docs'
 <Meta title='Example/Introduction' />
 
 <style>{`
-body {
-font-size: initial;
-line-height: initial;
+.introduction {
+  font-size: initial;
+  line-height: initial;
 }
 
-* {
+.introduction * {
   list-style: initial;
 }
 
-code {
+.introduction code {
 font-family: monospace;
 }
 `}</style>
+
+<div class='introduction'>
 
 # Welcome to san-webkit
 
@@ -137,3 +139,5 @@ These elements, that includes `.btn` or `.btn-[type]` class, have the following 
 - `--color-hover` - text color when the button is hovered;
 - `--fill` - svg color. `--color` is used as a fallback;
 - `--fill-hover` - svg color when the button is hovered. `--color-hover` is used as a fallback;
+
+</div>
