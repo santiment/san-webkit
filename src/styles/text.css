@@ -148,6 +148,14 @@
   --color: var(--accent, var(--green));
 }
 
+.c-parent {
+  color: var(--color);
+}
+
+.c-parent:hover {
+  color: var(--color-hover);
+}
+
 /* Text clamp */
 
 .nowrap,

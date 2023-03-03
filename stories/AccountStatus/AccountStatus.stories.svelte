@@ -88,6 +88,16 @@
   </section>
 
   <section>
+    <div class="h4">Logged in + Pro Plan + Payment Incomplete</div>
+    <div class="row v-center">
+      <AccountStatus
+        currentUser={{}}
+        subscription={{ plan: { name: 'PRO' }, status: 'INCOMPLETE' }}
+      />
+    </div>
+  </section>
+
+  <section>
     <div class="h4">Logged in + Free Plan. Trial finished</div>
     <div class="row v-center">
       <AccountStatus currentUser={{}} customerData={{ isEligibleForTrial: false }} />

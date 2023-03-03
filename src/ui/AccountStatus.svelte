@@ -14,7 +14,7 @@
   export let subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>
   export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
 
-  $: ({ annualDiscountPercent, userPlanName, trialDaysLeft, isEligibleForTrial } =
+  $: ({ annualDiscountPercent, userPlanName, trialDaysLeft, isEligibleForTrial, isIncomplete } =
     getUserSubscriptionInfo(customerData, subscription))
 </script>
 
@@ -32,15 +32,18 @@
     {#if trialDaysLeft < 1}
       <a
         href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-        class="pro btn-1 btn--s">
+        class="pro btn-1 btn--s"
+      >
         {userPlanName}
+        {isIncomplete ? ' (incomplete)' : ''}
       </a>
     {/if}
   {:else}
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange"
-      on:click={window.__onLinkClick}>
+      on:click={window.__onLinkClick}
+    >
       {#if isEligibleForTrial && variant === AccountStatusType.First}
         Start Free 14-day Trial
       {:else}

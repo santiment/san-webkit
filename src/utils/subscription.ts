@@ -6,13 +6,18 @@ import { PlanName, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
 export enum Status {
   ACTIVE = 'ACTIVE',
   TRIALING = 'TRIALING',
+  INCOMPLETE = 'INCOMPLETE',
 }
 
-export const checkIsTrialSubscription = ({ status } = {} as SAN.Subscription) =>
+export const checkIsTrialSubscription = ({ status } = {} as Pick<SAN.Subscription, 'status'>) =>
   status === Status.TRIALING
 
+export const checkIsIncompleteSubscription = (
+  { status } = {} as Pick<SAN.Subscription, 'status'>,
+) => status === Status.INCOMPLETE
+
 export const checkIsActiveSubscription = ({ status }: SAN.Subscription): boolean =>
-  status === Status.ACTIVE || status === Status.TRIALING
+  status === Status.ACTIVE || status === Status.TRIALING || status === Status.INCOMPLETE
 
 export const calculateTrialDaysLeft = (trialEnd: string): number =>
   Math.ceil((+new Date(trialEnd) - Date.now()) / ONE_DAY_IN_MS)
@@ -36,7 +41,7 @@ export function getTrialDaysLeft(subscription: SAN.Subscription): string | undef
 
 export function getUserSubscriptionInfo(
   customerData: Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>,
-  subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>,
+  subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd' | 'status'>,
 ) {
   const { isEligibleForTrial, annualDiscount } = customerData
   const annualDiscountPercent = annualDiscount?.isEligible && annualDiscount.discount?.percentOff
@@ -47,6 +52,7 @@ export function getUserSubscriptionInfo(
 
   return {
     isEligibleForTrial,
+    isIncomplete: checkIsIncompleteSubscription(subscription),
     annualDiscount,
     annualDiscountPercent,
     annualDiscountDaysLeft: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
