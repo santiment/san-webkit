@@ -41,3 +41,9 @@ export declare const trackSideNavRecents: ({ feature, url, source }: {
     url: any;
     source: any;
 }) => number;
+export declare const trackLink: ({ type, url, source, external }: {
+    type: any;
+    url: any;
+    source: any;
+    external?: boolean | undefined;
+}) => number;

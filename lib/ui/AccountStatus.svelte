@@ -15,7 +15,8 @@ $: ({
   annualDiscountPercent,
   userPlanName,
   trialDaysLeft,
-  isEligibleForTrial
+  isEligibleForTrial,
+  isIncomplete
 } = getUserSubscriptionInfo(customerData, subscription));</script>
 
 {#if currentUser}
@@ -32,15 +33,18 @@ $: ({
     {#if trialDaysLeft < 1}
       <a
         href="https://academy.santiment.net/products-and-plans/sanbase-pro-features/"
-        class="pro btn-1 btn--s">
+        class="pro btn-1 btn--s"
+      >
         {userPlanName}
+        {isIncomplete ? ' (incomplete)' : ''}
       </a>
     {/if}
   {:else}
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange"
-      on:click={window.__onLinkClick}>
+      on:click={window.__onLinkClick}
+    >
       {#if isEligibleForTrial && variant === AccountStatusType.First}
         Start Free 14-day Trial
       {:else}

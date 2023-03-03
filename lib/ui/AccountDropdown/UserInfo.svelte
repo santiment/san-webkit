@@ -41,8 +41,14 @@ function getNoteText(subscriptionInfo, variant) {
 function getSanbasePlan(subscriptionInfo) {
   const {
     trialDaysLeft,
-    userPlanName
+    userPlanName,
+    isIncomplete
   } = subscriptionInfo;
+
+  if (isIncomplete) {
+    if (userPlanName) return `Sanbase: ${userPlanName} plan (incomplete)`;
+  }
+
   if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial';
   if (userPlanName) return `Sanbase: ${userPlanName} plan`;
   return 'Sanbase: free plan';
@@ -52,7 +58,7 @@ $: buttonLabel = getButtonLabel(subscriptionInfo, variant);
 
 $: note = getNoteText(subscriptionInfo, variant);
 
-$: sunbasePlan = getSanbasePlan(subscriptionInfo);
+$: sanbasePlan = getSanbasePlan(subscriptionInfo);
 
 $: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/' : 'https://app.santiment.net/pricing';</script>
 
@@ -67,7 +73,7 @@ $: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/product
       {#if subscriptionInfo.userPlanName && !subscriptionInfo.trialDaysLeft}
         SanAPI: Basic plan<br />
       {/if}
-      {sunbasePlan}
+      {sanbasePlan}
     </div>
     <a
       class="upgrade btn-1 btn--orange btn--s mrg-m mrg--t v-center body-3"
