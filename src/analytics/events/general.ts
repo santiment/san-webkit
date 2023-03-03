@@ -92,3 +92,6 @@ export const trackSideNavFeatures = ({
 
 export const trackSideNavRecents = ({ feature, url, source }) =>
   track('side_nav_recents', { feature, url, source, source_url: window.location.href })
+
+export const trackLink = ({ type, url, source, external = false }) =>
+  track('link', { type, url, source, external, source_url: window.location.href })
