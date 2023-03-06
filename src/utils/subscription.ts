@@ -52,7 +52,7 @@ export function getUserSubscriptionInfo(
 
   return {
     isEligibleForTrial,
-    isIncomplete: checkIsIncompleteSubscription(subscription),
+    isIncomplete: subscription && checkIsIncompleteSubscription(subscription),
     annualDiscount,
     annualDiscountPercent,
     annualDiscountDaysLeft: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
