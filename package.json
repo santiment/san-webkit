@@ -70,6 +70,7 @@
     "lint-staged": "^11.0.0",
     "marked": "^4.0.12",
     "medium-editor": "^5.23.3",
+    "msw": "^1.1.0",
     "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
     "react": "^16.x.x",
@@ -104,5 +105,8 @@
     "@types/react": "^16.x.x",
     "@types/stripe-v3": "^3.1.26",
     "@types/turndown": "^5.0.1"
+  },
+  "msw": {
+    "workerDirectory": ".storybook"
   }
 }

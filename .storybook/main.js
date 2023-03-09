@@ -30,8 +30,16 @@ async function prepareIconsData(dir, filename) {
   )
 }
 
+function copyApiMockServiceWorker() {
+  fs.copyFile('.storybook/mockServiceWorker.js', utils.LIB + '/mockServiceWorker.js', (err) => {
+    if (err) console.error(err)
+  })
+}
+
 module.exports = {
   webpackFinal: async (config) => {
+    copyApiMockServiceWorker()
+
     await Promise.all([
       prepareIconsData('/illus', 'illustrations'),
       prepareIconsData('/icons', 'icons'),
