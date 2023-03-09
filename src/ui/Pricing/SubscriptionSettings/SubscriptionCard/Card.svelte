@@ -3,7 +3,7 @@
   import { dataPreloader } from '@/ui/PaymentDialog/index.svelte'
 
   export let title
-  export let label
+  export let label = ''
   export let price
   export let billing
   export let discount

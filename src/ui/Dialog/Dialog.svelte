@@ -9,15 +9,16 @@
   export { className as class }
   export let titleClassName = ''
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
-  export let i: number
   export let title: string | SvelteComponentModule = ''
-  export let DialogPromise: SAN.DialogController
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
   export let noBg = false
-  export let onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void
+  export let onEditableEscaped: ((target: HTMLElement, closeDialog: () => void) => void) | null =
+    null
   export let animated = true
   export let isClickawayDisabled = false
+
+  $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
 
   let isOpening = true
   let clickAwayMouseDown = false
