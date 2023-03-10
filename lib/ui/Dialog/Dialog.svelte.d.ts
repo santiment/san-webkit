@@ -2,16 +2,15 @@ import { SvelteComponentTyped } from "svelte";
 import type { SvelteComponentModule } from './dialogs';
 declare const __propDef: {
     props: {
+        [x: string]: any;
         class?: string | undefined;
         titleClassName?: string | undefined;
         closeDialog?: ((skipLockChecks?: boolean) => void) | undefined;
-        i: number;
         title?: string | SvelteComponentModule | undefined;
-        DialogPromise: SAN.DialogController;
         onBeforeDialogClose?: (() => void) | undefined;
         noTitle?: boolean | undefined;
         noBg?: boolean | undefined;
-        onEditableEscaped: (target: HTMLElement, closeDialog: () => void) => void;
+        onEditableEscaped?: ((target: HTMLElement, closeDialog: () => void) => void) | null | undefined;
         animated?: boolean | undefined;
         isClickawayDisabled?: boolean | undefined;
     };

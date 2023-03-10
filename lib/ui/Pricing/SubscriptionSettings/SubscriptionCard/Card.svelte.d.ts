@@ -2,7 +2,6 @@
 /** @typedef {typeof __propDef.events}  CardEvents */
 /** @typedef {typeof __propDef.slots}  CardSlots */
 export default class Card extends SvelteComponentTyped<{
-    label: any;
     link: any;
     title: any;
     action: any;
@@ -14,6 +13,7 @@ export default class Card extends SvelteComponentTyped<{
     subaction: any;
     onActionClick: any;
     onSubactionClick: any;
+    label?: string | undefined;
     isActive?: boolean | undefined;
     isFullAccess?: boolean | undefined;
     green?: boolean | undefined;
@@ -34,7 +34,6 @@ export type CardSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        label: any;
         link: any;
         title: any;
         action: any;
@@ -46,6 +45,7 @@ declare const __propDef: {
         subaction: any;
         onActionClick: any;
         onSubactionClick: any;
+        label?: string | undefined;
         isActive?: boolean | undefined;
         isFullAccess?: boolean | undefined;
         green?: boolean | undefined;

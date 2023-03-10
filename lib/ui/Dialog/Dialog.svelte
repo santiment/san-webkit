@@ -6,15 +6,19 @@ let className = '';
 export { className as class };
 export let titleClassName = '';
 export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
-export let i;
 export let title = '';
-export let DialogPromise;
 export let onBeforeDialogClose = () => {};
 export let noTitle = false;
 export let noBg = false;
-export let onEditableEscaped;
+export let onEditableEscaped = null;
 export let animated = true;
 export let isClickawayDisabled = false;
+
+$: ({
+  i,
+  DialogPromise
+} = $$props);
+
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
