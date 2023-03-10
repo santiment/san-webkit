@@ -8,6 +8,7 @@
   import Notifications from '@/ui/Notifications'
   import { showCancelSubscriptionDialog } from '@/ui/Pricing/CancelSubscriptionDialog'
   import OnMount from '../PaymentDialog/OnMount.svelte'
+  import ApiMock from '../ApiMock.svelte'
 
   const plans = [
     {
@@ -264,50 +265,60 @@
 </Story>
 
 <Story name="Subscription account settings">
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Free, with card</h2>
-    <SubscriptionSettings
-      paymentCard={{
-        brand: 'MasterCard',
-        last4: '0000',
-      }}
-    />
-  </div>
+  <ApiMock
+    match="upcomingInvoice"
+    result={{
+      upcomingInvoice: {
+        amount: 100,
+        dueDate: '2023-06-15T08:52:43Z',
+      },
+    }}
+  >
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Free, with card</h2>
+      <SubscriptionSettings
+        paymentCard={{
+          brand: 'MasterCard',
+          last4: '0000',
+        }}
+      />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Pro - Trial, no card</h2>
-    <SubscriptionSettings subscription={trialSubscription} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Pro - Trial, no card</h2>
+      <SubscriptionSettings subscription={trialSubscription} />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Free, no card</h2>
-    <SubscriptionSettings subscription={freeSubscription} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Free, no card</h2>
+      <SubscriptionSettings subscription={freeSubscription} />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Pro - Trial, canceled</h2>
-    <SubscriptionSettings subscription={canceledSubscription} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Pro - Trial, canceled</h2>
+      <SubscriptionSettings subscription={canceledSubscription} />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Pro - Month, no card</h2>
-    <SubscriptionSettings subscription={proSubscription[0]} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Pro - Month, no card</h2>
+      <SubscriptionSettings subscription={proSubscription[0]} />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Pro - Year, no card</h2>
-    <SubscriptionSettings subscription={proSubscription[1]} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Pro - Year, no card</h2>
+      <SubscriptionSettings subscription={proSubscription[1]} />
+    </div>
 
-  <div class="padding">
-    <h2 class="h4 mrg-l mrg--b">Pro+ - Month, no card</h2>
-    <SubscriptionSettings subscription={proPlusSubscription[0]} />
-  </div>
+    <div class="padding">
+      <h2 class="h4 mrg-l mrg--b">Pro+ - Month, no card</h2>
+      <SubscriptionSettings subscription={proPlusSubscription[0]} />
+    </div>
 
-  <div class="padding mrg-xl mrg--t">
-    <h2 class="h4 mrg-l mrg--b">Pro+ - Year, no card</h2>
-    <SubscriptionSettings subscription={proPlusSubscription[1]} />
-  </div>
+    <div class="padding mrg-xl mrg--t">
+      <h2 class="h4 mrg-l mrg--b">Pro+ - Year, no card</h2>
+      <SubscriptionSettings subscription={proPlusSubscription[1]} />
+    </div>
+  </ApiMock>
 </Story>
 
 <Story name="Subscription cancel dialog">

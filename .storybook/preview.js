@@ -1,9 +1,15 @@
 import { startResponsiveController } from '@/responsive'
 import { setupWorker, rest } from 'msw'
 
+window.mswApiMock = new Set()
+
 const worker = setupWorker(
   rest.post(process.env.GQL_SERVER_URL, (req, res, ctx) => {
     // console.log(req, res, ctx)
+    for (const mock of window.mswApiMock) {
+      const result = mock(req, res, ctx)
+      if (result) return result
+    }
 
     return req.passthrough()
   }),
