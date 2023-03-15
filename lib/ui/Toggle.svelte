@@ -2,11 +2,19 @@
 export { className as class };
 export let isActive = false;
 export let disabled = false;
-export let icon = 'toggle';</script>
+export let icon = 'toggle';
+export let as = 'button';</script>
 
-<button class="toggle btn relative {className}" on:click class:isActive class:disabled>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<svelte:element
+  this={as}
+  class="toggle btn relative {className}"
+  on:click
+  class:isActive
+  class:disabled
+>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="toggle-icon-viZH3u" />
-</button>
+</svelte:element>
 
 <style >.toggle {
   height: var(--toggle-height, 20px);

@@ -5,6 +5,7 @@ declare const __propDef: {
         isActive?: boolean | undefined;
         disabled?: boolean | undefined;
         icon?: string | undefined;
+        as?: "button" | "span" | undefined;
     };
     events: {
         click: MouseEvent;
