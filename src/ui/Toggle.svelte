@@ -4,11 +4,19 @@
   export let isActive = false
   export let disabled = false
   export let icon = 'toggle'
+  export let as = 'button' as 'button' | 'span'
 </script>
 
-<button class="toggle btn relative {className}" on:click class:isActive class:disabled>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<svelte:element
+  this={as}
+  class="toggle btn relative {className}"
+  on:click
+  class:isActive
+  class:disabled
+>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="$style.toggle-icon" />
-</button>
+</svelte:element>
 
 <style lang="scss">
   .toggle {
