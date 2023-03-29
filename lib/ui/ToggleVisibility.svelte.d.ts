@@ -2,9 +2,11 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         [x: string]: any;
-        handleClick?: ((_: any) => any) | undefined;
+        class?: string | undefined;
     };
     events: {
+        click: MouseEvent;
+    } & {
         [evt: string]: CustomEvent<any>;
     };
     slots: {};

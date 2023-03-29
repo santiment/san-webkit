@@ -4,6 +4,7 @@ declare const __propDef: {
         class?: string | undefined;
         isActive?: boolean | undefined;
         disabled?: boolean | undefined;
+        big?: boolean | undefined;
         icon?: string | undefined;
         as?: "button" | "span" | undefined;
     };

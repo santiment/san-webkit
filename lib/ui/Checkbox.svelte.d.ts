@@ -1,8 +1,9 @@
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        isActive?: boolean | undefined;
         class?: string | undefined;
+        isActive?: boolean | undefined;
+        disabled?: boolean | undefined;
     };
     events: {
         click: MouseEvent;

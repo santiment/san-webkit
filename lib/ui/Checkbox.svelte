@@ -1,33 +1,35 @@
-<script>export let isActive = false;
-let className = '';
-export { className as class };</script>
+<script>let className = '';
+export { className as class };
+export let isActive = false;
+export let disabled = false;</script>
 
 <button
-  style="--bg:url({process.env.ICONS_PATH}/checkmark.svg)"
+  style="---check:url({process.env.ICONS_PATH}/checkmark.svg)"
+  class="btn border {className}"
   class:isActive
-  class={className}
+  class:disabled
   on:click
 />
 
-<style>
-  button {
-    width: 16px;
-    height: 16px;
-    border-radius: 2px;
-    border: 1px solid var(--porcelain);
-    background: var(--white);
-  }
-  button:hover {
-    border-color: var(--green);
-  }
+<style >button {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--bg);
+  --border-hover: var(--green);
+}
 
-  .isActive {
-    background: var(--bg) no-repeat 50%;
-    border-color: var(--green);
-    background-color: var(--green);
-  }
-  .isActive:hover {
-    border-color: var(--green-hover);
-    background-color: var(--green-hover);
-  }
-</style>
+.isActive {
+  --border: var(--green);
+  --bg: var(--green);
+  background: var(---check) no-repeat 50%, var(--bg);
+}
+.isActive:hover {
+  --green: var(--green-hover);
+}
+
+.disabled {
+  cursor: not-allowed;
+  --bg: var(--athens);
+  --border: var(--porcelain);
+}</style>

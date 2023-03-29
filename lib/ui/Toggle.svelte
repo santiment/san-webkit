@@ -2,45 +2,50 @@
 export { className as class };
 export let isActive = false;
 export let disabled = false;
+export let big = false;
 export let icon = 'toggle';
 export let as = 'button';</script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={as}
-  class="toggle btn relative {className}"
+  class="toggle btn relative hv-center {className}"
   on:click
+  class:big
   class:isActive
   class:disabled
 >
-  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" class="toggle-icon-viZH3u" />
+  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" />
 </svelte:element>
 
 <style >.toggle {
-  height: var(--toggle-height, 20px);
-  width: var(--toggle-width, 36px);
-  display: inline-block;
+  ---width: var(--toggle-width, 36px);
+  ---height: var(--toggle-height, 20px);
+  height: var(---height);
+  width: var(---width);
+  display: inline-flex;
   line-height: 0;
-  border-radius: var(--toggle-radius, 10px);
+  border-radius: 10px;
   transition: background 185ms;
   --bg: var(--casper);
   --bg-hover: var(--waterloo);
 }
 .toggle::before {
+  ---size: var(--circle-size, 14px);
+  ---left: var(--circle-left, 3px);
   display: inline-block;
   content: "";
   position: absolute;
-  width: var(--toggle-before-width, 14px);
-  height: var(--toggle-before-height, 14px);
+  width: var(---size);
+  height: var(---size);
   border-radius: 10px;
   background: #fff;
   transition: transform 185ms;
-  left: var(--toggle-before-icon-left, 3px);
-  top: var(--toggle-before-icon-top, 3px);
+  left: var(---left);
 }
 
-:global(.toggle-icon-viZH3u) {
-  margin: var(--toggle-icon-margin, 0);
+img {
+  width: var(--toggle-img-width, 100%);
 }
 
 .isActive {
@@ -48,10 +53,18 @@ export let as = 'button';</script>
   --bg-hover: var(--green-hover);
 }
 .isActive::before {
-  transform: var(--toggle-before-active, translateX(calc(100% + 2px)));
+  transform: translateX(calc(var(---width) - 2 * var(---left) - var(---size)));
 }
 
 .disabled {
   background: var(--porcelain) !important;
   pointer-events: none !important;
+}
+
+.big {
+  border-radius: 20px;
+  --toggle-width: 48px;
+  --toggle-height: 24px;
+  --circle-size: 18px;
+  --toggle-img-width: var(--toggle-big-img-width);
 }</style>
