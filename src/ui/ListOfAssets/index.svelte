@@ -1,11 +1,12 @@
 <script lang="ts">
+  import type { Asset } from './api'
+
   import { debounce$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
   import VirtualList from '@/ui/VirtualList/index.svelte'
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
   import Tabs from './Tabs.svelte'
-
-  type Asset = { slug: string; ticker: string; name: string }
+  import AssetItem from './CheckboxAsset.svelte'
 
   export let items = [] as Asset[]
   let filtered = items
@@ -33,12 +34,7 @@
 
   <section class="list">
     <VirtualList class="$style.virtual-list" items={filtered} key="slug" renderAmount={20} let:item>
-      <button class="asset btn-ghost row v-center">
-        <ProjectIcon slug={item.slug} />
-        {item.name}
-
-        <span class="c-waterloo">({item.ticker})</span>
-      </button>
+      <AssetItem {item} />
     </VirtualList>
   </section>
 </div>
@@ -51,10 +47,6 @@
 
   .list {
     flex: 1;
-  }
-
-  .asset {
-    gap: 8px;
   }
 
   .virtual-list :global(.list) {

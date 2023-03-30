@@ -14,7 +14,7 @@
 
   .btn {
     border-radius: 0;
-    padding: 16px 0;
+    padding: 12px 2px;
     margin-bottom: -1px;
     --color-hover: var(--green);
   }
