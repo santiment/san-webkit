@@ -1,15 +1,17 @@
 <script lang="ts">
   import { tick } from 'svelte'
 
+  type T = $$Generic
+
   let className = ''
   export { className as class }
-  export let items: any[]
-  export let key: string | undefined
+  export let items: T[]
+  export let key: string | undefined = undefined
   export let renderAmount = 10
   export let maxHeight: number
   export let defaultItemHeight = 0
   export let viewportNode: HTMLElement | undefined = undefined
-  export let renderHeight
+  export let renderHeight: number
   export let hideEmptyResults = false
 
   const delayItems = 3
@@ -82,7 +84,7 @@
   on:scroll={onScroll}
 >
   <div class="scroll" {style}>
-    <div class="list" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
+    <div class="list column" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
       {#each renderItems as item, i (key ? item[key] : item)}
         <slot {item} i={start + i} />
       {/each}
