@@ -85,8 +85,6 @@
 >
   <div class="scroll" {style}>
     <div class="list column" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
-      <slot name="list-top" />
-
       {#each renderItems as item, i (key ? item[key] : item)}
         <slot {item} i={start + i} />
       {/each}

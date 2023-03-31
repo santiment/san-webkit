@@ -2,6 +2,7 @@
   import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
   import { projects } from './allProjects'
   import ListOfAssets from '@/ui/ListOfAssets/index.svelte'
+  import ListOfAssetsMulti from '@/ui/ListOfAssets/Multi.svelte'
 </script>
 
 <Meta title="Example/List Of Projects" component={ListOfAssets} />
@@ -26,7 +27,13 @@
 
 <Story name="Example/List Of Projects">
   <div class="list border">
-    <ListOfAssets items={projects} />
+    <ListOfAssets items={projects} onSelect={console.log} />
+  </div>
+</Story>
+
+<Story name="Example/List Of Projects">
+  <div class="list border">
+    <ListOfAssetsMulti items={projects} onSelect={console.log} />
   </div>
 </Story>
 

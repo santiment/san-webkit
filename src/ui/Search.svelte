@@ -5,6 +5,7 @@
   export { className as class }
   export let autofocus = true
   export let placeholder: string
+  export let value = undefined as string | undefined
 </script>
 
-<InputWithIcon class={className} {placeholder} {autofocus} icon="search" w="12" on:input />
+<InputWithIcon class={className} {value} {placeholder} {autofocus} icon="search" w="12" on:input />
