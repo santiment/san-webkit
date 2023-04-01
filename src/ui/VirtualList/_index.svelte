@@ -8,23 +8,42 @@
 
   const bufferItemsAmount = 3
 
+  let viewportNode = null as null | HTMLElement
   let itemsNode = null as null | HTMLElement
+
+  let viewportHeight = 0
+  let itemsNodeHeight = 0
+
+  let itemsOffsetTop = 0
+  let itemHeight = 0
 
   let start = 0
   let end = renderAmount
-  let itemsOffsetTop = 0
 
-  $: itemsNodeHeight = itemsNode ? itemsNode.scrollHeight : 0
-  $: itemHeight = itemsNodeHeight / renderAmount
+  $: items && recalculate(viewportNode, itemsNode)
+
   $: scrollHeight = itemHeight * items.length
   $: bufferHeight = itemHeight * bufferItemsAmount
 
-  $: maxScroll = scrollHeight - itemsNodeHeight
+  $: maxScroll = scrollHeight - viewportHeight
 
   $: renderedItems = items.slice(start, end)
 
-  async function onScroll(e: Event) {
-    const viewportNode = e.currentTarget as HTMLElement
+  function recalculate(viewportNode: null | HTMLElement, itemsNode: null | HTMLElement) {
+    if (!viewportNode || !itemsNode) return
+
+    itemsNodeHeight = itemsNode.scrollHeight
+
+    const { paddingTop, paddingBottom } = getComputedStyle(itemsNode)
+    const padding = parseFloat(paddingTop) + parseFloat(paddingBottom)
+
+    itemHeight = (itemsNodeHeight - padding) / itemsNode.children.length
+
+    tick().then(() => onScroll({ currentTarget: viewportNode }))
+  }
+
+  async function onScroll(e: { currentTarget: HTMLElement }) {
+    const viewportNode = e.currentTarget
     const { scrollTop } = viewportNode
 
     const scrollPosition = scrollTop < maxScroll ? scrollTop : maxScroll
@@ -34,6 +53,10 @@
 
     start = renderItemsOffset > 0 ? renderItemsOffset : 0
     end = scrollPosition === maxScroll ? items.length : start + renderAmount
+
+    if (itemsOffsetTop > maxScroll) {
+      itemsOffsetTop = maxScroll
+    }
 
     await tick()
 
@@ -47,7 +70,12 @@
   }
 </script>
 
-<virtual-list class="column relative" on:scroll={onScroll}>
+<virtual-list
+  class="column relative"
+  on:scroll={onScroll}
+  bind:offsetHeight={viewportHeight}
+  bind:this={viewportNode}
+>
   <virtual-list-scroll style:height={scrollHeight + 'px'}>
     <virtual-list-items
       class="column"
