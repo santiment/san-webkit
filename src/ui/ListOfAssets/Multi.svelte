@@ -5,9 +5,8 @@
   import Layout from './Layout.svelte'
   import AssetItem from './CheckboxAsset.svelte'
 
+  export let selected = new Set<Asset>()
   export let onSelect: (assets: Asset[]) => void
-
-  let selected = new Set<Asset>()
 
   $: selections = selected.size
     ? [Item('title', 'Selected'), ...mapAssets(Array.from(selected), true)]
