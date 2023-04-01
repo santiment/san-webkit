@@ -56,4 +56,8 @@
   .list :global(.list) {
     padding: 16px 0;
   }
+
+  div :global(virtual-list-items) {
+    padding: 16px 0;
+  }
 </style>
