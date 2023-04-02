@@ -4,6 +4,7 @@
   type T = $$Generic
 
   export let items = [] as T[]
+  export let itemHeight = 0
   export let renderAmount = 10
 
   const bufferItemsAmount = 3
@@ -12,15 +13,13 @@
   let itemsNode = null as null | HTMLElement
 
   let viewportHeight = 0
-  let itemsNodeHeight = 0
-
+  // let itemsNodeHeight = 0
   let itemsOffsetTop = 0
-  let itemHeight = 0
 
   let start = 0
   let end = renderAmount
 
-  $: items && recalculate(viewportNode, itemsNode)
+  $: items && recalculate(viewportNode)
 
   $: scrollHeight = itemHeight * items.length
   $: bufferHeight = itemHeight * bufferItemsAmount
@@ -29,18 +28,8 @@
 
   $: renderedItems = items.slice(start, end)
 
-  function recalculate(viewportNode: null | HTMLElement, itemsNode: null | HTMLElement) {
-    if (!viewportNode || !itemsNode) return
-
-    itemsNodeHeight = itemsNode.scrollHeight
-
-    const { paddingTop, paddingBottom } = getComputedStyle(itemsNode)
-    const padding = parseFloat(paddingTop) + parseFloat(paddingBottom)
-
-    itemHeight = (itemsNodeHeight - padding) / itemsNode.children.length
-
-    tick().then(() => onScroll({ currentTarget: viewportNode }))
-  }
+  const recalculate = (currentTarget: null | HTMLElement) =>
+    currentTarget && onScroll({ currentTarget })
 
   async function onScroll(e: { currentTarget: HTMLElement }) {
     const viewportNode = e.currentTarget
@@ -52,7 +41,7 @@
     const renderItemsOffset = Math.ceil(scrollPosition / itemHeight) - bufferItemsAmount
 
     start = renderItemsOffset > 0 ? renderItemsOffset : 0
-    end = scrollPosition === maxScroll ? items.length : start + renderAmount
+    end = start + renderAmount
 
     if (itemsOffsetTop > maxScroll) {
       itemsOffsetTop = maxScroll
