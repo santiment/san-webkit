@@ -13,6 +13,7 @@
   export let renderAmount = 10
   export let maxFluidHeight = 0
 
+  Object.assign(getControllerCtx() || {}, { scrollTo })
   const bufferItemsAmount = 3
 
   let viewportNode = null as null | HTMLElement
@@ -25,13 +26,20 @@
   let start = 0
   let end = renderAmount
 
-  $: scrollHeight = itemHeight * items.length
+  $: padding = getPadding(itemsNode)
+  $: scrollHeight = itemHeight * items.length + padding
   $: bufferHeight = itemHeight * bufferItemsAmount
 
   $: maxScroll = scrollHeight - viewportHeight
 
   $: items && recalculate(viewportNode)
   $: renderedItems = items.slice(start, end)
+
+  function getPadding(itemsNode: null | HTMLElement) {
+    if (!itemsNode) return 0
+    const { paddingTop, paddingBottom } = getComputedStyle(itemsNode)
+    return parseFloat(paddingTop) + parseFloat(paddingBottom)
+  }
 
   async function recalculate(currentTarget: null | HTMLElement) {
     if (!currentTarget || !itemsNode) return
@@ -59,7 +67,7 @@
     const _end = start + renderAmount
     end = scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
 
-    if (itemsOffsetTop > maxScroll) {
+    if (itemsOffsetTop > maxScroll || end >= items.length) {
       itemsOffsetTop = maxScroll
     }
 
@@ -73,8 +81,6 @@
     const shouldMoveScrollContainer = diff <= 0 || diff - itemHeight < itemsOffsetTop
     itemsOffsetTop = shouldMoveScrollContainer ? start * itemHeight : itemsOffsetTop
   }
-
-  Object.assign(getControllerCtx() || {}, { scrollTo })
 
   function scrollTo(index: number) {
     viewportNode?.scroll(0, itemHeight * index)
