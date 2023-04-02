@@ -1,5 +1,10 @@
+<script lang="ts" context="module">
+  export { Controller } from './ctx'
+</script>
+
 <script lang="ts">
   import { tick } from 'svelte'
+  import { getControllerCtx } from './ctx'
 
   type T = $$Generic
 
@@ -68,6 +73,12 @@
     const shouldMoveScrollContainer = diff <= 0 || diff - itemHeight < itemsOffsetTop
     itemsOffsetTop = shouldMoveScrollContainer ? start * itemHeight : itemsOffsetTop
   }
+
+  Object.assign(getControllerCtx() || {}, { scrollTo })
+
+  function scrollTo(index: number) {
+    viewportNode?.scroll(0, itemHeight * index)
+  }
 </script>
 
 <virtual-list
@@ -83,8 +94,8 @@
       bind:this={itemsNode}
       style:transform="translateY({itemsOffsetTop}px)"
     >
-      {#each renderedItems as item (item)}
-        <slot {item} />
+      {#each renderedItems as item, i (item)}
+        <slot {item} i={start + i} />
       {/each}
     </virtual-list-items>
   </virtual-list-scroll>
