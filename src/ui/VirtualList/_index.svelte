@@ -6,30 +6,40 @@
   export let items = [] as T[]
   export let itemHeight = 0
   export let renderAmount = 10
+  export let maxFluidHeight = 0
 
   const bufferItemsAmount = 3
 
   let viewportNode = null as null | HTMLElement
   let itemsNode = null as null | HTMLElement
+  let viewportStyle = ''
 
   let viewportHeight = 0
-  // let itemsNodeHeight = 0
   let itemsOffsetTop = 0
 
   let start = 0
   let end = renderAmount
-
-  $: items && recalculate(viewportNode)
 
   $: scrollHeight = itemHeight * items.length
   $: bufferHeight = itemHeight * bufferItemsAmount
 
   $: maxScroll = scrollHeight - viewportHeight
 
+  $: items && recalculate(viewportNode)
   $: renderedItems = items.slice(start, end)
 
-  const recalculate = (currentTarget: null | HTMLElement) =>
-    currentTarget && onScroll({ currentTarget })
+  async function recalculate(currentTarget: null | HTMLElement) {
+    if (!currentTarget || !itemsNode) return
+
+    await onScroll({ currentTarget })
+
+    if (!maxFluidHeight) return
+
+    const itemsNodeHeight = itemsNode.offsetHeight + 1
+    const height = scrollHeight <= maxFluidHeight ? itemsNodeHeight : maxFluidHeight
+
+    viewportStyle = `height:${height}px`
+  }
 
   async function onScroll(e: { currentTarget: HTMLElement }) {
     const viewportNode = e.currentTarget
@@ -41,7 +51,8 @@
     const renderItemsOffset = Math.ceil(scrollPosition / itemHeight) - bufferItemsAmount
 
     start = renderItemsOffset > 0 ? renderItemsOffset : 0
-    end = start + renderAmount
+    const _end = start + renderAmount
+    end = scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
 
     if (itemsOffsetTop > maxScroll) {
       itemsOffsetTop = maxScroll
@@ -62,6 +73,7 @@
 <virtual-list
   class="column relative"
   on:scroll={onScroll}
+  style={viewportStyle}
   bind:offsetHeight={viewportHeight}
   bind:this={viewportNode}
 >
