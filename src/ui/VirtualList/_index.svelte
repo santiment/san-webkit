@@ -71,7 +71,7 @@
     const _end = start + renderAmount
     end = maxScroll > 0 && scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
 
-    if (itemsOffsetTop > maxScroll || end >= items.length) {
+    if (itemsOffsetTop > maxScroll || (start > 0 && end >= items.length)) {
       itemsOffsetTop = maxScroll
     }
 

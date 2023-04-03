@@ -52,7 +52,7 @@
 <Layout let:assets {accessAsset} mapItems={mapAssets} {tabs} {onEscape} {onTabSelect}>
   {@const items = [...selections, Item('title', 'Assets'), ...filterSelections(assets)]}
 
-  <VirtualList let:item itemHeight={32} {items} renderAmount={20}>
+  <VirtualList let:item itemHeight={36} {items} renderAmount={20}>
     {@const { type, value, isActive } = item}
 
     {#if type === 'item'}
