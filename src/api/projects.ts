@@ -1,23 +1,23 @@
 import { query } from '@/api'
 
-const PROJECTS_QUERY = `{
-  allProjects(minVolume: 0) {
-    id
-    slug
-    name
-    ticker
-  }
-}`
+const PROJECT_FRAGMENT = 'slug name ticker'
 
-type Query = SAN.API.Query<
-  'allProjects',
-  {
-    id: number
-    slug: string
-    name: string
-    ticker: string
-  }[]
->
+type Project = {
+  slug: string
+  name: string
+  ticker: string
+}
+
+type Query = SAN.API.Query<'projects', Project[]>
+
+const accessor = ({ projects }: Query) => projects
 
 export const queryProjects = () =>
-  query<Query>(PROJECTS_QUERY).then(({ allProjects }) => allProjects)
+  query<Query>(`{projects:allProjects(minVolume: 0) {
+    ${PROJECT_FRAGMENT}
+  }}`).then(accessor)
+
+export const queryErc20Projects = () =>
+  query(`{projects:allErc20Projects(minVolume: 0) {
+    ${PROJECT_FRAGMENT}
+  }}`).then(accessor)

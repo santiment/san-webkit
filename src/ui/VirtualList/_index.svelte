@@ -8,8 +8,8 @@
 
   type T = $$Generic
 
+  export let itemHeight: number
   export let items = [] as T[]
-  export let itemHeight = 0
   export let renderAmount = 10
   export let maxFluidHeight = 0
 
