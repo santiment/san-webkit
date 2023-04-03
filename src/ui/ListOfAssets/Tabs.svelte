@@ -1,13 +1,18 @@
 <script lang="ts" context="module">
   import type { Asset } from './api'
 
-  import { queryProjects, queryErc20Projects } from '@/api/projects'
+  import {
+    queryProjects,
+    queryErc20Projects,
+    queryStablecoinProjects,
+    queryDeFiProjects,
+  } from '@/api/projects'
 
   export const TABS: [string, () => Promise<Asset[]>][] = [
     ['All', queryProjects],
     ['ERC20', queryErc20Projects],
-    ['Stablecoins', queryProjects],
-    ['DeFi', queryProjects],
+    ['Stablecoins', queryStablecoinProjects],
+    ['DeFi', queryDeFiProjects],
   ]
 </script>
 

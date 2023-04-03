@@ -39,9 +39,7 @@
     loading = true
     dataQuery()
       .then((data) => (assets = data))
-      .finally(() => {
-        loading = false
-      })
+      .finally(() => (loading = false))
   }
 </script>
 
