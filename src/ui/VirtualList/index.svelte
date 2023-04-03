@@ -1,110 +1,126 @@
+<script lang="ts" context="module">
+  export { Controller } from './ctx'
+</script>
+
 <script lang="ts">
   import { tick } from 'svelte'
+  import { getControllerCtx } from './ctx'
 
   type T = $$Generic
 
-  let className = ''
-  export { className as class }
-  export let items: T[]
-  export let key: string | undefined = undefined
+  export let itemHeight: number
+  export let items = [] as T[]
   export let renderAmount = 10
-  export let maxHeight: number
-  export let defaultItemHeight = 0
-  export let viewportNode: HTMLElement | undefined = undefined
-  export let renderHeight: number
-  export let hideEmptyResults = false
+  export let maxFluidHeight = 0
 
-  const delayItems = 3
+  Object.assign(getControllerCtx() || {}, { scrollTo })
+  const bufferItemsAmount = 3
 
-  let listNode
-  let listHeight = defaultItemHeight * items.length
-  let offsetTop = 0
+  let viewportNode = null as null | HTMLElement
+  let itemsNode = null as null | HTMLElement
+  let viewportStyle = ''
+
+  let viewportHeight = 0
+  let itemsOffsetTop = 0
+
   let start = 0
   let end = renderAmount
 
-  $: items && reset()
-  $: listNode && items && tick().then(tick).then(updateListHeight)
-
-  $: renderItems = items.slice(start, end)
-  $: renderHeight = listHeight / renderAmount
-  $: scrollHeight = renderHeight * items.length
-  $: scrollStop = scrollHeight - listHeight
-  $: offsetRenderDelay = renderHeight * delayItems
-
-  $: style = listHeight ? `height:${scrollHeight}px` : ''
-  $: viewportStyle = scrollHeight && maxHeight ? getViewportStyle() : ''
-
-  function getViewportStyle() {
-    tick().then(() => {
-      const listHeight = listNode ? listNode.offsetHeight + 1 : scrollHeight
-      const height = scrollHeight <= maxHeight ? listHeight : maxHeight
-      viewportStyle = `height:${height}px`
-    })
-
-    return ''
+  if (process.env.IS_DEV_MODE) {
+    if (!itemHeight) throw new Error('VirtualList should have itemHeight prop specified to work')
   }
 
-  async function onScroll() {
+  $: padding = getPadding(itemsNode)
+  $: scrollHeight = itemHeight * items.length + padding
+  $: bufferHeight = itemHeight * bufferItemsAmount
+
+  $: maxScroll = scrollHeight < viewportHeight ? 0 : scrollHeight - viewportHeight
+
+  $: items && recalculate(viewportNode)
+  $: renderedItems = items.slice(start, end)
+
+  function getPadding(itemsNode: null | HTMLElement) {
+    if (!itemsNode) return 0
+    const { paddingTop, paddingBottom } = getComputedStyle(itemsNode)
+    return parseFloat(paddingTop) + parseFloat(paddingBottom)
+  }
+
+  async function recalculate(currentTarget: null | HTMLElement) {
+    if (!currentTarget || !itemsNode) return
+
+    await onScroll({ currentTarget })
+
+    if (!maxFluidHeight) return
+
+    const itemsNodeHeight = itemsNode.offsetHeight + 1
+    const height = scrollHeight <= maxFluidHeight ? itemsNodeHeight : maxFluidHeight
+
+    viewportStyle = `height:${height}px`
+  }
+
+  async function onScroll(e: { currentTarget: HTMLElement }) {
+    const viewportNode = e.currentTarget
     const { scrollTop } = viewportNode
 
-    const newOffset = scrollTop < scrollStop ? scrollTop : scrollStop
-    const newDelay = newOffset - offsetTop
-    const renderOffset = Math.ceil(newOffset / renderHeight) - delayItems
+    const scrollPosition = scrollTop < maxScroll ? scrollTop : maxScroll
+    const bufferOffset = scrollPosition - itemsOffsetTop
 
-    start = renderOffset > 0 ? renderOffset : 0
-    end = newOffset === scrollStop ? items.length : start + renderAmount
+    const renderItemsOffset = Math.ceil(scrollPosition / itemHeight) - bufferItemsAmount
+
+    start = renderItemsOffset > 0 ? renderItemsOffset : 0
+    const _end = start + renderAmount
+    end = maxScroll > 0 && scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
+
+    if (itemsOffsetTop > maxScroll || (start > 0 && end >= items.length)) {
+      itemsOffsetTop = maxScroll
+    }
 
     await tick()
 
     if (start === 0 && scrollTop === 0) {
-      return (offsetTop = 0)
+      return (itemsOffsetTop = 0)
     }
 
-    const diff = offsetRenderDelay - newDelay
-    offsetTop = diff <= 0 || diff - renderHeight < offsetTop ? start * renderHeight : offsetTop
+    const diff = bufferHeight - bufferOffset
+    const shouldMoveScrollContainer = diff <= 0 || diff - itemHeight < itemsOffsetTop
+    itemsOffsetTop = shouldMoveScrollContainer ? start * itemHeight : itemsOffsetTop
   }
 
-  function reset() {
-    if (viewportNode) viewportNode.scrollTop = 0
-    offsetTop = 0
-    start = 0
-    end = renderAmount
-  }
-
-  function updateListHeight() {
-    listNode.offsetWidth // NOTE(vanguard): Awaiting style recalc
-    listHeight = listNode.scrollHeight
+  function scrollTo(index: number) {
+    viewportNode?.scroll(0, itemHeight * index)
   }
 </script>
 
-<div
-  bind:this={viewportNode}
-  style={viewportStyle}
-  class="viewport relative {className}"
+<virtual-list
+  class="column relative"
   on:scroll={onScroll}
+  style={viewportStyle}
+  bind:offsetHeight={viewportHeight}
+  bind:this={viewportNode}
 >
-  <div class="scroll" {style}>
-    <div class="list column" style="transform:translateY({offsetTop}px)" bind:this={listNode}>
-      {#each renderItems as item, i (key ? item[key] : item)}
+  <virtual-list-scroll style:height={scrollHeight + 'px'}>
+    <virtual-list-items
+      class="column"
+      bind:this={itemsNode}
+      style:transform="translateY({itemsOffsetTop}px)"
+    >
+      {#each renderedItems as item, i (item)}
         <slot {item} i={start + i} />
       {/each}
-    </div>
-  </div>
+    </virtual-list-items>
+  </virtual-list-scroll>
 
-  {#if !hideEmptyResults && !renderItems.length}
-    <slot name="empty">
-      <div class="c-waterloo mrg-s mrg--l">No results found</div>
-    </slot>
-  {/if}
-</div>
+  <slot name="empty" />
+</virtual-list>
 
 <style>
-  .viewport {
+  virtual-list {
     overflow-y: auto;
     height: 100%;
+    flex: 1;
   }
 
-  .scroll {
+  virtual-list-scroll {
     position: absolute;
     left: 0;
     top: 0;
