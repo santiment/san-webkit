@@ -3,11 +3,13 @@
 
   import VirtualList from '@/ui/VirtualList/_index.svelte'
   import Layout from './Layout.svelte'
+  import { TABS } from './Tabs.svelte'
   import AssetItem from './CheckboxAsset.svelte'
 
   export let selected = new Set<Asset>()
+  export let tabs = TABS
   export let onSelect: (assets: Asset[]) => void
-  export let onEscape: (...args: any[]) => any
+  export let onEscape = undefined as undefined | ((...args: any[]) => any)
 
   $: selections = selected.size
     ? [Item('title', 'Selected'), ...mapAssets(Array.from(selected), true)]
@@ -47,7 +49,7 @@
   ) => ({ type, value, isActive })
 </script>
 
-<Layout let:assets {accessAsset} mapItems={mapAssets} {onEscape} {onTabSelect}>
+<Layout let:assets {accessAsset} mapItems={mapAssets} {tabs} {onEscape} {onTabSelect}>
   {@const items = [...selections, Item('title', 'Assets'), ...filterSelections(assets)]}
 
   <VirtualList let:item itemHeight={32} {items} renderAmount={20}>

@@ -34,3 +34,12 @@ export const queryWatchlistProjects = (slug: string) =>
 
 export const queryStablecoinProjects = () => queryWatchlistProjects('stablecoins')
 export const queryDeFiProjects = () => queryWatchlistProjects('defi')
+
+export const FIAT_MARKET_ASSETS = [
+  { slug: 's-and-p-500', name: 'S&P500', ticker: 'SPX' },
+  { slug: 'gold', name: 'Gold', ticker: 'Gold' },
+  { slug: 'crude-oil', name: 'Crude Oil', ticker: 'CrudeOil' },
+  { slug: 'dxy', name: 'USDX Index', ticker: 'DXY' },
+]
+
+export const queryFiatAssets = () => Promise.resolve(FIAT_MARKET_ASSETS)

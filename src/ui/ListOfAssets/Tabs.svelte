@@ -9,7 +9,8 @@
   } from '@/api/projects'
   import { noop } from '@/utils'
 
-  export const TABS: [string, () => Promise<Asset[]>][] = [
+  export type TabsType = [string, () => Promise<Asset[]>][]
+  export const TABS: TabsType = [
     ['All', queryProjects],
     ['ERC20', queryErc20Projects],
     ['Stablecoins', queryStablecoinProjects],
