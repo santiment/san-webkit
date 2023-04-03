@@ -26,11 +26,15 @@
   let start = 0
   let end = renderAmount
 
+  if (process.env.IS_DEV_MODE) {
+    if (!itemHeight) throw new Error('VirtualList should have itemHeight prop specified to work')
+  }
+
   $: padding = getPadding(itemsNode)
   $: scrollHeight = itemHeight * items.length + padding
   $: bufferHeight = itemHeight * bufferItemsAmount
 
-  $: maxScroll = scrollHeight - viewportHeight
+  $: maxScroll = scrollHeight < viewportHeight ? 0 : scrollHeight - viewportHeight
 
   $: items && recalculate(viewportNode)
   $: renderedItems = items.slice(start, end)
@@ -65,7 +69,7 @@
 
     start = renderItemsOffset > 0 ? renderItemsOffset : 0
     const _end = start + renderAmount
-    end = scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
+    end = maxScroll > 0 && scrollPosition === maxScroll ? Math.max(items.length, _end) : _end
 
     if (itemsOffsetTop > maxScroll || end >= items.length) {
       itemsOffsetTop = maxScroll

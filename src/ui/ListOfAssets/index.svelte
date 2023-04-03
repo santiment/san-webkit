@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Asset } from './api'
 
-  import VirtualList from '@/ui/VirtualList/index.svelte'
+  import VirtualList from '@/ui/VirtualList/_index.svelte'
   import Layout from './Layout.svelte'
   import AssetItem from './Asset.svelte'
 
@@ -12,7 +12,7 @@
 </script>
 
 <Layout let:assets {accessAsset}>
-  <VirtualList items={assets} renderAmount={20} let:item>
+  <VirtualList itemHeight={32} items={assets} renderAmount={20} let:item>
     <AssetItem {item} isActive={selected === item} on:click={() => onSelect(item)} />
   </VirtualList>
 </Layout>

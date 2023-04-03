@@ -19,5 +19,5 @@ type Query = SAN.API.Query<
   }[]
 >
 
-const accessor = ({ allProjects }: Query) => allProjects
-export const queryProjects = () => query<Query>(PROJECTS_QUERY).then(accessor)
+export const queryProjects = () =>
+  query<Query>(PROJECTS_QUERY).then(({ allProjects }) => allProjects)

@@ -3,19 +3,21 @@
 
   import { debounce$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
-  import Tabs from './Tabs.svelte'
+  import Tabs, { TABS } from './Tabs.svelte'
 
-  import { projects } from '../../../stories/allProjects'
+  // import { projects } from '../../../stories/allProjects'
 
   type T = $$Generic
 
   export let mapItems = ((assets) => assets) as (assets: Asset[]) => T[]
   export let accessAsset: (item: T) => Asset
+  export let tabs = TABS
 
-  // let assets = [] as Asset[]
-  let assets = projects as Asset[]
+  let tab = tabs[0]
+  let assets = [] as Asset[]
   let searchTerm = ''
 
+  $: getData(tab[1])
   $: items = mapItems(assets)
   $: filtered = searchTerm ? filter(items) : items
 
@@ -31,12 +33,16 @@
     const value = searchTerm.toLowerCase()
     return items.filter((item) => matchAsset(value, accessAsset(item)))
   }
+
+  function getData(dataQuery: () => Promise<Asset[]>) {
+    dataQuery().then((data) => (assets = data))
+  }
 </script>
 
 <div class="column">
   <Search placeholder="Search for asset" on:input={onInput} />
 
-  <Tabs />
+  <Tabs {tabs} bind:selected={tab} />
 
   <section class="list">
     <slot assets={filtered} />
