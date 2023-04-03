@@ -18,6 +18,7 @@ declare const __propDef: {
         focus: FocusEvent;
         blur: FocusEvent;
         keydown: KeyboardEvent;
+        keyup: KeyboardEvent;
     } & {
         [evt: string]: CustomEvent<any>;
     };

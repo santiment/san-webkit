@@ -1,5 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
-import type { Asset } from './api';
+import type { Asset } from './types';
 declare const __propDef: {
     props: {
         isActive?: boolean | undefined;

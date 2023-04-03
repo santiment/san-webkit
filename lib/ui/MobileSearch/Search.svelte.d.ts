@@ -6,10 +6,10 @@ import Person from './Person.svelte';
 export declare const TABS_CONTENT: {
     Assets: {
         query: () => Promise<{
-            id: number;
             slug: string;
             name: string;
             ticker: string;
+            logoUrl: string;
         }[]>;
         filter: (searchTerm: any, items: any) => any;
         Component: typeof Asset;

@@ -30,6 +30,7 @@ export let autofocus = false;</script>
     on:focus
     on:blur
     on:keydown
+    on:keyup
   />
   <slot />
 </div>

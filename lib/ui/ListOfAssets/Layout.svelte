@@ -1,7 +1,9 @@
 <script>import { noop } from './../../utils';
 import { debounce$ } from './../../utils/fn';
 import Search from './../../ui/Search.svelte';
+import { Controller } from './../../ui/VirtualList/ctx';
 import Tabs, { TABS } from './Tabs.svelte';
+const virtualController = Controller();
 export let mapItems = assets => assets;
 export let accessAsset;
 export let tabs = TABS;
@@ -38,6 +40,9 @@ function filter(items) {
 }
 
 function getData(dataQuery) {
+  var _a;
+
+  (_a = virtualController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(virtualController, 0);
   loading = true;
   dataQuery().then(data => assets = data).finally(() => loading = false);
 }
@@ -54,7 +59,7 @@ function onKeyUp({
   }
 }</script>
 
-<div class="column">
+<assets-list class="column">
   <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
 
   <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
@@ -66,7 +71,7 @@ function onKeyUp({
       <div class="loading-spin" />
     {/if}
   </section>
-</div>
+</assets-list>
 
 <style>
   .column {

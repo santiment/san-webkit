@@ -2,7 +2,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         title?: string | undefined;
-        onSearchClick?: ((_: any) => any) | undefined;
+        onSearchClick?: ((_?: any) => any) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

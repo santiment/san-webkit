@@ -19,7 +19,7 @@ declare const __propDef: {
         disabled?: boolean | undefined;
         votes?: Votes | undefined;
         onVote: any;
-        onVoted?: ((_: any) => any) | undefined;
+        onVoted?: ((_?: any) => any) | undefined;
         source: string;
     };
     events: {

@@ -19,7 +19,7 @@ declare const __propDef: {
     };
     slots: {
         default: {
-            item: any;
+            item: unknown;
         };
     };
 };

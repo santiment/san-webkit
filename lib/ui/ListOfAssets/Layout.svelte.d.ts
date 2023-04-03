@@ -1,5 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
-import type { Asset } from './api';
+import type { Asset } from './types';
 declare class __sveltets_Render<T> {
     props(): {
         mapItems?: ((assets: Asset[]) => T[]) | undefined;

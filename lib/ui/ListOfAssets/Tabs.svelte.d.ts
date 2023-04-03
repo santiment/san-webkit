@@ -1,5 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
-import type { Asset } from './api';
+import type { Asset } from './types';
 export declare type TabsType = [string, () => Promise<Asset[]>][];
 export declare const TABS: TabsType;
 declare const __propDef: {

@@ -1,4 +1,4 @@
-<script>import VirtualList from './../../ui/VirtualList/_index.svelte';
+<script>import VirtualList from './../../ui/VirtualList/index.svelte';
 import Layout from './Layout.svelte';
 import { TABS } from './Tabs.svelte';
 import AssetItem from './Asset.svelte';

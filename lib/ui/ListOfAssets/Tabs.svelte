@@ -1,17 +1,12 @@
 <script context="module">import { queryProjects, queryErc20Projects, queryStablecoinProjects, queryDeFiProjects } from './../../api/projects';
 import { noop } from './../../utils';
-import { Controller } from './../../ui/VirtualList/ctx';
-export const TABS = [['All', queryProjects], ['ERC20', queryErc20Projects], ['Stablecoins', queryStablecoinProjects], ['DeFi', queryDeFiProjects]];
-const virtualController = Controller();</script>
+export const TABS = [['All', queryProjects], ['ERC20', queryErc20Projects], ['Stablecoins', queryStablecoinProjects], ['DeFi', queryDeFiProjects]];</script>
 
 <script>export let tabs;
 export let selected;
 export let onSelect = noop;
 
 function onClick(tab) {
-  var _a;
-
-  (_a = virtualController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(virtualController, 0);
   onSelect(selected = tab);
 }</script>
 

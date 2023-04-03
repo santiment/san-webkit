@@ -4,6 +4,7 @@ declare const __propDef: {
         class?: string | undefined;
         isActive?: boolean | undefined;
         disabled?: boolean | undefined;
+        as?: string | undefined;
     };
     events: {
         click: MouseEvent;

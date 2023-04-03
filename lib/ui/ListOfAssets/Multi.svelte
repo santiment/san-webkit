@@ -1,4 +1,4 @@
-<script>import VirtualList from './../../ui/VirtualList/_index.svelte';
+<script>import VirtualList from './../../ui/VirtualList/index.svelte';
 import Layout from './Layout.svelte';
 import { TABS } from './Tabs.svelte';
 import AssetItem from './CheckboxAsset.svelte';
@@ -42,7 +42,7 @@ const Item = (type, value, isActive = false) => ({
 <Layout let:assets {accessAsset} mapItems={mapAssets} {tabs} {onEscape} {onTabSelect}>
   {@const items = [...selections, Item('title', 'Assets'), ...filterSelections(assets)]}
 
-  <VirtualList let:item itemHeight={32} {items} renderAmount={20}>
+  <VirtualList let:item itemHeight={36} {items} renderAmount={20}>
     {@const { type, value, isActive } = item}
 
     {#if type === 'item'}

@@ -9,7 +9,7 @@ export default class Paged extends SvelteComponentTyped<{
     pageSize?: number | undefined;
     rows?: number[] | undefined;
     pageOffset?: number | undefined;
-    onPageChange?: ((_: any) => any) | undefined;
+    onPageChange?: ((_?: any) => any) | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -27,7 +27,7 @@ declare const __propDef: {
         pageSize?: number | undefined;
         rows?: number[] | undefined;
         pageOffset?: number | undefined;
-        onPageChange?: ((_: any) => any) | undefined;
+        onPageChange?: ((_?: any) => any) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
