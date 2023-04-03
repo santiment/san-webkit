@@ -9,7 +9,7 @@
 
 <Story name="VirtualList">
   <div class="list border">
-    <VirtualList items={projects} key="slug" let:item>
+    <VirtualList itemHeight={32} items={projects} key="slug" let:item>
       <div class="btn-ghost row v-center">
         <ProjectIcon slug={item.slug} class="mrg-s mrg--r" />
         {item.name}

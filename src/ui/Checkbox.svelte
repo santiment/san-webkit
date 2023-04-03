@@ -3,9 +3,12 @@
   export { className as class }
   export let isActive = false
   export let disabled = false
+  export let as = 'button'
 </script>
 
-<button
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<svelte:element
+  this={as}
   style="---check:url({process.env.ICONS_PATH}/checkmark.svg)"
   class="btn border {className}"
   class:isActive
@@ -14,7 +17,7 @@
 />
 
 <style lang="scss">
-  button {
+  .btn {
     width: 16px;
     height: 16px;
     border-radius: 2px;
