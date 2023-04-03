@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Asset } from './api'
+  import type { Asset } from './types'
 
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
 

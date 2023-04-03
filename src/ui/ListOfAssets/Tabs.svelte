@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import type { Asset } from './api'
+  import type { Asset } from './types'
 
   import {
     queryProjects,

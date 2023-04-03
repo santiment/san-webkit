@@ -8,6 +8,8 @@
 
   type T = $$Generic
 
+  let className = ''
+  export { className as class }
   export let itemHeight: number
   export let items = [] as T[]
   export let renderAmount = 10
@@ -92,7 +94,7 @@
 </script>
 
 <virtual-list
-  class="column relative"
+  class="column relative {className}"
   on:scroll={onScroll}
   style={viewportStyle}
   bind:offsetHeight={viewportHeight}
