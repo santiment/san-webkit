@@ -16,6 +16,7 @@
   let tab = tabs[0]
   let assets = [] as Asset[]
   let searchTerm = ''
+  let loading = true
 
   $: getData(tab[1])
   $: items = mapItems(assets)
@@ -35,7 +36,12 @@
   }
 
   function getData(dataQuery: () => Promise<Asset[]>) {
-    dataQuery().then((data) => (assets = data))
+    loading = true
+    dataQuery()
+      .then((data) => (assets = data))
+      .finally(() => {
+        loading = false
+      })
   }
 </script>
 
@@ -44,8 +50,12 @@
 
   <Tabs {tabs} bind:selected={tab} />
 
-  <section class="list">
+  <section class="relative" class:data-loading={loading}>
     <slot assets={filtered} />
+
+    {#if loading}
+      <div class="loading-spin" />
+    {/if}
   </section>
 </div>
 
@@ -55,15 +65,24 @@
     height: 100%;
   }
 
-  .list {
+  section {
     flex: 1;
   }
 
-  .list :global(.list) {
+  section :global(virtual-list-items) {
     padding: 16px 0;
   }
 
-  div :global(virtual-list-items) {
-    padding: 16px 0;
+  .data-loading {
+    opacity: 0.6;
+  }
+
+  .loading-spin {
+    --loading-size: 32px;
+    border-width: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
   }
 </style>
