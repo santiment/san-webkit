@@ -33,6 +33,7 @@
     on:focus
     on:blur
     on:keydown
+    on:keyup
   />
   <slot />
 </div>
