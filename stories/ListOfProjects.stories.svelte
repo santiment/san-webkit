@@ -10,9 +10,7 @@
   <div class="list border">
     <ListOfAssets onSelect={console.log} />
   </div>
-</Story>
 
-<Story name="Example/List Of Projects">
   <div class="list border">
     <ListOfAssetsMulti onSelect={console.log} />
   </div>

@@ -4,9 +4,12 @@
   import { noop } from '@/utils'
   import { debounce$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
+  import { Controller } from '@/ui/VirtualList/ctx'
   import Tabs, { TABS } from './Tabs.svelte'
 
   type T = $$Generic
+
+  const virtualController = Controller()
 
   export let mapItems = ((assets) => assets) as (assets: Asset[]) => T[]
   export let accessAsset: (item: T) => Asset
@@ -37,6 +40,8 @@
   }
 
   function getData(dataQuery: () => Promise<Asset[]>) {
+    virtualController.scrollTo?.(0)
+
     loading = true
     dataQuery()
       .then((data) => (assets = data))

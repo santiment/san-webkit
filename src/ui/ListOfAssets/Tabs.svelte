@@ -19,11 +19,11 @@
 </script>
 
 <script lang="ts">
-  export let tabs: typeof TABS
-  export let selected: typeof tabs[number]
+  export let tabs: TabsType
+  export let selected: TabsType[number]
   export let onSelect = noop
 
-  function onClick(tab: typeof TABS[number]) {
+  function onClick(tab: TabsType[number]) {
     onSelect((selected = tab))
   }
 </script>
