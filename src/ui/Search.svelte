@@ -8,4 +8,13 @@
   export let value = undefined as string | undefined
 </script>
 
-<InputWithIcon class={className} {value} {placeholder} {autofocus} icon="search" w="12" on:input />
+<InputWithIcon
+  class={className}
+  {value}
+  {placeholder}
+  {autofocus}
+  icon="search"
+  w="12"
+  on:input
+  on:keyup
+/>

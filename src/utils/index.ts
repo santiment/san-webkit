@@ -1,4 +1,4 @@
-export const noop = (_) => _
+export const noop = (_?: any) => _
 
 function newCopyNode(text: string): HTMLTextAreaElement {
   const node = document.createElement('textarea')

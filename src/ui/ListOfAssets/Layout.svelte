@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Asset } from './api'
 
+  import { noop } from '@/utils'
   import { debounce$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
   import Tabs, { TABS } from './Tabs.svelte'
@@ -12,6 +13,7 @@
   export let mapItems = ((assets) => assets) as (assets: Asset[]) => T[]
   export let accessAsset: (item: T) => Asset
   export let tabs = TABS
+  export let onEscape = noop
 
   let tab = tabs[0]
   let assets = [] as Asset[]
@@ -41,10 +43,21 @@
       .then((data) => (assets = data))
       .finally(() => (loading = false))
   }
+
+  function onKeyUp({ currentTarget, code }: KeyboardEvent) {
+    if (!currentTarget) return
+
+    const inputNode = currentTarget as HTMLInputElement
+
+    if (code === 'Escape') {
+      if (searchTerm) inputNode.value = searchTerm = ''
+      else onEscape()
+    }
+  }
 </script>
 
 <div class="column">
-  <Search placeholder="Search for asset" on:input={onInput} />
+  <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
 
   <Tabs {tabs} bind:selected={tab} />
 

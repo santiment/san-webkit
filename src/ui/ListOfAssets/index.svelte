@@ -7,11 +7,12 @@
 
   export let selected = null as Asset | null
   export let onSelect: (asset: Asset) => void
+  export let onEscape: (...args: any[]) => any
 
   const accessAsset = (item: Asset) => item
 </script>
 
-<Layout let:assets {accessAsset}>
+<Layout let:assets {accessAsset} {onEscape}>
   <VirtualList itemHeight={32} items={assets} renderAmount={20} let:item>
     <AssetItem {item} isActive={selected === item} on:click={() => onSelect(item)} />
   </VirtualList>

@@ -42,13 +42,14 @@
 
   .btn {
     border-radius: 0;
-    padding: 12px 2px;
+    padding: 12px 2px 10px;
     margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
     --color-hover: var(--green);
   }
 
   .active {
     --color: var(--green);
-    border-bottom: 2px solid var(--green);
+    border-bottom-color: var(--green);
   }
 </style>
