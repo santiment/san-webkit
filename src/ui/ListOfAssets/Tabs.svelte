@@ -7,6 +7,7 @@
     queryStablecoinProjects,
     queryDeFiProjects,
   } from '@/api/projects'
+  import { noop } from '@/utils'
 
   export const TABS: [string, () => Promise<Asset[]>][] = [
     ['All', queryProjects],
@@ -19,9 +20,10 @@
 <script lang="ts">
   export let tabs: typeof TABS
   export let selected: typeof tabs[number]
+  export let onSelect = noop
 
   function onClick(tab: typeof TABS[number]) {
-    selected = tab
+    onSelect((selected = tab))
   }
 </script>
 

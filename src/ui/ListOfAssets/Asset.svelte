@@ -12,7 +12,7 @@
 <button class="btn asset row v-center {className}" class:active={isActive} on:click>
   <slot />
 
-  <ProjectIcon slug={item.slug} />
+  <ProjectIcon {...item} />
   {item.name}
 
   <span class="c-waterloo">({item.ticker})</span>

@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { Asset } from './api'
 
-  import VirtualList from '@/ui/VirtualList/index.svelte'
+  import VirtualList from '@/ui/VirtualList/_index.svelte'
   import Layout from './Layout.svelte'
   import AssetItem from './CheckboxAsset.svelte'
 
   export let selected = new Set<Asset>()
   export let onSelect: (assets: Asset[]) => void
+  export let onEscape: (...args: any[]) => any
 
   $: selections = selected.size
     ? [Item('title', 'Selected'), ...mapAssets(Array.from(selected), true)]
@@ -30,6 +31,10 @@
     onSelect(Array.from(selected))
   }
 
+  function onTabSelect() {
+    selected = new Set()
+  }
+
   type ItemType<T extends 'title' | 'item'> = {
     type: T
     value: T extends 'title' ? string : Asset
@@ -42,10 +47,10 @@
   ) => ({ type, value, isActive })
 </script>
 
-<Layout {accessAsset} mapItems={mapAssets} let:assets>
+<Layout let:assets {accessAsset} mapItems={mapAssets} {onEscape} {onTabSelect}>
   {@const items = [...selections, Item('title', 'Assets'), ...filterSelections(assets)]}
 
-  <VirtualList {items} renderAmount={30} let:item>
+  <VirtualList let:item itemHeight={32} {items} renderAmount={20}>
     {@const { type, value, isActive } = item}
 
     {#if type === 'item'}

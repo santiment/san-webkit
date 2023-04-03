@@ -1,11 +1,12 @@
 import { query } from '@/api'
 
-const PROJECT_FRAGMENT = 'slug name ticker'
+const PROJECT_FRAGMENT = 'slug name ticker logoUrl'
 
 type Project = {
   slug: string
   name: string
   ticker: string
+  logoUrl: string // TODO: Ask backend to rename logos to slug (without chain slug) [@vanguard | 03 Apr, 2023]
 }
 
 type Query = SAN.API.Query<'projects', Project[]>

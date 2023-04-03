@@ -6,14 +6,13 @@
   import Search from '@/ui/Search.svelte'
   import Tabs, { TABS } from './Tabs.svelte'
 
-  // import { projects } from '../../../stories/allProjects'
-
   type T = $$Generic
 
   export let mapItems = ((assets) => assets) as (assets: Asset[]) => T[]
   export let accessAsset: (item: T) => Asset
   export let tabs = TABS
   export let onEscape = noop
+  export let onTabSelect = noop
 
   let tab = tabs[0]
   let assets = [] as Asset[]
@@ -59,7 +58,7 @@
 <div class="column">
   <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
 
-  <Tabs {tabs} bind:selected={tab} />
+  <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
 
   <section class="relative" class:data-loading={loading}>
     <slot assets={filtered} />
