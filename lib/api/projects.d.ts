@@ -1,4 +1,4 @@
-declare type Project = {
+type Project = {
     slug: string;
     name: string;
     ticker: string;

@@ -1,4 +1,4 @@
-export declare type ScrollContext = {
+export type ScrollContext = {
     scrollInterval: number | undefined;
     scrollParent: HTMLElement;
 };

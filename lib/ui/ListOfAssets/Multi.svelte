@@ -31,6 +31,7 @@ function onClick(asset) {
 
 function onTabSelect() {
   selected = new Set();
+  onSelect(Array.from(selected));
 }
 
 const Item = (type, value, isActive = false) => ({

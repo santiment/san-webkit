@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type RepliedToProps = typeof __propDef.props;
-export declare type RepliedToEvents = typeof __propDef.events;
-export declare type RepliedToSlots = typeof __propDef.slots;
+export type RepliedToProps = typeof __propDef.props;
+export type RepliedToEvents = typeof __propDef.events;
+export type RepliedToSlots = typeof __propDef.slots;
 export default class RepliedTo extends SvelteComponentTyped<RepliedToProps, RepliedToEvents, RepliedToSlots> {
 }
 export {};

@@ -11,9 +11,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type BannerProps = typeof __propDef.props;
-export declare type BannerEvents = typeof __propDef.events;
-export declare type BannerSlots = typeof __propDef.slots;
+export type BannerProps = typeof __propDef.props;
+export type BannerEvents = typeof __propDef.events;
+export type BannerSlots = typeof __propDef.slots;
 export default class Banner extends SvelteComponentTyped<BannerProps, BannerEvents, BannerSlots> {
 }
 export {};

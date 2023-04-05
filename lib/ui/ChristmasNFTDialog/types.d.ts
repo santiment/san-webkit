@@ -5,6 +5,6 @@ export declare enum Page {
     Reward = 3,
     Info = 4
 }
-export declare type CurrentUser = {
+export type CurrentUser = {
     ethAccounts: string[];
 };

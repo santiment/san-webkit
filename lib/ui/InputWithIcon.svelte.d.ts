@@ -27,9 +27,9 @@ declare const __propDef: {
         default: {};
     };
 };
-export declare type InputWithIconProps = typeof __propDef.props;
-export declare type InputWithIconEvents = typeof __propDef.events;
-export declare type InputWithIconSlots = typeof __propDef.slots;
+export type InputWithIconProps = typeof __propDef.props;
+export type InputWithIconEvents = typeof __propDef.events;
+export type InputWithIconSlots = typeof __propDef.slots;
 export default class InputWithIcon extends SvelteComponentTyped<InputWithIconProps, InputWithIconEvents, InputWithIconSlots> {
 }
 export {};

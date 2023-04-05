@@ -25,9 +25,9 @@ declare const __propDef: {
         };
     };
 };
-export declare type GridProps = typeof __propDef.props;
-export declare type GridEvents = typeof __propDef.events;
-export declare type GridSlots = typeof __propDef.slots;
+export type GridProps = typeof __propDef.props;
+export type GridEvents = typeof __propDef.events;
+export type GridSlots = typeof __propDef.slots;
 export default class Grid extends SvelteComponentTyped<GridProps, GridEvents, GridSlots> {
 }
 export {};

@@ -1,4 +1,4 @@
-declare type CreateCommentVariables = {
+type CreateCommentVariables = {
     id: number;
     content: string;
     type: SAN.CommentsType;

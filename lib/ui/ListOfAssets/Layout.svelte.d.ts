@@ -17,9 +17,9 @@ declare class __sveltets_Render<T> {
         };
     };
 }
-export declare type LayoutProps<T> = ReturnType<__sveltets_Render<T>['props']>;
-export declare type LayoutEvents<T> = ReturnType<__sveltets_Render<T>['events']>;
-export declare type LayoutSlots<T> = ReturnType<__sveltets_Render<T>['slots']>;
+export type LayoutProps<T> = ReturnType<__sveltets_Render<T>['props']>;
+export type LayoutEvents<T> = ReturnType<__sveltets_Render<T>['events']>;
+export type LayoutSlots<T> = ReturnType<__sveltets_Render<T>['slots']>;
 export default class Layout<T> extends SvelteComponentTyped<LayoutProps<T>, LayoutEvents<T>, LayoutSlots<T>> {
 }
 export {};

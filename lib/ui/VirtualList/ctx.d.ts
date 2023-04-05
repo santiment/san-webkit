@@ -1,4 +1,4 @@
-export declare type ControllerType = Partial<{
+export type ControllerType = Partial<{
     scrollTo(index: number): void;
 }>;
 export declare const CTX = "VirtualListController";

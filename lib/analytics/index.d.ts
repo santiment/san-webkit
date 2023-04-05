@@ -5,10 +5,10 @@ export declare enum Tracker {
     AMPLITUDE = "AMPLITUDE"
 }
 export declare const isTrackingEnabled: any;
-export declare type EventData = {
+export type EventData = {
     [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[];
 };
-declare type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number;
+type SendEvent = (eventName: string, data?: EventData, trackers?: Tracker[]) => number;
 export declare const track: {
     event: SendEvent;
     pageview(app_name: string): void;

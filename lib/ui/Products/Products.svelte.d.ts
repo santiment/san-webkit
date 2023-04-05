@@ -11,9 +11,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type ProductsProps = typeof __propDef.props;
-export declare type ProductsEvents = typeof __propDef.events;
-export declare type ProductsSlots = typeof __propDef.slots;
+export type ProductsProps = typeof __propDef.props;
+export type ProductsEvents = typeof __propDef.events;
+export type ProductsSlots = typeof __propDef.slots;
 export default class Products extends SvelteComponentTyped<ProductsProps, ProductsEvents, ProductsSlots> {
 }
 export {};

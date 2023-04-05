@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type MultiProps = typeof __propDef.props;
-export declare type MultiEvents = typeof __propDef.events;
-export declare type MultiSlots = typeof __propDef.slots;
+export type MultiProps = typeof __propDef.props;
+export type MultiEvents = typeof __propDef.events;
+export type MultiSlots = typeof __propDef.slots;
 export default class Multi extends SvelteComponentTyped<MultiProps, MultiEvents, MultiSlots> {
 }
 export {};

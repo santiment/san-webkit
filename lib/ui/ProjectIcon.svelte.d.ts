@@ -12,9 +12,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type ProjectIconProps = typeof __propDef.props;
-export declare type ProjectIconEvents = typeof __propDef.events;
-export declare type ProjectIconSlots = typeof __propDef.slots;
+export type ProjectIconProps = typeof __propDef.props;
+export type ProjectIconEvents = typeof __propDef.events;
+export type ProjectIconSlots = typeof __propDef.slots;
 export default class ProjectIcon extends SvelteComponentTyped<ProjectIconProps, ProjectIconEvents, ProjectIconSlots> {
 }
 export {};

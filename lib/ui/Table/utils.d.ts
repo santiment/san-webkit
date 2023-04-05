@@ -1,11 +1,11 @@
 import type { ComponentType } from 'svelte/internal';
-export declare type Item = {
+export type Item = {
     [key: string]: any;
 };
-export declare type Sorter = (a: Item, b: Item) => number;
-export declare type SortAccessor = (item: Item) => number;
-export declare type Format<T = Item> = (item: T, i: number, value?: any) => number | string;
-export declare type Column<T = Item> = {
+export type Sorter = (a: Item, b: Item) => number;
+export type SortAccessor = (item: Item) => number;
+export type Format<T = Item> = (item: T, i: number, value?: any) => number | string;
+export type Column<T = Item> = {
     title: string;
     className?: string;
     sortAccessor?: SortAccessor;

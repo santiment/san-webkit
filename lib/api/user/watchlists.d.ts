@@ -1,4 +1,4 @@
-declare type Query = SAN.API.Query<'getUser', {
+type Query = SAN.API.Query<'getUser', {
     watchlists: {
         id: number;
         title: string;
@@ -8,7 +8,7 @@ declare type Query = SAN.API.Query<'getUser', {
     }[];
 }>;
 export declare const queryUserWatchlists: (userId: number | string) => Promise<Query>;
-declare type AddressQuery = SAN.API.Query<'getUser', {
+type AddressQuery = SAN.API.Query<'getUser', {
     watchlists: {
         id: number;
         title: string;

@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type RocketProps = typeof __propDef.props;
-export declare type RocketEvents = typeof __propDef.events;
-export declare type RocketSlots = typeof __propDef.slots;
+export type RocketProps = typeof __propDef.props;
+export type RocketEvents = typeof __propDef.events;
+export type RocketSlots = typeof __propDef.slots;
 export default class Rocket extends SvelteComponentTyped<RocketProps, RocketEvents, RocketSlots> {
 }
 export {};

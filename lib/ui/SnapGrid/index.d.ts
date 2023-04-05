@@ -1,7 +1,7 @@
 import type { Handlers, Margin, SnapGridController, SnapItem } from './types';
 import './snap-grid.css';
 export declare function getAbsolutePosition([left, top]: SnapItem, settings: SnapGridController): number[];
-declare type Settings = {
+type Settings = {
     cols: number;
     rowSize: number;
     gridWidth?: number;

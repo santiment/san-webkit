@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type AddressWatchlistProps = typeof __propDef.props;
-export declare type AddressWatchlistEvents = typeof __propDef.events;
-export declare type AddressWatchlistSlots = typeof __propDef.slots;
+export type AddressWatchlistProps = typeof __propDef.props;
+export type AddressWatchlistEvents = typeof __propDef.events;
+export type AddressWatchlistSlots = typeof __propDef.slots;
 export default class AddressWatchlist extends SvelteComponentTyped<AddressWatchlistProps, AddressWatchlistEvents, AddressWatchlistSlots> {
 }
 export {};

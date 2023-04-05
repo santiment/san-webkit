@@ -14,7 +14,7 @@ export declare const checkIsGameStarted: () => boolean;
 export declare const startGame: () => void;
 export declare const checkWasNftDialogClosedOnce: () => boolean;
 export declare const saveDialogClose: () => void;
-export declare type NftData = {
+export type NftData = {
     address: string;
     nonValidTokenIds: number[];
 }[];

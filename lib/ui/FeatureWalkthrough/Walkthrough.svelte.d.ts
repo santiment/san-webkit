@@ -8,9 +8,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type WalkthroughProps = typeof __propDef.props;
-export declare type WalkthroughEvents = typeof __propDef.events;
-export declare type WalkthroughSlots = typeof __propDef.slots;
+export type WalkthroughProps = typeof __propDef.props;
+export type WalkthroughEvents = typeof __propDef.events;
+export type WalkthroughSlots = typeof __propDef.slots;
 export default class Walkthrough extends SvelteComponentTyped<WalkthroughProps, WalkthroughEvents, WalkthroughSlots> {
 }
 export {};

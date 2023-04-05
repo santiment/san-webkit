@@ -4,8 +4,8 @@
 export default class Index extends SvelteComponentTyped<{
     type?: string | undefined;
     text?: string | undefined;
-    offsetY?: number | undefined;
     activeClass?: string | undefined;
+    offsetY?: number | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {
@@ -22,8 +22,8 @@ declare const __propDef: {
     props: {
         type?: string | undefined;
         text?: string | undefined;
-        offsetY?: number | undefined;
         activeClass?: string | undefined;
+        offsetY?: number | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

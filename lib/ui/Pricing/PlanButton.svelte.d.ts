@@ -15,9 +15,9 @@ declare const __propDef: {
     };
     slots: {};
 };
-export declare type PlanButtonProps = typeof __propDef.props;
-export declare type PlanButtonEvents = typeof __propDef.events;
-export declare type PlanButtonSlots = typeof __propDef.slots;
+export type PlanButtonProps = typeof __propDef.props;
+export type PlanButtonEvents = typeof __propDef.events;
+export type PlanButtonSlots = typeof __propDef.slots;
 export default class PlanButton extends SvelteComponentTyped<PlanButtonProps, PlanButtonEvents, PlanButtonSlots> {
 }
 export {};
