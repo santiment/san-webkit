@@ -1,9 +1,6 @@
 import type { SvelteComponentDev } from 'svelte/internal';
-export declare enum DialogLock {
-    FREE = 0,
-    LOCKED = 1,
-    WARN = 2
-}
+import { DialogLock } from './types';
+export { DialogLock } from './types';
 export type DialogController = {
     resolve: (value: unknown) => void;
     reject: (reason?: any) => void;
@@ -38,4 +35,3 @@ export declare const dialogs: {
     hide(index: number): void;
     has(Component: SvelteComponentModule): boolean;
 };
-export {};

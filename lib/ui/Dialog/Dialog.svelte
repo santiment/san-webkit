@@ -2,6 +2,7 @@
 import { get } from 'svelte/store';
 import Svg from './../../ui/Svg/svelte';
 import { dialogs, DialogLock } from './dialogs';
+import { setDialogCtx } from './ctx';
 let className = '';
 export { className as class };
 export let titleClassName = '';
@@ -22,6 +23,10 @@ $: ({
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
+setDialogCtx({
+  closeDialog,
+  DialogPromise: $$props.DialogPromise
+});
 
 const checkIsEditable = ({
   isContentEditable,
