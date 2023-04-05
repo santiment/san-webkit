@@ -1,11 +1,8 @@
 import type { SvelteComponentDev } from 'svelte/internal'
 import { writable } from 'svelte/store'
+import { DialogLock } from './types'
 
-export enum DialogLock {
-  FREE,
-  LOCKED,
-  WARN,
-}
+export { DialogLock } from './types'
 
 export type DialogController = {
   resolve: (value: unknown) => void
