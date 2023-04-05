@@ -4,6 +4,7 @@
   import { get } from 'svelte/store'
   import Svg from '@/ui/Svg/svelte'
   import { dialogs, DialogLock } from './dialogs'
+  import { setDialogCtx } from './ctx'
 
   let className = ''
   export { className as class }
@@ -23,6 +24,8 @@
   let isOpening = true
   let clickAwayMouseDown = false
   let openingTimer: number
+
+  setDialogCtx({ closeDialog, DialogPromise: $$props.DialogPromise })
 
   const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
