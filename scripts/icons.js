@@ -49,7 +49,7 @@ async function prepareIcons() {
 }
 
 function replaceSvgComponentIds() {
-  const libFilePath = path.resolve(LIB, 'ui/svg/svelte.d.ts')
+  const libFilePath = path.resolve(LIB, 'ui/Svg/svelte.d.ts')
   const file = fs.readFileSync(libFilePath)
 
   const ids = SVG_IDS.map((id) => `"${id}"`).join(' | ')

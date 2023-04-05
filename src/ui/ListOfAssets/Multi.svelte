@@ -35,6 +35,7 @@
 
   function onTabSelect() {
     selected = new Set()
+    onSelect(Array.from(selected))
   }
 
   type ItemType<T extends 'title' | 'item'> = {

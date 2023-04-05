@@ -28,7 +28,6 @@ async function main() {
   await prepareSvelte()
 
   await emitDts({
-    libRoot: ROOT,
     declarationDir: LIB,
     svelteShimsPath: require.resolve('svelte2tsx/svelte-shims.d.ts'),
   })
