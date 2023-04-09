@@ -6,6 +6,8 @@ declare namespace SAN {
     type Promise = DialogController
     type Lock = DialogLock
 
+    type Ctx = import('../ui/Dialog/ctx').DialogCtxType
+
     type Props = {
       i: number
       DialogPromise: Promise
