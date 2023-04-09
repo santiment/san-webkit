@@ -19,7 +19,8 @@
     null
   export let animated = true
   export let isClickawayDisabled = false
-  export let DialogCtx: SAN.Dialog.Ctx
+
+  const DialogCtx = $$props.DialogCtx as SAN.Dialog.Ctx
 
   $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
 
