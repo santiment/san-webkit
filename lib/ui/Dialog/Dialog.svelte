@@ -14,7 +14,7 @@ export let noBg = false;
 export let onEditableEscaped = null;
 export let animated = true;
 export let isClickawayDisabled = false;
-export let DialogCtx;
+const DialogCtx = $$props.DialogCtx;
 
 $: ({
   i,
