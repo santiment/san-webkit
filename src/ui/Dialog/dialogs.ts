@@ -1,5 +1,6 @@
 import type { SvelteComponentDev } from 'svelte/internal'
 import { writable } from 'svelte/store'
+import { newDialogCtx } from './ctx'
 import { DialogLock } from './types'
 
 export { DialogLock } from './types'
@@ -41,6 +42,8 @@ export const dialogs = {
     const promise = new Promise<T>(
       (resolve, reject) => (rest.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
+
+    rest.DialogCtx = newDialogCtx(rest.DialogPromise as SAN.Dialog.Promise)
 
     update((dialogs) => {
       dialogs.push({ Component, props: rest })

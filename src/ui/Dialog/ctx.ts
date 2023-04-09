@@ -1,15 +1,21 @@
+import { noop } from '@/utils'
 import { setContext, getContext } from 'svelte'
 import { DialogLock } from './types'
 
 export const CTX = 'Dialog'
 
-type Ctx = { DialogPromise: SAN.Dialog.Promise; closeDialog: (skipLockChecks?: boolean) => void }
-export const setDialogCtx = ({ DialogPromise, closeDialog }: Ctx) =>
-  setContext(CTX, {
-    close: closeDialog,
-    lock: () => (DialogPromise.locking = DialogLock.LOCKED),
-    lockWarn: () => (DialogPromise.locking = DialogLock.WARN),
-    unlock: () => (DialogPromise.locking = DialogLock.FREE),
-  })
+export type DialogCtxType = ReturnType<typeof newDialogCtx>
 
-export const getDialogCtx = () => getContext<ReturnType<typeof setDialogCtx>>(CTX)
+export const newDialogCtx = (
+  DialogPromise: SAN.Dialog.Promise,
+  closeDialog = noop as (skipLockChecks?: boolean) => void,
+) => ({
+  close: closeDialog,
+  lock: () => (DialogPromise.locking = DialogLock.LOCKED),
+  lockWarn: () => (DialogPromise.locking = DialogLock.WARN),
+  unlock: () => (DialogPromise.locking = DialogLock.FREE),
+})
+
+export const setDialogCtx = (DialogCtx: DialogCtxType) => setContext(CTX, DialogCtx)
+
+export const getDialogCtx = () => getContext<DialogCtxType>(CTX)
