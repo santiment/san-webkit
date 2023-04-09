@@ -9,7 +9,7 @@ export declare const TABS_CONTENT: {
             slug: string;
             name: string;
             ticker: string;
-            logoUrl: string;
+            logoUrl?: string | undefined;
         }[]>;
         filter: (searchTerm: any, items: any) => any;
         Component: typeof Asset;

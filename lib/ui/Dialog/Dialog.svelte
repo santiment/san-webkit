@@ -14,6 +14,7 @@ export let noBg = false;
 export let onEditableEscaped = null;
 export let animated = true;
 export let isClickawayDisabled = false;
+export let DialogCtx;
 
 $: ({
   i,
@@ -23,10 +24,8 @@ $: ({
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
-setDialogCtx({
-  closeDialog,
-  DialogPromise: $$props.DialogPromise
-});
+DialogCtx.close = closeDialog;
+setDialogCtx(DialogCtx);
 
 const checkIsEditable = ({
   isContentEditable,

@@ -6,8 +6,8 @@ export default class Paged extends SvelteComponentTyped<{
     items: any;
     page?: number | undefined;
     class?: string | undefined;
-    pageSize?: number | undefined;
     rows?: number[] | undefined;
+    pageSize?: number | undefined;
     pageOffset?: number | undefined;
     onPageChange?: ((_?: any) => any) | undefined;
 }, {
@@ -24,8 +24,8 @@ declare const __propDef: {
         items: any;
         page?: number | undefined;
         class?: string | undefined;
-        pageSize?: number | undefined;
         rows?: number[] | undefined;
+        pageSize?: number | undefined;
         pageOffset?: number | undefined;
         onPageChange?: ((_?: any) => any) | undefined;
     };

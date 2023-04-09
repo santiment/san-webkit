@@ -1,19 +1,21 @@
 import { DialogLock } from './types';
 export declare const CTX = "Dialog";
-type Ctx = {
-    DialogPromise: SAN.Dialog.Promise;
-    closeDialog: (skipLockChecks?: boolean) => void;
-};
-export declare const setDialogCtx: ({ DialogPromise, closeDialog }: Ctx) => {
+export type DialogCtxType = ReturnType<typeof newDialogCtx>;
+export declare const newDialogCtx: (DialogPromise: SAN.Dialog.Promise, closeDialog?: (skipLockChecks?: boolean) => void) => {
     close: (skipLockChecks?: boolean) => void;
-    lock: () => DialogLock.LOCKED;
-    lockWarn: () => DialogLock.WARN;
-    unlock: () => DialogLock.FREE;
+    lock: () => DialogLock;
+    lockWarn: () => DialogLock;
+    unlock: () => DialogLock;
+};
+export declare const setDialogCtx: (DialogCtx: DialogCtxType) => {
+    close: (skipLockChecks?: boolean) => void;
+    lock: () => DialogLock;
+    lockWarn: () => DialogLock;
+    unlock: () => DialogLock;
 };
 export declare const getDialogCtx: () => {
     close: (skipLockChecks?: boolean) => void;
-    lock: () => DialogLock.LOCKED;
-    lockWarn: () => DialogLock.WARN;
-    unlock: () => DialogLock.FREE;
+    lock: () => DialogLock;
+    lockWarn: () => DialogLock;
+    unlock: () => DialogLock;
 };
-export {};

@@ -1,5 +1,6 @@
 import { SvelteComponentTyped } from "svelte";
 import type { SvelteComponentModule } from './dialogs';
+import type { DialogCtxType } from './ctx';
 declare const __propDef: {
     props: {
         [x: string]: any;
@@ -13,6 +14,7 @@ declare const __propDef: {
         onEditableEscaped?: ((target: HTMLElement, closeDialog: () => void) => void) | null | undefined;
         animated?: boolean | undefined;
         isClickawayDisabled?: boolean | undefined;
+        DialogCtx: DialogCtxType;
     };
     events: {
         [evt: string]: CustomEvent<any>;

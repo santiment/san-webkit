@@ -67,7 +67,7 @@ $: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 :
 $: ({
   sanBalance,
   isEligibleForTrial,
-  annualDiscount
+  annualDiscount = {}
 } = $customerData$);
 
 $: name = PlanName[plan.name] || plan.name;

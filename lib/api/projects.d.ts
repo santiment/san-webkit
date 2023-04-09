@@ -2,7 +2,7 @@ type Project = {
     slug: string;
     name: string;
     ticker: string;
-    logoUrl: string;
+    logoUrl?: string;
 };
 export declare const queryProjects: () => Promise<Project[]>;
 export declare const queryErc20Projects: () => Promise<Project[]>;

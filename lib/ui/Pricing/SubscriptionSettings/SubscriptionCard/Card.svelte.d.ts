@@ -14,12 +14,12 @@ export default class Card extends SvelteComponentTyped<{
     onActionClick: any;
     onSubactionClick: any;
     label?: string | undefined;
+    disabled?: boolean | undefined;
     isActive?: boolean | undefined;
     isFullAccess?: boolean | undefined;
     green?: boolean | undefined;
     orange?: boolean | undefined;
     yellow?: boolean | undefined;
-    disabled?: boolean | undefined;
     isChecked?: boolean | undefined;
     shouldHideBillingInfo?: boolean | undefined;
 }, {
@@ -46,12 +46,12 @@ declare const __propDef: {
         onActionClick: any;
         onSubactionClick: any;
         label?: string | undefined;
+        disabled?: boolean | undefined;
         isActive?: boolean | undefined;
         isFullAccess?: boolean | undefined;
         green?: boolean | undefined;
         orange?: boolean | undefined;
         yellow?: boolean | undefined;
-        disabled?: boolean | undefined;
         isChecked?: boolean | undefined;
         shouldHideBillingInfo?: boolean | undefined;
     };
