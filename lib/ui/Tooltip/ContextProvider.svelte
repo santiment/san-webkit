@@ -1,4 +1,4 @@
-<script>import { setContext } from 'svelte';
+<script>import { useAppTooltipsCtx } from './ctx';
 export let id;
 export let on;
 export let setTrigger, startOpenTimer, destroy;
@@ -38,6 +38,6 @@ ref.tooltip = (node, data) => {
   };
 };
 
-setContext(id, ref.tooltip);</script>
+useAppTooltipsCtx(id, ref.tooltip);</script>
 
 <slot />
