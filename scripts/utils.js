@@ -2,7 +2,11 @@ const fs = require('fs')
 const path = require('path')
 const fg = require('fast-glob')
 
-const ROOT = path.resolve(__dirname, '..')
+let ROOT = path.resolve(__dirname, '..')
+if (ROOT.includes('node_modules')) {
+  ROOT = ROOT.slice(0, ROOT.indexOf('node_modules'))
+}
+
 const SRC = path.resolve(ROOT, 'src')
 const LIB = path.resolve(ROOT, 'lib')
 
