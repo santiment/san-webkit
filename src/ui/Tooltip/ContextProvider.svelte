@@ -1,10 +1,7 @@
 <script lang="ts">
-  import { setContext } from 'svelte'
+  import type { Props } from './ctx'
 
-  type Props = {
-    isEnabled: boolean
-    [key: string]: any
-  }
+  import { useAppTooltipsCtx } from './ctx'
 
   export let id: string
   export let on: string
@@ -44,7 +41,8 @@
       },
     }
   }
-  setContext(id, ref.tooltip)
+
+  useAppTooltipsCtx(id, ref.tooltip)
 </script>
 
 <slot />
