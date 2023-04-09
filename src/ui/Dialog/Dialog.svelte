@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { SvelteComponentModule } from './dialogs'
+  import type { DialogCtxType } from './ctx'
+
   import { onDestroy, onMount } from 'svelte'
   import { get } from 'svelte/store'
   import Svg from '@/ui/Svg/svelte'
@@ -18,6 +20,7 @@
     null
   export let animated = true
   export let isClickawayDisabled = false
+  export let DialogCtx: DialogCtxType
 
   $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
 
@@ -25,7 +28,8 @@
   let clickAwayMouseDown = false
   let openingTimer: number
 
-  setDialogCtx({ closeDialog, DialogPromise: $$props.DialogPromise })
+  DialogCtx.close = closeDialog
+  setDialogCtx(DialogCtx)
 
   const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
