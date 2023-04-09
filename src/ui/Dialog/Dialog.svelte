@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { SvelteComponentModule } from './dialogs'
-  import type { DialogCtxType } from './ctx'
 
   import { onDestroy, onMount } from 'svelte'
   import { get } from 'svelte/store'
@@ -20,7 +19,7 @@
     null
   export let animated = true
   export let isClickawayDisabled = false
-  export let DialogCtx: DialogCtxType
+  export let DialogCtx: SAN.Dialog.Ctx
 
   $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
 
