@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import { queryProjects } from '@/api/projects'
   import ProjectIcon from '@/ui/ProjectIcon.svelte'
   import Suggestions from './Suggestions.svelte'
 
   export let searchTerm = ''
 
-  export const href = ({ slug }) => 'https://app.santiment.net/projects/' + slug
+  export const href = ({ slug }) => SANBASE_ORIGIN + '/projects/' + slug
   export const label = ({ ticker }) => '$' + ticker.toUpperCase()
 
   let loading = true

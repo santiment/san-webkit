@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import {
     checkIsYearlyPlan,
     formatMonthlyPrice,
@@ -77,10 +78,8 @@
       {/if}
 
       Check all plans
-      <a
-        href="https://app.santiment.net/pricing"
-        class="link-pointer"
-        on:click={window.__onLinkClick}>here!</a
+      <a href="{SANBASE_ORIGIN}/pricing" class="link-pointer" on:click={window.__onLinkClick}
+        >here!</a
       >
     </p>
   </slot>

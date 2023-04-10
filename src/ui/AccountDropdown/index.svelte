@@ -1,15 +1,16 @@
 <script lang="ts">
   import type { CustomerData } from '@/stores/user'
 
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import { getUserSubscriptionInfo } from '@/utils/subscription'
   import { trackLogout } from '@/analytics/events/general'
   import Toggle from '@/ui/Toggle.svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
   import Svg from '@/ui/Svg/svelte'
   import Pic from '@/ui/Profile/Pic.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
   import UserInfo from './UserInfo.svelte'
   import VersionInfo from './VersionInfo.svelte'
-  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let ui: any
   export let currentUser
@@ -42,7 +43,7 @@
 >
   <svelte:fragment slot="trigger">
     <a
-      href={`https://app.santiment.net/profile/${currentUser ? currentUser.id : ''}`}
+      href={`${SANBASE_ORIGIN}/profile/${currentUser ? currentUser.id : ''}`}
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
@@ -61,12 +62,12 @@
       <section>
         <a
           class="btn-ghost row justify v-center"
-          href="https://app.santiment.net/alerts?tab=1"
+          href="${SANBASE_ORIGIN}/alerts?tab=1"
           on:click={window.__onLinkClick}>My alerts</a
         >
         <a
           class="btn-ghost row justify v-center"
-          href="https://app.santiment.net/assets"
+          href="${SANBASE_ORIGIN}/watchlists"
           on:click={window.__onLinkClick}>My watchlists</a
         >
         <a
@@ -102,14 +103,14 @@
       </button>
 
       <a
-        href="https://app.santiment.net/labs"
+        href="${SANBASE_ORIGIN}/labs"
         class="btn-ghost row justify v-center"
         on:click={window.__onLinkClick}>Labs</a
       >
 
       {#if currentUser}
         <a
-          href="https://app.santiment.net/account"
+          href="${SANBASE_ORIGIN}/account"
           class="btn-ghost row justify v-center"
           on:click={window.__onLinkClick}>Account Settings</a
         >

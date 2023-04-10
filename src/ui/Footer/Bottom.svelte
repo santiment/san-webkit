@@ -1,4 +1,5 @@
 <script>
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import Socials from './Socials.svelte'
 </script>
 
@@ -11,7 +12,7 @@
 
   <div class="extras">
     <a href="https://santiment.net/terms/" rel="noreferrer" target="_blank">Terms</a>
-    <a href="https://app.santiment.net/privacy-policy" rel="noreferrer" target="_blank">Privacy</a>
+    <a href="{SANBASE_ORIGIN}/privacy-policy" rel="noreferrer" target="_blank">Privacy</a>
     <a
       href="https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776"
       rel="noreferrer"
