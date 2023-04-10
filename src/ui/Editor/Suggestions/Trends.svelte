@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import Svg from '@/ui/Svg/svelte'
   import Suggestions from './Suggestions.svelte'
 
   export let searchTerm = ''
 
-  export const href = () => 'https://app.santiment.net/labs/trends/explore/' + searchTerm
+  export const href = () => SANBASE_ORIGIN + '/labs/trends/explore/' + searchTerm
   export const label = () => '#' + searchTerm
 
   let items = [0]

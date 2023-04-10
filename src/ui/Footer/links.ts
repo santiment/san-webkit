@@ -1,3 +1,5 @@
+import { SANBASE_ORIGIN } from '@/utils/links'
+
 export const links = [
   {
     href: 'https://santiment.net/about/',
@@ -11,9 +13,9 @@ export const links = [
 
   { href: 'https://academy.santiment.net/', title: 'Academy' },
   { href: 'https://insights.santiment.net/', title: 'Insights' },
-  { href: 'https://app.santiment.net/labs/trends', title: 'Social trends' },
+  { href: SANBASE_ORIGIN + '/labs/trends', title: 'Social trends' },
   {
-    href: 'https://app.santiment.net/labs/balance',
+    href: SANBASE_ORIGIN + '/labs/balance',
     title: 'Historical balance',
   },
   {
@@ -21,7 +23,7 @@ export const links = [
     title: 'Buy SAN',
   },
 
-  { href: 'https://app.santiment.net/', title: 'Sanbase' },
+  { href: SANBASE_ORIGIN, title: 'Sanbase' },
   { href: 'https://api.santiment.net/', title: 'SanAPI' },
   { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
   {

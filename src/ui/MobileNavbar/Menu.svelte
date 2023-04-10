@@ -24,6 +24,7 @@
 </script>
 
 <script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import Profile from '@/ui/Profile/svelte'
   import { showIntercom } from '@/analytics/intercom'
 
@@ -37,7 +38,7 @@
   }
 
   function getFullLink(link, slug = '') {
-    const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : ''
+    const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : ''
 
     return pathname + link + slug
   }

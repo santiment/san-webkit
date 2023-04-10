@@ -1,4 +1,5 @@
 <script>
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import ProfileNames from '@/ui/Profile/Names.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
@@ -59,7 +60,7 @@
   $: sanbasePlan = getSanbasePlan(subscriptionInfo)
   $: href = subscriptionInfo.userPlanName
     ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
-    : 'https://app.santiment.net/pricing'
+    : `${SANBASE_ORIGIN}/pricing`
 </script>
 
 <section>
