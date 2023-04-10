@@ -1,4 +1,5 @@
-<script>import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName } from './../../../../utils/plans';
+<script>import { SANBASE_ORIGIN } from './../../../../utils/links';
+import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName } from './../../../../utils/plans';
 import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
 import Card from './Card.svelte';
 export let plan;
@@ -73,10 +74,8 @@ function getBillingPrice(plan, altPlan, annual) {
       {/if}
 
       Check all plans
-      <a
-        href="https://app.santiment.net/pricing"
-        class="link-pointer"
-        on:click={window.__onLinkClick}>here!</a
+      <a href="{SANBASE_ORIGIN}/pricing" class="link-pointer" on:click={window.__onLinkClick}
+        >here!</a
       >
     </p>
   </slot>

@@ -1,4 +1,5 @@
-<script>import { queryUpcomingInvoice } from './../../../../api/subscription';
+<script>import { SANBASE_ORIGIN } from './../../../../utils/links';
+import { queryUpcomingInvoice } from './../../../../api/subscription';
 import { getDateFormats } from './../../../../utils/dates';
 import { formatPrice, Plan } from './../../../../utils/plans';
 import { getTrialDaysLeft } from './../../../../utils/subscription';
@@ -60,10 +61,8 @@ function formatDate(date) {
       {/if}
     {:else}
       Starter plan with limited access to Sanbase features. Check all plans
-      <a
-        href="https://app.santiment.net/pricing"
-        class="link-pointer"
-        on:click={window.__onLinkClick}>here!</a
+      <a href="{SANBASE_ORIGIN}/pricing" class="link-pointer" on:click={window.__onLinkClick}
+        >here!</a
       >
     {/if}
   </p>

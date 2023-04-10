@@ -15,7 +15,8 @@
   link: '/pricing'
 }];</script>
 
-<script>import Profile from './../../ui/Profile/svelte';
+<script>import { SANBASE_ORIGIN } from './../../utils/links';
+import Profile from './../../ui/Profile/svelte';
 import { showIntercom } from './../../analytics/intercom';
 export let user;
 export let isMenuOpened;
@@ -27,7 +28,7 @@ function onHelpClick() {
 }
 
 function getFullLink(link, slug = '') {
-  const pathname = link && link.startsWith('/') ? 'https://app.santiment.net' : '';
+  const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : '';
   return pathname + link + slug;
 }</script>
 

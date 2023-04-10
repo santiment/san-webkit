@@ -1,4 +1,5 @@
-<script>import ProfileNames from './../../ui/Profile/Names.svelte';
+<script>import { SANBASE_ORIGIN } from './../../utils/links';
+import ProfileNames from './../../ui/Profile/Names.svelte';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
 export let user;
 export let subscriptionInfo;
@@ -60,7 +61,7 @@ $: note = getNoteText(subscriptionInfo, variant);
 
 $: sanbasePlan = getSanbasePlan(subscriptionInfo);
 
-$: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/' : 'https://app.santiment.net/pricing';</script>
+$: href = subscriptionInfo.userPlanName ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/' : `${SANBASE_ORIGIN}/pricing`;</script>
 
 <section>
   <ProfileNames

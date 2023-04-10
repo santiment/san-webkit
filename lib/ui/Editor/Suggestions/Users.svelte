@@ -1,10 +1,11 @@
-<script>import Suggestions from './Suggestions.svelte';
+<script>import { SANBASE_ORIGIN } from './../../../utils/links';
 import { searchUserByUsername } from './../../../api/ws';
 import ProfilePic from './../../../ui/Profile/Pic.svelte';
+import Suggestions from './Suggestions.svelte';
 export let searchTerm = '';
 export const href = ({
   id
-}) => 'https://app.santiment.net/profile/' + id;
+}) => SANBASE_ORIGIN + '/profile/' + id;
 export const label = ({
   username
 }) => '@' + username;
