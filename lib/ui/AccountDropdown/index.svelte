@@ -39,7 +39,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 >
   <svelte:fragment slot="trigger">
     <a
-      href={`${SANBASE_ORIGIN}/profile/${currentUser ? currentUser.id : ''}`}
+      href={`{SANBASE_ORIGIN}/profile/${currentUser ? currentUser.id : ''}`}
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
@@ -58,12 +58,12 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
       <section>
         <a
           class="btn-ghost row justify v-center"
-          href="${SANBASE_ORIGIN}/alerts?tab=1"
+          href="{SANBASE_ORIGIN}/alerts?tab=1"
           on:click={window.__onLinkClick}>My alerts</a
         >
         <a
           class="btn-ghost row justify v-center"
-          href="${SANBASE_ORIGIN}/watchlists"
+          href="{SANBASE_ORIGIN}/watchlists"
           on:click={window.__onLinkClick}>My watchlists</a
         >
         <a
@@ -99,14 +99,14 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
       </button>
 
       <a
-        href="${SANBASE_ORIGIN}/labs"
+        href="{SANBASE_ORIGIN}/labs"
         class="btn-ghost row justify v-center"
         on:click={window.__onLinkClick}>Labs</a
       >
 
       {#if currentUser}
         <a
-          href="${SANBASE_ORIGIN}/account"
+          href="{SANBASE_ORIGIN}/account"
           class="btn-ghost row justify v-center"
           on:click={window.__onLinkClick}>Account Settings</a
         >

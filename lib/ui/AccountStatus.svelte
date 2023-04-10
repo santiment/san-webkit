@@ -23,7 +23,7 @@ $: ({
 {#if currentUser}
   {#if annualDiscountPercent && variant !== AccountStatusType.Second}
     <a
-      href="${SANBASE_ORIGIN}/pricing"
+      href="{SANBASE_ORIGIN}/pricing"
       class="btn-2 btn-1 btn--orange mrg-m mrg--r"
       on:click={window.__onLinkClick}
       >Special offer! {annualDiscountPercent}% OFF
@@ -41,7 +41,7 @@ $: ({
       </a>
     {/if}
   {:else}
-    <a href="${SANBASE_ORIGIN}/pricing" class="btn-1 btn--orange" on:click={window.__onLinkClick}>
+    <a href="{SANBASE_ORIGIN}/pricing" class="btn-1 btn--orange" on:click={window.__onLinkClick}>
       {#if isEligibleForTrial && variant === AccountStatusType.First}
         Start Free 14-day Trial
       {:else}
