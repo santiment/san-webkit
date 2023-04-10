@@ -24,5 +24,7 @@ declare namespace SAN {
     type Updater<T extends QueryBase> = (data: T) => T
     type Subscriber<T extends QueryBase> = (data: T) => void
     type Unsubscriber = () => void
+
+    type RequestEvent = import('../api').RequestEvent
   }
 }

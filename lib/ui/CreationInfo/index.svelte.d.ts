@@ -3,9 +3,9 @@ import type { CreationType } from './../../ui/Profile/types';
 import type { Votes } from './../../ui/LikeButton/index.svelte';
 declare const __propDef: {
     props: {
-        id: number;
-        title: string;
-        user: SAN.Author;
+        id?: number | null | undefined;
+        title?: string | null | undefined;
+        user?: SAN.Author | null | undefined;
         currentUser: SAN.CurrentUser | null;
         onEditClick: () => any;
         type: CreationType;
@@ -16,7 +16,7 @@ declare const __propDef: {
             active?: boolean;
             onClick: () => any;
         };
-        votes: Votes;
+        votes?: Votes | null | undefined;
         onVote: any;
         titleHoverTooltipClass?: string | undefined;
         hasInfo?: boolean | undefined;

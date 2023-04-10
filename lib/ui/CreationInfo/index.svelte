@@ -7,22 +7,22 @@ import CommentsButton from './../../ui/Comments/Button.svelte';
 import { trackShowComments } from './../../analytics/events/interaction';
 import VoteButton from './VoteButton.svelte';
 import HoverEdit from './HoverEdit.svelte';
-export let id;
-export let title;
-export let user;
+export let id = null;
+export let title = null;
+export let user = null;
 export let currentUser;
 export let onEditClick;
 export let type;
 export let fallback = 'Unsaved layout';
 export let editLabel = 'Edit';
 export let comments;
-export let votes;
+export let votes = null;
 export let onVote;
 export let titleHoverTooltipClass = '';
 export let hasInfo = true;
 export let source;</script>
 
-{#if title}
+{#if id && title}
   <div class="creation row v-center mrg-m mrg--r">
     {#if user}
       <Tooltip openDelay={110}>
@@ -67,7 +67,7 @@ export let source;</script>
     class="mrg-s mrg--r"
   />
 
-  {#if votes}
+  {#if id && votes}
     <VoteButton
       {id}
       {type}
