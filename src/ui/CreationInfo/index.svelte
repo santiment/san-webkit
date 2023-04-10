@@ -12,9 +12,9 @@
   import VoteButton from './VoteButton.svelte'
   import HoverEdit from './HoverEdit.svelte'
 
-  export let id: number
-  export let title: string
-  export let user: SAN.Author
+  export let id = null as null | number
+  export let title = null as null | string
+  export let user = null as null | SAN.Author
   export let currentUser: SAN.CurrentUser | null
   export let onEditClick: () => any
   export let type: CreationType
@@ -25,14 +25,14 @@
     active?: boolean
     onClick: () => any
   }
-  export let votes: Votes
+  export let votes = null as null | Votes
   export let onVote
   export let titleHoverTooltipClass = ''
   export let hasInfo = true
   export let source: string
 </script>
 
-{#if title}
+{#if id && title}
   <div class="creation row v-center mrg-m mrg--r">
     {#if user}
       <Tooltip openDelay={110}>
@@ -77,7 +77,7 @@
     class="mrg-s mrg--r"
   />
 
-  {#if votes}
+  {#if id && votes}
     <VoteButton
       {id}
       {type}
