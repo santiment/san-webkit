@@ -43,7 +43,7 @@ export const dialogs = {
       (resolve, reject) => (rest.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
 
-    rest.DialogCtx = newDialogCtx(rest.DialogPromise as SAN.Dialog.Promise)
+    rest.DialogCtx = newDialogCtx<T>(rest.DialogPromise as SAN.Dialog.Promise)
 
     update((dialogs) => {
       dialogs.push({ Component, props: rest })
