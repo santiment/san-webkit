@@ -64,4 +64,6 @@ declare namespace SAN {
     description: string
     align?: 'left' | 'right'
   }
+
+  type Scheduler = import('../utils/scheduler').SchedulerType
 }
