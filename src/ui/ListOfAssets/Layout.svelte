@@ -2,7 +2,7 @@
   import type { Asset } from './types'
 
   import { noop } from '@/utils'
-  import { debounce$ } from '@/utils/fn'
+  import { debounce$$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
   import { Controller } from '@/ui/VirtualList/ctx'
   import Tabs, { TABS } from './Tabs.svelte'
@@ -26,8 +26,8 @@
   $: items = mapItems(assets)
   $: filtered = searchTerm ? filter(items) : items
 
-  const onSearch = debounce$(250, (value: string) => (searchTerm = value))
-  const onInput = ({ currentTarget }) => $onSearch(currentTarget.value)
+  const onSearch$ = debounce$$(250, (value: string) => (searchTerm = value))
+  const onInput = ({ currentTarget }) => $onSearch$(currentTarget.value)
 
   const match = (value: string, target: string) => target.toLowerCase().includes(value)
 
