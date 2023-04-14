@@ -16,7 +16,7 @@
   export let isLoading = false
   export let applySort = (sorter, items) => items.slice().sort(sorter)
   export let onSortClick = noop as (column: SAN.Table.Column, isDescSort: boolean) => void
-  export let itemProps: { [key: string]: any }
+  export let itemProps = null as null | { [key: string]: any }
   export let offset = 0
 
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
