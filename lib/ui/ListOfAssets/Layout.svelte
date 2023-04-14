@@ -1,5 +1,5 @@
 <script>import { noop } from './../../utils';
-import { debounce$ } from './../../utils/fn';
+import { debounce$$ } from './../../utils/fn';
 import Search from './../../ui/Search.svelte';
 import { Controller } from './../../ui/VirtualList/ctx';
 import Tabs, { TABS } from './Tabs.svelte';
@@ -20,11 +20,11 @@ $: items = mapItems(assets);
 
 $: filtered = searchTerm ? filter(items) : items;
 
-const onSearch = debounce$(250, value => searchTerm = value);
+const onSearch$ = debounce$$(250, value => searchTerm = value);
 
 const onInput = ({
   currentTarget
-}) => $onSearch(currentTarget.value);
+}) => $onSearch$(currentTarget.value);
 
 const match = (value, target) => target.toLowerCase().includes(value);
 

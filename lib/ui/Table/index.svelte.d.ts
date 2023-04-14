@@ -11,9 +11,9 @@ declare const __propDef: {
         isLoading?: boolean | undefined;
         applySort?: ((sorter: any, items: any) => any) | undefined;
         onSortClick?: ((column: SAN.Table.Column, isDescSort: boolean) => void) | undefined;
-        itemProps: {
+        itemProps?: {
             [key: string]: any;
-        };
+        } | null | undefined;
         offset?: number | undefined;
     };
     events: {

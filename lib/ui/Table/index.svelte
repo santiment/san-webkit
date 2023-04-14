@@ -12,7 +12,7 @@ export let sticky = false;
 export let isLoading = false;
 export let applySort = (sorter, items) => items.slice().sort(sorter);
 export let onSortClick = noop;
-export let itemProps;
+export let itemProps = null;
 export let offset = 0;
 
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
