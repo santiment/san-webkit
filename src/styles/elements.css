@@ -21,9 +21,15 @@ textarea::placeholder {
   padding: 5px 8px;
   color: var(--black);
   border: 1px solid var(--border, var(--porcelain));
+}
+
+.input,
+.input input {
   border-radius: 4px;
 }
+
 .input:focus,
+.input:focus-within,
 .input:hover {
   border-color: var(--accent, var(--green));
 }
@@ -38,6 +44,7 @@ textarea::placeholder {
   color: var(--accent);
   fill: var(--accent);
 }
+
 .link-pointer::after {
   content: '';
   position: absolute;
@@ -50,6 +57,7 @@ textarea::placeholder {
   transition: transform 0.3s;
   transform-origin: bottom left;
 }
+
 .link-pointer:hover::after {
   transform: scaleX(1);
 }
@@ -60,6 +68,7 @@ textarea::placeholder {
   fill: transparent !important;
   pointer-events: none;
 }
+
 .loading::after {
   --dot-color: var(--loading-color, var(--color, var(--black)));
   font-size: var(--loading-size, 4px);
@@ -101,17 +110,27 @@ textarea::placeholder {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
 
+skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+skeleton,
 .skeleton {
   border-radius: 4px;
   background: linear-gradient(90deg, var(--porcelain) 29%, var(--athens) 37%, var(--porcelain) 60%);
   animation: SAN-move-gradient 1.4s ease infinite;
   background-size: 400% 100%;
 }
+
 @keyframes SAN-move-gradient {
   0% {
     background-position: 100% 50%;

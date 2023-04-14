@@ -13,7 +13,7 @@ export function debounce<T extends Callback>(timeout: number, fn: T): [T, () => 
 }
 
 /** Debounced function can be accessed by subscribing to a store by prefixing it with a $ sign*/
-export function debounce$<T extends Callback>(timeout: number, fn: T) {
+export function debounce$$<T extends Callback>(timeout: number, fn: T) {
   const [debounced, clear] = debounce(timeout, fn)
   return readable(debounced, () => clear)
 }
