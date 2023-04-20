@@ -43,7 +43,7 @@
 >
   <svelte:fragment slot="trigger">
     <a
-      href={`{SANBASE_ORIGIN}/profile/${currentUser ? currentUser.id : ''}`}
+      href="{SANBASE_ORIGIN}/profile/{currentUser ? currentUser.id : ''}"
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >

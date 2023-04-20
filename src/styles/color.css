@@ -10,7 +10,6 @@
   --fiord: #505573;
   --mystic: #d2d6e7;
   --brown: #413e3c;
-  --cyan: #d7f6fc;
   --mirage: #181b2b;
 
   /* rhino */
@@ -54,6 +53,11 @@
   --blue-light-2: #dae0fd;
   --blue-light-3: #a9baff;
 
+  /* malibu */
+  --cyan: #68dbf4;
+  --cyan-hover: #18c0e4;
+  --cyan-light-1: #d7f6fc;
+
   /* Heliotrope */
   --purple: #8358ff;
   --purple-hover: #6339dd;
@@ -90,8 +94,6 @@
   --black: #fff;
   --rhino: #dfe1ec;
 
-  --cyan: #253a4b;
-
   --mirage: #f8f9ff;
 
   /* jungle-green */
@@ -115,6 +117,11 @@
   --blue-light-1: #1d223e;
   --blue-light-2: #273160;
   --blue-light-3: #354895;
+
+  /* malibu */
+  --cyan: #68dbf4;
+  --cyan-hover: #5bcde5;
+  --cyan-light-1: #253a4b;
 
   /* persimmon */
   --red-light-1: #3b2532;
