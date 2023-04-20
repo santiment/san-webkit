@@ -9,6 +9,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={as}
+  {...$$restProps}
   style="---check:url({process.env.ICONS_PATH}/checkmark.svg)"
   class="btn border {className}"
   class:isActive

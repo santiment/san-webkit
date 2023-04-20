@@ -11,6 +11,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={as}
+  {...$$restProps}
   class="toggle btn relative hv-center {className}"
   on:click
   class:big
