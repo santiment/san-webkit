@@ -83,6 +83,7 @@ textarea::placeholder {
   animation: SAN-load ease 0.8s infinite;
 }
 
+loading-spin,
 .loading-spin {
   width: var(--loading-size, 16px);
   height: var(--loading-size, 16px);
