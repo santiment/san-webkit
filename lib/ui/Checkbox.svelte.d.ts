@@ -1,6 +1,7 @@
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
+        [x: string]: any;
         class?: string | undefined;
         isActive?: boolean | undefined;
         disabled?: boolean | undefined;
