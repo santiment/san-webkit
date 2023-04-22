@@ -1,0 +1,44 @@
+@use "sass:list";
+
+// Device adaptice classes
+@mixin dac($devices...) {
+  $globals: ();
+
+  @each $device in $devices {
+    $globals: list.append($globals, ":global(body.#{$device}),");
+  }
+
+  #{$globals} {
+    @content
+  }
+}
+
+/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+
+
+// Inverse device adaptice classes
+@mixin dacnot($devices...) {
+  $globals: ();
+
+  @each $device in $devices {
+    $globals: list.append($globals, ":global(body:not(.#{$device})),");
+  }
+
+  #{$globals} {
+    @content
+  }
+}
+
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
