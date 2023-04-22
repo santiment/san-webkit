@@ -25,26 +25,24 @@ const CTX = 'Device$$'
 export function Device$$(device: DeviceInfoType) {
   const store = writable(device)
 
-  if (process.browser) {
-    document.body.classList.add(device.type)
+  const device$ = {
+    ...store,
+    /** Add as <svelte:window on:resize={device$.onResize} /> */
+    onResize() {
+      const deviceType = mapWidthToDevice()
+      if (deviceType === device.type) return
+
+      document.body.classList.remove(device.type)
+      document.body.classList.add(deviceType)
+
+      // setSessionValue({ device })
+      store.set(Object.assign(device, getDeviceInfo(deviceType)))
+    },
   }
 
-  return setContext(CTX, {
-    device$: {
-      ...store,
-      /** Add as <svelte:window on:resize={device$.onResize} /> */
-      onResize() {
-        const deviceType = mapWidthToDevice()
-        if (deviceType === device.type) return
+  if (process.browser) device$.onResize()
 
-        document.body.classList.remove(device.type)
-        document.body.classList.add(deviceType)
-
-        // setSessionValue({ device })
-        store.set(Object.assign(device, getDeviceInfo(deviceType)))
-      },
-    },
-  })
+  return setContext(CTX, { device$ })
 }
 
 export const getDevice$Ctx = () => getContext<ReturnType<typeof Device$$>>(CTX)

@@ -20,7 +20,7 @@ function copyWebkitAssets(STATIC = path.resolve('static/webkit')) {
 
   forFile([path.resolve(LIB, '**/*.jpg')], copy)
 
-  forFile([path.resolve(LIB, 'styles/*.css'), path.resolve(LIB, 'fonts/*.*')], copy)
+  forFile([path.resolve(LIB, 'styles/**/*.*'), path.resolve(LIB, 'fonts/*.*')], copy)
 
   console.log('⚙ san-webkit is ready to use')
 }
