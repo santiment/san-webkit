@@ -12,7 +12,7 @@ export declare const MOBILE_NAVBAR_LINKS: ({
 })[];
 declare const __propDef: {
     props: {
-        user: SAN.Author | undefined;
+        user: SAN.Author | null | undefined;
         path?: string | undefined;
         isFullLink?: boolean | undefined;
         links?: ({
