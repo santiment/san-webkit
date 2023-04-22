@@ -28,7 +28,7 @@
   import Menu from './Menu.svelte'
   import NavItem from './NavItem.svelte'
 
-  export let user: SAN.Author | undefined
+  export let user: SAN.Author | null | undefined
   export let path = ''
   export let isFullLink = false
   export let links = MOBILE_NAVBAR_LINKS
@@ -51,7 +51,7 @@
     <NavItem
       {...link}
       href={href + slug}
-      active={!isMenuOpened && path.startsWith(link.href)}
+      active={!isMenuOpened && path.startsWith(href)}
       on:click={window.__onLinkClick}
     />
   {/each}
