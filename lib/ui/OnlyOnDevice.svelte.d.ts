@@ -2,7 +2,6 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         desktop?: boolean | undefined;
-        laptop?: boolean | undefined;
         tablet?: boolean | undefined;
         phone?: boolean | undefined;
     };

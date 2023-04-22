@@ -9,6 +9,7 @@ export declare function getDeviceInfo(type: Device): {
 };
 export declare function Device$$(device: DeviceInfoType): {
     device$: {
+        /** Add as <svelte:window on:resize={device$.onResize} /> */
         onResize(): void;
         set(this: void, value: {
             type: Device;
@@ -33,6 +34,7 @@ export declare function Device$$(device: DeviceInfoType): {
 };
 export declare const getDevice$Ctx: () => {
     device$: {
+        /** Add as <svelte:window on:resize={device$.onResize} /> */
         onResize(): void;
         set(this: void, value: {
             type: Device;

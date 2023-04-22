@@ -1,13 +1,12 @@
 <script>import { getDevice$Ctx } from './../stores/responsive';
 export let desktop = false;
-export let laptop = false;
 export let tablet = false;
 export let phone = false;
 const targets = {
   desktop,
-  laptop,
   tablet,
-  phone
+  phone,
+  'phone-xs': phone
 };
 const {
   device$
