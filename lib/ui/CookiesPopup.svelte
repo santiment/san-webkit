@@ -29,12 +29,12 @@ function onManageClick() {
     <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
     </h2>
-    <h4 class="mrg-xl mrg--b c-waterloo">
+    <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
       <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
-    </h4>
+    </p>
     <button class="btn-1" on:click={onAllowAllClick}>Allow all</button>
     <button class="manage btn-2 mrg-m mrg--l" on:click={onManageClick}>Manage cookies</button>
   </div>

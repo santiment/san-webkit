@@ -40,6 +40,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
   <svelte:fragment slot="trigger">
     <a
       href="{SANBASE_ORIGIN}/profile/{currentUser ? currentUser.id : ''}"
+      aria-label="Profile page"
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
