@@ -43,7 +43,7 @@
 >
   <svelte:fragment slot="trigger">
     <a
-      href="{SANBASE_ORIGIN}/profile/{currentUser ? currentUser.id : ''}"
+      href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
       aria-label="Profile page"
       on:click={window.__onLinkClick}
       class:pro={isPro}
