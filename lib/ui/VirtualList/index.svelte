@@ -2,16 +2,21 @@
 
 <script>import { tick } from 'svelte';
 import { getControllerCtx } from './ctx';
+import { noop } from './../../utils';
 let className = '';
 export { className as class };
 export let itemHeight;
 export let items = [];
 export let renderAmount = 10;
 export let maxFluidHeight = 0;
+export let bufferItemsAmount = 3;
+export let pageSize = renderAmount;
+export let pageOffset = 5;
+export let preloadPage = noop;
 Object.assign(getControllerCtx() || {}, {
   scrollTo
 });
-const bufferItemsAmount = 3;
+const pages = [0, 0];
 let viewportNode = null;
 let itemsNode = null;
 let viewportStyle = '';
@@ -35,6 +40,8 @@ $: maxScroll = scrollHeight < viewportHeight ? 0 : scrollHeight - viewportHeight
 $: items && recalculate(viewportNode);
 
 $: renderedItems = items.slice(start, end);
+
+const normalize = value => value > 0 ? value : 0;
 
 function getPadding(itemsNode) {
   if (!itemsNode) return 0;
@@ -75,6 +82,11 @@ async function onScroll(e) {
   }
 
   await tick();
+  const pageLeft = Math.floor(normalize(start - pageOffset) / pageSize);
+  const pageRight = Math.floor((end + pageOffset) / pageSize); // if (pageLeft !== pageRight) { // TODO: Call preload only for unique page [@vanguard | ]
+
+  if (pageLeft > 0 && pageLeft !== pages[0]) preloadPage(pages[0] = pageLeft, pages);
+  if (pageRight !== pages[1]) preloadPage(pages[1] = pageRight, pages); // }
 
   if (start === 0 && scrollTop === 0) {
     return itemsOffsetTop = 0;

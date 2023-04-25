@@ -7,6 +7,10 @@ declare class __sveltets_Render<T> {
         items?: T[] | undefined;
         renderAmount?: number | undefined;
         maxFluidHeight?: number | undefined;
+        bufferItemsAmount?: number | undefined;
+        pageSize?: number | undefined;
+        pageOffset?: number | undefined;
+        preloadPage?: ((page: number, pages: [number, number]) => void) | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;
