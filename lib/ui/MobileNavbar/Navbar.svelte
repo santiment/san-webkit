@@ -37,11 +37,11 @@ function onMenuClick() {
 
 <nav class="fluid row justify v-center">
   {#each links as link}
-    {@const { href, slug = '' } = link}
+    {@const { href, slug = '', strict } = link}
     <NavItem
       {...link}
       href={href + slug}
-      active={!isMenuOpened && path.startsWith(href)}
+      active={!isMenuOpened && (strict ? path === href : path.startsWith(href))}
       on:click={window.__onLinkClick}
     />
   {/each}

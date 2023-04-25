@@ -19,7 +19,7 @@ export let onSearchClick = noop;</script>
       <slot name="right" />
     {:else}
       <slot name="share" />
-      <button class="search row hv-center" on:click={onSearchClick}>
+      <button class="search row hv-center" on:click={onSearchClick} aria-label="Search">
         <Svg id="search" w="18" />
       </button>
     {/if}

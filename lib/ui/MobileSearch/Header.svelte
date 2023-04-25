@@ -4,9 +4,14 @@ export let show;
 export let searchTerm;</script>
 
 <div class="wrapper row v-center mrg-l mrg--b">
-  <button class="arrow btn row hv-center mrg-s mrg--r" on:click={() => (show = false)}>
+  <button
+    class="arrow btn row hv-center mrg-s mrg--r"
+    on:click={() => (show = false)}
+    aria-label="Back"
+  >
     <Svg id="arrow-left-big" w="11" h="18" />
   </button>
+
   <div class="relative fluid input-wrapper">
     <SearchInput bind:searchTerm />
   </div>

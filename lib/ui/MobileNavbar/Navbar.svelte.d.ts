@@ -1,31 +1,23 @@
 import { SvelteComponentTyped } from "svelte";
-export declare const MOBILE_NAVBAR_LINKS: ({
+export declare const MOBILE_NAVBAR_LINKS: {
     title: string;
     icon: string;
     href: string;
-    slug?: undefined;
-} | {
-    title: string;
-    icon: string;
-    href: string;
-    slug: string;
-})[];
+    slug?: string | undefined;
+    strict?: true | undefined;
+}[];
 declare const __propDef: {
     props: {
         user: SAN.Author | null | undefined;
         path?: string | undefined;
         isFullLink?: boolean | undefined;
-        links?: ({
+        links?: {
             title: string;
             icon: string;
             href: string;
-            slug?: undefined;
-        } | {
-            title: string;
-            icon: string;
-            href: string;
-            slug: string;
-        })[] | undefined;
+            slug?: string | undefined;
+            strict?: true | undefined;
+        }[] | undefined;
         isMenuOpened?: boolean | undefined;
     };
     events: {
