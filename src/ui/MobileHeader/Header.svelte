@@ -8,7 +8,7 @@
 </script>
 
 <header class="row v-center justify fluid">
-  <section class="row v-center">
+  <section class="left row v-center">
     {#if $$slots.left}
       <slot name="left" />
     {:else if title}
@@ -38,6 +38,10 @@
     background: var(--white);
     padding: 16px 20px;
     border-bottom: 1px solid var(--athens);
+  }
+
+  .left {
+    min-width: 0;
   }
 
   .search {
