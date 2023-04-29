@@ -35,3 +35,10 @@ export const map = (
 
 export const minMax = (value: number, min: number, max?: number) =>
   (value < min ? min : (max as number) < value ? max : value) as number
+
+export function validateEmail(email: string) {
+  const input = document.createElement('input')
+  input.type = 'email'
+  input.value = email
+  return input.checkValidity()
+}
