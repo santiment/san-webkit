@@ -98,7 +98,7 @@ function requestDialogClose(skipLockChecks) {
 
   if (i === length - 1) {
     window.removeEventListener('keyup', onKeyup);
-    DialogPromise.reject();
+    DialogPromise.reject('Dialog closed');
     dialogs.hide(i);
   }
 }
