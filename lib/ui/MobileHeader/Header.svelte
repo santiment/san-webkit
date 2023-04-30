@@ -2,20 +2,21 @@
 import Product from './../../ui/Product.svelte';
 import { noop } from './../../utils';
 export let title = '';
+export let slots = $$slots;
 export let onSearchClick = noop;</script>
 
 <header class="row v-center justify fluid">
   <section class="left row v-center">
-    {#if $$slots.left}
+    {#if slots.left}
       <slot name="left" />
     {:else if title}
       <h4 class="h4 txt-m">{title}</h4>
     {:else}
-      <Product title="Sanbase" />
+      <Product title="Sanbase" class="h4" />
     {/if}
   </section>
   <section class="row v-center">
-    {#if $$slots.right}
+    {#if slots.right}
       <slot name="right" />
     {:else}
       <slot name="share" />

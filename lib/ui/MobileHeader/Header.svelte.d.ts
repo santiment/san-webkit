@@ -2,6 +2,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         title?: string | undefined;
+        slots?: Record<"share" | "right" | "left", boolean> | undefined;
         onSearchClick?: ((_?: any) => any) | undefined;
     };
     events: {
