@@ -4,7 +4,7 @@
   import { noop } from '@/utils'
 
   export let title = ''
-  export let slots = $$slots
+  export let slots = $$slots as Partial<typeof $$slots>
   export let onSearchClick = noop
 </script>
 
