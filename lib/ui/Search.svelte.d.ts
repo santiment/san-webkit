@@ -5,6 +5,7 @@ declare const __propDef: {
         autofocus?: boolean | undefined;
         placeholder: string;
         value?: string | undefined;
+        big?: boolean | undefined;
     };
     events: {
         input: Event;

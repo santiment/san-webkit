@@ -3,10 +3,12 @@ let className = 'mrg-m mrg--b';
 export { className as class };
 export let autofocus = true;
 export let placeholder;
-export let value = undefined;</script>
+export let value = undefined;
+export let big = false;</script>
 
 <InputWithIcon
   class={className}
+  {big}
   {value}
   {placeholder}
   {autofocus}
