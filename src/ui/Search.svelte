@@ -6,10 +6,12 @@
   export let autofocus = true
   export let placeholder: string
   export let value = undefined as string | undefined
+  export let big = false
 </script>
 
 <InputWithIcon
   class={className}
+  {big}
   {value}
   {placeholder}
   {autofocus}
