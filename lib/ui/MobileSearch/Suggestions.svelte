@@ -27,8 +27,9 @@ async function getItems(query) {
 }
 
 function onItemClick(event) {
-  window.__onLinkClick(event);
+  var _a;
 
+  (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, event);
   show = false;
 }</script>
 
