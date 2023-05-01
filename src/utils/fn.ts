@@ -1,15 +1,17 @@
 import { readable } from 'svelte/store'
 
 type Callback = (...args: any[]) => void
-export function debounce<T extends Callback>(timeout: number, fn: T): [T, () => void] {
+export function debounce<T extends Callback>(timeout: number, fn: T) {
   let timer: number
   const clear = () => process.browser && window.clearTimeout(timer)
   const debounced = (...args: any) => {
     clear()
-    timer = window.setTimeout(() => fn(...args), timeout)
+    return new Promise((resolve) => {
+      timer = window.setTimeout(() => resolve(fn(...args)), timeout)
+    })
   }
 
-  return [debounced as T, clear]
+  return [debounced, clear] as [(...args: Parameters<T>) => Promise<ReturnType<T>>, () => void]
 }
 
 /** Debounced function can be accessed by subscribing to a store by prefixing it with a $ sign*/

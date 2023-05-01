@@ -12,7 +12,7 @@
   export let big = false
   export let constraints: any = undefined
   export let value = ''
-  export let autofocus = false
+  export let autofocus = null as boolean | null
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
