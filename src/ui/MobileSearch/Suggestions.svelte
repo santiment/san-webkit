@@ -29,7 +29,7 @@
   }
 
   function onItemClick(event) {
-    window.__onLinkClick(event)
+    window.__onLinkClick?.(event)
     show = false
   }
 </script>
