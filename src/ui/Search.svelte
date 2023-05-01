@@ -3,7 +3,7 @@
 
   let className = 'mrg-m mrg--b'
   export { className as class }
-  export let autofocus = true
+  export let autofocus = null as boolean | null
   export let placeholder: string
   export let value = undefined as string | undefined
   export let big = false
@@ -18,5 +18,10 @@
   icon="search"
   w="12"
   on:input
+  on:keydown
   on:keyup
-/>
+  on:focus
+  on:blur
+>
+  <slot />
+</InputWithIcon>
