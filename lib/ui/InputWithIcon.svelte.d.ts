@@ -11,7 +11,7 @@ declare const __propDef: {
         big?: boolean | undefined;
         constraints?: any;
         value?: string | undefined;
-        autofocus?: boolean | undefined;
+        autofocus?: boolean | null | undefined;
     };
     events: {
         input: Event;
