@@ -42,7 +42,7 @@ function onItemClick(event) {
       <a
         class="btn body-2 fluid row v-center"
         href={getItemLink(item, type)}
-        on:click|preventDefault={onItemClick}
+        on:click={onItemClick}
       >
         <svelte:component this={Component} {item} />
       </a>
