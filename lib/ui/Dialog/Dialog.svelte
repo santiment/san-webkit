@@ -14,6 +14,7 @@ export let noBg = false;
 export let onEditableEscaped = null;
 export let animated = true;
 export let isClickawayDisabled = false;
+export let strict = false;
 const DialogCtx = $$props.DialogCtx;
 
 $: ({
@@ -98,7 +99,7 @@ function requestDialogClose(skipLockChecks) {
 
   if (i === length - 1) {
     window.removeEventListener('keyup', onKeyup);
-    DialogPromise.reject('Dialog closed');
+    DialogPromise.reject(strict && 'Dialog closed');
     dialogs.hide(i);
   }
 }

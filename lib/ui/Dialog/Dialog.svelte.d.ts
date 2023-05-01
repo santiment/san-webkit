@@ -13,6 +13,7 @@ declare const __propDef: {
         onEditableEscaped?: ((target: HTMLElement, closeDialog: () => void) => void) | null | undefined;
         animated?: boolean | undefined;
         isClickawayDisabled?: boolean | undefined;
+        strict?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
