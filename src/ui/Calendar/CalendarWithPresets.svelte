@@ -39,7 +39,7 @@
   export let maxDate: Date
   export let onDateSelect: (date: Date | Date[]) => void
 
-  let showPresets = true
+  let showPresets = false
   let calendarNode: AirDatepicker<HTMLInputElement>
 </script>
 

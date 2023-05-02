@@ -14,7 +14,7 @@
   export let calendarNode: AirDatepicker<HTMLInputElement>
 
   let inputEl
-  let isVisible = true
+  let isVisible = false
   let selectedDates = range ? [new Date(), new Date()] : [new Date()]
 
   onMount(() => {
