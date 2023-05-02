@@ -4,6 +4,7 @@ declare const __propDef: {
         class?: string | undefined;
         src?: string | null | undefined;
         placeholderWidth?: number | undefined;
+        alt?: string | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

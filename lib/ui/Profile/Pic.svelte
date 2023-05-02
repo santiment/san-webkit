@@ -2,13 +2,14 @@
 let className = '';
 export { className as class };
 export let src = undefined;
-export let placeholderWidth = 16;</script>
+export let placeholderWidth = 16;
+export let alt = 'S';</script>
 
 <div class="img row hv-center {className}">
   {#if src}
-    <img alt="A" {src} loading="lazy" />
+    <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderWidth} class="svg-3GRb59" />
+    <Svg id="user" w={placeholderWidth} class="svg-NYVR2C" />
   {/if}
   <slot />
 </div>
@@ -31,8 +32,12 @@ export let placeholderWidth = 16;</script>
     fill: var(--img-fill, var(--waterloo));
   }
 
-  :global(.svg-3GRb59) {
+  :global(.svg-NYVR2C) {
     max-width: 50%;
     min-width: 0 !important;
+  }
+
+  img {
+    display: inline-flex;
   }
 </style>
