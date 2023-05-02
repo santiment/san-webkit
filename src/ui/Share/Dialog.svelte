@@ -18,7 +18,7 @@
       background: '#56A8DC',
     },
     {
-      link: `https://santiment.net/discord`,
+      link: 'https://santiment.net/discord',
       title: 'Discord',
       background: '#5B65EA',
     },
