@@ -26,7 +26,7 @@ function onManageClick() {
 {#if isVisible}
   <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
     <Svg illus id="cookies" class="pic-bmeuop" />
-    <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
+    <h2 class="{$IsMobile ? 'body-0 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
     </h2>
     <p class="mrg-xl mrg--b c-waterloo">
