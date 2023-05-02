@@ -5,11 +5,12 @@
   export { className as class }
   export let src: string | null | undefined = undefined
   export let placeholderWidth = 16
+  export let alt = 'S'
 </script>
 
 <div class="img row hv-center {className}">
   {#if src}
-    <img alt="A" {src} loading="lazy" />
+    <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
     <Svg id="user" w={placeholderWidth} class="$style.svg" />
   {/if}
@@ -37,5 +38,9 @@
   .svg {
     max-width: 50%;
     min-width: 0 !important;
+  }
+
+  img {
+    display: inline-flex;
   }
 </style>
