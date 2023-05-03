@@ -40,17 +40,19 @@ type FormattedDate = {
   DD: string | number
   M: number
   MM: string | number
-  MMM: typeof SHORT_MONTH_NAMES[number]
-  MMMM: typeof MONTH_NAMES[number]
+  MMM: (typeof SHORT_MONTH_NAMES)[number]
+  MMMM: (typeof MONTH_NAMES)[number]
   YY: string
   YYYY: number
 }
 
-export function getDateFormats(date: Date): FormattedDate {
-  const month = date.getMonth()
+export function getDateFormats(date: Date, { utc = false } = {}): FormattedDate {
+  const UTC = utc ? 'UTC' : ''
+
+  const month = date[`get${UTC}Month`]()
   const M = month + 1
-  const D = date.getDate()
-  const YYYY = date.getFullYear()
+  const D = date[`get${UTC}Date`]()
+  const YYYY = date[`get${UTC}FullYear`]()
 
   return {
     D,
@@ -72,10 +74,12 @@ type FormattedTime = {
   s: number
   ss: string | number
 }
-export function getTimeFormats(date: Date): FormattedTime {
-  const m = date.getMinutes()
-  const s = date.getSeconds()
-  const H = date.getHours()
+export function getTimeFormats(date: Date, { utc = false } = {}): FormattedTime {
+  const UTC = utc ? 'UTC' : ''
+
+  const m = date[`get${UTC}Minutes`]()
+  const s = date[`get${UTC}Seconds`]()
+  const H = date[`get${UTC}Hours`]()
 
   return {
     H,
@@ -102,7 +106,7 @@ const TimeTypeDivider = {
 }
 export function dateDifferenceInWords(from: Date, to = new Date()): string {
   const diff = +to - +from
-  if (diff < ONE_MINUTE_IN_MS) return `a few seconds ago`
+  if (diff < ONE_MINUTE_IN_MS) return 'a few seconds ago'
 
   let amount = 0
   let timeType: TimeType
