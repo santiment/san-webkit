@@ -5,7 +5,7 @@ export declare const Cookies: {
     readonly Functional: "FUNCTIONAL_COOKIES";
     readonly Performance: "PERFORMANCE_COOKIES";
 };
-export declare const showManageCookiesDialog: (props: any) => Promise<unknown>;
+export declare const showManageCookiesDialog: (props?: any) => Promise<unknown>;
 export declare function applyCookies(isFunctionalAccepted?: boolean, isPerformanceAccepted?: boolean): void;
 declare const __propDef: {
     props: {

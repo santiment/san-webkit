@@ -1,16 +1,15 @@
 <script context="module">export const CookiesStyle = {
-  API: 'api-elhe70',
-  SHEETS: 'sheets-G0ETh+'
+  API: 'api-4nnq9D',
+  SHEETS: 'sheets-60r_pT'
 };</script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
 import Svg from './../ui/Svg/svelte';
 import { getSavedBoolean } from './../utils/localStorage';
-import { IsMobile } from './../stores/responsive';
 let className = '';
 export { className as class };
 export let style = '';
-let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
+export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
 
 function onAllowAllClick() {
   applyCookies(true, true);
@@ -24,11 +23,9 @@ function onManageClick() {
 }</script>
 
 {#if isVisible}
-  <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
-    <Svg illus id="cookies" class="pic-bmeuop" />
-    <h2 class="{$IsMobile ? 'body-0 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
-      We are using cookies to improve your experience!
-    </h2>
+  <div class="cookies border box {className} {style}">
+    <Svg illus id="cookies" class="pic-RDbLog" />
+    <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
       <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
@@ -50,12 +47,12 @@ function onManageClick() {
   text-align: center;
 }
 
-:global(.api-elhe70) {
+:global(.api-4nnq9D) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-G0ETh\+) {
+:global(.sheets-60r_pT) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -64,7 +61,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-bmeuop) {
+:global(.pic-RDbLog) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -78,7 +75,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-bmeuop) {
+:global(.desktop) :global(.pic-RDbLog) {
   transform: initial;
   position: absolute;
   left: 24px;
@@ -90,6 +87,11 @@ a:hover {
   border-radius: 0;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  font: var(--body-2);
+}
+:global(body:not(.desktop)) h2 {
+  font: var(--body-0);
+  --margin: 16px;
 }
 :global(body:not(.desktop)) button {
   width: 100%;

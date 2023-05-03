@@ -7,6 +7,7 @@ declare const __propDef: {
     props: {
         class?: string | undefined;
         style?: "" | "API" | "SHEETS" | undefined;
+        isVisible?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
