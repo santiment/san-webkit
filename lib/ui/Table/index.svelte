@@ -106,6 +106,9 @@ function changeSort({
   position: sticky;
   left: 0;
 }
+:global(.cell-visible) {
+  overflow: visible !important;
+}
 
 table {
   width: 100%;
