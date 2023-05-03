@@ -18,10 +18,14 @@
   $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn
   $: isUpgrade = checkIsUpgrade(plan, subscription)
   $: isDowngrade = isUpgrade !== undefined && !isUpgrade
-  $: label = (plan, subscription, getLabel())
+  $: label = (plan, subscription, isLoggedIn, isFreePlan, annualDiscount, isUpgrade, getLabel())
 
   function getLabel() {
     if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started'
+
+    if (subscription && isFreePlan) {
+      return 'Default plan'
+    }
 
     if (annualDiscount.isEligible) {
       if (plan.interval === Billing.YEAR)
@@ -62,13 +66,16 @@
 </script>
 
 <button
+  type="button"
   class="btn-1 fluid body-2 {className}"
-  class:disabled={isCurrentPlan && !annualDiscount.isEligible}
+  class:disabled={(isCurrentPlan && !annualDiscount.isEligible) || (subscription && isFreePlan)}
   class:downgrade={label === 'Downgrade'}
   class:btn--green={isFreePlan && !isLoggedIn}
   on:click={onClick}
-  use:dataPreloader>{label}</button
+  use:dataPreloader
 >
+  {label}
+</button>
 
 <style lang="scss">
   .btn-1 {
