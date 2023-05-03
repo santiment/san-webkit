@@ -32,14 +32,14 @@ const SAVED_MSG = 'Save 10% 🎉';</script>
 <div class="row justify mrg-l mrg--b">
   <div class="relative">
     <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-GA_p+e">
-      <button slot="trigger" class="selector btn body-1 txt-b" on:click>
+      <button type="button" slot="trigger" class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
         <Svg id="arrow" w="8" h="4.5" class="arrow-6qTiD9 mrg-xs mrg--l" />
       </button>
 
       <div slot="tooltip" class="column">
         {#each plans as option}
-          <button class="option btn" class:active={plan === option} on:click={() => select(option)}>
+          <button type="button" class="option btn" class:active={plan === option} on:click={() => select(option)}>
             {isSinglePlan ? 'Bill' : PlanName[option.name]}
             {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>

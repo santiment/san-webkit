@@ -35,7 +35,7 @@ $: ({
   features
 } = PlanDescription[name]);
 
-$: percentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 0;
+$: percentOff = (isAnnualPlan && ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff)) || 0;
 
 $: monthlyPrice = formatMonthlyPrice(plan, percentOff);
 

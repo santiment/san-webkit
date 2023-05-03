@@ -26,7 +26,7 @@ $: ({
     </div>
   </div>
 
-  <button class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = null)}>
+  <button type="button" class="btn-2 fluid txt-center mrg-xl mrg--t mrg--b" on:click={() => (savedCard = null)}>
     Use another card
   </button>
 
