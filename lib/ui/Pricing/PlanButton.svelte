@@ -22,12 +22,16 @@ $: isUpgrade = checkIsUpgrade(plan, subscription);
 
 $: isDowngrade = isUpgrade !== undefined && !isUpgrade;
 
-$: label = (plan, subscription, getLabel());
+$: label = (plan, subscription, isLoggedIn, isFreePlan, annualDiscount, isUpgrade, getLabel());
 
 function getLabel() {
   var _a;
 
   if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started';
+
+  if (subscription && isFreePlan) {
+    return 'Default plan';
+  }
 
   if (annualDiscount.isEligible) {
     if (plan.interval === Billing.YEAR) return `Pay now ${(_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff}% Off`;
@@ -69,13 +73,16 @@ function onClick() {
 }</script>
 
 <button
+  type="button"
   class="btn-1 fluid body-2 {className}"
-  class:disabled={isCurrentPlan && !annualDiscount.isEligible}
+  class:disabled={(isCurrentPlan && !annualDiscount.isEligible) || (subscription && isFreePlan)}
   class:downgrade={label === 'Downgrade'}
   class:btn--green={isFreePlan && !isLoggedIn}
   on:click={onClick}
-  use:dataPreloader>{label}</button
+  use:dataPreloader
 >
+  {label}
+</button>
 
 <style >.btn-1 {
   --v-padding: 8px;

@@ -15,12 +15,12 @@ function getDaysLeft(expireAt) {
 <div class="offer row relative txt-left justify">
   <div class="img"><img src={rocketSvg} alt="rocket" /></div>
 
-  <div class="left">
-    <h2 class="h4 txt-b mrg-s mrg--b">Special Offer</h2>
+  <div class="text left">
+    <h2 class="h4 txt-b mrg-s mrg--b">Special Offer for Annual plans</h2>
     <p class="body-2">Buy the Annual plan before {condition} and get {percentOff}% Off</p>
   </div>
 
-  <div>
+  <div class="text">
     <p class="body-2 txt-b mrg-s mrg--b">This offer will end in:</p>
     <Tooltip position="top" align="center" offsetY={-10} closeTimeout={40}>
       <h3 slot="trigger" class="h3 txt-right">{daysLeft} Day{plural}</h3>
@@ -95,4 +95,9 @@ h3 {
   transform: rotate(-17deg) rotateY(180deg) scale(1.2);
   right: 55px;
   top: 110px;
+}
+
+.text {
+  position: relative;
+  z-index: 2;
 }</style>

@@ -3,7 +3,7 @@ import { Billing } from './../../../utils/plans';
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        billing?: Billing.MONTH | undefined;
+        billing?: Billing.YEAR | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

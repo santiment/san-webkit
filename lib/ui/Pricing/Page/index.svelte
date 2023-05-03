@@ -12,7 +12,7 @@ import Plans from './Plans.svelte';
 import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
 let className = '';
 export { className as class };
-export let billing = Billing.MONTH;
+export let billing = Billing.YEAR;
 
 $: subscription = $subscription$;
 

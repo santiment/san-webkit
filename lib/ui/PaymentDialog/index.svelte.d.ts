@@ -17,6 +17,8 @@ declare const __propDef: {
         planData: any;
     };
     events: {
+        submit: SubmitEvent;
+    } & {
         [evt: string]: CustomEvent<any>;
     };
     slots: {};

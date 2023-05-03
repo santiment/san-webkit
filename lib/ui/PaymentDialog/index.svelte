@@ -95,12 +95,13 @@ function onChange() {
   DialogPromise.locking = DialogLock.WARN;
 }
 
-function onSubmit({
-  currentTarget
-}) {
+let formNode = null;
+
+function onSubmit() {
+  if (!formNode) return;
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;
-  const data = getPaymentFormData(currentTarget);
+  const data = getPaymentFormData(formNode);
   buyPlan(plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance)).then(data => {
     closeDialog();
     onPaymentSuccess(data, source);
@@ -124,7 +125,7 @@ onDestroy(() => {
       <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
     {/if}
 
-    <form on:submit|preventDefault={onSubmit} on:change={onChange}>
+    <form bind:this={formNode} on:submit|preventDefault on:change={onChange}>
       {#if savedCard}
         <SavedCard bind:savedCard />
       {:else}
@@ -141,6 +142,7 @@ onDestroy(() => {
         {isSinglePlan}
         {isEligibleForTrial}
         {loading}
+        {onSubmit}
       />
     </form>
   </section>

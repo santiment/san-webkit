@@ -14,6 +14,7 @@ export let isEligibleForTrial;
 export let loading;
 export let sanBalance;
 export let annualDiscount = {};
+export let onSubmit;
 let percentOff = 0;
 
 $: isAnnualPlan = plan.interval === Billing.YEAR;
@@ -54,7 +55,12 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       annualDiscount={isAnnualPlan ? annualDiscount : {}}
     />
 
-    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t" class:loading>
+    <button
+      type="submit"
+      class="btn-1 btn--l row h-center fluid mrg-l mrg--t"
+      class:loading
+      on:click={onSubmit}
+    >
       {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Purchase'}</button
     >
   </Skeleton>

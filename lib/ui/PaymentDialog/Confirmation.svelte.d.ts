@@ -10,6 +10,7 @@ declare const __propDef: {
         loading: boolean;
         sanBalance: number;
         annualDiscount?: SAN.AnnualDiscount | undefined;
+        onSubmit: any;
     };
     events: {
         [evt: string]: CustomEvent<any>;

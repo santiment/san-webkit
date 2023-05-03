@@ -12,12 +12,14 @@ type FormattedDate = {
     DD: string | number;
     M: number;
     MM: string | number;
-    MMM: typeof SHORT_MONTH_NAMES[number];
-    MMMM: typeof MONTH_NAMES[number];
+    MMM: (typeof SHORT_MONTH_NAMES)[number];
+    MMMM: (typeof MONTH_NAMES)[number];
     YY: string;
     YYYY: number;
 };
-export declare function getDateFormats(date: Date): FormattedDate;
+export declare function getDateFormats(date: Date, { utc }?: {
+    utc?: boolean | undefined;
+}): FormattedDate;
 type FormattedTime = {
     H: number;
     HH: string | number;
@@ -26,7 +28,9 @@ type FormattedTime = {
     s: number;
     ss: string | number;
 };
-export declare function getTimeFormats(date: Date): FormattedTime;
+export declare function getTimeFormats(date: Date, { utc }?: {
+    utc?: boolean | undefined;
+}): FormattedTime;
 export declare function dateDifferenceInWords(from: Date, to?: Date): string;
 export declare function parseIntervalString(interval: string): {
     amount: number;
