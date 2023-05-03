@@ -109,6 +109,10 @@
       position: sticky;
       left: 0;
     }
+
+    .cell-visible {
+      overflow: visible !important;
+    }
   }
 
   table {
