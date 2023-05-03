@@ -14,7 +14,7 @@
 
   let className = ''
   export { className as class }
-  export let billing = Billing.MONTH
+  export let billing = Billing.YEAR
 
   $: subscription = $subscription$
   $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)

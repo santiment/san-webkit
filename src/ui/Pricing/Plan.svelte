@@ -28,7 +28,7 @@
   $: isFreePlan = name.includes(Plan.FREE)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
-  $: percentOff = annualDiscount.discount?.percentOff || 0
+  $: percentOff = (isAnnualPlan && annualDiscount.discount?.percentOff) || 0
   $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
 
   function getBillingDescription(currentPlan, fallbackPlan, discount) {

@@ -16,6 +16,7 @@
   export let loading: boolean
   export let sanBalance: number
   export let annualDiscount = {} as SAN.AnnualDiscount
+  export let onSubmit: any
 
   let percentOff = 0
 
@@ -57,7 +58,12 @@
       annualDiscount={isAnnualPlan ? annualDiscount : {}}
     />
 
-    <button type="submit" class="btn-1 btn--l row h-center fluid mrg-l mrg--t" class:loading>
+    <button
+      type="submit"
+      class="btn-1 btn--l row h-center fluid mrg-l mrg--t"
+      class:loading
+      on:click={onSubmit}
+    >
       {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Purchase'}</button
     >
   </Skeleton>
