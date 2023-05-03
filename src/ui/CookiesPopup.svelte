@@ -13,13 +13,11 @@
   } from '@/ui/ManageCookiesDialog/index.svelte'
   import Svg from '@/ui/Svg/svelte'
   import { getSavedBoolean } from '@/utils/localStorage'
-  import { IsMobile } from '@/stores/responsive'
 
   let className = ''
   export { className as class }
   export let style: '' | keyof typeof CookiesStyle = ''
-
-  let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
+  export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
 
   function onAllowAllClick() {
     applyCookies(true, true)
@@ -34,11 +32,9 @@
 </script>
 
 {#if isVisible}
-  <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
+  <div class="cookies border box {className} {style}">
     <Svg illus id="cookies" class="$style.pic" />
-    <h2 class="{$IsMobile ? 'body-0 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
-      We are using cookies to improve your experience!
-    </h2>
+    <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
       <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
@@ -104,6 +100,12 @@
       border-radius: 0;
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
+      font: var(--body-2);
+    }
+
+    h2 {
+      font: var(--body-0);
+      --margin: 16px;
     }
 
     button {

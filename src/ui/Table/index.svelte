@@ -69,13 +69,14 @@
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
-        {#each columns as { title, className, format, Component, valueKey } (title)}
+        {#each columns as column (column.title)}
+          {@const { title, className, format, Component, valueKey } = column}
           {@const value = item[valueKey]}
           <td class={className || ''}>
             {#if valueKey && value === undefined}
               <div class="skeleton" />
             {:else if Component}
-              <svelte:component this={Component} {item} {value} {...itemProps} />
+              <svelte:component this={Component} {item} {value} {column} {...itemProps} />
             {:else}
               {format(item, i + offset, value)}
             {/if}

@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
   import { track } from '@/analytics'
   import { saveBoolean } from '@/utils/localStorage'
+  import { setCookie } from '@/utils/cookie'
   import { dialogs } from '@/ui/Dialog'
   import { IsMobile } from '@/stores/responsive'
   import ManageCookiesDialog from './index.svelte'
@@ -13,7 +14,7 @@
     Performance: 'PERFORMANCE_COOKIES',
   } as const
 
-  export const showManageCookiesDialog = (props) =>
+  export const showManageCookiesDialog = (props?: any) =>
     dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props))
 
   export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
@@ -21,6 +22,7 @@
     saveBoolean(Cookies.Functional, isFunctionalAccepted)
     saveBoolean(Cookies.Performance, isPerformanceAccepted)
     saveBoolean(COOKIE_POLICY_ACCEPTED, true)
+    setCookie(COOKIE_POLICY_ACCEPTED, true)
 
     track.event('Cookie policy accepted', { category: 'User' })
   }
