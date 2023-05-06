@@ -2,10 +2,10 @@
 /** @typedef {typeof __propDef.events}  BackToTopEvents */
 /** @typedef {typeof __propDef.slots}  BackToTopSlots */
 export default class BackToTop extends SvelteComponentTyped<{
-    class?: string | undefined;
     options?: {
         rootMargin: string;
     } | undefined;
+    class?: string | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -16,10 +16,10 @@ export type BackToTopSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        class?: string | undefined;
         options?: {
             rootMargin: string;
         } | undefined;
+        class?: string | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
