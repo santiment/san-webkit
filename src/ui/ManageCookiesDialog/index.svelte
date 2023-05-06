@@ -4,6 +4,7 @@
   import { setCookie } from '@/utils/cookie'
   import { dialogs } from '@/ui/Dialog'
   import { IsMobile } from '@/stores/responsive'
+  import { setSessionValue } from '@/stores/utils'
   import ManageCookiesDialog from './index.svelte'
 
   export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
@@ -23,6 +24,7 @@
     saveBoolean(Cookies.Performance, isPerformanceAccepted)
     saveBoolean(COOKIE_POLICY_ACCEPTED, true)
     setCookie(COOKIE_POLICY_ACCEPTED, true)
+    setSessionValue({ isCookiesVisible: false })
 
     track.event('Cookie policy accepted', { category: 'User' })
   }
