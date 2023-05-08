@@ -27,7 +27,7 @@ export const Cache = {
   },
 
   keys: () => _cache.keys(),
-  forEach: (callback: (typeof _cache)['forEach']) => _cache.forEach(callback),
+  forEach: <T = any>(callback: (value: T, key: string) => void) => _cache.forEach(callback),
 
   set$<T extends SAN.API.QueryBase>(scheme: string, updater: SAN.API.Updater<T> = noop): void {
     if (Cache.has(scheme) === false) return
