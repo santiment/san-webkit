@@ -14,7 +14,7 @@
   export let on: 'mouseenter' | 'click' = 'mouseenter'
   export let duration = 0
   export let openDelay = 0
-  export let closeTimeout = 120
+  export let closeDelay = 120
   export let margin = 8
 
   const transition = { duration }
@@ -26,8 +26,8 @@
   let timerClose = null as null | number
 
   $: if (trigger && tooltip) {
-    tooltip.onmouseenter = closeTimeout ? open : null
-    tooltip.onmouseleave = closeTimeout ? startCloseTimer : null
+    tooltip.onmouseenter = closeDelay ? open : null
+    tooltip.onmouseleave = closeDelay ? startCloseTimer : null
     window.addEventListener('touchend', onTouchEnd)
 
     computePosition(trigger, tooltip, {
@@ -78,7 +78,7 @@
     if (timerOpen) {
       stopOpenTimer()
     } else {
-      timerClose = window.setTimeout(close, closeTimeout)
+      timerClose = window.setTimeout(close, closeDelay)
     }
   }
 
