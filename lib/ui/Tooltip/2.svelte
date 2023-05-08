@@ -10,7 +10,7 @@ export let activeClass = '';
 export let on = 'mouseenter';
 export let duration = 0;
 export let openDelay = 0;
-export let closeTimeout = 120;
+export let closeDelay = 120;
 export let margin = 8;
 const transition = {
   duration
@@ -21,8 +21,8 @@ let timerOpen = null;
 let timerClose = null;
 
 $: if (trigger && tooltip) {
-  tooltip.onmouseenter = closeTimeout ? open : null;
-  tooltip.onmouseleave = closeTimeout ? startCloseTimer : null;
+  tooltip.onmouseenter = closeDelay ? open : null;
+  tooltip.onmouseleave = closeDelay ? startCloseTimer : null;
   window.addEventListener('touchend', onTouchEnd);
   computePosition(trigger, tooltip, {
     placement: position,
@@ -78,7 +78,7 @@ function startCloseTimer() {
   if (timerOpen) {
     stopOpenTimer();
   } else {
-    timerClose = window.setTimeout(close, closeTimeout);
+    timerClose = window.setTimeout(close, closeDelay);
   }
 }
 

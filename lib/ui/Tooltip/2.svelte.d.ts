@@ -11,7 +11,7 @@ declare const __propDef: {
         on?: "click" | "mouseenter" | undefined;
         duration?: number | undefined;
         openDelay?: number | undefined;
-        closeTimeout?: number | undefined;
+        closeDelay?: number | undefined;
         margin?: number | undefined;
     };
     events: {
