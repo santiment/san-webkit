@@ -1,8 +1,11 @@
+declare const _cache: Map<string, unknown>;
 export declare const Cache: {
     set<T extends SAN.API.QueryBase>(scheme: string, data: T): void;
     get<T_1 extends SAN.API.QueryBase>(key: string): T_1 | null;
     has(key: string): boolean;
     delete(scheme: string): void;
+    keys: () => IterableIterator<string>;
+    forEach: (callback: (typeof _cache)['forEach']) => void;
     set$<T_2 extends SAN.API.QueryBase>(scheme: string, updater?: SAN.API.Updater<T_2>): void;
     get$<T_3 extends SAN.API.QueryBase>(scheme: string, subscriber: SAN.API.Subscriber<T_3>): SAN.API.Unsubscriber;
     getInFlightQuery<T_4 extends SAN.API.QueryBase | null>(scheme: string): Promise<T_4> | null;
