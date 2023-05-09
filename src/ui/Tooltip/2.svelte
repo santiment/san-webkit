@@ -20,7 +20,7 @@
   const transition = { duration }
 
   let trigger = null as null | HTMLElement
-  let tooltip = null as null | HTMLElement
+  export let tooltip = null as null | HTMLElement
 
   let timerOpen = null as null | number
   let timerClose = null as null | number
@@ -53,6 +53,7 @@
     stopOpenTimer()
     stopCloseTimer()
     isOpened = false
+    tooltip = null
     if (activeClass) trigger?.classList.remove(activeClass)
 
     window.removeEventListener('touchend', onTouchEnd)

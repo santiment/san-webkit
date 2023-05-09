@@ -35,7 +35,6 @@
   ],
   "dependencies": {
     "@floating-ui/dom": "^1.2.7",
-    "@popperjs/core": "^2.11.7",
     "air-datepicker": "^3.3.5",
     "fast-glob": "^3.2.5",
     "patch-package": "^6.4.7"
