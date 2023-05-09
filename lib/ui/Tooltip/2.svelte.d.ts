@@ -13,6 +13,7 @@ declare const __propDef: {
         openDelay?: number | undefined;
         closeDelay?: number | undefined;
         margin?: number | undefined;
+        tooltip?: HTMLElement | null | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

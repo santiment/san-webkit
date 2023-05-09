@@ -16,7 +16,7 @@ const transition = {
   duration
 };
 let trigger = null;
-let tooltip = null;
+export let tooltip = null;
 let timerOpen = null;
 let timerClose = null;
 
@@ -52,6 +52,7 @@ function close() {
   stopOpenTimer();
   stopCloseTimer();
   isOpened = false;
+  tooltip = null;
   if (activeClass) trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
   window.removeEventListener('touchend', onTouchEnd);
   trigger === null || trigger === void 0 ? void 0 : trigger.addEventListener('mouseleave', startCloseTimer);

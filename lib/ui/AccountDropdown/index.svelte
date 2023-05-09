@@ -2,7 +2,7 @@
 import { getUserSubscriptionInfo } from './../../utils/subscription';
 import { trackLogout } from './../../analytics/events/general';
 import Toggle from './../../ui/Toggle.svelte';
-import Tooltip from './../../ui/Tooltip/svelte';
+import Tooltip from './../../ui/Tooltip';
 import Svg from './../../ui/Svg/svelte';
 import Pic from './../../ui/Profile/Pic.svelte';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
@@ -32,21 +32,21 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 
 <Tooltip
   duration={130}
-  align="center"
+  position="bottom"
   bind:isOpened
   activeClass="active-_VrAxA"
   class={tooltipClass}
+  let:trigger
 >
-  <svelte:fragment slot="trigger">
-    <a
-      href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
-      aria-label="Profile page"
-      on:click={window.__onLinkClick}
-      class:pro={isPro}
-    >
-      <Pic class="btn mrg-m mrg--l box-2HQbzT" src={currentUser ? currentUser.avatarUrl : ''} />
-    </a>
-  </svelte:fragment>
+  <a
+    use:trigger
+    href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
+    aria-label="Profile page"
+    on:click={window.__onLinkClick}
+    class:pro={isPro}
+  >
+    <Pic class="btn mrg-m mrg--l box-2HQbzT" src={currentUser ? currentUser.avatarUrl : ''} />
+  </a>
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}

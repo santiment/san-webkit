@@ -5,14 +5,16 @@ export default class Paged extends SvelteComponentTyped<{
     [x: string]: any;
     items: any;
     page?: number | undefined;
-    class?: string | undefined;
     rows?: number[] | undefined;
+    class?: string | undefined;
     pageSize?: number | undefined;
     pageOffset?: number | undefined;
     onPageChange?: ((_?: any) => any) | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
-}, {}> {
+}, {
+    default: {};
+}> {
 }
 export type PagedProps = typeof __propDef.props;
 export type PagedEvents = typeof __propDef.events;
@@ -23,8 +25,8 @@ declare const __propDef: {
         [x: string]: any;
         items: any;
         page?: number | undefined;
-        class?: string | undefined;
         rows?: number[] | undefined;
+        class?: string | undefined;
         pageSize?: number | undefined;
         pageOffset?: number | undefined;
         onPageChange?: ((_?: any) => any) | undefined;
@@ -32,6 +34,8 @@ declare const __propDef: {
     events: {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {};
+    slots: {
+        default: {};
+    };
 };
 export {};
