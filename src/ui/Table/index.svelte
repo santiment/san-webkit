@@ -92,6 +92,8 @@
     {#if isLoading}
       <div class="loader c-casper">Loading...</div>
     {/if}
+
+    <slot />
   </caption>
 </table>
 

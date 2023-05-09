@@ -55,7 +55,9 @@
 </script>
 
 <div class={className}>
-  <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort} />
+  <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort}>
+    <slot />
+  </Table>
 </div>
 
 <div class="paged row v-center mrg-l mrg--t">
