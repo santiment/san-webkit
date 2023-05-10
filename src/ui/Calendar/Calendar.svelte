@@ -81,6 +81,7 @@
 <style lang="scss">
   .trigger {
     color: var(--black) !important;
+    --bg: var(--white);
     --border-hover: var(--green);
     --fill-hover: var(--green);
   }

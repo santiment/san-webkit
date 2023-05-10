@@ -6,6 +6,8 @@ export const ONE_WEEK_IN_MS = ONE_DAY_IN_MS * 7
 export const ONE_MONTH_IN_MS = 2505600000 // Estimate
 export const ONE_YEAR_IN_MS = 31536000000 // Estimate
 
+export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
+
 const MONTH_NAMES = [
   'January',
   'February',
@@ -136,8 +138,14 @@ export function parseIntervalString(interval: string) {
   }
 }
 
-export function getTodaysEnd() {
-  const date = new Date()
-  date.setHours(23, 59, 59, 999)
+export function setDayEnd(date: Date) {
+  date.setHours(23, 59, 59)
   return date
 }
+
+export function setDayStart(date: Date) {
+  date.setHours(0, 0, 1)
+  return date
+}
+
+export const getTodaysEnd = () => setDayEnd(new Date())
