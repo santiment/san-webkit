@@ -1,9 +1,9 @@
 <script lang="ts">
-  import AirDatepicker from 'air-datepicker'
-  import Svg from '@/ui/Svg/svelte'
-  import Tooltip from '@/ui/Tooltip'
+  import AirDatepicker from 'air-datepicker/air-datepicker'
   import 'air-datepicker/air-datepicker.css'
   import localeEn from 'air-datepicker/locale/en'
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip'
 
   type T = $$Generic<boolean>
   type K = T extends true ? Date[] : Date
