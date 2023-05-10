@@ -55,8 +55,8 @@ function mount(parent) {
   closeDelay={300}
   style="flex-direction: row-reverse;"
 >
-  {@const classes = `btn-2 row v-center trigger-uhZw8b ${
-    tooltip ? 'active-pG8Yg3' : ''
+  {@const classes = `btn-2 row v-center trigger-BJonRk ${
+    tooltip ? 'active-TVxWmc' : ''
   } ${className}`}
 
   <slot {trigger} isOpened={!!tooltip} {classes}>
@@ -69,13 +69,14 @@ function mount(parent) {
   <slot name="tooltip" slot="tooltip" {calendar} />
 </Tooltip>
 
-<style >:global(.trigger-uhZw8b) {
+<style >:global(.trigger-BJonRk) {
   color: var(--black) !important;
+  --bg: var(--white);
   --border-hover: var(--green);
   --fill-hover: var(--green);
 }
 
-:global(.active-pG8Yg3) {
+:global(.active-TVxWmc) {
   --border: var(--green);
   --fill: var(--green);
 }
