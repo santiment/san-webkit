@@ -5,15 +5,19 @@
   import 'air-datepicker/air-datepicker.css'
   import localeEn from 'air-datepicker/locale/en'
 
-  export let date: Date | Date[] = new Date()
-  export let label = date.toString()
+  type T = $$Generic<boolean>
+  type K = T extends true ? Date[] : Date
+
+  let className = ''
+  export { className as class }
+  export let range = false as T
+  export let date = (range ? [new Date(), new Date()] : new Date()) as K
+  export let label = (date[0] || date).toLocaleDateString()
   export let maxDate = new Date()
   export let minDate = undefined as undefined | Date
-  export let range: boolean = false
-  export let onDateSelect: (date: Date | Date[]) => void
+  export let onDateSelect: (date: any) => void
 
   let calendar: null | AirDatepicker<any>
-  let selectedDates = range ? [new Date(), new Date()] : [new Date()]
   let tooltip = null
 
   $: if (tooltip) {
@@ -35,7 +39,7 @@
       maxDate,
       range,
       visible: true,
-      selectedDates,
+      selectedDates: range ? date : [date],
       dateFormat: 'dd.MM.yy',
       multipleDatesSeparator: ' – ',
       locale: localeEn,
@@ -44,17 +48,28 @@
       nextHtml:
         '<svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.626194 7.82946C0.444235 7.62174 0.465115 7.30585 0.67283 7.12389L4.23892 3.99999L0.67283 0.876095C0.465115 0.694136 0.444235 0.378243 0.626194 0.170528C0.808153 -0.0371876 1.12405 -0.0580673 1.33176 0.123892L5.32719 3.62389C5.43557 3.71883 5.49772 3.85591 5.49772 3.99999C5.49772 4.14408 5.43557 4.28115 5.32719 4.37609L1.33176 7.87609C1.12405 8.05805 0.808153 8.03717 0.626194 7.82946Z" fill="#7A859E"/></svg>',
 
-      onSelect({ date: selectedDate }) {
-        date = selectedDate
-        onDateSelect?.(selectedDate)
+      onSelect(data) {
+        onDateSelect?.(data.date as K)
       },
     })
   }
 </script>
 
-<Tooltip on="click" bind:tooltip let:trigger closeDelay={300} style="flex-direction: row-reverse;">
-  <slot {trigger}>
-    <button use:trigger class="btn-2 btn--s row v-center">
+<Tooltip
+  position="bottom"
+  {...$$restProps}
+  on="click"
+  bind:tooltip
+  let:trigger
+  closeDelay={300}
+  style="flex-direction: row-reverse;"
+>
+  {@const classes = `btn-2 row v-center $style.trigger ${
+    tooltip ? '$style.active' : ''
+  } ${className}`}
+
+  <slot {trigger} isOpened={!!tooltip} {classes}>
+    <button use:trigger class="{classes} btn--s">
       {label}
       <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>
@@ -64,6 +79,17 @@
 </Tooltip>
 
 <style lang="scss">
+  .trigger {
+    color: var(--black) !important;
+    --border-hover: var(--green);
+    --fill-hover: var(--green);
+  }
+
+  .active {
+    --border: var(--green);
+    --fill: var(--green);
+  }
+
   :global {
     .air-datepicker:has(section) {
       border-radius: 4px 0 0 4px;
