@@ -33,16 +33,24 @@
     },
   ]
 
-  export let date = new Date() as Date | Date[]
-  export let label = date.toString()
-  export let minDate = undefined as undefined | Date
+  export let date = [new Date(), new Date()]
+  export let label = date[0].toLocaleDateString()
   export let maxDate: Date = new Date()
-  export let onDateSelect: (date: Date | Date[]) => void
+  export let onDateSelect: (date: Date[]) => void
 </script>
 
-<Calendar {...$$restProps} {minDate} {maxDate} {onDateSelect} range bind:date let:trigger>
-  <slot {trigger}>
-    <button use:trigger class="btn-2 btn--s row v-center">
+<Calendar
+  {...$$restProps}
+  {date}
+  {maxDate}
+  {onDateSelect}
+  range
+  let:trigger
+  let:isOpened
+  let:classes
+>
+  <slot {trigger} {isOpened} {classes}>
+    <button use:trigger class="{classes} btn--s">
       {label}
       <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>
