@@ -1,33 +1,37 @@
 import { SvelteComponentTyped } from "svelte";
 import AirDatepicker from 'air-datepicker';
 import 'air-datepicker/air-datepicker.css';
-declare const __propDef: {
-    props: {
-        date?: Date | Date[] | undefined;
-        label?: string | undefined;
+declare class __sveltets_Render<T extends boolean> {
+    props(): {
+        [x: string]: any;
+        class?: string | undefined;
+        range?: T | undefined;
+        date?: (T extends true ? Date[] : Date) | undefined;
+        label?: any;
         maxDate?: Date | undefined;
         minDate?: Date | undefined;
-        range?: boolean | undefined;
-        onDateSelect: (date: Date | Date[]) => void;
+        onDateSelect: (date: any) => void;
     };
-    events: {
+    events(): {} & {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {
+    slots(): {
         default: {
             trigger: (node: HTMLElement) => {
                 destroy(): void;
             };
+            isOpened: boolean;
+            classes: any;
         };
         tooltip: {
             slot: string;
             calendar: AirDatepicker<any> | null;
         };
     };
-};
-export type CalendarProps = typeof __propDef.props;
-export type CalendarEvents = typeof __propDef.events;
-export type CalendarSlots = typeof __propDef.slots;
-export default class Calendar extends SvelteComponentTyped<CalendarProps, CalendarEvents, CalendarSlots> {
+}
+export type CalendarProps<T extends boolean> = ReturnType<__sveltets_Render<T>['props']>;
+export type CalendarEvents<T extends boolean> = ReturnType<__sveltets_Render<T>['events']>;
+export type CalendarSlots<T extends boolean> = ReturnType<__sveltets_Render<T>['slots']>;
+export default class Calendar<T extends boolean> extends SvelteComponentTyped<CalendarProps<T>, CalendarEvents<T>, CalendarSlots<T>> {
 }
 export {};

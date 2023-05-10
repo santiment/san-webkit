@@ -22,15 +22,23 @@ const PRESETS = [{
   title: 'All time',
   presetDate: [new Date(2009, 0, 1), new Date()]
 }];
-export let date = new Date();
-export let label = date.toString();
-export let minDate = undefined;
+export let date = [new Date(), new Date()];
+export let label = date[0].toLocaleDateString();
 export let maxDate = new Date();
 export let onDateSelect;</script>
 
-<Calendar {...$$restProps} {minDate} {maxDate} {onDateSelect} range bind:date let:trigger>
-  <slot {trigger}>
-    <button use:trigger class="btn-2 btn--s row v-center">
+<Calendar
+  {...$$restProps}
+  {date}
+  {maxDate}
+  {onDateSelect}
+  range
+  let:trigger
+  let:isOpened
+  let:classes
+>
+  <slot {trigger} {isOpened} {classes}>
+    <button use:trigger class="{classes} btn--s">
       {label}
       <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>

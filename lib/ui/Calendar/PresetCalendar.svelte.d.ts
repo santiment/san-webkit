@@ -2,11 +2,10 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         [x: string]: any;
-        date?: Date | Date[] | undefined;
+        date?: Date[] | undefined;
         label?: string | undefined;
-        minDate?: Date | undefined;
         maxDate?: Date | undefined;
-        onDateSelect: (date: Date | Date[]) => void;
+        onDateSelect: (date: Date[]) => void;
     };
     events: {
         [evt: string]: CustomEvent<any>;
@@ -16,6 +15,8 @@ declare const __propDef: {
             trigger: (node: HTMLElement) => {
                 destroy(): void;
             };
+            isOpened: boolean;
+            classes: any;
         };
     };
 };
