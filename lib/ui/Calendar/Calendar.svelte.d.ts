@@ -1,5 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
-import AirDatepicker from 'air-datepicker';
+import AirDatepicker from 'air-datepicker/air-datepicker';
 import 'air-datepicker/air-datepicker.css';
 declare class __sveltets_Render<T extends boolean> {
     props(): {
