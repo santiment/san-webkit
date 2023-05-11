@@ -30,3 +30,4 @@ export declare const getUI$Ctx: () => {
         } | undefined) => void) | undefined): import("svelte/store").Unsubscriber;
     };
 };
+export declare const ui$: import("svelte/store").Writable<{}>;
