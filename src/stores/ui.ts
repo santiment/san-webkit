@@ -1,3 +1,4 @@
+import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { mutate } from '@/api'
 import { getSavedJson, saveJson } from '@/utils/localStorage'
@@ -11,35 +12,44 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
   }
 `
 
-let store = { nightMode: false }
+const CTX = 'UI$$'
 
-if (process.browser) {
-  const { currentUser, theme } = getSessionValue()
+export function UI$$() {
+  let store = { isNightMode: false }
+  const ui$ = writable(store)
 
-  if (currentUser) {
-    store.nightMode = theme === 'night-mode' || theme === 'nightmode'
-  } else {
-    const saved = getSavedJson('ui', store) as typeof store
-    if (typeof saved.nightMode === 'boolean') store = saved
-    else saveJson('ui', store)
-  }
-
-  document.body.classList.toggle('night-mode', store.nightMode || false)
-}
-
-const { subscribe, set } = writable(store)
-export const ui$ = {
-  subscribe,
-  toggleNightMode() {
-    const { currentUser } = getSessionValue()
-    store.nightMode = document.body.classList.toggle('night-mode')
+  if (process.browser) {
+    const { currentUser, theme } = getSessionValue()
 
     if (currentUser) {
-      mutate(TOGGLE_THEME_MUTATION(store.nightMode)).catch(console.error)
+      store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
+    } else {
+      const saved = getSavedJson('ui', store) as typeof store
+
+      if (typeof saved.isNightMode === 'boolean') store = saved
+      else saveJson('ui', store)
     }
 
-    saveJson('ui', store)
+    document.body.classList.toggle('night-mode', store.isNightMode || false)
+  }
 
-    set(store)
-  },
+  return setContext(CTX, {
+    ui$: {
+      ...ui$,
+      toggleNightMode() {
+        const { currentUser } = getSessionValue()
+        store.isNightMode = document.body.classList.toggle('night-mode')
+
+        if (currentUser) {
+          mutate(TOGGLE_THEME_MUTATION(store.isNightMode)).catch(console.error)
+        }
+
+        saveJson('ui', store)
+
+        ui$.set(store)
+      },
+    },
+  })
 }
+
+export const getUI$Ctx = () => getContext<ReturnType<typeof UI$$>>(CTX)
