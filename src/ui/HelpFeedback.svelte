@@ -24,6 +24,10 @@
 
   span {
     padding: 12px 6px;
+  }
+
+  button,
+  span {
     writing-mode: vertical-lr;
   }
 
