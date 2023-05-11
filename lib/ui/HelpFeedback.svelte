@@ -6,7 +6,7 @@ export { className as class };</script>
 
 <button class="btn {className}" on:click>
   <span class="row v-center">
-    <Svg id="chat" w="14" h="16" class="chat-i_FmB9 mrg-s mrg--b" />
+    <Svg id="chat" w="14" h="16" class="chat-5i9vfw mrg-s mrg--b" />
     Help & Feedback
   </span>
 </button>
@@ -19,10 +19,14 @@ export { className as class };</script>
 
   span {
     padding: 12px 6px;
+  }
+
+  button,
+  span {
     writing-mode: vertical-lr;
   }
 
-  :global(.chat-i_FmB9) {
+  :global(.chat-5i9vfw) {
     transform: rotate(90deg);
   }
 </style>

@@ -3,7 +3,6 @@ import type { CustomerData } from './../../stores/user';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
 declare const __propDef: {
     props: {
-        ui: any;
         currentUser: any;
         onLogoutClick: any;
         isOpened?: boolean | undefined;

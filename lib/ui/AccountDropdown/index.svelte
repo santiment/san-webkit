@@ -1,6 +1,7 @@
 <script>import { SANBASE_ORIGIN } from './../../utils/links';
 import { getUserSubscriptionInfo } from './../../utils/subscription';
 import { trackLogout } from './../../analytics/events/general';
+import { getUI$Ctx } from './../../stores/ui';
 import Toggle from './../../ui/Toggle.svelte';
 import Tooltip from './../../ui/Tooltip';
 import Svg from './../../ui/Svg/svelte';
@@ -8,7 +9,6 @@ import Pic from './../../ui/Profile/Pic.svelte';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
 import UserInfo from './UserInfo.svelte';
 import VersionInfo from './VersionInfo.svelte';
-export let ui;
 export let currentUser;
 export let onLogoutClick;
 export let isOpened = false;
@@ -19,6 +19,9 @@ export let customerData = {};
 export let isAppUpdateAvailable = false;
 export let version = '1.0.0';
 export let isShowingFollowers = true;
+const {
+  ui$
+} = getUI$Ctx();
 
 function onLogout() {
   isOpened = false;
@@ -94,9 +97,9 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
         </a>
       {/if}
 
-      <button class="btn-ghost row justify v-center" on:click={ui.toggleNightMode}>
+      <button class="btn-ghost row justify v-center" on:click={ui$.toggleNightMode}>
         Night mode
-        <Toggle isActive={$ui.nightMode} />
+        <Toggle isActive={$ui$.isNightMode} />
       </button>
 
       <a
