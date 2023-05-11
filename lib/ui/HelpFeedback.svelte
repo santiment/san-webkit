@@ -4,19 +4,25 @@
 let className = '';
 export { className as class };</script>
 
-<button class="btn row v-center {className}" on:click>
-  <Svg id="chat" w="14" h="16" class="chat-jwco8T mrg-s mrg--b" />
-  Help & Feedback
+<button class="btn {className}" on:click>
+  <span class="row v-center">
+    <Svg id="chat" w="14" h="16" class="chat-i_FmB9 mrg-s mrg--b" />
+    Help & Feedback
+  </span>
 </button>
 
 <style>
   button {
     --color: #fff;
-    writing-mode: vertical-lr;
-    padding: 12px 6px;
     z-index: 1;
   }
-  :global(.chat-jwco8T) {
+
+  span {
+    padding: 12px 6px;
+    writing-mode: vertical-lr;
+  }
+
+  :global(.chat-i_FmB9) {
     transform: rotate(90deg);
   }
 </style>
