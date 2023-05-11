@@ -53,3 +53,6 @@ export function UI$$() {
 }
 
 export const getUI$Ctx = () => getContext<ReturnType<typeof UI$$>>(CTX)
+
+// NOTE: For old imports compatibility [@vanguard | 11 May, 2023]
+export const ui$ = writable({})
