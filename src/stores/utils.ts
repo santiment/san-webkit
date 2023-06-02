@@ -17,7 +17,7 @@ export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: 
     fetched: false,
     set,
     subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
-      if (!this.fetched) this.query()
+      if (process.browser && !this.fetched) this.query()
       return subscribe(run, invalidate)
     },
     clear() {
@@ -25,6 +25,8 @@ export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: 
       this.fetched = false
     },
     query(): Promise<T> {
+      if (process.browser) return Promise.reject('Can not fetch during SSR')
+
       this.fetched = true
       return query()
         .then(set)
