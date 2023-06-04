@@ -18,9 +18,9 @@
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import { track } from '@/analytics'
   import { PlanName } from '@/utils/plans'
-  import { customerData$ } from '@/stores/user'
   import { subscription$ } from '@/stores/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { trackPaymentFormClosed, trackPaymentFormOpened } from '@/analytics/events/payment'
   import Banner from './Banner.svelte'
   import PayerInfo from './PayerInfo.svelte'
@@ -40,6 +40,8 @@
   export let onPaymentError
   export let source: string
   export let planData
+
+  const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
   let plans = [] as SAN.Plan[]
@@ -64,11 +66,7 @@
   $: subscription = $subscription$
   $: isNotCanceled = !subscription?.cancelAtPeriodEnd
   // TODO: make customer data accesible via context
-  $: ({
-    sanBalance,
-    isEligibleForTrial,
-    annualDiscount = {} as SAN.AnnualDiscount,
-  } = $customerData$)
+  $: ({ sanBalance, isEligibleForTrial, annualDiscount = {} as SAN.AnnualDiscount } = $customer$)
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
 
@@ -101,6 +99,7 @@
     const data = getPaymentFormData(formNode)
 
     buyPlan(
+      customer$,
       plan,
       $stripe as stripe.Stripe,
       StripeCard,

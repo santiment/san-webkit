@@ -7,6 +7,7 @@ declare namespace SAN {
   }
 
   type Customer = import('../stores/customer').CustomerType
+  type Customer$Type = import('../stores/customer').Customer$Type
 
   type CurrentUser = {
     id: number

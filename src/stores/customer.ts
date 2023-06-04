@@ -23,6 +23,7 @@ export type CustomerType = {
   planName: string
   subscription: undefined | null | SAN.Subscription
   subscriptions: any[]
+  isCanceled: boolean
 }
 
 export const DEFAULT = {
@@ -38,6 +39,7 @@ export const DEFAULT = {
   trialDaysLeft: 0,
   subscription: null,
   subscriptions: [],
+  isCanceled: false,
 } as CustomerType
 
 export const CUSTOMER_QUERY = `{
@@ -80,7 +82,7 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
     }
   }
 
-  const { trialEnd, plan, status } = subscription
+  const { trialEnd, plan, status, cancelAtPeriodEnd } = subscription
   const planName = plan.name
   const trialDaysLeft = trialEnd ? calculateTrialDaysLeft(trialEnd) : 0
   const isProPlus = planName === Plan.PRO_PLUS
@@ -92,6 +94,7 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
     planName: PlanName[planName] || planName,
+    isCanceled: !!cancelAtPeriodEnd,
   }
 }
 
@@ -102,6 +105,8 @@ export const queryCustomer = Universal(
         const subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
 
         return Object.assign(
+          {},
+          DEFAULT,
           {
             annualDiscount,
             isLoggedIn: !!currentUser,
@@ -135,3 +140,5 @@ export function Customer$$(defaultValue?: CustomerType) {
 }
 
 export const getCustomer$Ctx = () => getContext<ReturnType<typeof Customer$$>>(CTX)
+
+export type Customer$Type = ReturnType<typeof Customer$$>['customer$']

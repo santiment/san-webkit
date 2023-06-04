@@ -9,13 +9,15 @@
   import { onDestroy } from 'svelte'
   import Dialog from '@/ui/Dialog'
   import { querySanbasePlans } from '@/api/plans'
-  import { customerData$ } from '@/stores/user'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { subscription$ } from '@/stores/subscription'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
   import BillingToggle from '@/ui/Pricing/Page/BillingToggle.svelte'
   import Plans from '@/ui/Pricing/Page/Plans.svelte'
   import { PLAN_BUTTON_CLICKED } from '../utils'
+
+  const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
   let billing = Billing.MONTH
@@ -24,7 +26,7 @@
   $: billingPlans = (billing, plans.filter(billingFilter))
 
   $: subscription = $subscription$
-  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customer$)
 
   querySanbasePlans().then((data) => {
     plans = data.filter(onlyProLikePlans)
