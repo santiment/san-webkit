@@ -130,7 +130,12 @@ export function Customer$$(defaultValue?: CustomerType) {
     )
   }
 
-  const store = QueryStore<CustomerType>(Object.assign({}, DEFAULT, defaultValue), fetch, '')
+  const store = QueryStore<CustomerType>(
+    Object.assign({}, DEFAULT, defaultValue),
+    fetch,
+    '',
+    DEFAULT,
+  )
   store.clear = function () {
     Cache.delete(CUSTOMER_QUERY)
     Cache.delete(BALANCE_QUERY)

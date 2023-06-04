@@ -8,12 +8,17 @@ if (typeof window !== 'undefined') {
 export const getSessionValue = () => window.__SESSION__
 export const setSessionValue = (value) => Object.assign(getSessionValue(), value)
 
-export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: string) {
+export function QueryStore<T>(
+  defaultValue: T,
+  query: () => Promise<T>,
+  schema: string,
+  DEFAULT = defaultValue,
+) {
   const { subscribe, set: _set } = writable<T>(defaultValue)
 
   const set = (value: T) => (_set(value), value)
   return {
-    DEFAULT: defaultValue,
+    DEFAULT,
     fetched: false,
     set,
     subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
