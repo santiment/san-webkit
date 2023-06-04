@@ -1,7 +1,6 @@
 <script lang="ts">
   import { SANBASE_ORIGIN } from '@/utils/links'
   import { getCustomer$Ctx } from '@/stores/customer'
-  import { normalizeAnnualDiscount } from '@/utils/subscription'
   import ProfileNames from '@/ui/Profile/Names.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
@@ -22,8 +21,7 @@
     : `${SANBASE_ORIGIN}/pricing`
 
   function getButtonLabel(customer: SAN.Customer, variant) {
-    const { subscription, isEligibleForTrial, trialDaysLeft, planName } = customer
-    const annualDiscount = normalizeAnnualDiscount(customer.annualDiscount)
+    const { subscription, isEligibleForTrial, trialDaysLeft, planName, annualDiscount } = customer
 
     const isTrialPassedwithActivePlan = subscription && !isEligibleForTrial
 
@@ -38,8 +36,7 @@
   }
 
   function getNoteText(customer: SAN.Customer, variant) {
-    const { isEligibleForTrial, trialDaysLeft } = customer
-    const annualDiscount = normalizeAnnualDiscount(customer.annualDiscount)
+    const { isEligibleForTrial, trialDaysLeft, annualDiscount } = customer
 
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
 

@@ -5,6 +5,7 @@ import {
   calculateTrialDaysLeft,
   checkIsIncompleteSubscription,
   getSanbaseSubscription,
+  normalizeAnnualDiscount,
   Status,
 } from '@/utils/subscription'
 import { Plan, PlanName } from '@/utils/plans'
@@ -14,7 +15,7 @@ export type CustomerType = {
   isLoggedIn: boolean
   sanBalance: number
   isEligibleForTrial: boolean
-  annualDiscount?: SAN.AnnualDiscount
+  annualDiscount: ReturnType<typeof normalizeAnnualDiscount>
   isIncompleteSubscription: boolean
   isPro: boolean
   isProPlus: boolean
@@ -30,7 +31,7 @@ export const DEFAULT = {
   isLoggedIn: false,
   sanBalance: 0,
   isEligibleForTrial: false,
-  annualDiscount: undefined,
+  annualDiscount: normalizeAnnualDiscount(null),
   isIncompleteSubscription: false,
   planName: '',
   isPro: false,
@@ -108,7 +109,7 @@ export const queryCustomer = Universal(
           {},
           DEFAULT,
           {
-            annualDiscount,
+            annualDiscount: normalizeAnnualDiscount(annualDiscount),
             isLoggedIn: !!currentUser,
             subscription,
           },
