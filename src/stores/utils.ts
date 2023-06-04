@@ -25,7 +25,7 @@ export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: 
       this.fetched = false
     },
     query(): Promise<T> {
-      if (process.browser) return Promise.reject('Can not fetch during SSR')
+      if (!process.browser) return Promise.reject('Can not fetch during SSR')
 
       this.fetched = true
       return query()
