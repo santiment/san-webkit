@@ -1,4 +1,8 @@
 export declare const ANNUAL_DISCOUT_FRAGMENT = "\n  annualDiscount:checkAnnualDiscountEligibility {\n    isEligible\n    discount {\n      percentOff\n      expireAt\n    }\n  }\n";
+export declare const accessor: ({ currentUser, annualDiscount }: {
+    currentUser: any;
+    annualDiscount: any;
+}) => any;
 export declare const queryCustomerData: () => Promise<any>;
 export type CustomerData = {
     isLoggedIn: boolean;

@@ -18,7 +18,7 @@ declare class __sveltets_Render<T extends boolean> {
     slots(): {
         default: {
             trigger: (node: HTMLElement) => {
-                destroy(): void;
+                destroy: () => void;
             };
             isOpened: boolean;
             classes: any;

@@ -21,7 +21,7 @@ export declare function getPaymentFormData(form: HTMLFormElement): FormData;
 export declare function createCardToken(stripe: stripe.Stripe, card: stripe.elements.Element, checkoutInfo: {
     [key: string]: any;
 }): Promise<stripe.Token>;
-export declare function buyPlan(plan: SAN.Plan, stripe: stripe.Stripe, card: stripe.elements.Element, form: {
+export declare function buyPlan(customer$: SAN.CustomerStore, plan: SAN.Plan, stripe: stripe.Stripe, card: stripe.elements.Element, form: {
     [key: string]: any;
 }, source: string, savedCard?: SAN.PaymentCard, hasSanTokensDiscount?: boolean): Promise<any>;
 export {};

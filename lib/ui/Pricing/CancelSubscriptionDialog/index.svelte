@@ -1,18 +1,23 @@
 <script>import Dialog from './../../../ui/Dialog';
 import Svg from './../../../ui/Svg/svelte';
 import { showIntercom } from './../../../analytics/intercom';
-import { subscription$ } from './../../../stores/subscription';
 import { Screen, startCancellationFlow } from './flow';
 import SuggestionsScreen from './SuggestionsScreen.svelte';
 import FeedbackScreen from './FeedbackScreen.svelte';
+import { getCustomer$Ctx } from './../../../stores/customer';
 let screen = Screen.Suggestions;
 let closeDialog;
 let reasons = new Set();
 let feedback = '';
 let loading = false;
 let error = false;
+const {
+  customer$
+} = getCustomer$Ctx();
 
-$: subscription = $subscription$;
+$: ({
+  subscription
+} = $customer$);
 
 $: isFeedbackScreen = screen === Screen.Feedback;
 
@@ -32,7 +37,7 @@ function onCancellationClick() {
   }
 
   loading = true;
-  startCancellationFlow(subscription, feedback, closeDialog).then(() => {
+  startCancellationFlow(customer$, subscription, feedback, closeDialog).then(() => {
     loading = false;
   });
 }

@@ -15,9 +15,8 @@ import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
 import './../../analytics';
 import { PlanName } from './../../utils/plans';
-import { customerData$ } from './../../stores/user';
-import { subscription$ } from './../../stores/subscription';
 import { paymentCard$ } from './../../stores/paymentCard';
+import { getCustomer$Ctx } from './../../stores/customer';
 import { trackPaymentFormClosed, trackPaymentFormOpened } from './../../analytics/events/payment';
 import Banner from './Banner.svelte';
 import PayerInfo from './PayerInfo.svelte';
@@ -36,6 +35,9 @@ export let onPaymentSuccess = () => {};
 export let onPaymentError;
 export let source;
 export let planData;
+const {
+  customer$
+} = getCustomer$Ctx();
 let closeDialog;
 let plans = [];
 let plan = {};
@@ -59,7 +61,11 @@ if (process.browser) {
   getPlans();
 }
 
-$: subscription = $subscription$;
+$: customer = $customer$;
+
+$: ({
+  subscription
+} = customer);
 
 $: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd); // TODO: make customer data accesible via context
 
@@ -68,7 +74,7 @@ $: ({
   sanBalance,
   isEligibleForTrial,
   annualDiscount = {}
-} = $customerData$);
+} = $customer$);
 
 $: name = PlanName[plan.name] || plan.name;
 
@@ -102,7 +108,7 @@ function onSubmit() {
   loading = true;
   DialogPromise.locking = DialogLock.LOCKED;
   const data = getPaymentFormData(formNode);
-  buyPlan(plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance)).then(data => {
+  buyPlan(customer$, plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance)).then(data => {
     closeDialog();
     onPaymentSuccess(data, source);
   }).catch(onPaymentError).finally(() => {

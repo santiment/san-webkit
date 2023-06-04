@@ -3,13 +3,10 @@ export declare enum AccountStatusType {
     First = 0,
     Second = 1
 }
-import type { CustomerData } from './../stores/user';
 declare const __propDef: {
     props: {
         currentUser: any;
         variant?: AccountStatusType.First | undefined;
-        subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>;
-        customerData?: Pick<CustomerData, "annualDiscount" | "isEligibleForTrial"> | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

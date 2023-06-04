@@ -5,8 +5,8 @@ import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
 import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
 import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
-import { customerData$ } from './../../../stores/user';
 import { querySanbasePlans } from './../../../api/plans';
+import { getCustomer$Ctx } from './../../../stores/customer';
 import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
 import Setting from './Setting.svelte';
 import PlanCard from './SubscriptionCard/PlanCard.svelte';
@@ -19,6 +19,9 @@ let className = '';
 export { className as class };
 export let subscription;
 export let paymentCard;
+const {
+  customer$
+} = getCustomer$Ctx();
 let isBillingLoading = true;
 let billingHistory = [];
 let plans = [];
@@ -36,7 +39,7 @@ $: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === nu
 $: ({
   isEligibleForTrial,
   annualDiscount
-} = $customerData$);
+} = $customer$);
 
 $: suggestions = getSuggestions(plan, annualDiscount);
 

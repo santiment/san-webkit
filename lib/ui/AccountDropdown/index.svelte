@@ -1,7 +1,7 @@
 <script>import { SANBASE_ORIGIN } from './../../utils/links';
-import { getUserSubscriptionInfo } from './../../utils/subscription';
 import { trackLogout } from './../../analytics/events/general';
 import { getUI$Ctx } from './../../stores/ui';
+import { getCustomer$Ctx } from './../../stores/customer';
 import Toggle from './../../ui/Toggle.svelte';
 import Tooltip from './../../ui/Tooltip';
 import Svg from './../../ui/Svg/svelte';
@@ -14,14 +14,15 @@ export let onLogoutClick;
 export let isOpened = false;
 export let tooltipClass = '';
 export let variant = AccountStatusType.First;
-export let subscription;
-export let customerData = {};
 export let isAppUpdateAvailable = false;
 export let version = '1.0.0';
 export let isShowingFollowers = true;
 const {
   ui$
 } = getUI$Ctx();
+const {
+  customer$
+} = getCustomer$Ctx();
 
 function onLogout() {
   isOpened = false;
@@ -29,9 +30,11 @@ function onLogout() {
   onLogoutClick();
 }
 
-$: subscriptionInfo = getUserSubscriptionInfo(customerData, subscription);
+$: customer = $customer$;
 
-$: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0;</script>
+$: ({
+  isPro
+} = customer);</script>
 
 <Tooltip
   duration={130}
@@ -53,7 +56,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
-      <UserInfo user={currentUser} {subscriptionInfo} {variant} {isShowingFollowers} />
+      <UserInfo user={currentUser} {variant} {isShowingFollowers} />
 
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />

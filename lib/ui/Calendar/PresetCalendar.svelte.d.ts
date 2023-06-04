@@ -13,7 +13,7 @@ declare const __propDef: {
     slots: {
         default: {
             trigger: (node: HTMLElement) => {
-                destroy(): void;
+                destroy: () => void;
             };
             isOpened: boolean;
             classes: any;

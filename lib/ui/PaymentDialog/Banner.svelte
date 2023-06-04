@@ -1,15 +1,18 @@
 <script>import { showIntercom } from './../../analytics/intercom';
-import { subscription$ } from './../../stores/subscription';
+import { getCustomer$Ctx } from './../../stores/customer';
 import { getDateFormats } from './../../utils/dates';
-import { calculateTrialDaysLeft, getNextPaymentDate } from './../../utils/subscription';
+import { getNextPaymentDate } from './../../utils/subscription';
 export let plan;
 export let name;
 export let price;
 export let isEligibleForTrial = true;
+const {
+  customer$
+} = getCustomer$Ctx();
 
-$: subscription = $subscription$;
-
-$: trialDaysLeft = (subscription === null || subscription === void 0 ? void 0 : subscription.trialEnd) ? calculateTrialDaysLeft(subscription.trialEnd) : 0;
+$: ({
+  trialDaysLeft
+} = $customer$);
 
 function formatDate(date) {
   const {

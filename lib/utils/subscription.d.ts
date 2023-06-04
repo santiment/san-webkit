@@ -19,4 +19,10 @@ export declare function getUserSubscriptionInfo(customerData: Pick<CustomerData,
     userPlanName: any;
     trialDaysLeft: number;
 };
+export declare function normalizeAnnualDiscount(annualDiscount: undefined | null | SAN.AnnualDiscount): {
+    isEligible: boolean;
+    expireAt: string | undefined;
+    percent: number | false | undefined;
+    daysLeft: number;
+};
 export declare function getNextPaymentDate(plan: SAN.Plan): Date;

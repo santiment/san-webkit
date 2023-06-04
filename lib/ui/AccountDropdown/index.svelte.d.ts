@@ -1,5 +1,4 @@
 import { SvelteComponentTyped } from "svelte";
-import type { CustomerData } from './../../stores/user';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
 declare const __propDef: {
     props: {
@@ -8,8 +7,6 @@ declare const __propDef: {
         isOpened?: boolean | undefined;
         tooltipClass?: string | undefined;
         variant?: AccountStatusType.First | undefined;
-        subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>;
-        customerData?: Pick<CustomerData, "annualDiscount" | "isEligibleForTrial"> | undefined;
         isAppUpdateAvailable?: boolean | undefined;
         version?: string | undefined;
         isShowingFollowers?: boolean | undefined;

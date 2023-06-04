@@ -5,26 +5,27 @@ export const showPlanSummaryDialog = () => dialogs.show(PlansSummaryDialog);</sc
 <script>import { onDestroy } from 'svelte';
 import Dialog from './../../../ui/Dialog';
 import { querySanbasePlans } from './../../../api/plans';
-import { customerData$ } from './../../../stores/user';
-import { subscription$ } from './../../../stores/subscription';
+import { getCustomer$Ctx } from './../../../stores/customer';
 import { Billing, onlyProLikePlans } from './../../../utils/plans';
 import SpecialOfferBanner from './../../../ui/Pricing/Page/SpecialOfferBanner.svelte';
 import BillingToggle from './../../../ui/Pricing/Page/BillingToggle.svelte';
 import Plans from './../../../ui/Pricing/Page/Plans.svelte';
 import { PLAN_BUTTON_CLICKED } from '../utils';
+const {
+  customer$
+} = getCustomer$Ctx();
 let closeDialog;
 let billing = Billing.MONTH;
 let plans = [];
 
 $: billingPlans = (billing, plans.filter(billingFilter));
 
-$: subscription = $subscription$;
-
 $: ({
   isLoggedIn,
   isEligibleForTrial,
-  annualDiscount
-} = $customerData$);
+  annualDiscount,
+  subscription
+} = $customer$);
 
 querySanbasePlans().then(data => {
   plans = data.filter(onlyProLikePlans);

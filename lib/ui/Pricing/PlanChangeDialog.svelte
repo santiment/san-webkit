@@ -5,7 +5,7 @@ export const showPlanChangeDialog = props => dialogs.show(PlanChangeDialog, prop
 <script>import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
 import Svg from './../../ui/Svg/svelte';
-import { subscription$ } from './../../stores/subscription';
+import { getCustomer$Ctx } from './../../stores/customer';
 import { Billing, formatPrice, PlanName } from './../../utils/plans';
 import { getDateFormats } from './../../utils/dates';
 import { mutateUpdateSubscription } from './../../api/subscription';
@@ -15,7 +15,10 @@ export let plan;
 export let isUpgrade = false;
 let closeDialog;
 let loading = false;
-const subscription = $subscription$;
+const {
+  customer$
+} = getCustomer$Ctx();
+const subscription = $customer$.subscription;
 const newName = PlanName[plan.name] || plan.name;
 const isNewBillingMonthly = plan.interval === Billing.MONTH;
 const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual';
@@ -37,7 +40,7 @@ function formatDate() {
 function onClick() {
   loading = true;
   mutateUpdateSubscription(subscription.id, plan.id).then(data => {
-    onPlanChangeSuccess(newName);
+    onPlanChangeSuccess(customer$, newName);
     closeDialog();
     return data;
   }).catch(onPlanChangeError).finally(() => {

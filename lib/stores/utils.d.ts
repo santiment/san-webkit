@@ -1,6 +1,6 @@
 export declare const getSessionValue: () => any;
 export declare const setSessionValue: (value: any) => any;
-export declare function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: string): {
+export declare function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: string, DEFAULT?: T): {
     DEFAULT: T;
     fetched: boolean;
     set: (value: T) => T;
