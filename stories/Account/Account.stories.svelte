@@ -1,10 +1,12 @@
 <script>
-  import { writable } from 'svelte/store'
   import { Meta, Story } from '@storybook/addon-svelte-csf'
   import AccountDropdown from '@/ui/AccountDropdown/index.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
+  import { UI$$ } from '@/stores/ui'
+  import { Customer$$ } from '@/stores/customer'
 
-  const ui = writable({})
+  UI$$()
+  Customer$$()
 
   const fiveDaysLater = new Date()
   fiveDaysLater.setDate(fiveDaysLater.getDate() + 5)
@@ -23,20 +25,19 @@
     <section>
       <div class="h4">Anonymous</div>
       <div class="row">
-        <AccountDropdown {ui} />
+        <AccountDropdown />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + New user. Free trial available</div>
       <div class="row">
-        <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: true }} />
+        <AccountDropdown {currentUser} customerData={{ isEligibleForTrial: true }} />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + User on free trial (Variant 1)</div>
       <div class="row">
         <AccountDropdown
-          {ui}
           {currentUser}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
           customerData={{ annualDiscount: { isEligible: true, discount: { percentOff: 50 } } }}
@@ -47,7 +48,6 @@
       <div class="h4">Logged in + User on free trial (Variant 2)</div>
       <div class="row">
         <AccountDropdown
-          {ui}
           {currentUser}
           variant={AccountStatusType.Second}
           subscription={{ plan: { name: 'PRO' }, trialEnd: fiveDaysLater }}
@@ -59,7 +59,6 @@
       <div class="h4">Logged in + Pro Plan. First month offer (Variant 1)</div>
       <div class="row">
         <AccountDropdown
-          {ui}
           {currentUser}
           subscription={{ plan: { name: 'PRO' } }}
           customerData={{
@@ -75,7 +74,6 @@
       <div class="h4">Logged in + Pro Plan. First month offer (Variant 2)</div>
       <div class="row">
         <AccountDropdown
-          {ui}
           {currentUser}
           subscription={{ plan: { name: 'PRO' } }}
           variant={AccountStatusType.Second}
@@ -91,13 +89,13 @@
     <section>
       <div class="h4">Logged in + Pro Plan</div>
       <div class="row">
-        <AccountDropdown {ui} {currentUser} subscription={{ plan: { name: 'PRO' } }} />
+        <AccountDropdown {currentUser} subscription={{ plan: { name: 'PRO' } }} />
       </div>
     </section>
     <section>
       <div class="h4">Logged in + Free Plan. Trial finished</div>
       <div class="row">
-        <AccountDropdown {ui} {currentUser} customerData={{ isEligibleForTrial: false }} />
+        <AccountDropdown {currentUser} customerData={{ isEligibleForTrial: false }} />
       </div>
     </section>
   </div>

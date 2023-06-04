@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { CustomerData } from '@/stores/user'
-
   import { SANBASE_ORIGIN } from '@/utils/links'
-  import { getUserSubscriptionInfo } from '@/utils/subscription'
   import { trackLogout } from '@/analytics/events/general'
   import { getUI$Ctx } from '@/stores/ui'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import Toggle from '@/ui/Toggle.svelte'
   import Tooltip from '@/ui/Tooltip'
   import Svg from '@/ui/Svg/svelte'
@@ -18,13 +16,12 @@
   export let isOpened = false
   export let tooltipClass = ''
   export let variant = AccountStatusType.First
-  export let subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd'>
-  export let customerData = {} as Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>
   export let isAppUpdateAvailable = false
   export let version: string = '1.0.0'
   export let isShowingFollowers = true
 
   const { ui$ } = getUI$Ctx()
+  const { customer$ } = getCustomer$Ctx()
 
   function onLogout() {
     isOpened = false
@@ -32,8 +29,8 @@
     onLogoutClick()
   }
 
-  $: subscriptionInfo = getUserSubscriptionInfo(customerData, subscription)
-  $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
+  $: customer = $customer$
+  $: ({ isPro } = customer)
 </script>
 
 <Tooltip
@@ -56,7 +53,7 @@
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
-      <UserInfo user={currentUser} {subscriptionInfo} {variant} {isShowingFollowers} />
+      <UserInfo user={currentUser} {variant} {isShowingFollowers} />
 
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />

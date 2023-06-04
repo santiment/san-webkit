@@ -7,7 +7,7 @@ import {
   getSanbaseSubscription,
   Status,
 } from '@/utils/subscription'
-import { Plan } from '@/utils/plans'
+import { Plan, PlanName } from '@/utils/plans'
 import { QueryStore } from './utils'
 
 export type CustomerType = {
@@ -20,6 +20,9 @@ export type CustomerType = {
   isProPlus: boolean
   isTrial: boolean
   trialDaysLeft: number
+  planName: string
+  subscription: undefined | null | SAN.Subscription
+  subscriptions: any[]
 }
 
 export const DEFAULT = {
@@ -28,10 +31,13 @@ export const DEFAULT = {
   isEligibleForTrial: false,
   annualDiscount: undefined,
   isIncompleteSubscription: false,
+  planName: '',
   isPro: false,
   isProPlus: false,
   isTrial: false,
   trialDaysLeft: 0,
+  subscription: null,
+  subscriptions: [],
 } as CustomerType
 
 export const CUSTOMER_QUERY = `{
@@ -75,15 +81,17 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
   }
 
   const { trialEnd, plan, status } = subscription
+  const planName = plan.name
   const trialDaysLeft = trialEnd ? calculateTrialDaysLeft(trialEnd) : 0
-  const isProPlus = plan.name === Plan.PRO_PLUS
+  const isProPlus = planName === Plan.PRO_PLUS
 
   return {
     isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
     isProPlus,
-    isPro: isProPlus || plan.name === Plan.PRO,
+    isPro: isProPlus || planName === Plan.PRO,
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
+    planName: PlanName[planName] || planName,
   }
 }
 
@@ -107,7 +115,7 @@ export const queryCustomer = Universal(
 )
 
 const CTX = 'Customer$$'
-export function Customer$$(defaultValue: CustomerType) {
+export function Customer$$(defaultValue?: CustomerType) {
   function fetch() {
     return Promise.all([queryCustomer(), query<any>(BALANCE_QUERY)]).then(
       ([customerQuery, balanceQuery]) => {
@@ -116,7 +124,7 @@ export function Customer$$(defaultValue: CustomerType) {
     )
   }
 
-  const store = QueryStore(defaultValue, fetch, '')
+  const store = QueryStore<CustomerType>(Object.assign({}, DEFAULT, defaultValue), fetch, '')
   store.clear = function () {
     Cache.delete(CUSTOMER_QUERY)
     Cache.delete(BALANCE_QUERY)
