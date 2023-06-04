@@ -3,7 +3,6 @@ import { trackTwitterPurchaseEvent, TwitterTrackActions } from '@/analytics/twit
 import { mutateSubscribe } from '@/api/plans'
 import { PlanName } from '@/utils/plans'
 import { notifications$ } from '@/ui/Notifications'
-import { subscription$ } from '@/stores/subscription'
 import { paymentCard$ } from '@/stores/paymentCard'
 import {
   trackPaymentFail,
@@ -87,7 +86,7 @@ export function createCardToken(
 }
 
 export function buyPlan(
-  customer$: SAN.Customer$Type,
+  customer$: SAN.CustomerStore,
   plan: SAN.Plan,
   stripe: stripe.Stripe,
   card: stripe.elements.Element,
@@ -109,7 +108,7 @@ export function buyPlan(
     .catch((data) => onPaymentError(data, source))
 }
 
-function onPaymentSuccess(data, source, customer$: SAN.Customer$Type) {
+function onPaymentSuccess(data, source, customer$: SAN.CustomerStore) {
   const { plan } = data
   const { name, amount } = plan
   const title = PlanName[name] || name
@@ -133,7 +132,6 @@ function onPaymentSuccess(data, source, customer$: SAN.Customer$Type) {
     type: 'success',
     title: `You have successfully upgraded to the "${title}" plan!`,
   })
-  subscription$.refetch()
   customer$.refetch()
   paymentCard$.refetch()
   return Promise.resolve(data)

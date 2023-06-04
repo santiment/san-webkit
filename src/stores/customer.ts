@@ -22,7 +22,7 @@ export type CustomerType = {
   trialDaysLeft: number
   planName: string
   subscription: undefined | null | SAN.Subscription
-  subscriptions: any[]
+  subscriptions: SAN.Subscription[]
   isCanceled: boolean
 }
 

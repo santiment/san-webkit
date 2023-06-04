@@ -18,7 +18,6 @@
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import { track } from '@/analytics'
   import { PlanName } from '@/utils/plans'
-  import { subscription$ } from '@/stores/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { trackPaymentFormClosed, trackPaymentFormOpened } from '@/analytics/events/payment'
@@ -63,7 +62,8 @@
     getPlans()
   }
 
-  $: subscription = $subscription$
+  $: customer = $customer$
+  $: ({ subscription } = customer)
   $: isNotCanceled = !subscription?.cancelAtPeriodEnd
   // TODO: make customer data accesible via context
   $: ({ sanBalance, isEligibleForTrial, annualDiscount = {} as SAN.AnnualDiscount } = $customer$)

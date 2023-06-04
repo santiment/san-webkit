@@ -10,7 +10,6 @@
   import Dialog from '@/ui/Dialog'
   import { querySanbasePlans } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
-  import { subscription$ } from '@/stores/subscription'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
   import BillingToggle from '@/ui/Pricing/Page/BillingToggle.svelte'
@@ -25,8 +24,7 @@
   let plans = []
   $: billingPlans = (billing, plans.filter(billingFilter))
 
-  $: subscription = $subscription$
-  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customer$)
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = $customer$)
 
   querySanbasePlans().then((data) => {
     plans = data.filter(onlyProLikePlans)
