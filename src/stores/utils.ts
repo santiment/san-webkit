@@ -8,16 +8,21 @@ if (typeof window !== 'undefined') {
 export const getSessionValue = () => window.__SESSION__
 export const setSessionValue = (value) => Object.assign(getSessionValue(), value)
 
-export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: string) {
+export function QueryStore<T>(
+  defaultValue: T,
+  query: () => Promise<T>,
+  schema: string,
+  DEFAULT = defaultValue,
+) {
   const { subscribe, set: _set } = writable<T>(defaultValue)
 
   const set = (value: T) => (_set(value), value)
   return {
-    DEFAULT: defaultValue,
+    DEFAULT,
     fetched: false,
     set,
     subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
-      if (!this.fetched) this.query()
+      if (process.browser && !this.fetched) this.query()
       return subscribe(run, invalidate)
     },
     clear() {
@@ -25,6 +30,8 @@ export function QueryStore<T>(defaultValue: T, query: () => Promise<T>, schema: 
       this.fetched = false
     },
     query(): Promise<T> {
+      if (!process.browser) return Promise.reject('Can not fetch during SSR')
+
       this.fetched = true
       return query()
         .then(set)

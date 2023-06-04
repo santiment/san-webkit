@@ -61,6 +61,19 @@ export function getUserSubscriptionInfo(
   }
 }
 
+export function normalizeAnnualDiscount(annualDiscount: undefined | null | SAN.AnnualDiscount) {
+  const { isEligible = false, discount } = annualDiscount || {}
+  const expireAt = discount?.expireAt
+  const discountExpireAt = isEligible && expireAt
+
+  return {
+    isEligible,
+    expireAt,
+    percent: isEligible && discount?.percentOff,
+    daysLeft: discountExpireAt ? calculateTrialDaysLeft(discountExpireAt) : 0,
+  }
+}
+
 export function getNextPaymentDate(plan: SAN.Plan) {
   const target = checkIsYearlyPlan(plan) ? 'FullYear' : 'Month'
 

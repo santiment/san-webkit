@@ -1,16 +1,17 @@
 <script lang="ts">
   import { showIntercom } from '@/analytics/intercom'
-  import { subscription$ } from '@/stores/subscription'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { getDateFormats } from '@/utils/dates'
-  import { calculateTrialDaysLeft, getNextPaymentDate } from '@/utils/subscription'
+  import { getNextPaymentDate } from '@/utils/subscription'
 
   export let plan: SAN.Plan
   export let name: string
   export let price: string
   export let isEligibleForTrial: boolean = true
 
-  $: subscription = $subscription$
-  $: trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
+  const { customer$ } = getCustomer$Ctx()
+
+  $: ({ trialDaysLeft } = $customer$)
 
   function formatDate(date) {
     const { DD, MM, YY } = getDateFormats(date)

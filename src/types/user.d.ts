@@ -6,6 +6,9 @@ declare namespace SAN {
     avatarUrl?: string | null
   }
 
+  type Customer = import('../stores/customer').CustomerType
+  type CustomerStore = import('../stores/customer').Customer$Type
+
   type CurrentUser = {
     id: number
   }

@@ -4,8 +4,8 @@
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
-  import { customerData$ } from '@/stores/user'
   import { querySanbasePlans } from '@/api/plans'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from '@/utils/plans'
   import Setting from './Setting.svelte'
   import PlanCard from './SubscriptionCard/PlanCard.svelte'
@@ -20,6 +20,8 @@
   export let subscription: SAN.Subscription | undefined
   export let paymentCard: SAN.PaymentCard | undefined
 
+  const { customer$ } = getCustomer$Ctx()
+
   let isBillingLoading = true
   let billingHistory = []
   let plans = [] as SAN.Plan[]
@@ -27,7 +29,7 @@
   $: isCanceled = !!subscription?.cancelAtPeriodEnd
   $: plan = subscription?.plan || { name: Plan.FREE, amount: 0, interval: Billing.MONTH }
   $: isFree = plan?.name?.toUpperCase() === Plan.FREE
-  $: ({ isEligibleForTrial, annualDiscount } = $customerData$)
+  $: ({ isEligibleForTrial, annualDiscount } = $customer$)
   $: suggestions = getSuggestions(plan, annualDiscount)
   $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
 

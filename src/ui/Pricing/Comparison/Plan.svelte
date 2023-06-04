@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { subscription$ } from '@/stores/subscription'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { formatMonthlyPrice, Plan, PlanName } from '@/utils/plans'
   import PlanButton from '../PlanButton.svelte'
 
@@ -8,6 +8,10 @@
   export let discount = 0
   export let isEligibleForTrial: boolean
   export let isLoggedIn = false
+
+  const { customer$ } = getCustomer$Ctx()
+
+  $: ({ subscription } = $customer$)
 
   $: ({ name } = plan)
   $: isFreePlan = name.includes(Plan.FREE)
@@ -31,7 +35,7 @@
     {isEligibleForTrial}
     {isLoggedIn}
     {isFreePlan}
-    subscription={$subscription$}
+    {subscription}
     class="mrg-m mrg--t"
     source="pricing-compare-table"
   />

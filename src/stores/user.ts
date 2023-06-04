@@ -20,7 +20,7 @@ const CUSTOMER_DATA_QUERY = `{
   ${ANNUAL_DISCOUT_FRAGMENT}
 }`
 
-const accessor = ({ currentUser, annualDiscount }) =>
+export const accessor = ({ currentUser, annualDiscount }) =>
   Object.assign({ annualDiscount, isLoggedIn: !!currentUser }, currentUser)
 export const queryCustomerData = () => query<any>(CUSTOMER_DATA_QUERY).then(accessor)
 

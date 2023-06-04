@@ -90,10 +90,7 @@
     trigger.addEventListener('mouseleave', startCloseTimer)
 
     return {
-      destroy() {
-        close()
-        stopCloseTimer()
-      },
+      destroy: close,
     }
   }
 
@@ -108,6 +105,12 @@
 
     close()
   }
+
+  function onClose() {
+    return {
+      destroy: close,
+    }
+  }
 </script>
 
 <slot trigger={attach} />
@@ -118,6 +121,7 @@
     class:dark
     bind:this={tooltip}
     {style}
+    use:onClose
     transition:fade={transition}
   >
     <slot name="tooltip" />

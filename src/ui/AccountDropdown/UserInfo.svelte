@@ -1,66 +1,65 @@
-<script>
+<script lang="ts">
   import { SANBASE_ORIGIN } from '@/utils/links'
+  import { getCustomer$Ctx } from '@/stores/customer'
   import ProfileNames from '@/ui/Profile/Names.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
 
   export let user
-  export let subscriptionInfo
   export let variant = AccountStatusType.First
   export let isShowingFollowers = true
 
-  function getButtonLabel(subscriptionInfo, variant) {
-    const {
-      subscriptionPlan,
-      isEligibleForTrial,
-      annualDiscountPercent,
-      trialDaysLeft,
-      userPlanName,
-    } = subscriptionInfo
+  const { customer$ } = getCustomer$Ctx()
 
-    const isTrialPassedwithActivePlan = subscriptionPlan && !isEligibleForTrial
+  $: customer = $customer$
+  $: ({ isPro } = customer)
 
-    if (variant === AccountStatusType.First && annualDiscountPercent > 0) {
-      if (trialDaysLeft > 0) return `Get ${annualDiscountPercent}% OFF`
-      if (isTrialPassedwithActivePlan) return `Get ${annualDiscountPercent}% OFF`
+  $: buttonLabel = getButtonLabel(customer, variant)
+  $: note = getNoteText(customer, variant)
+  $: sanbasePlan = getSanbasePlan(customer)
+  $: href = isPro
+    ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
+    : `${SANBASE_ORIGIN}/pricing`
+
+  function getButtonLabel(customer: SAN.Customer, variant) {
+    const { subscription, isEligibleForTrial, trialDaysLeft, planName, annualDiscount } = customer
+
+    const isTrialPassedwithActivePlan = subscription && !isEligibleForTrial
+
+    if (variant === AccountStatusType.First && annualDiscount.percent > 0) {
+      if (trialDaysLeft > 0) return `Get ${annualDiscount.percent}% OFF`
+      if (isTrialPassedwithActivePlan) return `Get ${annualDiscount.percent}% OFF`
     }
 
-    if (userPlanName) return 'Learn about Pro'
+    if (planName) return 'Learn about Pro'
 
     return 'Upgrade'
   }
 
-  function getNoteText(subscriptionInfo, variant) {
-    const { isEligibleForTrial, trialDaysLeft, annualDiscountDaysLeft } = subscriptionInfo
+  function getNoteText(customer: SAN.Customer, variant) {
+    const { isEligibleForTrial, trialDaysLeft, annualDiscount } = customer
 
     if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
 
     if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
 
-    if (variant === AccountStatusType.First && annualDiscountDaysLeft > 0) {
-      return `Special offer ends in: ${annualDiscountDaysLeft} days`
+    if (variant === AccountStatusType.First && annualDiscount.daysLeft > 0) {
+      return `Special offer ends in: ${annualDiscount.daysLeft} days`
     }
   }
 
-  function getSanbasePlan(subscriptionInfo) {
-    const { trialDaysLeft, userPlanName, isIncomplete } = subscriptionInfo
+  function getSanbasePlan(customer: SAN.Customer) {
+    const { trialDaysLeft, planName, isIncompleteSubscription } = customer
 
-    if (isIncomplete) {
-      if (userPlanName) return `Sanbase: ${userPlanName} plan (incomplete)`
+    if (isIncompleteSubscription) {
+      if (planName) return `Sanbase: ${planName} plan (incomplete)`
     }
 
     if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
 
-    if (userPlanName) return `Sanbase: ${userPlanName} plan`
+    if (planName) return `Sanbase: ${planName} plan`
 
     return 'Sanbase: free plan'
   }
-
-  $: buttonLabel = getButtonLabel(subscriptionInfo, variant)
-  $: note = getNoteText(subscriptionInfo, variant)
-  $: sanbasePlan = getSanbasePlan(subscriptionInfo)
-  $: href = subscriptionInfo.userPlanName
-    ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
-    : `${SANBASE_ORIGIN}/pricing`
 </script>
 
 <section>
@@ -71,9 +70,9 @@
 
   <div class="caption c-waterloo">
     <div class="mrg-s mrg--t">
-      {#if subscriptionInfo.userPlanName && !subscriptionInfo.trialDaysLeft}
-        SanAPI: Basic plan<br />
-      {/if}
+      <!-- {#if subscriptionInfo.userPlanName && !subscriptionInfo.trialDaysLeft} -->
+      <!--   SanAPI: Basic plan<br /> -->
+      <!-- {/if} -->
       {sanbasePlan}
     </div>
     <a

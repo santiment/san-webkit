@@ -1,6 +1,5 @@
 import { track } from '@/analytics'
 import { mutateCancelSubscription } from '@/api/subscription'
-import { subscription$ } from '@/stores/subscription'
 import { notifications$ } from '@/ui/Notifications'
 
 export const REASONS = [
@@ -22,6 +21,7 @@ export enum Event {
 
 const formatError = (msg) => msg.replace('GraphQL error: ', '')
 export function startCancellationFlow(
+  customer$: SAN.CustomerStore,
   subscription: SAN.Subscription,
   feedback: string,
   closeDialog,
@@ -33,7 +33,7 @@ export function startCancellationFlow(
   return mutateCancelSubscription(subscription.id)
     .then(() => {
       closeDialog()
-      subscription$.refetch()
+      customer$.refetch()
       notifications$.show({
         type: 'success',
         title: 'You have successfully canceled your subscription.',
