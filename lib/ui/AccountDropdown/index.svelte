@@ -2,8 +2,9 @@
 import { trackLogout } from './../../analytics/events/general';
 import { getUI$Ctx } from './../../stores/ui';
 import { getCustomer$Ctx } from './../../stores/customer';
-import Toggle from './../../ui/Toggle.svelte';
-import Tooltip from './../../ui/Tooltip';
+import Toggle from './../../ui/Toggle.svelte'; // import Tooltip from './../../ui/Tooltip'
+
+import Tooltip from './../../ui/Tooltip/svelte';
 import Svg from './../../ui/Svg/svelte';
 import Pic from './../../ui/Profile/Pic.svelte';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
@@ -36,16 +37,9 @@ $: ({
   isPro
 } = customer);</script>
 
-<Tooltip
-  duration={130}
-  position="bottom"
-  bind:isOpened
-  activeClass="active-_VrAxA"
-  class={tooltipClass}
-  let:trigger
->
+<Tooltip duration={130} bind:isOpened activeClass="active-_VrAxA" class={tooltipClass}>
   <a
-    use:trigger
+    slot="trigger"
     href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
     aria-label="Profile page"
     on:click={window.__onLinkClick}
