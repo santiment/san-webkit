@@ -9,7 +9,7 @@ import {
   Status,
 } from '@/utils/subscription'
 import { Plan, PlanName } from '@/utils/plans'
-import { QueryStore } from './utils'
+import { QueryStore, setSessionValue } from './utils'
 
 export type CustomerType = {
   isLoggedIn: boolean
@@ -125,7 +125,9 @@ export function Customer$$(defaultValue?: CustomerType) {
   function fetch() {
     return Promise.all([queryCustomer(), query<any>(BALANCE_QUERY)]).then(
       ([customerQuery, balanceQuery]) => {
-        return Object.assign(customerQuery, balanceQuery.currentUser)
+        const customer = Object.assign(customerQuery, balanceQuery.currentUser)
+        if (process.browser) setSessionValue({ customer })
+        return customer
       },
     )
   }
