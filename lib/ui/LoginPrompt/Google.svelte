@@ -10,7 +10,7 @@ import Option from './Option.svelte';</script>
   icon="google"
   on:click={() => {
     if ($$props.isSignUp) {
-      trackSignupStart(LoginType.METAMASK)
+      trackSignupStart(LoginType.GOOGLE)
     } else {
       trackLoginStart(LoginType.GOOGLE)
     }
