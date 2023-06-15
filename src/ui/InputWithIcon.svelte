@@ -60,7 +60,7 @@
 
   .icon {
     position: absolute;
-    left: 14px;
+    left: var(--icon-left, 14px);
   }
 
   .big {
