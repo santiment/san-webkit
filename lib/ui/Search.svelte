@@ -4,7 +4,8 @@ export { className as class };
 export let autofocus = null;
 export let placeholder;
 export let value = undefined;
-export let big = false;</script>
+export let big = false;
+export let iconSize = 12;</script>
 
 <InputWithIcon
   class={className}
@@ -13,7 +14,7 @@ export let big = false;</script>
   {placeholder}
   {autofocus}
   icon="search"
-  w="12"
+  w={iconSize}
   on:input
   on:keydown
   on:keyup

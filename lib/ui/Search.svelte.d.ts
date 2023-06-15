@@ -6,6 +6,7 @@ declare const __propDef: {
         placeholder: string;
         value?: string | undefined;
         big?: boolean | undefined;
+        iconSize?: number | undefined;
     };
     events: {
         input: Event;
