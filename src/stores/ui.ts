@@ -14,8 +14,8 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
 
 const CTX = 'UI$$'
 
-export function UI$$() {
-  let store = { isNightMode: false }
+export function UI$$(defaultValue = {} as Record<string, any>) {
+  let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
   const ui$ = writable(store)
 
   if (process.browser) {
