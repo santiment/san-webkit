@@ -7,6 +7,7 @@
   export let placeholder: string
   export let value = undefined as string | undefined
   export let big = false
+  export let iconSize = 12
 </script>
 
 <InputWithIcon
@@ -16,7 +17,7 @@
   {placeholder}
   {autofocus}
   icon="search"
-  w="12"
+  w={iconSize}
   on:input
   on:keydown
   on:keyup
