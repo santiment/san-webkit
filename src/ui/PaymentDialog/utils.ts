@@ -9,6 +9,7 @@ import {
   trackPaymentFormSubmitted,
   trackPaymentSuccess,
 } from '@/analytics/events/payment'
+import { startPaymentIntentFlow } from './flow'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
@@ -96,6 +97,12 @@ export function buyPlan(
   hasSanTokensDiscount = false,
 ) {
   const { discount, ...checkoutInfo } = form
+
+  // createCardToken(stripe, card, checkoutInfo).then((token) => {
+  startPaymentIntentFlow(stripe, card, checkoutInfo)
+  // })
+
+  return Promise.reject()
 
   const promise = savedCard
     ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)

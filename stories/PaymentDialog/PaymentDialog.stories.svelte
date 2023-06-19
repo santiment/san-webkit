@@ -3,6 +3,9 @@
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import OnMount from './OnMount.svelte'
+  import { Customer$$ } from '@/stores/customer'
+
+  Customer$$()
 </script>
 
 <Meta title="Example/PaymentDialog" />
