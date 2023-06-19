@@ -30,7 +30,9 @@
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { copy } from '@/utils'
+  import { trackShareFormOpen } from '@/analytics/events/interaction'
   import Dialog from '../Dialog'
   import Svg from '../Svg/svelte'
   import Toggle from '../Toggle.svelte'
@@ -41,6 +43,8 @@
   export let isAuthor = false
   export let isPublic = false
   export let onPublicityToggle = () => {}
+  export let feature: any
+  export let source: any
 
   const {
     title: shareTitle = 'Sanbase',
@@ -60,6 +64,10 @@
     label = 'Copied!'
     copy(link, () => (label = 'Copy link'), 1000, inputNode)
   }
+
+  onMount(() => {
+    trackShareFormOpen({ feature, source })
+  })
 </script>
 
 <Dialog bind:closeDialog {...$$props} {title}>
