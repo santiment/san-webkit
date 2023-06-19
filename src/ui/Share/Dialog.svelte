@@ -39,15 +39,19 @@
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Svg from '@/ui/Svg/svelte'
   import ToggleVisibility from '@/ui/ToggleVisibility.svelte'
   import Dialog from '@/ui/Dialog'
   import { copy, noop } from '@/utils'
+  import { trackShareFormOpen } from '@/analytics/events/interaction'
 
   export let shareType
   export let shareLink
   export let shareText
   export let onChangePrivacy = noop
+  export let feature: any
+  export let source: any
 
   let copyLabel = 'Copy'
   let isPublic = false
@@ -61,6 +65,10 @@
     copyLabel = 'Copied!'
     copy(shareLink, () => (copyLabel = 'Copy'), 1500)
   }
+
+  onMount(() => {
+    trackShareFormOpen({ feature, source })
+  })
 </script>
 
 <Dialog {...$$props} title="Share" titleClassName="$style.title body-2 txt-m">
