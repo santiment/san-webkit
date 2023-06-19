@@ -17,6 +17,8 @@ declare const __propDef: {
         shareLink: any;
         shareText: any;
         onChangePrivacy?: ((_?: any) => any) | undefined;
+        feature: any;
+        source: any;
     };
     events: {
         [evt: string]: CustomEvent<any>;

@@ -9,6 +9,8 @@ declare const __propDef: {
         isAuthor?: boolean | undefined;
         isPublic?: boolean | undefined;
         onPublicityToggle?: (() => void) | undefined;
+        feature: any;
+        source: any;
     };
     events: {
         [evt: string]: CustomEvent<any>;

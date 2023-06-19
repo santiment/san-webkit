@@ -31,14 +31,18 @@ export const showShareDialog = props => dialogs.show(ShareDialog, Object.assign(
   strict: true
 }, props));</script>
 
-<script>import Svg from './../../ui/Svg/svelte';
+<script>import { onMount } from 'svelte';
+import Svg from './../../ui/Svg/svelte';
 import ToggleVisibility from './../../ui/ToggleVisibility.svelte';
 import Dialog from './../../ui/Dialog';
 import { copy, noop } from './../../utils';
+import { trackShareFormOpen } from './../../analytics/events/interaction';
 export let shareType;
 export let shareLink;
 export let shareText;
 export let onChangePrivacy = noop;
+export let feature;
+export let source;
 let copyLabel = 'Copy';
 let isPublic = false;
 const encodedText = encodeURIComponent(shareText);
@@ -49,7 +53,14 @@ $: disabled = shareType && !isPublic;
 function onCopy() {
   copyLabel = 'Copied!';
   copy(shareLink, () => copyLabel = 'Copy', 1500);
-}</script>
+}
+
+onMount(() => {
+  trackShareFormOpen({
+    feature,
+    source
+  });
+});</script>
 
 <Dialog {...$$props} title="Share" titleClassName="title-uSdJ9d body-2 txt-m">
   <section class="body-2">

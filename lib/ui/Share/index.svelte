@@ -18,7 +18,9 @@ const SOCIALS = [{
   href: (link, text) => `https://reddit.com/submit?title=${text}&url=${link}`
 }];</script>
 
-<script>import { copy } from './../../utils';
+<script>import { onMount } from 'svelte';
+import { copy } from './../../utils';
+import { trackShareFormOpen } from './../../analytics/events/interaction';
 import Dialog from '../Dialog';
 import Svg from '../Svg/svelte';
 import Toggle from '../Toggle.svelte';
@@ -28,6 +30,8 @@ export let data = {};
 export let isAuthor = false;
 export let isPublic = false;
 export let onPublicityToggle = () => {};
+export let feature;
+export let source;
 const {
   title: shareTitle = 'Sanbase',
   text = 'Hey! Look what I have found at the app.santiment.net!',
@@ -44,7 +48,14 @@ $: disabled = isAuthor && !isPublic;
 function onCopy() {
   label = 'Copied!';
   copy(link, () => label = 'Copy link', 1000, inputNode);
-}</script>
+}
+
+onMount(() => {
+  trackShareFormOpen({
+    feature,
+    source
+  });
+});</script>
 
 <Dialog bind:closeDialog {...$$props} {title}>
   <div class="dialog">
