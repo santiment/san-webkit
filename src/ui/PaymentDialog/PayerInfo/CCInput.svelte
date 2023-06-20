@@ -1,6 +1,6 @@
 <script lang="ts">
   import { stripe } from '@/stores/stripe'
-  import Input from './Input.svelte'
+  import Input from '../Input.svelte'
 
   export let StripeCard: stripe.elements.Element | undefined
   export let nightMode = process.browser ? document.body.classList.contains('night-mode') : false

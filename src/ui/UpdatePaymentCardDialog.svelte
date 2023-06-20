@@ -20,8 +20,8 @@
     createCardToken,
     getPaymentFormData,
   } from '@/ui/PaymentDialog/utils'
-  import PayerInfo from '@/ui/PaymentDialog/PayerInfo.svelte'
   import Checkmark from '@/ui/PaymentDialog/Checkmark.svelte'
+  import PayerInfo from '@/ui/PaymentDialog/PayerInfo/index.svelte'
   import { mutateUpdatePaymentCard } from '@/api/subscription'
   import { paymentCard$ } from '@/stores/paymentCard'
 

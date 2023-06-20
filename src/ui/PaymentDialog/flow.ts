@@ -11,12 +11,20 @@ export async function startPaymentIntentFlow(
   billing_details: any,
 ) {
   const clientSecret = await mutateCreateStripeSetupIntent()
+  const { name, ...addressInfo } = billing_details
 
   console.log({ card, billing_details })
   return stripe
     .confirmCardSetup(clientSecret, {
       payment_method: {
         card,
+        billing_details: {
+          name,
+          address: Object.keys(addressInfo).reduce((acc, key) => {
+            acc[key.replace('address_', '')] = addressInfo[key]
+            return acc
+          }, {}),
+        },
       },
     })
     .then(console.log)

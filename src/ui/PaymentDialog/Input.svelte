@@ -11,7 +11,7 @@
 <label class="column {className}">
   <div class="caption txt-m c-waterloo">{title}</div>
   <slot name="input">
-    <input {name} {placeholder} {required} type="text" class="input" on:input />
+    <input {name} {placeholder} {required} type="text" class="input" on:input on:focus on:blur />
   </slot>
   <slot />
 </label>

@@ -22,11 +22,11 @@
   import { getCustomer$Ctx } from '@/stores/customer'
   import { trackPaymentFormClosed, trackPaymentFormOpened } from '@/analytics/events/payment'
   import Banner from './Banner.svelte'
-  import PayerInfo from './PayerInfo.svelte'
   import SavedCard from './SavedCard.svelte'
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils'
+  import PayerInfo from './PayerInfo/index.svelte'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
