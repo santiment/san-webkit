@@ -1,31 +1,49 @@
-<script>
+<script lang="ts">
+  import VirtualList from '@/ui/VirtualList/svelte'
+  import { COUNTRIES } from './countries'
   import Input from '../Input.svelte'
-  import { COUNTRIES } from './countries.ts'
 
   let isOpened = false
-  let value
+  let value = ''
+  let searchTerm = ''
+  let inputNode: any
+
+  $: filtered = searchTerm ? filter(searchTerm) : COUNTRIES
+
+  function filter(searchTerm: string) {
+    const value = searchTerm.toLowerCase()
+    return COUNTRIES.filter(
+      ([code, name]) => code.toLowerCase().includes(value) || name.toLowerCase().includes(value),
+    )
+  }
+
+  function onInput({ currentTarget }: any) {
+    if (!inputNode) inputNode = currentTarget
+    searchTerm = currentTarget.value.trim()
+  }
 </script>
 
 <Input
   class="relative"
   title="Country"
   placeholder="US"
-  on:input={console.log}
+  on:input={onInput}
   on:focus={() => (isOpened = true)}
 >
   {#if isOpened}
-    <suggestions class="column border box">
-      {#each COUNTRIES as country}
+    <suggestions class="border box">
+      <VirtualList items={filtered} maxFluidHeight={200} itemHeight={32} let:item>
         <button
           class="btn-ghost"
           on:click={() => {
-            value = country[0]
+            if (inputNode) inputNode.value = item[1]
+            value = item[0]
             isOpened = false
           }}
         >
-          {country[1]}
+          {item[1]}
         </button>
-      {/each}
+      </VirtualList>
     </suggestions>
   {/if}
 
