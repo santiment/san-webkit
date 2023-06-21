@@ -1,15 +1,15 @@
 <script>
+  import { getCustomer$Ctx } from '@/stores/customer'
   import Tooltip from '@/ui/Tooltip/svelte'
   import { ONE_DAY_IN_MS } from '@/utils/dates'
   import rocketSvg from './rocket.svg'
 
-  export let percentOff = 35
-  export let expireAt = Date.now()
+  const { customer$ } = getCustomer$Ctx()
+  $: ({ percent, expireAt } = $customer$.annualDiscount)
 
-  let condition = percentOff === 35 ? 'the month is finished' : 'your trial expired'
-
-  let daysLeft = getDaysLeft(expireAt)
-  let plural = daysLeft > 1 ? 's' : ''
+  $: condition = percent === 35 ? 'the month is finished' : 'your trial expired'
+  $: daysLeft = getDaysLeft(expireAt)
+  $: plural = daysLeft > 1 ? 's' : ''
 
   function getDaysLeft(expireAt) {
     const diff = +new Date(expireAt) - Date.now()
@@ -22,7 +22,7 @@
 
   <div class="text left">
     <h2 class="h4 txt-b mrg-s mrg--b">Special Offer for Annual plans</h2>
-    <p class="body-2">Buy the Annual plan before {condition} and get {percentOff}% Off</p>
+    <p class="body-2">Buy the Annual plan before {condition} and get {percent}% Off</p>
   </div>
 
   <div class="text">
@@ -31,8 +31,8 @@
       <h3 slot="trigger" class="h3 txt-right">{daysLeft} Day{plural}</h3>
       <div slot="tooltip" class="tooltip">
         Your Special offer will expire in just {daysLeft} day{plural}.<br />If you sign up for our
-        annual plan now, you'll receive <span class="c-accent">{percentOff}%</span> off of our already
-        low price!
+        annual plan now, you'll receive <span class="c-accent">{percent}%</span> off of our already low
+        price!
       </div>
     </Tooltip>
   </div>
