@@ -16,13 +16,13 @@ export const PRO_PLUS_SUGGESTION = {
 
 export function getSuggestions(
   userPlan: null | SAN.Plan,
-  annualDiscount: null | SAN.AnnualDiscount,
+  annualDiscount: SAN.Customer['annualDiscount'],
 ) {
   const suggestions = [] as any
 
-  if (annualDiscount?.discount) {
+  if (annualDiscount.isEligible) {
     const suggestion = {
-      discount: annualDiscount.discount.percentOff,
+      discount: annualDiscount.percent,
       billing: Billing.YEAR,
     } as any
 

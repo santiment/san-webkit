@@ -33,19 +33,19 @@
   $: ({ billing, price } = getBillingPrice(plan, altPlan, annual))
 
   function getBillingPrice(plan, altPlan, annual) {
-    if (plan === altPlan) {
-      return {
-        price: formatPrice(plan),
-        billing: `Billed ${plan.interval}ly`,
-      }
-    }
-
+    // if (plan === altPlan) {
     return {
-      price: formatMonthlyPrice(plan, discount),
-      billing: annual
-        ? `You save ${getSavedAmount(plan, altPlan, discount)} this year`
-        : 'Billed monthly',
+      price: formatPrice(plan),
+      billing: `Billed ${plan.interval}ly`,
     }
+    // }
+
+    // return {
+    //   price: formatMonthlyPrice(plan, discount),
+    //   billing: annual
+    //     ? `You save ${getSavedAmount(plan, altPlan, discount)} this year`
+    //     : 'Billed monthly',
+    // }
   }
 </script>
 
