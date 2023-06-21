@@ -7,6 +7,7 @@ import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDial
 import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
 import { querySanbasePlans } from './../../../api/plans';
 import { getCustomer$Ctx } from './../../../stores/customer';
+import { paymentCard$ } from './../../../stores/paymentCard';
 import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
 import Setting from './Setting.svelte';
 import PlanCard from './SubscriptionCard/PlanCard.svelte';
@@ -17,8 +18,6 @@ import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
 import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
 let className = '';
 export { className as class };
-export let subscription;
-export let paymentCard;
 const {
   customer$
 } = getCustomer$Ctx();
@@ -26,7 +25,14 @@ let isBillingLoading = true;
 let billingHistory = [];
 let plans = [];
 
-$: isCanceled = !!(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+$: ({
+  subscription,
+  isEligibleForTrial,
+  annualDiscount,
+  isCanceled
+} = $customer$);
+
+$: paymentCard = $paymentCard$;
 
 $: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || {
   name: Plan.FREE,
@@ -35,11 +41,6 @@ $: plan = (subscription === null || subscription === void 0 ? void 0 : subscript
 };
 
 $: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
-
-$: ({
-  isEligibleForTrial,
-  annualDiscount
-} = $customer$);
 
 $: suggestions = getSuggestions(plan, annualDiscount);
 

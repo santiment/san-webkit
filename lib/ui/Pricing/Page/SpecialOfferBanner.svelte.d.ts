@@ -2,8 +2,7 @@
 /** @typedef {typeof __propDef.events}  SpecialOfferBannerEvents */
 /** @typedef {typeof __propDef.slots}  SpecialOfferBannerSlots */
 export default class SpecialOfferBanner extends SvelteComponentTyped<{
-    expireAt?: number | undefined;
-    percentOff?: number | undefined;
+    [x: string]: never;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -14,8 +13,7 @@ export type SpecialOfferBannerSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        expireAt?: number | undefined;
-        percentOff?: number | undefined;
+        [x: string]: never;
     };
     events: {
         [evt: string]: CustomEvent<any>;

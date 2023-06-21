@@ -1,5 +1,5 @@
 <script>import { SANBASE_ORIGIN } from './../../../../utils/links';
-import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName } from './../../../../utils/plans';
+import { checkIsYearlyPlan, formatPrice, PlanName } from './../../../../utils/plans';
 import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
 import Card from './Card.svelte';
 export let plan;
@@ -32,17 +32,17 @@ $: ({
 } = getBillingPrice(plan, altPlan, annual));
 
 function getBillingPrice(plan, altPlan, annual) {
-  if (plan === altPlan) {
-    return {
-      price: formatPrice(plan),
-      billing: `Billed ${plan.interval}ly`
-    };
-  }
-
+  // if (plan === altPlan) {
   return {
-    price: formatMonthlyPrice(plan, discount),
-    billing: annual ? `You save ${getSavedAmount(plan, altPlan, discount)} this year` : 'Billed monthly'
-  };
+    price: formatPrice(plan),
+    billing: `Billed ${plan.interval}ly`
+  }; // }
+  // return {
+  //   price: formatMonthlyPrice(plan, discount),
+  //   billing: annual
+  //     ? `You save ${getSavedAmount(plan, altPlan, discount)} this year`
+  //     : 'Billed monthly',
+  // }
 }</script>
 
 <Card

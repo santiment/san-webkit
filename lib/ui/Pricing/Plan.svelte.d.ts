@@ -5,10 +5,6 @@ declare const __propDef: {
         class?: string | undefined;
         plan: SAN.Plan;
         plans: SAN.Plan[];
-        subscription: undefined | SAN.Subscription;
-        annualDiscount?: SAN.AnnualDiscount | undefined;
-        isEligibleForTrial: boolean;
-        isLoggedIn?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

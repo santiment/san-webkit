@@ -2,8 +2,6 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        subscription: SAN.Subscription | undefined;
-        paymentCard: SAN.PaymentCard | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

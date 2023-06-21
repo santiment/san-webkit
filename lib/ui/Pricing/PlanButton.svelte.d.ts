@@ -3,10 +3,6 @@ declare const __propDef: {
     props: {
         class?: string | undefined;
         plan: SAN.Plan;
-        subscription: undefined | SAN.Subscription;
-        isEligibleForTrial?: boolean | undefined;
-        annualDiscount?: SAN.AnnualDiscount | undefined;
-        isLoggedIn?: boolean | undefined;
         isFreePlan?: boolean | undefined;
         source: string;
     };

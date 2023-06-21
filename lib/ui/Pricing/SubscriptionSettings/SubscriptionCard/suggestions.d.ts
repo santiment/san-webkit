@@ -16,4 +16,4 @@ export declare const PRO_PLUS_SUGGESTION: {
     };
     orange: boolean;
 };
-export declare function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: null | SAN.AnnualDiscount): any;
+export declare function getSuggestions(userPlan: null | SAN.Plan, annualDiscount: SAN.Customer['annualDiscount']): any;
