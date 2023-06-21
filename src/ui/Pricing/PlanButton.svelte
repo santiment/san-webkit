@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getCustomer$Ctx } from '@/stores/customer'
   import { Billing } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
@@ -7,12 +8,12 @@
   let className = ''
   export { className as class }
   export let plan: SAN.Plan
-  export let subscription: undefined | SAN.Subscription
-  export let isEligibleForTrial: boolean = false
-  export let annualDiscount = {} as SAN.AnnualDiscount
-  export let isLoggedIn = false
   export let isFreePlan = false
   export let source: string
+
+  const { customer$ } = getCustomer$Ctx()
+  $: customer = $customer$
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer)
 
   $: ({ id } = plan)
   $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn
@@ -28,8 +29,7 @@
     }
 
     if (annualDiscount.isEligible) {
-      if (plan.interval === Billing.YEAR)
-        return `Pay now ${annualDiscount.discount?.percentOff}% Off`
+      if (plan.interval === Billing.YEAR) return `Pay now ${annualDiscount.percent}% Off`
       return 'Pay now'
     }
 

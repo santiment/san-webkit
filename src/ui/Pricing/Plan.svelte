@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getCustomer$Ctx } from '@/stores/customer'
   import Svg from '@/ui/Svg/svelte'
   import {
     Billing,
@@ -16,10 +17,10 @@
   export { className as class }
   export let plan: SAN.Plan
   export let plans: SAN.Plan[]
-  export let subscription: undefined | SAN.Subscription
-  export let annualDiscount = {} as SAN.AnnualDiscount
-  export let isEligibleForTrial: boolean
-  export let isLoggedIn = false
+
+  const { customer$ } = getCustomer$Ctx()
+  $: customer = $customer$
+  $: ({ annualDiscount, subscription } = customer)
 
   $: ({ id, name, interval } = plan)
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
@@ -28,7 +29,7 @@
   $: isFreePlan = name.includes(Plan.FREE)
   $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
   $: ({ description, features } = PlanDescription[name])
-  $: percentOff = (isAnnualPlan && annualDiscount.discount?.percentOff) || 0
+  $: percentOff = (isAnnualPlan && annualDiscount.percent) || 0
   $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
 
   function getBillingDescription(currentPlan, fallbackPlan, discount) {
@@ -62,17 +63,7 @@
     {getBillingDescription(plan, altPlan, percentOff)}
   </div>
 
-  <PlanButton
-    {plan}
-    {plans}
-    {subscription}
-    {annualDiscount}
-    {isEligibleForTrial}
-    {isLoggedIn}
-    {isFreePlan}
-    class="mrg-l mrg--t mrg--b"
-    source="pricing-card"
-  />
+  <PlanButton {plan} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
