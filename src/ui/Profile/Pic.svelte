@@ -4,7 +4,7 @@
   let className = ''
   export { className as class }
   export let src: string | null | undefined = undefined
-  export let placeholderWidth = 16
+  export let placeholderSize = 16
   export let alt = 'S'
 </script>
 
@@ -12,7 +12,7 @@
   {#if src}
     <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderWidth} class="$style.svg" />
+    <Svg id="user" w={placeholderSize} class="$style.svg" />
   {/if}
   <slot />
 </div>

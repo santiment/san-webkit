@@ -4,7 +4,7 @@
   export let item
 </script>
 
-<ProfilePic src={item.avatarUrl} placeholderWidth="24" class="$style.icon" />
+<ProfilePic src={item.avatarUrl} placeholderSize="24" class="$style.icon" />
 <span class="name single-line">
   @{item.username}
 </span>

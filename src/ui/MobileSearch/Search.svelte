@@ -43,6 +43,7 @@
 </script>
 
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte'
   import Header from './Header.svelte'
   import Filter from './Filter.svelte'
   import Suggestions from './Suggestions.svelte'
@@ -51,10 +52,22 @@
 
   let searchTerm = ''
   let type = FILTER_ITEMS.Assets
+
+  onMount(() => {
+    document.body.style.width = document.body.offsetWidth + 'px'
+    document.body.classList.add('$style.searching')
+  })
+
+  onDestroy(() => {
+    if (process.browser) {
+      document.body.style.width = ''
+      document.body.classList.remove('$style.searching')
+    }
+  })
 </script>
 
 {#if show}
-  <section class="relative">
+  <section class="relative column">
     <Header bind:searchTerm bind:show />
     <Filter bind:type />
     <Suggestions {searchTerm} {type} bind:show {...TABS_CONTENT[type]} />
@@ -68,7 +81,12 @@
     width: 100%;
     position: fixed;
     top: 0;
-    z-index: 1000;
-    padding-top: 16px;
+    z-index: 100;
+    padding: 16px 0 83px;
+  }
+
+  .searching {
+    overflow-y: 'hidden';
+    touch-action: 'none';
   }
 </style>
