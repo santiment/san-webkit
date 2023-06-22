@@ -8,6 +8,7 @@
   export let isTagName = true
   export let source: string
   export let feature: string
+  export let placeholderSize = undefined as number | undefined
 
   $: if (isTagName && user.username === 'anonymous') isTagName = false
 
@@ -24,7 +25,7 @@
 </script>
 
 <a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" {placeholderSize} />
 
   <span>
     {#if $$slots.name}

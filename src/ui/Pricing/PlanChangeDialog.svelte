@@ -71,17 +71,17 @@
       <a href="/account" class="btn">Update your billing information here.</a>
     </p>
 
-    <div class="mrg-xl mrg--t">
+    <actions class="row mrg-xl mrg--t">
       <button class="btn-1" class:btn--orange={isUpgrade} class:loading on:click={onClick}
         >{isUpgrade ? 'Upgrade' : 'Downgrade'} to {newName} {newBilling} plan</button
       >
 
-      <button class="btn-2 mrg-l mrg--l" on:click={closeDialog}>Cancel</button>
-    </div>
+      <button class="btn-2" on:click={closeDialog}>Cancel</button>
+    </actions>
   </div>
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     padding: 24px 32px;
     max-width: 600px;
@@ -99,5 +99,21 @@
   a {
     --color: var(--green);
     --color-hover: var(--green-hover);
+  }
+
+  actions {
+    gap: 16px;
+  }
+
+  :global(.phone),
+  :global(.phone-xs) {
+    actions {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    button {
+      height: 40px;
+    }
   }
 </style>
