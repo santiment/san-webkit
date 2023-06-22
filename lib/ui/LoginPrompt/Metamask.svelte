@@ -32,7 +32,7 @@ function onLoginClick() {
     {isSignUp}
   />
 {:else}
-  <div class="metamask" style="--url:url({metamaskSvg})">
+  <div class="metamask mrg-l mrg--b" style="--url:url({metamaskSvg})">
     <h3 class="body-2 txt-m mrg-xs mrg--b">We can't detect Metamask!</h3>
     <p class="mrg-s mrg--b">We can auth you with Metamask account. It's secure and easy.</p>
     <a href="https://metamask.io/#how-it-works" class="link-pointer">How Metamask works?</a>

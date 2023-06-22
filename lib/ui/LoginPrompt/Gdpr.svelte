@@ -59,7 +59,7 @@ function onSubmit() {
     currentUser.privacyPolicyAccepted = true;
     if (window.onGdprAccept) window.onGdprAccept();
     trackGdprAccept(true);
-    return true;
+    return username;
   }).then(onAccept).catch(console.error);
 }
 

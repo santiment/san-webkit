@@ -6,6 +6,7 @@ declare const __propDef: {
         isTagName?: boolean | undefined;
         source: string;
         feature: string;
+        placeholderSize?: number | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

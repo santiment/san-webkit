@@ -6,6 +6,7 @@ export let user;
 export let isTagName = true;
 export let source;
 export let feature;
+export let placeholderSize = undefined;
 
 $: if (isTagName && user.username === 'anonymous') isTagName = false;
 
@@ -22,7 +23,7 @@ function onClick(e) {
 }</script>
 
 <a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-V1q_n5" />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-V1q_n5" {placeholderSize} />
 
   <span>
     {#if $$slots.name}

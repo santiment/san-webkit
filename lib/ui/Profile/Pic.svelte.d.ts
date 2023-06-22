@@ -3,7 +3,7 @@ declare const __propDef: {
     props: {
         class?: string | undefined;
         src?: string | null | undefined;
-        placeholderWidth?: number | undefined;
+        placeholderSize?: number | undefined;
         alt?: string | undefined;
     };
     events: {

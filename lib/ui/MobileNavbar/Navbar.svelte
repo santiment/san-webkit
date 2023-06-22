@@ -27,6 +27,18 @@ export let isMenuOpened = false;
 
 $: isMenuOpened = (path, false);
 
+$: if (process.browser) {
+  if (isMenuOpened) {
+    document.body.style.width = document.body.offsetWidth + 'px';
+    document.body.style.overflowY = 'hidden';
+    document.body.style.touchAction = 'none';
+  } else {
+    document.body.style.width = '';
+    document.body.style.overflowY = '';
+    document.body.style.touchAction = '';
+  }
+}
+
 function onMenuClick() {
   isMenuOpened = !isMenuOpened;
 }</script>
@@ -57,7 +69,7 @@ function onMenuClick() {
 
 <style>
   nav {
-    z-index: 98;
+    z-index: 101;
     position: fixed;
     bottom: 0;
     left: 0;

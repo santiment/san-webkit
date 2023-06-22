@@ -2,14 +2,14 @@
 let className = '';
 export { className as class };
 export let src = undefined;
-export let placeholderWidth = 16;
+export let placeholderSize = 16;
 export let alt = 'S';</script>
 
 <div class="img row hv-center {className}">
   {#if src}
     <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderWidth} class="svg-NYVR2C" />
+    <Svg id="user" w={placeholderSize} class="svg-NYVR2C" />
   {/if}
   <slot />
 </div>

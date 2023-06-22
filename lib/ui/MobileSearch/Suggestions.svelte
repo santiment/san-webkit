@@ -33,10 +33,10 @@ function onItemClick(event) {
   show = false;
 }</script>
 
-<div class="wrapper column mrg-xxl mrg--t mrg--b">
+<div class="wrapper column mrg-xxl mrg--t">
   {#if loading}
     <div class="logo-wrapper column hv-center">
-      <Svg illus id="san-logo" w="72" class="logo-FNsm4o" />
+      <Svg illus id="san-logo" w="72" class="logo-iJL_+A" />
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
@@ -58,7 +58,6 @@ function onItemClick(event) {
 
 <style >.wrapper {
   overflow: auto;
-  height: calc(100vh - 190px);
   gap: 8px;
 }
 
@@ -75,7 +74,7 @@ a:focus, a:visited, a:active {
   height: 100%;
 }
 
-:global(.logo-FNsm4o) {
+:global(.logo-iJL_\+A) {
   animation: load 1s infinite alternate;
 }
 

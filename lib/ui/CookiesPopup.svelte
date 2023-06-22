@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-  API: 'api-4nnq9D',
-  SHEETS: 'sheets-60r_pT'
+  API: 'api-mHGthn',
+  SHEETS: 'sheets-Rqj1O3'
 };</script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
@@ -24,7 +24,7 @@ function onManageClick() {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
-    <Svg illus id="cookies" class="pic-RDbLog" />
+    <Svg illus id="cookies" class="pic-vToQ8H" />
     <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -43,16 +43,16 @@ function onManageClick() {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 99;
+  z-index: 101;
   text-align: center;
 }
 
-:global(.api-4nnq9D) {
+:global(.api-mHGthn) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-60r_pT) {
+:global(.sheets-Rqj1O3) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -61,7 +61,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-RDbLog) {
+:global(.pic-vToQ8H) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -75,7 +75,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-RDbLog) {
+:global(.desktop) :global(.pic-vToQ8H) {
   transform: initial;
   position: absolute;
   left: 24px;

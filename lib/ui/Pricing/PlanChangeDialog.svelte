@@ -54,7 +54,7 @@ function onClick() {
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-JKIglo" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-V+k4YB" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -66,33 +66,45 @@ function onClick() {
       <a href="/account" class="btn">Update your billing information here.</a>
     </p>
 
-    <div class="mrg-xl mrg--t">
+    <actions class="row mrg-xl mrg--t">
       <button class="btn-1" class:btn--orange={isUpgrade} class:loading on:click={onClick}
         >{isUpgrade ? 'Upgrade' : 'Downgrade'} to {newName} {newBilling} plan</button
       >
 
-      <button class="btn-2 mrg-l mrg--l" on:click={closeDialog}>Cancel</button>
-    </div>
+      <button class="btn-2" on:click={closeDialog}>Cancel</button>
+    </actions>
   </div>
 </Dialog>
 
-<style>
-  .dialog {
-    padding: 24px 32px;
-    max-width: 600px;
-  }
+<style >.dialog {
+  padding: 24px 32px;
+  max-width: 600px;
+}
 
-  :global(.close-JKIglo) {
-    --fill: var(--waterloo);
-    --fill-hover: var(--green);
-  }
+:global(.close-V\+k4YB) {
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+}
 
-  p {
-    color: var(--fiord);
-  }
+p {
+  color: var(--fiord);
+}
 
-  a {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
-  }
-</style>
+a {
+  --color: var(--green);
+  --color-hover: var(--green-hover);
+}
+
+actions {
+  gap: 16px;
+}
+
+:global(.phone) actions,
+:global(.phone-xs) actions {
+  flex-direction: column;
+  text-align: center;
+}
+:global(.phone) button,
+:global(.phone-xs) button {
+  height: 40px;
+}</style>
