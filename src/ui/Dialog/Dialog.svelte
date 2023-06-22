@@ -162,7 +162,7 @@
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 200;
     width: 100vw;
     animation: fadeIn 0.2s ease-out forwards;
   }
