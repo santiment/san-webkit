@@ -34,7 +34,7 @@
   }
 </script>
 
-<div class="wrapper column mrg-xxl mrg--t mrg--b">
+<div class="wrapper column mrg-xxl mrg--t">
   {#if loading}
     <div class="logo-wrapper column hv-center">
       <Svg illus id="san-logo" w="72" class="$style.logo" />
@@ -60,7 +60,6 @@
 <style lang="scss">
   .wrapper {
     overflow: auto;
-    height: calc(100vh - 190px);
     gap: 8px;
   }
 

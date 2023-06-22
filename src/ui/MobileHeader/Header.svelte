@@ -8,7 +8,7 @@
   export let onSearchClick = noop
 </script>
 
-<header class="row v-center justify fluid">
+<header class="row v-center justify fluid" id="mobile-header">
   <section class="left row v-center">
     {#if slots.left}
       <slot name="left" />

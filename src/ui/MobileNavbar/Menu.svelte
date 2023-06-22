@@ -48,9 +48,16 @@
 
     return pathname + link + slug
   }
+
+  function adjustHeight(node: any) {
+    const headerNode = document.querySelector('#mobile-header')
+    if (headerNode) {
+      node.style.top = headerNode.clientHeight + 1 + 'px'
+    }
+  }
 </script>
 
-<nav class="column fluid body-1">
+<nav class="column fluid body-1" use:adjustHeight>
   <section class="links column">
     {#each MOBILE_MENU_LINKS as { title, link }}
       {@const href = isFullLink ? getFullLink(link) : link}
@@ -89,7 +96,7 @@
       </a>
 
       {#if !isPro}
-        <a href="/pricing" class="btn-1 btn--orange btn--s hv-center">
+        <a href="/pricing" class="btn-1 btn--orange btn--s row hv-center">
           <Svg id="crown" w="12" class="mrg-s mrg--r" />
           Upgrade
         </a>
@@ -105,9 +112,9 @@
 
 <style lang="scss">
   nav {
-    z-index: 100;
+    z-index: 101;
     position: fixed;
-    top: 73px;
+    top: 0;
     bottom: 83px;
     padding: 0 32px 16px;
     background: var(--white);
