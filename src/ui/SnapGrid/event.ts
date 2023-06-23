@@ -33,8 +33,9 @@ export function Draggable(
     let timer
     function onDragStart(e: MouseEvent) {
       e.stopImmediatePropagation()
-      e.preventDefault()
       clearTimeout(timer)
+
+      const preventDefaultMouseDown = () => e.preventDefault()
 
       const { pageX, pageY, currentTarget } = e
       const ctx = { pageX, pageY } as DraggableCtx
@@ -64,7 +65,9 @@ export function Draggable(
         if (isRegularClick) {
           const { xDiff, yDiff } = ctx
           if (Math.max(Math.abs(xDiff), Math.abs(yDiff)) > THRESHOLD) {
+            preventDefaultMouseDown()
             enableDragging()
+            window.getSelection()?.empty()
           }
           return
         }
