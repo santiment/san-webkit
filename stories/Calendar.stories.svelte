@@ -1,6 +1,6 @@
 <script>
   import { Meta, Story } from '@storybook/addon-svelte-csf'
-  import Calendar, { PresetCalendar } from '@/ui/Calendar'
+  import Calendar, { PresetCalendar, InputCalendar } from '@/ui/Calendar'
 
   const date = new Date()
   date.setDate(date.getDate() - 10)
@@ -18,11 +18,16 @@
   <div class="row mrg-xl mrg--t mrg--b">
     Range:
 
-    <Calendar date={[date, date]} range onDateSelect={console.log} />
+    <Calendar date={[date, new Date()]} range onDateSelect={console.log} />
+  </div>
+
+  <div class="row mrg-xl mrg--b">
+    Presets:
+    <PresetCalendar date={[date, date]} onDateSelect={console.log} class="mrg-s mrg--l" />
   </div>
 
   <div class="row">
-    Presets:
-    <PresetCalendar date={[date, date]} onDateSelect={console.log} class="mrg-s mrg--l" />
+    Input:
+    <InputCalendar date={[date, new Date()]} onDateSelect={console.log} />
   </div>
 </Story>
