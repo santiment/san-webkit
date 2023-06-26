@@ -60,11 +60,26 @@
   }
 
   function fixInputValue() {
-    const caret = inputNode.selectionStart as number
-    setInputValue(parseInputData(inputNode.value)[1])
+    let caret = inputNode.selectionStart as number
+    const [parsed, dates] = parseInputData(inputNode.value)
+
+    setInputValue(dates)
+
+    let offset = null as null | number
+    parsed.some((data, i) => {
+      const changed = data.findIndex((date) => date.toString().length < 2)
+      offset = changed > -1 ? changed + i * 3 : null
+      return offset !== null
+    })
+
+    if (offset !== null && caret > GROUP_INDICES[offset]) {
+      caret += 1
+    }
 
     inputNode.selectionStart = caret
     inputNode.selectionEnd = caret
+
+    return caret
   }
 
   function onBlur() {
@@ -77,8 +92,7 @@
     const caret = inputNode.selectionStart as number
 
     if ((inputNode.selectionEnd as number) - caret !== 2) {
-      fixInputValue()
-      selectNextGroup(inputNode, false, caret)
+      selectNextGroup(inputNode, false, fixInputValue())
     } else {
       inputNode.selectionStart = caret
       inputNode.selectionEnd = caret // NOTE: Needed to preserve active selection [@vanguard | Jun 1, 2020]
@@ -106,8 +120,7 @@
     } else if (key === 'Backspace') {
       if (checkIsValidNumber(charBeforeCaret)) return
     } else if (NavigationChar[key]) {
-      fixInputValue()
-      selectNextGroup(inputNode, key === 'ArrowRight', beforeCaretIndex + 1)
+      selectNextGroup(inputNode, key === 'ArrowRight', fixInputValue())
     } else if (
       +checkIsValidNumber(key) ^
       (BlockingNeighbourChar[charBeforeCaret] && BlockingNeighbourChar[charAfterCaret])
@@ -136,23 +149,23 @@
   const checkIsValidNumber = (char: string | number) =>
     Number.isFinite(+char) && char.toString().trim() !== ''
 
-  const groupStartIndeces = [0, 3, 6, 11, 14, 17]
+  const GROUP_INDICES = [0, 3, 6, 11, 14, 17]
   function prevModifyableGroupIndex(caret: number) {
-    for (let i = groupStartIndeces.length - 1; i > -1; i--) {
-      if (groupStartIndeces[i] < caret) {
-        return groupStartIndeces[i]
+    for (let i = GROUP_INDICES.length - 1; i > -1; i--) {
+      if (GROUP_INDICES[i] < caret) {
+        return GROUP_INDICES[i]
       }
     }
-    return groupStartIndeces[0]
+    return GROUP_INDICES[0]
   }
 
   function nextModifyableGroupIndex(caret: number) {
-    for (let i = 0; i < groupStartIndeces.length; i++) {
-      if (groupStartIndeces[i] > caret) {
-        return groupStartIndeces[i]
+    for (let i = 0; i < GROUP_INDICES.length; i++) {
+      if (GROUP_INDICES[i] > caret) {
+        return GROUP_INDICES[i]
       }
     }
-    return groupStartIndeces[groupStartIndeces.length - 1]
+    return GROUP_INDICES[GROUP_INDICES.length - 1]
   }
 
   function formatDate(date: Date) {
