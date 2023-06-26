@@ -201,10 +201,10 @@
 </script>
 
 <PresetCalendar {...$$restProps} {date} {onDateSelect} let:trigger let:classes>
-  <label use:trigger class="relative row v-center">
+  <label use:trigger class="relative {classes}">
     <input
       bind:this={inputNode}
-      class="btn--s {classes}"
+      class="btn-2 btn--s"
       type="text"
       value={formatValue(date)}
       on:click={onClick}
@@ -216,6 +216,17 @@
 </PresetCalendar>
 
 <style>
+  label {
+    padding: 0;
+    border: none;
+  }
+
+  input {
+    color: var(--black) !important;
+    width: 180px;
+    min-width: 180px;
+  }
+
   .icon {
     position: absolute;
     pointer-events: none;
