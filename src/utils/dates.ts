@@ -8,7 +8,7 @@ export const ONE_YEAR_IN_MS = 31536000000 // Estimate
 
 export const CRYPTO_ERA_START_DATE = '2009-01-01T01:00:00.000Z'
 
-const MONTH_NAMES = [
+export const MONTH_NAMES = [
   'January',
   'February',
   'March',
@@ -22,7 +22,7 @@ const MONTH_NAMES = [
   'November',
   'December',
 ] as const
-const SHORT_MONTH_NAMES = [
+export const SHORT_MONTH_NAMES = [
   'Jan',
   'Feb',
   'Mar',
