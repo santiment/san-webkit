@@ -37,6 +37,7 @@
   export let label = date[0].toLocaleDateString()
   export let maxDate: Date = new Date()
   export let onDateSelect: (date: Date[]) => void
+  export let calendar: any
 </script>
 
 <Calendar
@@ -45,6 +46,7 @@
   {maxDate}
   {onDateSelect}
   range
+  bind:calendar
   let:trigger
   let:isOpened
   let:classes

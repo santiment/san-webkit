@@ -4,6 +4,8 @@
 
   const date = new Date()
   date.setDate(date.getDate() - 10)
+
+  let dates = [date, new Date()]
 </script>
 
 <Meta title="Example/CalendarSvelte" />
@@ -28,6 +30,6 @@
 
   <div class="row">
     Input:
-    <InputCalendar date={[date, new Date()]} onDateSelect={console.log} />
+    <InputCalendar date={dates} onDateSelect={(data) => (dates = data)} />
   </div>
 </Story>

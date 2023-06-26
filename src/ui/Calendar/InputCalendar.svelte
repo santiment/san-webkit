@@ -11,6 +11,7 @@
   const MAX_DATE = setDayEnd(new Date())
 
   let inputNode: HTMLInputElement
+  let calendar: any
 
   $: if (inputNode) setInputValue(date)
 
@@ -21,7 +22,11 @@
   function changeCalendar() {
     const dates = validateInput(inputNode.value)
 
-    if (dates) onDateSelect(dates)
+    if (dates) {
+      setInputValue(dates)
+      calendar?.selectDate(dates)
+      onDateSelect(dates)
+    }
   }
 
   function parseInputData(input: string) {
@@ -84,6 +89,7 @@
 
   function onBlur() {
     if (formatValue(date) !== inputNode.value) {
+      fixInputValue()
       changeCalendar()
     }
   }
@@ -200,7 +206,7 @@
   }
 </script>
 
-<PresetCalendar {...$$restProps} {date} {onDateSelect} let:trigger let:classes>
+<PresetCalendar {...$$restProps} {date} {onDateSelect} bind:calendar let:trigger let:classes>
   <label use:trigger class="relative {classes}">
     <input
       bind:this={inputNode}
