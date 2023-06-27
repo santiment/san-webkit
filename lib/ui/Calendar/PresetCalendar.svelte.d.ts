@@ -1,4 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
+import type { default as AirDatepicker } from 'air-datepicker/air-datepicker';
 declare const __propDef: {
     props: {
         [x: string]: any;
@@ -6,7 +7,7 @@ declare const __propDef: {
         label?: string | undefined;
         maxDate?: Date | undefined;
         onDateSelect: (date: Date[]) => void;
-        calendar: any;
+        calendar?: AirDatepicker<any> | null | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
