@@ -88,6 +88,26 @@
   margin-left: var(--margin);
 }
 
+.gap-xl {
+  gap: 24px;
+}
+
+.gap-l {
+  gap: 16px;
+}
+
+.gap-m {
+  gap: 12px;
+}
+
+.gap-s {
+  gap: 8px;
+}
+
+.gap-xs {
+  gap: 4px;
+}
+
 .relative {
   position: relative;
 }
