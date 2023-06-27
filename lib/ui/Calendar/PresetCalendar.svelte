@@ -25,7 +25,8 @@ const PRESETS = [{
 export let date = [new Date(), new Date()];
 export let label = date[0].toLocaleDateString();
 export let maxDate = new Date();
-export let onDateSelect;</script>
+export let onDateSelect;
+export let calendar;</script>
 
 <Calendar
   {...$$restProps}
@@ -33,6 +34,7 @@ export let onDateSelect;</script>
   {maxDate}
   {onDateSelect}
   range
+  bind:calendar
   let:trigger
   let:isOpened
   let:classes

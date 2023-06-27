@@ -47,3 +47,7 @@ export declare const trackLink: ({ type, url, source, external }: {
     source: any;
     external?: boolean | undefined;
 }) => number;
+export declare const trackGetAiSummary: ({ trend, source }: {
+    trend: string;
+    source: string;
+}) => number;

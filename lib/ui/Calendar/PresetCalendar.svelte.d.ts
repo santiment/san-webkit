@@ -6,6 +6,7 @@ declare const __propDef: {
         label?: string | undefined;
         maxDate?: Date | undefined;
         onDateSelect: (date: Date[]) => void;
+        calendar: any;
     };
     events: {
         [evt: string]: CustomEvent<any>;

@@ -7,6 +7,7 @@ export let date = [new Date(), new Date()];
 export let onDateSelect;
 const MAX_DATE = setDayEnd(new Date());
 let inputNode;
+let calendar;
 
 $: if (inputNode) setInputValue(date);
 
@@ -16,7 +17,12 @@ function setInputValue(dates) {
 
 function changeCalendar() {
   const dates = validateInput(inputNode.value);
-  if (dates) onDateSelect(dates);
+
+  if (dates) {
+    setInputValue(dates);
+    calendar === null || calendar === void 0 ? void 0 : calendar.selectDate(dates);
+    onDateSelect(dates);
+  }
 }
 
 function parseInputData(input) {
@@ -69,6 +75,7 @@ function fixInputValue() {
 
 function onBlur() {
   if (formatValue(date) !== inputNode.value) {
+    fixInputValue();
     changeCalendar();
   }
 }
@@ -187,7 +194,7 @@ function formatValue(dates) {
   return formatDate(dates[0]) + ' - ' + formatDate(dates[1]);
 }</script>
 
-<PresetCalendar {...$$restProps} {date} {onDateSelect} let:trigger let:classes>
+<PresetCalendar {...$$restProps} {date} {onDateSelect} bind:calendar let:trigger let:classes>
   <label use:trigger class="relative {classes}">
     <input
       bind:this={inputNode}

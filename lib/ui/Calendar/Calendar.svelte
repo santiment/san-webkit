@@ -11,7 +11,7 @@ export let label = (date[0] || date).toLocaleDateString();
 export let maxDate = new Date();
 export let minDate = undefined;
 export let onDateSelect;
-let calendar;
+export let calendar;
 let tooltip = null;
 
 $: if (tooltip) {
