@@ -16,7 +16,7 @@
   export let maxDate = new Date()
   export let minDate = undefined as undefined | Date
   export let onDateSelect: (date: any) => void
-  export let calendar: null | AirDatepicker<any>
+  export let calendar: null | AirDatepicker<any> = null
 
   let tooltip = null
 
