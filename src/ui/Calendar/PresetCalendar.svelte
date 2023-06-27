@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { default as AirDatepicker } from 'air-datepicker/air-datepicker'
+
   import Svg from '@/ui/Svg/svelte'
   import Calendar from './Calendar.svelte'
 
@@ -37,7 +39,7 @@
   export let label = date[0].toLocaleDateString()
   export let maxDate: Date = new Date()
   export let onDateSelect: (date: Date[]) => void
-  export let calendar: any
+  export let calendar: null | AirDatepicker<any> = null
 </script>
 
 <Calendar
