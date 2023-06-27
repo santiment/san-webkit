@@ -95,3 +95,6 @@ export const trackSideNavRecents = ({ feature, url, source }) =>
 
 export const trackLink = ({ type, url, source, external = false }) =>
   track('link', { type, url, source, external, source_url: window.location.href })
+
+export const trackGetAiSummary = ({ trend, source }: { trend: string; source: string }) =>
+  track('get_ai_summary', { trend, source, source_url: window.location.href })
