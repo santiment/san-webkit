@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip/svelte'
@@ -11,7 +11,7 @@
   export let page = 0
   export let rows = [10, 25, 50]
   export let pageOffset = 0
-  export let onPageChange = noop
+  export let onPageChange = noop as (page: number, pageSize?: number) => void
 
   let isPageSizeOpened = false
 
@@ -38,7 +38,7 @@
     isPageSizeOpened = false
     pageSize = size
     page = 0
-    onPageChange(page)
+    onPageChange(page, size)
   }
 
   function onNextPage() {
