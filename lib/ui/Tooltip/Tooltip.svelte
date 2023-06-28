@@ -42,6 +42,7 @@ const getStyles = (x, y) => ({
 });
 
 function open() {
+  stopOpenTimer();
   stopCloseTimer();
   isOpened = true;
   timerOpen = null;
@@ -54,8 +55,7 @@ function close() {
   isOpened = false;
   tooltip = null;
   if (activeClass) trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
-  window.removeEventListener('touchend', onTouchEnd);
-  trigger === null || trigger === void 0 ? void 0 : trigger.addEventListener('mouseleave', startCloseTimer);
+  window.removeEventListener('touchend', onTouchEnd); // trigger?.removeEventListener('mouseleave', startCloseTimer)
 }
 
 function startOpenTimer() {
@@ -76,6 +76,8 @@ function stopOpenTimer() {
 }
 
 function startCloseTimer() {
+  stopCloseTimer();
+
   if (timerOpen) {
     stopOpenTimer();
   } else {

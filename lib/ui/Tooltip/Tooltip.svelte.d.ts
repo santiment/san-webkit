@@ -27,9 +27,9 @@ declare const __propDef: {
         tooltip: {};
     };
 };
-export type A2Props = typeof __propDef.props;
-export type A2Events = typeof __propDef.events;
-export type A2Slots = typeof __propDef.slots;
-export default class A2 extends SvelteComponentTyped<A2Props, A2Events, A2Slots> {
+export type TooltipProps = typeof __propDef.props;
+export type TooltipEvents = typeof __propDef.events;
+export type TooltipSlots = typeof __propDef.slots;
+export default class Tooltip extends SvelteComponentTyped<TooltipProps, TooltipEvents, TooltipSlots> {
 }
 export {};
