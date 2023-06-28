@@ -58,7 +58,7 @@
     if (activeClass) trigger?.classList.remove(activeClass)
 
     window.removeEventListener('touchend', onTouchEnd)
-    // trigger?.addEventListener('mouseleave', startCloseTimer)
+    // trigger?.removeEventListener('mouseleave', startCloseTimer)
   }
 
   function startOpenTimer() {
