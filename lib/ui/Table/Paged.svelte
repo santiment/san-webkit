@@ -37,7 +37,7 @@ function onPageSizeChange(size) {
   isPageSizeOpened = false;
   pageSize = size;
   page = 0;
-  onPageChange(page);
+  onPageChange(page, size);
 }
 
 function onNextPage() {
