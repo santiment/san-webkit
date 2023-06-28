@@ -1,1 +1,1 @@
-export { default } from './2.svelte'
+export { default } from './Tooltip.svelte'
