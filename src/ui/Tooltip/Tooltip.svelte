@@ -43,6 +43,7 @@
   const getStyles = (x: number, y: number) => ({ left: `${x}px`, top: `${y}px` })
 
   function open() {
+    stopOpenTimer()
     stopCloseTimer()
     isOpened = true
     timerOpen = null
@@ -57,7 +58,7 @@
     if (activeClass) trigger?.classList.remove(activeClass)
 
     window.removeEventListener('touchend', onTouchEnd)
-    trigger?.addEventListener('mouseleave', startCloseTimer)
+    // trigger?.removeEventListener('mouseleave', startCloseTimer)
   }
 
   function startOpenTimer() {
@@ -76,6 +77,8 @@
   }
 
   function startCloseTimer() {
+    stopCloseTimer()
+
     if (timerOpen) {
       stopOpenTimer()
     } else {
