@@ -22,3 +22,23 @@ export function parse(queryString: string) {
 
   return result
 }
+
+export const SearchParams = {
+  parse() {
+    const result = {} as Record<string, any>
+
+    for (const keyValue of window.location.search.slice(1).split('&')) {
+      const [key, value] = keyValue.split('=')
+      if (key) result[key] = value
+    }
+
+    return result
+  },
+
+  stringify: (search: Record<string, any>) =>
+    '?' +
+    Object.keys(search)
+      .filter(Boolean)
+      .map((key) => `${key}=${search[key]}`)
+      .join('&'),
+}
