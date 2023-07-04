@@ -26,7 +26,12 @@ export function updateIntercom(
   name?: string | null,
   email?: string | null,
 ): void {
+  if (!process.browser) return
   if (process.env.IS_DEV_MODE) return
+
+  if (!window.intercomSettings) {
+    window.intercomSettings = {}
+  }
 
   Object.assign(window.intercomSettings, {
     user_id,
@@ -34,7 +39,7 @@ export function updateIntercom(
     email,
   })
 
-  window.Intercom('update')
+  window.Intercom?.('update', window.intercomSettings)
 }
 
 export function showIntercom() {

@@ -56,6 +56,7 @@
     padding: 6px 6px 6px var(--left, 36px);
     border-radius: 4px;
     color: var(--black);
+    max-width: 100%;
   }
 
   .icon {
