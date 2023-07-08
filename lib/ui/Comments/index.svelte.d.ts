@@ -5,7 +5,7 @@ declare const __propDef: {
     props: {
         type: CommentsType;
         commentsFor: SAN.CommentsFor;
-        currentUser?: SAN.CurrentUser | null | undefined;
+        currentUser?: import("../../stores/user").CurrentUserType | null | undefined;
         onNewComment: (commentsFor: SAN.CommentsFor, comments: SAN.Comment[]) => void;
         onAnonComment?: (() => void) | undefined;
         onCommentError?: (() => void) | undefined;

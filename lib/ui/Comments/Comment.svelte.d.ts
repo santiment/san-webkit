@@ -6,7 +6,7 @@ declare const __propDef: {
         commentsFor: SAN.CommentsFor;
         comment: SAN.Comment;
         authorId: number;
-        currentUser?: SAN.CurrentUser | null | undefined;
+        currentUser?: import("../../stores/user").CurrentUserType | null | undefined;
         updateComments: any;
         scrollToNewComment: () => void;
         commentsNode: HTMLDivElement;
