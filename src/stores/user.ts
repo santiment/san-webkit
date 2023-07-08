@@ -1,6 +1,8 @@
-import { query } from '@/api'
-import { Cache } from '@/api/cache'
+import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
+import { Universal, query } from '@/api'
+import { Cache } from '@/api/cache'
+import { setSessionValue } from './utils'
 
 export const ANNUAL_DISCOUT_FRAGMENT = `
   annualDiscount:checkAnnualDiscountEligibility {
@@ -72,3 +74,87 @@ export const customerData$ = {
     return this.query()
   },
 }
+
+// ------------------------------
+
+export type CurrentUserType = {
+  id: number
+  email: string | null
+  username: string | null
+  name: string | null
+  privacyPolicyAccepted: boolean
+  firstLogin: boolean
+  avatarUrl?: string
+  isModerator?: boolean
+  isEligibleForTrial: boolean
+  apikeys: string[]
+
+  ethAccounts?: { address: string }[]
+
+  settings: {
+    theme: string
+    hasTelegramConnected: boolean
+    isPromoter: boolean
+
+    alertNotifyEmail: boolean
+    alertNotifyTelegram: boolean
+  }
+}
+
+export type CurrentUser$Type = ReturnType<typeof CurrentUser$$>['currentUser$']
+
+export const CURRENT_USER_FRAGMENT = `
+    id
+    email
+    username
+    name
+    privacyPolicyAccepted
+    avatarUrl
+    apikeys
+    firstLogin
+    isModerator
+    isEligibleForTrial:isEligibleForSanbaseTrial
+    settings {
+      theme
+      alertNotifyEmail
+      alertNotifyTelegram
+      hasTelegramConnected
+      isPromoter
+    }
+    following {
+      count
+      users {id}
+    }
+    ethAccounts {
+      address
+    }  
+`
+
+export const CURRENT_USER_QUERY = `
+  {
+    currentUser {
+      ${CURRENT_USER_FRAGMENT}
+    }
+  }
+`
+
+export const queryCurrentUser = Universal(
+  (query) => () => query<SAN.API.Query<'currentUser', CurrentUserType | null>>(CURRENT_USER_QUERY),
+)
+
+const CTX = 'CurrentUser$$'
+export function CurrentUser$$(currentUser: null | CurrentUserType) {
+  const { set, subscribe } = writable(currentUser)
+
+  const currentUser$ = {
+    subscribe,
+    set(currentUser: null | CurrentUserType) {
+      setSessionValue({ currentUser })
+      set(currentUser)
+    },
+  }
+
+  return setContext(CTX, { currentUser$ })
+}
+
+export const getCurrentUser$Ctx = () => getContext(CTX) as ReturnType<typeof CurrentUser$$>
