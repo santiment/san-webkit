@@ -28,6 +28,8 @@ export function startLinksListener() {
       window.open(href, '_blank')?.focus()
     }
 
-    trackLink({ url: href, external: isExternal, type, source })
+    if (type && source) {
+      trackLink({ url: href, external: isExternal, type, source })
+    }
   })
 }
