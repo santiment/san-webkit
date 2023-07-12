@@ -83,6 +83,7 @@ export type CurrentUserType = {
   username: string | null
   name: string | null
   privacyPolicyAccepted: boolean
+  marketingAccepted: boolean
   firstLogin: boolean
   avatarUrl?: string
   isModerator?: boolean
@@ -109,6 +110,7 @@ export const CURRENT_USER_FRAGMENT = `
     username
     name
     privacyPolicyAccepted
+    marketingAccepted
     avatarUrl
     apikeys
     firstLogin

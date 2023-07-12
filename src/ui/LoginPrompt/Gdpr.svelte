@@ -11,6 +11,7 @@
 
   export let onAccept
   export let currentUser: null | { username: null | string }
+  export let title = 'Welcome to Sanbase'
 
   const constraints = { required: true, minlength: 3 }
   const defaultUsername = currentUser && currentUser.username
@@ -77,7 +78,7 @@
   onDestroy(clearTimer)
 </script>
 
-<Section title="Welcome to Insights">
+<Section {title}>
   <div class="c-waterloo body-2">
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
