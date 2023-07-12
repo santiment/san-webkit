@@ -28,6 +28,7 @@ export type CurrentUserType = {
     username: string | null;
     name: string | null;
     privacyPolicyAccepted: boolean;
+    marketingAccepted: boolean;
     firstLogin: boolean;
     avatarUrl?: string;
     isModerator?: boolean;
@@ -45,7 +46,7 @@ export type CurrentUserType = {
     };
 };
 export type CurrentUser$Type = ReturnType<typeof CurrentUser$$>['currentUser$'];
-export declare const CURRENT_USER_FRAGMENT = "\n    id\n    email\n    username\n    name\n    privacyPolicyAccepted\n    avatarUrl\n    apikeys\n    firstLogin\n    isModerator\n    isEligibleForTrial:isEligibleForSanbaseTrial\n    settings {\n      theme\n      alertNotifyEmail\n      alertNotifyTelegram\n      hasTelegramConnected\n      isPromoter\n    }\n    following {\n      count\n      users {id}\n    }\n    ethAccounts {\n      address\n    }  \n";
+export declare const CURRENT_USER_FRAGMENT = "\n    id\n    email\n    username\n    name\n    privacyPolicyAccepted\n    marketingAccepted\n    avatarUrl\n    apikeys\n    firstLogin\n    isModerator\n    isEligibleForTrial:isEligibleForSanbaseTrial\n    settings {\n      theme\n      alertNotifyEmail\n      alertNotifyTelegram\n      hasTelegramConnected\n      isPromoter\n    }\n    following {\n      count\n      users {id}\n    }\n    ethAccounts {\n      address\n    }  \n";
 export declare const CURRENT_USER_QUERY: string;
 export declare const queryCurrentUser: (requestEvent?: import("./../api").RequestEvent | undefined) => Promise<SAN.API.Query<"currentUser", CurrentUserType | null>>;
 export declare function CurrentUser$$(currentUser: null | CurrentUserType): {

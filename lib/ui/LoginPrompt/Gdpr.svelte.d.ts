@@ -5,6 +5,7 @@ declare const __propDef: {
         currentUser: {
             username: null | string;
         } | null;
+        title?: string | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

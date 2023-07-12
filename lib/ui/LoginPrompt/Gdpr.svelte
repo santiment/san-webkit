@@ -9,6 +9,7 @@ import { trackGdprAccept } from './../../analytics/events/onboarding';
 import Section from './Section.svelte';
 export let onAccept;
 export let currentUser;
+export let title = 'Welcome to Sanbase';
 const constraints = {
   required: true,
   minlength: 3
@@ -71,7 +72,7 @@ function onUsernameChangeError() {
 
 onDestroy(clearTimer);</script>
 
-<Section title="Welcome to Insights">
+<Section {title}>
   <div class="c-waterloo body-2">
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
