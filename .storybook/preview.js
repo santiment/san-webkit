@@ -1,33 +1,48 @@
-import { startResponsiveController } from '@/responsive'
-import { setupWorker, rest } from 'msw'
+import { createServer } from 'miragejs'
+import { Cache } from 'webkit/api/cache'
+import 'webkit/styles/main.css'
+import Decorator from './Decorator.svelte'
+import { ApiMock } from './mock'
 
-window.mswApiMock = new Set()
-
-const worker = setupWorker(
-  rest.post(process.env.GQL_SERVER_URL, (req, res, ctx) => {
-    // console.log(req, res, ctx)
-    for (const mock of window.mswApiMock) {
-      const result = mock(req, res, ctx)
-      if (result) return result
-    }
-
-    return req.passthrough()
-  }),
-)
-
-worker.start()
-
-startResponsiveController()
-window.__onLinkClick = (e) => console.log('Link clicked', e)
-
-document.body.style = 'padding:0'
-
-export const parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+/** @type {import('@storybook/svelte').Preview} */
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
     },
+
+    docs: { story: { inline: false } },
   },
+
+  decorators: [
+    (_, { args }) => ({
+      Component: Decorator,
+      props: args,
+    }),
+  ],
+
+  loaders: [
+    (ctx) => {
+      Cache.forEach((_, key) => Cache.delete(key))
+
+      const { mockApi } = ctx.parameters
+      if (!mockApi) return
+
+      const schema = mockApi(ctx)
+
+      createServer({
+        routes() {
+          this.passthrough((req) => !ApiMock(req, schema))
+
+          this.post(process.env.GQL_SERVER_URL, (_, req) => ApiMock(req, schema))
+        },
+      })
+    },
+  ],
 }
+
+export default preview

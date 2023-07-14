@@ -3,14 +3,16 @@
   "description": "The fastest way to build new Santiment web application",
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
+  "type": "module",
   "scripts": {
     "ts": "tsc --outDir ./lib",
     "lib": "npm run lib:clean && npm run ts && node scripts/install.js",
     "lib:clean": "node scripts/clean.js",
     "lib:publish": "node scripts/publish --run",
     "test": "jest",
-    "dev": "npm run lib && BACKEND_URL=https://api-stage.santiment.net start-storybook -p 3000 -s ./lib --ci",
-    "build-storybook": "build-storybook",
+    "dev": "npm run storybook",
+    "storybook": "storybook dev -p 4000 --ci",
+    "build:storybook": "storybook build",
     "prepare": "husky install",
     "lint": "eslint src/**/*[^.test].{ts,svelte}",
     "format": "prettier --plugin-search-dir . --write ."
@@ -35,16 +37,15 @@
     "@floating-ui/dom": "^1.2.7",
     "air-datepicker": "^3.3.5",
     "fast-glob": "^3.2.5",
-    "patch-package": "^6.4.7"
+    "patch-package": "^6.4.7",
+    "vitest": "^0.33.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/plugin-proposal-optional-chaining": "^7.18.9",
-    "@storybook/addon-actions": "^6.4.19",
     "@storybook/addon-essentials": "^7.0.27",
     "@storybook/addon-interactions": "^7.0.27",
     "@storybook/addon-links": "^7.0.27",
-    "@storybook/addon-svelte-csf": "^1.1.0",
     "@storybook/blocks": "^7.0.27",
     "@storybook/svelte": "^7.0.27",
     "@storybook/sveltekit": "^7.0.27",
