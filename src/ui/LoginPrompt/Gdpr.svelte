@@ -101,8 +101,8 @@
   </div>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="btn row v-center body-2" on:click={() => (isActive = !isActive)}>
-    <Checkbox class="mrg-m mrg--r" {isActive} />
+  <div class="btn row v-center body-2">
+    <Checkbox class="mrg-m mrg--r" {isActive} on:click={() => (isActive = !isActive)} />
     I accept
     <a
       href="https://santiment.net/terms"
