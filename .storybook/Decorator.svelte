@@ -23,8 +23,24 @@
 
 <Dialogs />
 
-<style>
-  :global(#storybook-root) {
-    min-height: 100vh;
+<style lang="scss">
+  :global {
+    #storybook-root {
+      min-height: 100vh;
+    }
+
+    .sbdocs {
+      & > h1 {
+        margin-bottom: 32px;
+      }
+
+      & > h2 {
+        margin: 32px 0 16px !important;
+      }
+    }
+
+    .prismjs {
+      font-family: monospace;
+    }
   }
 </style>
