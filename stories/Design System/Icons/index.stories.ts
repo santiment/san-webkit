@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/svelte'
 import Component from './index.svelte'
 
 const meta = {
-  title: 'Design System/Illustrations',
+  // title: 'Design System/Icons',
   component: Component,
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
   // tags: ['autodocs'],
@@ -18,4 +18,4 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const Illustrations: Story = {}
+export const Icons: Story = {}
