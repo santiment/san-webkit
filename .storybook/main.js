@@ -29,16 +29,9 @@
 //     () => {},
 //   )
 // }
-//
-// function copyApiMockServiceWorker() {
-//   fs.copyFile('.storybook/mockServiceWorker.js', utils.LIB + '/mockServiceWorker.js', (err) => {
-//     if (err) console.error(err)
-//   })
-// }
-//
+
 // module.exports = {
 //   webpackFinal: async (config) => {
-//     copyApiMockServiceWorker()
 //
 //     await Promise.all([
 //       prepareIconsData('/illus', 'illustrations'),
@@ -96,6 +89,7 @@ const config = {
   },
 
   // staticDirs: ['../src'],
+  // staticDirs: ['../src/icons/', '../src/illus/'],
 
   async viteFinal(config) {
     config.server.fs.allow = ['../']

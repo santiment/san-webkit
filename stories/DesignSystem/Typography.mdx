@@ -54,7 +54,8 @@ change styles of all children just by adding necessary typography class to the p
 
 There are 3 available text weights: `400`, `500` and `600`. In case, when the `font` rule is being
 modified within `<style />` tag, shorthand syntax might be used to assign font weight as well:
-`font: var(--body-3) / 500;`
+`font: var(--body-3) / 500;`. NOTE: `font` rule modification should be done only when implementing
+adaptive design by changing default-case styles, e.g. inside `:global(.tablet)` selector.
 
 ### Reference table
 
@@ -111,7 +112,7 @@ modified within `<style />` tag, shorthand syntax might be used to assign font w
 </div>
 
 <style>
-  #ticker {
+  :global(.desktop) #ticker {
     font: var(--caption) / 400;
     /* font =  size variable / weight */
   }
