@@ -42,5 +42,10 @@
     .prismjs {
       font-family: monospace;
     }
+
+    .monospace {
+      font: var(--caption);
+      font-family: monospace !important;
+    }
   }
 </style>

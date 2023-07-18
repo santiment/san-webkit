@@ -41,12 +41,12 @@ export const Colors = {
   <div className='h3 mrg-s mrg--b'>{group}</div>
   <div className='row'>
     {colors.map((color) => (
-      <div key={color} className='column color gap-xs'>
+      <div key={color} className='column color gap-xs monospace'>
         <div className='border' style={{ background: `var(--${color})` }} />
-        <div className='value caption'>
+        <div >
           var(--{color})
         </div>
-        <div className='value c-waterloo caption'>
+        <div className='c-waterloo'>
           {getComputedStyle(document.documentElement).getPropertyValue(`--${color}`).toUpperCase()}
         </div>
       </div>
