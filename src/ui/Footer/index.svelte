@@ -1,7 +1,6 @@
 <script>
   import DigestForm from '@/ui/DigestForm.svelte'
   import Svg from '@/ui/Svg/svelte'
-  import { IsMobile } from '@/stores/responsive'
   import { links } from './links'
   import Bottom from './Bottom.svelte'
 
@@ -28,10 +27,7 @@
       <div class="forms">
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
-          <DigestForm
-            class="mrg-xl mrg--b $style.form {$IsMobile ? '' : 'body-3'}"
-            label="Subscribe"
-          />
+          <DigestForm class="mrg-xl mrg--b" label="Subscribe" />
         </div>
       </div>
     </div>
@@ -64,10 +60,10 @@
     --max-width: 100%;
   }
 
-  .form {
+  DigestForm {
     width: 386px;
 
-    :global(body:not(.desktop)) & {
+    @include dacnot(desktop) {
       width: auto;
     }
   }
@@ -89,18 +85,17 @@
     flex: 1;
   }
 
-  :global(.phone-xs),
-  :global(.phone) {
+  @include dac(phone, phone-xs) {
     .top {
       flex-direction: column;
     }
 
-    .form {
+    DigestForm {
       margin-bottom: 40px;
     }
   }
 
-  :global(.tablet) {
+  @include dac(tablet) {
     .grid {
       grid-template-rows: repeat(5, 1fr);
       margin: 0;
@@ -113,7 +108,7 @@
     }
   }
 
-  :global(.desktop) {
+  @include dac(desktop) {
     .description {
       max-width: 124px;
     }
@@ -125,6 +120,10 @@
     .grid {
       grid-template-rows: repeat(5, 1fr);
       margin: 0;
+    }
+
+    DigestForm {
+      font: var(--body-3);
     }
   }
 </style>
