@@ -1,5 +1,4 @@
 import { addons, types } from '@storybook/manager-api'
-import { create } from '@storybook/theming/create'
 import ToggleTheme from './ToggleTheme'
 
 // Register the addon

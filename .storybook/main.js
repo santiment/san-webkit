@@ -1,3 +1,4 @@
+const { mergeConfig } = require('vite')
 const fs = require('fs')
 const path = require('path')
 const utils = require('../scripts/utils')
@@ -59,21 +60,21 @@ const config = {
       prepareIconsData('/icons', 'icons'),
     ])
 
-    config.server.fs.allow = ['../']
-
-    Object.assign(config.define, {
-      'process.browser': true,
-      'globalThis.fetch': `((() => {
+    return mergeConfig(config, {
+      sever: {
+        fs: { allow: ['../'] },
+      },
+      define: {
+        'process.browser': true,
+        'globalThis.fetch': `((() => {
         const fetch = window.fetch
         return (...args) => (window.fetch.polyfill ? window.fetch : fetch)(...args)
       })())`,
-      'process.env.MEDIA_PATH': JSON.stringify(''),
-      'process.env.ICONS_PATH': JSON.stringify('/icons'),
+        'process.env.MEDIA_PATH': JSON.stringify(''),
+        'process.env.ICONS_PATH': JSON.stringify('/icons'),
+      },
+      optimizeDeps: { exclude: ['san-webkit'] },
     })
-
-    config.optimizeDeps.exclude = ['san-webkit']
-
-    return config
   },
 }
 
