@@ -1,6 +1,6 @@
 import path from 'path'
 import fs from 'fs'
-import { forFile, mkdir } from './utils'
+import { forFile, mkdir } from './utils.js'
 
 const LIB = path.resolve('node_modules/san-webkit/lib')
 const webkitMap = (dir) => path.resolve(LIB, dir) + '/**/*.svg'
