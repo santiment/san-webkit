@@ -1,16 +1,7 @@
 import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { ROOT } from './utils.js'
-
-function exec(cmd, includeStdout = true) {
-  return new Promise((resolve) => {
-    const executed = _exec(cmd, (error, stdout, stderr) => {
-      return resolve([stdout, error || stderr])
-    })
-    if (includeStdout) executed.stdout.pipe(process.stdout)
-  })
-}
+import { ROOT, exec } from './utils.js'
 
 function updatePkgJson() {
   const filepath = path.resolve(ROOT, 'package.json')

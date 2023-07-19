@@ -2,6 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import fg from 'fast-glob'
 import { fileURLToPath } from 'url'
+import { exec as _exec } from 'child_process'
 
 export let ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 if (ROOT.includes('node_modules')) {
@@ -37,4 +38,13 @@ export function copyFile(entry) {
 
   const file = fs.readFileSync(srcFilePath)
   fs.writeFileSync(libFilePath, file)
+}
+
+export function exec(cmd, includeStdout = true) {
+  return new Promise((resolve) => {
+    const executed = _exec(cmd, (error, stdout, stderr) => {
+      return resolve([stdout, error || stderr])
+    })
+    if (includeStdout) executed.stdout.pipe(process.stdout)
+  })
 }
