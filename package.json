@@ -9,11 +9,12 @@
     "lib": "npm run lib:clean && npm run ts && node scripts/install.js",
     "lib:clean": "node scripts/clean.js",
     "lib:publish": "node scripts/publish --run",
-    "test": "jest",
+    "test": "vitest run",
     "dev": "npm run storybook",
     "storybook": "storybook dev -p 4000 --ci",
     "build:storybook": "storybook build",
     "prepare": "husky install",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint src/**/*[^.test].{ts,svelte}",
     "format": "prettier --plugin-search-dir . --write ."
   },
@@ -29,16 +30,14 @@
       "prettier --plugin-search-dir . --write"
     ],
     "*.{js,ts,svelte}": [
-      "eslint --fix",
-      "npm run check"
+      "eslint --fix"
     ]
   },
   "dependencies": {
     "@floating-ui/dom": "^1.2.7",
     "air-datepicker": "^3.3.5",
     "fast-glob": "^3.2.5",
-    "patch-package": "^6.4.7",
-    "vitest": "^0.33.0"
+    "patch-package": "^6.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.18.10",
@@ -55,7 +54,6 @@
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.22.3",
     "@types/gtag.js": "0.0.4",
-    "@types/jest": "^29.2.0",
     "@types/marked": "^4.0.2",
     "@types/medium-editor": "^5.0.5",
     "@types/node": "^15.0.2",
@@ -74,9 +72,8 @@
     "eslint-plugin-svelte3": "^4.0.0",
     "ethers": "^5.4.4",
     "graphql": "^16.7.1",
+    "happy-dom": "^10.5.2",
     "husky": "^8.0.3",
-    "jest": "^29.2.2",
-    "jest-environment-jsdom": "^29.2.2",
     "lint-staged": "^13.2.3",
     "magic-string": "^0.30.1",
     "marked": "^4.0.12",
@@ -96,11 +93,11 @@
     "svelte2tsx": "^0.6.11",
     "svg-sprite": "^1.5.4",
     "svgo": "^2.8.0",
-    "ts-jest": "^29.0.3",
     "tslib": "^2.6.0",
     "turndown": "^7.1.1",
     "typescript": "^5.1.6",
-    "vite": "^4.4.4"
+    "vite": "^4.4.4",
+    "vitest": "^0.33.0"
   },
   "peerDependencies": {
     "@types/gtag.js": "0.0.4",

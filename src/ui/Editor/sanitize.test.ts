@@ -1,7 +1,4 @@
-/**
- * @jest-environment jsdom
- */
-
+import { describe, expect, it } from 'vitest'
 import { htmlToMarkdown, markdownToHTML } from './markdown'
 
 const sanitize = (md: string) => {

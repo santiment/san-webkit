@@ -1,4 +1,6 @@
 import type { History } from './index'
+
+import { describe, expect, beforeEach, test } from 'vitest'
 import { newHistory } from './index'
 
 describe('History', () => {

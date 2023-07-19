@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest'
 import { checkIsSameObject } from './objects'
 
 describe('checkIsSameObject', () => {
