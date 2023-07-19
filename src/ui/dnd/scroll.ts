@@ -36,7 +36,7 @@ function startAutoScroll(ctx: ScrollContext, delta: number) {
 
 export function getScrollingParent(node: null | HTMLElement) {
   if (!node) return null
-  if (node === document.body) return document.scrollingElement
+  if (node === document.body) return document.scrollingElement as HTMLElement
 
   const styles = window.getComputedStyle(node)
   if (styles.overflow === 'auto' || styles.overflow === 'scroll') return node

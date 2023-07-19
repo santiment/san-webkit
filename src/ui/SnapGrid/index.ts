@@ -87,7 +87,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
     })
 
     setGridContainerHeight(bottom, ctx)
-    ctx.scrollParent = getScrollingParent(gridContainerNode)
+    ctx.scrollParent = getScrollingParent(gridContainerNode) as HTMLElement
   }
 
   function resize(gridWidth: number) {

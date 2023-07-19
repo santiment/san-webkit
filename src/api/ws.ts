@@ -10,7 +10,7 @@ export function Socket(url: string) {
   const Receiver = new Map<MsgId, MsgController>()
 
   let msgId = 0 as MsgId
-  let state = WebSocket.CONNECTING
+  let state = WebSocket.CONNECTING as number
   let buffer = [] as any[]
 
   const send = (msg) => socket.send(JSON.stringify(msg))
