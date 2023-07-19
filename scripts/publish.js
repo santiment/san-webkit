@@ -24,12 +24,12 @@ function updatePkgJson() {
 }
 
 export async function publish() {
-  // const [status] = await exec('git status')
-  // if (status.includes('Your branch is ahead of') || !status.includes('nothing to commit')) {
-  //   return console.error('❗️ Commit/push your changes first ❗️')
-  // }
-  //
-  // await exec('git pull', false)
+  const [status] = await exec('git status')
+  if (status.includes('Your branch is ahead of') || !status.includes('nothing to commit')) {
+    return console.error('❗️ Commit/push your changes first ❗️')
+  }
+
+  await exec('git pull', false)
 
   await exec('git checkout lib')
 
@@ -58,30 +58,32 @@ export async function publish() {
     // return console.error('❗️ Resolve merge conflicts and then run script again ❗️')
   }
 
-  return
-
   await exec('git rm --cached -r lib', false)
   // await exec('git rm --cached -r .storybook', false)
   await exec('git rm --cached -r stories', false)
+  await exec('git rm --cached -r _stories', false)
   await exec('git rm --cached -r .husky', false)
 
   await exec('npm run lib')
   updatePkgJson()
 
-  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '.husky\nstories')
+  const gitignore = fs
+    .readFileSync('.gitignore')
+    .toString()
+    .replace('lib/', '.husky\nstories\n_stories')
   fs.writeFileSync('.gitignore', gitignore)
 
   await exec('git add -f lib')
   await exec('git add -f .gitignore')
   await exec('git add -f package.json')
 
-  // await exec('git commit -m "Library release"', false)
-  // await exec('git push')
+  await exec('git commit -m "Library release"', false)
+  await exec('git push')
 
-  // const [hash] = await exec('git rev-parse --short HEAD', false)
-  // await exec('git clean -fd', false)
-  // await exec('git checkout master')
-  //
+  const [hash] = await exec('git rev-parse --short HEAD', false)
+  await exec('git clean -fd', false)
+  await exec('git checkout master')
+
   console.log(`\n✅ Library published. Hash: ${hash}\n`)
 }
 
