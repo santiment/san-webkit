@@ -10,7 +10,7 @@ export default class BillingToggle extends SvelteComponentTyped<{
 export type BillingToggleProps = typeof __propDef.props;
 export type BillingToggleEvents = typeof __propDef.events;
 export type BillingToggleSlots = typeof __propDef.slots;
-import { Billing } from "./../../../utils/plans";
+import { Billing } from './../../../utils/plans';
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {

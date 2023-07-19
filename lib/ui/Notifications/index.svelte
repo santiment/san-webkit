@@ -1,8 +1,10 @@
-<script>import Item from './Item.svelte';
-import { notifications$ } from './notifications';
-let parentNode;
+<script>
+  import Item from './Item.svelte'
+  import { notifications$ } from './notifications'
 
-$: notifications = [...$notifications$];</script>
+  let parentNode
+  $: notifications = [...$notifications$]
+</script>
 
 <div bind:this={parentNode}>
   {#each notifications as notification, i (notification.id)}
@@ -10,7 +12,21 @@ $: notifications = [...$notifications$];</script>
   {/each}
 </div>
 
-<style >div {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+div {
   z-index: 10000;
   position: fixed;
   bottom: 20px;

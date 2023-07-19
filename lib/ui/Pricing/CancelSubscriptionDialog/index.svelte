@@ -11,41 +11,31 @@ let reasons = new Set();
 let feedback = '';
 let loading = false;
 let error = false;
-const {
-  customer$
-} = getCustomer$Ctx();
-
-$: ({
-  subscription
-} = $customer$);
-
+const { customer$ } = getCustomer$Ctx();
+$: ({ subscription } = $customer$);
 $: isFeedbackScreen = screen === Screen.Feedback;
-
 $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen;
-
 function onCancellationClick() {
-  if (screen === Screen.Suggestions) {
-    screen = Screen.Feedback;
-    return;
-  }
-
-  if (!subscription) return;
-
-  if (reasons.size === 0) {
-    error = true;
-    return;
-  }
-
-  loading = true;
-  startCancellationFlow(customer$, subscription, feedback, closeDialog).then(() => {
-    loading = false;
-  });
+    if (screen === Screen.Suggestions) {
+        screen = Screen.Feedback;
+        return;
+    }
+    if (!subscription)
+        return;
+    if (reasons.size === 0) {
+        error = true;
+        return;
+    }
+    loading = true;
+    startCancellationFlow(customer$, subscription, feedback, closeDialog).then(() => {
+        loading = false;
+    });
 }
-
 function onServiceClick() {
-  showIntercom();
-  closeDialog();
-}</script>
+    showIntercom();
+    closeDialog();
+}
+</script>
 
 <Dialog {...$$props} bind:closeDialog>
   <svelte:fragment slot="title">
@@ -72,7 +62,21 @@ function onServiceClick() {
   </div>
 </Dialog>
 
-<style >.dialog-body {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.dialog-body {
   padding: 32px 16px;
 }
 :global(.desktop) .dialog-body {

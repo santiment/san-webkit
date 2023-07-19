@@ -1,26 +1,21 @@
-<script>import { getCustomer$Ctx } from './../../../stores/customer';
-import Tooltip from './../../../ui/Tooltip/svelte';
-import { ONE_DAY_IN_MS } from './../../../utils/dates';
-import rocketSvg from './rocket.svg';
-const {
-  customer$
-} = getCustomer$Ctx();
+<script>
+  import { getCustomer$Ctx } from './../../../stores/customer'
+  import Tooltip from './../../../ui/Tooltip/svelte'
+  import { ONE_DAY_IN_MS } from './../../../utils/dates'
+  import rocketSvg from './rocket.svg'
 
-$: ({
-  percent,
-  expireAt
-} = $customer$.annualDiscount);
+  const { customer$ } = getCustomer$Ctx()
+  $: ({ percent, expireAt } = $customer$.annualDiscount)
 
-$: condition = percent === 35 ? 'the month is finished' : 'your trial expired';
+  $: condition = percent === 35 ? 'the month is finished' : 'your trial expired'
+  $: daysLeft = getDaysLeft(expireAt)
+  $: plural = daysLeft > 1 ? 's' : ''
 
-$: daysLeft = getDaysLeft(expireAt);
-
-$: plural = daysLeft > 1 ? 's' : '';
-
-function getDaysLeft(expireAt) {
-  const diff = +new Date(expireAt) - Date.now();
-  return Math.ceil(diff / ONE_DAY_IN_MS) || 1;
-}</script>
+  function getDaysLeft(expireAt) {
+    const diff = +new Date(expireAt) - Date.now()
+    return Math.ceil(diff / ONE_DAY_IN_MS) || 1
+  }
+</script>
 
 <div class="offer row relative txt-left justify">
   <div class="img"><img src={rocketSvg} alt="rocket" /></div>
@@ -43,7 +38,21 @@ function getDaysLeft(expireAt) {
   </div>
 </div>
 
-<style >.offer {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.offer {
   max-width: 800px;
   background: var(--athens);
   border-radius: 8px;

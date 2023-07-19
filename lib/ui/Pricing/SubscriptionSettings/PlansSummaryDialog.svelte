@@ -1,48 +1,43 @@
 <script context="module">import { dialogs } from './../../../ui/Dialog';
 import PlansSummaryDialog from './PlansSummaryDialog.svelte';
-export const showPlanSummaryDialog = () => dialogs.show(PlansSummaryDialog);</script>
+export const showPlanSummaryDialog = () => dialogs.show(PlansSummaryDialog);
+</script>
 
-<script>import { onDestroy } from 'svelte';
-import Dialog from './../../../ui/Dialog';
-import { querySanbasePlans } from './../../../api/plans';
-import { getCustomer$Ctx } from './../../../stores/customer';
-import { Billing, onlyProLikePlans } from './../../../utils/plans';
-import SpecialOfferBanner from './../../../ui/Pricing/Page/SpecialOfferBanner.svelte';
-import BillingToggle from './../../../ui/Pricing/Page/BillingToggle.svelte';
-import Plans from './../../../ui/Pricing/Page/Plans.svelte';
-import { PLAN_BUTTON_CLICKED } from '../utils';
-const {
-  customer$
-} = getCustomer$Ctx();
-let closeDialog;
-let billing = Billing.MONTH;
-let plans = [];
+<script>
+  import { onDestroy } from 'svelte'
+  import Dialog from './../../../ui/Dialog'
+  import { querySanbasePlans } from './../../../api/plans'
+  import { getCustomer$Ctx } from './../../../stores/customer'
+  import { Billing, onlyProLikePlans } from './../../../utils/plans'
+  import SpecialOfferBanner from './../../../ui/Pricing/Page/SpecialOfferBanner.svelte'
+  import BillingToggle from './../../../ui/Pricing/Page/BillingToggle.svelte'
+  import Plans from './../../../ui/Pricing/Page/Plans.svelte'
+  import { PLAN_BUTTON_CLICKED } from '../utils'
 
-$: billingPlans = (billing, plans.filter(billingFilter));
+  const { customer$ } = getCustomer$Ctx()
 
-$: ({
-  isLoggedIn,
-  isEligibleForTrial,
-  annualDiscount,
-  subscription
-} = $customer$);
+  let closeDialog
+  let billing = Billing.MONTH
 
-querySanbasePlans().then(data => {
-  plans = data.filter(onlyProLikePlans);
-});
+  let plans = []
+  $: billingPlans = (billing, plans.filter(billingFilter))
 
-function billingFilter({
-  interval
-}) {
-  return interval === billing;
-}
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = $customer$)
 
-const close = () => closeDialog();
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProLikePlans)
+  })
 
-window.addEventListener(PLAN_BUTTON_CLICKED, close);
-onDestroy(() => {
-  window.removeEventListener(PLAN_BUTTON_CLICKED, close);
-});</script>
+  function billingFilter({ interval }) {
+    return interval === billing
+  }
+
+  const close = () => closeDialog()
+  window.addEventListener(PLAN_BUTTON_CLICKED, close)
+  onDestroy(() => {
+    window.removeEventListener(PLAN_BUTTON_CLICKED, close)
+  })
+</script>
 
 <Dialog {...$$props} title="Change your plan" bind:closeDialog>
   <div class="dialog-body">
@@ -65,4 +60,17 @@ onDestroy(() => {
   </div>
 </Dialog>
 
-<style ></style>
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/</style>

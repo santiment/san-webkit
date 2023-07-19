@@ -1,9 +1,12 @@
-<script>import Tooltip from './../../ui/Tooltip/svelte';
-import Svg from './../../ui/Svg/svelte';
-export let type = 'error';
-export let text = '';
-export let offsetY = 6;
-export let activeClass = '';</script>
+<script>
+  import Tooltip from './../../ui/Tooltip/svelte'
+  import Svg from './../../ui/Svg/svelte'
+
+  export let type = 'error'
+  export let text = ''
+  export let offsetY = 6
+  export let activeClass = ''
+</script>
 
 <Tooltip
   isOpened={!!text}

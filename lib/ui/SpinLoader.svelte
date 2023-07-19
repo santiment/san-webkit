@@ -1,6 +1,8 @@
-<script>export let fixed = false;
-export let bg = false;
-export let size = 48;</script>
+<script>
+  export let fixed = false
+  export let bg = false
+  export let size = 48
+</script>
 
 <loader class="row hv-center" class:fixed class:bg>
   <loading-spin style="--loading-size:{size}px" />

@@ -1,5 +1,7 @@
-<script>import { showIntercom } from './../../../../analytics/intercom';
-import Card from './Card.svelte';</script>
+<script>
+  import { showIntercom } from './../../../../analytics/intercom'
+  import Card from './Card.svelte'
+</script>
 
 <Card
   yellow
@@ -15,7 +17,21 @@ import Card from './Card.svelte';</script>
   <img src="{process.env.MEDIA_PATH}/illus/alien.svg" alt="Alien" />
 </Card>
 
-<style >img {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+img {
   position: absolute;
   bottom: 0;
   right: 0;

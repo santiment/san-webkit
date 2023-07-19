@@ -4,16 +4,11 @@ import { updatePumpkins } from './flow';
 import { showHalloweenPopup } from './Dialog.svelte';
 import FlamePumpkin from './FlamePumpkin.svelte';
 export let showOn = '';
-
-$: ({
-  isLoggedIn
-} = $customerData$);
-
+$: ({ isLoggedIn } = $customerData$);
 function onPumpkinClick() {
-  updatePumpkins(showOn).then(() => showHalloweenPopup({
-    isClickawayDisabled: true
-  }));
-}</script>
+    updatePumpkins(showOn).then(() => showHalloweenPopup({ isClickawayDisabled: true }));
+}
+</script>
 
 {#if isLoggedIn && !$halloweenData$.pages.has(showOn)}
   <FlamePumpkin class="btn" small on:click={onPumpkinClick} />

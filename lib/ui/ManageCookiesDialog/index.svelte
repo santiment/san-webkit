@@ -7,26 +7,21 @@ import { setSessionValue } from './../../stores/utils';
 import ManageCookiesDialog from './index.svelte';
 export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED';
 export const Cookies = {
-  Basic: 'BASIC_COOKIES',
-  Functional: 'FUNCTIONAL_COOKIES',
-  Performance: 'PERFORMANCE_COOKIES'
+    Basic: 'BASIC_COOKIES',
+    Functional: 'FUNCTIONAL_COOKIES',
+    Performance: 'PERFORMANCE_COOKIES',
 };
-export const showManageCookiesDialog = props => dialogs.show(ManageCookiesDialog, Object.assign({
-  strict: true
-}, props));
+export const showManageCookiesDialog = (props) => dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props));
 export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
-  saveBoolean(Cookies.Basic, true);
-  saveBoolean(Cookies.Functional, isFunctionalAccepted);
-  saveBoolean(Cookies.Performance, isPerformanceAccepted);
-  saveBoolean(COOKIE_POLICY_ACCEPTED, true);
-  setCookie(COOKIE_POLICY_ACCEPTED, true);
-  setSessionValue({
-    isCookiesVisible: false
-  });
-  track.event('Cookie policy accepted', {
-    category: 'User'
-  });
-}</script>
+    saveBoolean(Cookies.Basic, true);
+    saveBoolean(Cookies.Functional, isFunctionalAccepted);
+    saveBoolean(Cookies.Performance, isPerformanceAccepted);
+    saveBoolean(COOKIE_POLICY_ACCEPTED, true);
+    setCookie(COOKIE_POLICY_ACCEPTED, true);
+    setSessionValue({ isCookiesVisible: false });
+    track.event('Cookie policy accepted', { category: 'User' });
+}
+</script>
 
 <script>import Dialog from './../../ui/Dialog';
 import Toggle from './../../ui/Toggle.svelte';
@@ -35,30 +30,28 @@ export let DialogPromise;
 let closeDialog;
 let isFunctionalAccepted = false;
 let isPerformanceAccepted = false;
-
-const toggleHandler = fn => e => {
-  e.stopPropagation();
-  fn();
+const toggleHandler = (fn) => (e) => {
+    e.stopPropagation();
+    fn();
 };
-
 function onSaveClick() {
-  applyCookies(isFunctionalAccepted, isPerformanceAccepted);
-  DialogPromise.resolve();
-  closeDialog();
+    applyCookies(isFunctionalAccepted, isPerformanceAccepted);
+    DialogPromise.resolve();
+    closeDialog();
 }
-
 function onAllowAllClick() {
-  applyCookies(true, true);
-  DialogPromise.resolve();
-  closeDialog();
-}</script>
+    applyCookies(true, true);
+    DialogPromise.resolve();
+    closeDialog();
+}
+</script>
 
 <Dialog
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-lCLiFt"
-  titleClassName="title-LqpPyq"
+  class="dialog-gTFV4b"
+  titleClassName="title-s9RzJG"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -114,7 +107,21 @@ function onAllowAllClick() {
   </div>
 </Dialog>
 
-<style >:global(.dialog-lCLiFt) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.dialog-gTFV4b) {
   max-width: 600px !important;
 }
 
@@ -133,10 +140,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-lCLiFt) {
+:global(body:not(.desktop)) :global(.dialog-gTFV4b) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-LqpPyq) {
+:global(body:not(.desktop)) :global(.title-s9RzJG) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

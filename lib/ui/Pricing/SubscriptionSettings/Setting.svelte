@@ -1,5 +1,6 @@
 <script>let className = 'justify';
-export { className as class };</script>
+export { className as class };
+</script>
 
 <div class="setting row v-center {className}">
   <slot />

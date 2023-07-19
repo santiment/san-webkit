@@ -1,7 +1,9 @@
-<script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
-import { trackSignupStart } from './../../analytics/events/onboarding';
-import { getOAuthLink } from './../../utils/auth';
-import Option from './Option.svelte';</script>
+<script>
+  import { LoginType, trackLoginStart } from './../../analytics/events/general'
+  import { trackSignupStart } from './../../analytics/events/onboarding'
+  import { getOAuthLink } from './../../utils/auth'
+  import Option from './Option.svelte'
+</script>
 
 <Option
   {...$$props}

@@ -2,13 +2,8 @@
 import Checkmark from './Checkmark.svelte';
 import { CardBrandIllustration } from './utils';
 export let savedCard;
-
-$: ({
-  last4,
-  expMonth,
-  expYear,
-  brand
-} = savedCard || {});</script>
+$: ({ last4, expMonth, expYear, brand } = savedCard || {});
+</script>
 
 <section class="body-2">
   <div class="card border">

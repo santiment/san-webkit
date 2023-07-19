@@ -1,20 +1,24 @@
-<script context="module">export function openPopup(e) {
-  e.preventDefault();
-  const href = e.currentTarget.href;
-  const settings = 'popup';
-  const popup = window.open(href, 'Popup sign in', settings);
-  popup.focus();
-}</script>
+<script context="module">
+  export function openPopup(e) {
+    e.preventDefault()
+    const href = e.currentTarget.href
+    const settings = 'popup'
+    const popup = window.open(href, 'Popup sign in', settings)
+    popup.focus()
+  }
+</script>
 
-<script>export let tag = 'a';
-let className = 'mrg-s mrg--b';
-export { className as class };
-export let title;
-export let href;
-export let prefetch = false;
-export let icon;
-export let loading = false;
-export let isSignUp = false;</script>
+<script>
+  export let tag = 'a'
+  let className = 'mrg-s mrg--b'
+  export { className as class }
+  export let title
+  export let href
+  export let prefetch = false
+  export let icon
+  export let loading = false
+  export let isSignUp = false
+</script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element

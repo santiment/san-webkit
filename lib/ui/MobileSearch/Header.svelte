@@ -1,7 +1,8 @@
 <script>import Svg from './../../ui/Svg/svelte';
 import SearchInput from './SearchInput.svelte';
 export let show;
-export let searchTerm;</script>
+export let searchTerm;
+</script>
 
 <div class="wrapper row v-center mrg-l mrg--b">
   <button
@@ -17,7 +18,21 @@ export let searchTerm;</script>
   </div>
 </div>
 
-<style >.wrapper {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.wrapper {
   padding-left: 8px;
   padding-right: 20px;
 }

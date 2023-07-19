@@ -1,84 +1,63 @@
-<script context="module">var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
-};
-
-import { Preloader } from './../utils/fn';
+<script context="module">import { Preloader } from './../utils/fn';
 import { stripe } from './../stores/stripe';
 import { dialogs } from './../ui/Dialog';
 import UpdatePaymentCardDialog from './UpdatePaymentCardDialog.svelte';
-export const showUpdatePaymentCardDialog = props => dialogs.show(UpdatePaymentCardDialog, props);
-
+export const showUpdatePaymentCardDialog = (props) => dialogs.show(UpdatePaymentCardDialog, props);
 const preloadData = () => stripe.load();
+export const dataPreloader = Preloader(preloadData);
+</script>
 
-export const dataPreloader = Preloader(preloadData);</script>
-
-<script>var __rest = this && this.__rest || function (s, e) {
-  var t = {};
-
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
-
-  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
-    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
-  }
-  return t;
+<script>var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
 };
-
 import Dialog from './../ui/Dialog';
 import { DialogLock } from './../ui/Dialog/dialogs';
 import Svg from './../ui/Svg/svelte';
-import { CardBrandIllustration, createCardToken, getPaymentFormData } from './../ui/PaymentDialog/utils';
+import { CardBrandIllustration, createCardToken, getPaymentFormData, } from './../ui/PaymentDialog/utils';
 import PayerInfo from './../ui/PaymentDialog/PayerInfo.svelte';
 import Checkmark from './../ui/PaymentDialog/Checkmark.svelte';
 import { mutateUpdatePaymentCard } from './../api/subscription';
 import { paymentCard$ } from './../stores/paymentCard';
 export let DialogPromise;
-export let onSuccess = data => {};
+export let onSuccess = (data) => { };
 export let onError;
 let closeDialog;
 let loading = false;
 let StripeCard;
 let isCardValid = false;
-
-const onCardChange = ({
-  complete
-}) => isCardValid = complete;
-
-$: if (StripeCard) StripeCard.on('change', onCardChange);
-
+const onCardChange = ({ complete }) => (isCardValid = complete);
+$: if (StripeCard)
+    StripeCard.on('change', onCardChange);
 $: disabled = !isCardValid;
-
 function onChange() {
-  DialogPromise.locking = DialogLock.WARN;
-}
-
-function onSubmit({
-  currentTarget
-}) {
-  loading = true;
-  DialogPromise.locking = DialogLock.LOCKED;
-
-  const _a = getPaymentFormData(currentTarget),
-        {
-    discount
-  } = _a,
-        checkoutInfo = __rest(_a, ["discount"]);
-
-  createCardToken($stripe, StripeCard, checkoutInfo).then(token => mutateUpdatePaymentCard(token.id)).then(data => {
-    closeDialog();
-    onSuccess(data);
-    paymentCard$.refetch();
-  }).catch(onError).finally(() => {
-    loading = false;
     DialogPromise.locking = DialogLock.WARN;
-  });
-}</script>
+}
+function onSubmit({ currentTarget }) {
+    loading = true;
+    DialogPromise.locking = DialogLock.LOCKED;
+    const _a = getPaymentFormData(currentTarget), { discount } = _a, checkoutInfo = __rest(_a, ["discount"]);
+    createCardToken($stripe, StripeCard, checkoutInfo)
+        .then((token) => mutateUpdatePaymentCard(token.id))
+        .then((data) => {
+        closeDialog();
+        onSuccess(data);
+        paymentCard$.refetch();
+    })
+        .catch(onError)
+        .finally(() => {
+        loading = false;
+        DialogPromise.locking = DialogLock.WARN;
+    });
+}
+</script>
 
 <Dialog {...$$props} title="Update your payment details" bind:closeDialog>
   <form on:submit|preventDefault={onSubmit} on:change={onChange}>
@@ -90,7 +69,7 @@ function onSubmit({
           <Svg illus {...CardBrandIllustration.Visa} class="mrg-m mrg--r" />
           <Svg illus {...CardBrandIllustration.MasterCard} />
 
-          <Checkmark class="checkmark-eTsZzE {isCardValid ? 'valid-ojbJFn' : ''}" />
+          <Checkmark class="checkmark-MtwVMc {isCardValid ? 'valid-ha4dzA' : ''}" />
         </div>
 
         <div class="dots row c-waterloo">
@@ -118,7 +97,21 @@ function onSubmit({
   </form>
 </Dialog>
 
-<style >form {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+form {
   padding: 16px;
   display: block;
   overflow: auto;
@@ -170,11 +163,11 @@ button {
   border: 1px solid var(--porcelain);
 }
 
-:global(.checkmark-eTsZzE) {
+:global(.checkmark-MtwVMc) {
   background: var(--porcelain) !important;
 }
 
-:global(.valid-ojbJFn) {
+:global(.valid-ha4dzA) {
   background: var(--green-light-1) !important;
   fill: var(--green) !important;
 }</style>

@@ -3,30 +3,26 @@ import { halloweenData$ } from './../../stores/halloween';
 import { mutateCreatePumpkinCode } from './../../api/halloween';
 import DiscountCode from './DiscountCode.svelte';
 let discount;
-
-$: ({
-  isLoggedIn
-} = $customerData$);
-
+$: ({ isLoggedIn } = $customerData$);
 $: pages = $halloweenData$.pages.size;
-
 $: if (pages === 3) {
-  mutateCreatePumpkinCode().then(code => discount = code);
-}</script>
+    mutateCreatePumpkinCode().then((code) => (discount = code));
+}
+</script>
 
 {#if isLoggedIn && discount}
   <div class="wrapper column hv-center txt-center">
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
       alt="Discount"
-      class="discount-MjSnQi"
+      class="discount-tZV1b3"
     />
     <h3 class="body-1 txt-m mrg-s mrg--b">Congratulations!</h3>
     <p class="mrg-m mrg--b">
       Let’s put your outstanding skills to use and seek an alpha! This promo code is available
       between now and November 5th!
     </p>
-    <DiscountCode class="fluid copy-WcziqW" {discount} />
+    <DiscountCode class="fluid copy-EhrHAP" {discount} />
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange fluid mrg-l mrg--t"
@@ -37,21 +33,35 @@ $: if (pages === 3) {
   </div>
 {/if}
 
-<style >.wrapper {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.wrapper {
   max-width: 188px;
   padding: 24px 16px;
   background-color: var(--orange-pale);
   border-radius: 8px;
 }
 
-:global(.discount-MjSnQi) {
+:global(.discount-tZV1b3) {
   width: 134px;
   height: 41px;
   margin-bottom: 16px;
   margin-left: 10px;
 }
 
-:global(.copy-WcziqW) {
+:global(.copy-EhrHAP) {
   padding: 6px 0;
 }
 

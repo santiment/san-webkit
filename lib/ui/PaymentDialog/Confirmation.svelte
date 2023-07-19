@@ -16,10 +16,9 @@ export let sanBalance;
 export let annualDiscount = {};
 export let onSubmit;
 let percentOff = 0;
-
 $: isAnnualPlan = plan.interval === Billing.YEAR;
-
-$: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';</script>
+$: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';
+</script>
 
 <div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
@@ -31,7 +30,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       <DiscountInput bind:percentOff />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-nPwh55 mrg-s mrg--r" />
+        <Svg id="info" w="16" class="info-MfZEma mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -66,7 +65,21 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   </Skeleton>
 </div>
 
-<style >.confirmation {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.confirmation {
   grid-area: confirmation;
   background: var(--athens);
   border-radius: 4px;
@@ -81,7 +94,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   max-width: 355px;
 }
 
-:global(.info-nPwh55) {
+:global(.info-MfZEma) {
   margin-top: 2px;
 }
 

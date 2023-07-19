@@ -1,14 +1,20 @@
-<script context="module">import { queryProjects, queryErc20Projects, queryStablecoinProjects, queryDeFiProjects } from './../../api/projects';
+<script context="module">import { queryProjects, queryErc20Projects, queryStablecoinProjects, queryDeFiProjects, } from './../../api/projects';
 import { noop } from './../../utils';
-export const TABS = [['All', queryProjects], ['ERC20', queryErc20Projects], ['Stablecoins', queryStablecoinProjects], ['DeFi', queryDeFiProjects]];</script>
+export const TABS = [
+    ['All', queryProjects],
+    ['ERC20', queryErc20Projects],
+    ['Stablecoins', queryStablecoinProjects],
+    ['DeFi', queryDeFiProjects],
+];
+</script>
 
 <script>export let tabs;
 export let selected;
 export let onSelect = noop;
-
 function onClick(tab) {
-  onSelect(selected = tab);
-}</script>
+    onSelect((selected = tab));
+}
+</script>
 
 <nav class="row c-waterloo">
   {#each tabs as tab}

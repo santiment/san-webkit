@@ -11,44 +11,44 @@ export let rows = [10, 25, 50];
 export let pageOffset = 0;
 export let onPageChange = noop;
 let isPageSizeOpened = false;
-
 $: pagesAmount = Math.ceil(items.length / pageSize);
-
 $: maxPage = pagesAmount - 1;
-
 $: pageOffset = page * pageSize;
-
 $: pageEndOffset = pageOffset + pageSize;
-
 $: pageItems = items.slice(pageOffset, pageEndOffset);
-
-const applySort = sorter => items.slice().sort(sorter).slice(pageOffset, pageEndOffset);
-
-function onPageInput({
-  currentTarget
-}) {
-  const value = +currentTarget.value;
-  if (!value || value < 1) page = 0;else if (value > pagesAmount) page = maxPage;else page = value - 1;
-  currentTarget.value = page + 1;
-  onPageChange(page);
+const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset);
+function onPageInput({ currentTarget }) {
+    const value = +currentTarget.value;
+    if (!value || value < 1)
+        page = 0;
+    else if (value > pagesAmount)
+        page = maxPage;
+    else
+        page = value - 1;
+    currentTarget.value = page + 1;
+    onPageChange(page);
 }
-
 function onPageSizeChange(size) {
-  isPageSizeOpened = false;
-  pageSize = size;
-  page = 0;
-  onPageChange(page, size);
+    isPageSizeOpened = false;
+    pageSize = size;
+    page = 0;
+    onPageChange(page, size);
 }
-
 function onNextPage() {
-  if (page >= pagesAmount) page = maxPage;else page++;
-  onPageChange(page);
+    if (page >= pagesAmount)
+        page = maxPage;
+    else
+        page++;
+    onPageChange(page);
 }
-
 function onPrevPage() {
-  if (page <= 1) page = 0;else page--;
-  onPageChange(page);
-}</script>
+    if (page <= 1)
+        page = 0;
+    else
+        page--;
+    onPageChange(page);
+}
+</script>
 
 <div class={className}>
   <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort}>
@@ -98,7 +98,7 @@ function onPrevPage() {
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-4MgRbA mrg-m mrg--l" />
+    <Svg id="arrow-right" w="5" h="8" class="left-QURGYE mrg-m mrg--l" />
   </button>
   <button
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
@@ -110,7 +110,21 @@ function onPrevPage() {
   </button>
 </div>
 
-<style >:global(.left-4MgRbA) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.left-QURGYE) {
   transform: rotate(180deg);
 }
 

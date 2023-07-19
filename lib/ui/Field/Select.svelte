@@ -9,12 +9,12 @@ export let selected = options[0];
 export let onSelect;
 export let checkIsActive = (selected, option) => selected === option;
 let isOpened = false;
-
 function onOptionSelect(option) {
-  selected = option;
-  isOpened = false;
-  onSelect === null || onSelect === void 0 ? void 0 : onSelect(option);
-}</script>
+    selected = option;
+    isOpened = false;
+    onSelect === null || onSelect === void 0 ? void 0 : onSelect(option);
+}
+</script>
 
 <Field {title}>
   <div class="relative {className}">

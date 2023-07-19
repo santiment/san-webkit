@@ -1,5 +1,6 @@
 <script>import Screen from './Screen.svelte';
-import { showIntercom } from './../../../analytics/intercom';</script>
+import { showIntercom } from './../../../analytics/intercom';
+</script>
 
 <Screen {...$$props}>
   <svelte:fragment slot="title">Cancel subscription?</svelte:fragment>
@@ -26,7 +27,21 @@ import { showIntercom } from './../../../analytics/intercom';</script>
   </svelte:fragment>
 </Screen>
 
-<style >.suggestion {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.suggestion {
   padding: 14px;
   margin-top: 12px;
   --bg: var(--white);

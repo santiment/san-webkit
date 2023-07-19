@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export declare const PUMPKINS_QUERY = "{\n   pages:getPumpkins\n   code:getPumpkinCode\n}";
 export declare const queryPumpkins: () => Promise<{
     pages: Set<string>;

@@ -1,5 +1,8 @@
-<script>import { Billing } from './../../../utils/plans';
-export let billing = Billing.MONTH;</script>
+<script>
+  import { Billing } from './../../../utils/plans'
+
+  export let billing = Billing.MONTH
+</script>
 
 <div class="btn border body-2">
   <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -20,7 +23,21 @@ export let billing = Billing.MONTH;</script>
   </div>
 </div>
 
-<style >.border {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.border {
   display: inline-flex;
   overflow: hidden;
   margin: 40px auto;

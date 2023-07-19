@@ -4,51 +4,28 @@ import Feature from './Feature.svelte';
 import { FeatureWalkthrough$ } from './context';
 export let features;
 let cursor = 0;
-
 $: feature = features[cursor];
-
 $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id));
-
-$: highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.scrollIntoView({
-  behavior: 'smooth',
-  block: 'center'
-});
-
-$: rect = (highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.getBoundingClientRect()) || {
-  bottom: -14,
-  x: 7
-};
-
+$: highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+$: rect = (highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.getBoundingClientRect()) || { bottom: -14, x: 7 };
 $: align = (rect, feature.align || 'left');
-
-$: ({
-  bottom,
-  x,
-  right
-} = rect);
-
+$: ({ bottom, x, right } = rect);
 $: xPosition = x - 7;
-
 $: if (x + 200 >= window.innerWidth) {
-  align = 'right';
+    align = 'right';
 }
-
 $: if (align === 'right') {
-  xPosition = window.innerWidth - right - 7;
+    xPosition = window.innerWidth - right - 7;
 }
-
 $: hasPrevious = cursor > 0;
-
 $: hasNext = cursor < features.length - 1;
-
 function onClose() {
-  FeatureWalkthrough$.complete();
-  FeatureWalkthrough$.clear();
+    FeatureWalkthrough$.complete();
+    FeatureWalkthrough$.clear();
 }
-
 const onNext = () => cursor++;
-
-const onPrevious = () => cursor--;</script>
+const onPrevious = () => cursor--;
+</script>
 
 <Background {rect} />
 
@@ -82,7 +59,21 @@ const onPrevious = () => cursor--;</script>
   </div>
 </div>
 
-<style >.border {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.border {
   position: absolute;
   z-index: 99;
   background: var(--white);

@@ -1,7 +1,8 @@
 <script>import { trackNftBattleLinkClick, PageName } from './../../analytics/events/nftbattle';
 import Svg from './../../ui/Svg/svelte';
 import Li from './Li.svelte';
-import { Page } from './types';</script>
+import { Page } from './types';
+</script>
 
 <p>
   See your Insight among the latest and best crypto discoveries! Our Insights page is where others
@@ -49,7 +50,21 @@ import { Page } from './types';</script>
   <Li>You can publish as many Insights as you want. Our team will select the best!</Li>
 </ul>
 
-<style >ul {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+ul {
   margin: 20px 0 0;
   gap: 16px;
 }

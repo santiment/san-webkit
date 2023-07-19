@@ -1,4 +1,5 @@
-import type { SvelteComponentDev } from 'svelte/internal'
+import type { ComponentType } from 'svelte'
+
 import { writable } from 'svelte/store'
 import { newDialogCtx } from './ctx'
 import { DialogLock } from './types'
@@ -11,11 +12,7 @@ export type DialogController = {
   locking: DialogLock
 }
 
-export type SvelteComponentModule = {
-  new (options: { target: Element; props?: any }): SvelteComponentDev
-}
-
-type DialogsStore = Array<{ Component: SvelteComponentModule; props: any }>
+type DialogsStore = Array<{ Component: ComponentType; props: any }>
 
 type Props = {
   [key: string]: any
@@ -36,7 +33,7 @@ const pipeCatch = (e) => e && Promise.reject(e)
 
 export const dialogs = {
   subscribe,
-  show<T = unknown>(Component: SvelteComponentModule, props: Props = {}): Promise<T> {
+  show<T = unknown>(Component: ComponentType, props: Props = {}): Promise<T> {
     const promise = new Promise<T>(
       (resolve, reject) => (props.DialogPromise = { resolve, reject, locking: DialogLock.FREE }),
     )
@@ -51,10 +48,7 @@ export const dialogs = {
     return props.strict ? promise : promise.catch(pipeCatch)
   },
   /** Only single entity of the Component can be mounted at the same time */
-  showOnce<T = unknown>(
-    Component: SvelteComponentModule,
-    props: Props = {},
-  ): undefined | Promise<T> {
+  showOnce<T = unknown>(Component: ComponentType, props: Props = {}): undefined | Promise<T> {
     return dialogs.has(Component) ? undefined : dialogs.show(Component, props)
   },
   hide(index: number): void {
@@ -63,7 +57,7 @@ export const dialogs = {
       return dialogs
     })
   },
-  has(Component: SvelteComponentModule): boolean {
+  has(Component: ComponentType): boolean {
     for (let i = DIALOGS.length - 1; i > -1; i--) {
       if (DIALOGS[i].Component === Component) return true
     }

@@ -2,8 +2,8 @@
 import { trackLogout } from './../../analytics/events/general';
 import { getUI$Ctx } from './../../stores/ui';
 import { getCustomer$Ctx } from './../../stores/customer';
-import Toggle from './../../ui/Toggle.svelte'; // import Tooltip from './../../ui/Tooltip'
-
+import Toggle from './../../ui/Toggle.svelte';
+// import Tooltip from './../../ui/Tooltip'
 import Tooltip from './../../ui/Tooltip/svelte';
 import Svg from './../../ui/Svg/svelte';
 import Pic from './../../ui/Profile/Pic.svelte';
@@ -18,24 +18,16 @@ export let variant = AccountStatusType.First;
 export let isAppUpdateAvailable = false;
 export let version = '1.0.0';
 export let isShowingFollowers = true;
-const {
-  ui$
-} = getUI$Ctx();
-const {
-  customer$
-} = getCustomer$Ctx();
-
+const { ui$ } = getUI$Ctx();
+const { customer$ } = getCustomer$Ctx();
 function onLogout() {
-  isOpened = false;
-  trackLogout();
-  onLogoutClick();
+    isOpened = false;
+    trackLogout();
+    onLogoutClick();
 }
-
 $: customer = $customer$;
-
-$: ({
-  isPro
-} = customer);</script>
+$: ({ isPro } = customer);
+</script>
 
 <Tooltip duration={130} bind:isOpened activeClass="active-_VrAxA" class={tooltipClass}>
   <a

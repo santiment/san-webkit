@@ -1,5 +1,6 @@
 <script>import Svg from './../../ui/Svg/svelte';
-export let item;</script>
+export let item;
+</script>
 
 <div class="wrapper row hv-center">
   <Svg id="fire-filled" w="11" h="14" class="icon-O3hRmo" />

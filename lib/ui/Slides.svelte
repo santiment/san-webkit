@@ -1,31 +1,22 @@
-<script>let className = '';
-export { className as class };
-export let amount = 1;
-export let active = 0;
-let node;
+<script>
+  let className = ''
+  export { className as class }
+  export let amount = 1
+  export let active = 0
 
-function onScroll({
-  currentTarget
-}) {
-  const {
-    scrollWidth,
-    scrollLeft
-  } = currentTarget;
-  const sectionWidth = scrollWidth / amount;
-  active = Math.round(scrollLeft / sectionWidth);
-}
+  let node
 
-const SCROLL_OPTIONS = {
-  behavior: 'smooth',
-  block: 'nearest',
-  inline: 'nearest'
-};
+  function onScroll({ currentTarget }) {
+    const { scrollWidth, scrollLeft } = currentTarget
+    const sectionWidth = scrollWidth / amount
+    active = Math.round(scrollLeft / sectionWidth)
+  }
 
-function onClick({
-  currentTarget
-}) {
-  node.children[+currentTarget.dataset.i].scrollIntoView(SCROLL_OPTIONS);
-}</script>
+  const SCROLL_OPTIONS = { behavior: 'smooth', block: 'nearest', inline: 'nearest' }
+  function onClick({ currentTarget }) {
+    node.children[+currentTarget.dataset.i].scrollIntoView(SCROLL_OPTIONS)
+  }
+</script>
 
 <!-- svelte-ignore redundant-event-modifier -->
 
@@ -43,7 +34,21 @@ function onClick({
   </div>
 </div>
 
-<style >.slides {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.slides {
   flex: 1;
   overflow-x: auto;
   display: flex;

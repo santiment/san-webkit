@@ -1,13 +1,10 @@
-<script>import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle';
-export let item;
+<script>
+  import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle'
 
-$: ({
-  symbol,
-  direction,
-  closeDate,
-  signalID,
-  contractAddress
-} = item);</script>
+  export let item
+
+  $: ({ symbol, direction, closeDate, signalID, contractAddress } = item)
+</script>
 
 <a
   href="https://sanr.app/?signal={signalID}*{contractAddress}"

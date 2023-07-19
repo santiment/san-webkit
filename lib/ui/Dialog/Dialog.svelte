@@ -8,7 +8,7 @@ export { className as class };
 export let titleClassName = '';
 export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
 export let title = '';
-export let onBeforeDialogClose = () => {};
+export let onBeforeDialogClose = () => { };
 export let noTitle = false;
 export let noBg = false;
 export let onEditableEscaped = null;
@@ -16,110 +16,88 @@ export let animated = true;
 export let isClickawayDisabled = false;
 export let strict = false;
 const DialogCtx = $$props.DialogCtx;
-
-$: ({
-  i,
-  DialogPromise
-} = $$props);
-
+$: ({ i, DialogPromise } = $$props);
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
 DialogCtx.close = closeDialog;
 setDialogCtx(DialogCtx);
-
-const checkIsEditable = ({
-  isContentEditable,
-  localName
-}) => isContentEditable || localName === 'input' || localName === 'textarea';
-
-function onKeyup({
-  code,
-  target
-}) {
-  if (code === 'Escape' && target) {
-    if (isOpening) return;
-    if (checkIsEditable(target)) onEditableEscaped === null || onEditableEscaped === void 0 ? void 0 : onEditableEscaped(target, requestDialogClose);else requestDialogClose();
-  }
-}
-
-function onClickaway({
-  type,
-  target,
-  currentTarget
-}) {
-  if (isClickawayDisabled) return;
-  if (isOpening) return;
-
-  if (target === currentTarget) {
-    if (type === 'mousedown') {
-      clickAwayMouseDown = true;
-      return;
-    } else if (type === 'mouseup' && clickAwayMouseDown) {
-      requestDialogClose();
+const checkIsEditable = ({ isContentEditable, localName }) => isContentEditable || localName === 'input' || localName === 'textarea';
+function onKeyup({ code, target }) {
+    if (code === 'Escape' && target) {
+        if (isOpening)
+            return;
+        if (checkIsEditable(target))
+            onEditableEscaped === null || onEditableEscaped === void 0 ? void 0 : onEditableEscaped(target, requestDialogClose);
+        else
+            requestDialogClose();
     }
-  }
-
-  clickAwayMouseDown = false;
 }
-
+function onClickaway({ type, target, currentTarget }) {
+    if (isClickawayDisabled)
+        return;
+    if (isOpening)
+        return;
+    if (target === currentTarget) {
+        if (type === 'mousedown') {
+            clickAwayMouseDown = true;
+            return;
+        }
+        else if (type === 'mouseup' && clickAwayMouseDown) {
+            requestDialogClose();
+        }
+    }
+    clickAwayMouseDown = false;
+}
 onMount(() => {
-  openingTimer = window.setTimeout(() => isOpening = false, 250);
-  document.body.style.width = document.body.offsetWidth + 'px';
-  document.body.style.overflowY = 'hidden';
-  document.body.style.touchAction = 'none';
-  window.addEventListener('keyup', onKeyup);
+    openingTimer = window.setTimeout(() => (isOpening = false), 250);
+    document.body.style.width = document.body.offsetWidth + 'px';
+    document.body.style.overflowY = 'hidden';
+    document.body.style.touchAction = 'none';
+    window.addEventListener('keyup', onKeyup);
 });
 onDestroy(() => {
-  clearTimeout(openingTimer);
+    clearTimeout(openingTimer);
 });
-
 function requestDialogClose(skipLockChecks) {
-  if (isOpening) return;
-
-  if (skipLockChecks !== true) {
-    onBeforeDialogClose();
-    if (DialogPromise.locking === DialogLock.LOCKED) return;
-
-    if (DialogPromise.locking === DialogLock.WARN && !confirm('Do you want to close the dialog?')) {
-      return;
+    if (isOpening)
+        return;
+    if (skipLockChecks !== true) {
+        onBeforeDialogClose();
+        if (DialogPromise.locking === DialogLock.LOCKED)
+            return;
+        if (DialogPromise.locking === DialogLock.WARN &&
+            !confirm('Do you want to close the dialog?')) {
+            return;
+        }
     }
-  }
-
-  if (i === 0) {
-    document.body.style.width = '';
-    document.body.style.maxWidth = '';
-    document.body.style.overflowY = '';
-    document.body.style.touchAction = '';
-  }
-
-  const {
-    length
-  } = get(dialogs);
-
-  if (i === length - 1) {
-    window.removeEventListener('keyup', onKeyup);
-    DialogPromise.reject(strict && 'Dialog closed');
-    dialogs.hide(i);
-  }
+    if (i === 0) {
+        document.body.style.width = '';
+        document.body.style.maxWidth = '';
+        document.body.style.overflowY = '';
+        document.body.style.touchAction = '';
+    }
+    const { length } = get(dialogs);
+    if (i === length - 1) {
+        window.removeEventListener('keyup', onKeyup);
+        DialogPromise.reject(strict && 'Dialog closed');
+        dialogs.hide(i);
+    }
 }
-
 let out = false;
-
 function resetAnimation(node) {
-  node.style.animation = 'none';
-  node.offsetWidth;
+    node.style.animation = 'none';
+    node.offsetWidth;
 }
-
 function transition(node) {
-  if (!animated) return;
-  resetAnimation(node);
-  resetAnimation(node.firstChild);
-  out = true;
-  return {
-    duration: 180
-  };
-}</script>
+    if (!animated)
+        return;
+    resetAnimation(node);
+    resetAnimation(node.firstChild);
+    out = true;
+    return { duration: 180 };
+}
+</script>
 
 <div
   out:transition
@@ -145,7 +123,7 @@ function transition(node) {
         <Svg
           id="close"
           w="12"
-          class="btn mrg-a mrg--l close-BTS33O"
+          class="btn mrg-a mrg--l close-hLVdRJ"
           on:click={requestDialogClose}
         />
       </h2>
@@ -155,7 +133,21 @@ function transition(node) {
   </div>
 </div>
 
-<style >.bg {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.bg {
   position: fixed;
   background: rgba(0, 0, 0, 0.7);
   left: 0;
@@ -195,7 +187,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-BTS33O) {
+:global(.close-hLVdRJ) {
   --fill: var(--waterloo);
   --fill-hover: var(--green);
 }

@@ -8,10 +8,11 @@ export let html;
 export let placeholder;
 let Editor;
 onMount(() => {
-  import('./Editor.svelte').then(module => {
-    Editor = module.default;
-  });
-});</script>
+    import('./Editor.svelte').then((module) => {
+        Editor = module.default;
+    });
+});
+</script>
 
 {#if Editor}
   <svelte:component

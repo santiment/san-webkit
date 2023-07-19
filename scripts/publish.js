@@ -1,7 +1,7 @@
-const { exec: _exec } = require('child_process')
-const fs = require('fs')
-const path = require('path')
-const { ROOT } = require('./utils')
+import { exec as _exec } from 'child_process'
+import fs from 'fs'
+import path from 'path'
+import { ROOT } from './utils.js'
 
 function exec(cmd, includeStdout = true) {
   return new Promise((resolve) => {
@@ -23,7 +23,7 @@ function updatePkgJson() {
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
 }
 
-async function publish() {
+export async function publish() {
   const [status] = await exec('git status')
   if (status.includes('Your branch is ahead of') || !status.includes('nothing to commit')) {
     return console.error('❗️ Commit/push your changes first ❗️')
@@ -41,27 +41,36 @@ async function publish() {
 
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
 
-  if (!currentBranchMsg.includes('lib')) {
-    return console.error(` Current branch is "${currentBranchMsg}" but should be "lib" ❗️`)
+  if (currentBranchMsg.includes('lib') === false) {
+    return console.error(
+      ` ❗️Current branch is "${currentBranchMsg.trim()}" but should be "lib" ❗️`,
+    )
   }
 
   const [mergeMsg] = await exec(
     'git merge master -X theirs -m "Merge branch \'master\' into lib"',
     false,
   )
+
   if (mergeMsg.includes('merge failed')) {
-    return console.error('❗️ Resolve merge conflicts and then run script again ❗️')
+    await exec('git checkout --theirs .', false)
+    await exec('git add .', false)
+    // return console.error('❗️ Resolve merge conflicts and then run script again ❗️')
   }
 
   await exec('git rm --cached -r lib', false)
-  await exec('git rm --cached -r .storybook', false)
+  // await exec('git rm --cached -r .storybook', false)
   await exec('git rm --cached -r stories', false)
+  await exec('git rm --cached -r _stories', false)
   await exec('git rm --cached -r .husky', false)
 
   await exec('npm run lib')
   updatePkgJson()
 
-  const gitignore = fs.readFileSync('.gitignore').toString().replace('lib/', '.husky\nstories')
+  const gitignore = fs
+    .readFileSync('.gitignore')
+    .toString()
+    .replace('lib/', '.husky\nstories\n_stories')
   fs.writeFileSync('.gitignore', gitignore)
 
   await exec('git add -f lib')
@@ -79,5 +88,3 @@ async function publish() {
 }
 
 if (process.argv[2] === '--run') publish()
-
-module.exports = { publish }

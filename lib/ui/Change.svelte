@@ -1,15 +1,17 @@
 <script context="module">export function percentChange(oldValue, newValue) {
-  const change = 100 * (newValue - oldValue) / oldValue;
-  return formatPercentChange(change);
+    const change = (100 * (newValue - oldValue)) / oldValue;
+    return formatPercentChange(change);
 }
 export function formatPercentChange(value) {
-  return +value.toFixed(Math.abs(value) < 1 ? 4 : 2);
-}</script>
+    return +value.toFixed(Math.abs(value) < 1 ? 4 : 2);
+}
+</script>
 
 <script>import Svg from './../ui/Svg/svelte';
 let className = '';
 export { className as class };
-export let change;</script>
+export let change;
+</script>
 
 <div class="row v-center change {className}" class:down={change < 0} class:zero={change === 0}>
   {#if change !== 0}

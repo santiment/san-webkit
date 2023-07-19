@@ -4,19 +4,33 @@ import { getScrollToCommentContext, getGetRepliedToCommentContext } from './cont
 const scrollToReply = getScrollToCommentContext();
 const getRepliedToComment = getGetRepliedToCommentContext();
 export let id;
-
-$: comment = getRepliedToComment(id);</script>
+$: comment = getRepliedToComment(id);
+</script>
 
 {#if comment}
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div class="line-clamp">
-      <Author user={comment.user} class="comment-V7b1dN" />
+      <Author user={comment.user} class="comment-vpXICQ" />
       {' ' + markdownToPlainText(comment.content)}
     </div>
   </a>
 {/if}
 
-<style >a {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+a {
   --bg-hover: var(--athens);
   margin: 0 0 4px 32px;
   padding: 8px;
@@ -50,12 +64,12 @@ div :global(.img) {
   text-align: center;
 }
 
-:global(.comment-V7b1dN) {
+:global(.comment-vpXICQ) {
   display: inline-flex !important;
   align-items: baseline !important;
 }
 
 div,
-:global(.comment-V7b1dN) {
+:global(.comment-vpXICQ) {
   --color: var(--fiord) !important;
 }</style>

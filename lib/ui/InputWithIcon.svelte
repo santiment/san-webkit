@@ -10,7 +10,8 @@ export let name = undefined;
 export let big = false;
 export let constraints = undefined;
 export let value = '';
-export let autofocus = null;</script>
+export let autofocus = null;
+</script>
 
 <!-- svelte-ignore a11y-autofocus -->
 <div class="border row v-center {className}" class:big>

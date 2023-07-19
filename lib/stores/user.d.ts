@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export declare const ANNUAL_DISCOUT_FRAGMENT = "\n  annualDiscount:checkAnnualDiscountEligibility {\n    isEligible\n    discount {\n      percentOff\n      expireAt\n    }\n  }\n";
 export declare const accessor: ({ currentUser, annualDiscount }: {
     currentUser: any;
@@ -11,7 +12,7 @@ export type CustomerData = {
     annualDiscount?: SAN.AnnualDiscount;
 };
 export declare const DEFAULT: CustomerData;
-declare const subscribe: (this: void, run: import("svelte/store").Subscriber<CustomerData>, invalidate?: ((value?: CustomerData | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+declare const subscribe: (this: void, run: import("svelte/store").Subscriber<CustomerData>, invalidate?: import("svelte/store").Invalidator<CustomerData> | undefined) => import("svelte/store").Unsubscriber;
 export declare const customerData$: {
     fetched: boolean;
     set: (this: void, value: CustomerData) => void;
@@ -51,13 +52,13 @@ export declare const CURRENT_USER_QUERY: string;
 export declare const queryCurrentUser: (requestEvent?: import("./../api").RequestEvent | undefined) => Promise<SAN.API.Query<"currentUser", CurrentUserType | null>>;
 export declare function CurrentUser$$(currentUser: null | CurrentUserType): {
     currentUser$: {
-        subscribe: (this: void, run: import("svelte/store").Subscriber<CurrentUserType | null>, invalidate?: ((value?: CurrentUserType | null | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+        subscribe: (this: void, run: import("svelte/store").Subscriber<CurrentUserType | null>, invalidate?: import("svelte/store").Invalidator<CurrentUserType | null> | undefined) => import("svelte/store").Unsubscriber;
         set(currentUser: null | CurrentUserType): void;
     };
 };
 export declare const getCurrentUser$Ctx: () => {
     currentUser$: {
-        subscribe: (this: void, run: import("svelte/store").Subscriber<CurrentUserType | null>, invalidate?: ((value?: CurrentUserType | null | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+        subscribe: (this: void, run: import("svelte/store").Subscriber<CurrentUserType | null>, invalidate?: import("svelte/store").Invalidator<CurrentUserType | null> | undefined) => import("svelte/store").Unsubscriber;
         set(currentUser: null | CurrentUserType): void;
     };
 };

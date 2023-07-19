@@ -6,19 +6,11 @@ export let plans;
 export let discount = 0;
 export let isEligibleForTrial;
 export let isLoggedIn = false;
-const {
-  customer$
-} = getCustomer$Ctx();
-
-$: ({
-  subscription
-} = $customer$);
-
-$: ({
-  name
-} = plan);
-
-$: isFreePlan = name.includes(Plan.FREE);</script>
+const { customer$ } = getCustomer$Ctx();
+$: ({ subscription } = $customer$);
+$: ({ name } = plan);
+$: isFreePlan = name.includes(Plan.FREE);
+</script>
 
 <div class="fluid">
   <h3 class="row v-center">

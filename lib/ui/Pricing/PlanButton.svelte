@@ -8,76 +8,55 @@ export { className as class };
 export let plan;
 export let isFreePlan = false;
 export let source;
-const {
-  customer$
-} = getCustomer$Ctx();
-
+const { customer$ } = getCustomer$Ctx();
 $: customer = $customer$;
-
-$: ({
-  isLoggedIn,
-  isEligibleForTrial,
-  annualDiscount,
-  subscription
-} = customer);
-
-$: ({
-  id
-} = plan);
-
+$: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer);
+$: ({ id } = plan);
 $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn;
-
 $: isUpgrade = checkIsUpgrade(plan, subscription);
-
 $: isDowngrade = isUpgrade !== undefined && !isUpgrade;
-
 $: label = (plan, subscription, isLoggedIn, isFreePlan, annualDiscount, isUpgrade, getLabel());
-
 function getLabel() {
-  if (!isLoggedIn) return isFreePlan ? 'Create an account' : 'Get started';
-
-  if (subscription && isFreePlan) {
-    return 'Default plan';
-  }
-
-  if (annualDiscount.isEligible) {
-    if (plan.interval === Billing.YEAR) return `Pay now ${annualDiscount.percent}% Off`;
-    return 'Pay now';
-  }
-
-  if (isCurrentPlan) return 'Your current plan';
-  if (isEligibleForTrial) return 'Start 14-day Free trial';
-  if (isUpgrade) return 'Upgrade';
-  if (isDowngrade) return 'Downgrade';
-  return 'Buy now';
-}
-
-function onClick() {
-  window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
-
-  if (!isLoggedIn) {
-    return window.__onLinkClick('/login');
-  }
-
-  if (!annualDiscount.isEligible) {
-    if (isUpgrade || isDowngrade) {
-      return showPlanChangeDialog({
-        isUpgrade,
-        plan,
-        subscription
-      });
+    if (!isLoggedIn)
+        return isFreePlan ? 'Create an account' : 'Get started';
+    if (subscription && isFreePlan) {
+        return 'Default plan';
     }
-  }
-
-  showPaymentDialog({
-    plan: plan.name,
-    interval: plan.interval,
-    planData: plan,
-    isEligibleForTrial,
-    annualDiscount,
-    source
-  });
-}</script>
+    if (annualDiscount.isEligible) {
+        if (plan.interval === Billing.YEAR)
+            return `Pay now ${annualDiscount.percent}% Off`;
+        return 'Pay now';
+    }
+    if (isCurrentPlan)
+        return 'Your current plan';
+    if (isEligibleForTrial)
+        return 'Start 14-day Free trial';
+    if (isUpgrade)
+        return 'Upgrade';
+    if (isDowngrade)
+        return 'Downgrade';
+    return 'Buy now';
+}
+function onClick() {
+    window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
+    if (!isLoggedIn) {
+        return window.__onLinkClick('/login');
+    }
+    if (!annualDiscount.isEligible) {
+        if (isUpgrade || isDowngrade) {
+            return showPlanChangeDialog({ isUpgrade, plan, subscription });
+        }
+    }
+    showPaymentDialog({
+        plan: plan.name,
+        interval: plan.interval,
+        planData: plan,
+        isEligibleForTrial,
+        annualDiscount,
+        source,
+    });
+}
+</script>
 
 <button
   type="button"
@@ -91,7 +70,21 @@ function onClick() {
   {label}
 </button>
 
-<style >.btn-1 {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.btn-1 {
   --v-padding: 8px;
 }
 

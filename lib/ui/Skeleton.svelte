@@ -1,6 +1,9 @@
-<script>import { fade } from 'svelte/transition';
-export let isActive = true;
-export let style = '';</script>
+<script>
+  import { fade } from 'svelte/transition'
+
+  export let isActive = true
+  export let style = ''
+</script>
 
 <slot />
 

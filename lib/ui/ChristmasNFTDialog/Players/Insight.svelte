@@ -1,23 +1,26 @@
-<script context="module">const SIGNAL_INSIGHT_QUERY = id => `{
+<script context="module">
+  const SIGNAL_INSIGHT_QUERY = (id) => `{
     insight(id:${id}) { id title }
-  }`;
+  }`
 
-const querySignalInsight = insightId => query(SIGNAL_INSIGHT_QUERY(insightId));</script>
+  const querySignalInsight = (insightId) => query(SIGNAL_INSIGHT_QUERY(insightId))
+</script>
 
-<script>import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle';
-import { query } from './../../../api';
-import { getSEOLinkFromIdAndTitle } from './../../../utils/url';
-export let value; // sanbaseInsight
+<script>
+  import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle'
+  import { query } from './../../../api'
+  import { getSEOLinkFromIdAndTitle } from './../../../utils/url'
 
-let id = 0;
-let title = '';
+  export let value // sanbaseInsight
 
-$: querySignalInsight(value).then(({
-  insight
-}) => {
-  id = insight.id;
-  title = insight.title;
-});</script>
+  let id = 0
+  let title = ''
+
+  $: querySignalInsight(value).then(({ insight }) => {
+    id = insight.id
+    title = insight.title
+  })
+</script>
 
 {#if id}
   <div class="single-line">

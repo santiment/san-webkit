@@ -3,7 +3,8 @@ let className = '';
 export { className as class };
 export let src = undefined;
 export let placeholderSize = 16;
-export let alt = 'S';</script>
+export let alt = 'S';
+</script>
 
 <div class="img row hv-center {className}">
   {#if src}

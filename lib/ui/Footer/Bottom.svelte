@@ -1,5 +1,7 @@
-<script>import { SANBASE_ORIGIN } from './../../utils/links';
-import Socials from './Socials.svelte';</script>
+<script>
+  import { SANBASE_ORIGIN } from './../../utils/links'
+  import Socials from './Socials.svelte'
+</script>
 
 <div class="bottom c-casper">
   <div class="divider" />
@@ -22,7 +24,21 @@ import Socials from './Socials.svelte';</script>
   <Socials />
 </div>
 
-<style >.bottom {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.bottom {
   display: grid;
   align-items: center;
   text-align: center;

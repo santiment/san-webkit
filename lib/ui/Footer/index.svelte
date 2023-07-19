@@ -1,10 +1,12 @@
-<script>import DigestForm from './../../ui/DigestForm.svelte';
-import Svg from './../../ui/Svg/svelte';
-import { IsMobile } from './../../stores/responsive';
-import { links } from './links';
-import Bottom from './Bottom.svelte';
-let className = '';
-export { className as class };</script>
+<script>
+  import DigestForm from './../../ui/DigestForm.svelte'
+  import Svg from './../../ui/Svg/svelte'
+  import { links } from './links'
+  import Bottom from './Bottom.svelte'
+
+  let className = ''
+  export { className as class }
+</script>
 
 <footer class={className}>
   <div class="footer">
@@ -25,10 +27,7 @@ export { className as class };</script>
       <div class="forms">
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
-          <DigestForm
-            class="mrg-xl mrg--b form-PIBUiU {$IsMobile ? '' : 'body-3'}"
-            label="Subscribe"
-          />
+          <DigestForm class="mrg-xl mrg--b s-13ye9fz" label="Subscribe" />
         </div>
       </div>
     </div>
@@ -37,7 +36,21 @@ export { className as class };</script>
   </div>
 </footer>
 
-<style >:global(footer a:hover) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(footer a:hover) {
   --color: var(--accent, var(--green));
 }
 
@@ -60,11 +73,8 @@ footer {
   --max-width: 100%;
 }
 
-:global(.form-PIBUiU) {
+:global(.s-13ye9fz) {
   width: 386px;
-}
-:global(body:not(.desktop)) :global(.form-PIBUiU) {
-  width: auto;
 }
 
 .google {
@@ -84,32 +94,37 @@ footer {
   flex: 1;
 }
 
-:global(.phone-xs) .top,
-:global(.phone) .top {
+:global(body.phone) .top, :global(body.phone-xs) .top {
   flex-direction: column;
 }
-:global(.phone-xs) :global(.form-PIBUiU),
-:global(.phone) :global(.form-PIBUiU) {
+:global(body.phone) :global(.s-13ye9fz), :global(body.phone-xs) :global(.s-13ye9fz) {
   margin-bottom: 40px;
 }
 
-:global(.tablet) .grid {
+:global(body.tablet) .grid {
   grid-template-rows: repeat(5, 1fr);
   margin: 0;
 }
-:global(.tablet) .forms {
+:global(body.tablet) .forms {
   width: 100%;
   display: flex;
   margin-top: 28px;
 }
 
-:global(.desktop) .description {
+:global(body.desktop) .description {
   max-width: 124px;
 }
-:global(.desktop) .top {
+:global(body.desktop) .top {
   padding: 63px 0 53px;
 }
-:global(.desktop) .grid {
+:global(body.desktop) .grid {
   grid-template-rows: repeat(5, 1fr);
   margin: 0;
+}
+:global(body.desktop) :global(.s-13ye9fz) {
+  font: var(--body-3);
+}
+
+:global(body:not(.desktop)) :global(.s-13ye9fz) {
+  width: auto;
 }</style>

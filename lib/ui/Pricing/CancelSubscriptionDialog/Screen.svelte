@@ -1,6 +1,8 @@
-<script>export let loading;
-export let onCancellationClick;
-export let onServiceClick;</script>
+<script>
+  export let loading
+  export let onCancellationClick
+  export let onServiceClick
+</script>
 
 <section class="txt-center">
   <h2 class="h4 txt-m mrg-xl mrg--b">
@@ -30,7 +32,21 @@ export let onServiceClick;</script>
 
 <slot name="right" />
 
-<style >.help {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.help {
   padding: 24px 32px;
   background: var(--athens);
   border-radius: 4px;

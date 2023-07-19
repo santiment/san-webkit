@@ -5,7 +5,8 @@ export let autofocus = null;
 export let placeholder;
 export let value = undefined;
 export let big = false;
-export let iconSize = 12;</script>
+export let iconSize = 12;
+</script>
 
 <InputWithIcon
   class={className}

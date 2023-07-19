@@ -1,15 +1,18 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import { getSEOLinkFromIdAndTitle } from './../../utils/url';
-import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
-import { showIntercom } from './../../ui/HelpFeedback.svelte';
-import Check from './Check.svelte';
-import clockSvg from './clock.svg';
-import presentSvg from './present.svg';
-export let insights = [];
-export let isNftWinner = false;
-export let isDiscountWinner = false;
+<script>
+  import Svg from './../../ui/Svg/svelte'
+  import { getSEOLinkFromIdAndTitle } from './../../utils/url'
+  import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle'
+  import { showIntercom } from './../../ui/HelpFeedback.svelte'
+  import Check from './Check.svelte'
+  import clockSvg from './clock.svg'
+  import presentSvg from './present.svg'
 
-$: hasInsights = insights.length > 0;</script>
+  export let insights = []
+  export let isNftWinner = false
+  export let isDiscountWinner = false
+
+  $: hasInsights = insights.length > 0
+</script>
 
 <aside class="column">
   <div class="header txt-center">

@@ -4,16 +4,15 @@ import { Preloader } from './../../utils/fn';
 import { stripe } from './../../stores/stripe';
 import { dialogs } from './../../ui/Dialog';
 import PaymentDialog from './index.svelte';
-export const showPaymentDialog = props => dialogs.show(PaymentDialog, props);
-
+export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props);
 const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load());
+export const dataPreloader = Preloader(preloadData);
+</script>
 
-export const dataPreloader = Preloader(preloadData);</script>
-
-<script>import { onDestroy } from 'svelte';
+<script>import { onDestroy, onMount } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
-import './../../analytics';
+import { track } from './../../analytics';
 import { PlanName } from './../../utils/plans';
 import { paymentCard$ } from './../../stores/paymentCard';
 import { getCustomer$Ctx } from './../../stores/customer';
@@ -31,99 +30,79 @@ export let interval = 'year';
 export let isSinglePlan = false;
 export let plansFilter = onlyProLikePlans;
 export let trialDaysLeft = 0;
-export let onPaymentSuccess = () => {};
+export let onPaymentSuccess = () => { };
 export let onPaymentError;
 export let source;
 export let planData;
-const {
-  customer$
-} = getCustomer$Ctx();
+const { customer$ } = getCustomer$Ctx();
 let closeDialog;
 let plans = [];
 let plan = {};
 let loading = false;
 let StripeCard;
 let savedCard = $paymentCard$;
-
 if (process.browser) {
-  const {
-    id,
-    name,
-    amount
-  } = planData || {};
-  trackPaymentFormOpened({
-    plan: name,
-    planId: planData && +id,
-    billing: interval,
-    amount,
-    source
-  });
-  getPlans();
+    const { id, name, amount } = planData || {};
+    trackPaymentFormOpened({
+        plan: name,
+        planId: planData && +id,
+        billing: interval,
+        amount,
+        source,
+    });
+    getPlans();
 }
-
 $: customer = $customer$;
-
-$: ({
-  subscription
-} = customer);
-
-$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd); // TODO: make customer data accesible via context
-
-
-$: ({
-  sanBalance,
-  isEligibleForTrial,
-  annualDiscount = {}
-} = $customer$);
-
+$: ({ subscription } = customer);
+$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+// TODO: make customer data accesible via context
+$: ({ sanBalance, isEligibleForTrial, annualDiscount = {} } = $customer$);
 $: name = PlanName[plan.name] || plan.name;
-
 $: price = name ? formatPrice(plan) : '';
-
-function findDefaultPlan({
-  name,
-  interval: billing
-}) {
-  return defaultPlan === name && interval === billing;
+function findDefaultPlan({ name, interval: billing }) {
+    return defaultPlan === name && interval === billing;
 }
-
 function getPlans() {
-  const cached = getCachedSanbasePlans();
-  if (cached) setPlans(cached);else querySanbasePlans().then(setPlans);
+    const cached = getCachedSanbasePlans();
+    if (cached)
+        setPlans(cached);
+    else
+        querySanbasePlans().then(setPlans);
 }
-
 function setPlans(data) {
-  plans = mapPlans(data, plansFilter);
-  plan = plans.find(findDefaultPlan) || plans[0];
+    plans = mapPlans(data, plansFilter);
+    plan = plans.find(findDefaultPlan) || plans[0];
 }
-
 function onChange() {
-  DialogPromise.locking = DialogLock.WARN;
-}
-
-let formNode = null;
-
-function onSubmit() {
-  if (!formNode) return;
-  loading = true;
-  DialogPromise.locking = DialogLock.LOCKED;
-  const data = getPaymentFormData(formNode);
-  buyPlan(customer$, plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance)).then(data => {
-    closeDialog();
-    onPaymentSuccess(data, source);
-  }).catch(onPaymentError).finally(() => {
-    loading = false;
     DialogPromise.locking = DialogLock.WARN;
-  });
 }
-
-const unsub = paymentCard$.subscribe(value => {
-  savedCard = value;
+let formNode = null;
+function onSubmit() {
+    if (!formNode)
+        return;
+    loading = true;
+    DialogPromise.locking = DialogLock.LOCKED;
+    const data = getPaymentFormData(formNode);
+    buyPlan(customer$, plan, $stripe, StripeCard, data, source, savedCard, checkSanDiscount(sanBalance))
+        .then((data) => {
+        closeDialog();
+        onPaymentSuccess(data, source);
+    })
+        .catch(onPaymentError)
+        .finally(() => {
+        loading = false;
+        DialogPromise.locking = DialogLock.WARN;
+    });
+}
+const unsub = paymentCard$.subscribe((value) => {
+    savedCard = value;
 });
 onDestroy(() => {
-  unsub();
-  if (process.browser) trackPaymentFormClosed();
-});</script>
+    unsub();
+    if (process.browser)
+        trackPaymentFormClosed();
+});
+</script>
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
@@ -156,7 +135,21 @@ onDestroy(() => {
   <Footer />
 </Dialog>
 
-<style >.dialog {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.dialog {
   padding: 16px 40px 24px;
   overflow: auto;
   width: 900px;

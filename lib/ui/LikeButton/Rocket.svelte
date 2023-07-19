@@ -1,5 +1,6 @@
 <script>import Svg from './../../ui/Svg/svelte';
-export let rocketNode = undefined;</script>
+export let rocketNode = undefined;
+</script>
 
 <div bind:this={rocketNode} class="rocket row h-center">
   <Svg id="rocket" w="13.5" h="18" />

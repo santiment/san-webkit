@@ -6,39 +6,30 @@ export let selected = new Set();
 export let tabs = TABS;
 export let onSelect;
 export let onEscape = undefined;
-
-$: selections = selected.size ? [Item('title', 'Selected'), ...mapAssets(Array.from(selected), true)] : [];
-
+$: selections = selected.size
+    ? [Item('title', 'Selected'), ...mapAssets(Array.from(selected), true)]
+    : [];
 function mapAssets(assets, isActive = false) {
-  return assets.map(asset => Item('item', asset, isActive));
+    return assets.map((asset) => Item('item', asset, isActive));
 }
-
-const accessAsset = ({
-  value
-}) => value;
-
+const accessAsset = ({ value }) => value;
 function filterSelections(items) {
-  return items.filter(({
-    value
-  }) => selected.has(value) === false);
+    return items.filter(({ value }) => selected.has(value) === false);
 }
-
 function onClick(asset) {
-  if (selected.has(asset)) selected.delete(asset);else selected.add(asset);
-  selected = selected;
-  onSelect(Array.from(selected));
+    if (selected.has(asset))
+        selected.delete(asset);
+    else
+        selected.add(asset);
+    selected = selected;
+    onSelect(Array.from(selected));
 }
-
 function onTabSelect() {
-  selected = new Set();
-  onSelect(Array.from(selected));
+    selected = new Set();
+    onSelect(Array.from(selected));
 }
-
-const Item = (type, value, isActive = false) => ({
-  type,
-  value,
-  isActive
-});</script>
+const Item = (type, value, isActive = false) => ({ type, value, isActive });
+</script>
 
 <Layout let:assets {accessAsset} mapItems={mapAssets} {tabs} {onEscape} {onTabSelect}>
   {@const items = [...selections, Item('title', 'Assets'), ...filterSelections(assets)]}

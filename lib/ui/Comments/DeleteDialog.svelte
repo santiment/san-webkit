@@ -1,9 +1,8 @@
 <script context="module">import DeleteDialog from './DeleteDialog.svelte';
 import { dialogs } from './../../ui/Dialog';
 export const DELETE_MSG = 'The comment has been deleted.';
-export const showCommentDeleteDialog = comment => dialogs.show(DeleteDialog, {
-  comment
-});</script>
+export const showCommentDeleteDialog = (comment) => dialogs.show(DeleteDialog, { comment });
+</script>
 
 <script>import { track } from './../../analytics';
 import Dialog from './../../ui/Dialog';
@@ -12,26 +11,24 @@ export let DialogPromise;
 export let comment;
 let closeDialog;
 let loading = false;
-
 function onDelete() {
-  if (loading) return;
-  loading = true;
-  deleteComment(comment.id).then(() => {
-    comment.content = DELETE_MSG;
-    comment.user = {
-      id: 0,
-      avatarUrl: null,
-      email: 'anonymous@santiment.net',
-      username: 'anonymous'
-    };
-    track.event('comments_delete', {
-      category: 'Interaction',
-      id: comment.id
+    if (loading)
+        return;
+    loading = true;
+    deleteComment(comment.id).then(() => {
+        comment.content = DELETE_MSG;
+        comment.user = {
+            id: 0,
+            avatarUrl: null,
+            email: 'anonymous@santiment.net',
+            username: 'anonymous',
+        };
+        track.event('comments_delete', { category: 'Interaction', id: comment.id });
+        DialogPromise.resolve(comment);
+        closeDialog();
     });
-    DialogPromise.resolve(comment);
-    closeDialog();
-  });
-}</script>
+}
+</script>
 
 <Dialog {...$$props} bind:closeDialog title="Delete comment?">
   <div class="dialog-body column">

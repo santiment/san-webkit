@@ -1,19 +1,26 @@
-<script context="module">export const MOBILE_MENU_LINKS = [{
-  title: 'Alerts',
-  link: '/alerts'
-}, {
-  title: 'Social tool',
-  link: '/labs/trends/explore'
-}, {
-  title: 'NFT Influencers',
-  link: '/nft'
-}, {
-  title: 'Academy',
-  link: 'https://academy.santiment.net/'
-}, {
-  title: 'Pricing',
-  link: '/pricing'
-}];</script>
+<script context="module">export const MOBILE_MENU_LINKS = [
+    {
+        title: 'Alerts',
+        link: '/alerts',
+    },
+    {
+        title: 'Social tool',
+        link: '/labs/trends/explore',
+    },
+    {
+        title: 'NFT Influencers',
+        link: '/nft',
+    },
+    {
+        title: 'Academy',
+        link: 'https://academy.santiment.net/',
+    },
+    {
+        title: 'Pricing',
+        link: '/pricing',
+    },
+];
+</script>
 
 <script>import { SANBASE_ORIGIN } from './../../utils/links';
 import Svg from './../../ui/Svg/svelte';
@@ -23,31 +30,23 @@ import { getCustomer$Ctx } from './../../stores/customer';
 export let user;
 export let isMenuOpened;
 export let isFullLink;
-const {
-  customer$
-} = getCustomer$Ctx();
-
-$: ({
-  isPro
-} = $customer$);
-
+const { customer$ } = getCustomer$Ctx();
+$: ({ isPro } = $customer$);
 function onHelpClick() {
-  showIntercom();
-  isMenuOpened = false;
+    showIntercom();
+    isMenuOpened = false;
 }
-
 function getFullLink(link, slug = '') {
-  const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : '';
-  return pathname + link + slug;
+    const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : '';
+    return pathname + link + slug;
 }
-
 function adjustHeight(node) {
-  const headerNode = document.querySelector('#mobile-header');
-
-  if (headerNode) {
-    node.style.top = headerNode.clientHeight + 1 + 'px';
-  }
-}</script>
+    const headerNode = document.querySelector('#mobile-header');
+    if (headerNode) {
+        node.style.top = headerNode.clientHeight + 1 + 'px';
+    }
+}
+</script>
 
 <nav class="column fluid body-1" use:adjustHeight>
   <section class="links column">
@@ -69,7 +68,7 @@ function adjustHeight(node) {
 
       <Profile
         {user}
-        class="profile-Yc5vPF txt-m relative"
+        class="profile-1Kee2+ txt-m relative"
         feature="profile"
         source="mobile-nav-menu"
         placeholderSize={24}
@@ -102,7 +101,21 @@ function adjustHeight(node) {
   </section>
 </nav>
 
-<style >nav {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+nav {
   z-index: 101;
   position: fixed;
   top: 0;
@@ -126,7 +139,7 @@ section {
   margin: 20px 0;
 }
 
-:global(.profile-Yc5vPF) {
+:global(.profile-1Kee2\+) {
   --img-size: 48px;
 }
 

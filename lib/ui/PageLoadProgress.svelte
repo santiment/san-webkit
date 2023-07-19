@@ -1,18 +1,18 @@
-<script>export let preloading;
+<script>
+  export let preloading
 
-function start(node) {
-  setTimeout(() => {
-    node.style.transform = 'translateX(-30%)';
-  }, 0);
-  return {};
-}
+  function start(node) {
+    setTimeout(() => {
+      node.style.transform = 'translateX(-30%)'
+    }, 0)
+    return {}
+  }
 
-function end(node) {
-  node.classList.add('loaded-iR3sp1');
-  return {
-    duration: 800
-  };
-}</script>
+  function end(node) {
+    node.classList.add('loaded-iR3sp1')
+    return { duration: 800 }
+  }
+</script>
 
 <div class="bar">
   {#if $preloading}

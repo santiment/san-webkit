@@ -1,25 +1,18 @@
 <script context="module">export var AccountStatusType;
-
 (function (AccountStatusType) {
-  AccountStatusType[AccountStatusType["First"] = 0] = "First";
-  AccountStatusType[AccountStatusType["Second"] = 1] = "Second";
-})(AccountStatusType || (AccountStatusType = {}));</script>
+    AccountStatusType[AccountStatusType["First"] = 0] = "First";
+    AccountStatusType[AccountStatusType["Second"] = 1] = "Second";
+})(AccountStatusType || (AccountStatusType = {}));
+</script>
 
 <script>import { SANBASE_ORIGIN } from './../utils/links';
 import { getCustomer$Ctx } from './../stores/customer';
 export let currentUser;
 export let variant = AccountStatusType.First;
-const {
-  customer$
-} = getCustomer$Ctx();
-
-$: ({
-  planName,
-  trialDaysLeft,
-  isEligibleForTrial,
-  isIncompleteSubscription,
-  annualDiscount
-} = $customer$);</script>
+const { customer$ } = getCustomer$Ctx();
+$: ({ planName, trialDaysLeft, isEligibleForTrial, isIncompleteSubscription, annualDiscount } =
+    $customer$);
+</script>
 
 {#if currentUser}
   {#if annualDiscount.percent && variant !== AccountStatusType.Second}

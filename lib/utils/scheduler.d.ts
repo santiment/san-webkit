@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export declare function Scheduler(limit?: number, debounceTime?: number): {
     run(): void;
     delayRun(): void;

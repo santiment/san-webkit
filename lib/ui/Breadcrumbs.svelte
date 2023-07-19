@@ -2,8 +2,8 @@
 let className = '';
 export { className as class };
 export let links;
-
-$: lastIndex = links.length - 1;</script>
+$: lastIndex = links.length - 1;
+</script>
 
 <breadcrumbs class="row v-center relative nowrap {className}">
   {#each links as { href, title }, i}

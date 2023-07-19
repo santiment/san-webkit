@@ -1,5 +1,6 @@
 <script>export let isActive;
-export let onComplete;</script>
+export let onComplete;
+</script>
 
 {#if isActive}
   <div class="panel box">

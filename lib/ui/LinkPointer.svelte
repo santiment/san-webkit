@@ -2,21 +2,36 @@
 let className = '';
 export { className as class };
 export let href;
-export let label;</script>
+export let label;
+</script>
 
 <a {...$$props} {href} class="link-pointer v-center {className}">
   {label}
-  <Svg id="right-arrow" w={10} h={5} class="svg-wppIZq" />
+  <Svg id="right-arrow" w={10} h={5} class="svg-yEi3qa" />
 </a>
 
-<style >a::after {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+a::after {
   width: calc(100% - 16px);
 }
 
-:global(.svg-wppIZq) {
+:global(.svg-yEi3qa) {
   margin: 0 2px 0 6px;
   transition: transform 0.2s;
 }
-a:hover :global(.svg-wppIZq) {
+a:hover :global(.svg-yEi3qa) {
   transform: translateX(2px);
 }</style>

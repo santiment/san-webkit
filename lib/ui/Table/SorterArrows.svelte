@@ -1,5 +1,8 @@
-<script>import Svg from './../../ui/Svg/svelte';
-export let isAscending = false;</script>
+<script>
+  import Svg from './../../ui/Svg/svelte'
+
+  export let isAscending = false
+</script>
 
 <Svg
   illus

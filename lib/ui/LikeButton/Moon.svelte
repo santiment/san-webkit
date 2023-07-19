@@ -6,24 +6,20 @@ export let moonNode = undefined;
 let visible = false;
 let enter = false;
 let timer;
-
 $: changeVisibility(mooned);
-
 function changeVisibility(mooned) {
-  clearTimeout(timer);
-
-  if (mooned) {
-    visible = true;
-    return requestAnimationFrame(() => enter = true);
-  }
-
-  enter = false;
-  timer = setTimeout(() => visible = false, 400);
+    clearTimeout(timer);
+    if (mooned) {
+        visible = true;
+        return requestAnimationFrame(() => (enter = true));
+    }
+    enter = false;
+    timer = setTimeout(() => (visible = false), 400);
 }
-
 onDestroy(() => {
-  clearTimeout(timer);
-});</script>
+    clearTimeout(timer);
+});
+</script>
 
 {#if visible}
   <div bind:this={moonNode} class="moon box row v-center caption" class:enter>

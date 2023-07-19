@@ -1,14 +1,14 @@
-const fs = require('fs')
-const path = require('path')
-const { copyFile, LIB, forFile } = require('./utils')
+import fs from 'fs'
+import path from 'path'
+import { copyFile, LIB, forFile } from './utils.js'
 
 const normalize = (entry) => entry.replace('lib/types', '.').replace('.d.ts', '')
 
-async function copyTypes() {
+export async function copyTypes() {
   return forFile(['src/**/*.d.ts'], copyFile)
 }
 
-async function indexTypes(libPath = LIB) {
+export async function indexTypes(libPath = LIB) {
   const indexPath = path.resolve(libPath, 'types', 'index.d.ts')
 
   const file = fs.readFileSync(indexPath)
@@ -23,13 +23,7 @@ async function indexTypes(libPath = LIB) {
   fs.writeFileSync(indexPath, refs + file)
 }
 
-async function prepareTypes() {
+export async function prepareTypes() {
   await copyTypes()
   indexTypes()
-}
-
-module.exports = {
-  copyTypes,
-  indexTypes,
-  prepareTypes,
 }

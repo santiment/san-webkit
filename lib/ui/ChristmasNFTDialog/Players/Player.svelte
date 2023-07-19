@@ -1,10 +1,10 @@
-<script>import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle';
-export let value;
+<script>
+  import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle'
 
-$: ({
-  address,
-  username = address
-} = value);</script>
+  export let value
+
+  $: ({ address, username = address } = value)
+</script>
 
 <div class="single-line">
   <a

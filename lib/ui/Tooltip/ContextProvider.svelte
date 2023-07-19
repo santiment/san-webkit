@@ -5,39 +5,36 @@ export let setTrigger, startOpenTimer, destroy;
 export let props;
 export let ref;
 let trigger;
-
-function onEvent({
-  currentTarget
-}) {
-  trigger = currentTarget;
-  props = trigger.__props__;
-  setTrigger(trigger);
-  startOpenTimer();
+function onEvent({ currentTarget }) {
+    trigger = currentTarget;
+    props = trigger.__props__;
+    setTrigger(trigger);
+    startOpenTimer();
 }
-
 ref.tooltip = (node, data) => {
-  node.removeEventListener(on, onEvent);
-  if (data.isEnabled === false) return; // @ts-ignore
-
-  node.__props__ = data;
-  node.addEventListener(on, onEvent);
-  return {
-    update(data) {
-      // @ts-ignore
-      node.__props__ = data;
-      if (node === trigger) props = data;
-    },
-
-    destroy() {
-      if (node !== trigger) return;
-      trigger = null;
-      setTrigger(null);
-      destroy();
-    }
-
-  };
+    node.removeEventListener(on, onEvent);
+    if (data.isEnabled === false)
+        return;
+    // @ts-ignore
+    node.__props__ = data;
+    node.addEventListener(on, onEvent);
+    return {
+        update(data) {
+            // @ts-ignore
+            node.__props__ = data;
+            if (node === trigger)
+                props = data;
+        },
+        destroy() {
+            if (node !== trigger)
+                return;
+            trigger = null;
+            setTrigger(null);
+            destroy();
+        },
+    };
 };
-
-useAppTooltipsCtx(id, ref.tooltip);</script>
+useAppTooltipsCtx(id, ref.tooltip);
+</script>
 
 <slot />

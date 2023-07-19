@@ -1,5 +1,7 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import { IsMobile } from './../../stores/responsive';</script>
+<script>
+  import Svg from './../../ui/Svg/svelte'
+  import { IsMobile } from './../../stores/responsive'
+</script>
 
 <div class="socials">
   {#if $IsMobile}
@@ -25,7 +27,21 @@ import { IsMobile } from './../../stores/responsive';</script>
   </div>
 </div>
 
-<style >a:hover {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+a:hover {
   fill: var(--color);
 }
 

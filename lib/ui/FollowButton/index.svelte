@@ -5,18 +5,16 @@ export { className as class };
 export let user;
 export let currentUser;
 export let isFollowing = checkIsFollowing(currentUser, user.id);
-
 $: postfix = isFollowing ? 'ing' : '';
-
 function onFollow() {
-  if (!currentUser) {
-    return window.dispatchEvent(new CustomEvent(ANON_EVENT));
-  }
-
-  isFollowing = !isFollowing;
-  startFollowFlow(currentUser, user.id);
-  return window.dispatchEvent(new CustomEvent(EVENT));
-}</script>
+    if (!currentUser) {
+        return window.dispatchEvent(new CustomEvent(ANON_EVENT));
+    }
+    isFollowing = !isFollowing;
+    startFollowFlow(currentUser, user.id);
+    return window.dispatchEvent(new CustomEvent(EVENT));
+}
+</script>
 
 <button class="btn-1 btn--s {className}" on:click={onFollow} class:following={isFollowing}>
   <Svg id="follow{postfix}" w="18" h="16" class="mrg-xs mrg--r" />

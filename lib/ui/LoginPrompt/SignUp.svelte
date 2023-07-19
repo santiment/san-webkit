@@ -1,5 +1,8 @@
-<script>import Options from './index.svelte';
-export let title;</script>
+<script>
+  import Options from './index.svelte'
+
+  export let title
+</script>
 
 <Options
   {title}

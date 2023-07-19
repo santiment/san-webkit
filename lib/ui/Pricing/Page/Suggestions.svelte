@@ -1,4 +1,6 @@
-<script>import { showIntercom } from './../../../analytics/intercom';</script>
+<script>
+  import { showIntercom } from './../../../analytics/intercom'
+</script>
 
 <section id="suggestions">
   <div>
@@ -22,7 +24,21 @@
   </div>
 </section>
 
-<style >section {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+section {
   display: grid;
   grid-gap: 16px 40px;
   margin: 0 auto 80px;

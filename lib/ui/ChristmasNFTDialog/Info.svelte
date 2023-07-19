@@ -11,12 +11,13 @@ export let currentUser;
 export let discountCode;
 export let isDiscountWinner = false;
 let copyLabel = 'Copy';
-
 function onCopy() {
-  if (!discountCode) return;
-  copyLabel = 'Copied!';
-  copy(discountCode, () => copyLabel = 'Copy', 1500);
-}</script>
+    if (!discountCode)
+        return;
+    copyLabel = 'Copied!';
+    copy(discountCode, () => (copyLabel = 'Copy'), 1500);
+}
+</script>
 
 {#if currentUser && (isNftWinner || isDiscountWinner)}
   {#if isNftWinner}
@@ -140,7 +141,21 @@ function onCopy() {
   prized NFT!
 </div>
 
-<style >.intro {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.intro {
   margin: 0 0 48px;
 }
 

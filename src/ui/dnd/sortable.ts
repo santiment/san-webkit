@@ -12,7 +12,7 @@ export type Context = Options & {
   recalcGrid: () => void
   isDisabled: boolean
   minDiff?: number
-  scrollParent: HTMLElement | undefined
+  scrollParent: HTMLElement | undefined | null
   scrollInterval: number | undefined
 }
 

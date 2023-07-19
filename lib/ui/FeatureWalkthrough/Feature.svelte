@@ -1,9 +1,8 @@
-<script>export let feature;
+<script>
+  export let feature
 
-$: ({
-  title,
-  description
-} = feature);</script>
+  $: ({ title, description } = feature)
+</script>
 
 <h2 class="body-1 txt-m mrg-m mrg--b">{title}</h2>
 
@@ -11,7 +10,21 @@ $: ({
   {@html description}
 </div>
 
-<style >h2 {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+h2 {
   margin-right: 30px;
 }
 

@@ -1,8 +1,16 @@
-<script>import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-import Li from './Li.svelte';
-import { Page } from './types';
-const SOCIALS = [['twitter', 'https://twitter.com/', '#56A8DC'], ['discord', 'https://discord.com/', '#5B65EA'], ['reddit', 'https://www.reddit.com/', '#EB5528'], ['telegram', 'https://telegram.org/', '#5AAADB']];</script>
+<script>
+  import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle'
+  import Svg from './../../ui/Svg/svelte'
+  import Li from './Li.svelte'
+  import { Page } from './types'
+
+  const SOCIALS = [
+    ['twitter', 'https://twitter.com/', '#56A8DC'],
+    ['discord', 'https://discord.com/', '#5B65EA'],
+    ['reddit', 'https://www.reddit.com/', '#EB5528'],
+    ['telegram', 'https://telegram.org/', '#5AAADB'],
+  ]
+</script>
 
 <p>
   So how do you increase your chances of getting one of these gorgeous NFTs with Pro plan access? To
@@ -75,7 +83,21 @@ const SOCIALS = [['twitter', 'https://twitter.com/', '#56A8DC'], ['discord', 'ht
   {/each}
 </div>
 
-<style >ul {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+ul {
   margin: 20px 0 40px;
   gap: 16px;
 }

@@ -8,21 +8,18 @@ import FieldRequired from './FieldRequired.svelte';
 export let feedback;
 export let reasons;
 export let error = false;
-
 $: isMobile = $isMobile$;
-
 function onReasonSelect(reason) {
-  if (reasons.has(reason)) {
-    reasons.delete(reason);
-  } else {
-    track.event(Event.SelectReason, {
-      reason
-    });
-    reasons.add(reason);
-  }
-
-  reasons = reasons;
-}</script>
+    if (reasons.has(reason)) {
+        reasons.delete(reason);
+    }
+    else {
+        track.event(Event.SelectReason, { reason });
+        reasons.add(reason);
+    }
+    reasons = reasons;
+}
+</script>
 
 <Screen {...$$props}>
   <svelte:fragment slot="title">We’re sorry to see you go 😔</svelte:fragment>
@@ -63,7 +60,21 @@ function onReasonSelect(reason) {
   </svelte:fragment>
 </Screen>
 
-<style >.reasons {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.reasons {
   gap: 12px;
   margin: 12px 0 20px;
 }

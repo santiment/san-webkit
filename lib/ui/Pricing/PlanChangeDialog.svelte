@@ -1,6 +1,7 @@
 <script context="module">import { dialogs } from './../../ui/Dialog';
 import PlanChangeDialog from './PlanChangeDialog.svelte';
-export const showPlanChangeDialog = props => dialogs.show(PlanChangeDialog, props);</script>
+export const showPlanChangeDialog = (props) => dialogs.show(PlanChangeDialog, props);
+</script>
 
 <script>import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
@@ -15,38 +16,31 @@ export let plan;
 export let isUpgrade = false;
 let closeDialog;
 let loading = false;
-const {
-  customer$
-} = getCustomer$Ctx();
+const { customer$ } = getCustomer$Ctx();
 const subscription = $customer$.subscription;
 const newName = PlanName[plan.name] || plan.name;
 const isNewBillingMonthly = plan.interval === Billing.MONTH;
 const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual';
-const {
-  currentPeriodEnd = Date.now(),
-  plan: currentPlan
-} = subscription;
+const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription;
 const currentPlanName = PlanName[currentPlan.name] || currentPlan.name;
-
 function formatDate() {
-  const {
-    MMMM,
-    DD,
-    YYYY
-  } = getDateFormats(new Date(currentPeriodEnd));
-  return `${MMMM} ${DD}, ${YYYY}`;
+    const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd));
+    return `${MMMM} ${DD}, ${YYYY}`;
 }
-
 function onClick() {
-  loading = true;
-  mutateUpdateSubscription(subscription.id, plan.id).then(data => {
-    onPlanChangeSuccess(customer$, newName);
-    closeDialog();
-    return data;
-  }).catch(onPlanChangeError).finally(() => {
-    DialogPromise.locking = DialogLock.FREE;
-  });
-}</script>
+    loading = true;
+    mutateUpdateSubscription(subscription.id, plan.id)
+        .then((data) => {
+        onPlanChangeSuccess(customer$, newName);
+        closeDialog();
+        return data;
+    })
+        .catch(onPlanChangeError)
+        .finally(() => {
+        DialogPromise.locking = DialogLock.FREE;
+    });
+}
+</script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
   <div class="dialog body-2">
@@ -54,7 +48,7 @@ function onClick() {
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-V+k4YB" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-al7Pyu" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -76,12 +70,26 @@ function onClick() {
   </div>
 </Dialog>
 
-<style >.dialog {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.dialog {
   padding: 24px 32px;
   max-width: 600px;
 }
 
-:global(.close-V\+k4YB) {
+:global(.close-al7Pyu) {
   --fill: var(--waterloo);
   --fill-hover: var(--green);
 }

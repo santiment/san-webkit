@@ -1,5 +1,6 @@
-import { Field, Handlers, SnapGridController, SnapItem } from './types'
+import type { Handlers, SnapGridController, SnapItem } from './types'
 
+import { Field } from './types'
 import { clearAutoScroll } from '@/ui/dnd/scroll'
 import { translateLayoutItem } from './style'
 

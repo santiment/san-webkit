@@ -2,7 +2,8 @@
 export let title;
 export let icon;
 export let active = false;
-export let tag = 'a';</script>
+export let tag = 'a';
+</script>
 
 <svelte:element
   this={tag}
@@ -15,7 +16,21 @@ export let tag = 'a';</script>
   {title}
 </svelte:element>
 
-<style >.btn {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.btn {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   gap: 10px;
   --fill: var(--fiord);

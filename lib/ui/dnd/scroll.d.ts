@@ -4,4 +4,4 @@ export type ScrollContext = {
 };
 export declare function clearAutoScroll(ctx: Pick<ScrollContext, 'scrollInterval'>): void;
 export declare function autoScroll(ctx: ScrollContext, nodeRect: any, scrollRect: any, yDiff: number): void;
-export declare function getScrollingParent(node: null | HTMLElement): any;
+export declare function getScrollingParent(node: null | HTMLElement): HTMLElement | null;

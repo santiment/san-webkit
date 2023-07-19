@@ -3,12 +3,13 @@ import { showChristmasNFTDialog } from './../../ui/ChristmasNFTDialog/Dialog.sve
 import { IsMobile } from './../../stores/responsive';
 import battle from './battle.svg';
 import bgMobile from './banner-bg-mobile.svg';
-import bg from './banner-bg.svg';</script>
+import bg from './banner-bg.svg';
+</script>
 
 <section class="row justify">
   <div class="info column">
     <div class="logo row v-center">
-      <Svg illus id="santiment" w="86" h="16" class="santiment-df1QfV" />
+      <Svg illus id="santiment" w="86" h="16" class="santiment-z8hhEq" />
       <img src={battle} alt="xmas" class="mrg-s mrg--l" />
     </div>
     <h3 class="h3 txt-m nowrap">Predict next market <br /> move. Win NFT!</h3>
@@ -18,7 +19,7 @@ import bg from './banner-bg.svg';</script>
     </p>
     {#if $IsMobile}
       <div class="tip row">
-        <Svg id="light" w="16" h="22" class="light-lw7JPh mrg-m mrg--r" />
+        <Svg id="light" w="16" h="22" class="light-eDcVgq mrg-m mrg--r" />
         <span class="body-2 c-fiord">
           Head to Sanbase’s desktop version for the ability to participate in the Battle
         </span>
@@ -32,7 +33,21 @@ import bg from './banner-bg.svg';</script>
   </div>
 </section>
 
-<style >section {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+section {
   background: var(--mirage);
   border-radius: 8px;
   height: 295px;
@@ -47,7 +62,7 @@ import bg from './banner-bg.svg';</script>
   margin-bottom: 26px;
 }
 
-:global(.santiment-df1QfV) {
+:global(.santiment-z8hhEq) {
   --black: var(--white);
   margin-bottom: 3px;
 }
@@ -105,6 +120,6 @@ button {
   background: var(--purple-light-1);
   border-radius: 8px;
 }
-:global(body:not(.desktop)) :global(.light-lw7JPh) {
+:global(body:not(.desktop)) :global(.light-eDcVgq) {
   fill: var(--purple);
 }</style>

@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import { normalizeAnnualDiscount } from './../utils/subscription';
 export type CustomerType = {
     isLoggedIn: boolean;

@@ -1,5 +1,6 @@
 <script>import { FILTER_ITEMS } from './utils';
-export let type;</script>
+export let type;
+</script>
 
 <div class="wrapper row v-center justify body-2">
   {#each Object.keys(FILTER_ITEMS) as item}
@@ -10,7 +11,21 @@ export let type;</script>
 </div>
 <div class="divider" />
 
-<style >.wrapper {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.wrapper {
   padding: 20px 20px 0;
 }
 

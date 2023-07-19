@@ -1,21 +1,27 @@
-<script context="module">export const MOBILE_NAVBAR_LINKS = [{
-  title: 'Market',
-  icon: 'market',
-  href: '/assets'
-}, {
-  title: 'Chart',
-  icon: 'chart',
-  href: '/projects',
-  slug: '/bitcoin'
-}, {
-  title: 'Watchlist',
-  icon: 'watchlist',
-  href: '/watchlists'
-}, {
-  title: 'Insights',
-  icon: 'insights',
-  href: '/insights'
-}];</script>
+<script context="module">export const MOBILE_NAVBAR_LINKS = [
+    {
+        title: 'Market',
+        icon: 'market',
+        href: '/assets',
+    },
+    {
+        title: 'Chart',
+        icon: 'chart',
+        href: '/projects',
+        slug: '/bitcoin',
+    },
+    {
+        title: 'Watchlist',
+        icon: 'watchlist',
+        href: '/watchlists',
+    },
+    {
+        title: 'Insights',
+        icon: 'insights',
+        href: '/insights',
+    },
+];
+</script>
 
 <script>import Menu from './Menu.svelte';
 import NavItem from './NavItem.svelte';
@@ -24,24 +30,23 @@ export let path = '';
 export let isFullLink = false;
 export let links = MOBILE_NAVBAR_LINKS;
 export let isMenuOpened = false;
-
 $: isMenuOpened = (path, false);
-
 $: if (process.browser) {
-  if (isMenuOpened) {
-    document.body.style.width = document.body.offsetWidth + 'px';
-    document.body.style.overflowY = 'hidden';
-    document.body.style.touchAction = 'none';
-  } else {
-    document.body.style.width = '';
-    document.body.style.overflowY = '';
-    document.body.style.touchAction = '';
-  }
+    if (isMenuOpened) {
+        document.body.style.width = document.body.offsetWidth + 'px';
+        document.body.style.overflowY = 'hidden';
+        document.body.style.touchAction = 'none';
+    }
+    else {
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        document.body.style.touchAction = '';
+    }
 }
-
 function onMenuClick() {
-  isMenuOpened = !isMenuOpened;
-}</script>
+    isMenuOpened = !isMenuOpened;
+}
+</script>
 
 {#if isMenuOpened}
   <Menu {user} {isFullLink} bind:isMenuOpened />

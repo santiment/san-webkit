@@ -11,21 +11,14 @@ export let subscription;
 export let discount;
 export let suggestionsCount;
 export let isEligibleForTrial = false;
-
 $: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE;
-
 $: trialDaysLeft = subscription && getTrialDaysLeft(subscription);
-
 $: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd);
-
 function formatDate(date) {
-  const {
-    DD,
-    MMMM,
-    YYYY
-  } = getDateFormats(date);
-  return `${MMMM} ${DD}, ${YYYY}`;
-}</script>
+    const { DD, MMMM, YYYY } = getDateFormats(date);
+    return `${MMMM} ${DD}, ${YYYY}`;
+}
+</script>
 
 <PlanCard
   {plan}
@@ -68,6 +61,20 @@ function formatDate(date) {
   </p>
 </PlanCard>
 
-<style >b {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+b {
   font-weight: 500;
 }</style>

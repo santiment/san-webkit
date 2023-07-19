@@ -1,4 +1,5 @@
-<script>export let item;</script>
+<script>export let item;
+</script>
 
 <div class="wrapper row hv-center">
   <img src="{process.env.MEDIA_PATH}/icons/description-filled.svg" alt="Insights" class="icon" />

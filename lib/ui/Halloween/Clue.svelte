@@ -1,4 +1,5 @@
-<script>let isClueShown = false;</script>
+<script>let isClueShown = false;
+</script>
 
 <button class="btn c-waterloo keep mrg-m mrg--t" on:click={() => (isClueShown = true)}>
   Keep hunting to double down and get 54% discount

@@ -6,8 +6,8 @@ export let selected = null;
 export let tabs = TABS;
 export let onSelect;
 export let onEscape = undefined;
-
-const accessAsset = item => item;</script>
+const accessAsset = (item) => item;
+</script>
 
 <Layout let:assets {accessAsset} {tabs} {onEscape}>
   <VirtualList itemHeight={32} items={assets} renderAmount={20} let:item>

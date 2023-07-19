@@ -1,8 +1,13 @@
-<script context="module">export { showIntercom } from './../analytics/intercom';</script>
+<script context="module">
+  export { showIntercom } from './../analytics/intercom'
+</script>
 
-<script>import Svg from './Svg/svelte';
-let className = '';
-export { className as class };</script>
+<script>
+  import Svg from './Svg/svelte'
+
+  let className = ''
+  export { className as class }
+</script>
 
 <button class="btn {className}" on:click>
   <span class="row v-center">

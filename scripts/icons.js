@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const { LIB, forFile, mkdir, getLibPath } = require('./utils')
-const { optimizeSvg, newSpriterOptions, getSvgSprite } = require('./svg')
+import fs from 'fs'
+import path from 'path'
+import { LIB, forFile, mkdir, getLibPath } from './utils.js'
+import { optimizeSvg, newSpriterOptions, getSvgSprite } from './svg.cjs'
 
 const SPRITES_DIR = path.resolve(LIB, 'sprites')
 const SPRITES_OPTIONS = newSpriterOptions({ removeAttrs: { attrs: ['fill'] } })
@@ -9,11 +9,11 @@ const ILLUS_OPTIONS = newSpriterOptions()
 
 const SVG_IDS = []
 
-function getSvgId(dir, path) {
+export function getSvgId(dir, path) {
   return path.replace(dir, '').replace('.svg', '')
 }
 
-async function prepareIcons() {
+export async function prepareIcons() {
   mkdir(SPRITES_DIR)
 
   forFile(['lib/icons/**/*.svg'], async (entry) => {
@@ -48,7 +48,7 @@ async function prepareIcons() {
   })
 }
 
-function replaceSvgComponentIds() {
+export function replaceSvgComponentIds() {
   const libFilePath = path.resolve(LIB, 'ui/Svg/svelte.d.ts')
   const file = fs.readFileSync(libFilePath)
 
@@ -56,5 +56,3 @@ function replaceSvgComponentIds() {
 
   fs.writeFileSync(libFilePath, file.toString().replace(`id: string`, `id: ${ids}`))
 }
-
-module.exports = { getSvgId, prepareIcons, replaceSvgComponentIds }

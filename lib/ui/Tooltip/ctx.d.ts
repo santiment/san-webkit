@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export type Props = {
     isEnabled: boolean;
     [key: string]: any;

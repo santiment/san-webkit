@@ -3,7 +3,8 @@ let className = '';
 export { className as class };
 export let count = 0;
 export let href = '';
-export let active = false;</script>
+export let active = false;
+</script>
 
 {#if href}
   <a {href} sapper:prefetch class="btn-2 {className}" class:active on:click>

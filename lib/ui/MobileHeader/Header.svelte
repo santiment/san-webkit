@@ -3,7 +3,8 @@ import Product from './../../ui/Product.svelte';
 import { noop } from './../../utils';
 export let title = '';
 export let slots = $$slots;
-export let onSearchClick = noop;</script>
+export let onSearchClick = noop;
+</script>
 
 <header class="row v-center justify fluid" id="mobile-header">
   <section class="left row v-center">

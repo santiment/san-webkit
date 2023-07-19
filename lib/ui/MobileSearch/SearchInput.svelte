@@ -1,19 +1,17 @@
 <script>import Svg from './../../ui/Svg/svelte';
 import InputWithIcon from './../../ui/InputWithIcon.svelte';
 export let searchTerm;
-
-function onInput({
-  currentTarget
-}) {
-  searchTerm = currentTarget.value.trim();
-}</script>
+function onInput({ currentTarget }) {
+    searchTerm = currentTarget.value.trim();
+}
+</script>
 
 <InputWithIcon
   value={searchTerm}
   on:input={onInput}
   placeholder="Search for assets, trends..."
   big
-  class="input-UciXQ_ body-2"
+  class="input-b9Sesw body-2"
 >
   <div class="search row hv-center" slot="left">
     <Svg id="search" w="12" />
@@ -25,10 +23,24 @@ function onInput({
   {/if}
 </InputWithIcon>
 
-<style >:global(.input-UciXQ_) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.input-b9Sesw) {
   --left: 36px !important;
 }
-:global(.input-UciXQ_) > :global(input) {
+:global(.input-b9Sesw) > :global(input) {
   padding: 8px 44px 8px 36px;
 }
 

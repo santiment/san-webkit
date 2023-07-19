@@ -2,22 +2,18 @@
 import { track } from './../../analytics';
 import { showCommentFormDialog } from './CommentFormDialog.svelte';
 export function showCommentReplyDialog(entityId, parentId, type) {
-  return showCommentFormDialog({
-    title: 'Replying',
-    label: 'Submit reply',
-    onSubmit: value => {
-      track.event('comments_reply', {
-        category: 'Interaction',
-        entity: entityId,
-        parent: parentId,
-        type
-      });
-      return createComment({
-        id: entityId,
-        content: value,
-        parentId,
-        type
-      });
-    }
-  });
-}</script>
+    return showCommentFormDialog({
+        title: 'Replying',
+        label: 'Submit reply',
+        onSubmit: (value) => {
+            track.event('comments_reply', {
+                category: 'Interaction',
+                entity: entityId,
+                parent: parentId,
+                type,
+            });
+            return createComment({ id: entityId, content: value, parentId, type });
+        },
+    });
+}
+</script>

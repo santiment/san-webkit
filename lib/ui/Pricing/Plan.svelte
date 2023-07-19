@@ -1,6 +1,6 @@
 <script>import { getCustomer$Ctx } from './../../stores/customer';
 import Svg from './../../ui/Svg/svelte';
-import { Billing, formatMonthlyPrice, getAlternativePlan, getSavedAmount, Plan, PlanName } from './../../utils/plans';
+import { Billing, formatMonthlyPrice, getAlternativePlan, getSavedAmount, Plan, PlanName, } from './../../utils/plans';
 import { checkIsTrialSubscription } from './../../utils/subscription';
 import PlanButton from './PlanButton.svelte';
 import { PlanDescription } from './description';
@@ -8,53 +8,28 @@ let className = '';
 export { className as class };
 export let plan;
 export let plans;
-const {
-  customer$
-} = getCustomer$Ctx();
-
+const { customer$ } = getCustomer$Ctx();
 $: customer = $customer$;
-
-$: ({
-  annualDiscount,
-  subscription
-} = customer);
-
-$: ({
-  id,
-  name,
-  interval
-} = plan);
-
+$: ({ annualDiscount, subscription } = customer);
+$: ({ id, name, interval } = plan);
 $: isOnTrial = subscription && checkIsTrialSubscription(subscription);
-
 $: isTrialPlan = isOnTrial && (subscription === null || subscription === void 0 ? void 0 : subscription.plan.id) === id;
-
 $: isAnnualPlan = interval === Billing.YEAR;
-
 $: isFreePlan = name.includes(Plan.FREE);
-
 $: altPlan = getAlternativePlan(plan, plans);
-
-$: ({
-  description,
-  features
-} = PlanDescription[name]);
-
-$: percentOff = isAnnualPlan && annualDiscount.percent || 0;
-
+$: ({ description, features } = PlanDescription[name]);
+$: percentOff = (isAnnualPlan && annualDiscount.percent) || 0;
 $: monthlyPrice = formatMonthlyPrice(plan, percentOff);
-
 function getBillingDescription(currentPlan, fallbackPlan, discount) {
-  if (isFreePlan) {
-    return 'Free forever';
-  }
-
-  if (isAnnualPlan) {
-    return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`;
-  }
-
-  return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`;
-}</script>
+    if (isFreePlan) {
+        return 'Free forever';
+    }
+    if (isAnnualPlan) {
+        return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`;
+    }
+    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`;
+}
+</script>
 
 <div class="plan txt-center relative {className}" class:free={isFreePlan}>
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>

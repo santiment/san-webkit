@@ -1,5 +1,6 @@
 <script>import ProjectIcon from './../../ui/ProjectIcon.svelte';
-export let item;</script>
+export let item;
+</script>
 
 <ProjectIcon slug={item.slug} size="24" class="icon-UMIiJ+" />
 <span class="name single-line">{item.name}</span>

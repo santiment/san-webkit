@@ -1,10 +1,13 @@
-<script>import Svg from './../../../ui/Svg/svelte';
-import Feature from './Feature.svelte';
-import { COMPARE_TABLE } from './comapre';
-export let plans = [];
-export let isShowingMore = false;
+<script>
+  import Svg from './../../../ui/Svg/svelte'
+  import Feature from './Feature.svelte'
+  import { COMPARE_TABLE } from './comapre'
 
-$: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7);</script>
+  export let plans = []
+  export let isShowingMore = false
+
+  $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7)
+</script>
 
 <div class="table body-2 relative">
   <slot />
@@ -31,7 +34,21 @@ $: items = isShowingMore ? COMPARE_TABLE : COMPARE_TABLE.slice(0, 7);</script>
   {/each}
 </div>
 
-<style >.head {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.head {
   padding: 40px 24px 16px;
 }
 

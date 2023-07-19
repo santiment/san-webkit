@@ -10,7 +10,8 @@ export let isCompact = false;
 export let isColumn = false;
 export let isOpened = undefined;
 export let active = undefined;
-export let closeTimeout = undefined;</script>
+export let closeTimeout = undefined;
+</script>
 
 <Tooltip {activeClass} bind:isOpened {closeTimeout} class={tooltipClass}>
   <svelte:fragment slot="trigger">

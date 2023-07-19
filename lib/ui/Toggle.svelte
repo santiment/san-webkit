@@ -4,7 +4,8 @@ export let isActive = false;
 export let disabled = false;
 export let big = false;
 export let icon = 'toggle';
-export let as = 'button';</script>
+export let as = 'button';
+</script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
@@ -19,7 +20,21 @@ export let as = 'button';</script>
   <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" />
 </svelte:element>
 
-<style >.toggle {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.toggle {
   ---width: var(--toggle-width, 36px);
   ---height: var(--toggle-height, 20px);
   height: var(---height);

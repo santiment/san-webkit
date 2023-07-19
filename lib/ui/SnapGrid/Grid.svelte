@@ -16,43 +16,29 @@ export let maxRows;
 export let minRows;
 export let onLayoutChange = noop;
 let node;
-const settings = {
-  cols,
-  rowSize,
-  maxCols,
-  minCols,
-  maxRows,
-  minRows
-};
-const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, {
-  onStart,
-  onEnd
-}));
-const {
-  onDragStart
-} = snapGrid;
-
-$: if (node) snapGrid.updateLayout(layout);
-
-$: if (node && layout) tick().then(() => snapGrid.mount(node));
-
+const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows };
+const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, { onStart, onEnd }));
+const { onDragStart } = snapGrid;
+$: if (node)
+    snapGrid.updateLayout(layout);
+$: if (node && layout)
+    tick().then(() => snapGrid.mount(node));
 function getStyle(item) {
-  const [,,, height] = item;
-  return `width:${getWidth(item, snapGrid)};
+    const [, , , height] = item;
+    return `width:${getWidth(item, snapGrid)};
       height:${calcHeight(height, snapGrid)}px;
       transform:${getResponsiveTranslate(item, snapGrid)}`;
 }
-
 function onStart() {
-  isDragging = true;
+    isDragging = true;
 }
-
 function onEnd() {
-  setTimeout(() => {
-    isDragging = false;
-    onLayoutChange();
-  }, 150);
-}</script>
+    setTimeout(() => {
+        isDragging = false;
+        onLayoutChange();
+    }, 150);
+}
+</script>
 
 <svelte:element this={tag} bind:this={node} class="snap-grid {className}">
   {#each layout as item, i (item)}

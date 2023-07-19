@@ -2,8 +2,9 @@
 import { Preloader } from './../../utils/fn';
 import ChristmasNFTDialog from './Dialog.svelte';
 import { checkIsGameStarted, queryUserNftInsights, saveDialogClose } from './api';
-export const showChristmasNFTDialog = props => dialogs.showOnce(ChristmasNFTDialog, props);
-export const dataPreloader = Preloader(queryUserNftInsights);</script>
+export const showChristmasNFTDialog = (props) => dialogs.showOnce(ChristmasNFTDialog, props);
+export const dataPreloader = Preloader(queryUserNftInsights);
+</script>
 
 <script>import { onDestroy, onMount } from 'svelte';
 import { trackNftBattleDialogClose, trackNftBattleDialogOpen } from './../../analytics/events/nftbattle';
@@ -21,41 +22,42 @@ export let currentUser;
 export let discountCode;
 page = Page.Info;
 let insights = [];
-
 if (process.browser) {
-  queryUserNftInsights().then(data => {
-    insights = data;
-  });
+    queryUserNftInsights().then((data) => {
+        insights = data;
+    });
 }
-
 $: isDiscountWinner = Boolean(insights.length && discountCode);
-
 $: pages = {
-  [Page.Insight]: {
-    title: 'Publish your Insight',
-    Component: Insight
-  },
-  [Page.Top]: {
-    title: 'Winning Criteria',
-    Component: Top
-  },
-  [Page.Reward]: {
-    title: 'Sit back and watch the action',
-    Component: Reward
-  },
-  [Page.Info]: {
-    title: isNftWinner ? 'Congratulations! You’re a winner! 🎉' : isDiscountWinner ? 'No NFT, but a special gift' : 'Time’s Up ⌛️',
-    Component: Info
-  }
+    [Page.Insight]: {
+        title: 'Publish your Insight',
+        Component: Insight,
+    },
+    [Page.Top]: {
+        title: 'Winning Criteria',
+        Component: Top,
+    },
+    [Page.Reward]: {
+        title: 'Sit back and watch the action',
+        Component: Reward,
+    },
+    [Page.Info]: {
+        title: isNftWinner
+            ? 'Congratulations! You’re a winner! 🎉'
+            : isDiscountWinner
+                ? 'No NFT, but a special gift'
+                : 'Time’s Up ⌛️',
+        Component: Info,
+    },
 };
-
 onMount(trackNftBattleDialogOpen);
 onDestroy(() => {
-  if (process.browser) {
-    trackNftBattleDialogClose(page);
-    saveDialogClose();
-  }
-});</script>
+    if (process.browser) {
+        trackNftBattleDialogClose(page);
+        saveDialogClose();
+    }
+});
+</script>
 
 <Dialog
   {...$$props}

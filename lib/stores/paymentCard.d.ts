@@ -1,4 +1,5 @@
-declare const subscribe: (this: void, run: import("svelte/store").Subscriber<SAN.PaymentCard | null>, invalidate?: ((value?: SAN.PaymentCard | null | undefined) => void) | undefined) => import("svelte/store").Unsubscriber;
+/// <reference types="svelte" />
+declare const subscribe: (this: void, run: import("svelte/store").Subscriber<SAN.PaymentCard | null>, invalidate?: import("svelte/store").Invalidator<SAN.PaymentCard | null> | undefined) => import("svelte/store").Unsubscriber;
 export declare const paymentCard$: {
     set: (this: void, value: SAN.PaymentCard | null) => void;
     query(): Promise<void>;

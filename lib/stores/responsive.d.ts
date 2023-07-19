@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 import { Device } from './../responsive';
 export declare const IsMobile: import("svelte/store").Writable<boolean>;
 export declare const IsPhone: import("svelte/store").Writable<boolean>;
@@ -25,11 +26,11 @@ export declare function Device$$(device: DeviceInfoType): {
             type: Device;
             isMobile: boolean;
             isDesktop: boolean;
-        }>, invalidate?: ((value?: {
+        }>, invalidate?: import("svelte/store").Invalidator<{
             type: Device;
             isMobile: boolean;
             isDesktop: boolean;
-        } | undefined) => void) | undefined): import("svelte/store").Unsubscriber;
+        }> | undefined): import("svelte/store").Unsubscriber;
     };
 };
 export declare const getDevice$Ctx: () => {
@@ -50,10 +51,10 @@ export declare const getDevice$Ctx: () => {
             type: Device;
             isMobile: boolean;
             isDesktop: boolean;
-        }>, invalidate?: ((value?: {
+        }>, invalidate?: import("svelte/store").Invalidator<{
             type: Device;
             isMobile: boolean;
             isDesktop: boolean;
-        } | undefined) => void) | undefined): import("svelte/store").Unsubscriber;
+        }> | undefined): import("svelte/store").Unsubscriber;
     };
 };

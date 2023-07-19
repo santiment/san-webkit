@@ -1,7 +1,8 @@
 <script>import Svg from './../../ui/Svg/svelte';
 export let title;
 export let description;
-let isOpened = false;</script>
+let isOpened = false;
+</script>
 
 <section>
   <!-- svelte-ignore a11y-click-events-have-key-events -->

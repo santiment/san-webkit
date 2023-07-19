@@ -11,10 +11,11 @@ export let votes = newVotes();
 export let onVote;
 export let source;
 const CreationVoteType = {
-  [CreationType.Layout]: VoteType.Layout,
-  [CreationType.Watchlist]: VoteType.Watchlist,
-  [CreationType.Dashboard]: VoteType.Dashboard
-};</script>
+    [CreationType.Layout]: VoteType.Layout,
+    [CreationType.Watchlist]: VoteType.Watchlist,
+    [CreationType.Dashboard]: VoteType.Dashboard,
+};
+</script>
 
 <LikeButton
   type={CreationVoteType[type]}

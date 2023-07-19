@@ -1,7 +1,10 @@
-<script>import Section from './Section.svelte';
-import EmailForm from './EmailForm.svelte';
-import EmailConfirmation from './EmailConfirmation.svelte';
-let verifiedEmail;</script>
+<script>
+  import Section from './Section.svelte'
+  import EmailForm from './EmailForm.svelte'
+  import EmailConfirmation from './EmailConfirmation.svelte'
+
+  let verifiedEmail
+</script>
 
 {#if verifiedEmail}
   <EmailConfirmation email={verifiedEmail} />

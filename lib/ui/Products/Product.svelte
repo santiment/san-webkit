@@ -9,7 +9,8 @@ export let accent;
 export let note = undefined;
 export let isCompact = false;
 const [w, h] = dimensions;
-const large = !isCompact;</script>
+const large = !isCompact;
+</script>
 
 <a
   {href}
@@ -24,7 +25,7 @@ const large = !isCompact;</script>
       <Svg illus id="products/{id}" {w} {h} />
     </div>
   {:else}
-    <Svg id="pointer" w="14" h="9" class="pointer-wCXMuS" />
+    <Svg id="pointer" w="14" h="9" class="pointer-8g3Fuq" />
   {/if}
 
   <div>
@@ -36,7 +37,21 @@ const large = !isCompact;</script>
   </div>
 </a>
 
-<style >.icon {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.icon {
   width: var(--product-icon-size, 40px);
   min-width: var(--product-icon-size, 40px);
   height: var(--product-icon-size, 40px);
@@ -72,11 +87,11 @@ const large = !isCompact;</script>
   --black: var(--accent);
   fill: var(--accent);
 }
-.compact:hover :global(.pointer-wCXMuS) {
+.compact:hover :global(.pointer-8g3Fuq) {
   display: block;
 }
 
-:global(.pointer-wCXMuS) {
+:global(.pointer-8g3Fuq) {
   position: absolute;
   top: 9px;
   right: 0;

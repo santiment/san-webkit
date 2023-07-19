@@ -1,13 +1,28 @@
 <script>let className = '';
 export { className as class };
-export let small = false;</script>
+export let small = false;
+</script>
 
 <button class="relative {className}" class:small on:click>
   <img src="{process.env.MEDIA_PATH}/illus/halloween/flame.svg" alt="Flame" />
   <span>🎃</span>
 </button>
 
-<style >img {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+img {
   width: 116px;
   height: 133px;
 }

@@ -16,18 +16,13 @@ export let debounceTime = 180;
 export let filter;
 export let searchPosition = 'top';
 let filtered = items;
-
 $: isSearchAtTop = searchPosition === 'top';
-
-const [filterItems, clearTimer] = debounce(debounceTime, value => {
-  filtered = value ? filter(value, items) : items;
+const [filterItems, clearTimer] = debounce(debounceTime, (value) => {
+    filtered = value ? filter(value, items) : items;
 });
-
-const onInput = ({
-  currentTarget
-}) => filterItems(currentTarget.value);
-
-onDestroy(clearTimer);</script>
+const onInput = ({ currentTarget }) => filterItems(currentTarget.value);
+onDestroy(clearTimer);
+</script>
 
 {#if isSearchAtTop}
   <InputWithIcon

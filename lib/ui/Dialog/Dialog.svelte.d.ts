@@ -6,7 +6,7 @@ declare const __propDef: {
         class?: string | undefined;
         titleClassName?: string | undefined;
         closeDialog?: ((skipLockChecks?: boolean) => void) | undefined;
-        title?: string | SvelteComponentModule | undefined;
+        title?: string | SvelteComponentModule;
         onBeforeDialogClose?: (() => void) | undefined;
         noTitle?: boolean | undefined;
         noBg?: boolean | undefined;

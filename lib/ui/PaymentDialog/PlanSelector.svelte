@@ -1,9 +1,8 @@
 <script>var _a;
-
 import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
-import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount } from './../../utils/plans';
+import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, } from './../../utils/plans';
 export let plans;
 export let plan;
 export let price;
@@ -11,23 +10,20 @@ export let selectedNameBilling;
 export let isSinglePlan;
 export let annualDiscount;
 let isOpened = false;
-
 $: annualPercentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 10;
-
 $: altPlan = getAlternativePlan(plan, plans);
-
 function select(option) {
-  plan = option;
-  isOpened = false;
-  trackPaymentFormPlanSelect({
-    plan: plan.name,
-    planId: +plan.id,
-    billing: plan.interval,
-    amount: plan.amount
-  });
+    plan = option;
+    isOpened = false;
+    trackPaymentFormPlanSelect({
+        plan: plan.name,
+        planId: +plan.id,
+        billing: plan.interval,
+        amount: plan.amount,
+    });
 }
-
-const SAVED_MSG = 'Save 10% 🎉';</script>
+const SAVED_MSG = 'Save 10% 🎉';
+</script>
 
 <div class="row justify mrg-l mrg--b">
   <div class="relative">

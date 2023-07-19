@@ -1,3 +1,4 @@
+/// <reference types="svelte" />
 export declare function UI$$(defaultValue?: Record<string, any>): {
     ui$: {
         toggleNightMode(): void;
@@ -12,10 +13,10 @@ export declare function UI$$(defaultValue?: Record<string, any>): {
         subscribe(this: void, run: import("svelte/store").Subscriber<{
             isNightMode: boolean;
             isLiteVersion: boolean;
-        }>, invalidate?: ((value?: {
+        }>, invalidate?: import("svelte/store").Invalidator<{
             isNightMode: boolean;
             isLiteVersion: boolean;
-        } | undefined) => void) | undefined): import("svelte/store").Unsubscriber;
+        }> | undefined): import("svelte/store").Unsubscriber;
     };
 };
 export declare const getUI$Ctx: () => {
@@ -32,10 +33,10 @@ export declare const getUI$Ctx: () => {
         subscribe(this: void, run: import("svelte/store").Subscriber<{
             isNightMode: boolean;
             isLiteVersion: boolean;
-        }>, invalidate?: ((value?: {
+        }>, invalidate?: import("svelte/store").Invalidator<{
             isNightMode: boolean;
             isLiteVersion: boolean;
-        } | undefined) => void) | undefined): import("svelte/store").Unsubscriber;
+        }> | undefined): import("svelte/store").Unsubscriber;
     };
 };
 export declare const ui$: import("svelte/store").Writable<{}>;

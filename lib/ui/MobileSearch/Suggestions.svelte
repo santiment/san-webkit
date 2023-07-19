@@ -9,34 +9,29 @@ export let show;
 let items = [];
 let filteredItems = [];
 let loading = true;
-
 $: filterItems(searchTerm);
-
 $: getItems(query);
-
 async function filterItems(searchTerm) {
-  loading = true;
-  filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items;
-  loading = false;
+    loading = true;
+    filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items;
+    loading = false;
 }
-
 async function getItems(query) {
-  loading = true;
-  items = await query();
-  await filterItems(searchTerm);
+    loading = true;
+    items = await query();
+    await filterItems(searchTerm);
 }
-
 function onItemClick(event) {
-  var _a;
-
-  (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, event);
-  show = false;
-}</script>
+    var _a;
+    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, event);
+    show = false;
+}
+</script>
 
 <div class="wrapper column mrg-xxl mrg--t">
   {#if loading}
     <div class="logo-wrapper column hv-center">
-      <Svg illus id="san-logo" w="72" class="logo-iJL_+A" />
+      <Svg illus id="san-logo" w="72" class="logo-yPNtNK" />
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
@@ -56,7 +51,21 @@ function onItemClick(event) {
   {/if}
 </div>
 
-<style >.wrapper {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.wrapper {
   overflow: auto;
   gap: 8px;
 }
@@ -74,7 +83,7 @@ a:focus, a:visited, a:active {
   height: 100%;
 }
 
-:global(.logo-iJL_\+A) {
+:global(.logo-yPNtNK) {
   animation: load 1s infinite alternate;
 }
 

@@ -1,32 +1,33 @@
-<script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
-import { trackSignupStart } from './../../analytics/events/onboarding';
-import { mutateEmailLogin } from './../../api/login';
-import InputWithIcon from './../../ui/InputWithIcon.svelte';
-export let verifiedEmail = '';
-export let isSignUp;
-let email = '';
-let loading = false;
+<script>
+  import { LoginType, trackLoginStart } from './../../analytics/events/general'
+  import { trackSignupStart } from './../../analytics/events/onboarding'
+  import { mutateEmailLogin } from './../../api/login'
+  import InputWithIcon from './../../ui/InputWithIcon.svelte'
 
-function onSubmit({
-  currentTarget
-}) {
-  email = currentTarget.email.value;
-  loading = true;
-  mutateEmailLogin(email).then(onSuccess);
+  export let verifiedEmail = ''
+  export let isSignUp
 
-  if (isSignUp) {
-    trackSignupStart(LoginType.EMAIL);
-  } else {
-    trackLoginStart(LoginType.EMAIL);
+  let email = ''
+  let loading = false
+
+  function onSubmit({ currentTarget }) {
+    email = currentTarget.email.value
+    loading = true
+
+    mutateEmailLogin(email).then(onSuccess)
+
+    if (isSignUp) {
+      trackSignupStart(LoginType.EMAIL)
+    } else {
+      trackLoginStart(LoginType.EMAIL)
+    }
   }
-}
 
-function onSuccess({
-  emailLogin
-}) {
-  loading = false;
-  if (emailLogin.success) verifiedEmail = email;
-}</script>
+  function onSuccess({ emailLogin }) {
+    loading = false
+    if (emailLogin.success) verifiedEmail = email
+  }
+</script>
 
 <form on:submit|preventDefault={onSubmit}>
   <InputWithIcon

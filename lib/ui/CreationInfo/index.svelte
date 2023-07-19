@@ -20,14 +20,15 @@ export let votes = null;
 export let onVote;
 export let titleHoverTooltipClass = '';
 export let hasInfo = true;
-export let source;</script>
+export let source;
+</script>
 
 {#if id && title}
   <div class="creation row v-center mrg-m mrg--r">
     {#if user}
       <Tooltip openDelay={110}>
         <svelte:fragment slot="trigger">
-          <Profile {user} {source} feature={type} class="author-zI_5hl" />
+          <Profile {user} {source} feature={type} class="author-H5ShAq" />
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
@@ -39,7 +40,7 @@ export let source;</script>
     {/if}
 
     <HoverEdit
-      class="title-H+pg_P body-2"
+      class="title-0I59z_ body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
@@ -82,7 +83,7 @@ export let source;</script>
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="title-H+pg_P body-2"
+    class="title-0I59z_ body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -92,7 +93,21 @@ export let source;</script>
   </HoverEdit>
 {/if}
 
-<style >.creation {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.creation {
   overflow: hidden;
 }
 
@@ -115,15 +130,15 @@ export let source;</script>
   margin: 0 12px;
 }
 
-:global(.author-zI_5hl) {
+:global(.author-H5ShAq) {
   overflow: hidden;
   min-width: fit-content;
 }
-:global(.author-zI_5hl) :global(span) {
+:global(.author-H5ShAq) :global(span) {
   max-width: 140px !important;
 }
 
-:global(.title-H\+pg_P) {
+:global(.title-0I59z_) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

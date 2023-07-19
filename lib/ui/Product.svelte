@@ -2,7 +2,8 @@
 let className = '';
 export { className as class };
 export let title;
-export let isXmas = false;</script>
+export let isXmas = false;
+</script>
 
 <a
   href="/"

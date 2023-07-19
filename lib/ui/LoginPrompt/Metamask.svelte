@@ -6,21 +6,20 @@ export let isSignUp = false;
 export let onClick;
 const hasMetamask = process.browser ? !!window.ethereum : true;
 let loading = false;
-
 function onLoginClick() {
-  loading = true;
-
-  if (isSignUp) {
-    trackSignupStart(LoginType.METAMASK);
-  } else {
-    trackLoginStart(LoginType.METAMASK);
-  }
-
-  onClick().catch(e => {
-    console.warn(e);
-    loading = false;
-  });
-}</script>
+    loading = true;
+    if (isSignUp) {
+        trackSignupStart(LoginType.METAMASK);
+    }
+    else {
+        trackLoginStart(LoginType.METAMASK);
+    }
+    onClick().catch((e) => {
+        console.warn(e);
+        loading = false;
+    });
+}
+</script>
 
 {#if hasMetamask}
   <Option

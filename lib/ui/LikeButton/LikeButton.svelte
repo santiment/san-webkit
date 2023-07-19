@@ -6,7 +6,7 @@ export { className as class };
 export let totalVotes = 0;
 export let userVotes = 0;
 export let disabled = false;
-export let onVote = () => {};
+export let onVote = () => { };
 export let hasBorder = true;
 export let maxVotesPerUser = 20;
 export let voteInterval = 370;
@@ -15,52 +15,47 @@ let moonNode;
 let mooned = false;
 let timer;
 let votingInterval;
-
 function startVote(e) {
-  if (disabled) return; // Checking right button mouse click
-
-  if (e.button === 2) {
-    return;
-  }
-
-  clearTimeout(timer);
-  clearInterval(votingInterval);
-  vote();
-  votingInterval = window.setInterval(vote, voteInterval);
-  window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
-    once: true
-  });
+    if (disabled)
+        return;
+    // Checking right button mouse click
+    if (e.button === 2) {
+        return;
+    }
+    clearTimeout(timer);
+    clearInterval(votingInterval);
+    vote();
+    votingInterval = window.setInterval(vote, voteInterval);
+    window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
+        once: true,
+    });
 }
-
 function vote() {
-  if (userVotes < maxVotesPerUser) {
-    userVotes += 1;
-    totalVotes += 1;
-    onVote();
-  }
-
-  resetAnimation(rocketNode);
-  resetAnimation(rocketNode.lastChild);
-  if (mooned && moonNode) resetAnimation(moonNode);
-  mooned = true;
+    if (userVotes < maxVotesPerUser) {
+        userVotes += 1;
+        totalVotes += 1;
+        onVote();
+    }
+    resetAnimation(rocketNode);
+    resetAnimation(rocketNode.lastChild);
+    if (mooned && moonNode)
+        resetAnimation(moonNode);
+    mooned = true;
 }
-
 function stopVote() {
-  clearInterval(votingInterval);
-  timer = window.setTimeout(() => mooned = false, 1000);
+    clearInterval(votingInterval);
+    timer = window.setTimeout(() => (mooned = false), 1000);
 }
-
 function resetAnimation(node) {
-  node.style.animation = 'none';
-  node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-
-  node.style.animation = '';
+    node.style.animation = 'none';
+    node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
+    node.style.animation = '';
 }
-
 onDestroy(() => {
-  clearTimeout(timer);
-  clearInterval(votingInterval);
-});</script>
+    clearTimeout(timer);
+    clearInterval(votingInterval);
+});
+</script>
 
 <button
   class="btn row v-center txt-m {className}"

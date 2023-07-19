@@ -14,34 +14,24 @@ export let applySort = (sorter, items) => items.slice().sort(sorter);
 export let onSortClick = noop;
 export let itemProps = null;
 export let offset = 0;
-
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
-
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
-
 let currentSort = descSort;
-
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
-
 $: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
-
 $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
-
-function changeSort({
-  currentTarget
-}) {
-  const i = currentTarget.dataset.i;
-  const column = columns[+i];
-  const {
-    sortAccessor,
-    isSortable = sortAccessor
-  } = column;
-  if (!isSortable) return;
-  const isDescSort = sortedColumn === column && currentSort === descSort;
-  currentSort = isDescSort ? ascSort : descSort;
-  sortedColumn = column;
-  onSortClick(sortedColumn, isDescSort);
-}</script>
+function changeSort({ currentTarget }) {
+    const i = currentTarget.dataset.i;
+    const column = columns[+i];
+    const { sortAccessor, isSortable = sortAccessor } = column;
+    if (!isSortable)
+        return;
+    const isDescSort = sortedColumn === column && currentSort === descSort;
+    currentSort = isDescSort ? ascSort : descSort;
+    sortedColumn = column;
+    onSortClick(sortedColumn, isDescSort);
+}
+</script>
 
 <table class={className} class:sticky-header={sticky}>
   <thead>
@@ -98,7 +88,21 @@ function changeSort({
   </caption>
 </table>
 
-<style >:global(.cell-auto) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+:global(.cell-auto) {
   max-width: 0;
   width: 100%;
 }

@@ -1,8 +1,11 @@
-<script>import { IsPhone } from './../../../stores/responsive';
-import sanTokenBanner from './sanTokenBanner.svg';
-import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg';
-let className = '';
-export { className as class };</script>
+<script>
+  import { IsPhone } from './../../../stores/responsive'
+  import sanTokenBanner from './sanTokenBanner.svg'
+  import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg'
+
+  let className = ''
+  export { className as class }
+</script>
 
 <section class="row justify v-center border body-2 relative {className}">
   <div class="text">
@@ -28,7 +31,21 @@ export { className as class };</script>
   <img src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop} alt="San Token Banner" />
 </section>
 
-<style >section {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+section {
   max-width: 100%;
   width: 1140px;
   background: var(--whale);

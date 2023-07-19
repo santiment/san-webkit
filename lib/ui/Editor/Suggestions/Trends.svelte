@@ -4,7 +4,8 @@ import Suggestions from './Suggestions.svelte';
 export let searchTerm = '';
 export const href = () => SANBASE_ORIGIN + '/labs/trends/explore/' + searchTerm;
 export const label = () => '#' + searchTerm;
-let items = [0];</script>
+let items = [0];
+</script>
 
 <Suggestions {...$$props} {items}>
   <div class="c-black">

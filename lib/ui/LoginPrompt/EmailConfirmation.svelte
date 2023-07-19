@@ -1,5 +1,8 @@
-<script>import Section from './Section.svelte';
-export let email;</script>
+<script>
+  import Section from './Section.svelte'
+
+  export let email
+</script>
 
 <Section
   title="Email Confirmation"

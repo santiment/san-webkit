@@ -5,25 +5,18 @@ import { getSEOLinkFromIdAndTitle } from './../../../utils/url';
 export let type;
 export let creation;
 const href = getHref(creation);
-
-function getHref({
-  id,
-  title,
-  isScreener
-}) {
-  const seoLink = getSEOLinkFromIdAndTitle(id, title);
-
-  switch (type) {
-    case CreationType.Layout:
-      return '/charts/' + seoLink;
-
-    case CreationType.Watchlist:
-      return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink;
-
-    case CreationType.AddressWatchlist:
-      return '/watchlist/addresses/' + seoLink;
-  }
-}</script>
+function getHref({ id, title, isScreener }) {
+    const seoLink = getSEOLinkFromIdAndTitle(id, title);
+    switch (type) {
+        case CreationType.Layout:
+            return '/charts/' + seoLink;
+        case CreationType.Watchlist:
+            return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink;
+        case CreationType.AddressWatchlist:
+            return '/watchlist/addresses/' + seoLink;
+    }
+}
+</script>
 
 <a {href} class="column border btn" on:click={window.__onLinkClick}>
   <h3 class="mrg-m mrg--b txt-m line-clamp">{creation.title}</h3>
@@ -41,7 +34,21 @@ function getHref({
   {/if}
 </a>
 
-<style >a {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+a {
   padding: 12px 16px;
   max-width: 182px;
   flex: 1;

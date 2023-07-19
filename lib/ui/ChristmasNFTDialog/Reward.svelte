@@ -1,10 +1,10 @@
-<script>import { PageName, trackNftBattleGameDetailsPage, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+<script>import { PageName, trackNftBattleGameDetailsPage, trackNftBattleLinkClick, } from './../../analytics/events/nftbattle';
 import Svg from './../../ui/Svg/svelte';
 import { Page } from './types';
 export let page;
 export let insights = [];
-
-$: hasInsights = insights.length > 0;</script>
+$: hasInsights = insights.length > 0;
+</script>
 
 {#if hasInsights}
   <p>🎉 You’re in the Battle now! Thank you for competing.</p>

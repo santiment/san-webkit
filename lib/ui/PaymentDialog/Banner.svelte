@@ -6,32 +6,21 @@ export let plan;
 export let name;
 export let price;
 export let isEligibleForTrial = true;
-const {
-  customer$
-} = getCustomer$Ctx();
-
-$: ({
-  trialDaysLeft
-} = $customer$);
-
+const { customer$ } = getCustomer$Ctx();
+$: ({ trialDaysLeft } = $customer$);
 function formatDate(date) {
-  const {
-    DD,
-    MM,
-    YY
-  } = getDateFormats(date);
-  return `${DD}/${MM}/${YY}`;
+    const { DD, MM, YY } = getDateFormats(date);
+    return `${DD}/${MM}/${YY}`;
 }
-
 function getNextPaymentDates(plan) {
-  return formatDate(getNextPaymentDate(plan));
+    return formatDate(getNextPaymentDate(plan));
 }
-
 function getTrialEndDate() {
-  const date = new Date();
-  date.setDate(date.getDate() + 14);
-  return formatDate(date);
-}</script>
+    const date = new Date();
+    date.setDate(date.getDate() + 14);
+    return formatDate(date);
+}
+</script>
 
 <div class="banner mrg-l mrg--b" class:trial={isEligibleForTrial}>
   <div class="txt-m mrg-xs mrg--b">

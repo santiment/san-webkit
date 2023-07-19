@@ -8,51 +8,45 @@ export let currentUser;
 let selectedTokenId;
 let claimableTokenIds = [];
 let isOpened = false;
-queryNftToClaim().then(data => {
-  claimableTokenIds = data.flatMap(({
-    nonValidTokenIds
-  }) => nonValidTokenIds);
-  selectedTokenId = claimableTokenIds[0];
-});
-
-function onConnectClick() {
-  connectWallet().catch(e => {
-    notifications$.show({
-      type: 'error',
-      title: 'Something went wrong',
-      description: 'Please try again'
-    });
-    console.error(e);
-  });
-}
-
-function selectTokenId(id) {
-  selectedTokenId = id;
-  isOpened = false;
-}
-
-async function onClaimClick() {
-  const {
-    contract,
-    error
-  } = await getNftContract().catch(error => ({
-    error
-  }));
-  if (error) return console.error(error);
-  contract.activateSubscription(selectedTokenId).then(() => {
-    notifications$.show({
-      type: 'success',
-      title: 'Subscription activated'
-    });
-    claimableTokenIds = claimableTokenIds.filter(tokenId => tokenId !== selectedTokenId);
+queryNftToClaim().then((data) => {
+    claimableTokenIds = data.flatMap(({ nonValidTokenIds }) => nonValidTokenIds);
     selectedTokenId = claimableTokenIds[0];
-  }).catch(() => {
-    notifications$.show({
-      type: 'error',
-      title: `Failed to activate subscription (id: ${selectedTokenId})`
+});
+function onConnectClick() {
+    connectWallet().catch((e) => {
+        notifications$.show({
+            type: 'error',
+            title: 'Something went wrong',
+            description: 'Please try again',
+        });
+        console.error(e);
     });
-  });
-}</script>
+}
+function selectTokenId(id) {
+    selectedTokenId = id;
+    isOpened = false;
+}
+async function onClaimClick() {
+    const { contract, error } = await getNftContract().catch((error) => ({
+        error,
+    }));
+    if (error)
+        return console.error(error);
+    contract
+        .activateSubscription(selectedTokenId)
+        .then(() => {
+        notifications$.show({ type: 'success', title: 'Subscription activated' });
+        claimableTokenIds = claimableTokenIds.filter((tokenId) => tokenId !== selectedTokenId);
+        selectedTokenId = claimableTokenIds[0];
+    })
+        .catch(() => {
+        notifications$.show({
+            type: 'error',
+            title: `Failed to activate subscription (id: ${selectedTokenId})`,
+        });
+    });
+}
+</script>
 
 <div class="border row v-center justify">
   <div>

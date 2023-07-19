@@ -1,4 +1,4 @@
-import { Handlers, SnapGridController, SnapItem } from './types';
+import type { Handlers, SnapGridController, SnapItem } from './types';
 export type DraggableCtx = {
     pageX: number;
     pageY: number;

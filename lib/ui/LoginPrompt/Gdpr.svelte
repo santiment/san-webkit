@@ -10,67 +10,62 @@ import Section from './Section.svelte';
 export let onAccept;
 export let currentUser;
 export let title = 'Welcome to Sanbase';
-const constraints = {
-  required: true,
-  minlength: 3
-};
+const constraints = { required: true, minlength: 3 };
 const defaultUsername = currentUser && currentUser.username;
 let isActive = false;
 let error = '';
 let loading = false;
-
 $: username = defaultUsername;
-
 $: isDisabled = !isActive || !username || error;
-
-const [checkValidity, clearTimer] = debounce(250, input => {
-  const {
-    value
-  } = input;
-
-  if (value.length < 3) {
-    error = 'Username should be at least 3 characters long';
-  } else if (value[0] === '@') {
-    error = '@ is not allowed for the first character';
-  } else {
-    error = '';
-  }
+const [checkValidity, clearTimer] = debounce(250, (input) => {
+    const { value } = input;
+    if (value.length < 3) {
+        error = 'Username should be at least 3 characters long';
+    }
+    else if (value[0] === '@') {
+        error = '@ is not allowed for the first character';
+    }
+    else {
+        error = '';
+    }
 });
-
 function onBlur() {
-  if (username) return;
-  error = '';
-  username = defaultUsername;
+    if (username)
+        return;
+    error = '';
+    username = defaultUsername;
 }
-
-function onInput({
-  currentTarget
-}) {
-  username = currentTarget.value;
-  checkValidity(currentTarget);
+function onInput({ currentTarget }) {
+    username = currentTarget.value;
+    checkValidity(currentTarget);
 }
-
 function onSubmit() {
-  if (isDisabled) return;
-  loading = true;
-  const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username);
-  usernamePromise.catch(onUsernameChangeError).then(() => {
-    return mutateGdpr(true);
-  }).then(() => {
-    currentUser.privacyPolicyAccepted = true;
-    if (window.onGdprAccept) window.onGdprAccept();
-    trackGdprAccept(true);
-    return username;
-  }).then(onAccept).catch(console.error);
+    if (isDisabled)
+        return;
+    loading = true;
+    const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username);
+    usernamePromise
+        .catch(onUsernameChangeError)
+        .then(() => {
+        return mutateGdpr(true);
+    })
+        .then(() => {
+        currentUser.privacyPolicyAccepted = true;
+        if (window.onGdprAccept)
+            window.onGdprAccept();
+        trackGdprAccept(true);
+        return username;
+    })
+        .then(onAccept)
+        .catch(console.error);
 }
-
 function onUsernameChangeError() {
-  error = `Username "${username}" is already taken`;
-  loading = false;
-  return Promise.reject();
+    error = `Username "${username}" is already taken`;
+    loading = false;
+    return Promise.reject();
 }
-
-onDestroy(clearTimer);</script>
+onDestroy(clearTimer);
+</script>
 
 <Section {title}>
   <div class="c-waterloo body-2">
@@ -95,8 +90,8 @@ onDestroy(clearTimer);</script>
   </div>
 
   <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div class="btn row v-center body-2" on:click={() => (isActive = !isActive)}>
-    <Checkbox class="mrg-m mrg--r" {isActive} />
+  <div class="btn row v-center body-2">
+    <Checkbox class="mrg-m mrg--r" {isActive} on:click={() => (isActive = !isActive)} />
     I accept
     <a
       href="https://santiment.net/terms"

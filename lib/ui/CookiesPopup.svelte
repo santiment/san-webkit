@@ -1,30 +1,31 @@
-<script context="module">export const CookiesStyle = {
-  API: 'api-mHGthn',
-  SHEETS: 'sheets-Rqj1O3'
-};</script>
+<script context="module">
+  export const CookiesStyle = {
+    API: 'api-SvMBop',
+    SHEETS: 'sheets-yMmQiB',
+  }
+</script>
 
-<script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
+<script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies, } from './../ui/ManageCookiesDialog/index.svelte';
 import Svg from './../ui/Svg/svelte';
 import { getSavedBoolean } from './../utils/localStorage';
 let className = '';
 export { className as class };
 export let style = '';
 export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
-
 function onAllowAllClick() {
-  applyCookies(true, true);
-  isVisible = false;
-}
-
-function onManageClick() {
-  showManageCookiesDialog().then(() => {
+    applyCookies(true, true);
     isVisible = false;
-  });
-}</script>
+}
+function onManageClick() {
+    showManageCookiesDialog().then(() => {
+        isVisible = false;
+    });
+}
+</script>
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
-    <Svg illus id="cookies" class="pic-vToQ8H" />
+    <Svg illus id="cookies" class="pic-xZtiLr" />
     <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -37,7 +38,21 @@ function onManageClick() {
   </div>
 {/if}
 
-<style >.cookies {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.cookies {
   position: fixed;
   padding: 24px 20px;
   bottom: 0;
@@ -47,12 +62,12 @@ function onManageClick() {
   text-align: center;
 }
 
-:global(.api-mHGthn) {
+:global(.api-SvMBop) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-Rqj1O3) {
+:global(.sheets-yMmQiB) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -61,7 +76,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-vToQ8H) {
+:global(.pic-xZtiLr) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -75,7 +90,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-vToQ8H) {
+:global(.desktop) :global(.pic-xZtiLr) {
   transform: initial;
   position: absolute;
   left: 24px;

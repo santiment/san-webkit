@@ -13,29 +13,17 @@ import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
 let className = '';
 export { className as class };
 export let billing = Billing.YEAR;
-
 $: subscription = $subscription$;
-
-$: ({
-  isLoggedIn,
-  isEligibleForTrial,
-  annualDiscount
-} = $customerData$);
-
+$: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$);
 let plans = [];
-
 $: billingPlans = (billing, plans.filter(billingFilter));
-
-querySanbasePlans().then(data => {
-  plans = data.filter(onlyProAndFreeLikePlans);
+querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProAndFreeLikePlans);
 });
-
-function billingFilter({
-  interval,
-  name
-}) {
-  return interval === billing || name.includes(Plan.FREE);
-}</script>
+function billingFilter({ interval, name }) {
+    return interval === billing || name.includes(Plan.FREE);
+}
+</script>
 
 <main class={className}>
   <div class="txt-center header">
@@ -56,7 +44,7 @@ function billingFilter({
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-uZ9oR8" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="comparison-3OXL1W" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -72,7 +60,21 @@ function billingFilter({
 
 <Footer class="" />
 
-<style >main :global(section h2) {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+main :global(section h2) {
   font-size: 32px;
   line-height: 40px;
   font-weight: 500;
@@ -87,7 +89,7 @@ function billingFilter({
   padding: 0 46px;
 }
 
-:global(.comparison-uZ9oR8) {
+:global(.comparison-3OXL1W) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }

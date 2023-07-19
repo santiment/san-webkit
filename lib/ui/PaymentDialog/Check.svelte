@@ -1,5 +1,4 @@
 <script>var _a;
-
 import { getPrice, priceFormatter } from './../../utils/plans';
 import { checkSanDiscount } from './utils';
 export let plan;
@@ -9,22 +8,20 @@ export let isAnnualPlan;
 export let isEligibleForTrial;
 export let annualDiscount;
 const hasSanDiscount = checkSanDiscount(sanBalance);
-
 $: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount);
-
-$: discountPercentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || percentOff || (hasSanDiscount ? 20 : 0);
-
+$: discountPercentOff =
+    ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || percentOff || (hasSanDiscount ? 20 : 0);
 $: discounted = discountPercentOff ? plan.amount * (discountPercentOff / 100) : 0;
-
 $: total = plan.amount - discounted;
-
-const format = amount => priceFormatter(getPrice(amount));
-
+const format = (amount) => priceFormatter(getPrice(amount));
 function getDiscount() {
-  if (annualDiscount.isEligible) return 'Special offer discount';
-  if (percentOff) return 'Promo code';
-  return hasSanDiscount && 'SAN Holder discount';
-}</script>
+    if (annualDiscount.isEligible)
+        return 'Special offer discount';
+    if (percentOff)
+        return 'Promo code';
+    return hasSanDiscount && 'SAN Holder discount';
+}
+</script>
 
 <div class="c-waterloo mrg-a mrg--t">
   {#if discountPercentOff}

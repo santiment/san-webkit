@@ -1,10 +1,13 @@
-<script>import Plan from '../Plan.svelte';
-export let billingPlans;
-export let plans;
-export let subscription;
-export let annualDiscount;
-export let isLoggedIn;
-export let isEligibleForTrial;</script>
+<script>
+  import Plan from '../Plan.svelte'
+
+  export let billingPlans
+  export let plans
+  export let subscription
+  export let annualDiscount
+  export let isLoggedIn
+  export let isEligibleForTrial
+</script>
 
 <section id="plans" class="row no-scrollbar">
   <div class="scroll row border">
@@ -16,13 +19,27 @@ export let isEligibleForTrial;</script>
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="plan-hGDzUQ"
+        class="plan-wVN1Gj"
       />
     {/each}
   </div>
 </section>
 
-<style >#plans {
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+#plans {
   max-width: var(--page-width, 1140px);
   margin: 0 auto 40px;
   overflow: auto;
@@ -35,7 +52,7 @@ export let isEligibleForTrial;</script>
   margin: 0 auto;
 }
 
-:global(.plan-hGDzUQ) {
+:global(.plan-wVN1Gj) {
   --h-padding: 40px;
   flex: 1;
   width: 100%;
@@ -43,9 +60,9 @@ export let isEligibleForTrial;</script>
   max-width: 386px;
   border-right: 1px solid var(--porcelain);
 }
-:global(.plan-hGDzUQ:last-child) {
+:global(.plan-wVN1Gj:last-child) {
   border: 0;
 }
-:global(body:not(.desktop)) :global(.plan-hGDzUQ) {
+:global(body:not(.desktop)) :global(.plan-wVN1Gj) {
   --h-padding: 24px;
 }</style>

@@ -1,6 +1,6 @@
 <script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte'; // import Breadcrumbs from './Breadcrumbs.svelte'
-
+import Svg from './../../ui/Svg/svelte';
+// import Breadcrumbs from './Breadcrumbs.svelte'
 import { Page } from './types';
 import Aside from './Aside.svelte';
 export let page;
@@ -8,11 +8,11 @@ export let title;
 export let isNftWinner = false;
 export let isDiscountWinner = false;
 export let insights = [];
-
 function changePage(newPage) {
-  trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page);
-  page = newPage;
-}</script>
+    trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page);
+    page = newPage;
+}
+</script>
 
 <div class="wrapper row">
   <section class="column">
@@ -30,7 +30,7 @@ function changePage(newPage) {
             class:disabled={page < Page.Top}
             on:click={() => changePage(page - 1)}
           >
-            <Svg id="pointer" w="14" h="8" class="back-X0jdrk" />
+            <Svg id="pointer" w="14" h="8" class="back-34HUCp" />
             Back
           </button>
 
@@ -50,7 +50,21 @@ function changePage(newPage) {
   <Aside {insights} {isNftWinner} {isDiscountWinner} />
 </div>
 
-<style >.wrapper,
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
+  }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.wrapper,
 section,
 main {
   flex: 1;
@@ -72,6 +86,6 @@ main {
   fill: var(--mystic);
 }
 
-:global(.back-X0jdrk) {
+:global(.back-34HUCp) {
   transform: rotate(180deg);
 }</style>

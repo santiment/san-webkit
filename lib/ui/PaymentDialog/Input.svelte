@@ -3,7 +3,8 @@ export { className as class };
 export let title;
 export let name = '';
 export let placeholder = '';
-export let required = true;</script>
+export let required = true;
+</script>
 
 <!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="column {className}">
