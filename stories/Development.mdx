@@ -1,0 +1,65 @@
+# Development
+
+## Writing stories
+
+States:
+
+- With data;
+- Loading;
+- Empty;
+- Error state (if possible).
+
+## Custom component classes
+
+```html
+<!-- Component.svelte -->
+<script>
+  let className = ''
+  export { className as class }
+  export let activeClass = ''
+</script>
+
+<div class="{className}">...</div>
+```
+
+To pass class to the custom component, declare CSS tag-like selector with a component name:
+
+```html
+<!-- +page.svelte -->
+
+<!-- Component will have red background -->
+<Component />
+
+<!-- Component will have green background, due to overwritten rule -->
+<Component class="second" />
+
+<style>
+  Component {
+    background: red;
+  }
+
+  Component.second {
+    background: green;
+  }
+</style>
+```
+
+Such styling will only work if the custom component has `class` prop. As a fallback, CSS module variable `$style` can be used, to reference class selectors declared in `<style>` block:
+
+```html
+<!-- +page.svelte -->
+
+<script>
+  console.log('$style.custom')
+</script>
+
+<!-- Component will have green background -->
+<Component class="$style.custom" />
+
+<style>
+  /* $style.custom will visible in whole component, including <script> tag */
+  .custom {
+    background: red;
+  }
+</style>
+```
