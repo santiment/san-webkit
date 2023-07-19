@@ -13,7 +13,7 @@ export const Preprocess = (options) =>
 
 export const RoutesPreprocess = (root) => ({
   script: ({ content, filename }) => ({
-    code: replaceModuleAliases(root, filename, content, { webkitAsModule: false }),
+    code: replaceModuleAliases(root, filename, content),
   }),
 })
 

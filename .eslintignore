@@ -14,3 +14,4 @@ package-lock.json
 yarn.lock
 *.test.ts
 vite.config.js
+/scripts/
