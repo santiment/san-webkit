@@ -15,7 +15,12 @@ const preview = {
       },
     },
 
-    docs: { story: { inline: false } },
+    docs: {
+      toc: {
+        headingSelector: 'h2, h3',
+      },
+      story: { inline: false },
+    },
   },
 
   decorators: [
