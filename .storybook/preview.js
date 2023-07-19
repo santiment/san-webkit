@@ -8,6 +8,13 @@ import { ApiMock } from './mock'
 const preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
+
+    options: {
+      storySort: {
+        order: ['Intro', 'Development'],
+      },
+    },
+
     controls: {
       matchers: {
         color: /(background|color)$/i,

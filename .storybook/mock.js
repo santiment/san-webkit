@@ -1,6 +1,6 @@
 import { parse, Kind } from 'graphql'
 
-export function ApiMock(req: { requestBody: string }, schema: Record<string, any>) {
+export function ApiMock(req, schema) {
   const { query, variables } = JSON.parse(req.requestBody)
   const operation = parse(query).definitions[0]
 
