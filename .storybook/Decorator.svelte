@@ -30,12 +30,16 @@
     }
 
     .sbdocs {
-      & > h1 {
+      & h1 {
         margin-bottom: 32px;
       }
 
-      & > h2 {
-        margin: 32px 0 16px !important;
+      & h2 {
+        // margin: 32px 0 16px !important;
+      }
+
+      * + h2 {
+        margin-top: 32px;
       }
     }
 

@@ -1,5 +1,7 @@
+import { Fragment } from 'react'
 import { Unstyled } from '@storybook/blocks'
 
+<Unstyled>
 export const Colors = {
   Greyscale: [
     'white',
@@ -34,11 +36,11 @@ export const Colors = {
   ],
 }
 
-<Unstyled>
 {Object.entries(Colors).map(([group, colors]) => (
 
-<div key={group} className='column mrg-xl mrg--b'>
-  <div className='h3 mrg-s mrg--b'>{group}</div>
+<Fragment key={group}>
+  <h2 className='h3 mrg-s mrg--b'>{group}</h2>
+
   <div className='row'>
     {colors.map((color) => (
       <div key={color} className='column color gap-xs monospace'>
@@ -53,7 +55,7 @@ export const Colors = {
     ))}
 
   </div>
-</div>
+</Fragment>
 
 ))}
 
