@@ -60,7 +60,7 @@ const config = {
       prepareIconsData('/icons', 'icons'),
     ])
 
-    return mergeConfig(config, {
+    const result = mergeConfig(config, {
       sever: {
         fs: { allow: ['../'] },
       },
@@ -75,6 +75,10 @@ const config = {
       },
       optimizeDeps: { exclude: ['san-webkit'] },
     })
+
+    if (result.server.fs) result.server.fs.allow = ['../']
+
+    return result
   },
 }
 
