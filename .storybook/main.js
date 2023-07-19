@@ -2,11 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const utils = require('../scripts/utils')
 const { prepareIcons, getSvgId } = require('../scripts/icons')
+
 function extractAttributeValue(string, anchor) {
   const start = string.indexOf(anchor) + anchor.length + 2
   const end = string.indexOf('"', start)
   return string.slice(start, end).toString()
 }
+
 async function prepareIconsData(dir, filename) {
   const ICONS = []
   await utils.forFile([utils.SRC + dir + '/**/*.svg'], (entry) => {
@@ -26,6 +28,7 @@ async function prepareIconsData(dir, filename) {
     () => {},
   )
 }
+
 utils.mkdir(utils.LIB)
 
 /** @type {import('@storybook/sveltekit').StorybookConfig} */
@@ -48,13 +51,16 @@ const config = {
   // staticDirs: ['../src/icons/', '../src/illus/'],
 
   async viteFinal(config) {
+    await utils.forFile(['src/{icons,illus}/**/*.svg'], utils.copyFile)
+
     await Promise.all([
-      utils.forFile(['src/{icons,illus}/**/*.svg'], utils.copyFile),
       prepareIcons(),
       prepareIconsData('/illus', 'illustrations'),
       prepareIconsData('/icons', 'icons'),
     ])
+
     config.server.fs.allow = ['../']
+
     Object.assign(config.define, {
       'process.browser': true,
       'globalThis.fetch': `((() => {
@@ -64,7 +70,9 @@ const config = {
       'process.env.MEDIA_PATH': JSON.stringify(''),
       'process.env.ICONS_PATH': JSON.stringify('/icons'),
     })
+
     config.optimizeDeps.exclude = ['san-webkit']
+
     return config
   },
 }

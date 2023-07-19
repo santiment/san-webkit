@@ -62,10 +62,6 @@
 
   DigestForm {
     width: 386px;
-
-    @include dacnot(desktop) {
-      width: auto;
-    }
   }
 
   .google {
@@ -124,6 +120,12 @@
 
     DigestForm {
       font: var(--body-3);
+    }
+  }
+
+  @include dacnot(desktop) {
+    DigestForm {
+      width: auto;
     }
   }
 </style>
