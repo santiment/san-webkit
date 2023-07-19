@@ -1,20 +1,20 @@
-const fs = require('fs')
-const { resolve, relative } = require('path')
-const { LIB, forFile, ROOT } = require('./utils')
+import fs from 'fs'
+import { resolve, relative } from 'path'
+import { LIB, forFile, ROOT } from './utils.js'
 
 const ROUTE_REGEX = /from ('|")@\//g
 const IMPORT_REGEX = /import ('|")@\//g
 const DYN_IMPORT_REGEX = /import\(('|")@\//g
 const REQUIRE_REGEX = /require\(('|")@\//g
 
-async function prepareImports() {
+export async function prepareImports() {
   forFile(['lib/**/*.ts', 'lib/**/*.js', 'lib/**/*.svelte'], async (entry) => {
     const filePath = resolve(ROOT, entry)
     fs.writeFileSync(filePath, replaceModuleAliases(LIB, entry, fs.readFileSync(filePath)))
   })
 }
 
-function replaceModuleAliases(root, filePath, fileContent) {
+export function replaceModuleAliases(root, filePath, fileContent) {
   const diff = relative(filePath, root).replace('..', '.')
 
   return fileContent
@@ -28,5 +28,3 @@ function replaceModuleAliases(root, filePath, fileContent) {
     .replace(/from 'studio/g, `from 'san-studio/lib`)
     .replace(/from '@cmp\//g, `from '${diff}/components/`)
 }
-
-module.exports = { prepareImports, replaceModuleAliases }

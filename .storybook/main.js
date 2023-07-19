@@ -1,11 +1,8 @@
-const webpack = require('webpack')
+const { mergeConfig } = require('vite')
 const fs = require('fs')
 const path = require('path')
-const cssModules = require('svelte-preprocess-cssmodules')
 const utils = require('../scripts/utils')
-const { getSvgId } = require('../scripts/icons')
-
-const API_SERVER = process.env.BACKEND_URL
+const { prepareIcons, getSvgId } = require('../scripts/icons')
 
 function extractAttributeValue(string, anchor) {
   const start = string.indexOf(anchor) + anchor.length + 2
@@ -20,9 +17,12 @@ async function prepareIconsData(dir, filename) {
     const key = getSvgId(utils.SRC + dir + '/', entry)
     const width = extractAttributeValue(file, 'width')
     const height = extractAttributeValue(file, 'height')
-    ICONS.push({ key, width, height })
+    ICONS.push({
+      key,
+      width,
+      height,
+    })
   })
-
   fs.writeFile(
     path.resolve(utils.ROOT, 'stories', filename + '.json'),
     JSON.stringify(ICONS),
@@ -30,51 +30,52 @@ async function prepareIconsData(dir, filename) {
   )
 }
 
-function copyApiMockServiceWorker() {
-  fs.copyFile('.storybook/mockServiceWorker.js', utils.LIB + '/mockServiceWorker.js', (err) => {
-    if (err) console.error(err)
-  })
-}
+utils.mkdir(utils.LIB)
 
-module.exports = {
-  webpackFinal: async (config) => {
-    copyApiMockServiceWorker()
+/** @type {import('@storybook/sveltekit').StorybookConfig} */
+const config = {
+  stories: ['../stories/**/*.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm',
+  ],
+  framework: {
+    name: '@storybook/sveltekit',
+    options: {},
+  },
+  docs: {
+    autodocs: 'tag',
+  },
+  staticDirs: ['../lib'],
+  // staticDirs: ['../src/icons/', '../src/illus/'],
+
+  async viteFinal(config) {
+    await utils.forFile(['src/{icons,illus}/**/*.svg'], utils.copyFile)
 
     await Promise.all([
+      prepareIcons(),
       prepareIconsData('/illus', 'illustrations'),
       prepareIconsData('/icons', 'icons'),
     ])
 
-    const svelteLoader = config.module.rules.find(
-      (r) => r.loader && r.loader.includes('svelte-loader'),
-    )
-    svelteLoader.options.preprocess = [cssModules(), require('svelte-preprocess')({})]
-
-    config.resolve.alias['@'] = path.resolve(__dirname, '../src')
-
-    config.plugins.push(
-      new webpack.DefinePlugin({
+    return mergeConfig(config, {
+      sever: {
+        fs: { allow: ['../'] },
+      },
+      define: {
         'process.browser': true,
-        'process.env.GQL_SERVER_URL': JSON.stringify(API_SERVER + '/graphql'),
-        'process.env.IS_DEV_MODE': true,
+        'globalThis.fetch': `((() => {
+        const fetch = window.fetch
+        return (...args) => (window.fetch.polyfill ? window.fetch : fetch)(...args)
+      })())`,
         'process.env.MEDIA_PATH': JSON.stringify(''),
         'process.env.ICONS_PATH': JSON.stringify('/icons'),
-        'process.env.IS_STAGE_BACKEND': true,
-        'process.env.IS_PROD_BACKEND': false,
-      }),
-    )
-
-    return config
+      },
+      optimizeDeps: { exclude: ['san-webkit'] },
+    })
   },
-  stories: [
-    '../stories/**/*.stories.mdx',
-    '../src/styles/*.css',
-    '../stories/**/*.stories.@(js|jsx|ts|tsx|svelte)',
-  ],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-svelte-csf',
-    './register.js',
-  ],
 }
+
+export default config

@@ -1,3 +1,5 @@
+declare module 'svelte/internal'
+
 declare namespace NodeJS {
   interface Process {
     browser: boolean

@@ -1,0 +1,136 @@
+import { Meta, Unstyled } from '@storybook/blocks'
+
+<style>
+  {`
+.class {
+    font-family: monospace;
+    border-radius: 4px;
+    background: var(--porcelain);
+    padding: 2px 4px;
+    align-self: center;
+}
+
+
+table {
+  border-spacing: 0;
+}
+
+table th,
+table td{
+  padding: 6px 12px;
+  text-align: left;
+}
+
+table td {
+  border-top: 1px solid var(--porcelain)
+}
+
+table th:first-of-type,
+table td:first-of-type {
+  border-right: 1px solid var(--porcelain)
+}
+
+table th:last-of-type,
+table td:last-of-type {
+  border-left: 1px solid var(--porcelain)
+}
+`}
+</style>
+
+# Typography
+
+<Unstyled>
+  Typography is defined using classes and CSS variables, that could be find in [text.css](/src/styles/text.css) stylesheet and listed in the [reference table](#sizes-and-weights---reference-table) below.
+
+By default, `.body-3` styles are applied to the `<body />` element. Using CSS universal selector
+`font-size: inherit;` and `font-weight: inherit;` rules are applied to all elements. This allow to
+change styles of all children just by adding necessary typography class to the parent element.
+
+</Unstyled>
+
+## Sizes and weights
+
+There are 3 available text weights: `400`, `500` and `600`. In case, when the `font` rule is being
+modified within `<style />` tag, shorthand syntax might be used to assign font weight as well:
+`font: var(--body-3) / 500;`. NOTE: `font` rule modification should be done only when implementing
+adaptive design by changing default-case styles, e.g. inside `:global(.tablet)` selector.
+
+### Reference table
+
+<Unstyled>
+<table className='border'>
+<thead>
+<tr>
+<th>Weights</th>
+<th>400 (regular) = `.txt-r`</th>
+<th>500 (medium) = `.txt-m`</th>
+<th>600 (bold) = `.txt-b`</th>
+<th>CSS `font` rule</th>
+</tr>
+</thead>
+
+<tbody>
+    {['caption', 'body-3', 'body-2', 'body-1', 'body-0', 'h4', 'h3', 'h2', 'h2-l'].map((className, i) => {
+      return <tr key={className} className={className}>
+        <td className='body-3'>{i === 0 ? 'Font sizes' : ''}</td>
+        <td className='txt-r'>.{className}</td>
+        <td className='txt-m'>.{className}</td>
+        <td className='txt-b'>.{className}</td>
+
+        <td className='caption'><span className='class'>font: var(--{className});</span></td>
+      </tr>
+    })}
+
+</tbody>
+</table>
+</Unstyled>
+
+### Examples
+
+<Unstyled>
+
+```html
+<div class="body-1 txt-b">
+  Bitcoin
+
+  <!-- font (body-1) inherited, but weight is changed -->
+  <span class="txt-r">[bitcoin]</span>
+
+  <!-- font is change, but weight is inherited -->
+  <span class="caption">(BTC)</span>
+</div>
+```
+
+```html
+<div class="body-1 txt-b">
+  Bitcoin
+
+  <!-- font and weight are changed using font style rule -->
+  <span id="ticker">(BTC)</span>
+</div>
+
+<style>
+  :global(.desktop) #ticker {
+    font: var(--caption) / 400;
+    /* font =  size variable / weight */
+  }
+</style>
+```
+
+</Unstyled>
+
+## Layout
+
+<Unstyled>TODO</Unstyled>
+
+<Unstyled>`.txt-right`, `.txt-center`, `.txt-left`</Unstyled>
+<Unstyled>`.nowrap`, `single-line`, `line-clamp`</Unstyled>
+
+## Colors
+
+<Unstyled>TODO</Unstyled>
+
+<Unstyled>
+  `.c-white`, `.c-black`, `.c-rhino`, `.c-fiord`, `.c-waterloo`, `.c-casper`, `.c-green`,
+  `.c-orange`, `.c-red`, `.c-accent`, `.c-parent`
+</Unstyled>

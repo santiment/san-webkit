@@ -1,5 +1,5 @@
-const fs = require('fs')
-const path = require('path')
-const { ROOT } = require('./utils')
+import fs from 'fs'
+import path from 'path'
+import { ROOT } from './utils.js'
 
 fs.rmSync(path.resolve(ROOT, 'lib'), { recursive: true, force: true })

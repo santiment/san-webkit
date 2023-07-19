@@ -1,4 +1,4 @@
-import type { ComponentType } from 'svelte/internal'
+import type { ComponentType } from 'svelte'
 
 export type Item = { [key: string]: any }
 
