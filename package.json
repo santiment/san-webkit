@@ -50,6 +50,7 @@
     "@storybook/svelte": "^7.0.27",
     "@storybook/sveltekit": "^7.0.27",
     "@storybook/testing-library": "^0.2.0",
+    "@storybook/theming": "^7.1.0",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.22.3",
     "@types/gtag.js": "0.0.4",

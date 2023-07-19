@@ -1,6 +1,6 @@
 import { createServer } from 'miragejs'
-import { Cache } from 'webkit/api/cache'
-import 'webkit/styles/main.css'
+import { Cache } from '@/api/cache'
+import '@/styles/main.css'
 import Decorator from './Decorator.svelte'
 import { ApiMock } from './mock'
 

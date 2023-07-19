@@ -1,5 +1,5 @@
 <script>
-  import Footer from 'webkit/ui/Footer/svelte'
+  import Footer from '@/ui/Footer/svelte'
 </script>
 
 <Footer />

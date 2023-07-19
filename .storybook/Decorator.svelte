@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Device } from 'webkit/responsive'
-  import Dialogs from 'webkit/ui/Dialog/Dialogs.svelte'
-  import { UI$$ } from 'webkit/stores/ui'
-  import { CurrentUser$$ } from 'webkit/stores/user'
-  import { Customer$$ } from 'webkit/stores/customer'
-  import { Device$$, getDeviceInfo } from 'webkit/stores/responsive'
+  import { Device } from '@/responsive'
+  import Dialogs from '@/ui/Dialog/Dialogs.svelte'
+  import { UI$$ } from '@/stores/ui'
+  import { CurrentUser$$ } from '@/stores/user'
+  import { Customer$$ } from '@/stores/customer'
+  import { Device$$, getDeviceInfo } from '@/stores/responsive'
 
   export let currentUser: null | SAN.CurrentUser
   export let customer: undefined | SAN.Customer
