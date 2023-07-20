@@ -12,4 +12,4 @@ COPY ./ /app
 
 RUN pnpm i
 RUN pnpm build:storybook
-RUN pnpm serve ./build -p 4000
+RUN npx serve ./build -p 4000
