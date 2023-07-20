@@ -36,6 +36,6 @@ export async function prepareSvelte() {
 
     const file = fs.readFileSync(libFilePath)
 
-    fs.writeFileSync(libFilePath, preprocessSvelte(file.toString(), libFilePath))
+    fs.writeFileSync(libFilePath, await preprocessSvelte(file.toString(), libFilePath))
   })
 }
