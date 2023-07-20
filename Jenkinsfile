@@ -27,6 +27,7 @@ slaveTemplates.dockerTemplate { label ->
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
               sh "docker build --build-arg GQL_SERVER_URL=http://sanbase.default.svc.cluster.local/graphql -t ${awsRegistry}/san-webkit:${scmVars.GIT_COMMIT} ."
               sh "docker push ${awsRegistry}/san-webkit:${scmVars.GIT_COMMIT}"
+              sh "docker push ${awsRegistry}/san-webkit:${env.BRANCH_NAME}"
             }
           }
         }
