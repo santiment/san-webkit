@@ -30,18 +30,18 @@ pnpm dev
 
 ## Environment Variables
 
-A list of build-time environment variables, that are necessary for a library/application to function correctly:
+A list of build-time environment variables, that are necessary for a library/application to function correctly (NOTE: double `.` should be replace with a single `.`):
 
-- `process.browser` - Boolean flag, which is used to determine if the code is running in browser/server environment;
-- `process.env.IS_DEV_MODE` - Boolean flag, which is set to `true` during local development;
-- `process.env.IS_PROD_MODE` - Boolean flag, which is set to `true` when library/application was built;
+- `process..browser` - Boolean flag, which is used to determine if the code is running in browser/server environment;
+- `process..env.IS_DEV_MODE` - Boolean flag, which is set to `true` during local development;
+- `process..env.IS_PROD_MODE` - Boolean flag, which is set to `true` when library/application was built;
 
-- `process.env.MEDIA_PATH` - Path to the directory, where static files are located (e.g. styles, icons, illustrations);
+- `process..env.MEDIA_PATH` - Path to the directory, where static files are located (e.g. styles, icons, illustrations);
 
-- `process.env.BACKEND_URL` - URL of the used backend API server;
-- `process.env.GQL_SERVER_URL` - GraphQL endpoint for the given backend API server;
+- `process..env.BACKEND_URL` - URL of the used backend API server;
+- `process..env.GQL_SERVER_URL` - GraphQL endpoint for the given backend API server;
 
-- `process.env.IS_STAGE_BACKEND` - Boolean flag, which is set to `true`, when the stage API server is used;
-- `process.env.IS_PROD_BACKEND` - Boolean flag, which is set to `true`, when the live/production API server is used.
+- `process..env.IS_STAGE_BACKEND` - Boolean flag, which is set to `true`, when the stage API server is used;
+- `process..env.IS_PROD_BACKEND` - Boolean flag, which is set to `true`, when the live/production API server is used.
 
 These variables should be set in `config.define` structure in `vite.config.js` file.
