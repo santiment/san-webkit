@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { resolve, relative } from 'path'
+import { resolve, relative, dirname } from 'path'
 import { LIB, forFile, ROOT } from './utils.js'
 
 const ROUTE_REGEX = /from ('|")@\//g
@@ -17,7 +17,7 @@ export async function prepareImports() {
 export function replaceModuleAliases(root, filePath, fileContent) {
   const diff = relative(filePath, root).replace('..', '.')
 
-  return fileContent
+  fileContent = fileContent
     .toString()
     .replace(ROUTE_REGEX, `from $1${diff}/`)
     .replace(IMPORT_REGEX, `import $1${diff}/`)
@@ -27,4 +27,27 @@ export function replaceModuleAliases(root, filePath, fileContent) {
     .replace(/from 'webkit/g, `from 'san-webkit/lib`)
     .replace(/from 'studio/g, `from 'san-studio/lib`)
     .replace(/from '@cmp\//g, `from '${diff}/components/`)
+
+  if (filePath.endsWith('js')) {
+    const dir = dirname(filePath)
+
+    fileContent = fileContent.replace(
+      /import .* from ('|")(.*)('|")/g,
+      (match, _, importedPath) => {
+        const absPath = resolve(dir, importedPath)
+
+        if (fs.existsSync(absPath + '.js')) {
+          return match.replace(importedPath, importedPath + '.js')
+        }
+
+        if (fs.existsSync(absPath + '/index.js')) {
+          return match.replace(importedPath, importedPath + '/index.js')
+        }
+
+        return match
+      },
+    )
+  }
+
+  return fileContent
 }
