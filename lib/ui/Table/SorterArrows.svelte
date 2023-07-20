@@ -1,5 +1,5 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
+  import Svg from './../../ui/Svg/svelte'
 
   export let isAscending = false
 </script>
@@ -9,15 +9,15 @@
   id="sorted"
   w="6"
   h="8"
-  class="$style.sorter mrg-xs mrg--l {isAscending ? '$style.asc' : ''}"
+  class="sorter-UXZzcj mrg-xs mrg--l {isAscending ? 'asc-pCo7KF' : ''}"
 />
 
 <style>
-  .sorter {
+  :global(.sorter-UXZzcj) {
     vertical-align: initial;
     margin-right: -14px;
   }
-  .asc {
+  :global(.asc-pCo7KF) {
     --sorter-up: var(--waterloo);
     --sorter-down: var(--mystic);
   }

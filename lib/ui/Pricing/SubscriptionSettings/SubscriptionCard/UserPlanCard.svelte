@@ -1,27 +1,23 @@
-<script lang="ts">
-  import { SANBASE_ORIGIN } from '@/utils/links'
-  import { queryUpcomingInvoice } from '@/api/subscription'
-  import { getDateFormats } from '@/utils/dates'
-  import { formatPrice, Plan } from '@/utils/plans'
-  import { getTrialDaysLeft } from '@/utils/subscription'
-  import PlanCard from './PlanCard.svelte'
-  import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
-  import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
-
-  export let plan
-  export let subscription
-  export let discount
-  export let suggestionsCount
-  export let isEligibleForTrial = false
-
-  $: isPaidPlan = plan?.name !== Plan.FREE
-  $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
-  $: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd)
-
-  function formatDate(date) {
-    const { DD, MMMM, YYYY } = getDateFormats(date)
-    return `${MMMM} ${DD}, ${YYYY}`
-  }
+<script>import { SANBASE_ORIGIN } from './../../../../utils/links';
+import { queryUpcomingInvoice } from './../../../../api/subscription';
+import { getDateFormats } from './../../../../utils/dates';
+import { formatPrice, Plan } from './../../../../utils/plans';
+import { getTrialDaysLeft } from './../../../../utils/subscription';
+import PlanCard from './PlanCard.svelte';
+import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte';
+import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog';
+export let plan;
+export let subscription;
+export let discount;
+export let suggestionsCount;
+export let isEligibleForTrial = false;
+$: isPaidPlan = (plan === null || plan === void 0 ? void 0 : plan.name) !== Plan.FREE;
+$: trialDaysLeft = subscription && getTrialDaysLeft(subscription);
+$: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd);
+function formatDate(date) {
+    const { DD, MMMM, YYYY } = getDateFormats(date);
+    return `${MMMM} ${DD}, ${YYYY}`;
+}
 </script>
 
 <PlanCard
@@ -65,8 +61,20 @@
   </p>
 </PlanCard>
 
-<style lang="scss">
-  b {
-    font-weight: 500;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-</style>
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+b {
+  font-weight: 500;
+}</style>

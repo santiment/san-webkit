@@ -1,6 +1,6 @@
 <script>
-  import DigestForm from '@/ui/DigestForm.svelte'
-  import Svg from '@/ui/Svg/svelte'
+  import DigestForm from './../../ui/DigestForm.svelte'
+  import Svg from './../../ui/Svg/svelte'
   import { links } from './links'
   import Bottom from './Bottom.svelte'
 
@@ -27,7 +27,7 @@
       <div class="forms">
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
-          <DigestForm class="mrg-xl mrg--b" label="Subscribe" />
+          <DigestForm class="mrg-xl mrg--b s-13ye9fz" label="Subscribe" />
         </div>
       </div>
     </div>
@@ -36,96 +36,95 @@
   </div>
 </footer>
 
-<style lang="scss">
-  :global(footer a:hover) {
-    --color: var(--accent, var(--green));
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  footer {
-    background: var(--athens);
-    padding: 0 24px;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+:global(footer a:hover) {
+  --color: var(--accent, var(--green));
+}
 
-  .footer {
-    max-width: var(--page-width, 1140px);
-    margin: 0 auto;
-  }
+footer {
+  background: var(--athens);
+  padding: 0 24px;
+}
 
-  .top {
-    padding: 56px 0 40px;
-    flex-wrap: wrap;
-  }
+.footer {
+  max-width: var(--page-width, 1140px);
+  margin: 0 auto;
+}
 
-  .forms {
-    --max-width: 100%;
-  }
+.top {
+  padding: 56px 0 40px;
+  flex-wrap: wrap;
+}
 
-  DigestForm {
-    width: 386px;
-  }
+.forms {
+  --max-width: 100%;
+}
 
-  .google {
-    display: block;
-    line-height: 0;
-  }
+:global(.s-13ye9fz) {
+  width: 386px;
+}
 
-  .grid {
-    display: grid;
-    grid-auto-flow: column;
-    grid-template-rows: repeat(7, 1fr);
-    gap: 16px 70px;
-    margin: 40px 0;
-  }
+.google {
+  display: block;
+  line-height: 0;
+}
 
-  .digest {
-    flex: 1;
-  }
+.grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(7, 1fr);
+  gap: 16px 70px;
+  margin: 40px 0;
+}
 
-  @include dac(phone, phone-xs) {
-    .top {
-      flex-direction: column;
-    }
+.digest {
+  flex: 1;
+}
 
-    DigestForm {
-      margin-bottom: 40px;
-    }
-  }
+:global(body.phone) .top, :global(body.phone-xs) .top {
+  flex-direction: column;
+}
+:global(body.phone) :global(.s-13ye9fz), :global(body.phone-xs) :global(.s-13ye9fz) {
+  margin-bottom: 40px;
+}
 
-  @include dac(tablet) {
-    .grid {
-      grid-template-rows: repeat(5, 1fr);
-      margin: 0;
-    }
+:global(body.tablet) .grid {
+  grid-template-rows: repeat(5, 1fr);
+  margin: 0;
+}
+:global(body.tablet) .forms {
+  width: 100%;
+  display: flex;
+  margin-top: 28px;
+}
 
-    .forms {
-      width: 100%;
-      display: flex;
-      margin-top: 28px;
-    }
-  }
+:global(body.desktop) .description {
+  max-width: 124px;
+}
+:global(body.desktop) .top {
+  padding: 63px 0 53px;
+}
+:global(body.desktop) .grid {
+  grid-template-rows: repeat(5, 1fr);
+  margin: 0;
+}
+:global(body.desktop) :global(.s-13ye9fz) {
+  font: var(--body-3);
+}
 
-  @include dac(desktop) {
-    .description {
-      max-width: 124px;
-    }
-
-    .top {
-      padding: 63px 0 53px;
-    }
-
-    .grid {
-      grid-template-rows: repeat(5, 1fr);
-      margin: 0;
-    }
-
-    DigestForm {
-      font: var(--body-3);
-    }
-  }
-
-  @include dacnot(desktop) {
-    DigestForm {
-      width: auto;
-    }
-  }
-</style>
+:global(body:not(.desktop)) :global(.s-13ye9fz) {
+  width: auto;
+}</style>

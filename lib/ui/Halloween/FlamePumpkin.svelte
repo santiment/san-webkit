@@ -1,7 +1,6 @@
-<script lang="ts">
-  let className = ''
-  export { className as class }
-  export let small = false
+<script>let className = '';
+export { className as class };
+export let small = false;
 </script>
 
 <button class="relative {className}" class:small on:click>
@@ -9,40 +8,47 @@
   <span>🎃</span>
 </button>
 
-<style lang="scss">
-  img {
-    width: 116px;
-    height: 133px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  span {
-    z-index: 2;
-    position: absolute;
-    left: 33px;
-    bottom: 27px;
-    font-size: 48px;
-    transition: all 100ms ease-in-out;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+img {
+  width: 116px;
+  height: 133px;
+}
 
-  .small {
-    width: 42px;
-    height: 64px;
+span {
+  z-index: 2;
+  position: absolute;
+  left: 33px;
+  bottom: 27px;
+  font-size: 48px;
+  transition: all 100ms ease-in-out;
+}
 
-    img {
-      width: 42px;
-      height: 58px;
-    }
-
-    span {
-      left: 10px;
-      bottom: 7px;
-      font-size: 24px;
-    }
-
-    &:hover {
-      span {
-        transform: scale(1.1);
-      }
-    }
-  }
-</style>
+.small {
+  width: 42px;
+  height: 64px;
+}
+.small img {
+  width: 42px;
+  height: 58px;
+}
+.small span {
+  left: 10px;
+  bottom: 7px;
+  font-size: 24px;
+}
+.small:hover span {
+  transform: scale(1.1);
+}</style>

@@ -1,41 +1,31 @@
-<script lang="ts">
-  import { onMount } from 'svelte'
-  import { getHorizontalCorrection } from '@/ui/Tooltip/utils'
-
-  export let key = ''
-  export let items = [] as any[]
-  export let position: { x: number; y: number; bottom: number }
-  export let loading = false
-  export let setNode
-  export let ctx = {}
-
-  let node: HTMLDivElement | undefined = undefined
-
-  $: cursor = (items, 0)
-  $: suggestions = items.slice(0, 5)
-  $: style = node && getPositionStyles(position)
-
-  ctx.moveCursor = (diff) => {
-    const newCursor = (cursor + diff) % suggestions.length
-    cursor = newCursor < 0 ? suggestions.length - 1 : newCursor
-  }
-  ctx.selectCursored = () => ctx.onSelect(suggestions[cursor])
-
-  function getPositionStyles({ x, y, bottom }): string {
-    const { offsetWidth, offsetHeight } = node as any as HTMLElement
-    const { innerHeight } = window
-
-    const isBottom = bottom + offsetHeight + 40 > innerHeight
-
+<script>import { onMount } from 'svelte';
+import { getHorizontalCorrection } from './../../../ui/Tooltip/utils';
+export let key = '';
+export let items = [];
+export let position;
+export let loading = false;
+export let setNode;
+export let ctx = {};
+let node = undefined;
+$: cursor = (items, 0);
+$: suggestions = items.slice(0, 5);
+$: style = node && getPositionStyles(position);
+ctx.moveCursor = (diff) => {
+    const newCursor = (cursor + diff) % suggestions.length;
+    cursor = newCursor < 0 ? suggestions.length - 1 : newCursor;
+};
+ctx.selectCursored = () => ctx.onSelect(suggestions[cursor]);
+function getPositionStyles({ x, y, bottom }) {
+    const { offsetWidth, offsetHeight } = node;
+    const { innerHeight } = window;
+    const isBottom = bottom + offsetHeight + 40 > innerHeight;
     const yPosition = isBottom
-      ? `bottom:${innerHeight - y + 5 - window.scrollY}`
-      : `top:${bottom + window.scrollY}`
-    const xPosition = x + getHorizontalCorrection(offsetWidth, x)
-
-    return `${yPosition}px;left:${xPosition}px`
-  }
-
-  onMount(() => setNode(node))
+        ? `bottom:${innerHeight - y + 5 - window.scrollY}`
+        : `top:${bottom + window.scrollY}`;
+    const xPosition = x + getHorizontalCorrection(offsetWidth, x);
+    return `${yPosition}px;left:${xPosition}px`;
+}
+onMount(() => setNode(node));
 </script>
 
 <div class="border box" {style} bind:this={node}>

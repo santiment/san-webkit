@@ -1,8 +1,8 @@
 <script>
-  import { LoginType, trackLoginStart } from '@/analytics/events/general'
-  import { trackSignupStart } from '@/analytics/events/onboarding'
-  import { mutateEmailLogin } from '@/api/login'
-  import InputWithIcon from '@/ui/InputWithIcon.svelte'
+  import { LoginType, trackLoginStart } from './../../analytics/events/general'
+  import { trackSignupStart } from './../../analytics/events/onboarding'
+  import { mutateEmailLogin } from './../../api/login'
+  import InputWithIcon from './../../ui/InputWithIcon.svelte'
 
   export let verifiedEmail = ''
   export let isSignUp

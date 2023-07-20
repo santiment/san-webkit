@@ -1,70 +1,60 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import Rocket from './Rocket.svelte'
-  import Moon from './Moon.svelte'
-
-  let className = ''
-  export { className as class }
-  export let totalVotes = 0
-  export let userVotes = 0
-  export let disabled = false
-  export let onVote = () => {}
-  export let hasBorder = true
-  export let maxVotesPerUser = 20
-  export let voteInterval = 370
-
-  let rocketNode: HTMLElement
-  let moonNode: HTMLElement
-  let mooned = false
-  let timer: number
-  let votingInterval: number
-
-  function startVote(e: MouseEvent) {
-    if (disabled) return
-
+<script>import { onDestroy } from 'svelte';
+import Rocket from './Rocket.svelte';
+import Moon from './Moon.svelte';
+let className = '';
+export { className as class };
+export let totalVotes = 0;
+export let userVotes = 0;
+export let disabled = false;
+export let onVote = () => { };
+export let hasBorder = true;
+export let maxVotesPerUser = 20;
+export let voteInterval = 370;
+let rocketNode;
+let moonNode;
+let mooned = false;
+let timer;
+let votingInterval;
+function startVote(e) {
+    if (disabled)
+        return;
     // Checking right button mouse click
     if (e.button === 2) {
-      return
+        return;
     }
-
-    clearTimeout(timer)
-    clearInterval(votingInterval)
-
-    vote()
-    votingInterval = window.setInterval(vote, voteInterval)
+    clearTimeout(timer);
+    clearInterval(votingInterval);
+    vote();
+    votingInterval = window.setInterval(vote, voteInterval);
     window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
-      once: true,
-    })
-  }
-
-  function vote() {
+        once: true,
+    });
+}
+function vote() {
     if (userVotes < maxVotesPerUser) {
-      userVotes += 1
-      totalVotes += 1
-      onVote()
+        userVotes += 1;
+        totalVotes += 1;
+        onVote();
     }
-
-    resetAnimation(rocketNode)
-    resetAnimation(rocketNode.lastChild)
-    if (mooned && moonNode) resetAnimation(moonNode)
-    mooned = true
-  }
-
-  function stopVote() {
-    clearInterval(votingInterval)
-    timer = window.setTimeout(() => (mooned = false), 1000)
-  }
-
-  function resetAnimation(node: HTMLElement) {
-    node.style.animation = 'none'
-    node.offsetWidth // NOTE(vanguard): Awaiting style recalc
-    node.style.animation = ''
-  }
-
-  onDestroy(() => {
-    clearTimeout(timer)
-    clearInterval(votingInterval)
-  })
+    resetAnimation(rocketNode);
+    resetAnimation(rocketNode.lastChild);
+    if (mooned && moonNode)
+        resetAnimation(moonNode);
+    mooned = true;
+}
+function stopVote() {
+    clearInterval(votingInterval);
+    timer = window.setTimeout(() => (mooned = false), 1000);
+}
+function resetAnimation(node) {
+    node.style.animation = 'none';
+    node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
+    node.style.animation = '';
+}
+onDestroy(() => {
+    clearTimeout(timer);
+    clearInterval(votingInterval);
+});
 </script>
 
 <button

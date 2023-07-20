@@ -1,35 +1,26 @@
-<script lang="ts">
-  import type { CreationType } from '@/ui/Profile/types'
-  import type { Votes } from '@/ui/LikeButton/index.svelte'
-
-  import Profile from '@/ui/Profile/svelte'
-  import ProfilePic from '@/ui/Profile/Pic.svelte'
-  import Info from '@/ui/Profile/Info.svelte'
-  import Svg from '@/ui/Svg/svelte'
-  import Tooltip from '@/ui/Tooltip/svelte'
-  import CommentsButton from '@/ui/Comments/Button.svelte'
-  import { trackShowComments } from '@/analytics/events/interaction'
-  import VoteButton from './VoteButton.svelte'
-  import HoverEdit from './HoverEdit.svelte'
-
-  export let id = null as null | number
-  export let title = null as null | string
-  export let user = null as null | SAN.Author
-  export let currentUser: SAN.CurrentUser | null
-  export let onEditClick: () => any
-  export let type: CreationType
-  export let fallback = 'Unsaved layout'
-  export let editLabel = 'Edit'
-  export let comments: {
-    count: number
-    active?: boolean
-    onClick: () => any
-  }
-  export let votes = null as null | Votes
-  export let onVote
-  export let titleHoverTooltipClass = ''
-  export let hasInfo = true
-  export let source: string
+<script>import Profile from './../../ui/Profile/svelte';
+import ProfilePic from './../../ui/Profile/Pic.svelte';
+import Info from './../../ui/Profile/Info.svelte';
+import Svg from './../../ui/Svg/svelte';
+import Tooltip from './../../ui/Tooltip/svelte';
+import CommentsButton from './../../ui/Comments/Button.svelte';
+import { trackShowComments } from './../../analytics/events/interaction';
+import VoteButton from './VoteButton.svelte';
+import HoverEdit from './HoverEdit.svelte';
+export let id = null;
+export let title = null;
+export let user = null;
+export let currentUser;
+export let onEditClick;
+export let type;
+export let fallback = 'Unsaved layout';
+export let editLabel = 'Edit';
+export let comments;
+export let votes = null;
+export let onVote;
+export let titleHoverTooltipClass = '';
+export let hasInfo = true;
+export let source;
 </script>
 
 {#if id && title}
@@ -37,7 +28,7 @@
     {#if user}
       <Tooltip openDelay={110}>
         <svelte:fragment slot="trigger">
-          <Profile {user} {source} feature={type} class="$style.author" />
+          <Profile {user} {source} feature={type} class="author-H5ShAq" />
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
@@ -49,7 +40,7 @@
     {/if}
 
     <HoverEdit
-      class="$style.title body-2"
+      class="title-0I59z_ body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
@@ -92,7 +83,7 @@
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="$style.title body-2"
+    class="title-0I59z_ body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -102,42 +93,53 @@
   </HoverEdit>
 {/if}
 
-<style lang="scss">
-  .creation {
-    overflow: hidden;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .info {
-    padding: 8px;
-    --fill: var(--waterloo);
-    --fill-hover: var(--black);
-    --bg-hover: var(--athens);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.creation {
+  overflow: hidden;
+}
 
-  .tooltip {
-    padding: 24px;
-    width: 484px;
-  }
+.info {
+  padding: 8px;
+  --fill: var(--waterloo);
+  --fill-hover: var(--black);
+  --bg-hover: var(--athens);
+}
 
-  .divider {
-    height: 32px;
-    width: 1px;
-    background: var(--mystic);
-    margin: 0 12px;
-  }
+.tooltip {
+  padding: 24px;
+  width: 484px;
+}
 
-  .author {
-    overflow: hidden;
-    min-width: fit-content;
+.divider {
+  height: 32px;
+  width: 1px;
+  background: var(--mystic);
+  margin: 0 12px;
+}
 
-    :global(span) {
-      max-width: 140px !important;
-    }
-  }
+:global(.author-H5ShAq) {
+  overflow: hidden;
+  min-width: fit-content;
+}
+:global(.author-H5ShAq) :global(span) {
+  max-width: 140px !important;
+}
 
-  .title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-</style>
+:global(.title-0I59z_) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}</style>

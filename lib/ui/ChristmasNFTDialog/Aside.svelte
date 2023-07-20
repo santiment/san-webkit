@@ -1,8 +1,8 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
-  import { getSEOLinkFromIdAndTitle } from '@/utils/url'
-  import { trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
-  import { showIntercom } from '@/ui/HelpFeedback.svelte'
+  import Svg from './../../ui/Svg/svelte'
+  import { getSEOLinkFromIdAndTitle } from './../../utils/url'
+  import { trackNftBattleLinkClick } from './../../analytics/events/nftbattle'
+  import { showIntercom } from './../../ui/HelpFeedback.svelte'
   import Check from './Check.svelte'
   import clockSvg from './clock.svg'
   import presentSvg from './present.svg'
@@ -54,7 +54,7 @@
     {/each}
 
     <div class="question border row txt-m mrg-a mrg--t">
-      <Svg id="chat" w="14" h="16" class="$style.question-icon" />
+      <Svg id="chat" w="14" h="16" class="question-icon-zuE3KW" />
 
       <div>
         Have questions?
@@ -95,7 +95,7 @@
     border-radius: 6px;
   }
 
-  .question-icon {
+  :global(.question-icon-zuE3KW) {
     margin: 3px 10px 0px 0;
   }
 </style>

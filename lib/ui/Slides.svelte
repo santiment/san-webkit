@@ -34,44 +34,55 @@
   </div>
 </div>
 
-<style lang="scss">
-  .slides {
-    flex: 1;
-    overflow-x: auto;
-    display: flex;
-    scroll-snap-type: x mandatory;
-    padding: var(--slides-v-padding);
-
-    & > :global(*) {
-      scroll-snap-align: center;
-      min-width: 100%;
-      min-height: 100%;
-      padding: 0 var(--slides-h-padding, 0);
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .indicators {
-    position: absolute;
-    transform: translateX(-50%);
-    left: 50%;
-    bottom: calc(var(--indicators-bottom) - 4px);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.slides {
+  flex: 1;
+  overflow-x: auto;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  padding: var(--slides-v-padding);
+}
+.slides > :global(*) {
+  scroll-snap-align: center;
+  min-width: 100%;
+  min-height: 100%;
+  padding: 0 var(--slides-h-padding, 0);
+}
 
-  .indicator {
-    width: 8px;
-    height: 8px;
-    background: var(--mystic);
-    border-radius: 50%;
-  }
+.indicators {
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: calc(var(--indicators-bottom) - 4px);
+}
 
-  .btn {
-    padding: 4px;
-    &:last-child {
-      margin: 0;
-    }
-  }
+.indicator {
+  width: 8px;
+  height: 8px;
+  background: var(--mystic);
+  border-radius: 50%;
+}
 
-  .active {
-    background: var(--black);
-  }
-</style>
+.btn {
+  padding: 4px;
+}
+.btn:last-child {
+  margin: 0;
+}
+
+.active {
+  background: var(--black);
+}</style>

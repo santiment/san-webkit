@@ -1,18 +1,16 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = ''
-  export { className as class }
-  export let src: string | null | undefined = undefined
-  export let placeholderSize = 16
-  export let alt = 'S'
+<script>import Svg from './../../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let src = undefined;
+export let placeholderSize = 16;
+export let alt = 'S';
 </script>
 
 <div class="img row hv-center {className}">
   {#if src}
     <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderSize} class="$style.svg" />
+    <Svg id="user" w={placeholderSize} class="svg-NYVR2C" />
   {/if}
   <slot />
 </div>
@@ -35,7 +33,7 @@
     fill: var(--img-fill, var(--waterloo));
   }
 
-  .svg {
+  :global(.svg-NYVR2C) {
     max-width: 50%;
     min-width: 0 !important;
   }

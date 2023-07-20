@@ -1,18 +1,16 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = ''
-  export { className as class }
-  export let icon: string
-  export let w: number | string
-  export let h = w
-  export let type = 'text'
-  export let placeholder: undefined | string
-  export let name: undefined | string = undefined
-  export let big = false
-  export let constraints: any = undefined
-  export let value = ''
-  export let autofocus = null as boolean | null
+<script>import Svg from './../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let icon;
+export let w;
+export let h = w;
+export let type = 'text';
+export let placeholder;
+export let name = undefined;
+export let big = false;
+export let constraints = undefined;
+export let value = '';
+export let autofocus = null;
 </script>
 
 <!-- svelte-ignore a11y-autofocus -->
@@ -20,7 +18,7 @@
   {#if $$slots.left}
     <slot name="left" />
   {:else if icon}
-    <Svg id={icon} {w} {h} class="$style.icon" />
+    <Svg id={icon} {w} {h} class="icon-BJi8Aq" />
   {/if}
   <input
     {...constraints}
@@ -59,7 +57,7 @@
     max-width: 100%;
   }
 
-  .icon {
+  :global(.icon-BJi8Aq) {
     position: absolute;
     left: var(--icon-left, 14px);
   }

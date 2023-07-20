@@ -1,5 +1,4 @@
-<script lang="ts">
-  let isClueShown = false
+<script>let isClueShown = false;
 </script>
 
 <button class="btn c-waterloo keep mrg-m mrg--t" on:click={() => (isClueShown = true)}>

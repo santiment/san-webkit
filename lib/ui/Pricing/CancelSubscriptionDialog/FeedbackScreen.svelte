@@ -1,28 +1,24 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-  import Checkbox from '@/ui/Checkbox.svelte'
-  import { track } from '@/analytics'
-  import { Event, REASONS } from './flow'
-  import Screen from './Screen.svelte'
-  import { IsMobile as isMobile$ } from '@/stores/responsive'
-  import FieldRequired from './FieldRequired.svelte'
-
-  export let feedback
-  export let reasons
-  export let error = false
-
-  $: isMobile = $isMobile$
-
-  function onReasonSelect(reason) {
+<script>import Svg from './../../../ui/Svg/svelte';
+import Checkbox from './../../../ui/Checkbox.svelte';
+import { track } from './../../../analytics';
+import { Event, REASONS } from './flow';
+import Screen from './Screen.svelte';
+import { IsMobile as isMobile$ } from './../../../stores/responsive';
+import FieldRequired from './FieldRequired.svelte';
+export let feedback;
+export let reasons;
+export let error = false;
+$: isMobile = $isMobile$;
+function onReasonSelect(reason) {
     if (reasons.has(reason)) {
-      reasons.delete(reason)
-    } else {
-      track.event(Event.SelectReason, { reason })
-      reasons.add(reason)
+        reasons.delete(reason);
     }
-
-    reasons = reasons
-  }
+    else {
+        track.event(Event.SelectReason, { reason });
+        reasons.add(reason);
+    }
+    reasons = reasons;
+}
 </script>
 
 <Screen {...$$props}>
@@ -64,24 +60,36 @@
   </svelte:fragment>
 </Screen>
 
-<style lang="scss">
-  .reasons {
-    gap: 12px;
-    margin: 12px 0 20px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.reasons {
+  gap: 12px;
+  margin: 12px 0 20px;
+}
 
-  textarea {
-    resize: vertical;
-    min-height: 72px;
-  }
+textarea {
+  resize: vertical;
+  min-height: 72px;
+}
 
-  .cat {
-    border-left: 1px solid var(--porcelain);
-    margin-left: 56px;
-    padding: 0 50px 0 106px;
-  }
+.cat {
+  border-left: 1px solid var(--porcelain);
+  margin-left: 56px;
+  padding: 0 50px 0 106px;
+}
 
-  .error {
-    --error: visible;
-  }
-</style>
+.error {
+  --error: visible;
+}</style>

@@ -1,5 +1,5 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
+  import Svg from './../../../ui/Svg/svelte'
 
   export let isShowingMore = false
 </script>
@@ -10,23 +10,35 @@
   on:click={() => (isShowingMore = !isShowingMore)}
 >
   Show {isShowingMore ? 'less' : 'more'} features
-  <Svg id="arrow-down" w="10" h="5.5" class="$style.arrow mrg-m mrg--l" />
+  <Svg id="arrow-down" w="10" h="5.5" class="arrow-Mal_dQ mrg-m mrg--l" />
 </button>
 
-<style lang="scss">
-  button {
-    padding: 12px;
-    border-radius: 0;
-    --bg-hover: var(--porcelain);
-    --accent: var(--green);
-    --accent-hover: var(--green-hover);
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+button {
+  padding: 12px;
+  border-radius: 0;
+  --bg-hover: var(--porcelain);
+  --accent: var(--green);
+  --accent-hover: var(--green-hover);
+}
 
-  .more {
-    --rotate: rotate(180deg);
-  }
+.more {
+  --rotate: rotate(180deg);
+}
 
-  .arrow {
-    transform: var(--rotate, rotate(0deg));
-  }
-</style>
+:global(.arrow-Mal_dQ) {
+  transform: var(--rotate, rotate(0deg));
+}</style>

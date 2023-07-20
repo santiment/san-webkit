@@ -1,7 +1,7 @@
 <script>
   import { onMount, onDestroy } from 'svelte'
   import { cubicOut } from 'svelte/easing'
-  import Svg from '@/ui/Svg/svelte'
+  import Svg from './../../ui/Svg/svelte'
   import { notifications$ } from './notifications'
 
   const TypeIcon = {
@@ -68,84 +68,91 @@
   transition:notify
 >
   <div class="row v-center">
-    <Svg id={TypeIcon[type] || type} class="$style.icon {type}" />
+    <Svg id={TypeIcon[type] || type} class="icon-VjTrUU {type}" />
     <div class="title txt-m">{title}</div>
-    <Svg id="close" class="btn $style.close" on:click={destroy} />
+    <Svg id="close" class="btn close-b7LXno" on:click={destroy} />
   </div>
   {#if description}
     <p>{@html description}</p>
   {/if}
 </div>
 
-<style lang="scss">
-  .not {
-    padding: 16px;
-    position: absolute;
-    transform: translateY(var(--y-offset));
-    transition: transform 350ms;
-    transition-delay: 200ms;
-    max-width: 70vw;
-    white-space: nowrap;
-    left: 0;
-    user-select: none;
-    background: var(--white);
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-  :global(.tablet),
-  :global(.phone) {
-    .not {
-      white-space: normal;
-      max-width: 100%;
-      width: 100%;
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.not {
+  padding: 16px;
+  position: absolute;
+  transform: translateY(var(--y-offset));
+  transition: transform 350ms;
+  transition-delay: 200ms;
+  max-width: 70vw;
+  white-space: nowrap;
+  left: 0;
+  user-select: none;
+  background: var(--white);
+}
 
-  .icon {
-    width: 16px;
-    height: 16px;
-    fill: var(--waterloo);
-  }
+:global(.tablet) .not,
+:global(.phone) .not {
+  white-space: normal;
+  max-width: 100%;
+  width: 100%;
+}
 
-  :global {
-    .icon.success {
-      fill: var(--green);
-    }
-    .icon.error {
-      fill: var(--red);
-    }
-    .icon.warning {
-      fill: var(--orange);
-    }
-    .icon.info {
-      fill: var(--blue);
-    }
-  }
+:global(.icon-VjTrUU) {
+  width: 16px;
+  height: 16px;
+  fill: var(--waterloo);
+}
 
-  .title {
-    margin: 0 24px 0 16px;
-  }
+:global(.icon-VjTrUU.success) {
+  fill: var(--green);
+}
+:global(.icon-VjTrUU.error) {
+  fill: var(--red);
+}
+:global(.icon-VjTrUU.warning) {
+  fill: var(--orange);
+}
+:global(.icon-VjTrUU.info) {
+  fill: var(--blue);
+}
 
-  .close {
-    width: 12px;
-    height: 12px;
-    cursor: pointer;
-    margin-left: auto;
-    --fill: var(--casper);
-    --fill-hover: var(--black);
-  }
+.title {
+  margin: 0 24px 0 16px;
+}
 
-  p {
-    padding: 10px 25px 0 31px;
-    max-width: 100%;
-    white-space: pre;
-    overflow-x: auto;
-    color: var(--waterloo);
-    :global {
-      a {
-        color: var(--green);
-        &:hover {
-          color: var(--green-hover);
-        }
-      }
-    }
-  }
-</style>
+:global(.close-b7LXno) {
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+  margin-left: auto;
+  --fill: var(--casper);
+  --fill-hover: var(--black);
+}
+
+p {
+  padding: 10px 25px 0 31px;
+  max-width: 100%;
+  white-space: pre;
+  overflow-x: auto;
+  color: var(--waterloo);
+}
+p :global(a) {
+  color: var(--green);
+}
+p :global(a:hover) {
+  color: var(--green-hover);
+}</style>

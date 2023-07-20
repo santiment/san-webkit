@@ -1,6 +1,6 @@
 <script>
-  import { PageName, trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
-  import Svg from '@/ui/Svg/svelte'
+  import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle'
+  import Svg from './../../ui/Svg/svelte'
   import Li from './Li.svelte'
   import { Page } from './types'
 
@@ -83,31 +83,43 @@
   {/each}
 </div>
 
-<style lang="scss">
-  ul {
-    margin: 20px 0 40px;
-    gap: 16px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+ul {
+  margin: 20px 0 40px;
+  gap: 16px;
+}
 
-  strong {
-    font-weight: bold;
-  }
+strong {
+  font-weight: bold;
+}
 
-  .socials {
-    fill: var(--white);
-    gap: 12px;
-    margin: 20px 0 0;
-  }
+.socials {
+  fill: var(--white);
+  gap: 12px;
+  margin: 20px 0 0;
+}
 
-  .social {
-    padding: 10px 12px;
-    text-transform: capitalize;
-    gap: 8px;
-  }
+.social {
+  padding: 10px 12px;
+  text-transform: capitalize;
+  gap: 8px;
+}
 
-  .circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-  }
-</style>
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}</style>

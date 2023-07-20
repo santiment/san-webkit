@@ -1,151 +1,126 @@
-<script lang="ts">
-  /**
-   * If scrolling cousing issues, add class="relative" to the trigger's parent
-   */
-
-  import type { Align, Position } from './utils'
-  import { onMount, onDestroy } from 'svelte'
-  import { fade } from 'svelte/transition'
-  import { getTooltipStyles } from './utils'
-
-  let className = ''
-  export { className as class }
-  export let isEnabled = true
-  export let isOpened = false
-  export let activeClass = ''
-  export let position: Position = 'bottom'
-  export let align: Align = 'start'
-  export let on: 'mouseenter' | 'click' = 'mouseenter'
-  export let duration = 0
-  export let openDelay = 0
-  export let closeTimeout = 120
-  export let dark = false
-  export let trigger: Element | undefined = undefined
-  export let offsetX = 0
-  export let offsetY = 8
-  export let scrollParent: Element | undefined = undefined
-  export let passive = false
-  let _static = false
-  export { _static as static }
-
-  const transition = { duration }
-  const setTrigger = (value?: Element) => (trigger = value)
-
-  let anchor: HTMLElement | undefined
-  let tooltip: HTMLElement | undefined
-  let timer: number | undefined
-  let openTimer: number | undefined
-
-  $: if (!passive && trigger) {
-    if (isEnabled) trigger.addEventListener(on, startOpenTimer)
+<script>/**
+ * If scrolling cousing issues, add class="relative" to the trigger's parent
+ */
+import { onMount, onDestroy } from 'svelte';
+import { fade } from 'svelte/transition';
+import { getTooltipStyles } from './utils';
+let className = '';
+export { className as class };
+export let isEnabled = true;
+export let isOpened = false;
+export let activeClass = '';
+export let position = 'bottom';
+export let align = 'start';
+export let on = 'mouseenter';
+export let duration = 0;
+export let openDelay = 0;
+export let closeTimeout = 120;
+export let dark = false;
+export let trigger = undefined;
+export let offsetX = 0;
+export let offsetY = 8;
+export let scrollParent = undefined;
+export let passive = false;
+let _static = false;
+export { _static as static };
+const transition = { duration };
+const setTrigger = (value) => (trigger = value);
+let anchor;
+let tooltip;
+let timer;
+let openTimer;
+$: if (!passive && trigger) {
+    if (isEnabled)
+        trigger.addEventListener(on, startOpenTimer);
     else {
-      trigger.removeEventListener(on, startOpenTimer)
-      if (!_static) isOpened = false
+        trigger.removeEventListener(on, startOpenTimer);
+        if (!_static)
+            isOpened = false;
     }
-  }
-
-  $: activeClass && trigger && (trigger as Element).classList.toggle(activeClass, isOpened)
-  $: tooltip && hookTooltip()
-  $: tooltip && trigger && updateTooltipPosition()
-
-  $: if (trigger) {
+}
+$: activeClass && trigger && trigger.classList.toggle(activeClass, isOpened);
+$: tooltip && hookTooltip();
+$: tooltip && trigger && updateTooltipPosition();
+$: if (trigger) {
     if (isEnabled && (isOpened || openTimer)) {
-      trigger.addEventListener('mouseleave', closeTooltip)
-    } else {
-      trigger.removeEventListener('mouseleave', closeTooltip)
+        trigger.addEventListener('mouseleave', closeTooltip);
     }
-  }
-
-  const stopCloseTimer = () => clearTimeout(timer)
-
-  onMount(() => {
-    if (!anchor) return
-    trigger = anchor.nextElementSibling as Element
-  })
-  onDestroy(destroy)
-
-  function destroy() {
+    else {
+        trigger.removeEventListener('mouseleave', closeTooltip);
+    }
+}
+const stopCloseTimer = () => clearTimeout(timer);
+onMount(() => {
+    if (!anchor)
+        return;
+    trigger = anchor.nextElementSibling;
+});
+onDestroy(destroy);
+function destroy() {
     if (process.browser) {
-      window.clearTimeout(openTimer)
-      window.clearTimeout(timer)
+        window.clearTimeout(openTimer);
+        window.clearTimeout(timer);
     }
-
-    openTimer = undefined
-    isOpened = false
-  }
-
-  function startOpenTimer() {
+    openTimer = undefined;
+    isOpened = false;
+}
+function startOpenTimer() {
     if (openDelay) {
-      openTimer = window.setTimeout(openTooltip, openDelay)
-    } else {
-      openTooltip()
+        openTimer = window.setTimeout(openTooltip, openDelay);
     }
-  }
-
-  function startCloseTimer() {
+    else {
+        openTooltip();
+    }
+}
+function startCloseTimer() {
     if (openTimer) {
-      window.clearTimeout(openTimer)
-      openTimer = undefined
-    } else {
-      timer = window.setTimeout(close, closeTimeout)
+        window.clearTimeout(openTimer);
+        openTimer = undefined;
     }
-  }
-
-  function close() {
-    isOpened = false
-    timer = undefined
-  }
-
-  function openTooltip() {
-    stopCloseTimer()
-    isOpened = true
-    openTimer = undefined
-  }
-
-  function closeTooltip() {
-    startCloseTimer()
-  }
-
-  function hookTooltip() {
-    if (!tooltip) return
-
-    if (passive) trigger?.parentNode?.append(tooltip)
-
-    if (!isEnabled) return
-
-    tooltip.onmouseenter = closeTimeout ? openTooltip : null
-    tooltip.onmouseleave = closeTimeout ? closeTooltip : null
-    window.addEventListener('touchend', onTouchEnd)
-  }
-
-  function updateTooltipPosition() {
-    if (!tooltip) return
-
-    const { left, top } = getTooltipStyles(
-      tooltip,
-      trigger as HTMLElement,
-      position,
-      align,
-      offsetX,
-      offsetY,
-    )
-
-    tooltip.style.left = left + 'px'
-    tooltip.style.top = top - (scrollParent?.scrollTop || 0) + 'px'
-  }
-
-  function onTouchEnd({ target }: TouchEvent) {
-    if (
-      target === trigger ||
-      (target as HTMLElement).closest('[slot="tooltip"]') ||
-      tooltip?.contains(target as HTMLElement)
-    ) {
-      return
+    else {
+        timer = window.setTimeout(close, closeTimeout);
     }
-
-    window.removeEventListener('touchend', onTouchEnd)
-    close()
-  }
+}
+function close() {
+    isOpened = false;
+    timer = undefined;
+}
+function openTooltip() {
+    stopCloseTimer();
+    isOpened = true;
+    openTimer = undefined;
+}
+function closeTooltip() {
+    startCloseTimer();
+}
+function hookTooltip() {
+    var _a;
+    if (!tooltip)
+        return;
+    if (passive)
+        (_a = trigger === null || trigger === void 0 ? void 0 : trigger.parentNode) === null || _a === void 0 ? void 0 : _a.append(tooltip);
+    if (!isEnabled)
+        return;
+    tooltip.onmouseenter = closeTimeout ? openTooltip : null;
+    tooltip.onmouseleave = closeTimeout ? closeTooltip : null;
+    window.addEventListener('touchend', onTouchEnd);
+}
+function updateTooltipPosition() {
+    if (!tooltip)
+        return;
+    const { left, top } = getTooltipStyles(tooltip, trigger, position, align, offsetX, offsetY);
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = top - ((scrollParent === null || scrollParent === void 0 ? void 0 : scrollParent.scrollTop) || 0) + 'px';
+}
+function onTouchEnd({ target }) {
+    if (target === trigger ||
+        target.closest('[slot="tooltip"]') ||
+        (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
+        return;
+    }
+    window.removeEventListener('touchend', onTouchEnd);
+    close();
+}
 </script>
 
 {#if process.browser && $$slots.trigger && !trigger}

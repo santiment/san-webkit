@@ -32,19 +32,31 @@
 
 <slot name="right" />
 
-<style lang="scss">
-  .help {
-    padding: 24px 32px;
-    background: var(--athens);
-    border-radius: 4px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.help {
+  padding: 24px 32px;
+  background: var(--athens);
+  border-radius: 4px;
+}
 
-  .cancel {
-    --border: var(--green);
-    --color-hover: var(--green-hover);
-  }
+.cancel {
+  --border: var(--green);
+  --color-hover: var(--green-hover);
+}
 
-  .contact {
-    background: none;
-  }
-</style>
+.contact {
+  background: none;
+}</style>

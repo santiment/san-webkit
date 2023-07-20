@@ -1,11 +1,8 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = ''
-  export { className as class }
-  export let links: { href: string; title: string }[]
-
-  $: lastIndex = links.length - 1
+<script>import Svg from './../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let links;
+$: lastIndex = links.length - 1;
 </script>
 
 <breadcrumbs class="row v-center relative nowrap {className}">

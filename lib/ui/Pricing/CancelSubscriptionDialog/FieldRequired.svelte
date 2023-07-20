@@ -1,5 +1,5 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
+  import Svg from './../../../ui/Svg/svelte'
 </script>
 
 <span class="box border caption txt-m row v-center c-fiord nowrap mrg-s mrg--l">

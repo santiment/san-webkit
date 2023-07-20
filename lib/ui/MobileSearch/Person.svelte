@@ -1,10 +1,8 @@
-<script lang="ts">
-  import ProfilePic from '@/ui/Profile/Pic.svelte'
-
-  export let item
+<script>import ProfilePic from './../../ui/Profile/Pic.svelte';
+export let item;
 </script>
 
-<ProfilePic src={item.avatarUrl} placeholderSize="24" class="$style.icon" />
+<ProfilePic src={item.avatarUrl} placeholderSize="24" class="icon-1thZ_T" />
 <span class="name single-line">
   @{item.username}
 </span>
@@ -14,7 +12,7 @@
     display: block;
   }
 
-  .icon {
+  :global(.icon-1thZ_T) {
     --img-size: 24px;
     margin-right: 10px;
   }

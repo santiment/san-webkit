@@ -1,9 +1,7 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-  import SearchInput from './SearchInput.svelte'
-
-  export let show
-  export let searchTerm
+<script>import Svg from './../../ui/Svg/svelte';
+import SearchInput from './SearchInput.svelte';
+export let show;
+export let searchTerm;
 </script>
 
 <div class="wrapper row v-center mrg-l mrg--b">
@@ -20,29 +18,37 @@
   </div>
 </div>
 
-<style lang="scss">
-  .wrapper {
-    padding-left: 8px;
-    padding-right: 20px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .arrow {
-    height: 40px;
-    min-width: 40px;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-    &:focus,
-    &:visited,
-    &:active {
-      outline: none;
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.wrapper {
+  padding-left: 8px;
+  padding-right: 20px;
+}
 
-  .input-wrapper {
-    flex-basis: 100%;
+.arrow {
+  height: 40px;
+  min-width: 40px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.arrow:focus, .arrow:visited, .arrow:active {
+  outline: none;
+}
 
-    &::placeholder {
-      color: var(--waterloo);
-    }
-  }
-</style>
+.input-wrapper {
+  flex-basis: 100%;
+}
+.input-wrapper::placeholder {
+  color: var(--waterloo);
+}</style>

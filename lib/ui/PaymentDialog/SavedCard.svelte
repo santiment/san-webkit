@@ -1,11 +1,8 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-  import Checkmark from './Checkmark.svelte'
-  import { CardBrandIllustration } from './utils'
-
-  export let savedCard: SAN.PaymentCard | null
-
-  $: ({ last4, expMonth, expYear, brand } = savedCard || {})
+<script>import Svg from './../../ui/Svg/svelte';
+import Checkmark from './Checkmark.svelte';
+import { CardBrandIllustration } from './utils';
+export let savedCard;
+$: ({ last4, expMonth, expYear, brand } = savedCard || {});
 </script>
 
 <section class="body-2">

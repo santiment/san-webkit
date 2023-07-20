@@ -1,6 +1,6 @@
 <script>
-  import Svg from '@/ui/Svg/svelte'
-  import Tooltip from '@/ui/Tooltip/svelte'
+  import Svg from './../../../ui/Svg/svelte'
+  import Tooltip from './../../../ui/Tooltip/svelte'
 
   export let plans
   export let feature
@@ -21,7 +21,7 @@
       align="center"
       offsetY={4}
       closeTimeout={0}
-      activeClass="$style.opened"
+      activeClass="opened-R6mSMu"
     >
       <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
         <Svg id="info" w="12" />
@@ -46,30 +46,41 @@
   </div>
 {/each}
 
-<style lang="scss">
-  .info {
-    height: 24px;
-    width: 24px;
-    fill: var(--waterloo);
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .disabled {
-    background: var(--athens);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.info {
+  height: 24px;
+  width: 24px;
+  fill: var(--waterloo);
+}
 
-  .description {
-    padding: 14px 20px;
-    max-width: 252px;
-    color: var(--rhino);
+.disabled {
+  background: var(--athens);
+}
 
-    :global(b) {
-      font-weight: 600;
-      color: var(--black);
-    }
-  }
+.description {
+  padding: 14px 20px;
+  max-width: 252px;
+  color: var(--rhino);
+}
+.description :global(b) {
+  font-weight: 600;
+  color: var(--black);
+}
 
-  .opened {
-    --bg: var(--athens);
-    fill: var(--black) !important;
-  }
-</style>
+:global(.opened-R6mSMu) {
+  --bg: var(--athens);
+  fill: var(--black) !important;
+}</style>

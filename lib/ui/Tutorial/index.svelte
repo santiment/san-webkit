@@ -1,6 +1,5 @@
-<script lang="ts">
-  export let isActive
-  export let onComplete
+<script>export let isActive;
+export let onComplete;
 </script>
 
 {#if isActive}

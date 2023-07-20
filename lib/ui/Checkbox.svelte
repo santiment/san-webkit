@@ -1,9 +1,8 @@
-<script lang="ts">
-  let className = ''
-  export { className as class }
-  export let isActive = false
-  export let disabled = false
-  export let as = 'button'
+<script>let className = '';
+export { className as class };
+export let isActive = false;
+export let disabled = false;
+export let as = 'button';
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -17,28 +16,39 @@
   on:click
 />
 
-<style lang="scss">
-  .btn {
-    width: 16px;
-    height: 16px;
-    border-radius: 2px;
-    background: var(--bg);
-    --border-hover: var(--green);
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .isActive {
-    --border: var(--green);
-    --bg: var(--green);
-    background: var(---check) no-repeat 50%, var(--bg);
-
-    &:hover {
-      --green: var(--green-hover);
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.btn {
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  background: var(--bg);
+  --border-hover: var(--green);
+}
 
-  .disabled {
-    cursor: not-allowed;
-    --bg: var(--athens);
-    --border: var(--porcelain);
-  }
-</style>
+.isActive {
+  --border: var(--green);
+  --bg: var(--green);
+  background: var(---check) no-repeat 50%, var(--bg);
+}
+.isActive:hover {
+  --green: var(--green-hover);
+}
+
+.disabled {
+  cursor: not-allowed;
+  --bg: var(--athens);
+  --border: var(--porcelain);
+}</style>

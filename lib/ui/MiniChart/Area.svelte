@@ -1,22 +1,17 @@
-<script lang="ts">
-  import type { Props } from './svelte'
-  import Chart from './index.svelte'
-
-  let className = ''
-  export { className as class }
-  export let id = ''
-  export let data: Props['data']
-  export let width: number
-  export let height: number
-  export let valueKey: Props['valueKey'] = undefined
-  export let style: Props['style'] = undefined
-
-  export function getAreaPoints(points: Props['points'], linePoints: string) {
-    const [startX, startY] = points[0].split(',')
-    const [lastX] = points[points.length - 1].split(',')
-
-    return `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`
-  }
+<script>import Chart from './index.svelte';
+let className = '';
+export { className as class };
+export let id = '';
+export let data;
+export let width;
+export let height;
+export let valueKey = undefined;
+export let style = undefined;
+export function getAreaPoints(points, linePoints) {
+    const [startX, startY] = points[0].split(',');
+    const [lastX] = points[points.length - 1].split(',');
+    return `${linePoints} ${lastX},${height} ${startX},${height}, ${startX},${startY}`;
+}
 </script>
 
 <Chart {data} {width} {height} {valueKey} {className} {style} let:points let:linePoints>

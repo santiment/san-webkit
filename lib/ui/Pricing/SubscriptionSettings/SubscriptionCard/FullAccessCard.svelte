@@ -1,5 +1,5 @@
 <script>
-  import { showIntercom } from '@/analytics/intercom'
+  import { showIntercom } from './../../../../analytics/intercom'
   import Card from './Card.svelte'
 </script>
 
@@ -17,15 +17,25 @@
   <img src="{process.env.MEDIA_PATH}/illus/alien.svg" alt="Alien" />
 </Card>
 
-<style lang="scss">
-  img {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-
-    :global(.phone-xs) &,
-    :global(.phone) & {
-      width: 50%;
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-</style>
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+:global(.phone-xs) img, :global(.phone) img {
+  width: 50%;
+}</style>

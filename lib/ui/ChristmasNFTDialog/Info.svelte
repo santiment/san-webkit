@@ -1,28 +1,22 @@
-<script lang="ts">
-  import type { CurrentUser } from './types'
-
-  import { copy } from '@/utils'
-  import { PageName, trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
-  import Svg from '@/ui/Svg/svelte'
-  import { showIntercom } from '@/ui/HelpFeedback.svelte'
-  import Li from './Li.svelte'
-  import Players from './Players/index.svelte'
-  import { Page } from './types'
-  import Metamask from './Metamask.svelte'
-
-  export let isNftWinner = false
-  export let currentUser: CurrentUser | null
-  export let discountCode: undefined | string
-  export let isDiscountWinner = false
-
-  let copyLabel = 'Copy'
-
-  function onCopy() {
-    if (!discountCode) return
-
-    copyLabel = 'Copied!'
-    copy(discountCode, () => (copyLabel = 'Copy'), 1500)
-  }
+<script>import { copy } from './../../utils';
+import { PageName, trackNftBattleLinkClick } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
+import { showIntercom } from './../../ui/HelpFeedback.svelte';
+import Li from './Li.svelte';
+import Players from './Players/index.svelte';
+import { Page } from './types';
+import Metamask from './Metamask.svelte';
+export let isNftWinner = false;
+export let currentUser;
+export let discountCode;
+export let isDiscountWinner = false;
+let copyLabel = 'Copy';
+function onCopy() {
+    if (!discountCode)
+        return;
+    copyLabel = 'Copied!';
+    copy(discountCode, () => (copyLabel = 'Copy'), 1500);
+}
 </script>
 
 {#if currentUser && (isNftWinner || isDiscountWinner)}
@@ -147,58 +141,69 @@
   prized NFT!
 </div>
 
-<style lang="scss">
-  .intro {
-    margin: 0 0 48px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .winner {
-    margin: 20px 0 16px;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.intro {
+  margin: 0 0 48px;
+}
 
-  .about {
-    margin: 64px 0 24px;
-  }
+.winner {
+  margin: 20px 0 16px;
+}
 
-  .rewards {
-    gap: 6px;
-    margin: 0 0 48px 8px;
+.about {
+  margin: 64px 0 24px;
+}
 
-    span {
-      margin-right: 8px;
-    }
-  }
+.rewards {
+  gap: 6px;
+  margin: 0 0 48px 8px;
+}
+.rewards span {
+  margin-right: 8px;
+}
 
-  .hint,
-  .bonus {
-    padding: 12px 16px;
-  }
+.hint,
+.bonus {
+  padding: 12px 16px;
+}
 
-  .hint {
-    --border: var(--yellow);
-    fill: var(--orange);
-    gap: 8px;
-    margin: 0 0 20px;
-  }
+.hint {
+  --border: var(--yellow);
+  fill: var(--orange);
+  gap: 8px;
+  margin: 0 0 20px;
+}
 
-  .chances {
-    gap: 12px;
-    margin: 12px 0;
-    --check: var(--green-light-2);
-  }
+.chances {
+  gap: 12px;
+  margin: 12px 0;
+  --check: var(--green-light-2);
+}
 
-  .bonus {
-    --border: var(--green-light-3);
-    margin: 20px 0 48px;
-  }
+.bonus {
+  --border: var(--green-light-3);
+  margin: 20px 0 48px;
+}
 
-  .discount {
-    --bg: var(--green-light-1);
-    --bg-hover: var(--green-light-2);
-    --color: var(--green);
-    padding: 8px 12px;
-    user-select: initial;
-    --expl-left: 50%;
-    --expl-align-x: -50%;
-  }
-</style>
+.discount {
+  --bg: var(--green-light-1);
+  --bg-hover: var(--green-light-2);
+  --color: var(--green);
+  padding: 8px 12px;
+  user-select: initial;
+  --expl-left: 50%;
+  --expl-align-x: -50%;
+}</style>

@@ -1,56 +1,45 @@
-<script context="module" lang="ts">
-  import { dialogs } from '@/ui/Dialog'
-  import PlanChangeDialog from './PlanChangeDialog.svelte'
-
-  export const showPlanChangeDialog = (props?: any) => dialogs.show(PlanChangeDialog, props)
+<script context="module">import { dialogs } from './../../ui/Dialog';
+import PlanChangeDialog from './PlanChangeDialog.svelte';
+export const showPlanChangeDialog = (props) => dialogs.show(PlanChangeDialog, props);
 </script>
 
-<script lang="ts">
-  import Dialog from '@/ui/Dialog'
-  import { DialogLock } from '@/ui/Dialog/dialogs'
-  import Svg from '@/ui/Svg/svelte'
-  import { getCustomer$Ctx } from '@/stores/customer'
-  import { Billing, formatPrice, PlanName } from '@/utils/plans'
-  import { getDateFormats } from '@/utils/dates'
-  import { mutateUpdateSubscription } from '@/api/subscription'
-  import { onPlanChangeError, onPlanChangeSuccess } from './utils'
-
-  export let DialogPromise: SAN.DialogController
-  export let plan
-  export let isUpgrade = false
-
-  let closeDialog
-  let loading = false
-
-  const { customer$ } = getCustomer$Ctx()
-
-  const subscription = $customer$.subscription as SAN.Subscription
-  const newName = PlanName[plan.name] || plan.name
-  const isNewBillingMonthly = plan.interval === Billing.MONTH
-  const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'
-
-  const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription
-  const currentPlanName = PlanName[currentPlan.name] || currentPlan.name
-
-  function formatDate() {
-    const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))
-    return `${MMMM} ${DD}, ${YYYY}`
-  }
-
-  function onClick() {
-    loading = true
-
+<script>import Dialog from './../../ui/Dialog';
+import { DialogLock } from './../../ui/Dialog/dialogs';
+import Svg from './../../ui/Svg/svelte';
+import { getCustomer$Ctx } from './../../stores/customer';
+import { Billing, formatPrice, PlanName } from './../../utils/plans';
+import { getDateFormats } from './../../utils/dates';
+import { mutateUpdateSubscription } from './../../api/subscription';
+import { onPlanChangeError, onPlanChangeSuccess } from './utils';
+export let DialogPromise;
+export let plan;
+export let isUpgrade = false;
+let closeDialog;
+let loading = false;
+const { customer$ } = getCustomer$Ctx();
+const subscription = $customer$.subscription;
+const newName = PlanName[plan.name] || plan.name;
+const isNewBillingMonthly = plan.interval === Billing.MONTH;
+const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual';
+const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription;
+const currentPlanName = PlanName[currentPlan.name] || currentPlan.name;
+function formatDate() {
+    const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd));
+    return `${MMMM} ${DD}, ${YYYY}`;
+}
+function onClick() {
+    loading = true;
     mutateUpdateSubscription(subscription.id, plan.id)
-      .then((data) => {
-        onPlanChangeSuccess(customer$, newName)
-        closeDialog()
-        return data
-      })
-      .catch(onPlanChangeError)
-      .finally(() => {
-        DialogPromise.locking = DialogLock.FREE
-      })
-  }
+        .then((data) => {
+        onPlanChangeSuccess(customer$, newName);
+        closeDialog();
+        return data;
+    })
+        .catch(onPlanChangeError)
+        .finally(() => {
+        DialogPromise.locking = DialogLock.FREE;
+    });
+}
 </script>
 
 <Dialog {...$$props} noTitle bind:closeDialog>
@@ -59,7 +48,7 @@
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l $style.close" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-al7Pyu" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -81,39 +70,49 @@
   </div>
 </Dialog>
 
-<style lang="scss">
-  .dialog {
-    padding: 24px 32px;
-    max-width: 600px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .close {
-    --fill: var(--waterloo);
-    --fill-hover: var(--green);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.dialog {
+  padding: 24px 32px;
+  max-width: 600px;
+}
 
-  p {
-    color: var(--fiord);
-  }
+:global(.close-al7Pyu) {
+  --fill: var(--waterloo);
+  --fill-hover: var(--green);
+}
 
-  a {
-    --color: var(--green);
-    --color-hover: var(--green-hover);
-  }
+p {
+  color: var(--fiord);
+}
 
-  actions {
-    gap: 16px;
-  }
+a {
+  --color: var(--green);
+  --color-hover: var(--green-hover);
+}
 
-  :global(.phone),
-  :global(.phone-xs) {
-    actions {
-      flex-direction: column;
-      text-align: center;
-    }
+actions {
+  gap: 16px;
+}
 
-    button {
-      height: 40px;
-    }
-  }
-</style>
+:global(.phone) actions,
+:global(.phone-xs) actions {
+  flex-direction: column;
+  text-align: center;
+}
+:global(.phone) button,
+:global(.phone-xs) button {
+  height: 40px;
+}</style>

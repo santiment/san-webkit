@@ -1,11 +1,9 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-  import Product from '@/ui/Product.svelte'
-  import { noop } from '@/utils'
-
-  export let title = ''
-  export let slots = $$slots as Partial<typeof $$slots>
-  export let onSearchClick = noop
+<script>import Svg from './../../ui/Svg/svelte';
+import Product from './../../ui/Product.svelte';
+import { noop } from './../../utils';
+export let title = '';
+export let slots = $$slots;
+export let onSearchClick = noop;
 </script>
 
 <header class="row v-center justify fluid" id="mobile-header">

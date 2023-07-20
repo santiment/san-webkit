@@ -1,20 +1,17 @@
-<script lang="ts">
-  import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
-  import Svg from '@/ui/Svg/svelte'
-  // import Breadcrumbs from './Breadcrumbs.svelte'
-  import { Page } from './types'
-  import Aside from './Aside.svelte'
-
-  export let page: Page
-  export let title: string
-  export let isNftWinner = false
-  export let isDiscountWinner = false
-  export let insights = [] as any[]
-
-  function changePage(newPage: Page) {
-    trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page)
-    page = newPage
-  }
+<script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
+// import Breadcrumbs from './Breadcrumbs.svelte'
+import { Page } from './types';
+import Aside from './Aside.svelte';
+export let page;
+export let title;
+export let isNftWinner = false;
+export let isDiscountWinner = false;
+export let insights = [];
+function changePage(newPage) {
+    trackNftBattleGameDetailsPage(newPage, 'bottom_arrows', page);
+    page = newPage;
+}
 </script>
 
 <div class="wrapper row">
@@ -33,7 +30,7 @@
             class:disabled={page < Page.Top}
             on:click={() => changePage(page - 1)}
           >
-            <Svg id="pointer" w="14" h="8" class="$style.back" />
+            <Svg id="pointer" w="14" h="8" class="back-34HUCp" />
             Back
           </button>
 
@@ -53,30 +50,42 @@
   <Aside {insights} {isNftWinner} {isDiscountWinner} />
 </div>
 
-<style lang="scss">
-  .wrapper,
-  section,
+<style >/**
+@include dac(desktop, tablet, phone) {
   main {
-    flex: 1;
+    background: red;
   }
-
+}
+*/
+/**
+@include dacnot(desktop) {
   main {
-    padding: 0 48px 24px;
-    max-height: 549px;
+    background: red;
   }
+}
+*/
+.wrapper,
+section,
+main {
+  flex: 1;
+}
 
-  .pagination {
-    gap: 8px;
-    margin: 50px 0 0;
-    background: none !important;
-    --fill: var(--waterloo);
-    --color-hover: var(--green);
+main {
+  padding: 0 48px 24px;
+  max-height: 549px;
+}
 
-    &.disabled {
-      fill: var(--mystic);
-    }
-  }
-  .back {
-    transform: rotate(180deg);
-  }
-</style>
+.pagination {
+  gap: 8px;
+  margin: 50px 0 0;
+  background: none !important;
+  --fill: var(--waterloo);
+  --color-hover: var(--green);
+}
+.pagination.disabled {
+  fill: var(--mystic);
+}
+
+:global(.back-34HUCp) {
+  transform: rotate(180deg);
+}</style>

@@ -1,70 +1,75 @@
-<script lang="ts">
-  import Author from '@/ui/Profile/svelte'
-  import { markdownToPlainText } from '../Editor/markdown'
-  import { getScrollToCommentContext, getGetRepliedToCommentContext } from './context'
-
-  const scrollToReply = getScrollToCommentContext()
-  const getRepliedToComment = getGetRepliedToCommentContext()
-
-  export let id: number
-
-  $: comment = getRepliedToComment(id)
+<script>import Author from './../../ui/Profile/svelte';
+import { markdownToPlainText } from '../Editor/markdown';
+import { getScrollToCommentContext, getGetRepliedToCommentContext } from './context';
+const scrollToReply = getScrollToCommentContext();
+const getRepliedToComment = getGetRepliedToCommentContext();
+export let id;
+$: comment = getRepliedToComment(id);
 </script>
 
 {#if comment}
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div class="line-clamp">
-      <Author user={comment.user} class="$style.comment" />
+      <Author user={comment.user} class="comment-vpXICQ" />
       {' ' + markdownToPlainText(comment.content)}
     </div>
   </a>
 {/if}
 
-<style lang="scss">
-  a {
-    --bg-hover: var(--athens);
-    margin: 0 0 4px 32px;
-    padding: 8px;
-    position: relative;
-
-    &::before,
-    &::after {
-      content: '';
-      position: absolute;
-      background: var(--porcelain);
-      top: 16px;
-      left: -17px;
-      z-index: -2;
-    }
-    &::before {
-      width: 1px;
-      height: calc(100% - 17px);
-    }
-    &::after {
-      width: 17px;
-      height: 1px;
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  div {
-    --img-size: 16px;
-    pointer-events: none;
-
-    :global(.img) {
-      margin: 0 4px 0 0;
-      vertical-align: middle;
-      display: inline-block;
-      text-align: center;
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+a {
+  --bg-hover: var(--athens);
+  margin: 0 0 4px 32px;
+  padding: 8px;
+  position: relative;
+}
+a::before, a::after {
+  content: "";
+  position: absolute;
+  background: var(--porcelain);
+  top: 16px;
+  left: -17px;
+  z-index: -2;
+}
+a::before {
+  width: 1px;
+  height: calc(100% - 17px);
+}
+a::after {
+  width: 17px;
+  height: 1px;
+}
 
-  .comment {
-    display: inline-flex !important;
-    align-items: baseline !important;
-  }
+div {
+  --img-size: 16px;
+  pointer-events: none;
+}
+div :global(.img) {
+  margin: 0 4px 0 0;
+  vertical-align: middle;
+  display: inline-block;
+  text-align: center;
+}
 
-  div,
-  .comment {
-    --color: var(--fiord) !important;
-  }
-</style>
+:global(.comment-vpXICQ) {
+  display: inline-flex !important;
+  align-items: baseline !important;
+}
+
+div,
+:global(.comment-vpXICQ) {
+  --color: var(--fiord) !important;
+}</style>

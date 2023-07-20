@@ -1,31 +1,24 @@
-<script lang="ts">
-  import { SANBASE_ORIGIN } from '@/utils/links'
-  import { queryProjects } from '@/api/projects'
-  import ProjectIcon from '@/ui/ProjectIcon.svelte'
-  import Suggestions from './Suggestions.svelte'
-
-  export let searchTerm = ''
-
-  export const href = ({ slug }) => SANBASE_ORIGIN + '/projects/' + slug
-  export const label = ({ ticker }) => '$' + ticker.toUpperCase()
-
-  let loading = true
-  let projects = [] as any[]
-  let items = projects
-
-  queryProjects().then((data) => {
-    projects = data
-    loading = false
-  })
-
-  $: projects, onInput(searchTerm)
-
-  function onInput(searchTerm: string) {
-    const value = searchTerm.toLowerCase()
+<script>import { SANBASE_ORIGIN } from './../../../utils/links';
+import { queryProjects } from './../../../api/projects';
+import ProjectIcon from './../../../ui/ProjectIcon.svelte';
+import Suggestions from './Suggestions.svelte';
+export let searchTerm = '';
+export const href = ({ slug }) => SANBASE_ORIGIN + '/projects/' + slug;
+export const label = ({ ticker }) => '$' + ticker.toUpperCase();
+let loading = true;
+let projects = [];
+let items = projects;
+queryProjects().then((data) => {
+    projects = data;
+    loading = false;
+});
+$: projects, onInput(searchTerm);
+function onInput(searchTerm) {
+    const value = searchTerm.toLowerCase();
     items = projects.filter(({ name, ticker }) => {
-      return name.toLowerCase().includes(value) || ticker.toLowerCase().includes(value)
-    })
-  }
+        return name.toLowerCase().includes(value) || ticker.toLowerCase().includes(value);
+    });
+}
 </script>
 
 <Suggestions {...$$props} {items} {loading} key="slug" let:item>

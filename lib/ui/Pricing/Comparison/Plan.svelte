@@ -1,20 +1,15 @@
-<script lang="ts">
-  import { getCustomer$Ctx } from '@/stores/customer'
-  import { formatMonthlyPrice, Plan, PlanName } from '@/utils/plans'
-  import PlanButton from '../PlanButton.svelte'
-
-  export let plan: SAN.Plan
-  export let plans: SAN.Plan[]
-  export let discount = 0
-  export let isEligibleForTrial: boolean
-  export let isLoggedIn = false
-
-  const { customer$ } = getCustomer$Ctx()
-
-  $: ({ subscription } = $customer$)
-
-  $: ({ name } = plan)
-  $: isFreePlan = name.includes(Plan.FREE)
+<script>import { getCustomer$Ctx } from './../../../stores/customer';
+import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans';
+import PlanButton from '../PlanButton.svelte';
+export let plan;
+export let plans;
+export let discount = 0;
+export let isEligibleForTrial;
+export let isLoggedIn = false;
+const { customer$ } = getCustomer$Ctx();
+$: ({ subscription } = $customer$);
+$: ({ name } = plan);
+$: isFreePlan = name.includes(Plan.FREE);
 </script>
 
 <div class="fluid">

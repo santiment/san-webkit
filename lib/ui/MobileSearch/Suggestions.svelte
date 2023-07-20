@@ -1,43 +1,37 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-  import { getItemLink } from './utils'
-
-  export let searchTerm
-  export let type
-  export let Component
-  export let filter
-  export let query
-  export let show
-
-  let items = []
-  let filteredItems = []
-  let loading = true
-
-  $: filterItems(searchTerm)
-  $: getItems(query)
-
-  async function filterItems(searchTerm) {
-    loading = true
-    filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items
-    loading = false
-  }
-
-  async function getItems(query) {
-    loading = true
-    items = await query()
-    await filterItems(searchTerm)
-  }
-
-  function onItemClick(event) {
-    window.__onLinkClick?.(event)
-    show = false
-  }
+<script>import Svg from './../../ui/Svg/svelte';
+import { getItemLink } from './utils';
+export let searchTerm;
+export let type;
+export let Component;
+export let filter;
+export let query;
+export let show;
+let items = [];
+let filteredItems = [];
+let loading = true;
+$: filterItems(searchTerm);
+$: getItems(query);
+async function filterItems(searchTerm) {
+    loading = true;
+    filteredItems = searchTerm ? await filter(searchTerm.toLowerCase(), items) : items;
+    loading = false;
+}
+async function getItems(query) {
+    loading = true;
+    items = await query();
+    await filterItems(searchTerm);
+}
+function onItemClick(event) {
+    var _a;
+    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, event);
+    show = false;
+}
 </script>
 
 <div class="wrapper column mrg-xxl mrg--t">
   {#if loading}
     <div class="logo-wrapper column hv-center">
-      <Svg illus id="san-logo" w="72" class="$style.logo" />
+      <Svg illus id="san-logo" w="72" class="logo-yPNtNK" />
     </div>
   {:else}
     {#each filteredItems.slice(0, 100) as item}
@@ -57,39 +51,47 @@
   {/if}
 </div>
 
-<style lang="scss">
-  .wrapper {
-    overflow: auto;
-    gap: 8px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  a {
-    min-height: 40px;
-    padding: 0 20px;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-
-    &:focus,
-    &:visited,
-    &:active {
-      outline: none;
-    }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+.wrapper {
+  overflow: auto;
+  gap: 8px;
+}
 
-  .logo-wrapper {
-    height: 100%;
+a {
+  min-height: 40px;
+  padding: 0 20px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+a:focus, a:visited, a:active {
+  outline: none;
+}
+
+:global(.logo-wrapper) {
+  height: 100%;
+}
+
+:global(.logo-yPNtNK) {
+  animation: load 1s infinite alternate;
+}
+
+@keyframes load {
+  from {
+    transform: scale(0.9);
   }
-
-  .logo {
-    animation: load 1s infinite alternate;
+  to {
+    transform: scale(1);
   }
-
-  @keyframes load {
-    from {
-      transform: scale(0.9);
-    }
-
-    to {
-      transform: scale(1);
-    }
-  }
-</style>
+}</style>

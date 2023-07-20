@@ -1,32 +1,27 @@
-<script lang="ts">
-  import { stripe } from '@/stores/stripe'
-  import Input from './Input.svelte'
-
-  export let StripeCard: stripe.elements.Element | undefined
-  export let nightMode = process.browser ? document.body.classList.contains('night-mode') : false
-  let ccNode
-
-  const INPUT_STYLE = {
+<script>import { stripe } from './../../stores/stripe';
+import Input from './Input.svelte';
+export let StripeCard;
+export let nightMode = process.browser ? document.body.classList.contains('night-mode') : false;
+let ccNode;
+const INPUT_STYLE = {
     base: {
-      fontSize: '14px',
-      color: nightMode ? '#fff' : '#2f354d', // black
-      fontFamily: 'Proxima Nova, sans-serif',
-      '::placeholder': {
-        color: nightMode ? '#363a52' : '#cad0de', // casper
-      },
+        fontSize: '14px',
+        color: nightMode ? '#fff' : '#2f354d',
+        fontFamily: 'Proxima Nova, sans-serif',
+        '::placeholder': {
+            color: nightMode ? '#363a52' : '#cad0de', // casper
+        },
     },
     invalid: {
-      color: '#ff5b5b', // red
+        color: '#ff5b5b', // red
     },
-  }
-  const SETTINGS = { style: INPUT_STYLE }
-
-  $: $stripe && ccNode && mountCC()
-
-  function mountCC() {
-    StripeCard = $stripe?.elements().create('card', SETTINGS)
-    StripeCard?.mount('#card-element')
-  }
+};
+const SETTINGS = { style: INPUT_STYLE };
+$: $stripe && ccNode && mountCC();
+function mountCC() {
+    StripeCard = $stripe === null || $stripe === void 0 ? void 0 : $stripe.elements().create('card', SETTINGS);
+    StripeCard === null || StripeCard === void 0 ? void 0 : StripeCard.mount('#card-element');
+}
 </script>
 
 <Input title="Card number">

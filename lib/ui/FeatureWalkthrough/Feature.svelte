@@ -10,15 +10,25 @@
   {@html description}
 </div>
 
-<style lang="scss">
-  h2 {
-    margin-right: 30px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+h2 {
+  margin-right: 30px;
+}
 
-  div :global {
-    img {
-      border-radius: 4px;
-      max-width: 100%;
-    }
-  }
-</style>
+div :global(img) {
+  border-radius: 4px;
+  max-width: 100%;
+}</style>

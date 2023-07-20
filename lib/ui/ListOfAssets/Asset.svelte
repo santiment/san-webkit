@@ -1,12 +1,8 @@
-<script lang="ts">
-  import type { Asset } from './types'
-
-  import ProjectIcon from '@/ui/ProjectIcon.svelte'
-
-  let className = 'btn-ghost'
-  export { className as class }
-  export let item: Asset
-  export let isActive = false
+<script>import ProjectIcon from './../../ui/ProjectIcon.svelte';
+let className = 'btn-ghost';
+export { className as class };
+export let item;
+export let isActive = false;
 </script>
 
 <button class="btn asset row v-center {className}" class:active={isActive} on:click>

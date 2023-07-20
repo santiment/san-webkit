@@ -1,10 +1,8 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = ''
-  export { className as class }
-  export let title: string
-  export let isXmas = false
+<script>import Svg from './../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let title;
+export let isXmas = false;
 </script>
 
 <a
@@ -13,7 +11,7 @@
   on:click={window.__onLinkClick}
 >
   {#if isXmas}
-    <Svg illus id="christmas/xmas-hat" w="33" h="18" class="$style.xmas" />
+    <Svg illus id="christmas/xmas-hat" w="33" h="18" class="xmas-jvYWcY" />
   {/if}
   <img src="{process.env.MEDIA_PATH}/illus/san-logo.svg" alt="SAN" class="product mrg-s mrg--r" />
   {title}
@@ -29,7 +27,7 @@
     height: 32px;
   }
 
-  .xmas {
+  :global(.xmas-jvYWcY) {
     position: absolute;
     top: -7px;
     left: 9px;

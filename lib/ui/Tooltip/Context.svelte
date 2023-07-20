@@ -1,12 +1,9 @@
-<script lang="ts">
-  import Tooltip from './svelte'
-  import ContextProvider from './ContextProvider.svelte'
-
-  export let id: string
-  export let settings
-  export let ref = {}
-
-  let props
+<script>import Tooltip from './svelte';
+import ContextProvider from './ContextProvider.svelte';
+export let id;
+export let settings;
+export let ref = {};
+let props;
 </script>
 
 <Tooltip {...settings} passive let:on let:destroy let:setTrigger let:startOpenTimer>

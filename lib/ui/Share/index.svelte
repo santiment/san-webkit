@@ -1,73 +1,58 @@
-<script context="module" lang="ts">
-  import { dialogs } from '../Dialog'
-  import ShareDialog from './index.svelte'
-
-  export const showShareDialog = (props) => dialogs.showOnce(ShareDialog, props)
-
-  const SOCIALS = [
+<script context="module">import { dialogs } from '../Dialog';
+import ShareDialog from './index.svelte';
+export const showShareDialog = (props) => dialogs.showOnce(ShareDialog, props);
+const SOCIALS = [
     {
-      id: 'twitter',
-      href: (link, text) => `https://twitter.com/home?status=${text}%0Alink%3A%20${link}`,
+        id: 'twitter',
+        href: (link, text) => `https://twitter.com/home?status=${text}%0Alink%3A%20${link}`,
     },
     {
-      id: 'facebook',
-      href: (link) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
+        id: 'facebook',
+        href: (link) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
     },
     {
-      id: 'linked-in',
-      href: (link, text, title) =>
-        `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
+        id: 'linked-in',
+        href: (link, text, title) => `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
     },
     {
-      id: 'telegram',
-      href: (link, text) => `https://telegram.me/share/url?text=${text}&url=${link}`,
+        id: 'telegram',
+        href: (link, text) => `https://telegram.me/share/url?text=${text}&url=${link}`,
     },
     {
-      id: 'reddit',
-      href: (link, text) => `https://reddit.com/submit?title=${text}&url=${link}`,
+        id: 'reddit',
+        href: (link, text) => `https://reddit.com/submit?title=${text}&url=${link}`,
     },
-  ]
+];
 </script>
 
-<script lang="ts">
-  import { onMount } from 'svelte'
-  import { copy } from '@/utils'
-  import { trackShareFormOpen } from '@/analytics/events/interaction'
-  import Dialog from '../Dialog'
-  import Svg from '../Svg/svelte'
-  import Toggle from '../Toggle.svelte'
-
-  export let title = 'Share'
-  export let entity = 'Watchlist'
-  export let data = {}
-  export let isAuthor = false
-  export let isPublic = false
-  export let onPublicityToggle = () => {}
-  export let feature: any
-  export let source: any
-
-  const {
-    title: shareTitle = 'Sanbase',
-    text = 'Hey! Look what I have found at the app.santiment.net!',
-    link = window.location.href,
-  } = data
-  const encodedTitle = encodeURIComponent(shareTitle)
-  const encodedText = encodeURIComponent(text)
-
-  let closeDialog
-  let inputNode
-  let label = 'Copy link'
-
-  $: disabled = isAuthor && !isPublic
-
-  function onCopy() {
-    label = 'Copied!'
-    copy(link, () => (label = 'Copy link'), 1000, inputNode)
-  }
-
-  onMount(() => {
-    trackShareFormOpen({ feature, source })
-  })
+<script>import { onMount } from 'svelte';
+import { copy } from './../../utils';
+import { trackShareFormOpen } from './../../analytics/events/interaction';
+import Dialog from '../Dialog';
+import Svg from '../Svg/svelte';
+import Toggle from '../Toggle.svelte';
+export let title = 'Share';
+export let entity = 'Watchlist';
+export let data = {};
+export let isAuthor = false;
+export let isPublic = false;
+export let onPublicityToggle = () => { };
+export let feature;
+export let source;
+const { title: shareTitle = 'Sanbase', text = 'Hey! Look what I have found at the app.santiment.net!', link = window.location.href, } = data;
+const encodedTitle = encodeURIComponent(shareTitle);
+const encodedText = encodeURIComponent(text);
+let closeDialog;
+let inputNode;
+let label = 'Copy link';
+$: disabled = isAuthor && !isPublic;
+function onCopy() {
+    label = 'Copied!';
+    copy(link, () => (label = 'Copy link'), 1000, inputNode);
+}
+onMount(() => {
+    trackShareFormOpen({ feature, source });
+});
 </script>
 
 <Dialog bind:closeDialog {...$$props} {title}>

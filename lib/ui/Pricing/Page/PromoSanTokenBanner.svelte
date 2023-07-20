@@ -1,5 +1,5 @@
 <script>
-  import { IsPhone } from '@/stores/responsive'
+  import { IsPhone } from './../../../stores/responsive'
   import sanTokenBanner from './sanTokenBanner.svg'
   import sanTokenBannerDesktop from './sanTokenBannerDesktop.svg'
 
@@ -31,77 +31,83 @@
   <img src={$IsPhone ? sanTokenBanner : sanTokenBannerDesktop} alt="San Token Banner" />
 </section>
 
-<style lang="scss">
-  section {
-    max-width: 100%;
-    width: 1140px;
-    background: var(--whale);
-    border-radius: 8px;
-    padding: 40px 89px 48px 72px;
-    margin: 0 auto 80px;
-    overflow: hidden;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .text {
-    max-width: 100%;
-    width: 472px;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+section {
+  max-width: 100%;
+  width: 1140px;
+  background: var(--whale);
+  border-radius: 8px;
+  padding: 40px 89px 48px 72px;
+  margin: 0 auto 80px;
+  overflow: hidden;
+}
 
-  h3 {
-    color: var(--rhino);
-  }
+.text {
+  max-width: 100%;
+  width: 472px;
+}
 
-  img {
-    position: absolute;
-    right: 89px;
-    bottom: 0;
-  }
+h3 {
+  color: var(--rhino);
+}
 
-  p {
-    color: var(--fiord);
-  }
+img {
+  position: absolute;
+  right: 89px;
+  bottom: 0;
+}
 
-  .buy {
-    display: inline-block;
-    padding: 8px 20px;
-  }
+p {
+  color: var(--fiord);
+}
 
-  :global(.tablet) {
-    section {
-      max-width: calc(100% - 40px);
-      padding: 40px 48px;
-    }
+.buy {
+  display: inline-block;
+  padding: 8px 20px;
+}
 
-    img {
-      right: -90px;
-      width: 432px;
-    }
+:global(.tablet) section {
+  max-width: calc(100% - 40px);
+  padding: 40px 48px;
+}
+:global(.tablet) img {
+  right: -90px;
+  width: 432px;
+}
+:global(.tablet) .text {
+  width: 402px;
+}
 
-    .text {
-      width: 402px;
-    }
-  }
-
-  :global(.phone-xs),
-  :global(.phone) {
-    section {
-      flex-direction: column-reverse;
-      padding: 32px 24px;
-      max-width: calc(100% - 40px);
-      gap: 35px;
-      text-align: center;
-    }
-
-    .learn {
-      display: inline;
-    }
-
-    p {
-      margin: 0 0 32px;
-    }
-
-    img {
-      position: static;
-    }
-  }
-</style>
+:global(.phone-xs) section,
+:global(.phone) section {
+  flex-direction: column-reverse;
+  padding: 32px 24px;
+  max-width: calc(100% - 40px);
+  gap: 35px;
+  text-align: center;
+}
+:global(.phone-xs) .learn,
+:global(.phone) .learn {
+  display: inline;
+}
+:global(.phone-xs) p,
+:global(.phone) p {
+  margin: 0 0 32px;
+}
+:global(.phone-xs) img,
+:global(.phone) img {
+  position: static;
+}</style>

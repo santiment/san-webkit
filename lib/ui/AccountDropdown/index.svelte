@@ -1,40 +1,35 @@
-<script lang="ts">
-  import { SANBASE_ORIGIN } from '@/utils/links'
-  import { trackLogout } from '@/analytics/events/general'
-  import { getUI$Ctx } from '@/stores/ui'
-  import { getCustomer$Ctx } from '@/stores/customer'
-  import Toggle from '@/ui/Toggle.svelte'
-  // import Tooltip from '@/ui/Tooltip'
-  import Tooltip from '@/ui/Tooltip/svelte'
-  import Svg from '@/ui/Svg/svelte'
-  import Pic from '@/ui/Profile/Pic.svelte'
-  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
-  import UserInfo from './UserInfo.svelte'
-  import VersionInfo from './VersionInfo.svelte'
-
-  export let currentUser
-  export let onLogoutClick
-  export let isOpened = false
-  export let tooltipClass = ''
-  export let variant = AccountStatusType.First
-  export let isAppUpdateAvailable = false
-  export let version: string = '1.0.0'
-  export let isShowingFollowers = true
-
-  const { ui$ } = getUI$Ctx()
-  const { customer$ } = getCustomer$Ctx()
-
-  function onLogout() {
-    isOpened = false
-    trackLogout()
-    onLogoutClick()
-  }
-
-  $: customer = $customer$
-  $: ({ isPro } = customer)
+<script>import { SANBASE_ORIGIN } from './../../utils/links';
+import { trackLogout } from './../../analytics/events/general';
+import { getUI$Ctx } from './../../stores/ui';
+import { getCustomer$Ctx } from './../../stores/customer';
+import Toggle from './../../ui/Toggle.svelte';
+// import Tooltip from './../../ui/Tooltip'
+import Tooltip from './../../ui/Tooltip/svelte';
+import Svg from './../../ui/Svg/svelte';
+import Pic from './../../ui/Profile/Pic.svelte';
+import { AccountStatusType } from './../../ui/AccountStatus.svelte';
+import UserInfo from './UserInfo.svelte';
+import VersionInfo from './VersionInfo.svelte';
+export let currentUser;
+export let onLogoutClick;
+export let isOpened = false;
+export let tooltipClass = '';
+export let variant = AccountStatusType.First;
+export let isAppUpdateAvailable = false;
+export let version = '1.0.0';
+export let isShowingFollowers = true;
+const { ui$ } = getUI$Ctx();
+const { customer$ } = getCustomer$Ctx();
+function onLogout() {
+    isOpened = false;
+    trackLogout();
+    onLogoutClick();
+}
+$: customer = $customer$;
+$: ({ isPro } = customer);
 </script>
 
-<Tooltip duration={130} bind:isOpened activeClass="$style.active" class={tooltipClass}>
+<Tooltip duration={130} bind:isOpened activeClass="active-_VrAxA" class={tooltipClass}>
   <a
     slot="trigger"
     href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
@@ -42,7 +37,7 @@
     on:click={window.__onLinkClick}
     class:pro={isPro}
   >
-    <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
+    <Pic class="btn mrg-m mrg--l box-2HQbzT" src={currentUser ? currentUser.avatarUrl : ''} />
   </a>
 
   <div class="tooltip" slot="tooltip">
@@ -127,11 +122,11 @@
 </Tooltip>
 
 <style>
-  .active .box {
+  :global(.active-_VrAxA) :global(.box-2HQbzT) {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro .box {
+  .pro :global(.box-2HQbzT) {
     --green: var(--orange-hover);
   }
 

@@ -19,41 +19,50 @@
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="$style.plan"
+        class="plan-wVN1Gj"
       />
     {/each}
   </div>
 </section>
 
-<style lang="scss">
-  #plans {
-    max-width: var(--page-width, 1140px);
-    margin: 0 auto 40px;
-    overflow: auto;
-
-    :global(body:not(.desktop)) & {
-      margin: 0 16px 24px;
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .scroll {
-    margin: 0 auto;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
+}
+*/
+#plans {
+  max-width: var(--page-width, 1140px);
+  margin: 0 auto 40px;
+  overflow: auto;
+}
+:global(body:not(.desktop)) #plans {
+  margin: 0 16px 24px;
+}
 
-  .plan {
-    --h-padding: 40px;
-    flex: 1;
-    width: 100%;
-    min-width: 256px;
-    max-width: 386px;
-    border-right: 1px solid var(--porcelain);
+.scroll {
+  margin: 0 auto;
+}
 
-    &:last-child {
-      border: 0;
-    }
-
-    :global(body:not(.desktop)) & {
-      --h-padding: 24px;
-    }
-  }
-</style>
+:global(.plan-wVN1Gj) {
+  --h-padding: 40px;
+  flex: 1;
+  width: 100%;
+  min-width: 256px;
+  max-width: 386px;
+  border-right: 1px solid var(--porcelain);
+}
+:global(.plan-wVN1Gj:last-child) {
+  border: 0;
+}
+:global(body:not(.desktop)) :global(.plan-wVN1Gj) {
+  --h-padding: 24px;
+}</style>

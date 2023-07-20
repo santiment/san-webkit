@@ -1,11 +1,9 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = ''
-  export { className as class }
-  export let count = 0
-  export let href = ''
-  export let active = false
+<script>import Svg from './../../ui/Svg/svelte';
+let className = '';
+export { className as class };
+export let count = 0;
+export let href = '';
+export let active = false;
 </script>
 
 {#if href}

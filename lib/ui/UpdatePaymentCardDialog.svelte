@@ -1,66 +1,62 @@
-<script context="module" lang="ts">
-  import { Preloader } from '@/utils/fn'
-  import { stripe } from '@/stores/stripe'
-  import { dialogs } from '@/ui/Dialog'
-  import UpdatePaymentCardDialog from './UpdatePaymentCardDialog.svelte'
-
-  export const showUpdatePaymentCardDialog = (props?: any) =>
-    dialogs.show(UpdatePaymentCardDialog, props)
-
-  const preloadData = () => stripe.load()
-  export const dataPreloader = Preloader(preloadData)
+<script context="module">import { Preloader } from './../utils/fn';
+import { stripe } from './../stores/stripe';
+import { dialogs } from './../ui/Dialog';
+import UpdatePaymentCardDialog from './UpdatePaymentCardDialog.svelte';
+export const showUpdatePaymentCardDialog = (props) => dialogs.show(UpdatePaymentCardDialog, props);
+const preloadData = () => stripe.load();
+export const dataPreloader = Preloader(preloadData);
 </script>
 
-<script lang="ts">
-  import Dialog from '@/ui/Dialog'
-  import { DialogLock } from '@/ui/Dialog/dialogs'
-  import Svg from '@/ui/Svg/svelte'
-  import {
-    CardBrandIllustration,
-    createCardToken,
-    getPaymentFormData,
-  } from '@/ui/PaymentDialog/utils'
-  import PayerInfo from '@/ui/PaymentDialog/PayerInfo.svelte'
-  import Checkmark from '@/ui/PaymentDialog/Checkmark.svelte'
-  import { mutateUpdatePaymentCard } from '@/api/subscription'
-  import { paymentCard$ } from '@/stores/paymentCard'
-
-  export let DialogPromise: SAN.DialogController
-  export let onSuccess = (data: any) => {}
-  export let onError
-
-  let closeDialog
-  let loading = false
-  let StripeCard: stripe.elements.Element
-  let isCardValid = false
-
-  const onCardChange = ({ complete }) => (isCardValid = complete)
-
-  $: if (StripeCard) StripeCard.on('change', onCardChange)
-  $: disabled = !isCardValid
-
-  function onChange() {
-    DialogPromise.locking = DialogLock.WARN
-  }
-
-  function onSubmit({ currentTarget }) {
-    loading = true
-    DialogPromise.locking = DialogLock.LOCKED
-    const { discount, ...checkoutInfo } = getPaymentFormData(currentTarget)
-
-    createCardToken($stripe as stripe.Stripe, StripeCard, checkoutInfo)
-      .then((token) => mutateUpdatePaymentCard(token.id))
-      .then((data) => {
-        closeDialog()
-        onSuccess(data)
-        paymentCard$.refetch()
-      })
-      .catch(onError)
-      .finally(() => {
-        loading = false
-        DialogPromise.locking = DialogLock.WARN
-      })
-  }
+<script>var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
+import Dialog from './../ui/Dialog';
+import { DialogLock } from './../ui/Dialog/dialogs';
+import Svg from './../ui/Svg/svelte';
+import { CardBrandIllustration, createCardToken, getPaymentFormData, } from './../ui/PaymentDialog/utils';
+import PayerInfo from './../ui/PaymentDialog/PayerInfo.svelte';
+import Checkmark from './../ui/PaymentDialog/Checkmark.svelte';
+import { mutateUpdatePaymentCard } from './../api/subscription';
+import { paymentCard$ } from './../stores/paymentCard';
+export let DialogPromise;
+export let onSuccess = (data) => { };
+export let onError;
+let closeDialog;
+let loading = false;
+let StripeCard;
+let isCardValid = false;
+const onCardChange = ({ complete }) => (isCardValid = complete);
+$: if (StripeCard)
+    StripeCard.on('change', onCardChange);
+$: disabled = !isCardValid;
+function onChange() {
+    DialogPromise.locking = DialogLock.WARN;
+}
+function onSubmit({ currentTarget }) {
+    loading = true;
+    DialogPromise.locking = DialogLock.LOCKED;
+    const _a = getPaymentFormData(currentTarget), { discount } = _a, checkoutInfo = __rest(_a, ["discount"]);
+    createCardToken($stripe, StripeCard, checkoutInfo)
+        .then((token) => mutateUpdatePaymentCard(token.id))
+        .then((data) => {
+        closeDialog();
+        onSuccess(data);
+        paymentCard$.refetch();
+    })
+        .catch(onError)
+        .finally(() => {
+        loading = false;
+        DialogPromise.locking = DialogLock.WARN;
+    });
+}
 </script>
 
 <Dialog {...$$props} title="Update your payment details" bind:closeDialog>
@@ -73,7 +69,7 @@
           <Svg illus {...CardBrandIllustration.Visa} class="mrg-m mrg--r" />
           <Svg illus {...CardBrandIllustration.MasterCard} />
 
-          <Checkmark class="$style.checkmark {isCardValid ? '$style.valid' : ''}" />
+          <Checkmark class="checkmark-MtwVMc {isCardValid ? 'valid-ha4dzA' : ''}" />
         </div>
 
         <div class="dots row c-waterloo">
@@ -101,67 +97,77 @@
   </form>
 </Dialog>
 
-<style lang="scss">
-  form {
-    padding: 16px;
-    display: block;
-    overflow: auto;
-    grid: 'info confirmation' 1fr / 1fr 1fr;
-    gap: 0 32px;
-    max-width: 100%;
-    width: 860px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+form {
+  padding: 16px;
+  display: block;
+  overflow: auto;
+  grid: "info confirmation" 1fr/1fr 1fr;
+  gap: 0 32px;
+  max-width: 100%;
+  width: 860px;
+}
 
-  :global(.desktop) {
-    form {
-      padding: 16px 40px 24px;
-      display: grid;
-    }
-  }
+:global(.desktop) form {
+  padding: 16px 40px 24px;
+  display: grid;
+}
 
-  .confirmation {
-    padding: 24px 32px;
-    background: var(--athens);
-    border-radius: 4px;
-  }
+.confirmation {
+  padding: 24px 32px;
+  background: var(--athens);
+  border-radius: 4px;
+}
 
-  :global(body:not(.desktop)) .confirmation {
-    margin-top: 16px;
-  }
+:global(body:not(.desktop)) .confirmation {
+  margin-top: 16px;
+}
 
-  .card {
-    padding: 16px;
-  }
+.card {
+  padding: 16px;
+}
 
-  .status {
-    margin: 0 0 45px;
-  }
+.status {
+  margin: 0 0 45px;
+}
 
-  .dots {
-    font-size: 30px;
-    line-height: 8px;
-    letter-spacing: 4px;
-  }
+.dots {
+  font-size: 30px;
+  line-height: 8px;
+  letter-spacing: 4px;
+}
 
-  p {
-    color: var(--fiord);
-  }
+p {
+  color: var(--fiord);
+}
 
-  button {
-    --v-padding: 8px;
-  }
+button {
+  --v-padding: 8px;
+}
 
-  .disabled {
-    --v-padding: 7px;
-    border: 1px solid var(--porcelain);
-  }
+.disabled {
+  --v-padding: 7px;
+  border: 1px solid var(--porcelain);
+}
 
-  .checkmark {
-    background: var(--porcelain) !important;
-  }
+:global(.checkmark-MtwVMc) {
+  background: var(--porcelain) !important;
+}
 
-  .valid {
-    background: var(--green-light-1) !important;
-    fill: var(--green) !important;
-  }
-</style>
+:global(.valid-ha4dzA) {
+  background: var(--green-light-1) !important;
+  fill: var(--green) !important;
+}</style>

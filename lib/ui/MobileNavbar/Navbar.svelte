@@ -1,62 +1,51 @@
-<script lang="ts" context="module">
-  export const MOBILE_NAVBAR_LINKS = [
+<script context="module">export const MOBILE_NAVBAR_LINKS = [
     {
-      title: 'Market',
-      icon: 'market',
-      href: '/assets',
+        title: 'Market',
+        icon: 'market',
+        href: '/assets',
     },
     {
-      title: 'Chart',
-      icon: 'chart',
-      href: '/projects',
-      slug: '/bitcoin',
+        title: 'Chart',
+        icon: 'chart',
+        href: '/projects',
+        slug: '/bitcoin',
     },
     {
-      title: 'Watchlist',
-      icon: 'watchlist',
-      href: '/watchlists',
+        title: 'Watchlist',
+        icon: 'watchlist',
+        href: '/watchlists',
     },
     {
-      title: 'Insights',
-      icon: 'insights',
-      href: '/insights',
+        title: 'Insights',
+        icon: 'insights',
+        href: '/insights',
     },
-  ] as {
-    title: string
-    icon: string
-    href: string
-    slug?: string
-    strict?: true
-  }[]
+];
 </script>
 
-<script lang="ts">
-  import Menu from './Menu.svelte'
-  import NavItem from './NavItem.svelte'
-
-  export let user: SAN.Author | null | undefined
-  export let path = ''
-  export let isFullLink = false
-  export let links = MOBILE_NAVBAR_LINKS
-  export let isMenuOpened = false
-
-  $: isMenuOpened = (path, false)
-
-  $: if (process.browser) {
+<script>import Menu from './Menu.svelte';
+import NavItem from './NavItem.svelte';
+export let user;
+export let path = '';
+export let isFullLink = false;
+export let links = MOBILE_NAVBAR_LINKS;
+export let isMenuOpened = false;
+$: isMenuOpened = (path, false);
+$: if (process.browser) {
     if (isMenuOpened) {
-      document.body.style.width = document.body.offsetWidth + 'px'
-      document.body.style.overflowY = 'hidden'
-      document.body.style.touchAction = 'none'
-    } else {
-      document.body.style.width = ''
-      document.body.style.overflowY = ''
-      document.body.style.touchAction = ''
+        document.body.style.width = document.body.offsetWidth + 'px';
+        document.body.style.overflowY = 'hidden';
+        document.body.style.touchAction = 'none';
     }
-  }
-
-  function onMenuClick() {
-    isMenuOpened = !isMenuOpened
-  }
+    else {
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        document.body.style.touchAction = '';
+    }
+}
+function onMenuClick() {
+    isMenuOpened = !isMenuOpened;
+}
 </script>
 
 {#if isMenuOpened}

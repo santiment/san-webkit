@@ -1,16 +1,13 @@
-<script lang="ts">
-  import { trackNftBattleGameDetailsPage } from '@/analytics/events/nftbattle'
-  import Svg from '@/ui/Svg/svelte'
-  import { Page } from './types'
-
-  export let page: Page
-
-  function changePage(newPage: Page) {
-    if (newPage === page) return
-
-    trackNftBattleGameDetailsPage(newPage, 'breadcrumbs', page)
-    page = newPage
-  }
+<script>import { trackNftBattleGameDetailsPage } from './../../analytics/events/nftbattle';
+import Svg from './../../ui/Svg/svelte';
+import { Page } from './types';
+export let page;
+function changePage(newPage) {
+    if (newPage === page)
+        return;
+    trackNftBattleGameDetailsPage(newPage, 'breadcrumbs', page);
+    page = newPage;
+}
 </script>
 
 <nav class="breadcrumbs row v-center">

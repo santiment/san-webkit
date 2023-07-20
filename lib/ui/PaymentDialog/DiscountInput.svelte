@@ -1,53 +1,42 @@
-<script lang="ts">
-  import { onDestroy } from 'svelte'
-  import { queryCoupon } from '@/api/plans'
-  import { debounce } from '@/utils/fn'
-  import Svg from '@/ui/Svg/svelte'
-  import Input from './Input.svelte'
-
-  export let percentOff = 20
-
-  let node: HTMLInputElement
-  let value = ''
-  let loading = false
-  let isValid = false
-
-  $: node && (node.dataset.isValid = isValid.toString())
-
-  const [checkCoupon, clearTimer] = debounce(700, (coupon: string) => {
-    const onData = (data) => value === coupon && onCouponLoaded(data)
-    const onError = () => value === coupon && invalidateCoupon()
-    queryCoupon(coupon).then(onData).catch(onError)
-  })
-
-  function onInput({ currentTarget }) {
-    node = currentTarget
-    value = node.value
-
+<script>import { onDestroy } from 'svelte';
+import { queryCoupon } from './../../api/plans';
+import { debounce } from './../../utils/fn';
+import Svg from './../../ui/Svg/svelte';
+import Input from './Input.svelte';
+export let percentOff = 20;
+let node;
+let value = '';
+let loading = false;
+let isValid = false;
+$: node && (node.dataset.isValid = isValid.toString());
+const [checkCoupon, clearTimer] = debounce(700, (coupon) => {
+    const onData = (data) => value === coupon && onCouponLoaded(data);
+    const onError = () => value === coupon && invalidateCoupon();
+    queryCoupon(coupon).then(onData).catch(onError);
+});
+function onInput({ currentTarget }) {
+    node = currentTarget;
+    value = node.value;
     if (!value) {
-      invalidateCoupon()
-      return clearTimer()
+        invalidateCoupon();
+        return clearTimer();
     }
-
-    loading = true
-    checkCoupon(value)
-  }
-
-  function onCouponLoaded(data) {
-    if (!data.isValid) return invalidateCoupon
-
-    loading = false
-    isValid = true
-    percentOff = data.percentOff
-  }
-
-  function invalidateCoupon() {
-    loading = false
-    isValid = false
-    percentOff = 0
-  }
-
-  onDestroy(clearTimer)
+    loading = true;
+    checkCoupon(value);
+}
+function onCouponLoaded(data) {
+    if (!data.isValid)
+        return invalidateCoupon;
+    loading = false;
+    isValid = true;
+    percentOff = data.percentOff;
+}
+function invalidateCoupon() {
+    loading = false;
+    isValid = false;
+    percentOff = 0;
+}
+onDestroy(clearTimer);
 </script>
 
 <Input
@@ -60,25 +49,25 @@
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin $style.status" />
+      <div class="loading-spin status-LJfiFw" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="$style.status {isValid ? '$style.valid' : ''}"
+        class="status-LJfiFw {isValid ? 'valid-Dm9PRt' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  .status {
+  :global(.status-LJfiFw) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  .valid {
+  :global(.valid-Dm9PRt) {
     fill: var(--green);
   }
 </style>

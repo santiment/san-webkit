@@ -1,7 +1,5 @@
-<script lang="ts">
-  export let creation
-
-  $: ({ blockchainAddressesCount } = creation.stats)
+<script>export let creation;
+$: ({ blockchainAddressesCount } = creation.stats);
 </script>
 
 <h2 class="h4 mrg-s mrg--b c-black">

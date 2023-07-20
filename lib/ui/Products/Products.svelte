@@ -1,13 +1,11 @@
-<script lang="ts">
-  import { business } from './business'
-  import { chain } from './chain'
-  import Product from './Product.svelte'
-
-  let className = ''
-  export { className as class }
-  export let isCompact = false
-  export let isColumn = false
-  export let active: string | undefined = undefined
+<script>import { business } from './business';
+import { chain } from './chain';
+import Product from './Product.svelte';
+let className = '';
+export { className as class };
+export let isCompact = false;
+export let isColumn = false;
+export let active = undefined;
 </script>
 
 <div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
@@ -34,36 +32,47 @@
   </section>
 </div>
 
-<style lang="scss">
-  .products {
-    padding: 32px 32px 24px;
-
-    &.compact {
-      padding: 24px 32px;
-    }
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  h3 {
-    margin: 0 0 20px 16px;
-    color: var(--waterloo);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
-  .compact h3 {
-    margin: 0 0 16px;
-  }
+}
+*/
+.products {
+  padding: 32px 32px 24px;
+}
+.products.compact {
+  padding: 24px 32px;
+}
 
-  .products.column {
-    flex-direction: column-reverse;
+h3 {
+  margin: 0 0 20px 16px;
+  color: var(--waterloo);
+}
 
-    .business {
-      margin: 0 0 24px;
-      padding: 0 0 24px;
-      border-bottom: 1px solid var(--porcelain);
-    }
-  }
+.compact h3 {
+  margin: 0 0 16px;
+}
 
-  .more {
-    padding-top: 24px;
-    border-top: 1px solid var(--porcelain);
-    max-width: 260px;
-  }
-</style>
+.products.column {
+  flex-direction: column-reverse;
+}
+.products.column .business {
+  margin: 0 0 24px;
+  padding: 0 0 24px;
+  border-bottom: 1px solid var(--porcelain);
+}
+
+.more {
+  padding-top: 24px;
+  border-top: 1px solid var(--porcelain);
+  max-width: 260px;
+}</style>

@@ -1,39 +1,31 @@
 <script context="module">
   export const CookiesStyle = {
-    API: '$style.api',
-    SHEETS: '$style.sheets',
+    API: 'api-SvMBop',
+    SHEETS: 'sheets-yMmQiB',
   }
 </script>
 
-<script lang="ts">
-  import {
-    showManageCookiesDialog,
-    COOKIE_POLICY_ACCEPTED,
-    applyCookies,
-  } from '@/ui/ManageCookiesDialog/index.svelte'
-  import Svg from '@/ui/Svg/svelte'
-  import { getSavedBoolean } from '@/utils/localStorage'
-
-  let className = ''
-  export { className as class }
-  export let style: '' | keyof typeof CookiesStyle = ''
-  export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
-
-  function onAllowAllClick() {
-    applyCookies(true, true)
-    isVisible = false
-  }
-
-  function onManageClick() {
+<script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies, } from './../ui/ManageCookiesDialog/index.svelte';
+import Svg from './../ui/Svg/svelte';
+import { getSavedBoolean } from './../utils/localStorage';
+let className = '';
+export { className as class };
+export let style = '';
+export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED);
+function onAllowAllClick() {
+    applyCookies(true, true);
+    isVisible = false;
+}
+function onManageClick() {
     showManageCookiesDialog().then(() => {
-      isVisible = false
-    })
-  }
+        isVisible = false;
+    });
+}
 </script>
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
-    <Svg illus id="cookies" class="$style.pic" />
+    <Svg illus id="cookies" class="pic-xZtiLr" />
     <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -46,75 +38,80 @@
   </div>
 {/if}
 
-<style lang="scss">
-  .cookies {
-    position: fixed;
-    padding: 24px 20px;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 101;
-    text-align: center;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-
-  .api {
-    --fill: #dae0fd;
-    --shadow: #5275ff;
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
-  .sheets {
-    --fill: #b0ebdb;
-    --shadow: #21b074;
-  }
+}
+*/
+.cookies {
+  position: fixed;
+  padding: 24px 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  text-align: center;
+}
 
-  a:hover {
-    color: var(--accent-hover, var(--green-hover));
-  }
+:global(.api-SvMBop) {
+  --fill: #dae0fd;
+  --shadow: #5275ff;
+}
 
-  .pic {
-    width: 102px;
-    height: 128px;
-    transform: rotate(270deg);
-  }
+:global(.sheets-yMmQiB) {
+  --fill: #b0ebdb;
+  --shadow: #21b074;
+}
 
-  :global(.desktop) {
-    .cookies {
-      padding: 20px 43px 20px 110px;
-      max-width: 450px;
-      right: initial;
-      left: 20px;
-      bottom: 20px;
-      text-align: left;
-    }
+a:hover {
+  color: var(--accent-hover, var(--green-hover));
+}
 
-    .pic {
-      transform: initial;
-      position: absolute;
-      left: 24px;
-      width: 70px;
-      height: 88px;
-    }
-  }
+:global(.pic-xZtiLr) {
+  width: 102px;
+  height: 128px;
+  transform: rotate(270deg);
+}
 
-  :global(body:not(.desktop)) {
-    .cookies {
-      border-radius: 0;
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-      font: var(--body-2);
-    }
+:global(.desktop) .cookies {
+  padding: 20px 43px 20px 110px;
+  max-width: 450px;
+  right: initial;
+  left: 20px;
+  bottom: 20px;
+  text-align: left;
+}
+:global(.desktop) :global(.pic-xZtiLr) {
+  transform: initial;
+  position: absolute;
+  left: 24px;
+  width: 70px;
+  height: 88px;
+}
 
-    h2 {
-      font: var(--body-0);
-      --margin: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-    }
-
-    .manage {
-      margin: 12px 0 0;
-    }
-  }
-</style>
+:global(body:not(.desktop)) .cookies {
+  border-radius: 0;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font: var(--body-2);
+}
+:global(body:not(.desktop)) h2 {
+  font: var(--body-0);
+  --margin: 16px;
+}
+:global(body:not(.desktop)) button {
+  width: 100%;
+  padding: 10px;
+}
+:global(body:not(.desktop)) .manage {
+  margin: 12px 0 0;
+}</style>

@@ -1,119 +1,99 @@
-<script lang="ts">
-  import type { Placement } from '@floating-ui/dom'
-
-  import { fade } from 'svelte/transition'
-  import { computePosition, offset, flip, shift } from '@floating-ui/dom'
-
-  let className = ''
-  export { className as class }
-  export let dark = false
-  export let isOpened = false
-  export let style = ''
-  export let position = 'top' as Placement
-  export let activeClass = ''
-  export let on: 'mouseenter' | 'click' = 'mouseenter'
-  export let duration = 0
-  export let openDelay = 0
-  export let closeDelay = 120
-  export let margin = 8
-
-  const transition = { duration }
-
-  let trigger = null as null | HTMLElement
-  export let tooltip = null as null | HTMLElement
-
-  let timerOpen = null as null | number
-  let timerClose = null as null | number
-
-  $: if (trigger && tooltip) {
-    tooltip.onmouseenter = closeDelay ? open : null
-    tooltip.onmouseleave = closeDelay ? startCloseTimer : null
-    window.addEventListener('touchend', onTouchEnd)
-
+<script>import { fade } from 'svelte/transition';
+import { computePosition, offset, flip, shift } from '@floating-ui/dom';
+let className = '';
+export { className as class };
+export let dark = false;
+export let isOpened = false;
+export let style = '';
+export let position = 'top';
+export let activeClass = '';
+export let on = 'mouseenter';
+export let duration = 0;
+export let openDelay = 0;
+export let closeDelay = 120;
+export let margin = 8;
+const transition = { duration };
+let trigger = null;
+export let tooltip = null;
+let timerOpen = null;
+let timerClose = null;
+$: if (trigger && tooltip) {
+    tooltip.onmouseenter = closeDelay ? open : null;
+    tooltip.onmouseleave = closeDelay ? startCloseTimer : null;
+    window.addEventListener('touchend', onTouchEnd);
     computePosition(trigger, tooltip, {
-      placement: position,
-      middleware: [offset(margin), flip(), shift()],
+        placement: position,
+        middleware: [offset(margin), flip(), shift()],
     }).then(({ x, y }) => {
-      if (!tooltip) return
-
-      Object.assign(tooltip.style, getStyles(x, y))
-    })
-  }
-
-  const getStyles = (x: number, y: number) => ({ left: `${x}px`, top: `${y}px` })
-
-  function open() {
-    stopOpenTimer()
-    stopCloseTimer()
-    isOpened = true
-    timerOpen = null
-    if (activeClass) trigger?.classList.add(activeClass)
-  }
-
-  function close() {
-    stopOpenTimer()
-    stopCloseTimer()
-    isOpened = false
-    tooltip = null
-    if (activeClass) trigger?.classList.remove(activeClass)
-
-    window.removeEventListener('touchend', onTouchEnd)
+        if (!tooltip)
+            return;
+        Object.assign(tooltip.style, getStyles(x, y));
+    });
+}
+const getStyles = (x, y) => ({ left: `${x}px`, top: `${y}px` });
+function open() {
+    stopOpenTimer();
+    stopCloseTimer();
+    isOpened = true;
+    timerOpen = null;
+    if (activeClass)
+        trigger === null || trigger === void 0 ? void 0 : trigger.classList.add(activeClass);
+}
+function close() {
+    stopOpenTimer();
+    stopCloseTimer();
+    isOpened = false;
+    tooltip = null;
+    if (activeClass)
+        trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
+    window.removeEventListener('touchend', onTouchEnd);
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
-  }
-
-  function startOpenTimer() {
-    stopCloseTimer()
+}
+function startOpenTimer() {
+    stopCloseTimer();
     if (openDelay) {
-      timerOpen = window.setTimeout(open, openDelay)
-    } else {
-      open()
+        timerOpen = window.setTimeout(open, openDelay);
     }
-  }
-
-  const stopCloseTimer = () => timerClose && window.clearTimeout(timerClose)
-  function stopOpenTimer() {
-    if (timerOpen) window.clearTimeout(timerOpen)
-    timerOpen = null
-  }
-
-  function startCloseTimer() {
-    stopCloseTimer()
-
+    else {
+        open();
+    }
+}
+const stopCloseTimer = () => timerClose && window.clearTimeout(timerClose);
+function stopOpenTimer() {
+    if (timerOpen)
+        window.clearTimeout(timerOpen);
+    timerOpen = null;
+}
+function startCloseTimer() {
+    stopCloseTimer();
     if (timerOpen) {
-      stopOpenTimer()
-    } else {
-      timerClose = window.setTimeout(close, closeDelay)
+        stopOpenTimer();
     }
-  }
-
-  function attach(node: HTMLElement) {
-    trigger = node
-
-    trigger.addEventListener(on, startOpenTimer)
-    trigger.addEventListener('mouseleave', startCloseTimer)
-
+    else {
+        timerClose = window.setTimeout(close, closeDelay);
+    }
+}
+function attach(node) {
+    trigger = node;
+    trigger.addEventListener(on, startOpenTimer);
+    trigger.addEventListener('mouseleave', startCloseTimer);
     return {
-      destroy: close,
+        destroy: close,
+    };
+}
+function onTouchEnd({ target }) {
+    if (target === trigger ||
+        target.closest('[slot="tooltip"]') ||
+        (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
+        return;
     }
-  }
-
-  function onTouchEnd({ target }: TouchEvent) {
-    if (
-      target === trigger ||
-      (target as HTMLElement).closest('[slot="tooltip"]') ||
-      tooltip?.contains(target as HTMLElement)
-    ) {
-      return
-    }
-
-    close()
-  }
-
-  function onClose() {
+    close();
+}
+function onClose() {
     return {
-      destroy: close,
-    }
-  }
+        destroy: close,
+    };
+}
 </script>
 
 <slot trigger={attach} />

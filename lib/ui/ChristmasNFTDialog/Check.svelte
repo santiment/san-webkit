@@ -1,9 +1,7 @@
-<script lang="ts">
-  import Svg from '@/ui/Svg/svelte'
-
-  let className = 'mrg-m mrg--r'
-  export { className as class }
-  export let small = false
+<script>import Svg from './../../ui/Svg/svelte';
+let className = 'mrg-m mrg--r';
+export { className as class };
+export let small = false;
 </script>
 
 <span class="check {className}">

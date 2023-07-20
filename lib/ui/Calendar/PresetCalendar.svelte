@@ -1,45 +1,40 @@
-<script lang="ts">
-  import type { default as AirDatepicker } from 'air-datepicker/air-datepicker'
-
-  import Svg from '@/ui/Svg/svelte'
-  import Calendar from './Calendar.svelte'
-
-  const PRESETS = [
+<script>import Svg from './../../ui/Svg/svelte';
+import Calendar from './Calendar.svelte';
+const PRESETS = [
     {
-      title: 'Last day',
-      presetDate: [new Date().setDate(new Date().getDate() - 1), new Date()],
+        title: 'Last day',
+        presetDate: [new Date().setDate(new Date().getDate() - 1), new Date()],
     },
     {
-      title: 'Last week',
-      presetDate: [new Date().setDate(new Date().getDate() - 7), new Date()],
+        title: 'Last week',
+        presetDate: [new Date().setDate(new Date().getDate() - 7), new Date()],
     },
     {
-      title: 'Last month',
-      presetDate: [new Date().setMonth(new Date().getMonth() - 1), new Date()],
+        title: 'Last month',
+        presetDate: [new Date().setMonth(new Date().getMonth() - 1), new Date()],
     },
     {
-      title: 'Last 3 month',
-      presetDate: [new Date().setMonth(new Date().getMonth() - 3), new Date()],
+        title: 'Last 3 month',
+        presetDate: [new Date().setMonth(new Date().getMonth() - 3), new Date()],
     },
     {
-      title: 'Last 6 month',
-      presetDate: [new Date().setMonth(new Date().getMonth() - 6), new Date()],
+        title: 'Last 6 month',
+        presetDate: [new Date().setMonth(new Date().getMonth() - 6), new Date()],
     },
     {
-      title: 'Last year',
-      presetDate: [new Date().setFullYear(new Date().getFullYear() - 1), new Date()],
+        title: 'Last year',
+        presetDate: [new Date().setFullYear(new Date().getFullYear() - 1), new Date()],
     },
     {
-      title: 'All time',
-      presetDate: [new Date(2009, 0, 1), new Date()],
+        title: 'All time',
+        presetDate: [new Date(2009, 0, 1), new Date()],
     },
-  ]
-
-  export let date = [new Date(), new Date()]
-  export let label = date[0].toLocaleDateString()
-  export let maxDate: Date = new Date()
-  export let onDateSelect: (date: Date[]) => void
-  export let calendar: null | AirDatepicker<any> = null
+];
+export let date = [new Date(), new Date()];
+export let label = date[0].toLocaleDateString();
+export let maxDate = new Date();
+export let onDateSelect;
+export let calendar = null;
 </script>
 
 <Calendar

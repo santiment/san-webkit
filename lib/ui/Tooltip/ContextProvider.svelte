@@ -1,48 +1,40 @@
-<script lang="ts">
-  import type { Props } from './ctx'
-
-  import { useAppTooltipsCtx } from './ctx'
-
-  export let id: string
-  export let on: string
-  export let setTrigger, startOpenTimer, destroy
-  export let props
-  export let ref
-
-  let trigger
-
-  function onEvent({ currentTarget }: Event) {
-    trigger = currentTarget
-    props = trigger.__props__
-    setTrigger(trigger)
-    startOpenTimer()
-  }
-
-  ref.tooltip = (node: Element, data: Props) => {
-    node.removeEventListener(on, onEvent)
-
-    if (data.isEnabled === false) return
-
+<script>import { useAppTooltipsCtx } from './ctx';
+export let id;
+export let on;
+export let setTrigger, startOpenTimer, destroy;
+export let props;
+export let ref;
+let trigger;
+function onEvent({ currentTarget }) {
+    trigger = currentTarget;
+    props = trigger.__props__;
+    setTrigger(trigger);
+    startOpenTimer();
+}
+ref.tooltip = (node, data) => {
+    node.removeEventListener(on, onEvent);
+    if (data.isEnabled === false)
+        return;
     // @ts-ignore
-    node.__props__ = data
-    node.addEventListener(on, onEvent)
-
+    node.__props__ = data;
+    node.addEventListener(on, onEvent);
     return {
-      update(data: Props) {
-        // @ts-ignore
-        node.__props__ = data
-        if (node === trigger) props = data
-      },
-      destroy() {
-        if (node !== trigger) return
-        trigger = null
-        setTrigger(null)
-        destroy()
-      },
-    }
-  }
-
-  useAppTooltipsCtx(id, ref.tooltip)
+        update(data) {
+            // @ts-ignore
+            node.__props__ = data;
+            if (node === trigger)
+                props = data;
+        },
+        destroy() {
+            if (node !== trigger)
+                return;
+            trigger = null;
+            setTrigger(null);
+            destroy();
+        },
+    };
+};
+useAppTooltipsCtx(id, ref.tooltip);
 </script>
 
 <slot />
