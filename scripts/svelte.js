@@ -21,16 +21,21 @@ const routesPreprocess = RoutesPreprocess(LIB)
 
 const LANG_TS_REGEX = / lang="ts"/g
 
+export async function preprocessSvelte(file, filename) {
+  const { code } = await preprocess(file.toString(), [routesPreprocess, ...config.preprocess], {
+    filename,
+  })
+
+  return code.replace(LANG_TS_REGEX, '').replace('lang="scss"', '')
+}
+
 export async function prepareSvelte() {
   return forFile(['lib/**/*.svelte'], async (entry) => {
     const filePath = entry.replace('lib/', '')
     const libFilePath = path.resolve(LIB, filePath)
 
     const file = fs.readFileSync(libFilePath)
-    const { code } = await preprocess(file.toString(), [routesPreprocess, ...config.preprocess], {
-      filename: libFilePath,
-    })
 
-    fs.writeFileSync(libFilePath, code.replace(LANG_TS_REGEX, '').replace('lang="scss"', ''))
+    fs.writeFileSync(libFilePath, preprocessSvelte(file.toString(), libFilePath))
   })
 }
