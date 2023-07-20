@@ -17,4 +17,4 @@ FROM node:16
 
 COPY --from=builder /app/ /app/
 
-CMD [ "npx", "serve ./build -p 4000" ]
+CMD ["npx", "serve", "app/build", "-p", "4000"]
