@@ -1,22 +1,25 @@
-<script context="module">export function percentChange(oldValue, newValue) {
-    const change = (100 * (newValue - oldValue)) / oldValue;
-    return formatPercentChange(change);
-}
-export function formatPercentChange(value) {
-    return +value.toFixed(Math.abs(value) < 1 ? 4 : 2);
-}
+<script lang="ts" context="module">
+  export function percentChange(oldValue: number, newValue: number) {
+    const change = (100 * (newValue - oldValue)) / oldValue
+    return formatPercentChange(change)
+  }
+  export function formatPercentChange(value: number): number {
+    return +value.toFixed(Math.abs(value) < 1 ? 4 : 2)
+  }
 </script>
 
-<script>import Svg from './../ui/Svg/svelte';
-let className = '';
-export { className as class };
-export let change;
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+
+  let className = ''
+  export { className as class }
+  export let change: number
 </script>
 
 <div class="row v-center change {className}" class:down={change < 0} class:zero={change === 0}>
   {#if change !== 0}
     <span class="direction row hv-center mrg-xs mrg--r">
-      <Svg id="triangle" w="6" h="4" class="arrow-PKVO2p" />
+      <Svg id="triangle" w="6" h="4" class="$style.arrow" />
     </span>
   {/if}
   {change}%
@@ -33,7 +36,7 @@ export let change;
     --bg: var(--red-light-1);
     --transform: rotate(180deg);
   }
-  :global(.arrow-PKVO2p) {
+  .arrow {
     transform: var(--transform);
   }
 

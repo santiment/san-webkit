@@ -1,9 +1,3 @@
-/// <reference types="./api" />
-/// <reference types="./comment" />
-/// <reference types="./dialog" />
-/// <reference types="./plan" />
-/// <reference types="./table" />
-/// <reference types="./user" />
 declare module 'svelte/internal'
 
 declare namespace NodeJS {

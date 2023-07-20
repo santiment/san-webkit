@@ -1,7 +1,7 @@
 <script>
-  import { getCustomer$Ctx } from './../../../stores/customer'
-  import Tooltip from './../../../ui/Tooltip/svelte'
-  import { ONE_DAY_IN_MS } from './../../../utils/dates'
+  import { getCustomer$Ctx } from '@/stores/customer'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import { ONE_DAY_IN_MS } from '@/utils/dates'
   import rocketSvg from './rocket.svg'
 
   const { customer$ } = getCustomer$Ctx()
@@ -38,85 +38,74 @@
   </div>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .offer {
+    max-width: 800px;
+    background: var(--athens);
+    border-radius: 8px;
+    margin: 40px auto 0;
+    padding: 24px 144px 24px 48px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .left {
+    max-width: 50%;
   }
-}
-*/
-.offer {
-  max-width: 800px;
-  background: var(--athens);
-  border-radius: 8px;
-  margin: 40px auto 0;
-  padding: 24px 144px 24px 48px;
-}
 
-.left {
-  max-width: 50%;
-}
+  p {
+    color: var(--fiord);
+  }
 
-p {
-  color: var(--fiord);
-}
+  .img {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  img {
+    position: absolute;
+    top: 37px;
+    right: 28px;
+  }
 
-.img {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
+  h3 {
+    text-decoration: underline dashed var(--casper);
+    cursor: pointer;
+  }
 
-img {
-  position: absolute;
-  top: 37px;
-  right: 28px;
-}
+  .tooltip {
+    padding: 14px 20px;
+    color: var(--fiord);
+    max-width: 318px;
+  }
 
-h3 {
-  text-decoration: underline dashed var(--casper);
-  cursor: pointer;
-}
+  :global(.phone),
+  :global(.phone-xs) {
+    .offer {
+      display: block;
+      padding: 18px 24px;
+    }
 
-.tooltip {
-  padding: 14px 20px;
-  color: var(--fiord);
-  max-width: 318px;
-}
+    .left {
+      max-width: 65%;
+      margin: 0 0 16px;
+    }
 
-:global(.phone) .offer,
-:global(.phone-xs) .offer {
-  display: block;
-  padding: 18px 24px;
-}
-:global(.phone) .left,
-:global(.phone-xs) .left {
-  max-width: 65%;
-  margin: 0 0 16px;
-}
-:global(.phone) h3,
-:global(.phone-xs) h3 {
-  text-align: left;
-}
-:global(.phone) img,
-:global(.phone-xs) img {
-  transform: rotate(-17deg) rotateY(180deg) scale(1.2);
-  right: 55px;
-  top: 110px;
-}
+    h3 {
+      text-align: left;
+    }
 
-.text {
-  position: relative;
-  z-index: 2;
-}</style>
+    img {
+      transform: rotate(-17deg) rotateY(180deg) scale(1.2);
+      right: 55px;
+      top: 110px;
+    }
+  }
+
+  .text {
+    position: relative;
+    z-index: 2;
+  }
+</style>

@@ -1,6 +1,6 @@
 <script>
-  import Svg from './../../ui/Svg/svelte'
-  import { IsMobile } from './../../stores/responsive'
+  import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
 </script>
 
 <div class="socials">
@@ -27,48 +27,37 @@
   </div>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  a:hover {
+    fill: var(--color);
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .socials {
+    grid-area: socials;
   }
-}
-*/
-a:hover {
-  fill: var(--color);
-}
 
-.socials {
-  grid-area: socials;
-}
+  h4 {
+    text-align: left;
+  }
 
-h4 {
-  text-align: left;
-}
+  .row {
+    justify-content: space-between;
+  }
+  :global(.desktop) .row {
+    max-width: 265px;
+    margin-left: auto;
+  }
 
-.row {
-  justify-content: space-between;
-}
-
-:global(.desktop) .row {
-  max-width: 265px;
-  margin-left: auto;
-}
-
-:global(.phone-xs) a,
-:global(.phone) a {
-  border: 1px solid var(--porcelain);
-  height: 40px;
-  width: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 4px;
-}</style>
+  :global(.phone-xs),
+  :global(.phone) {
+    a {
+      border: 1px solid var(--porcelain);
+      height: 40px;
+      width: 46px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+    }
+  }
+</style>

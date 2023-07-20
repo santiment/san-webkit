@@ -1,9 +1,12 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import InputWithIcon from './../../ui/InputWithIcon.svelte';
-export let searchTerm;
-function onInput({ currentTarget }) {
-    searchTerm = currentTarget.value.trim();
-}
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import InputWithIcon from '@/ui/InputWithIcon.svelte'
+
+  export let searchTerm
+
+  function onInput({ currentTarget }) {
+    searchTerm = currentTarget.value.trim()
+  }
 </script>
 
 <InputWithIcon
@@ -11,7 +14,7 @@ function onInput({ currentTarget }) {
   on:input={onInput}
   placeholder="Search for assets, trends..."
   big
-  class="input-b9Sesw body-2"
+  class="$style.input body-2"
 >
   <div class="search row hv-center" slot="left">
     <Svg id="search" w="12" />
@@ -23,45 +26,38 @@ function onInput({ currentTarget }) {
   {/if}
 </InputWithIcon>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
-  }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-:global(.input-b9Sesw) {
-  --left: 36px !important;
-}
-:global(.input-b9Sesw) > :global(input) {
-  padding: 8px 44px 8px 36px;
-}
+<style lang="scss">
+  .input {
+    --left: 36px !important;
 
-.search {
-  height: 16px;
-  width: 16px;
-  position: absolute;
-  top: 11px;
-  left: 11px;
-  fill: var(--waterloo);
-}
+    > :global(input) {
+      padding: 8px 44px 8px 36px;
+    }
+  }
 
-.close {
-  fill: var(--waterloo);
-  height: 32px;
-  width: 32px;
-  position: absolute;
-  top: 3px;
-  right: 4px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-.close:focus, .close:visited, .close:active {
-  outline: none;
-}</style>
+  .search {
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    fill: var(--waterloo);
+  }
+
+  .close {
+    fill: var(--waterloo);
+
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+    &:focus,
+    &:visited,
+    &:active {
+      outline: none;
+    }
+  }
+</style>

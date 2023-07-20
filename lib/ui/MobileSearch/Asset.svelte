@@ -1,8 +1,10 @@
-<script>import ProjectIcon from './../../ui/ProjectIcon.svelte';
-export let item;
+<script lang="ts">
+  import ProjectIcon from '@/ui/ProjectIcon.svelte'
+
+  export let item
 </script>
 
-<ProjectIcon slug={item.slug} size="24" class="icon-UMIiJ+" />
+<ProjectIcon slug={item.slug} size="24" class="$style.icon" />
 <span class="name single-line">{item.name}</span>
 <span class="c-waterloo mrg-xs mrg--l">({item.ticker})</span>
 
@@ -11,7 +13,7 @@ export let item;
     display: block;
   }
 
-  :global(.icon-UMIiJ\+) {
+  .icon {
     margin-right: 10px;
   }
 </style>

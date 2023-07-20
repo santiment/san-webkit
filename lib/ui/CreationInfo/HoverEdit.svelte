@@ -1,5 +1,5 @@
 <script>
-  import Tooltip from './../../ui/Tooltip/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
 
   let className = ''
   export { className as class }

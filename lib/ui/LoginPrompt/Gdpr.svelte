@@ -1,70 +1,81 @@
-<script>import { onDestroy } from 'svelte';
-import { debounce } from './../../utils/fn';
-import { mutateGdpr } from './../../api/gdpr';
-import { mutateChangeUsername } from './../../api/user';
-import FieldTooltip from './../../ui/FieldTooltip/svelte';
-import Checkbox from './../../ui/Checkbox.svelte';
-import InputWithIcon from './../../ui/InputWithIcon.svelte';
-import { trackGdprAccept } from './../../analytics/events/onboarding';
-import Section from './Section.svelte';
-export let onAccept;
-export let currentUser;
-export let title = 'Welcome to Sanbase';
-const constraints = { required: true, minlength: 3 };
-const defaultUsername = currentUser && currentUser.username;
-let isActive = false;
-let error = '';
-let loading = false;
-$: username = defaultUsername;
-$: isDisabled = !isActive || !username || error;
-const [checkValidity, clearTimer] = debounce(250, (input) => {
-    const { value } = input;
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { debounce } from '@/utils/fn'
+  import { mutateGdpr } from '@/api/gdpr'
+  import { mutateChangeUsername } from '@/api/user'
+  import FieldTooltip from '@/ui/FieldTooltip/svelte'
+  import Checkbox from '@/ui/Checkbox.svelte'
+  import InputWithIcon from '@/ui/InputWithIcon.svelte'
+  import { trackGdprAccept } from '@/analytics/events/onboarding'
+  import Section from './Section.svelte'
+
+  export let onAccept
+  export let currentUser: null | { username: null | string }
+  export let title = 'Welcome to Sanbase'
+
+  const constraints = { required: true, minlength: 3 }
+  const defaultUsername = currentUser && currentUser.username
+
+  let isActive = false
+  let error = ''
+  let loading = false
+
+  $: username = defaultUsername
+  $: isDisabled = !isActive || !username || error
+
+  const [checkValidity, clearTimer] = debounce(250, (input) => {
+    const { value } = input
+
     if (value.length < 3) {
-        error = 'Username should be at least 3 characters long';
+      error = 'Username should be at least 3 characters long'
+    } else if (value[0] === '@') {
+      error = '@ is not allowed for the first character'
+    } else {
+      error = ''
     }
-    else if (value[0] === '@') {
-        error = '@ is not allowed for the first character';
-    }
-    else {
-        error = '';
-    }
-});
-function onBlur() {
-    if (username)
-        return;
-    error = '';
-    username = defaultUsername;
-}
-function onInput({ currentTarget }) {
-    username = currentTarget.value;
-    checkValidity(currentTarget);
-}
-function onSubmit() {
-    if (isDisabled)
-        return;
-    loading = true;
-    const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username);
+  })
+
+  function onBlur() {
+    if (username) return
+    error = ''
+    username = defaultUsername
+  }
+
+  function onInput({ currentTarget }) {
+    username = currentTarget.value
+    checkValidity(currentTarget)
+  }
+
+  function onSubmit() {
+    if (isDisabled) return
+
+    loading = true
+    const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username)
+
     usernamePromise
-        .catch(onUsernameChangeError)
-        .then(() => {
-        return mutateGdpr(true);
-    })
-        .then(() => {
-        currentUser.privacyPolicyAccepted = true;
-        if (window.onGdprAccept)
-            window.onGdprAccept();
-        trackGdprAccept(true);
-        return username;
-    })
-        .then(onAccept)
-        .catch(console.error);
-}
-function onUsernameChangeError() {
-    error = `Username "${username}" is already taken`;
-    loading = false;
-    return Promise.reject();
-}
-onDestroy(clearTimer);
+      .catch(onUsernameChangeError)
+      .then(() => {
+        return mutateGdpr(true)
+      })
+      .then(() => {
+        currentUser.privacyPolicyAccepted = true
+
+        if (window.onGdprAccept) window.onGdprAccept()
+        trackGdprAccept(true)
+
+        return username
+      })
+      .then(onAccept)
+      .catch(console.error)
+  }
+
+  function onUsernameChangeError() {
+    error = `Username "${username}" is already taken`
+    loading = false
+    return Promise.reject()
+  }
+
+  onDestroy(clearTimer)
 </script>
 
 <Section {title}>
@@ -72,7 +83,7 @@ onDestroy(clearTimer);
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
 
-      <FieldTooltip text={error} activeClass="error-u4NMT3">
+      <FieldTooltip text={error} activeClass="$style.error">
         <InputWithIcon
           {constraints}
           value={username}
@@ -146,7 +157,7 @@ onDestroy(clearTimer);
     color: var(--green-hover);
   }
 
-  :global(.error-u4NMT3) {
+  .error {
     --border: var(--red);
   }
 </style>

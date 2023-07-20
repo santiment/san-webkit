@@ -9,7 +9,7 @@
   }
 
   function end(node) {
-    node.classList.add('loaded-iR3sp1')
+    node.classList.add('$style.loaded')
     return { duration: 800 }
   }
 </script>
@@ -40,7 +40,7 @@
     transition: transform 3s cubic-bezier(0.4, 1, 1, 1);
   }
 
-  :global(.loaded-iR3sp1) {
+  .loaded {
     transition: transform 400ms cubic-bezier(0, 0, 0.4, 0) !important;
     transform: translateX(0) !important;
     animation: fade 250ms 350ms forwards;

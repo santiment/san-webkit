@@ -1,7 +1,8 @@
-<script>import { trackNftBattleLinkClick, PageName } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-import Li from './Li.svelte';
-import { Page } from './types';
+<script lang="ts">
+  import { trackNftBattleLinkClick, PageName } from '@/analytics/events/nftbattle'
+  import Svg from '@/ui/Svg/svelte'
+  import Li from './Li.svelte'
+  import { Page } from './types'
 </script>
 
 <p>
@@ -50,28 +51,16 @@ import { Page } from './types';
   <Li>You can publish as many Insights as you want. Our team will select the best!</Li>
 </ul>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  ul {
+    margin: 20px 0 0;
+    gap: 16px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-ul {
-  margin: 20px 0 0;
-  gap: 16px;
-}
 
-.error {
-  padding: 6px 10px;
-  margin: 6px 0 0;
-  box-shadow: 0px 4px 8px rgba(24, 27, 43, 0.08);
-  fill: var(--red);
-}</style>
+  .error {
+    padding: 6px 10px;
+    margin: 6px 0 0;
+    box-shadow: 0px 4px 8px rgba(24, 27, 43, 0.08);
+    fill: var(--red);
+  }
+</style>

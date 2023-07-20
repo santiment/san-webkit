@@ -1,55 +1,66 @@
-<script>var _a;
-import Svg from './../../../ui/Svg/svelte';
-import { queryBillingHistory } from './../../../api/subscription';
-import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
-import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
-import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
-import { querySanbasePlans } from './../../../api/plans';
-import { getCustomer$Ctx } from './../../../stores/customer';
-import { paymentCard$ } from './../../../stores/paymentCard';
-import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
-import Setting from './Setting.svelte';
-import PlanCard from './SubscriptionCard/PlanCard.svelte';
-import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
-import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte';
-import { getSuggestions } from './SubscriptionCard/suggestions';
-import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
-import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
-let className = '';
-export { className as class };
-const { customer$ } = getCustomer$Ctx();
-let isBillingLoading = true;
-let billingHistory = [];
-let plans = [];
-$: ({ subscription, isEligibleForTrial, annualDiscount, isCanceled } = $customer$);
-$: paymentCard = $paymentCard$;
-$: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || { name: Plan.FREE, amount: 0, interval: Billing.MONTH };
-$: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
-$: suggestions = getSuggestions(plan, annualDiscount);
-$: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions());
-querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans);
-});
-queryBillingHistory().then((data) => {
-    isBillingLoading = false;
-    billingHistory = data;
-});
-function getPlanSuggestions() {
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import { queryBillingHistory } from '@/api/subscription'
+  import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
+  import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
+  import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
+  import { querySanbasePlans } from '@/api/plans'
+  import { getCustomer$Ctx } from '@/stores/customer'
+  import { paymentCard$ } from '@/stores/paymentCard'
+  import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from '@/utils/plans'
+  import Setting from './Setting.svelte'
+  import PlanCard from './SubscriptionCard/PlanCard.svelte'
+  import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
+  import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
+  import { getSuggestions } from './SubscriptionCard/suggestions'
+  import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
+  import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
+
+  let className = ''
+  export { className as class }
+
+  const { customer$ } = getCustomer$Ctx()
+
+  let isBillingLoading = true
+  let billingHistory = []
+  let plans = [] as SAN.Plan[]
+
+  $: ({ subscription, isEligibleForTrial, annualDiscount, isCanceled } = $customer$)
+  $: paymentCard = $paymentCard$
+
+  $: plan = subscription?.plan || { name: Plan.FREE, amount: 0, interval: Billing.MONTH }
+  $: isFree = plan?.name?.toUpperCase() === Plan.FREE
+  $: suggestions = getSuggestions(plan, annualDiscount)
+  $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
+
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProLikePlans)
+  })
+
+  queryBillingHistory().then((data) => {
+    isBillingLoading = false
+    billingHistory = data
+  })
+
+  function getPlanSuggestions() {
     return plans.filter((plan) => {
-        const isSameBilling = plan.interval === suggestions[0].billing;
-        if (suggestions[0].discount) {
-            return isSameBilling;
-        }
-        return ((suggestions[0][plan.name] || (suggestions[1] && suggestions[1][plan.name])) &&
-            isSameBilling);
-    });
-}
+      const isSameBilling = plan.interval === suggestions[0].billing
+      if (suggestions[0].discount) {
+        return isSameBilling
+      }
+
+      return (
+        (suggestions[0][plan.name] || (suggestions[1] && suggestions[1][plan.name])) &&
+        isSameBilling
+      )
+    })
+  }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-rngeTM">
+  <Setting class="$style.subscriptions">
     <UserPlanCard
       {plan}
       {subscription}
@@ -77,7 +88,7 @@ function getPlanSuggestions() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-HUtdzp justify">
+    <Setting class="$style.setting justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -90,7 +101,7 @@ function getPlanSuggestions() {
     </Setting>
   {/if}
 
-  <Setting class="setting-HUtdzp justify">
+  <Setting class="$style.setting justify">
     <div>
       Payment method
 
@@ -119,7 +130,7 @@ function getPlanSuggestions() {
     </div>
   </Setting>
 
-  <Setting class="setting-HUtdzp justify">
+  <Setting class="$style.setting justify">
     <div>
       Billing history
 
@@ -141,91 +152,81 @@ function getPlanSuggestions() {
   </Setting>
 </section>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  h4 {
+    background: var(--athens);
+    padding: 12px 24px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .btn--red {
+    --color: var(--red);
+    --color-hover: var(--red-hover);
   }
-}
-*/
-h4 {
-  background: var(--athens);
-  padding: 12px 24px;
-}
 
-.btn--red {
-  --color: var(--red);
-  --color-hover: var(--red-hover);
-}
+  .plan {
+    padding: 24px;
+    background: var(--athens);
+    flex-wrap: wrap;
+  }
 
-.plan {
-  padding: 24px;
-  background: var(--athens);
-  flex-wrap: wrap;
-}
+  .dots {
+    font-size: 30px;
+    line-height: 4px;
+    letter-spacing: 2px;
+    margin-top: -4px;
+  }
 
-.dots {
-  font-size: 30px;
-  line-height: 4px;
-  letter-spacing: 2px;
-  margin-top: -4px;
-}
+  .card {
+    fill: var(--waterloo);
+  }
 
-.card {
-  fill: var(--waterloo);
-}
+  .subscriptions {
+    gap: 16px;
+  }
 
-:global(.subscriptions-rngeTM) {
-  gap: 16px;
-}
+  .description {
+    margin-top: 6px;
+  }
 
-.description {
-  margin-top: 6px;
-}
+  :global(.phone),
+  :global(.phone-xs) {
+    section {
+      font: var(--body-2);
+    }
 
-:global(.phone) section,
-:global(.phone-xs) section {
-  font: var(--body-2);
-}
-:global(.phone) h4,
-:global(.phone-xs) h4 {
-  font: var(--body-3);
-}
-:global(.phone) .btn-2,
-:global(.phone-xs) .btn-2 {
-  --v-padding: 7px;
-}
-:global(.phone) :global(.setting-HUtdzp),
-:global(.phone-xs) :global(.setting-HUtdzp) {
-  flex-direction: column;
-  align-items: flex-start;
-}
-:global(.phone) .cancel-btn,
-:global(.phone) .history,
-:global(.phone) .history-btn,
-:global(.phone-xs) .cancel-btn,
-:global(.phone-xs) .history,
-:global(.phone-xs) .history-btn {
-  margin-top: 12px;
-}
-:global(.phone) .payment-actions,
-:global(.phone-xs) .payment-actions {
-  margin-top: 16px;
-}
-:global(.phone) .history,
-:global(.phone-xs) .history {
-  color: var(--fiord);
-}
+    h4 {
+      font: var(--body-3);
+    }
 
-:global(.phone) :global(.subscriptions-rngeTM),
-:global(.tablet) :global(.subscriptions-rngeTM),
-:global(.phone-xs) :global(.subscriptions-rngeTM) {
-  flex-direction: column;
-}</style>
+    .btn-2 {
+      --v-padding: 7px;
+    }
+
+    .setting {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .cancel-btn,
+    .history,
+    .history-btn {
+      margin-top: 12px;
+    }
+
+    .payment-actions {
+      margin-top: 16px;
+    }
+
+    .history {
+      color: var(--fiord);
+    }
+  }
+
+  :global(.phone),
+  :global(.tablet),
+  :global(.phone-xs) {
+    .subscriptions {
+      flex-direction: column;
+    }
+  }
+</style>

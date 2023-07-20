@@ -1,6 +1,6 @@
 <script>
-  import Tooltip from './../../ui/Tooltip/svelte'
-  import Svg from './../../ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   export let type = 'error'
   export let text = ''
@@ -11,7 +11,7 @@
 <Tooltip
   isOpened={!!text}
   isEnabled={false}
-  class="caption c-black tooltip-rTdj67"
+  class="caption c-black $style.tooltip"
   {offsetY}
   {activeClass}
 >
@@ -24,7 +24,7 @@
 </Tooltip>
 
 <style>
-  :global(.tooltip-rTdj67) {
+  .tooltip {
     padding: 6px 8px;
     fill: var(--red);
   }

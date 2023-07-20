@@ -34,55 +34,44 @@
   </div>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .slides {
+    flex: 1;
+    overflow-x: auto;
+    display: flex;
+    scroll-snap-type: x mandatory;
+    padding: var(--slides-v-padding);
+
+    & > :global(*) {
+      scroll-snap-align: center;
+      min-width: 100%;
+      min-height: 100%;
+      padding: 0 var(--slides-h-padding, 0);
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .indicators {
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    bottom: calc(var(--indicators-bottom) - 4px);
   }
-}
-*/
-.slides {
-  flex: 1;
-  overflow-x: auto;
-  display: flex;
-  scroll-snap-type: x mandatory;
-  padding: var(--slides-v-padding);
-}
-.slides > :global(*) {
-  scroll-snap-align: center;
-  min-width: 100%;
-  min-height: 100%;
-  padding: 0 var(--slides-h-padding, 0);
-}
 
-.indicators {
-  position: absolute;
-  transform: translateX(-50%);
-  left: 50%;
-  bottom: calc(var(--indicators-bottom) - 4px);
-}
+  .indicator {
+    width: 8px;
+    height: 8px;
+    background: var(--mystic);
+    border-radius: 50%;
+  }
 
-.indicator {
-  width: 8px;
-  height: 8px;
-  background: var(--mystic);
-  border-radius: 50%;
-}
+  .btn {
+    padding: 4px;
+    &:last-child {
+      margin: 0;
+    }
+  }
 
-.btn {
-  padding: 4px;
-}
-.btn:last-child {
-  margin: 0;
-}
-
-.active {
-  background: var(--black);
-}</style>
+  .active {
+    background: var(--black);
+  }
+</style>

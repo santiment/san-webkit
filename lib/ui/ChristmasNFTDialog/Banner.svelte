@@ -1,15 +1,16 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import { showChristmasNFTDialog } from './../../ui/ChristmasNFTDialog/Dialog.svelte';
-import { IsMobile } from './../../stores/responsive';
-import battle from './battle.svg';
-import bgMobile from './banner-bg-mobile.svg';
-import bg from './banner-bg.svg';
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import { showChristmasNFTDialog } from '@/ui/ChristmasNFTDialog/Dialog.svelte'
+  import { IsMobile } from '@/stores/responsive'
+  import battle from './battle.svg'
+  import bgMobile from './banner-bg-mobile.svg'
+  import bg from './banner-bg.svg'
 </script>
 
 <section class="row justify">
   <div class="info column">
     <div class="logo row v-center">
-      <Svg illus id="santiment" w="86" h="16" class="santiment-z8hhEq" />
+      <Svg illus id="santiment" w="86" h="16" class="$style.santiment" />
       <img src={battle} alt="xmas" class="mrg-s mrg--l" />
     </div>
     <h3 class="h3 txt-m nowrap">Predict next market <br /> move. Win NFT!</h3>
@@ -19,7 +20,7 @@ import bg from './banner-bg.svg';
     </p>
     {#if $IsMobile}
       <div class="tip row">
-        <Svg id="light" w="16" h="22" class="light-eDcVgq mrg-m mrg--r" />
+        <Svg id="light" w="16" h="22" class="$style.light mrg-m mrg--r" />
         <span class="body-2 c-fiord">
           Head to Sanbase’s desktop version for the ability to participate in the Battle
         </span>
@@ -33,93 +34,91 @@ import bg from './banner-bg.svg';
   </div>
 </section>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  section {
+    background: var(--mirage);
+    border-radius: 8px;
+    height: 295px;
+    overflow: hidden;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .info {
+    padding: 23px 0 32px 40px;
   }
-}
-*/
-section {
-  background: var(--mirage);
-  border-radius: 8px;
-  height: 295px;
-  overflow: hidden;
-}
 
-.info {
-  padding: 23px 0 32px 40px;
-}
+  .logo {
+    margin-bottom: 26px;
+  }
 
-.logo {
-  margin-bottom: 26px;
-}
+  .santiment {
+    --black: var(--white);
+    margin-bottom: 3px;
+  }
 
-:global(.santiment-z8hhEq) {
-  --black: var(--white);
-  margin-bottom: 3px;
-}
+  h3 {
+    margin-bottom: 10px;
+  }
 
-h3 {
-  margin-bottom: 10px;
-}
+  h3,
+  p {
+    color: var(--white);
+  }
 
-h3,
-p {
-  color: var(--white);
-}
+  button {
+    max-width: 132px;
+  }
 
-button {
-  max-width: 132px;
-}
+  .bg {
+    position: absolute;
+    top: -100px;
+    right: -100px;
+  }
 
-.bg {
-  position: absolute;
-  top: -100px;
-  right: -100px;
-}
+  :global(body:not(.desktop)) {
+    section {
+      height: 661px;
+      max-width: 421px;
+      flex-direction: column-reverse;
+    }
 
-:global(body:not(.desktop)) section {
-  height: 661px;
-  max-width: 421px;
-  flex-direction: column-reverse;
-}
-:global(body:not(.desktop)) .bg {
-  width: calc(100% + 200px);
-  top: -100px;
-  right: -100px;
-}
-:global(body:not(.desktop)) .info {
-  padding: 0 24px 32px 24px;
-}
-:global(body:not(.desktop)) .logo {
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-:global(body:not(.desktop)) h3 {
-  margin-bottom: 12px;
-}
-:global(body:not(.desktop)) p {
-  margin-bottom: 32px;
-}
-:global(body:not(.desktop)) h3,
-:global(body:not(.desktop)) p {
-  text-align: center;
-  white-space: normal;
-}
-:global(body:not(.desktop)) .tip {
-  padding: 12px 16px;
-  background: var(--purple-light-1);
-  border-radius: 8px;
-}
-:global(body:not(.desktop)) :global(.light-eDcVgq) {
-  fill: var(--purple);
-}</style>
+    .bg {
+      width: calc(100% + 200px);
+      top: -100px;
+      right: -100px;
+    }
+
+    .info {
+      padding: 0 24px 32px 24px;
+    }
+
+    .logo {
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin-bottom: 12px;
+    }
+
+    p {
+      margin-bottom: 32px;
+    }
+
+    h3,
+    p {
+      text-align: center;
+      white-space: normal;
+    }
+
+    .tip {
+      padding: 12px 16px;
+      background: var(--purple-light-1);
+      border-radius: 8px;
+    }
+
+    .light {
+      fill: var(--purple);
+    }
+  }
+</style>

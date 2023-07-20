@@ -1,28 +1,34 @@
-<script>import Footer from './../../../ui/Footer/svelte';
-import { querySanbasePlans } from './../../../api/plans';
-import { Billing, onlyProAndFreeLikePlans, Plan } from './../../../utils/plans';
-import { subscription$ } from './../../../stores/subscription';
-import { customerData$ } from './../../../stores/user';
-import BillingToggle from './BillingToggle.svelte';
-import FAQ from './FAQ.svelte';
-import Suggestions from './Suggestions.svelte';
-import SpecialOfferBanner from './SpecialOfferBanner.svelte';
-import Comparison from '../Comparison/index.svelte';
-import Plans from './Plans.svelte';
-import PromoSanTokenBanner from './PromoSanTokenBanner.svelte';
-let className = '';
-export { className as class };
-export let billing = Billing.YEAR;
-$: subscription = $subscription$;
-$: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$);
-let plans = [];
-$: billingPlans = (billing, plans.filter(billingFilter));
-querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProAndFreeLikePlans);
-});
-function billingFilter({ interval, name }) {
-    return interval === billing || name.includes(Plan.FREE);
-}
+<script lang="ts">
+  import Footer from '@/ui/Footer/svelte'
+  import { querySanbasePlans } from '@/api/plans'
+  import { Billing, onlyProAndFreeLikePlans, Plan } from '@/utils/plans'
+  import { subscription$ } from '@/stores/subscription'
+  import { customerData$ } from '@/stores/user'
+  import BillingToggle from './BillingToggle.svelte'
+  import FAQ from './FAQ.svelte'
+  import Suggestions from './Suggestions.svelte'
+  import SpecialOfferBanner from './SpecialOfferBanner.svelte'
+  import Comparison from '../Comparison/index.svelte'
+  import Plans from './Plans.svelte'
+  import PromoSanTokenBanner from './PromoSanTokenBanner.svelte'
+
+  let className = ''
+  export { className as class }
+  export let billing = Billing.YEAR
+
+  $: subscription = $subscription$
+  $: ({ isLoggedIn, isEligibleForTrial, annualDiscount } = $customerData$)
+
+  let plans = []
+  $: billingPlans = (billing, plans.filter(billingFilter))
+
+  querySanbasePlans().then((data) => {
+    plans = data.filter(onlyProAndFreeLikePlans)
+  })
+
+  function billingFilter({ interval, name }) {
+    return interval === billing || name.includes(Plan.FREE)
+  }
 </script>
 
 <main class={className}>
@@ -44,7 +50,7 @@ function billingFilter({ interval, name }) {
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-3OXL1W" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -58,43 +64,36 @@ function billingFilter({ interval, name }) {
   <Suggestions />
 </main>
 
-<Footer class="" />
+<Footer class="$style.footer" />
 
-<style >/**
-@include dac(desktop, tablet, phone) {
+<style lang="scss">
   main {
-    background: red;
+    :global(section h2) {
+      font-size: 32px;
+      line-height: 40px;
+      font-weight: 500;
+      text-align: center;
+      margin: 0 auto 32px;
+
+      :global(.desktop) & {
+        margin-bottom: 60px;
+      }
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .header {
+    :global(body:not(.desktop)) & {
+      padding: 0 46px;
+    }
   }
-}
-*/
-main :global(section h2) {
-  font-size: 32px;
-  line-height: 40px;
-  font-weight: 500;
-  text-align: center;
-  margin: 0 auto 32px;
-}
-:global(.desktop) main :global(section h2) {
-  margin-bottom: 60px;
-}
 
-:global(body:not(.desktop)) .header {
-  padding: 0 46px;
-}
+  .comparison {
+    margin: 0 auto 80px;
+    max-width: var(--page-width, 1140px);
+  }
 
-:global(.comparison-3OXL1W) {
-  margin: 0 auto 80px;
-  max-width: var(--page-width, 1140px);
-}
-
-.bottom {
-  background: var(--athens);
-  padding: 0 24px;
-}</style>
+  .bottom {
+    background: var(--athens);
+    padding: 0 24px;
+  }
+</style>

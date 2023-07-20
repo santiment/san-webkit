@@ -7,9 +7,9 @@
 </script>
 
 <script>
-  import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle'
-  import { query } from './../../../api'
-  import { getSEOLinkFromIdAndTitle } from './../../../utils/url'
+  import { trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
+  import { query } from '@/api'
+  import { getSEOLinkFromIdAndTitle } from '@/utils/url'
 
   export let value // sanbaseInsight
 

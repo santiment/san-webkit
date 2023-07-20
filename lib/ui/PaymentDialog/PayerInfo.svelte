@@ -1,6 +1,8 @@
-<script>import Input from './Input.svelte';
-import CCInput from './CCInput.svelte';
-export let StripeCard;
+<script lang="ts">
+  import Input from './Input.svelte'
+  import CCInput from './CCInput.svelte'
+
+  export let StripeCard: stripe.elements.Element
 </script>
 
 <div class="info">
@@ -14,26 +16,15 @@ export let StripeCard;
   <Input title="Street Address" name="address_line1" placeholder="1483 Pearl Street" />
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .info {
+    grid-area: info;
+
+    :global(label) {
+      margin: 0 0 16px;
+      &:last-child {
+        margin: 0;
+      }
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-.info {
-  grid-area: info;
-}
-.info :global(label) {
-  margin: 0 0 16px;
-}
-.info :global(label):last-child {
-  margin: 0;
-}</style>
+</style>

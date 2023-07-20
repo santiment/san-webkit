@@ -1,16 +1,19 @@
-<script>import { loginWithNewsletter } from './../api/user';
-let className = '';
-export { className as class };
-export let label = 'Leave request';
-let loading = false;
-function onSubmit({ currentTarget }) {
-    if (loading)
-        return;
-    loading = true;
+<script lang="ts">
+  import { loginWithNewsletter } from '@/api/user'
+
+  let className = ''
+  export { className as class }
+  export let label = 'Leave request'
+
+  let loading = false
+  function onSubmit({ currentTarget }) {
+    if (loading) return
+
+    loading = true
     loginWithNewsletter(currentTarget.email.value)
-        .catch(() => { })
-        .finally(() => (loading = false));
-}
+      .catch(() => {})
+      .finally(() => (loading = false))
+  }
 </script>
 
 <form class="border row {className}" on:submit|preventDefault={onSubmit}>

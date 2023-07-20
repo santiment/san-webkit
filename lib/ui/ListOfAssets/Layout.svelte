@@ -1,48 +1,63 @@
-<script>import { noop } from './../../utils';
-import { debounce$$ } from './../../utils/fn';
-import Search from './../../ui/Search.svelte';
-import { Controller } from './../../ui/VirtualList/ctx';
-import Tabs, { TABS } from './Tabs.svelte';
-const virtualController = Controller();
-export let mapItems = ((assets) => assets);
-export let accessAsset;
-export let tabs = TABS;
-export let onEscape = noop;
-export let onTabSelect = noop;
-let tab = tabs[0];
-let assets = [];
-let searchTerm = '';
-let loading = true;
-$: getData(tab[1]);
-$: items = mapItems(assets);
-$: filtered = searchTerm ? filter(items) : items;
-const onSearch$ = debounce$$(250, (value) => (searchTerm = value));
-const onInput = ({ currentTarget }) => $onSearch$(currentTarget.value);
-const match = (value, target) => target.toLowerCase().includes(value);
-const matchAsset = (value, { slug, ticker, name }) => match(value, slug) || match(value, ticker) || match(value, name);
-function filter(items) {
-    const value = searchTerm.toLowerCase();
-    return items.filter((item) => matchAsset(value, accessAsset(item)));
-}
-function getData(dataQuery) {
-    var _a;
-    (_a = virtualController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(virtualController, 0);
-    loading = true;
+<script lang="ts">
+  import type { Asset } from './types'
+
+  import { noop } from '@/utils'
+  import { debounce$$ } from '@/utils/fn'
+  import Search from '@/ui/Search.svelte'
+  import { Controller } from '@/ui/VirtualList/ctx'
+  import Tabs, { TABS } from './Tabs.svelte'
+
+  type T = $$Generic
+
+  const virtualController = Controller()
+
+  export let mapItems = ((assets) => assets) as (assets: Asset[]) => T[]
+  export let accessAsset: (item: T) => Asset
+  export let tabs = TABS
+  export let onEscape = noop
+  export let onTabSelect = noop
+
+  let tab = tabs[0]
+  let assets = [] as Asset[]
+  let searchTerm = ''
+  let loading = true
+
+  $: getData(tab[1])
+  $: items = mapItems(assets)
+  $: filtered = searchTerm ? filter(items) : items
+
+  const onSearch$ = debounce$$(250, (value: string) => (searchTerm = value))
+  const onInput = ({ currentTarget }) => $onSearch$(currentTarget.value)
+
+  const match = (value: string, target: string) => target.toLowerCase().includes(value)
+
+  const matchAsset = (value: string, { slug, ticker, name }: Asset) =>
+    match(value, slug) || match(value, ticker) || match(value, name)
+
+  function filter(items: T[]) {
+    const value = searchTerm.toLowerCase()
+    return items.filter((item) => matchAsset(value, accessAsset(item)))
+  }
+
+  function getData(dataQuery: () => Promise<Asset[]>) {
+    virtualController.scrollTo?.(0)
+
+    loading = true
     dataQuery()
-        .then((data) => (assets = data))
-        .finally(() => (loading = false));
-}
-function onKeyUp({ currentTarget, code }) {
-    if (!currentTarget)
-        return;
-    const inputNode = currentTarget;
+      .then((data) => (assets = data))
+      .finally(() => (loading = false))
+  }
+
+  function onKeyUp({ currentTarget, code }: KeyboardEvent) {
+    if (!currentTarget) return
+
+    const inputNode = currentTarget as HTMLInputElement
+
     if (code === 'Escape') {
-        if (searchTerm)
-            inputNode.value = searchTerm = '';
-        else
-            onEscape();
+      if (searchTerm) inputNode.value = searchTerm = ''
+      else onEscape()
     }
-}
+  }
 </script>
 
 <assets-list class="column">

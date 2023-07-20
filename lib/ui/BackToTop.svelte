@@ -1,5 +1,5 @@
 <script>
-  import ViewportObserver from './../ui/ViewportObserver.svelte'
+  import ViewportObserver from '@/ui/ViewportObserver.svelte'
 
   let className = ''
   export { className as class }

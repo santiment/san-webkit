@@ -1,5 +1,5 @@
 <script>
-  import { trackNftBattleLinkClick } from './../../../analytics/events/nftbattle'
+  import { trackNftBattleLinkClick } from '@/analytics/events/nftbattle'
 
   export let value
 

@@ -1,19 +1,31 @@
-<script context="module">import { queryProjects, queryErc20Projects, queryStablecoinProjects, queryDeFiProjects, } from './../../api/projects';
-import { noop } from './../../utils';
-export const TABS = [
+<script lang="ts" context="module">
+  import type { Asset } from './types'
+
+  import {
+    queryProjects,
+    queryErc20Projects,
+    queryStablecoinProjects,
+    queryDeFiProjects,
+  } from '@/api/projects'
+  import { noop } from '@/utils'
+
+  export type TabsType = [string, () => Promise<Asset[]>][]
+  export const TABS: TabsType = [
     ['All', queryProjects],
     ['ERC20', queryErc20Projects],
     ['Stablecoins', queryStablecoinProjects],
     ['DeFi', queryDeFiProjects],
-];
+  ]
 </script>
 
-<script>export let tabs;
-export let selected;
-export let onSelect = noop;
-function onClick(tab) {
-    onSelect((selected = tab));
-}
+<script lang="ts">
+  export let tabs: TabsType
+  export let selected: TabsType[number]
+  export let onSelect = noop
+
+  function onClick(tab: TabsType[number]) {
+    onSelect((selected = tab))
+  }
 </script>
 
 <nav class="row c-waterloo">

@@ -1,23 +1,27 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import Skeleton from './../../ui/Skeleton.svelte';
-import PlanSelector from './PlanSelector.svelte';
-import Check from './Check.svelte';
-import DiscountInput from './DiscountInput.svelte';
-import { Billing } from './../../utils/plans';
-import SpecialOfferDiscount from './SpecialOfferDiscount.svelte';
-export let plans;
-export let plan;
-export let name;
-export let price;
-export let isSinglePlan;
-export let isEligibleForTrial;
-export let loading;
-export let sanBalance;
-export let annualDiscount = {};
-export let onSubmit;
-let percentOff = 0;
-$: isAnnualPlan = plan.interval === Billing.YEAR;
-$: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : '';
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import Skeleton from '@/ui/Skeleton.svelte'
+  import PlanSelector from './PlanSelector.svelte'
+  import Check from './Check.svelte'
+  import DiscountInput from './DiscountInput.svelte'
+  import { Billing } from '@/utils/plans'
+  import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
+
+  export let plans: SAN.Plan[]
+  export let plan: SAN.Plan
+  export let name: string
+  export let price: string
+  export let isSinglePlan: boolean
+  export let isEligibleForTrial: boolean
+  export let loading: boolean
+  export let sanBalance: number
+  export let annualDiscount = {} as SAN.AnnualDiscount
+  export let onSubmit: any
+
+  let percentOff = 0
+
+  $: isAnnualPlan = plan.interval === Billing.YEAR
+  $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : ''
 </script>
 
 <div class="confirmation relative column">
@@ -30,7 +34,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       <DiscountInput bind:percentOff />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-MfZEma mrg-s mrg--r" />
+        <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -65,43 +69,33 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   </Skeleton>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .confirmation {
+    grid-area: confirmation;
+    background: var(--athens);
+    border-radius: 4px;
+    padding: 27px 32px 24px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .holder {
+    padding: 12px;
+    background: var(--green-light-1);
+    border-radius: 4px;
+    fill: var(--waterloo);
+    max-width: 355px;
   }
-}
-*/
-.confirmation {
-  grid-area: confirmation;
-  background: var(--athens);
-  border-radius: 4px;
-  padding: 27px 32px 24px;
-}
+  .info {
+    margin-top: 2px;
+  }
 
-.holder {
-  padding: 12px;
-  background: var(--green-light-1);
-  border-radius: 4px;
-  fill: var(--waterloo);
-  max-width: 355px;
-}
+  :global(body:not(.desktop)) {
+    .confirmation {
+      padding: 24px 0 0;
+      background: none;
+    }
 
-:global(.info-MfZEma) {
-  margin-top: 2px;
-}
-
-:global(body:not(.desktop)) .confirmation {
-  padding: 24px 0 0;
-  background: none;
-}
-:global(body:not(.desktop)) .holder {
-  max-width: unset;
-}</style>
+    .holder {
+      max-width: unset;
+    }
+  }
+</style>

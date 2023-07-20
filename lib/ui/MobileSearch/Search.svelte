@@ -1,56 +1,69 @@
-<script context="module">import { queryProjects } from './../../api/projects';
-import Asset from './Asset.svelte';
-import Trend from './Trend.svelte';
-import Insight from './Insight.svelte';
-import Person from './Person.svelte';
-import { FILTER_ITEMS } from './utils';
-import { queryInsights, queryInsightsBySearchTerm, queryPeople, queryTrends } from './api';
-export const TABS_CONTENT = {
+<script lang="ts" context="module">
+  import { queryProjects } from '@/api/projects'
+  import Asset from './Asset.svelte'
+  import Trend from './Trend.svelte'
+  import Insight from './Insight.svelte'
+  import Person from './Person.svelte'
+  import { FILTER_ITEMS } from './utils'
+  import { queryInsights, queryInsightsBySearchTerm, queryPeople, queryTrends } from './api'
+
+  export const TABS_CONTENT = {
     [FILTER_ITEMS.Assets]: {
-        query: queryProjects,
-        filter: (searchTerm, items) => items.filter(({ name, ticker }) => name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm)),
-        Component: Asset,
+      query: queryProjects,
+      filter: (searchTerm, items) =>
+        items.filter(
+          ({ name, ticker }) =>
+            name.toLowerCase().includes(searchTerm) || ticker.toLowerCase().includes(searchTerm),
+        ),
+      Component: Asset,
     },
     [FILTER_ITEMS.Trends]: {
-        query: queryTrends,
-        filter: (searchTerm, items) => {
-            const trends = items.filter((word) => {
-                return word.toLowerCase().includes(searchTerm);
-            });
-            return trends.length ? trends : [searchTerm];
-        },
-        Component: Trend,
+      query: queryTrends,
+      filter: (searchTerm, items) => {
+        const trends = items.filter((word) => {
+          return word.toLowerCase().includes(searchTerm)
+        })
+
+        return trends.length ? trends : [searchTerm]
+      },
+      Component: Trend,
     },
     [FILTER_ITEMS.Insights]: {
-        query: queryInsights,
-        filter: (searchTerm) => queryInsightsBySearchTerm(searchTerm),
-        Component: Insight,
+      query: queryInsights,
+      filter: (searchTerm) => queryInsightsBySearchTerm(searchTerm),
+      Component: Insight,
     },
     [FILTER_ITEMS.People]: {
-        query: queryPeople,
-        filter: (searchTerm, items) => items.filter(({ username }) => username.toLowerCase().includes(searchTerm)),
-        Component: Person,
+      query: queryPeople,
+      filter: (searchTerm, items) =>
+        items.filter(({ username }) => username.toLowerCase().includes(searchTerm)),
+      Component: Person,
     },
-};
+  }
 </script>
 
-<script>import { onDestroy, onMount } from 'svelte';
-import Header from './Header.svelte';
-import Filter from './Filter.svelte';
-import Suggestions from './Suggestions.svelte';
-export let show = true;
-let searchTerm = '';
-let type = FILTER_ITEMS.Assets;
-onMount(() => {
-    document.body.style.width = document.body.offsetWidth + 'px';
-    document.body.classList.add('searching-IjLaAC');
-});
-onDestroy(() => {
+<script lang="ts">
+  import { onDestroy, onMount } from 'svelte'
+  import Header from './Header.svelte'
+  import Filter from './Filter.svelte'
+  import Suggestions from './Suggestions.svelte'
+
+  export let show = true
+
+  let searchTerm = ''
+  let type = FILTER_ITEMS.Assets
+
+  onMount(() => {
+    document.body.style.width = document.body.offsetWidth + 'px'
+    document.body.classList.add('$style.searching')
+  })
+
+  onDestroy(() => {
     if (process.browser) {
-        document.body.style.width = '';
-        document.body.classList.remove('searching-IjLaAC');
+      document.body.style.width = ''
+      document.body.classList.remove('$style.searching')
     }
-});
+  })
 </script>
 
 {#if show}
@@ -72,7 +85,7 @@ onDestroy(() => {
     padding: 16px 0 83px;
   }
 
-  :global(.searching-IjLaAC) {
+  .searching {
     overflow-y: 'hidden';
     touch-action: 'none';
   }

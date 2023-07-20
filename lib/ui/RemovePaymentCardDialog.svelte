@@ -1,14 +1,16 @@
-<script context="module">import { dialogs } from './../ui/Dialog';
-import RemovePaymentCardDialog from './RemovePaymentCardDialog.svelte';
-export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardDialog);
+<script context="module" lang="ts">
+  import { dialogs } from '@/ui/Dialog'
+  import RemovePaymentCardDialog from './RemovePaymentCardDialog.svelte'
+
+  export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardDialog)
 </script>
 
 <script>
-  import Dialog from './../ui/Dialog'
-  import { DialogLock } from './../ui/Dialog/dialogs'
-  import Svg from './../ui/Svg/svelte'
-  import { mutateDeletePaymentCard } from './../api/subscription'
-  import { paymentCard$ } from './../stores/paymentCard'
+  import Dialog from '@/ui/Dialog'
+  import { DialogLock } from '@/ui/Dialog/dialogs'
+  import Svg from '@/ui/Svg/svelte'
+  import { mutateDeletePaymentCard } from '@/api/subscription'
+  import { paymentCard$ } from '@/stores/paymentCard'
 
   export let DialogPromise
 
@@ -37,7 +39,7 @@ export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardD
     <div class="h4 txt-m row v-center mrg-m mrg--b">
       Do you want to remove this card?
 
-      <Svg id="close" class="btn mrg-a mrg--l close-nnKZHN" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l $style.close" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -59,7 +61,7 @@ export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardD
     max-width: 480px;
   }
 
-  :global(.close-nnKZHN) {
+  .close {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

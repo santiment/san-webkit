@@ -1,17 +1,21 @@
-<script>import { onMount } from 'svelte';
-let className = '';
-export { className as class };
-export let editor = undefined;
-export let node = undefined;
-export let isComments = false;
-export let html;
-export let placeholder;
-let Editor;
-onMount(() => {
+<script lang="ts">
+  import { onMount } from 'svelte'
+
+  let className = ''
+  export { className as class }
+  export let editor = undefined
+  export let node = undefined
+  export let isComments = false
+  export let html
+  export let placeholder
+
+  let Editor
+
+  onMount(() => {
     import('./Editor.svelte').then((module) => {
-        Editor = module.default;
-    });
-});
+      Editor = module.default
+    })
+  })
 </script>
 
 {#if Editor}

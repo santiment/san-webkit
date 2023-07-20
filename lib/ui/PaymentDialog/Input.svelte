@@ -1,9 +1,10 @@
-<script>let className = 'mrg-s mrg--b';
-export { className as class };
-export let title;
-export let name = '';
-export let placeholder = '';
-export let required = true;
+<script lang="ts">
+  let className = 'mrg-s mrg--b'
+  export { className as class }
+  export let title: string
+  export let name = ''
+  export let placeholder = ''
+  export let required = true
 </script>
 
 <!-- svelte-ignore a11y-label-has-associated-control -->

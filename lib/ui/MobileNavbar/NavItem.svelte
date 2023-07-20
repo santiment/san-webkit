@@ -1,8 +1,10 @@
-<script>import Svg from './../../ui/Svg/svelte';
-export let title;
-export let icon;
-export let active = false;
-export let tag = 'a';
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+
+  export let title
+  export let icon
+  export let active = false
+  export let tag = 'a'
 </script>
 
 <svelte:element
@@ -16,31 +18,22 @@ export let tag = 'a';
   {title}
 </svelte:element>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
-  }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-.btn {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  gap: 10px;
-  --fill: var(--fiord);
-  --color: var(--waterloo);
-}
-.btn:focus, .btn:visited, .btn:active {
-  outline: none;
-}
+<style lang="scss">
+  .btn {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    gap: 10px;
+    --fill: var(--fiord);
+    --color: var(--waterloo);
 
-.active {
-  --fill: var(--green);
-  --color: var(--green);
-}</style>
+    &:focus,
+    &:visited,
+    &:active {
+      outline: none;
+    }
+  }
+
+  .active {
+    --fill: var(--green);
+    --color: var(--green);
+  }
+</style>

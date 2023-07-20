@@ -1,36 +1,45 @@
-<script>import { noop } from './../../utils';
-import { getMinRows } from './utils';
-import SorterArrows from './SorterArrows.svelte';
-let className = '';
-export { className as class };
-export let columns;
-export let items;
-export let keyProp = undefined;
-export let minRows = undefined;
-export let sortedColumn = undefined;
-export let sticky = false;
-export let isLoading = false;
-export let applySort = (sorter, items) => items.slice().sort(sorter);
-export let onSortClick = noop;
-export let itemProps = null;
-export let offset = 0;
-const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
-const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
-let currentSort = descSort;
-$: rowsPadding = getMinRows(minRows, items.length, columns.length);
-$: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
-$: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
-function changeSort({ currentTarget }) {
-    const i = currentTarget.dataset.i;
-    const column = columns[+i];
-    const { sortAccessor, isSortable = sortAccessor } = column;
-    if (!isSortable)
-        return;
-    const isDescSort = sortedColumn === column && currentSort === descSort;
-    currentSort = isDescSort ? ascSort : descSort;
-    sortedColumn = column;
-    onSortClick(sortedColumn, isDescSort);
-}
+<script lang="ts">
+  import type { Sorter, SortAccessor } from './utils'
+
+  import { noop } from '@/utils'
+  import { getMinRows } from './utils'
+  import SorterArrows from './SorterArrows.svelte'
+
+  let className = ''
+  export { className as class }
+  export let columns: SAN.Table.Column[]
+  export let items: SAN.Table.Item[]
+  export let keyProp: undefined | string = undefined
+  export let minRows: undefined | number = undefined
+  export let sortedColumn: undefined | SAN.Table.Column = undefined
+  export let sticky = false
+  export let isLoading = false
+  export let applySort = (sorter, items) => items.slice().sort(sorter)
+  export let onSortClick = noop as (column: SAN.Table.Column, isDescSort: boolean) => void
+  export let itemProps = null as null | { [key: string]: any }
+  export let offset = 0
+
+  const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
+  const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
+
+  let currentSort = descSort
+
+  $: rowsPadding = getMinRows(minRows, items.length, columns.length)
+  $: sortedColumnAccessor = sortedColumn?.sortAccessor as SortAccessor
+  $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items
+
+  function changeSort({ currentTarget }: MouseEvent) {
+    const i = (currentTarget as HTMLElement).dataset.i as string
+    const column = columns[+i]
+
+    const { sortAccessor, isSortable = sortAccessor } = column
+    if (!isSortable) return
+
+    const isDescSort = sortedColumn === column && currentSort === descSort
+    currentSort = isDescSort ? ascSort : descSort
+    sortedColumn = column
+    onSortClick(sortedColumn, isDescSort)
+  }
 </script>
 
 <table class={className} class:sticky-header={sticky}>
@@ -88,84 +97,84 @@ function changeSort({ currentTarget }) {
   </caption>
 </table>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  :global {
+    .cell-auto {
+      max-width: 0;
+      width: 100%;
+    }
+
+    .cell-min {
+      width: 1px;
+    }
+
+    .cell-sticky {
+      position: sticky;
+      left: 0;
+    }
+
+    .cell-visible {
+      overflow: visible !important;
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  table {
+    width: 100%;
+    border-spacing: 0;
+    text-align: left;
+    position: relative;
+
+    :global {
+      th,
+      td {
+        white-space: nowrap;
+      }
+
+      th {
+        font-weight: 500;
+        padding: 5px 15px;
+        color: var(--casper);
+        background: var(--athens);
+        border-bottom: 1px solid var(--porcelain);
+      }
+
+      td {
+        padding: 8px 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      tbody tr:hover td {
+        background: var(--athens);
+      }
+    }
   }
-}
-*/
-:global(.cell-auto) {
-  max-width: 0;
-  width: 100%;
-}
-:global(.cell-min) {
-  width: 1px;
-}
-:global(.cell-sticky) {
-  position: sticky;
-  left: 0;
-}
-:global(.cell-visible) {
-  overflow: visible !important;
-}
 
-table {
-  width: 100%;
-  border-spacing: 0;
-  text-align: left;
-  position: relative;
-}
-table :global(th),
-table :global(td) {
-  white-space: nowrap;
-}
-table :global(th) {
-  font-weight: 500;
-  padding: 5px 15px;
-  color: var(--casper);
-  background: var(--athens);
-  border-bottom: 1px solid var(--porcelain);
-}
-table :global(td) {
-  padding: 8px 15px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-table :global(tbody) :global(tr:hover) :global(td) {
-  background: var(--athens);
-}
+  .loader {
+    padding: 10px 20px;
+    background: var(--athens);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    border-radius: 4px;
+  }
 
-.loader {
-  padding: 10px 20px;
-  background: var(--athens);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  border-radius: 4px;
-}
+  .sortable {
+    cursor: pointer;
+    --sorter-up: var(--mystic);
+    --sorter-down: var(--waterloo);
+  }
+  .sorted {
+    color: var(--black);
+    user-select: none;
+  }
 
-.sortable {
-  cursor: pointer;
-  --sorter-up: var(--mystic);
-  --sorter-down: var(--waterloo);
-}
-
-.sorted {
-  color: var(--black);
-  user-select: none;
-}
-
-.sticky-header :global(thead) {
-  z-index: var(--thead-z-index, 2);
-  position: sticky;
-  top: var(--thead-top, 0);
-}</style>
+  .sticky-header :global {
+    thead {
+      z-index: var(--thead-z-index, 2);
+      position: sticky;
+      top: var(--thead-top, 0);
+    }
+  }
+</style>

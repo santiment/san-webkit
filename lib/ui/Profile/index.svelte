@@ -1,28 +1,31 @@
-<script>import { trackProfileClick } from './../../analytics/events/interaction';
-import Pic from './Pic.svelte';
-let className = '';
-export { className as class };
-export let user;
-export let isTagName = true;
-export let source;
-export let feature;
-export let placeholderSize = undefined;
-$: if (isTagName && user.username === 'anonymous')
-    isTagName = false;
-function onClick(e) {
-    var _a;
+<script lang="ts">
+  import { trackProfileClick } from '@/analytics/events/interaction'
+  import Pic from './Pic.svelte'
+
+  let className = ''
+  export { className as class }
+  export let user: SAN.Author
+  export let isTagName = true
+  export let source: string
+  export let feature: string
+  export let placeholderSize = undefined as number | undefined
+
+  $: if (isTagName && user.username === 'anonymous') isTagName = false
+
+  function onClick(e) {
     trackProfileClick({
-        id: user.id,
-        username: user.username || undefined,
-        feature,
-        source,
-    });
-    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
-}
+      id: user.id,
+      username: user.username || undefined,
+      feature,
+      source,
+    })
+
+    window.__onLinkClick?.(e)
+  }
 </script>
 
 <a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-K8wz2_" {placeholderSize} />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" {placeholderSize} />
 
   <span>
     {#if $$slots.name}
@@ -34,33 +37,23 @@ function onClick(e) {
   </span>
 </a>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
-  }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-a {
-  min-width: 0;
-}
-a:hover {
-  --color: var(--accent, var(--green));
-}
-a:hover :global(.pic-K8wz2_) {
-  box-shadow: inset 0px 0px 0px 1px var(--green);
-}
+<style lang="scss">
+  a {
+    min-width: 0;
 
-span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: var(--name-max-width);
-}</style>
+    &:hover {
+      --color: var(--accent, var(--green));
+
+      .pic {
+        box-shadow: inset 0px 0px 0px 1px var(--green);
+      }
+    }
+  }
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: var(--name-max-width);
+  }
+</style>

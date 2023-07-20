@@ -1,54 +1,65 @@
-<script>import { SANBASE_ORIGIN } from './../../utils/links';
-import { getCustomer$Ctx } from './../../stores/customer';
-import ProfileNames from './../../ui/Profile/Names.svelte';
-import { AccountStatusType } from './../../ui/AccountStatus.svelte';
-export let user;
-export let variant = AccountStatusType.First;
-export let isShowingFollowers = true;
-const { customer$ } = getCustomer$Ctx();
-$: customer = $customer$;
-$: ({ isPro } = customer);
-$: buttonLabel = getButtonLabel(customer, variant);
-$: note = getNoteText(customer, variant);
-$: sanbasePlan = getSanbasePlan(customer);
-$: href = isPro
+<script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
+  import { getCustomer$Ctx } from '@/stores/customer'
+  import ProfileNames from '@/ui/Profile/Names.svelte'
+  import { AccountStatusType } from '@/ui/AccountStatus.svelte'
+
+  export let user
+  export let variant = AccountStatusType.First
+  export let isShowingFollowers = true
+
+  const { customer$ } = getCustomer$Ctx()
+
+  $: customer = $customer$
+  $: ({ isPro } = customer)
+
+  $: buttonLabel = getButtonLabel(customer, variant)
+  $: note = getNoteText(customer, variant)
+  $: sanbasePlan = getSanbasePlan(customer)
+  $: href = isPro
     ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
-    : `${SANBASE_ORIGIN}/pricing`;
-function getButtonLabel(customer, variant) {
-    const { subscription, isEligibleForTrial, trialDaysLeft, planName, annualDiscount } = customer;
-    const isTrialPassedwithActivePlan = subscription && !isEligibleForTrial;
+    : `${SANBASE_ORIGIN}/pricing`
+
+  function getButtonLabel(customer: SAN.Customer, variant) {
+    const { subscription, isEligibleForTrial, trialDaysLeft, planName, annualDiscount } = customer
+
+    const isTrialPassedwithActivePlan = subscription && !isEligibleForTrial
+
     if (variant === AccountStatusType.First && annualDiscount.percent > 0) {
-        if (trialDaysLeft > 0)
-            return `Get ${annualDiscount.percent}% OFF`;
-        if (isTrialPassedwithActivePlan)
-            return `Get ${annualDiscount.percent}% OFF`;
+      if (trialDaysLeft > 0) return `Get ${annualDiscount.percent}% OFF`
+      if (isTrialPassedwithActivePlan) return `Get ${annualDiscount.percent}% OFF`
     }
-    if (planName)
-        return 'Learn about Pro';
-    return 'Upgrade';
-}
-function getNoteText(customer, variant) {
-    const { isEligibleForTrial, trialDaysLeft, annualDiscount } = customer;
-    if (isEligibleForTrial)
-        return 'and get 14-day Pro Trial!';
-    if (trialDaysLeft > 0)
-        return `Free trial ends in: ${trialDaysLeft} days`;
+
+    if (planName) return 'Learn about Pro'
+
+    return 'Upgrade'
+  }
+
+  function getNoteText(customer: SAN.Customer, variant) {
+    const { isEligibleForTrial, trialDaysLeft, annualDiscount } = customer
+
+    if (isEligibleForTrial) return 'and get 14-day Pro Trial!'
+
+    if (trialDaysLeft > 0) return `Free trial ends in: ${trialDaysLeft} days`
+
     if (variant === AccountStatusType.First && annualDiscount.daysLeft > 0) {
-        return `Special offer ends in: ${annualDiscount.daysLeft} days`;
+      return `Special offer ends in: ${annualDiscount.daysLeft} days`
     }
-}
-function getSanbasePlan(customer) {
-    const { trialDaysLeft, planName, isIncompleteSubscription } = customer;
+  }
+
+  function getSanbasePlan(customer: SAN.Customer) {
+    const { trialDaysLeft, planName, isIncompleteSubscription } = customer
+
     if (isIncompleteSubscription) {
-        if (planName)
-            return `Sanbase: ${planName} plan (incomplete)`;
+      if (planName) return `Sanbase: ${planName} plan (incomplete)`
     }
-    if (trialDaysLeft > 0)
-        return 'Sanbase: Pro plan, Free Trial';
-    if (planName)
-        return `Sanbase: ${planName} plan`;
-    return 'Sanbase: free plan';
-}
+
+    if (trialDaysLeft > 0) return 'Sanbase: Pro plan, Free Trial'
+
+    if (planName) return `Sanbase: ${planName} plan`
+
+    return 'Sanbase: free plan'
+  }
 </script>
 
 <section>

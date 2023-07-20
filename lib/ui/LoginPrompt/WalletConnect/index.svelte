@@ -1,5 +1,5 @@
 <script context="module">
-  import { Preloader } from './../../../utils/fn'
+  import { Preloader } from '@/utils/fn'
 
   const preload = () =>
     Promise.all([import('@walletconnect/client'), import('@walletconnect/qrcode-modal')])
@@ -8,7 +8,7 @@
 
 <script>
   import wcSvg from './wallet-connect.svg'
-  import { LoginType, trackLoginStart } from './../../../analytics/events/general'
+  import { LoginType, trackLoginStart } from '@/analytics/events/general'
 
   let className = 'mrg-s mrg--b'
   export { className as class }

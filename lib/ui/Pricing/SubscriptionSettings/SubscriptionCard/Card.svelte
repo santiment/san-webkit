@@ -1,6 +1,6 @@
 <script>
-  import Svg from './../../../../ui/Svg/svelte'
-  import { dataPreloader } from './../../../../ui/PaymentDialog/index.svelte'
+  import Svg from '@/ui/Svg/svelte'
+  import { dataPreloader } from '@/ui/PaymentDialog/index.svelte'
 
   export let title
   export let label = ''
@@ -69,141 +69,134 @@
   </div>
 </article>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  article {
+    padding: 16px 16px 16px 24px;
+    border-radius: 8px;
+    background: var(--athens);
+
+    & > :global(p) {
+      color: var(--fiord);
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .wide {
+    & > :global(p) {
+      max-width: 300px;
+    }
   }
-}
-*/
-article {
-  padding: 16px 16px 16px 24px;
-  border-radius: 8px;
-  background: var(--athens);
-}
-article > :global(p) {
-  color: var(--fiord);
-}
 
-.wide > :global(p) {
-  max-width: 300px;
-}
+  .green {
+    background: var(--green-light-1);
+    --badge-color: var(--green);
+  }
 
-.green {
-  background: var(--green-light-1);
-  --badge-color: var(--green);
-}
+  .orange {
+    background: var(--orange-light-1);
+    --badge-color: var(--orange);
+  }
 
-.orange {
-  background: var(--orange-light-1);
-  --badge-color: var(--orange);
-}
+  .green,
+  .orange {
+    --primary: var(--orange);
+    --primary-hover: var(--orange-hover);
+    --badge: var(--white);
+  }
 
-.green,
-.orange {
-  --primary: var(--orange);
-  --primary-hover: var(--orange-hover);
-  --badge: var(--white);
-}
+  .yellow {
+    background: var(--yellow-light-1);
+    --primary: var(--fiord);
+    --primary-hover: var(--black);
 
-.yellow {
-  background: var(--yellow-light-1);
-  --primary: var(--fiord);
-  --primary-hover: var(--black);
-}
-.yellow > :global(p) {
-  color: var(--waterloo);
-}
+    & > :global(p) {
+      color: var(--waterloo);
+    }
+  }
 
-.disabled {
-  --color: var(--mystic);
-  --primary: var(--athens);
-  border: 1px solid var(--porcelain);
-}
+  .disabled {
+    --color: var(--mystic);
+    --primary: var(--athens);
+    border: 1px solid var(--porcelain);
+  }
 
-.badge {
-  background: var(--badge, var(--porcelain));
-  --color: var(--badge-color, var(--fiord));
-  fill: var(--color);
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  padding: 6px 12px;
-  border-radius: 6px;
-}
+  .badge {
+    background: var(--badge, var(--porcelain));
+    --color: var(--badge-color, var(--fiord));
+    fill: var(--color);
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+  }
 
-.check {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-}
+  .check {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+  }
 
-.active {
-  fill: var(--white);
-  background: var(--green);
-}
+  .active {
+    fill: var(--white);
+    background: var(--green);
+  }
 
-.btn-1 {
-  display: inline-flex;
-  --bg: var(--primary, var(--green));
-  --bg-hover: var(--primary-hover, var(--green-hover));
-}
+  .btn-1 {
+    display: inline-flex;
+    --bg: var(--primary, var(--green));
+    --bg-hover: var(--primary-hover, var(--green-hover));
+  }
 
-.btn-2 {
-  --bg: var(--white);
-  --v-padding: 7px;
-}
+  .btn-2 {
+    --bg: var(--white);
+    --v-padding: 7px;
+  }
 
-.billing {
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-}
+  .billing {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+  }
 
-:global(.phone-xs) .btn-1,
-:global(.phone) .btn-1 {
-  --v-padding: 8px;
-}
-:global(.phone-xs) h2,
-:global(.phone) h2 {
-  font: var(--h3);
-}
-:global(.phone-xs) .actions,
-:global(.phone) .actions {
-  --margin: 16px;
-  flex-direction: column;
-  align-items: flex-start;
-}
-:global(.phone-xs) .subaction,
-:global(.phone) .subaction {
-  margin: 8px 0 0 0;
-}
-:global(.phone-xs) h4,
-:global(.phone-xs) .billing,
-:global(.phone) h4,
-:global(.phone) .billing {
-  font: 500 var(--body-3);
-}
-:global(.phone-xs) h4,
-:global(.phone) h4 {
-  margin: 6px 0;
-}
-:global(.phone-xs) .billing,
-:global(.phone) .billing {
-  position: static;
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-}
-:global(.phone-xs) .price,
-:global(.phone) .price {
-  margin-left: 8px;
-  font: 500 var(--h4);
-}</style>
+  :global(.phone-xs),
+  :global(.phone) {
+    .btn-1 {
+      --v-padding: 8px;
+    }
+
+    h2 {
+      font: var(--h3);
+    }
+
+    .actions {
+      --margin: 16px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .subaction {
+      margin: 8px 0 0 0;
+    }
+
+    h4,
+    .billing {
+      font: 500 var(--body-3);
+    }
+
+    h4 {
+      margin: 6px 0;
+    }
+
+    .billing {
+      position: static;
+      display: flex;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    .price {
+      margin-left: 8px;
+      font: 500 var(--h4);
+    }
+  }
+</style>

@@ -1,9 +1,16 @@
-<script>import { PageName, trackNftBattleGameDetailsPage, trackNftBattleLinkClick, } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-import { Page } from './types';
-export let page;
-export let insights = [];
-$: hasInsights = insights.length > 0;
+<script lang="ts">
+  import {
+    PageName,
+    trackNftBattleGameDetailsPage,
+    trackNftBattleLinkClick,
+  } from '@/analytics/events/nftbattle'
+  import Svg from '@/ui/Svg/svelte'
+  import { Page } from './types'
+
+  export let page: Page
+  export let insights = []
+
+  $: hasInsights = insights.length > 0
 </script>
 
 {#if hasInsights}
@@ -38,7 +45,7 @@ $: hasInsights = insights.length > 0;
 </p>
 
 <div class="hint border relative mrg-xl mrg--t">
-  <Svg id="info" w="16" class="icon-oF0Ip1 mrg-m mrg--r" />
+  <Svg id="info" w="16" class="$style.icon mrg-m mrg--r" />
 
   <div>
     <p class="txt-m">
@@ -66,7 +73,7 @@ $: hasInsights = insights.length > 0;
     --border: var(--yellow);
   }
 
-  :global(.icon-oF0Ip1) {
+  .icon {
     position: absolute;
     top: 13px;
     left: 16px;

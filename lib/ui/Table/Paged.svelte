@@ -1,53 +1,57 @@
-<script>import { noop } from './../../utils';
-import Svg from './../../ui/Svg/svelte';
-import Tooltip from './../../ui/Tooltip/svelte';
-import Table from './index.svelte';
-let className = '';
-export { className as class };
-export let items;
-export let pageSize = 25;
-export let page = 0;
-export let rows = [10, 25, 50];
-export let pageOffset = 0;
-export let onPageChange = noop;
-let isPageSizeOpened = false;
-$: pagesAmount = Math.ceil(items.length / pageSize);
-$: maxPage = pagesAmount - 1;
-$: pageOffset = page * pageSize;
-$: pageEndOffset = pageOffset + pageSize;
-$: pageItems = items.slice(pageOffset, pageEndOffset);
-const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset);
-function onPageInput({ currentTarget }) {
-    const value = +currentTarget.value;
-    if (!value || value < 1)
-        page = 0;
-    else if (value > pagesAmount)
-        page = maxPage;
-    else
-        page = value - 1;
-    currentTarget.value = page + 1;
-    onPageChange(page);
-}
-function onPageSizeChange(size) {
-    isPageSizeOpened = false;
-    pageSize = size;
-    page = 0;
-    onPageChange(page, size);
-}
-function onNextPage() {
-    if (page >= pagesAmount)
-        page = maxPage;
-    else
-        page++;
-    onPageChange(page);
-}
-function onPrevPage() {
-    if (page <= 1)
-        page = 0;
-    else
-        page--;
-    onPageChange(page);
-}
+<script lang="ts">
+  import { noop } from '@/utils'
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import Table from './index.svelte'
+
+  let className = ''
+  export { className as class }
+  export let items
+  export let pageSize = 25
+  export let page = 0
+  export let rows = [10, 25, 50]
+  export let pageOffset = 0
+  export let onPageChange = noop as (page: number, pageSize?: number) => void
+
+  let isPageSizeOpened = false
+
+  $: pagesAmount = Math.ceil(items.length / pageSize)
+  $: maxPage = pagesAmount - 1
+  $: pageOffset = page * pageSize
+  $: pageEndOffset = pageOffset + pageSize
+  $: pageItems = items.slice(pageOffset, pageEndOffset)
+
+  const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
+
+  function onPageInput({ currentTarget }) {
+    const value = +currentTarget.value
+
+    if (!value || value < 1) page = 0
+    else if (value > pagesAmount) page = maxPage
+    else page = value - 1
+
+    currentTarget.value = page + 1
+    onPageChange(page)
+  }
+
+  function onPageSizeChange(size) {
+    isPageSizeOpened = false
+    pageSize = size
+    page = 0
+    onPageChange(page, size)
+  }
+
+  function onNextPage() {
+    if (page >= pagesAmount) page = maxPage
+    else page++
+    onPageChange(page)
+  }
+
+  function onPrevPage() {
+    if (page <= 1) page = 0
+    else page--
+    onPageChange(page)
+  }
 </script>
 
 <div class={className}>
@@ -98,7 +102,7 @@ function onPrevPage() {
     on:click={onPrevPage}
   >
     Prev
-    <Svg id="arrow-right" w="5" h="8" class="left-QURGYE mrg-m mrg--l" />
+    <Svg id="arrow-right" w="5" h="8" class="$style.left mrg-m mrg--l" />
   </button>
   <button
     class="btn-2 btn--s row hv-center mrg-s mrg--l"
@@ -110,45 +114,35 @@ function onPrevPage() {
   </button>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .left {
+    transform: rotate(180deg);
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .rows {
+    min-width: 97px;
   }
-}
-*/
-:global(.left-QURGYE) {
-  transform: rotate(180deg);
-}
 
-.rows {
-  min-width: 97px;
-}
+  .paged {
+    --fill: var(--waterloo);
+  }
 
-.paged {
-  --fill: var(--waterloo);
-}
+  .pages {
+    padding: 8px;
+  }
 
-.pages {
-  padding: 8px;
-}
+  .active {
+    --color: var(--green);
+  }
 
-.active {
-  --color: var(--green);
-}
+  input {
+    width: 45px;
+    -moz-appearance: textfield;
 
-input {
-  width: 45px;
-  -moz-appearance: textfield;
-}
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}</style>
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+</style>

@@ -1,9 +1,12 @@
-<script>import { customerData$ } from './../../stores/user';
-import { halloweenData$ } from './../../stores/halloween';
-import { showHalloweenPopup } from './Dialog.svelte';
-let className = '';
-export { className as class };
-$: ({ isLoggedIn } = $customerData$);
+<script lang="ts">
+  import { customerData$ } from '@/stores/user'
+  import { halloweenData$ } from '@/stores/halloween'
+  import { showHalloweenPopup } from './Dialog.svelte'
+
+  let className = ''
+  export { className as class }
+
+  $: ({ isLoggedIn } = $customerData$)
 </script>
 
 {#if isLoggedIn}

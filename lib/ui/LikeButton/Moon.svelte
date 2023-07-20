@@ -1,24 +1,33 @@
-<script>import { onDestroy } from 'svelte';
-import moonPath from './moon.svg';
-export let mooned = false;
-export let votes;
-export let moonNode = undefined;
-let visible = false;
-let enter = false;
-let timer;
-$: changeVisibility(mooned);
-function changeVisibility(mooned) {
-    clearTimeout(timer);
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import moonPath from './moon.svg'
+
+  export let mooned = false
+  export let votes: number
+  export let moonNode = undefined
+
+  let visible = false
+  let enter = false
+  let timer
+
+  $: changeVisibility(mooned)
+
+  function changeVisibility(mooned: boolean) {
+    clearTimeout(timer)
+
     if (mooned) {
-        visible = true;
-        return requestAnimationFrame(() => (enter = true));
+      visible = true
+
+      return requestAnimationFrame(() => (enter = true))
     }
-    enter = false;
-    timer = setTimeout(() => (visible = false), 400);
-}
-onDestroy(() => {
-    clearTimeout(timer);
-});
+
+    enter = false
+    timer = setTimeout(() => (visible = false), 400)
+  }
+
+  onDestroy(() => {
+    clearTimeout(timer)
+  })
 </script>
 
 {#if visible}

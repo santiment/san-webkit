@@ -1,40 +1,48 @@
-<script>import Dialog from './../../../ui/Dialog';
-import Svg from './../../../ui/Svg/svelte';
-import { showIntercom } from './../../../analytics/intercom';
-import { Screen, startCancellationFlow } from './flow';
-import SuggestionsScreen from './SuggestionsScreen.svelte';
-import FeedbackScreen from './FeedbackScreen.svelte';
-import { getCustomer$Ctx } from './../../../stores/customer';
-let screen = Screen.Suggestions;
-let closeDialog;
-let reasons = new Set();
-let feedback = '';
-let loading = false;
-let error = false;
-const { customer$ } = getCustomer$Ctx();
-$: ({ subscription } = $customer$);
-$: isFeedbackScreen = screen === Screen.Feedback;
-$: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen;
-function onCancellationClick() {
+<script lang="ts">
+  import Dialog from '@/ui/Dialog'
+  import Svg from '@/ui/Svg/svelte'
+  import { showIntercom } from '@/analytics/intercom'
+  import { Screen, startCancellationFlow } from './flow'
+  import SuggestionsScreen from './SuggestionsScreen.svelte'
+  import FeedbackScreen from './FeedbackScreen.svelte'
+  import { getCustomer$Ctx } from '@/stores/customer'
+
+  let screen = Screen.Suggestions
+  let closeDialog
+  let reasons = new Set()
+  let feedback = ''
+  let loading = false
+  let error = false
+
+  const { customer$ } = getCustomer$Ctx()
+
+  $: ({ subscription } = $customer$)
+  $: isFeedbackScreen = screen === Screen.Feedback
+  $: DialogScreen = isFeedbackScreen ? FeedbackScreen : SuggestionsScreen
+
+  function onCancellationClick() {
     if (screen === Screen.Suggestions) {
-        screen = Screen.Feedback;
-        return;
+      screen = Screen.Feedback
+      return
     }
-    if (!subscription)
-        return;
+
+    if (!subscription) return
+
     if (reasons.size === 0) {
-        error = true;
-        return;
+      error = true
+      return
     }
-    loading = true;
+
+    loading = true
     startCancellationFlow(customer$, subscription, feedback, closeDialog).then(() => {
-        loading = false;
-    });
-}
-function onServiceClick() {
-    showIntercom();
-    closeDialog();
-}
+      loading = false
+    })
+  }
+
+  function onServiceClick() {
+    showIntercom()
+    closeDialog()
+  }
 </script>
 
 <Dialog {...$$props} bind:closeDialog>
@@ -62,35 +70,27 @@ function onServiceClick() {
   </div>
 </Dialog>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
-  }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-.dialog-body {
-  padding: 32px 16px;
-}
-:global(.desktop) .dialog-body {
-  padding: 32px 56px;
-}
+<style lang="scss">
+  .dialog-body {
+    padding: 32px 16px;
 
-.back {
-  --fill: var(--waterloo);
-  --color-hover: var(--green);
-}
-.back :global(svg) {
-  transform: rotate(180deg);
-}
+    :global(.desktop) & {
+      padding: 32px 56px;
+    }
+  }
 
-.dialog-body :global(section) {
-  flex: 1;
-}</style>
+  .back {
+    --fill: var(--waterloo);
+    --color-hover: var(--green);
+
+    :global(svg) {
+      transform: rotate(180deg);
+    }
+  }
+
+  .dialog-body :global {
+    section {
+      flex: 1;
+    }
+  }
+</style>

@@ -1,24 +1,28 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import Tooltip from './../../ui/Tooltip/svelte';
-import Field from './index.svelte';
-let className = '';
-export { className as class };
-export let title;
-export let options;
-export let selected = options[0];
-export let onSelect;
-export let checkIsActive = (selected, option) => selected === option;
-let isOpened = false;
-function onOptionSelect(option) {
-    selected = option;
-    isOpened = false;
-    onSelect === null || onSelect === void 0 ? void 0 : onSelect(option);
-}
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+  import Tooltip from '@/ui/Tooltip/svelte'
+  import Field from './index.svelte'
+
+  let className = ''
+  export { className as class }
+  export let title: string
+  export let options: any[]
+  export let selected = options[0]
+  export let onSelect: (option: any) => any
+  export let checkIsActive = (selected: any, option: any) => selected === option
+
+  let isOpened = false
+
+  function onOptionSelect(option: any) {
+    selected = option
+    isOpened = false
+    onSelect?.(option)
+  }
 </script>
 
 <Field {title}>
   <div class="relative {className}">
-    <Tooltip on="click" class="tooltip-oDrMv_" bind:isOpened>
+    <Tooltip on="click" class="$style.tooltip" bind:isOpened>
       <button slot="trigger" type="button" class="btn-2 btn--s row v-center justify fluid">
         <slot />
         <Svg id="arrow-down" w="8" h="5" class="mrg-xl mrg--l" />
@@ -41,7 +45,7 @@ function onOptionSelect(option) {
 </Field>
 
 <style>
-  :global(.tooltip-oDrMv_) {
+  .tooltip {
     padding: 8px;
     width: 100%;
   }

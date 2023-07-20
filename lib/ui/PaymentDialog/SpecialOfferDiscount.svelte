@@ -1,6 +1,8 @@
-<script>import Checkmark from './Checkmark.svelte';
-export let percentOff;
-export let selectedNameBilling;
+<script lang="ts">
+  import Checkmark from './Checkmark.svelte'
+
+  export let percentOff
+  export let selectedNameBilling: string
 </script>
 
 <div class="discount mrg-l mrg--b">

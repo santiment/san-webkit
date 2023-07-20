@@ -1,24 +1,27 @@
-<script>import { trackNftBattleLinkClick, trackNftBattleStartGame } from './../../analytics/events/nftbattle';
-import Svg from './../../ui/Svg/svelte';
-import Li from './Li.svelte';
-import { Page } from './types';
-import { queryCurrentUserInsights, startGame } from './api';
-import introSvg from './intro.svg';
-export let page;
-export let closeDialog;
-function onStart() {
+<script lang="ts">
+  import { trackNftBattleLinkClick, trackNftBattleStartGame } from '@/analytics/events/nftbattle'
+  import Svg from '@/ui/Svg/svelte'
+  import Li from './Li.svelte'
+  import { Page } from './types'
+  import { queryCurrentUserInsights, startGame } from './api'
+  import introSvg from './intro.svg'
+
+  export let page: Page
+  export let closeDialog
+
+  function onStart() {
     queryCurrentUserInsights().then((currentUser) => {
-        var _a, _b;
-        if (!currentUser) {
-            (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
-            return closeDialog();
-        }
-        page = Page.Insight;
-        trackNftBattleStartGame();
-        (_b = window.onNftGameStart) === null || _b === void 0 ? void 0 : _b.call(window);
-        return startGame();
-    });
-}
+      if (!currentUser) {
+        window.__onLinkClick?.('/login')
+        return closeDialog()
+      }
+
+      page = Page.Insight
+      trackNftBattleStartGame()
+      window.onNftGameStart?.()
+      return startGame()
+    })
+  }
 </script>
 
 <main class="column body-2" style="--svg:url({introSvg})">

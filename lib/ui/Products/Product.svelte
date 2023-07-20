@@ -1,15 +1,18 @@
-<script>import Svg from './../../ui/Svg/svelte';
-export let id;
-export let title;
-export let href;
-export let desc;
-export let dimensions;
-export let active;
-export let accent;
-export let note = undefined;
-export let isCompact = false;
-const [w, h] = dimensions;
-const large = !isCompact;
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+
+  export let id: string
+  export let title: string
+  export let href: string
+  export let desc: string
+  export let dimensions
+  export let active: boolean
+  export let accent: string
+  export let note: string | undefined = undefined
+  export let isCompact = false
+
+  const [w, h] = dimensions
+  const large = !isCompact
 </script>
 
 <a
@@ -25,7 +28,7 @@ const large = !isCompact;
       <Svg illus id="products/{id}" {w} {h} />
     </div>
   {:else}
-    <Svg id="pointer" w="14" h="9" class="pointer-8g3Fuq" />
+    <Svg id="pointer" w="14" h="9" class="$style.pointer" />
   {/if}
 
   <div>
@@ -37,79 +40,72 @@ const large = !isCompact;
   </div>
 </a>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .icon {
+    width: var(--product-icon-size, 40px);
+    min-width: var(--product-icon-size, 40px);
+    height: var(--product-icon-size, 40px);
+    background: var(--athens);
+    border-radius: 4px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .product {
+    position: relative;
+    cursor: pointer;
   }
-}
-*/
-.icon {
-  width: var(--product-icon-size, 40px);
-  min-width: var(--product-icon-size, 40px);
-  height: var(--product-icon-size, 40px);
-  background: var(--athens);
-  border-radius: 4px;
-}
 
-.product {
-  position: relative;
-  cursor: pointer;
-}
+  .large {
+    width: 292px;
+    padding: 12px 16px;
+    border-radius: 4px;
 
-.large {
-  width: 292px;
-  padding: 12px 16px;
-  border-radius: 4px;
-}
-.large:hover {
-  background: var(--athens);
-}
-.large:hover .icon {
-  background-color: var(--white);
-}
+    &:hover {
+      background: var(--athens);
 
-.compact {
-  width: 260px;
-  margin: 0 0 12px;
-}
-.compact:last-child {
-  margin: 0;
-}
-.compact:hover {
-  --black: var(--accent);
-  fill: var(--accent);
-}
-.compact:hover :global(.pointer-8g3Fuq) {
-  display: block;
-}
+      .icon {
+        background-color: var(--white);
+      }
+    }
+  }
 
-:global(.pointer-8g3Fuq) {
-  position: absolute;
-  top: 9px;
-  right: 0;
-  display: none;
-}
+  .compact {
+    width: 260px;
+    margin: 0 0 12px;
 
-.note {
-  color: var(--orange);
-  margin-top: 4px;
-  padding: 4px 8px;
-  background: var(--orange-light-1);
-  border-radius: 4px;
-  display: inline-block;
-}
+    &:last-child {
+      margin: 0;
+    }
 
-.active {
-  background: var(--product-active-bg, var(--green-light-1)) !important;
-  --product-color-1: var(--product-active-1, var(--green));
-  --product-color-2: var(--product-active-2, #89e1c9);
-  --product-color-3: var(--product-active-1, var(--green));
-}</style>
+    &:hover {
+      --black: var(--accent);
+      fill: var(--accent);
+
+      .pointer {
+        display: block;
+      }
+    }
+  }
+
+  .pointer {
+    position: absolute;
+    top: 9px;
+    right: 0;
+    display: none;
+  }
+
+  .note {
+    color: var(--orange);
+    margin-top: 4px;
+    padding: 4px 8px;
+    background: var(--orange-light-1);
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  .active {
+    background: var(--product-active-bg, var(--green-light-1)) !important;
+    --product-color-1: var(--product-active-1, var(--green));
+    --product-color-2: var(--product-active-2, #89e1c9);
+    --product-color-3: var(--product-active-1, var(--green));
+  }
+</style>

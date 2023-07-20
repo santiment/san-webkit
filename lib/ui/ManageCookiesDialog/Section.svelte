@@ -1,7 +1,10 @@
-<script>import Svg from './../../ui/Svg/svelte';
-export let title;
-export let description;
-let isOpened = false;
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+
+  export let title: string
+  export let description: string
+
+  let isOpened = false
 </script>
 
 <section>

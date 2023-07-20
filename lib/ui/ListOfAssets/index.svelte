@@ -1,12 +1,17 @@
-<script>import VirtualList from './../../ui/VirtualList/index.svelte';
-import Layout from './Layout.svelte';
-import { TABS } from './Tabs.svelte';
-import AssetItem from './Asset.svelte';
-export let selected = null;
-export let tabs = TABS;
-export let onSelect;
-export let onEscape = undefined;
-const accessAsset = (item) => item;
+<script lang="ts">
+  import type { Asset } from './types'
+
+  import VirtualList from '@/ui/VirtualList/index.svelte'
+  import Layout from './Layout.svelte'
+  import { TABS } from './Tabs.svelte'
+  import AssetItem from './Asset.svelte'
+
+  export let selected = null as Asset | null
+  export let tabs = TABS
+  export let onSelect: (asset: Asset) => void
+  export let onEscape = undefined as undefined | ((...args: any[]) => any)
+
+  const accessAsset = (item: Asset) => item
 </script>
 
 <Layout let:assets {accessAsset} {tabs} {onEscape}>

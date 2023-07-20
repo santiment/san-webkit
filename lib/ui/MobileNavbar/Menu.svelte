@@ -1,51 +1,60 @@
-<script context="module">export const MOBILE_MENU_LINKS = [
+<script lang="ts" context="module">
+  export const MOBILE_MENU_LINKS = [
     {
-        title: 'Alerts',
-        link: '/alerts',
+      title: 'Alerts',
+      link: '/alerts',
     },
     {
-        title: 'Social tool',
-        link: '/labs/trends/explore',
+      title: 'Social tool',
+      link: '/labs/trends/explore',
     },
     {
-        title: 'NFT Influencers',
-        link: '/nft',
+      title: 'NFT Influencers',
+      link: '/nft',
     },
     {
-        title: 'Academy',
-        link: 'https://academy.santiment.net/',
+      title: 'Academy',
+      link: 'https://academy.santiment.net/',
     },
     {
-        title: 'Pricing',
-        link: '/pricing',
+      title: 'Pricing',
+      link: '/pricing',
     },
-];
+  ]
 </script>
 
-<script>import { SANBASE_ORIGIN } from './../../utils/links';
-import Svg from './../../ui/Svg/svelte';
-import Profile from './../../ui/Profile/svelte';
-import { showIntercom } from './../../analytics/intercom';
-import { getCustomer$Ctx } from './../../stores/customer';
-export let user;
-export let isMenuOpened;
-export let isFullLink;
-const { customer$ } = getCustomer$Ctx();
-$: ({ isPro } = $customer$);
-function onHelpClick() {
-    showIntercom();
-    isMenuOpened = false;
-}
-function getFullLink(link, slug = '') {
-    const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : '';
-    return pathname + link + slug;
-}
-function adjustHeight(node) {
-    const headerNode = document.querySelector('#mobile-header');
+<script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
+  import Svg from '@/ui/Svg/svelte'
+  import Profile from '@/ui/Profile/svelte'
+  import { showIntercom } from '@/analytics/intercom'
+  import { getCustomer$Ctx } from '@/stores/customer'
+
+  export let user
+  export let isMenuOpened
+  export let isFullLink
+
+  const { customer$ } = getCustomer$Ctx()
+
+  $: ({ isPro } = $customer$)
+
+  function onHelpClick() {
+    showIntercom()
+    isMenuOpened = false
+  }
+
+  function getFullLink(link, slug = '') {
+    const pathname = link && link.startsWith('/') ? SANBASE_ORIGIN : ''
+
+    return pathname + link + slug
+  }
+
+  function adjustHeight(node: any) {
+    const headerNode = document.querySelector('#mobile-header')
     if (headerNode) {
-        node.style.top = headerNode.clientHeight + 1 + 'px';
+      node.style.top = headerNode.clientHeight + 1 + 'px'
     }
-}
+  }
 </script>
 
 <nav class="column fluid body-1" use:adjustHeight>
@@ -68,7 +77,7 @@ function adjustHeight(node) {
 
       <Profile
         {user}
-        class="profile-1Kee2+ txt-m relative"
+        class="$style.profile txt-m relative"
         feature="profile"
         source="mobile-nav-menu"
         placeholderSize={24}
@@ -101,75 +110,64 @@ function adjustHeight(node) {
   </section>
 </nav>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  nav {
+    z-index: 101;
+    position: fixed;
+    top: 0;
+    bottom: 83px;
+    padding: 0 32px 16px;
+    background: var(--white);
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  section {
+    gap: 16px;
   }
-}
-*/
-nav {
-  z-index: 101;
-  position: fixed;
-  top: 0;
-  bottom: 83px;
-  padding: 0 32px 16px;
-  background: var(--white);
-}
 
-section {
-  gap: 16px;
-}
+  .link {
+    padding: 7px 0;
+  }
 
-.link {
-  padding: 7px 0;
-}
+  .divider {
+    height: 1px;
+    min-height: 1px;
+    background: var(--porcelain);
+    margin: 20px 0;
+  }
 
-.divider {
-  height: 1px;
-  min-height: 1px;
-  background: var(--porcelain);
-  margin: 20px 0;
-}
+  .profile {
+    --img-size: 48px;
+  }
 
-:global(.profile-1Kee2\+) {
-  --img-size: 48px;
-}
+  .btn-0 {
+    margin-bottom: 32px;
+  }
 
-.btn-0 {
-  margin-bottom: 32px;
-}
+  .btn-2,
+  .btn-1 {
+    padding: 8px 0;
+  }
 
-.btn-2,
-.btn-1 {
-  padding: 8px 0;
-}
+  .links {
+    overflow: auto;
+    padding-top: 12px;
+  }
 
-.links {
-  overflow: auto;
-  padding-top: 12px;
-}
+  .sign-up {
+    --color: var(--green);
+    --color-hover: var(--green-hover);
 
-.sign-up {
-  --color: var(--green);
-  --color-hover: var(--green-hover);
-  --border: var(--green);
-}
+    --border: var(--green);
+  }
 
-crown {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  fill: var(--orange);
-  background-color: var(--orange-light-2);
-  top: 24px;
-  left: 24px;
-}</style>
+  crown {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    fill: var(--orange);
+    background-color: var(--orange-light-2);
+    top: 24px;
+    left: 24px;
+  }
+</style>

@@ -1,4 +1,5 @@
-<script>export let item;
+<script lang="ts">
+  export let item
 </script>
 
 <div class="wrapper row hv-center">

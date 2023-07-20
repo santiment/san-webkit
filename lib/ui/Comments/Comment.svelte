@@ -1,39 +1,46 @@
-<script>import Author from './../../ui/Profile/svelte';
-import { dateDifferenceInWords } from './../../utils/dates';
-import { markdownToHTML } from './../../ui/Editor/markdown';
-import Menu from './Menu.svelte';
-import RepliedTo from './RepliedTo.svelte';
-import { DELETE_MSG } from './DeleteDialog.svelte';
-import { showCommentReplyDialog } from './ReplyDialog.svelte';
-import { getDatetime } from './utils';
-export let type;
-export let commentsFor;
-export let comment;
-export let authorId;
-export let currentUser = null;
-export let updateComments;
-export let scrollToNewComment;
-export let commentsNode;
-$: ({ content, insertedAt, editedAt, user, parentId } = comment);
-$: edited = editedAt ? 'Edited ' : '';
-$: time = edited + dateDifferenceInWords(new Date(edited ? editedAt : insertedAt));
-$: html = markdownToHTML(content);
-function onReply() {
+<script lang="ts">
+  import type { CommentsType } from '@/api/comments'
+
+  import Author from '@/ui/Profile/svelte'
+  import { dateDifferenceInWords } from '@/utils/dates'
+  import { markdownToHTML } from '@/ui/Editor/markdown'
+  import Menu from './Menu.svelte'
+  import RepliedTo from './RepliedTo.svelte'
+  import { DELETE_MSG } from './DeleteDialog.svelte'
+  import { showCommentReplyDialog } from './ReplyDialog.svelte'
+  import { getDatetime } from './utils'
+
+  export let type: CommentsType
+  export let commentsFor: SAN.CommentsFor
+  export let comment: SAN.Comment
+  export let authorId: number
+  export let currentUser: null | SAN.CurrentUser = null
+  export let updateComments: any
+  export let scrollToNewComment: () => void
+  export let commentsNode: HTMLDivElement
+
+  $: ({ content, insertedAt, editedAt, user, parentId } = comment)
+
+  $: edited = editedAt ? 'Edited ' : ''
+  $: time = edited + dateDifferenceInWords(new Date(edited ? (editedAt as string) : insertedAt))
+  $: html = markdownToHTML(content)
+
+  function onReply() {
     showCommentReplyDialog(commentsFor.id, comment.id, type)
-        .then((newComment) => {
-        if (!newComment)
-            return;
-        updateComments((comments) => (comments.push(newComment), comments));
-    })
-        .then(scrollToNewComment);
-}
-function getCommentDate(insertedAt, editedAt) {
-    const insertedDate = getDatetime(insertedAt);
+      .then((newComment) => {
+        if (!newComment) return
+        updateComments((comments) => (comments.push(newComment), comments))
+      })
+      .then(scrollToNewComment)
+  }
+
+  function getCommentDate(insertedAt: string, editedAt: SAN.Comment['editedAt']) {
+    const insertedDate = getDatetime(insertedAt)
     return editedAt
-        ? `Posted: ${insertedDate}
+      ? `Posted: ${insertedDate}
 Edited: ${getDatetime(editedAt)}`
-        : insertedDate;
-}
+      : insertedDate
+  }
 </script>
 
 {#if parentId}
@@ -42,7 +49,7 @@ Edited: ${getDatetime(editedAt)}`
 
 <div class="comment mrg-l mrg--b" id="comment-{comment.id}">
   <div class="row v-center">
-    <Author {user} class="mrg-a mrg--r user-Kf6ykA">
+    <Author {user} class="mrg-a mrg--r $style.user">
       {#if comment.user.id === authorId}
         <br />
         <span class="author">Author</span>
@@ -69,64 +76,55 @@ Edited: ${getDatetime(editedAt)}`
   {/if}
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .content {
+    padding: 16px;
+    background: var(--athens);
+    border-radius: 8px;
+    word-break: break-word;
+    transition: background 700ms;
+    scroll-margin: 50px;
+
+    :global {
+      a {
+        color: var(--green);
+        &:hover {
+          color: var(--green-hover);
+        }
+      }
+
+      strong,
+      b {
+        font-weight: bold;
+      }
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .actions {
+    --color: var(--waterloo);
+    --color-hover: var(--green);
+    position: relative;
   }
-}
-*/
-.content {
-  padding: 16px;
-  background: var(--athens);
-  border-radius: 8px;
-  word-break: break-word;
-  transition: background 700ms;
-  scroll-margin: 50px;
-}
-.content :global(a) {
-  color: var(--green);
-}
-.content :global(a:hover) {
-  color: var(--green-hover);
-}
-.content :global(strong),
-.content :global(b) {
-  font-weight: bold;
-}
 
-.actions {
-  --color: var(--waterloo);
-  --color-hover: var(--green);
-  position: relative;
-}
+  .user {
+    max-width: 60%;
+  }
+  .author {
+    font-size: 10px;
+    line-height: 12px;
+    color: var(--orange);
+    padding: 3px 4px;
+    border-radius: 4px;
+    background: var(--orange-light-1);
+  }
 
-:global(.user-Kf6ykA) {
-  max-width: 60%;
-}
+  .reply {
+    padding: 6px 12px;
+  }
 
-.author {
-  font-size: 10px;
-  line-height: 12px;
-  color: var(--orange);
-  padding: 3px 4px;
-  border-radius: 4px;
-  background: var(--orange-light-1);
-}
-
-.reply {
-  padding: 6px 12px;
-}
-
-.expl-tooltip {
-  --expl-white-space: pre;
-  --expl-right: -2px;
-  --expl-align-y: 24px;
-}</style>
+  .expl-tooltip {
+    --expl-white-space: pre;
+    --expl-right: -2px;
+    --expl-align-y: 24px;
+  }
+</style>

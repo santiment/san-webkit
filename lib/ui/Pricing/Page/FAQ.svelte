@@ -1,5 +1,5 @@
 <script>
-  import Svg from './../../../ui/Svg/svelte'
+  import Svg from '@/ui/Svg/svelte'
 
   const link = (content, href = content) =>
     `<a href="${href}" target="_blank" rel="noopener noreferrer" class="link-pointer">${content}</a>`
@@ -67,7 +67,7 @@
     >
       {question}
 
-      <Svg id="arrow-down" w="14" h="8" class={'arrow-s1pUCK'} />
+      <Svg id="arrow-down" w="14" h="8" class={'$style.arrow'} />
     </div>
 
     {#if isOpened}
@@ -78,57 +78,49 @@
   {/each}
 </section>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  #faq {
+    max-width: 760px;
+    margin: 0 auto 80px;
+
+    :global {
+      a {
+        color: var(--green);
+        &:hover {
+          color: var(--green-hover);
+        }
+      }
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  :global(body:not(.desktop)) #faq {
+    padding: 0 16px;
   }
-}
-*/
-#faq {
-  max-width: 760px;
-  margin: 0 auto 80px;
-}
-#faq :global(a) {
-  color: var(--green);
-}
-#faq :global(a:hover) {
-  color: var(--green-hover);
-}
 
-:global(body:not(.desktop)) #faq {
-  padding: 0 16px;
-}
+  .question {
+    padding: 16px 24px;
+    --bg: var(--athens);
+    --color: var(--fiord);
+    --color-hover: var(--black);
+  }
 
-.question {
-  padding: 16px 24px;
-  --bg: var(--athens);
-  --color: var(--fiord);
-  --color-hover: var(--black);
-}
+  .answer {
+    padding: 0 24px;
+    overflow: hidden;
+    transition: 0.2s opacity ease-out, 0.2s height ease-out;
+    height: 0;
+    opacity: 0;
+  }
 
-.answer {
-  padding: 0 24px;
-  overflow: hidden;
-  transition: 0.2s opacity ease-out, 0.2s height ease-out;
-  height: 0;
-  opacity: 0;
-}
+  .arrow {
+    transition: 0.25s transform;
+  }
 
-:global(.arrow-s1pUCK) {
-  transition: 0.25s transform;
-}
+  .opened {
+    background: none;
 
-.opened {
-  background: none;
-}
-.opened :global(.arrow-s1pUCK) {
-  transform: rotate(-180deg);
-}</style>
+    .arrow {
+      transform: rotate(-180deg);
+    }
+  }
+</style>

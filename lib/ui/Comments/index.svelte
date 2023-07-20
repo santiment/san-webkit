@@ -1,86 +1,102 @@
-<script>import { onDestroy } from 'svelte';
-import { track } from './../../analytics';
-import { CommentsType, queryComments } from './../../api/comments';
-import { createComment } from './../../api/comments/mutate';
-import Svg from './../../ui/Svg/svelte';
-import Editor from './../../ui/Editor';
-import { sanitize } from './../../ui/Editor/sanitize';
-import Comment from './Comment.svelte';
-import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte';
-import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils';
-import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context';
-const noop = () => { };
-export let type;
-export let commentsFor;
-export let currentUser = null;
-export let onNewComment;
-export let onAnonComment = noop;
-export let onCommentError = noop;
-export let onCommentsLoaded = noop;
-export let onCommentSubmitted = noop;
-export let titleClass = 'body-2 txt-m';
-export let mapComment = (comment) => {
-    comment.content = sanitize(comment.content);
-    return comment;
-};
-let comments = [];
-let loading = false;
-let commentsNode;
-let editor;
-const updateComments = (clb) => setComments(clb(comments));
-$: if (process.browser)
-    queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded);
-$: authorId = commentsFor.user.id;
-function setComments(data) {
-    comments = mapComment ? data.map(mapComment) : data;
-    onNewComment === null || onNewComment === void 0 ? void 0 : onNewComment(commentsFor, data);
-}
-function scrollToNewComment() {
-    var _a;
-    const node = (_a = commentsNode.lastElementChild) === null || _a === void 0 ? void 0 : _a.querySelector('.content');
-    removeHighlight = scrollToComment(node);
-}
-function onSubmit() {
-    if (!commentsFor || loading)
-        return;
-    const value = editor.serialize();
-    if (!value)
-        return;
+<script lang="ts">
+  import { onDestroy } from 'svelte'
+  import { track } from '@/analytics'
+  import { CommentsType, queryComments } from '@/api/comments'
+  import { createComment } from '@/api/comments/mutate'
+  import Svg from '@/ui/Svg/svelte'
+  import Editor from '@/ui/Editor'
+  import { sanitize } from '@/ui/Editor/sanitize'
+  import Comment from './Comment.svelte'
+  import UserInfoTooltipCtx from './Tooltips/UserInfoCtx.svelte'
+  import { findCommentNode, scrollToComment, saveComment, clearSavedComment } from './utils'
+  import { setScrollToCommentContext, setGetRepliedToCommentContext } from './context'
+
+  const noop = () => {}
+
+  export let type: CommentsType
+  export let commentsFor: SAN.CommentsFor
+  export let currentUser: null | SAN.CurrentUser = null
+  export let onNewComment: (commentsFor: SAN.CommentsFor, comments: SAN.Comment[]) => void
+  export let onAnonComment: () => void = noop
+  export let onCommentError = noop
+  export let onCommentsLoaded = noop
+  export let onCommentSubmitted: (comment: SAN.Comment) => void = noop
+  export let titleClass = 'body-2 txt-m'
+  export let mapComment = (comment: SAN.Comment) => {
+    comment.content = sanitize(comment.content)
+    return comment
+  }
+
+  let comments = [] as SAN.Comment[]
+  let loading = false
+  let commentsNode: HTMLElement
+  let editor
+
+  const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
+    setComments(clb(comments))
+
+  $: if (process.browser)
+    queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
+  $: authorId = commentsFor.user.id
+
+  function setComments(data: SAN.Comment[]) {
+    comments = mapComment ? data.map(mapComment) : data
+    onNewComment?.(commentsFor, data)
+  }
+
+  function scrollToNewComment() {
+    const node = commentsNode.lastElementChild?.querySelector('.content')
+    removeHighlight = scrollToComment(node as HTMLElement)
+  }
+
+  function onSubmit() {
+    if (!commentsFor || loading) return
+
+    const value = editor.serialize()
+    if (!value) return
+
     if (!currentUser) {
-        saveComment(type, commentsFor.id, value, commentsFor.title);
-        editor.resetContent();
-        return onAnonComment();
+      saveComment(type, commentsFor.id, value, commentsFor.title)
+      editor.resetContent()
+      return onAnonComment()
     }
-    loading = true;
+
+    loading = true
+
     createComment({ id: commentsFor.id, content: value, type })
-        .then((comment) => {
-        track.event('comments_new', { category: 'Interaction', entity: commentsFor.id, type });
-        comments.push(comment);
-        setComments(comments);
-        editor.resetContent();
-        clearSavedComment();
-        onCommentSubmitted === null || onCommentSubmitted === void 0 ? void 0 : onCommentSubmitted(comment);
-    })
-        .then(scrollToNewComment)
-        .catch(onCommentError)
-        .then(() => (loading = false));
-}
-setGetRepliedToCommentContext(getRepliedToComment);
-function getRepliedToComment(id) {
-    return comments.find((comment) => comment.id === id);
-}
-let removeHighlight;
-setScrollToCommentContext(onRepliedToClick);
-function onRepliedToClick(e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    const href = e.currentTarget.getAttribute('href');
-    const comment = findCommentNode(commentsNode, href || '');
-    removeHighlight = scrollToComment(comment, removeHighlight);
-}
-onDestroy(() => {
-    removeHighlight === null || removeHighlight === void 0 ? void 0 : removeHighlight();
-});
+      .then((comment) => {
+        track.event('comments_new', { category: 'Interaction', entity: commentsFor.id, type })
+
+        comments.push(comment)
+        setComments(comments)
+        editor.resetContent()
+        clearSavedComment()
+        onCommentSubmitted?.(comment)
+      })
+      .then(scrollToNewComment)
+      .catch(onCommentError)
+      .then(() => (loading = false))
+  }
+
+  setGetRepliedToCommentContext(getRepliedToComment)
+  function getRepliedToComment(id: number) {
+    return comments.find((comment) => comment.id === id)
+  }
+
+  let removeHighlight: undefined | (() => void)
+  setScrollToCommentContext(onRepliedToClick)
+  function onRepliedToClick(e: MouseEvent): void {
+    e.preventDefault()
+    e.stopImmediatePropagation()
+
+    const href = (e.currentTarget as HTMLAnchorElement).getAttribute('href')
+    const comment = findCommentNode(commentsNode, href || '')
+    removeHighlight = scrollToComment(comment, removeHighlight)
+  }
+
+  onDestroy(() => {
+    removeHighlight?.()
+  })
 </script>
 
 <h4 class={titleClass}>Conversations ({comments.length})</h4>
@@ -89,7 +105,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-ausi97"
+    class="border fluid $style.input"
     placeholder="Type your comment here"
   />
 
@@ -122,7 +138,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-ausi97) {
+  .input {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

@@ -1,19 +1,25 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import { EVENT, ANON_EVENT, checkIsFollowing, startFollowFlow } from './flow';
-let className = '';
-export { className as class };
-export let user;
-export let currentUser;
-export let isFollowing = checkIsFollowing(currentUser, user.id);
-$: postfix = isFollowing ? 'ing' : '';
-function onFollow() {
+<script lang="ts">
+  import type { CurrentUser } from './flow'
+  import Svg from '@/ui/Svg/svelte'
+  import { EVENT, ANON_EVENT, checkIsFollowing, startFollowFlow } from './flow'
+
+  let className = ''
+  export { className as class }
+  export let user: Pick<SAN.Author, 'id'>
+  export let currentUser: null | CurrentUser
+  export let isFollowing = checkIsFollowing(currentUser, user.id)
+
+  $: postfix = isFollowing ? 'ing' : ''
+
+  function onFollow() {
     if (!currentUser) {
-        return window.dispatchEvent(new CustomEvent(ANON_EVENT));
+      return window.dispatchEvent(new CustomEvent(ANON_EVENT))
     }
-    isFollowing = !isFollowing;
-    startFollowFlow(currentUser, user.id);
-    return window.dispatchEvent(new CustomEvent(EVENT));
-}
+
+    isFollowing = !isFollowing
+    startFollowFlow(currentUser, user.id)
+    return window.dispatchEvent(new CustomEvent(EVENT))
+  }
 </script>
 
 <button class="btn-1 btn--s {className}" on:click={onFollow} class:following={isFollowing}>

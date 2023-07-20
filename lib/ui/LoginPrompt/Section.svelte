@@ -1,6 +1,6 @@
 <script>
-  import Svg from './../../ui/Svg/svelte'
-  import { IsMobile } from './../../stores/responsive'
+  import Svg from '@/ui/Svg/svelte'
+  import { IsMobile } from '@/stores/responsive'
 
   let className = ''
   export { className as class }

@@ -1,9 +1,11 @@
-<script>import Svg from './../../ui/Svg/svelte';
-export let item;
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
+
+  export let item
 </script>
 
 <div class="wrapper row hv-center">
-  <Svg id="fire-filled" w="11" h="14" class="icon-O3hRmo" />
+  <Svg id="fire-filled" w="11" h="14" class="$style.icon" />
 </div>
 <span class="name single-line">{item}</span>
 
@@ -20,7 +22,7 @@ export let item;
     margin-right: 10px;
   }
 
-  :global(.icon-O3hRmo) {
+  .icon {
     fill: var(--blue);
   }
 </style>

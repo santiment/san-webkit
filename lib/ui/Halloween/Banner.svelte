@@ -1,10 +1,11 @@
-<script>import Svg from './../../ui/Svg/svelte';
+<script lang="ts">
+  import Svg from '@/ui/Svg/svelte'
 </script>
 
 <div class="wrapper column fluid relative txt-left">
-  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-2ehWWw" />
-  <Svg illus id="santiment" w="97" h="18" class="" />
-  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="sales-0f2Dnb" />
+  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="$style.banner" />
+  <Svg illus id="santiment" w="97" h="18" class="$style.santiment" />
+  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="$style.sales" />
   <h2 class="txt-b">27% Off</h2>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2 rules">
@@ -14,56 +15,44 @@
   </p>
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  .wrapper {
+    overflow: hidden;
+    max-width: 1140px;
+    height: 320px;
+    padding: 28px 0 32px 48px;
+    background-color: var(--athens);
+    margin: 40px auto 8px;
+    border-radius: 6px;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  .banner {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
-}
-*/
-.wrapper {
-  overflow: hidden;
-  max-width: 1140px;
-  height: 320px;
-  padding: 28px 0 32px 48px;
-  background-color: var(--athens);
-  margin: 40px auto 8px;
-  border-radius: 6px;
-}
 
-:global(.banner-2ehWWw) {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
+  .sales {
+    margin: 28px 0 6px;
+  }
 
-:global(.sales-0f2Dnb) {
-  margin: 28px 0 6px;
-}
+  h2 {
+    font-size: 60px;
+    line-height: 73px;
+    margin: auto auto 14px 0;
+  }
 
-h2 {
-  font-size: 60px;
-  line-height: 73px;
-  margin: auto auto 14px 0;
-}
+  p {
+    max-width: 425px;
+    line-height: 22px;
+  }
 
-p {
-  max-width: 425px;
-  line-height: 22px;
-}
+  .rules {
+    line-height: 20px;
+    color: var(--fiord);
+  }
 
-.rules {
-  line-height: 20px;
-  color: var(--fiord);
-}
-
-u {
-  text-decoration: underline;
-}</style>
+  u {
+    text-decoration: underline;
+  }
+</style>

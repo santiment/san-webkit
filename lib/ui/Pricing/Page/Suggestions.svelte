@@ -1,5 +1,5 @@
 <script>
-  import { showIntercom } from './../../../analytics/intercom'
+  import { showIntercom } from '@/analytics/intercom'
 </script>
 
 <section id="suggestions">
@@ -24,56 +24,48 @@
   </div>
 </section>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  section {
+    display: grid;
+    grid-gap: 16px 40px;
+    margin: 0 auto 80px;
+    max-width: var(--page-width, 1140px);
+
+    :global(.desktop) & {
+      grid-template-columns: 1fr 1fr;
+    }
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+
+  :global(body:not(.desktop)) section {
+    padding: 0 16px;
   }
-}
-*/
-section {
-  display: grid;
-  grid-gap: 16px 40px;
-  margin: 0 auto 80px;
-  max-width: var(--page-width, 1140px);
-}
-:global(.desktop) section {
-  grid-template-columns: 1fr 1fr;
-}
 
-:global(body:not(.desktop)) section {
-  padding: 0 16px;
-}
+  div {
+    padding: 40px 48px;
+    color: var(--white);
+    background: var(--blue);
+    border-radius: 4px;
+  }
 
-div {
-  padding: 40px 48px;
-  color: var(--white);
-  background: var(--blue);
-  border-radius: 4px;
-}
+  p {
+    max-width: 330px;
+  }
 
-p {
-  max-width: 330px;
-}
+  .btn {
+    display: inline-block;
+    padding: 8px 10px;
+    --bg: var(--white);
+    --color: var(--blue);
+    --color-hover: var(--blue-hover);
+  }
 
-.btn {
-  display: inline-block;
-  padding: 8px 10px;
-  --bg: var(--white);
-  --color: var(--blue);
-  --color-hover: var(--blue-hover);
-}
+  :global(body):not(.desktop) {
+    div {
+      padding: 32px 21px;
+    }
 
-:global(body):not(.desktop) div {
-  padding: 32px 21px;
-}
-:global(body):not(.desktop) .btn {
-  width: 100%;
-}</style>
+    .btn {
+      width: 100%;
+    }
+  }
+</style>

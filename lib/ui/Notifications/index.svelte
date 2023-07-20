@@ -12,33 +12,23 @@
   {/each}
 </div>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
+<style lang="scss">
+  div {
+    z-index: 10000;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column-reverse;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-div {
-  z-index: 10000;
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
-  flex-direction: column-reverse;
-}
 
-:global(.tablet) div,
-:global(.phone) div {
-  top: 15px;
-  bottom: auto;
-  right: 15px;
-  justify-content: flex-end;
-}</style>
+  :global(.tablet),
+  :global(.phone) {
+    div {
+      top: 15px;
+      bottom: auto;
+      right: 15px;
+      justify-content: flex-end;
+    }
+  }
+</style>

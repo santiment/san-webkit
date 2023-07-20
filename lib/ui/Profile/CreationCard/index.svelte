@@ -1,21 +1,25 @@
-<script>import Watchlist from './Watchlist.svelte';
-import AddressWatchlist from './AddressWatchlist.svelte';
-import { CreationType } from '../types';
-import { getSEOLinkFromIdAndTitle } from './../../../utils/url';
-export let type;
-export let creation;
-const href = getHref(creation);
-function getHref({ id, title, isScreener }) {
-    const seoLink = getSEOLinkFromIdAndTitle(id, title);
+<script lang="ts">
+  import Watchlist from './Watchlist.svelte'
+  import AddressWatchlist from './AddressWatchlist.svelte'
+  import { CreationType } from '../types'
+  import { getSEOLinkFromIdAndTitle } from '@/utils/url'
+
+  export let type: CreationType
+  export let creation
+
+  const href = getHref(creation)
+
+  function getHref({ id, title, isScreener }) {
+    const seoLink = getSEOLinkFromIdAndTitle(id, title)
     switch (type) {
-        case CreationType.Layout:
-            return '/charts/' + seoLink;
-        case CreationType.Watchlist:
-            return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink;
-        case CreationType.AddressWatchlist:
-            return '/watchlist/addresses/' + seoLink;
+      case CreationType.Layout:
+        return '/charts/' + seoLink
+      case CreationType.Watchlist:
+        return (isScreener ? '/screener/' : '/watchlist/projects/') + seoLink
+      case CreationType.AddressWatchlist:
+        return '/watchlist/addresses/' + seoLink
     }
-}
+  }
 </script>
 
 <a {href} class="column border btn" on:click={window.__onLinkClick}>
@@ -34,34 +38,24 @@ function getHref({ id, title, isScreener }) {
   {/if}
 </a>
 
-<style >/**
-@include dac(desktop, tablet, phone) {
-  main {
-    background: red;
-  }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
-  }
-}
-*/
-a {
-  padding: 12px 16px;
-  max-width: 182px;
-  flex: 1;
-  --bg-hover: var(--athens);
-  --color-hover: var(--accent);
-}
-a:hover h3 {
-  color: var(--accent);
-}
-a:first-child {
-  margin-right: 8px;
-}
+<style lang="scss">
+  a {
+    padding: 12px 16px;
+    max-width: 182px;
+    flex: 1;
+    --bg-hover: var(--athens);
+    --color-hover: var(--accent);
 
-.nowrap {
-  white-space: nowrap;
-}</style>
+    &:hover h3 {
+      color: var(--accent);
+    }
+
+    &:first-child {
+      margin-right: 8px;
+    }
+  }
+
+  .nowrap {
+    white-space: nowrap;
+  }
+</style>

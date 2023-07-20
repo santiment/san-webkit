@@ -1,24 +1,29 @@
-<script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
-import { trackSignupStart } from './../../analytics/events/onboarding';
-import Option from './Option.svelte';
-import metamaskSvg from '../../icons/metamask.svg';
-export let isSignUp = false;
-export let onClick;
-const hasMetamask = process.browser ? !!window.ethereum : true;
-let loading = false;
-function onLoginClick() {
-    loading = true;
+<script lang="ts">
+  import { LoginType, trackLoginStart } from '@/analytics/events/general'
+  import { trackSignupStart } from '@/analytics/events/onboarding'
+  import Option from './Option.svelte'
+  import metamaskSvg from '../../icons/metamask.svg'
+
+  export let isSignUp = false
+  export let onClick: () => Promise<any>
+
+  const hasMetamask = process.browser ? !!window.ethereum : true
+
+  let loading = false
+  function onLoginClick() {
+    loading = true
+
     if (isSignUp) {
-        trackSignupStart(LoginType.METAMASK);
+      trackSignupStart(LoginType.METAMASK)
+    } else {
+      trackLoginStart(LoginType.METAMASK)
     }
-    else {
-        trackLoginStart(LoginType.METAMASK);
-    }
+
     onClick().catch((e) => {
-        console.warn(e);
-        loading = false;
-    });
-}
+      console.warn(e)
+      loading = false
+    })
+  }
 </script>
 
 {#if hasMetamask}
