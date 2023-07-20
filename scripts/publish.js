@@ -1,7 +1,9 @@
 import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { ROOT, exec } from './utils.js'
+import { ROOT, LIB, exec, forFile } from './utils.js'
+import { replaceModuleAliases } from './imports.js'
+import { preprocessSvelte } from './svelte.js'
 
 function updatePkgJson() {
   const filepath = path.resolve(ROOT, 'package.json')
@@ -57,6 +59,16 @@ export async function publish() {
 
   await exec('npm run lib')
   updatePkgJson()
+
+  await forFile(['.storybook/**/*'], async (entry) => {
+    let file = replaceModuleAliases(LIB, entry, fs.readFileSync(entry).toString())
+
+    if (entry.endsWith('svelte')) {
+      file = await preprocessSvelte(file, entry)
+    }
+
+    fs.writeFileSync(entry, file)
+  })
 
   const gitignore = fs
     .readFileSync('.gitignore')
