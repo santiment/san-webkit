@@ -76,6 +76,7 @@ export async function publish() {
     .replace('lib/', '.husky\nstories\n_stories')
   fs.writeFileSync('.gitignore', gitignore)
 
+  await exec('git add -f .storybook')
   await exec('git add -f lib')
   await exec('git add -f .gitignore')
   await exec('git add -f package.json')

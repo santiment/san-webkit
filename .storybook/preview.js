@@ -1,8 +1,8 @@
 import { createServer } from 'miragejs'
-import { Cache } from '@/api/cache'
-import '@/styles/main.css'
+import { Cache } from './../lib/api/cache.js'
+import './../lib/styles/main.css'
 import Decorator from './Decorator.svelte'
-import { ApiMock } from './mock'
+import { ApiMock } from './mock.js'
 
 /** @type {import('@storybook/svelte').Preview} */
 const preview = {
