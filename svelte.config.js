@@ -3,6 +3,8 @@ import cssModules from 'svelte-preprocess-cssmodules'
 import { walk, parse } from 'svelte/compiler'
 import MagicString from 'magic-string'
 
+const mixinsPath = import.meta.url.includes('node_modules') ? '~san-webkit/lib' : './src'
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
   // Consult https://kit.svelte.dev/docs/integrations#preprocessors
@@ -10,7 +12,7 @@ const config = {
   preprocess: [
     preprocess({
       scss: {
-        prependData: `@import './src/styles/fn.scss';`,
+        prependData: `@import '${mixinsPath}/styles/fn.scss';`,
       },
     }),
 
