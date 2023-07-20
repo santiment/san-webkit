@@ -34,14 +34,15 @@ export function replaceModuleAliases(root, filePath, fileContent) {
     fileContent = fileContent.replace(
       /import .* from ('|")(.*)('|")/g,
       (match, _, importedPath) => {
-        const absPath = resolve(dir, importedPath)
+        if (importedPath.startsWith('.')) {
+          const absPath = resolve(dir, importedPath)
+          if (fs.existsSync(absPath + '.js')) {
+            return match.replace(importedPath, importedPath + '.js')
+          }
 
-        if (fs.existsSync(absPath + '.js')) {
-          return match.replace(importedPath, importedPath + '.js')
-        }
-
-        if (fs.existsSync(absPath + '/index.js')) {
-          return match.replace(importedPath, importedPath + '/index.js')
+          if (fs.existsSync(absPath + '/index.js')) {
+            return match.replace(importedPath, importedPath + '/index.js')
+          }
         }
 
         return match
