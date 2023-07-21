@@ -1,12 +1,14 @@
-<script>import Svg from './../../ui/Svg/svelte';
-import { IsMobile } from './../../stores/responsive';
-let className = '';
-export { className as class };
-export let title;
-export let titleMargin = 'mrg-l';
-export let bottomLabel;
-export let bottomAction;
-export let bottomHref;</script>
+<script>
+  import Svg from './../../ui/Svg/svelte'
+  import { IsMobile } from './../../stores/responsive'
+  let className = ''
+  export { className as class }
+  export let title
+  export let titleMargin = 'mrg-l'
+  export let bottomLabel
+  export let bottomAction
+  export let bottomHref
+</script>
 
 <section class="border column h-center {className}">
   <h2 class="h4 {titleMargin} mrg--b">{title}</h2>
@@ -20,7 +22,7 @@ export let bottomHref;</script>
   {#if bottomLabel}
     <div class="body-2 c-waterloo mrg-m mrg--t">
       {bottomLabel}
-      <a href={bottomHref} class="link-pointer" sapper:prefetch>{bottomAction}</a>
+      <a href={bottomHref} class="link-pointer" on:click>{bottomAction}</a>
     </div>
   {/if}
 </section>
