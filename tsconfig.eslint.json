@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "./tsconfig.json"
+  ],
+  "include": [
+    "stories/**/*.ts",
+    "stories/**/*.svelte"
+  ]
+}
