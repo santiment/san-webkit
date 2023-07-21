@@ -1,16 +1,17 @@
 <script lang="ts">
   import { getPrice, priceFormatter } from '@/utils/plans'
   import { checkSanDiscount } from './utils'
+  import { getCustomer$Ctx } from '@/stores/customer'
 
   export let plan: SAN.Plan
   export let percentOff = 0
-  export let sanBalance = 0
   export let isAnnualPlan: boolean
-  export let isEligibleForTrial: boolean
-  export let annualDiscount: SAN.AnnualDiscount
 
-  const hasSanDiscount = checkSanDiscount(sanBalance)
+  const { customer$ } = getCustomer$Ctx()
 
+  $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$)
+
+  $: hasSanDiscount = checkSanDiscount(sanBalance)
   $: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount)
   $: discountPercentOff =
     annualDiscount.discount?.percentOff || percentOff || (hasSanDiscount ? 20 : 0)

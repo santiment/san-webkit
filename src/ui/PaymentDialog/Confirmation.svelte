@@ -14,7 +14,6 @@
   export let isSinglePlan: boolean
   export let isEligibleForTrial: boolean
   export let loading: boolean
-  export let sanBalance: number
   export let annualDiscount = {} as SAN.AnnualDiscount
   export let onSubmit: any
 
@@ -47,16 +46,7 @@
       </div>
     {/if}
 
-    <Check
-      {plan}
-      {price}
-      {selectedNameBilling}
-      {percentOff}
-      {sanBalance}
-      {isAnnualPlan}
-      {isEligibleForTrial}
-      annualDiscount={isAnnualPlan ? annualDiscount : {}}
-    />
+    <Check {plan} {percentOff} {isAnnualPlan} />
 
     <button
       type="submit"

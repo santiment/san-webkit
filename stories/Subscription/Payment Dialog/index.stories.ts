@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from './index.svelte'
-import { NULL_ANNUAL_DISCOUNT, PRO_CURRENT_USER } from '../../../.storybook/mock/user'
+import { NULL_ANNUAL_DISCOUNT } from '../../../.storybook/mock/user'
 
 const meta = {
   // title: 'Design System/Icons',
@@ -22,8 +22,10 @@ export default meta
 export const PaymentDialog: Story = {
   parameters: {
     mockApi: () => ({
-      passthrough: true,
-      'query currentUser': PRO_CURRENT_USER,
+      currentUser: {
+        sanBalance: 2000,
+      },
+
       'query checkAnnualDiscountEligibility': NULL_ANNUAL_DISCOUNT,
     }),
   },

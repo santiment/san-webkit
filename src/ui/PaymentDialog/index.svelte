@@ -34,7 +34,6 @@
   export let interval = 'year' as SAN.Plan['interval']
   export let isSinglePlan = false
   export let plansFilter = onlyProLikePlans
-  export let trialDaysLeft = 0
   export let onPaymentSuccess = () => {}
   export let onPaymentError
   export let source: string
@@ -131,7 +130,7 @@
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
     {#if isNotCanceled}
-      <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
+      <Banner {plan} {name} {price} {isEligibleForTrial} />
     {/if}
 
     <form bind:this={formNode} on:submit|preventDefault on:change={onChange}>
@@ -146,7 +145,6 @@
         {plans}
         {name}
         {price}
-        {sanBalance}
         {annualDiscount}
         {isSinglePlan}
         {isEligibleForTrial}

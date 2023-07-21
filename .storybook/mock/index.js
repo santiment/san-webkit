@@ -1,4 +1,5 @@
 import { parse, Kind } from 'graphql'
+import { mockUser } from './user'
 
 export function ApiMock(req, schema) {
   const { query, variables } = JSON.parse(req.requestBody)
@@ -6,6 +7,11 @@ export function ApiMock(req, schema) {
 
   if (operation.kind !== Kind.OPERATION_DEFINITION) {
     return
+  }
+
+  if (schema.currentUser !== undefined) {
+    schema['query currentUser'] = mockUser(schema.currentUser)
+    console.log(schema['query currentUser'])
   }
 
   let hasData = false
