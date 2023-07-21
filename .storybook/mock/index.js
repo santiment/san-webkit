@@ -23,5 +23,13 @@ export function ApiMock(req, schema) {
     }
   })
 
-  if (hasData) return { data: result }
+  if (hasData) return Promise.resolve({ data: result })
+
+  const xhr = req.passthrough()
+
+  return new Promise((resolve) => {
+    xhr.onloadend = () => {
+      resolve(JSON.parse(xhr.response))
+    }
+  })
 }

@@ -48,8 +48,6 @@ const preview = {
 
       createServer({
         routes() {
-          this.passthrough((req) => !ApiMock(req, schema))
-
           this.post(process.env.GQL_SERVER_URL, (_, req) => ApiMock(req, schema))
         },
       })
