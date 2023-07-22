@@ -84,13 +84,11 @@ export function mockUser(currentUser: null | CurrentUser) {
     } = plan
 
     if (!pro && !proPlus) {
-      document.body.innerText = 'Plan should have "pro" or "proPlus" value set to "true"'
-      return
+      return document.write('Plan should have "pro" or "proPlus" value set to "true"')
     }
 
     if (!monthly && !yearly) {
-      document.body.innerText = 'Plan should have "monthly" or "yearly" value set to "true"'
-      return
+      return document.write('Plan should have "monthly" or "yearly" value set to "true"')
     }
 
     let trialEnd = null
@@ -100,7 +98,7 @@ export function mockUser(currentUser: null | CurrentUser) {
       if (trialDaysLeft === undefined) {
         date.setDate(date.getDate() + 14)
       } else {
-        date.setDate(date.getDate() + trialDaysLeft)
+        date.setDate(date.getDate() + trialDaysLeft - 1)
       }
 
       trialEnd = date.toISOString()

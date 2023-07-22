@@ -130,7 +130,7 @@
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
     {#if isNotCanceled}
-      <Banner {plan} {name} {price} {isEligibleForTrial} />
+      <Banner {plan} {name} {price} />
     {/if}
 
     <form bind:this={formNode} on:submit|preventDefault on:change={onChange}>

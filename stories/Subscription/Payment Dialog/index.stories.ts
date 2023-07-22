@@ -30,3 +30,42 @@ export const PaymentDialog: Story = {
     }),
   },
 }
+
+export const EligibleForTrial: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        isEligibleForSanbaseTrial: true,
+      },
+    }),
+  },
+}
+
+export const ActiveTrial: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          pro: true,
+          monthly: true,
+          trial: true,
+        },
+      },
+    }),
+  },
+}
+
+export const ExpiredTrial: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          pro: true,
+          monthly: true,
+          trial: true,
+          trialDaysLeft: 0,
+        },
+      },
+    }),
+  },
+}
