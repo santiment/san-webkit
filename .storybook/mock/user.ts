@@ -5,22 +5,72 @@ export const NULL_ANNUAL_DISCOUNT = {
   isEligible: false,
 }
 
-export function mockUser(currentUser) {
+export type CurrentUser = {
+  /** @default "Santiment Mock User" */
+  name?: null | string
+
+  /** @default "santiment.mock.user" */
+  username?: null | string
+
+  /** @default "user.mock@santiment.net" */
+  email?: null | string
+
+  /** @default false */
+  avatar?: boolean
+
+  /** @default false */
+  moderator?: boolean
+
+  /** @default 0 */
+  sanBalance?: number
+
+  /** @default false */
+  isEligibleForSanbaseTrial?: boolean
+
+  /** @default null */
+  plan?: null | {
+    /** @default false */
+    pro?: boolean
+
+    /** @default false */
+    proPlus?: boolean
+
+    /** @default false */
+    monthly?: boolean
+
+    /** @default false */
+    yearly?: boolean
+
+    /** @default false */
+    trial?: boolean
+
+    /** @default undefined */
+    trialDaysLeft?: number
+
+    /** @default undefined */
+    cancelledInDays?: number
+  }
+
+  overwrite?: Record<string, any>
+}
+
+export function mockUser(currentUser: null | CurrentUser) {
   if (!currentUser) return null
 
   const {
     name = 'Santiment Mock User',
     username = 'santiment.mock.user',
     email = 'user.mock@santiment.net',
-    avatarUrl = null,
+    avatar = false,
     moderator = false,
     sanBalance = 0,
     isEligibleForSanbaseTrial = false,
 
     plan = null,
+    overwrite,
   } = currentUser
 
-  const subscriptions = []
+  const subscriptions = [] as any[]
 
   if (plan) {
     const {
@@ -81,17 +131,18 @@ export function mockUser(currentUser) {
     }
   }
 
-  const data = {
+  return {
     id: 42,
     name,
     username,
     email,
-    avatarUrl,
+    avatarUrl: avatar
+      ? 'https://production-sanbase-images.s3.amazonaws.com/uploads/242dc675b4de34d792f5cc7f29627fa67168b3e2284077163916237facf058e8_1671661438252_Optimism%20%28OP%29%20%5B23.23.48%2C%2021%20Dec%2C%202022%5D.png'
+      : null,
     sanBalance,
     isEligibleForSanbaseTrial,
     isModerator: moderator,
     subscriptions,
+    ...overwrite,
   }
-
-  return data
 }

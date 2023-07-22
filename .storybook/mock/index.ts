@@ -1,5 +1,15 @@
+import type { CurrentUser } from './user'
+
 import { parse, Kind } from 'graphql'
 import { mockUser } from './user'
+
+export const MOCKS = [
+  {
+    schema: 'currentUser',
+    query: 'currentUser',
+    mock: mockUser,
+  },
+] as { schema: string; query: string; mock: any }[]
 
 export function ApiMock(req, schema) {
   const { query, variables } = JSON.parse(req.requestBody)
@@ -9,10 +19,11 @@ export function ApiMock(req, schema) {
     return
   }
 
-  if (schema.currentUser !== undefined) {
-    schema['query currentUser'] = mockUser(schema.currentUser)
-    console.log(schema['query currentUser'])
-  }
+  MOCKS.forEach((mocker) => {
+    if (schema[mocker.schema] !== undefined) {
+      schema['query ' + mocker.schema] = mocker.mock(schema[mocker.schema])
+    }
+  })
 
   let hasData = false
   const result = {}
@@ -38,4 +49,12 @@ export function ApiMock(req, schema) {
       resolve(JSON.parse(xhr.response))
     }
   })
+}
+
+declare module '@storybook/svelte' {
+  export interface Parameters {
+    mockApi?: () => {
+      currentUser?: null | CurrentUser
+    } & Record<string, any>
+  }
 }
