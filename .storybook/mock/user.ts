@@ -1,11 +1,6 @@
 import { getTodaysEnd } from '@/utils/dates'
 
-export const NULL_ANNUAL_DISCOUNT = {
-  discount: null,
-  isEligible: false,
-}
-
-export type CurrentUser = {
+export type CurrentUser = null | {
   /** @default "Santiment Mock User" */
   name?: null | string
 
@@ -54,7 +49,7 @@ export type CurrentUser = {
   overwrite?: Record<string, any>
 }
 
-export function mockUser(currentUser: null | CurrentUser) {
+export function mockUser(currentUser: CurrentUser) {
   if (!currentUser) return null
 
   const {
@@ -96,7 +91,7 @@ export function mockUser(currentUser: null | CurrentUser) {
       const date = getTodaysEnd()
 
       if (trialDaysLeft === undefined) {
-        date.setDate(date.getDate() + 14)
+        date.setDate(date.getDate() + 13)
       } else {
         date.setDate(date.getDate() + trialDaysLeft - 1)
       }

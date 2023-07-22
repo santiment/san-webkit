@@ -13,8 +13,7 @@
 
   $: hasSanDiscount = checkSanDiscount(sanBalance)
   $: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount)
-  $: discountPercentOff =
-    annualDiscount.discount?.percentOff || percentOff || (hasSanDiscount ? 20 : 0)
+  $: discountPercentOff = annualDiscount.percent || percentOff || (hasSanDiscount ? 20 : 0)
   $: discounted = discountPercentOff ? plan.amount * (discountPercentOff / 100) : 0
   $: total = plan.amount - discounted
 

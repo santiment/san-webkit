@@ -65,7 +65,7 @@
   $: ({ subscription } = customer)
   $: isNotCanceled = !subscription?.cancelAtPeriodEnd
   // TODO: make customer data accesible via context
-  $: ({ sanBalance, isEligibleForTrial, annualDiscount = {} as SAN.AnnualDiscount } = $customer$)
+  $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$)
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
 

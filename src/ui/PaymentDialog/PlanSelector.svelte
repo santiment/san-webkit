@@ -16,11 +16,11 @@
   export let price: string
   export let selectedNameBilling: string
   export let isSinglePlan: boolean
-  export let annualDiscount: SAN.AnnualDiscount
+  export let annualDiscount: any
 
   let isOpened = false
 
-  $: annualPercentOff = annualDiscount.discount?.percentOff || 10
+  $: annualPercentOff = annualDiscount.percent || 10
   $: altPlan = getAlternativePlan(plan, plans)
 
   function select(option) {
