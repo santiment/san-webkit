@@ -7,11 +7,10 @@
   export let plan: SAN.Plan
   export let name: string
   export let price: string
-  export let isEligibleForTrial: boolean = true
 
   const { customer$ } = getCustomer$Ctx()
 
-  $: ({ trialDaysLeft } = $customer$)
+  $: ({ trialDaysLeft, isEligibleForTrial } = $customer$)
 
   function formatDate(date) {
     const { DD, MM, YY } = getDateFormats(date)

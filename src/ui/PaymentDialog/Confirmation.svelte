@@ -14,8 +14,7 @@
   export let isSinglePlan: boolean
   export let isEligibleForTrial: boolean
   export let loading: boolean
-  export let sanBalance: number
-  export let annualDiscount = {} as SAN.AnnualDiscount
+  export let annualDiscount
   export let onSubmit: any
 
   let percentOff = 0
@@ -29,7 +28,7 @@
     <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} {isSinglePlan} />
 
     {#if isAnnualPlan && annualDiscount.isEligible}
-      <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.discount.percentOff} />
+      <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.percent} />
     {:else}
       <DiscountInput bind:percentOff />
 
@@ -47,16 +46,7 @@
       </div>
     {/if}
 
-    <Check
-      {plan}
-      {price}
-      {selectedNameBilling}
-      {percentOff}
-      {sanBalance}
-      {isAnnualPlan}
-      {isEligibleForTrial}
-      annualDiscount={isAnnualPlan ? annualDiscount : {}}
-    />
+    <Check {plan} {percentOff} {isAnnualPlan} />
 
     <button
       type="submit"

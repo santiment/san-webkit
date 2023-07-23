@@ -8,7 +8,7 @@ const dev = mode !== 'production'
 process.env.MEDIA_PATH = '/webkit'
 process.env.ICONS_PATH = process.env.MEDIA_PATH + '/icons'
 
-const BACKEND_URL = process.env.BACKEND_URL || 'https://api.santiment.net'
+const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
 process.env.BACKEND_URL = BACKEND_URL
 const GQL_SERVER_FALLBACK = process.env.BACKEND_URL + '/graphql'
 const IS_STAGE_BACKEND = process.env.BACKEND_URL.includes('-stage')

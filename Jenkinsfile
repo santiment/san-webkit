@@ -25,8 +25,9 @@ slaveTemplates.dockerTemplate { label ->
           ]) {
             def awsRegistry = "${env.aws_account_id}.dkr.ecr.eu-central-1.amazonaws.com"
             docker.withRegistry("https://${awsRegistry}", "ecr:eu-central-1:ecr-credentials") {
-              sh "docker build --build-arg GQL_SERVER_URL=http://sanbase.default.svc.cluster.local/graphql -t ${awsRegistry}/san-webkit:${scmVars.GIT_COMMIT} ."
+              sh "docker build --build-arg GQL_SERVER_URL=http://sanbase.default.svc.cluster.local/graphql -t ${awsRegistry}/san-webkit:${scmVars.GIT_COMMIT} -t ${awsRegistry}/san-webkit:${env.BRANCH_NAME} ."
               sh "docker push ${awsRegistry}/san-webkit:${scmVars.GIT_COMMIT}"
+              sh "docker push ${awsRegistry}/san-webkit:${env.BRANCH_NAME}"
             }
           }
         }
