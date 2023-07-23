@@ -15,36 +15,38 @@ export function ApiMock(req, schema: Record<string, any>) {
     return
   }
 
-  MOCKS.forEach((mocker) => {
-    const { mock, query } = mocker as any
-    if (schema[mocker.schema] !== undefined) {
-      schema['query ' + query] = mock(schema[mocker.schema])
-    }
-  })
-
-  let hasData = false
-  const data = {}
-  let error = null
-
-  operation.selectionSet.selections.forEach((query) => {
-    if (query.kind !== Kind.FIELD) return
-
-    const name = query.name.value
-    const mocked = schema['query ' + name]
-
-    if (mocked !== undefined) {
-      if (mocked.error) {
-        error = mocked.error
-      } else {
-        data[query.alias?.value || name] = mocked
-        mapAlises(mocked, query)
+  if (schema.passthrough !== true) {
+    MOCKS.forEach((mocker) => {
+      const { mock, query } = mocker as any
+      if (schema[mocker.schema] !== undefined) {
+        schema['query ' + query] = mock(schema[mocker.schema])
       }
+    })
 
-      hasData = true
-    }
-  })
+    let hasData = false
+    const data = {}
+    let error = null
 
-  if (hasData) return Promise.resolve({ data, error })
+    operation.selectionSet.selections.forEach((query) => {
+      if (query.kind !== Kind.FIELD) return
+
+      const name = query.name.value
+      const mocked = schema['query ' + name]
+
+      if (mocked !== undefined) {
+        if (mocked.error) {
+          error = mocked.error
+        } else {
+          data[query.alias?.value || name] = mocked
+          mapAlises(mocked, query)
+        }
+
+        hasData = true
+      }
+    })
+
+    if (hasData) return Promise.resolve({ data, error })
+  }
 
   const xhr = req.passthrough()
 
@@ -73,9 +75,14 @@ type Mock<T> = T extends { mock: (arg: infer S) => any } ? S : never
 
 declare module '@storybook/svelte' {
   export interface Parameters {
-    mockApi?: () => {
+    mockApi?: (story?: any) => {
+      /** Disabling mocking for all requests */
+      passthrough?: boolean
+
       annualDiscount?: Mock<typeof ANNUAL_DISCOUNT_MOCK>
+
       currentUser?: Mock<typeof CURRENT_USER_MOCK>
+
       savedCard?: Mock<typeof SAVED_CARD_MOCK>
     } & Record<string, any>
   }
