@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useParameter, useArgs, useStorybookApi } from '@storybook/manager-api'
 import { IconButton } from '@storybook/components'
 
 const Moon = () => (
@@ -37,6 +38,21 @@ const Sun = () => (
 
 const ToggleTheme = () => {
   const [isDark, setDark] = useState(false)
+
+  const params = useParameter()
+
+  const api = useStorybookApi()
+  const [, updateArgs] = useArgs()
+
+  useEffect(() => {
+    if (params) {
+      const iframe = document.getElementById('storybook-preview-iframe')
+      const iframeWindow = iframe.contentWindow
+      if (!iframeWindow || !iframeWindow.updateArgs) return
+
+      updateArgs(iframeWindow.updateArgs(api.getCurrentStoryData()))
+    }
+  }, [params])
 
   const updateMode = () => {
     setDark(!isDark)

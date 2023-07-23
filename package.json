@@ -46,6 +46,7 @@
     "@storybook/addon-links": "^7.1.0",
     "@storybook/addon-mdx-gfm": "^7.1.0",
     "@storybook/blocks": "^7.1.0",
+    "@storybook/manager-api": "^7.1.0",
     "@storybook/svelte": "^7.1.0",
     "@storybook/sveltekit": "^7.1.0",
     "@storybook/testing-library": "^0.2.0",
