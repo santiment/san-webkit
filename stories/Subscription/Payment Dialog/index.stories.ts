@@ -96,3 +96,18 @@ export const TrialAnnualDiscount50: Story = {
     }),
   },
 }
+
+export const SavedCard: Story = {
+  parameters: {
+    mockApi: () => ({
+      savedCard: true,
+      currentUser: {
+        plan: {
+          pro: true,
+          monthly: true,
+          trial: true,
+        },
+      },
+    }),
+  },
+}

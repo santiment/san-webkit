@@ -31,9 +31,9 @@ const preview = {
   },
 
   decorators: [
-    (_, { args }) => ({
+    (_, { args, loaded }) => ({
       Component: Decorator,
-      props: args,
+      props: { ...args, loaded },
     }),
   ],
 
@@ -46,11 +46,13 @@ const preview = {
 
       const schema = mockApi(ctx)
 
-      createServer({
+      const server = createServer({
         routes() {
           this.post(process.env.GQL_SERVER_URL, (_, req) => ApiMock(req, schema))
         },
       })
+
+      return { server }
     },
   ],
 }

@@ -1,25 +1,13 @@
 import type { SelectionNode } from 'graphql'
-import type { CurrentUser } from './user'
-import type { AnnualDiscount } from './annualDiscount'
 
 import { parse, Kind } from 'graphql'
-import { mockUser } from './user'
-import { mockAnnualDiscount } from './annualDiscount'
+import { CURRENT_USER_MOCK } from './user'
+import { ANNUAL_DISCOUNT_MOCK } from './annualDiscount'
+import { SAVED_CARD_MOCK } from './savedCard'
 
-export const MOCKS = [
-  {
-    schema: 'currentUser',
-    query: 'currentUser',
-    mock: mockUser,
-  },
-  {
-    schema: 'annualDiscount',
-    query: 'checkAnnualDiscountEligibility',
-    mock: mockAnnualDiscount,
-  },
-] as { schema: string; query: string; mock: any }[]
+export const MOCKS = [CURRENT_USER_MOCK, ANNUAL_DISCOUNT_MOCK, SAVED_CARD_MOCK] as const
 
-export function ApiMock(req, schema) {
+export function ApiMock(req, schema: Record<string, any>) {
   const { query, variables } = JSON.parse(req.requestBody)
   const operation = parse(query).definitions[0]
 
@@ -28,8 +16,9 @@ export function ApiMock(req, schema) {
   }
 
   MOCKS.forEach((mocker) => {
+    const { mock, query } = mocker as any
     if (schema[mocker.schema] !== undefined) {
-      schema['query ' + mocker.query] = mocker.mock(schema[mocker.schema])
+      schema['query ' + query] = mock(schema[mocker.schema])
     }
   })
 
@@ -74,11 +63,14 @@ function mapAlises(data: Record<string, any>, query: SelectionNode) {
   })
 }
 
+type Mock<T> = T extends { mock: (arg: infer S) => any } ? S : never
+
 declare module '@storybook/svelte' {
   export interface Parameters {
     mockApi?: () => {
-      annualDiscount?: AnnualDiscount
-      currentUser?: CurrentUser
+      annualDiscount?: Mock<typeof ANNUAL_DISCOUNT_MOCK>
+      currentUser?: Mock<typeof CURRENT_USER_MOCK>
+      savedCard?: Mock<typeof SAVED_CARD_MOCK>
     } & Record<string, any>
   }
 }

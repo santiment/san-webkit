@@ -26,7 +26,7 @@
   </div>
 
   <div class="row">
-    BiVisibility - big
+    Visibility - big
     <ToggleVisibility big {isActive} on:click={toggle} />
   </div>
 </main>

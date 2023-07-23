@@ -18,3 +18,9 @@ export function mockAnnualDiscount(annualDiscount: AnnualDiscount) {
     },
   }
 }
+
+export const ANNUAL_DISCOUNT_MOCK = {
+  schema: 'annualDiscount',
+  query: 'checkAnnualDiscountEligibility',
+  mock: mockAnnualDiscount,
+} as const

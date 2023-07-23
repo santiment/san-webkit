@@ -139,3 +139,9 @@ export function mockUser(currentUser: CurrentUser) {
     ...overwrite,
   }
 }
+
+export const CURRENT_USER_MOCK = {
+  schema: 'currentUser',
+  query: 'currentUser',
+  mock: mockUser,
+} as const

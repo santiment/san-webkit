@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setContext } from 'svelte'
+  import { onDestroy, setContext } from 'svelte'
   import { Device } from '@/responsive'
   import Dialogs from '@/ui/Dialog/Dialogs.svelte'
   import { UI$$ } from '@/stores/ui'
@@ -7,18 +7,27 @@
   import { Customer$$ } from '@/stores/customer'
   import { Device$$, getDeviceInfo } from '@/stores/responsive'
   import Dialog from './Dialog.svelte'
+  import { paymentCard$ } from '@/stores/paymentCard'
 
   export let currentUser: null | SAN.CurrentUser
   export let customer: undefined | SAN.Customer
+  export let loaded: any
 
   CurrentUser$$(currentUser)
   Customer$$(customer)
   UI$$()
   const { device$ } = Device$$(getDeviceInfo(Device.Desktop))
 
+  paymentCard$.clear()
+  paymentCard$.setDefault()
+
   document.body.classList.add(Device.Desktop)
 
   setContext('Dialog', Dialog)
+
+  onDestroy(() => {
+    loaded.server?.shutdown()
+  })
 </script>
 
 <svelte:window on:resize={device$.onResize} />
