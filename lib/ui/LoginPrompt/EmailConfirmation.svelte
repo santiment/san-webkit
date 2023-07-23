@@ -1,7 +1,8 @@
 <script>
   import Section from './Section.svelte'
 
-  export let email
+  export let verifiedEmail
+  export let isSignUp = false
 </script>
 
 <Section
@@ -9,11 +10,12 @@
   titleMargin="mrg-xl"
   bottomLabel="Back to"
   bottomAction="log in options"
-  bottomHref="/login"
+  bottomHref={isSignUp ? '/sign-up' : '/login'}
+  on:click={() => (verifiedEmail = '')}
 >
   <p class="c-waterloo mrg-xxl mrg--b">
-    We just sent an email to <span class="c-black">{email}</span>. Please check your inbox and click
-    on the confirmation link.
+    We just sent an email to <span class="c-black">{verifiedEmail}</span>. Please check your inbox
+    and click on the confirmation link.
   </p>
 </Section>
 

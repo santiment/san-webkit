@@ -4,7 +4,6 @@ declare const __propDef: {
         plan: SAN.Plan;
         name: string;
         price: string;
-        isEligibleForTrial?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

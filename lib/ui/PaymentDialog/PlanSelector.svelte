@@ -1,5 +1,4 @@
-<script>var _a;
-import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
+<script>import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip/svelte';
 import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, } from './../../utils/plans';
@@ -10,7 +9,7 @@ export let selectedNameBilling;
 export let isSinglePlan;
 export let annualDiscount;
 let isOpened = false;
-$: annualPercentOff = ((_a = annualDiscount.discount) === null || _a === void 0 ? void 0 : _a.percentOff) || 10;
+$: annualPercentOff = annualDiscount.percent || 10;
 $: altPlan = getAlternativePlan(plan, plans);
 function select(option) {
     plan = option;

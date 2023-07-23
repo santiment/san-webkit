@@ -1,6 +1,6 @@
 <script>
-  import { newDialogCtx } from '@/ui/Dialog/ctx'
-  import { DialogLock } from '@/ui/Dialog/types'
+  import { newDialogCtx } from './../lib/ui/Dialog/ctx'
+  import { DialogLock } from './../lib/ui/Dialog/types'
 
   export let render
 

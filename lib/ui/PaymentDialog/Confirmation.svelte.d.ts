@@ -8,8 +8,7 @@ declare const __propDef: {
         isSinglePlan: boolean;
         isEligibleForTrial: boolean;
         loading: boolean;
-        sanBalance: number;
-        annualDiscount?: SAN.AnnualDiscount | undefined;
+        annualDiscount: any;
         onSubmit: any;
     };
     events: {

@@ -1,4 +1,4 @@
-import { getTodaysEnd } from '@/utils/dates'
+import { getTodaysEnd } from './../../lib/utils/dates'
 
 export type AnnualDiscount = null | 35 | 50
 

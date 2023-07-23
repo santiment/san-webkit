@@ -3,10 +3,7 @@ declare const __propDef: {
     props: {
         plan: SAN.Plan;
         percentOff?: number | undefined;
-        sanBalance?: number | undefined;
         isAnnualPlan: boolean;
-        isEligibleForTrial: boolean;
-        annualDiscount: SAN.AnnualDiscount;
     };
     events: {
         [evt: string]: CustomEvent<any>;

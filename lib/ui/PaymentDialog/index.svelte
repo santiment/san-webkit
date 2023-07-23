@@ -29,7 +29,6 @@ export { defaultPlan as plan };
 export let interval = 'year';
 export let isSinglePlan = false;
 export let plansFilter = onlyProLikePlans;
-export let trialDaysLeft = 0;
 export let onPaymentSuccess = () => { };
 export let onPaymentError;
 export let source;
@@ -56,7 +55,7 @@ $: customer = $customer$;
 $: ({ subscription } = customer);
 $: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
 // TODO: make customer data accesible via context
-$: ({ sanBalance, isEligibleForTrial, annualDiscount = {} } = $customer$);
+$: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
 $: name = PlanName[plan.name] || plan.name;
 $: price = name ? formatPrice(plan) : '';
 function findDefaultPlan({ name, interval: billing }) {
@@ -107,7 +106,7 @@ onDestroy(() => {
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
     {#if isNotCanceled}
-      <Banner {plan} {name} {price} {trialDaysLeft} {isEligibleForTrial} />
+      <Banner {plan} {name} {price} />
     {/if}
 
     <form bind:this={formNode} on:submit|preventDefault on:change={onChange}>
@@ -122,7 +121,6 @@ onDestroy(() => {
         {plans}
         {name}
         {price}
-        {sanBalance}
         {annualDiscount}
         {isSinglePlan}
         {isEligibleForTrial}

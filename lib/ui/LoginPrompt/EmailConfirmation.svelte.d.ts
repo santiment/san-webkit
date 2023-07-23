@@ -2,7 +2,8 @@
 /** @typedef {typeof __propDef.events}  EmailConfirmationEvents */
 /** @typedef {typeof __propDef.slots}  EmailConfirmationSlots */
 export default class EmailConfirmation extends SvelteComponentTyped<{
-    email: any;
+    verifiedEmail: any;
+    isSignUp?: boolean | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
 }, {}> {
@@ -13,7 +14,8 @@ export type EmailConfirmationSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
-        email: any;
+        verifiedEmail: any;
+        isSignUp?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

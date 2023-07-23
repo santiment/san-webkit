@@ -9,6 +9,8 @@ export default class Section extends SvelteComponentTyped<{
     class?: string | undefined;
     titleMargin?: string | undefined;
 }, {
+    click: MouseEvent;
+} & {
     [evt: string]: CustomEvent<any>;
 }, {
     default: {};
@@ -28,6 +30,8 @@ declare const __propDef: {
         titleMargin?: string | undefined;
     };
     events: {
+        click: MouseEvent;
+    } & {
         [evt: string]: CustomEvent<any>;
     };
     slots: {

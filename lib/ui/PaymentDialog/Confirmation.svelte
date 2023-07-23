@@ -12,8 +12,7 @@ export let price;
 export let isSinglePlan;
 export let isEligibleForTrial;
 export let loading;
-export let sanBalance;
-export let annualDiscount = {};
+export let annualDiscount;
 export let onSubmit;
 let percentOff = 0;
 $: isAnnualPlan = plan.interval === Billing.YEAR;
@@ -25,7 +24,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
     <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} {isSinglePlan} />
 
     {#if isAnnualPlan && annualDiscount.isEligible}
-      <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.discount.percentOff} />
+      <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.percent} />
     {:else}
       <DiscountInput bind:percentOff />
 
@@ -43,16 +42,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       </div>
     {/if}
 
-    <Check
-      {plan}
-      {price}
-      {selectedNameBilling}
-      {percentOff}
-      {sanBalance}
-      {isAnnualPlan}
-      {isEligibleForTrial}
-      annualDiscount={isAnnualPlan ? annualDiscount : {}}
-    />
+    <Check {plan} {percentOff} {isAnnualPlan} />
 
     <button
       type="submit"

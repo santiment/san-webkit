@@ -6,7 +6,7 @@ declare const __propDef: {
         price: string;
         selectedNameBilling: string;
         isSinglePlan: boolean;
-        annualDiscount: SAN.AnnualDiscount;
+        annualDiscount: any;
     };
     events: {
         click: MouseEvent;

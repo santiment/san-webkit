@@ -13,7 +13,6 @@
     "dev": "npm run storybook",
     "storybook": "storybook dev -p 4000 --ci",
     "build:storybook": "node scripts/install.js && storybook build -o build",
-    "prepare": "husky install",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint src/**/*[^.test].{ts,svelte}",
     "format": "prettier --plugin-search-dir . --write ."

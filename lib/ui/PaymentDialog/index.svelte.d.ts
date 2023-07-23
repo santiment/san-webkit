@@ -10,7 +10,6 @@ declare const __propDef: {
         interval?: SAN.PlanInterval | undefined;
         isSinglePlan?: boolean | undefined;
         plansFilter?: (({ name }: SAN.Plan) => boolean) | undefined;
-        trialDaysLeft?: number | undefined;
         onPaymentSuccess?: (() => void) | undefined;
         onPaymentError: any;
         source: string;

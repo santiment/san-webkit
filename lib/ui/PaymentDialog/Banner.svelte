@@ -5,9 +5,8 @@ import { getNextPaymentDate } from './../../utils/subscription';
 export let plan;
 export let name;
 export let price;
-export let isEligibleForTrial = true;
 const { customer$ } = getCustomer$Ctx();
-$: ({ trialDaysLeft } = $customer$);
+$: ({ trialDaysLeft, isEligibleForTrial } = $customer$);
 function formatDate(date) {
     const { DD, MM, YY } = getDateFormats(date);
     return `${DD}/${MM}/${YY}`;
