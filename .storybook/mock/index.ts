@@ -23,22 +23,28 @@ export function ApiMock(req, schema: Record<string, any>) {
   })
 
   let hasData = false
-  const result = {}
+  const data = {}
+  let error = null
 
   operation.selectionSet.selections.forEach((query) => {
     if (query.kind !== Kind.FIELD) return
 
     const name = query.name.value
-    const data = schema['query ' + name]
+    const mocked = schema['query ' + name]
 
-    if (data !== undefined) {
-      result[query.alias?.value || name] = data
-      mapAlises(data, query)
+    if (mocked !== undefined) {
+      if (mocked.error) {
+        error = mocked.error
+      } else {
+        data[query.alias?.value || name] = mocked
+        mapAlises(mocked, query)
+      }
+
       hasData = true
     }
   })
 
-  if (hasData) return Promise.resolve({ data: result })
+  if (hasData) return Promise.resolve({ data, error })
 
   const xhr = req.passthrough()
 
