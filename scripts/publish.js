@@ -58,7 +58,7 @@ export async function publish() {
   await exec('git rm --cached -r .husky', false)
 
   // TODO: Add node_modules to exclude [@vanguard | 23 Jul, 2023]
-  await exec('npx tsc .storybook/**/*.ts -d --module esnext')
+  await exec('npx tsc .storybook/**/*.ts -d --module esnext', false)
   await exec('npm run lib')
   updatePkgJson()
 

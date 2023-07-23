@@ -46,6 +46,20 @@ const preview = {
 
       const schema = mockApi(ctx)
 
+      window.updateArgs = ({ args, argTypes }) => {
+        Object.keys(schema).forEach((key) => {
+          args[key] = schema[key]
+
+          argTypes[key] = {
+            control: { type: 'object' },
+            name: key,
+            type: { name: 'object' },
+          }
+        })
+
+        return args
+      }
+
       const server = createServer({
         routes() {
           this.post(process.env.GQL_SERVER_URL, (_, req) => ApiMock(req, schema))
