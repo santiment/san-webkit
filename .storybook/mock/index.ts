@@ -34,7 +34,7 @@ export function ApiMock(req, schema: Record<string, any>) {
       const mocked = schema['query ' + name]
 
       if (mocked !== undefined) {
-        if (mocked.error) {
+        if (mocked?.error) {
           error = mocked.error
         } else {
           data[query.alias?.value || name] = mocked

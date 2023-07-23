@@ -2,7 +2,8 @@ import { createServer } from 'miragejs'
 import { Cache } from '@/api/cache'
 import '@/styles/main.css'
 import Decorator from './Decorator.svelte'
-import { ApiMock } from './mock'
+import { ApiMock } from './mock/index'
+import { mockUser } from './mock/user'
 
 /** @type {import('@storybook/svelte').Preview} */
 const preview = {
@@ -33,7 +34,7 @@ const preview = {
   decorators: [
     (_, { args, loaded }) => ({
       Component: Decorator,
-      props: { ...args, loaded },
+      props: { ...args, ...loaded },
     }),
   ],
 
@@ -66,7 +67,7 @@ const preview = {
         },
       })
 
-      return { server }
+      return { server, currentUser: mockUser(schema.currentUser) }
     },
   ],
 }

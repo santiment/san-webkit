@@ -11,7 +11,7 @@
 
   export let currentUser: null | SAN.CurrentUser
   export let customer: undefined | SAN.Customer
-  export let loaded: any
+  export let server: any
 
   CurrentUser$$(currentUser)
   Customer$$(customer)
@@ -26,7 +26,7 @@
   setContext('Dialog', Dialog)
 
   onDestroy(() => {
-    loaded.server?.shutdown()
+    server?.shutdown()
   })
 </script>
 
