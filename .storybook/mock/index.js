@@ -9,34 +9,36 @@ export function ApiMock(req, schema) {
     if (operation.kind !== Kind.OPERATION_DEFINITION) {
         return;
     }
-    MOCKS.forEach(function (mocker) {
-        var _a = mocker, mock = _a.mock, query = _a.query;
-        if (schema[mocker.schema] !== undefined) {
-            schema['query ' + query] = mock(schema[mocker.schema]);
-        }
-    });
-    var hasData = false;
-    var data = {};
-    var error = null;
-    operation.selectionSet.selections.forEach(function (query) {
-        var _a;
-        if (query.kind !== Kind.FIELD)
-            return;
-        var name = query.name.value;
-        var mocked = schema['query ' + name];
-        if (mocked !== undefined) {
-            if (mocked.error) {
-                error = mocked.error;
+    if (schema.passthrough !== true) {
+        MOCKS.forEach(function (mocker) {
+            var _a = mocker, mock = _a.mock, query = _a.query;
+            if (schema[mocker.schema] !== undefined) {
+                schema['query ' + query] = mock(schema[mocker.schema]);
             }
-            else {
-                data[((_a = query.alias) === null || _a === void 0 ? void 0 : _a.value) || name] = mocked;
-                mapAlises(mocked, query);
+        });
+        var hasData_1 = false;
+        var data_1 = {};
+        var error_1 = null;
+        operation.selectionSet.selections.forEach(function (query) {
+            var _a;
+            if (query.kind !== Kind.FIELD)
+                return;
+            var name = query.name.value;
+            var mocked = schema['query ' + name];
+            if (mocked !== undefined) {
+                if (mocked.error) {
+                    error_1 = mocked.error;
+                }
+                else {
+                    data_1[((_a = query.alias) === null || _a === void 0 ? void 0 : _a.value) || name] = mocked;
+                    mapAlises(mocked, query);
+                }
+                hasData_1 = true;
             }
-            hasData = true;
-        }
-    });
-    if (hasData)
-        return Promise.resolve({ data: data, error: error });
+        });
+        if (hasData_1)
+            return Promise.resolve({ data: data_1, error: error_1 });
+    }
     var xhr = req.passthrough();
     return new Promise(function (resolve) {
         xhr.onloadend = function () {
