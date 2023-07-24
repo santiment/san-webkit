@@ -1,8 +1,12 @@
 <script lang="ts">
-  import { showShareDialog } from '@/ui/Share/index.svelte'
-  import OnMount from './OnMount.svelte'
+  import type { ComponentProps, ComponentType } from 'svelte'
 
-  export let props: Parameters<typeof showShareDialog>[0]
+  import { getContext } from 'svelte'
+  import ShareDialog from '@/ui/Share/index.svelte'
+
+  export let props: ComponentProps<ShareDialog>
+
+  const Dialog = getContext<ComponentType>('Dialog')
 </script>
 
-<OnMount run={() => showShareDialog(props)} />
+<Dialog render={ShareDialog} {...props} />
