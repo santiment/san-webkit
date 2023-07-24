@@ -1,8 +1,11 @@
 <script context="module" lang="ts">
+  import type { ComponentProps } from 'svelte'
+
   import { dialogs } from '../Dialog'
   import ShareDialog from './index.svelte'
 
-  export const showShareDialog = (props) => dialogs.showOnce(ShareDialog, props)
+  export const showShareDialog = (props: ComponentProps<ShareDialog>) =>
+    dialogs.showOnce(ShareDialog, props)
 
   const SOCIALS = [
     {
