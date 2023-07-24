@@ -49,7 +49,7 @@ const preview = {
 
       window.updateArgs = ({ args, argTypes }) => {
         Object.keys(schema).forEach((key) => {
-          args[key] = schema[key]
+          args[key] = schema[key] || { _: null }
 
           argTypes[key] = {
             control: { type: 'object' },
