@@ -31,7 +31,8 @@ export function ApiMock(req, schema) {
                 }
                 else {
                     data_1[((_a = query.alias) === null || _a === void 0 ? void 0 : _a.value) || name] = mocked;
-                    mapAlises(mocked, query);
+                    if (mocked)
+                        mapAlises(mocked, query);
                 }
                 hasData_1 = true;
             }
