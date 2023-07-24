@@ -50,7 +50,10 @@ const ToggleTheme = () => {
       const iframeWindow = iframe.contentWindow
       if (!iframeWindow || !iframeWindow.updateArgs) return
 
-      updateArgs(iframeWindow.updateArgs(api.getCurrentStoryData()))
+      const data = api.getCurrentStoryData()
+      if (data.args) {
+        updateArgs(iframeWindow.updateArgs(data))
+      }
     }
   }, [params])
 
