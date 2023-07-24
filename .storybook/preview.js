@@ -47,6 +47,12 @@ const preview = {
 
       const schema = mockApi(ctx)
 
+      if (schema.currentUser !== undefined) {
+        if (!schema['query currentUser']) {
+          schema['query currentUser'] = mockUser(schema.currentUser)
+        }
+      }
+
       window.updateArgs = ({ args, argTypes }) => {
         Object.keys(schema).forEach((key) => {
           args[key] = schema[key] || { _: null }
