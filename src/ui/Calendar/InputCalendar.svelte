@@ -8,7 +8,7 @@
   import { getDateFormats, MONTH_NAMES, setDayStart, setDayEnd } from '@/utils/dates'
 
   export let date: DateRange = [new Date(), new Date()]
-  export let onDateSelect: (date: DateRange) => void
+  export let onDateSelect: (date: Date[]) => void
 
   const MAX_DATE = setDayEnd(new Date())
 
