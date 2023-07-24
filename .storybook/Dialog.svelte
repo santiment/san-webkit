@@ -19,4 +19,4 @@
   })
 </script>
 
-<svelte:component this={render} i={0} {DialogPromise} {DialogCtx} />
+<svelte:component this={render} i={0} {DialogPromise} {DialogCtx} {...$$props} />
