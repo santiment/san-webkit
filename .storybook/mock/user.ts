@@ -53,6 +53,7 @@ export function mockUser(currentUser: CurrentUser) {
   if (!currentUser) return null
 
   const {
+    id = 42,
     name = 'Santiment Mock User',
     username = 'santiment.mock.user',
     email = 'user.mock@santiment.net',
@@ -125,7 +126,7 @@ export function mockUser(currentUser: CurrentUser) {
   }
 
   return {
-    id: 42,
+    id,
     name,
     username,
     email,
