@@ -38,7 +38,7 @@ export function ApiMock(req, schema: Record<string, any>) {
           error = mocked.error
         } else {
           data[query.alias?.value || name] = mocked
-          mapAlises(mocked, query)
+          if (mocked) mapAlises(mocked, query)
         }
 
         hasData = true
