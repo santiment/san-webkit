@@ -26,7 +26,7 @@ export function ApiMock(req, schema) {
             var name = query.name.value;
             var mocked = schema['query ' + name];
             if (mocked !== undefined) {
-                if (mocked.error) {
+                if (mocked === null || mocked === void 0 ? void 0 : mocked.error) {
                     error_1 = mocked.error;
                 }
                 else {
