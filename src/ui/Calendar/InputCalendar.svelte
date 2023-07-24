@@ -203,7 +203,7 @@
     return ''
   }
 
-  function formatValue(dates: DateRange) {
+  function formatValue(dates: DateRange | [Date]) {
     const formattedStart = formatDate(dates[0])
     return dates[1] ? formattedStart + ' - ' + formatDate(dates[1]) : formattedStart
   }

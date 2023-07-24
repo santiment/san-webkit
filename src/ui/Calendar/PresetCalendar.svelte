@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  export type DateRange = [Date] | [Date, Date]
+  export type DateRange = [Date, Date]
 </script>
 
 <script lang="ts">
