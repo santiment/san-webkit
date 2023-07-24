@@ -42,7 +42,7 @@
   export let date: DateRange = [new Date(), new Date()]
   export let label = date[0].toLocaleDateString()
   export let maxDate: Date = new Date()
-  export let onDateSelect: (date: DateRange) => void
+  export let onDateSelect: (date: Date[]) => void
   export let calendar: null | AirDatepicker<any> = null
 </script>
 
