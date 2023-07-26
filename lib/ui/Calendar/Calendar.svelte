@@ -30,7 +30,7 @@ function onTriggerClick(e) {
     const node = e.currentTarget;
     if (!node)
         return;
-    const x = (e.clientX - node.offsetLeft) / node.clientWidth;
+    const x = (e.clientX - node.getBoundingClientRect().left) / node.clientWidth;
     const index = x < 0.45 ? 0 : 1;
     startDate = date[index];
 }
@@ -53,7 +53,8 @@ function mount(parent) {
             onDateSelect === null || onDateSelect === void 0 ? void 0 : onDateSelect(data.date);
         },
     });
-    calendar.setViewDate(startDate);
+    if (range)
+        calendar.setViewDate(startDate || date[0]);
 }
 </script>
 
