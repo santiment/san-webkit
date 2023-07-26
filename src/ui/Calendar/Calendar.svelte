@@ -63,7 +63,13 @@
         '<svg width="6" height="8" viewBox="0 0 6 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.626194 7.82946C0.444235 7.62174 0.465115 7.30585 0.67283 7.12389L4.23892 3.99999L0.67283 0.876095C0.465115 0.694136 0.444235 0.378243 0.626194 0.170528C0.808153 -0.0371876 1.12405 -0.0580673 1.33176 0.123892L5.32719 3.62389C5.43557 3.71883 5.49772 3.85591 5.49772 3.99999C5.49772 4.14408 5.43557 4.28115 5.32719 4.37609L1.33176 7.87609C1.12405 8.05805 0.808153 8.03717 0.626194 7.82946Z" fill="#7A859E"/></svg>',
 
       onSelect(data) {
-        onDateSelect?.(data.date as K)
+        if (range) {
+          if (+data.date[0] !== +date[0] || +data.date[1] !== +date[1]) {
+            onDateSelect?.(data.date as K)
+          }
+        } else {
+          onDateSelect?.(data.date as K)
+        }
       },
     })
 

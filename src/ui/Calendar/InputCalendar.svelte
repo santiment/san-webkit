@@ -27,7 +27,6 @@
     if (dates) {
       setInputValue(dates)
       calendar?.selectDate(dates)
-      onDateSelect(dates)
     }
   }
 
@@ -35,9 +34,13 @@
     const parsedInput = input.split(' - ').map((item) => item.split('/'))
     return [
       parsedInput,
-      parsedInput.map(
-        ([day, month, year]) => new Date(`${month || 1}/${day || 1}/20${year || 23}`),
-      ),
+      parsedInput.map(([day, month, year]) => {
+        const fullYear = `20${year || 23}`
+        const fullMonth = Math.min(+month, 12) || 1
+        const fullDays = Math.min(+day || 1, getDaysInMonth(year, fullMonth))
+
+        return new Date(`${fullMonth}/${fullDays}/${fullYear}`)
+      }),
     ] as [[[string, string, string], [string, string, string]], [Date, Date]]
   }
 
@@ -67,12 +70,9 @@
   }
 
   function fixInputValue() {
-    // if (validateInput(inputNode.value)) {
-    //   return
-    // }
-
     let caret = inputNode.selectionStart as number
     const [parsed, dates] = parseInputData(inputNode.value)
+
     setInputValue(dates)
 
     let offset = null as null | number
@@ -146,8 +146,13 @@
     const start = inputNode.selectionStart
     const nextGroupIndex = nextModifyableGroupIndex(start)
 
-    if (start + 1 === nextGroupIndex || start + 3 === nextGroupIndex) {
+    if (
+      start + 1 === nextGroupIndex ||
+      start + 3 === nextGroupIndex ||
+      nextGroupIndex + 2 === start
+    ) {
       selectNextGroup(inputNode, true)
+      validateInput(inputNode.value)
     }
   }
 

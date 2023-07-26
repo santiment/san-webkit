@@ -6,14 +6,15 @@
   import type { default as AirDatepicker } from 'air-datepicker/air-datepicker'
 
   import Svg from '@/ui/Svg/svelte'
+  import { setDayStart, getTodaysEnd } from '@/utils/dates'
   import Calendar from './Calendar.svelte'
 
   function Preset(title: string, target: 'Date' | 'Month' | 'FullYear', diff: number) {
-    const from = new Date()
+    const from = setDayStart(new Date())
     from[`set${target}`](from[`get${target}`]() - diff)
     return {
       title,
-      presetDate: [from, new Date()],
+      presetDate: [from, getTodaysEnd()],
     }
   }
 
