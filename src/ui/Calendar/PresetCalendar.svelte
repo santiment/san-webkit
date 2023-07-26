@@ -37,13 +37,20 @@
       title: 'All time',
       presetDate: [new Date(2009, 0, 1), new Date()],
     },
-  ]
+  ] as { title: string; presetDate: [Date, Date] }[]
 
   export let date: DateRange = [new Date(), new Date()]
   export let label = date[0].toLocaleDateString()
   export let maxDate: Date = new Date()
   export let onDateSelect: (date: Date[]) => void
   export let calendar: null | AirDatepicker<any> = null
+
+  function onPresetClick(dates: [Date, Date]) {
+    if (calendar) {
+      calendar.selectDate(dates)
+      calendar.setViewDate(dates[0])
+    }
+  }
 </script>
 
 <Calendar
@@ -64,9 +71,9 @@
     </button>
   </slot>
 
-  <section slot="tooltip" class="column" let:calendar>
+  <section slot="tooltip" class="column">
     {#each PRESETS as { title, presetDate }}
-      <button class="btn-ghost" on:click={() => calendar && calendar.selectDate(presetDate)}>
+      <button class="btn-ghost" on:click={() => onPresetClick(presetDate)}>
         {title}
       </button>
     {/each}

@@ -67,9 +67,12 @@
   }
 
   function fixInputValue() {
+    // if (validateInput(inputNode.value)) {
+    //   return
+    // }
+
     let caret = inputNode.selectionStart as number
     const [parsed, dates] = parseInputData(inputNode.value)
-
     setInputValue(dates)
 
     let offset = null as null | number
@@ -137,6 +140,15 @@
     }
 
     return e.preventDefault()
+  }
+
+  function onInput() {
+    const start = inputNode.selectionStart
+    const nextGroupIndex = nextModifyableGroupIndex(start)
+
+    if (start + 1 === nextGroupIndex || start + 3 === nextGroupIndex) {
+      selectNextGroup(inputNode, true)
+    }
   }
 
   export function selectNextGroup(
@@ -223,6 +235,7 @@
       on:click={onClick}
       on:keydown={onKeyDown}
       on:blur={onBlur}
+      on:input={onInput}
     />
     <Svg id="calendar" w="16" class="mrg-s mrg--l $style.icon" />
   </label>
