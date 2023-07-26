@@ -16,6 +16,7 @@
   export let openDelay = 0
   export let closeDelay = 120
   export let margin = 8
+  export let onTriggerClick = null as null | ((e: MouseEvent) => void)
 
   const transition = { duration }
 
@@ -89,6 +90,7 @@
   function attach(node: HTMLElement) {
     trigger = node
 
+    if (onTriggerClick) trigger.addEventListener('click', onTriggerClick, { capture: true })
     trigger.addEventListener(on, startOpenTimer)
     trigger.addEventListener('mouseleave', startCloseTimer)
 

@@ -12,6 +12,7 @@ export let maxDate = new Date();
 export let minDate = undefined;
 export let onDateSelect;
 export let calendar = null;
+export let startDate = undefined;
 let tooltip = null;
 $: if (tooltip) {
     mount(tooltip);
@@ -23,6 +24,16 @@ function destroy() {
     calendar === null || calendar === void 0 ? void 0 : calendar.destroy();
     calendar = null;
 }
+function onTriggerClick(e) {
+    if (!range)
+        return;
+    const node = e.currentTarget;
+    if (!node)
+        return;
+    const x = (e.clientX - node.offsetLeft) / node.clientWidth;
+    const index = x < 0.45 ? 0 : 1;
+    startDate = date[index];
+}
 function mount(parent) {
     if (calendar)
         return;
@@ -30,6 +41,7 @@ function mount(parent) {
         minDate,
         maxDate,
         range,
+        startDate,
         visible: true,
         selectedDates: range ? date : [date],
         dateFormat: 'dd.MM.yy',
@@ -41,6 +53,7 @@ function mount(parent) {
             onDateSelect === null || onDateSelect === void 0 ? void 0 : onDateSelect(data.date);
         },
     });
+    calendar.setViewDate(startDate);
 }
 </script>
 
@@ -48,6 +61,7 @@ function mount(parent) {
   position="bottom"
   {...$$restProps}
   on="click"
+  {onTriggerClick}
   bind:tooltip
   let:trigger
   closeDelay={300}

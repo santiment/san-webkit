@@ -1,5 +1,7 @@
 import { SvelteComponentTyped } from "svelte";
-export declare const showShareDialog: (props: any) => Promise<unknown> | undefined;
+import type { ComponentProps } from 'svelte';
+import ShareDialog from './index.svelte';
+export declare const showShareDialog: (props: ComponentProps<ShareDialog>) => Promise<unknown> | undefined;
 declare const __propDef: {
     props: {
         [x: string]: any;

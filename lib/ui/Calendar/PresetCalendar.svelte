@@ -1,3 +1,6 @@
+<script context="module">export {};
+</script>
+
 <script>import Svg from './../../ui/Svg/svelte';
 import Calendar from './Calendar.svelte';
 const PRESETS = [

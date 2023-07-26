@@ -111,6 +111,8 @@ export function selectNextGroup(node, isRightDir = false, caret = node.selection
     const left = (isRightDir ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret);
     node.selectionStart = left;
     node.selectionEnd = left + 2;
+    const isFirstDateFocused = node.selectionStart < 11;
+    calendar === null || calendar === void 0 ? void 0 : calendar.setViewDate(date[isFirstDateFocused ? 0 : 1]);
 }
 // -------
 const NavigationChar = { ArrowLeft: true, ArrowRight: true };
@@ -154,7 +156,8 @@ function getValidityMsg(dateSettings) {
     return '';
 }
 function formatValue(dates) {
-    return formatDate(dates[0]) + ' - ' + formatDate(dates[1]);
+    const formattedStart = formatDate(dates[0]);
+    return dates[1] ? formattedStart + ' - ' + formatDate(dates[1]) : formattedStart;
 }
 </script>
 

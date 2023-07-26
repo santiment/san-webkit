@@ -12,6 +12,7 @@ declare class __sveltets_Render<T extends boolean> {
         minDate?: Date | undefined;
         onDateSelect: (date: any) => void;
         calendar?: AirDatepicker<any> | null | undefined;
+        startDate?: Date | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;

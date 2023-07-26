@@ -1,9 +1,10 @@
 import { SvelteComponentTyped } from "svelte";
+export type DateRange = [Date, Date];
 import type { default as AirDatepicker } from 'air-datepicker/air-datepicker';
 declare const __propDef: {
     props: {
         [x: string]: any;
-        date?: Date[] | undefined;
+        date?: DateRange | undefined;
         label?: string | undefined;
         maxDate?: Date | undefined;
         onDateSelect: (date: Date[]) => void;

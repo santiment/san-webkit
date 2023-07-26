@@ -1,11 +1,13 @@
 <svelte:options immutable />
 
 <script lang="ts">
+  import type { DateRange } from './PresetCalendar.svelte'
+
   import Svg from '@/ui/Svg/svelte'
   import PresetCalendar from './PresetCalendar.svelte'
   import { getDateFormats, MONTH_NAMES, setDayStart, setDayEnd } from '@/utils/dates'
 
-  export let date = [new Date(), new Date()] as [Date, Date]
+  export let date: DateRange = [new Date(), new Date()]
   export let onDateSelect: (date: Date[]) => void
 
   const MAX_DATE = setDayEnd(new Date())
@@ -15,7 +17,7 @@
 
   $: if (inputNode) setInputValue(date)
 
-  function setInputValue(dates: [Date, Date]) {
+  function setInputValue(dates: DateRange) {
     inputNode.value = formatValue(dates)
   }
 
@@ -145,6 +147,10 @@
     const left = (isRightDir ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret as number)
     node.selectionStart = left
     node.selectionEnd = left + 2
+
+    const isFirstDateFocused = node.selectionStart < 11
+
+    calendar?.setViewDate(date[isFirstDateFocused ? 0 : 1])
   }
 
   // -------
@@ -201,8 +207,9 @@
     return ''
   }
 
-  function formatValue(dates: [Date, Date]) {
-    return formatDate(dates[0]) + ' - ' + formatDate(dates[1])
+  function formatValue(dates: DateRange | [Date]) {
+    const formattedStart = formatDate(dates[0])
+    return dates[1] ? formattedStart + ' - ' + formatDate(dates[1]) : formattedStart
   }
 </script>
 

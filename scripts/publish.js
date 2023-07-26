@@ -59,7 +59,12 @@ export async function publish() {
 
   // TODO: Add node_modules to exclude [@vanguard | 23 Jul, 2023]
   await exec('npx tsc .storybook/**/*.ts -d --module esnext', false)
-  await exec('npm run lib')
+
+  const [libErrorMsg] = await exec('npm run lib')
+  if (libErrorMsg.includes('error')) {
+    return console.error(libErrorMsg)
+  }
+
   updatePkgJson()
 
   await forFile(['.storybook/**/*'], async (entry) => {

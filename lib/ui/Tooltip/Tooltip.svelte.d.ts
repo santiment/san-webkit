@@ -13,6 +13,7 @@ declare const __propDef: {
         openDelay?: number | undefined;
         closeDelay?: number | undefined;
         margin?: number | undefined;
+        onTriggerClick?: ((e: MouseEvent) => void) | null | undefined;
         tooltip?: HTMLElement | null | undefined;
     };
     events: {

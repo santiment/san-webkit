@@ -1,8 +1,9 @@
 import { SvelteComponentTyped } from "svelte";
+import type { DateRange } from './PresetCalendar.svelte';
 declare const __propDef: {
     props: {
         [x: string]: any;
-        date?: [Date, Date] | undefined;
+        date?: DateRange | undefined;
         onDateSelect: (date: Date[]) => void;
         selectNextGroup?: ((node: HTMLInputElement, isRightDir?: boolean, caret?: number | null) => void) | undefined;
     };

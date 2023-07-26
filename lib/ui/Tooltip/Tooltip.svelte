@@ -12,6 +12,7 @@ export let duration = 0;
 export let openDelay = 0;
 export let closeDelay = 120;
 export let margin = 8;
+export let onTriggerClick = null;
 const transition = { duration };
 let trigger = null;
 export let tooltip = null;
@@ -75,6 +76,8 @@ function startCloseTimer() {
 }
 function attach(node) {
     trigger = node;
+    if (onTriggerClick)
+        trigger.addEventListener('click', onTriggerClick, { capture: true });
     trigger.addEventListener(on, startOpenTimer);
     trigger.addEventListener('mouseleave', startCloseTimer);
     return {
