@@ -1,6 +1,9 @@
 import { getTodaysEnd } from '@/utils/dates'
 
 export type CurrentUser = null | {
+  /** @default 42 */
+  id?: null | number
+
   /** @default "Santiment Mock User" */
   name?: null | string
 
