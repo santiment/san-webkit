@@ -38,7 +38,7 @@
     const node = e.currentTarget as null | HTMLElement
     if (!node) return
 
-    const x = (e.clientX - node.offsetLeft) / node.clientWidth
+    const x = (e.clientX - node.getBoundingClientRect().left) / node.clientWidth
     const index = x < 0.45 ? 0 : 1
     startDate = date[index]
   }
@@ -67,7 +67,7 @@
       },
     })
 
-    calendar.setViewDate(startDate)
+    if (range) calendar.setViewDate(startDate || date[0])
   }
 </script>
 
