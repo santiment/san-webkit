@@ -17,6 +17,7 @@
   export let minDate = undefined as undefined | Date
   export let onDateSelect: (date: any) => void
   export let calendar: null | AirDatepicker<any> = null
+  export let startDate = undefined as undefined | Date
 
   let tooltip = null
 
@@ -31,6 +32,17 @@
     calendar = null
   }
 
+  function onTriggerClick(e: MouseEvent) {
+    if (!range) return
+
+    const node = e.currentTarget as null | HTMLElement
+    if (!node) return
+
+    const x = (e.clientX - node.offsetLeft) / node.clientWidth
+    const index = x < 0.45 ? 0 : 1
+    startDate = date[index]
+  }
+
   function mount(parent: HTMLElement) {
     if (calendar) return
 
@@ -38,7 +50,9 @@
       minDate,
       maxDate,
       range,
+      startDate,
       visible: true,
+
       selectedDates: range ? date : [date],
       dateFormat: 'dd.MM.yy',
       multipleDatesSeparator: ' – ',
@@ -52,6 +66,8 @@
         onDateSelect?.(data.date as K)
       },
     })
+
+    calendar.setViewDate(startDate)
   }
 </script>
 
@@ -59,6 +75,7 @@
   position="bottom"
   {...$$restProps}
   on="click"
+  {onTriggerClick}
   bind:tooltip
   let:trigger
   closeDelay={300}

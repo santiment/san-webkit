@@ -147,6 +147,10 @@
     const left = (isRightDir ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret as number)
     node.selectionStart = left
     node.selectionEnd = left + 2
+
+    const isFirstDateFocused = node.selectionStart < 11
+
+    calendar?.setViewDate(date[isFirstDateFocused ? 0 : 1])
   }
 
   // -------
