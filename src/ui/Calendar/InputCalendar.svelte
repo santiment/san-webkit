@@ -21,13 +21,18 @@
     inputNode.value = formatValue(dates)
   }
 
-  function changeCalendar() {
+  function changeCalendar(wasInputBlurred = false) {
     const dates = validateInput(inputNode.value)
 
     if (dates) {
       setInputValue(dates)
-      calendar?.selectDate(dates)
-      onDateSelect(dates)
+
+      // NOTE: Needed since calendar is unmounted on blur [@vanguard | 27 Jul, 2023]
+      if (wasInputBlurred) {
+        onDateSelect(dates)
+      } else {
+        calendar?.selectDate(dates)
+      }
     }
   }
 
@@ -35,9 +40,13 @@
     const parsedInput = input.split(' - ').map((item) => item.split('/'))
     return [
       parsedInput,
-      parsedInput.map(
-        ([day, month, year]) => new Date(`${month || 1}/${day || 1}/20${year || 23}`),
-      ),
+      parsedInput.map(([day, month, year]) => {
+        const fullYear = `20${year || 23}`
+        const fullMonth = Math.min(+month, 12) || 1
+        const fullDays = Math.min(+day || 1, getDaysInMonth(year, fullMonth))
+
+        return new Date(`${fullMonth}/${fullDays}/${fullYear}`)
+      }),
     ] as [[[string, string, string], [string, string, string]], [Date, Date]]
   }
 
@@ -92,7 +101,7 @@
   function onBlur() {
     if (formatValue(date) !== inputNode.value) {
       fixInputValue()
-      changeCalendar()
+      changeCalendar(true)
     }
   }
 
@@ -137,6 +146,20 @@
     }
 
     return e.preventDefault()
+  }
+
+  function onInput() {
+    const start = inputNode.selectionStart
+    const nextGroupIndex = nextModifyableGroupIndex(start)
+
+    if (
+      start + 1 === nextGroupIndex ||
+      start + 3 === nextGroupIndex ||
+      nextGroupIndex + 2 === start
+    ) {
+      selectNextGroup(inputNode, true)
+      validateInput(inputNode.value)
+    }
   }
 
   export function selectNextGroup(
@@ -223,6 +246,7 @@
       on:click={onClick}
       on:keydown={onKeyDown}
       on:blur={onBlur}
+      on:input={onInput}
     />
     <Svg id="calendar" w="16" class="mrg-s mrg--l $style.icon" />
   </label>
