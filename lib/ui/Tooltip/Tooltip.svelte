@@ -9,8 +9,9 @@ export let position = 'top';
 export let activeClass = '';
 export let on = 'mouseenter';
 export let duration = 0;
+export let clickaway = false;
 export let openDelay = 0;
-export let closeDelay = 120;
+export let closeDelay = clickaway ? 99999 : 120;
 export let margin = 8;
 export let onTriggerClick = null;
 const transition = { duration };
@@ -22,6 +23,8 @@ $: if (trigger && tooltip) {
     tooltip.onmouseenter = closeDelay ? open : null;
     tooltip.onmouseleave = closeDelay ? startCloseTimer : null;
     window.addEventListener('touchend', onTouchEnd);
+    if (clickaway)
+        window.addEventListener('click', onTouchEnd);
     computePosition(trigger, tooltip, {
         placement: position,
         middleware: [offset(margin), flip(), shift()],
@@ -48,6 +51,7 @@ function close() {
     if (activeClass)
         trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
     window.removeEventListener('touchend', onTouchEnd);
+    window.removeEventListener('click', onTouchEnd);
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
 }
 function startOpenTimer() {
@@ -86,6 +90,7 @@ function attach(node) {
 }
 function onTouchEnd({ target }) {
     if (target === trigger ||
+        (trigger === null || trigger === void 0 ? void 0 : trigger.contains(target)) ||
         target.closest('[slot="tooltip"]') ||
         (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
         return;

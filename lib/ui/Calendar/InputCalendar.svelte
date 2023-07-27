@@ -13,19 +13,29 @@ $: if (inputNode)
 function setInputValue(dates) {
     inputNode.value = formatValue(dates);
 }
-function changeCalendar() {
+function changeCalendar(wasInputBlurred = false) {
     const dates = validateInput(inputNode.value);
     if (dates) {
         setInputValue(dates);
-        calendar === null || calendar === void 0 ? void 0 : calendar.selectDate(dates);
-        onDateSelect(dates);
+        // NOTE: Needed since calendar is unmounted on blur [@vanguard | 27 Jul, 2023]
+        if (wasInputBlurred) {
+            onDateSelect(dates);
+        }
+        else {
+            calendar === null || calendar === void 0 ? void 0 : calendar.selectDate(dates);
+        }
     }
 }
 function parseInputData(input) {
     const parsedInput = input.split(' - ').map((item) => item.split('/'));
     return [
         parsedInput,
-        parsedInput.map(([day, month, year]) => new Date(`${month || 1}/${day || 1}/20${year || 23}`)),
+        parsedInput.map(([day, month, year]) => {
+            const fullYear = `20${year || 23}`;
+            const fullMonth = Math.min(+month, 12) || 1;
+            const fullDays = Math.min(+day || 1, getDaysInMonth(year, fullMonth));
+            return new Date(`${fullMonth}/${fullDays}/${fullYear}`);
+        }),
     ];
 }
 function validateInput(input) {
@@ -68,7 +78,7 @@ function fixInputValue() {
 function onBlur() {
     if (formatValue(date) !== inputNode.value) {
         fixInputValue();
-        changeCalendar();
+        changeCalendar(true);
     }
 }
 function onClick() {
@@ -106,6 +116,16 @@ function onKeyDown(e) {
         return;
     }
     return e.preventDefault();
+}
+function onInput() {
+    const start = inputNode.selectionStart;
+    const nextGroupIndex = nextModifyableGroupIndex(start);
+    if (start + 1 === nextGroupIndex ||
+        start + 3 === nextGroupIndex ||
+        nextGroupIndex + 2 === start) {
+        selectNextGroup(inputNode, true);
+        validateInput(inputNode.value);
+    }
 }
 export function selectNextGroup(node, isRightDir = false, caret = node.selectionStart) {
     const left = (isRightDir ? nextModifyableGroupIndex : prevModifyableGroupIndex)(caret);
@@ -171,6 +191,7 @@ function formatValue(dates) {
       on:click={onClick}
       on:keydown={onKeyDown}
       on:blur={onBlur}
+      on:input={onInput}
     />
     <Svg id="calendar" w="16" class="mrg-s mrg--l icon-OID7UC" />
   </label>

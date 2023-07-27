@@ -10,6 +10,7 @@ declare const __propDef: {
         activeClass?: string | undefined;
         on?: "click" | "mouseenter" | undefined;
         duration?: number | undefined;
+        clickaway?: boolean | undefined;
         openDelay?: number | undefined;
         closeDelay?: number | undefined;
         margin?: number | undefined;
