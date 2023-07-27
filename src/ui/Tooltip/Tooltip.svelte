@@ -31,7 +31,7 @@
     tooltip.onmouseenter = closeDelay ? open : null
     tooltip.onmouseleave = closeDelay ? startCloseTimer : null
     window.addEventListener('touchend', onTouchEnd)
-    if (clickaway) window.addEventListener('click', onTouchEnd)
+    if (clickaway) window.addEventListener('click', onTouchEnd, { capture: true })
 
     computePosition(trigger, tooltip, {
       placement: position,
