@@ -5,7 +5,7 @@
   import { getCustomer$Ctx } from '@/stores/customer'
   import Toggle from '@/ui/Toggle.svelte'
   // import Tooltip from '@/ui/Tooltip'
-  import Tooltip from '@/ui/Tooltip/svelte'
+  import Tooltip from '@/ui/Tooltip'
   import Svg from '@/ui/Svg/svelte'
   import Pic from '@/ui/Profile/Pic.svelte'
   import { AccountStatusType } from '@/ui/AccountStatus.svelte'
@@ -34,9 +34,17 @@
   $: ({ isPro } = customer)
 </script>
 
-<Tooltip duration={130} bind:isOpened activeClass="$style.active" class={tooltipClass}>
+<Tooltip
+  position="bottom"
+  overflowFlip={false}
+  duration={130}
+  bind:isOpened
+  activeClass="$style.active"
+  class={tooltipClass}
+  let:trigger
+>
   <a
-    slot="trigger"
+    use:trigger
     href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
     aria-label="Profile page"
     on:click={window.__onLinkClick}
