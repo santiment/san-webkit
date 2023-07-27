@@ -8,6 +8,7 @@ declare const __propDef: {
         style?: string | undefined;
         position?: Placement | undefined;
         activeClass?: string | undefined;
+        overflowFlip?: boolean | undefined;
         on?: "click" | "mouseenter" | undefined;
         duration?: number | undefined;
         clickaway?: boolean | undefined;

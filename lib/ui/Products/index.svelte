@@ -1,5 +1,5 @@
 <script>import Svg from './../../ui/Svg/svelte';
-import Tooltip from './../../ui/Tooltip/svelte';
+import Tooltip from './../../ui/Tooltip';
 import Products from './Products.svelte';
 let className = '';
 export { className as class };
@@ -13,14 +13,20 @@ export let active = undefined;
 export let closeTimeout = undefined;
 </script>
 
-<Tooltip {activeClass} bind:isOpened {closeTimeout} class={tooltipClass}>
-  <svelte:fragment slot="trigger">
-    <slot>
-      <div class="toggle mrg-s mrg--r btn {className}">
-        <Svg id="products-toggle" w="16" />
-      </div>
-    </slot>
-  </svelte:fragment>
+<Tooltip
+  position="bottom-end"
+  overflowFlip={false}
+  {activeClass}
+  bind:isOpened
+  closeDelay={closeTimeout}
+  class={tooltipClass}
+  let:trigger
+>
+  <slot {trigger}>
+    <div use:trigger class="toggle mrg-s mrg--r btn {className}">
+      <Svg id="products-toggle" w="16" />
+    </div>
+  </slot>
 
   <svelte:fragment slot="tooltip">
     <Products {active} {isColumn} {isCompact} class={dropdownClassName} />

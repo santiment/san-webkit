@@ -7,6 +7,7 @@ export let isOpened = false;
 export let style = '';
 export let position = 'top';
 export let activeClass = '';
+export let overflowFlip = true;
 export let on = 'mouseenter';
 export let duration = 0;
 export let clickaway = false;
@@ -24,10 +25,10 @@ $: if (trigger && tooltip) {
     tooltip.onmouseleave = closeDelay ? startCloseTimer : null;
     window.addEventListener('touchend', onTouchEnd);
     if (clickaway)
-        window.addEventListener('click', onTouchEnd);
+        window.addEventListener('click', onTouchEnd, { capture: true });
     computePosition(trigger, tooltip, {
         placement: position,
-        middleware: [offset(margin), flip(), shift()],
+        middleware: [offset(margin), flip({ mainAxis: overflowFlip }), shift()],
     }).then(({ x, y }) => {
         if (!tooltip)
             return;
