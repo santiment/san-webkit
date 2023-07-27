@@ -13,8 +13,9 @@
   export let activeClass = ''
   export let on: 'mouseenter' | 'click' = 'mouseenter'
   export let duration = 0
+  export let clickaway = false
   export let openDelay = 0
-  export let closeDelay = 120
+  export let closeDelay = clickaway ? 99999 : 120
   export let margin = 8
   export let onTriggerClick = null as null | ((e: MouseEvent) => void)
 
@@ -30,6 +31,7 @@
     tooltip.onmouseenter = closeDelay ? open : null
     tooltip.onmouseleave = closeDelay ? startCloseTimer : null
     window.addEventListener('touchend', onTouchEnd)
+    if (clickaway) window.addEventListener('click', onTouchEnd)
 
     computePosition(trigger, tooltip, {
       placement: position,
@@ -59,6 +61,8 @@
     if (activeClass) trigger?.classList.remove(activeClass)
 
     window.removeEventListener('touchend', onTouchEnd)
+    window.removeEventListener('click', onTouchEnd)
+
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
   }
 
@@ -102,6 +106,7 @@
   function onTouchEnd({ target }: TouchEvent) {
     if (
       target === trigger ||
+      trigger?.contains(target as HTMLElement) ||
       (target as HTMLElement).closest('[slot="tooltip"]') ||
       tooltip?.contains(target as HTMLElement)
     ) {

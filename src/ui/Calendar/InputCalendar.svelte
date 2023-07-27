@@ -21,12 +21,18 @@
     inputNode.value = formatValue(dates)
   }
 
-  function changeCalendar() {
+  function changeCalendar(wasInputBlurred = false) {
     const dates = validateInput(inputNode.value)
 
     if (dates) {
       setInputValue(dates)
-      calendar?.selectDate(dates)
+
+      // NOTE: Needed since calendar is unmounted on blur [@vanguard | 27 Jul, 2023]
+      if (wasInputBlurred) {
+        onDateSelect(dates)
+      } else {
+        calendar?.selectDate(dates)
+      }
     }
   }
 
@@ -95,7 +101,7 @@
   function onBlur() {
     if (formatValue(date) !== inputNode.value) {
       fixInputValue()
-      changeCalendar()
+      changeCalendar(true)
     }
   }
 

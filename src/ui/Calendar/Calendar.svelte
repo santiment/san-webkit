@@ -81,11 +81,11 @@
   position="bottom"
   {...$$restProps}
   on="click"
-  {onTriggerClick}
+  clickaway
   bind:tooltip
   let:trigger
-  closeDelay={300}
   style="flex-direction: row-reverse;"
+  {onTriggerClick}
 >
   {@const classes = `btn-2 row v-center $style.trigger ${
     tooltip ? '$style.active' : ''
