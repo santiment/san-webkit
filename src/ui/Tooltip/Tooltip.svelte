@@ -11,6 +11,7 @@
   export let style = ''
   export let position = 'top' as Placement
   export let activeClass = ''
+  export let overflowFlip = true
   export let on: 'mouseenter' | 'click' = 'mouseenter'
   export let duration = 0
   export let clickaway = false
@@ -35,7 +36,7 @@
 
     computePosition(trigger, tooltip, {
       placement: position,
-      middleware: [offset(margin), flip(), shift()],
+      middleware: [offset(margin), flip({ mainAxis: overflowFlip }), shift()],
     }).then(({ x, y }) => {
       if (!tooltip) return
 
