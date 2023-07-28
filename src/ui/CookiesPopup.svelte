@@ -1,8 +1,11 @@
-<script context="module">
+<script context="module" lang="ts">
   export const CookiesStyle = {
     API: '$style.api',
     SHEETS: '$style.sheets',
-  }
+  } as const
+
+  type CookiesStyle = typeof CookiesStyle
+  type CookiesStyles = CookiesStyle[keyof CookiesStyle]
 </script>
 
 <script lang="ts">
@@ -16,7 +19,7 @@
 
   let className = ''
   export { className as class }
-  export let style: '' | keyof typeof CookiesStyle = ''
+  export let style: '' | CookiesStyles = ''
   export let isVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED)
 
   function onAllowAllClick() {
