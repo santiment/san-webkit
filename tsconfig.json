@@ -20,7 +20,11 @@
       "webkit/*": [
         "src/*"
       ]
-    }
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./.storybook/mock",
+    ]
   },
   "include": [
     "src/**/*.d.ts",
