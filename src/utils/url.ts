@@ -7,7 +7,7 @@ export const sluggify = (title: string) =>
   )
 
 export const getIdFromSEOLink = (link: string): number =>
-  parseInt(link.slice(link.lastIndexOf('-') + 1), 10)
+  (link || '') === '' ? NaN : +link.slice(link.lastIndexOf('-') + 1)
 
 export const getSEOLinkFromIdAndTitle = (id: string | number, title?: string | null): string =>
   title ? sluggify(title) + `-${id}` : `${id}`
