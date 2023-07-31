@@ -1,6 +1,6 @@
 import { emitDts } from 'svelte2tsx'
 import { createRequire } from 'node:module'
-import { LIB, forFile, copyFile } from './utils.js'
+import { LIB, SRC, forFile, copyFile } from './utils.js'
 import { prepareTypes } from './types.js'
 import { prepareSvelte } from './svelte.js'
 import { prepareImports } from './imports.js'
@@ -20,6 +20,7 @@ async function main() {
   await emitDts({
     declarationDir: LIB,
     svelteShimsPath: require.resolve('svelte2tsx/svelte-shims.d.ts'),
+    libRoot: SRC,
   })
 
   replaceSvgComponentIds()

@@ -5,7 +5,7 @@
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
   "type": "module",
   "scripts": {
-    "ts": "tsc --outDir ./lib",
+    "ts": "tsc --outDir ./lib --p ./scripts/tsconfig.json",
     "lib": "npm run lib:clean && npm run ts && node scripts/install.js",
     "lib:clean": "node scripts/clean.js",
     "lib:publish": "node scripts/publish --run",
