@@ -14,7 +14,13 @@ declare const __propDef: {
     events: {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {};
+    slots: {
+        default: {
+            trigger: (node: HTMLElement) => {
+                destroy: () => void;
+            };
+        };
+    };
 };
 export type IndexProps = typeof __propDef.props;
 export type IndexEvents = typeof __propDef.events;

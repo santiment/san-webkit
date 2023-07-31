@@ -1,6 +1,6 @@
 <script>import { onDestroy } from 'svelte';
 import { track } from './../../analytics';
-import { CommentsType, queryComments } from './../../api/comments';
+import { queryComments } from './../../api/comments';
 import { createComment } from './../../api/comments/mutate';
 import Svg from './../../ui/Svg/svelte';
 import Editor from './../../ui/Editor';

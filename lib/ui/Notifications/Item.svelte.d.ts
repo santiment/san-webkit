@@ -3,8 +3,8 @@
 /** @typedef {typeof __propDef.slots}  ItemSlots */
 export default class Item extends SvelteComponentTyped<{
     i: any;
-    parentNode: any;
     notification: any;
+    parentNode: any;
     notifications: any;
     offset?: number | undefined;
 }, {
@@ -18,8 +18,8 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         i: any;
-        parentNode: any;
         notification: any;
+        parentNode: any;
         notifications: any;
         offset?: number | undefined;
     };

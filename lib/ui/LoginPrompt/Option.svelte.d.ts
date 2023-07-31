@@ -8,8 +8,8 @@ export default class Option extends SvelteComponentTyped<{
     icon: any;
     class?: string | undefined;
     loading?: boolean | undefined;
-    tag?: string | undefined;
     isSignUp?: boolean | undefined;
+    tag?: string | undefined;
     prefetch?: boolean | undefined;
 }, {
     click: MouseEvent;
@@ -28,8 +28,8 @@ declare const __propDef: {
         icon: any;
         class?: string | undefined;
         loading?: boolean | undefined;
-        tag?: string | undefined;
         isSignUp?: boolean | undefined;
+        tag?: string | undefined;
         prefetch?: boolean | undefined;
     };
     events: {

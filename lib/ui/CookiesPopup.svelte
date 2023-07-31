@@ -1,8 +1,7 @@
-<script context="module">
-  export const CookiesStyle = {
+<script context="module">export const CookiesStyle = {
     API: 'api-SvMBop',
     SHEETS: 'sheets-yMmQiB',
-  }
+};
 </script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies, } from './../ui/ManageCookiesDialog/index.svelte';

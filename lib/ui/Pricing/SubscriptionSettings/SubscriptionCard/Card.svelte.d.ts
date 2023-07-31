@@ -4,9 +4,9 @@
 export default class Card extends SvelteComponentTyped<{
     link: any;
     title: any;
-    discount: any;
     action: any;
     billing: any;
+    discount: any;
     price: any;
     badge: any;
     badgeIcon: any;
@@ -14,8 +14,8 @@ export default class Card extends SvelteComponentTyped<{
     onActionClick: any;
     onSubactionClick: any;
     label?: string | undefined;
-    disabled?: boolean | undefined;
     isActive?: boolean | undefined;
+    disabled?: boolean | undefined;
     isFullAccess?: boolean | undefined;
     green?: boolean | undefined;
     orange?: boolean | undefined;
@@ -36,9 +36,9 @@ declare const __propDef: {
     props: {
         link: any;
         title: any;
-        discount: any;
         action: any;
         billing: any;
+        discount: any;
         price: any;
         badge: any;
         badgeIcon: any;
@@ -46,8 +46,8 @@ declare const __propDef: {
         onActionClick: any;
         onSubactionClick: any;
         label?: string | undefined;
-        disabled?: boolean | undefined;
         isActive?: boolean | undefined;
+        disabled?: boolean | undefined;
         isFullAccess?: boolean | undefined;
         green?: boolean | undefined;
         orange?: boolean | undefined;

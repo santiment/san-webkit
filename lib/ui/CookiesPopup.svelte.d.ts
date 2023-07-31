@@ -1,12 +1,14 @@
 import { SvelteComponentTyped } from "svelte";
 export declare const CookiesStyle: {
-    API: string;
-    SHEETS: string;
+    readonly API: "$style.api";
+    readonly SHEETS: "$style.sheets";
 };
+type CookiesStyle = typeof CookiesStyle;
+type CookiesStyles = CookiesStyle[keyof CookiesStyle];
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        style?: "" | "API" | "SHEETS" | undefined;
+        style?: "" | CookiesStyles | undefined;
         isVisible?: boolean | undefined;
     };
     events: {

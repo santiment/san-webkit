@@ -1,5 +1,5 @@
 <script>import { SANBASE_ORIGIN } from './../../../../utils/links';
-import { checkIsYearlyPlan, formatMonthlyPrice, formatPrice, getSavedAmount, PlanName, } from './../../../../utils/plans';
+import { checkIsYearlyPlan, formatPrice, PlanName, } from './../../../../utils/plans';
 import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
 import Card from './Card.svelte';
 export let plan;

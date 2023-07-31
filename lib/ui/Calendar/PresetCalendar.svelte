@@ -1,5 +1,4 @@
-<script context="module">export {};
-</script>
+<script context="module"></script>
 
 <script>import Svg from './../../ui/Svg/svelte';
 import { setDayStart, getTodaysEnd } from './../../utils/dates';
