@@ -12,10 +12,11 @@
   export let currentUser: null | SAN.CurrentUser
   export let customer: undefined | SAN.Customer
   export let server: any
+  export let ui: Record<string, any>
 
   CurrentUser$$(currentUser)
   Customer$$(customer)
-  UI$$()
+  UI$$(ui)
   const { device$ } = Device$$(getDeviceInfo(Device.Desktop))
 
   paymentCard$.clear()

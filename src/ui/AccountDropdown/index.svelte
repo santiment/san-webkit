@@ -43,15 +43,17 @@
   class={tooltipClass}
   let:trigger
 >
-  <a
-    use:trigger
-    href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
-    aria-label="Profile page"
-    on:click={window.__onLinkClick}
-    class:pro={isPro}
-  >
-    <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
-  </a>
+  <slot {trigger}>
+    <a
+      use:trigger
+      href="{SANBASE_ORIGIN}/{currentUser ? `profile/${currentUser.id}` : 'sign-up'}"
+      aria-label="Profile page"
+      on:click={window.__onLinkClick}
+      class:pro={isPro}
+    >
+      <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
+    </a>
+  </slot>
 
   <div class="tooltip" slot="tooltip">
     {#if currentUser}
