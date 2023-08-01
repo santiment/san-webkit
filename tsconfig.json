@@ -20,7 +20,7 @@
       "webkit/*": [
         "src/*"
       ]
-    }
+    },
   },
   "include": [
     "src/**/*.d.ts",
