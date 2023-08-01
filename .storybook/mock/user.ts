@@ -90,7 +90,7 @@ export function mockUser(currentUser: CurrentUser) {
       return document.write('Plan should have "monthly" or "yearly" value set to "true"')
     }
 
-    let trialEnd = null
+    let trialEnd: string | null = null
     if (trial) {
       const date = getTodaysEnd()
 

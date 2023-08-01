@@ -71,10 +71,15 @@ function mapAlises(data: Record<string, any>, query: SelectionNode) {
   })
 }
 
-type Mock<T> = T extends { mock: (arg: infer S) => any } ? S : never
-
 declare module '@storybook/svelte' {
+  type Mock<T> = T extends { mock: (arg: infer S) => any } ? S : never
+
   export interface Parameters {
+    ui?: {
+      isNightMode?: boolean
+      isLiteVersion?: boolean
+    }
+
     mockApi?: (story?: any) => {
       /** Disabling mocking for all requests */
       passthrough?: boolean

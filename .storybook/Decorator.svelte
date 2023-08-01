@@ -10,7 +10,7 @@ import { paymentCard$ } from './../lib/stores/paymentCard';
 export let currentUser;
 export let customer;
 export let server;
-export let ui;
+export let ui = undefined;
 CurrentUser$$(currentUser);
 Customer$$(customer);
 UI$$(ui);
