@@ -12,7 +12,7 @@
   export let currentUser: null | SAN.CurrentUser
   export let customer: undefined | SAN.Customer
   export let server: any
-  export let ui: Record<string, any>
+  export let ui = undefined as undefined | Record<string, any>
 
   CurrentUser$$(currentUser)
   Customer$$(customer)
