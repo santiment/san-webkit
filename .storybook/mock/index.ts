@@ -1,5 +1,6 @@
 import type { SelectionNode } from 'graphql'
 
+import '@storybook/svelte'
 import { parse, Kind } from 'graphql'
 import { CURRENT_USER_MOCK } from './user'
 import { ANNUAL_DISCOUNT_MOCK } from './annualDiscount'
@@ -69,4 +70,21 @@ function mapAlises(data: Record<string, any>, query: SelectionNode) {
 
     return mapAlises(value, query)
   })
+}
+
+declare module '@storybook/svelte' {
+  type Mock<T> = T extends { mock: (arg: infer S) => any } ? S : never
+
+  export interface Parameters {
+    mockApi?: (story?: any) => {
+      /** Disabling mocking for all requests */
+      passthrough?: boolean
+
+      annualDiscount?: Mock<typeof ANNUAL_DISCOUNT_MOCK>
+
+      currentUser?: Mock<typeof CURRENT_USER_MOCK>
+
+      savedCard?: Mock<typeof SAVED_CARD_MOCK>
+    } & Record<string, any>
+  }
 }
