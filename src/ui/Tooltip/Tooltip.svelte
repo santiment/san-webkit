@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Placement } from '@floating-ui/dom'
 
+  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
   import { computePosition, offset, flip, shift } from '@floating-ui/dom'
 
@@ -122,6 +123,10 @@
       destroy: close,
     }
   }
+
+  onMount(() => {
+    if (isOpened) open()
+  })
 </script>
 
 <slot trigger={attach} />
