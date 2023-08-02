@@ -7,7 +7,11 @@ declare const __propDef: {
         [x: string]: any;
         title?: string | undefined;
         entity?: string | undefined;
-        data?: {} | undefined;
+        data?: {
+            title?: string | undefined;
+            text?: string | undefined;
+            link?: string | undefined;
+        } | undefined;
         isAuthor?: boolean | undefined;
         isPublic?: boolean | undefined;
         onPublicityToggle?: (() => void) | undefined;

@@ -4,23 +4,23 @@ export const showShareDialog = (props) => dialogs.showOnce(ShareDialog, props);
 const SOCIALS = [
     {
         id: 'twitter',
-        href: (link, text) => `https://twitter.com/home?status=${text}%0Alink%3A%20${link}`,
+        href: ({ link, text }) => `https://twitter.com/home?status=${text}%0Alink%3A%20${link}`,
     },
     {
         id: 'facebook',
-        href: (link) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
+        href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
     },
     {
         id: 'linked-in',
-        href: (link, text, title) => `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
+        href: ({ link, text, title }) => `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
     },
     {
         id: 'telegram',
-        href: (link, text) => `https://telegram.me/share/url?text=${text}&url=${link}`,
+        href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
     },
     {
         id: 'reddit',
-        href: (link, text) => `https://reddit.com/submit?title=${text}&url=${link}`,
+        href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
     },
 ];
 </script>
@@ -72,7 +72,7 @@ onMount(() => {
     <div class="bottom row mrg-l mrg--t">
       {#each SOCIALS as { id, href }}
         <a
-          href={href(link, encodedTitle, encodedText)}
+          href={href({ link, title: encodedTitle, text: encodedText })}
           class="social btn-3 btn-2"
           class:disabled
           target="_blank"
