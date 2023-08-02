@@ -1,4 +1,5 @@
-<script>import { fade } from 'svelte/transition';
+<script>import { onMount } from 'svelte';
+import { fade } from 'svelte/transition';
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 let className = '';
 export { className as class };
@@ -103,6 +104,10 @@ function onClose() {
         destroy: close,
     };
 }
+onMount(() => {
+    if (isOpened)
+        open();
+});
 </script>
 
 <slot trigger={attach} />
