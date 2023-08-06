@@ -1,9 +1,11 @@
 :global {
+
   .medium-editor-toolbar,
   .medium-editor-toolbar-form {
     position: absolute;
     top: 0;
-    background: #2f354d; /* rhino */
+    background: #2f354d;
+    /* rhino */
     color: #fff;
     fill: #fff;
     border-radius: 4px;
@@ -29,19 +31,25 @@
     left: 0;
     bottom: 0;
   }
+
   .medium-editor-toolbar-form-active {
     display: flex;
     align-items: center;
   }
+
   .medium-editor-toolbar-input {
-    background: #2f354d; /* rhino */
+    background: #2f354d;
+    /* rhino */
     margin-left: 6px;
     height: 100%;
     flex: 1;
+
     &::placeholder {
-      color: #7a859e; /* fiord */
+      color: #7a859e;
+      /* fiord */
     }
   }
+
   .medium-editor-toolbar-save,
   .medium-editor-toolbar-close {
     width: 32px;
@@ -59,7 +67,7 @@
   .medium-editor-toolbar-actions {
     display: flex !important;
 
-    & > li {
+    &>li {
       display: flex;
       align-items: center;
 
@@ -78,6 +86,7 @@
   .medium-editor-action {
     width: 32px;
     height: 32px;
+    text-align: center;
 
     &:hover {
       fill: var(--green-hover);
@@ -107,14 +116,17 @@
     font-size: 12px;
     margin-top: -4px;
   }
+
   .medium-editor-anchor-preview-active {
     display: block;
   }
+
   .medium-editor-toolbar-anchor-preview {
     display: flex;
     border-radius: 4px;
     color: #fff;
-    background: #2f354d; /* rhino */
+    background: #2f354d;
+    /* rhino */
   }
 
   .medium-editor-anchor-preview a {

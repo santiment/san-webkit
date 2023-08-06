@@ -11,5 +11,4 @@ export declare function scrollToComment(comment?: HTMLElement | null, removeHigh
 export declare const findCommentNode: (commentsNode: HTMLElement, href: string) => HTMLElement | null;
 export declare function adjustHeight(node: HTMLTextAreaElement): void;
 export declare function getDatetime(date: string): string;
-export declare function sanitize(content: string): string;
 export {};

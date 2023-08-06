@@ -45,7 +45,7 @@ onDestroy(() => {
 });
 </script>
 
-<div bind:this={node} class={className} />
+<editor bind:this={node} class={className} />
 
 <style >/**
 @include dac(desktop, tablet, phone) {
@@ -61,44 +61,44 @@ onDestroy(() => {
   }
 }
 */
-div {
+editor {
   min-height: 100%;
   outline: none;
   flex: 1;
   word-break: break-word;
 }
-div:empty::before {
+editor:empty::before {
   content: attr(data-placeholder);
   color: var(--casper);
   opacity: 0.5;
   pointer-events: none;
 }
 
-div :global(strong),
-div :global(b) {
+editor :global(strong),
+editor :global(b) {
   font-weight: bold;
 }
-div :global(u) {
+editor :global(u) {
   text-decoration: underline;
 }
-div :global(h2) {
+editor :global(h2) {
   font-size: 21px;
 }
-div :global(h3) {
+editor :global(h3) {
   font-size: 18px;
 }
-div :global(a) {
+editor :global(a) {
   color: var(--green);
 }
-div :global(ul),
-div :global(ol) {
+editor :global(ul),
+editor :global(ol) {
   padding-left: 30px;
   margin: 8px 0 24px;
 }
-div :global(ul) :global(li) {
+editor :global(ul) :global(li) {
   list-style: disc;
 }
-div :global(ol) :global(li) {
+editor :global(ol) :global(li) {
   list-style: decimal;
 }
 
@@ -106,7 +106,8 @@ div :global(ol) :global(li) {
 :global(.medium-editor-toolbar-form) {
   position: absolute;
   top: 0;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   color: #fff;
   fill: #fff;
   border-radius: 4px;
@@ -134,13 +135,15 @@ div :global(ol) :global(li) {
   align-items: center;
 }
 :global(.medium-editor-toolbar-input) {
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
   margin-left: 6px;
   height: 100%;
   flex: 1;
 }
 :global(.medium-editor-toolbar-input::placeholder) {
-  color: #7a859e; /* fiord */
+  color: #7a859e;
+  /* fiord */
 }
 :global(.medium-editor-toolbar-save),
 :global(.medium-editor-toolbar-close) {
@@ -172,6 +175,7 @@ div :global(ol) :global(li) {
 :global(.medium-editor-action) {
   width: 32px;
   height: 32px;
+  text-align: center;
 }
 :global(.medium-editor-action:hover) {
   fill: var(--green-hover);
@@ -203,7 +207,8 @@ div :global(ol) :global(li) {
   display: flex;
   border-radius: 4px;
   color: #fff;
-  background: #2f354d; /* rhino */
+  background: #2f354d;
+  /* rhino */
 }
 :global(.medium-editor-anchor-preview) :global(a) {
   padding: 3px 12px;

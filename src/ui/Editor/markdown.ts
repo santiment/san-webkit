@@ -17,7 +17,7 @@ marked.setOptions({
 })
 marked.use({ walkTokens })
 
-export const markdownToHTML = (md: string): string => marked(md)
+export const markdownToHTML = (md: string): string => marked(md, { mangle: false })
 
 const TEXT = (text: string) => text
 export function markdownToPlainText(md: string) {
@@ -28,7 +28,7 @@ export function markdownToPlainText(md: string) {
   renderer.strong = TEXT
   renderer.em = TEXT
 
-  return marked(md, { renderer })
+  return marked(md, { renderer, mangle: false })
 }
 
 const EMPTY_CHAR = String.fromCharCode(160)

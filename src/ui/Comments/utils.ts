@@ -68,9 +68,3 @@ export function getDatetime(date: string) {
   const { DD, MMM, YY } = getDateFormats(new Date(date))
   return `${MMM} ${DD}, ${YY}`
 }
-
-const LT_REGEX = /</g
-const GT_REGEX = />/g
-export function sanitize(content: string) {
-  return content.replace(LT_REGEX, '&lt;').replace(GT_REGEX, '&gt;')
-}
