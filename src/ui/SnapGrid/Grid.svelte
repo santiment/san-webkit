@@ -4,6 +4,7 @@
   import { setSnapGridCtx } from './context'
   import { SnapGrid } from './index'
   import { calcHeight, getResponsiveTranslate, getWidth } from './style'
+  import Item from './Item.svelte'
 
   let className = ''
   export { className as class }
@@ -21,7 +22,7 @@
 
   export let onLayoutChange = noop as () => void
 
-  let node
+  let node: HTMLElement
   const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows }
   const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, { onStart, onEnd }))
   const { onDragStart } = snapGrid
@@ -50,7 +51,9 @@
 
 <svelte:element this={tag} bind:this={node} class="snap-grid {className}">
   {#each layout as item, i (item)}
-    <slot {i} class="snap-item" style={getStyle(item)} onMouseDown={onDragStart} />
+    <Item style={getStyle(item)} {onDragStart} let:gridItem>
+      <slot {i} {gridItem} />
+    </Item>
   {/each}
 </svelte:element>
 
