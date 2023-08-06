@@ -50,10 +50,10 @@
   })
 </script>
 
-<div bind:this={node} class={className} />
+<editor bind:this={node} class={className} />
 
 <style lang="scss">
-  div {
+  editor {
     min-height: 100%;
     outline: none;
     flex: 1;
@@ -67,7 +67,7 @@
     }
   }
 
-  div :global {
+  editor :global {
     strong,
     b {
       font-weight: bold;

@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { htmlToMarkdown, markdownToHTML } from './markdown'
+import { sanitize } from './sanitize'
 
-const sanitize = (md: string) => {
+const prepare = (md: string) => {
   const div = document.createElement('div')
   div.innerHTML = markdownToHTML(md)
-  return htmlToMarkdown(div)
+  return sanitize(htmlToMarkdown(div))
 }
 
 // NOTE: https://raw.githubusercontent.com/cujanovic/Markdown-XSS-Payloads/master/Markdown-XSS-Payloads.txt
@@ -75,11 +76,24 @@ const EXAMPLES = [
 ]
 
 describe('sanitizing xss links and img', () => {
-  const test = (input, expected) => it(input, () => expect(sanitize(input)).toEqual(expected))
+  const test = (input, expected) => it(input, () => expect(prepare(input)).toEqual(expected))
 
   test(' [santiment](https://santiment.net/) ', '[santiment](https://santiment.net/)')
 
   test('[]() test ()', 'test ()')
+
+  test('<script>alert(123)</script>', 'alert(123)')
+  test('>', '')
+  test(
+    `Line
+> Test`,
+    `Line
+
+> Test`,
+  )
+  test('1 > 3', '1 &gt; 3')
+  test('<', '&lt;')
+  test('1 < 3', '1 &lt; 3')
 
   EXAMPLES.forEach((input) => {
     const div = document.createElement('div')
