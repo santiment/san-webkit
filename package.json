@@ -85,7 +85,7 @@
     "react-dom": "^18.2.0",
     "sass": "^1.63.6",
     "storybook": "^7.1.0",
-    "svelte": "^4.0.5",
+    "svelte": "^4.1.2",
     "svelte-check": "^3.4.6",
     "svelte-loader": "^3.1.3",
     "svelte-preprocess": "^5.0.4",
@@ -102,16 +102,14 @@
   "peerDependencies": {
     "@types/gtag.js": "0.0.4",
     "@types/medium-editor": "^5.0.5",
-    "@types/node": "^15.0.2",
-    "@types/react": "^16.x.x",
     "@types/stripe-v3": "^3.1.26",
     "ethers": "^5.4.4",
-    "marked": "^4.0.12",
+    "marked": "^6.0.0",
     "medium-editor": "^5.23.3",
     "node-fetch": "^2.6.1",
-    "react": "^16.x.x",
-    "react-dom": "^16.x.x",
-    "svelte": "^3.58.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "svelte": "^4.1.2",
     "turndown": "^7.1.2"
   }
 }
