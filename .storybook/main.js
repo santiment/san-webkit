@@ -10,17 +10,35 @@ function extractAttributeValue(string, anchor) {
   return string.slice(start, end).toString()
 }
 
+function extractMetadata(string) {
+  const start = string.indexOf('<!--{')
+  if (start === -1) return
+
+  const meta = string.slice(start + 5, string.indexOf('}-->'))
+
+  if (meta) {
+    try {
+      return JSON.parse(`{${meta}}`)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+
 async function prepareIconsData(dir, filename) {
   const ICONS = []
   await utils.forFile([utils.SRC + dir + '/**/*.svg'], (entry) => {
     const file = fs.readFileSync(entry)
+
     const key = getSvgId(utils.SRC + dir + '/', entry)
     const width = extractAttributeValue(file, 'width')
     const height = extractAttributeValue(file, 'height')
+
     ICONS.push({
       key,
       width,
       height,
+      meta: extractMetadata(file.toString()),
     })
   })
   fs.writeFile(
