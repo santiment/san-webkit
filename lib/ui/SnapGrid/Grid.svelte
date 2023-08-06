@@ -3,6 +3,7 @@ import { noop } from './../../utils';
 import { setSnapGridCtx } from './context';
 import { SnapGrid } from './index';
 import { calcHeight, getResponsiveTranslate, getWidth } from './style';
+import Item from './Item.svelte';
 let className = '';
 export { className as class };
 export let tag = 'div';
@@ -42,7 +43,9 @@ function onEnd() {
 
 <svelte:element this={tag} bind:this={node} class="snap-grid {className}">
   {#each layout as item, i (item)}
-    <slot {i} class="snap-item" style={getStyle(item)} onMouseDown={onDragStart} />
+    <Item style={getStyle(item)} {onDragStart} let:gridItem>
+      <slot {i} {gridItem} />
+    </Item>
   {/each}
 </svelte:element>
 

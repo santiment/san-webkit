@@ -19,9 +19,7 @@ declare const __propDef: {
     slots: {
         default: {
             i: any;
-            class: string;
-            style: string;
-            onMouseDown: (e: MouseEvent) => void;
+            gridItem: (node: HTMLElement) => void;
         };
     };
 };

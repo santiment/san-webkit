@@ -53,7 +53,7 @@ function close() {
     if (activeClass)
         trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
     window.removeEventListener('touchend', onTouchEnd);
-    window.removeEventListener('click', onTouchEnd);
+    window.removeEventListener('click', onTouchEnd, { capture: true });
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
 }
 function startOpenTimer() {

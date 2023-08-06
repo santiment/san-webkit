@@ -4,7 +4,7 @@ export const showShareDialog = (props) => dialogs.showOnce(ShareDialog, props);
 const SOCIALS = [
     {
         id: 'twitter',
-        href: ({ link, text }) => `https://twitter.com/home?status=${text}%0Alink%3A%20${link}`,
+        href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
     },
     {
         id: 'facebook',

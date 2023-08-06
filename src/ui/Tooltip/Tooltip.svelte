@@ -63,7 +63,7 @@
     if (activeClass) trigger?.classList.remove(activeClass)
 
     window.removeEventListener('touchend', onTouchEnd)
-    window.removeEventListener('click', onTouchEnd)
+    window.removeEventListener('click', onTouchEnd, { capture: true })
 
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
   }
