@@ -26,8 +26,11 @@ declare const __propDef: {
             trigger: (node: HTMLElement) => {
                 destroy: () => void;
             };
+            close: () => void;
         };
-        tooltip: {};
+        tooltip: {
+            close: () => void;
+        };
     };
 };
 export type TooltipProps = typeof __propDef.props;
