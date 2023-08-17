@@ -129,7 +129,7 @@
   })
 </script>
 
-<slot trigger={attach} />
+<slot trigger={attach} {close} />
 
 {#if process.browser && isOpened}
   <tooltip
@@ -140,7 +140,7 @@
     use:onClose
     transition:fade={transition}
   >
-    <slot name="tooltip" />
+    <slot name="tooltip" {close} />
   </tooltip>
 {/if}
 
