@@ -1,5 +1,6 @@
-import { getAllContexts, type ComponentType, type SvelteComponent } from 'svelte'
+import type { ComponentType, SvelteComponent } from 'svelte'
 
+import { getAllContexts } from 'svelte'
 import { writable } from 'svelte/store'
 import { newDialogCtx } from './ctx'
 import { DialogLock } from './types'
