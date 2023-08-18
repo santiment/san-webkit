@@ -238,6 +238,8 @@
 
 <PresetCalendar {...$$restProps} {date} {onDateSelect} bind:calendar let:trigger let:classes>
   <label use:trigger class="relative {classes}">
+    <Svg id="calendar" w="16" />
+
     <input
       bind:this={inputNode}
       class="btn-2 btn--s"
@@ -248,7 +250,6 @@
       on:blur={onBlur}
       on:input={onInput}
     />
-    <Svg id="calendar" w="16" class="mrg-s mrg--l $style.icon" />
   </label>
 </PresetCalendar>
 
@@ -262,11 +263,12 @@
     color: var(--black) !important;
     width: 180px;
     min-width: 180px;
+    padding-left: 34px;
   }
 
-  .icon {
+  Svg {
     position: absolute;
     pointer-events: none;
-    right: 12px;
+    left: 11px;
   }
 </style>
