@@ -93,8 +93,9 @@
 
   <slot {trigger} isOpened={!!tooltip} {classes}>
     <button use:trigger class="{classes} btn--s">
+      <Svg id="calendar" w="16" class="mrg-s mrg--r" />
+
       {label}
-      <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>
   </slot>
 
@@ -104,6 +105,7 @@
 <style lang="scss">
   .trigger {
     color: var(--black) !important;
+    --fill: var(--waterloo);
     --bg: var(--white);
     --border-hover: var(--green);
     --fill-hover: var(--green);
