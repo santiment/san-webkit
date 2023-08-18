@@ -2,7 +2,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        slug: string;
+        slug?: string | undefined;
         size?: number | undefined;
         placeholderSize?: number | undefined;
         logoUrl?: string | undefined;

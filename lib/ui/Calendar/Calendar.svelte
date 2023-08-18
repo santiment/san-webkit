@@ -75,14 +75,15 @@ function mount(parent) {
   style="flex-direction: row-reverse;"
   {onTriggerClick}
 >
-  {@const classes = `btn-2 row v-center trigger-zr2R5+ ${
-    tooltip ? 'active-DG0lC4' : ''
+  {@const classes = `btn-2 row v-center trigger-CxAewx ${
+    tooltip ? 'active-ri6Oe2' : ''
   } ${className}`}
 
   <slot {trigger} isOpened={!!tooltip} {classes}>
     <button use:trigger class="{classes} btn--s">
+      <Svg id="calendar" w="16" class="mrg-s mrg--r" />
+
       {label}
-      <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>
   </slot>
 
@@ -103,14 +104,15 @@ function mount(parent) {
   }
 }
 */
-:global(.trigger-zr2R5\+) {
+:global(.trigger-CxAewx) {
   color: var(--black) !important;
+  --fill: var(--waterloo);
   --bg: var(--white);
   --border-hover: var(--green);
   --fill-hover: var(--green);
 }
 
-:global(.active-DG0lC4) {
+:global(.active-ri6Oe2) {
   --border: var(--green);
   --fill: var(--green);
 }

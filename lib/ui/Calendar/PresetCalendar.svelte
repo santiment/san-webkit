@@ -50,8 +50,9 @@ function onPresetClick(dates) {
 >
   <slot {trigger} {isOpened} {classes}>
     <button use:trigger class="{classes} btn--s">
+      <Svg id="calendar" w="16" class="mrg-s mrg--r" />
+
       {label}
-      <Svg id="calendar" w="16" class="mrg-s mrg--l" />
     </button>
   </slot>
 
