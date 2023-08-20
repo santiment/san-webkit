@@ -2,6 +2,7 @@
 /// <reference types="./comment" />
 /// <reference types="./dialog" />
 /// <reference types="./plan" />
+/// <reference types="./snapGrid" />
 /// <reference types="./table" />
 /// <reference types="./user" />
 declare module 'svelte/internal'

@@ -60,7 +60,7 @@ tabs::after {
   content: "";
   height: 1px;
   background: var(--green);
-  bottom: 0;
+  bottom: var(--underline-bottom, 0);
   position: absolute;
   left: var(--_left);
   width: var(--_width);
