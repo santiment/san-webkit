@@ -48,6 +48,10 @@
   --margin: auto;
 }
 
+.mrg-xxxl {
+  --margin: 40px;
+}
+
 .mrg-xxl {
   --margin: 32px;
 }
@@ -86,6 +90,14 @@
 
 .mrg--l {
   margin-left: var(--margin);
+}
+
+.gap-xxxl {
+  gap: 40px;
+}
+
+.gap-xxl {
+  gap: 32px;
 }
 
 .gap-xl {
