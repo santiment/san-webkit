@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { SnapItem } from './types'
+
   import { tick } from 'svelte'
   import { noop } from '@/utils'
   import { setSnapGridCtx } from './context'
@@ -8,17 +10,17 @@
 
   let className = ''
   export { className as class }
-  export let tag = 'div'
+  export let tag = 'snap-grid'
   export let isDragging = false
 
   export let cols = 12
   export let rowSize = 30
-  export let layout: any[]
+  export let layout: SnapItem[]
 
-  export let maxCols: number
-  export let minCols: number
-  export let maxRows: number
-  export let minRows: number
+  export let maxCols = cols
+  export let minCols = 1
+  export let maxRows = 100
+  export let minRows = 1
 
   export let onLayoutChange = noop as () => void
 
@@ -30,7 +32,7 @@
   $: if (node) snapGrid.updateLayout(layout)
   $: if (node && layout) tick().then(() => snapGrid.mount(node))
 
-  function getStyle(item) {
+  function getStyle(item: SnapItem) {
     const [, , , height] = item
 
     return `width:${getWidth(item, snapGrid)};
@@ -59,6 +61,7 @@
 
 <style>
   .snap-grid {
+    display: block;
     transition: height 0.2s;
   }
 </style>

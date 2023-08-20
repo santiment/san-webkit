@@ -13,9 +13,12 @@ export const Resizer = Draggable((settings) => {
 
     if (!draggedNode) return // Returning true to signal early exit
 
-    const { layout, cols, columnSize, rowSize, minCols, maxCols, minRows, maxRows } = settings
+    const { layout, cols, columnSize, rowSize, maxCols, maxRows } = settings
     const dropzoneNode = Dropzone(draggedNode)
     const draggedItem = layout[+(draggedNode.dataset.i as string)]
+
+    const minRows = draggedItem.minRows || settings.minRows
+    const minCols = draggedItem.minCols || settings.minCols
 
     Object.assign(ctx, { draggedNode, draggedItem, dropzoneNode })
 

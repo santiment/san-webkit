@@ -26,7 +26,8 @@
     "src/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.svelte",
-    "stories/**/*.ts"
+    "stories/**/*.ts",
+    "stories/**/*.svelte"
   ],
   "exclude": [
     "node_modules/*",

@@ -9,7 +9,12 @@ export const enum Field {
 }
 
 /**  [left, top, width, height, htmlNode] */
-export type SnapItem = [number, number, number, number, HTMLElement]
+export type SnapItem = [number, number, number, number, HTMLElement] & SnapItemOptions
+
+export type SnapItemOptions = Partial<{
+  minRows: number
+  minCols: number
+}>
 
 export type Margin = [number, number]
 

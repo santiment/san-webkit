@@ -80,6 +80,8 @@ declare module '@storybook/svelte' {
       isLiteVersion?: boolean
     }
 
+    bodyStyle?: Record<string, any>
+
     mockApi?: (story?: any) => {
       /** Disabling mocking for all requests */
       passthrough?: boolean
