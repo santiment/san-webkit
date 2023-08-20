@@ -30,7 +30,7 @@
   },
   "parserOptions": {
     "project": [
-      "./tsconfig.eslint.json"
+      "./tsconfig.json"
     ],
     "extraFileExtensions": [
       ".svelte"
@@ -42,7 +42,12 @@
       "single"
     ],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
     "react/prop-types": "off",
     "jsx-quotes": [
       "error",

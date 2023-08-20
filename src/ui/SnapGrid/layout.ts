@@ -1,4 +1,4 @@
-import type { SnapGridController, SnapItem } from './types'
+import type { SnapGridController, SnapItem, SnapItemOptions } from './types'
 
 import { Field } from './types'
 
@@ -132,4 +132,8 @@ export function setGridContainerHeight(
   { gridContainerNode, rowSize, margin }: SnapGridController,
 ) {
   gridContainerNode.style.height = rows * (rowSize + margin[1]) + 'px'
+}
+
+export function setItemOptions(item: SnapItem | number[], options: SnapItemOptions) {
+  return Object.assign(item, options)
 }
