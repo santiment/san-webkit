@@ -7,7 +7,11 @@ export declare const enum Field {
     NODE = 4
 }
 /**  [left, top, width, height, htmlNode] */
-export type SnapItem = [number, number, number, number, HTMLElement];
+export type SnapItem = [number, number, number, number, HTMLElement] & SnapItemOptions;
+export type SnapItemOptions = Partial<{
+    minRows: number;
+    minCols: number;
+}>;
 export type Margin = [number, number];
 export type SnapGridController = {
     gridContainerNode: HTMLElement;

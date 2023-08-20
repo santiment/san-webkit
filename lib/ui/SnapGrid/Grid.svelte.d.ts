@@ -1,4 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
+import type { SnapItem } from './types';
 declare const __propDef: {
     props: {
         class?: string | undefined;
@@ -6,11 +7,11 @@ declare const __propDef: {
         isDragging?: boolean | undefined;
         cols?: number | undefined;
         rowSize?: number | undefined;
-        layout: any[];
-        maxCols: number;
-        minCols: number;
-        maxRows: number;
-        minRows: number;
+        layout: SnapItem[];
+        maxCols?: number | undefined;
+        minCols?: number | undefined;
+        maxRows?: number | undefined;
+        minRows?: number | undefined;
         onLayoutChange?: (() => void) | undefined;
     };
     events: {

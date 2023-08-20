@@ -1,4 +1,4 @@
-import type { SnapGridController, SnapItem } from './types';
+import type { SnapGridController, SnapItem, SnapItemOptions } from './types';
 /** Ascending sort - top-to-bottom & left-to-right */
 export declare const sortLayout: (layout: SnapItem[]) => SnapItem[];
 export declare function Dropzone(draggedNode: HTMLElement): HTMLDivElement;
@@ -11,3 +11,7 @@ export declare function normalizeGrid(sortedLayout: SnapItem[], changedItems?: S
 export declare function resolveDraggedCollisions(sortedLayout: SnapItem[], draggedItem: SnapItem, draggedStartBottom: number, isDraggingDown: boolean): Set<SnapItem>;
 export declare function updateGridContainerHeight(settings: SnapGridController): void;
 export declare function setGridContainerHeight(rows: number, { gridContainerNode, rowSize, margin }: SnapGridController): void;
+export declare function setItemOptions(item: SnapItem | number[], options: SnapItemOptions): (number[] | SnapItem) & Partial<{
+    minRows: number;
+    minCols: number;
+}>;

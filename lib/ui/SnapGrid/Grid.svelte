@@ -6,15 +6,15 @@ import { calcHeight, getResponsiveTranslate, getWidth } from './style';
 import Item from './Item.svelte';
 let className = '';
 export { className as class };
-export let tag = 'div';
+export let tag = 'snap-grid';
 export let isDragging = false;
 export let cols = 12;
 export let rowSize = 30;
 export let layout;
-export let maxCols;
-export let minCols;
-export let maxRows;
-export let minRows;
+export let maxCols = cols;
+export let minCols = 1;
+export let maxRows = 100;
+export let minRows = 1;
 export let onLayoutChange = noop;
 let node;
 const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows };
@@ -51,6 +51,7 @@ function onEnd() {
 
 <style>
   .snap-grid {
+    display: block;
     transition: height 0.2s;
   }
 </style>
