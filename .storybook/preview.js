@@ -34,7 +34,7 @@ const preview = {
   decorators: [
     (_, { args, loaded, parameters }) => ({
       Component: Decorator,
-      props: { ...args, ...loaded, ui: parameters.ui, bodyStyle: parameters.bodyStyle },
+      props: { ...args, ...loaded, ui: parameters.ui, bodyStyle: parameters.bodyStyle || {} },
     }),
   ],
 
