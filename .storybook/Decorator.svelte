@@ -24,7 +24,7 @@
   paymentCard$.setDefault()
 
   document.body.classList.add(Device.Desktop)
-  Object.keys(bodyStyle).forEach((key) => {
+  Object.keys(bodyStyle || {}).forEach((key) => {
     document.body.style[key] = bodyStyle[key]
   })
 
@@ -33,7 +33,7 @@
   onDestroy(() => {
     server?.shutdown()
 
-    Object.keys(bodyStyle).forEach((key) => {
+    Object.keys(bodyStyle || {}).forEach((key) => {
       document.body.style[key] = ''
     })
   })
