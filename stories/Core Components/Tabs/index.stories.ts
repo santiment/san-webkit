@@ -26,4 +26,7 @@ export const Tabs: Story = {
       },
     ],
   },
+  parameters: {
+    bodyStyle: { margin: '30px' },
+  },
 }

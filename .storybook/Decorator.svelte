@@ -13,6 +13,7 @@
   export let customer: undefined | SAN.Customer
   export let server: any
   export let ui = undefined as undefined | Record<string, any>
+  export let bodyStyle = {} as Record<string, any>
 
   CurrentUser$$(currentUser)
   Customer$$(customer)
@@ -23,11 +24,18 @@
   paymentCard$.setDefault()
 
   document.body.classList.add(Device.Desktop)
+  Object.keys(bodyStyle).forEach((key) => {
+    document.body.style[key] = bodyStyle[key]
+  })
 
   setContext('Dialog', Dialog)
 
   onDestroy(() => {
     server?.shutdown()
+
+    Object.keys(bodyStyle).forEach((key) => {
+      document.body.style[key] = ''
+    })
   })
 </script>
 
