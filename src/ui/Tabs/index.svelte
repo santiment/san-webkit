@@ -7,22 +7,24 @@
   type T = $$Generic<{ title: string }>
   interface $$Slots {
     default: { item: T }
+    after: {}
   }
 
   let className = 'gap-s c-fiord'
   export { className as class }
-  export let tabs: T[]
+  export let tabs: Readonly<T[]>
   export let selected = tabs[0] as (typeof tabs)[number]
   export let onSelect = noop as (selectedTab: typeof selected) => void
 
   let tabsNode: HTMLElement
 
   function onTabClick(item: typeof selected, i: number) {
-    if (selected === item) return
+    if (selected !== item) {
+      selected = item
+      slide(tabsNode.children[i] as HTMLElement)
+    }
 
-    onSelect((selected = item))
-
-    slide(tabsNode.children[i] as HTMLElement)
+    onSelect(selected)
   }
 
   function slide(activeNode: HTMLElement) {
@@ -48,6 +50,8 @@
       </slot>
     </tab>
   {/each}
+
+  <slot name="after" />
 </tabs>
 
 <style lang="scss">
