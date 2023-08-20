@@ -37,6 +37,8 @@ export function Draggable(
       clearTimeout(timer)
 
       const preventDefaultMouseDown = () => e.preventDefault()
+      const target = e.target as HTMLElement
+      const isInsideEditable = target.isContentEditable
 
       const { pageX, pageY, currentTarget } = e
       const ctx = { pageX, pageY } as DraggableCtx
@@ -66,6 +68,11 @@ export function Draggable(
         if (isRegularClick) {
           const { xDiff, yDiff } = ctx
           if (Math.max(Math.abs(xDiff), Math.abs(yDiff)) > THRESHOLD) {
+            if (isInsideEditable && window.getSelection()?.isCollapsed === false) {
+              window.removeEventListener('mousemove', onMouseMove)
+              return
+            }
+
             preventDefaultMouseDown()
             enableDragging()
             window.getSelection()?.empty()
