@@ -4,7 +4,7 @@ declare class __sveltets_Render<T extends {
 }> {
     props(): {
         class?: string | undefined;
-        tabs: T[];
+        tabs: readonly T[];
         selected?: T | undefined;
         onSelect?: ((selectedTab: T) => void) | undefined;
     };
@@ -15,6 +15,7 @@ declare class __sveltets_Render<T extends {
         default: {
             item: T;
         };
+        after: {};
     };
 }
 export type IndexProps<T extends {

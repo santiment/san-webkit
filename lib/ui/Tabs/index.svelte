@@ -9,10 +9,11 @@ export let selected = tabs[0];
 export let onSelect = noop;
 let tabsNode;
 function onTabClick(item, i) {
-    if (selected === item)
-        return;
-    onSelect((selected = item));
-    slide(tabsNode.children[i]);
+    if (selected !== item) {
+        selected = item;
+        slide(tabsNode.children[i]);
+    }
+    onSelect(selected);
 }
 function slide(activeNode) {
     const { clientWidth, offsetLeft } = activeNode;
@@ -36,6 +37,8 @@ onMount(() => {
       </slot>
     </tab>
   {/each}
+
+  <slot name="after" />
 </tabs>
 
 <style >/**
