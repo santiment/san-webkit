@@ -5,6 +5,7 @@ export declare const MOBILE_MENU_LINKS: {
 }[];
 declare const __propDef: {
     props: {
+        class?: string | undefined;
         user: any;
         isMenuOpened: any;
         isFullLink: any;

@@ -8,10 +8,6 @@
         link: '/labs/trends/explore',
     },
     {
-        title: 'NFT Influencers',
-        link: '/nft',
-    },
-    {
         title: 'Academy',
         link: 'https://academy.santiment.net/',
     },
@@ -27,6 +23,8 @@ import Svg from './../../ui/Svg/svelte';
 import Profile from './../../ui/Profile/svelte';
 import { showIntercom } from './../../analytics/intercom';
 import { getCustomer$Ctx } from './../../stores/customer';
+let className = '';
+export { className as class };
 export let user;
 export let isMenuOpened;
 export let isFullLink;
@@ -48,7 +46,7 @@ function adjustHeight(node) {
 }
 </script>
 
-<nav class="column fluid body-1" use:adjustHeight>
+<nav class="column fluid body-1 {className}" use:adjustHeight>
   <section class="links column">
     {#each MOBILE_MENU_LINKS as { title, link }}
       {@const href = isFullLink ? getFullLink(link) : link}
@@ -68,7 +66,7 @@ function adjustHeight(node) {
 
       <Profile
         {user}
-        class="profile-1Kee2+ txt-m relative"
+        class="profile-C+8BdB txt-m relative"
         feature="profile"
         source="mobile-nav-menu"
         placeholderSize={24}
@@ -119,7 +117,7 @@ nav {
   z-index: 101;
   position: fixed;
   top: 0;
-  bottom: 83px;
+  bottom: var(--mobile-menu-bottom, 83px);
   padding: 0 32px 16px;
   background: var(--white);
 }
@@ -139,7 +137,7 @@ section {
   margin: 20px 0;
 }
 
-:global(.profile-1Kee2\+) {
+:global(.profile-C\+8BdB) {
   --img-size: 48px;
 }
 
