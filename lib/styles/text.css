@@ -22,6 +22,11 @@
   font-display: swap;
 }
 
+.tiny {
+  font-size: 10px;
+  line-height: 14px;
+}
+
 .caption {
   font-size: 12px;
   line-height: 16px;
@@ -47,8 +52,13 @@
   line-height: 30px;
 }
 
-.h4 {
+.h5 {
   font-size: 24px;
+  line-height: 32px;
+}
+
+.h4 {
+  font-size: 26px;
   line-height: 32px;
 }
 
@@ -68,12 +78,14 @@
 }
 
 :root {
+  --tiny: 10px/14px 'Proxima Nova';
   --caption: 12px/16px 'Proxima Nova';
   --body-3: 14px/20px 'Proxima Nova';
   --body-2: 16px/24px 'Proxima Nova';
   --body-1: 18px/26px 'Proxima Nova';
   --body-0: 20px/30px 'Proxima Nova';
-  --h4: 24px/32px 'Proxima Nova';
+  --h5: 24px/32px 'Proxima Nova';
+  --h4: 26px/32px 'Proxima Nova';
   --h3: 32px/40px 'Proxima Nova';
   --h2: 40px/48px 'Proxima Nova';
 }

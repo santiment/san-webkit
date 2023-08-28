@@ -27,7 +27,7 @@ onMount(() => {
 });
 </script>
 
-<tabs bind:this={tabsNode} class="row relative {className}">
+<tabs bind:this={tabsNode} class="row relative nowrap {className}">
   {#each tabs as item, i}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -58,18 +58,19 @@ onMount(() => {
 tabs::after {
   display: block;
   content: "";
-  height: 1px;
+  height: var(--underline-height, 1px);
   background: var(--green);
   bottom: var(--underline-bottom, 0);
   position: absolute;
   left: var(--_left);
   width: var(--_width);
   transition: all 120ms ease-in-out;
+  border-radius: var(--underline-radius);
 }
 
 tab {
   padding: var(--tab-padding, 0 0 6px);
-  transition: color 120ms ease-in-out;
+  transition: var(--tab-transition, color 120ms ease-in-out);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -77,4 +78,5 @@ tab {
 
 .active {
   --color: var(--green);
+  --fill: var(--green);
 }</style>
