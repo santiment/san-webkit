@@ -25,13 +25,8 @@ export function copy(
   return () => clearTimeout(timer)
 }
 
-export const map = (
-  target: number,
-  valueMin: number,
-  valueMax: number,
-  targetMin: number,
-  targetMax: number,
-) => targetMin + ((target - valueMin) * (targetMax - targetMin)) / (valueMax - valueMin)
+export const map = (value: number, inMin: number, inMax: number, outMin: number, outMax: number) =>
+  outMin + ((value - inMin) * (outMax - outMin)) / (inMax - inMin)
 
 export const minMax = (value: number, min: number, max?: number) =>
   (value < min ? min : (max as number) < value ? max : value) as number

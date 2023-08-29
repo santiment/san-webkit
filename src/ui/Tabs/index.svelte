@@ -4,7 +4,8 @@
   import { noop } from '@/utils'
   import { onMount } from 'svelte'
 
-  type T = $$Generic<{ title: string }>
+  type T = $$Generic<{ title: string; action?: (node: HTMLElement) => any }>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface $$Slots {
     default: { item: T }
     after: {}
@@ -42,11 +43,17 @@
 
 <tabs bind:this={tabsNode} class="row relative nowrap {className}">
   {#each tabs as item, i}
+    {@const { title, action = noop } = item}
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <!-- svelte-ignore a11y-no-static-element-interactions -->
-    <tab class="btn" class:active={selected === item} on:click={() => onTabClick(item, i)}>
+    <tab
+      class="btn"
+      class:active={selected === item}
+      on:click={() => onTabClick(item, i)}
+      use:action
+    >
       <slot {item}>
-        {item.title}
+        {title}
       </slot>
     </tab>
   {/each}
