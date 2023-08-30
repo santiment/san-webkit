@@ -1,1 +1,4 @@
+<!--{
+  "category": "Action"
+}-->
 <svg width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0 .5C0 .2.2 0 .5 0h10.9c.1 0 .2 0 .3.2L16 4.4l.1.4v10.7c0 .3-.2.5-.5.5H.5a.5.5 0 0 1-.5-.5V.5ZM1 1v14h14V5l-3.9-4H8.2v2.7c0 .3-.2.5-.5.5H3.6a.5.5 0 0 1-.5-.5V1H1Zm7 10.3a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-3.9-9V1h3.1v2.2H4.1Z" fill="#7A859E"/></svg>

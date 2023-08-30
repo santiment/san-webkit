@@ -8,6 +8,7 @@ declare class __sveltets_Render<T extends {
         tabs: readonly T[];
         selected?: T | undefined;
         onSelect?: ((selectedTab: T) => void) | undefined;
+        border?: boolean | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;
