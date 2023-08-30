@@ -104,7 +104,19 @@
   }
 
   function scrollTo(index: number) {
-    viewportNode?.scroll(0, itemHeight * index)
+    if (viewportNode) {
+      const { scrollTop, clientHeight } = viewportNode
+      const bottom = scrollTop + clientHeight
+
+      const itemTop = itemHeight * index
+      const itemBottom = itemTop + itemHeight
+
+      if (itemTop < scrollTop) {
+        viewportNode.scroll(0, itemTop)
+      } else if (bottom < itemBottom) {
+        viewportNode.scroll(0, scrollTop + itemBottom - bottom)
+      }
+    }
   }
 </script>
 
