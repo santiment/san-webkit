@@ -79,7 +79,18 @@ async function onScroll(e) {
     itemsOffsetTop = shouldMoveScrollContainer ? start * itemHeight : itemsOffsetTop;
 }
 function scrollTo(index) {
-    viewportNode === null || viewportNode === void 0 ? void 0 : viewportNode.scroll(0, itemHeight * index);
+    if (viewportNode) {
+        const { scrollTop, clientHeight } = viewportNode;
+        const bottom = scrollTop + clientHeight;
+        const itemTop = itemHeight * index;
+        const itemBottom = itemTop + itemHeight;
+        if (itemTop < scrollTop) {
+            viewportNode.scroll(0, itemTop);
+        }
+        else if (bottom < itemBottom) {
+            viewportNode.scroll(0, scrollTop + itemBottom - bottom);
+        }
+    }
 }
 </script>
 
