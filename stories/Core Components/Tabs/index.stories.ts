@@ -24,6 +24,44 @@ export const Tabs: Story = {
       {
         title: 'Third Tab',
       },
+      {
+        title: 'Fourth Tab',
+      },
+      {
+        title: 'Fifth Tab',
+      },
+      {
+        title: 'Sixth Tab',
+      },
+    ],
+  },
+  parameters: {
+    bodyStyle: { margin: '30px' },
+  },
+}
+
+export const WithBorder: Story = {
+  args: {
+    border: true,
+    tabs: [
+      {
+        title: 'First Tab',
+      },
+      {
+        title: 'Second Tab',
+      },
+      {
+        title: 'Third Tab',
+      },
+      {
+        title: 'Fourth Tab',
+      },
+      {
+        title: 'Fifth Tab',
+      },
+      {
+        title: 'Sixth Tab',
+      },
     ],
   },
   parameters: {
