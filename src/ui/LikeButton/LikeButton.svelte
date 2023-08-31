@@ -88,18 +88,16 @@
     animation-timing-function: cubic-bezier(0.7, -0.53, 0.14, 3.52);
     position: relative;
     border-radius: 100px;
-    --color-hover: var(--green);
+    --color-hover: var(--fiord);
+    --bg-hover: var(--athens);
   }
   .btn:not(.disabled) {
     --color: var(--waterloo);
-    --fill-hover: var(--waterloo);
+    --fill-hover: var(--fiord);
   }
 
   .btn:hover :global(.rocket) {
     animation: shake 1s infinite;
-  }
-  .btn:hover span {
-    color: var(--green);
   }
 
   .btn.voted {
@@ -114,6 +112,7 @@
   span {
     width: calc(var(--digits) * 1ch);
     text-align: left;
+    color: inherit;
   }
 
   @keyframes shake {
