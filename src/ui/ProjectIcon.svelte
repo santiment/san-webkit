@@ -11,6 +11,16 @@
   let loading = true
 
   $: error = !slug
+
+  function image(node: HTMLImageElement) {
+    node.addEventListener('error', () => (error = true))
+    node.addEventListener('load', () => {
+      loading = false
+      error = false
+    })
+
+    if (node.complete) loading = false
+  }
 </script>
 
 <project-icon
@@ -18,24 +28,18 @@
   class:bg={loading || error}
   style="--size:{size}px"
 >
-  {#if error}
+  {#if loading}
     <Svg id="asset-small" w={placeholderSize} />
-  {:else}
-    {#if loading}
-      <Svg id="asset-small" w={placeholderSize} />
-    {/if}
+  {/if}
 
+  {#if !error}
     <img
       src={logoUrl ||
         `https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_${slug}.png`}
       alt="Project"
       loading="lazy"
       class:loader={loading}
-      on:load={() => {
-        loading = false
-        error = false
-      }}
-      on:error={() => (error = true)}
+      use:image
     />
   {/if}
 </project-icon>

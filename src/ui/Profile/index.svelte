@@ -45,7 +45,7 @@
       --color: var(--accent, var(--green));
 
       .pic {
-        box-shadow: inset 0px 0px 0px 1px var(--green);
+        box-shadow: 0px 0px 0px 1px var(--green);
       }
     }
   }
