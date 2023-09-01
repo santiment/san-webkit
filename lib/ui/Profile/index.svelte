@@ -22,7 +22,7 @@ function onClick(e) {
 </script>
 
 <a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-K8wz2_" {placeholderSize} />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-N+XK2L" {placeholderSize} />
 
   <span>
     {#if $$slots.name}
@@ -54,8 +54,8 @@ a {
 a:hover {
   --color: var(--accent, var(--green));
 }
-a:hover :global(.pic-K8wz2_) {
-  box-shadow: inset 0px 0px 0px 1px var(--green);
+a:hover :global(.pic-N\+XK2L) {
+  box-shadow: 0px 0px 0px 1px var(--green);
 }
 
 span {
