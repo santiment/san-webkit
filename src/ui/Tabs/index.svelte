@@ -44,7 +44,7 @@
 </script>
 
 <tabs class="row no-scrollbar {className}">
-  <tabs-visible bind:this={tabsNode} class="row relative nowrap fluid" class:border-bottom={border}>
+  <tabs-visible bind:this={tabsNode} class="row relative nowrap" class:border-bottom={border}>
     {#each tabs as item, i}
       {@const { title, action = noop } = item}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -73,12 +73,14 @@
 
   tabs-visible {
     gap: inherit;
+    flex: 1;
+    padding: var(--tabs-padding);
 
     &::before,
     &::after {
       display: block;
       position: absolute;
-      height: var(--underline-height, 1px);
+      height: 1px;
       bottom: var(--underline-bottom, 0);
     }
 
@@ -95,6 +97,7 @@
       width: var(--_width);
       transition: all 120ms ease-in-out;
       border-radius: var(--underline-radius);
+      height: var(--underline-height, 1px);
     }
   }
 
