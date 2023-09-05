@@ -8,6 +8,21 @@ export function initAmplitude(): void {
   });`)
 }
 
+export function setAmplitudeUserProperties(props: Record<string, any>) {
+  if (process.env.IS_DEV_MODE) return
+  if (!window.amplitude) return
+
+  const identity = new window.amplitude.Identify()
+
+  Object.keys(props).forEach((key) => {
+    identity.set(key, props[key])
+  })
+
+  window.amplitude.identify(identity)
+
+  return identity
+}
+
 export function updateAmplitude(
   user_id?: number,
   name?: string | null,
@@ -16,13 +31,12 @@ export function updateAmplitude(
   if (process.env.IS_DEV_MODE) return
   if (!window.amplitude) return
 
-  const identity = new window.amplitude.Identify()
-  identity.set('user_id', user_id)
-  identity.set('userId', user_id)
-  identity.set('name', name)
-  identity.set('email', email)
-
-  window.amplitude.identify(identity)
+  const identity = setAmplitudeUserProperties({
+    user_id: user_id,
+    userId: user_id,
+    name,
+    email,
+  })
 
   window.identifyAmplitude = (clb: any) => {
     clb(identity)
