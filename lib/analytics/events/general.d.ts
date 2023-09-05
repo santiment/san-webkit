@@ -52,3 +52,7 @@ export declare const trackGetAiSummary: ({ trend, source, has_summary, }: {
     source: string;
     has_summary: boolean;
 }) => number;
+export declare const trackChangeSanbaseVersion: ({ version, source, }: {
+    version: string;
+    source: string;
+}) => number;
