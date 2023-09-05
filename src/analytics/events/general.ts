@@ -105,3 +105,16 @@ export const trackGetAiSummary = ({
   source: string
   has_summary: boolean
 }) => track('get_ai_summary', { trend, has_summary, source, source_url: window.location.href })
+
+export const trackChangeSanbaseVersion = ({
+  version,
+  source,
+}: {
+  version: string
+  source: string
+}) =>
+  track('change_sanbase_version', {
+    version,
+    source,
+    source_url: window.location.href,
+  })
