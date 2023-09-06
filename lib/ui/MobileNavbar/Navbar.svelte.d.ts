@@ -23,7 +23,11 @@ declare const __propDef: {
     events: {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {};
+    slots: {
+        'menu-bottom': {
+            slot: string;
+        };
+    };
 };
 export type NavbarProps = typeof __propDef.props;
 export type NavbarEvents = typeof __propDef.events;

@@ -13,7 +13,15 @@ declare const __propDef: {
     events: {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {};
+    slots: {
+        default: {
+            user: any;
+            onHelpClick: () => void;
+            linkClass: string;
+            dividerClass: string;
+        };
+        bottom: {};
+    };
 };
 export type MenuProps = typeof __propDef.props;
 export type MenuEvents = typeof __propDef.events;

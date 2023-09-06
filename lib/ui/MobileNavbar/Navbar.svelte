@@ -49,7 +49,9 @@ function onMenuClick() {
 </script>
 
 {#if isMenuOpened}
-  <Menu {user} {isFullLink} bind:isMenuOpened />
+  <Menu {user} {isFullLink} bind:isMenuOpened>
+    <slot name="menu-bottom" slot="bottom" />
+  </Menu>
 {/if}
 
 <nav class="fluid row justify v-center">
