@@ -8,6 +8,7 @@
   let className = ''
   export { className as class }
   export let titleClassName = ''
+  export let overlayClassName = ''
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
   export let title: string = ''
   export let onBeforeDialogClose = () => {}
@@ -123,7 +124,7 @@
 <div
   role="dialog"
   out:transition
-  class="bg row v-center h-center"
+  class="bg row v-center h-center {overlayClassName}"
   class:noBg
   class:out
   class:still={!animated}
