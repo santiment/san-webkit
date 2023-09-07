@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { SvelteComponentModule } from './dialogs'
-
   import { onDestroy, onMount } from 'svelte'
   import { get } from 'svelte/store'
   import Svg from '@/ui/Svg/svelte'
@@ -11,7 +9,7 @@
   export { className as class }
   export let titleClassName = ''
   export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
-  export let title: string | SvelteComponentModule = ''
+  export let title: string = ''
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
   export let noBg = false
@@ -111,7 +109,7 @@
     node.offsetWidth
   }
   function transition(node: HTMLElement) {
-    if (!animated) return
+    if (!animated) return {}
 
     resetAnimation(node)
     resetAnimation(node.firstChild as HTMLElement)
@@ -121,7 +119,9 @@
   }
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
+  role="dialog"
   out:transition
   class="bg row v-center h-center"
   class:noBg
