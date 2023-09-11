@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from './index.svelte'
+import MobileDialog from './MobileDialog.svelte'
 
 const meta = {
   // title: 'Design System/Buttons',
@@ -29,4 +30,10 @@ export const ShareDialogWithProps: Story = {
     entity: 'Screener',
     isAuthor: true,
   },
+}
+
+export const MobileShareDialog: StoryObj<MobileDialog> = {
+  render: () => ({
+    Component: MobileDialog,
+  }),
 }
