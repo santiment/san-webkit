@@ -4,9 +4,15 @@
   import { getContext } from 'svelte'
   import ShareDialog from '@/ui/Share/index.svelte'
 
-  export let props: ComponentProps<ShareDialog>
+  type KnownProps = SAN.Utils.RemoveIndex<ComponentProps<ShareDialog>>
+
+  //eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface $$Props extends Omit<KnownProps, 'feature' | 'source'> {}
+
+  const feature = 'storybook'
+  const source = 'storybook'
 
   const Dialog = getContext<ComponentType>('Dialog')
 </script>
 
-<Dialog render={ShareDialog} {...props} />
+<Dialog render={ShareDialog} {feature} {source} {...$$props} />

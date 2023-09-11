@@ -20,18 +20,13 @@ export default meta
 
 export const ShareDialog: Story = {
   name: 'Share Dialog',
-  args: {
-    props: {},
-  },
 }
 
 export const ShareDialogWithProps: Story = {
   name: 'Share Dialog with Props',
   args: {
-    props: {
-      title: 'Test',
-      entity: 'Screener',
-      isAuthor: true,
-    },
+    title: 'Test',
+    entity: 'Screener',
+    isAuthor: true,
   },
 }
