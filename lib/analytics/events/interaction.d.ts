@@ -47,9 +47,10 @@ export declare const trackFullscreenClick: ({ source, type }: {
     source: string;
     type: string;
 }) => number;
-export declare const trackDownloadClick: ({ source, type }: {
+export declare const trackDownloadClick: ({ source, type, format, }: {
     source: string;
     type: string;
+    format: string;
 }) => number;
 export declare const trackCalendarChange: ({ source, from, to, }: {
     source: string;
