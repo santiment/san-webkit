@@ -62,8 +62,15 @@ export const trackProfileClick = ({
 export const trackFullscreenClick = ({ source, type }: { source: string; type: string }) =>
   track('fullscreen_click', { source, type, source_url: window.location.href })
 
-export const trackDownloadClick = ({ source, type }: { source: string; type: string }) =>
-  track('download_click', { source, type, source_url: window.location.href })
+export const trackDownloadClick = ({
+  source,
+  type,
+  format,
+}: {
+  source: string
+  type: string
+  format: string
+}) => track('download_click', { source, type, format, source_url: window.location.href })
 
 export const trackCalendarChange = ({
   source,
