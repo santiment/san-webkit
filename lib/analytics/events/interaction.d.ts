@@ -43,3 +43,16 @@ export declare const trackProfileClick: ({ id, username, feature, source, }: {
     username?: string | undefined;
     source: string;
 }) => number;
+export declare const trackFullscreenClick: ({ source, type }: {
+    source: string;
+    type: string;
+}) => number;
+export declare const trackDownloadClick: ({ source, type }: {
+    source: string;
+    type: string;
+}) => number;
+export declare const trackCalendarChange: ({ source, from, to, }: {
+    source: string;
+    from: string;
+    to: string;
+}) => number;
