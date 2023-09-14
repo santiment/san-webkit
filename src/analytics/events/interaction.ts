@@ -58,3 +58,19 @@ export const trackProfileClick = ({
   source: string
 }) =>
   track('user_profile_click', { id, username, feature, source, source_url: window.location.href })
+
+export const trackFullscreenClick = ({ source, type }: { source: string; type: string }) =>
+  track('fullscreen_click', { source, type, source_url: window.location.href })
+
+export const trackDownloadClick = ({ source, type }: { source: string; type: string }) =>
+  track('download_click', { source, type, source_url: window.location.href })
+
+export const trackCalendarChange = ({
+  source,
+  from,
+  to,
+}: {
+  source: string
+  from: string
+  to: string
+}) => track('calendar_change', { source, from, to, source_url: window.location.href })
