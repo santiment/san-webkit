@@ -106,12 +106,6 @@
         <Toggle isActive={$ui$.isNightMode} />
       </button>
 
-      <a
-        href="{SANBASE_ORIGIN}/labs"
-        class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Labs</a
-      >
-
       {#if currentUser}
         <a
           href="{SANBASE_ORIGIN}/account"
