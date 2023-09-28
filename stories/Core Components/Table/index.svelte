@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Table from '@/ui/Table/index.svelte'
 
   const columns = [
@@ -22,6 +22,12 @@
     { id: 4, value: 2000, volume: 30 },
     { id: 5, value: 150, volume: 5000 },
   ]
+
+  type Item = (typeof items)[number]
+
+  function onItemClick(item: Item) {
+    console.log(item)
+  }
 </script>
 
-<Table {items} {columns} keyProp="id" />
+<Table {items} {columns} {onItemClick} keyProp="id" />
