@@ -51,7 +51,7 @@
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l $style.box" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </slot>
 
@@ -131,11 +131,11 @@
 </Tooltip>
 
 <style>
-  .active .box {
-    box-shadow: inset 0px 0px 0px 1px var(--green);
+  .active Pic {
+    --img-fill: var(--fiord);
   }
 
-  .pro .box {
+  .pro Pic {
     --green: var(--orange-hover);
   }
 
