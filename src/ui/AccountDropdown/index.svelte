@@ -114,12 +114,6 @@
         >
       {/if}
 
-      <a
-        href="{SANBASE_ORIGIN}/pricing"
-        class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Pricing</a
-      >
-
       <button
         class="btn-ghost row justify v-center"
         on:click={() => window.Intercom && window.Intercom('show')}
