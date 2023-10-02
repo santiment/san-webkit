@@ -18,6 +18,13 @@ const SI_PREFIXES = {
 export function millify(value: number, precision = 1, smallPrecision = 6): string {
   const absValue = Math.abs(value)
   const str = Math.floor(absValue).toString()
+
+  if (str.includes('e+')) {
+    const [mantissa, exponent] = str.split('e+')
+
+    return `${mantissa.slice(0, 4)}e+${exponent}`
+  }
+
   const { length } = str
   const prefix = value !== absValue ? '-' : ''
 
