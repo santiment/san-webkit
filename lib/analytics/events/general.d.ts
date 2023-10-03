@@ -23,7 +23,9 @@ export declare enum PageType {
     ACCOUNT = "account",
     SOCIAL_TOOL = "social_tool",
     HISTORICAL_BALANCE = "historical_balance",
-    LABS = "labs"
+    LABS = "labs",
+    SignUp = "signup",
+    Login = "login"
 }
 export declare const trackPageView: ({ url, type, sourceType, sourceUrl, }: {
     url: string;
