@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from './index.svelte'
+import PagedTable from './Paged.svelte'
 
 const meta = {
   // title: 'Design System/Buttons',
@@ -19,3 +20,7 @@ type Story = StoryObj<typeof meta>
 export default meta
 
 export const Table: Story = {}
+
+export const Paged: StoryObj<PagedTable> = {
+  render: () => ({ Component: PagedTable }),
+}
