@@ -5,4 +5,4 @@
   const items = generateItems(20)
 </script>
 
-<Table {items} {columns} pageSize={5} keyProp="id" />
+<Table {items} {columns} pageSize={5} rows={[5, 10, 20]} keyProp="id" />

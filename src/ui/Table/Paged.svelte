@@ -1,28 +1,54 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte'
+  import type { Sorter } from './utils'
+
   import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip'
   import Table from './index.svelte'
 
-  let className = ''
+  type Item = $$Generic<SAN.Table.Item>
+  type TableProps = ComponentProps<Table<Item>>
+
+  interface $$Props extends TableProps {
+    pagedClassName?: string
+    pageSize?: number
+    page?: number
+    rows?: number[]
+    pageOffset?: number
+    onPageChange?: (page: number, pageSize?: number) => void
+  }
+
+  type RestProps = Omit<TableProps, 'class' | 'items'>
+
+  type StrictProps = Required<$$Props>
+
+  let className: StrictProps['class'] = ''
   export { className as class }
-  export let pagedClassName = ''
-  export let items
-  export let pageSize = 25
-  export let page = 0
-  export let rows = [10, 25, 50]
-  export let pageOffset = 0
-  export let onPageChange = noop as (page: number, pageSize?: number) => void
+  export let items: StrictProps['items']
+
+  export let pagedClassName: StrictProps['pagedClassName'] = ''
+  export let page: StrictProps['page'] = 0
+  export let pageSize: StrictProps['pageSize'] = 25
+  export let rows: StrictProps['rows'] = [10, 25, 50]
+  export let pageOffset: StrictProps['pageOffset'] = 0
+  export let onPageChange: StrictProps['onPageChange'] = noop
 
   let isPageSizeOpened = false
 
+  $: restProps = $$restProps as RestProps
   $: pagesAmount = Math.ceil(items.length / pageSize)
   $: maxPage = pagesAmount - 1
   $: pageOffset = page * pageSize
   $: pageEndOffset = pageOffset + pageSize
   $: pageItems = items.slice(pageOffset, pageEndOffset)
 
-  const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
+  $: if (rows.length > 0 && !rows.includes(pageSize)) {
+    console.error('[pageSize] value should be present in [rows] array or it should be empty')
+  }
+
+  const applySort = (sorter: Sorter<Item>) =>
+    items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
 
   function onPageInput({ currentTarget }) {
     const value = +currentTarget.value
@@ -35,7 +61,7 @@
     onPageChange(page)
   }
 
-  function onPageSizeChange(size) {
+  function onPageSizeChange(size: number) {
     isPageSizeOpened = false
     pageSize = size
     page = 0
@@ -55,7 +81,7 @@
   }
 </script>
 
-<Table {...$$restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
+<Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
   <slot />
 </Table>
 

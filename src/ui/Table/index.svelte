@@ -1,32 +1,34 @@
 <script lang="ts">
-  import type { Sorter, SortAccessor } from './utils'
+  import type { Sorter } from './utils'
 
   import { noop } from '@/utils'
   import { getMinRows } from './utils'
   import SorterArrows from './SorterArrows.svelte'
 
+  type Item = $$Generic<SAN.Table.Item>
+
   let className = ''
   export { className as class }
-  export let columns: SAN.Table.Column[]
-  export let items: SAN.Table.Item[]
+  export let columns: SAN.Table.Column<Item>[]
+  export let items: Item[]
   export let keyProp: undefined | string = undefined
   export let minRows: undefined | number = undefined
-  export let sortedColumn: undefined | SAN.Table.Column = undefined
+  export let sortedColumn: undefined | SAN.Table.Column<Item> = undefined
   export let sticky = false
   export let isLoading = false
-  export let applySort = (sorter, items) => items.slice().sort(sorter)
-  export let onSortClick = noop as (column: SAN.Table.Column, isDescSort: boolean) => void
-  export let itemProps = null as null | { [key: string]: any }
+  export let applySort = (sorter: Sorter<Item>, items: Item[]) => items.slice().sort(sorter)
+  export let onSortClick: (column: SAN.Table.Column<Item>, isDescSort: boolean) => void = noop
+  export let itemProps: null | { [key: string]: unknown } = null
   export let offset = 0
 
-  const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
-  const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
+  const ascSort: Sorter<Item> = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
+  const descSort: Sorter<Item> = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
 
   let currentSort = descSort
 
   $: rowsPadding = getMinRows(minRows, items.length, columns.length)
-  $: sortedColumnAccessor = sortedColumn?.sortAccessor as SortAccessor
-  $: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items
+  $: sortedColumnAccessor = sortedColumn?.sortAccessor ?? (() => 0)
+  $: sortedItems = sortedColumn?.sortAccessor ? applySort(currentSort, items) : items
 
   function changeSort({ currentTarget }: MouseEvent) {
     const i = (currentTarget as HTMLElement).dataset.i as string
@@ -70,21 +72,23 @@
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr>
         {#each columns as column (column.title)}
-          {@const { title, className, format, Component, valueKey } = column}
-          {@const value = item[valueKey]}
+          {@const { className, valueKey } = column}
+          {@const value = valueKey ? item[valueKey] : undefined}
+
           <td class={className || ''}>
             {#if valueKey && value === undefined}
               <div class="skeleton" />
-            {:else if Component}
-              <svelte:component this={Component} {item} {value} {column} {...itemProps} />
-            {:else}
-              {format(item, i + offset, value)}
+            {:else if 'Component' in column}
+              <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
+            {:else if 'format' in column}
+              {column.format(item, i + offset, value)}
             {/if}
           </td>
         {/each}
       </tr>
     {/each}
     {#if rowsPadding}
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html rowsPadding}
     {/if}
   </tbody>
