@@ -116,7 +116,7 @@
   </div>
 </Dialog>
 
-<style>
+<style lang="scss">
   .dialog {
     width: 600px;
     padding: 20px 24px;
@@ -148,5 +148,12 @@
   .note {
     background: var(--orange-light-1);
     padding: 10px 16px;
+  }
+
+  @include dac(phone, phone-xs) {
+    .dialog {
+      width: auto;
+      max-width: 600px;
+    }
   }
 </style>
