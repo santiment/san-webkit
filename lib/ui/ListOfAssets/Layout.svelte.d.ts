@@ -7,6 +7,7 @@ declare class __sveltets_Render<T> {
         tabs?: import("./Tabs.svelte").TabsType | undefined;
         onEscape?: ((_?: any) => any) | undefined;
         onTabSelect?: ((_?: any) => any) | undefined;
+        hasSearch?: boolean | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;

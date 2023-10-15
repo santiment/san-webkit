@@ -93,37 +93,60 @@ onMount(() => {
   </div>
 </Dialog>
 
-<style>
-  .dialog {
-    width: 600px;
-    padding: 20px 24px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-  input {
-    padding: 6px 10px;
-    background: transparent;
-    color: var(--waterloo);
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
   }
-  .copy {
-    padding: 10px 12px;
-    border-left: 1px solid var(--porcelain);
-    --color-hover: var(--green);
-    border-radius: 0;
-    min-width: 84px;
-  }
-  .link.disabled {
-    background: var(--athens);
-    color: var(--mystic);
-    --waterloo: var(--mystic);
-  }
-  .social {
-    width: 40px;
-    height: 40px;
-  }
-  .bottom {
-    gap: 12px;
-  }
-  .note {
-    background: var(--orange-light-1);
-    padding: 10px 16px;
-  }
-</style>
+}
+*/
+.dialog {
+  width: 600px;
+  padding: 20px 24px;
+}
+
+input {
+  padding: 6px 10px;
+  background: transparent;
+  color: var(--waterloo);
+}
+
+.copy {
+  padding: 10px 12px;
+  border-left: 1px solid var(--porcelain);
+  --color-hover: var(--green);
+  border-radius: 0;
+  min-width: 84px;
+}
+
+.link.disabled {
+  background: var(--athens);
+  color: var(--mystic);
+  --waterloo: var(--mystic);
+}
+
+.social {
+  width: 40px;
+  height: 40px;
+}
+
+.bottom {
+  gap: 12px;
+}
+
+.note {
+  background: var(--orange-light-1);
+  padding: 10px 16px;
+}
+
+:global(body.phone) .dialog, :global(body.phone-xs) .dialog {
+  width: auto;
+  max-width: 600px;
+}</style>

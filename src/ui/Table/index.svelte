@@ -18,6 +18,7 @@
   export let onSortClick = noop as (column: SAN.Table.Column, isDescSort: boolean) => void
   export let itemProps = null as null | { [key: string]: any }
   export let offset = 0
+  export let onItemClick: (item: SAN.Table.Item) => void = noop
 
   const ascSort: Sorter = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
@@ -68,9 +69,9 @@
   </thead>
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
-      <tr>
+      <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.title)}
-          {@const { title, className, format, Component, valueKey } = column}
+          {@const { className, format, Component, valueKey } = column}
           {@const value = item[valueKey]}
           <td class={className || ''}>
             {#if valueKey && value === undefined}
@@ -85,6 +86,7 @@
       </tr>
     {/each}
     {#if rowsPadding}
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html rowsPadding}
     {/if}
   </tbody>

@@ -14,6 +14,7 @@ export let applySort = (sorter, items) => items.slice().sort(sorter);
 export let onSortClick = noop;
 export let itemProps = null;
 export let offset = 0;
+export let onItemClick = noop;
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
 let currentSort = descSort;
@@ -59,9 +60,9 @@ function changeSort({ currentTarget }) {
   </thead>
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
-      <tr>
+      <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.title)}
-          {@const { title, className, format, Component, valueKey } = column}
+          {@const { className, format, Component, valueKey } = column}
           {@const value = item[valueKey]}
           <td class={className || ''}>
             {#if valueKey && value === undefined}
@@ -76,6 +77,7 @@ function changeSort({ currentTarget }) {
       </tr>
     {/each}
     {#if rowsPadding}
+      <!-- eslint-disable-next-line svelte/no-at-html-tags -->
       {@html rowsPadding}
     {/if}
   </tbody>

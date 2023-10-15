@@ -10,7 +10,7 @@ export let alt = 'S';
   {#if src}
     <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderSize} class="svg-NYVR2C" />
+    <Svg id="user" w={placeholderSize} class="svg-Z5wSHI" />
   {/if}
   <slot />
 </div>
@@ -27,13 +27,13 @@ export let alt = 'S';
   }
 
   .img {
-    background: var(--img-bg, var(--porcelain));
+    background: var(--img-bg, var(--athens));
     border-radius: 50%;
     overflow: var(--img-overflow, hidden);
     fill: var(--img-fill, var(--waterloo));
   }
 
-  :global(.svg-NYVR2C) {
+  :global(.svg-Z5wSHI) {
     max-width: 50%;
     min-width: 0 !important;
   }

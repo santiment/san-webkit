@@ -4,8 +4,12 @@ declare const __propDef: {
     props: {
         selected?: Set<Asset> | undefined;
         tabs?: import("./Tabs.svelte").TabsType | undefined;
-        onSelect: (assets: Asset[]) => void;
+        onSelect: (assets: Asset[], asset?: Asset) => void;
         onEscape?: ((...args: any[]) => any) | undefined;
+        hasSearch?: boolean | undefined;
+        hasResetButton?: boolean | undefined;
+        keepSelectedInList?: boolean | undefined;
+        recents?: Asset[] | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

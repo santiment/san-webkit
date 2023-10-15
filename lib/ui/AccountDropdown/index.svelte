@@ -34,7 +34,7 @@ $: ({ isPro } = customer);
   overflowFlip={false}
   duration={130}
   bind:isOpened
-  activeClass="active-_VrAxA"
+  activeClass="active-YFMv3y"
   class={tooltipClass}
   let:trigger
 >
@@ -46,7 +46,7 @@ $: ({ isPro } = customer);
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l box-2HQbzT" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l s-17k6r10" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </slot>
 
@@ -109,12 +109,6 @@ $: ({ isPro } = customer);
         >
       {/if}
 
-      <a
-        href="{SANBASE_ORIGIN}/pricing"
-        class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Pricing</a
-      >
-
       <button
         class="btn-ghost row justify v-center"
         on:click={() => window.Intercom && window.Intercom('show')}
@@ -132,11 +126,11 @@ $: ({ isPro } = customer);
 </Tooltip>
 
 <style>
-  :global(.active-_VrAxA) :global(.box-2HQbzT) {
-    box-shadow: inset 0px 0px 0px 1px var(--green);
+  :global(.active-YFMv3y) :global(.s-17k6r10) {
+    --img-fill: var(--fiord);
   }
 
-  .pro :global(.box-2HQbzT) {
+  .pro :global(.s-17k6r10) {
     --green: var(--orange-hover);
   }
 

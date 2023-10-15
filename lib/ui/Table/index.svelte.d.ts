@@ -15,6 +15,7 @@ declare const __propDef: {
             [key: string]: any;
         } | null | undefined;
         offset?: number | undefined;
+        onItemClick?: ((item: SAN.Table.Item) => void) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

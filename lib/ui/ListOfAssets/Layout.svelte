@@ -1,29 +1,25 @@
-<script>import { noop } from './../../utils';
-import { debounce$$ } from './../../utils/fn';
+<script>import { onDestroy } from 'svelte';
+import { noop } from './../../utils';
 import Search from './../../ui/Search.svelte';
 import { Controller } from './../../ui/VirtualList/ctx';
 import Tabs, { TABS } from './Tabs.svelte';
+import { Searcher$$, getSearcher$Ctx } from './search';
 const virtualController = Controller();
 export let mapItems = ((assets) => assets);
 export let accessAsset;
 export let tabs = TABS;
 export let onEscape = noop;
 export let onTabSelect = noop;
+export let hasSearch = true;
+const { searchTerm$, filter, onKeyUp, onInput, clear } = getSearcher$Ctx() || Searcher$$({ onEscape, accessAsset });
 let tab = tabs[0];
 let assets = [];
 let searchTerm = '';
 let loading = true;
+$: searchTerm = $searchTerm$;
 $: getData(tab[1]);
 $: items = mapItems(assets);
 $: filtered = searchTerm ? filter(items) : items;
-const onSearch$ = debounce$$(250, (value) => (searchTerm = value));
-const onInput = ({ currentTarget }) => $onSearch$(currentTarget.value);
-const match = (value, target) => target.toLowerCase().includes(value);
-const matchAsset = (value, { slug, ticker, name }) => match(value, slug) || match(value, ticker) || match(value, name);
-function filter(items) {
-    const value = searchTerm.toLowerCase();
-    return items.filter((item) => matchAsset(value, accessAsset(item)));
-}
 function getData(dataQuery) {
     var _a;
     (_a = virtualController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(virtualController, 0);
@@ -32,23 +28,17 @@ function getData(dataQuery) {
         .then((data) => (assets = data))
         .finally(() => (loading = false));
 }
-function onKeyUp({ currentTarget, code }) {
-    if (!currentTarget)
-        return;
-    const inputNode = currentTarget;
-    if (code === 'Escape') {
-        if (searchTerm)
-            inputNode.value = searchTerm = '';
-        else
-            onEscape();
-    }
-}
+onDestroy(() => {
+    clear === null || clear === void 0 ? void 0 : clear();
+});
 </script>
 
 <assets-list class="column">
-  <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
+  {#if hasSearch}
+    <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
 
-  <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
+    <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
+  {/if}
 
   <section class="relative" class:data-loading={loading}>
     <slot assets={filtered} />
@@ -70,7 +60,7 @@ function onKeyUp({ currentTarget, code }) {
   }
 
   section :global(virtual-list-items) {
-    padding: 16px 0;
+    padding: 16px 10px 16px 0;
   }
 
   .data-loading {
