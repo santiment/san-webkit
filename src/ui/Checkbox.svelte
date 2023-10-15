@@ -21,6 +21,7 @@
   .btn {
     width: 16px;
     height: 16px;
+    min-width: 16px;
     border-radius: 2px;
     background: var(--bg);
     --border-hover: var(--green);
