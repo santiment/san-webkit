@@ -13,7 +13,7 @@
   <slot />
 
   <ProjectIcon {...item} />
-  {item.name}
+  <span class="single-line">{item.name}</span>
 
   <span class="c-waterloo">({item.ticker})</span>
 </button>

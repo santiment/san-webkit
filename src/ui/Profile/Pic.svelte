@@ -29,7 +29,7 @@
   }
 
   .img {
-    background: var(--img-bg, var(--porcelain));
+    background: var(--img-bg, var(--athens));
     border-radius: 50%;
     overflow: var(--img-overflow, hidden);
     fill: var(--img-fill, var(--waterloo));

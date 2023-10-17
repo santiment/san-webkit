@@ -6,7 +6,7 @@
   export let as = 'button'
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
   this={as}
   {...$$restProps}
@@ -21,6 +21,7 @@
   .btn {
     width: 16px;
     height: 16px;
+    min-width: 16px;
     border-radius: 2px;
     background: var(--bg);
     --border-hover: var(--green);

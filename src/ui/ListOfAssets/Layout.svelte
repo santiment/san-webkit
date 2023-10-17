@@ -1,11 +1,12 @@
 <script lang="ts">
   import type { Asset } from './types'
 
+  import { onDestroy } from 'svelte'
   import { noop } from '@/utils'
-  import { debounce$$ } from '@/utils/fn'
   import Search from '@/ui/Search.svelte'
   import { Controller } from '@/ui/VirtualList/ctx'
   import Tabs, { TABS } from './Tabs.svelte'
+  import { Searcher$$, getSearcher$Ctx } from './search'
 
   type T = $$Generic
 
@@ -16,28 +17,20 @@
   export let tabs = TABS
   export let onEscape = noop
   export let onTabSelect = noop
+  export let hasSearch = true
+
+  const { searchTerm$, filter, onKeyUp, onInput, clear } =
+    getSearcher$Ctx() || Searcher$$({ onEscape, accessAsset })
 
   let tab = tabs[0]
   let assets = [] as Asset[]
   let searchTerm = ''
   let loading = true
 
+  $: searchTerm = $searchTerm$
   $: getData(tab[1])
   $: items = mapItems(assets)
   $: filtered = searchTerm ? filter(items) : items
-
-  const onSearch$ = debounce$$(250, (value: string) => (searchTerm = value))
-  const onInput = ({ currentTarget }) => $onSearch$(currentTarget.value)
-
-  const match = (value: string, target: string) => target.toLowerCase().includes(value)
-
-  const matchAsset = (value: string, { slug, ticker, name }: Asset) =>
-    match(value, slug) || match(value, ticker) || match(value, name)
-
-  function filter(items: T[]) {
-    const value = searchTerm.toLowerCase()
-    return items.filter((item) => matchAsset(value, accessAsset(item)))
-  }
 
   function getData(dataQuery: () => Promise<Asset[]>) {
     virtualController.scrollTo?.(0)
@@ -48,22 +41,17 @@
       .finally(() => (loading = false))
   }
 
-  function onKeyUp({ currentTarget, code }: KeyboardEvent) {
-    if (!currentTarget) return
-
-    const inputNode = currentTarget as HTMLInputElement
-
-    if (code === 'Escape') {
-      if (searchTerm) inputNode.value = searchTerm = ''
-      else onEscape()
-    }
-  }
+  onDestroy(() => {
+    clear?.()
+  })
 </script>
 
 <assets-list class="column">
-  <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
+  {#if hasSearch}
+    <Search placeholder="Search for asset" on:input={onInput} on:keyup={onKeyUp} />
 
-  <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
+    <Tabs {tabs} bind:selected={tab} onSelect={onTabSelect} />
+  {/if}
 
   <section class="relative" class:data-loading={loading}>
     <slot assets={filtered} />
@@ -85,7 +73,7 @@
   }
 
   section :global(virtual-list-items) {
-    padding: 16px 0;
+    padding: 16px 10px 16px 0;
   }
 
   .data-loading {

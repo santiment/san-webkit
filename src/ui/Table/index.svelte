@@ -20,6 +20,7 @@
   export let onSortClick: (column: SAN.Table.Column<Item>, isDescSort: boolean) => void = noop
   export let itemProps: null | { [key: string]: unknown } = null
   export let offset = 0
+  export let onItemClick: (item: SAN.Table.Item) => void = noop
 
   const ascSort: Sorter<Item> = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter<Item> = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
@@ -70,7 +71,7 @@
   </thead>
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
-      <tr>
+      <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.title)}
           {@const { className, valueKey } = column}
           {@const value = valueKey ? item[valueKey] : undefined}

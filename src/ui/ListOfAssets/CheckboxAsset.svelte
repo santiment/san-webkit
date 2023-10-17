@@ -8,12 +8,12 @@
   export let item: Asset
 </script>
 
-<Item {item} class="$style.item" on:click>
+<Item {item} on:click>
   <Checkbox as="span" {isActive} />
 </Item>
 
 <style>
-  .item {
+  Item {
     padding: 0 0 16px;
     --color-hover: var(--green);
   }
