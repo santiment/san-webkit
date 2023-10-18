@@ -2,6 +2,7 @@
   import type { ComponentProps } from 'svelte'
   import type { Sorter } from './utils'
 
+  import { onMount } from 'svelte'
   import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip'
@@ -16,7 +17,8 @@
     page?: number
     rows?: number[]
     pageOffset?: number
-    onPageChange?: (page: number, pageSize?: number) => void
+    totalItems?: number
+    onPageChange?: (page: number, pageSize: number) => void
   }
 
   type RestProps = Omit<TableProps, 'class' | 'items'>
@@ -33,15 +35,18 @@
   export let rows: StrictProps['rows'] = [10, 25, 50]
   export let pageOffset: StrictProps['pageOffset'] = 0
   export let onPageChange: StrictProps['onPageChange'] = noop
+  export let totalItems: $$Props['totalItems'] = undefined
 
   let isPageSizeOpened = false
 
   $: restProps = $$restProps as RestProps
-  $: pagesAmount = Math.ceil(items.length / pageSize)
+  $: hasMoreItems = totalItems !== undefined && totalItems !== items.length
+  $: itemsCount = totalItems ?? items.length
+  $: pagesAmount = Math.ceil(itemsCount / pageSize)
   $: maxPage = pagesAmount - 1
   $: pageOffset = page * pageSize
   $: pageEndOffset = pageOffset + pageSize
-  $: pageItems = items.slice(pageOffset, pageEndOffset)
+  $: pageItems = hasMoreItems ? items.slice(0, pageSize) : items.slice(pageOffset, pageEndOffset)
 
   $: if (rows.length > 0 && !rows.includes(pageSize)) {
     console.error('[pageSize] value should be present in [rows] array or it should be empty')
@@ -58,7 +63,7 @@
     else page = value - 1
 
     currentTarget.value = page + 1
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
 
   function onPageSizeChange(size: number) {
@@ -71,14 +76,20 @@
   function onNextPage() {
     if (page >= pagesAmount) page = maxPage
     else page++
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
 
   function onPrevPage() {
     if (page <= 1) page = 0
     else page--
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
+
+  onMount(() => {
+    if (hasMoreItems) {
+      onPageChange(0, pageSize)
+    }
+  })
 </script>
 
 <Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
