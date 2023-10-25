@@ -2,7 +2,6 @@
   import type { ComponentProps } from 'svelte'
   import type { Sorter } from './utils'
 
-  import { onMount } from 'svelte'
   import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip'
@@ -21,8 +20,6 @@
     onPageChange?: (page: number, pageSize: number) => void
   }
 
-  type RestProps = Omit<TableProps, 'class' | 'items'>
-
   type StrictProps = Required<$$Props>
 
   let className: StrictProps['class'] = ''
@@ -39,7 +36,8 @@
 
   let isPageSizeOpened = false
 
-  $: restProps = $$restProps as RestProps
+  $: restProps = $$restProps as Omit<TableProps, 'class' | 'items'>
+
   $: hasMoreItems = totalItems !== undefined && totalItems !== items.length
   $: itemsCount = totalItems ?? items.length
   $: pagesAmount = Math.ceil(itemsCount / pageSize)
@@ -48,8 +46,10 @@
   $: pageEndOffset = pageOffset + pageSize
   $: pageItems = hasMoreItems ? items.slice(0, pageSize) : items.slice(pageOffset, pageEndOffset)
 
-  $: if (rows.length > 0 && !rows.includes(pageSize)) {
-    console.error('[pageSize] value should be present in [rows] array or it should be empty')
+  $: if (process.env.IS_DEV_MODE) {
+    if (rows.length > 0 && !rows.includes(pageSize)) {
+      console.error('[pageSize] value should be present in [rows] array or it should be empty')
+    }
   }
 
   const applySort = (sorter: Sorter<Item>) =>
@@ -84,12 +84,6 @@
     else page--
     onPageChange(page, pageSize)
   }
-
-  onMount(() => {
-    if (hasMoreItems) {
-      onPageChange(0, pageSize)
-    }
-  })
 </script>
 
 <Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
@@ -128,7 +122,10 @@
       max={pagesAmount}
     />
 
-    <span>of {pagesAmount}</span>
+    <span>
+      of {pagesAmount}
+      <span class="total-rows mrg-s mrg--l">({items.length} rows total)</span>
+    </span>
   </page-indicator>
 
   <nav-buttons class="row mrg-a mrg--l">
@@ -182,6 +179,7 @@
   }
 
   @include dac(phone-xs) {
+    .total-rows,
     .rows-trigger {
       display: none;
     }
