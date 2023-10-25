@@ -1,27 +1,59 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte'
+  import type { Sorter } from './utils'
+
   import { noop } from '@/utils'
   import Svg from '@/ui/Svg/svelte'
-  import Tooltip from '@/ui/Tooltip/svelte'
+  import Tooltip from '@/ui/Tooltip'
   import Table from './index.svelte'
 
-  let className = ''
+  type Item = $$Generic<SAN.Table.Item>
+  type TableProps = ComponentProps<Table<Item>>
+
+  interface $$Props extends TableProps {
+    pagedClassName?: string
+    pageSize?: number
+    page?: number
+    rows?: number[]
+    pageOffset?: number
+    totalItems?: number
+    onPageChange?: (page: number, pageSize: number) => void
+  }
+
+  type StrictProps = Required<$$Props>
+
+  let className: StrictProps['class'] = ''
   export { className as class }
-  export let items
-  export let pageSize = 25
-  export let page = 0
-  export let rows = [10, 25, 50]
-  export let pageOffset = 0
-  export let onPageChange = noop as (page: number, pageSize?: number) => void
+  export let items: StrictProps['items']
+
+  export let pagedClassName: StrictProps['pagedClassName'] = ''
+  export let page: StrictProps['page'] = 0
+  export let pageSize: StrictProps['pageSize'] = 25
+  export let rows: StrictProps['rows'] = [10, 25, 50]
+  export let pageOffset: StrictProps['pageOffset'] = 0
+  export let onPageChange: StrictProps['onPageChange'] = noop
+  export let totalItems: $$Props['totalItems'] = undefined
 
   let isPageSizeOpened = false
 
-  $: pagesAmount = Math.ceil(items.length / pageSize)
+  $: restProps = $$restProps as Omit<TableProps, 'class' | 'items'>
+
+  $: hasMoreItems = totalItems !== undefined && totalItems !== items.length
+  $: itemsCount = totalItems ?? items.length
+  $: pagesAmount = Math.ceil(itemsCount / pageSize)
   $: maxPage = pagesAmount - 1
   $: pageOffset = page * pageSize
   $: pageEndOffset = pageOffset + pageSize
-  $: pageItems = items.slice(pageOffset, pageEndOffset)
+  $: pageItems = hasMoreItems ? items.slice(0, pageSize) : items.slice(pageOffset, pageEndOffset)
 
-  const applySort = (sorter) => items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
+  $: if (process.env.IS_DEV_MODE) {
+    if (rows.length > 0 && !rows.includes(pageSize)) {
+      console.error('[pageSize] value should be present in [rows] array or it should be empty')
+    }
+  }
+
+  const applySort = (sorter: Sorter<Item>) =>
+    items.slice().sort(sorter).slice(pageOffset, pageEndOffset)
 
   function onPageInput({ currentTarget }) {
     const value = +currentTarget.value
@@ -31,10 +63,10 @@
     else page = value - 1
 
     currentTarget.value = page + 1
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
 
-  function onPageSizeChange(size) {
+  function onPageSizeChange(size: number) {
     isPageSizeOpened = false
     pageSize = size
     page = 0
@@ -44,30 +76,29 @@
   function onNextPage() {
     if (page >= pagesAmount) page = maxPage
     else page++
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
 
   function onPrevPage() {
     if (page <= 1) page = 0
     else page--
-    onPageChange(page)
+    onPageChange(page, pageSize)
   }
 </script>
 
-<div class={className}>
-  <Table {...$$restProps} items={pageItems} offset={pageOffset} {applySort}>
-    <slot />
-  </Table>
-</div>
+<Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
+  <slot />
+</Table>
 
-<div class="paged row v-center mrg-l mrg--t">
+<section class="paged row v-center gap-l mrg-l mrg--t single-line {pagedClassName}">
   {#if rows.length > 1}
-    <Tooltip on="click" position="top" bind:isOpened={isPageSizeOpened}>
-      <div slot="trigger" class="rows btn-2 btn--s mrg-s mrg--r row v-center justify">
-        {pageSize} rows <Svg id="arrow-down" w="8" h="5" />
-      </div>
+    <Tooltip on="click" position="top" bind:isOpened={isPageSizeOpened} let:trigger>
+      <button use:trigger class="rows-trigger btn-2 btn--s row v-center gap-m">
+        {pageSize} rows
+        <Svg id="arrow-down" w="8" h="5" />
+      </button>
 
-      <div slot="tooltip" class="pages column">
+      <tooltip slot="tooltip" class="pages column">
         {#each rows as row}
           <button
             class="btn-ghost"
@@ -75,52 +106,52 @@
             on:click={() => onPageSizeChange(row)}>{row} rows</button
           >
         {/each}
-      </div>
+      </tooltip>
     </Tooltip>
   {/if}
 
-  <span class="c-waterloo">Page</span>
+  <page-indicator class="row v-center gap-s c-waterloo">
+    <span>Page</span>
 
-  <input
-    type="number"
-    class="input txt-center mrg-l mrg--l mrg--r"
-    min="1"
-    value={page + 1}
-    on:change={onPageInput}
-    max={pagesAmount}
-  />
+    <input
+      type="number"
+      class="input txt-center"
+      min="1"
+      value={page + 1}
+      on:change={onPageInput}
+      max={pagesAmount}
+    />
 
-  <span class="c-waterloo"
-    >of {pagesAmount}
-    <span class="mrg-s mrg--l" />
-    ({items.length} rows total)</span
-  >
+    <span>
+      of {pagesAmount}
+      <span class="total-rows mrg-s mrg--l">({items.length} rows total)</span>
+    </span>
+  </page-indicator>
 
-  <button
-    class="btn-2 btn--s row hv-center mrg-a mrg--l"
-    class:disabled={page <= 0}
-    on:click={onPrevPage}
-  >
-    Prev
-    <Svg id="arrow-right" w="5" h="8" class="$style.left mrg-m mrg--l" />
-  </button>
-  <button
-    class="btn-2 btn--s row hv-center mrg-s mrg--l"
-    class:disabled={page >= maxPage}
-    on:click={onNextPage}
-  >
-    <Svg id="arrow-right" w="5" h="8" class="mrg-m mrg--r" />
-    Next
-  </button>
-</div>
+  <nav-buttons class="row mrg-a mrg--l">
+    <button class="btn-2 btn--s row hv-center" class:disabled={page <= 0} on:click={onPrevPage}>
+      Prev
+      <Svg id="arrow-right" w="5" h="8" class="$style.left mrg-m mrg--l" />
+    </button>
+
+    <button
+      class="btn-2 btn--s row hv-center mrg-s mrg--l"
+      class:disabled={page >= maxPage}
+      on:click={onNextPage}
+    >
+      <Svg id="arrow-right" w="5" h="8" class="mrg-m mrg--r" />
+      Next
+    </button>
+  </nav-buttons>
+</section>
 
 <style lang="scss">
   .left {
     transform: rotate(180deg);
   }
 
-  .rows {
-    min-width: 97px;
+  .rows-trigger {
+    --h-padding: 13px;
   }
 
   .paged {
@@ -137,12 +168,20 @@
 
   input {
     width: 45px;
+    appearance: textfield;
     -moz-appearance: textfield;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+  }
+
+  @include dac(phone-xs) {
+    .total-rows,
+    .rows-trigger {
+      display: none;
     }
   }
 </style>
