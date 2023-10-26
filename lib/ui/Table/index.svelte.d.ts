@@ -1,32 +1,33 @@
 import { SvelteComponentTyped } from "svelte";
-declare const __propDef: {
-    props: {
+import type { Sorter } from './utils';
+declare class __sveltets_Render<Item extends SAN.Table.Item> {
+    props(): {
         class?: string | undefined;
-        columns: SAN.Table.Column[];
-        items: SAN.Table.Item[];
-        keyProp?: undefined | string;
-        minRows?: undefined | number;
-        sortedColumn?: undefined | SAN.Table.Column;
+        columns: SAN.Table.Column<Item>[];
+        items: Item[];
+        keyProp?: string | undefined;
+        minRows?: number | undefined;
+        sortedColumn?: SAN.Table.Column<Item> | undefined;
         sticky?: boolean | undefined;
         isLoading?: boolean | undefined;
-        applySort?: ((sorter: any, items: any) => any) | undefined;
-        onSortClick?: ((column: SAN.Table.Column, isDescSort: boolean) => void) | undefined;
+        applySort?: ((sorter: Sorter<Item>, items: Item[]) => Item[]) | undefined;
+        onSortClick?: ((column: SAN.Table.Column<Item>, isDescSort: boolean) => void) | undefined;
         itemProps?: {
-            [key: string]: any;
+            [key: string]: unknown;
         } | null | undefined;
         offset?: number | undefined;
-        onItemClick?: ((item: SAN.Table.Item) => void) | undefined;
+        onItemClick?: ((item: import("./utils").Item) => void) | undefined;
     };
-    events: {
+    events(): {} & {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {
+    slots(): {
         default: {};
     };
-};
-export type IndexProps = typeof __propDef.props;
-export type IndexEvents = typeof __propDef.events;
-export type IndexSlots = typeof __propDef.slots;
-export default class Index extends SvelteComponentTyped<IndexProps, IndexEvents, IndexSlots> {
+}
+export type IndexProps<Item extends SAN.Table.Item> = ReturnType<__sveltets_Render<Item>['props']>;
+export type IndexEvents<Item extends SAN.Table.Item> = ReturnType<__sveltets_Render<Item>['events']>;
+export type IndexSlots<Item extends SAN.Table.Item> = ReturnType<__sveltets_Render<Item>['slots']>;
+export default class Index<Item extends SAN.Table.Item> extends SvelteComponentTyped<IndexProps<Item>, IndexEvents<Item>, IndexSlots<Item>> {
 }
 export {};

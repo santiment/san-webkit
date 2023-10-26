@@ -1,4 +1,5 @@
-<script>import { noop } from './../../utils';
+<script>var _a;
+import { noop } from './../../utils';
 import { getMinRows } from './utils';
 import SorterArrows from './SorterArrows.svelte';
 let className = '';
@@ -19,8 +20,8 @@ const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
 let currentSort = descSort;
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
-$: sortedColumnAccessor = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor;
-$: sortedItems = sortedColumn && sortedColumnAccessor ? applySort(currentSort, items) : items;
+$: sortedColumnAccessor = (_a = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) !== null && _a !== void 0 ? _a : (() => 0);
+$: sortedItems = (sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) ? applySort(currentSort, items) : items;
 function changeSort({ currentTarget }) {
     const i = currentTarget.dataset.i;
     const column = columns[+i];
@@ -62,15 +63,16 @@ function changeSort({ currentTarget }) {
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.title)}
-          {@const { className, format, Component, valueKey } = column}
-          {@const value = item[valueKey]}
+          {@const { className, valueKey } = column}
+          {@const value = valueKey ? item[valueKey] : undefined}
+
           <td class={className || ''}>
             {#if valueKey && value === undefined}
               <div class="skeleton" />
-            {:else if Component}
-              <svelte:component this={Component} {item} {value} {column} {...itemProps} />
-            {:else}
-              {format(item, i + offset, value)}
+            {:else if 'Component' in column}
+              <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
+            {:else if 'format' in column}
+              {column.format(item, i + offset, value)}
             {/if}
           </td>
         {/each}
