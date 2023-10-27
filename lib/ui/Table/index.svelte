@@ -28,10 +28,10 @@ function changeSort({ currentTarget }) {
     const { sortAccessor, isSortable = sortAccessor } = column;
     if (!isSortable)
         return;
-    const isDescSort = sortedColumn === column && currentSort === descSort;
+    const isDescSort = sortedColumn === column ? currentSort === descSort : false;
     currentSort = isDescSort ? ascSort : descSort;
     sortedColumn = column;
-    onSortClick(sortedColumn, isDescSort);
+    onSortClick(sortedColumn, !isDescSort);
 }
 </script>
 
