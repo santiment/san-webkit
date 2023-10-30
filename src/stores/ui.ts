@@ -1,7 +1,7 @@
 import { getContext, setContext } from 'svelte'
-import { writable } from 'svelte/store'
+import { get, writable } from 'svelte/store'
 import { mutate } from '@/api'
-import { getSavedJson, saveJson } from '@/utils/localStorage'
+import { getSavedBoolean, getSavedJson, saveBoolean, saveJson } from '@/utils/localStorage'
 import { getSessionValue } from './utils'
 
 const TOGGLE_THEME_MUTATION = (isNightMode) => `
@@ -14,30 +14,39 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
 
 const CTX = 'UI$$'
 
+const HALLOWEEN_PROMO_NIGHT_MODE = 'HALLOWEEN_PROMO_NIGHT_MODE'
+
 export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
-  const ui$ = writable(store)
 
   if (process.browser) {
-    const { currentUser, theme } = getSessionValue()
+    // const { currentUser, theme } = getSessionValue()
 
-    if (currentUser) {
-      store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
-    } else {
-      const saved = getSavedJson('ui', store) as typeof store
+    // if (currentUser) {
+    //   store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
+    // } else {
+    const saved = getSavedJson<typeof store>('ui')
+    const savedNightMode = getSavedBoolean(HALLOWEEN_PROMO_NIGHT_MODE, store.isNightMode)
 
-      if (typeof saved.isNightMode === 'boolean') store = saved
-      else saveJson('ui', store)
+    if (saved) {
+      saved.isNightMode = savedNightMode
+      store = saved
     }
 
-    document.body.classList.toggle('night-mode', store.isNightMode || false)
+    saveJson('ui', saved ?? store)
+    // }
+
+    document.body.classList.toggle('night-mode', store.isNightMode)
   }
+
+  const ui$ = writable(store)
 
   return setContext(CTX, {
     ui$: {
       ...ui$,
       toggleNightMode() {
         const { currentUser } = getSessionValue()
+        const store = get(ui$)
         store.isNightMode = document.body.classList.toggle('night-mode')
 
         if (currentUser) {
@@ -45,6 +54,7 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
         }
 
         saveJson('ui', store)
+        saveBoolean(HALLOWEEN_PROMO_NIGHT_MODE, store.isNightMode)
 
         ui$.set(store)
       },
