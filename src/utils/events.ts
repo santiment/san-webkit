@@ -38,7 +38,9 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
     }
   }
 
-  window.addEventListener('keydown', onKeyPress, options)
+  if (process.browser) {
+    window.addEventListener('keydown', onKeyPress, options)
+  }
 
   return () => window.removeEventListener('keydown', onKeyPress, options)
 }
