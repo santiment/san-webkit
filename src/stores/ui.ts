@@ -1,7 +1,7 @@
 import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { mutate } from '@/api'
-import { getSavedJson, saveJson } from '@/utils/localStorage'
+import { getSavedBoolean, saveBoolean, getSavedJson, saveJson } from '@/utils/localStorage'
 import { getSessionValue } from './utils'
 
 const TOGGLE_THEME_MUTATION = (isNightMode) => `
@@ -13,6 +13,7 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
 `
 
 const CTX = 'UI$$'
+const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2023'
 
 export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
@@ -30,6 +31,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
       else saveJson('ui', store)
     }
 
+    // TODO: Remove after halloween [@vanguard | 31 Oct, 2023]
+    store.isNightMode = getSavedBoolean(HALLOWEEN_NIGHT_MODE, true)
+
     document.body.classList.toggle('night-mode', store.isNightMode || false)
   }
 
@@ -45,6 +49,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
         }
 
         saveJson('ui', store)
+
+        // TODO: Remove after halloween [@vanguard | 31 Oct, 2023]
+        saveBoolean(HALLOWEEN_NIGHT_MODE, store.isNightMode)
 
         ui$.set(store)
       },
