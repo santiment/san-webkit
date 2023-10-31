@@ -1,7 +1,7 @@
 import { getContext, setContext } from 'svelte'
-import { get, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 import { mutate } from '@/api'
-import { getSavedBoolean, getSavedJson, saveBoolean, saveJson } from '@/utils/localStorage'
+import { getSavedBoolean, saveBoolean, getSavedJson, saveJson } from '@/utils/localStorage'
 import { getSessionValue } from './utils'
 
 const TOGGLE_THEME_MUTATION = (isNightMode) => `
@@ -13,40 +13,35 @@ const TOGGLE_THEME_MUTATION = (isNightMode) => `
 `
 
 const CTX = 'UI$$'
-
-const HALLOWEEN_PROMO_NIGHT_MODE = 'HALLOWEEN_PROMO_NIGHT_MODE'
+const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2023'
 
 export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
+  const ui$ = writable(store)
 
   if (process.browser) {
-    // const { currentUser, theme } = getSessionValue()
+    const { currentUser, theme } = getSessionValue()
 
-    // if (currentUser) {
-    //   store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
-    // } else {
-    const saved = getSavedJson<typeof store>('ui')
-    const savedNightMode = getSavedBoolean(HALLOWEEN_PROMO_NIGHT_MODE, store.isNightMode)
+    if (currentUser) {
+      store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
+    } else {
+      const saved = getSavedJson('ui', store) as typeof store
 
-    if (saved) {
-      saved.isNightMode = savedNightMode
-      store = saved
+      if (typeof saved.isNightMode === 'boolean') store = saved
+      else saveJson('ui', store)
     }
 
-    saveJson('ui', saved ?? store)
-    // }
+    // TODO: Remove after halloween [@vanguard | 31 Oct, 2023]
+    store.isNightMode = getSavedBoolean(HALLOWEEN_NIGHT_MODE, true)
 
-    document.body.classList.toggle('night-mode', store.isNightMode)
+    document.body.classList.toggle('night-mode', store.isNightMode || false)
   }
-
-  const ui$ = writable(store)
 
   return setContext(CTX, {
     ui$: {
       ...ui$,
       toggleNightMode() {
         const { currentUser } = getSessionValue()
-        const store = get(ui$)
         store.isNightMode = document.body.classList.toggle('night-mode')
 
         if (currentUser) {
@@ -54,7 +49,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
         }
 
         saveJson('ui', store)
-        saveBoolean(HALLOWEEN_PROMO_NIGHT_MODE, store.isNightMode)
+
+        // TODO: Remove after halloween [@vanguard | 31 Oct, 2023]
+        saveBoolean(HALLOWEEN_NIGHT_MODE, store.isNightMode)
 
         ui$.set(store)
       },
