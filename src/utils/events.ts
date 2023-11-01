@@ -1,3 +1,6 @@
+import { readable } from 'svelte/store'
+import { noop } from './index'
+
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 
 const options = { capture: true }
@@ -38,7 +41,17 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
     }
   }
 
-  window.addEventListener('keydown', onKeyPress, options)
+  if (process.browser) {
+    window.addEventListener('keydown', onKeyPress, options)
+  }
 
   return () => window.removeEventListener('keydown', onKeyPress, options)
+}
+
+export function GlobalShortcut$(shortcut: string, clb: () => any, disableInputs = true) {
+  return readable(null, () => {
+    const clean = process.browser ? newGlobalShortcut(shortcut, clb, disableInputs) : noop
+
+    return clean
+  })
 }
