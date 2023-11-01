@@ -90,7 +90,7 @@
   <slot />
 </Table>
 
-<section class="paged row v-center gap-l mrg-l mrg--t single-line {pagedClassName}">
+<section class="paged row v-center gap-l mrg-l mrg--t nowrap {pagedClassName}">
   {#if rows.length > 1}
     <Tooltip on="click" position="top" bind:isOpened={isPageSizeOpened} let:trigger>
       <button use:trigger class="rows-trigger btn-2 btn--s row v-center gap-m">
