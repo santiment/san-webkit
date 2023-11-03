@@ -1,6 +1,7 @@
 <script lang="ts">
   import Input from './Input.svelte'
   import CCInput from './CCInput.svelte'
+  import Country from './PayerInfo/Country.svelte'
 
   export let StripeCard: stripe.elements.Element
 </script>
@@ -10,7 +11,8 @@
 
   <CCInput bind:StripeCard />
 
-  <Input title="Country" name="address_country" placeholder="US" />
+  <Country />
+
   <Input title="State / Region" name="address_state" placeholder="California" />
   <Input title="City" name="address_city" placeholder="Sacramento" />
   <Input title="Street Address" name="address_line1" placeholder="1483 Pearl Street" />

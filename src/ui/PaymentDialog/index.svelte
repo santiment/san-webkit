@@ -96,6 +96,9 @@
     loading = true
     DialogPromise.locking = DialogLock.LOCKED
     const data = getPaymentFormData(formNode)
+    console.log(data)
+
+    return
 
     buyPlan(
       customer$,
