@@ -7,6 +7,7 @@
   let value = ''
   let searchTerm = ''
   let inputNode: any
+  let lastValid = ''
 
   $: filtered = searchTerm ? filter(searchTerm) : COUNTRIES
 
@@ -26,6 +27,18 @@
     if (!inputNode) inputNode = currentTarget
     searchTerm = currentTarget.value.trim()
   }
+  function onFocus({ currentTarget }: Event) {
+    inputNode = currentTarget
+    isOpened = true
+  }
+
+  function onBlur() {
+    setTimeout(() => {
+      if (inputNode) inputNode.value = lastValid
+      isOpened = false
+      searchTerm = ''
+    }, 100)
+  }
 </script>
 
 <Input
@@ -33,15 +46,20 @@
   title="Country"
   placeholder="US"
   on:input={onInput}
-  on:focus={() => (isOpened = true)}
+  on:focus={onFocus}
+  on:blur={onBlur}
 >
   {#if isOpened}
     <suggestions class="border box">
       <VirtualList items={filtered} maxFluidHeight={200} itemHeight={32} let:item>
         <button
           class="btn-ghost"
-          on:click={() => {
-            if (inputNode) inputNode.value = item[1]
+          on:click|capture={() => {
+            if (inputNode) {
+              lastValid = item[1]
+              inputNode.value = lastValid
+            }
+
             value = item[0]
             isOpened = false
           }}
