@@ -12,7 +12,6 @@ export const dataPreloader = Preloader(preloadData);
 <script>import { onDestroy } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
-import './../../analytics';
 import { PlanName } from './../../utils/plans';
 import { paymentCard$ } from './../../stores/paymentCard';
 import { getCustomer$Ctx } from './../../stores/customer';
@@ -78,6 +77,9 @@ function onChange() {
 let formNode = null;
 function onSubmit() {
     if (!formNode)
+        return;
+    const isInvalid = !formNode.reportValidity();
+    if (isInvalid)
         return;
     loading = true;
     DialogPromise.locking = DialogLock.LOCKED;

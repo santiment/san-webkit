@@ -9,6 +9,8 @@ declare const __propDef: {
     };
     events: {
         input: Event;
+        focus: FocusEvent;
+        blur: FocusEvent;
     } & {
         [evt: string]: CustomEvent<any>;
     };

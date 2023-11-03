@@ -16,7 +16,7 @@ const INPUT_STYLE = {
         color: '#ff5b5b', // red
     },
 };
-const SETTINGS = { style: INPUT_STYLE };
+const SETTINGS = { style: INPUT_STYLE, hidePostalCode: true };
 $: $stripe && ccNode && mountCC();
 function mountCC() {
     StripeCard = $stripe === null || $stripe === void 0 ? void 0 : $stripe.elements().create('card', SETTINGS);
