@@ -13,10 +13,9 @@
 </script>
 
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte'
+  import { onDestroy } from 'svelte'
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
-  import { track } from '@/analytics'
   import { PlanName } from '@/utils/plans'
   import { paymentCard$ } from '@/stores/paymentCard'
   import { getCustomer$Ctx } from '@/stores/customer'
@@ -89,9 +88,13 @@
     DialogPromise.locking = DialogLock.WARN
   }
 
-  let formNode = null
+  let formNode = null as null | HTMLFormElement
   function onSubmit() {
     if (!formNode) return
+
+    const isInvalid = !formNode.reportValidity()
+
+    if (isInvalid) return
 
     loading = true
     DialogPromise.locking = DialogLock.LOCKED
