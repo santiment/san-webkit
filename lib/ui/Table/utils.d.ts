@@ -10,7 +10,7 @@ export type Column<T = Item> = {
     className?: string;
     sortAccessor?: SortAccessor<T>;
     Header?: ComponentType;
-    valueKey?: string;
+    valueKey?: number | string;
     isSortable?: boolean;
 } & ({
     format: Format<T>;
