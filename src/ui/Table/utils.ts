@@ -12,7 +12,7 @@ export type Column<T = Item> = {
   sortAccessor?: SortAccessor<T>
 
   Header?: ComponentType
-  valueKey?: string
+  valueKey?: number | string
   isSortable?: boolean
 } & ({ format: Format<T> } | { Component: ComponentType })
 

@@ -74,10 +74,11 @@
       <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.title)}
           {@const { className, valueKey } = column}
-          {@const value = valueKey ? item[valueKey] : undefined}
+          {@const isValidValueKey = (valueKey ?? null) !== null}
+          {@const value = isValidValueKey ? item[valueKey] : undefined}
 
           <td class={className || ''}>
-            {#if valueKey && value === undefined}
+            {#if isValidValueKey && value === undefined}
               <div class="skeleton" />
             {:else if 'Component' in column}
               <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
