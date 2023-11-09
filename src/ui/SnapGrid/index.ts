@@ -35,6 +35,8 @@ type Settings = {
   minCols?: number
   maxRows?: number
   minRows?: number
+
+  readonly: boolean
 }
 
 export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handlers) {
@@ -47,6 +49,7 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
     maxRows,
     minRows = 1,
     margin = [12, 12],
+    readonly = false,
   } = settings
   const [xMargin, yMargin = xMargin] = margin
 
@@ -68,9 +71,16 @@ export function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handl
     mount,
     resize,
     updateLayout,
+    readonly,
+
+    setReadonly,
   } as SnapGridController
 
   Object.assign(ctx, ItemMover(ctx, handlers))
+
+  function setReadonly(value: boolean) {
+    ctx.readonly = value
+  }
 
   function mount(gridContainerNode: HTMLElement) {
     ctx.gridContainerNode = gridContainerNode

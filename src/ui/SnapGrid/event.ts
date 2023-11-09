@@ -33,6 +33,8 @@ export function Draggable(
 
     let timer
     function onDragStart(e: MouseEvent) {
+      if (settings.readonly) return
+
       e.stopImmediatePropagation()
       clearTimeout(timer)
 
