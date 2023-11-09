@@ -86,9 +86,11 @@
   }
 </script>
 
-<Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
-  <slot />
-</Table>
+<paged-table class={className}>
+  <Table {...restProps} items={pageItems} offset={pageOffset} {applySort}>
+    <slot />
+  </Table>
+</paged-table>
 
 <section class="paged row v-center gap-l mrg-l mrg--t nowrap {pagedClassName}">
   {#if rows.length > 1}
@@ -146,6 +148,10 @@
 </section>
 
 <style lang="scss">
+  paged-table {
+    display: block;
+  }
+
   .left {
     transform: rotate(180deg);
   }
