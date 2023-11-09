@@ -5,6 +5,7 @@ declare const __propDef: {
         class?: string | undefined;
         tag?: string | undefined;
         isDragging?: boolean | undefined;
+        readonly?: boolean | undefined;
         cols?: number | undefined;
         rowSize?: number | undefined;
         layout: SnapItem[];

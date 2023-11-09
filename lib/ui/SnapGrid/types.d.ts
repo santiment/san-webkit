@@ -25,9 +25,11 @@ export type SnapGridController = {
     minCols: number;
     maxRows: number;
     minRows: number;
+    readonly: boolean;
     mount: (gridContainerNode: HTMLElement) => void;
     resize: (gridWidth: number) => void;
     updateLayout: (layout: SnapItem[]) => void;
+    setReadonly: (value: boolean) => void;
     onDragStart: (e: MouseEvent) => void;
 } & ScrollContext;
 export type Handlers = Partial<{

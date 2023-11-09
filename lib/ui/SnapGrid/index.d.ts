@@ -10,6 +10,7 @@ type Settings = {
     minCols?: number;
     maxRows?: number;
     minRows?: number;
+    readonly: boolean;
 };
 export declare function SnapGrid(layout: SnapItem[], settings: Settings, handlers: Handlers): SnapGridController;
 export {};

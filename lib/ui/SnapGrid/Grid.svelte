@@ -8,6 +8,7 @@ let className = '';
 export { className as class };
 export let tag = 'snap-grid';
 export let isDragging = false;
+export let readonly = false;
 export let cols = 12;
 export let rowSize = 30;
 export let layout;
@@ -20,6 +21,7 @@ let node;
 const settings = { cols, rowSize, maxCols, minCols, maxRows, minRows };
 const snapGrid = setSnapGridCtx(SnapGrid(layout, settings, { onStart, onEnd }));
 const { onDragStart } = snapGrid;
+$: snapGrid.setReadonly(readonly);
 $: if (node)
     snapGrid.updateLayout(layout);
 $: if (node && layout)
@@ -31,9 +33,13 @@ function getStyle(item) {
       transform:${getResponsiveTranslate(item, snapGrid)}`;
 }
 function onStart() {
+    if (readonly)
+        return;
     isDragging = true;
 }
 function onEnd() {
+    if (readonly)
+        return;
     setTimeout(() => {
         isDragging = false;
         onLayoutChange();
