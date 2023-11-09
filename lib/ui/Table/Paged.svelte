@@ -60,9 +60,11 @@ function onPrevPage() {
 }
 </script>
 
-<Table {...restProps} class={className} items={pageItems} offset={pageOffset} {applySort}>
-  <slot />
-</Table>
+<paged-table class={className}>
+  <Table {...restProps} items={pageItems} offset={pageOffset} {applySort}>
+    <slot />
+  </Table>
+</paged-table>
 
 <section class="paged row v-center gap-l mrg-l mrg--t nowrap {pagedClassName}">
   {#if rows.length > 1}
@@ -105,7 +107,7 @@ function onPrevPage() {
   <nav-buttons class="row mrg-a mrg--l">
     <button class="btn-2 btn--s row hv-center" class:disabled={page <= 0} on:click={onPrevPage}>
       Prev
-      <Svg id="arrow-right" w="5" h="8" class="left-if37A0 mrg-m mrg--l" />
+      <Svg id="arrow-right" w="5" h="8" class="left-lkfGm2 mrg-m mrg--l" />
     </button>
 
     <button
@@ -133,7 +135,11 @@ function onPrevPage() {
   }
 }
 */
-:global(.left-if37A0) {
+paged-table {
+  display: block;
+}
+
+:global(.left-lkfGm2) {
   transform: rotate(180deg);
 }
 
