@@ -16,9 +16,10 @@ export let onSortClick = noop;
 export let itemProps = null;
 export let offset = 0;
 export let onItemClick = noop;
+export let sortDirection = 'desc';
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
-let currentSort = descSort;
+$: currentSort = sortDirection === 'desc' ? descSort : ascSort;
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
 $: sortedColumnAccessor = (_a = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) !== null && _a !== void 0 ? _a : (() => 0);
 $: sortedItems = (sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) ? applySort(currentSort, items) : items;
@@ -31,7 +32,7 @@ function changeSort({ currentTarget }) {
     const isDescSort = sortedColumn === column ? currentSort === descSort : false;
     currentSort = isDescSort ? ascSort : descSort;
     sortedColumn = column;
-    onSortClick(sortedColumn, !isDescSort);
+    onSortClick(sortedColumn, !isDescSort, isDescSort ? 'asc' : 'desc');
 }
 </script>
 

@@ -11,12 +11,13 @@ declare class __sveltets_Render<Item extends SAN.Table.Item> {
         sticky?: boolean | undefined;
         isLoading?: boolean | undefined;
         applySort?: ((sorter: Sorter<Item>, items: Item[]) => Item[]) | undefined;
-        onSortClick?: ((column: SAN.Table.Column<Item>, isDescSort: boolean) => void) | undefined;
+        onSortClick?: ((column: SAN.Table.Column<Item>, isDescSort: boolean, sortDir: "desc" | "asc") => void) | undefined;
         itemProps?: {
             [key: string]: unknown;
         } | null | undefined;
         offset?: number | undefined;
         onItemClick?: ((item: import("./utils").Item) => void) | undefined;
+        sortDirection?: "desc" | "asc" | undefined;
         pagedClassName?: string | undefined;
         pageSize?: number | undefined;
         page?: number | undefined;

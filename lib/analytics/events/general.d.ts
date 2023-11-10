@@ -27,11 +27,13 @@ export declare enum PageType {
     SignUp = "signup",
     Login = "login"
 }
-export declare const trackPageView: ({ url, type, sourceType, sourceUrl, }: {
+export declare const trackPageView: ({ url, type, sourceType, sourceUrl, searchParams, sourceSearchParams, }: {
     url: string;
     type: PageType;
     sourceType: PageType;
     sourceUrl: string;
+    searchParams?: string | undefined;
+    sourceSearchParams?: string | undefined;
 }) => number;
 export declare const trackSideNavFeatures: ({ url, type, sourceType, }: {
     url: string;
