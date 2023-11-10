@@ -6,11 +6,13 @@ export const trackAppOpen = () =>
   track('app_open', {
     source_url: window.location.href,
     referrer: document.referrer,
+    source_search_params: window.location.search,
   })
 
 export const trackAppClose = () =>
   track('app_close', {
     source_url: window.location.href,
+    source_search_params: window.location.search,
   })
 
 export enum LoginType {
@@ -69,12 +71,24 @@ export const trackPageView = ({
   type,
   sourceType,
   sourceUrl,
+  searchParams,
+  sourceSearchParams,
 }: {
   url: string
   type: PageType
   sourceType: PageType
   sourceUrl: string
-}) => track('page_view', { url, type, source_type: sourceType, source_url: sourceUrl })
+  searchParams?: string
+  sourceSearchParams?: string
+}) =>
+  track('page_view', {
+    url,
+    type,
+    search_params: searchParams,
+    source_type: sourceType,
+    source_url: sourceUrl,
+    source_search_params: sourceSearchParams,
+  })
 
 export const trackSideNavFeatures = ({
   url,
@@ -96,7 +110,14 @@ export const trackSideNavRecents = ({ feature, url, source }) =>
   track('side_nav_recents', { feature, url, source, source_url: window.location.href })
 
 export const trackLink = ({ type, url, source, external = false }) =>
-  track('link', { type, url, source, external, source_url: window.location.href })
+  track('link', {
+    type,
+    url,
+    source,
+    external,
+    source_url: window.location.href,
+    source_search_params: window.location.search,
+  })
 
 export const trackGetAiSummary = ({
   trend,
