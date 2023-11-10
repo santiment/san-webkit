@@ -31,6 +31,7 @@ export const trackPaymentFormOpened = ({
     source,
     currency,
     source_url: window.location.href,
+    source_search_params: window.location.search,
   })
 
 export const trackPaymentFormSubmitted = ({
@@ -63,13 +64,22 @@ export const trackPaymentFormSubmitted = ({
     billing,
     san_tokens_discount: hasSanTokensDiscount,
     source_url: window.location.href,
+    source_search_params: window.location.search,
   })
 
 export const trackPaymentSuccess = (source) =>
-  track('payment_success', { source, source_url: window.location.href })
+  track('payment_success', {
+    source,
+    source_url: window.location.href,
+    source_search_params: window.location.search,
+  })
 
 export const trackPaymentFail = (source) =>
-  track('payment_fail', { source, source_url: window.location.href })
+  track('payment_fail', {
+    source,
+    source_url: window.location.href,
+    source_search_params: window.location.search,
+  })
 
 export const trackPaymentFormPlanSelect = ({
   amount,
@@ -91,4 +101,5 @@ export const trackPaymentFormPlanSelect = ({
     plan_id: planId,
     billing,
     source_url: window.location.href,
+    source_search_params: window.location.search,
   })
