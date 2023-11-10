@@ -17,16 +17,20 @@
   export let sticky = false
   export let isLoading = false
   export let applySort = (sorter: Sorter<Item>, items: Item[]) => items.slice().sort(sorter)
-  export let onSortClick: (column: SAN.Table.Column<Item>, isDescSort: boolean) => void = noop
+  export let onSortClick: (
+    column: SAN.Table.Column<Item>,
+    isDescSort: boolean,
+    sortDir: 'desc' | 'asc',
+  ) => void = noop
   export let itemProps: null | { [key: string]: unknown } = null
   export let offset = 0
   export let onItemClick: (item: SAN.Table.Item) => void = noop
+  export let sortDirection = 'desc' as 'desc' | 'asc'
 
   const ascSort: Sorter<Item> = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter<Item> = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
 
-  let currentSort = descSort
-
+  $: currentSort = sortDirection === 'desc' ? descSort : ascSort
   $: rowsPadding = getMinRows(minRows, items.length, columns.length)
   $: sortedColumnAccessor = sortedColumn?.sortAccessor ?? (() => 0)
   $: sortedItems = sortedColumn?.sortAccessor ? applySort(currentSort, items) : items
@@ -41,7 +45,7 @@
     const isDescSort = sortedColumn === column ? currentSort === descSort : false
     currentSort = isDescSort ? ascSort : descSort
     sortedColumn = column
-    onSortClick(sortedColumn, !isDescSort)
+    onSortClick(sortedColumn, !isDescSort, isDescSort ? 'asc' : 'desc')
   }
 </script>
 

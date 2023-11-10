@@ -86,6 +86,7 @@
   }
 </script>
 
+<!-- This element act as a scorll contrainer for a table -->
 <paged-table class={className}>
   <Table {...restProps} items={pageItems} offset={pageOffset} {applySort}>
     <slot />
