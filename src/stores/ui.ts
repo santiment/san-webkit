@@ -39,15 +39,17 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
       ...ui$,
       toggleNightMode() {
         const { currentUser } = getSessionValue()
-        store.isNightMode = document.body.classList.toggle('night-mode')
+        const isNightMode = document.body.classList.toggle('night-mode')
 
         if (currentUser) {
-          mutate(TOGGLE_THEME_MUTATION(store.isNightMode)).catch(console.error)
+          mutate(TOGGLE_THEME_MUTATION(isNightMode)).catch(console.error)
         }
 
-        saveJson('ui', store)
-
-        ui$.set(store)
+        ui$.update((store) => {
+          const updated = { ...store, isNightMode }
+          saveJson('ui', updated)
+          return updated
+        })
       },
     },
   })
