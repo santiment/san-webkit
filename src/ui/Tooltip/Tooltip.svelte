@@ -47,7 +47,7 @@
 
   const getStyles = (x: number, y: number) => ({ left: `${x}px`, top: `${y}px` })
 
-  function open() {
+  export function open() {
     stopOpenTimer()
     stopCloseTimer()
     isOpened = true
@@ -55,7 +55,7 @@
     if (activeClass) trigger?.classList.add(activeClass)
   }
 
-  function close() {
+  export function close() {
     stopOpenTimer()
     stopCloseTimer()
     isOpened = false

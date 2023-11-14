@@ -2,9 +2,8 @@
 
 <script lang="ts">
   import { noop } from '@/utils'
-  import { onMount } from 'svelte'
 
-  type T = $$Generic<{ title: string; action?: (node: HTMLElement) => any }>
+  type T = $$Generic<{ title: string; ariaLabel?: string; action?: (node: HTMLElement) => any }>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface $$Slots {
     default: { item: T }
@@ -17,42 +16,54 @@
   export let selected = tabs[0] as (typeof tabs)[number]
   export let onSelect = noop as (selectedTab: typeof selected) => void
   export let border = false
+  export let tabClass = ''
 
   let tabsNode: HTMLElement
 
-  function onTabClick(item: typeof selected, i: number) {
+  function onTabClick(item: typeof selected) {
     if (selected !== item) {
       selected = item
-      slide(tabsNode.children[i] as HTMLElement)
     }
 
     onSelect(selected)
   }
 
-  function slide(activeNode: HTMLElement) {
-    const { clientWidth, offsetLeft } = activeNode
+  function slider(tabsNode: HTMLElement, _selected: (typeof tabs)[number]) {
+    function slide(activeNode: HTMLElement) {
+      const { clientWidth, offsetLeft } = activeNode
 
-    activeNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-    tabsNode.style.setProperty('--_width', `${clientWidth}px`)
-    tabsNode.style.setProperty('--_left', `${offsetLeft}px`)
+      activeNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      tabsNode.style.setProperty('--_width', `${clientWidth}px`)
+      tabsNode.style.setProperty('--_left', `${offsetLeft}px`)
+    }
+
+    function update(_selected?: (typeof tabs)[number]) {
+      const activeNode = tabsNode.querySelector('.active') as null | HTMLElement
+      if (activeNode) slide(activeNode)
+    }
+
+    update()
+
+    return { update }
   }
-
-  onMount(() => {
-    const activeNode = tabsNode.querySelector('.active') as null | HTMLElement
-    if (activeNode) slide(activeNode)
-  })
 </script>
 
 <tabs class="row no-scrollbar {className}">
-  <tabs-visible bind:this={tabsNode} class="row relative nowrap" class:border-bottom={border}>
-    {#each tabs as item, i}
-      {@const { title, action = noop } = item}
+  <tabs-visible
+    bind:this={tabsNode}
+    use:slider={selected}
+    class="row relative nowrap"
+    class:border-bottom={border}
+  >
+    {#each tabs as item}
+      {@const { title, action = noop, ariaLabel } = item}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <tab
-        class="btn"
+        class="btn {tabClass}"
         class:active={selected === item}
-        on:click={() => onTabClick(item, i)}
+        aria-label={ariaLabel}
+        on:click={() => onTabClick(item)}
         use:action
       >
         <slot {item}>
