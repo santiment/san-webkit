@@ -1,44 +1,53 @@
 <svelte:options immutable />
 
 <script>import { noop } from './../../utils';
-import { onMount } from 'svelte';
 let className = 'gap-s c-fiord';
 export { className as class };
 export let tabs;
 export let selected = tabs[0];
 export let onSelect = noop;
 export let border = false;
+export let tabClass = '';
 let tabsNode;
-function onTabClick(item, i) {
+function onTabClick(item) {
     if (selected !== item) {
         selected = item;
-        slide(tabsNode.children[i]);
     }
     onSelect(selected);
 }
-function slide(activeNode) {
-    const { clientWidth, offsetLeft } = activeNode;
-    activeNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    tabsNode.style.setProperty('--_width', `${clientWidth}px`);
-    tabsNode.style.setProperty('--_left', `${offsetLeft}px`);
+function slider(tabsNode, _selected) {
+    function slide(activeNode) {
+        const { clientWidth, offsetLeft } = activeNode;
+        activeNode.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        tabsNode.style.setProperty('--_width', `${clientWidth}px`);
+        tabsNode.style.setProperty('--_left', `${offsetLeft}px`);
+    }
+    function update(_selected) {
+        const activeNode = tabsNode.querySelector('.active');
+        if (activeNode)
+            slide(activeNode);
+    }
+    update();
+    return { update };
 }
-onMount(() => {
-    const activeNode = tabsNode.querySelector('.active');
-    if (activeNode)
-        slide(activeNode);
-});
 </script>
 
 <tabs class="row no-scrollbar {className}">
-  <tabs-visible bind:this={tabsNode} class="row relative nowrap" class:border-bottom={border}>
-    {#each tabs as item, i}
-      {@const { title, action = noop } = item}
+  <tabs-visible
+    bind:this={tabsNode}
+    use:slider={selected}
+    class="row relative nowrap"
+    class:border-bottom={border}
+  >
+    {#each tabs as item}
+      {@const { title, action = noop, ariaLabel } = item}
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <tab
-        class="btn"
+        class="btn {tabClass}"
         class:active={selected === item}
-        on:click={() => onTabClick(item, i)}
+        aria-label={ariaLabel}
+        on:click={() => onTabClick(item)}
         use:action
       >
         <slot {item}>

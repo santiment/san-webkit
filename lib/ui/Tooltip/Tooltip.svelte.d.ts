@@ -17,6 +17,8 @@ declare const __propDef: {
         margin?: number | undefined;
         onTriggerClick?: ((e: MouseEvent) => void) | null | undefined;
         tooltip?: HTMLElement | null | undefined;
+        open?: (() => void) | undefined;
+        close?: (() => void) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
@@ -37,5 +39,7 @@ export type TooltipProps = typeof __propDef.props;
 export type TooltipEvents = typeof __propDef.events;
 export type TooltipSlots = typeof __propDef.slots;
 export default class Tooltip extends SvelteComponentTyped<TooltipProps, TooltipEvents, TooltipSlots> {
+    get open(): () => void;
+    get close(): () => void;
 }
 export {};

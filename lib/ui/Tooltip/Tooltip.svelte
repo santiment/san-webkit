@@ -37,7 +37,7 @@ $: if (trigger && tooltip) {
     });
 }
 const getStyles = (x, y) => ({ left: `${x}px`, top: `${y}px` });
-function open() {
+export function open() {
     stopOpenTimer();
     stopCloseTimer();
     isOpened = true;
@@ -45,7 +45,7 @@ function open() {
     if (activeClass)
         trigger === null || trigger === void 0 ? void 0 : trigger.classList.add(activeClass);
 }
-function close() {
+export function close() {
     stopOpenTimer();
     stopCloseTimer();
     isOpened = false;
