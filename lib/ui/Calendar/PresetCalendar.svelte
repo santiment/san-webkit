@@ -20,7 +20,7 @@ const PRESETS = [
     Preset('Last year', 'FullYear', 1),
     {
         title: 'All time',
-        presetDate: [new Date(2009, 0, 1), new Date()],
+        presetDate: [new Date(2009, 0, 5), new Date()],
     },
 ];
 export let date = [new Date(), new Date()];

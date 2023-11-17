@@ -75,4 +75,6 @@ declare namespace SAN {
   }
 
   type Scheduler = import('../utils/scheduler').SchedulerType
+
+  type PropsOf<T> = import('svelte').ComponentProps<T>
 }
