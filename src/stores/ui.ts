@@ -16,7 +16,6 @@ const CTX = 'UI$$'
 
 export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
-  const ui$ = writable(store)
 
   if (process.browser) {
     const { currentUser, theme } = getSessionValue()
@@ -33,20 +32,24 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
     document.body.classList.toggle('night-mode', store.isNightMode || false)
   }
 
+  const ui$ = writable(store)
+
   return setContext(CTX, {
     ui$: {
       ...ui$,
       toggleNightMode() {
         const { currentUser } = getSessionValue()
-        store.isNightMode = document.body.classList.toggle('night-mode')
+        const isNightMode = document.body.classList.toggle('night-mode')
 
         if (currentUser) {
-          mutate(TOGGLE_THEME_MUTATION(store.isNightMode)).catch(console.error)
+          mutate(TOGGLE_THEME_MUTATION(isNightMode)).catch(console.error)
         }
 
-        saveJson('ui', store)
-
-        ui$.set(store)
+        ui$.update((store) => {
+          const updated = { ...store, isNightMode }
+          saveJson('ui', updated)
+          return updated
+        })
       },
     },
   })
