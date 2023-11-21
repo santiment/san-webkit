@@ -20,7 +20,10 @@
 
   const { offsetMap, getOffset, updateOffset } = getTooltipContext()
 
-  $: offset = getOffset($offsetMap, tooltipSyncKey)
+  let localOffset: number | null = null
+
+  $: sharedOffset = getOffset($offsetMap, tooltipSyncKey)
+  $: offset = tooltipSyncKey ? sharedOffset : localOffset
   $: currentValue = getValueAt(offset, width)
   $: valueFormatted = currentValue !== undefined ? formatTooltipValue(currentValue) : currentValue
 
@@ -28,6 +31,20 @@
     if (!offset) return
     const valueIndex = Math.round((offset / width) * (data.length - 1))
     return getValue(data[valueIndex])
+  }
+
+  function onMouseMove({ offsetX }: MouseEvent) {
+    localOffset = offsetX
+    if (tooltipSyncKey) {
+      updateOffset(offsetX, tooltipSyncKey)
+    }
+  }
+
+  function onMouseLeave() {
+    localOffset = null
+    if (tooltipSyncKey) {
+      updateOffset(null, tooltipSyncKey)
+    }
   }
 
   export function getAreaPoints(points: Props['points'], linePoints: string) {
@@ -45,8 +62,8 @@
   {valueKey}
   {style}
   class="relative {className}"
-  on:mousemove={({ offsetX }) => updateOffset(offsetX, tooltipSyncKey)}
-  on:mouseleave={() => updateOffset(null, tooltipSyncKey)}
+  on:mousemove={onMouseMove}
+  on:mouseleave={onMouseLeave}
   let:points
   let:linePoints
 >
