@@ -18,11 +18,11 @@
   export let tooltipSyncKey: string | undefined = undefined
   export let formatTooltipValue = (value: number) => value.toString()
 
-  const { offsetMap, getOffset, updateOffset } = getTooltipContext()
+  const { offset$: sharedOffset$, updateOffset, checkKey } = getTooltipContext()
 
   let localOffset: number | null = null
 
-  $: sharedOffset = getOffset($offsetMap, tooltipSyncKey)
+  $: sharedOffset = tooltipSyncKey && checkKey(tooltipSyncKey) ? $sharedOffset$ : null
   $: offset = tooltipSyncKey ? sharedOffset : localOffset
   $: currentValue = getValueAt(offset, width)
   $: valueFormatted = currentValue !== undefined ? formatTooltipValue(currentValue) : currentValue
