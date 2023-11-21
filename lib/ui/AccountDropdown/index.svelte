@@ -10,6 +10,7 @@ import Pic from './../../ui/Profile/Pic.svelte';
 import { AccountStatusType } from './../../ui/AccountStatus.svelte';
 import UserInfo from './UserInfo.svelte';
 import VersionInfo from './VersionInfo.svelte';
+import LiteButton from './LiteButton.svelte';
 export let currentUser;
 export let onLogoutClick;
 export let isOpened = false;
@@ -18,6 +19,7 @@ export let variant = AccountStatusType.First;
 export let isAppUpdateAvailable = false;
 export let version = '1.0.0';
 export let isShowingFollowers = true;
+export let onOldVersionClick = undefined;
 const { ui$ } = getUI$Ctx();
 const { customer$ } = getCustomer$Ctx();
 function onLogout() {
@@ -27,6 +29,7 @@ function onLogout() {
 }
 $: customer = $customer$;
 $: ({ isPro } = customer);
+$: ({ isLiteVersion } = $ui$);
 </script>
 
 <Tooltip
@@ -34,7 +37,7 @@ $: ({ isPro } = customer);
   overflowFlip={false}
   duration={130}
   bind:isOpened
-  activeClass="active-YFMv3y"
+  activeClass="active-bJrNK1"
   class={tooltipClass}
   let:trigger
 >
@@ -57,6 +60,11 @@ $: ({ isPro } = customer);
       <hr />
       <VersionInfo {isAppUpdateAvailable} {version} />
       <hr />
+
+      {#if isLiteVersion && onOldVersionClick}
+        <LiteButton {onOldVersionClick} />
+        <hr />
+      {/if}
 
       <section>
         <a
@@ -94,6 +102,14 @@ $: ({ isPro } = customer);
           <Svg id="user" w="16" class="mrg-s mrg--r" />
           Log in
         </a>
+
+        {#if isLiteVersion && onOldVersionClick}
+          <anon-classic-section>
+            <hr />
+            <LiteButton {onOldVersionClick} />
+            <hr />
+          </anon-classic-section>
+        {/if}
       {/if}
 
       <button class="btn-ghost row justify v-center" on:click={ui$.toggleNightMode}>
@@ -108,12 +124,6 @@ $: ({ isPro } = customer);
           on:click={window.__onLinkClick}>Account Settings</a
         >
       {/if}
-
-      <a
-        href="{SANBASE_ORIGIN}/pricing"
-        class="btn-ghost row justify v-center"
-        on:click={window.__onLinkClick}>Pricing</a
-      >
 
       <button
         class="btn-ghost row justify v-center"
@@ -132,7 +142,7 @@ $: ({ isPro } = customer);
 </Tooltip>
 
 <style>
-  :global(.active-YFMv3y) :global(.s-17k6r10) {
+  :global(.active-bJrNK1) :global(.s-17k6r10) {
     --img-fill: var(--fiord);
   }
 
@@ -161,6 +171,12 @@ $: ({ isPro } = customer);
 
   section {
     padding: 8px;
+  }
+
+  anon-classic-section {
+    display: block;
+    padding: 8px 0;
+    margin: 0 -8px;
   }
 
   .login {

@@ -6,6 +6,7 @@ declare const __propDef: {
         name?: string | undefined;
         placeholder?: string | undefined;
         required?: boolean | undefined;
+        value?: string | undefined;
     };
     events: {
         input: Event;

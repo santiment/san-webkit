@@ -10,6 +10,7 @@ declare const __propDef: {
         isAppUpdateAvailable?: boolean | undefined;
         version?: string | undefined;
         isShowingFollowers?: boolean | undefined;
+        onOldVersionClick?: (() => void) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

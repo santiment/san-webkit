@@ -13,7 +13,7 @@ import { getTodaysEnd } from './../../lib/utils/dates.js';
 export function mockUser(currentUser) {
     if (!currentUser)
         return null;
-    var _a = currentUser.id, id = _a === void 0 ? 42 : _a, _b = currentUser.name, name = _b === void 0 ? 'Santiment Mock User' : _b, _c = currentUser.username, username = _c === void 0 ? 'santiment.mock.user' : _c, _d = currentUser.email, email = _d === void 0 ? 'user.mock@santiment.net' : _d, _e = currentUser.avatar, avatar = _e === void 0 ? false : _e, _f = currentUser.moderator, moderator = _f === void 0 ? false : _f, _g = currentUser.sanBalance, sanBalance = _g === void 0 ? 0 : _g, _h = currentUser.isEligibleForSanbaseTrial, isEligibleForSanbaseTrial = _h === void 0 ? false : _h, _j = currentUser.plan, plan = _j === void 0 ? null : _j, overwrite = currentUser.overwrite;
+    var _a = currentUser.id, id = _a === void 0 ? 42 : _a, _b = currentUser.name, name = _b === void 0 ? 'Santiment Mock User' : _b, _c = currentUser.username, username = _c === void 0 ? 'santiment.mock.user' : _c, _d = currentUser.email, email = _d === void 0 ? 'user.mock@santiment.net' : _d, _e = currentUser.avatar, avatar = _e === void 0 ? false : _e, _f = currentUser.moderator, moderator = _f === void 0 ? false : _f, _g = currentUser.sanBalance, sanBalance = _g === void 0 ? 0 : _g, _h = currentUser.isEligibleForSanbaseTrial, isEligibleForSanbaseTrial = _h === void 0 ? false : _h, _j = currentUser.plan, plan = _j === void 0 ? null : _j, promoCodes = currentUser.promoCodes, overwrite = currentUser.overwrite;
     var subscriptions = [];
     if (plan) {
         var _k = plan.pro, pro = _k === void 0 ? false : _k, _l = plan.proPlus, proPlus = _l === void 0 ? false : _l, _m = plan.monthly, monthly = _m === void 0 ? false : _m, _o = plan.yearly, yearly = _o === void 0 ? false : _o, _p = plan.trial, trial = _p === void 0 ? false : _p, trialDaysLeft = plan.trialDaysLeft, cancelledInDays = plan.cancelledInDays;
@@ -60,7 +60,7 @@ export function mockUser(currentUser) {
     }
     return __assign({ id: id, name: name, username: username, email: email, avatarUrl: avatar
             ? 'https://production-sanbase-images.s3.amazonaws.com/uploads/242dc675b4de34d792f5cc7f29627fa67168b3e2284077163916237facf058e8_1671661438252_Optimism%20%28OP%29%20%5B23.23.48%2C%2021%20Dec%2C%202022%5D.png'
-            : null, sanBalance: sanBalance, isEligibleForSanbaseTrial: isEligibleForSanbaseTrial, isModerator: moderator, subscriptions: subscriptions }, overwrite);
+            : null, sanBalance: sanBalance, isEligibleForSanbaseTrial: isEligibleForSanbaseTrial, isModerator: moderator, subscriptions: subscriptions, promoCodes: promoCodes }, overwrite);
 }
 export var CURRENT_USER_MOCK = {
     schema: 'currentUser',

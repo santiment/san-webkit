@@ -1,3 +1,5 @@
+import type { PromoCode } from './../../lib/stores/user'
+
 import { getTodaysEnd } from './../../lib/utils/dates'
 
 export type CurrentUser = null | {
@@ -49,6 +51,8 @@ export type CurrentUser = null | {
     cancelledInDays?: number
   }
 
+  promoCodes?: PromoCode[]
+
   overwrite?: Record<string, any>
 }
 
@@ -66,6 +70,7 @@ export function mockUser(currentUser: CurrentUser) {
     isEligibleForSanbaseTrial = false,
 
     plan = null,
+    promoCodes,
     overwrite,
   } = currentUser
 
@@ -140,6 +145,7 @@ export function mockUser(currentUser: CurrentUser) {
     isEligibleForSanbaseTrial,
     isModerator: moderator,
     subscriptions,
+    promoCodes,
     ...overwrite,
   }
 }

@@ -1,9 +1,12 @@
-<script>import { onDestroy } from 'svelte';
+<script>import { onDestroy, onMount } from 'svelte';
+import { get } from 'svelte/store';
 import { queryCoupon } from './../../api/plans';
 import { debounce } from './../../utils/fn';
 import Svg from './../../ui/Svg/svelte';
+import { getCurrentUser$Ctx } from './../../stores/user';
 import Input from './Input.svelte';
 export let percentOff = 20;
+const { currentUser$ } = getCurrentUser$Ctx();
 let node;
 let value = '';
 let loading = false;
@@ -36,6 +39,18 @@ function invalidateCoupon() {
     isValid = false;
     percentOff = 0;
 }
+function setDefaultPromoCode() {
+    var _a;
+    const { promoCodes } = (_a = get(currentUser$)) !== null && _a !== void 0 ? _a : {};
+    const validPromos = promoCodes === null || promoCodes === void 0 ? void 0 : promoCodes.filter((p) => p.timesRedeemed < p.maxRedemptions);
+    if (!(validPromos === null || validPromos === void 0 ? void 0 : validPromos.length))
+        return;
+    const maxOffPromo = validPromos.reduce((prevPromo, promo) => promo.percentOff > prevPromo.percentOff ? promo : prevPromo);
+    value = maxOffPromo.coupon;
+    loading = true;
+    checkCoupon(value);
+}
+onMount(setDefaultPromoCode);
 onDestroy(clearTimer);
 </script>
 
@@ -46,6 +61,7 @@ onDestroy(clearTimer);
   required={false}
   class="relative mrg-s mrg--b"
   on:input={onInput}
+  {value}
 >
   {#if value}
     {#if loading}

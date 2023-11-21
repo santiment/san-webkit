@@ -5,13 +5,23 @@
   export let name = ''
   export let placeholder = ''
   export let required = true
+  export let value = ''
 </script>
 
-<!-- svelte-ignore a11y-label-has-associated-control -->
 <label class="column {className}">
   <div class="caption txt-m c-waterloo">{title}</div>
   <slot name="input">
-    <input {name} {placeholder} {required} type="text" class="input" on:input on:focus on:blur />
+    <input
+      {name}
+      {value}
+      {placeholder}
+      {required}
+      type="text"
+      class="input"
+      on:input
+      on:focus
+      on:blur
+    />
   </slot>
   <slot />
 </label>
