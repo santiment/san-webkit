@@ -111,3 +111,55 @@ export const SavedCard: Story = {
     }),
   },
 }
+
+export const UserHasPromocodes: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        promoCodes: [
+          {
+            campaign: 'test',
+            coupon: 'TESTPROMO20',
+            maxRedemptions: 1,
+            percentOff: 20,
+            timesRedeemed: 0,
+          },
+          {
+            campaign: 'test',
+            coupon: 'TESTPROMO10',
+            maxRedemptions: 1,
+            percentOff: 10,
+            timesRedeemed: 0,
+          },
+          {
+            campaign: 'test',
+            coupon: 'INVALIDPROMO',
+            maxRedemptions: 1,
+            percentOff: 60,
+            timesRedeemed: 1,
+          },
+        ],
+      },
+
+      'query getCoupon': {
+        isValid: true,
+        percentOff: 20,
+      },
+
+      'query productsWithPlans': [
+        {
+          id: '2',
+          plans: [
+            {
+              amount: 52900,
+              id: '202',
+              interval: 'year',
+              isDeprecated: false,
+              name: 'PRO',
+            },
+          ],
+        },
+      ],
+    }),
+  },
+}

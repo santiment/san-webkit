@@ -1,11 +1,15 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
+  import { get } from 'svelte/store'
   import { queryCoupon } from '@/api/plans'
   import { debounce } from '@/utils/fn'
   import Svg from '@/ui/Svg/svelte'
+  import { getCurrentUser$Ctx } from '@/stores/user'
   import Input from './Input.svelte'
 
   export let percentOff = 20
+
+  const { currentUser$ } = getCurrentUser$Ctx()
 
   let node: HTMLInputElement
   let value = ''
@@ -47,6 +51,22 @@
     percentOff = 0
   }
 
+  function setDefaultPromoCode() {
+    const { promoCodes } = get(currentUser$) ?? {}
+    const validPromos = promoCodes?.filter((p) => p.timesRedeemed < p.maxRedemptions)
+    if (!validPromos?.length) return
+
+    const maxOffPromo = validPromos.reduce((prevPromo, promo) =>
+      promo.percentOff > prevPromo.percentOff ? promo : prevPromo,
+    )
+
+    value = maxOffPromo.coupon
+    loading = true
+    checkCoupon(value)
+  }
+
+  onMount(setDefaultPromoCode)
+
   onDestroy(clearTimer)
 </script>
 
@@ -57,6 +77,7 @@
   required={false}
   class="relative mrg-s mrg--b"
   on:input={onInput}
+  {value}
 >
   {#if value}
     {#if loading}

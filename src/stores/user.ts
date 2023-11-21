@@ -77,6 +77,14 @@ export const customerData$ = {
 
 // ------------------------------
 
+export type PromoCode = {
+  campaign: string
+  coupon: string
+  percentOff: number
+  timesRedeemed: number
+  maxRedemptions: number
+}
+
 export type CurrentUserType = {
   id: number
   email: string | null
@@ -100,6 +108,8 @@ export type CurrentUserType = {
     alertNotifyEmail: boolean
     alertNotifyTelegram: boolean
   }
+
+  promoCodes?: PromoCode[]
 }
 
 export type CurrentUser$Type = ReturnType<typeof CurrentUser$$>['currentUser$']
@@ -129,7 +139,14 @@ export const CURRENT_USER_FRAGMENT = `
     }
     ethAccounts {
       address
-    }  
+    }
+    promoCodes {
+      campaign
+      coupon
+      percentOff
+      timesRedeemed
+      maxRedemptions
+    }
 `
 
 export const CURRENT_USER_QUERY = `
