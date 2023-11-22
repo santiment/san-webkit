@@ -27,7 +27,7 @@
   $: currentValue = getValueAt(offset, width)
   $: valueFormatted = currentValue !== undefined ? formatTooltipValue(currentValue) : currentValue
 
-  function getValueAt(offset: number | null, width: number) {
+  function getValueAt(offset: number, width: number) {
     if (!offset) return
     const valueIndex = Math.round((offset / width) * (data.length - 1))
     return getValue(data[valueIndex])
