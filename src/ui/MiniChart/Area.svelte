@@ -13,17 +13,16 @@
   export let height: number
   export let valueKey: Props['valueKey'] = undefined
   export let style: Props['style'] = undefined
-
   export let tooltipVisible = false
-  export let tooltipSyncKey: string | undefined = undefined
+  export let tooltipSyncKey = ''
   export let formatTooltipValue = (value: number) => value.toString()
 
   const { offset$: sharedOffset$, syncKey$, updateOffset } = getTooltipContext() ?? {}
 
-  let localOffset: number | null = null
+  let localOffset = 0
 
-  $: hasSharedOffset = sharedOffset$ && tooltipSyncKey && $syncKey$ === tooltipSyncKey
-  $: sharedOffset = hasSharedOffset ? $sharedOffset$ ?? null : null
+  $: hasSharedOffset = !!sharedOffset$ && !!tooltipSyncKey && $syncKey$ === tooltipSyncKey
+  $: sharedOffset = hasSharedOffset ? $sharedOffset$ ?? 0 : 0
   $: offset = hasSharedOffset ? sharedOffset : localOffset
   $: currentValue = getValueAt(offset, width)
   $: valueFormatted = currentValue !== undefined ? formatTooltipValue(currentValue) : currentValue
@@ -42,9 +41,9 @@
   }
 
   function onMouseLeave() {
-    localOffset = null
+    localOffset = 0
     if (tooltipSyncKey) {
-      updateOffset?.(null, tooltipSyncKey)
+      updateOffset?.(0, tooltipSyncKey)
     }
   }
 

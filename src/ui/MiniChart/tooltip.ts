@@ -1,16 +1,16 @@
 import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
 
-const CTX = 'mini-tooltip-context'
+const CTX = 'mini-chart-tooltip-context'
 
 export const TooltipContext$$ = () => {
-  const offset$ = writable<number | null>(null)
-  const syncKey$ = writable<string | null>(null)
+  const offset$ = writable(0)
+  const syncKey$ = writable('')
 
   return setContext(CTX, {
     offset$,
     syncKey$,
-    updateOffset: (value: number | null, key?: string) => {
+    updateOffset: (value: number, key?: string) => {
       if (key) {
         syncKey$.set(key)
       }
