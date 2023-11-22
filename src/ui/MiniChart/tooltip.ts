@@ -1,5 +1,5 @@
 import { getContext, setContext } from 'svelte'
-import { get, writable } from 'svelte/store'
+import { writable } from 'svelte/store'
 
 const CTX = 'mini-tooltip-context'
 
@@ -9,14 +9,15 @@ export const TooltipContext$$ = () => {
 
   return setContext(CTX, {
     offset$,
+    syncKey$,
     updateOffset: (value: number | null, key?: string) => {
       if (key) {
         syncKey$.set(key)
       }
       offset$.set(value)
     },
-    checkKey: (key: string) => get(syncKey$) === key,
   })
 }
 
-export const getTooltipContext = () => getContext<ReturnType<typeof TooltipContext$$>>(CTX)
+export const getTooltipContext = () =>
+  getContext<ReturnType<typeof TooltipContext$$> | undefined>(CTX)
