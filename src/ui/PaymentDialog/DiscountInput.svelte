@@ -53,7 +53,7 @@
 
   //TODO: Remove after Black Friday 2023 promo
   function setBlackFridayPromo() {
-    value = 'blackfriday2023'
+    value = 'BLACKFRIDAY2023'
     loading = true
     checkCoupon(value)
   }
