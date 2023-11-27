@@ -37,7 +37,7 @@
       if (inputNode) inputNode.value = lastValid
       isOpened = false
       searchTerm = ''
-    }, 100)
+    }, 250)
   }
 </script>
 
