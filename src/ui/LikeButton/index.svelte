@@ -22,7 +22,7 @@
 
   let className = ''
   export { className as class }
-  export let id: number
+  export let id: number | null | undefined
   export let type: VoteType
   export let disabled = false
   export let votes: Votes = newVotes()
@@ -31,6 +31,8 @@
   export let source: string
 
   function onClick() {
+    if (typeof id !== 'number') return
+
     onVote?.()
     vote(id, type)
       .then(onVoted)

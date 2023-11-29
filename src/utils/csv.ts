@@ -20,7 +20,8 @@ export function downloadCsv<T extends any>(title: string, headers: Header<T>[], 
     rows[i + 1] = row
 
     for (let j = 0; j < headersLength; j++) {
-      row[j] = headers[j].format(item)
+      const value = headers[j].format(item)
+      row[j] = typeof value === 'string' ? `"${value}"` : value
     }
   }
 
@@ -30,6 +31,7 @@ export function downloadCsv<T extends any>(title: string, headers: Header<T>[], 
   const { HH, mm, ss } = getTimeFormats(date)
 
   const a = document.createElement('a')
+  // Using . instead of : in filename for compatability reasons
   a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
   a.href = encodeURI(csvContent)
   a.click()
