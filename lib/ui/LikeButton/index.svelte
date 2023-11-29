@@ -21,6 +21,8 @@ export let onVote;
 export let onVoted = noop;
 export let source;
 function onClick() {
+    if (typeof id !== 'number')
+        return;
     onVote === null || onVote === void 0 ? void 0 : onVote();
     vote(id, type)
         .then(onVoted)

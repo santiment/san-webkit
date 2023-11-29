@@ -14,7 +14,7 @@ import { VoteType } from './../../api/vote';
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        id: number;
+        id: number | null | undefined;
         type: VoteType;
         disabled?: boolean | undefined;
         votes?: Votes | undefined;
