@@ -99,13 +99,17 @@ export function mutate<T extends SAN.API.QueryBase, U extends Variables = Variab
 }
 
 const getFileName = ({ name }: File) => name
-export function upload<T extends SAN.API.QueryBase>(scheme: string, files: File[]) {
+export function upload<T extends SAN.API.QueryBase>(
+  scheme: string,
+  files: File[],
+  filesKey = 'files',
+) {
   if (!files || files.length < 1) return Promise.reject()
 
   const data = new FormData()
   data.append('query', scheme)
   files.forEach((file) => data.append(file.name, file))
-  data.append('variables', JSON.stringify({ files: files.map(getFileName) }))
+  data.append('variables', JSON.stringify({ [filesKey]: files.map(getFileName) }))
 
   return fetch(process.env.GQL_SERVER_URL, {
     body: data,
