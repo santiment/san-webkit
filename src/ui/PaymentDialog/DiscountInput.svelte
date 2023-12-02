@@ -51,23 +51,15 @@
     percentOff = 0
   }
 
-  //TODO: Remove after Black Friday 2023 promo
-  function setBlackFridayPromo() {
-    value = 'BLACKFRIDAY2023'
-    loading = true
-    checkCoupon(value)
-  }
-
   function setDefaultPromoCode() {
     const { promoCodes } = get(currentUser$) ?? {}
     const validPromos = promoCodes?.filter((p) => p.timesRedeemed < p.maxRedemptions)
-    if (!validPromos?.length) return setBlackFridayPromo()
+
+    if (!validPromos) return
 
     const maxOffPromo = validPromos.reduce((prevPromo, promo) =>
       promo.percentOff > prevPromo.percentOff ? promo : prevPromo,
     )
-
-    if (maxOffPromo.percentOff <= 35) return setBlackFridayPromo()
 
     value = maxOffPromo.coupon
     loading = true
