@@ -1,11 +1,10 @@
 <script>import { onDestroy, onMount } from 'svelte';
-import { get } from 'svelte/store';
 import { queryCoupon } from './../../api/plans';
 import { debounce } from './../../utils/fn';
 import Svg from './../../ui/Svg/svelte';
 import { getCurrentUser$Ctx } from './../../stores/user';
 import Input from './Input.svelte';
-export let percentOff = 20;
+export let percentOff = 0;
 const { currentUser$ } = getCurrentUser$Ctx();
 let node;
 let value = '';
@@ -40,12 +39,13 @@ function invalidateCoupon() {
     percentOff = 0;
 }
 function setDefaultPromoCode() {
-    var _a;
-    const { promoCodes } = (_a = get(currentUser$)) !== null && _a !== void 0 ? _a : {};
+    const { promoCodes } = $currentUser$ || {};
     const validPromos = promoCodes === null || promoCodes === void 0 ? void 0 : promoCodes.filter((p) => p.timesRedeemed < p.maxRedemptions);
     if (!validPromos)
         return;
-    const maxOffPromo = validPromos.reduce((prevPromo, promo) => promo.percentOff > prevPromo.percentOff ? promo : prevPromo);
+    const maxOffPromo = validPromos.reduce((prevPromo, promo) => (promo.percentOff > prevPromo.percentOff ? promo : prevPromo), { percentOff: 0, coupon: '' });
+    if (!maxOffPromo.coupon)
+        return;
     value = maxOffPromo.coupon;
     loading = true;
     checkCoupon(value);
