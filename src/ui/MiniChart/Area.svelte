@@ -2,50 +2,15 @@
   import type { Props } from './svelte'
 
   import Chart from './index.svelte'
-  import { getTooltipContext } from './tooltip'
-  import { getValue } from './utils'
 
   let className = ''
   export { className as class }
   export let id = ''
   export let data: Props['data']
-  export let width: number
-  export let height: number
+  export let width: Props['width']
+  export let height: Props['height']
   export let valueKey: Props['valueKey'] = undefined
   export let style: Props['style'] = undefined
-  export let tooltipVisible = false
-  export let tooltipSyncKey = ''
-  export let formatTooltipValue = (value: number) => value.toString()
-
-  const { offset$: sharedOffset$, syncKey$, updateOffset } = getTooltipContext() ?? {}
-
-  let localOffset = 0
-
-  $: hasSharedOffset = !!sharedOffset$ && !!tooltipSyncKey && $syncKey$ === tooltipSyncKey
-  $: sharedOffset = hasSharedOffset ? $sharedOffset$ ?? 0 : 0
-  $: offset = hasSharedOffset ? sharedOffset : localOffset
-  $: currentValue = getValueAt(offset, width)
-  $: valueFormatted = currentValue !== undefined ? formatTooltipValue(currentValue) : currentValue
-
-  function getValueAt(offset: number, width: number) {
-    if (!offset) return
-    const valueIndex = Math.round((offset / width) * (data.length - 1))
-    return getValue(data[valueIndex])
-  }
-
-  function onMouseMove({ offsetX }: MouseEvent) {
-    localOffset = offsetX
-    if (tooltipSyncKey) {
-      updateOffset?.(offsetX, tooltipSyncKey)
-    }
-  }
-
-  function onMouseLeave() {
-    localOffset = 0
-    if (tooltipSyncKey) {
-      updateOffset?.(0, tooltipSyncKey)
-    }
-  }
 
   export function getAreaPoints(points: Props['points'], linePoints: string) {
     const [startX, startY] = points[0].split(',')
@@ -62,8 +27,8 @@
   {valueKey}
   {style}
   class="relative {className}"
-  on:mousemove={onMouseMove}
-  on:mouseleave={onMouseLeave}
+  on:mousemove
+  on:mouseleave
   let:points
   let:linePoints
 >
@@ -75,22 +40,5 @@
     </linearGradient>
   </defs>
 
-  {#if tooltipVisible && offset}
-    <line x1={offset} x2={offset} y1="0" y2={height} stroke="var(--waterloo)" />
-
-    <foreignObject {width} {height}>
-      <tooltip class="c-fiord">{valueFormatted}</tooltip>
-    </foreignObject>
-  {/if}
+  <slot />
 </Chart>
-
-<style>
-  tooltip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: color-mix(in srgb, var(--white) 70%, transparent);
-    border-radius: 4px;
-    padding: 2px 4px;
-  }
-</style>
