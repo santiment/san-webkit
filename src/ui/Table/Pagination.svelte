@@ -87,10 +87,10 @@
       max={pagesAmount}
     />
 
-    <span>
+    <pages-amount>
       of {pagesAmount}
-      <span class="total-rows mrg-s mrg--l">({totalItems} rows total)</span>
-    </span>
+      <total-items class="mrg-s mrg--l">({totalItems} rows total)</total-items>
+    </pages-amount>
   </page-indicator>
 
   <nav-buttons class="row mrg-a mrg--l">
@@ -144,7 +144,7 @@
   }
 
   @include dac(phone-xs) {
-    .total-rows,
+    total-items,
     .rows-trigger {
       display: none;
     }
