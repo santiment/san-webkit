@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Props } from './svelte'
 
+  import { getValue } from './utils'
+
   let className = ''
   export { className as class }
   export let data: Props['data'] = []
@@ -12,9 +14,6 @@
 
   $: points = getPoints(data)
   $: linePoints = points.join(' ')
-
-  const getValue = (item: number | { [key: string]: number }, key?: string) =>
-    key ? item[key] : item
 
   function getPoints(data) {
     const { length } = data
@@ -47,6 +46,9 @@
     {style}
     class:empty={!points.length}
     class={className}
+    role="figure"
+    on:mousemove
+    on:mouseleave
   >
     <polyline points={linePoints} />
     <slot {points} {linePoints} />
