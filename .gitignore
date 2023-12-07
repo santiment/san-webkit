@@ -27,3 +27,6 @@ vite.config.ts.timestamp-*
 lib/
 stories/illustrations.json
 stories/icons.json
+
+localhost.crt
+localhost.key
