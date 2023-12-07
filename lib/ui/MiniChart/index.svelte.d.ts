@@ -13,6 +13,9 @@ declare const __propDef: {
         style: Props['style'];
     };
     events: {
+        mousemove: MouseEvent;
+        mouseleave: MouseEvent;
+    } & {
         [evt: string]: CustomEvent<any>;
     };
     slots: {

@@ -1,4 +1,5 @@
-<script>let className = '';
+<script>import { getValue } from './utils';
+let className = '';
 export { className as class };
 export let data = [];
 export let points = [];
@@ -8,7 +9,6 @@ export let valueKey = undefined;
 export let style;
 $: points = getPoints(data);
 $: linePoints = points.join(' ');
-const getValue = (item, key) => key ? item[key] : item;
 function getPoints(data) {
     const { length } = data;
     if (length < 2)
@@ -37,6 +37,9 @@ function getPoints(data) {
     {style}
     class:empty={!points.length}
     class={className}
+    role="figure"
+    on:mousemove
+    on:mouseleave
   >
     <polyline points={linePoints} />
     <slot {points} {linePoints} />

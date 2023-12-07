@@ -5,16 +5,21 @@ declare const __propDef: {
         class?: string | undefined;
         id?: string | undefined;
         data: Props['data'];
-        width: number;
-        height: number;
+        width: Props['width'];
+        height: Props['height'];
         valueKey?: Props['valueKey'];
         style?: Props['style'];
         getAreaPoints?: ((points: Props['points'], linePoints: string) => string) | undefined;
     };
     events: {
+        mousemove: MouseEvent;
+        mouseleave: MouseEvent;
+    } & {
         [evt: string]: CustomEvent<any>;
     };
-    slots: {};
+    slots: {
+        default: {};
+    };
 };
 export type AreaProps = typeof __propDef.props;
 export type AreaEvents = typeof __propDef.events;
