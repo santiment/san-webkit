@@ -89,7 +89,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(255, 255, 255, 0.7);
+    background: color-mix(in srgb, var(--white) 70%, transparent);
     border-radius: 4px;
     padding: 2px 4px;
   }
