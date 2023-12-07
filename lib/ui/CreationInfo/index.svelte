@@ -23,7 +23,7 @@ export let hasInfo = true;
 export let source;
 </script>
 
-{#if id && title}
+{#if id}
   <div class="creation row v-center mrg-m mrg--r">
     {#if user}
       <Tooltip openDelay={110}>
@@ -39,13 +39,15 @@ export let source;
       <div class="divider" />
     {/if}
 
-    <HoverEdit
-      class="title-0I59z_ body-2"
-      {currentUser}
-      {editLabel}
-      {onEditClick}
-      {titleHoverTooltipClass}>{title}</HoverEdit
-    >
+    {#if title}
+      <HoverEdit
+        class="title-0I59z_ body-2"
+        {currentUser}
+        {editLabel}
+        {onEditClick}
+        {titleHoverTooltipClass}>{title}</HoverEdit
+      >
+    {/if}
 
     {#if $$slots.info && hasInfo}
       <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
