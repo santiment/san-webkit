@@ -6,6 +6,7 @@
   import DiscountInput from './DiscountInput.svelte'
   import { Billing } from '@/utils/plans'
   import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
+  import AppleGooglePay from './AppleGooglePay.svelte'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
@@ -57,6 +58,8 @@
       {isEligibleForTrial ? 'Start 14-Day Free Trial' : 'Purchase'}</button
     >
   </Skeleton>
+
+  <AppleGooglePay />
 </div>
 
 <style lang="scss">
