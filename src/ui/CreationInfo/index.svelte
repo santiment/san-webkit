@@ -32,7 +32,7 @@
   export let source: string
 </script>
 
-{#if id && title}
+{#if id}
   <div class="creation row v-center mrg-m mrg--r">
     {#if user}
       <Tooltip openDelay={110}>
@@ -48,13 +48,15 @@
       <div class="divider" />
     {/if}
 
-    <HoverEdit
-      class="$style.title body-2"
-      {currentUser}
-      {editLabel}
-      {onEditClick}
-      {titleHoverTooltipClass}>{title}</HoverEdit
-    >
+    {#if title}
+      <HoverEdit
+        class="$style.title body-2"
+        {currentUser}
+        {editLabel}
+        {onEditClick}
+        {titleHoverTooltipClass}>{title}</HoverEdit
+      >
+    {/if}
 
     {#if $$slots.info && hasInfo}
       <Tooltip openDelay={110} offsetX={-50} offsetY={8}>
