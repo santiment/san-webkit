@@ -1,8 +1,9 @@
 <script lang="ts">
   import InteractiveArea from '@/ui/MiniChart/InteractiveArea.svelte'
-  import { prices, volumes } from './data'
+  import MultiArea from '@/ui/MiniChart/MultiArea.svelte'
   import { TooltipContext$$ } from '@/ui/MiniChart/tooltip'
   import { formatUsd } from '@/utils/formatting'
+  import { multiAreas, prices, volumes } from './data'
 
   TooltipContext$$()
 
@@ -56,5 +57,27 @@
   <div class="row gap-xxl">
     <InteractiveArea data={volumes} {height} {width} style="--color: var(--green)" tooltipVisible />
     <InteractiveArea data={volumes} {height} {width} style="--color: var(--green)" tooltipVisible />
+  </div>
+
+  <div class="row gap-xxl">
+    <MultiArea height={80} width={200} areas={multiAreas} tooltipVisible />
+  </div>
+
+  <div class="row gap-xxl">
+    <MultiArea
+      height={80}
+      width={200}
+      areas={multiAreas}
+      tooltipVisible
+      tooltipSyncKey="multi-tooltips"
+    />
+
+    <MultiArea
+      height={80}
+      width={200}
+      areas={multiAreas}
+      tooltipVisible
+      tooltipSyncKey="multi-tooltips"
+    />
   </div>
 </section>
