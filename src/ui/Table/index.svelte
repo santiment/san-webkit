@@ -84,9 +84,9 @@
           <td class={className || ''}>
             {#if isValidValueKey && value === undefined}
               <div class="skeleton" />
-            {:else if 'Component' in column}
+            {:else if column.Component}
               <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
-            {:else if 'format' in column}
+            {:else if column.format}
               {column.format(item, i + offset, value)}
             {/if}
           </td>
