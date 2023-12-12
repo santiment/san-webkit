@@ -12,6 +12,8 @@ export type Column<T = Item> = {
     Header?: ComponentType;
     valueKey?: number | string;
     isSortable?: boolean;
+    Component?: ComponentType;
+    format?: Format<T>;
 } & ({
     format: Format<T>;
 } | {
