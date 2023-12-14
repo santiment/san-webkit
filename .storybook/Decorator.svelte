@@ -35,9 +35,9 @@
     server?.shutdown()
 
     Object.keys(bodyStyle || {}).forEach((key) => {
-        document.body.style[key] = '';
-    });
-});
+      document.body.style[key] = ''
+    })
+  })
 </script>
 
 <svelte:window on:resize={device$.onResize} />
@@ -49,52 +49,20 @@
 <Notifications />
 
 <style lang="scss">
-  :global {
-    #storybook-root {
-      min-height: 100vh;
-    }
-
-    .sbdocs {
-      & h1 {
-        margin-bottom: 32px;
-      }
-
-      * + h2 {
-        margin-top: 32px;
-      }
-    }
-
-    .prismjs {
-      font-family: monospace;
-    }
-
-    .monospace {
-      font: var(--caption);
-      font-family: monospace !important;
-    }
+  :global(#storybook-root) {
+    min-height: 100vh;
   }
-}
-*/
-/**
-@include dacnot(desktop) {
-  main {
-    background: red;
+  :global(.sbdocs) :global(h1) {
+    margin-bottom: 32px;
   }
-}
-*/
-:global(#storybook-root) {
-  min-height: 100vh;
-}
-:global(.sbdocs) :global(h1) {
-  margin-bottom: 32px;
-}
-:global(.sbdocs) :global(*) + :global(h2) {
-  margin-top: 32px;
-}
-:global(.prismjs) {
-  font-family: monospace;
-}
-:global(.monospace) {
-  font: var(--caption);
-  font-family: monospace !important;
-}</style>
+  :global(.sbdocs) :global(*) + :global(h2) {
+    margin-top: 32px;
+  }
+  :global(.prismjs) {
+    font-family: monospace;
+  }
+  :global(.monospace) {
+    font: var(--caption);
+    font-family: monospace !important;
+  }
+</style>

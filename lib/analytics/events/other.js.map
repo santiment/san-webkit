@@ -1,1 +1,0 @@
-{"version":3,"file":"other.js","sourceRoot":"","sources":["../../../src/analytics/events/other.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,SAAS,CAAA;AAEvC,MAAM,KAAK,GAAG,aAAa,CAAC,OAAO,CAAC,CAAA;AAEpC,MAAM,CAAC,MAAM,mBAAmB,GAAG,CAAC,uBAA+B,EAAE,EAAE,CACrE,KAAK,CAAC,eAAe,EAAE;IACrB,uBAAuB;CACxB,CAAC,CAAA"}
