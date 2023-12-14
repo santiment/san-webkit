@@ -1,5 +1,6 @@
 <script lang="ts">
   import { stripe as stripe$ } from '@/stores/stripe'
+  import { mutateCreateStripeSetupIntent, mutateSubscribe } from './api'
 
   export let plan: SAN.Plan
 
@@ -10,7 +11,7 @@
       country: 'CH',
       currency: 'usd',
       total: {
-        label: plan.name,
+        label: plan.name + (process.env.IS_STAGE_BACKEND ? ' (STAGE)' : ''),
         amount: plan.amount,
       },
       requestPayerName: true,
@@ -39,18 +40,32 @@
   async function handlePayment(ev: stripe.paymentRequest.StripePaymentMethodPaymentResponse) {
     if (!stripe) return
 
+    const clientSecret = await mutateCreateStripeSetupIntent()
+    if (!clientSecret) return
+
+    console.log({ clientSecret })
+
+    console.log({ payment_method: ev.paymentMethod.id })
+
     // Confirm the PaymentIntent without handling potential next actions (yet).
-    const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(
+    const paymentMethodId = ev.paymentMethod.id
+
+    const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
       clientSecret,
-      { payment_method: ev.paymentMethod.id },
+      { payment_method: paymentMethodId },
       { handleActions: false },
     )
+
+    console.log({ setupIntent })
+    console.log({ confirmError })
 
     if (confirmError) {
       // Report to the browser that the payment failed, prompting it to
       // re-show the payment interface, or show an error message and close
       // the payment interface.
       ev.complete('fail')
+
+      return
     } else {
       // Report to the browser that the confirmation was successful, prompting
       // it to close the browser payment method collection interface.
@@ -58,18 +73,22 @@
       // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
       // handle the flow. If using an API version older than "2019-02-11"
       // instead check for: `paymentIntent.status === "requires_source_action"`.
-      if (paymentIntent.status === 'requires_action') {
+      if (setupIntent?.status === 'requires_action') {
         // Let Stripe.js handle the rest of the payment flow.
-        const { error } = await stripe.confirmCardPayment(clientSecret)
+        const { error } = await stripe.confirmCardSetup(clientSecret)
+        console.log({ error })
+
         if (error) {
+          return
           // The payment failed -- ask your customer for a new payment method.
-        } else {
-          // The payment has succeeded -- show a success message to your customer.
         }
-      } else {
-        // The payment has succeeded -- show a success message to your customer.
       }
     }
+
+    return mutateSubscribe({
+      planId: +plan.id,
+      paymentMethodId,
+    }).then(console.log)
   }
 </script>
 
