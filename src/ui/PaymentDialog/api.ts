@@ -28,4 +28,4 @@ export const mutateSubscribe = (variables: {
     }
   }`,
     { variables },
-  )
+  ).then(({ subscribe }) => subscribe)
