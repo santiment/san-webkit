@@ -100,5 +100,8 @@ export async function startPaymentIntentFlow(
     }
   }
 
-  return mutateSubscribe(variables)
+  const vars = { ...variables }
+  if (!vars.coupon) delete vars.coupon
+
+  return mutateSubscribe(vars)
 }
