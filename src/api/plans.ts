@@ -82,7 +82,7 @@ const SUBSCRIBE_MUTATION = (cardToken: undefined | string, planId: number, coupo
     }
   }`
 
-type SubscribeMutation = SAN.API.Query<
+export type SubscribeMutation = SAN.API.Query<
   'subscribe',
   {
     id: string | number
