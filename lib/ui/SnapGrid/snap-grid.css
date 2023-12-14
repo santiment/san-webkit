@@ -1,0 +1,31 @@
+.snap-grid {
+  position: relative;
+}
+
+.snap-item,
+.snap-dropzone {
+  position: absolute;
+  transition: transform 0.25s ease;
+  will-change: transform;
+}
+
+.snap-item_dragged {
+  z-index: 10;
+  transition: none;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  -ms-user-select: none !important;
+  -moz-user-select: none !important;
+  user-select: none !important;
+}
+
+.snap-item_dragged *::selection {
+  background: transparent;
+}
+
+.snap-dropzone {
+  z-index: 9;
+  background: var(--dropzone-bg, var(--red));
+  opacity: 0.2;
+  transition: transform 0.15s ease;
+}

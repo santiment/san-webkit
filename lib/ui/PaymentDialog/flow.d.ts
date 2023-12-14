@@ -1,0 +1,13 @@
+/// <reference types="stripe-v3" />
+export declare function startStripePaymentButtonsFlow(stripe: stripe.Stripe, { plan, total, coupon, onSuccess, onError, }: {
+    plan: SAN.Plan;
+    total?: number;
+    coupon?: string;
+    onSuccess: (data: any) => void;
+    onError: () => void;
+}): Promise<"none" | null | undefined>;
+export declare function startPaymentIntentFlow(stripe: stripe.Stripe, variables: {
+    planId: number;
+    paymentMethodId: string;
+    coupon?: string;
+}): Promise<import("../../api/plans").SubscribeMutation>;
