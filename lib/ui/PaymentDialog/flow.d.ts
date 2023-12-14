@@ -10,4 +10,14 @@ export declare function startPaymentIntentFlow(stripe: stripe.Stripe, variables:
     planId: number;
     paymentMethodId: string;
     coupon?: string;
-}): Promise<import("../../api/plans").SubscribeMutation>;
+}): Promise<{
+    id: string | number;
+    trialEnd: string | null;
+    plan: {
+        id: string | number;
+        name: string;
+        product: {
+            id: string | number;
+        };
+    };
+}>;
