@@ -12,11 +12,7 @@ export type Column<T = Item> = {
     Header?: ComponentType;
     valueKey?: number | string;
     isSortable?: boolean;
-    Component?: ComponentType;
-    format?: Format<T>;
-} & ({
-    format: Format<T>;
-} | {
-    Component: ComponentType;
-});
+    Component?: any;
+    format?: any;
+};
 export declare function getMinRows(minRows: undefined | number, itemsLength: number, columnsLength: number): string;
