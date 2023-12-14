@@ -59,7 +59,9 @@
     >
   </Skeleton>
 
-  <AppleGooglePay />
+  {#if process.browser && plan.name}
+    <AppleGooglePay {plan} />
+  {/if}
 </div>
 
 <style lang="scss">
