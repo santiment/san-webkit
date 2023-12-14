@@ -6,6 +6,7 @@
   export let plan: SAN.Plan
   export let percentOff = 0
   export let isAnnualPlan: boolean
+  export let ctx = { total: 0 }
 
   const { customer$ } = getCustomer$Ctx()
 
@@ -16,6 +17,7 @@
   $: discountPercentOff = annualDiscount.percent || percentOff || (hasSanDiscount ? 20 : 0)
   $: discounted = discountPercentOff ? plan.amount * (discountPercentOff / 100) : 0
   $: total = plan.amount - discounted
+  $: ctx.total = total
 
   const format = (amount) => priceFormatter(getPrice(amount))
 

@@ -7,6 +7,7 @@
   import Input from './Input.svelte'
 
   export let percentOff = 0
+  export let ctx = { coupon: '' }
 
   const { currentUser$ } = getCurrentUser$Ctx()
 
@@ -42,12 +43,16 @@
     loading = false
     isValid = true
     percentOff = data.percentOff
+
+    ctx.coupon = value
   }
 
   function invalidateCoupon() {
     loading = false
     isValid = false
     percentOff = 0
+
+    ctx.coupon = ''
   }
 
   function setDefaultPromoCode() {

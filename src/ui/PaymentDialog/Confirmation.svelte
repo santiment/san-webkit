@@ -7,6 +7,7 @@
   import { Billing } from '@/utils/plans'
   import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
   import AppleGooglePay from './AppleGooglePay.svelte'
+  import { noop } from '@/utils'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
@@ -17,8 +18,11 @@
   export let loading: boolean
   export let annualDiscount
   export let onSubmit: any
+  export let source: string
+  export let closeDialog = noop
 
   let percentOff = 0
+  let ctx = { total: 0, coupon: '' }
 
   $: isAnnualPlan = plan.interval === Billing.YEAR
   $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}` : ''
@@ -31,7 +35,7 @@
     {#if isAnnualPlan && annualDiscount.isEligible}
       <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.percent} />
     {:else}
-      <DiscountInput bind:percentOff />
+      <DiscountInput bind:percentOff bind:ctx />
 
       <div class="holder row mrg-xl mrg--b">
         <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
@@ -47,7 +51,7 @@
       </div>
     {/if}
 
-    <Check {plan} {percentOff} {isAnnualPlan} />
+    <Check {plan} {percentOff} {isAnnualPlan} bind:ctx />
 
     <button
       type="submit"
@@ -60,7 +64,7 @@
   </Skeleton>
 
   {#if process.browser && plan.name}
-    <AppleGooglePay {plan} />
+    <AppleGooglePay {ctx} {plan} {source} {closeDialog} />
   {/if}
 </div>
 

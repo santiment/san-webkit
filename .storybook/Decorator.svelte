@@ -7,6 +7,7 @@
   import { Customer$$ } from '@/stores/customer'
   import { Device$$, getDeviceInfo } from '@/stores/responsive'
   import Dialog from './Dialog.svelte'
+  import Notifications from '@/ui/Notifications'
   import { paymentCard$ } from '@/stores/paymentCard'
 
   export let currentUser: null | SAN.CurrentUser
@@ -44,6 +45,8 @@
 <slot />
 
 <Dialogs />
+
+<Notifications />
 
 <style lang="scss">
   :global {

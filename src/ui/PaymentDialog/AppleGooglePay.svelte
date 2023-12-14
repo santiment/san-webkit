@@ -1,94 +1,40 @@
 <script lang="ts">
   import { stripe as stripe$ } from '@/stores/stripe'
-  import { mutateCreateStripeSetupIntent, mutateSubscribe } from './api'
+  import { startStripePaymentButtonsFlow } from './flow'
+  import { onPaymentSuccess, onPaymentError } from './utils'
+  import { getCustomer$Ctx } from '@/stores/customer'
+  import { noop } from '@/utils'
 
   export let plan: SAN.Plan
+  export let source: string
+  export let closeDialog = noop
+  export let ctx = { total: 0, coupon: '' }
+
+  const { customer$ } = getCustomer$Ctx()
 
   $: stripe = $stripe$
 
-  $: if (plan.name && stripe) {
-    const paymentRequest = stripe.paymentRequest({
-      country: 'CH',
-      currency: 'usd',
-      total: {
-        label: plan.name + (process.env.IS_STAGE_BACKEND ? ' (STAGE)' : ''),
-        amount: plan.amount,
-      },
-      requestPayerName: true,
-      requestPayerEmail: true,
+  $: plan.name && stripe && handleStripButtons(stripe, plan, ctx)
+
+  function handleStripButtons(stripe: stripe.Stripe, plan: SAN.Plan, ctx: any) {
+    console.log(ctx)
+
+    startStripePaymentButtonsFlow(stripe, {
+      total: ctx.total,
+      plan,
+      coupon: ctx.coupon,
+      onSuccess,
+      onError,
     })
-
-    const elements = stripe.elements()
-    const prButton = elements.create('paymentRequestButton', {
-      paymentRequest,
-    })
-
-    ;(async () => {
-      // Check the availability of the Payment Request API first.
-      const result = await paymentRequest.canMakePayment()
-
-      if (result) {
-        prButton.mount('#payment-request-button')
-
-        paymentRequest.on('paymentmethod', handlePayment)
-      } else {
-        document.getElementById('payment-request-button').style.display = 'none'
-      }
-    })()
   }
 
-  async function handlePayment(ev: stripe.paymentRequest.StripePaymentMethodPaymentResponse) {
-    if (!stripe) return
+  function onSuccess(data: any) {
+    onPaymentSuccess(data, source, customer$)
+    closeDialog()
+  }
 
-    const clientSecret = await mutateCreateStripeSetupIntent()
-    if (!clientSecret) return
-
-    console.log({ clientSecret })
-
-    console.log({ payment_method: ev.paymentMethod.id })
-
-    // Confirm the PaymentIntent without handling potential next actions (yet).
-    const paymentMethodId = ev.paymentMethod.id
-
-    const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
-      clientSecret,
-      { payment_method: paymentMethodId },
-      { handleActions: false },
-    )
-
-    console.log({ setupIntent })
-    console.log({ confirmError })
-
-    if (confirmError) {
-      // Report to the browser that the payment failed, prompting it to
-      // re-show the payment interface, or show an error message and close
-      // the payment interface.
-      ev.complete('fail')
-
-      return
-    } else {
-      // Report to the browser that the confirmation was successful, prompting
-      // it to close the browser payment method collection interface.
-      ev.complete('success')
-      // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
-      // handle the flow. If using an API version older than "2019-02-11"
-      // instead check for: `paymentIntent.status === "requires_source_action"`.
-      if (setupIntent?.status === 'requires_action') {
-        // Let Stripe.js handle the rest of the payment flow.
-        const { error } = await stripe.confirmCardSetup(clientSecret)
-        console.log({ error })
-
-        if (error) {
-          return
-          // The payment failed -- ask your customer for a new payment method.
-        }
-      }
-    }
-
-    return mutateSubscribe({
-      planId: +plan.id,
-      paymentMethodId,
-    }).then(console.log)
+  function onError(e: any) {
+    onPaymentError(e, source)
   }
 </script>
 
