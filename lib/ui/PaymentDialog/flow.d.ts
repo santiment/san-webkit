@@ -3,8 +3,8 @@ export declare function startStripePaymentButtonsFlow(stripe: stripe.Stripe, { p
     plan: SAN.Plan;
     total?: number;
     coupon?: string;
-    onSuccess: (data: any) => void;
-    onError: () => void;
+    onSuccess: (data: any, methodName?: string) => void;
+    onError: (error?: any, methodName?: string) => void;
 }): Promise<"none" | null | undefined>;
 export declare function startPaymentIntentFlow(stripe: stripe.Stripe, variables: {
     planId: number;

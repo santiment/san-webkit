@@ -20,8 +20,8 @@ export declare const trackPaymentFormSubmitted: ({ source, amount, promocode, pl
     hasSanTokensDiscount: boolean;
     source: string;
 }) => number;
-export declare const trackPaymentSuccess: (source: any) => number;
-export declare const trackPaymentFail: (source: any) => number;
+export declare const trackPaymentSuccess: (source: any, method?: string) => number;
+export declare const trackPaymentFail: (source: any, method?: string) => number;
 export declare const trackPaymentFormPlanSelect: ({ amount, plan, planId, billing, currency, }: {
     amount: number;
     plan: string;

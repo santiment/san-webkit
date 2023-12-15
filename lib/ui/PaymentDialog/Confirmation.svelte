@@ -59,7 +59,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
     >
   </Skeleton>
 
-  {#if process.browser && plan.name}
+  {#if process.browser}
     <AppleGooglePay {ctx} {plan} {source} {closeDialog} />
   {/if}
 </div>

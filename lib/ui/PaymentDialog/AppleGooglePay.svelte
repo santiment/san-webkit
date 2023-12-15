@@ -9,23 +9,22 @@ export let closeDialog = noop;
 export let ctx = { total: 0, coupon: '' };
 const { customer$ } = getCustomer$Ctx();
 $: stripe = $stripe$;
-$: plan.name && stripe && handleStripButtons(stripe, plan, ctx);
+$: stripe && handleStripButtons(stripe, plan, ctx);
 function handleStripButtons(stripe, plan, ctx) {
-    console.log(ctx);
     startStripePaymentButtonsFlow(stripe, {
         total: ctx.total,
-        plan,
+        plan: plan.name ? plan : { id: -1, name: 'Placeholder', amount: 9999999999 },
         coupon: ctx.coupon,
         onSuccess,
         onError,
     });
 }
-function onSuccess(data) {
-    onPaymentSuccess(data, source, customer$);
+function onSuccess(data, method) {
+    onPaymentSuccess(data, source, customer$, method);
     closeDialog();
 }
-function onError(e) {
-    onPaymentError(e, source);
+function onError(e, method) {
+    onPaymentError(e, source, method);
 }
 </script>
 

@@ -24,6 +24,6 @@ export declare function createCardToken(stripe: stripe.Stripe, card: stripe.elem
 export declare function buyPlan(customer$: SAN.CustomerStore, plan: SAN.Plan, stripe: stripe.Stripe, card: stripe.elements.Element, form: {
     [key: string]: any;
 }, source: string, savedCard?: SAN.PaymentCard, hasSanTokensDiscount?: boolean): Promise<any>;
-export declare function onPaymentSuccess(data: any, source: any, customer$: SAN.CustomerStore): Promise<any>;
-export declare function onPaymentError(error: any, source: any): Promise<never>;
+export declare function onPaymentSuccess(data: any, source: any, customer$: SAN.CustomerStore, method?: string): Promise<any>;
+export declare function onPaymentError(error: any, source: any, method?: string): Promise<never>;
 export {};
