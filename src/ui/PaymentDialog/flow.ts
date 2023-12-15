@@ -12,8 +12,8 @@ export async function startStripePaymentButtonsFlow(
     plan: SAN.Plan
     total?: number
     coupon?: string
-    onSuccess: (data: any) => void
-    onError: () => void
+    onSuccess: (data: any, methodName: string) => void
+    onError: (error?: any, methodName: string) => void
   },
 ) {
   const paymentRequest = stripe.paymentRequest({
@@ -50,12 +50,12 @@ export async function startStripePaymentButtonsFlow(
       coupon,
     })
       .then((data) => {
-        onSuccess(data)
+        onSuccess(data, ev.methodName)
         ev.complete('success')
         return data
       })
       .catch((e) => {
-        onError()
+        onError(e, ev.methodName)
         ev.complete('fail')
         return Promise.reject(e)
       })

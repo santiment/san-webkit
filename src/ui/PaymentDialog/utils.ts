@@ -108,7 +108,7 @@ export function buyPlan(
     .catch((data) => onPaymentError(data, source))
 }
 
-export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore) {
+export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore, method?: string) {
   const { plan } = data
   const { name, amount } = plan
   const title = PlanName[name] || name
@@ -126,7 +126,7 @@ export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore) {
   )
 
   // track.event('Payment success', { category: 'User' })
-  trackPaymentSuccess(source)
+  trackPaymentSuccess(source, method)
 
   notifications$.show({
     type: 'success',
@@ -137,9 +137,9 @@ export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore) {
   return Promise.resolve(data)
 }
 
-export function onPaymentError(error, source) {
+export function onPaymentError(error, source, method?: string) {
   // track.event('Payment failed', { category: 'User' })
-  trackPaymentFail(source)
+  trackPaymentFail(source, method)
 
   notifications$.show({
     type: 'error',

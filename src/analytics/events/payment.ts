@@ -67,15 +67,17 @@ export const trackPaymentFormSubmitted = ({
     source_search_params: window.location.search,
   })
 
-export const trackPaymentSuccess = (source) =>
+export const trackPaymentSuccess = (source, method?: string) =>
   track('payment_success', {
+    method,
     source,
     source_url: window.location.href,
     source_search_params: window.location.search,
   })
 
-export const trackPaymentFail = (source) =>
+export const trackPaymentFail = (source, method?: string) =>
   track('payment_fail', {
+    method,
     source,
     source_url: window.location.href,
     source_search_params: window.location.search,
