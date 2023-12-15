@@ -44,6 +44,8 @@ export async function startStripePaymentButtonsFlow(
   paymentRequest.on('paymentmethod', (ev) => {
     if (!stripe) return
 
+    console.log(ev)
+
     startPaymentIntentFlow(stripe, {
       planId: +plan.id,
       paymentMethodId: ev.paymentMethod.id,
