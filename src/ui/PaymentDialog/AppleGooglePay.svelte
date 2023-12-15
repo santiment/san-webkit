@@ -14,27 +14,25 @@
 
   $: stripe = $stripe$
 
-  $: plan.name && stripe && handleStripButtons(stripe, plan, ctx)
+  $: stripe && handleStripButtons(stripe, plan, ctx)
 
   function handleStripButtons(stripe: stripe.Stripe, plan: SAN.Plan, ctx: any) {
-    console.log(ctx)
-
     startStripePaymentButtonsFlow(stripe, {
       total: ctx.total,
-      plan,
+      plan: plan.name ? plan : ({ id: -1, name: 'Placeholder', amount: 9999999999 } as any),
       coupon: ctx.coupon,
       onSuccess,
       onError,
     })
   }
 
-  function onSuccess(data: any) {
-    onPaymentSuccess(data, source, customer$)
+  function onSuccess(data: any, method?: string) {
+    onPaymentSuccess(data, source, customer$, method)
     closeDialog()
   }
 
-  function onError(e: any) {
-    onPaymentError(e, source)
+  function onError(e?: any, method?: string) {
+    onPaymentError(e, source, method)
   }
 </script>
 
