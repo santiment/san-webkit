@@ -18,13 +18,13 @@ declare class __sveltets_Render<Item extends SAN.Table.Item> {
         offset?: number | undefined;
         onItemClick?: ((item: import("./utils").Item) => void) | undefined;
         sortDirection?: "desc" | "asc" | undefined;
-        pagedClassName?: string | undefined;
-        pageSize?: number | undefined;
         page?: number | undefined;
+        pageSize?: number | undefined;
         rows?: number[] | undefined;
-        pageOffset?: number | undefined;
-        totalItems?: number | undefined;
         onPageChange?: ((page: number, pageSize: number) => void) | undefined;
+        pagedClassName?: string | undefined;
+        totalItems?: number | undefined;
+        pageOffset?: number | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;
