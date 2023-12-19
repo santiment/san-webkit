@@ -29,9 +29,10 @@
 
   /* persimmon */
   --red: #ff6363;
-  --red-hover: #db4040;
-  --red-light-1: #ffe6e6;
+  --red-hover: #f85454;
+  --red-light-1: #ffeeee;
   --red-light-2: #ffcece;
+  --red-light-3: #ffadad;
 
   /* bright-sun */
   --yellow: #ffcb47;
@@ -126,6 +127,7 @@
   /* persimmon */
   --red-light-1: #2e2130;
   --red-light-2: #4f2b36;
+  --red-light-3: #74353e;
 
   /* Heliotrope */
   --purple-light-1: #1d1e35;
