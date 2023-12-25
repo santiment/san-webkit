@@ -25,8 +25,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
     } else {
       const saved = getSavedJson('ui', store) as typeof store
 
-      if (typeof saved.isNightMode === 'boolean') store = saved
-      else saveJson('ui', store)
+      if (typeof saved.isNightMode === 'boolean') {
+        store.isNightMode = saved.isNightMode
+      } else saveJson('ui', store)
     }
 
     document.body.classList.toggle('night-mode', store.isNightMode || false)
