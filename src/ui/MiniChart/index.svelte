@@ -16,6 +16,8 @@
   $: linePoints = points.join(' ')
 
   function getPoints(data) {
+    if (!data) return []
+
     const { length } = data
     if (length < 2) return []
 
