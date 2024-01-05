@@ -9,6 +9,8 @@ export declare enum LoginType {
 }
 export declare function trackLoginStart(method: LoginType): number;
 export declare const trackLoginFinish: (method: LoginType) => number;
+export declare function trackAuthStart(method: LoginType): number;
+export declare function trackAuthFinish(method: LoginType, isNewUserSignup: boolean): number;
 export declare const trackLogout: () => number;
 export declare const trackError: (data: any) => number;
 export declare enum PageType {
