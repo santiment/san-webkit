@@ -16,7 +16,7 @@ export function copyWebkitAssets(STATIC = path.resolve('static/webkit')) {
     fs.copyFileSync(file, outPath)
   }
 
-  forFile(['icons', 'illus', 'sprites'].map(webkitMap), copy)
+  forFile(['icons', 'illus', 'sprites', 'static'].map(webkitMap), copy)
 
   forFile([path.resolve(LIB, '**/*.jpg')], copy)
 
