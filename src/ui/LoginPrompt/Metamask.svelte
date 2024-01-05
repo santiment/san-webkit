@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LoginType, trackLoginStart } from '@/analytics/events/general'
+  import { LoginType, trackAuthStart, trackLoginStart } from '@/analytics/events/general'
   import { trackSignupStart } from '@/analytics/events/onboarding'
   import Option from './Option.svelte'
   import metamaskSvg from '../../icons/metamask.svg'
@@ -12,6 +12,8 @@
   let loading = false
   function onLoginClick() {
     loading = true
+
+    trackAuthStart(LoginType.METAMASK)
 
     if (isSignUp) {
       trackSignupStart(LoginType.METAMASK)
