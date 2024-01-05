@@ -38,6 +38,7 @@ module.exports = {
     },
   ],
 
+  ignorePatterns: ['src/static/**/*.js'],
   rules: {
     'css-unused-selector': 'off',
     'no-unused-vars': 'off',
