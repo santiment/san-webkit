@@ -1,6 +1,6 @@
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 // eslint-disable-next-line no-undef
-const fetch: any = process.env.SERVER_FETCH || globalThis.fetch
+const fetch: any = globalThis.fetch || process.env.SERVER_FETCH
 
 export type Variables = { [key: string]: any }
 
