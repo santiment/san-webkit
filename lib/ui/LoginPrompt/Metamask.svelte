@@ -1,4 +1,4 @@
-<script>import { LoginType, trackLoginStart } from './../../analytics/events/general';
+<script>import { LoginType, trackAuthStart, trackLoginStart } from './../../analytics/events/general';
 import { trackSignupStart } from './../../analytics/events/onboarding';
 import Option from './Option.svelte';
 import metamaskSvg from '../../icons/metamask.svg';
@@ -8,6 +8,7 @@ const hasMetamask = process.browser ? !!window.ethereum : true;
 let loading = false;
 function onLoginClick() {
     loading = true;
+    trackAuthStart(LoginType.METAMASK);
     if (isSignUp) {
         trackSignupStart(LoginType.METAMASK);
     }

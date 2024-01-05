@@ -1,5 +1,5 @@
 <script>
-  import { LoginType, trackLoginStart } from './../../analytics/events/general'
+  import { LoginType, trackAuthStart, trackLoginStart } from './../../analytics/events/general'
   import { trackSignupStart } from './../../analytics/events/onboarding'
   import { mutateEmailLogin } from './../../api/login'
   import InputWithIcon from './../../ui/InputWithIcon.svelte'
@@ -15,6 +15,8 @@
     loading = true
 
     mutateEmailLogin(email).then(onSuccess)
+
+    trackAuthStart(LoginType.EMAIL)
 
     if (isSignUp) {
       trackSignupStart(LoginType.EMAIL)
