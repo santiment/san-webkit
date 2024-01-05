@@ -38,6 +38,41 @@ export function trackLoginStart(method: LoginType) {
 
 export const trackLoginFinish = (method: LoginType) => track('login_finish', { method })
 
+export function trackAuthStart(method: LoginType) {
+  const date = new Date()
+  saveLoginMethod(method)
+
+  return track('auth_start', {
+    method, // email, wallet, etc.
+
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear(),
+    timestamp: +date,
+
+    source_url: window.location.href,
+    source_search_params: window.location.search,
+    referrer: document.referrer,
+  })
+}
+export function trackAuthFinish(method: LoginType, isNewUserSignup: boolean) {
+  const date = new Date()
+
+  return track('auth_finish', {
+    method, // email, wallet, etc.
+    is_new_user_signup: isNewUserSignup,
+
+    day: date.getDate(),
+    month: date.getMonth() + 1,
+    year: date.getFullYear(),
+    timestamp: +date,
+
+    source_url: window.location.href,
+    source_search_params: window.location.search,
+    referrer: document.referrer,
+  })
+}
+
 export const trackLogout = () =>
   track('logout', {
     timestamp: Date.now(),
