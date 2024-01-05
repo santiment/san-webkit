@@ -89,21 +89,16 @@ onDestroy(clearTimer);
     <p>Review and accept our Privacy Policy to continue using Sanbase</p>
   </div>
 
+  <!-- eslint-disable-next-line svelte/no-unused-svelte-ignore -->
   <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="btn row v-center body-2">
     <Checkbox class="mrg-m mrg--r" {isActive} on:click={() => (isActive = !isActive)} />
     I accept
-    <a
-      href="https://santiment.net/terms"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="link-pointer">Terms</a
-    >
+    <a href="https://santiment.net/terms" target="_blank" class="link-pointer">Terms</a>
     and
     <a
       href="https://app.santiment.net/privacy-policy"
       target="_blank"
-      rel="noopener noreferrer"
       class="link-pointer"
       on:click={window.__onLinkClick}>Privacy Policy</a
     >
