@@ -1,4 +1,5 @@
-export declare function initAmplitude({ scriptSrc, serverUrl, }?: {
+export declare function initAmplitude({ id, scriptSrc, serverUrl, }?: {
+    id?: string | undefined;
     scriptSrc?: string | undefined;
     serverUrl?: string | undefined;
 }): void;
