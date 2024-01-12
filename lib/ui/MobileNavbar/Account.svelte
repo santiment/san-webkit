@@ -39,7 +39,7 @@ function getFullLink(link, slug = '') {
     </a>
 
     {#if !isPro}
-      <a href="/pricing" class="btn-1 btn--orange btn--s row hv-center">
+      <a href="{SANBASE_ORIGIN}/pricing" class="btn-1 btn--orange btn--s row hv-center">
         <Svg id="crown" w="12" class="mrg-s mrg--r" />
         Upgrade
       </a>

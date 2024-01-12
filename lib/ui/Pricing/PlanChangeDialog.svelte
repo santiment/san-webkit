@@ -11,6 +11,7 @@ import { Billing, formatPrice, PlanName } from './../../utils/plans';
 import { getDateFormats } from './../../utils/dates';
 import { mutateUpdateSubscription } from './../../api/subscription';
 import { onPlanChangeError, onPlanChangeSuccess } from './utils';
+import { SANBASE_ORIGIN } from './../../utils/links';
 export let DialogPromise;
 export let plan;
 export let isUpgrade = false;
@@ -57,7 +58,7 @@ function onClick() {
       from this date your card will be charged {formatPrice(plan)} per {plan.interval}.{isNewBillingMonthly
         ? ' With annual plan you can save up to 10%. '
         : ''}
-      <a href="/account" class="btn">Update your billing information here.</a>
+      <a href="{SANBASE_ORIGIN}/account" class="btn">Update your billing information here.</a>
     </p>
 
     <actions class="row mrg-xl mrg--t">
