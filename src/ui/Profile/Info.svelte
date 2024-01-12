@@ -6,6 +6,7 @@
   import CreationCard from './CreationCard/index.svelte'
   import ProfileNames from './Names.svelte'
   import { CreationType } from './types'
+  import { SANBASE_ORIGIN } from '@/utils/links'
 
   export let user: SAN.Author & { name?: string }
   export let currentUser: SAN.CurrentUser & CurrentUser
@@ -31,7 +32,7 @@
     />
 
     {#if currentUser && +currentUser.id === +user.id}
-      <a href="/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}
+      <a href="{SANBASE_ORIGIN}/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}
         >Account settings</a
       >
     {:else}

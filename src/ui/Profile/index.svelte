@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { SANBASE_ORIGIN } from '@/utils/links'
   import { trackProfileClick } from '@/analytics/events/interaction'
   import Pic from './Pic.svelte'
 
@@ -24,7 +25,11 @@
   }
 </script>
 
-<a class="row v-center c-black {className}" href="/profile/{user.id}" on:click={onClick}>
+<a
+  class="row v-center c-black {className}"
+  href="{SANBASE_ORIGIN}/profile/{user.id}"
+  on:click={onClick}
+>
   <Pic src={user.avatarUrl} class="mrg-s mrg--r $style.pic" {placeholderSize} />
 
   <span>
