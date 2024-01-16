@@ -61,6 +61,9 @@ export const CUSTOMER_QUERY = `{
       }
     }
   }
+}`
+
+export const ANNUAL_DISCOUNT_QUERY = `{
   annualDiscount:checkAnnualDiscountEligibility {
     isEligible
     discount {
@@ -102,8 +105,10 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
 export const queryCustomer = Universal(
   (query) => () =>
     query<any>(CUSTOMER_QUERY)
-      .then(({ currentUser, annualDiscount }) => {
+      .then(async ({ currentUser }) => {
         const subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
+        const annualDiscount =
+          currentUser && (await query<any>(ANNUAL_DISCOUNT_QUERY)).annualDiscount
 
         return Object.assign(
           {},
@@ -140,6 +145,7 @@ export function Customer$$(defaultValue?: CustomerType) {
   )
   store.clear = function () {
     Cache.delete(CUSTOMER_QUERY)
+    Cache.delete(ANNUAL_DISCOUNT_QUERY)
     Cache.delete(BALANCE_QUERY)
     this.fetched = false
   }
