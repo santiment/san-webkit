@@ -37,11 +37,11 @@
   export let onPaymentError
   export let source: string
   export let planData
+  export let plans = [] as SAN.Plan[]
 
   const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
-  let plans = [] as SAN.Plan[]
   let plan = {} as SAN.Plan
   let loading = false
   let StripeCard: stripe.elements.Element
