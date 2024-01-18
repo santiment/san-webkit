@@ -5,6 +5,7 @@ declare const __propDef: {
         plan: SAN.Plan;
         isFreePlan?: boolean | undefined;
         source: string;
+        plans?: SAN.Plan[] | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

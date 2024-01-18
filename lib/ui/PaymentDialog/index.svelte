@@ -61,7 +61,7 @@ function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing;
 }
 function getPlans() {
-    const cached = getCachedSanbasePlans();
+    const cached = plans.length ? plans : getCachedSanbasePlans();
     if (cached)
         setPlans(cached);
     else

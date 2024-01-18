@@ -8,6 +8,7 @@ export { className as class };
 export let plan;
 export let isFreePlan = false;
 export let source;
+export let plans = [];
 const { customer$ } = getCustomer$Ctx();
 $: customer = $customer$;
 $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer);
@@ -48,6 +49,7 @@ function onClick() {
         }
     }
     showPaymentDialog({
+        plans,
         plan: plan.name,
         interval: plan.interval,
         planData: plan,
