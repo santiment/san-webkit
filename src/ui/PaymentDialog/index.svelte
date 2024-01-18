@@ -73,7 +73,7 @@
   }
 
   function getPlans() {
-    const cached = getCachedSanbasePlans()
+    const cached = plans.length ? plans : getCachedSanbasePlans()
 
     if (cached) setPlans(cached)
     else querySanbasePlans().then(setPlans)

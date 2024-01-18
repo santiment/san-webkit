@@ -63,7 +63,7 @@
     {getBillingDescription(plan, altPlan, percentOff)}
   </div>
 
-  <PlanButton {plan} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
+  <PlanButton {plan} {plans} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">

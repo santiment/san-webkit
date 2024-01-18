@@ -10,6 +10,7 @@
   export let plan: SAN.Plan
   export let isFreePlan = false
   export let source: string
+  export let plans = [] as SAN.Plan[]
 
   const { customer$ } = getCustomer$Ctx()
   $: customer = $customer$
@@ -55,6 +56,7 @@
     }
 
     showPaymentDialog({
+      plans,
       plan: plan.name,
       interval: plan.interval,
       planData: plan,
