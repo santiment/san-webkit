@@ -14,6 +14,7 @@ declare const __propDef: {
         onPaymentError: any;
         source: string;
         planData: any;
+        plans?: SAN.Plan[] | undefined;
     };
     events: {
         submit: SubmitEvent;
