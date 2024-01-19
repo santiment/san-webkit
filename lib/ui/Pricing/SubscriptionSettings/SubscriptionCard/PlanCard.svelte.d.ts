@@ -13,6 +13,7 @@ declare const __propDef: {
         isTrial?: boolean | undefined;
         isUpgrade?: boolean | undefined;
         shouldHideBillingInfo: any;
+        plans?: SAN.Plan[] | undefined;
         onActionClick?: (() => Promise<unknown>) | undefined;
     };
     events: {

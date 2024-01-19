@@ -33,4 +33,10 @@ export declare const mutateSubscribe: (cardToken: undefined | string, planId: nu
         };
     };
 }>;
+type PppSettings = {
+    isEligibleForPpp: boolean;
+    country: string;
+    plans: SAN.Plan[];
+};
+export declare const queryPppSettings: () => Promise<PppSettings | null>;
 export {};

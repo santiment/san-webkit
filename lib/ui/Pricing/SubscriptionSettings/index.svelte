@@ -4,7 +4,7 @@ import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
 import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
 import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
-import { querySanbasePlans } from './../../../api/plans';
+import { queryPppSettings, querySanbasePlans } from './../../../api/plans';
 import { getCustomer$Ctx } from './../../../stores/customer';
 import { paymentCard$ } from './../../../stores/paymentCard';
 import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
@@ -27,13 +27,20 @@ $: plan = (subscription === null || subscription === void 0 ? void 0 : subscript
 $: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
 $: suggestions = getSuggestions(plan, annualDiscount);
 $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions());
-querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans);
-});
+queryPlans();
 queryBillingHistory().then((data) => {
     isBillingLoading = false;
     billingHistory = data;
 });
+async function queryPlans() {
+    if (!process.browser)
+        return;
+    let [pppSettings, sanbasePlans] = await Promise.all([queryPppSettings(), querySanbasePlans()]);
+    if (pppSettings === null || pppSettings === void 0 ? void 0 : pppSettings.isEligibleForPpp) {
+        sanbasePlans = pppSettings.plans;
+    }
+    plans = sanbasePlans.filter(onlyProLikePlans);
+}
 function getPlanSuggestions() {
     return plans.filter((plan) => {
         const isSameBilling = plan.interval === suggestions[0].billing;
@@ -66,6 +73,7 @@ function getPlanSuggestions() {
         {...planInfo}
         {isEligibleForTrial}
         {altPlan}
+        {plans}
         discount={currentSuggestion.discount}
         isUpgrade={currentSuggestion.isUpgrade}
         suggestionsCount={suggestedPlans.length}

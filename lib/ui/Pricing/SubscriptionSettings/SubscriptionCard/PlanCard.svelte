@@ -11,8 +11,10 @@ export let isEligibleForTrial = false;
 export let isTrial = false;
 export let isUpgrade = false;
 export let shouldHideBillingInfo;
+export let plans = [];
 export let onActionClick = () => {
     return showPaymentDialog({
+        plans,
         plan: plan.name,
         interval: plan.interval,
         planData: plan,
