@@ -100,3 +100,32 @@ export type SubscribeMutation = SAN.API.Query<
 const subscribeAccessor = ({ subscribe }: SubscribeMutation) => subscribe
 export const mutateSubscribe = (cardToken: undefined | string, planId: number, coupon?: string) =>
   mutate<SubscribeMutation>(SUBSCRIBE_MUTATION(cardToken, planId, coupon)).then(subscribeAccessor)
+
+// -------------
+
+type PppSettings = {
+  isEligibleForPpp: boolean
+  country: string
+  plans: SAN.Plan[]
+}
+
+export const queryPppSettings = () =>
+  query<SAN.API.Query<'pppSettings', null | PppSettings>>(`{
+  pppSettings {
+    isEligibleForPpp
+    country
+    plans {
+      id
+      name
+      interval
+      amount
+      isDeprecated
+    }
+  }
+}`).then((data) => {
+    if (data.pppSettings?.plans) {
+      data.pppSettings.plans = data.pppSettings.plans.sort((a, b) => a.amount - b.amount)
+    }
+
+    return data.pppSettings
+  })
