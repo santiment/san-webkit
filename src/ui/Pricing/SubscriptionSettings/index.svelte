@@ -4,7 +4,7 @@
   import { CardBrandIllustration } from '@/ui/PaymentDialog/utils'
   import { showUpdatePaymentCardDialog } from '@/ui/UpdatePaymentCardDialog.svelte'
   import { showRemovePaymentCardDialog } from '@/ui/RemovePaymentCardDialog.svelte'
-  import { querySanbasePlans } from '@/api/plans'
+  import { queryPppSettings, querySanbasePlans } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { paymentCard$ } from '@/stores/paymentCard'
   import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from '@/utils/plans'
@@ -33,14 +33,24 @@
   $: suggestions = getSuggestions(plan, annualDiscount)
   $: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions())
 
-  querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans)
-  })
+  queryPlans()
 
   queryBillingHistory().then((data) => {
     isBillingLoading = false
     billingHistory = data
   })
+
+  async function queryPlans() {
+    if (!process.browser) return
+
+    let [pppSettings, sanbasePlans] = await Promise.all([queryPppSettings(), querySanbasePlans()])
+
+    if (pppSettings?.isEligibleForPpp) {
+      sanbasePlans = pppSettings.plans
+    }
+
+    plans = sanbasePlans.filter(onlyProLikePlans)
+  }
 
   function getPlanSuggestions() {
     return plans.filter((plan) => {
@@ -77,6 +87,7 @@
         {...planInfo}
         {isEligibleForTrial}
         {altPlan}
+        {plans}
         discount={currentSuggestion.discount}
         isUpgrade={currentSuggestion.isUpgrade}
         suggestionsCount={suggestedPlans.length}

@@ -8,7 +8,7 @@
 <script>
   import { onDestroy } from 'svelte'
   import Dialog from '@/ui/Dialog'
-  import { querySanbasePlans } from '@/api/plans'
+  import { queryPppSettings, querySanbasePlans } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { Billing, onlyProLikePlans } from '@/utils/plans'
   import SpecialOfferBanner from '@/ui/Pricing/Page/SpecialOfferBanner.svelte'
@@ -26,9 +26,19 @@
 
   $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = $customer$)
 
-  querySanbasePlans().then((data) => {
-    plans = data.filter(onlyProLikePlans)
-  })
+  queryPlans()
+
+  async function queryPlans() {
+    if (!process.browser) return
+
+    let [pppSettings, sanbasePlans] = await Promise.all([queryPppSettings(), querySanbasePlans()])
+
+    if (pppSettings?.isEligibleForPpp) {
+      sanbasePlans = pppSettings.plans
+    }
+
+    plans = sanbasePlans.filter(onlyProLikePlans)
+  }
 
   function billingFilter({ interval }) {
     return interval === billing
