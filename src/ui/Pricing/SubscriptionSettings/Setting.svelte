@@ -7,9 +7,15 @@
   <slot />
 </div>
 
-<style>
+<style lang="scss">
   .setting {
     border-top: 1px solid var(--porcelain);
     padding: 16px 24px;
+  }
+
+  @include dac(phone, phone-xs) {
+    .setting {
+      padding: 20px 24px;
+    }
   }
 </style>
