@@ -126,8 +126,19 @@
         <a
           href="{SANBASE_ORIGIN}/account"
           class="btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>Account Settings</a
+          on:click={window.__onLinkClick}
         >
+          Account Settings
+        </a>
+        <a
+          href="{SANBASE_ORIGIN}/account#affiliate"
+          class="btn-ghost row gap-s v-center"
+          style:fill="var(--orange)"
+          on:click={window.__onLinkClick}
+        >
+          Referral Program
+          <Svg id="sparkle" w="12" />
+        </a>
       {/if}
 
       <button
