@@ -6,9 +6,25 @@ export { className as class };
   <slot />
 </div>
 
-<style>
-  .setting {
-    border-top: 1px solid var(--porcelain);
-    padding: 16px 24px;
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
-</style>
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.setting {
+  border-top: 1px solid var(--porcelain);
+  padding: 16px 24px;
+}
+
+:global(body.phone) .setting, :global(body.phone-xs) .setting {
+  padding: 20px 24px;
+}</style>

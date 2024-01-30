@@ -37,7 +37,7 @@ $: ({ isLiteVersion } = $ui$);
   overflowFlip={false}
   duration={130}
   bind:isOpened
-  activeClass="active-bJrNK1"
+  activeClass="active-61uBN3"
   class={tooltipClass}
   let:trigger
 >
@@ -49,7 +49,7 @@ $: ({ isLiteVersion } = $ui$);
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l s-17k6r10" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l s-56kcx2" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </slot>
 
@@ -121,8 +121,19 @@ $: ({ isLiteVersion } = $ui$);
         <a
           href="{SANBASE_ORIGIN}/account"
           class="btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>Account Settings</a
+          on:click={window.__onLinkClick}
         >
+          Account Settings
+        </a>
+        <a
+          href="{SANBASE_ORIGIN}/account#affiliate"
+          class="btn-ghost row gap-s v-center"
+          style:fill="var(--orange)"
+          on:click={window.__onLinkClick}
+        >
+          Referral Program
+          <Svg id="sparkle" w="12" />
+        </a>
       {/if}
 
       <button
@@ -142,11 +153,11 @@ $: ({ isLiteVersion } = $ui$);
 </Tooltip>
 
 <style>
-  :global(.active-bJrNK1) :global(.s-17k6r10) {
+  :global(.active-61uBN3) :global(.s-56kcx2) {
     --img-fill: var(--fiord);
   }
 
-  .pro :global(.s-17k6r10) {
+  .pro :global(.s-56kcx2) {
     --green: var(--orange-hover);
   }
 

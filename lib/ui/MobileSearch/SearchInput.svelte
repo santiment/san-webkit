@@ -11,7 +11,7 @@ function onInput({ currentTarget }) {
   on:input={onInput}
   placeholder="Search for assets, trends..."
   big
-  class="input-b9Sesw body-2"
+  class="input-jRApAb body-2"
 >
   <div class="search row hv-center" slot="left">
     <Svg id="search" w="12" />
@@ -37,10 +37,10 @@ function onInput({ currentTarget }) {
   }
 }
 */
-:global(.input-b9Sesw) {
+:global(.input-jRApAb) {
   --left: 36px !important;
 }
-:global(.input-b9Sesw) > :global(input) {
+:global(.input-jRApAb) > :global(input) {
   padding: 8px 44px 8px 36px;
 }
 
