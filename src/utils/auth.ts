@@ -2,16 +2,22 @@ import { parse } from './url'
 
 export type Providers = 'google' | 'twitter'
 
-export function getOAuthLink(provider: Providers) {
+export function getOAuthLink(provider: Providers, redirectPath?: string) {
   const base = `${process.env.BACKEND_URL}/auth/${provider}`
   const origin = process.browser ? window.location.origin : ''
-  const redirectBase = encodeURIComponent(origin + `/?auth=${provider}`)
+  if (!origin) return ''
+
+  const redirectUrl = new URL(redirectPath || '/', origin)
+  redirectUrl.searchParams.append('auth', provider)
+
+  const failedRedirectUrl = new URL(redirectUrl)
+  failedRedirectUrl.searchParams.append('failed', '1')
 
   return (
     base +
-    `?success_redirect_url=${redirectBase}&fail_redirect_url=${
-      redirectBase + encodeURIComponent('&failed=1')
-    }`
+    `?success_redirect_url=${encodeURIComponent(
+      redirectUrl.href,
+    )}&fail_redirect_url=${encodeURIComponent(failedRedirectUrl.href)}`
   )
 }
 
