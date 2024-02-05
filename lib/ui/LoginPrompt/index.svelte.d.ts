@@ -4,6 +4,7 @@
 export default class Index extends SvelteComponentTyped<{
     title: any;
     onMetamaskClick: any;
+    from?: string | undefined;
     bottomLabel?: string | undefined;
     bottomAction?: string | undefined;
     bottomHref?: string | undefined;
@@ -20,6 +21,7 @@ declare const __propDef: {
     props: {
         title: any;
         onMetamaskClick: any;
+        from?: string | undefined;
         bottomLabel?: string | undefined;
         bottomAction?: string | undefined;
         bottomHref?: string | undefined;

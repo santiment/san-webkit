@@ -1,23 +1,17 @@
-/** @typedef {typeof __propDef.props}  TwitterProps */
-/** @typedef {typeof __propDef.events}  TwitterEvents */
-/** @typedef {typeof __propDef.slots}  TwitterSlots */
-export default class Twitter extends SvelteComponentTyped<{
-    [x: string]: any;
-}, {
-    [evt: string]: CustomEvent<any>;
-}, {}> {
-}
-export type TwitterProps = typeof __propDef.props;
-export type TwitterEvents = typeof __propDef.events;
-export type TwitterSlots = typeof __propDef.slots;
 import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         [x: string]: any;
+        from?: string | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;
     };
     slots: {};
 };
+export type TwitterProps = typeof __propDef.props;
+export type TwitterEvents = typeof __propDef.events;
+export type TwitterSlots = typeof __propDef.slots;
+export default class Twitter extends SvelteComponentTyped<TwitterProps, TwitterEvents, TwitterSlots> {
+}
 export {};
