@@ -19,7 +19,7 @@
 
   let verifiedEmail
 
-  $: bottomHref = bottomHref + encodeURIComponent(from)
+  $: bottomHref = bottomHref + `?from=${encodeURIComponent(from)}`
 </script>
 
 {#if verifiedEmail}
