@@ -1,10 +1,14 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Svg from '@/ui/Svg/svelte'
+  import { track } from '@/analytics'
   import Background from './Background.svelte'
   import Feature from './Feature.svelte'
   import { FeatureWalkthrough$ } from './context'
 
   export let features: SAN.Walkthrough[]
+
+  const ANALYTICS_CATEGORY = 'Walkthrough'
 
   let cursor = 0
 
@@ -28,10 +32,35 @@
   function onClose() {
     FeatureWalkthrough$.complete()
     FeatureWalkthrough$.clear()
+
+    trackWalkthrough('close')
   }
 
-  const onNext = () => cursor++
-  const onPrevious = () => cursor--
+  const onNext = () => {
+    cursor++
+    trackWalkthrough('next_step', cursor)
+  }
+
+  const onPrevious = () => {
+    cursor--
+    trackWalkthrough('prev_step', cursor)
+  }
+
+  function trackWalkthrough(event: string, idx?: number) {
+    const index = idx ?? cursor
+
+    track.event(`walkthrough_${event}`, {
+      category: ANALYTICS_CATEGORY,
+      current_step: index + 1,
+      total_steps: features.length,
+      source_url: window.location.href,
+      step_id: features[index].id,
+    })
+  }
+
+  onMount(() => {
+    trackWalkthrough('start')
+  })
 </script>
 
 <Background {rect} />
@@ -50,7 +79,10 @@
           <button
             class="dot btn mrg-s mrg--r"
             class:active={cursor === i}
-            on:click={() => (cursor = i)}
+            on:click={() => {
+              cursor = i
+              trackWalkthrough('set_step', cursor)
+            }}
           />
         {/each}
       {/if}
