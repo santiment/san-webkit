@@ -9,7 +9,9 @@ const ANALYTICS_CATEGORY = 'Walkthrough';
 let cursor = 0;
 $: feature = features[cursor];
 $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id));
-$: highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+$: if (!isElementInCenter(highlightedNode)) {
+    highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
 $: rect = (highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.getBoundingClientRect()) || { bottom: -14, x: 7 };
 $: align = (rect, feature.align || 'left');
 $: ({ bottom, x, right } = rect);
@@ -44,6 +46,17 @@ function trackWalkthrough(event, idx) {
         source_url: window.location.href,
         step_id: features[index].id,
     });
+}
+function isElementInCenter(el) {
+    if (!el)
+        return false;
+    const rect = el.getBoundingClientRect();
+    const { clientHeight } = document.documentElement;
+    const fromTop = rect.top;
+    const fromBottom = clientHeight - rect.bottom;
+    const maxDiff = clientHeight * 0.1;
+    const diff = Math.abs(fromTop - fromBottom);
+    return diff < maxDiff;
 }
 onMount(() => {
     trackWalkthrough('start');
