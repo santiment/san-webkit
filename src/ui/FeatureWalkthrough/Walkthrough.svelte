@@ -13,8 +13,14 @@
   let cursor = 0
 
   $: feature = features[cursor]
-  $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id))
-  $: highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  $: highlightedNode = document.querySelector(
+    '#' + (feature.nodeId || feature.id),
+  ) as HTMLElement | null
+
+  $: if (!isElementInCenter(highlightedNode)) {
+    highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  }
+
   $: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 }
   $: align = (rect, feature.align || 'left')
   $: ({ bottom, x, right } = rect)
@@ -56,6 +62,22 @@
       source_url: window.location.href,
       step_id: features[index].id,
     })
+  }
+
+  function isElementInCenter(el: HTMLElement | null) {
+    if (!el) return false
+
+    const rect = el.getBoundingClientRect()
+
+    const { clientHeight } = document.documentElement
+
+    const fromTop = rect.top
+    const fromBottom = clientHeight - rect.bottom
+
+    const maxDiff = clientHeight * 0.1
+    const diff = Math.abs(fromTop - fromBottom)
+
+    return diff < maxDiff
   }
 
   onMount(() => {
