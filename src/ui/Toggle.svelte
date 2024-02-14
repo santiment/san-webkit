@@ -1,14 +1,22 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte'
+
+  import Svg from '@/ui/Svg/svelte'
+
+  type Icon = ComponentProps<Svg>['id']
+
   let className = ''
   export { className as class }
   export let isActive = false
   export let disabled = false
   export let big = false
-  export let icon = 'toggle'
+  export let icon = ''
+  export let iconW: string | number = 8
+  export let activeIcon: Icon = 'checkmark'
+  export let inactiveIcon: Icon = 'cross'
   export let as = 'button' as 'button' | 'span'
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <svelte:element
   this={as}
   {...$$restProps}
@@ -17,8 +25,16 @@
   class:big
   class:isActive
   class:disabled
+  role="button"
+  tabindex="0"
 >
-  <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" />
+  {#if icon}
+    <img alt="Toggle" src="{process.env.ICONS_PATH}/{icon}.svg" />
+  {:else}
+    <toggle-icon class:isActive>
+      <Svg id={isActive ? activeIcon : inactiveIcon} w={iconW} />
+    </toggle-icon>
+  {/if}
 </svelte:element>
 
 <style lang="scss">
@@ -75,5 +91,24 @@
     --toggle-height: 24px;
     --circle-size: 18px;
     --toggle-img-width: var(--toggle-big-img-width);
+  }
+
+  toggle-icon {
+    --margin: 3px;
+
+    padding: 0 4px;
+    margin-left: auto;
+    margin-right: var(--margin);
+    fill: var(--waterloo);
+
+    &.big {
+      --margin: 4px;
+    }
+
+    &.isActive {
+      margin-left: var(--margin);
+      margin-right: auto;
+      fill: var(--white);
+    }
   }
 </style>
