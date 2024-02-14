@@ -29,6 +29,11 @@
     Visibility - big
     <ToggleVisibility big {isActive} on:click={toggle} />
   </div>
+
+  <div class="row">
+    Asset
+    <Toggle activeIcon="dollar-sign" iconW={isActive ? 10 : 8} {isActive} on:click={toggle} />
+  </div>
 </main>
 
 <style>
