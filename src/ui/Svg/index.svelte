@@ -5,10 +5,11 @@
   export { className as class }
   export let id: Props['id']
   export let w: Props['w'] = undefined
-  export let h: Props['h'] = w
+  export let h: Props['h'] = undefined
   export let illus = false
 
-  const style = w && `width:${w}px;height:${h}px;min-width:${w}px`
+  $: height = h ?? w
+  $: style = w && `width:${w}px;height:${height}px;min-width:${w}px`
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->

@@ -7,6 +7,9 @@ declare const __propDef: {
         disabled?: boolean | undefined;
         big?: boolean | undefined;
         icon?: string | undefined;
+        iconW?: string | number | undefined;
+        activeIcon?: string | undefined;
+        inactiveIcon?: string | undefined;
         as?: "button" | "span" | undefined;
     };
     events: {

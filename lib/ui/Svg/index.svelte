@@ -2,9 +2,10 @@
 export { className as class };
 export let id;
 export let w = undefined;
-export let h = w;
+export let h = undefined;
 export let illus = false;
-const style = w && `width:${w}px;height:${h}px;min-width:${w}px`;
+$: height = h !== null && h !== void 0 ? h : w;
+$: style = w && `width:${w}px;height:${height}px;min-width:${w}px`;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
