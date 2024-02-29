@@ -60,6 +60,9 @@ function onSubmit() {
         editor.resetContent();
         clearSavedComment();
         onCommentSubmitted === null || onCommentSubmitted === void 0 ? void 0 : onCommentSubmitted(comment);
+        queryComments(commentsFor.id, type).then((comments) => {
+            comments.push(comment);
+        });
     })
         .then(scrollToNewComment)
         .catch(onCommentError)
@@ -89,7 +92,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-fIAFO9"
+    class="border fluid input-ausi97"
     placeholder="Type your comment here"
   />
 
@@ -122,7 +125,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-fIAFO9) {
+  :global(.input-ausi97) {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

@@ -53,7 +53,7 @@ function getBillingDescription(currentPlan, fallbackPlan, discount) {
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-sf06Ra" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-LQ6NL4" />
       {feature}
     </div>
   {/each}
@@ -110,7 +110,7 @@ function getBillingDescription(currentPlan, fallbackPlan, discount) {
     max-width: 160px;
   }
 
-  :global(.checkmark-sf06Ra) {
+  :global(.checkmark-LQ6NL4) {
     margin: 2px 10px 0 0;
     fill: var(--fill-checkmark, var(--accent));
   }
