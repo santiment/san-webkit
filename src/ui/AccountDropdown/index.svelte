@@ -25,6 +25,8 @@
 
   const { ui$ } = getUI$Ctx()
   const { customer$ } = getCustomer$Ctx()
+  const REFERRAL_ANNOUNCEMENT_URL =
+    'https://medium.com/santiment/santiment-is-proud-to-announce-the-relaunch-of-our-referral-program-now-with-increased-commission-e8b7feb5606c'
 
   function onLogout() {
     isOpened = false
@@ -126,9 +128,22 @@
         <a
           href="{SANBASE_ORIGIN}/account"
           class="btn-ghost row justify v-center"
-          on:click={window.__onLinkClick}>Account Settings</a
+          on:click={window.__onLinkClick}
         >
+          Account Settings
+        </a>
       {/if}
+
+      <a
+        href={currentUser ? `${SANBASE_ORIGIN}/account#affiliate` : REFERRAL_ANNOUNCEMENT_URL}
+        target={currentUser ? '_self' : '_blank'}
+        class="btn-ghost row gap-s v-center"
+        style:fill="var(--orange)"
+        on:click={window.__onLinkClick}
+      >
+        Referral Program
+        <Svg id="sparkle" w="12" />
+      </a>
 
       <button
         class="btn-ghost row justify v-center"

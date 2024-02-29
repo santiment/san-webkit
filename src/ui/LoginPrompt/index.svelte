@@ -14,9 +14,12 @@
   export let bottomAction = 'Create an account'
   export let bottomHref = '/sign-up'
   export let isSignUp = false
+  export let from = ''
   // export let onWalletConnectLogin
 
   let verifiedEmail
+
+  $: bottomHref = bottomHref + `?from=${encodeURIComponent(from)}`
 </script>
 
 {#if verifiedEmail}
@@ -25,8 +28,8 @@
   <Section {title} class="body-2" titleMargin="mrg-xl" {bottomLabel} {bottomAction} {bottomHref}>
     <Metamask {isSignUp} onClick={onMetamaskClick} />
 
-    <Google {isSignUp} />
-    <Twitter {isSignUp} />
+    <Google {isSignUp} {from} />
+    <Twitter {isSignUp} {from} />
 
     <Divider />
 
