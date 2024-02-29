@@ -72,6 +72,10 @@
         editor.resetContent()
         clearSavedComment()
         onCommentSubmitted?.(comment)
+
+        queryComments(commentsFor.id, type).then((comments) => {
+          comments.push(comment)
+        })
       })
       .then(scrollToNewComment)
       .catch(onCommentError)
