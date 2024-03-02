@@ -6,11 +6,12 @@ const EMAIL_LOGIN_MUTATION = (
   consent: string,
   subscribeToWeeklyNewsletter: boolean,
 ) => `
-  mutation {
+  mutation($successRedirectUrl:String) {
     emailLogin(
       email:"${email}",
       consent:"${consent}",
       subscribeToWeeklyNewsletter:${subscribeToWeeklyNewsletter}
+      successRedirectUrl:$successRedirectUrl
     ) {
       success
     }
@@ -21,7 +22,11 @@ export const mutateEmailLogin = (
   email: string,
   consent = '',
   subscribeToWeeklyNewsletter = false,
-) => mutate(EMAIL_LOGIN_MUTATION(email, consent, subscribeToWeeklyNewsletter))
+  successRedirectUrl?: string,
+) =>
+  mutate(EMAIL_LOGIN_MUTATION(email, consent, subscribeToWeeklyNewsletter), {
+    variables: { successRedirectUrl },
+  })
 
 // ---------------
 

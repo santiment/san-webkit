@@ -16,6 +16,7 @@
   } from '@/ui/ManageCookiesDialog/index.svelte'
   import Svg from '@/ui/Svg/svelte'
   import { getSavedBoolean } from '@/utils/localStorage'
+  import { onMount } from 'svelte'
 
   let className = ''
   export { className as class }
@@ -32,6 +33,19 @@
       isVisible = false
     })
   }
+
+  onMount(() => {
+    window.gtag?.('consent' as any, 'default', {
+      security_storage: 'granted',
+      analytics_storage: 'denied',
+      functionality_storage: 'denied',
+      performance_cookies: 'denied',
+
+      // Consent v2
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    })
+  })
 </script>
 
 {#if isVisible}

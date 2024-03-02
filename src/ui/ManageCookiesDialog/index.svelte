@@ -27,6 +27,13 @@
     setSessionValue({ isCookiesVisible: false })
 
     track.event('Cookie policy accepted', { category: 'User' })
+
+    window.gtag?.('consent' as any, 'update', {
+      security_storage: 'granted',
+      analytics_storage: isFunctionalAccepted ? 'granted' : 'denied',
+      functionality_storage: isFunctionalAccepted ? 'granted' : 'denied',
+      performance_cookies: isPerformanceAccepted ? 'granted' : 'denied',
+    })
   }
 </script>
 
