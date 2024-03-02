@@ -13,6 +13,7 @@ export const Cookies = {
 };
 export const showManageCookiesDialog = (props) => dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props));
 export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
+    var _a;
     saveBoolean(Cookies.Basic, true);
     saveBoolean(Cookies.Functional, isFunctionalAccepted);
     saveBoolean(Cookies.Performance, isPerformanceAccepted);
@@ -20,6 +21,12 @@ export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted
     setCookie(COOKIE_POLICY_ACCEPTED, true);
     setSessionValue({ isCookiesVisible: false });
     track.event('Cookie policy accepted', { category: 'User' });
+    (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'update', {
+        security_storage: 'granted',
+        analytics_storage: isFunctionalAccepted ? 'granted' : 'denied',
+        functionality_storage: isFunctionalAccepted ? 'granted' : 'denied',
+        performance_cookies: isPerformanceAccepted ? 'granted' : 'denied',
+    });
 }
 </script>
 

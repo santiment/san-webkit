@@ -7,6 +7,7 @@
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies, } from './../ui/ManageCookiesDialog/index.svelte';
 import Svg from './../ui/Svg/svelte';
 import { getSavedBoolean } from './../utils/localStorage';
+import { onMount } from 'svelte';
 let className = '';
 export { className as class };
 export let style = '';
@@ -20,6 +21,18 @@ function onManageClick() {
         isVisible = false;
     });
 }
+onMount(() => {
+    var _a;
+    (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'default', {
+        security_storage: 'granted',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        performance_cookies: 'denied',
+        // Consent v2
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+    });
+});
 </script>
 
 {#if isVisible}

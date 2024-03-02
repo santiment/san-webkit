@@ -3,6 +3,7 @@
 /** @typedef {typeof __propDef.slots}  EmailFormSlots */
 export default class EmailForm extends SvelteComponentTyped<{
     isSignUp: any;
+    from?: string | undefined;
     verifiedEmail?: string | undefined;
 }, {
     [evt: string]: CustomEvent<any>;
@@ -15,6 +16,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         isSignUp: any;
+        from?: string | undefined;
         verifiedEmail?: string | undefined;
     };
     events: {

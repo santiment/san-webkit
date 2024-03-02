@@ -33,7 +33,7 @@
 
     <Divider />
 
-    <EmailForm bind:verifiedEmail {isSignUp} />
+    <EmailForm bind:verifiedEmail {isSignUp} {from} />
 
     <!-- <WalletConnect onLogin={onWalletConnectLogin} /> -->
   </Section>

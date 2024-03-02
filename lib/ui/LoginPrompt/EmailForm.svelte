@@ -6,6 +6,7 @@
 
   export let verifiedEmail = ''
   export let isSignUp
+  export let from = ''
 
   let email = ''
   let loading = false
@@ -14,7 +15,8 @@
     email = currentTarget.email.value
     loading = true
 
-    mutateEmailLogin(email).then(onSuccess)
+    const redirectUrl = new URL(from || '/', window.location.origin)
+    mutateEmailLogin(email, undefined, undefined, redirectUrl.href).then(onSuccess)
 
     trackAuthStart(LoginType.EMAIL)
 
