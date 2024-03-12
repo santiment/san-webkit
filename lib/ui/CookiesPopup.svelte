@@ -29,6 +29,7 @@ onMount(() => {
         functionality_storage: 'denied',
         performance_cookies: 'denied',
         // Consent v2
+        ad_storage: 'denied',
         ad_user_data: 'denied',
         ad_personalization: 'denied',
     });
