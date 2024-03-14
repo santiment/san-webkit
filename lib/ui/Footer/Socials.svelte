@@ -24,6 +24,9 @@
     <a href="https://www.youtube.com/c/santimentnetwork" target="_blank" rel="noreferrer">
       <Svg id="youtube" w="20" h="14" />
     </a>
+    <a href="https://medium.com/santiment" target="_blank" rel="noreferrer">
+      <Svg id="medium" w="16" />
+    </a>
   </div>
 </div>
 
