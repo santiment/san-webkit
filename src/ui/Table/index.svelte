@@ -26,6 +26,7 @@
   export let offset = 0
   export let onItemClick: (item: SAN.Table.Item) => void = noop
   export let sortDirection = 'desc' as 'desc' | 'asc'
+  export let preValidateSort = (() => {}) as (sortedColumn: any) => void | boolean
 
   const ascSort: Sorter<Item> = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b)
   const descSort: Sorter<Item> = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a)
@@ -38,6 +39,9 @@
   function changeSort({ currentTarget }: MouseEvent) {
     const i = (currentTarget as HTMLElement).dataset.i as string
     const column = columns[+i]
+
+    const validated = preValidateSort(column)
+    if (validated === false) return
 
     const { sortAccessor, isSortable = sortAccessor } = column
     if (!isSortable) return
