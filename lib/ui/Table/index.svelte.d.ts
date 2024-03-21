@@ -18,6 +18,7 @@ declare class __sveltets_Render<Item extends SAN.Table.Item> {
         offset?: number | undefined;
         onItemClick?: ((item: import("./utils").Item) => void) | undefined;
         sortDirection?: "desc" | "asc" | undefined;
+        preValidateSort?: ((sortedColumn: any) => boolean | void) | undefined;
     };
     events(): {} & {
         [evt: string]: CustomEvent<any>;

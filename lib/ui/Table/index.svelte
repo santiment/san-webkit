@@ -17,6 +17,7 @@ export let itemProps = null;
 export let offset = 0;
 export let onItemClick = noop;
 export let sortDirection = 'desc';
+export let preValidateSort = (() => { });
 const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
 $: currentSort = sortDirection === 'desc' ? descSort : ascSort;
@@ -26,6 +27,9 @@ $: sortedItems = (sortedColumn === null || sortedColumn === void 0 ? void 0 : so
 function changeSort({ currentTarget }) {
     const i = currentTarget.dataset.i;
     const column = columns[+i];
+    const validated = preValidateSort(column);
+    if (validated === false)
+        return;
     const { sortAccessor, isSortable = sortAccessor } = column;
     if (!isSortable)
         return;
