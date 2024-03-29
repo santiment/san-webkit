@@ -44,7 +44,7 @@ function setContent() {
 }
 </script>
 
-<Dialog {...$$props} noTitle bind:closeDialog class="dialog-6oApDd">
+<Dialog {...$$props} noTitle bind:closeDialog class="dialog-003gDR">
   <button class="btn close" on:click={closeDialog}>
     <Svg id="close" w="16" />
   </button>
@@ -61,7 +61,7 @@ function setContent() {
       class="discount"
     />
   {:else}
-    <FlamePumpkin class="flame-pumpkin-dky573" />
+    <FlamePumpkin class="flame-pumpkin-2JTWJA" />
   {/if}
   <div class="column hv-center txt-center">
     <h4 class="h4 txt-m mrg-s mrg--b">{title}</h4>
@@ -69,7 +69,7 @@ function setContent() {
       {description}
     </p>
     {#if hasDiscount || code}
-      <DiscountCode class="copy-S9Vy1u" discount={code || 'SANHALLOWEEN2022'} />
+      <DiscountCode class="copy-7o6DnM" discount={code || 'SANHALLOWEEN2022'} />
       <a
         href="https://app.santiment.net/pricing"
         class="btn-1 btn--orange body-2"
@@ -102,7 +102,7 @@ function setContent() {
   }
 }
 */
-:global(.dialog-6oApDd) {
+:global(.dialog-003gDR) {
   width: 480px;
   padding: 113px 40px 32px;
 }
@@ -121,7 +121,7 @@ function setContent() {
   height: 62px;
 }
 
-:global(.flame-pumpkin-dky573) {
+:global(.flame-pumpkin-2JTWJA) {
   position: absolute;
   top: -28px;
   left: calc(50% - 58px);
@@ -136,7 +136,7 @@ function setContent() {
   padding: 8px 28px;
 }
 
-:global(.copy-S9Vy1u) {
+:global(.copy-7o6DnM) {
   padding: 8px 69px;
   margin: -8px 0 24px;
 }</style>
