@@ -29,13 +29,13 @@ export function getSuggestions(
     suggestions.push({ ...suggestion, [Plan.PRO]: PRO_SUGGESTION })
 
     if (userPlan?.name === Plan.PRO) {
-      suggestions.push({ ...suggestion, [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION })
+      suggestions.push({ ...suggestion, [Plan.MAX]: PRO_PLUS_SUGGESTION })
     }
 
     return suggestions
   }
 
-  if (userPlan?.name === Plan.PRO_PLUS) {
+  if (userPlan?.name === Plan.MAX) {
     return [{ fullAccess: true }]
   }
 
@@ -52,7 +52,7 @@ export function getSuggestions(
 
   suggestions.push({
     ...suggestion,
-    [Plan.PRO_PLUS]: PRO_PLUS_SUGGESTION,
+    [Plan.MAX]: PRO_PLUS_SUGGESTION,
     isUpgrade: userPlan?.name === Plan.PRO,
   })
 

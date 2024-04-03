@@ -25,7 +25,7 @@ export const PlanDescription = {
     ],
   },
 
-  [Plan.PRO_PLUS]: {
+  [Plan.MAX]: {
     description: 'Complete analytics & backtesting framework',
     features: [
       'All features from PRO plus:',

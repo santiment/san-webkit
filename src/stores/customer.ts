@@ -18,7 +18,7 @@ export type CustomerType = {
   annualDiscount: ReturnType<typeof normalizeAnnualDiscount>
   isIncompleteSubscription: boolean
   isPro: boolean
-  isProPlus: boolean
+  isMax: boolean
   isTrial: boolean
   trialDaysLeft: number
   planName: string
@@ -35,7 +35,7 @@ export const DEFAULT = {
   isIncompleteSubscription: false,
   planName: '',
   isPro: false,
-  isProPlus: false,
+  isMax: false,
   isTrial: false,
   trialDaysLeft: 0,
   subscription: null,
@@ -80,7 +80,7 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
     return {
       isIncompleteSubscription: false,
       isPro: false,
-      isProPlus: false,
+      isMax: false,
       isTrial: false,
       trialDaysLeft: 0,
     }
@@ -89,12 +89,12 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
   const { trialEnd, plan, status, cancelAtPeriodEnd } = subscription
   const planName = plan.name
   const trialDaysLeft = trialEnd ? calculateTrialDaysLeft(trialEnd) : 0
-  const isProPlus = planName === Plan.PRO_PLUS
+  const isMax = planName === Plan.MAX || planName === 'PRO_PLUS'
 
   return {
     isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
-    isProPlus,
-    isPro: isProPlus || planName === Plan.PRO,
+    isMax,
+    isPro: isMax || planName === Plan.PRO,
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
     planName: PlanName[planName] || planName,
