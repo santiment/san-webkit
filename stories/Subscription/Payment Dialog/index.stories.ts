@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from './index.svelte'
+import { mockPlans } from './plans'
 
 const meta = {
   // title: 'Design System/Icons',
@@ -21,6 +22,7 @@ export default meta
 export const SANHolderDiscount: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         sanBalance: 2000,
       },
@@ -31,6 +33,7 @@ export const SANHolderDiscount: Story = {
 export const EligibleForTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         isEligibleForSanbaseTrial: true,
       },
@@ -41,6 +44,7 @@ export const EligibleForTrial: Story = {
 export const ActiveTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -55,6 +59,7 @@ export const ActiveTrial: Story = {
 export const ExpiredTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -71,6 +76,7 @@ export const TrialAnnualDiscount35: Story = {
   parameters: {
     mockApi: () => ({
       annualDiscount: 35,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -86,6 +92,7 @@ export const TrialAnnualDiscount50: Story = {
   parameters: {
     mockApi: () => ({
       annualDiscount: 50,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -101,6 +108,7 @@ export const SavedCard: Story = {
   parameters: {
     mockApi: () => ({
       savedCard: true,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -115,6 +123,7 @@ export const SavedCard: Story = {
 export const UserHasPromocodes: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         promoCodes: [
           {
