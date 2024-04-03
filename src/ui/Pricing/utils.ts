@@ -16,7 +16,7 @@ export function onPlanChangeError(error) {
   return Promise.reject(error)
 }
 
-export function checkIsUpgrade(plan: SAN.Plan, subscription?: SAN.Subscription) {
+export function checkIsUpgrade(plan: SAN.Plan, subscription?: SAN.Subscription | null) {
   if (!subscription) return undefined
 
   const subscribed = subscription.plan

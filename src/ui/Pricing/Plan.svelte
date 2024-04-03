@@ -70,7 +70,7 @@
     {/if}
   </div>
 
-  <PlanButton plan={monthPlan} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
+  <PlanButton plan={monthPlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
