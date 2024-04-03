@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
-  import { querySanbasePlans, getCachedSanbasePlans } from '@/api/plans'
-  import { formatPrice, onlyProLikePlans, Plan } from '@/utils/plans'
+  import { queryPlans, getCachedProducts, getBusinessPlans, getIndividualPlans } from '@/api/plans'
+  import { formatPrice, isBusinessPlan, isPlanWithPrice, Plan } from '@/utils/plans'
   import { Preloader } from '@/utils/fn'
   import { stripe } from '@/stores/stripe'
   import { dialogs } from '@/ui/Dialog'
@@ -8,7 +8,7 @@
 
   export const showPaymentDialog = (props?: any) => dialogs.show(PaymentDialog, props)
 
-  const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load())
+  const preloadData = () => (queryPlans(), paymentCard$.query(), stripe.load())
   export const dataPreloader = Preloader(preloadData)
 </script>
 
@@ -32,22 +32,31 @@
   export { defaultPlan as plan }
   export let interval = 'year' as SAN.Plan['interval']
   export let isSinglePlan = false
-  export let plansFilter = onlyProLikePlans
+  export let plansFilter = (_: SAN.Plan) => true
   export let onPaymentSuccess = () => {}
   export let onPaymentError
   export let source: string
-  export let planData
+  export let planData: SAN.Plan
   export let plans = [] as SAN.Plan[]
 
   const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
-  let plan = {} as SAN.Plan
+  let plan: SAN.Plan = planData
   let loading = false
   let StripeCard: stripe.elements.Element
   let savedCard = $paymentCard$
 
-  if (process.browser) {
+  $: isBusiness = isBusinessPlan(plan)
+  $: customer = $customer$
+  $: ({ subscription } = customer)
+  $: isNotCanceled = !subscription?.cancelAtPeriodEnd
+  // TODO: make customer data accesible via context
+  $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$)
+  $: name = PlanName[plan.name] || plan.name
+  $: price = name ? formatPrice(plan) : ''
+
+  $: if (process.browser) {
     const { id, name, amount } = planData || {}
     trackPaymentFormOpened({
       plan: name,
@@ -57,30 +66,22 @@
       source,
     })
 
-    getPlans()
+    getPlans(isBusiness)
   }
-
-  $: customer = $customer$
-  $: ({ subscription } = customer)
-  $: isNotCanceled = !subscription?.cancelAtPeriodEnd
-  // TODO: make customer data accesible via context
-  $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$)
-  $: name = PlanName[plan.name] || plan.name
-  $: price = name ? formatPrice(plan) : ''
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing
   }
 
-  function getPlans() {
-    const cached = plans.length ? plans : getCachedSanbasePlans()
+  async function getPlans(isBusiness: boolean) {
+    const products = getCachedProducts() ?? (await queryPlans())
+    const plans = isBusiness ? getBusinessPlans(products) : getIndividualPlans(products)
 
-    if (cached) setPlans(cached)
-    else querySanbasePlans().then(setPlans)
+    setPlans(plans)
   }
 
   function setPlans(data: SAN.Plan[]) {
-    plans = mapPlans(data, plansFilter)
+    plans = mapPlans(data, isPlanWithPrice, plansFilter)
     plan = plans.find(findDefaultPlan) || plans[0]
   }
 
