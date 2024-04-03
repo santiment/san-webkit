@@ -46,7 +46,7 @@
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED))
 
     if (!isLoggedIn) {
-      return window.__onLinkClick('/login')
+      return window.__onLinkClick?.('/login')
     }
 
     if (!annualDiscount.isEligible) {
