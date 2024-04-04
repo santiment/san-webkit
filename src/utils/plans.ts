@@ -59,6 +59,11 @@ export enum Billing {
   YEAR = 'year',
 }
 
+export enum PlanType {
+  INDIVIDUAL = 'individual',
+  BUSINESS = 'business',
+}
+
 export const isIndividualPlan = ({ name }: SAN.Plan) => !!individualPlanMap[name]
 export const isBusinessPlan = ({ name }: SAN.Plan) => !!businessPlansMap[name]
 
