@@ -1,6 +1,19 @@
 import { Plan } from '@/utils/plans'
 
 export const PlanDescription: Record<Plan, { description: string; features: string[] }> = {
+  [Plan.PRO_PLUS]: {
+    description: 'Complete analytics & backtesting framework',
+    features: [
+      'All features from PRO plus:',
+      "Access to Santiment's API",
+      'Dedicated Account Manager',
+      'Google Sheets / Excel Plugin',
+      'Closed chat with Santiment analytics',
+      'Tailored market reports and token analysis',
+      'White-labeled embeddable charts',
+    ],
+  },
+
   [Plan.FREE]: {
     description: 'Your starter plan',
     features: [

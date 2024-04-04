@@ -91,13 +91,14 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
   const { trialEnd, plan, status, cancelAtPeriodEnd } = subscription
   const planName = plan.name
   const trialDaysLeft = trialEnd ? calculateTrialDaysLeft(trialEnd) : 0
-  const isMax = planName === Plan.MAX || planName === 'PRO_PLUS'
+  const isProPlus = planName === Plan.PRO_PLUS
+  const isMax = planName === Plan.MAX
 
   return {
     isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
     isMax,
-    idProPlus: isMax,
-    isPro: isMax || planName === Plan.PRO,
+    isProPlus,
+    isPro: isProPlus || isMax || planName === Plan.PRO,
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
     planName: PlanName[planName] || planName,

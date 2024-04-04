@@ -22,6 +22,9 @@ export const checkIsSanApiProduct = (product: Pick<SAN.Product, 'id'>) =>
   +product.id === ProductId.SANAPI
 
 export enum Plan {
+  //deprecated
+  PRO_PLUS = 'PRO_PLUS',
+
   FREE = 'FREE',
   PRO = 'PRO',
   MAX = 'MAX',
@@ -45,6 +48,8 @@ function arrToMap<T extends string | number | symbol>(arr: readonly T[]) {
 }
 
 export const PlanName = {
+  [Plan.PRO_PLUS]: 'Pro+',
+
   [Plan.FREE]: 'FREE',
   [Plan.PRO]: 'Sanbase Pro',
   [Plan.MAX]: 'Sanbase Max',
