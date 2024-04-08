@@ -30,19 +30,18 @@
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
   export { defaultPlan as plan }
-  export let interval = 'year' as SAN.Plan['interval']
-  export let isSinglePlan = false
+  export let interval: SAN.Plan['interval'] = 'year'
   export let plansFilter = (_: SAN.Plan) => true
   export let onPaymentSuccess = () => {}
   export let onPaymentError
   export let source: string
   export let planData: SAN.Plan
-  export let plans = [] as SAN.Plan[]
+  export let plans: SAN.Plan[] = []
 
   const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
-  let plan: SAN.Plan = planData
+  let plan: SAN.Plan = planData ?? {}
   let loading = false
   let StripeCard: stripe.elements.Element
   let savedCard = $paymentCard$
@@ -66,18 +65,22 @@
       source,
     })
 
-    getPlans(isBusiness)
+    getPlans(plans, isBusiness)
   }
 
   function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing
   }
 
-  async function getPlans(isBusiness: boolean) {
+  async function getDefaultPlans(isBusiness: boolean) {
     const products = getCachedProducts() ?? (await queryPlans())
-    const plans = isBusiness ? getBusinessPlans(products) : getIndividualPlans(products)
+    return isBusiness ? getBusinessPlans(products) : getIndividualPlans(products)
+  }
 
-    setPlans(plans)
+  async function getPlans(plans: SAN.Plan[], isBusiness: boolean) {
+    const cachedPlans = plans.length ? plans : await getDefaultPlans(isBusiness)
+
+    setPlans(cachedPlans)
   }
 
   function setPlans(data: SAN.Plan[]) {
@@ -150,7 +153,6 @@
         {name}
         {price}
         {annualDiscount}
-        {isSinglePlan}
         {isEligibleForTrial}
         {loading}
         {source}

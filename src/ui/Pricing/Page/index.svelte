@@ -50,7 +50,7 @@
 
   <PromoSanTokenBanner />
 
-  <Comparison class="$style.comparison" plans={billingPlans} {isLoggedIn} {isEligibleForTrial} />
+  <Comparison class="$style.comparison" plans={billingPlans} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getCustomer$Ctx } from '@/stores/customer'
   import Svg from '@/ui/Svg/svelte'
-  import { formatPrice, isBusinessPlan, Plan, PlanName } from '@/utils/plans'
+  import { calculateYearDiscount, formatPrice, isBusinessPlan, Plan, PlanName } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
   import PlanButton from './PlanButton.svelte'
   import { PlanDescription } from './description'
@@ -10,6 +10,7 @@
   export { className as class }
   export let monthPlan: SAN.Plan
   export let yearPlan = monthPlan
+  export let plans: SAN.Plan[] = []
 
   const { customer$ } = getCustomer$Ctx()
   $: customer = $customer$
@@ -32,14 +33,6 @@
 
   $: priceText = isCustomPlan ? 'Get a quote' : monthPrice
   $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan)
-
-  function calculateYearDiscount(monthPlan: SAN.Plan, yearPlan: SAN.Plan) {
-    const { amount: monthAmount } = monthPlan
-    const { amount: yearAmount } = yearPlan
-
-    const discount = yearAmount / (monthAmount * 12)
-    return Math.round(100 - discount * 100)
-  }
 </script>
 
 <div class="plan txt-center relative {className}" class:isBusiness class:free={isFreePlan}>
@@ -70,7 +63,7 @@
     {/if}
   </div>
 
-  <PlanButton plan={monthPlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
+  <PlanButton plan={monthPlan} {plans} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">

@@ -10,8 +10,6 @@
   export { className as class }
   export let plans: SAN.Plan[]
   export let isShowingMore = false
-  export let isLoggedIn = false
-  export let isEligibleForTrial = false
 
   let activeSlide = 0
 
@@ -35,12 +33,14 @@
       {#if comparedPlans.length > 1}
         <div class="td-h" />
         {#each comparedPlans as plan (plan.id)}
-          <div class="td"><Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} /></div>
+          <div class="td">
+            <Plan {plan} />
+          </div>
         {/each}
       {:else}
         <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
           {#each plans as plan (plan.id)}
-            <Plan {isEligibleForTrial} {isLoggedIn} {plan} {plans} />
+            <Plan {plan} />
           {/each}
         </Slides>
       {/if}

@@ -79,6 +79,14 @@ export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
 
 export const calcDiscount = (percentOff?: number) => (100 - (percentOff || 0)) / 100
 
+export function calculateYearDiscount(monthPlan: SAN.Plan, yearPlan: SAN.Plan) {
+  const { amount: monthAmount } = monthPlan
+  const { amount: yearAmount } = yearPlan
+
+  const discount = yearAmount / (monthAmount * 12)
+  return Math.round(100 - discount * 100)
+}
+
 export const getPrice = (amount: number, percentOff = 0) =>
   (amount / 100) * calcDiscount(percentOff)
 
