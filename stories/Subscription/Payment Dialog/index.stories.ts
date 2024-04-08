@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
+import { Billing, Plan } from '@/utils/plans'
 import Component from './index.svelte'
 import { mockPlans } from './plans'
 
@@ -170,5 +171,34 @@ export const UserHasPromocodes: Story = {
         },
       ],
     }),
+  },
+}
+
+export const FixedPlans: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      currentUser: {},
+    }),
+  },
+  args: {
+    plan: Plan.PRO,
+    interval: Billing.MONTH,
+    plans: [
+      {
+        amount: 4900,
+        id: '201',
+        interval: 'month',
+        isDeprecated: false,
+        name: Plan.PRO,
+      },
+      {
+        amount: 52900,
+        id: '202',
+        interval: 'year',
+        isDeprecated: false,
+        name: Plan.PRO,
+      },
+    ],
   },
 }
