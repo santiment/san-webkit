@@ -1,6 +1,6 @@
 <script context="module" lang="ts">
   import { queryPlans, getCachedProducts, getBusinessPlans, getIndividualPlans } from '@/api/plans'
-  import { formatPrice, isBusinessPlan, isPlanWithPrice, Plan } from '@/utils/plans'
+  import { formatPrice, checkIsBusinessPlan, checkIsPlanWithPrice, Plan } from '@/utils/plans'
   import { Preloader } from '@/utils/fn'
   import { stripe } from '@/stores/stripe'
   import { dialogs } from '@/ui/Dialog'
@@ -46,7 +46,7 @@
   let StripeCard: stripe.elements.Element
   let savedCard = $paymentCard$
 
-  $: isBusiness = isBusinessPlan(plan)
+  $: isBusiness = checkIsBusinessPlan(plan)
   $: customer = $customer$
   $: ({ subscription } = customer)
   $: isNotCanceled = !subscription?.cancelAtPeriodEnd
@@ -84,7 +84,7 @@
   }
 
   function setPlans(data: SAN.Plan[]) {
-    plans = mapPlans(data, isPlanWithPrice, plansFilter)
+    plans = mapPlans(data, checkIsPlanWithPrice, plansFilter)
     plan = plans.find(findDefaultPlan) || plans[0]
   }
 

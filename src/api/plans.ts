@@ -3,8 +3,8 @@ import {
   keepNonDeprecatedPlans,
   checkIsSanbaseProduct,
   nonDeprecatedFilter,
-  isIndividualPlan,
-  isBusinessPlan,
+  checkIsIndividualPlan,
+  checkIsBusinessPlan,
   checkIsSanApiProduct,
 } from '@/utils/plans'
 import { Cache } from './cache'
@@ -51,10 +51,15 @@ export const getIndividualPlans = (products: ProductPlans[]) =>
   filterPlans(
     findProductPlans(products, checkIsSanbaseProduct),
     nonDeprecatedFilter,
-    isIndividualPlan,
+    checkIsIndividualPlan,
   )
+
 export const getBusinessPlans = (products: ProductPlans[]) =>
-  filterPlans(findProductPlans(products, checkIsSanApiProduct), nonDeprecatedFilter, isBusinessPlan)
+  filterPlans(
+    findProductPlans(products, checkIsSanApiProduct),
+    nonDeprecatedFilter,
+    checkIsBusinessPlan,
+  )
 
 export const querySanbasePlans = () => queryProductPlans(getSanbasePlans)
 

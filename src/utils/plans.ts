@@ -34,18 +34,8 @@ export enum Plan {
   CUSTOM = 'CUSTOM',
 }
 
-export const INDIVIDUAL_PLANS = [Plan.FREE, Plan.PRO, Plan.MAX] as const
-export const BUSINESS_PLANS = [Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM] as const
-
-export const individualPlanMap = arrToMap(INDIVIDUAL_PLANS)
-export const businessPlansMap = arrToMap(BUSINESS_PLANS)
-
-function arrToMap<T extends string | number | symbol>(arr: readonly T[]) {
-  return arr.reduce(
-    (prev, plan) => ({ ...prev, [plan]: true }),
-    {} as Record<(typeof arr)[number], true>,
-  )
-}
+export const INDIVIDUAL_PLANS = new Set([Plan.FREE, Plan.PRO, Plan.MAX])
+export const BUSINESS_PLANS = new Set([Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM])
 
 export const PlanName = {
   [Plan.PRO_PLUS]: 'Pro+',
@@ -69,10 +59,10 @@ export enum PlanType {
   BUSINESS = 'business',
 }
 
-export const isIndividualPlan = ({ name }: SAN.Plan) => !!individualPlanMap[name]
-export const isBusinessPlan = ({ name }: SAN.Plan) => !!businessPlansMap[name]
+export const checkIsIndividualPlan = ({ name }: SAN.Plan) => INDIVIDUAL_PLANS.has(name)
+export const checkIsBusinessPlan = ({ name }: SAN.Plan) => BUSINESS_PLANS.has(name)
 
-export const isPlanWithPrice = ({ amount }: SAN.Plan) => amount > 0
+export const checkIsPlanWithPrice = ({ amount }: SAN.Plan) => amount > 0
 
 export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
   interval === Billing.YEAR

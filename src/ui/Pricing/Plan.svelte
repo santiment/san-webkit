@@ -1,7 +1,13 @@
 <script lang="ts">
   import { getCustomer$Ctx } from '@/stores/customer'
   import Svg from '@/ui/Svg/svelte'
-  import { calculateYearDiscount, formatPrice, isBusinessPlan, Plan, PlanName } from '@/utils/plans'
+  import {
+    calculateYearDiscount,
+    formatPrice,
+    checkIsBusinessPlan,
+    Plan,
+    PlanName,
+  } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
   import PlanButton from './PlanButton.svelte'
   import { PlanDescription } from './description'
@@ -21,7 +27,7 @@
   $: currentPlanId = subscription?.plan.id
   $: isTrialPlan = isOnTrial && (currentPlanId === monthPlan.id || currentPlanId === yearPlan.id)
 
-  $: isBusiness = isBusinessPlan(monthPlan)
+  $: isBusiness = checkIsBusinessPlan(monthPlan)
 
   $: isFreePlan = name.includes(Plan.FREE)
   $: isCustomPlan = name.includes(Plan.CUSTOM)
