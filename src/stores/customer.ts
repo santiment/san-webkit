@@ -82,6 +82,7 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
     return {
       isIncompleteSubscription: false,
       isPro: false,
+      isProPlus: false,
       isMax: false,
       isTrial: false,
       trialDaysLeft: 0,
