@@ -5,7 +5,17 @@ export declare const CardBrandIllustration: {
         w: number;
         h: number;
     };
+    mastercard: {
+        id: string;
+        w: number;
+        h: number;
+    };
     Visa: {
+        id: string;
+        w: number;
+        h: number;
+    };
+    visa: {
         id: string;
         w: number;
         h: number;
