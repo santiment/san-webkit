@@ -136,7 +136,7 @@
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    {#if isNotCanceled}
+    {#if isNotCanceled && name.toLowerCase().includes('business') === false}
       <Banner {plan} {name} {price} />
     {/if}
 
