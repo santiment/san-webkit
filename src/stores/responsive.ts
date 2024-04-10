@@ -1,6 +1,7 @@
 import { getContext, setContext } from 'svelte'
 import { writable } from 'svelte/store'
 import { Device, mapWidthToDevice, responsive$, phoneDevices } from '@/responsive'
+import { BROWSER } from 'esm-env'
 // import { setSessionValue } from './utils'
 
 const checkIsMobile = (device: Device) => device !== Device.Desktop
@@ -40,7 +41,7 @@ export function Device$$(device: DeviceInfoType) {
     },
   }
 
-  if (process.browser) device$.onResize()
+  if (BROWSER) device$.onResize()
 
   return setContext(CTX, { device$ })
 }

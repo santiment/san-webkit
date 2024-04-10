@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 export enum Device {
   Desktop = 'desktop',
   Tablet = 'tablet',
@@ -6,7 +8,7 @@ export enum Device {
 }
 
 export function mapWidthToDevice(): Device {
-  if (!process.browser) return Device.Desktop
+  if (!BROWSER) return Device.Desktop
 
   const { innerWidth } = window
 

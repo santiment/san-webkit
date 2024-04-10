@@ -20,8 +20,8 @@
 
   let isOpened = false
 
-  $: annualPercentOff = annualDiscount.percent || 10
   $: altPlan = getAlternativePlan(plan, plans)
+  $: annualPercentOff = annualDiscount.percent
   $: altPlans = altPlan ? getPlansByInterval(plan, altPlan) : [plan]
   $: yearDiscount = altPlan ? calculateYearDiscount(altPlans[0], altPlans[1]) : 0
   $: saveMsg = `Save ${yearDiscount}% 🎉`
@@ -90,7 +90,7 @@
     <div class="caption txt-m c-accent">
       {#if checkIsYearlyPlan(plan)}
         {altPlan ? `You save ${getSavedAmount(plan, altPlan)} a year 🎉` : saveMsg}
-      {:else}
+      {:else if annualPercentOff}
         Save {annualPercentOff}% with yearly billing
       {/if}
     </div>

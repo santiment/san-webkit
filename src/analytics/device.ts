@@ -1,5 +1,7 @@
+import { BROWSER } from 'esm-env'
+
 export function getDeviceId(): string | undefined {
-  if (!process.browser) return
+  if (!BROWSER) return
 
   const cookies = document.cookie.split('; ')
 

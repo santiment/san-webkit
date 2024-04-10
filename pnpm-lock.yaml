@@ -11,6 +11,9 @@ dependencies:
   air-datepicker:
     specifier: ^3.3.5
     version: 3.3.5
+  esm-env:
+    specifier: ^1.0.0
+    version: 1.0.0
   fast-glob:
     specifier: ^3.2.5
     version: 3.3.0
@@ -6806,7 +6809,6 @@ packages:
 
   /esm-env@1.0.0:
     resolution: {integrity: sha512-Cf6VksWPsTuW01vU9Mk/3vRue91Zevka5SjyNf3nEpokFRuqt/KjUQoGAwq9qMmhpLTHmXzSIrFRw8zxWzmFBA==}
-    dev: true
 
   /espree@9.2.0:
     resolution: {integrity: sha512-oP3utRkynpZWF/F2x/HZJ+AGtnIclaR7z1pYPxy7NYM2fSO6LgK/Rkny8anRSPK/VwEA1eqm2squui0T7ZMOBg==}
