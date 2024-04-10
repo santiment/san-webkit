@@ -1,4 +1,5 @@
-<script>import { onDestroy } from 'svelte';
+<script>import { BROWSER } from 'esm-env';
+import { onDestroy } from 'svelte';
 import { track } from './../../analytics';
 import { queryComments } from './../../api/comments';
 import { createComment } from './../../api/comments/mutate';
@@ -28,7 +29,7 @@ let loading = false;
 let commentsNode;
 let editor;
 const updateComments = (clb) => setComments(clb(comments));
-$: if (process.browser)
+$: if (BROWSER)
     queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded);
 $: authorId = commentsFor.user.id;
 function setComments(data) {

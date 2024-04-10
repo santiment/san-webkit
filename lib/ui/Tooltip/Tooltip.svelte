@@ -1,4 +1,5 @@
-<script>import { onMount } from 'svelte';
+<script>import { BROWSER } from 'esm-env';
+import { onMount } from 'svelte';
 import { fade } from 'svelte/transition';
 import { computePosition, offset, flip, shift } from '@floating-ui/dom';
 let className = '';
@@ -112,7 +113,7 @@ onMount(() => {
 
 <slot trigger={attach} {close} />
 
-{#if process.browser && isOpened}
+{#if BROWSER && isOpened}
   <tooltip
     class="column border box txt-left {className}"
     class:dark

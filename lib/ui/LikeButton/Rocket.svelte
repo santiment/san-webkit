@@ -1,10 +1,11 @@
-<script>import Svg from './../../ui/Svg/svelte';
+<script>import { BROWSER } from 'esm-env';
+import Svg from './../../ui/Svg/svelte';
 export let rocketNode = undefined;
 </script>
 
 <div bind:this={rocketNode} class="rocket row h-center">
   <Svg id="rocket" w="13.5" h="18" />
-  {#if process.browser}
+  {#if BROWSER}
     <div class="ignited">
       <div class="fire" />
       <div class="fire" />

@@ -23,7 +23,8 @@
 ];
 </script>
 
-<script>import Menu from './Menu.svelte';
+<script>import { BROWSER } from 'esm-env';
+import Menu from './Menu.svelte';
 import NavItem from './NavItem.svelte';
 export let user;
 export let path = '';
@@ -31,7 +32,7 @@ export let isFullLink = false;
 export let links = MOBILE_NAVBAR_LINKS;
 export let isMenuOpened = false;
 $: isMenuOpened = (path, false);
-$: if (process.browser) {
+$: if (BROWSER) {
     if (isMenuOpened) {
         document.body.style.width = document.body.offsetWidth + 'px';
         document.body.style.overflowY = 'hidden';

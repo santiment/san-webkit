@@ -1,4 +1,5 @@
-<script context="module">import { queryProjects } from './../../api/projects';
+<script context="module">import { BROWSER } from 'esm-env';
+import { queryProjects } from './../../api/projects';
 import Asset from './Asset.svelte';
 import Trend from './Trend.svelte';
 import Insight from './Insight.svelte';
@@ -46,7 +47,7 @@ onMount(() => {
     document.body.classList.add('searching-IjLaAC');
 });
 onDestroy(() => {
-    if (process.browser) {
+    if (BROWSER) {
         document.body.style.width = '';
         document.body.classList.remove('searching-IjLaAC');
     }
