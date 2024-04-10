@@ -1,20 +1,20 @@
-const fs = require('fs')
-const path = require('path')
-const fg = require('fast-glob')
-const { fileURLToPath } = require('url')
-const { exec: _exec } = require('child_process')
+import fs from 'fs'
+import path from 'path'
+import fg from 'fast-glob'
+import { fileURLToPath } from 'url'
+import { exec as _exec } from 'child_process'
 
-let ROOT = path.resolve(__dirname, '..')
+export let ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 if (ROOT.includes('node_modules')) {
   ROOT = ROOT.slice(0, ROOT.indexOf('node_modules'))
 }
 
-const SRC = path.resolve(ROOT, 'src')
-const LIB = path.resolve(ROOT, 'lib')
+export const SRC = path.resolve(ROOT, 'src')
+export const LIB = path.resolve(ROOT, 'lib')
 
-const getLibPath = (filePath) => path.resolve(LIB, filePath.replace('lib/', ''))
+export const getLibPath = (filePath) => path.resolve(LIB, filePath.replace('lib/', ''))
 
-function mkdir(path) {
+export function mkdir(path) {
   if (fs.existsSync(path) === false) {
     fs.mkdirSync(path, { recursive: true }, (err) => {
       if (err) throw err
@@ -22,14 +22,14 @@ function mkdir(path) {
   }
 }
 
-async function forFile(rule, clb, opts) {
+export async function forFile(rule, clb, opts) {
   const stream = fg.stream(rule, opts)
   for await (const entry of stream) {
     clb(entry)
   }
 }
 
-function copyFile(entry) {
+export function copyFile(entry) {
   const filePath = entry.replace('src/', '')
   const libFilePath = path.resolve(LIB, filePath)
   const srcFilePath = path.resolve(SRC, filePath)
@@ -40,22 +40,11 @@ function copyFile(entry) {
   fs.writeFileSync(libFilePath, file)
 }
 
-function exec(cmd, includeStdout = true) {
+export function exec(cmd, includeStdout = true) {
   return new Promise((resolve) => {
     const executed = _exec(cmd, (error, stdout, stderr) => {
       return resolve([stdout, error || stderr])
     })
     if (includeStdout) executed.stdout.pipe(process.stdout)
   })
-}
-
-module.exports = {
-  ROOT,
-  SRC,
-  LIB,
-  getLibPath,
-  mkdir,
-  forFile,
-  copyFile,
-  exec,
 }
