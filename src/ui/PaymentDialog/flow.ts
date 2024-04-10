@@ -130,7 +130,7 @@ export async function start3DSPaymentFlow(
   if (!clientSecret) return Promise.reject('Unable to get SetupIntent clientSecret')
 
   const { card, checkoutInfo, planId, coupon } = variables
-  // const cardTokenPromise = createCardToken(stripe, card, checkoutInfo)
+  const cardTokenPromise = createCardToken(stripe, card, checkoutInfo)
 
   const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
     clientSecret,
@@ -151,8 +151,6 @@ export async function start3DSPaymentFlow(
     { handleActions: false },
   )
 
-  console.log({ clientSecret, setupIntent })
-
   if (confirmError) {
     // Report to the browser that the payment failed, prompting it to
     // re-show the payment interface, or show an error message and close
@@ -164,53 +162,52 @@ export async function start3DSPaymentFlow(
     return Promise.reject('setupIntent error')
   }
 
-  return mutateSubscribe({
-    planId: +planId,
-    // cardToken: cardToken?.id,
-    coupon,
-    paymentMethodId: setupIntent.payment_method,
-  }).then(async (sub) => {
-    console.log(sub)
-
-    window.paymentIntentSecretPromise = Promise.withResolvers()
-    const secret = await window.paymentIntentSecretPromise.promise
-    const { error } = await stripe.confirmCardPayment(secret)
-
-    console.log(error)
-
-    return sub
-  })
+  if (!setupIntent.payment_method) {
+    return Promise.reject('paymentMethod is missing')
+  }
 
   // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
   // handle the flow. If using an API version older than "2019-02-11"
   // instead check for: `paymentIntent.status === "requires_source_action"`.
-  if (setupIntent.status === 'requires_action') {
+  if (setupIntent?.status === 'requires_action') {
     // Let Stripe.js handle the rest of the payment flow.
-
-    window.paymentIntentSecretPromise = Promise.withResolvers()
-    const secret = await window.paymentIntentSecretPromise.promise
-    const { error } = await stripe.confirmCardPayment(secret)
-    // const { error, } = await stripe.confirmCardPayment(clientSecret)
-
-    // console.log(_setupIntent)
+    const { error } = await stripe.confirmCardSetup(clientSecret)
 
     if (error) {
-      console.error({ error })
+      console.log({ error })
       return Promise.reject('3DS setupIntent error')
       // The payment failed -- ask your customer for a new payment method.
     }
   }
 
-  if (!setupIntent.payment_method) {
-    return Promise.reject('setupIntent payment method missing')
-  }
-
-  // const cardToken = await cardTokenPromise.catch(() => null)
+  const cardToken = await cardTokenPromise.catch(() => null)
 
   return mutateSubscribe({
     planId: +planId,
-    // cardToken: cardToken?.id,
+    cardToken: cardToken?.id,
     coupon,
     paymentMethodId: setupIntent.payment_method,
+  }).then(async (sub) => {
+    if (!sub.paymentIntent?.clientSecret) return sub
+
+    // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
+    // handle the flow. If using an API version older than "2019-02-11"
+    // instead check for: `paymentIntent.status === "requires_source_action"`.
+    if (setupIntent.status === 'requires_action') {
+      // Let Stripe.js handle the rest of the payment flow.
+      const { error } = await stripe.confirmCardPayment(sub.paymentIntent.clientSecret)
+
+      if (error) {
+        console.error(error)
+        return Promise.reject('3DS setupIntent error')
+        // The payment failed -- ask your customer for a new payment method.
+      } else {
+        sub.status = 'ACTIVE'
+      }
+    }
+
+    console.log(sub)
+
+    return sub
   })
 }

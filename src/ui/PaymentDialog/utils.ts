@@ -13,7 +13,9 @@ import { start3DSPaymentFlow } from './flow'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
+  mastercard: { id: 'mastercard', w: 33, h: 20 },
   Visa: { id: 'visa', w: 46.5, h: 16 },
+  visa: { id: 'visa', w: 46.5, h: 16 },
 }
 
 export const checkSanDiscount = (sanBalance: number) => sanBalance >= 1000

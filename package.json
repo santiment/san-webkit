@@ -37,6 +37,7 @@
   "dependencies": {
     "@floating-ui/dom": "^1.2.7",
     "air-datepicker": "^3.3.5",
+    "esm-env": "^1.0.0",
     "fast-glob": "^3.2.5",
     "patch-package": "^6.4.7"
   },
