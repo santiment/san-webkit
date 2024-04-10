@@ -57,8 +57,8 @@ function onAllowAllClick() {
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-gTFV4b"
-  titleClassName="title-s9RzJG"
+  class="dialog-FII0qi"
+  titleClassName="title-9JHgGp"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -128,7 +128,7 @@ function onAllowAllClick() {
   }
 }
 */
-:global(.dialog-gTFV4b) {
+:global(.dialog-FII0qi) {
   max-width: 600px !important;
 }
 
@@ -147,10 +147,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-gTFV4b) {
+:global(body:not(.desktop)) :global(.dialog-FII0qi) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-s9RzJG) {
+:global(body:not(.desktop)) :global(.title-9JHgGp) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

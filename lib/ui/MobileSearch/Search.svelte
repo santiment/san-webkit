@@ -43,12 +43,12 @@ let searchTerm = '';
 let type = FILTER_ITEMS.Assets;
 onMount(() => {
     document.body.style.width = document.body.offsetWidth + 'px';
-    document.body.classList.add('searching-IjLaAC');
+    document.body.classList.add('searching-w_fDEq');
 });
 onDestroy(() => {
     if (process.browser) {
         document.body.style.width = '';
-        document.body.classList.remove('searching-IjLaAC');
+        document.body.classList.remove('searching-w_fDEq');
     }
 });
 </script>
@@ -72,7 +72,7 @@ onDestroy(() => {
     padding: 16px 0 83px;
   }
 
-  :global(.searching-IjLaAC) {
+  :global(.searching-w_fDEq) {
     overflow-y: 'hidden';
     touch-action: 'none';
   }
