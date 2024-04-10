@@ -2,10 +2,9 @@
   import { getCustomer$Ctx } from '@/stores/customer'
   import Svg from '@/ui/Svg/svelte'
   import {
-    Billing,
-    formatMonthlyPrice,
-    getAlternativePlan,
-    getSavedAmount,
+    calculateYearDiscount,
+    formatPrice,
+    checkIsBusinessPlan,
     Plan,
     PlanName,
   } from '@/utils/plans'
@@ -15,55 +14,62 @@
 
   let className = ''
   export { className as class }
-  export let plan: SAN.Plan
-  export let plans: SAN.Plan[]
+  export let monthPlan: SAN.Plan
+  export let yearPlan = monthPlan
+  export let plans: SAN.Plan[] = []
 
   const { customer$ } = getCustomer$Ctx()
   $: customer = $customer$
-  $: ({ annualDiscount, subscription } = customer)
+  $: ({ subscription } = customer)
 
-  $: ({ id, name, interval } = plan)
+  $: ({ name } = monthPlan)
   $: isOnTrial = subscription && checkIsTrialSubscription(subscription)
-  $: isTrialPlan = isOnTrial && subscription?.plan.id === id
-  $: isAnnualPlan = interval === Billing.YEAR
+  $: currentPlanId = subscription?.plan.id
+  $: isTrialPlan = isOnTrial && (currentPlanId === monthPlan.id || currentPlanId === yearPlan.id)
+
+  $: isBusiness = checkIsBusinessPlan(monthPlan)
+
   $: isFreePlan = name.includes(Plan.FREE)
-  $: altPlan = getAlternativePlan(plan, plans) as SAN.Plan
+  $: isCustomPlan = name.includes(Plan.CUSTOM)
+
   $: ({ description, features } = PlanDescription[name])
-  $: percentOff = (isAnnualPlan && annualDiscount.percent) || 0
-  $: monthlyPrice = formatMonthlyPrice(plan, percentOff)
 
-  function getBillingDescription(currentPlan, fallbackPlan, discount) {
-    if (isFreePlan) {
-      return 'Free forever'
-    }
+  $: monthPrice = formatPrice(monthPlan)
+  $: yearPrice = formatPrice(yearPlan)
 
-    if (isAnnualPlan) {
-      return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`
-    }
-
-    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`
-  }
+  $: priceText = isCustomPlan ? 'Get a quote' : monthPrice
+  $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan)
 </script>
 
-<div class="plan txt-center relative {className}" class:free={isFreePlan}>
+<div class="plan txt-center relative {className}" class:isBusiness class:free={isFreePlan}>
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
-  {#if isAnnualPlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
-
   <div class="description c-waterloo">{description}</div>
 
   <div class="price row h-center h2 txt-m mrg-xs mrg--b">
-    {monthlyPrice}
-    {#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>{/if}
+    {priceText}
+    {#if !isFreePlan && !isCustomPlan}
+      <span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>
+    {/if}
   </div>
 
-  <div class="body-2 c-waterloo">
-    {getBillingDescription(plan, altPlan, percentOff)}
+  <div class="body-2 c-fiord">
+    {#if isFreePlan}
+      Free forever
+    {:else if isCustomPlan}
+      Based on your needs
+    {:else}
+      <span class="c-black">{yearPrice}</span>
+      <span class="c-waterloo">/ year</span>
+      {#if yearDiscount}
+        <span class="discount body-3 mrg-s mrg--l">- {yearDiscount}% 🎉</span>
+      {/if}
+    {/if}
   </div>
 
-  <PlanButton {plan} {plans} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
+  <PlanButton plan={monthPlan} {plans} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
@@ -73,12 +79,18 @@
   {/each}
 </div>
 
-<style>
+<style lang="scss">
   .plan {
     --accent: var(--orange);
     --accent-hover: var(--orange-hover);
     --accent-light-1: var(--orange-light-1);
     padding: 32px var(--h-padding, 24px);
+
+    &.isBusiness {
+      --accent: var(--blue);
+      --accent-hover: var(--blue-hover);
+      --accent-light-1: var(--blue-light-1);
+    }
   }
 
   .name {
@@ -86,7 +98,6 @@
     background: var(--name-bg, var(--accent-light-1));
     border-radius: 4px;
     display: inline-block;
-    text-transform: uppercase;
     color: var(--name-color, var(--accent));
   }
 
@@ -114,9 +125,7 @@
   }
 
   .discount {
-    right: 9px;
-    color: var(--green);
-    background: var(--green-light-1);
+    color: var(--accent);
   }
 
   .description {

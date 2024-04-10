@@ -1,13 +1,8 @@
-<script>import { getCustomer$Ctx } from './../../../stores/customer';
-import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans';
+<script>import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans';
 import PlanButton from '../PlanButton.svelte';
 export let plan;
-export let plans;
+export let plans = [];
 export let discount = 0;
-export let isEligibleForTrial;
-export let isLoggedIn = false;
-const { customer$ } = getCustomer$Ctx();
-$: ({ subscription } = $customer$);
 $: ({ name } = plan);
 $: isFreePlan = name.includes(Plan.FREE);
 </script>
@@ -24,16 +19,7 @@ $: isFreePlan = name.includes(Plan.FREE);
     </span>
   </h3>
 
-  <PlanButton
-    {plan}
-    {plans}
-    {isEligibleForTrial}
-    {isLoggedIn}
-    {isFreePlan}
-    {subscription}
-    class="mrg-m mrg--t"
-    source="pricing-compare-table"
-  />
+  <PlanButton {plan} {plans} class="mrg-m mrg--t" source="pricing-compare-table" />
 </div>
 
 <style>

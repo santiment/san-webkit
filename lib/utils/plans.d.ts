@@ -10,24 +10,46 @@ export declare const ProductNameById: {
     readonly 1: Product.SANAPI;
     readonly 2: Product.SANBASE;
 };
+export declare const nonDeprecatedFilter: ({ isDeprecated }: {
+    isDeprecated: boolean;
+}) => boolean;
 export declare const keepNonDeprecatedPlans: (plans: SAN.Plan[]) => SAN.Plan[];
 export declare const checkIsSanbaseProduct: (product: Pick<SAN.Product, 'id'>) => boolean;
+export declare const checkIsSanApiProduct: (product: Pick<SAN.Product, 'id'>) => boolean;
 export declare enum Plan {
+    PRO_PLUS = "PRO_PLUS",
     FREE = "FREE",
     PRO = "PRO",
-    PRO_PLUS = "PRO_PLUS"
+    MAX = "MAX",
+    BUSINESS_PRO = "BUSINESS_PRO",
+    BUSINESS_MAX = "BUSINESS_MAX",
+    CUSTOM = "CUSTOM"
 }
+export declare const INDIVIDUAL_PLANS: Set<Plan>;
+export declare const BUSINESS_PLANS: Set<Plan>;
 export declare const PlanName: {
-    readonly FREE: "Free";
-    readonly PRO: "Pro";
     readonly PRO_PLUS: "Pro+";
+    readonly FREE: "FREE";
+    readonly PRO: "Sanbase Pro";
+    readonly MAX: "Sanbase Max";
+    readonly BUSINESS_PRO: "Business Pro";
+    readonly BUSINESS_MAX: "Business Max";
+    readonly CUSTOM: "Enterprise";
 };
 export declare enum Billing {
     MONTH = "month",
     YEAR = "year"
 }
+export declare enum PlanType {
+    INDIVIDUAL = "individual",
+    BUSINESS = "business"
+}
+export declare const checkIsIndividualPlan: ({ name }: SAN.Plan) => boolean;
+export declare const checkIsBusinessPlan: ({ name }: SAN.Plan) => boolean;
+export declare const checkIsPlanWithPrice: ({ amount }: SAN.Plan) => boolean;
 export declare const checkIsYearlyPlan: ({ interval }: Pick<SAN.Plan, 'interval'>) => boolean;
 export declare const calcDiscount: (percentOff?: number) => number;
+export declare function calculateYearDiscount(monthPlan: SAN.Plan, yearPlan: SAN.Plan): number;
 export declare const getPrice: (amount: number, percentOff?: number) => number;
 export declare function getPlanMonthPrice({ amount, interval }: Pick<SAN.Plan, 'amount' | 'interval'>, percentOff?: number): number;
 export declare const priceFormatter: (price: number) => string;

@@ -1,117 +1,136 @@
 <script>import { getCustomer$Ctx } from './../../stores/customer';
 import Svg from './../../ui/Svg/svelte';
-import { Billing, formatMonthlyPrice, getAlternativePlan, getSavedAmount, Plan, PlanName, } from './../../utils/plans';
+import { calculateYearDiscount, formatPrice, checkIsBusinessPlan, Plan, PlanName, } from './../../utils/plans';
 import { checkIsTrialSubscription } from './../../utils/subscription';
 import PlanButton from './PlanButton.svelte';
 import { PlanDescription } from './description';
 let className = '';
 export { className as class };
-export let plan;
-export let plans;
+export let monthPlan;
+export let yearPlan = monthPlan;
+export let plans = [];
 const { customer$ } = getCustomer$Ctx();
 $: customer = $customer$;
-$: ({ annualDiscount, subscription } = customer);
-$: ({ id, name, interval } = plan);
+$: ({ subscription } = customer);
+$: ({ name } = monthPlan);
 $: isOnTrial = subscription && checkIsTrialSubscription(subscription);
-$: isTrialPlan = isOnTrial && (subscription === null || subscription === void 0 ? void 0 : subscription.plan.id) === id;
-$: isAnnualPlan = interval === Billing.YEAR;
+$: currentPlanId = subscription === null || subscription === void 0 ? void 0 : subscription.plan.id;
+$: isTrialPlan = isOnTrial && (currentPlanId === monthPlan.id || currentPlanId === yearPlan.id);
+$: isBusiness = checkIsBusinessPlan(monthPlan);
 $: isFreePlan = name.includes(Plan.FREE);
-$: altPlan = getAlternativePlan(plan, plans);
+$: isCustomPlan = name.includes(Plan.CUSTOM);
 $: ({ description, features } = PlanDescription[name]);
-$: percentOff = (isAnnualPlan && annualDiscount.percent) || 0;
-$: monthlyPrice = formatMonthlyPrice(plan, percentOff);
-function getBillingDescription(currentPlan, fallbackPlan, discount) {
-    if (isFreePlan) {
-        return 'Free forever';
-    }
-    if (isAnnualPlan) {
-        return `You save ${getSavedAmount(currentPlan, fallbackPlan, discount)} a year`;
-    }
-    return `${formatMonthlyPrice(fallbackPlan, discount)} if billed yearly`;
-}
+$: monthPrice = formatPrice(monthPlan);
+$: yearPrice = formatPrice(yearPlan);
+$: priceText = isCustomPlan ? 'Get a quote' : monthPrice;
+$: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
 </script>
 
-<div class="plan txt-center relative {className}" class:free={isFreePlan}>
+<div class="plan txt-center relative {className}" class:isBusiness class:free={isFreePlan}>
   <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
-  {#if isAnnualPlan && percentOff}<div class="discount label">{percentOff}% Off</div>{/if}
-
   <div class="description c-waterloo">{description}</div>
 
   <div class="price row h-center h2 txt-m mrg-xs mrg--b">
-    {monthlyPrice}
-    {#if !isFreePlan}<span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>{/if}
+    {priceText}
+    {#if !isFreePlan && !isCustomPlan}
+      <span class="h4 txt-r c-waterloo mrg-xs mrg--l mrg--b">/ mo</span>
+    {/if}
   </div>
 
-  <div class="body-2 c-waterloo">
-    {getBillingDescription(plan, altPlan, percentOff)}
+  <div class="body-2 c-fiord">
+    {#if isFreePlan}
+      Free forever
+    {:else if isCustomPlan}
+      Based on your needs
+    {:else}
+      <span class="c-black">{yearPrice}</span>
+      <span class="c-waterloo">/ year</span>
+      {#if yearDiscount}
+        <span class="discount body-3 mrg-s mrg--l">- {yearDiscount}% 🎉</span>
+      {/if}
+    {/if}
   </div>
 
-  <PlanButton {plan} {plans} {isFreePlan} class="mrg-l mrg--t mrg--b" source="pricing-card" />
+  <PlanButton plan={monthPlan} {plans} class="mrg-l mrg--t mrg--b" source="pricing-card" />
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-sf06Ra" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-aSaV5h" />
       {feature}
     </div>
   {/each}
 </div>
 
-<style>
-  .plan {
-    --accent: var(--orange);
-    --accent-hover: var(--orange-hover);
-    --accent-light-1: var(--orange-light-1);
-    padding: 32px var(--h-padding, 24px);
+<style >/**
+@include dac(desktop, tablet, phone) {
+  main {
+    background: red;
   }
+}
+*/
+/**
+@include dacnot(desktop) {
+  main {
+    background: red;
+  }
+}
+*/
+.plan {
+  --accent: var(--orange);
+  --accent-hover: var(--orange-hover);
+  --accent-light-1: var(--orange-light-1);
+  padding: 32px var(--h-padding, 24px);
+}
+.plan.isBusiness {
+  --accent: var(--blue);
+  --accent-hover: var(--blue-hover);
+  --accent-light-1: var(--blue-light-1);
+}
 
-  .name {
-    padding: 4px 12px;
-    background: var(--name-bg, var(--accent-light-1));
-    border-radius: 4px;
-    display: inline-block;
-    text-transform: uppercase;
-    color: var(--name-color, var(--accent));
-  }
+.name {
+  padding: 4px 12px;
+  background: var(--name-bg, var(--accent-light-1));
+  border-radius: 4px;
+  display: inline-block;
+  color: var(--name-color, var(--accent));
+}
 
-  .price {
-    align-items: flex-end;
-  }
+.price {
+  align-items: flex-end;
+}
 
-  .free {
-    --name-bg: var(--athens);
-    --name-color: var(--fiord);
-    --fill-checkmark: var(--waterloo);
-  }
+.free {
+  --name-bg: var(--athens);
+  --name-color: var(--fiord);
+  --fill-checkmark: var(--waterloo);
+}
 
-  .label {
-    position: absolute;
-    padding: 4px 8px;
-    top: 9px;
-    border-radius: 4px;
-  }
+.label {
+  position: absolute;
+  padding: 4px 8px;
+  top: 9px;
+  border-radius: 4px;
+}
 
-  .trial {
-    left: 9px;
-    color: var(--fiord);
-    background: var(--athens);
-  }
+.trial {
+  left: 9px;
+  color: var(--fiord);
+  background: var(--athens);
+}
 
-  .discount {
-    right: 9px;
-    color: var(--green);
-    background: var(--green-light-1);
-  }
+.discount {
+  color: var(--accent);
+}
 
-  .description {
-    margin: 16px auto;
-    max-width: 160px;
-  }
+.description {
+  margin: 16px auto;
+  max-width: 160px;
+}
 
-  :global(.checkmark-sf06Ra) {
-    margin: 2px 10px 0 0;
-    fill: var(--fill-checkmark, var(--accent));
-  }
-</style>
+:global(.checkmark-aSaV5h) {
+  margin: 2px 10px 0 0;
+  fill: var(--fill-checkmark, var(--accent));
+}</style>

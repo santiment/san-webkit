@@ -1,23 +1,25 @@
 <script>import { getCustomer$Ctx } from './../../stores/customer';
-import { Billing } from './../../utils/plans';
+import { Billing, Plan } from './../../utils/plans';
 import { dataPreloader, showPaymentDialog } from './../../ui/PaymentDialog/index.svelte';
 import { showPlanChangeDialog } from './PlanChangeDialog.svelte';
 import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils';
 let className = '';
 export { className as class };
 export let plan;
-export let isFreePlan = false;
 export let source;
 export let plans = [];
 const { customer$ } = getCustomer$Ctx();
 $: customer = $customer$;
 $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer);
-$: ({ id } = plan);
+$: ({ id, name } = plan);
+$: isCustomPlan = name === Plan.CUSTOM;
+$: isFreePlan = name === Plan.FREE;
 $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn;
 $: isUpgrade = checkIsUpgrade(plan, subscription);
 $: isDowngrade = isUpgrade !== undefined && !isUpgrade;
-$: label = (plan, subscription, isLoggedIn, isFreePlan, annualDiscount, isUpgrade, getLabel());
-function getLabel() {
+$: label = (() => {
+    if (isCustomPlan)
+        return 'Let’s talk!';
     if (!isLoggedIn)
         return isFreePlan ? 'Create an account' : 'Get started';
     if (subscription && isFreePlan) {
@@ -37,11 +39,12 @@ function getLabel() {
     if (isDowngrade)
         return 'Downgrade';
     return 'Buy now';
-}
+})();
 function onClick() {
+    var _a;
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
     if (!isLoggedIn) {
-        return window.__onLinkClick('/login');
+        return (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
     }
     if (!annualDiscount.isEligible) {
         if (isUpgrade || isDowngrade) {

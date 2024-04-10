@@ -1,16 +1,28 @@
 <script>import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
-import Tooltip from './../../ui/Tooltip/svelte';
-import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, } from './../../utils/plans';
+import Tooltip from './../../ui/Tooltip';
+import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, calculateYearDiscount, } from './../../utils/plans';
 export let plans;
 export let plan;
 export let price;
 export let selectedNameBilling;
-export let isSinglePlan;
 export let annualDiscount;
 let isOpened = false;
 $: annualPercentOff = annualDiscount.percent || 10;
 $: altPlan = getAlternativePlan(plan, plans);
+$: altPlans = altPlan ? getPlansByInterval(plan, altPlan) : [plan];
+$: yearDiscount = altPlan ? calculateYearDiscount(altPlans[0], altPlans[1]) : 0;
+$: saveMsg = `Save ${yearDiscount}% 🎉`;
+$: isSinglePlan = checkIsSinglePlan(plans);
+function checkIsSinglePlan(plans) {
+    if (plans.length !== 2)
+        return false;
+    const [first, second] = plans;
+    if (first.name !== second.name)
+        return false;
+    return first.interval !== second.interval;
+}
+const getPlansByInterval = (plan, altPlan) => plan.interval === Billing.MONTH ? [plan, altPlan] : [altPlan, plan];
 function select(option) {
     plan = option;
     isOpened = false;
@@ -21,15 +33,22 @@ function select(option) {
         amount: plan.amount,
     });
 }
-const SAVED_MSG = 'Save 10% 🎉';
 </script>
 
 <div class="row justify mrg-l mrg--b">
   <div class="relative">
-    <Tooltip bind:isOpened on="click" offsetY={0} activeClass="opened-GG2orY">
-      <button type="button" slot="trigger" class="selector btn body-1 txt-b" on:click>
+    <Tooltip
+      bind:isOpened
+      on="click"
+      activeClass="opened-XraHBL"
+      position="bottom-start"
+      clickaway
+      margin={{ mainAxis: 2, crossAxis: -16 }}
+      let:trigger
+    >
+      <button type="button" use:trigger class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="8" h="4.5" class="arrow-jQqfeN mrg-xs mrg--l" />
+        <Svg id="arrow" w="10" class="arrow-QL4cGG mrg-xs mrg--l" />
       </button>
 
       <div slot="tooltip" class="column">
@@ -45,7 +64,7 @@ const SAVED_MSG = 'Save 10% 🎉';
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 
             {#if checkIsYearlyPlan(option)}
-              <span class="mrg-s mrg--l caption c-accent">{SAVED_MSG}</span>
+              <span class="mrg-s mrg--l caption c-accent">{saveMsg}</span>
             {/if}
           </button>
         {/each}
@@ -54,7 +73,7 @@ const SAVED_MSG = 'Save 10% 🎉';
 
     <div class="caption txt-m c-accent">
       {#if checkIsYearlyPlan(plan)}
-        {altPlan ? `You save ${getSavedAmount(plan, altPlan)} a year 🎉` : SAVED_MSG}
+        {altPlan ? `You save ${getSavedAmount(plan, altPlan)} a year 🎉` : saveMsg}
       {:else}
         Save {annualPercentOff}% with yearly billing
       {/if}
@@ -69,14 +88,16 @@ const SAVED_MSG = 'Save 10% 🎉';
 
 <style>
   .selector {
-    --fill: var(--casper);
-    --fill-hover: var(--accent);
+    --fill: var(--waterloo);
+    --fill-hover: var(--waterloo);
   }
-  :global(.opened-GG2orY) {
+
+  :global(.opened-XraHBL) {
     --rotate: 0;
   }
 
-  :global(.arrow-jQqfeN) {
+  :global(.arrow-QL4cGG) {
+    transition: transform 0.2s;
     transform: rotate(var(--rotate, 180deg));
   }
 

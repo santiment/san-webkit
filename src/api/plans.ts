@@ -1,5 +1,12 @@
 import { mutate, query } from '@/api'
-import { keepNonDeprecatedPlans, checkIsSanbaseProduct } from '@/utils/plans'
+import {
+  keepNonDeprecatedPlans,
+  checkIsSanbaseProduct,
+  nonDeprecatedFilter,
+  checkIsIndividualPlan,
+  checkIsBusinessPlan,
+  checkIsSanApiProduct,
+} from '@/utils/plans'
 import { Cache } from './cache'
 
 export const PLANS_QUERY = `{
@@ -15,7 +22,7 @@ export const PLANS_QUERY = `{
   }
 }`
 
-type ProductPlans = SAN.Product & {
+export type ProductPlans = SAN.Product & {
   plans: SAN.Plan[]
 }
 type Query = SAN.API.Query<'productsWithPlans', ProductPlans[]>
@@ -31,7 +38,35 @@ export const queryProductPlans = (
 ) => queryPlans().then(productGetter).then(plansFilter)
 
 const getSanbasePlans: ProductGetter = (products) => products.find(checkIsSanbaseProduct)?.plans
+
+const filterPlans = (plans: SAN.Plan[], ...selectors: ((p: SAN.Plan) => boolean)[]) =>
+  plans.filter((p) => selectors.every((s) => s(p)))
+
+const findProductPlans = (
+  products: Awaited<ReturnType<typeof queryPlans>>,
+  selector: (product: SAN.Product) => boolean,
+) => products.find(selector)?.plans ?? []
+
+export const getIndividualPlans = (products: ProductPlans[]) =>
+  filterPlans(
+    findProductPlans(products, checkIsSanbaseProduct),
+    nonDeprecatedFilter,
+    checkIsIndividualPlan,
+  )
+
+export const getBusinessPlans = (products: ProductPlans[]) =>
+  filterPlans(
+    findProductPlans(products, checkIsSanApiProduct),
+    nonDeprecatedFilter,
+    checkIsBusinessPlan,
+  )
+
 export const querySanbasePlans = () => queryProductPlans(getSanbasePlans)
+
+export function getCachedProducts() {
+  const cached = Cache.get<Query>(PLANS_QUERY)
+  return cached && accessor(cached)
+}
 
 export function getCachedSanbasePlans() {
   const cached = Cache.get<Query>(PLANS_QUERY)

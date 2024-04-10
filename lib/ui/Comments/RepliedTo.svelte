@@ -10,7 +10,7 @@ $: comment = getRepliedToComment(id);
 {#if comment}
   <a class="caption btn row" href="#comment-{id}" on:click|capture={scrollToReply}>
     <div class="line-clamp">
-      <Author user={comment.user} class="comment-hax0nc" />
+      <Author user={comment.user} class="comment-vpXICQ" />
       {' ' + markdownToPlainText(comment.content)}
     </div>
   </a>
@@ -64,12 +64,12 @@ div :global(.img) {
   text-align: center;
 }
 
-:global(.comment-hax0nc) {
+:global(.comment-vpXICQ) {
   display: inline-flex !important;
   align-items: baseline !important;
 }
 
 div,
-:global(.comment-hax0nc) {
+:global(.comment-vpXICQ) {
   --color: var(--fiord) !important;
 }</style>

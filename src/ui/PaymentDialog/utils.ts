@@ -17,11 +17,11 @@ export const CardBrandIllustration = {
 
 export const checkSanDiscount = (sanBalance: number) => sanBalance >= 1000
 
-export function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean) {
+export function mapPlans(plans: SAN.Plan[], ...plansFilters: ((plan: SAN.Plan) => boolean)[]) {
   const PlanBillings = {} as { [key: string]: SAN.Plan[] }
 
   plans.forEach((plan) => {
-    if (!plansFilter(plan)) return
+    if (!plansFilters.every((f) => f(plan))) return
 
     const planBillings = PlanBillings[plan.name]
     if (planBillings) planBillings.push(plan)

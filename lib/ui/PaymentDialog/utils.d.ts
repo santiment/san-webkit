@@ -12,7 +12,7 @@ export declare const CardBrandIllustration: {
     };
 };
 export declare const checkSanDiscount: (sanBalance: number) => boolean;
-export declare function mapPlans(plans: SAN.Plan[], plansFilter: (plan: SAN.Plan) => boolean): any;
+export declare function mapPlans(plans: SAN.Plan[], ...plansFilters: ((plan: SAN.Plan) => boolean)[]): any;
 type FormData = {
     name: string;
     discount?: string;

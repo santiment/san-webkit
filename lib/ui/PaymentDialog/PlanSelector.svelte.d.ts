@@ -5,7 +5,6 @@ declare const __propDef: {
         plan: SAN.Plan;
         price: string;
         selectedNameBilling: string;
-        isSinglePlan: boolean;
         annualDiscount: any;
     };
     events: {

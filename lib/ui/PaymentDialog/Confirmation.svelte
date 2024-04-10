@@ -11,7 +11,6 @@ export let plans;
 export let plan;
 export let name;
 export let price;
-export let isSinglePlan;
 export let isEligibleForTrial;
 export let loading;
 export let annualDiscount;
@@ -26,7 +25,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
 
 <div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
-    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} {isSinglePlan} />
+    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} />
 
     {#if isAnnualPlan && annualDiscount.isEligible}
       <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.percent} />
@@ -34,7 +33,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
       <DiscountInput bind:percentOff bind:ctx />
 
       <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="info-oHzMj0 mrg-s mrg--r" />
+        <Svg id="info" w="16" class="info-MfZEma mrg-s mrg--r" />
         <div>
           Holding 1000 SAN tokens will result in a 20% discount.
           <a
@@ -93,7 +92,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   max-width: 355px;
 }
 
-:global(.info-oHzMj0) {
+:global(.info-MfZEma) {
   margin-top: 2px;
 }
 

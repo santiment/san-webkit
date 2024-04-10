@@ -8,12 +8,11 @@ declare const __propDef: {
         DialogPromise: SAN.DialogController;
         plan?: Plan.PRO | undefined;
         interval?: SAN.PlanInterval | undefined;
-        isSinglePlan?: boolean | undefined;
-        plansFilter?: (({ name }: SAN.Plan) => boolean) | undefined;
+        plansFilter?: ((_: SAN.Plan) => boolean) | undefined;
         onPaymentSuccess?: (() => void) | undefined;
         onPaymentError: any;
         source: string;
-        planData: any;
+        planData: SAN.Plan;
         plans?: SAN.Plan[] | undefined;
     };
     events: {

@@ -3,8 +3,9 @@ import { Plan } from './../../utils/plans';
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        plan: SAN.Plan;
-        plans: SAN.Plan[];
+        monthPlan: SAN.Plan;
+        yearPlan?: SAN.Plan | undefined;
+        plans?: SAN.Plan[] | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

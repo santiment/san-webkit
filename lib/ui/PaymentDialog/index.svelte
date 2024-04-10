@@ -1,11 +1,11 @@
-<script context="module">import { querySanbasePlans, getCachedSanbasePlans } from './../../api/plans';
-import { formatPrice, onlyProLikePlans, Plan } from './../../utils/plans';
+<script context="module">import { queryPlans, getCachedProducts, getBusinessPlans, getIndividualPlans } from './../../api/plans';
+import { formatPrice, checkIsBusinessPlan, checkIsPlanWithPrice, Plan } from './../../utils/plans';
 import { Preloader } from './../../utils/fn';
 import { stripe } from './../../stores/stripe';
 import { dialogs } from './../../ui/Dialog';
 import PaymentDialog from './index.svelte';
 export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props);
-const preloadData = () => (querySanbasePlans(), paymentCard$.query(), stripe.load());
+const preloadData = () => (queryPlans(), paymentCard$.query(), stripe.load());
 export const dataPreloader = Preloader(preloadData);
 </script>
 
@@ -26,8 +26,7 @@ export let DialogPromise;
 let defaultPlan = Plan.PRO;
 export { defaultPlan as plan };
 export let interval = 'year';
-export let isSinglePlan = false;
-export let plansFilter = onlyProLikePlans;
+export let plansFilter = (_) => true;
 export let onPaymentSuccess = () => { };
 export let onPaymentError;
 export let source;
@@ -35,11 +34,19 @@ export let planData;
 export let plans = [];
 const { customer$ } = getCustomer$Ctx();
 let closeDialog;
-let plan = {};
+let plan = planData !== null && planData !== void 0 ? planData : {};
 let loading = false;
 let StripeCard;
 let savedCard = $paymentCard$;
-if (process.browser) {
+$: isBusiness = checkIsBusinessPlan(plan);
+$: customer = $customer$;
+$: ({ subscription } = customer);
+$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+// TODO: make customer data accesible via context
+$: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
+$: name = PlanName[plan.name] || plan.name;
+$: price = name ? formatPrice(plan) : '';
+$: if (process.browser) {
     const { id, name, amount } = planData || {};
     trackPaymentFormOpened({
         plan: name,
@@ -48,27 +55,22 @@ if (process.browser) {
         amount,
         source,
     });
-    getPlans();
+    getPlans(plans, isBusiness);
 }
-$: customer = $customer$;
-$: ({ subscription } = customer);
-$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
-// TODO: make customer data accesible via context
-$: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
-$: name = PlanName[plan.name] || plan.name;
-$: price = name ? formatPrice(plan) : '';
 function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing;
 }
-function getPlans() {
-    const cached = plans.length ? plans : getCachedSanbasePlans();
-    if (cached)
-        setPlans(cached);
-    else
-        querySanbasePlans().then(setPlans);
+async function getDefaultPlans(isBusiness) {
+    var _a;
+    const products = (_a = getCachedProducts()) !== null && _a !== void 0 ? _a : (await queryPlans());
+    return isBusiness ? getBusinessPlans(products) : getIndividualPlans(products);
+}
+async function getPlans(plans, isBusiness) {
+    const cachedPlans = plans.length ? plans : await getDefaultPlans(isBusiness);
+    setPlans(cachedPlans);
 }
 function setPlans(data) {
-    plans = mapPlans(data, plansFilter);
+    plans = mapPlans(data, checkIsPlanWithPrice, plansFilter);
     plan = plans.find(findDefaultPlan) || plans[0];
 }
 function onChange() {
@@ -124,7 +126,6 @@ onDestroy(() => {
         {name}
         {price}
         {annualDiscount}
-        {isSinglePlan}
         {isEligibleForTrial}
         {loading}
         {source}

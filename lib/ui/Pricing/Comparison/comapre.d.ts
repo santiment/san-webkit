@@ -119,5 +119,6 @@ export declare const PlanFeatures: {
         'Embed charts': string;
         'Custom Alerts': number;
     };
+    MAX: {};
     PRO_PLUS: {};
 };

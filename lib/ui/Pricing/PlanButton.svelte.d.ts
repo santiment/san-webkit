@@ -1,9 +1,9 @@
 import { SvelteComponentTyped } from "svelte";
+import { Plan } from './../../utils/plans';
 declare const __propDef: {
     props: {
         class?: string | undefined;
         plan: SAN.Plan;
-        isFreePlan?: boolean | undefined;
         source: string;
         plans?: SAN.Plan[] | undefined;
     };

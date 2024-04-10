@@ -8,6 +8,7 @@ export type CustomerType = {
     isIncompleteSubscription: boolean;
     isPro: boolean;
     isProPlus: boolean;
+    isMax: boolean;
     isTrial: boolean;
     trialDaysLeft: number;
     planName: string;

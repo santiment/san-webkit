@@ -56,7 +56,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-Odn3+C">
+  <Setting class="subscriptions-rngeTM">
     <UserPlanCard
       {plan}
       {subscription}
@@ -85,7 +85,7 @@ function getPlanSuggestions() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-gBUUvI justify">
+    <Setting class="setting-HUtdzp justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -98,7 +98,7 @@ function getPlanSuggestions() {
     </Setting>
   {/if}
 
-  <Setting class="setting-gBUUvI justify">
+  <Setting class="setting-HUtdzp justify">
     <div>
       Payment method
 
@@ -127,7 +127,7 @@ function getPlanSuggestions() {
     </div>
   </Setting>
 
-  <Setting class="setting-gBUUvI justify">
+  <Setting class="setting-HUtdzp justify">
     <div>
       Billing history
 
@@ -190,7 +190,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-Odn3\+C) {
+:global(.subscriptions-rngeTM) {
   gap: 16px;
 }
 
@@ -210,8 +210,8 @@ h4 {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-gBUUvI),
-:global(.phone-xs) :global(.setting-gBUUvI) {
+:global(.phone) :global(.setting-HUtdzp),
+:global(.phone-xs) :global(.setting-HUtdzp) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -232,8 +232,8 @@ h4 {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-Odn3\+C),
-:global(.tablet) :global(.subscriptions-Odn3\+C),
-:global(.phone-xs) :global(.subscriptions-Odn3\+C) {
+:global(.phone) :global(.subscriptions-rngeTM),
+:global(.tablet) :global(.subscriptions-rngeTM),
+:global(.phone-xs) :global(.subscriptions-rngeTM) {
   flex-direction: column;
 }</style>

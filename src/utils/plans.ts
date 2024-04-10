@@ -12,22 +12,41 @@ export const ProductNameById = {
   [ProductId.SANBASE]: Product.SANBASE,
 } as const
 
-const nonDeprecatedFilter = ({ isDeprecated }: { isDeprecated: boolean }) => !isDeprecated
+export const nonDeprecatedFilter = ({ isDeprecated }: { isDeprecated: boolean }) => !isDeprecated
 export const keepNonDeprecatedPlans = (plans: SAN.Plan[]) => plans.filter(nonDeprecatedFilter)
 
 export const checkIsSanbaseProduct = (product: Pick<SAN.Product, 'id'>) =>
   +product.id === ProductId.SANBASE
 
+export const checkIsSanApiProduct = (product: Pick<SAN.Product, 'id'>) =>
+  +product.id === ProductId.SANAPI
+
 export enum Plan {
+  //deprecated
+  PRO_PLUS = 'PRO_PLUS',
+
   FREE = 'FREE',
   PRO = 'PRO',
-  PRO_PLUS = 'PRO_PLUS',
+  MAX = 'MAX',
+
+  BUSINESS_PRO = 'BUSINESS_PRO',
+  BUSINESS_MAX = 'BUSINESS_MAX',
+  CUSTOM = 'CUSTOM',
 }
 
+export const INDIVIDUAL_PLANS = new Set([Plan.FREE, Plan.PRO, Plan.MAX])
+export const BUSINESS_PLANS = new Set([Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM])
+
 export const PlanName = {
-  [Plan.FREE]: 'Free',
-  [Plan.PRO]: 'Pro',
   [Plan.PRO_PLUS]: 'Pro+',
+
+  [Plan.FREE]: 'FREE',
+  [Plan.PRO]: 'Sanbase Pro',
+  [Plan.MAX]: 'Sanbase Max',
+
+  [Plan.BUSINESS_PRO]: 'Business Pro',
+  [Plan.BUSINESS_MAX]: 'Business Max',
+  [Plan.CUSTOM]: 'Enterprise',
 } as const
 
 export enum Billing {
@@ -35,10 +54,28 @@ export enum Billing {
   YEAR = 'year',
 }
 
+export enum PlanType {
+  INDIVIDUAL = 'individual',
+  BUSINESS = 'business',
+}
+
+export const checkIsIndividualPlan = ({ name }: SAN.Plan) => INDIVIDUAL_PLANS.has(name)
+export const checkIsBusinessPlan = ({ name }: SAN.Plan) => BUSINESS_PLANS.has(name)
+
+export const checkIsPlanWithPrice = ({ amount }: SAN.Plan) => amount > 0
+
 export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
   interval === Billing.YEAR
 
 export const calcDiscount = (percentOff?: number) => (100 - (percentOff || 0)) / 100
+
+export function calculateYearDiscount(monthPlan: SAN.Plan, yearPlan: SAN.Plan) {
+  const { amount: monthAmount } = monthPlan
+  const { amount: yearAmount } = yearPlan
+
+  const discount = yearAmount / (monthAmount * 12)
+  return Math.round(100 - discount * 100)
+}
 
 export const getPrice = (amount: number, percentOff = 0) =>
   (amount / 100) * calcDiscount(percentOff)

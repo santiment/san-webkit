@@ -1,5 +1,5 @@
 import { SvelteComponentTyped } from "svelte";
-import type { Placement } from '@floating-ui/dom';
+import type { OffsetOptions, Placement } from '@floating-ui/dom';
 declare const __propDef: {
     props: {
         class?: string | undefined;
@@ -14,7 +14,7 @@ declare const __propDef: {
         clickaway?: boolean | undefined;
         openDelay?: number | undefined;
         closeDelay?: number | undefined;
-        margin?: number | undefined;
+        margin?: OffsetOptions | undefined;
         onTriggerClick?: ((e: MouseEvent) => void) | null | undefined;
         tooltip?: HTMLElement | null | undefined;
         open?: (() => void) | undefined;

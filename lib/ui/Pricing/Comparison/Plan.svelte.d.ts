@@ -3,10 +3,8 @@ import { Plan } from './../../../utils/plans';
 declare const __propDef: {
     props: {
         plan: SAN.Plan;
-        plans: SAN.Plan[];
+        plans?: SAN.Plan[] | undefined;
         discount?: number | undefined;
-        isEligibleForTrial: boolean;
-        isLoggedIn?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

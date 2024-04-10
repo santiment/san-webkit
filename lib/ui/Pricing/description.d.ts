@@ -1,14 +1,5 @@
-export declare const PlanDescription: {
-    FREE: {
-        description: string;
-        features: string[];
-    };
-    PRO: {
-        description: string;
-        features: string[];
-    };
-    PRO_PLUS: {
-        description: string;
-        features: string[];
-    };
-};
+import { Plan } from './../../utils/plans';
+export declare const PlanDescription: Record<Plan, {
+    description: string;
+    features: string[];
+}>;
