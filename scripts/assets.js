@@ -1,11 +1,11 @@
-import path from 'path'
-import fs from 'fs'
-import { forFile, mkdir } from './utils.js'
+const path = require('path')
+const fs = require('fs')
+const { forFile, mkdir } = require('./utils.js')
 
 const LIB = path.resolve('node_modules/san-webkit/lib')
 const webkitMap = (dir) => path.resolve(LIB, dir) + '/**/*.svg'
 
-export function copyWebkitAssets(STATIC = path.resolve('static/webkit')) {
+function copyWebkitAssets(STATIC = path.resolve('static/webkit')) {
   function copy(file) {
     const filePath = file.replace(LIB, '')
     const outPath = STATIC + filePath
@@ -25,4 +25,8 @@ export function copyWebkitAssets(STATIC = path.resolve('static/webkit')) {
   forFile([path.resolve(LIB, 'styles/**/*.*'), path.resolve(LIB, 'fonts/*.*')], copy)
 
   console.log('⚙ san-webkit is ready to use')
+}
+
+module.exports = {
+  copyWebkitAssets,
 }
