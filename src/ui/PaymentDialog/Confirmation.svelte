@@ -13,7 +13,6 @@
   export let plan: SAN.Plan
   export let name: string
   export let price: string
-  export let isSinglePlan: boolean
   export let isEligibleForTrial: boolean
   export let loading: boolean
   export let annualDiscount
@@ -30,7 +29,7 @@
 
 <div class="confirmation relative column">
   <Skeleton isActive={!plans.length}>
-    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} {isSinglePlan} />
+    <PlanSelector bind:plan {plans} {price} {selectedNameBilling} {annualDiscount} />
 
     {#if isAnnualPlan && annualDiscount.isEligible}
       <SpecialOfferDiscount {selectedNameBilling} percentOff={annualDiscount.percent} />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Placement } from '@floating-ui/dom'
+  import type { OffsetOptions, Placement } from '@floating-ui/dom'
 
   import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
@@ -18,7 +18,7 @@
   export let clickaway = false
   export let openDelay = 0
   export let closeDelay = clickaway ? 99999 : 120
-  export let margin = 8
+  export let margin: OffsetOptions = 8
   export let onTriggerClick = null as null | ((e: MouseEvent) => void)
 
   const transition = { duration }

@@ -3,7 +3,7 @@ declare namespace SAN {
 
   type Plan = {
     id: string | number
-    name: string
+    name: import('../utils/plans').Plan
     interval: PlanInterval
     amount: number
     isDeprecated: boolean

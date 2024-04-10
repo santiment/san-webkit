@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
+import { Billing, Plan } from '@/utils/plans'
 import Component from './index.svelte'
+import { mockPlans } from './plans'
 
 const meta = {
   // title: 'Design System/Icons',
@@ -21,6 +23,7 @@ export default meta
 export const SANHolderDiscount: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         sanBalance: 2000,
       },
@@ -31,6 +34,7 @@ export const SANHolderDiscount: Story = {
 export const EligibleForTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         isEligibleForSanbaseTrial: true,
       },
@@ -41,6 +45,7 @@ export const EligibleForTrial: Story = {
 export const ActiveTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -55,6 +60,7 @@ export const ActiveTrial: Story = {
 export const ExpiredTrial: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -71,6 +77,7 @@ export const TrialAnnualDiscount35: Story = {
   parameters: {
     mockApi: () => ({
       annualDiscount: 35,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -86,6 +93,7 @@ export const TrialAnnualDiscount50: Story = {
   parameters: {
     mockApi: () => ({
       annualDiscount: 50,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -101,6 +109,7 @@ export const SavedCard: Story = {
   parameters: {
     mockApi: () => ({
       savedCard: true,
+      ...mockPlans,
       currentUser: {
         plan: {
           pro: true,
@@ -115,6 +124,7 @@ export const SavedCard: Story = {
 export const UserHasPromocodes: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
       currentUser: {
         promoCodes: [
           {
@@ -161,5 +171,34 @@ export const UserHasPromocodes: Story = {
         },
       ],
     }),
+  },
+}
+
+export const FixedPlans: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      currentUser: {},
+    }),
+  },
+  args: {
+    plan: Plan.PRO,
+    interval: Billing.MONTH,
+    plans: [
+      {
+        amount: 4900,
+        id: '201',
+        interval: 'month',
+        isDeprecated: false,
+        name: Plan.PRO,
+      },
+      {
+        amount: 52900,
+        id: '202',
+        interval: 'year',
+        isDeprecated: false,
+        name: Plan.PRO,
+      },
+    ],
   },
 }
