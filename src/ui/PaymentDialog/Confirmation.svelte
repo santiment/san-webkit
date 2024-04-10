@@ -36,18 +36,20 @@
     {:else}
       <DiscountInput bind:percentOff bind:ctx />
 
-      <div class="holder row mrg-xl mrg--b">
-        <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
-        <div>
-          Holding 1000 SAN tokens will result in a 20% discount.
-          <a
-            href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
-            target="_blank"
-            class="link-pointer"
-            rel="noopener noreferrer">Learn how to buy SAN.</a
-          >
+      {#if name.toLowerCase().includes('business') === false}
+        <div class="holder row mrg-xl mrg--b">
+          <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
+          <div>
+            Holding 1000 SAN tokens will result in a 20% discount.
+            <a
+              href="https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/"
+              target="_blank"
+              class="link-pointer"
+              rel="noopener noreferrer">Learn how to buy SAN.</a
+            >
+          </div>
         </div>
-      </div>
+      {/if}
     {/if}
 
     <Check {plan} {percentOff} {isAnnualPlan} bind:ctx />
