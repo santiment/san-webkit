@@ -3,7 +3,6 @@
   "description": "The fastest way to build new Santiment web application",
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
-  "type": "module",
   "scripts": {
     "ts": "tsc --outDir ./lib --p ./scripts/tsconfig.json",
     "lib": "npm run lib:clean && npm run ts && node scripts/install.js",
