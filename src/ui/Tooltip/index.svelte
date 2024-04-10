@@ -4,6 +4,8 @@
    */
 
   import type { Align, Position } from './utils'
+
+  import { BROWSER } from 'esm-env'
   import { onMount, onDestroy } from 'svelte'
   import { fade } from 'svelte/transition'
   import { getTooltipStyles } from './utils'
@@ -65,7 +67,7 @@
   onDestroy(destroy)
 
   function destroy() {
-    if (process.browser) {
+    if (BROWSER) {
       window.clearTimeout(openTimer)
       window.clearTimeout(timer)
     }
@@ -148,7 +150,7 @@
   }
 </script>
 
-{#if process.browser && $$slots.trigger && !trigger}
+{#if BROWSER && $$slots.trigger && !trigger}
   <p class="hide" bind:this={anchor} />
 {/if}
 

@@ -31,6 +31,7 @@
 </script>
 
 <script lang="ts">
+  import { BROWSER } from 'esm-env'
   import Menu from './Menu.svelte'
   import NavItem from './NavItem.svelte'
 
@@ -42,7 +43,7 @@
 
   $: isMenuOpened = (path, false)
 
-  $: if (process.browser) {
+  $: if (BROWSER) {
     if (isMenuOpened) {
       document.body.style.width = document.body.offsetWidth + 'px'
       document.body.style.overflowY = 'hidden'

@@ -1,4 +1,5 @@
 <script lang="ts" context="module">
+  import { BROWSER } from 'esm-env'
   import { queryProjects } from '@/api/projects'
   import Asset from './Asset.svelte'
   import Trend from './Trend.svelte'
@@ -59,7 +60,7 @@
   })
 
   onDestroy(() => {
-    if (process.browser) {
+    if (BROWSER) {
       document.body.style.width = ''
       document.body.classList.remove('$style.searching')
     }
