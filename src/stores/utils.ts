@@ -1,5 +1,6 @@
 import { writable } from 'svelte/store'
 import { Cache } from '@/api/cache'
+import { BROWSER } from 'esm-env'
 
 if (typeof window !== 'undefined') {
   if (!window.__SESSION__) window.__SESSION__ = {}
@@ -22,7 +23,7 @@ export function QueryStore<T>(
     fetched: false,
     set,
     subscribe(run: Parameters<typeof subscribe>[0], invalidate): ReturnType<typeof subscribe> {
-      if (process.browser && !this.fetched) this.query()
+      if (BROWSER && !this.fetched) this.query()
       return subscribe(run, invalidate)
     },
     clear() {
@@ -30,7 +31,7 @@ export function QueryStore<T>(
       this.fetched = false
     },
     query(): Promise<T> {
-      if (!process.browser) return Promise.reject('Can not fetch during SSR')
+      if (!BROWSER) return Promise.reject('Can not fetch during SSR')
 
       this.fetched = true
       return query()

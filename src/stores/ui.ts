@@ -3,6 +3,7 @@ import { writable } from 'svelte/store'
 import { mutate } from '@/api'
 import { getSavedJson, saveJson } from '@/utils/localStorage'
 import { getSessionValue } from './utils'
+import { BROWSER } from 'esm-env'
 
 const TOGGLE_THEME_MUTATION = (isNightMode) => `
   mutation updateUserSettings {
@@ -17,7 +18,7 @@ const CTX = 'UI$$'
 export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
 
-  if (process.browser) {
+  if (BROWSER) {
     const { currentUser, theme } = getSessionValue()
 
     if (currentUser) {

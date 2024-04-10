@@ -10,6 +10,7 @@ import {
 } from '@/utils/subscription'
 import { Plan, PlanName } from '@/utils/plans'
 import { QueryStore, setSessionValue } from './utils'
+import { BROWSER } from 'esm-env'
 
 export type CustomerType = {
   isLoggedIn: boolean
@@ -136,7 +137,7 @@ export function Customer$$(defaultValue?: CustomerType) {
     return Promise.all([queryCustomer(), query<any>(BALANCE_QUERY)]).then(
       ([customerQuery, balanceQuery]) => {
         const customer = Object.assign(customerQuery, balanceQuery.currentUser)
-        if (process.browser) setSessionValue({ customer })
+        if (BROWSER) setSessionValue({ customer })
         return customer
       },
     )

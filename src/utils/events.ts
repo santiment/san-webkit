@@ -1,5 +1,6 @@
 import { readable } from 'svelte/store'
 import { noop } from './index'
+import { BROWSER } from 'esm-env'
 
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 
@@ -41,7 +42,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
     }
   }
 
-  if (process.browser) {
+  if (BROWSER) {
     window.addEventListener('keydown', onKeyPress, options)
   }
 
@@ -50,7 +51,7 @@ export function newGlobalShortcut(shortcut: string, clb: () => any, disableInput
 
 export function GlobalShortcut$(shortcut: string, clb: () => any, disableInputs = true) {
   return readable(null, () => {
-    const clean = process.browser ? newGlobalShortcut(shortcut, clb, disableInputs) : noop
+    const clean = BROWSER ? newGlobalShortcut(shortcut, clb, disableInputs) : noop
 
     return clean
   })
