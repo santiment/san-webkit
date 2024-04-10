@@ -1,4 +1,5 @@
 <script>
+  import { BROWSER } from 'esm-env'
   import { onMount, onDestroy } from 'svelte'
   import { cubicOut } from 'svelte/easing'
   import Svg from '@/ui/Svg/svelte'
@@ -21,7 +22,7 @@
 
   calculateInitialOffset()
 
-  const getOffsetSign = () => (process.browser && document.body.clientWidth > 450 ? 1 : -1)
+  const getOffsetSign = () => (BROWSER && document.body.clientWidth > 450 ? 1 : -1)
 
   $: yOffset = offset * getOffsetSign() + 'px'
   $: if (process.env.IS_STAGE) {

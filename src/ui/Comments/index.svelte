@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { BROWSER } from 'esm-env'
   import { onDestroy } from 'svelte'
   import { track } from '@/analytics'
   import { CommentsType, queryComments } from '@/api/comments'
@@ -35,8 +36,7 @@
   const updateComments = (clb: (comments: SAN.Comment[]) => SAN.Comment[]) =>
     setComments(clb(comments))
 
-  $: if (process.browser)
-    queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
+  $: if (BROWSER) queryComments(commentsFor.id, type).then(setComments).then(onCommentsLoaded)
   $: authorId = commentsFor.user.id
 
   function setComments(data: SAN.Comment[]) {

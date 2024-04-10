@@ -1,10 +1,11 @@
+import { BROWSER } from 'esm-env'
 import { parse } from './url'
 
 export type Providers = 'google' | 'twitter'
 
 export function getOAuthLink(provider: Providers, redirectPath?: string) {
   const base = `${process.env.BACKEND_URL}/auth/${provider}`
-  const origin = process.browser ? window.location.origin : ''
+  const origin = BROWSER ? window.location.origin : ''
   if (!origin) return ''
 
   const redirectUrl = new URL(redirectPath || '/', origin)

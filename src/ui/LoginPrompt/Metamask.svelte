@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { BROWSER } from 'esm-env'
   import { LoginType, trackAuthStart, trackLoginStart } from '@/analytics/events/general'
   import { trackSignupStart } from '@/analytics/events/onboarding'
   import Option from './Option.svelte'
@@ -7,7 +8,7 @@
   export let isSignUp = false
   export let onClick: () => Promise<any>
 
-  const hasMetamask = process.browser ? !!window.ethereum : true
+  const hasMetamask = BROWSER ? !!window.ethereum : true
 
   let loading = false
   function onLoginClick() {
