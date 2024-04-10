@@ -109,7 +109,7 @@ onDestroy(() => {
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    {#if isNotCanceled}
+    {#if isNotCanceled && isBusiness === false}
       <Banner {plan} {name} {price} />
     {/if}
 
@@ -125,8 +125,8 @@ onDestroy(() => {
         {plans}
         {name}
         {price}
-        {annualDiscount}
-        {isEligibleForTrial}
+        annualDiscount={isBusiness ? null : annualDiscount}
+        isEligibleForTrial={isEligibleForTrial && !isBusiness}
         {loading}
         {source}
         {closeDialog}
