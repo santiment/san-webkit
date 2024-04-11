@@ -11,14 +11,10 @@
   $: customer = $customer$
   $: incompleteSubscriptionId = customer.isIncompleteSubscription && customer.subscription?.id
   $: if (BROWSER && incompleteSubscriptionId) {
-    console.log({ incompleteSubscriptionId })
     queryGetSubscriptionWithPaymentIntent(incompleteSubscriptionId).then((paymentIntent) => {
       if (!paymentIntent) return
 
-      if (
-        paymentIntent.status === 'requires_action' ||
-        paymentIntent.status === 'requires_payment_method'
-      ) {
+      if (paymentIntent.status === 'requires_action') {
         showComplete3dsDialog({ paymentIntent: paymentIntent.clientSecret })
       }
     })
