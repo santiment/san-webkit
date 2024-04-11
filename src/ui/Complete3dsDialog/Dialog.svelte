@@ -18,7 +18,6 @@
   const { customer$ } = getCustomer$Ctx()
 
   $: stripe = $stripe$ as stripe.Stripe
-  $: console.log(paymentIntent)
 
   let loading = false
 
