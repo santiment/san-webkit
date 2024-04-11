@@ -1,7 +1,7 @@
 import type { CustomerData } from '@/stores/user'
 
 import { ONE_DAY_IN_MS } from './dates'
-import { PlanName, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
+import { PlanName, checkIsSanApiProduct, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -26,6 +26,12 @@ export function getSanbaseSubscription(subscriptions: SAN.Subscription[]) {
   return subscriptions.find(
     (subscription) =>
       checkIsActiveSubscription(subscription) && checkIsSanbaseProduct(subscription.plan.product),
+  )
+}
+
+export function getApiSubscription(subscriptions: SAN.Subscription[]) {
+  return subscriptions.find(
+    (subscription) => checkIsSanApiProduct(subscription) && checkIsActiveSubscription(subscription),
   )
 }
 

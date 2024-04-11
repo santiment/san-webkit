@@ -152,8 +152,8 @@
         {plans}
         {name}
         {price}
-        annualDiscount={isBusiness ? null : annualDiscount}
-        isEligibleForTrial={isEligibleForTrial && !isBusiness}
+        annualDiscount={isBusiness ? {} : annualDiscount}
+        isEligibleForTrial={isBusiness ? false : isEligibleForTrial}
         {loading}
         {source}
         {closeDialog}
