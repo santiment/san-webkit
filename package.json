@@ -70,6 +70,7 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-storybook": "^0.6.12",
     "eslint-plugin-svelte": "^2.33.0",
+    "estree-walker": "^3.0.3",
     "ethers": "^5.4.4",
     "graphql": "^16.7.1",
     "happy-dom": "^10.5.2",

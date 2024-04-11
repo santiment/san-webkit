@@ -122,6 +122,8 @@ export type SubscribeMutation = SAN.API.Query<
   {
     id: string | number
     trialEnd: string | null
+    status: string
+    paymentIntent?: { clientSecret: string }
     plan: {
       id: string | number
       name: string
