@@ -1,6 +1,7 @@
 import preprocess from 'svelte-preprocess'
 import cssModules from 'svelte-preprocess-cssmodules'
-import { walk, parse } from 'svelte/compiler'
+import { parse } from 'svelte/compiler'
+import { walk } from 'estree-walker'
 import MagicString from 'magic-string'
 
 const mixinsPath = import.meta.url.includes('node_modules') ? '~san-webkit/lib' : './src'

@@ -112,6 +112,9 @@ devDependencies:
   eslint-plugin-svelte:
     specifier: ^2.33.0
     version: 2.33.0(eslint@8.48.0)(svelte@4.2.0)
+  estree-walker:
+    specifier: ^3.0.3
+    version: 3.0.3
   ethers:
     specifier: ^5.4.4
     version: 5.7.2
