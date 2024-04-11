@@ -96,22 +96,19 @@ export function buyPlan(
   })
 
   const promise = savedCard
-    ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)
-    : start3DSPaymentFlow(stripe, { planId: plan.id, coupon: discount, card, checkoutInfo })
-
-  /*
-  const promise = savedCard
-    ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)
-    : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        return submitPayment(plan, discount, source, token.id, hasSanTokensDiscount)
+    ? submitPayment(plan, discount, source, undefined)
+    : start3DSPaymentFlow(stripe, {
+        planId: plan.id,
+        coupon: discount,
+        card,
+        checkoutInfo: checkoutInfo as {
+          name: string
+          address_city: string
+          address_country: string
+          address_line1: string
+          address_line2: string
+        },
       })
-
-  const promise = savedCard
-    ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)
-    : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        return submitPayment(plan, discount, source, token.id, hasSanTokensDiscount)
-      })
-      */
 
   return promise
     .then((data) => onPaymentSuccess(data, source, customer$))

@@ -199,14 +199,11 @@ export async function start3DSPaymentFlow(
 
       if (error) {
         console.error(error)
-        return Promise.reject('3DS setupIntent error')
         // The payment failed -- ask your customer for a new payment method.
       } else {
         sub.status = 'ACTIVE'
       }
     }
-
-    console.log(sub)
 
     return sub
   })
