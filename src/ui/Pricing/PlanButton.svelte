@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getCustomer$Ctx } from '@/stores/customer'
-  import { Billing, Plan } from '@/utils/plans'
+  import { Billing, Plan, checkIsBusinessPlan } from '@/utils/plans'
   import { dataPreloader, showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import { showPlanChangeDialog } from './PlanChangeDialog.svelte'
   import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils'
@@ -16,6 +16,7 @@
   $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer)
 
   $: ({ id, name } = plan)
+  $: isBusinessPlan = checkIsBusinessPlan(plan)
   $: isCustomPlan = name === Plan.CUSTOM
   $: isFreePlan = name === Plan.FREE
   $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn
@@ -29,29 +30,42 @@
       return 'Default plan'
     }
 
-    if (annualDiscount.isEligible) {
+    if (!isBusinessPlan && annualDiscount.isEligible) {
       if (plan.interval === Billing.YEAR) return `Pay now ${annualDiscount.percent}% Off`
       return 'Pay now'
     }
 
     if (isCurrentPlan) return 'Your current plan'
-    if (isEligibleForTrial) return 'Start 14-day Free trial'
-    if (isUpgrade) return 'Upgrade'
-    if (isDowngrade) return 'Downgrade'
+
+    if (!isBusinessPlan) {
+      if (isEligibleForTrial) return 'Start 14-day Free trial'
+      if (isUpgrade) return 'Upgrade'
+      if (isDowngrade) return 'Downgrade'
+    }
 
     return 'Buy now'
   })()
 
   function onClick() {
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED))
+    if (isCustomPlan) {
+      window.open(
+        'https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829',
+        '_blank',
+      )
+
+      return
+    }
 
     if (!isLoggedIn) {
       return window.__onLinkClick?.('/login')
     }
 
-    if (!annualDiscount.isEligible) {
-      if (isUpgrade || isDowngrade) {
-        return showPlanChangeDialog({ isUpgrade, plan, subscription })
+    if (!isBusinessPlan) {
+      if (!annualDiscount.isEligible) {
+        if (isUpgrade || isDowngrade) {
+          return showPlanChangeDialog({ isUpgrade, plan, subscription })
+        }
       }
     }
 

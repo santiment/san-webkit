@@ -4,6 +4,7 @@ import { Cache } from '@/api/cache'
 import {
   calculateTrialDaysLeft,
   checkIsIncompleteSubscription,
+  getApiSubscription,
   getSanbaseSubscription,
   normalizeAnnualDiscount,
   Status,
@@ -25,6 +26,7 @@ export type CustomerType = {
   trialDaysLeft: number
   planName: string
   subscription: undefined | null | SAN.Subscription
+  apiSubscription?: undefined | null | SAN.Subscription
   subscriptions: SAN.Subscription[]
   isCanceled: boolean
 }
@@ -42,6 +44,7 @@ export const DEFAULT = {
   isTrial: false,
   trialDaysLeft: 0,
   subscription: null,
+  apiSubscription: null,
   subscriptions: [],
   isCanceled: false,
 } as CustomerType
@@ -113,6 +116,7 @@ export const queryCustomer = Universal(
     query<any>(CUSTOMER_QUERY)
       .then(async ({ currentUser }) => {
         const subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
+        const apiSubscription = currentUser && getApiSubscription(currentUser.subscriptions)
         const annualDiscount =
           currentUser && (await query<any>(ANNUAL_DISCOUNT_QUERY)).annualDiscount
 
@@ -123,6 +127,7 @@ export const queryCustomer = Universal(
             annualDiscount: normalizeAnnualDiscount(annualDiscount),
             isLoggedIn: !!currentUser,
             subscription,
+            apiSubscription,
           },
           getCustomerSubscriptionData(subscription),
           currentUser,
