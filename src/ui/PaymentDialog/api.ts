@@ -17,6 +17,8 @@ export const mutateSubscribe = (variables: {
     subscribe(cardToken:$cardToken, coupon:$coupon , paymentMethodId:$paymentMethodId, planId:$planId) {
       id
       trialEnd
+      status
+      paymentIntent { status clientSecret }
       plan {
         id
         name

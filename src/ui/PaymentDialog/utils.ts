@@ -9,6 +9,7 @@ import {
   trackPaymentFormSubmitted,
   trackPaymentSuccess,
 } from '@/analytics/events/payment'
+import { start3DSPaymentFlow } from './flow'
 
 export const CardBrandIllustration = {
   MasterCard: { id: 'mastercard', w: 33, h: 20 },
@@ -55,23 +56,8 @@ export function getPaymentFormData(form: HTMLFormElement) {
   return data
 }
 
-function submitPayment(
-  plan: SAN.Plan,
-  discount: any,
-  source: string,
-  cardTokenId?: string,
-  hasSanTokensDiscount = false,
-) {
+function submitPayment(plan: SAN.Plan, discount: any, source: string, cardTokenId?: string) {
   // track.event('Payment form submitted', { category: 'User' })
-  trackPaymentFormSubmitted({
-    plan: plan.name,
-    planId: +plan.id,
-    amount: plan.amount,
-    billing: plan.interval,
-    promocode: discount,
-    hasSanTokensDiscount,
-    source,
-  })
   return mutateSubscribe(cardTokenId, +plan.id, discount)
 }
 
@@ -99,10 +85,29 @@ export function buyPlan(
 ) {
   const { discount, ...checkoutInfo } = form
 
+  trackPaymentFormSubmitted({
+    plan: plan.name,
+    planId: +plan.id,
+    amount: plan.amount,
+    billing: plan.interval,
+    promocode: discount,
+    hasSanTokensDiscount,
+    source,
+  })
+
   const promise = savedCard
-    ? submitPayment(plan, discount, source, undefined, hasSanTokensDiscount)
-    : createCardToken(stripe, card, checkoutInfo).then((token) => {
-        return submitPayment(plan, discount, source, token.id, hasSanTokensDiscount)
+    ? submitPayment(plan, discount, source, undefined)
+    : start3DSPaymentFlow(stripe, {
+        planId: plan.id,
+        coupon: discount,
+        card,
+        checkoutInfo: checkoutInfo as {
+          name: string
+          address_city: string
+          address_country: string
+          address_line1: string
+          address_line2: string
+        },
       })
 
   return promise
