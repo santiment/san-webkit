@@ -7,6 +7,10 @@ export declare const mutateSubscribe: (variables: {
 }) => Promise<{
     id: string | number;
     trialEnd: string | null;
+    status: string;
+    paymentIntent?: {
+        clientSecret: string;
+    } | undefined;
     plan: {
         id: string | number;
         name: string;

@@ -13,6 +13,36 @@ export declare function startPaymentIntentFlow(stripe: stripe.Stripe, variables:
 }): Promise<{
     id: string | number;
     trialEnd: string | null;
+    status: string;
+    paymentIntent?: {
+        clientSecret: string;
+    } | undefined;
+    plan: {
+        id: string | number;
+        name: string;
+        product: {
+            id: string | number;
+        };
+    };
+}>;
+export declare function start3DSPaymentFlow(stripe: stripe.Stripe, variables: {
+    planId: string | number;
+    coupon?: string;
+    card: stripe.elements.Element;
+    checkoutInfo: {
+        name: string;
+        address_city: string;
+        address_country: string;
+        address_line1: string;
+        address_line2: string;
+    };
+}): Promise<{
+    id: string | number;
+    trialEnd: string | null;
+    status: string;
+    paymentIntent?: {
+        clientSecret: string;
+    } | undefined;
     plan: {
         id: string | number;
         name: string;

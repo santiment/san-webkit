@@ -17,6 +17,10 @@ export declare const queryCoupon: (coupon: string) => Promise<{
 export type SubscribeMutation = SAN.API.Query<'subscribe', {
     id: string | number;
     trialEnd: string | null;
+    status: string;
+    paymentIntent?: {
+        clientSecret: string;
+    };
     plan: {
         id: string | number;
         name: string;
@@ -28,6 +32,10 @@ export type SubscribeMutation = SAN.API.Query<'subscribe', {
 export declare const mutateSubscribe: (cardToken: undefined | string, planId: number, coupon?: string) => Promise<{
     id: string | number;
     trialEnd: string | null;
+    status: string;
+    paymentIntent?: {
+        clientSecret: string;
+    } | undefined;
     plan: {
         id: string | number;
         name: string;
