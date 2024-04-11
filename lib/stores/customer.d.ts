@@ -13,6 +13,7 @@ export type CustomerType = {
     trialDaysLeft: number;
     planName: string;
     subscription: undefined | null | SAN.Subscription;
+    apiSubscription?: undefined | null | SAN.Subscription;
     subscriptions: SAN.Subscription[];
     isCanceled: boolean;
 };

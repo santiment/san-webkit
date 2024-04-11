@@ -9,6 +9,7 @@ export declare const checkIsIncompleteSubscription: ({ status }?: Pick<SAN.Subsc
 export declare const checkIsActiveSubscription: ({ status }: SAN.Subscription) => boolean;
 export declare const calculateTrialDaysLeft: (trialEnd: string) => number;
 export declare function getSanbaseSubscription(subscriptions: SAN.Subscription[]): SAN.Subscription | undefined;
+export declare function getApiSubscription(subscriptions: SAN.Subscription[]): SAN.Subscription | undefined;
 export declare function getTrialDaysLeft(subscription: SAN.Subscription): string | undefined;
 export declare function getUserSubscriptionInfo(customerData: Pick<CustomerData, 'isEligibleForTrial' | 'annualDiscount'>, subscription: Pick<SAN.Subscription, 'plan' | 'trialEnd' | 'status'>): {
     isEligibleForTrial: boolean;

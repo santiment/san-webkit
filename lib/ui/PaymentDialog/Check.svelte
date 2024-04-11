@@ -1,4 +1,4 @@
-<script>import { getPrice, priceFormatter } from './../../utils/plans';
+<script>import { checkIsBusinessPlan, getPrice, priceFormatter } from './../../utils/plans';
 import { checkSanDiscount } from './utils';
 import { getCustomer$Ctx } from './../../stores/customer';
 export let plan;
@@ -7,9 +7,12 @@ export let isAnnualPlan;
 export let ctx = { total: 0 };
 const { customer$ } = getCustomer$Ctx();
 $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
-$: hasSanDiscount = checkSanDiscount(sanBalance);
-$: discount = getDiscount(annualDiscount, percentOff, hasSanDiscount);
-$: discountPercentOff = annualDiscount.percent || percentOff || (hasSanDiscount ? 20 : 0);
+$: isBusiness = checkIsBusinessPlan(plan);
+$: hasSanDiscount = isBusiness ? false : checkSanDiscount(sanBalance);
+$: discount = isBusiness ? '' : getDiscount(annualDiscount, percentOff, hasSanDiscount);
+$: discountPercentOff = isBusiness
+    ? percentOff
+    : annualDiscount.percent || percentOff || (hasSanDiscount ? 20 : 0);
 $: discounted = discountPercentOff ? plan.amount * (discountPercentOff / 100) : 0;
 $: total = plan.amount - discounted;
 $: ctx.total = total;
@@ -37,7 +40,7 @@ function getDiscount() {
   <div class="total body-2 txt-m row justify c-black">
     <div>
       Today you pay
-      {#if isEligibleForTrial}
+      {#if !isBusiness && isEligibleForTrial}
         <div class="body-3 txt-r c-waterloo">After 14 days: {format(total)}</div>
       {:else}
         <div class="body-3 txt-r c-waterloo">
@@ -45,7 +48,8 @@ function getDiscount() {
         </div>
       {/if}
     </div>
-    <span class="h3 mrg-xxl mrg--l">{isEligibleForTrial ? '$0' : format(total)}</span>
+    <span class="h3 mrg-xxl mrg--l">{!isBusiness && isEligibleForTrial ? '$0' : format(total)}</span
+    >
   </div>
 </div>
 
