@@ -47,7 +47,7 @@ function onClick() {
     var _a;
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
     if (isCustomPlan) {
-        window.open('https://pipedrivewebforms.com/form/0527db4d781f7c4c0760b7bc7a58549c4144829', '_blank');
+        window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank');
         return;
     }
     if (!isLoggedIn) {
