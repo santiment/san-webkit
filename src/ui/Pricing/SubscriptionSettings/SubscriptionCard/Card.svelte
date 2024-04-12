@@ -49,19 +49,21 @@
   {/if}
 
   <div class="actions row v-center mrg-xl mrg--t">
-    <svelte:element
-      this={link ? 'a' : 'button'}
-      class="btn-1 v-center"
-      class:disabled
-      {...link}
-      on:click={onActionClick}
-      use:dataPreloader
-    >
-      {action}
-      {#if link}
-        <Svg id="external-link" w="12" class="mrg-s mrg--l" />
-      {/if}
-    </svelte:element>
+    {#if onActionClick}
+      <svelte:element
+        this={link ? 'a' : 'button'}
+        class="btn-1 v-center"
+        class:disabled
+        {...link}
+        on:click={onActionClick}
+        use:dataPreloader
+      >
+        {action}
+        {#if link}
+          <Svg id="external-link" w="12" class="mrg-s mrg--l" />
+        {/if}
+      </svelte:element>
+    {/if}
 
     {#if subaction && onSubactionClick}
       <button class="btn-2 subaction mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>

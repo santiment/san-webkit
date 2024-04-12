@@ -5,8 +5,10 @@
   import { formatPrice, Plan } from '@/utils/plans'
   import { getTrialDaysLeft } from '@/utils/subscription'
   import PlanCard from './PlanCard.svelte'
-  import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
+  // import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
+
+  const showPlanSummaryDialog = null // TODO: enable after making sure all new plans render correctly
 
   export let plan
   export let subscription

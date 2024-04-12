@@ -9,7 +9,7 @@ import {
   normalizeAnnualDiscount,
   Status,
 } from '@/utils/subscription'
-import { Plan, PlanName } from '@/utils/plans'
+import { Plan, PlanName, checkIsBusinessPlan } from '@/utils/plans'
 import { QueryStore, setSessionValue } from './utils'
 import { BROWSER } from 'esm-env'
 
@@ -22,12 +22,17 @@ export type CustomerType = {
   isPro: boolean
   isProPlus: boolean
   isMax: boolean
+  isBusinessPro: boolean
+  isBusinessMax: boolean
   isTrial: boolean
   trialDaysLeft: number
   planName: string
+
   subscription: undefined | null | SAN.Subscription
+  sanbaseSubscription?: undefined | null | SAN.Subscription
   apiSubscription?: undefined | null | SAN.Subscription
   subscriptions: SAN.Subscription[]
+
   isCanceled: boolean
 }
 
@@ -38,14 +43,21 @@ export const DEFAULT = {
   annualDiscount: normalizeAnnualDiscount(null),
   isIncompleteSubscription: false,
   planName: '',
+
   isPro: false,
   isMax: false,
-  isProPlus: false,
+  isProPlus: false, // deprecated
+  isBusinessPro: false,
+  isBusinessMax: false,
+
   isTrial: false,
   trialDaysLeft: 0,
+
   subscription: null,
+  sanbaseSubscription: null,
   apiSubscription: null,
   subscriptions: [],
+
   isCanceled: false,
 } as CustomerType
 
@@ -88,22 +100,33 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
       isPro: false,
       isProPlus: false,
       isMax: false,
+      isBusinessPro: false,
+      isBusinessMax: false,
+
       isTrial: false,
       trialDaysLeft: 0,
     }
   }
 
   const { trialEnd, plan, status, cancelAtPeriodEnd } = subscription
+
+  const isBusiness = checkIsBusinessPlan(plan)
   const planName = plan.name
   const trialDaysLeft = trialEnd ? calculateTrialDaysLeft(trialEnd) : 0
-  const isProPlus = planName === Plan.PRO_PLUS
-  const isMax = planName === Plan.MAX
+
+  const isBusinessMax = isBusiness && planName === Plan.BUSINESS_MAX
+  const isBusinessPro = isBusinessMax || planName === Plan.BUSINESS_PRO
+  const isProPlus = isBusiness || planName === Plan.PRO_PLUS
+  const isMax = isBusiness || planName === Plan.MAX
 
   return {
     isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
     isMax,
     isProPlus,
     isPro: isProPlus || isMax || planName === Plan.PRO,
+    isBusinessMax,
+    isBusinessPro,
+
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
     planName: PlanName[planName] || planName,
@@ -111,14 +134,22 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
   }
 }
 
+function getBusinessOrSanbaseSubscription(apiSubscription?: any, sanbaseSubscription?: any) {
+  if (!apiSubscription) return sanbaseSubscription
+
+  return checkIsBusinessPlan(apiSubscription.plan) ? apiSubscription : sanbaseSubscription
+}
+
 export const queryCustomer = Universal(
   (query) => () =>
     query<any>(CUSTOMER_QUERY)
       .then(async ({ currentUser }) => {
-        const subscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
+        const sanbaseSubscription = currentUser && getSanbaseSubscription(currentUser.subscriptions)
         const apiSubscription = currentUser && getApiSubscription(currentUser.subscriptions)
         const annualDiscount =
           currentUser && (await query<any>(ANNUAL_DISCOUNT_QUERY)).annualDiscount
+
+        const subscription = getBusinessOrSanbaseSubscription(apiSubscription, sanbaseSubscription)
 
         return Object.assign(
           {},
@@ -127,6 +158,8 @@ export const queryCustomer = Universal(
             annualDiscount: normalizeAnnualDiscount(annualDiscount),
             isLoggedIn: !!currentUser,
             subscription,
+
+            sanbaseSubscription,
             apiSubscription,
           },
           getCustomerSubscriptionData(subscription),
