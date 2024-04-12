@@ -10,7 +10,7 @@ $: customer = $customer$;
 $: ({ isPro } = customer);
 $: buttonLabel = getButtonLabel(customer, variant);
 $: note = getNoteText(customer, variant);
-$: sanbasePlan = getSanbasePlan(customer);
+$: sanbasePlan = getPlanStatus(customer);
 $: href = isPro
     ? 'https://academy.santiment.net/products-and-plans/sanbase-pro-features/'
     : `${SANBASE_ORIGIN}/pricing`;
@@ -37,17 +37,18 @@ function getNoteText(customer, variant) {
         return `Special offer ends in: ${annualDiscount.daysLeft} days`;
     }
 }
-function getSanbasePlan(customer) {
+function getPlanStatus(customer) {
     const { trialDaysLeft, planName, isIncompleteSubscription } = customer;
     if (isIncompleteSubscription) {
         if (planName)
-            return `Sanbase: ${planName} plan (incomplete)`;
+            return `Plan: ${planName} (Incomplete)`;
     }
-    if (trialDaysLeft > 0)
-        return 'Sanbase: Pro plan, Free Trial';
+    if (trialDaysLeft > 0) {
+        return `Plan: ${planName}, Free Trial`;
+    }
     if (planName)
-        return `Sanbase: ${planName} plan`;
-    return 'Sanbase: free plan';
+        return `Plan: ${planName}`;
+    return 'Plan: Free';
 }
 </script>
 

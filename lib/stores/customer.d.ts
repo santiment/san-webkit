@@ -9,10 +9,13 @@ export type CustomerType = {
     isPro: boolean;
     isProPlus: boolean;
     isMax: boolean;
+    isBusinessPro: boolean;
+    isBusinessMax: boolean;
     isTrial: boolean;
     trialDaysLeft: number;
     planName: string;
     subscription: undefined | null | SAN.Subscription;
+    sanbaseSubscription?: undefined | null | SAN.Subscription;
     apiSubscription?: undefined | null | SAN.Subscription;
     subscriptions: SAN.Subscription[];
     isCanceled: boolean;
