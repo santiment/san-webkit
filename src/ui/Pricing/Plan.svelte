@@ -14,7 +14,8 @@
 
   let className = ''
   export { className as class }
-  export let monthPlan: SAN.Plan
+  export let plan: SAN.Plan
+  export let monthPlan: SAN.Plan = plan
   export let yearPlan = monthPlan
   export let plans: SAN.Plan[] = []
 

@@ -19,7 +19,7 @@
     class:active={billing === Billing.YEAR}
     on:click={() => (billing = Billing.YEAR)}
   >
-    Annually<span class="mrg-s mrg--l body-3">Save 10% 😍</span>
+    Annually
   </div>
 </div>
 
