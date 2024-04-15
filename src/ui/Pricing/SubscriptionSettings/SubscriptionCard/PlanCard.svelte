@@ -15,6 +15,11 @@
   export let plans = [] as SAN.Plan[]
   export let description = ''
   export let onActionClick = () => {
+    if (plan.name === Plan.CUSTOM) {
+      window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank')
+      return
+    }
+
     return showPaymentDialog({
       plans,
       plan: plan.name,
@@ -48,7 +53,9 @@
   {discount}
   {shouldHideBillingInfo}
   {onActionClick}
-  action={discount
+  action={plan.name === Plan.CUSTOM
+    ? 'Let’s talk!'
+    : discount
     ? `Pay now ${discount}% Off`
     : isEligibleForTrial
     ? 'Start 14-day Free Trial'
