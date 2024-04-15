@@ -90,7 +90,7 @@
     </plans-section>
 
     <plans-section>
-      <PlanSuggestions suggestions={businessSuggestions} {plans} {isEligibleForTrial} />
+      <PlanSuggestions suggestions={businessSuggestions} {plans} />
     </plans-section>
   </Setting>
 

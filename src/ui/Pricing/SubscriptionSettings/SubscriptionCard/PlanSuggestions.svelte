@@ -6,7 +6,7 @@
 
   export let suggestions: PlanSuggestion[]
   export let plans: SAN.Plan[]
-  export let isEligibleForTrial: boolean
+  export let isEligibleForTrial = false
 
   const EMPTY_SUGGESTION: Suggestion = {
     label: '',
