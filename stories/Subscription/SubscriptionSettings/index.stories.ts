@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/svelte'
 import Component from '@/ui/Pricing/SubscriptionSettings/index.svelte'
 import { mockPlans } from '../Payment Dialog/plans'
 import { pppMock } from './mock'
+import { Plan } from '@/utils/plans'
 
 const meta = {
   // title: 'Design System/Icons',
@@ -134,6 +135,38 @@ export const ProPlusYearNoCard: Story = {
       currentUser: {
         plan: {
           proPlus: true,
+          yearly: true,
+        },
+      },
+    }),
+  },
+}
+
+export const MaxYearNoCard: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
+      savedCard: false,
+      currentUser: {
+        plan: {
+          name: Plan.MAX,
+          yearly: true,
+        },
+      },
+    }),
+  },
+}
+
+export const BusinessProYearNoCard: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
+      savedCard: false,
+      currentUser: {
+        plan: {
+          name: Plan.BUSINESS_PRO,
           yearly: true,
         },
       },

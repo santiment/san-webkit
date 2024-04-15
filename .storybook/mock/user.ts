@@ -1,6 +1,7 @@
 import type { PromoCode } from '@/stores/user'
 
 import { getTodaysEnd } from '@/utils/dates'
+import { Plan, ProductId, checkIsBusinessPlan } from '@/utils/plans'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -45,6 +46,9 @@ export type CurrentUser = null | {
     trial?: boolean
 
     /** @default undefined */
+    name?: Plan
+
+    /** @default undefined */
     trialDaysLeft?: number
 
     /** @default undefined */
@@ -85,10 +89,13 @@ export function mockUser(currentUser: CurrentUser) {
       trial = false,
       trialDaysLeft,
       cancelledInDays,
+      name: planName,
     } = plan
 
-    if (!pro && !proPlus) {
-      return document.write('Plan should have "pro" or "proPlus" value set to "true"')
+    if (!pro && !proPlus && !planName) {
+      return document.write(
+        'Plan should have "pro" or "proPlus" value set to "true" or have "name" property set',
+      )
     }
 
     if (!monthly && !yearly) {
@@ -115,7 +122,10 @@ export function mockUser(currentUser: CurrentUser) {
       currentPeriodEndDate.setDate(currentPeriodEndDate.getDate() + cancelledInDays)
     }
 
-    if (pro || proPlus) {
+    if (pro || proPlus || planName) {
+      const name = pro ? Plan.PRO : proPlus ? Plan.PRO_PLUS : planName
+      const id = name && checkIsBusinessPlan({ name }) ? ProductId.SANAPI : ProductId.SANBASE
+
       subscriptions[0] = {
         status: 'ACTIVE',
         trialEnd,
@@ -126,8 +136,8 @@ export function mockUser(currentUser: CurrentUser) {
           amount: 52900,
           id: '202',
           interval: yearly ? 'year' : 'month',
-          name: proPlus ? 'PRO_PLUS' : 'PRO',
-          product: { id: '2' },
+          name: name,
+          product: { id },
         },
       }
     }
