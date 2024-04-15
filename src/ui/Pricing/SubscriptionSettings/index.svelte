@@ -7,19 +7,15 @@
   import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { paymentCard$ } from '@/stores/paymentCard'
-  import { Billing, Plan, ProductId, getAlternativePlan } from '@/utils/plans'
+  import { Billing, Plan, PlanName, ProductId } from '@/utils/plans'
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import Setting from './Setting.svelte'
-  import PlanCard from './SubscriptionCard/PlanCard.svelte'
   import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
   import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte'
-  import {
-    getIndividualSuggestions,
-    getBusinessSuggestions,
-    PlanSuggestion,
-  } from './SubscriptionCard/suggestions'
+  import { getIndividualSuggestions, getBusinessSuggestions } from './SubscriptionCard/suggestions'
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
+  import PlanSuggestions from './SubscriptionCard/PlanSuggestions.svelte'
 
   let className = ''
   export { className as class }
@@ -47,8 +43,6 @@
   $: isFree = plan?.name?.toUpperCase() === Plan.FREE
   $: individualSuggestions = getIndividualSuggestions(plan, annualDiscount)
   $: businessSuggestions = getBusinessSuggestions(plan)
-  $: suggestedIndividualPlans = getPlanSuggestions(plans, individualSuggestions)
-  $: suggestedBusinessPlans = getPlanSuggestions(plans, businessSuggestions)
 
   $: if (process.browser) {
     fetchPlans()
@@ -75,19 +69,6 @@
         a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount,
       )
   }
-
-  function getPlanSuggestions(plans: SAN.Plan[], suggestions: PlanSuggestion[]) {
-    if (!suggestions.length) return []
-
-    return plans.filter((plan) => {
-      const isSameBilling = plan.interval === suggestions[0].billing
-      if (suggestions[0].discount) {
-        return isSameBilling
-      }
-
-      return suggestions.some((suggestion) => !!suggestion[plan.name]) && isSameBilling
-    })
-  }
 </script>
 
 <section id="subscription" class="border {className}">
@@ -103,52 +84,13 @@
         suggestionsCount={individualSuggestions.length}
       />
 
-      {#each suggestedIndividualPlans as suggestion, index}
-        {@const currentSuggestion = individualSuggestions[index] || {}}
-        {@const altPlan = getAlternativePlan(suggestion, plans)}
-        {@const planOptions = altPlan ? [suggestion, altPlan] : [suggestion]}
-        {@const planInfo = currentSuggestion[suggestion.name] ?? {
-          label: '',
-          badge: '',
-          badgeIcon: { id: '', w: 0 },
-          description: '',
-        }}
-
-        <PlanCard
-          {...planInfo}
-          {isEligibleForTrial}
-          plans={planOptions}
-          discount={currentSuggestion.discount}
-          isUpgrade={currentSuggestion.isUpgrade}
-          suggestionsCount={suggestedIndividualPlans.length}
-          plan={suggestion}
-        />
-      {:else}
-        <FullAccessCard />
-      {/each}
+      <PlanSuggestions suggestions={individualSuggestions} {plans} {isEligibleForTrial}>
+        <FullAccessCard currentPlanName={PlanName[plan.name]} />
+      </PlanSuggestions>
     </plans-section>
 
     <plans-section>
-      {#each suggestedBusinessPlans as suggestion, index}
-        {@const currentSuggestion = businessSuggestions[index] || {}}
-        {@const altPlan = getAlternativePlan(suggestion, plans)}
-        {@const planOptions = altPlan ? [suggestion, altPlan] : [suggestion]}
-        {@const planInfo = currentSuggestion[suggestion.name] ?? {
-          label: '',
-          badge: '',
-          badgeIcon: {},
-        }}
-
-        <PlanCard
-          {...planInfo}
-          {isEligibleForTrial}
-          plans={planOptions}
-          discount={currentSuggestion.discount}
-          isUpgrade={currentSuggestion.isUpgrade}
-          suggestionsCount={suggestedIndividualPlans.length}
-          plan={suggestion}
-        />
-      {/each}
+      <PlanSuggestions suggestions={businessSuggestions} {plans} {isEligibleForTrial} />
     </plans-section>
   </Setting>
 

@@ -9,7 +9,7 @@ import {
   checkIsIndividualPlan,
 } from '@/utils/plans'
 
-type Suggestion = {
+export type Suggestion = {
   label: string
   badge: string
   badgeIcon: { id: ComponentProps<Svg>['id']; w: number }
