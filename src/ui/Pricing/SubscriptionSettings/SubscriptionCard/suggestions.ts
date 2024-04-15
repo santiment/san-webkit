@@ -13,14 +13,17 @@ type Suggestion = {
   label: string
   badge: string
   badgeIcon: { id: ComponentProps<Svg>['id']; w: number }
+  description: string
   green?: boolean
   orange?: boolean
+  blue?: boolean
 }
 
 const PRO_SUGGESTION = {
   label: 'Suggested for you',
   badge: 'Popular',
   badgeIcon: { id: 'star-filled', w: 16 },
+  description: 'Get access to advanced crypto metrics, market insights and more!',
   green: true,
 } satisfies Suggestion
 
@@ -28,6 +31,7 @@ const MAX_SUGGESTION = {
   label: 'Next level',
   badge: 'Advanced',
   badgeIcon: { id: 'rocket-filled', w: 17 },
+  description: 'Advanced plan with complete access to analytics, backtesting framework.',
   orange: true,
 } satisfies Suggestion
 
@@ -35,18 +39,24 @@ const BUSINESS_PRO_SUGGESTION = {
   label: '💼 For Business',
   badge: 'Starter',
   badgeIcon: { id: 'star-filled', w: 16 },
+  description: 'The starting point for your business with real-time API calls.',
+  blue: true,
 } satisfies Suggestion
 
 const BUSINESS_MAX_SUGGESTION = {
   label: '💼 For Business',
   badge: 'Advanced',
   badgeIcon: { id: 'rocket-filled', w: 17 },
+  description: 'Business plan for extensive research and strategy testing.',
+  blue: true,
 } satisfies Suggestion
 
 const ENTERPRISE_SUGGESTION = {
   label: '💼 For Business',
   badge: 'Custom',
   badgeIcon: { id: 'fire-filled', w: 16 },
+  description: 'Everything your business needs as a tailored solution.',
+  blue: true,
 } satisfies Suggestion
 
 const BUSINESS_SUGGESTIONS = {

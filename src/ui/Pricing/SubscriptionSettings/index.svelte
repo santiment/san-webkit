@@ -69,7 +69,11 @@
       individualPlans = pppSettings.plans
     }
 
-    plans = individualPlans.concat(businessPlans)
+    plans = individualPlans
+      .concat(businessPlans)
+      .sort((a, b) =>
+        a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount,
+      )
   }
 
   function getPlanSuggestions(plans: SAN.Plan[], suggestions: PlanSuggestion[]) {
@@ -104,7 +108,8 @@
         {@const planInfo = currentSuggestion[suggestion.name] ?? {
           label: '',
           badge: '',
-          badgeIcon: {},
+          badgeIcon: { id: '', w: 0 },
+          description: '',
         }}
 
         <PlanCard

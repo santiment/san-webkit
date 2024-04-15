@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SANBASE_ORIGIN } from '@/utils/links'
-  import { checkIsYearlyPlan, formatPrice, PlanName } from '@/utils/plans'
+  import { formatPrice, Plan, PlanName } from '@/utils/plans'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import Card from './Card.svelte'
 
@@ -13,6 +13,7 @@
   export let isUpgrade = false
   export let shouldHideBillingInfo = false
   export let plans = [] as SAN.Plan[]
+  export let description = ''
   export let onActionClick = () => {
     return showPaymentDialog({
       plans,
@@ -24,20 +25,25 @@
   }
 
   $: ({ name } = plan)
-  $: annual = checkIsYearlyPlan(plan) ? ' / Annual' : ''
   $: ({ billing, price } = getBillingPrice(plan))
 
   function getBillingPrice(plan: SAN.Plan) {
+    if (plan.name === Plan.CUSTOM)
+      return {
+        price: 'Custom',
+        billing: 'Based on your needs',
+      }
+
     return {
       price: formatPrice(plan),
-      billing: `Billed ${plan.interval}ly`,
+      billing: `Billed ${plan.interval}ly:`,
     }
   }
 </script>
 
 <Card
   {...$$restProps}
-  {billing}
+  billingTitle={billing}
   {price}
   {discount}
   {shouldHideBillingInfo}
@@ -50,23 +56,19 @@
     ? 'Upgrade'
     : action}
   disabled={action === 'Default plan'}
-  title={PlanName[name] + (isTrial ? ' Trial' : '') + annual}
+  title={PlanName[name] + (isTrial ? ' Trial' : '')}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
   badgeIcon={discount ? null : badgeIcon}
 >
   <slot>
     <p>
-      {#if badge === 'Popular'}
-        Get access to advanced crypto metrics, market insights and more!
-      {:else}
-        Advanced plan with complete access to analytics, backtesting framework.
-      {/if}
+      {description}
 
       Check all plans
-      <a href="{SANBASE_ORIGIN}/pricing" class="link-pointer" on:click={window.__onLinkClick}
-        >here!</a
-      >
+      <a href="{SANBASE_ORIGIN}/pricing" class="link-pointer" on:click={window.__onLinkClick}>
+        here!
+      </a>
     </p>
   </slot>
 </Card>
