@@ -7,7 +7,7 @@
   import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { paymentCard$ } from '@/stores/paymentCard'
-  import { Billing, Plan, ProductId } from '@/utils/plans'
+  import { Billing, Plan, ProductId, getAlternativePlan } from '@/utils/plans'
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import Setting from './Setting.svelte'
   import PlanCard from './SubscriptionCard/PlanCard.svelte'
@@ -105,6 +105,8 @@
 
       {#each suggestedIndividualPlans as suggestion, index}
         {@const currentSuggestion = individualSuggestions[index] || {}}
+        {@const altPlan = getAlternativePlan(suggestion, plans)}
+        {@const planOptions = altPlan ? [suggestion, altPlan] : [suggestion]}
         {@const planInfo = currentSuggestion[suggestion.name] ?? {
           label: '',
           badge: '',
@@ -115,7 +117,7 @@
         <PlanCard
           {...planInfo}
           {isEligibleForTrial}
-          {plans}
+          plans={planOptions}
           discount={currentSuggestion.discount}
           isUpgrade={currentSuggestion.isUpgrade}
           suggestionsCount={suggestedIndividualPlans.length}
@@ -129,6 +131,8 @@
     <plans-section>
       {#each suggestedBusinessPlans as suggestion, index}
         {@const currentSuggestion = businessSuggestions[index] || {}}
+        {@const altPlan = getAlternativePlan(suggestion, plans)}
+        {@const planOptions = altPlan ? [suggestion, altPlan] : [suggestion]}
         {@const planInfo = currentSuggestion[suggestion.name] ?? {
           label: '',
           badge: '',
@@ -138,7 +142,7 @@
         <PlanCard
           {...planInfo}
           {isEligibleForTrial}
-          {plans}
+          plans={planOptions}
           discount={currentSuggestion.discount}
           isUpgrade={currentSuggestion.isUpgrade}
           suggestionsCount={suggestedIndividualPlans.length}
