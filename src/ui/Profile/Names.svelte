@@ -14,7 +14,7 @@
 <Profile {user} {feature} source="profile_info_tooltip" class="txt-m {className}">
   <svelte:fragment slot="name">
     <div>
-      <div class="caption body-3  txt-r">@{username}</div>
+      <div class="caption body-3 txt-r">{username ? `@${username}` : email}</div>
       {#if subtitle}
         <div class="caption txt-r c-waterloo">
           {subtitle}

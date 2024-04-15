@@ -31,7 +31,8 @@ export function getSanbaseSubscription(subscriptions: SAN.Subscription[]) {
 
 export function getApiSubscription(subscriptions: SAN.Subscription[]) {
   return subscriptions.find(
-    (subscription) => checkIsSanApiProduct(subscription) && checkIsActiveSubscription(subscription),
+    (subscription) =>
+      checkIsActiveSubscription(subscription) && checkIsSanApiProduct(subscription.plan.product),
   )
 }
 
