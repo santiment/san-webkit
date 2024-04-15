@@ -10,6 +10,8 @@ export enum Device {
 export function mapWidthToDevice(): Device {
   if (!BROWSER) return Device.Desktop
 
+  if (typeof window !== 'object') return Device.Desktop
+
   const { innerWidth } = window
 
   if (innerWidth < 480) return Device.PhoneXs
