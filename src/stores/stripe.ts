@@ -1,6 +1,7 @@
 import type { Subscriber, Unsubscriber } from 'svelte/store'
 import { writable } from 'svelte/store'
 import { initStripe, bootStripe } from '@/analytics/stripe'
+import { BROWSER } from 'esm-env'
 
 type Value = null | stripe.Stripe
 type Store = {
@@ -14,7 +15,7 @@ const onLoad = () => set(bootStripe())
 
 export const stripe: Store = {
   load() {
-    if (loaded || process.browser !== true) return
+    if (loaded || BROWSER !== true) return
     loaded = true
     initStripe(onLoad)
 

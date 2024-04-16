@@ -1,3 +1,4 @@
+import { BROWSER } from 'esm-env'
 import { newHeadScript } from './utils'
 
 export function bootIntercom(
@@ -26,7 +27,7 @@ export function updateIntercom(
   name?: string | null,
   email?: string | null,
 ): void {
-  if (!process.browser) return
+  if (!BROWSER) return
   if (process.env.IS_DEV_MODE) return
 
   if (!window.intercomSettings) {

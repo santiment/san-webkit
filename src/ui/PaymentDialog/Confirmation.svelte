@@ -8,6 +8,7 @@
   import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
   import AppleGooglePay from './AppleGooglePay.svelte'
   import { noop } from '@/utils'
+  import { BROWSER } from 'esm-env'
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
@@ -64,7 +65,7 @@
     >
   </Skeleton>
 
-  {#if process.browser}
+  {#if BROWSER}
     <AppleGooglePay {ctx} {plan} {source} {closeDialog} />
   {/if}
 </div>

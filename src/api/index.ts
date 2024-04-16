@@ -1,3 +1,4 @@
+import { BROWSER } from 'esm-env'
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
 // eslint-disable-next-line no-undef
 const fetch: any = globalThis.fetch || process.env.SERVER_FETCH
@@ -49,7 +50,7 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
     )
   }
 
-  const isWithCache = process.browser && options?.cache !== false
+  const isWithCache = BROWSER && options?.cache !== false
 
   if (isWithCache) {
     const cachedScheme = getCacheScheme(scheme, options)
@@ -63,7 +64,7 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
     if (inFlightQuery) return inFlightQuery
   }
 
-  let request = fetch(process.env.GQL_SERVER_URL, {
+  let request = fetch((!BROWSER && process.env.NODE_GQL_SERVER_URL) || process.env.GQL_SERVER_URL, {
     headers: HEADERS,
     body:
       requestOptions?.body ||
@@ -155,7 +156,7 @@ export function Universal<T extends (query: Query) => Callback>(clb: T) {
   return ((...args) => {
     // const data = args.slice(0, -1)
 
-    const _query = process.browser ? query : ServerQuery(args[args.length - 1])
+    const _query = BROWSER ? query : ServerQuery(args[args.length - 1])
 
     // return clb(_query as Query)(...data)
     return clb(_query as Query)(...args)
@@ -178,7 +179,7 @@ export function newSSRQuery<T extends (...args: any[]) => any>(clb: T) {
   return (...args): ReturnType<T> =>
     clb(
       ...args.slice(0, -1),
-      process.browser
+      BROWSER
         ? undefined
         : {
             headers: {

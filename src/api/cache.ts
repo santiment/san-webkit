@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 const noop = (_) => _
 const _cache = new Map<string, unknown>()
 const _inFlightCache = new Map<string, unknown>()
@@ -45,7 +47,7 @@ export const Cache = {
     scheme: string,
     subscriber: SAN.API.Subscriber<T>,
   ): SAN.API.Unsubscriber {
-    if (!process.browser) return noop as SAN.API.Unsubscriber
+    if (!BROWSER) return noop as SAN.API.Unsubscriber
 
     const subscribers = getSubscribers<T>(scheme)
     subscribers.add(subscriber)
@@ -106,7 +108,7 @@ let wasSsrClientCached = false
 export function newSsrClientCacher<T extends SsrCacheCallback<Parameters<T>[0]>>(
   clb: T,
 ): SsrCacher<T> {
-  if (!process.browser) return noop as T
+  if (!BROWSER) return noop as T
 
   return ((...args) => {
     if (wasSsrClientCached) return

@@ -1,7 +1,8 @@
+import { BROWSER } from 'esm-env'
 import { trackLink } from './events/general'
 
 export function startLinksListener() {
-  if (!process.browser) return
+  if (!BROWSER) return
 
   const root = document.documentElement
 

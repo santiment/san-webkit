@@ -1,9 +1,10 @@
+import { BROWSER } from 'esm-env'
 import { readable } from 'svelte/store'
 
 type Callback = (...args: any[]) => void
 export function debounce<T extends Callback>(timeout: number, fn: T) {
   let timer: number
-  const clear = () => process.browser && window.clearTimeout(timer)
+  const clear = () => BROWSER && window.clearTimeout(timer)
   const debounced = (...args: any) => {
     clear()
     return new Promise((resolve) => {
