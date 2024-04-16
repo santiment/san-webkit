@@ -52,14 +52,18 @@ export const SuggestionsExtension = Editor.Extension.extend({
 
   openSuggestions(Suggestions, position, onItemSelect) {
     this.ctx = { onSelect: onItemSelect }
-    this.node = new Suggestions({
-      target: document.body,
-      props: {
-        position,
-        ctx: this.ctx,
-        setNode: (node) => (this.htmlNode = node),
-      },
-    })
+    try {
+      this.node = new Suggestions({
+        target: document.body,
+        props: {
+          position,
+          ctx: this.ctx,
+          setNode: (node) => (this.htmlNode = node),
+        },
+      })
+    } catch (e) {
+      console.warn(e)
+    }
 
     this.handleSuggestionNavigation = (e) => {
       const key = Editor.util.getKeyCode(e)
