@@ -7,6 +7,7 @@ import { Billing } from './../../utils/plans';
 import SpecialOfferDiscount from './SpecialOfferDiscount.svelte';
 import AppleGooglePay from './AppleGooglePay.svelte';
 import { noop } from './../../utils';
+import { BROWSER } from 'esm-env';
 export let plans;
 export let plan;
 export let name;
@@ -60,7 +61,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
     >
   </Skeleton>
 
-  {#if process.browser}
+  {#if BROWSER}
     <AppleGooglePay {ctx} {plan} {source} {closeDialog} />
   {/if}
 </div>

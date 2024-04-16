@@ -22,6 +22,7 @@ import SavedCard from './SavedCard.svelte';
 import Confirmation from './Confirmation.svelte';
 import Footer from './Footer.svelte';
 import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils';
+import { BROWSER } from 'esm-env';
 export let DialogPromise;
 let defaultPlan = Plan.PRO;
 export { defaultPlan as plan };
@@ -46,7 +47,7 @@ $: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 :
 $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
 $: name = PlanName[plan.name] || plan.name;
 $: price = name ? formatPrice(plan) : '';
-$: if (process.browser) {
+$: if (BROWSER) {
     const { id, name, amount } = planData || {};
     trackPaymentFormOpened({
         plan: name,
@@ -102,7 +103,7 @@ const unsub = paymentCard$.subscribe((value) => {
 });
 onDestroy(() => {
     unsub();
-    if (process.browser)
+    if (BROWSER)
         trackPaymentFormClosed();
 });
 </script>
