@@ -53,6 +53,7 @@
   export let onPublicityToggle = () => {}
   export let feature: any
   export let source: any
+  export let DialogCtx: SAN.Dialog.Ctx
 
   const {
     title: shareTitle = 'Sanbase',
@@ -62,7 +63,6 @@
   const encodedTitle = encodeURIComponent(shareTitle)
   const encodedText = encodeURIComponent(text)
 
-  let closeDialog: () => void
   let inputNode: HTMLInputElement
   let label = 'Copy link'
 
@@ -78,7 +78,7 @@
   })
 </script>
 
-<Dialog bind:closeDialog {...$$props} {title}>
+<Dialog {...$$props} {title}>
   <div class="dialog">
     {#if disabled}
       <div class="note c-orange txt-m mrg-l mrg--b">
