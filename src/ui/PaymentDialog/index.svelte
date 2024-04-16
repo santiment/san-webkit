@@ -26,6 +26,7 @@
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils'
+  import { BROWSER } from 'esm-env'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -55,7 +56,7 @@
   $: name = PlanName[plan.name] || plan.name
   $: price = name ? formatPrice(plan) : ''
 
-  $: if (process.browser) {
+  $: if (BROWSER) {
     const { id, name, amount } = planData || {}
     trackPaymentFormOpened({
       plan: name,
@@ -130,7 +131,7 @@
   })
   onDestroy(() => {
     unsub()
-    if (process.browser) trackPaymentFormClosed()
+    if (BROWSER) trackPaymentFormClosed()
   })
 </script>
 

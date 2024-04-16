@@ -1,6 +1,7 @@
 import { trackSanEvent } from '@/api/analytics'
 import { normalizeData } from './utils'
 import { TwitterTrackActions } from './twitter'
+import { BROWSER } from 'esm-env'
 
 export enum Tracker {
   GA = 'ga',
@@ -18,8 +19,7 @@ function canTrackBrowser() {
 }
 
 export const isTrackingEnabled =
-  process.browser &&
-  (process.env.IS_DEV_MODE || (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true))
+  BROWSER && (process.env.IS_DEV_MODE || (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true))
 
 const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE]
 
@@ -109,6 +109,6 @@ export const track = {
   },
 }
 
-if (!process.browser) {
+if (!BROWSER) {
   Object.keys(track).forEach((key) => ((track as any)[key] = noop))
 }

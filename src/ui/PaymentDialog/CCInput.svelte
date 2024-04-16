@@ -1,9 +1,10 @@
 <script lang="ts">
   import { stripe } from '@/stores/stripe'
   import Input from './Input.svelte'
+  import { BROWSER } from 'esm-env'
 
   export let StripeCard: stripe.elements.Element | undefined
-  export let nightMode = process.browser ? document.body.classList.contains('night-mode') : false
+  export let nightMode = BROWSER ? document.body.classList.contains('night-mode') : false
   let ccNode
 
   const INPUT_STYLE = {

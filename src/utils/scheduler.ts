@@ -1,3 +1,4 @@
+import { BROWSER } from 'esm-env'
 import { readable } from 'svelte/store'
 
 export function Scheduler(limit = 1, debounceTime = 200) {
@@ -9,7 +10,7 @@ export function Scheduler(limit = 1, debounceTime = 200) {
 
   return {
     run() {
-      if (!process.browser) return
+      if (!BROWSER) return
       if (disabled) return
 
       if (running.size < limit) {
