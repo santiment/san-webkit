@@ -2,7 +2,6 @@ import { SvelteComponentTyped } from "svelte";
 import type { ComponentProps } from 'svelte';
 import ShareDialog from './index.svelte';
 export declare const showShareDialog: (props: ComponentProps<ShareDialog>) => Promise<unknown> | undefined;
-import Dialog from '../Dialog';
 declare const __propDef: {
     props: {
         [x: string]: any;
@@ -18,7 +17,6 @@ declare const __propDef: {
         onPublicityToggle?: (() => void) | undefined;
         feature: any;
         source: any;
-        DialogCtx: SAN.Dialog.Ctx;
     };
     events: {
         [evt: string]: CustomEvent<any>;

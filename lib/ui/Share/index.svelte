@@ -39,7 +39,6 @@ export let isPublic = false;
 export let onPublicityToggle = () => { };
 export let feature;
 export let source;
-export let DialogCtx;
 const { title: shareTitle = 'Sanbase', text = 'Hey! Look what I have found at the app.santiment.net!', link = window.location.href, } = data;
 const encodedTitle = encodeURIComponent(shareTitle);
 const encodedText = encodeURIComponent(text);
