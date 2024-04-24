@@ -53,7 +53,6 @@
   export let onPublicityToggle = () => {}
   export let feature: any
   export let source: any
-  export let DialogCtx: SAN.Dialog.Ctx
 
   const {
     title: shareTitle = 'Sanbase',
