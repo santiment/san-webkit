@@ -30,8 +30,13 @@
 
     window.gtag?.('consent' as any, 'update', {
       security_storage: 'granted',
+      ad_storage: isFunctionalAccepted ? 'granted' : 'denied',
+      ad_user_data: isFunctionalAccepted ? 'granted' : 'denied',
+      ad_personalization: isFunctionalAccepted ? 'granted' : 'denied',
       analytics_storage: isFunctionalAccepted ? 'granted' : 'denied',
+
       functionality_storage: isFunctionalAccepted ? 'granted' : 'denied',
+
       performance_cookies: isPerformanceAccepted ? 'granted' : 'denied',
     })
   }
