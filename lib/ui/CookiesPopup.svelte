@@ -25,13 +25,13 @@ onMount(() => {
     var _a;
     (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'default', {
         security_storage: 'granted',
-        analytics_storage: 'denied',
         functionality_storage: 'denied',
         performance_cookies: 'denied',
+        analytics_storage: 'granted',
         // Consent v2
-        ad_storage: 'denied',
-        ad_user_data: 'denied',
-        ad_personalization: 'denied',
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
     });
 });
 </script>

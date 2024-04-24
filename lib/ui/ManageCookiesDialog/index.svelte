@@ -23,6 +23,9 @@ export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted
     track.event('Cookie policy accepted', { category: 'User' });
     (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'update', {
         security_storage: 'granted',
+        ad_storage: isFunctionalAccepted ? 'granted' : 'denied',
+        ad_user_data: isFunctionalAccepted ? 'granted' : 'denied',
+        ad_personalization: isFunctionalAccepted ? 'granted' : 'denied',
         analytics_storage: isFunctionalAccepted ? 'granted' : 'denied',
         functionality_storage: isFunctionalAccepted ? 'granted' : 'denied',
         performance_cookies: isPerformanceAccepted ? 'granted' : 'denied',
