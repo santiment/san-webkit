@@ -1,38 +1,58 @@
-## Installing
+# create-svelte
 
-```
-npm i https://github.com/santiment/san-webkit
-```
+Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
 
-## Updating and publishing library
+Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
 
-1. Local `master` branch should include all necessary updates
-   - Development branches should be based on `master` branch. PRs are merged to `master`;
-2. Run `npm run lib:publish` (make sure the `master` branch is selected before running the script)
+## Creating a project
 
-## Environment variables
-
-```
-process.browser
-process.env.IS_DEV_MODE
-process.env.IS_PROD_MODE
-process.env.IS_STAGE_BACKEND
-process.env.IS_PROD_BACKEND
-process.env.GQL_SERVER_URL
-process.env.MEDIA_PATH
-process.env.ICONS_PATH
-```
-
-## Running using HTTPS
-
-### Generate a self-signed certificate
+If you're seeing this, you've probably already done this step. Congrats!
 
 ```bash
-openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout localhost.key -out localhost.crt
+# create a new project in the current directory
+npm create svelte@latest
+
+# create a new project in my-app
+npm create svelte@latest my-app
 ```
 
-### Run HTTPS dev server
+## Developing
+
+Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
-npm run dev:s
+npm run dev
+
+# or start the server and open the app in a new browser tab
+npm run dev -- --open
+```
+
+Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+
+## Building
+
+To build your library:
+
+```bash
+npm run package
+```
+
+To create a production version of your showcase app:
+
+```bash
+npm run build
+```
+
+You can preview the production build with `npm run preview`.
+
+> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Publishing
+
+Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
+
+To publish your library to [npm](https://www.npmjs.com):
+
+```bash
+npm publish
 ```
