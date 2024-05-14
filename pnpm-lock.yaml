@@ -14,6 +14,9 @@ dependencies:
   fast-glob:
     specifier: ^3.3.2
     version: 3.3.2
+  svelte-runes:
+    specifier: ^0.0.3
+    version: 0.0.3(svelte@5.0.0-next.132)
   tailwind-variants:
     specifier: ^0.2.1
     version: 0.2.1(tailwindcss@3.4.3)
@@ -8235,6 +8238,15 @@ packages:
       svelte: 5.0.0-next.132
       typescript: 5.4.5
     dev: true
+
+  /svelte-runes@0.0.3(svelte@5.0.0-next.132):
+    resolution: {integrity: sha512-ZwVGKetzzjHrN66ZnnBdRuMEN0a9cxVz3bdGFnTdO2nCiUwpQmK7ZJlzAcEb0v+g8kgy5TgQ7wia98bQNlXS6w==}
+    peerDependencies:
+      svelte: 5.0.0-next.95
+    dependencies:
+      esm-env: 1.0.0
+      svelte: 5.0.0-next.132
+    dev: false
 
   /svelte2tsx@0.7.8(svelte@5.0.0-next.132)(typescript@5.4.5):
     resolution: {integrity: sha512-ABK3RDFcy59AqAiU1N5Kxu1RnKrb1GDMrQjLgNgJfE8Q+coCKpjCAPtUVKQM2HnmuqeNWcT3NqfXbE+ZmN5Pow==}

@@ -44,6 +44,7 @@ export default {
         green: '#14C393',
         'green-hover': '#24AC85',
         'green-light-1': { day: '#EDF8F5', night: '#182833' },
+        'green-light-2': { day: '#DCF6EF', night: '#173D40' },
         'green-light-3': { day: '#B0EBDB', night: '#165E55' },
 
         red: '#FF6363',

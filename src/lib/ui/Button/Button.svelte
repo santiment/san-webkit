@@ -2,12 +2,14 @@
   import type { Snippet } from 'svelte'
   import type { HTMLButtonAttributes } from 'svelte/elements'
   import type { Action } from 'svelte/action'
+  import type { SS } from 'svelte-runes'
 
   import { tv } from 'tailwind-variants'
   import { cn } from '../utils'
   import Svg from '../Svg'
 
   let {
+    ref = { $: null },
     icon,
     variant,
     children,
@@ -22,6 +24,7 @@
 
     ...rest
   }: HTMLButtonAttributes & {
+    ref?: SS<undefined | null | HTMLElement>
     href?: string
     icon?: string
     class?: string
@@ -63,6 +66,7 @@
 
 <svelte:element
   this={rest.href ? 'a' : 'button'}
+  bind:this={ref.$}
   aria-label={explanation}
   {...rest}
   use:action={actionArgs}
