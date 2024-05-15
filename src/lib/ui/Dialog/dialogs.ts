@@ -22,7 +22,7 @@ type TGenericComponent<Props extends Record<string, any> = any> = new (
   options: ComponentConstructorOptions<Props>,
 ) => any
 
-const CTX = 'DialogController'
+export const CTX = 'DialogController'
 export const getDialogControllerCtx = <Resolved = unknown, Rejected = unknown>() =>
   getContext(CTX) as { Controller: TController<Resolved, Rejected> }
 
@@ -30,7 +30,11 @@ export const dialogs$ = {
   new<TComponent extends TGenericComponent>(component: TComponent) {
     const ALL_CTX = getAllContexts()
 
-    type TProps = TComponent extends TGenericComponent<infer Props> ? Props : never
+    type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
+    type TProps = Omit<TComponentProps, 'resolve' | 'reject'>
+
+    type TResolve = TComponentProps extends Record<'resolve', infer Resolve> ? Resolve : never
+    type TReturn = Promise<TResolve extends (args: any) => any ? Parameters<TResolve>[0] : unknown>
 
     const showDialog = (props: TProps) =>
       untrack(() => {
@@ -56,7 +60,7 @@ export const dialogs$ = {
         const mounted = mount(component, {
           target: document.body,
           context,
-          props: { ...props, Controller },
+          props: { ...props, resolve, reject, Controller },
         })
         Controller._unmount = () => unmount(mounted)
 
@@ -64,7 +68,7 @@ export const dialogs$ = {
       })
 
     return showDialog as TProps extends Record<string, never>
-      ? () => Promise<any>
-      : (props: TProps) => Promise<any>
+      ? () => TReturn
+      : (props: TProps) => TReturn
   },
 }

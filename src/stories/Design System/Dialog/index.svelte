@@ -1,5 +1,6 @@
 <script>
-  import { showDialog$ } from './Dialog.svelte'
+  import Dialog, { showDialog$ } from './Dialog.svelte'
+  import StoryDialog from './StoryDialog.svelte'
 
   const showDialog = showDialog$()
 </script>
@@ -9,3 +10,5 @@
     <button onclick={() => showDialog()}>Open</button>
   </div>
 </div>
+
+<StoryDialog render={Dialog}></StoryDialog>
