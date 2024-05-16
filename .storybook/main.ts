@@ -1,4 +1,5 @@
 import type { StorybookConfig } from '@storybook/sveltekit'
+import { mergeConfig } from 'vite'
 
 const config: StorybookConfig = {
   stories: ['../src/stories/**/*.mdx', '../src/stories/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
@@ -16,6 +17,18 @@ const config: StorybookConfig = {
   staticDirs: ['../static'],
   docs: {
     autodocs: 'tag',
+  },
+
+  async viteFinal(config) {
+    const result = mergeConfig(config, {
+      sever: {
+        fs: { allow: ['../'] },
+      },
+    })
+
+    if (result.server.fs) result.server.fs.allow = ['../']
+
+    return result
   },
 }
 export default config

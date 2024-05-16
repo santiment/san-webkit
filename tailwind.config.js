@@ -1,14 +1,30 @@
+import plugin from 'tailwindcss/plugin'
 import { createColors } from './plugins/tailwind'
 
+export const classes =
+  '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: ['./src/**/*.{html,js,svelte,ts,mdx}'],
   safelist: ['night-mode'],
   theme: {
     extend: {
       borderColor: {
         DEFAULT: 'var(--porcelain)',
       },
+    },
+
+    fontSize: {
+      '2xs': ['10px', '14px'],
+      xs: ['12px', '16px'],
+      sm: ['14px', '20px'],
+      base: ['16px', '24px'],
+      lg: ['18px', '26px'],
+      xl: ['24px', '32px'],
+      '2xl': ['26px', '32px'],
+      '3xl': ['32px', '40px'],
+      '4xl': ['40px', '48px'],
+      '5xl': ['48px', '56px'],
     },
 
     fontFamily: {
@@ -67,6 +83,26 @@ export default {
         lima: '#26C953',
         'lima-light-1': { day: '#D6F6D6', night: '#1B3E33' },
       },
+    }),
+
+    plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+      addUtilities({
+        '.center': {
+          alignItems: 'center',
+          justifyContent: 'center',
+        },
+        '.column': {
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        '.text-mono': {
+          fontFamily: 'Monospace',
+        },
+        // '.text-lg': {
+        //   fontSize: '18px',
+        //   lineHeight: '26px',
+        // },
+      })
     }),
   ],
 }

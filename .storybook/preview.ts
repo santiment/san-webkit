@@ -11,6 +11,14 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
+    options: {
+      storySort: {
+        order: [
+          'Design System',
+          ['Colors', 'Typography', 'Icons', 'Buttons', 'Input', 'Checkbox', 'Popover', '*'],
+        ],
+      },
+    },
   },
 }
 
@@ -23,5 +31,4 @@ export const decorators = [
     defaultTheme: 'light',
   }),
 ]
-
 export default preview
