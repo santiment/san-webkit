@@ -1,6 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig } from 'vitest/config'
-import { WebkitSvg } from './plugins/vite'
+import { WebkitSvg } from './plugins/vite.js'
 
 export default defineConfig({
   plugins: [sveltekit(), WebkitSvg()],

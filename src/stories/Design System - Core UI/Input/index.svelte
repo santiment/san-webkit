@@ -1,5 +1,5 @@
 <script>
-  import Input from '$lib/ui/Input'
+  import Input from '$ui/core/Input'
 </script>
 
 <div class="flex flex-col justify-center divide-y p-6">

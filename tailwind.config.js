@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin'
-import { createColors } from './plugins/tailwind'
+import { createColors } from './plugins/tailwind.js'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'

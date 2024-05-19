@@ -4,7 +4,7 @@
   import { Popover } from 'bits-ui'
   import { fade } from 'svelte/transition'
   import Trigger from './Trigger.svelte'
-  import { cn } from '../utils'
+  import { cn } from '$ui/utils/index.js'
 
   let {
     class: className,

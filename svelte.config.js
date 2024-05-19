@@ -10,6 +10,7 @@ const config = {
   kit: {
     adapter: adapter(),
     alias: {
+      '$ui/*': './src/lib/ui/*',
       '$routes/*': './src/routes/*',
       '$static/*': './static/*',
     },

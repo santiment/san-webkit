@@ -1,5 +1,5 @@
 <script>
-  import Calendar from '$lib/ui/Calendar'
+  import Calendar from '$ui/core/Calendar'
 </script>
 
 <div class="flex flex-col justify-center divide-y p-6">

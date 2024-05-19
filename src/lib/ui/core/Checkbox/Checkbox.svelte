@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Checkbox } from 'bits-ui'
-  import { cn } from '../utils'
+  import { cn } from '$ui/utils/index.js'
 
   let { isActive = false }: { isActive?: boolean } = $props()
 </script>

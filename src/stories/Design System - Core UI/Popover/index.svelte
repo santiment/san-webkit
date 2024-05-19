@@ -1,6 +1,6 @@
 <script>
-  import Button from '$lib/ui/Button'
-  import Popover from '$lib/ui/Popover/Popover.svelte'
+  import Button from '$ui/core/Button'
+  import Popover from '$ui/core/Popover/Popover.svelte'
 </script>
 
 <div class=" p-6">

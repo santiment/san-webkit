@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CTX } from '$lib/ui/Dialog/dialogs'
+  import { CTX } from '$ui/core/Dialog/dialogs'
   import { setContext } from 'svelte'
 
   let { render, ...rest }: { render: any } = $props()

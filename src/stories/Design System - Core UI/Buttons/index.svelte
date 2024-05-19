@@ -1,5 +1,5 @@
 <script>
-  import Button from '$lib/ui/Button'
+  import Button from '$ui/core/Button'
 </script>
 
 <div class="flex flex-col justify-center divide-y p-6 [&>div]:gap-8 [&>div]:py-3">

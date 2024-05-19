@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { cn } from '../utils'
+  import { cn } from '$ui/utils/index.js'
 
   let {
     id,

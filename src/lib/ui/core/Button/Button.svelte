@@ -5,8 +5,8 @@
   import type { SS } from 'svelte-runes'
 
   import { tv } from 'tailwind-variants'
-  import { cn } from '../utils'
-  import Svg from '../Svg'
+  import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/index.js'
 
   let {
     ref = { $: null },
@@ -84,7 +84,7 @@
     variant && icon && 'px-3',
     variant && rest.disabled && '!bg-athens',
 
-    !children && icon && 'center size-8 p-0',
+    !children && icon && 'size-8 p-0 center',
 
     className,
   )}

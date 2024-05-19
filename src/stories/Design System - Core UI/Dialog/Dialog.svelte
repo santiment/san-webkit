@@ -5,7 +5,7 @@
 </script>
 
 <script lang="ts">
-  import Dialog, { dialogs$, type TDialogReject, type TDialogResolve } from '$lib/ui/Dialog'
+  import Dialog, { dialogs$, type TDialogReject, type TDialogResolve } from '$ui/core/Dialog'
 
   let { resolve, reject }: { resolve: TDialogResolve<boolean>; reject: TDialogReject } = $props()
 </script>

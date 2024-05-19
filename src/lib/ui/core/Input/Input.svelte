@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { HTMLInputAttributes } from 'svelte/elements'
-  import Svg from '../Svg'
-  import { cn } from '../utils'
+  import Svg from '$ui/core/Svg/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   let {
     class: className,

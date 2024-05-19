@@ -1,7 +1,7 @@
 <script lang="ts">
   import { RangeCalendar } from 'bits-ui'
-  import { cn } from '../utils'
-  import Svg from '../Svg'
+  import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/index.js'
 
   let { class: className }: { class?: string } = $props()
 </script>
@@ -58,8 +58,8 @@
                       'data-[disabled]:text-mystic',
                       'data-[highlighted]:rounded-none data-[highlighted]:bg-green-light-1',
                       'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:border-foreground group relative inline-flex items-center justify-center overflow-visible whitespace-nowrap border border-transparent bg-transparent p-0 text-sm font-normal data-[disabled]:pointer-events-none data-[outside-month]:pointer-events-none  data-[selected]:font-medium data-[selection-end]:font-medium data-[selection-start]:font-medium  data-[unavailable]:line-through data-[selection-start]:focus-visible:ring-2 data-[selection-start]:focus-visible:!ring-offset-2 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-0 data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:focus-visible:!ring-offset-0',
-                      'data-[selection-start]:bg-green-light-2 data-[selection-start]:rounded-e-none data-[selection-start]:rounded-s',
-                      'data-[selection-end]:bg-green-light-2 data-[selection-end]:rounded-e data-[selection-end]:rounded-s-none',
+                      'data-[selection-start]:rounded-e-none data-[selection-start]:rounded-s data-[selection-start]:bg-green-light-2',
+                      'data-[selection-end]:rounded-e data-[selection-end]:rounded-s-none data-[selection-end]:bg-green-light-2',
                     )}
                   >
                     <div

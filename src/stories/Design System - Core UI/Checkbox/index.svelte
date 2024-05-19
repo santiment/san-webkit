@@ -1,5 +1,5 @@
 <script>
-  import Checkbox from '$lib/ui/Checkbox'
+  import Checkbox from '$ui/core/Checkbox'
 </script>
 
 <div class="flex flex-col justify-center divide-y p-6">
