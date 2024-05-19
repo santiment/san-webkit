@@ -1,4 +1,5 @@
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, forFile, processSvgWithOutput } from './svg'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, forFile, processSvgWithOutput } from './svg.js'
+import { fetchStatusAssetLogos } from '../scripts/asset-logos.js'
 
 export function WebkitSvg() {
   const ICONS_PATH = './src/lib/icons'
@@ -32,6 +33,23 @@ export function WebkitSvg() {
           type: 'full-reload',
           path: '*',
         })
+      }
+    },
+  }
+}
+
+export async function StaticAssetLogos() {
+  const logos = JSON.stringify(await fetchStatusAssetLogos())
+
+  return {
+    name: 'static-asset-logos',
+
+    transform(src: string, id: string) {
+      if (id.includes('AssetLogo.svelte')) {
+        return {
+          code: src.replace('STATIC_ASSET_LOGO = {}', `STATIC_ASSET_LOGO = ${logos}`),
+          map: null,
+        }
       }
     },
   }
