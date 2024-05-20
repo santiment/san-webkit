@@ -12,7 +12,7 @@
 
   export let plans: SAN.Plan[]
   export let plan: SAN.Plan
-  export let name: string
+  export let name: string | undefined
   export let price: string
   export let isEligibleForTrial: boolean
   export let loading: boolean
@@ -37,7 +37,7 @@
     {:else}
       <DiscountInput bind:percentOff bind:ctx />
 
-      {#if name.toLowerCase().includes('business') === false}
+      {#if name?.toLowerCase().includes('business') === false}
         <div class="holder row mrg-xl mrg--b">
           <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
           <div>
