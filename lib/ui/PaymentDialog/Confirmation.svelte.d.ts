@@ -3,7 +3,7 @@ declare const __propDef: {
     props: {
         plans: SAN.Plan[];
         plan: SAN.Plan;
-        name: string;
+        name: string | undefined;
         price: string;
         isEligibleForTrial: boolean;
         loading: boolean;
