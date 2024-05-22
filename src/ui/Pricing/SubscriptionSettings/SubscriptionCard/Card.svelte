@@ -5,7 +5,7 @@
   export let title
   export let label = ''
   export let price
-  export let billing
+  export let billingTitle = ''
   export let discount
   export let badge
   export let link
@@ -15,6 +15,7 @@
   export let green = false
   export let orange = false
   export let yellow = false
+  export let blue = false
   export let disabled = false
   export let isChecked = false
   export let isActive = false
@@ -22,7 +23,14 @@
   export let onActionClick, onSubactionClick
 </script>
 
-<article class="relative fluid" class:green class:orange class:yellow class:wide={isFullAccess}>
+<article
+  class="relative column fluid"
+  class:green
+  class:orange
+  class:yellow
+  class:blue
+  class:wide={isFullAccess}
+>
   <h4 class="caption txt-m c-waterloo mrg-l mrg--b">{label}</h4>
   <h2 class="h4 txt-m mrg-xs mrg--b">{title}</h2>
 
@@ -39,19 +47,12 @@
     </div>
   {/if}
 
-  {#if billing && !shouldHideBillingInfo}
-    <div class="billing caption txt-m c-waterloo txt-right">
-      {billing}:
-      <h3 class="body-1 price c-black">
-        {price}{#if discount}/mo{/if}
-      </h3>
-    </div>
-  {/if}
-
-  <div class="actions row v-center mrg-xl mrg--t">
+  <div class="actions row v-center mrg-a mrg--t">
     {#if onActionClick}
       <svelte:element
         this={link ? 'a' : 'button'}
+        role={link ? 'link' : 'button'}
+        tabindex="0"
         class="btn-1 v-center"
         class:disabled
         {...link}
@@ -67,6 +68,15 @@
 
     {#if subaction && onSubactionClick}
       <button class="btn-2 subaction mrg-m mrg--l" on:click={onSubactionClick}>{subaction}</button>
+    {/if}
+
+    {#if billingTitle && !shouldHideBillingInfo}
+      <div class="billing caption txt-m c-waterloo txt-right mrg-a mrg--l">
+        {billingTitle}
+        <h3 class="body-1 price c-black">
+          {price}{#if discount}/mo{/if}
+        </h3>
+      </div>
     {/if}
   </div>
 </article>
@@ -91,11 +101,22 @@
   .green {
     background: var(--green-light-1);
     --badge-color: var(--green);
+    --accent: var(--green);
   }
 
   .orange {
     background: var(--orange-light-1);
     --badge-color: var(--orange);
+    --accent: var(--orange);
+  }
+
+  .blue {
+    background: var(--blue-light-1);
+    --primary: var(--blue);
+    --primary-hover: var(--blue-hover);
+    --accent: var(--blue);
+    --badge: var(--white);
+    --badge-color: var(--blue);
   }
 
   .green,
@@ -143,6 +164,10 @@
     background: var(--green);
   }
 
+  .actions {
+    padding-top: 22px;
+  }
+
   .btn-1 {
     display: inline-flex;
     --bg: var(--primary, var(--green));
@@ -152,12 +177,6 @@
   .btn-2 {
     --bg: var(--white);
     --v-padding: 7px;
-  }
-
-  .billing {
-    position: absolute;
-    bottom: 16px;
-    right: 16px;
   }
 
   :global(.phone-xs),
@@ -171,7 +190,7 @@
     }
 
     .actions {
-      --margin: 16px;
+      padding-top: 16px;
       flex-direction: column;
       align-items: flex-start;
     }
@@ -190,7 +209,6 @@
     }
 
     .billing {
-      position: static;
       display: flex;
       align-items: center;
       margin-top: 12px;

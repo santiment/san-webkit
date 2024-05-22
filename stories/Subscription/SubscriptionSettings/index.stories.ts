@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from '@/ui/Pricing/SubscriptionSettings/index.svelte'
+import { mockPlans } from '../Payment Dialog/plans'
+import { pppMock } from './mock'
+import { Plan } from '@/utils/plans'
 
 const meta = {
   // title: 'Design System/Icons',
@@ -21,6 +24,8 @@ export default meta
 export const FreeNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {},
     }),
@@ -30,6 +35,8 @@ export const FreeNoCard: Story = {
 export const FreeWithCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: true,
       currentUser: {},
     }),
@@ -39,6 +46,8 @@ export const FreeWithCard: Story = {
 export const ProTrialNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
@@ -54,6 +63,8 @@ export const ProTrialNoCard: Story = {
 export const ProTrialCanceledNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
@@ -70,6 +81,8 @@ export const ProTrialCanceledNoCard: Story = {
 export const ProMonthNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
@@ -84,6 +97,8 @@ export const ProMonthNoCard: Story = {
 export const ProYearNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
@@ -98,6 +113,8 @@ export const ProYearNoCard: Story = {
 export const ProPlusMonthNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
@@ -112,10 +129,44 @@ export const ProPlusMonthNoCard: Story = {
 export const ProPlusYearNoCard: Story = {
   parameters: {
     mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
       savedCard: false,
       currentUser: {
         plan: {
           proPlus: true,
+          yearly: true,
+        },
+      },
+    }),
+  },
+}
+
+export const MaxYearNoCard: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
+      savedCard: false,
+      currentUser: {
+        plan: {
+          name: Plan.MAX,
+          yearly: true,
+        },
+      },
+    }),
+  },
+}
+
+export const BusinessProYearNoCard: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
+      savedCard: false,
+      currentUser: {
+        plan: {
+          name: Plan.BUSINESS_PRO,
           yearly: true,
         },
       },
