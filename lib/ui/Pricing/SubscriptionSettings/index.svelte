@@ -1,91 +1,87 @@
-<script>var _a;
+<script>var _a, _b;
 import Svg from './../../../ui/Svg/svelte';
 import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
 import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
 import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDialog.svelte';
-import { queryPppSettings, querySanbasePlans } from './../../../api/plans';
+import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from './../../../api/plans';
 import { getCustomer$Ctx } from './../../../stores/customer';
 import { paymentCard$ } from './../../../stores/paymentCard';
-import { Billing, onlyProLikePlans, Plan, getAlternativePlan } from './../../../utils/plans';
+import { Billing, Plan, PlanName, ProductId } from './../../../utils/plans';
+import { checkIsActiveSubscription } from './../../../utils/subscription';
 import Setting from './Setting.svelte';
-import PlanCard from './SubscriptionCard/PlanCard.svelte';
 import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
 import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte';
-import { getSuggestions } from './SubscriptionCard/suggestions';
+import { getIndividualSuggestions, getBusinessSuggestions } from './SubscriptionCard/suggestions';
 import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
 import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
+import PlanSuggestions from './SubscriptionCard/PlanSuggestions.svelte';
 let className = '';
 export { className as class };
 const { customer$ } = getCustomer$Ctx();
+const DEFAULT_PLAN = {
+    id: '0',
+    name: Plan.FREE,
+    amount: 0,
+    interval: Billing.MONTH,
+    product: { id: ProductId.SANBASE },
+};
 let isBillingLoading = true;
 let billingHistory = [];
 let plans = [];
-$: ({ subscription, isEligibleForTrial, annualDiscount, isCanceled } = $customer$);
+$: customer = $customer$;
+$: ({ subscriptions, isEligibleForTrial, annualDiscount, isCanceled } = customer);
 $: paymentCard = $paymentCard$;
-$: plan = (subscription === null || subscription === void 0 ? void 0 : subscription.plan) || { name: Plan.FREE, amount: 0, interval: Billing.MONTH };
-$: isFree = ((_a = plan === null || plan === void 0 ? void 0 : plan.name) === null || _a === void 0 ? void 0 : _a.toUpperCase()) === Plan.FREE;
-$: suggestions = getSuggestions(plan, annualDiscount);
-$: suggestedPlans = (suggestions, plans, annualDiscount, getPlanSuggestions());
-queryPlans();
+$: subscription = subscriptions.find((sub) => checkIsActiveSubscription(sub));
+$: plan = (_a = subscription === null || subscription === void 0 ? void 0 : subscription.plan) !== null && _a !== void 0 ? _a : DEFAULT_PLAN;
+$: isFree = ((_b = plan === null || plan === void 0 ? void 0 : plan.name) === null || _b === void 0 ? void 0 : _b.toUpperCase()) === Plan.FREE;
+$: individualSuggestions = getIndividualSuggestions(plan, annualDiscount);
+$: businessSuggestions = getBusinessSuggestions(plan);
+$: if (process.browser) {
+    fetchPlans();
+}
 queryBillingHistory().then((data) => {
     isBillingLoading = false;
     billingHistory = data;
 });
-async function queryPlans() {
-    if (!process.browser)
-        return;
-    let [pppSettings, sanbasePlans] = await Promise.all([queryPppSettings(), querySanbasePlans()]);
+async function fetchPlans() {
+    let [pppSettings, allPlans] = await Promise.all([queryPppSettings(), queryPlans()]);
+    let individualPlans = getIndividualPlans(allPlans);
+    const businessPlans = getBusinessPlans(allPlans);
     if (pppSettings === null || pppSettings === void 0 ? void 0 : pppSettings.isEligibleForPpp) {
-        sanbasePlans = pppSettings.plans;
+        individualPlans = pppSettings.plans;
     }
-    plans = sanbasePlans.filter(onlyProLikePlans);
-}
-function getPlanSuggestions() {
-    return plans.filter((plan) => {
-        const isSameBilling = plan.interval === suggestions[0].billing;
-        if (suggestions[0].discount) {
-            return isSameBilling;
-        }
-        return ((suggestions[0][plan.name] || (suggestions[1] && suggestions[1][plan.name])) &&
-            isSameBilling);
-    });
+    plans = individualPlans
+        .concat(businessPlans)
+        .sort((a, b) => a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount);
 }
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-Odn3+C">
-    <UserPlanCard
-      {plan}
-      {subscription}
-      {isEligibleForTrial}
-      discount={suggestions[0].discount}
-      suggestionsCount={suggestedPlans.length}
-    />
-
-    {#each suggestedPlans as suggestion, index}
-      {@const altPlan = getAlternativePlan(suggestion, plans)}
-      {@const currentSuggestion = suggestions[index] || {}}
-      {@const planInfo = currentSuggestion[suggestion.name] || {}}
-      <PlanCard
-        {...planInfo}
+  <Setting class="column subscriptions-1AeuF_">
+    <plans-section>
+      <UserPlanCard
+        {plan}
+        {subscription}
         {isEligibleForTrial}
-        {altPlan}
-        {plans}
-        discount={currentSuggestion.discount}
-        isUpgrade={currentSuggestion.isUpgrade}
-        suggestionsCount={suggestedPlans.length}
-        plan={suggestion}
+        discount={individualSuggestions.length && individualSuggestions[0].discount}
+        suggestionsCount={individualSuggestions.length}
       />
-    {:else}
-      <FullAccessCard />
-    {/each}
+
+      <PlanSuggestions suggestions={individualSuggestions} {plans} {isEligibleForTrial}>
+        <FullAccessCard currentPlanName={PlanName[plan.name]} />
+      </PlanSuggestions>
+    </plans-section>
+
+    <plans-section>
+      <PlanSuggestions suggestions={businessSuggestions} {plans} />
+    </plans-section>
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-gBUUvI justify">
+    <Setting class="setting-lZxDN5 justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -98,7 +94,7 @@ function getPlanSuggestions() {
     </Setting>
   {/if}
 
-  <Setting class="setting-gBUUvI justify">
+  <Setting class="setting-lZxDN5 justify">
     <div>
       Payment method
 
@@ -127,7 +123,7 @@ function getPlanSuggestions() {
     </div>
   </Setting>
 
-  <Setting class="setting-gBUUvI justify">
+  <Setting class="setting-lZxDN5 justify">
     <div>
       Billing history
 
@@ -190,7 +186,13 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-Odn3\+C) {
+:global(.subscriptions-1AeuF_) {
+  gap: 28px;
+}
+
+plans-section {
+  width: 100%;
+  display: flex;
   gap: 16px;
 }
 
@@ -210,8 +212,8 @@ h4 {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-gBUUvI),
-:global(.phone-xs) :global(.setting-gBUUvI) {
+:global(.phone) :global(.setting-lZxDN5),
+:global(.phone-xs) :global(.setting-lZxDN5) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -232,8 +234,13 @@ h4 {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-Odn3\+C),
-:global(.tablet) :global(.subscriptions-Odn3\+C),
-:global(.phone-xs) :global(.subscriptions-Odn3\+C) {
+:global(.phone) :global(.subscriptions-1AeuF_),
+:global(.tablet) :global(.subscriptions-1AeuF_),
+:global(.phone-xs) :global(.subscriptions-1AeuF_) {
+  flex-direction: column;
+}
+:global(.phone) plans-section,
+:global(.tablet) plans-section,
+:global(.phone-xs) plans-section {
   flex-direction: column;
 }</style>

@@ -10,15 +10,16 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import { getTodaysEnd } from './../../lib/utils/dates.js';
+import { Plan, ProductId, checkIsBusinessPlan } from './../../lib/utils/plans.js';
 export function mockUser(currentUser) {
     if (!currentUser)
         return null;
     var _a = currentUser.id, id = _a === void 0 ? 42 : _a, _b = currentUser.name, name = _b === void 0 ? 'Santiment Mock User' : _b, _c = currentUser.username, username = _c === void 0 ? 'santiment.mock.user' : _c, _d = currentUser.email, email = _d === void 0 ? 'user.mock@santiment.net' : _d, _e = currentUser.avatar, avatar = _e === void 0 ? false : _e, _f = currentUser.moderator, moderator = _f === void 0 ? false : _f, _g = currentUser.sanBalance, sanBalance = _g === void 0 ? 0 : _g, _h = currentUser.isEligibleForSanbaseTrial, isEligibleForSanbaseTrial = _h === void 0 ? false : _h, _j = currentUser.plan, plan = _j === void 0 ? null : _j, promoCodes = currentUser.promoCodes, overwrite = currentUser.overwrite;
     var subscriptions = [];
     if (plan) {
-        var _k = plan.pro, pro = _k === void 0 ? false : _k, _l = plan.proPlus, proPlus = _l === void 0 ? false : _l, _m = plan.monthly, monthly = _m === void 0 ? false : _m, _o = plan.yearly, yearly = _o === void 0 ? false : _o, _p = plan.trial, trial = _p === void 0 ? false : _p, trialDaysLeft = plan.trialDaysLeft, cancelledInDays = plan.cancelledInDays;
-        if (!pro && !proPlus) {
-            return document.write('Plan should have "pro" or "proPlus" value set to "true"');
+        var _k = plan.pro, pro = _k === void 0 ? false : _k, _l = plan.proPlus, proPlus = _l === void 0 ? false : _l, _m = plan.monthly, monthly = _m === void 0 ? false : _m, _o = plan.yearly, yearly = _o === void 0 ? false : _o, _p = plan.trial, trial = _p === void 0 ? false : _p, trialDaysLeft = plan.trialDaysLeft, cancelledInDays = plan.cancelledInDays, planName = plan.name;
+        if (!pro && !proPlus && !planName) {
+            return document.write('Plan should have "pro" or "proPlus" value set to "true" or have "name" property set');
         }
         if (!monthly && !yearly) {
             return document.write('Plan should have "monthly" or "yearly" value set to "true"');
@@ -41,7 +42,9 @@ export function mockUser(currentUser) {
         else {
             currentPeriodEndDate.setDate(currentPeriodEndDate.getDate() + cancelledInDays);
         }
-        if (pro || proPlus) {
+        if (pro || proPlus || planName) {
+            var name_1 = pro ? Plan.PRO : proPlus ? Plan.PRO_PLUS : planName;
+            var id_1 = name_1 && checkIsBusinessPlan({ name: name_1 }) ? ProductId.SANAPI : ProductId.SANBASE;
             subscriptions[0] = {
                 status: 'ACTIVE',
                 trialEnd: trialEnd,
@@ -52,8 +55,8 @@ export function mockUser(currentUser) {
                     amount: 52900,
                     id: '202',
                     interval: yearly ? 'year' : 'month',
-                    name: proPlus ? 'PRO_PLUS' : 'PRO',
-                    product: { id: '2' },
+                    name: name_1,
+                    product: { id: id_1 },
                 },
             };
         }

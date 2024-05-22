@@ -1,9 +1,9 @@
 import { SvelteComponentTyped } from "svelte";
+import { Plan } from './../../../../utils/plans';
 declare const __propDef: {
     props: {
         [x: string]: any;
         plan: SAN.Plan;
-        altPlan?: SAN.Plan | undefined;
         discount: undefined | number;
         action?: string | undefined;
         label: any;
@@ -12,9 +12,10 @@ declare const __propDef: {
         isEligibleForTrial?: boolean | undefined;
         isTrial?: boolean | undefined;
         isUpgrade?: boolean | undefined;
-        shouldHideBillingInfo: any;
+        shouldHideBillingInfo?: boolean | undefined;
         plans?: SAN.Plan[] | undefined;
-        onActionClick?: (() => Promise<unknown>) | undefined;
+        description?: string | undefined;
+        onActionClick?: (() => Promise<unknown> | undefined) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

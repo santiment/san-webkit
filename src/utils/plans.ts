@@ -59,10 +59,11 @@ export enum PlanType {
   BUSINESS = 'business',
 }
 
-export const checkIsIndividualPlan = ({ name }: SAN.Plan) => INDIVIDUAL_PLANS.has(name)
-export const checkIsBusinessPlan = ({ name }: SAN.Plan) => BUSINESS_PLANS.has(name)
+export const checkIsIndividualPlan = ({ name }: { name: string }) =>
+  INDIVIDUAL_PLANS.has(name as Plan)
+export const checkIsBusinessPlan = ({ name }: { name: string }) => BUSINESS_PLANS.has(name as Plan)
 
-export const checkIsPlanWithPrice = ({ amount }: SAN.Plan) => amount > 0
+export const checkIsPlanWithPrice = ({ amount }: Pick<SAN.Plan, 'amount'>) => amount > 0
 
 export const checkIsYearlyPlan = ({ interval }: Pick<SAN.Plan, 'interval'>) =>
   interval === Billing.YEAR
@@ -97,7 +98,7 @@ export const onlyProLikePlans = ({ name }: SAN.Plan) => name.includes(Plan.PRO)
 export const onlyProAndFreeLikePlans = ({ name }: SAN.Plan) =>
   name.includes(Plan.PRO) || name.includes(Plan.FREE)
 
-export function getAlternativePlan(plan: SAN.Plan, plans: SAN.Plan[]) {
+export function getAlternativePlan(plan: { name?: string; interval?: string }, plans: SAN.Plan[]) {
   return plans.find(({ name, interval }) => name === plan.name && interval !== plan.interval)
 }
 

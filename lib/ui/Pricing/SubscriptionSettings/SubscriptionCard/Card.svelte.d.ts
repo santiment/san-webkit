@@ -5,7 +5,6 @@ export default class Card extends SvelteComponentTyped<{
     link: any;
     title: any;
     action: any;
-    billing: any;
     discount: any;
     price: any;
     badge: any;
@@ -16,10 +15,12 @@ export default class Card extends SvelteComponentTyped<{
     label?: string | undefined;
     isActive?: boolean | undefined;
     disabled?: boolean | undefined;
+    billingTitle?: string | undefined;
     isFullAccess?: boolean | undefined;
     green?: boolean | undefined;
     orange?: boolean | undefined;
     yellow?: boolean | undefined;
+    blue?: boolean | undefined;
     isChecked?: boolean | undefined;
     shouldHideBillingInfo?: boolean | undefined;
 }, {
@@ -37,7 +38,6 @@ declare const __propDef: {
         link: any;
         title: any;
         action: any;
-        billing: any;
         discount: any;
         price: any;
         badge: any;
@@ -48,10 +48,12 @@ declare const __propDef: {
         label?: string | undefined;
         isActive?: boolean | undefined;
         disabled?: boolean | undefined;
+        billingTitle?: string | undefined;
         isFullAccess?: boolean | undefined;
         green?: boolean | undefined;
         orange?: boolean | undefined;
         yellow?: boolean | undefined;
+        blue?: boolean | undefined;
         isChecked?: boolean | undefined;
         shouldHideBillingInfo?: boolean | undefined;
     };

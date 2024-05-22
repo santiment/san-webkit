@@ -44,9 +44,13 @@ export declare enum PlanType {
     INDIVIDUAL = "individual",
     BUSINESS = "business"
 }
-export declare const checkIsIndividualPlan: ({ name }: SAN.Plan) => boolean;
-export declare const checkIsBusinessPlan: ({ name }: SAN.Plan) => boolean;
-export declare const checkIsPlanWithPrice: ({ amount }: SAN.Plan) => boolean;
+export declare const checkIsIndividualPlan: ({ name }: {
+    name: string;
+}) => boolean;
+export declare const checkIsBusinessPlan: ({ name }: {
+    name: string;
+}) => boolean;
+export declare const checkIsPlanWithPrice: ({ amount }: Pick<SAN.Plan, 'amount'>) => boolean;
 export declare const checkIsYearlyPlan: ({ interval }: Pick<SAN.Plan, 'interval'>) => boolean;
 export declare const calcDiscount: (percentOff?: number) => number;
 export declare function calculateYearDiscount(monthPlan: SAN.Plan, yearPlan: SAN.Plan): number;
@@ -57,5 +61,8 @@ export declare const formatPrice: (plan: Pick<SAN.Plan, 'amount'>) => string;
 export declare const formatMonthlyPrice: (plan: SAN.Plan, percentOff?: number) => string;
 export declare const onlyProLikePlans: ({ name }: SAN.Plan) => boolean;
 export declare const onlyProAndFreeLikePlans: ({ name }: SAN.Plan) => boolean;
-export declare function getAlternativePlan(plan: SAN.Plan, plans: SAN.Plan[]): SAN.Plan | undefined;
+export declare function getAlternativePlan(plan: {
+    name?: string;
+    interval?: string;
+}, plans: SAN.Plan[]): SAN.Plan | undefined;
 export declare function getSavedAmount(plan: SAN.Plan, altPlan: SAN.Plan, percentOff?: number): string;

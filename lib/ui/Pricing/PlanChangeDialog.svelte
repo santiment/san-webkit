@@ -45,11 +45,13 @@ function onClick() {
 
 <Dialog {...$$props} noTitle bind:closeDialog>
   <div class="dialog body-2">
-    <div class="h4 txt-m row v-center mrg-m mrg--b">
+    <div class="h4 txt-m row mrg-m mrg--b">
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-qxo7qt" on:click={closeDialog} w="12" />
+      <button class="close-btn btn row hv-center" on:click={closeDialog}>
+        <Svg id="close" w="12" />
+      </button>
     </div>
 
     <p>
@@ -62,9 +64,15 @@ function onClick() {
     </p>
 
     <actions class="row mrg-xl mrg--t">
-      <button class="btn-1" class:btn--orange={isUpgrade} class:loading on:click={onClick}
-        >{isUpgrade ? 'Upgrade' : 'Downgrade'} to {newName} {newBilling} plan</button
+      <button
+        class="submit-btn btn-1"
+        class:btn--orange={isUpgrade}
+        class:loading
+        on:click={onClick}
       >
+        {isUpgrade ? 'Upgrade' : 'Downgrade'} to {newName}
+        {newBilling} plan
+      </button>
 
       <button class="btn-2" on:click={closeDialog}>Cancel</button>
     </actions>
@@ -90,9 +98,12 @@ function onClick() {
   max-width: 600px;
 }
 
-:global(.close-qxo7qt) {
+.close-btn {
   --fill: var(--waterloo);
   --fill-hover: var(--green);
+  height: 24px;
+  width: 24px;
+  margin: 4px 0 0 8px;
 }
 
 p {
@@ -113,7 +124,7 @@ actions {
   flex-direction: column;
   text-align: center;
 }
-:global(.phone) button,
-:global(.phone-xs) button {
+:global(.phone) .submit-btn,
+:global(.phone-xs) .submit-btn {
   height: 40px;
 }</style>

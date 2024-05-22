@@ -1,11 +1,11 @@
-<script>
-  import { showIntercom } from './../../../../analytics/intercom'
-  import Card from './Card.svelte'
+<script>import { showIntercom } from './../../../../analytics/intercom';
+import Card from './Card.svelte';
+export let currentPlanName;
 </script>
 
 <Card
   yellow
-  title="Use Pro plan wisely"
+  title="Use {currentPlanName} plan wisely"
   label="You have full access!"
   action="Academy"
   subaction="Contact support"
