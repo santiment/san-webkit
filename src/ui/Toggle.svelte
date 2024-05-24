@@ -99,7 +99,7 @@
     padding: 0 4px;
     margin-left: auto;
     margin-right: var(--margin);
-    fill: var(--waterloo);
+    fill: var(--white);
 
     &.big {
       --margin: 4px;
@@ -108,7 +108,6 @@
     &.isActive {
       margin-left: var(--margin);
       margin-right: auto;
-      fill: var(--white);
     }
   }
 </style>
