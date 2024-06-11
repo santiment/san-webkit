@@ -89,6 +89,7 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "dependencies": {
+    "@internationalized/date": "^3.5.4",
     "bits-ui": "^0.21.7",
     "esm-env": "^1.0.0",
     "fast-glob": "^3.3.2",
