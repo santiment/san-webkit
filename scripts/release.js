@@ -63,9 +63,13 @@ vite.config.ts.timestamp-*
   //  Make a new tag off of the latest build
   const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
-  await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
-  await exec(`git push origin "${tag}"`)
+
   await exec(`git push origin ${RELEASE_BRANCH}`)
+
+  let [res1, err1] = await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
+  console.log('tag ', res1, err1)
+
+  await exec(`git push origin "${tag}"`)
 
   console.log(`\n✅ Library published. Tag: ${tag}\n`)
 }
