@@ -4,6 +4,7 @@ import path from 'path'
 import { exec } from './utils.js'
 
 const MAIN_BRANCH = 'next'
+const RELEASE_BRANCH = 'lib-release'
 
 export async function release() {
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
@@ -24,20 +25,18 @@ export async function release() {
   const [versionHash] = await exec('git rev-parse --short HEAD', false)
 
   // Remove previous release branch
-  await exec('git branch -D lib-release 2>/dev/null', false)
-  await exec('git push origin --delete lib-release 2>/dev/null', false)
+  await exec(`git branch -D ${RELEASE_BRANCH} 2>/dev/null`, false)
+  await exec(`git push origin --delete ${RELEASE_BRANCH} 2>/dev/null`, false)
+
+  // Create a new release branch
+  await exec(`git checkout -b ${RELEASE_BRANCH}`)
 
   // Building library
   await exec(`npm run prepublishOnly`)
 
-  await exec('git rm --cached -r .husky', false)
+  await exec('git rm --cached -r tests', false)
+  await exec('git rm --cached -r src', false)
 
-  // updatePkgJson()
-
-  // const gitignore = fs
-  //   .readFileSync('.gitignore')
-  //   .toString()
-  //   .replace('lib/', '.husky\nstories\n_stories')
   fs.writeFileSync(
     '.gitignore',
     `.DS_Store
@@ -55,8 +54,8 @@ vite.config.ts.timestamp-*
 /tests/`,
   )
 
+  await exec('git add -f dist')
   // await exec('git add -f .storybook')
-  // await exec('git add -f dist')
   // await exec('git add -f .gitignore')
   // await exec('git add -f package.json')
 
