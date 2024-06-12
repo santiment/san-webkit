@@ -113,6 +113,7 @@ async function processTypescriptFiles() {
       `npx tsc ./${entry} --allowJs --declaration --lib esnext --module nodenext --moduleResolution nodenext`,
       false,
     )
+    console.log('processing', entry)
 
     exports['./' + entry] = {
       types: './' + rawPath + '.d.ts',
@@ -120,7 +121,7 @@ async function processTypescriptFiles() {
     }
   })
 
-  console.log('Finished TS ')
+  console.log('Finished TS ', exports)
 
   return exports
 }
