@@ -36,9 +36,7 @@ export async function release() {
   await exec(`npm run prepublishOnly`)
 
   await exec('git rm --cached -r tests', false)
-  // await exec('git rm --cached -r src', false)
-  // fs.rmSync(path.resolve(ROOT, 'src'), { recursive: true })
-  // fs.rmSync(path.resolve(ROOT, 'tests'), { recursive: true })
+  await exec('git rm --cached -r src', false)
 
   fs.writeFileSync(
     '.gitignore',
@@ -59,31 +57,17 @@ vite.config.ts.timestamp-*
 /tests/`,
   )
 
-  // await exec('git add -f dist')
-  // await exec('git add -f src')
-  // await exec('git add -f tests')
+  await exec(`git add -A`)
+  await exec(`git commit -m "[RELEASE] ${versionHash}"`)
 
-  await exec(`git add -A && git commit -m "[RELEASE] ${versionHash}"`)
-
-  const tag = `lib-${versionHash}`
   //  Make a new tag off of the latest build
+  const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
   await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
   await exec(`git push origin "${tag}"`)
   await exec(`git push origin ${RELEASE_BRANCH}`)
 
-  // await exec('git add -f .storybook')
-  // await exec('git add -f .gitignore')
-  // await exec('git add -f package.json')
-
-  // await exec('git commit -m "Library release"', false)
-  // await exec('git push')
-
-  // const [hash] = await exec('git rev-parse --short HEAD', false)
-  // await exec('git clean -fd', false)
-  // await exec('git checkout master')
-
-  console.log(`\n✅ Library published. Hash: ${versionHash}\n`)
+  console.log(`\n✅ Library published. Tag: ${tag}\n`)
 }
 
 if (process.argv[2] === '--run') release()
