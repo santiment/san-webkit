@@ -23,7 +23,8 @@ export async function release() {
 
   await exec('git pull', false)
 
-  const [versionHash] = await exec('git rev-parse --short HEAD', false)
+  let [versionHash] = await exec('git rev-parse --short HEAD', false)
+  versionHash = versionHash.trim()
 
   // Remove previous release branch
   await exec(`git branch -D ${RELEASE_BRANCH} 2>/dev/null`, false)
@@ -64,11 +65,10 @@ vite.config.ts.timestamp-*
   const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
 
-  await exec(`git push origin ${RELEASE_BRANCH}`)
-
   let [res1, err1] = await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
   console.log('tag ', res1, err1)
 
+  await exec(`git push origin ${RELEASE_BRANCH}`)
   await exec(`git push origin "${tag}"`)
 
   console.log(`\n✅ Library published. Tag: ${tag}\n`)
