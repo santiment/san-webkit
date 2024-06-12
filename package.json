@@ -33,6 +33,14 @@
     "./ui/*": {
       "types": "./dist/ui/*.d.ts",
       "svelte": "./dist/ui/*.js"
+    },
+    "./scripts/*": {
+      "types": "./scripts/*.d.ts",
+      "import": "./scripts/*.js"
+    },
+    "./plugins/*": {
+      "types": "./plugins/*.d.ts",
+      "import": "./plugins/*.js"
     }
   },
   "files": [
