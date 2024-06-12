@@ -38,6 +38,7 @@ export async function release() {
 
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
+  await exec('git rm --cached -r static', false)
 
   fs.writeFileSync(
     '.gitignore',
@@ -52,9 +53,9 @@ node_modules
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 *storybook.log
-/static/
 
-#/src/
+/static/
+/src/
 /tests/`,
   )
 
@@ -65,9 +66,7 @@ vite.config.ts.timestamp-*
   const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
 
-  let [res1, err1] = await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
-  console.log('tag ', res1, err1)
-
+  await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
   await exec(`git push origin ${RELEASE_BRANCH}`)
   await exec(`git push origin "${tag}"`)
 
