@@ -88,13 +88,36 @@ async function updateLibraryPackageJson() {
       svelte: './dist' + rawPath + '/index.js',
     }
   })
+  const tsExports = await processTypescriptFiles()
 
   const filepath = path.resolve(ROOT, 'package.json')
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
+
+  pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
 
   delete pkgJson.scripts.install
   delete pkgJson.scripts.postinstall
   delete pkgJson.scripts.prepare
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
+}
+
+async function processTypescriptFiles() {
+  const exports = {}
+
+  await forFile(['./plugins/*.{js,ts}', './scripts/*.{js,ts}', './*.config.js'], async (entry) => {
+    const rawPath = entry.slice(0, -3)
+
+    await exec(
+      `npx tsc ./${entry} --allowJs --declaration --lib esnext --module nodenext --moduleResolution nodenext`,
+      false,
+    )
+
+    exports['./' + entry] = {
+      types: './' + rawPath + '.d.ts',
+      import: './' + rawPath + '.js',
+    }
+  })
+
+  return exports
 }

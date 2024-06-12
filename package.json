@@ -33,11 +33,12 @@
     "./ui/*": {
       "types": "./dist/ui/*.d.ts",
       "svelte": "./dist/ui/*.js"
-    },
-    "./*": "./*"
+    }
   },
   "files": [
     "dist",
+    "plugins",
+    "scripts",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
