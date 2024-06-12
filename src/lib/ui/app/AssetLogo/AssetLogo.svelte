@@ -7,11 +7,18 @@
   import Picture from '$ui/app/Picture/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
-  let { slug, placeholderSize = 12 }: { slug: string; placeholderSize?: number } = $props()
+  let {
+    slug,
+    placeholderSize = 12,
+    ...rest
+  }: { class?: string; slug: string; placeholderSize?: number } = $props()
 
   let logo = $derived(STATIC_ASSET_LOGO[slug] || slug.replace(CHAIN_REGEX, ''))
 </script>
 
-<Picture src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{logo}.png">
+<Picture
+  {...rest}
+  src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{logo}.png"
+>
   <Svg id="asset-small" w={placeholderSize}></Svg>
 </Picture>

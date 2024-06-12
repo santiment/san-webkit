@@ -1,7 +1,7 @@
 import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
-import { exec } from './utils.js'
+import { exec, forFile } from './utils.js'
 
 const MAIN_BRANCH = 'next'
 const RELEASE_BRANCH = 'lib-release'
@@ -35,6 +35,8 @@ export async function release() {
 
   // Building library
   await exec(`npm run prepublishOnly`)
+
+  await updateLibraryPackageJson()
 
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
@@ -75,8 +77,19 @@ vite.config.ts.timestamp-*
 
 if (process.argv[2] === '--run') release()
 
-function updatePkgJson() {
-  const filepath = path.resolve('', 'package.json')
+async function updateLibraryPackageJson() {
+  const exports = {}
+
+  await forFile([path.resolve(ROOT, 'src/lib/ui/**/index.ts')], async (entry) => {
+    const rawPath = entry.slice(path.resolve(ROOT, 'src/lib').length, -'/index.ts'.length)
+
+    exports['.' + rawPath] = {
+      types: './dist' + rawPath + '/index.d.ts',
+      svelte: './dist' + rawPath + '/index.js',
+    }
+  })
+
+  const filepath = path.resolve(ROOT, 'package.json')
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   delete pkgJson.scripts.install
