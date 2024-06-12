@@ -61,7 +61,7 @@ vite.config.ts.timestamp-*
 /tests/`,
   )
 
-  await exec(`git add -A`)
+  await exec(`git add . -A`)
   await exec(`git commit -m "[RELEASE] ${versionHash}"`)
 
   //  Make a new tag off of the latest build
