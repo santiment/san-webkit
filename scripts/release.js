@@ -94,6 +94,7 @@ async function updateLibraryPackageJson() {
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
+  console.log(pkgJson.exports)
 
   delete pkgJson.scripts.install
   delete pkgJson.scripts.postinstall
@@ -118,6 +119,8 @@ async function processTypescriptFiles() {
       import: './' + rawPath + '.js',
     }
   })
+
+  console.log('Finished TS ')
 
   return exports
 }
