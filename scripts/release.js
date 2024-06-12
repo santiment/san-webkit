@@ -94,7 +94,6 @@ async function updateLibraryPackageJson() {
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
-  console.log(pkgJson.exports)
 
   delete pkgJson.scripts.install
   delete pkgJson.scripts.postinstall
@@ -113,15 +112,12 @@ async function processTypescriptFiles() {
       `npx tsc ./${entry} --allowJs --declaration --lib esnext --module nodenext --moduleResolution nodenext`,
       false,
     )
-    console.log('processing', entry)
 
     exports['./' + entry] = {
       types: './' + rawPath + '.d.ts',
       import: './' + rawPath + '.js',
     }
   })
-
-  console.log('Finished TS ', exports)
 
   return exports
 }

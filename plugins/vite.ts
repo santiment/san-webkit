@@ -1,4 +1,5 @@
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, forFile, processSvgWithOutput } from './svg.js'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from './svg.js'
+import { forFile } from '../scripts/utils.js'
 import { fetchStatusAssetLogos } from '../scripts/asset-logos.js'
 
 export function WebkitSvg() {

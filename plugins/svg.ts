@@ -39,13 +39,6 @@ function createSpriterOptions(plugins = [] as any[]) {
   }
 }
 
-export async function forFile(rule: string[], clb: (entry: string) => void, opts?: any) {
-  const stream = fg.stream(rule, opts)
-  for await (const entry of stream) {
-    clb(entry)
-  }
-}
-
 export function writeFile(pathname: string, value: string) {
   return new Promise((resolve) => {
     const resultDir = path.dirname(pathname)
