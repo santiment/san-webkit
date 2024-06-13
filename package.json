@@ -51,6 +51,7 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
+    "rxjs": "^7.8.1",
     "svelte": "^5.0.0-next.1"
   },
   "devDependencies": {
@@ -86,6 +87,7 @@
     "prettier-plugin-svelte": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.6.3",
     "publint": "^0.1.9",
+    "rxjs": "^7.8.1",
     "storybook": "^8.1.7",
     "svelte": "5.0.0-next.153",
     "svelte-check": "^3.8.0",
