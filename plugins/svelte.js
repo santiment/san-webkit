@@ -1,3 +1,7 @@
+import { parse } from 'svelte/compiler'
+import { walk } from 'estree-walker'
+import MagicString from 'magic-string'
+
 export function componentStyleSelector() {
   return {
     markup: ({ content, filename }) => {

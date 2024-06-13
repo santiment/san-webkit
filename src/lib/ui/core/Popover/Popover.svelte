@@ -10,10 +10,12 @@
     class: className,
     content,
     children: _children,
+    noStyles = false,
   }: {
     class?: string
     children: ComponentProps<Trigger>['children']
     content: Snippet<[{ close: () => void }]>
+    noStyles?: boolean
   } = $props()
 
   let isOpened = $state(false)
@@ -30,7 +32,7 @@
 
   <Popover.Content
     transition={(node) => fade(node, { duration: 65 })}
-    class={cn('z-10 flex rounded border bg-white p-2 shadow', className)}
+    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
     sideOffset={8}
   >
     {@render content({ close: () => (isOpened = false) })}
