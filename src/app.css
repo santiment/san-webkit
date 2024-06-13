@@ -51,6 +51,12 @@
   background: var(--waterloo) !important;
 }
 
+* {
+  text-align: left;
+  align-items: start;
+  justify-content: start;
+}
+
 body {
   color: var(--black);
   fill: var(--black);

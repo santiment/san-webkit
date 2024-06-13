@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DatePicker from '$ui/core/Calendar'
+  import DatePicker from '$ui/core/Calendar/DatePicker.svelte'
 
   let date = new Date()
   let dates: [Date, Date] = [new Date(), new Date()]

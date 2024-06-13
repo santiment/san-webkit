@@ -1,5 +1,10 @@
-<script>
+<script lang="ts">
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
+  import { cn } from '$ui/utils/index.js'
+  import type { ComponentProps } from 'svelte'
+
+  let { class: className, ...props }: ComponentProps<VirtualList<any>> = $props()
+  console.log({ ...props })
 
   const sizes = [20, 40, 180, 77]
 
@@ -7,7 +12,12 @@
 </script>
 
 <div class="flex min-h-[100vh] p-6 column">
-  <VirtualList class="flex-1" {data} getKey={(item) => item.id}>
+  <VirtualList
+    class={cn('rounded border border-red', className)}
+    {...props}
+    {data}
+    getKey={(item) => item.id}
+  >
     {#snippet children({ item })}
       <div
         style={`

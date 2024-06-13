@@ -11,4 +11,13 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const VirtualList: Story = {}
+export const VirtualList: Story = {
+  args: {
+    class: 'flex-1',
+  },
+}
+export const MaxHeight: Story = {
+  args: {
+    maxHeight: 200,
+  },
+}
