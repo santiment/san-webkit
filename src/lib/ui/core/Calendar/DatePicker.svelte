@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Popover from '$lib/ui/Popover'
-  import Button from '$lib/ui/Button'
-  import Svg from '$lib/ui/Svg'
+  import Popover from '$ui/core/Popover/index.js'
+  import Button from '$ui/core/Button/index.js'
+  import Svg from '$ui/core/Svg/index.js'
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
 

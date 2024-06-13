@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DatePicker from '$lib/ui/Calendar'
+  import DatePicker from '$ui/core/Calendar'
 
   let date = new Date()
   let dates: [Date, Date] = [new Date(), new Date()]

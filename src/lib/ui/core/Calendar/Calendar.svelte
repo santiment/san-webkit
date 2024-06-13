@@ -2,9 +2,9 @@
   import type { DateValue } from '@internationalized/date'
 
   import { Calendar } from 'bits-ui'
-  import Svg from '../Svg'
-  import { cn } from '../utils'
-  import { calendarDateFromDate } from './utils'
+  import { calendarDateFromDate } from './utils.js'
+  import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/index.js'
 
   let { class: className, date = $bindable() }: { date: Date; class?: string } = $props()
 

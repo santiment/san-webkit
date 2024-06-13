@@ -2,9 +2,9 @@
   import type { DateRange } from 'bits-ui'
 
   import { RangeCalendar } from 'bits-ui'
-  import Svg from '../Svg'
-  import { calendarDateFromDate } from './utils'
-  import { cn } from '../utils'
+  import Svg from '$ui/core/Svg/index.js'
+  import { cn } from '$ui/utils/index.js'
+  import { calendarDateFromDate } from './utils.js'
 
   let { class: className, date = $bindable() }: { date: [Date, Date]; class?: string } = $props()
 
