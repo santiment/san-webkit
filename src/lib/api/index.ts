@@ -1,10 +1,55 @@
+import { BROWSER } from 'esm-env'
 import { Observable } from 'rxjs'
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 import { MockExecutor } from './mock.js'
+import { ApiCache } from './cache.js'
 
 type TQueryExecutor = typeof RxQuery | typeof Query
 
 type TGqlSchemaCreator = (...args: any[]) => TGqlSchema
+
+type TExecutorConfig<T extends TQueryExecutor> = {
+  executor: T
+} & TExecutorOptions
+
+export type TExecutorOptions = {
+  cache?: boolean
+  cacheTime?: number
+  recache?: boolean
+}
+
+const DEFAULT_EXECUTOR_OPTIONS = {
+  /**
+   * May request save/use existing result
+   */
+  cache: BROWSER,
+
+  /**
+   * Caching time in seconds. Works only if `cache` is `true`.
+   */
+  cacheTime: 5,
+
+  /**
+   * Do not use current cache and store new cache
+   * */
+  recache: false,
+} as const satisfies TExecutorOptions
+
+function setupExecutor<GExecutor extends TQueryExecutor>(
+  executorConfig: GExecutor | TExecutorConfig<GExecutor>,
+  globalOptions?: TExecutorOptions,
+) {
+  const isConfig = 'executor' in executorConfig
+  const executor = isConfig ? executorConfig.executor : executorConfig
+  const options = Object.assign(
+    {},
+    DEFAULT_EXECUTOR_OPTIONS,
+    globalOptions,
+    isConfig ? executorConfig : {},
+  )
+
+  return { executor, options }
+}
 
 /**
  * Factory for setting up an API request
@@ -22,13 +67,16 @@ type TGqlSchemaCreator = (...args: any[]) => TGqlSchema
 export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
   schemaCreator: SchemaCreator,
   mapData?: (data: any) => Data,
+  globalOptions?: TExecutorOptions,
 ) {
-  return <Executor extends TQueryExecutor = typeof RxQuery>(
-    executor: Executor = RxQuery as Executor,
+  return <GExecutor extends TQueryExecutor = typeof RxQuery>(
+    executorConfig: GExecutor | TExecutorConfig<GExecutor> = RxQuery as GExecutor,
   ) => {
-    type Result = Executor extends (...args: any[]) => Observable<any>
+    type Result = GExecutor extends (...args: any[]) => Observable<any>
       ? Observable<Data>
       : Promise<Data>
+
+    const { executor, options } = setupExecutor(executorConfig, globalOptions)
 
     return (...args: Parameters<SchemaCreator>) => {
       const schema = schemaCreator(...args)
@@ -41,7 +89,19 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
         }
       }
 
-      return executor<Data>(schema, { map: mapData }) as Result
+      const result = executor<Data>(schema, { map: mapData }) as Result
+
+      if (BROWSER && options.cache) {
+        const cached = ApiCache.get(schema, executor)
+
+        if (cached && !options.recache) {
+          return cached as unknown as Result
+        }
+
+        ApiCache.add(schema, { options, executor, result })
+      }
+
+      return result
     }
   }
 }

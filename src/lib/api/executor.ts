@@ -1,5 +1,5 @@
 import { BROWSER } from 'esm-env'
-import { map } from 'rxjs'
+import { Subject, map, mergeMap, shareReplay, startWith } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
 
 const ENDPOINT = ((!BROWSER && process.env.NODE_GQL_SERVER_URL) ||
@@ -31,22 +31,32 @@ export const RxQuery = <T>(
   const { schema: query, variables } =
     typeof schema === 'object' ? schema : { schema, variables: null }
 
-  return ajax<TAjaxData<T>>({
-    url: ENDPOINT,
-    headers: { ...DEFAULT_HEADERS },
-    body: JSON.stringify({ query, variables }),
-    method: 'post',
-    withCredentials: true,
-  }).pipe(
+  // NOTE: Returning ajax observable directly would cause new requests even if it was cached
+  return new Subject().pipe(
+    startWith(null),
+
+    mergeMap(() =>
+      ajax<TAjaxData<T>>({
+        url: ENDPOINT,
+        headers: { ...DEFAULT_HEADERS },
+        body: JSON.stringify({ query, variables }),
+        method: 'post',
+        withCredentials: true,
+      }),
+    ),
+
     map((result) => {
       const { data, error, errors } = result.response
 
       const queryError = error || errors
 
+      console.log('mapping')
       if (queryError) throw queryError
 
       return options?.map ? options.map(data) : data
     }),
+
+    shareReplay(1),
   )
 }
 

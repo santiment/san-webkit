@@ -20,8 +20,7 @@ export function MockExecutor(
   schema: TGqlSchema,
   options?: Parameters<typeof RxQuery>[1],
 ) {
-  const normalizedSchema = typeof schema === 'string' ? { query: schema } : { query: schema.schema }
-  const mockedResult = mockApi(normalizedSchema, ApiMock.mocks)
+  const mockedResult = MockExecutor.getMock(schema)
 
   if (mockedResult === undefined) return
 
