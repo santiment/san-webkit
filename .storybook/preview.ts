@@ -2,6 +2,7 @@ import type { Preview } from '@storybook/svelte'
 
 import { withThemeByClassName } from '@storybook/addon-themes'
 import '../src/app.css'
+import './preview.css'
 
 const preview: Preview = {
   parameters: {

@@ -1,5 +1,6 @@
 import React, { useRef, useLayoutEffect } from 'react'
 import { jsx as _jsx } from 'react/jsx-runtime'
+import { Unstyled } from '@storybook/blocks'
 import { mount, unmount } from 'svelte'
 
 export default ({ render, props }) => {
@@ -15,10 +16,12 @@ export default ({ render, props }) => {
     }
   }, [])
 
-  return _jsx('div', {
-    ref: ref,
-    style: {
-      display: 'contents',
-    },
+  return _jsx(Unstyled, {
+    children: _jsx('div', {
+      ref: ref,
+      style: {
+        display: 'contents',
+      },
+    }),
   })
 }

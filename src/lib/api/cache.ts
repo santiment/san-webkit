@@ -19,10 +19,6 @@ export const ApiCache = {
     let { executor, result, options } = config
     const key = getKey(schema, executor)
 
-    if (result instanceof Observable) {
-      // result = result.pipe(shareReplay(1))
-    }
-
     this.queries.set(key, result)
 
     if (options.cache && options.cacheTime) {
