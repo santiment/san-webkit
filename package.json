@@ -51,6 +51,7 @@
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
+    "graphql": "^16.8.2",
     "rxjs": "^7.8.1",
     "svelte": "^5.0.0-next.1"
   },
@@ -79,6 +80,7 @@
     "eslint-plugin-storybook": "^0.8.0",
     "eslint-plugin-svelte": "2.39.0",
     "estree-walker": "^3.0.3",
+    "graphql": "^16.8.2",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "magic-string": "^0.30.10",
