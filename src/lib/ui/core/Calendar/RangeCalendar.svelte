@@ -1,23 +1,28 @@
 <script lang="ts">
   import type { DateRange } from 'bits-ui'
 
+  import { BROWSER } from 'esm-env'
   import { RangeCalendar } from 'bits-ui'
+  import { Time, fromDate, getLocalTimeZone, toCalendarDateTime } from '@internationalized/date'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
-  import { calendarDateFromDate } from './utils.js'
 
   let { class: className, date = $bindable() }: { date: [Date, Date]; class?: string } = $props()
 
-  const value = $derived(getValue(date))
+  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
+  const value = $derived(getValue(date, timeZone))
 
   const onValueChange = ({ start, end }: DateRange) => {
     if (!start || !end) return
 
-    date = [start.toDate('utc'), end.toDate('utc')]
+    const endDateTime = toCalendarDateTime(end, new Time(23, 59, 59, 999))
+    const startDateTime = toCalendarDateTime(start, new Time())
+
+    date = [startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)]
   }
 
-  function getValue([start, end]: [Date, Date]) {
-    return { start: calendarDateFromDate(start), end: calendarDateFromDate(end) }
+  function getValue([start, end]: [Date, Date], tz: string) {
+    return { start: fromDate(start, tz), end: fromDate(end, tz) }
   }
 </script>
 

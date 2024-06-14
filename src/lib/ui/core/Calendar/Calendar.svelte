@@ -1,19 +1,23 @@
 <script lang="ts">
   import type { DateValue } from '@internationalized/date'
 
+  import { BROWSER } from 'esm-env'
   import { Calendar } from 'bits-ui'
-  import { calendarDateFromDate } from './utils.js'
+  import { fromDate, getLocalTimeZone } from '@internationalized/date'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
   let { class: className, date = $bindable() }: { date: Date; class?: string } = $props()
 
-  const value = $derived(calendarDateFromDate(date))
+  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
+  const value = $derived(fromDate(date, timeZone))
+
+  $inspect(date)
 
   const onValueChange = (update: DateValue | undefined) => {
     if (!update) return
 
-    date = update.toDate('utc')
+    date = update.toDate(timeZone)
   }
 </script>
 
