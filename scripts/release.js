@@ -148,12 +148,12 @@ async function replaceStaticAssetLogos() {
 }
 
 async function processSvg() {
-  async function process(options) {
-    await forFile(['./dist/icons/**/*.svg'], async (entry) => {
+  async function process(path, options) {
+    await forFile(path, async (entry) => {
       processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
     })
   }
 
-  await process(SPRITES_OPTIONS)
-  await process(ILLUS_OPTIONS)
+  await process(['./dist/icons/**/*.svg'], SPRITES_OPTIONS)
+  await process(['./dist/illus/**/*.svg'], ILLUS_OPTIONS)
 }
