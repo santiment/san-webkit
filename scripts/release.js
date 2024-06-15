@@ -28,7 +28,7 @@ export async function release() {
 
   await exec('git pull', false)
 
-  const { releaseTag, gitHash } = getReleaseTag()
+  const { releaseTag, gitHash } = await getReleaseTag()
 
   // Remove previous release branch
   await exec(`git branch -D ${RELEASE_BRANCH} 2>/dev/null`, false)
