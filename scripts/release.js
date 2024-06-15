@@ -23,8 +23,7 @@ export async function release() {
 
   await exec('git pull', false)
 
-  let [versionHash] = await exec('git rev-parse --short HEAD', false)
-  versionHash = versionHash.trim()
+  const { releaseTag, gitHash } = getReleaseTag()
 
   // Remove previous release branch
   await exec(`git branch -D ${RELEASE_BRANCH} 2>/dev/null`, false)
@@ -65,17 +64,27 @@ vite.config.ts.timestamp-*
   await exec(`git commit -m "[RELEASE] ${versionHash}"`)
 
   //  Make a new tag off of the latest build
-  const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
 
-  await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
+  await exec(`git tag "${releaseTag}" ${RELEASE_BRANCH}`)
   await exec(`git push origin ${RELEASE_BRANCH}`)
-  await exec(`git push origin "${tag}"`)
+  await exec(`git push origin "${releaseTag}"`)
 
-  console.log(`\n✅ Library published. Tag: ${tag}\n`)
+  console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
 }
 
 if (process.argv[2] === '--run') release()
+
+async function getReleaseTag() {
+  let [gitHash] = await exec('git rev-parse --short HEAD', false)
+  gitHash = gitHash.trim()
+
+  const date = new Date()
+
+  const releaseTag = `lib-${gitHash}-${date.getUTCDay()}${date.getUTCMonth()}${date.getUTCFullYear().toString().slice(-2)}`
+
+  return { releaseTag, gitHash }
+}
 
 async function updateLibraryPackageJson() {
   const exports = {}
