@@ -1,5 +1,7 @@
 import { exec as _exec } from 'child_process'
 import fg from 'fast-glob'
+import path from 'path'
+import url from 'url'
 
 /**
  *
@@ -31,4 +33,8 @@ export async function forFile(rule, clb, opts) {
   stream.on('data', (data) => awaits.push(clb(data)))
 
   return promise.then(() => Promise.all(awaits))
+}
+
+export function __dirname() {
+  return path.dirname(url.fileURLToPath(import.meta.url))
 }

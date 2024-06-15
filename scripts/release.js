@@ -2,12 +2,17 @@ import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { exec, forFile } from './utils.js'
+import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from './svg.js'
 
 const MAIN_BRANCH = 'next'
 const RELEASE_BRANCH = 'lib-release'
 const ROOT = path.resolve('.')
 
 export async function release() {
+  await processSvg()
+  await replaceStaticAssetLogos()
+
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
 
   if (currentBranchMsg.includes(MAIN_BRANCH) === false) {
@@ -132,4 +137,23 @@ async function processTypescriptFiles() {
   })
 
   return exports
+}
+
+async function replaceStaticAssetLogos() {
+  const logos = JSON.stringify(await fetchStatusAssetLogos())
+  await forFile(['./dist/**/AssetLogo.svelte'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, replaceAssetLogosSource(file.toString(), logos))
+  })
+}
+
+async function processSvg() {
+  async function process(options) {
+    await forFile(['./dist/icons/**/*.svg'], async (entry) => {
+      processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
+    })
+  }
+
+  await process(SPRITES_OPTIONS)
+  await process(ILLUS_OPTIONS)
 }

@@ -1,8 +1,13 @@
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from './svg.js'
-import { forFile } from '../scripts/utils.js'
-import { fetchStatusAssetLogos } from '../scripts/asset-logos.js'
+import path from 'path'
+import fs from 'fs/promises'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from '../scripts/svg.js'
+import { forFile, __dirname } from '../scripts/utils.js'
+import { fetchStatusAssetLogos, replaceAssetLogosSource } from '../scripts/asset-logos.js'
 
 export function WebkitSvg() {
+  const base = __dirname()
+  const isLibPackage = base.includes('node_modules')
+
   const ICONS_PATH = './src/lib/icons'
   const ILLUS_PATH = './src/lib/illus'
 
@@ -13,6 +18,17 @@ export function WebkitSvg() {
     name: 'webkit-svg',
 
     buildStart() {
+      if (isLibPackage) {
+        const root = path.resolve(base, '..')
+
+        const copyTargets = ['icons', 'illus', 'sprites']
+        copyTargets.forEach((dir) => {
+          fs.cp(path.resolve(root, dir), staticDir + dir, { recursive: true, force: true })
+        })
+
+        return
+      }
+
       forFile([ICONS_PATH + '/**/*.svg'], async (entry) => {
         processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
       })
@@ -48,7 +64,7 @@ export async function StaticAssetLogos() {
     transform(src: string, id: string) {
       if (id.includes('AssetLogo.svelte')) {
         return {
-          code: src.replace('STATIC_ASSET_LOGO = {}', `STATIC_ASSET_LOGO = ${logos}`),
+          code: replaceAssetLogosSource(src, logos),
           map: null,
         }
       }

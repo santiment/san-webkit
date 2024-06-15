@@ -1,17 +1,27 @@
 import path from 'path'
 import fs from 'fs'
-import SVGSpriter from 'svg-sprite'
-import fg from 'fast-glob'
-import { optimize } from 'svgo'
 
-export const optimizeSvg = (path: string) =>
-  optimize(fs.readFileSync(path).toString(), { path }).data
+/**
+ *
+ * @param {string} path
+ * @returns
+ */
+export const optimizeSvg = async (path) =>
+  (await import('svgo')).optimize(fs.readFileSync(path).toString(), { path }).data
 
-export async function getSvgSprite(filePath: string, options: any, svg?: string): Promise<string> {
+/**
+ *
+ * @param {string} filePath
+ * @param {any} options
+ * @param {string} [svg]
+ * @returns {Promise<string>}
+ */
+export async function getSvgSprite(filePath, options, svg) {
   const fileName = path.basename(filePath, '.svg')
+  const SVGSpriter = (await import('svg-sprite')).default
 
-  return new Promise((resolve) => {
-    if (!svg) svg = optimizeSvg(filePath)
+  return new Promise(async (resolve) => {
+    if (!svg) svg = await optimizeSvg(filePath)
 
     const spriter = new SVGSpriter(options)
 
@@ -24,7 +34,11 @@ export async function getSvgSprite(filePath: string, options: any, svg?: string)
   })
 }
 
-function createSpriterOptions(plugins = [] as any[]) {
+/**
+ *
+ * @param {any[]} plugins
+ */
+function createSpriterOptions(plugins = []) {
   return {
     mode: { symbol: { example: false } },
     shape: {
@@ -39,7 +53,12 @@ function createSpriterOptions(plugins = [] as any[]) {
   }
 }
 
-export function writeFile(pathname: string, value: string) {
+/**
+ *
+ * @param {string} pathname
+ * @param {string} value
+ */
+export function writeFile(pathname, value) {
   return new Promise((resolve) => {
     const resultDir = path.dirname(pathname)
     fs.mkdirSync(resultDir, { recursive: true })
@@ -55,15 +74,24 @@ export const SPRITES_OPTIONS = createSpriterOptions([
 export const ILLUS_OPTIONS = createSpriterOptions()
 
 const LIB_PATH = './src/lib/'
-export async function processSvgWithOutput(
-  inputPath: string,
-  outputDir: string,
-  outputSpriteDir: undefined | string,
-  spriteOptions: any,
-) {
-  const basePath = inputPath.replace(LIB_PATH, '')
 
-  const svg = optimizeSvg(inputPath)
+/**
+ *
+ * @param {string} inputPath
+ * @param {string} outputDir
+ * @param {undefined | string} outputSpriteDir
+ * @param {any} spriteOptions
+ */
+export async function processSvgWithOutput(
+  inputPath,
+  outputDir,
+  outputSpriteDir,
+  spriteOptions,
+  replacePath = LIB_PATH,
+) {
+  const basePath = inputPath.replace(replacePath, '')
+
+  const svg = await optimizeSvg(inputPath)
   writeFile(outputDir + basePath, svg)
 
   const sprite = await getSvgSprite(inputPath, spriteOptions, svg)

@@ -27,7 +27,8 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lib:release": "npm run package && node scripts/release.js --run"
   },
   "exports": {
     "./ui/*": {

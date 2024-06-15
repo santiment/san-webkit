@@ -23,3 +23,12 @@ export const fetchStatusAssetLogos = () =>
         return acc
       }, {})
     })
+
+/**
+ *
+ * @param {string} src - Source code
+ * @param {string} logos - Stringified JSON object
+ * @returns {string}
+ */
+export const replaceAssetLogosSource = (src, logos) =>
+  src.replace('STATIC_ASSET_LOGO = {}', `STATIC_ASSET_LOGO = ${logos}`)
