@@ -23,7 +23,7 @@ export function WebkitSvg() {
 
         const copyTargets = ['icons', 'illus', 'sprites']
         copyTargets.forEach((dir) => {
-          fs.cp(path.resolve(root, dir), staticDir + dir, { recursive: true, force: true })
+          fs.cp(path.resolve(root, 'dist', dir), staticDir + dir, { recursive: true, force: true })
         })
 
         return

@@ -10,9 +10,6 @@ const RELEASE_BRANCH = 'lib-release'
 const ROOT = path.resolve('.')
 
 export async function release() {
-  await processSvg()
-  await replaceStaticAssetLogos()
-
   const [currentBranchMsg] = await exec('git rev-parse --abbrev-ref HEAD', false)
 
   if (currentBranchMsg.includes(MAIN_BRANCH) === false) {
@@ -40,6 +37,8 @@ export async function release() {
   // Building library
   await exec(`npm run prepublishOnly`)
 
+  await processSvg()
+  await replaceStaticAssetLogos()
   await updateLibraryPackageJson()
 
   await exec('git rm --cached -r tests', false)

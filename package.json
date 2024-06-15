@@ -28,7 +28,7 @@
     "test:unit": "vitest",
     "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
     "build-storybook": "storybook build",
-    "lib:release": "npm run package && node scripts/release.js --run"
+    "lib:release": "node scripts/release.js --run"
   },
   "exports": {
     "./ui/*": {
