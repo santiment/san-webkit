@@ -80,8 +80,11 @@ async function getReleaseTag() {
   gitHash = gitHash.trim()
 
   const date = new Date()
+  const day = date.getUTCDay().toString().padStart(2, '0')
+  const month = date.getUTCMonth().toString().padStart(2, '0')
+  const year = date.getUTCFullYear().toString().slice(-2)
 
-  const releaseTag = `lib-${gitHash}-${date.getUTCDay()}${date.getUTCMonth()}${date.getUTCFullYear().toString().slice(-2)}`
+  const releaseTag = `lib-${gitHash}-${day}${month}${year}`
 
   return { releaseTag, gitHash }
 }
