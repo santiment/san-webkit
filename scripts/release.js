@@ -131,7 +131,7 @@ async function processTypescriptFiles() {
 
     exports['./' + rawPath + '.js'] = {
       types: './' + rawPath + '.d.ts',
-      import: './' + rawPath + '.js',
+      default: './' + rawPath + '.js',
     }
   })
 

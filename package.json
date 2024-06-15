@@ -37,11 +37,11 @@
     },
     "./scripts/*": {
       "types": "./scripts/*.d.ts",
-      "import": "./scripts/*.js"
+      "default": "./scripts/*.js"
     },
     "./plugins/*": {
       "types": "./plugins/*.d.ts",
-      "import": "./plugins/*.js"
+      "default": "./plugins/*.js"
     }
   },
   "files": [
