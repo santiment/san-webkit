@@ -11,7 +11,7 @@
 <Tooltip
   isOpened={!!text}
   isEnabled={false}
-  class="caption c-black tooltip-SaUvAL"
+  class="caption c-black tooltip-rTdj67"
   {offsetY}
   {activeClass}
 >
@@ -24,7 +24,7 @@
 </Tooltip>
 
 <style>
-  :global(.tooltip-SaUvAL) {
+  :global(.tooltip-rTdj67) {
     padding: 6px 8px;
     fill: var(--red);
   }

@@ -3,7 +3,7 @@ let className = '';
 export { className as class };
 </script>
 
-<Toggle class="toggle-kc47fC {className}" icon="toggle-visibility" {...$$restProps} on:click />
+<Toggle class="toggle-su7rU8 {className}" icon="toggle-visibility" {...$$restProps} on:click />
 
 <style >/**
 @include dac(desktop, tablet, phone) {
@@ -19,7 +19,7 @@ export { className as class };
   }
 }
 */
-:global(.toggle-kc47fC) {
+:global(.toggle-su7rU8) {
   --toggle-img-width: 28px;
   --toggle-big-img-width: 38px;
 }</style>
