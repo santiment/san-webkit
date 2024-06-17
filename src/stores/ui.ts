@@ -43,6 +43,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
         const { currentUser } = getSessionValue()
         const isNightMode = document.body.classList.toggle('night-mode')
 
+        // @ts-expect-error
+        window.onNightModeToggle?.(isNightMode)
+
         if (currentUser) {
           mutate(TOGGLE_THEME_MUTATION(isNightMode)).catch(console.error)
         }
