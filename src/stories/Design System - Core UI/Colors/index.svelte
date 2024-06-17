@@ -12,6 +12,7 @@
       'black',
     ],
     Green: ['green', 'green-hover', 'green-light-1', 'green-light-2', 'green-light-3'],
+    Lima: ['lima', 'lima-hover', 'lima-light-1'],
     Red: ['red', 'red-hover', 'red-light-1', 'red-light-2'],
     Yellow: ['yellow', 'yellow-hover'],
     Orange: [
@@ -23,6 +24,7 @@
       'orange-pale',
     ],
     Blue: ['blue', 'blue-hover', 'blue-light-1', 'blue-light-2'],
+    Cyan: ['cyan', 'cyan-hover', 'cyan-light-1'],
     Purple: [
       'purple',
       'purple-hover',

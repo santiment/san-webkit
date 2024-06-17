@@ -31,6 +31,7 @@
     "lib:release": "node scripts/release.js --run"
   },
   "exports": {
+    "./app.css": "./dist/app.css",
     "./ui/*": {
       "types": "./dist/ui/*.d.ts",
       "svelte": "./dist/ui/*.js"
