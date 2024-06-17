@@ -5,7 +5,8 @@
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
 
-  let { date = $bindable() }: { date: [Date, Date] | Date } = $props()
+  let { date = $bindable(), withPresets }: { date: [Date, Date] | Date; withPresets?: boolean } =
+    $props()
 
   const label = $derived(
     Array.isArray(date)
@@ -16,7 +17,7 @@
 
 <Popover noStyles>
   {#snippet children({ ref })}
-    <Button {ref} variant="border">
+    <Button {ref} variant="border" class="whitespace-nowrap">
       <Svg id="calendar" w="16" />
       {label}
     </Button>
@@ -24,7 +25,7 @@
 
   {#snippet content()}
     {#if Array.isArray(date)}
-      <RangeCalendar bind:date />
+      <RangeCalendar bind:date {withPresets} />
     {:else}
       <Calendar bind:date />
     {/if}

@@ -6,11 +6,20 @@
   import { Time, fromDate, getLocalTimeZone, toCalendarDateTime } from '@internationalized/date'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+  import Button from '$ui/core/Button/index.js'
+  import { getPresets } from './utils.js'
 
-  let { class: className, date = $bindable() }: { date: [Date, Date]; class?: string } = $props()
+  let {
+    class: className,
+    date = $bindable(),
+    withPresets = false,
+  }: { class?: string; date: [Date, Date]; withPresets?: boolean } = $props()
 
   const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
   const value = $derived(getValue(date, timeZone))
+  const presets = $derived(withPresets ? getPresets(timeZone) : [])
+
+  $inspect(date)
 
   const onValueChange = ({ start, end }: DateRange) => {
     if (!start || !end) return
@@ -27,7 +36,7 @@
 </script>
 
 <RangeCalendar.Root
-  class={cn('max-w-max rounded border bg-white', className)}
+  class={cn('h-full max-w-max rounded border bg-white', className)}
   let:months
   let:weekdays
   weekdayFormat="short"
@@ -35,60 +44,80 @@
   {value}
   {onValueChange}
 >
-  <RangeCalendar.Header class="flex items-center justify-between">
-    <RangeCalendar.PrevButton class="rounded-9px inline-flex size-8 items-center justify-center">
-      <Svg id="arrow-left-big" />
-    </RangeCalendar.PrevButton>
-    <RangeCalendar.Heading class="text-[15px] font-medium" />
-    <RangeCalendar.NextButton class="rounded-9px inline-flex size-8 items-center justify-center">
-      <Svg id="arrow-right-big" />
-    </RangeCalendar.NextButton>
-  </RangeCalendar.Header>
+  <div class="flex h-full flex-row items-stretch">
+    <div>
+      <RangeCalendar.Header class="flex items-center justify-between">
+        <RangeCalendar.PrevButton
+          class="rounded-9px inline-flex size-8 items-center justify-center"
+        >
+          <Svg id="arrow-left-big" />
+        </RangeCalendar.PrevButton>
+        <RangeCalendar.Heading class="text-[15px] font-medium" />
+        <RangeCalendar.NextButton
+          class="rounded-9px inline-flex size-8 items-center justify-center"
+        >
+          <Svg id="arrow-right-big" />
+        </RangeCalendar.NextButton>
+      </RangeCalendar.Header>
 
-  <div class="month flex flex-col space-y-4 px-3 pb-3 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-    {#each months as month}
-      <RangeCalendar.Grid class="w-full border-collapse select-none space-y-1">
-        <RangeCalendar.GridHead>
-          <RangeCalendar.GridRow class="mb-1 flex w-full justify-between">
-            {#each weekdays as day}
-              <RangeCalendar.HeadCell
-                class="w-8 rounded-md text-xs font-normal uppercase text-waterloo"
-              >
-                <div>{day.slice(0, 2)}</div>
-              </RangeCalendar.HeadCell>
-            {/each}
-          </RangeCalendar.GridRow>
-        </RangeCalendar.GridHead>
-        <RangeCalendar.GridBody>
-          {#each month.weeks as weekDates}
-            <RangeCalendar.GridRow class="flex w-full">
-              {#each weekDates as date}
-                <RangeCalendar.Cell
-                  {date}
-                  class="relative m-0 size-8 w-8 p-0 text-center focus-within:z-20"
-                >
-                  <RangeCalendar.Day
-                    {date}
-                    month={month.value}
-                    class={cn(
-                      'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded',
-                      'hover:bg-athens hover:text-green',
-                      'data-[unavailable]:text-mystic data-[unavailable]:line-through',
-                      'data-[disabled]:pointer-events-none data-[disabled]:text-mystic',
-                      'data-[outside-month]:pointer-events-none',
-                      'data-[highlighted]:rounded-none data-[highlighted]:bg-green-light-1',
-                      'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
-                    )}
+      <div
+        class="month flex flex-col space-y-4 px-3 pb-3 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0"
+      >
+        {#each months as month}
+          <RangeCalendar.Grid class="w-full border-collapse select-none space-y-1">
+            <RangeCalendar.GridHead>
+              <RangeCalendar.GridRow class="mb-1 flex w-full justify-between">
+                {#each weekdays as day}
+                  <RangeCalendar.HeadCell
+                    class="w-8 rounded-md text-xs font-normal uppercase text-waterloo"
                   >
-                    {date.day}
-                  </RangeCalendar.Day>
-                </RangeCalendar.Cell>
+                    <div>{day.slice(0, 2)}</div>
+                  </RangeCalendar.HeadCell>
+                {/each}
+              </RangeCalendar.GridRow>
+            </RangeCalendar.GridHead>
+            <RangeCalendar.GridBody>
+              {#each month.weeks as weekDates}
+                <RangeCalendar.GridRow class="flex w-full">
+                  {#each weekDates as date}
+                    <RangeCalendar.Cell
+                      {date}
+                      class="relative m-0 size-8 w-8 p-0 text-center focus-within:z-20"
+                    >
+                      <RangeCalendar.Day
+                        {date}
+                        month={month.value}
+                        class={cn(
+                          'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded',
+                          'hover:bg-athens hover:text-green',
+                          'data-[unavailable]:text-mystic data-[unavailable]:line-through',
+                          'data-[disabled]:pointer-events-none data-[disabled]:text-mystic',
+                          'data-[outside-month]:pointer-events-none',
+                          'data-[highlighted]:rounded-none data-[highlighted]:bg-green-light-1',
+                          'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
+                        )}
+                      >
+                        {date.day}
+                      </RangeCalendar.Day>
+                    </RangeCalendar.Cell>
+                  {/each}
+                </RangeCalendar.GridRow>
               {/each}
-            </RangeCalendar.GridRow>
-          {/each}
-        </RangeCalendar.GridBody>
-      </RangeCalendar.Grid>
-    {/each}
+            </RangeCalendar.GridBody>
+          </RangeCalendar.Grid>
+        {/each}
+      </div>
+    </div>
+
+    {#if withPresets}
+      <aside class="flex min-w-36 flex-col items-stretch border-l p-2">
+        {#each presets as { title, range }}
+          <Button onclick={() => onValueChange(range)} class="px-[6px] py-2" variant="ghost">
+            {title}
+          </Button>
+        {/each}
+      </aside>
+    {/if}
   </div>
 </RangeCalendar.Root>
 
