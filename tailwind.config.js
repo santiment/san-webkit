@@ -105,13 +105,16 @@ export default {
 
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({
-        '.center': {
-          alignItems: 'center',
-          justifyContent: 'center',
+        '.row': {
+          display: 'flex',
         },
         '.column': {
           display: 'flex',
           flexDirection: 'column',
+        },
+        '.center': {
+          alignItems: 'center',
+          justifyContent: 'center',
         },
         '.text-mono': {
           fontFamily: 'Monospace',
