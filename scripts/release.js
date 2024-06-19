@@ -110,10 +110,7 @@ async function updateLibraryPackageJson() {
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
-
-  delete pkgJson.scripts.install
-  delete pkgJson.scripts.postinstall
-  delete pkgJson.scripts.prepare
+  pkgJson.scripts = {}
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
 }

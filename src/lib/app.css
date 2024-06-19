@@ -67,7 +67,3 @@ body {
   font-size: 14px;
   line-height: 20px;
 }
-
-.center {
-  @apply items-center justify-center;
-}
