@@ -4,8 +4,7 @@
   import { fade } from 'svelte/transition'
   import { createDialog } from '@melt-ui/svelte'
   import { BROWSER } from 'esm-env'
-  import { cn } from '$ui/utils/index.js'
-  import { flyAndScale } from './utils.js'
+  import { cn, flyAndScale } from '$ui/utils/index.js'
   import { getDialogControllerCtx } from './dialogs.js'
 
   let {

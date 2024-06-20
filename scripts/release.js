@@ -96,7 +96,7 @@ async function getReleaseTag() {
 async function updateLibraryPackageJson() {
   const exports = {}
 
-  await forFile([path.resolve(ROOT, 'src/lib/ui/**/index.ts')], async (entry) => {
+  await forFile([path.resolve(ROOT, 'src/lib/**/index.ts')], async (entry) => {
     const rawPath = entry.slice(path.resolve(ROOT, 'src/lib').length, -'/index.ts'.length)
 
     exports['.' + rawPath] = {
