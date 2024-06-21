@@ -67,3 +67,64 @@ body {
   font-size: 14px;
   line-height: 20px;
 }
+
+.loading {
+  position: relative;
+  color: transparent !important;
+  fill: transparent !important;
+  pointer-events: none;
+}
+
+.loading::after {
+  --dot-color: var(--loading-color, var(--color, var(--black)));
+  font-size: var(--loading-size, 4px);
+  position: absolute;
+  content: '';
+  left: 50%;
+  top: calc(50% - 2em);
+  width: 1em;
+  transform: translate(-50%, -50%);
+  height: 1em;
+  border-radius: 50%;
+  animation: SAN-load ease 0.8s infinite;
+}
+
+loading-spin,
+.loading-spin {
+  width: var(--loading-size, 16px);
+  height: var(--loading-size, 16px);
+  border-radius: 50%;
+  border-top: 2px solid var(--mystic);
+  border-right: 2px solid var(--mystic);
+  border-bottom: 2px solid var(--mystic);
+  border-left: 2px solid var(--casper);
+  animation: SAN-load-spin 0.9s infinite linear;
+}
+
+@keyframes SAN-load {
+  0% {
+    box-shadow:
+      -2em 2em 0 -10px var(--dot-color),
+      -2em 2em var(--dot-color),
+      0 2em var(--dot-color),
+      2em 2em var(--dot-color);
+  }
+
+  100% {
+    box-shadow:
+      -2em 2em 0 0 var(--dot-color),
+      0 2em var(--dot-color),
+      2em 2em var(--dot-color),
+      2em 2em 0 -5px var(--dot-color);
+  }
+}
+
+@keyframes SAN-load-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

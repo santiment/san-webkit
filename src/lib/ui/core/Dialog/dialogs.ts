@@ -8,14 +8,23 @@ import {
   type ComponentConstructorOptions,
 } from 'svelte'
 
-type TController<Resolved, Rejected> = {
+type TController<GResolved, GRejected> = {
   lock: () => void
   lockWarn: () => void
   unlock: () => void
 
   close: () => void
-  resolve: (value?: Resolved) => void
-  reject: (value?: Rejected) => void
+  resolve: GResolved
+  reject: GRejected
+}
+
+export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
+export type TDialogReject<T = undefined> = T extends undefined ? () => void : (value: T) => void
+
+export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
+  resolve: TDialogResolve<GResolved>
+  reject: TDialogReject<GRejected>
+  Controller: TController<TDialogResolve<GResolved>, TDialogReject<GRejected>>
 }
 
 type TGenericComponent<Props extends Record<string, any> = any> = new (
@@ -31,7 +40,7 @@ export const dialogs$ = {
     const ALL_CTX = getAllContexts()
 
     type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
-    type TProps = Omit<TComponentProps, 'resolve' | 'reject'>
+    type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
 
     type TResolve = TComponentProps extends Record<'resolve', infer Resolve> ? Resolve : never
     type TReturn = Promise<TResolve extends (args: any) => any ? Parameters<TResolve>[0] : unknown>

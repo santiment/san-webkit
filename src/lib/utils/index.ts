@@ -1,6 +1,7 @@
 import { BROWSER } from 'esm-env'
+import { getContext, setContext } from 'svelte'
 
-export { useObserveFnCall } from './observable.svelte.js'
+export { useObserveFnCall, pipeGroupBy } from './observable.svelte.js'
 
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
@@ -15,4 +16,28 @@ export const BootFlag = {
     // @ts-expect-error
     if (BROWSER) window.__BOOT_FLAG__ = true
   },
+}
+
+export function createCtx<CtxName extends string, CtxCreator extends (...args: any[]) => any>(
+  CTX: CtxName,
+  creator: CtxCreator,
+) {
+  type CtxValue = ReturnType<CtxCreator>
+
+  return (...args: Parameters<CtxCreator>) => {
+    const ctx = getContext(CTX) as CtxValue
+    if (ctx) return ctx
+
+    return setContext(CTX, creator(...args)) as CtxValue
+  }
+}
+
+export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {
+  return Object.entries(events).reduce(
+    (acc, [key, event]) =>
+      Object.assign(acc, {
+        [key]: () => emit(event),
+      }),
+    {},
+  ) as { [K in keyof T]: () => void }
 }

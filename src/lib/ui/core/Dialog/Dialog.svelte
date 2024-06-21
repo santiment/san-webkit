@@ -45,11 +45,11 @@
 
 {#if BROWSER}
   {#if $open}
-    <div class="" {...$portalled} use:portalled>
+    <div class="z-[10000]" {...$portalled} use:portalled>
       <div
         {...$overlay}
         use:overlay
-        class="fixed inset-0 z-50 bg-[#000000cf]"
+        class="fixed inset-0 bg-[#000000cf]"
         transition:fade={{ duration: TRANSITION_MS }}
       ></div>
       <div
