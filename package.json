@@ -27,21 +27,24 @@
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "lib:release": "node scripts/release.js --run"
   },
   "exports": {
+    "./app.css": "./dist/app.css",
     "./ui/*": {
       "types": "./dist/ui/*.d.ts",
       "svelte": "./dist/ui/*.js"
     },
     "./scripts/*": {
       "types": "./scripts/*.d.ts",
-      "import": "./scripts/*.js"
+      "default": "./scripts/*.js"
     },
     "./plugins/*": {
       "types": "./plugins/*.d.ts",
-      "import": "./plugins/*.js"
-    }
+      "default": "./plugins/*.js"
+    },
+    "./api/*": "./dist/api/*"
   },
   "files": [
     "dist",

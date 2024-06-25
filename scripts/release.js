@@ -2,6 +2,8 @@ import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { exec, forFile } from './utils.js'
+import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from './svg.js'
 
 const MAIN_BRANCH = 'next'
 const RELEASE_BRANCH = 'lib-release'
@@ -23,8 +25,7 @@ export async function release() {
 
   await exec('git pull', false)
 
-  let [versionHash] = await exec('git rev-parse --short HEAD', false)
-  versionHash = versionHash.trim()
+  const { releaseTag, gitHash } = await getReleaseTag()
 
   // Remove previous release branch
   await exec(`git branch -D ${RELEASE_BRANCH} 2>/dev/null`, false)
@@ -36,6 +37,8 @@ export async function release() {
   // Building library
   await exec(`npm run prepublishOnly`)
 
+  await processSvg()
+  await replaceStaticAssetLogos()
   await updateLibraryPackageJson()
 
   await exec('git rm --cached -r tests', false)
@@ -62,25 +65,38 @@ vite.config.ts.timestamp-*
   )
 
   await exec(`git add . -A`)
-  await exec(`git commit -m "[RELEASE] ${versionHash}"`)
+  await exec(`git commit -m "[RELEASE] ${gitHash}"`)
 
   //  Make a new tag off of the latest build
-  const tag = `lib-${versionHash}`
   await exec(`git checkout ${MAIN_BRANCH}`)
 
-  await exec(`git tag "${tag}" ${RELEASE_BRANCH}`)
+  await exec(`git tag "${releaseTag}" ${RELEASE_BRANCH}`)
   await exec(`git push origin ${RELEASE_BRANCH}`)
-  await exec(`git push origin "${tag}"`)
+  await exec(`git push origin "${releaseTag}"`)
 
-  console.log(`\n✅ Library published. Tag: ${tag}\n`)
+  console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
 }
 
 if (process.argv[2] === '--run') release()
 
+async function getReleaseTag() {
+  let [gitHash] = await exec('git rev-parse --short HEAD', false)
+  gitHash = gitHash.trim()
+
+  const date = new Date()
+  const day = date.getUTCDate().toString().padStart(2, '0')
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0')
+  const year = date.getUTCFullYear().toString().slice(-2)
+
+  const releaseTag = `lib-${gitHash}-${day}${month}${year}`
+
+  return { releaseTag, gitHash }
+}
+
 async function updateLibraryPackageJson() {
   const exports = {}
 
-  await forFile([path.resolve(ROOT, 'src/lib/ui/**/index.ts')], async (entry) => {
+  await forFile([path.resolve(ROOT, 'src/lib/**/index.ts')], async (entry) => {
     const rawPath = entry.slice(path.resolve(ROOT, 'src/lib').length, -'/index.ts'.length)
 
     exports['.' + rawPath] = {
@@ -94,10 +110,7 @@ async function updateLibraryPackageJson() {
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
-
-  delete pkgJson.scripts.install
-  delete pkgJson.scripts.postinstall
-  delete pkgJson.scripts.prepare
+  pkgJson.scripts = {}
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
 }
@@ -115,9 +128,28 @@ async function processTypescriptFiles() {
 
     exports['./' + rawPath + '.js'] = {
       types: './' + rawPath + '.d.ts',
-      import: './' + rawPath + '.js',
+      default: './' + rawPath + '.js',
     }
   })
 
   return exports
+}
+
+async function replaceStaticAssetLogos() {
+  const logos = JSON.stringify(await fetchStatusAssetLogos())
+  await forFile(['./dist/**/AssetLogo.svelte'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, replaceAssetLogosSource(file.toString(), logos))
+  })
+}
+
+async function processSvg() {
+  async function process(path, options) {
+    await forFile(path, async (entry) => {
+      processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
+    })
+  }
+
+  await process(['./dist/icons/**/*.svg'], SPRITES_OPTIONS)
+  await process(['./dist/illus/**/*.svg'], ILLUS_OPTIONS)
 }

@@ -16,9 +16,11 @@
   let logo = $derived(STATIC_ASSET_LOGO[slug] || slug.replace(CHAIN_REGEX, ''))
 </script>
 
-<Picture
-  {...rest}
-  src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{logo}.png"
->
-  <Svg id="asset-small" w={placeholderSize}></Svg>
-</Picture>
+{#key logo}
+  <Picture
+    {...rest}
+    src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{logo}.png"
+  >
+    <Svg id="asset-small" w={placeholderSize}></Svg>
+  </Picture>
+{/key}

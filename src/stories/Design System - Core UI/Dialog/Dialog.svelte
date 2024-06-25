@@ -5,9 +5,9 @@
 </script>
 
 <script lang="ts">
-  import Dialog, { dialogs$, type TDialogReject, type TDialogResolve } from '$ui/core/Dialog'
+  import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
 
-  let { resolve, reject }: { resolve: TDialogResolve<boolean>; reject: TDialogReject } = $props()
+  let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
 </script>
 
 <Dialog class="p-6">Hello</Dialog>

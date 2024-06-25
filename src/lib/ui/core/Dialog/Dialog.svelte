@@ -4,8 +4,7 @@
   import { fade } from 'svelte/transition'
   import { createDialog } from '@melt-ui/svelte'
   import { BROWSER } from 'esm-env'
-  import { cn } from '$ui/utils/index.js'
-  import { flyAndScale } from './utils.js'
+  import { cn, flyAndScale } from '$ui/utils/index.js'
   import { getDialogControllerCtx } from './dialogs.js'
 
   let {
@@ -46,11 +45,11 @@
 
 {#if BROWSER}
   {#if $open}
-    <div class="" {...$portalled} use:portalled>
+    <div class="z-[10000]" {...$portalled} use:portalled>
       <div
         {...$overlay}
         use:overlay
-        class="fixed inset-0 z-50 bg-[#000000cf]"
+        class="fixed inset-0 bg-[#000000cf]"
         transition:fade={{ duration: TRANSITION_MS }}
       ></div>
       <div

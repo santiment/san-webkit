@@ -63,37 +63,58 @@ export default {
         'green-light-2': { day: '#DCF6EF', night: '#173D40' },
         'green-light-3': { day: '#B0EBDB', night: '#165E55' },
 
+        lima: '#26C953',
+        'lima-hover': '#1bad44',
+        'lima-light-1': { day: '#D6F6D6', night: '#1B3E33' },
+
         red: '#FF6363',
         'red-hover': '#F85454',
         'red-light-1': { day: '#FFEEEE', night: '#2E2130' },
+        'red-light-2': { day: '#ffcece', night: '#4f2b36' },
+        'red-light-3': { day: '#ffadad', night: '#74353e' },
+
+        yellow: '#FFCB47',
+        'yellow-hover': '#FBB80D',
+        'yellow-light-1': { day: '#fff5da', night: '#2c2929' },
 
         orange: '#FFAD4D',
         'orange-hover': '#FD9317',
         'orange-light-1': { day: '#FEF3E4', night: '#382F2E' },
-
-        yellow: '#FFCB47',
-        'yellow-hover': '#FBB80D',
+        'orange-light-2': { day: '#ffe7ca', night: '#503f3d' },
+        'orange-light-3': { day: '#ffd6a6', night: '#8A6A56' },
+        'orange-pale': { day: '#fff9f0', night: '#26242d' },
 
         blue: '#5275FF',
         'blue-hover': '#375BE9',
+        'blue-light-1': { day: '#ecf0fe', night: '#1d223e' },
+        'blue-light-2': { day: '#dae0fd', night: '#273160' },
+        'blue-light-3': { day: '#a9baff', night: '#354895' },
+
+        cyan: '#68dbf4',
+        'cyan-hover': { day: '#18c0e4', night: '#5bcde5' },
+        'cyan-light-1': { day: '#d7f6fc', night: '#253a4b' },
 
         purple: '#8358FF',
         'purple-hover': '#6339DD',
-
-        lima: '#26C953',
-        'lima-light-1': { day: '#D6F6D6', night: '#1B3E33' },
+        'purple-light-1': { day: '#f5f4ff', night: '#1d1e35' },
+        'purple-light-2': { day: '#e7e4ff', night: '#28244b' },
+        'purple-light-3': { day: '#d4c5ff', night: '#3e3075' },
+        'purple-light-4': { day: '#c1abff', night: '#4e3995' },
       },
     }),
 
     plugin(function ({ addBase, addComponents, addUtilities, theme }) {
       addUtilities({
-        '.center': {
-          alignItems: 'center',
-          justifyContent: 'center',
+        '.row': {
+          display: 'flex',
         },
         '.column': {
           display: 'flex',
           flexDirection: 'column',
+        },
+        '.center': {
+          alignItems: 'center',
+          justifyContent: 'center',
         },
         '.text-mono': {
           fontFamily: 'Monospace',

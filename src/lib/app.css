@@ -1,0 +1,153 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./fonts/ProximaNova-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./fonts/ProximaNova-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Proxima Nova';
+  src: url('./fonts/ProximaNova-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+*::-webkit-scrollbar {
+  background: transparent !important;
+  width: 4px !important;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: 4px !important;
+  background: var(--porcelain) !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  width: 4px !important;
+  border-radius: 4px !important;
+  background: var(--casper) !important;
+}
+
+*::-webkit-scrollbar:horizontal {
+  height: 4px !important;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  cursor: pointer !important;
+  background: var(--waterloo) !important;
+}
+
+/* 
+* {
+  text-align: left;
+  align-items: start;
+  justify-content: start;
+}
+ */
+
+body {
+  color: var(--black);
+  fill: var(--black);
+  overflow-x: hidden;
+  background-color: var(--white);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.loading {
+  position: relative;
+  color: transparent !important;
+  fill: transparent !important;
+  pointer-events: none;
+}
+
+.loading::after {
+  --dot-color: var(--loading-color, var(--color, var(--black)));
+  font-size: var(--loading-size, 4px);
+  position: absolute;
+  content: '';
+  left: 50%;
+  top: calc(50% - 2em);
+  width: 1em;
+  transform: translate(-50%, -50%);
+  height: 1em;
+  border-radius: 50%;
+  animation: SAN-load ease 0.8s infinite;
+}
+
+loading-spin,
+.loading-spin {
+  width: var(--loading-size, 16px);
+  height: var(--loading-size, 16px);
+  border-radius: 50%;
+  border-top: 2px solid var(--mystic);
+  border-right: 2px solid var(--mystic);
+  border-bottom: 2px solid var(--mystic);
+  border-left: 2px solid var(--casper);
+  animation: SAN-load-spin 0.9s infinite linear;
+}
+
+@keyframes SAN-load {
+  0% {
+    box-shadow:
+      -2em 2em 0 -10px var(--dot-color),
+      -2em 2em var(--dot-color),
+      0 2em var(--dot-color),
+      2em 2em var(--dot-color);
+  }
+
+  100% {
+    box-shadow:
+      -2em 2em 0 0 var(--dot-color),
+      0 2em var(--dot-color),
+      2em 2em var(--dot-color),
+      2em 2em 0 -5px var(--dot-color);
+  }
+}
+
+@keyframes SAN-load-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.expl-tooltip {
+  position: relative;
+}
+
+.expl-tooltip:hover::before {
+  position: absolute;
+  content: attr(aria-label);
+  font-size: 12px;
+  line-height: 16px;
+  background: #505573;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  width: var(--expl-width, auto);
+  white-space: var(--expl-white-space, nowrap);
+  right: var(--expl-right);
+  left: var(--expl-left);
+  bottom: var(--expl-bottom);
+  top: var(--expl-position-y, -6px);
+  transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+  z-index: var(--expl-z-index, 30);
+}

@@ -2,7 +2,7 @@
   import { Checkbox } from 'bits-ui'
   import { cn } from '$ui/utils/index.js'
 
-  let { isActive = false }: { isActive?: boolean } = $props()
+  let { isActive = false, class: className }: { isActive?: boolean; class?: string } = $props()
 </script>
 
 <Checkbox.Root
@@ -11,6 +11,7 @@
     'size-4 min-w-4 rounded border border-porcelain bg-white hover:border-green',
     isActive &&
       'border-green bg-green bg-[url(/webkit/icons/checkmark.svg)] bg-center bg-no-repeat hover:bg-green-hover',
+    className,
   )}
 >
   <Checkbox.Indicator />
