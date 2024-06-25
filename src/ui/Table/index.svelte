@@ -81,7 +81,7 @@
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.key ?? column.title)}
-          {@const { className, valueKey } = column}
+          {@const { className, valueKey, componentProps } = column}
           {@const isValidValueKey = (valueKey ?? null) !== null}
           {@const value = isValidValueKey ? item[valueKey] : undefined}
 
@@ -89,7 +89,14 @@
             {#if isValidValueKey && value === undefined}
               <div class="skeleton" />
             {:else if column.Component}
-              <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
+              <svelte:component
+                this={column.Component}
+                {item}
+                {value}
+                {column}
+                {...itemProps}
+                {...componentProps}
+              />
             {:else if column.format}
               {column.format(item, i + offset, value)}
             {/if}

@@ -16,6 +16,7 @@ export type Column<T = Item> = {
   valueKey?: number | string
   isSortable?: boolean
   Component?: any
+  componentProps?: { [key: string]: unknown }
   format?: any
 }
 
