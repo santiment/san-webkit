@@ -43,7 +43,7 @@ function changeSort({ currentTarget }) {
 <table class={className} class:sticky-header={sticky}>
   <thead>
     <tr>
-      {#each columns as column, i (column.title)}
+      {#each columns as column, i (column.key ?? column.title)}
         {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
           class={className || ''}
@@ -67,8 +67,8 @@ function changeSort({ currentTarget }) {
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr on:click={() => onItemClick(item)}>
-        {#each columns as column (column.title)}
-          {@const { className, valueKey } = column}
+        {#each columns as column (column.key ?? column.title)}
+          {@const { className, valueKey, componentProps } = column}
           {@const isValidValueKey = (valueKey ?? null) !== null}
           {@const value = isValidValueKey ? item[valueKey] : undefined}
 
@@ -76,7 +76,14 @@ function changeSort({ currentTarget }) {
             {#if isValidValueKey && value === undefined}
               <div class="skeleton" />
             {:else if column.Component}
-              <svelte:component this={column.Component} {item} {value} {column} {...itemProps} />
+              <svelte:component
+                this={column.Component}
+                {item}
+                {value}
+                {column}
+                {...itemProps}
+                {...componentProps}
+              />
             {:else if column.format}
               {column.format(item, i + offset, value)}
             {/if}

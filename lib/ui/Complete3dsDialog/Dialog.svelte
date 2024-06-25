@@ -34,7 +34,7 @@ async function onProceedClick() {
 }
 </script>
 
-<Dialog {...$$props} noTitle title="Complete payment" class="dialog-MT6B5R" isClickawayDisabled>
+<Dialog {...$$props} noTitle title="Complete payment" class="dialog-j6FGJc" isClickawayDisabled>
   <main class="txt-center body-2 dialog-body">
     <div class="body column gap-xl hv-center">
       <img src={coinSvg} alt="Coin" class="mrg-l mrg--b" />
@@ -61,7 +61,7 @@ async function onProceedClick() {
   }
 }
 */
-:global(.dialog-MT6B5R) {
+:global(.dialog-j6FGJc) {
   width: 580px;
 }
 
