@@ -56,7 +56,7 @@
 <table class={className} class:sticky-header={sticky}>
   <thead>
     <tr>
-      {#each columns as column, i (column.title)}
+      {#each columns as column, i (column.key ?? column.title)}
         {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
           class={className || ''}
@@ -80,7 +80,7 @@
   <tbody>
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr on:click={() => onItemClick(item)}>
-        {#each columns as column (column.title)}
+        {#each columns as column (column.key ?? column.title)}
           {@const { className, valueKey } = column}
           {@const isValidValueKey = (valueKey ?? null) !== null}
           {@const value = isValidValueKey ? item[valueKey] : undefined}
