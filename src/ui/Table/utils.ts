@@ -8,6 +8,7 @@ export type SortAccessor<T = Item> = (item: T) => number
 export type Format<T = Item> = (item: T, i: number, value?: unknown) => number | string
 export type Column<T = Item> = {
   title: string
+  key?: string
   className?: string
   sortAccessor?: SortAccessor<T>
 
@@ -15,6 +16,7 @@ export type Column<T = Item> = {
   valueKey?: number | string
   isSortable?: boolean
   Component?: any
+  componentProps?: { [key: string]: unknown }
   format?: any
 }
 
