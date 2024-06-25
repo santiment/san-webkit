@@ -1,5 +1,6 @@
 import {
   Subject,
+  Subscription,
   groupBy,
   mergeMap,
   pipe,
@@ -14,10 +15,11 @@ export function useObserveFnCall<GData = undefined>(
   fn: <T>() => UnaryFunction<T extends Observable<unknown> ? any : Observable<GData>, any>,
 ) {
   const subject = new Subject<GData>()
+  let subscriber: Subscription
 
   $effect(() =>
     untrack(() => {
-      const subscriber = subject.pipe(fn(), share()).subscribe()
+      const subscriber = ensureSubscription()
       return () => {
         subscriber.unsubscribe()
         subject.complete()
@@ -25,9 +27,18 @@ export function useObserveFnCall<GData = undefined>(
     }),
   )
 
+  function ensureSubscription() {
+    if (subscriber) return subscriber
+
+    return (subscriber = subject.pipe(fn(), share()).subscribe())
+  }
+
   type Result = GData extends undefined ? () => void : (data: GData) => void
 
-  return ((data) => subject.next(data)) as Result
+  return ((data) => {
+    ensureSubscription()
+    subject.next(data)
+  }) as Result
 }
 
 export const pipeGroupBy = <T>(groupFn: (data: T) => any, operator: OperatorFunction<T, any>) =>

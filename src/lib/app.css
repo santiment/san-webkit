@@ -128,3 +128,26 @@ loading-spin,
     transform: rotate(360deg);
   }
 }
+
+.expl-tooltip {
+  position: relative;
+}
+
+.expl-tooltip:hover::before {
+  position: absolute;
+  content: attr(aria-label);
+  font-size: 12px;
+  line-height: 16px;
+  background: #505573;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 12px;
+  width: var(--expl-width, auto);
+  white-space: var(--expl-white-space, nowrap);
+  right: var(--expl-right);
+  left: var(--expl-left);
+  bottom: var(--expl-bottom);
+  top: var(--expl-position-y, -6px);
+  transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+  z-index: var(--expl-z-index, 30);
+}
