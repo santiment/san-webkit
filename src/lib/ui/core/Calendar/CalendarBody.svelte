@@ -43,7 +43,8 @@
                     'data-[disabled]:pointer-events-none data-[disabled]:text-mystic',
                     'data-[outside-month]:pointer-events-none',
                     'data-[highlighted]:rounded-none data-[highlighted]:bg-green-light-1',
-                    'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
+                    range &&
+                      'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
                   )}
                 >
                   {date.day}
