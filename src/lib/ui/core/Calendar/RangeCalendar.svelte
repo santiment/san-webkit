@@ -23,8 +23,6 @@
 
   const placeholder = createPlaceholder(() => value.end)
 
-  $inspect(date)
-
   const onValueChange = ({ start, end }: DateRange) => {
     if (!start || !end) return
 
