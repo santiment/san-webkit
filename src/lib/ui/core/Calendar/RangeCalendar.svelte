@@ -49,17 +49,17 @@
 >
   <div class="flex h-full flex-row items-stretch">
     <div>
-      <RangeCalendar.Header class="flex items-center justify-between border-b p-2">
+      <RangeCalendar.Header class="flex items-center justify-between gap-2 border-b p-2">
         <RangeCalendar.PrevButton
-          class="rounded-9px inline-flex size-8 items-center justify-center"
+          class="inline-flex size-8 rotate-180 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
         >
-          <Svg id="arrow-left-big" />
+          <Svg id="arrow-right" w="8" />
         </RangeCalendar.PrevButton>
         <CalendarHeading bind:placeholder={placeholder.date} {timeZone} />
         <RangeCalendar.NextButton
-          class="rounded-9px inline-flex size-8 items-center justify-center"
+          class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
         >
-          <Svg id="arrow-right-big" />
+          <Svg id="arrow-right" w="8" />
         </RangeCalendar.NextButton>
       </RangeCalendar.Header>
 

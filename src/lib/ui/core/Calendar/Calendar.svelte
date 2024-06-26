@@ -34,13 +34,17 @@
   {onValueChange}
   bind:placeholder={placeholder.date}
 >
-  <Calendar.Header class="flex items-center justify-between border-b p-2">
-    <Calendar.PrevButton class="rounded-9px inline-flex size-8 items-center justify-center">
-      <Svg id="arrow-left-big" />
+  <Calendar.Header class="flex items-center justify-between gap-2 border-b p-2">
+    <Calendar.PrevButton
+      class="inline-flex size-8 rotate-180 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
+    >
+      <Svg id="arrow-right" w="8" />
     </Calendar.PrevButton>
     <CalendarHeading bind:placeholder={placeholder.date} {timeZone} />
-    <Calendar.NextButton class="rounded-9px inline-flex size-8 items-center justify-center">
-      <Svg id="arrow-right-big" />
+    <Calendar.NextButton
+      class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
+    >
+      <Svg id="arrow-right" w="8" />
     </Calendar.NextButton>
   </Calendar.Header>
 
