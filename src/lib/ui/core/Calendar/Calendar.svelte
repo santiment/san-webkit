@@ -6,13 +6,15 @@
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
+  import CalendarHeading from './CalendarHeading.svelte'
+  import { createPlaceholder } from './utils.svelte.js'
 
   let { class: className, date = $bindable() }: { date: Date; class?: string } = $props()
 
   const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
   const value = $derived(fromDate(date, timeZone))
 
-  $inspect(date)
+  const placeholder = createPlaceholder(() => value)
 
   const onValueChange = (update: DateValue | undefined) => {
     if (!update) return
@@ -30,12 +32,13 @@
   multiple={false}
   {value}
   {onValueChange}
+  bind:placeholder={placeholder.date}
 >
-  <Calendar.Header class="flex items-center justify-between">
+  <Calendar.Header class="flex items-center justify-between p-2">
     <Calendar.PrevButton class="rounded-9px inline-flex size-8 items-center justify-center">
       <Svg id="arrow-left-big" />
     </Calendar.PrevButton>
-    <Calendar.Heading class="text-[15px] font-medium" />
+    <CalendarHeading bind:placeholder={placeholder.date} {timeZone} />
     <Calendar.NextButton class="rounded-9px inline-flex size-8 items-center justify-center">
       <Svg id="arrow-right-big" />
     </Calendar.NextButton>

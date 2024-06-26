@@ -7,7 +7,9 @@
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
-  import { getPresets } from './utils.js'
+  import { createPlaceholder } from './utils.svelte.js'
+  import CalendarHeading from './CalendarHeading.svelte'
+  import { getPresets } from './presets.js'
 
   let {
     class: className,
@@ -18,6 +20,8 @@
   const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
   const value = $derived(getValue(date, timeZone))
   const presets = $derived(withPresets ? getPresets(timeZone) : [])
+
+  const placeholder = createPlaceholder(() => value.end)
 
   $inspect(date)
 
@@ -43,16 +47,17 @@
   fixedWeeks
   {value}
   {onValueChange}
+  bind:placeholder={placeholder.date}
 >
   <div class="flex h-full flex-row items-stretch">
     <div>
-      <RangeCalendar.Header class="flex items-center justify-between">
+      <RangeCalendar.Header class="flex items-center justify-between p-2 ">
         <RangeCalendar.PrevButton
           class="rounded-9px inline-flex size-8 items-center justify-center"
         >
           <Svg id="arrow-left-big" />
         </RangeCalendar.PrevButton>
-        <RangeCalendar.Heading class="text-[15px] font-medium" />
+        <CalendarHeading bind:placeholder={placeholder.date} {timeZone} />
         <RangeCalendar.NextButton
           class="rounded-9px inline-flex size-8 items-center justify-center"
         >
