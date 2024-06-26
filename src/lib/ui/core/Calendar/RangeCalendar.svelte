@@ -49,7 +49,7 @@
 >
   <div class="flex h-full flex-row items-stretch">
     <div>
-      <RangeCalendar.Header class="flex items-center justify-between p-2 ">
+      <RangeCalendar.Header class="flex items-center justify-between border-b p-2">
         <RangeCalendar.PrevButton
           class="rounded-9px inline-flex size-8 items-center justify-center"
         >
@@ -74,7 +74,7 @@
                   <RangeCalendar.HeadCell
                     class="w-8 rounded-md text-xs font-normal uppercase text-waterloo"
                   >
-                    <div>{day.slice(0, 2)}</div>
+                    {day.slice(0, 2)}
                   </RangeCalendar.HeadCell>
                 {/each}
               </RangeCalendar.GridRow>
