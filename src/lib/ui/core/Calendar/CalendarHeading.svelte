@@ -7,25 +7,19 @@
 
   let {
     placeholder = $bindable(),
-    timeZone,
     minValue,
     maxValue,
   }: {
-    placeholder: DateValue | undefined
-    timeZone: string
+    placeholder: DateValue
     minValue: DateValue
     maxValue: DateValue
   } = $props()
 
-  let curYear = $state<number | undefined>(placeholder?.year)
-  let curMonth = $state<number | undefined>(placeholder?.month)
-
   const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short' })
   const formatMonth = (month: number) => monthFormatter.format(new Date(0, month - 1, 1))
 
-  const maxYearSelected = $derived(curYear === maxValue.year)
-  const minYearSelected = $derived(curYear === minValue.year)
-  const curDate = $derived(today(timeZone))
+  const maxYearSelected = $derived(placeholder.year === maxValue.year)
+  const minYearSelected = $derived(placeholder.year === minValue.year)
   const yearItems = $derived(getYearItems(minValue.year, maxValue.year))
   const monthItems = $derived(
     getMonthItems(
@@ -34,30 +28,13 @@
     ),
   )
 
-  $inspect({ placeholder, maxYearSelected })
-
-  const selected = {
-    get year() {
-      return curYear ?? curDate.year
-    },
-    set year(val: number) {
-      curYear = val
-    },
-    get month() {
-      return curMonth ?? curDate.month
-    },
-    set month(val: number) {
-      curMonth = val
-    },
-  }
-
   const selectedYear = $derived<Selected<number>>({
-    value: selected.year,
-    label: selected.year.toString(),
+    value: placeholder.year,
+    label: placeholder.year.toString(),
   })
   const selectedMonth = $derived<Selected<number>>({
-    value: selected.month,
-    label: formatMonth(selected.month),
+    value: placeholder.month,
+    label: formatMonth(placeholder.month),
   })
 
   function getYearItems(minYear: number, maxYear: number) {
@@ -78,14 +55,12 @@
 
   function onYearChange(change: Selected<number> | undefined) {
     if (!change) return
-    curYear = change.value
-    updatePlaceholder(selected.month, curYear)
+    updatePlaceholder(placeholder.month, change.value)
   }
 
   function onMonthChange(change: Selected<number> | undefined) {
     if (!change) return
-    curMonth = change.value
-    updatePlaceholder(curMonth, selected.year)
+    updatePlaceholder(change.value, placeholder.year)
   }
 
   function updatePlaceholder(month: number, year: number) {

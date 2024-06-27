@@ -46,7 +46,7 @@
   {minValue}
   {maxValue}
 >
-  <CalendarHeader bind:placeholder={placeholder.date} {timeZone} {minValue} {maxValue} />
+  <CalendarHeader bind:placeholder={placeholder.date} {minValue} {maxValue} />
 
   <CalendarBody {months} {weekdays} />
 </Calendar.Root>

@@ -60,7 +60,7 @@
 >
   <div class="flex h-full flex-row items-stretch">
     <div>
-      <CalendarHeader bind:placeholder={placeholder.date} {timeZone} range {minValue} {maxValue} />
+      <CalendarHeader bind:placeholder={placeholder.date} range {minValue} {maxValue} />
 
       <CalendarBody {months} {weekdays} range />
     </div>

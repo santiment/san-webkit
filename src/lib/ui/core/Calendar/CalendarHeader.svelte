@@ -7,13 +7,12 @@
 
   type Props = {
     range?: boolean
-    timeZone: string
     placeholder: DateValue
     minValue: DateValue
     maxValue: DateValue
   }
 
-  let { range = false, placeholder = $bindable(), timeZone, minValue, maxValue }: Props = $props()
+  let { range = false, placeholder = $bindable(), minValue, maxValue }: Props = $props()
 
   const Base = range ? RangeCalendar : Calendar
 </script>
@@ -24,7 +23,7 @@
   >
     <Svg id="arrow-right" w="8" />
   </Base.PrevButton>
-  <CalendarHeading bind:placeholder {timeZone} {minValue} {maxValue} />
+  <CalendarHeading bind:placeholder {minValue} {maxValue} />
   <Base.NextButton
     class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
   >
