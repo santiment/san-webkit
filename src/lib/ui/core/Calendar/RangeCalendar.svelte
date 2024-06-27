@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { DateRange } from 'bits-ui'
+  import type { DateValue } from '@internationalized/date'
 
-  import { BROWSER } from 'esm-env'
   import { RangeCalendar } from 'bits-ui'
-  import { Time, fromDate, getLocalTimeZone, toCalendarDateTime } from '@internationalized/date'
+  import { Time, fromDate, toCalendarDateTime } from '@internationalized/date'
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
   import { createPlaceholder } from './utils.svelte.js'
@@ -15,9 +15,18 @@
     class: className,
     date = $bindable(),
     withPresets = false,
-  }: { class?: string; date: [Date, Date]; withPresets?: boolean } = $props()
+    minValue,
+    maxValue,
+    timeZone,
+  }: {
+    class?: string
+    date: [Date, Date]
+    withPresets?: boolean
+    minValue: DateValue
+    maxValue: DateValue
+    timeZone: string
+  } = $props()
 
-  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
   const value = $derived(getValue(date, timeZone))
   const presets = $derived(withPresets ? getPresets(timeZone) : [])
 
@@ -46,10 +55,12 @@
   {value}
   {onValueChange}
   bind:placeholder={placeholder.date}
+  {minValue}
+  {maxValue}
 >
   <div class="flex h-full flex-row items-stretch">
     <div>
-      <CalendarHeader bind:placeholder={placeholder.date} {timeZone} range />
+      <CalendarHeader bind:placeholder={placeholder.date} {timeZone} range {minValue} {maxValue} />
 
       <CalendarBody {months} {weekdays} range />
     </div>

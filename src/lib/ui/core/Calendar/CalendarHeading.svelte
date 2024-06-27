@@ -8,7 +8,14 @@
   let {
     placeholder = $bindable(),
     timeZone,
-  }: { placeholder: DateValue | undefined; timeZone: string } = $props()
+    minValue,
+    maxValue,
+  }: {
+    placeholder: DateValue | undefined
+    timeZone: string
+    minValue: DateValue
+    maxValue: DateValue
+  } = $props()
 
   let curYear = $state<number | undefined>(placeholder?.year)
   let curMonth = $state<number | undefined>(placeholder?.month)
@@ -16,9 +23,18 @@
   const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short' })
   const formatMonth = (month: number) => monthFormatter.format(new Date(0, month - 1, 1))
 
+  const maxYearSelected = $derived(curYear === maxValue.year)
+  const minYearSelected = $derived(curYear === minValue.year)
   const curDate = $derived(today(timeZone))
-  const yearItems = $derived(getYearItems(curDate.year))
-  const monthItems = $derived(getMonthItems(curDate.month))
+  const yearItems = $derived(getYearItems(minValue.year, maxValue.year))
+  const monthItems = $derived(
+    getMonthItems(
+      minYearSelected ? minValue.month : undefined,
+      maxYearSelected ? maxValue.month : undefined,
+    ),
+  )
+
+  $inspect({ placeholder, maxYearSelected })
 
   const selected = {
     get year() {
@@ -44,10 +60,7 @@
     label: formatMonth(selected.month),
   })
 
-  function getYearItems(curYear: number) {
-    const minYear = 2009
-    const maxYear = curYear
-
+  function getYearItems(minYear: number, maxYear: number) {
     return Array.from({ length: maxYear - minYear + 1 }, (_, i) => {
       const year = minYear + i
 
@@ -55,9 +68,9 @@
     })
   }
 
-  function getMonthItems(curMonth: number) {
-    return Array.from({ length: 12 }, (_, i) => {
-      const month = i + 1
+  function getMonthItems(minMonth = 1, maxMonth = 12) {
+    return Array.from({ length: maxMonth - minMonth + 1 }, (_, i) => {
+      const month = minMonth + i
 
       return { value: month, label: formatMonth(month) }
     })

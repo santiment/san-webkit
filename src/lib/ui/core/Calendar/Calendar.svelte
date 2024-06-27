@@ -1,17 +1,27 @@
 <script lang="ts">
   import type { DateValue } from '@internationalized/date'
 
-  import { BROWSER } from 'esm-env'
   import { Calendar } from 'bits-ui'
-  import { fromDate, getLocalTimeZone } from '@internationalized/date'
+  import { fromDate } from '@internationalized/date'
   import { cn } from '$ui/utils/index.js'
   import { createPlaceholder } from './utils.svelte.js'
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
 
-  let { class: className, date = $bindable() }: { date: Date; class?: string } = $props()
+  let {
+    class: className,
+    date = $bindable(),
+    minValue,
+    maxValue,
+    timeZone,
+  }: {
+    date: Date
+    class?: string
+    minValue: DateValue
+    maxValue: DateValue
+    timeZone: string
+  } = $props()
 
-  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
   const value = $derived(fromDate(date, timeZone))
 
   const placeholder = createPlaceholder(() => value)
@@ -33,8 +43,10 @@
   {value}
   {onValueChange}
   bind:placeholder={placeholder.date}
+  {minValue}
+  {maxValue}
 >
-  <CalendarHeader bind:placeholder={placeholder.date} {timeZone} />
+  <CalendarHeader bind:placeholder={placeholder.date} {timeZone} {minValue} {maxValue} />
 
   <CalendarBody {months} {weekdays} />
 </Calendar.Root>
