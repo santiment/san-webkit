@@ -2,7 +2,7 @@
   import type { Selected } from 'bits-ui'
   import type { DateValue } from '@internationalized/date'
 
-  import { CalendarDate, today } from '@internationalized/date'
+  import { CalendarDate } from '@internationalized/date'
   import Select from '../Select/Select.svelte'
 
   let {
