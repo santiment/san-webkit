@@ -55,8 +55,6 @@ take whole available space.
   let style = $derived(
     maxHeight ? `max-height:${maxHeight}px;height:calc(${itemHeight} * ${data.length}px)` : '',
   )
-
-  $inspect(style)
 </script>
 
 <VList class={className} {data} {getKey} {style} let:item>
