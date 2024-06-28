@@ -72,7 +72,7 @@ onDestroy(clearTimer);
     {#if !defaultUsername}
       <p>Please type your username to access all features</p>
 
-      <FieldTooltip text={error} activeClass="error-0fL7LS">
+      <FieldTooltip text={error} activeClass="error-u4NMT3">
         <InputWithIcon
           {constraints}
           value={username}
@@ -141,7 +141,7 @@ onDestroy(clearTimer);
     color: var(--green-hover);
   }
 
-  :global(.error-0fL7LS) {
+  :global(.error-u4NMT3) {
     --border: var(--red);
   }
 </style>

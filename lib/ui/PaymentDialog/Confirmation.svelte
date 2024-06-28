@@ -35,7 +35,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
 
       {#if name?.toLowerCase().includes('business') === false}
         <div class="holder row mrg-xl mrg--b">
-          <Svg id="info" w="16" class="info-oHzMj0 mrg-s mrg--r" />
+          <Svg id="info" w="16" class="info-MfZEma mrg-s mrg--r" />
           <div>
             Holding 1000 SAN tokens will result in a 20% discount.
             <a
@@ -95,7 +95,7 @@ $: selectedNameBilling = name ? `${name} ${isAnnualPlan ? 'annual' : 'monthly'}`
   max-width: 355px;
 }
 
-:global(.info-oHzMj0) {
+:global(.info-MfZEma) {
   margin-top: 2px;
 }
 

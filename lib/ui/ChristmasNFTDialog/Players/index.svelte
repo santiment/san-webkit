@@ -42,7 +42,7 @@ function getPagedData(data, empty, pageOffset) {
 <p class="mrg-l mrg--b">Here are the players who have entered the battle.</p>
 
 <Table
-  class="table-L6hs89 border"
+  class="table-KXvzzS border"
   items={pagedItems}
   columns={COLUMNS}
   rows={[]}
@@ -66,14 +66,14 @@ function getPagedData(data, empty, pageOffset) {
   }
 }
 */
-:global(.table-L6hs89) :global(.skeleton) {
+:global(.table-KXvzzS) :global(.skeleton) {
   height: 20px;
   width: 100px;
 }
-:global(.table-L6hs89) :global(th) {
+:global(.table-KXvzzS) :global(th) {
   border: none !important;
 }
-:global(.table-L6hs89) :global(td) {
+:global(.table-KXvzzS) :global(td) {
   height: 37px;
   border-top: 1px solid var(--porcelain);
 }</style>
