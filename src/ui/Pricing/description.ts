@@ -45,7 +45,7 @@ export const PlanDescription: Record<Plan, { description: string; features: stri
       'Present-day and full historical data in Sanbase and Trending Coins',
       'Technical support included',
       '20K credits for Queries tool',
-      'Full API access, 14-day lag for some metrics',
+      'Full API access',
       'Full access to screener, 20 alerts',
       'Access to Google Sheets plugin',
       'Exclusive reports and market insights',
