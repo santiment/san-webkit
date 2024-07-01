@@ -60,7 +60,7 @@ async function fetchPlans() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-QuU7Aw">
+  <Setting class="column subscriptions-1AeuF_">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -81,7 +81,7 @@ async function fetchPlans() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-81QleK justify">
+    <Setting class="setting-lZxDN5 justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -94,7 +94,7 @@ async function fetchPlans() {
     </Setting>
   {/if}
 
-  <Setting class="setting-81QleK justify">
+  <Setting class="setting-lZxDN5 justify">
     <div>
       Payment method
 
@@ -123,7 +123,7 @@ async function fetchPlans() {
     </div>
   </Setting>
 
-  <Setting class="setting-81QleK justify">
+  <Setting class="setting-lZxDN5 justify">
     <div>
       Billing history
 
@@ -186,7 +186,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-QuU7Aw) {
+:global(.subscriptions-1AeuF_) {
   gap: 28px;
 }
 
@@ -212,8 +212,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-81QleK),
-:global(.phone-xs) :global(.setting-81QleK) {
+:global(.phone) :global(.setting-lZxDN5),
+:global(.phone-xs) :global(.setting-lZxDN5) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -234,9 +234,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-QuU7Aw),
-:global(.tablet) :global(.subscriptions-QuU7Aw),
-:global(.phone-xs) :global(.subscriptions-QuU7Aw) {
+:global(.phone) :global(.subscriptions-1AeuF_),
+:global(.tablet) :global(.subscriptions-1AeuF_),
+:global(.phone-xs) :global(.subscriptions-1AeuF_) {
   flex-direction: column;
 }
 :global(.phone) plans-section,
