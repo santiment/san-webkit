@@ -81,6 +81,7 @@
     {#each sortedItems as item, i (keyProp ? item[keyProp] : item)}
       <tr on:click={() => onItemClick(item)}>
         {#each columns as column (column.key ?? column.title)}
+          {@const index = i + offset}
           {@const { className, valueKey, componentProps } = column}
           {@const isValidValueKey = (valueKey ?? null) !== null}
           {@const value = isValidValueKey ? item[valueKey] : undefined}
@@ -94,11 +95,12 @@
                 {item}
                 {value}
                 {column}
+                {index}
                 {...itemProps}
                 {...componentProps}
               />
             {:else if column.format}
-              {column.format(item, i + offset, value)}
+              {column.format(item, index, value)}
             {/if}
           </td>
         {/each}
