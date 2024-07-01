@@ -1,12 +1,12 @@
 export const chain = [
-  {
-    id: 'sanx',
-    title: 'SanX',
-    desc: 'Actively traded index based on crypto-native metrics',
-    href: 'https://sanx.santiment.net',
-    dimensions: [23, 24],
-    accent: 'var(--purple)',
-  },
+  // {
+  //   id: 'sanx',
+  //   title: 'SanX',
+  //   desc: 'Actively traded index based on crypto-native metrics',
+  //   href: 'https://sanx.santiment.net',
+  //   dimensions: [23, 24],
+  //   accent: 'var(--purple)',
+  // },
   {
     id: 'sanr',
     title: 'SanR',
