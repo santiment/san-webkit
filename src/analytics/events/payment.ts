@@ -16,9 +16,9 @@ export const trackPaymentFormOpened = ({
   source,
   currency = CurrencyType.USD,
 }: {
-  plan: string
-  planId: number
-  amount: number
+  plan: string | undefined
+  planId: number | undefined
+  amount: number | undefined
   billing: SAN.PlanInterval
   currency?: CurrencyType
   source: string
