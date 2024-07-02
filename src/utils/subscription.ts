@@ -1,7 +1,12 @@
 import type { CustomerData } from '@/stores/user'
 
 import { ONE_DAY_IN_MS } from './dates'
-import { PlanName, checkIsSanApiProduct, checkIsSanbaseProduct, checkIsYearlyPlan } from './plans'
+import {
+  getPlanDisplayName,
+  checkIsSanApiProduct,
+  checkIsSanbaseProduct,
+  checkIsYearlyPlan,
+} from './plans'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -53,8 +58,7 @@ export function getUserSubscriptionInfo(
   const { isEligibleForTrial, annualDiscount } = customerData
   const annualDiscountPercent = annualDiscount?.isEligible && annualDiscount.discount?.percentOff
   const discountExpireAt = annualDiscount?.isEligible && annualDiscount.discount?.expireAt
-  const subscriptionPlan = subscription?.plan.name
-  const userPlanName = PlanName[subscriptionPlan] || subscriptionPlan
+  const userPlanName = getPlanDisplayName(subscription.plan)
   const trialDaysLeft = subscription?.trialEnd ? calculateTrialDaysLeft(subscription.trialEnd) : 0
 
   return {

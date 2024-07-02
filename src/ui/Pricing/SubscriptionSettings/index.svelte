@@ -7,7 +7,7 @@
   import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { paymentCard$ } from '@/stores/paymentCard'
-  import { Billing, Plan, PlanName, ProductId } from '@/utils/plans'
+  import { Billing, Plan, getPlanDisplayName, ProductId } from '@/utils/plans'
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import Setting from './Setting.svelte'
   import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
@@ -85,7 +85,7 @@
       />
 
       <PlanSuggestions suggestions={individualSuggestions} {plans} {isEligibleForTrial}>
-        <FullAccessCard currentPlanName={PlanName[plan.name]} />
+        <FullAccessCard currentPlanName={getPlanDisplayName(plan)} />
       </PlanSuggestions>
     </plans-section>
 

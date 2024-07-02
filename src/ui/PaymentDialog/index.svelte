@@ -14,9 +14,10 @@
 
 <script lang="ts">
   import { onDestroy } from 'svelte'
+  import { BROWSER } from 'esm-env'
   import Dialog from '@/ui/Dialog'
   import { DialogLock } from '@/ui/Dialog/dialogs'
-  import { PlanName } from '@/utils/plans'
+  import { getPlanDisplayName } from '@/utils/plans'
   import { paymentCard$ } from '@/stores/paymentCard'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { trackPaymentFormClosed, trackPaymentFormOpened } from '@/analytics/events/payment'
@@ -26,7 +27,6 @@
   import Confirmation from './Confirmation.svelte'
   import Footer from './Footer.svelte'
   import { buyPlan, checkSanDiscount, getPaymentFormData, mapPlans } from './utils'
-  import { BROWSER } from 'esm-env'
 
   export let DialogPromise: SAN.DialogController
   let defaultPlan = Plan.PRO
@@ -36,31 +36,31 @@
   export let onPaymentSuccess = () => {}
   export let onPaymentError
   export let source: string
-  export let planData: SAN.Plan
+  export let planData: SAN.Plan | undefined
   export let plans: SAN.Plan[] = []
 
   const { customer$ } = getCustomer$Ctx()
 
   let closeDialog
-  let plan: SAN.Plan = planData ?? {}
+  let plan: SAN.Plan | undefined = planData
   let loading = false
   let StripeCard: stripe.elements.Element
   let savedCard = $paymentCard$
 
-  $: isBusiness = checkIsBusinessPlan(plan)
+  $: isBusiness = plan ? checkIsBusinessPlan(plan) : false
   $: customer = $customer$
   $: ({ subscription } = customer)
   $: isNotCanceled = !subscription?.cancelAtPeriodEnd
   // TODO: make customer data accesible via context
   $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$)
-  $: name = PlanName[plan.name] || plan.name
-  $: price = name ? formatPrice(plan) : ''
+  $: name = plan && getPlanDisplayName(plan)
+  $: price = plan ? formatPrice(plan) : ''
 
   $: if (BROWSER) {
-    const { id, name, amount } = planData || {}
+    const { id, name, amount } = planData ?? {}
     trackPaymentFormOpened({
       plan: name,
-      planId: planData && +id,
+      planId: id ? +id : undefined,
       billing: interval,
       amount,
       source,
@@ -100,6 +100,7 @@
     const isInvalid = !formNode.reportValidity()
 
     if (isInvalid) return
+    if (!plan) return
 
     loading = true
     DialogPromise.locking = DialogLock.LOCKED
@@ -137,7 +138,7 @@
 
 <Dialog {...$$props} title="Payment details" bind:closeDialog>
   <section class="dialog">
-    {#if isNotCanceled && isBusiness === false}
+    {#if isNotCanceled && isBusiness === false && plan && name}
       <Banner {plan} {name} {price} />
     {/if}
 
@@ -148,18 +149,20 @@
         <PayerInfo bind:StripeCard />
       {/if}
 
-      <Confirmation
-        bind:plan
-        {plans}
-        {name}
-        {price}
-        annualDiscount={isBusiness ? {} : annualDiscount}
-        isEligibleForTrial={isBusiness ? false : isEligibleForTrial}
-        {loading}
-        {source}
-        {closeDialog}
-        {onSubmit}
-      />
+      {#if plan}
+        <Confirmation
+          bind:plan
+          {plans}
+          {name}
+          {price}
+          annualDiscount={isBusiness ? {} : annualDiscount}
+          isEligibleForTrial={isBusiness ? false : isEligibleForTrial}
+          {loading}
+          {source}
+          {closeDialog}
+          {onSubmit}
+        />
+      {/if}
     </form>
   </section>
 

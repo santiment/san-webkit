@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
-import { Billing, Plan } from '@/utils/plans'
+import { Billing, Plan, ProductId } from '@/utils/plans'
 import Component from './index.svelte'
 import { mockPlans } from './plans'
 
@@ -191,6 +191,7 @@ export const FixedPlans: Story = {
         interval: 'month',
         isDeprecated: false,
         name: Plan.PRO,
+        product: { id: ProductId.SANBASE },
       },
       {
         amount: 52900,
@@ -198,6 +199,7 @@ export const FixedPlans: Story = {
         interval: 'year',
         isDeprecated: false,
         name: Plan.PRO,
+        product: { id: ProductId.SANBASE },
       },
     ],
   },

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SANBASE_ORIGIN } from '@/utils/links'
-  import { formatPrice, Plan, PlanName } from '@/utils/plans'
+  import { formatPrice, Plan, getPlanDisplayName } from '@/utils/plans'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import Card from './Card.svelte'
 
@@ -29,7 +29,7 @@
     })
   }
 
-  $: ({ name } = plan)
+  $: displayName = getPlanDisplayName(plan)
   $: ({ billing, price } = getBillingPrice(plan))
 
   function getBillingPrice(plan: SAN.Plan) {
@@ -63,7 +63,7 @@
     ? 'Upgrade'
     : action}
   disabled={action === 'Default plan'}
-  title={PlanName[name] + (isTrial ? ' Trial' : '')}
+  title={displayName + (isTrial ? ' Trial' : '')}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
   badgeIcon={discount ? null : badgeIcon}
