@@ -9,19 +9,22 @@
 </script>
 
 {#if href}
-  <a {href} sapper:prefetch class="btn-2 {className}" class:active on:click>
-    <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
+  <a {href} sapper:prefetch class="comment-btn btn-2 {className}" class:active on:click>
+    <Svg id="comment" w="16" h="14" />
     {count}
   </a>
 {:else}
-  <button class="btn-2 {className}" class:active on:click>
-    <Svg id="comment" w="16" h="14" class="mrg-xs mrg--r" />
+  <button class="comment-btn btn-2 {className}" class:active on:click>
+    <Svg id="comment" w="16" h="14" />
     {count}
   </button>
 {/if}
 
 <style>
-  .btn-2 {
+  .comment-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     padding: 5px 12px;
     border-radius: 20px;
     white-space: nowrap;
