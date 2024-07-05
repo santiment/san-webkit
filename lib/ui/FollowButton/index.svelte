@@ -16,8 +16,12 @@ function onFollow() {
 }
 </script>
 
-<button class="btn-1 btn--s {className}" on:click={onFollow} class:following={isFollowing}>
-  <Svg id="follow{postfix}" w="18" h="16" class="mrg-xs mrg--r" />
+<button
+  class="btn-1 btn--s row v-center gap-xs {className}"
+  on:click={onFollow}
+  class:following={isFollowing}
+>
+  <Svg id="follow{postfix}" w="18" h="16" />
   Follow{postfix}
 </button>
 
