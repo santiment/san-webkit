@@ -46,7 +46,7 @@ function changeSort({ currentTarget }) {
       {#each columns as column, i (column.key ?? column.title)}
         {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
-          class={className || ''}
+          class="row v-center {className || ''}"
           class:sorted={sortedColumn === column}
           class:sortable={isSortable}
           data-i={i}
