@@ -59,7 +59,7 @@
       {#each columns as column, i (column.key ?? column.title)}
         {@const { className, title, sortAccessor, isSortable = sortAccessor, Header } = column}
         <th
-          class="row v-center {className || ''}"
+          class={className || ''}
           class:sorted={sortedColumn === column}
           class:sortable={isSortable}
           data-i={i}
@@ -159,6 +159,10 @@
         color: var(--casper);
         background: var(--athens);
         border-bottom: 1px solid var(--porcelain);
+
+        svg {
+          display: inline-block;
+        }
       }
 
       td {
