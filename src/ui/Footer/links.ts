@@ -23,7 +23,6 @@ export const links = [
 
   { href: 'https://app.santiment.net/', title: 'Sanbase' },
   { href: 'https://api.santiment.net/', title: 'SanAPI' },
-  { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
   {
     href: 'https://graphs.santiment.net/',
     title: 'Graphs',
