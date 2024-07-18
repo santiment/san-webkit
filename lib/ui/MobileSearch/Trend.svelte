@@ -2,7 +2,7 @@
 export let item;</script>
 
 <div class="wrapper row hv-center">
-  <Svg id="fire-filled" w="11" h="14" class="icon-O3hRmo" />
+  <Svg id="fire-filled" w="11" h="14" class="icon-Y4oklO" />
 </div>
 <span class="name single-line">{item}</span>
 
@@ -19,7 +19,7 @@ export let item;</script>
     margin-right: 10px;
   }
 
-  :global(.icon-O3hRmo) {
+  :global(.icon-Y4oklO) {
     fill: var(--blue);
   }
 </style>

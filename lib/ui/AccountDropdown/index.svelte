@@ -33,7 +33,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
   duration={130}
   align="center"
   bind:isOpened
-  activeClass="active-_VrAxA"
+  activeClass="active-lF9FTS"
   class={tooltipClass}
 >
   <svelte:fragment slot="trigger">
@@ -42,7 +42,7 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l box-2HQbzT" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l box-Q_6rd+" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </svelte:fragment>
 
@@ -128,11 +128,11 @@ $: isPro = subscriptionInfo.userPlanName && subscriptionInfo.trialDaysLeft === 0
 </Tooltip>
 
 <style>
-  :global(.active-_VrAxA) :global(.box-2HQbzT) {
+  :global(.active-lF9FTS) :global(.box-Q_6rd\+) {
     box-shadow: inset 0px 0px 0px 1px var(--green);
   }
 
-  .pro :global(.box-2HQbzT) {
+  .pro :global(.box-Q_6rd\+) {
     --green: var(--orange-hover);
   }
 

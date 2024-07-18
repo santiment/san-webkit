@@ -65,7 +65,7 @@ function getPlanSuggestions() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="subscriptions-AQLah6">
+  <Setting class="subscriptions-QUTOuD">
     <UserPlanCard
       {plan}
       {subscription}
@@ -93,7 +93,7 @@ function getPlanSuggestions() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-gdaL1X justify">
+    <Setting class="setting-X1ZnVK justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -106,7 +106,7 @@ function getPlanSuggestions() {
     </Setting>
   {/if}
 
-  <Setting class="setting-gdaL1X justify">
+  <Setting class="setting-X1ZnVK justify">
     <div>
       Payment method
 
@@ -135,7 +135,7 @@ function getPlanSuggestions() {
     </div>
   </Setting>
 
-  <Setting class="setting-gdaL1X justify">
+  <Setting class="setting-X1ZnVK justify">
     <div>
       Billing history
 
@@ -184,7 +184,7 @@ function getPlanSuggestions() {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-AQLah6) {
+:global(.subscriptions-QUTOuD) {
   gap: 16px;
 }
 
@@ -204,8 +204,8 @@ function getPlanSuggestions() {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-gdaL1X),
-:global(.phone-xs) :global(.setting-gdaL1X) {
+:global(.phone) :global(.setting-X1ZnVK),
+:global(.phone-xs) :global(.setting-X1ZnVK) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -226,8 +226,8 @@ function getPlanSuggestions() {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-AQLah6),
-:global(.tablet) :global(.subscriptions-AQLah6),
-:global(.phone-xs) :global(.subscriptions-AQLah6) {
+:global(.phone) :global(.subscriptions-QUTOuD),
+:global(.tablet) :global(.subscriptions-QUTOuD),
+:global(.phone-xs) :global(.subscriptions-QUTOuD) {
   flex-direction: column;
 }</style>

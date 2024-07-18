@@ -51,7 +51,7 @@ $: hasInsights = insights.length > 0;</script>
     {/each}
 
     <div class="question border row txt-m mrg-a mrg--t">
-      <Svg id="chat" w="14" h="16" class="question-icon-zuE3KW" />
+      <Svg id="chat" w="14" h="16" class="question-icon-19rg78" />
 
       <div>
         Have questions?
@@ -92,7 +92,7 @@ $: hasInsights = insights.length > 0;</script>
     border-radius: 6px;
   }
 
-  :global(.question-icon-zuE3KW) {
+  :global(.question-icon-19rg78) {
     margin: 3px 10px 0px 0;
   }
 </style>

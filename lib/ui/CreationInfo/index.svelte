@@ -27,7 +27,7 @@ export let source;</script>
     {#if user}
       <Tooltip openDelay={110}>
         <svelte:fragment slot="trigger">
-          <Profile {user} {source} feature={type} class="author-zI_5hl" />
+          <Profile {user} {source} feature={type} class="author-PyDFEr" />
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
@@ -39,7 +39,7 @@ export let source;</script>
     {/if}
 
     <HoverEdit
-      class="title-H+pg_P body-2"
+      class="title-VPkcVT body-2"
       {currentUser}
       {editLabel}
       {onEditClick}
@@ -82,7 +82,7 @@ export let source;</script>
   <ProfilePic class="mrg-m mrg--r" />
 
   <HoverEdit
-    class="title-H+pg_P body-2"
+    class="title-VPkcVT body-2"
     {currentUser}
     editLabel="Save as"
     {onEditClick}
@@ -115,15 +115,15 @@ export let source;</script>
   margin: 0 12px;
 }
 
-:global(.author-zI_5hl) {
+:global(.author-PyDFEr) {
   overflow: hidden;
   min-width: fit-content;
 }
-:global(.author-zI_5hl) :global(span) {
+:global(.author-PyDFEr) :global(span) {
   max-width: 140px !important;
 }
 
-:global(.title-H\+pg_P) {
+:global(.title-VPkcVT) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

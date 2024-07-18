@@ -16,7 +16,7 @@ export let isEligibleForTrial;</script>
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="plan-hGDzUQ"
+        class="plan-_RmYLF"
       />
     {/each}
   </div>
@@ -35,7 +35,7 @@ export let isEligibleForTrial;</script>
   margin: 0 auto;
 }
 
-:global(.plan-hGDzUQ) {
+:global(.plan-_RmYLF) {
   --h-padding: 40px;
   flex: 1;
   width: 100%;
@@ -43,9 +43,9 @@ export let isEligibleForTrial;</script>
   max-width: 386px;
   border-right: 1px solid var(--porcelain);
 }
-:global(.plan-hGDzUQ:last-child) {
+:global(.plan-_RmYLF:last-child) {
   border: 0;
 }
-:global(body:not(.desktop)) :global(.plan-hGDzUQ) {
+:global(body:not(.desktop)) :global(.plan-_RmYLF) {
   --h-padding: 24px;
 }</style>

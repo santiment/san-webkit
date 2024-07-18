@@ -1,11 +1,4 @@
 export declare const chain: readonly [{
-    readonly id: "sanx";
-    readonly title: "SanX";
-    readonly desc: "Actively traded index based on crypto-native metrics";
-    readonly href: "https://sanx.santiment.net";
-    readonly dimensions: readonly [23, 24];
-    readonly accent: "var(--purple)";
-}, {
     readonly id: "sanr";
     readonly title: "SanR";
     readonly desc: "Decentralized marketplace for crypto price signals";

@@ -19,14 +19,14 @@ $: if (pages === 3) {
     <img
       src="{process.env.MEDIA_PATH}/illus/halloween/halloween-discount-54.svg"
       alt="Discount"
-      class="discount-MjSnQi"
+      class="discount-m2Tw9w"
     />
     <h3 class="body-1 txt-m mrg-s mrg--b">Congratulations!</h3>
     <p class="mrg-m mrg--b">
       Let’s put your outstanding skills to use and seek an alpha! This promo code is available
       between now and November 5th!
     </p>
-    <DiscountCode class="fluid copy-WcziqW" {discount} />
+    <DiscountCode class="fluid copy-pEE6tt" {discount} />
     <a
       href="https://app.santiment.net/pricing"
       class="btn-1 btn--orange fluid mrg-l mrg--t"
@@ -44,14 +44,14 @@ $: if (pages === 3) {
   border-radius: 8px;
 }
 
-:global(.discount-MjSnQi) {
+:global(.discount-m2Tw9w) {
   width: 134px;
   height: 41px;
   margin-bottom: 16px;
   margin-left: 10px;
 }
 
-:global(.copy-WcziqW) {
+:global(.copy-pEE6tt) {
   padding: 6px 0;
 }
 

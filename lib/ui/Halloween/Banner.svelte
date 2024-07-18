@@ -1,9 +1,9 @@
 <script>import Svg from './../../ui/Svg/svelte';</script>
 
 <div class="wrapper column fluid relative txt-left">
-  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-9IqkcO" />
+  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-D7eMjK" />
   <Svg illus id="santiment" w="97" h="18" class="" />
-  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="sales-S4gpPM" />
+  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="sales-w9ShwX" />
   <h2 class="txt-b">27% Off</h2>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2 rules">
@@ -23,13 +23,13 @@
   border-radius: 6px;
 }
 
-:global(.banner-9IqkcO) {
+:global(.banner-D7eMjK) {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-:global(.sales-S4gpPM) {
+:global(.sales-w9ShwX) {
   margin: 28px 0 6px;
 }
 

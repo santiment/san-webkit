@@ -136,7 +136,7 @@ function transition(node) {
         <Svg
           id="close"
           w="12"
-          class="btn mrg-a mrg--l close-ufXOgu"
+          class="btn mrg-a mrg--l close-9bt5a6"
           on:click={requestDialogClose}
         />
       </h2>
@@ -186,7 +186,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-ufXOgu) {
+:global(.close-9bt5a6) {
   --fill: var(--waterloo);
   --fill-hover: var(--green);
 }

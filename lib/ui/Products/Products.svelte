@@ -7,14 +7,17 @@ export let isCompact = false;
 export let isColumn = false;
 export let active = undefined;</script>
 
-<div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
-  {#if isColumn}
-    <section class="more body-2 c-waterloo mrg-xl mrg--t">
-      <!-- svelte-ignore security-anchor-rel-noreferrer -->
-      To learn more about Santiment's products, team, or available jobs, visit
-      <a class="link-pointer" target="_blank" href="https://santiment.net/">santiment.net</a>
-    </section>
-  {/if}
+<div
+  class="products row body-3 gap-xl {className}"
+  class:compact={isCompact}
+  class:column={isColumn}
+>
+  <section class="business column">
+    <h3>SAN Business</h3>
+    {#each business as product}
+      <Product {...product} active={active === product.id} {isCompact} />
+    {/each}
+  </section>
 
   <section class="chain column">
     <h3>SAN Chain</h3>
@@ -23,12 +26,13 @@ export let active = undefined;</script>
     {/each}
   </section>
 
-  <section class="business column mrg-xl mrg--l">
-    <h3>SAN Business</h3>
-    {#each business as product}
-      <Product {...product} active={active === product.id} {isCompact} />
-    {/each}
-  </section>
+  {#if isColumn}
+    <section class="more body-2 c-waterloo">
+      <!-- svelte-ignore security-anchor-rel-noreferrer -->
+      To learn more about Santiment's products, team, or available jobs, visit
+      <a class="link-pointer" target="_blank" href="https://santiment.net/">santiment.net</a>
+    </section>
+  {/if}
 </div>
 
 <style >.products {
@@ -48,10 +52,9 @@ h3 {
 }
 
 .products.column {
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 .products.column .business {
-  margin: 0 0 24px;
   padding: 0 0 24px;
   border-bottom: 1px solid var(--porcelain);
 }

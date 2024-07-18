@@ -6,17 +6,17 @@ export let label;</script>
 
 <a {...$$props} {href} class="link-pointer v-center {className}">
   {label}
-  <Svg id="right-arrow" w={10} h={5} class="svg-wppIZq" />
+  <Svg id="right-arrow" w={10} h={5} class="svg-dtnPox" />
 </a>
 
 <style >a::after {
   width: calc(100% - 16px);
 }
 
-:global(.svg-wppIZq) {
+:global(.svg-dtnPox) {
   margin: 0 2px 0 6px;
   transition: transform 0.2s;
 }
-a:hover :global(.svg-wppIZq) {
+a:hover :global(.svg-dtnPox) {
   transform: translateX(2px);
 }</style>

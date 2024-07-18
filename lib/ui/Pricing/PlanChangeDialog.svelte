@@ -51,7 +51,7 @@ function onClick() {
       You're {isUpgrade ? 'upgrading' : 'downgrading'} to {newName}
       {newBilling} plan
 
-      <Svg id="close" class="btn mrg-a mrg--l close-JKIglo" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-VC4JSq" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -79,7 +79,7 @@ function onClick() {
     max-width: 600px;
   }
 
-  :global(.close-JKIglo) {
+  :global(.close-VC4JSq) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

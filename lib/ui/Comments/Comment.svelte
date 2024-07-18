@@ -48,7 +48,7 @@ Edited: ${getDatetime(editedAt)}` : insertedDate;
 
 <div class="comment mrg-l mrg--b" id="comment-{comment.id}">
   <div class="row v-center">
-    <Author {user} class="mrg-a mrg--r user-vDWrsy">
+    <Author {user} class="mrg-a mrg--r user-4w1vvN">
       {#if comment.user.id === authorId}
         <br />
         <span class="author">Author</span>
@@ -100,7 +100,7 @@ Edited: ${getDatetime(editedAt)}` : insertedDate;
   position: relative;
 }
 
-:global(.user-vDWrsy) {
+:global(.user-4w1vvN) {
   max-width: 60%;
 }
 

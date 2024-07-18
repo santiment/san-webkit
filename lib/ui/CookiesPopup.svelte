@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-  API: 'api-elhe70',
-  SHEETS: 'sheets-G0ETh+'
+  API: 'api-WroIbR',
+  SHEETS: 'sheets-Wqgsh_'
 };</script>
 
 <script>import { showManageCookiesDialog, COOKIE_POLICY_ACCEPTED, applyCookies } from './../ui/ManageCookiesDialog/index.svelte';
@@ -25,7 +25,7 @@ function onManageClick() {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}" class:body-2={$IsMobile}>
-    <Svg illus id="cookies" class="pic-bmeuop" />
+    <Svg illus id="cookies" class="pic-VDBasp" />
     <h2 class="{$IsMobile ? 'h4 mrg-l' : 'body-2 mrg-s'} txt-m mrg--b">
       We are using cookies to improve your experience!
     </h2>
@@ -50,12 +50,12 @@ function onManageClick() {
   text-align: center;
 }
 
-:global(.api-elhe70) {
+:global(.api-WroIbR) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-G0ETh\+) {
+:global(.sheets-Wqgsh_) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -64,7 +64,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-bmeuop) {
+:global(.pic-VDBasp) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -78,7 +78,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-bmeuop) {
+:global(.desktop) :global(.pic-VDBasp) {
   transform: initial;
   position: absolute;
   left: 24px;

@@ -51,8 +51,8 @@ function onAllowAllClick() {
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-lCLiFt"
-  titleClassName="title-LqpPyq"
+  class="dialog-RwsxJh"
+  titleClassName="title-3zk2b_"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -108,7 +108,7 @@ function onAllowAllClick() {
   </div>
 </Dialog>
 
-<style >:global(.dialog-lCLiFt) {
+<style >:global(.dialog-RwsxJh) {
   max-width: 600px !important;
 }
 
@@ -127,10 +127,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-lCLiFt) {
+:global(body:not(.desktop)) :global(.dialog-RwsxJh) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-LqpPyq) {
+:global(body:not(.desktop)) :global(.title-3zk2b_) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

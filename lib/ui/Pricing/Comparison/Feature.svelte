@@ -24,7 +24,7 @@ function getValue(value) {
       align="center"
       offsetY={4}
       closeTimeout={0}
-      activeClass="opened-0XrrUK"
+      activeClass="opened-7FSaSX"
     >
       <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
         <Svg id="info" w="12" />
@@ -69,7 +69,7 @@ function getValue(value) {
   color: var(--black);
 }
 
-:global(.opened-0XrrUK) {
+:global(.opened-7FSaSX) {
   --bg: var(--athens);
   fill: var(--black) !important;
 }</style>
