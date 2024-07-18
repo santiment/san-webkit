@@ -10,11 +10,7 @@
   export let active: string | undefined = undefined
 </script>
 
-<div
-  class="products row body-3 gap-xl {className}"
-  class:compact={isCompact}
-  class:column={isColumn}
->
+<div class="products row body-3 {className}" class:compact={isCompact} class:column={isColumn}>
   <section class="business column">
     <h3>SAN Business</h3>
     {#each business as product}
@@ -41,6 +37,7 @@
 <style lang="scss">
   .products {
     padding: 32px 32px 24px;
+    gap: 24px;
 
     &.compact {
       padding: 24px 32px;
