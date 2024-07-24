@@ -12,4 +12,7 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 
+/mkcert
+
 /static/webkit
+

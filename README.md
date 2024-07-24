@@ -1,58 +1,35 @@
-# create-svelte
+# san-webkit
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## Requirements
 
-Read more about creating a library [in the docs](https://kit.svelte.dev/docs/packaging).
+Following tools should be pre-installed:
 
-## Creating a project
+- [Node.js](https://nodejs.org/en/) >= v20.10.0 – JavaScript runtime environment
+- [pnpm](https://pnpm.io/) = v8.x – package manager
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Installation
+
+[pnpm](https://pnpm.io/) is used as a package manager, since it's a more efficient alternative to [npm](https://pnpm.io/motivation).
+
+Install project's dependencies using a following command:
 
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+pnpm i
 ```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+npm run dev # for HTTP
+npm run dev:https # for HTTPS
 ```
 
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
+Chromium-based browsers may require additional steps to access the local HTTPS server:
 
-## Building
+- If `Accept and Continue` button is absent: click anywhere on the page and type `thisisunsafe`
+- Reset `HSTS` for the local domain in the `chrome://net-internals/#hsts` settings
 
-To build your library:
+## Publishing a new version of the library
 
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+1. Switch to the `next` branch and run `git pull`
+2. Run `npm run lib:release`
