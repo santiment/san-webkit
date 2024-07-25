@@ -5,6 +5,7 @@
 
   let {
     class: className,
+    inputClass,
     type = 'text',
     placeholder = '',
     icon,
@@ -16,6 +17,7 @@
     placeholder?: string
     icon?: string
     iconSize?: number | string
+    inputClass?: string
   } = $props()
 </script>
 
@@ -33,6 +35,10 @@
     {...rest}
     {type}
     {placeholder}
-    class={cn('w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none', icon && 'pl-8')}
+    class={cn(
+      'w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none',
+      icon && 'pl-8',
+      inputClass,
+    )}
   />
 </div>
