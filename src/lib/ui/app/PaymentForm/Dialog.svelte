@@ -10,6 +10,7 @@
   import DialogHeader from './DialogHeader.svelte'
   import BillingPeriodSelector from './BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentMethodSelector/index.svelte'
+  import OrderSummary from './OrderSummary/index.svelte'
   import { usePaymentFormCtx } from './state.js'
 
   let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
@@ -23,11 +24,15 @@
 <Dialog class="w-full column">
   <DialogHeader></DialogHeader>
 
-  <div class="gap-10 overflow-auto px-36 pb-20 pt-16 column">
-    <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
+  <div class="flex gap-10 overflow-auto px-36 pb-20 pt-16">
+    <div class="gap-10 self-start column">
+      <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
 
-    <BillingPeriodSelector></BillingPeriodSelector>
+      <BillingPeriodSelector></BillingPeriodSelector>
 
-    <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
+      <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
+    </div>
+
+    <OrderSummary></OrderSummary>
   </div>
 </Dialog>

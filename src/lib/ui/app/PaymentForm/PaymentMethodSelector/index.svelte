@@ -1,14 +1,14 @@
 <script lang="ts">
-  import Selector from '../Selector.svelte'
-  import { usePaymentFormCtx } from '../state.js'
   import { CardMethod } from './Card/index.js'
   import { EthStablecoinsMethod } from './EthStablecoins/index.js'
   import { SanTokenBurningMethod } from './SanTokenBurning/index.js'
   import { UniswapLiquidityMethod } from './UniswapLiquidity/index.js'
+  import Selector from '../Selector.svelte'
+  import { usePaymentFormCtx } from '../state.js'
 
   let { isBusinessPlanSelected = false } = $props()
 
-  const { paymentForm } = usePaymentFormCtx()
+  const { paymentForm, selectPaymentMethod } = usePaymentFormCtx()
 
   let selectedPaymentMethod = $derived(paymentForm.$.paymentMethod)
   let options = isBusinessPlanSelected
@@ -16,8 +16,7 @@
     : [CardMethod, EthStablecoinsMethod, SanTokenBurningMethod, UniswapLiquidityMethod]
 
   function onSelect(option: typeof selectedPaymentMethod) {
-    paymentForm.$.paymentMethod = option
-    paymentForm.$ = paymentForm.$
+    selectPaymentMethod(option)
   }
 </script>
 

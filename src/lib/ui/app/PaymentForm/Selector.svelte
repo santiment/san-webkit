@@ -23,12 +23,12 @@
 <div>
   <h2 class="mb-4 text-lg font-medium text-fiord">{name}</h2>
 
-  <div class={cn('flex text-base font-medium', smallGap ? 'gap-3' : 'gap-4')}>
+  <div class={cn('flex flex-wrap text-base font-medium', smallGap ? 'gap-3' : 'gap-4')}>
     {#each options as option (option.name)}
       {@const isActive = option === active}
       <button
         class={cn(
-          'gap-3 rounded-lg border border-athens bg-athens px-4 py-3 column',
+          'gap-3 whitespace-nowrap rounded-lg border border-athens bg-athens px-4 py-3 column',
           !smallGap && 'flex-1',
           isActive && 'border-green bg-green-light-1',
         )}

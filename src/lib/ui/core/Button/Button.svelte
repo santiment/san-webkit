@@ -18,6 +18,7 @@
     iconHeight,
     iconOnRight = false,
     explanation,
+    size,
 
     action = () => {},
     actionArgs,
@@ -33,6 +34,7 @@
     iconHeight?: number | string
     iconOnRight?: boolean
     explanation?: string
+    size?: 'lg'
 
     action?: Action
     actionArgs?: any
@@ -52,6 +54,7 @@
       iconOnRight: { true: 'flex-row-reverse' },
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed !fill-mystic !text-mystic ' },
+      size: { lg: 'h-10 py-1.5 px-5 text-base' },
     },
     compoundVariants: [
       { variant: undefined, class: 'hover:text-green hover:fill-green' },
@@ -76,6 +79,7 @@
     button({
       variant,
       iconOnRight,
+      size,
       explanation: !!explanation,
       disabled: !!rest.disabled,
       children: !!children,
