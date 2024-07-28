@@ -1,5 +1,5 @@
 <script context="module">
-  import Component from './PaymentDialog.svelte'
+  import Component from './Dialog.svelte'
 
   export const showPaymentDialog$ = () => dialogs$.new(Component)
 </script>
@@ -10,11 +10,14 @@
   import DialogHeader from './DialogHeader.svelte'
   import BillingPeriodSelector from './BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentMethodSelector/index.svelte'
-  import CardForm from './CardForm/index.svelte'
+  import { usePaymentFormCtx } from './state.js'
 
   let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
 
+  usePaymentFormCtx()
   useStripeCtx()
+
+  let isBusinessPlanSelected = false
 </script>
 
 <Dialog class="w-full column">
@@ -25,8 +28,6 @@
 
     <BillingPeriodSelector></BillingPeriodSelector>
 
-    <PaymentMethodSelector></PaymentMethodSelector>
-
-    <CardForm></CardForm>
+    <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
   </div>
 </Dialog>

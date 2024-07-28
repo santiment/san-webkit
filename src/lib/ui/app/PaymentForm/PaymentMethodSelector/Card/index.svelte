@@ -32,7 +32,7 @@
 
 <div class="grid grid-cols-2 gap-4">
   <LabelInput label="Card number" class="col-span-2">
-    <div id="card-element" class="rounded-md border px-4 py-2.5"></div>
+    <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green"></div>
   </LabelInput>
 
   <LabelInput label="First name" placeholder="Thomas"></LabelInput>

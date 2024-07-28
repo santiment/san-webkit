@@ -1,5 +1,5 @@
 <script>
-  import PaymentDialog, { showPaymentDialog$ } from '$ui/app/PaymentDialog/PaymentDialog.svelte'
+  import PaymentDialog, { showPaymentDialog$ } from '$ui/app/PaymentForm/Dialog.svelte'
   import StoryDialog from '../../Design System - Core UI/Dialog/StoryDialog.svelte'
 
   const showPaymentDialog = showPaymentDialog$()
