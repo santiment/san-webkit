@@ -2,6 +2,7 @@
   import Button from '$ui/core/Button/index.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
+  import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../state.js'
 
   const { paymentForm } = usePaymentFormCtx()
@@ -32,6 +33,7 @@
 
     <div class="gap-3 column">
       <Button variant="fill" size="lg" class="center">Start Free Trial</Button>
+      <StripePaymentButton></StripePaymentButton>
     </div>
   </section>
 
