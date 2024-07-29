@@ -106,6 +106,11 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
   }
 }
 
+export const Mutation = <Data, SchemaCreator extends TGqlSchemaCreator>(
+  schemaCreator: SchemaCreator,
+  mapData?: (data: any) => Data,
+) => Fetcher(schemaCreator, mapData, { cache: false })
+
 export type TData<T> = (...args: any[]) => (...args: any[]) => Observable<T> | Promise<T>
 
 declare global {

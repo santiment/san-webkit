@@ -1,21 +1,10 @@
 <script lang="ts">
-  import { CTX } from '$ui/core/Dialog/dialogs'
-  import { setContext } from 'svelte'
+  import { BROWSER } from 'esm-env'
+  import { dialogs$ } from '$ui/core/Dialog/dialogs.js'
 
-  let { render, ...rest }: { render: any } = $props()
+  let { render, ...rest }: { render: any; rest: any } = $props()
 
-  const { Controller } = setContext(CTX, {
-    Controller: {
-      lock: () => {},
-      lockWarn: () => {},
-      unlock: () => {},
+  const showDialog = dialogs$.new(render)
 
-      close: () => {},
-      resolve: () => {},
-      reject: () => {},
-    },
-  })
+  if (BROWSER) showDialog(rest)
 </script>
-
-<svelte:component this={render} resolve={Controller.resolve} reject={Controller.reject} {...rest}
-></svelte:component>
