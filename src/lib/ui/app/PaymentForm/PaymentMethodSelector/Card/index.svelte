@@ -1,45 +1,36 @@
 <script lang="ts">
   import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { getBrowserCssVariable } from '$ui/utils/index.js'
+  import type { StripeCardElementOptions } from '@stripe/stripe-js'
   import LabelInput from './LabelInput.svelte'
+  import { usePaymentFormCtx } from '../../state.js'
 
+  const { paymentForm } = usePaymentFormCtx()
   const { stripe } = useStripeCtx()
 
   $effect(() => {
     if (!stripe.$) return
+    if (!paymentForm.$.setupIntentClientSecret) return
 
-    const nightMode = false
     const SETTINGS = {
       hidePostalCode: true,
       style: {
         base: {
           fontSize: '14px',
-          color: nightMode ? '#fff' : '#2f354d',
+          color: getBrowserCssVariable('black'),
           fontFamily: 'Proxima Nova, sans-serif',
           '::placeholder': {
-            color: nightMode ? '#363a52' : '#cad0de',
+            color: getBrowserCssVariable('casper'),
           },
         },
         invalid: {
-          color: '#ff5b5b',
+          color: getBrowserCssVariable('red'),
         },
       },
-    }
+    } as StripeCardElementOptions
 
-    const stripeCard = stripe.$.elements().create('card', SETTINGS)
-    stripeCard?.mount('#card-element')
-
-    // const elements = stripe.$.elements({
-    //   clientSecret: 'seti_1Phe0qCA0hGU8IEVhFY3DjL8_secret_QYlXrQXQuVhn3BbugcuKK0bQM7mEZBD',
-    // })
-    // const addressElement = elements.create('address', { mode: 'billing' })
-    // addressElement.mount('#address-element')
-
-    const getCssColor = (color: string) =>
-      getComputedStyle(document.documentElement).getPropertyValue(`--${color}`)
-
-    // Create and mount the Address Element in shipping mode
-    const addressElement = stripe.$.elements({
-      clientSecret: '',
+    const elements = stripe.$.elements({
+      clientSecret: paymentForm.$.setupIntentClientSecret,
       fonts: [
         {
           family: 'Proxima Nova',
@@ -59,36 +50,42 @@
             lineHeight: '16px',
             fontWeight: '600',
             marginBottom: '3px',
-            color: getCssColor('waterloo'),
+            color: getBrowserCssVariable('waterloo'),
           },
+
           '.Input': {
             boxShadow: 'none',
             padding: '11px 16px',
-            height: '40px',
             fontSize: '14px',
-            color: getCssColor('black'),
+            color: getBrowserCssVariable('black'),
+            borderColor: getBrowserCssVariable('porcelain'),
             transition: 'none',
           },
           '.Input::placeholder': {
-            color: getCssColor('casper'),
+            color: getBrowserCssVariable('casper'),
           },
           '.Input:hover': {
-            borderColor: getCssColor('green'),
+            borderColor: getBrowserCssVariable('green'),
           },
-
           '.Input:focus': {
             boxShadow: 'none',
-            borderColor: getCssColor('green'),
+            borderColor: getBrowserCssVariable('green'),
           },
         },
         variables: {
-          fontFamily: 'Proxima Nova',
+          fontFamily: 'Proxima Nova, sans-serif',
           borderRadius: '4px',
-          colorBackground: getCssColor('white'),
           gridRowSpacing: '16px',
+          colorBackground: getBrowserCssVariable('white'),
+          colorText: getBrowserCssVariable('black'),
         },
       },
-    }).create('address', {
+    })
+
+    const stripeCard = elements.create('card', SETTINGS)
+    stripeCard?.mount('#card-element')
+
+    const addressElement = elements.create('address', {
       mode: 'billing',
     })
     addressElement.mount('#address-element')

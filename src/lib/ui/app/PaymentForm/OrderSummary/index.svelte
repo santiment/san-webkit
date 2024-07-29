@@ -10,7 +10,7 @@
   let isTrialExpired = true
 </script>
 
-<div class="min-w-[480px] max-w-[480px] gap-4 column">
+<div class="min-w-[480px] max-w-[480px] gap-4 self-start column">
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
     <h2 class="flex justify-between text-lg font-semibold text-rhino">
       Sanbase Pro - Billed monthly
@@ -34,6 +34,10 @@
     <div class="gap-3 column">
       <Button variant="fill" size="lg" class="center">Start Free Trial</Button>
       <StripePaymentButton></StripePaymentButton>
+
+      <p class="text-center text-waterloo">
+        Cancel anytime. No charge before the end of the free trial
+      </p>
     </div>
   </section>
 

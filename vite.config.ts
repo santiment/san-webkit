@@ -13,6 +13,7 @@ export default defineConfig({
   },
 
   define: {
+    'process.env.IS_DEV_MODE': process.env.NODE_ENV === 'development',
     'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_FALLBACK),
   },
 })
