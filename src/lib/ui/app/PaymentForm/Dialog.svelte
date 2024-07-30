@@ -12,11 +12,15 @@
   import PaymentMethodSelector from './PaymentMethodSelector/index.svelte'
   import OrderSummary from './OrderSummary/index.svelte'
   import { usePaymentFormCtx } from './state.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
   let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
 
   usePaymentFormCtx()
   useStripeCtx()
+  const { customer } = useCustomerCtx()
+
+  $inspect(customer.$)
 
   let isBusinessPlanSelected = false
 </script>
