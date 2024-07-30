@@ -73,6 +73,14 @@ export const dialogs$ = {
         })
         Controller._unmount = () => unmount(mounted)
 
+        if (process.env.NODE_ENV !== 'production' && BROWSER) {
+          // @ts-expect-error
+          if (!window.__STORYBOOK_DIALOGS__) window.__STORYBOOK_DIALOGS__ = new Set()
+
+          //@ts-expect-error
+          window.__STORYBOOK_DIALOGS__.add(() => unmount(mounted))
+        }
+
         return promise
       })
 

@@ -11,4 +11,22 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const Dialog: Story = {}
+export const NoTrialAvailable: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        isEligibleForSanbaseTrial: false,
+      },
+    }),
+  },
+}
+
+export const EligibleForSanbaseTrial: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        isEligibleForSanbaseTrial: true,
+      },
+    }),
+  },
+}

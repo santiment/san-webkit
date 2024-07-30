@@ -14,3 +14,15 @@ export const ONE_YEAR_IN_MS = 31536000000 // Estimate
  */
 export const calculateDaysTo = (target: string, start = Date.now()): number =>
   Math.ceil((Date.parse(target) - start) / ONE_DAY_IN_MS)
+
+export function setDayEnd(date: Date) {
+  date.setHours(23, 59, 59)
+  return date
+}
+
+export function setDayStart(date: Date) {
+  date.setHours(0, 0, 1)
+  return date
+}
+
+export const getTodaysEnd = () => setDayEnd(new Date())
