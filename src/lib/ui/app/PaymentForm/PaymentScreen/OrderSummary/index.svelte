@@ -5,7 +5,7 @@
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
-  import { usePaymentFormCtx } from '../state.js'
+  import { usePaymentFormCtx } from '../../state.js'
 
   const { customer } = useCustomerCtx()
   const { paymentForm } = usePaymentFormCtx()

@@ -3,8 +3,8 @@
   import { EthStablecoinsMethod } from './EthStablecoins/index.js'
   import { SanTokenBurningMethod } from './SanTokenBurning/index.js'
   import { UniswapLiquidityMethod } from './UniswapLiquidity/index.js'
-  import Selector from '../Selector.svelte'
-  import { usePaymentFormCtx } from '../state.js'
+  import Selector from '../../Selector.svelte'
+  import { usePaymentFormCtx } from '../../state.js'
 
   let { isBusinessPlanSelected = false } = $props()
 

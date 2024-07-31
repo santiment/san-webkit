@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Selector from '../Selector.svelte'
-  import { usePaymentFormCtx } from '../state.js'
+  import Selector from '../../Selector.svelte'
+  import { usePaymentFormCtx } from '../../state.js'
 
   const OPTIONS = [{ name: 'Monthly' }, { name: 'Annually' }]
 

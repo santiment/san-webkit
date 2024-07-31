@@ -7,12 +7,12 @@
 <script lang="ts">
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { useStripeCtx } from '$lib/ctx/stripe.js'
-  import DialogHeader from './DialogHeader.svelte'
-  import BillingPeriodSelector from './BillingPeriodSelector/index.svelte'
-  import PaymentMethodSelector from './PaymentMethodSelector/index.svelte'
-  import OrderSummary from './OrderSummary/index.svelte'
-  import { usePaymentFormCtx } from './state.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { usePaymentFormCtx } from './state.js'
+  import DialogHeader from './DialogHeader.svelte'
+  import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
+  import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
+  import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
 
   let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Note from '../Note.svelte'
   import LabelInput from '../PaymentMethodSelector/Card/LabelInput.svelte'
+  import Note from '../../Note.svelte'
 </script>
 
 <div class="gap-3 column">

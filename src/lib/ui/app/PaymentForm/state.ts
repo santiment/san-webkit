@@ -2,7 +2,7 @@ import { ss, useObserve } from 'svelte-runes'
 import { tap } from 'rxjs'
 import { createCtx } from '$lib/utils/index.js'
 import { Mutation } from '$lib/api/index.js'
-import { CardMethod } from './PaymentMethodSelector/Card/index.js'
+import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 
 const DEFAULT_PAYMENT_METHOD = CardMethod
 export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {

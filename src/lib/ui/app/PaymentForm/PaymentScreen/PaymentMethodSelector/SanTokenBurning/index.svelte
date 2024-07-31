@@ -1,8 +1,8 @@
 <script lang="ts">
   import img from './san.svg'
-  import Note from '../../Note.svelte'
   import Description from '../Description.svelte'
   import OnlyAnnualMethod from '../OnlyAnnualMethod.svelte'
+  import Note from '../../../Note.svelte'
 </script>
 
 <OnlyAnnualMethod>

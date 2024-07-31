@@ -3,7 +3,7 @@
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
   import LabelInput from './LabelInput.svelte'
-  import { usePaymentFormCtx } from '../../state.js'
+  import { usePaymentFormCtx } from '../../../state.js'
 
   const { paymentForm } = usePaymentFormCtx()
   const { stripe } = useStripeCtx()

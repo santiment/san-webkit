@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
 
-  import Note from '../Note.svelte'
-  import { usePaymentFormCtx } from '../state.js'
+  import Note from '../../Note.svelte'
+  import { usePaymentFormCtx } from '../../state.js'
 
   let { children }: { children: Snippet } = $props()
 
