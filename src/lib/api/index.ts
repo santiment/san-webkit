@@ -26,6 +26,7 @@ const DEFAULT_EXECUTOR_OPTIONS = {
 
   /**
    * Caching time in seconds. Works only if `cache` is `true`.
+   * `undefined` will cache data indefinitely.
    */
   cacheTime: 5,
 

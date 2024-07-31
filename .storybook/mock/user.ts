@@ -1,6 +1,10 @@
 // import { getTodaysEnd } from '@/utils/dates'
 import { getTodaysEnd } from '../../src/lib/utils/dates'
-import { Plan, Product, checkIsBusinessPlan } from '../../src/lib/utils/plan'
+import {
+  SubscriptionPlan,
+  Product,
+  checkIsBusinessPlan,
+} from '../../src/lib/ui/app/SubscriptionPlan'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -45,7 +49,7 @@ export type CurrentUser = null | {
     trial?: boolean
 
     /** @default undefined */
-    name?: Plan
+    name?: typeof SubscriptionPlan
 
     /** @default undefined */
     trialDaysLeft?: number
@@ -122,7 +126,7 @@ export function mockUser(currentUser: CurrentUser) {
     }
 
     if (pro || proPlus || planName) {
-      const name = pro ? Plan.PRO : proPlus ? Plan.PRO_PLUS : planName
+      const name = pro ? SubscriptionPlan.PRO : proPlus ? SubscriptionPlan.PRO_PLUS : planName
       const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
 
       subscriptions[0] = {

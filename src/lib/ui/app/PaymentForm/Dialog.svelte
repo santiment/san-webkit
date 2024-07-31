@@ -10,6 +10,7 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
+  import PlansScreen from './PlansScreen/index.svelte'
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
@@ -18,25 +19,30 @@
 
   usePaymentFormCtx()
   useStripeCtx()
-  const { customer } = useCustomerCtx()
-
-  $inspect(customer.$)
+  useCustomerCtx()
 
   let isBusinessPlanSelected = false
+
+  const SCREENS = ['1. Choose your plan', '2. Payment details']
+  let screen = $state(SCREENS[0])
 </script>
 
 <Dialog class="w-full column">
-  <DialogHeader></DialogHeader>
+  <DialogHeader screens={SCREENS} bind:active={screen}></DialogHeader>
 
-  <div class="flex gap-10 overflow-scroll px-36 pb-20 pt-16">
-    <div class="gap-10 self-start column">
-      <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
+  <div class="flex gap-10 overflow-y-scroll px-36 pb-20 pt-16">
+    {#if screen === SCREENS[0]}
+      <PlansScreen></PlansScreen>
+    {:else}
+      <div class="gap-10 self-start column">
+        <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
 
-      <BillingPeriodSelector></BillingPeriodSelector>
+        <BillingPeriodSelector></BillingPeriodSelector>
 
-      <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
-    </div>
+        <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
+      </div>
 
-    <OrderSummary></OrderSummary>
+      <OrderSummary></OrderSummary>
+    {/if}
   </div>
 </Dialog>

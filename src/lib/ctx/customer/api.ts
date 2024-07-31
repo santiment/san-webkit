@@ -3,12 +3,11 @@ import { UniQuery } from '$lib/api/executor.js'
 import { Fetcher } from '$lib/api/index.js'
 import { calculateDaysTo } from '$lib/utils/dates.js'
 import {
-  getApiSubscription,
   getCustomerSubscriptionData,
   getPrimarySubscription,
   getSanbaseSubscription,
   type TSubscription,
-} from '$lib/utils/subscription.js'
+} from '$ui/app/SubscriptionPlan/subscription.js'
 
 export type TCustomer = {
   isLoggedIn: boolean

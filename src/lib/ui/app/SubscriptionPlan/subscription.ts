@@ -1,6 +1,11 @@
-import { calculateDaysTo } from './dates.js'
-import { checkIsSanApiProduct, checkIsSanbaseProduct } from './plan'
-import { checkIsBusinessPlan, Plan, type TPlan } from './plan.js'
+import { calculateDaysTo } from '$lib/utils/dates.js'
+import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
+import {
+  checkIsBusinessPlan,
+  checkIsSanApiProduct,
+  checkIsSanbaseProduct,
+} from '$ui/app/SubscriptionPlan/utils.js'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -10,7 +15,7 @@ export enum Status {
 
 export type TSubscription = {
   status: Status
-  plan: TPlan
+  plan: TSubscriptionPlan
   trialEnd: null | string
   cancelAtPeriodEnd: null | string
 }
@@ -85,17 +90,17 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     const planName = plan.name
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : 0
 
-    const isBusinessMax = isBusiness && planName === Plan.BUSINESS_MAX.key
-    const isBusinessPro = isBusinessMax || planName === Plan.BUSINESS_PRO.key
-    const isProPlus = isBusiness || planName === Plan.PRO_PLUS.key
-    const isMax = isBusiness || planName === Plan.MAX.key
+    const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
+    const isBusinessPro = isBusinessMax || planName === SubscriptionPlan.BUSINESS_PRO.key
+    const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
+    const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
 
     return {
-      planName: Plan[planName as keyof typeof Plan]?.name || planName,
+      planName: SubscriptionPlan[planName as keyof typeof SubscriptionPlan]?.name || planName,
 
       isMax,
       isProPlus,
-      isPro: isProPlus || isMax || planName === Plan.PRO.key,
+      isPro: isProPlus || isMax || planName === SubscriptionPlan.PRO.key,
       isBusinessMax,
       isBusinessPro,
 
