@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
@@ -9,9 +10,9 @@
   const { customer } = useCustomerCtx()
   const { paymentForm } = usePaymentFormCtx()
 
-  let isTrialExpired = true
-
-  let { isEligibleForSanbaseTrial, trialDaysLeft } = customer.$
+  let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial)
+  let trialDaysLeft = $derived(customer.$.trialDaysLeft)
+  let isCardPayment = $derived(paymentForm.$.isCardPayment)
 </script>
 
 <div class="min-w-[480px] max-w-[480px] gap-4 self-start column">
@@ -31,8 +32,9 @@
 
     <div class="mt-4 gap-4 column">
       {#if isEligibleForSanbaseTrial}
+        {@const now = new Date()}
         <h4 class="justify-between text-base font-medium text-waterloo row">
-          Total you pay on May 10, 2022
+          Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
           <span> $49</span>
         </h4>
       {/if}
@@ -57,17 +59,29 @@
     </div>
 
     <div class="gap-3 column">
-      <Button variant="fill" size="lg" class="center">
-        {#if isEligibleForSanbaseTrial}
-          Start Free Trial
-        {:else}
-          Activate subscription
-        {/if}
-      </Button>
+      {#if isCardPayment === false}
+        <Button variant="fill" size="lg" class="center">
+          {#if isEligibleForSanbaseTrial}
+            Contact us
+          {:else}
+            Connect MetaMask
+          {/if}
+        </Button>
+      {:else}
+        <Button variant="fill" size="lg" class="center">
+          {#if isEligibleForSanbaseTrial}
+            Start Free Trial
+          {:else}
+            Activate subscription
+          {/if}
+        </Button>
+      {/if}
 
-      <StripePaymentButton></StripePaymentButton>
+      {#if isCardPayment}
+        <StripePaymentButton></StripePaymentButton>
+      {/if}
 
-      {#if isEligibleForSanbaseTrial}
+      {#if isEligibleForSanbaseTrial && isCardPayment}
         <p class="text-center text-waterloo">
           Cancel anytime. No charge before the end of the free trial
         </p>
@@ -75,7 +89,7 @@
     </div>
   </section>
 
-  {#if paymentForm.$.isCardPayment || paymentForm.$.billingPeriod === 'year'}
+  {#if isCardPayment || paymentForm.$.billingPeriod === 'year'}
     <section class="gap-6 rounded-lg bg-athens px-8 py-6 text-rhino column">
       <Explanation></Explanation>
     </section>

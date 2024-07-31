@@ -46,7 +46,7 @@ const preview: Preview = {
 
         if (isRawQueryMock) {
           ApiMock.add(key.replace('query ', ''), { mock: () => storyMock[key] })
-        } else {
+        } else if (MockedApi[key]) {
           const predefinedMock = MockedApi[key]
           ApiMock.add(predefinedMock.apiQuery, { mock: () => predefinedMock.mock(storyMock[key]) })
         }

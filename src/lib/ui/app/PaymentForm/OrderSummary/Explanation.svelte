@@ -1,12 +1,18 @@
 <script lang="ts">
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { getFormattedMonthDayYear, getTodaysEnd, modifyDate } from '$lib/utils/dates.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { usePaymentFormCtx } from '../state.js'
 
+  const { customer } = useCustomerCtx()
   const { paymentForm } = usePaymentFormCtx()
 
+  const now = new Date()
+  const trialLastChangeDate = modifyDate(new Date(now), { days: +13 })
+  const trialEndDate = modifyDate(new Date(now), { days: +14 })
+
   let isCardPayment = $derived(paymentForm.$.isCardPayment)
-  let isTrial = true
 
   const CARD_STEPS = [
     {
@@ -16,13 +22,13 @@
     },
     {
       icon: { id: 'bell' },
-      name: 'May 6, 2022 - Last day to change your Plan',
+      name: getFormattedMonthDayYear(trialLastChangeDate) + ' - Last day to change your Plan',
       description:
         'Review your needs and adjust your plan settings by today to ensure the best fit for your requirements',
     },
     {
       icon: { id: 'wallet' },
-      name: 'May 10, 2022 - Your new subscription starts',
+      name: getFormattedMonthDayYear(trialEndDate) + ' - Your new subscription starts',
       description:
         'Your selected plan will activate automatically, ensuring uninterrupted service and access',
     },
@@ -53,7 +59,7 @@
   ]
 </script>
 
-{#if isTrial}
+{#if customer.$.isEligibleForSanbaseTrial}
   <h2 class="text-base font-semibold text-rhino">How the Trial Works</h2>
 
   <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column">
@@ -74,8 +80,8 @@
     {/each}
   </div>
 {:else if isCardPayment}
-  Your subscription will automatically renew each [month/year]. You will be charged $[X] on your
-  next billing cycle. You can cancel your subscription in Account settings at any time.
+  Your subscription will automatically renew each {paymentForm.$.billingPeriod}. You will be charged
+  $[X] on your next billing cycle. You can cancel your subscription in Account settings at any time.
 {:else}
   With the chosen payment method, your subscription will not renew automatically. You'll receive a
   friendly email reminder with easy steps to activate your subscription when you're ready.

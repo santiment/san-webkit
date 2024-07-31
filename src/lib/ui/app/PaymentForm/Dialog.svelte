@@ -28,7 +28,7 @@
 <Dialog class="w-full column">
   <DialogHeader></DialogHeader>
 
-  <div class="flex gap-10 overflow-auto px-36 pb-20 pt-16">
+  <div class="flex gap-10 overflow-scroll px-36 pb-20 pt-16">
     <div class="gap-10 self-start column">
       <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
 
