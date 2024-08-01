@@ -11,9 +11,21 @@
   const formattedPlan = getFormattedPlan(monthlyPlan, billingGroup.year)
 
   let isAnnualBilling = $state(false)
+
+  const theme = formattedPlan.isFree
+    ? {
+        accent: 'var(--c-fiord)',
+        'accent-light-1': 'var(--c-athens)',
+        checkmark: 'var(--c-waterloo)',
+      }
+    : {}
 </script>
 
-<article class="min-w-0 flex-1 p-10 pt-8 column">
+<article
+  class="min-w-0 flex-1 p-10 pt-8 column"
+  style:--c-orange={theme.accent}
+  style:--c-orange-light-1={theme['accent-light-1']}
+>
   <h2
     class={cn(
       'mb-4 max-w-fit rounded-md px-3 py-1 text-2xl font-medium',
@@ -29,54 +41,58 @@
     </p>
   {/if}
 
-  <h3 class="mb-3 text-4xl font-semibold">
-    {#if formattedPlan.isCustom}
-      Get a quote
-    {:else if formattedPlan.isFree}
-      $0
-    {:else if isAnnualBilling}
-      ${formattedPlan.price.year}
-      <span class="text-xl font-normal text-waterloo">/ year</span>
-    {:else}
-      ${formattedPlan.price.month}
-      <span class="text-xl font-normal text-waterloo">/ mo</span>
-    {/if}
-  </h3>
-
-  <p class="text-base text-fiord">
-    {#if formattedPlan.isFree}
-      Free forever
-    {:else if formattedPlan.isCustom}
-      Based on your needs
-    {:else if isAnnualBilling}
-      <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
-      <span class="text-waterloo"> / month</span>
-    {:else}
-      <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
-      <span class="mr-1 text-waterloo"> / year</span>
-
-      {#if formattedPlan.price.savePercentWithAnnual}
-        <span class="text-orange">
-          - {formattedPlan.price.savePercentWithAnnual}% 🎉
-        </span>
+  <section class="mb-4 min-h-[150px] column">
+    <h3 class="mb-3 text-4xl font-semibold">
+      {#if formattedPlan.isCustom}
+        Get a quote
+      {:else if formattedPlan.isFree}
+        $0
+      {:else if isAnnualBilling}
+        ${formattedPlan.price.year}
+        <span class="text-xl font-normal text-waterloo">/ year</span>
+      {:else}
+        ${formattedPlan.price.month}
+        <span class="text-xl font-normal text-waterloo">/ mo</span>
       {/if}
-    {/if}
-  </p>
+    </h3>
 
-  <div class="mb-10">
+    <h4 class="mb-10 text-base text-fiord">
+      {#if formattedPlan.isFree}
+        Free forever
+      {:else if formattedPlan.isCustom}
+        Based on your needs
+      {:else if isAnnualBilling}
+        <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
+        <span class="text-waterloo"> / month</span>
+      {:else}
+        <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
+        <span class="mr-1 text-waterloo"> / year</span>
+
+        {#if formattedPlan.price.savePercentWithAnnual}
+          <span class="text-orange">
+            - {formattedPlan.price.savePercentWithAnnual}% 🎉
+          </span>
+        {/if}
+      {/if}
+    </h4>
+
     {#if formattedPlan.amount.month}
-      <Button
-        class="mb-4 text-base text-waterloo"
-        onclick={() => (isAnnualBilling = !isAnnualBilling)}
-      >
-        {isAnnualBilling}
-        Bill annually
-      </Button>
+      <div>
+        <Button
+          class="text-base text-waterloo"
+          onclick={() => (isAnnualBilling = !isAnnualBilling)}
+        >
+          {isAnnualBilling}
+          Bill annually
+        </Button>
+      </div>
     {/if}
-  </div>
+  </section>
+
+  <Button variant="fill" size="lg" class="center">Your current plan</Button>
 
   {#if formattedPlan.details}
-    <ul class="gap-5 fill-orange text-rhino column">
+    <ul class="mt-10 gap-5 fill-orange text-rhino column" style:--c-orange={theme.checkmark}>
       {#each formattedPlan.details.features as feature}
         <li class="flex gap-2.5">
           <Svg id="checkmark-circle" class="mt-[1.5px]"></Svg>

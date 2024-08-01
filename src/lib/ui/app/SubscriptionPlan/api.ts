@@ -1,5 +1,5 @@
 import { Fetcher } from '$lib/api/index.js'
-import { INDIVIDUAL_PLANS, Product } from './plans.js'
+import { CONSUMER_PLANS, Product } from './plans.js'
 
 export type TProductsWithPlans = readonly {
   id: string
@@ -41,7 +41,7 @@ export function getSanbaseConsumerPlans(productsWithPlans: TProductsWithPlans): 
   if (!sanbasePlans) return null
 
   const plans = sanbasePlans.plans
-    .filter((plan) => INDIVIDUAL_PLANS.has(plan.name) && !plan.isDeprecated)
+    .filter((plan) => CONSUMER_PLANS.has(plan.name) && !plan.isDeprecated)
     .sort((a, b) => +a.amount - +b.amount)
 
   const planBillingGroup = plans.reduce<

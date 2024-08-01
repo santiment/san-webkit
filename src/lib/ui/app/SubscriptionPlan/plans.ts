@@ -67,7 +67,7 @@ export const SubscriptionPlanDetails: Record<
   },
 }
 
-export const INDIVIDUAL_PLANS = new Set<string>([
+export const CONSUMER_PLANS = new Set<string>([
   SubscriptionPlan.FREE.key,
   SubscriptionPlan.PRO.key,
   SubscriptionPlan.MAX.key,
