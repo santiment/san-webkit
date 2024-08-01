@@ -6,14 +6,15 @@
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
 
-  let { isBusinessPlanSelected = false } = $props()
+  const { paymentMethod, selectPaymentMethod, subscriptionPlan } = usePaymentFormCtx()
 
-  const { paymentForm, selectPaymentMethod } = usePaymentFormCtx()
-
-  let selectedPaymentMethod = $derived(paymentForm.$.paymentMethod)
-  let options = isBusinessPlanSelected
-    ? [CardMethod, EthStablecoinsMethod]
-    : [CardMethod, EthStablecoinsMethod, SanTokenBurningMethod, UniswapLiquidityMethod]
+  let isBusinessPlanSelected = $derived(!!subscriptionPlan.$.formatted?.isBusiness)
+  let selectedPaymentMethod = $derived(paymentMethod.$)
+  let options = $derived(
+    isBusinessPlanSelected
+      ? [CardMethod, EthStablecoinsMethod]
+      : [CardMethod, EthStablecoinsMethod, SanTokenBurningMethod, UniswapLiquidityMethod],
+  )
 
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)

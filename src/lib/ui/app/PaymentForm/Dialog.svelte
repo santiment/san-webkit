@@ -14,17 +14,24 @@
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
+  import { useSubscriptionPlanButtonCtx } from './PlansScreen/ctx.js'
 
   let { customProp, resolve, reject, Controller }: TDialogProps & { customProp: boolean } = $props()
 
-  usePaymentFormCtx()
+  const { paymentForm, subscriptionPlan, selectSubscriptionPlan } = usePaymentFormCtx()
   useStripeCtx()
   useCustomerCtx()
 
-  let isBusinessPlanSelected = false
-
   const SCREENS = ['1. Choose your plan', '2. Payment details']
   let screen = $state(SCREENS[0])
+
+  useSubscriptionPlanButtonCtx({
+    onBillingPeriodChangeClick(plan) {},
+    onPlanButtonClick(plan) {
+      selectSubscriptionPlan(plan)
+      screen = SCREENS[1]
+    },
+  })
 </script>
 
 <Dialog class="w-full column">
@@ -34,12 +41,18 @@
     {#if screen === SCREENS[0]}
       <PlansScreen></PlansScreen>
     {:else}
-      <div class="gap-10 self-start column">
-        <h1 class="color-rhino text-2xl font-medium">Sanbase Pro plan</h1>
+      <div class="w-full gap-10 self-start column">
+        <h1 class="color-rhino text-2xl font-medium">
+          {#if subscriptionPlan.$.formatted}
+            {subscriptionPlan.$.formatted.name} plan
+          {:else}
+            Unknown plan
+          {/if}
+        </h1>
 
         <BillingPeriodSelector></BillingPeriodSelector>
 
-        <PaymentMethodSelector {isBusinessPlanSelected}></PaymentMethodSelector>
+        <PaymentMethodSelector></PaymentMethodSelector>
       </div>
 
       <OrderSummary></OrderSummary>

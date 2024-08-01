@@ -17,7 +17,7 @@ export const getPlanName = (plan: Pick<TSubscriptionPlan, 'name'>): string =>
 
 export const getFormattedPlan = (
   monthlyPlan: TSubscriptionPlan,
-  annualPlan?: TSubscriptionPlan,
+  annualPlan?: null | TSubscriptionPlan,
 ) => {
   const name = getPlanName(monthlyPlan)
   const details = SubscriptionPlanDetails[monthlyPlan.name]

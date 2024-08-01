@@ -13,9 +13,11 @@
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
   let { plan }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'> } = $props()
 
+  const { onPlanButtonClick, onBillingPeriodChangeClick } = useSubscriptionPlanButtonCtx()
   const { customer } = useCustomerCtx()
 
   let isBusinessPlan = $derived(BUSINESS_PLANS.has(plan.name))
@@ -40,11 +42,19 @@
 {:else if plan.name === SubscriptionPlan.CUSTOM.key}
   <Button variant="fill" size="lg" {...classes}>Let's talk!</Button>
 {:else if isBillingChangeAvailable}
-  <Button variant="fill" size="lg" {...classes}>Change billing period</Button>
+  <Button variant="fill" size="lg" {...classes} onclick={() => onBillingPeriodChangeClick?.(plan)}
+    >Change billing period</Button
+  >
 {:else if isBusinessPlan}
-  <Button variant="fill" size="lg" {...classes}>Get {getPlanName(plan)}</Button>
+  <Button variant="fill" size="lg" {...classes} onclick={() => onPlanButtonClick?.(plan)}
+    >Get {getPlanName(plan)}</Button
+  >
 {:else if isConsumerPlan && customer.$.isEligibleForSanbaseTrial}
-  <Button variant="fill" size="lg" {...classes}>Start Free Trial</Button>
+  <Button variant="fill" size="lg" {...classes} onclick={() => onPlanButtonClick?.(plan)}
+    >Start Free Trial</Button
+  >
 {:else}
-  <Button variant="fill" size="lg" {...classes}>Upgrade</Button>
+  <Button variant="fill" size="lg" {...classes} onclick={() => onPlanButtonClick?.(plan)}
+    >Upgrade</Button
+  >
 {/if}

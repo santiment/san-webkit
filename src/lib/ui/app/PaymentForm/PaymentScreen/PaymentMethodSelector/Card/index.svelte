@@ -8,9 +8,11 @@
   const { paymentForm } = usePaymentFormCtx()
   const { stripe } = useStripeCtx()
 
+  let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
+
   $effect(() => {
     if (!stripe.$) return
-    if (!paymentForm.$.setupIntentClientSecret) return
+    if (!clientSecret) return
 
     const SETTINGS = {
       hidePostalCode: true,
@@ -30,7 +32,7 @@
     } as StripeCardElementOptions
 
     const elements = stripe.$.elements({
-      clientSecret: paymentForm.$.setupIntentClientSecret,
+      clientSecret,
       fonts: [
         {
           family: 'Proxima Nova',

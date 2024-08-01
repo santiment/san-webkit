@@ -6,10 +6,10 @@
 
   let { children }: { children: Snippet } = $props()
 
-  const { paymentForm } = usePaymentFormCtx()
+  const { billingPeriod } = usePaymentFormCtx()
 </script>
 
-{#if paymentForm.$.billingPeriod === 'year'}
+{#if billingPeriod.$ === 'year'}
   {@render children()}
 {:else}
   <Note>

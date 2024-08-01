@@ -4,32 +4,38 @@
 
   const OPTIONS = [{ name: 'Monthly' }, { name: 'Annually' }]
 
-  const { paymentForm } = usePaymentFormCtx()
+  const { billingPeriod, subscriptionPlan, selectSubscriptionPlan } = usePaymentFormCtx()
 
-  let selectedBillingPeriod = $derived(OPTIONS[paymentForm.$.billingPeriod === 'month' ? 0 : 1])
+  let plan = $derived(subscriptionPlan.$)
+  let selectedBillingPeriod = $derived(OPTIONS[billingPeriod.$ === 'month' ? 0 : 1])
+  let formattedPlan = $derived(plan.formatted)
 
   function onSelect(option: (typeof OPTIONS)[number]) {
-    paymentForm.$.billingPeriod = option === OPTIONS[0] ? 'month' : 'year'
-    paymentForm.$ = paymentForm.$
+    const selected = option === OPTIONS[0] ? 'month' : 'year'
+
+    selectSubscriptionPlan(plan[selected])
+
+    billingPeriod.$ = selected
   }
 </script>
 
 <Selector name="Billing period" active={selectedBillingPeriod} options={OPTIONS} {onSelect}>
   {#snippet children(option)}
+    {@const isAnnualBilling = option.name === 'Annually'}
     <h3 class="flex h-[26px] w-full items-center justify-between">
       {option.name}
 
-      {#if option.name === 'Annually'}
+      {#if isAnnualBilling && formattedPlan}
         <div class="rounded-md bg-white px-2 py-[5px] text-xs font-medium text-green">
-          <span class="mr-2">🎉</span>SAVE 10%
+          <span class="mr-2">🎉</span>SAVE {formattedPlan.price.savePercentWithAnnual}%
         </div>
       {/if}
     </h3>
 
     <h4 class="align-bottom">
-      $49
+      ${formattedPlan?.price[isAnnualBilling ? 'year' : 'month'] || ''}
 
-      <span class="text-sm font-normal text-waterloo">/ Month</span>
+      <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>
     </h4>
   {/snippet}
 </Selector>

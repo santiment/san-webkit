@@ -9,6 +9,7 @@ export type TProductsWithPlans = readonly {
     interval: 'month' | 'year'
     amount: number
     isDeprecated: boolean
+    product: { id: string }
   }[]
 }[]
 
@@ -25,7 +26,11 @@ export const queryProductsWithPlans = Fetcher(
     }
   }
 }`,
-  (gql: { productsWithPlans: TProductsWithPlans }) => gql.productsWithPlans,
+  (gql: { productsWithPlans: TProductsWithPlans }) => {
+    const products = gql.productsWithPlans
+    products.forEach(({ id, plans }) => plans.forEach((plan) => (plan.product = { id }))) // HACK: remove after backend id:null fix
+    return products
+  },
   { cacheTime: undefined },
 )
 

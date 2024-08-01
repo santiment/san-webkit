@@ -33,7 +33,7 @@ export const checkIsActiveSubscription = (
 
 function getSubscription(
   subscriptions: null | TSubscription[],
-  productChecker: (product: { id: number }) => boolean,
+  productChecker: (product: { id: string }) => boolean,
 ) {
   try {
     return (

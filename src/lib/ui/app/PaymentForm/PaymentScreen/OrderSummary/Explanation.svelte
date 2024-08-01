@@ -5,8 +5,10 @@
   import { cn } from '$ui/utils/index.js'
   import { usePaymentFormCtx } from '../../state.js'
 
+  let { price = 99999 } = $props()
+
   const { customer } = useCustomerCtx()
-  const { paymentForm } = usePaymentFormCtx()
+  const { paymentForm, billingPeriod } = usePaymentFormCtx()
 
   const now = new Date()
   const trialLastChangeDate = modifyDate(new Date(now), { days: +13 })
@@ -80,8 +82,8 @@
     {/each}
   </div>
 {:else if isCardPayment}
-  Your subscription will automatically renew each {paymentForm.$.billingPeriod}. You will be charged
-  $[X] on your next billing cycle. You can cancel your subscription in Account settings at any time.
+  Your subscription will automatically renew each {billingPeriod.$}. You will be charged ${price} on
+  your next billing cycle. You can cancel your subscription in Account settings at any time.
 {:else}
   With the chosen payment method, your subscription will not renew automatically. You'll receive a
   friendly email reminder with easy steps to activate your subscription when you're ready.

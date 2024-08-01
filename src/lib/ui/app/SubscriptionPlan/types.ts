@@ -9,4 +9,5 @@ export type TSubscriptionPlan = {
   interval: 'month' | 'year'
   amount: number
   isDeprecated: boolean
+  product: { id: string }
 }
