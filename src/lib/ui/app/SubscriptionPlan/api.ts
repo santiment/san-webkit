@@ -1,5 +1,5 @@
 import { Fetcher } from '$lib/api/index.js'
-import { CONSUMER_PLANS, Product } from './plans.js'
+import { BUSINESS_PLANS, CONSUMER_PLANS, Product, SubscriptionPlan } from './plans.js'
 
 export type TProductsWithPlans = readonly {
   id: string
@@ -32,17 +32,27 @@ export const queryProductsWithPlans = Fetcher(
 type TProductPlan = TProductsWithPlans[number]['plans'][number]
 export type TPlanBillingGroup = Record<string, { month: TProductPlan; year?: TProductPlan }>
 
-export function getSanbaseConsumerPlans(productsWithPlans: TProductsWithPlans): null | {
+export function getProductPlans(
+  productsWithPlans: TProductsWithPlans,
+  productId: string,
+  listOfPlans: Set<string>,
+): null | {
   plans: TProductPlan[]
   planBillingGroup: TPlanBillingGroup
   billingGroupPlans: TPlanBillingGroup[string][]
 } {
-  const sanbasePlans = productsWithPlans.find((product) => product.id === Product.Sanbase.id)
-  if (!sanbasePlans) return null
+  const productPlans = productsWithPlans.find((product) => product.id === productId)
+  if (!productPlans) return null
 
-  const plans = sanbasePlans.plans
-    .filter((plan) => CONSUMER_PLANS.has(plan.name) && !plan.isDeprecated)
-    .sort((a, b) => +a.amount - +b.amount)
+  const plans = productPlans.plans
+    .filter((plan) => listOfPlans.has(plan.name) && !plan.isDeprecated)
+    .sort((a, b) =>
+      a.name === SubscriptionPlan.CUSTOM.key
+        ? 1
+        : b.name === SubscriptionPlan.CUSTOM.key
+          ? -1
+          : +a.amount - +b.amount,
+    )
 
   const planBillingGroup = plans.reduce<
     Record<string, { month: TProductPlan; year?: TProductPlan }>
@@ -54,3 +64,9 @@ export function getSanbaseConsumerPlans(productsWithPlans: TProductsWithPlans): 
     billingGroupPlans: Object.values(planBillingGroup),
   }
 }
+
+export const getSanbaseConsumerPlans = (productsWithPlans: TProductsWithPlans) =>
+  getProductPlans(productsWithPlans, Product.Sanbase.id, CONSUMER_PLANS)
+
+export const getApiBusinessPlans = (productsWithPlans: TProductsWithPlans) =>
+  getProductPlans(productsWithPlans, Product.SanAPI.id, BUSINESS_PLANS)

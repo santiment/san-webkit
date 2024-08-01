@@ -5,6 +5,7 @@ import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,
   checkIsSanbaseProduct,
+  getPlanName,
 } from '$ui/app/SubscriptionPlan/utils.js'
 
 export enum Status {
@@ -92,17 +93,20 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
     const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
     const isBusinessPro = isBusinessMax || planName === SubscriptionPlan.BUSINESS_PRO.key
-    const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
     const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
+    const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
+    const isPro = isProPlus || isMax || planName === SubscriptionPlan.PRO.key
 
     return {
-      planName: SubscriptionPlan[planName as keyof typeof SubscriptionPlan]?.name || planName,
+      plan,
+      planName: getPlanName(plan),
 
-      isMax,
-      isProPlus,
-      isPro: isProPlus || isMax || planName === SubscriptionPlan.PRO.key,
       isBusinessMax,
       isBusinessPro,
+      isMax,
+      isProPlus,
+      isPro,
+      isFree: !isPro && !isMax && !isBusinessPro && !isBusinessMax,
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),

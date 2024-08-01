@@ -3,11 +3,13 @@ import { UniQuery } from '$lib/api/executor.js'
 import { Fetcher } from '$lib/api/index.js'
 import { calculateDaysTo } from '$lib/utils/dates.js'
 import {
+  getApiSubscription,
   getCustomerSubscriptionData,
   getPrimarySubscription,
   getSanbaseSubscription,
   type TSubscription,
 } from '$ui/app/SubscriptionPlan/subscription.js'
+import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 export type TCustomer = {
   isLoggedIn: boolean
@@ -24,6 +26,7 @@ export type TCustomer = {
   isCanceledSubscription: boolean
   isIncompleteSubscription: boolean
 
+  isFree: boolean
   isPro: boolean
   isProPlus: boolean
   isMax: boolean
@@ -33,6 +36,7 @@ export type TCustomer = {
   isTrialSubscription: boolean
   trialDaysLeft: number
 
+  plan: null | TSubscriptionPlan
   planName: string
 
   primarySubscription: null | TSubscription
@@ -49,8 +53,11 @@ export const DEFAULT: TCustomer = {
 
   isCanceledSubscription: false,
   isIncompleteSubscription: false,
-  planName: '',
 
+  planName: '',
+  plan: null,
+
+  isFree: true,
   isPro: false,
   isMax: false,
   isProPlus: false, // deprecated

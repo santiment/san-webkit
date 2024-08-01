@@ -1,18 +1,20 @@
 <script lang="ts">
   import {
+    getApiBusinessPlans,
     getSanbaseConsumerPlans,
     queryProductsWithPlans,
     type TProductsWithPlans,
   } from '$ui/app/SubscriptionPlan/api.js'
-  import { getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
-  import { cn } from '$ui/utils/index.js'
   import { tap } from 'rxjs'
   import { useObserve } from 'svelte-runes'
-  import Svg from '$ui/core/Svg/index.js'
-  import Plan from './Plan.svelte'
+  import PlanCard from './PlanCard.svelte'
+
+  let {
+    productFilter = getSanbaseConsumerPlans,
+  }: { productFilter?: typeof getSanbaseConsumerPlans | typeof getApiBusinessPlans } = $props()
 
   let productsWithPlans = $state.frozen<TProductsWithPlans>([])
-  let consumerPlans = $derived(getSanbaseConsumerPlans(productsWithPlans))
+  let consumerPlans = $derived(productFilter(productsWithPlans))
 
   useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))
 </script>
@@ -20,7 +22,7 @@
 <section class="flex divide-x rounded-lg border">
   {#if consumerPlans}
     {#each consumerPlans.billingGroupPlans as billingGroup}
-      <Plan {billingGroup}></Plan>
+      <PlanCard {billingGroup}></PlanCard>
     {/each}
   {/if}
 </section>

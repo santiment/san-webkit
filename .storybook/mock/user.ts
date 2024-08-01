@@ -34,10 +34,19 @@ export type CurrentUser = null | {
   /** @default null */
   plan?: null | {
     /** @default false */
+    proPlus?: boolean
+
+    /** @default false */
     pro?: boolean
 
     /** @default false */
-    proPlus?: boolean
+    max?: boolean
+
+    /** @default false */
+    businessPro?: boolean
+
+    /** @default false */
+    businessMax?: boolean
 
     /** @default false */
     monthly?: boolean
@@ -86,7 +95,10 @@ export function mockUser(currentUser: CurrentUser) {
   if (plan) {
     const {
       pro = false,
+      max = false,
       proPlus = false,
+      businessPro = false,
+      businessMax = false,
       monthly = false,
       yearly = false,
       trial = false,
@@ -95,7 +107,7 @@ export function mockUser(currentUser: CurrentUser) {
       name: planName,
     } = plan
 
-    if (!pro && !proPlus && !planName) {
+    if (!pro && !max && !proPlus && !businessPro && !businessMax && !planName) {
       return document.write(
         'Plan should have "pro" or "proPlus" value set to "true" or have "name" property set',
       )
@@ -125,8 +137,13 @@ export function mockUser(currentUser: CurrentUser) {
       currentPeriodEndDate.setDate(currentPeriodEndDate.getDate() + cancelledInDays)
     }
 
-    if (pro || proPlus || planName) {
-      const name = pro ? SubscriptionPlan.PRO : proPlus ? SubscriptionPlan.PRO_PLUS : planName
+    if (pro || max || proPlus || businessPro || businessMax || planName) {
+      let name = planName
+      if (pro) name = SubscriptionPlan.PRO.key
+      else if (max) name = SubscriptionPlan.MAX.key
+      else if (businessPro) name = SubscriptionPlan.BUSINESS_PRO.key
+      else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
+
       const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
 
       subscriptions[0] = {

@@ -4,6 +4,7 @@
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import Button from '$ui/core/Button/index.js'
+  import PlanButton from './PlanButton.svelte'
 
   let { billingGroup }: { billingGroup: TPlanBillingGroup[string] } = $props()
 
@@ -77,19 +78,14 @@
     </h4>
 
     {#if formattedPlan.amount.month}
-      <div>
-        <Button
-          class="text-base text-waterloo"
-          onclick={() => (isAnnualBilling = !isAnnualBilling)}
-        >
-          {isAnnualBilling}
-          Bill annually
-        </Button>
-      </div>
+      <Button class="text-base text-waterloo" onclick={() => (isAnnualBilling = !isAnnualBilling)}>
+        {isAnnualBilling}
+        Bill annually
+      </Button>
     {/if}
   </section>
 
-  <Button variant="fill" size="lg" class="center">Your current plan</Button>
+  <PlanButton plan={isAnnualBilling ? billingGroup.year! : monthlyPlan}></PlanButton>
 
   {#if formattedPlan.details}
     <ul class="mt-10 gap-5 fill-orange text-rhino column" style:--c-orange={theme.checkmark}>
