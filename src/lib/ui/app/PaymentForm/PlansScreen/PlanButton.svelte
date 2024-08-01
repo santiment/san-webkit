@@ -34,7 +34,7 @@
 </script>
 
 {#if isCurrentPlan}
-  <Button size="lg" variant="fill" disabled class="!text-fiord center">Your current plan</Button>
+  <Button variant="fill" size="lg" disabled class="!text-fiord center">Your current plan</Button>
 {:else if plan.name === SubscriptionPlan.FREE.key}
   <Button variant="border" size="lg" class="center">Default plan</Button>
 {:else if plan.name === SubscriptionPlan.CUSTOM.key}

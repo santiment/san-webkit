@@ -65,6 +65,43 @@ export const SubscriptionPlanDetails: Record<
       'Exclusive reports and market insights',
     ],
   },
+
+  [SubscriptionPlan.BUSINESS_PRO.key]: {
+    description: 'Designed for algorithmic trading and investment strategies',
+    features: [
+      '2 years of historical data through API',
+      'Real-time API data without restrictions',
+      '600K API calls / mo with 2 years historical data',
+      '50K credits for Queries tool',
+      'Dedicated account manager',
+      'Technical support included',
+    ],
+  },
+
+  [SubscriptionPlan.BUSINESS_MAX.key]: {
+    description: 'Designed for deep market analysis and large-scale data integration',
+    features: [
+      'Full historical data and metrics',
+      'Real-time API data without restrictions',
+      '1200K API calls / mo, all historical data',
+      '500K credits for Queries tool',
+      'Dedicated account manager',
+      'Technical support included',
+      'Multi-seat account with 3 seats',
+    ],
+  },
+
+  [SubscriptionPlan.CUSTOM.key]: {
+    description: 'Designed for high-demand professional trading and financial platforms',
+    features: [
+      'Custom development of data solutions',
+      'Data reselling rights agreement',
+      'SLA',
+      'All historical data available',
+      'Custom API calls and Queries credits',
+      'Technical support included',
+    ],
+  },
 }
 
 export const CONSUMER_PLANS = new Set<string>([

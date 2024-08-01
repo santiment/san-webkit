@@ -25,6 +25,7 @@ export const getFormattedPlan = (
   return {
     isFree: monthlyPlan.name === SubscriptionPlan.FREE.key,
     isCustom: monthlyPlan.name === SubscriptionPlan.CUSTOM.key,
+    isBusiness: BUSINESS_PLANS.has(monthlyPlan.name),
 
     name,
     details,

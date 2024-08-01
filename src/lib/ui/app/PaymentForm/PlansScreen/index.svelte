@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
   import Plans from './Plans.svelte'
@@ -22,5 +23,9 @@
     {/each}
   </div>
 
-  <Plans></Plans>
+  {#if planType === PLAN_TYPES[0]}
+    <Plans></Plans>
+  {:else}
+    <Plans productFilter={getApiBusinessPlans}></Plans>
+  {/if}
 </div>

@@ -19,7 +19,13 @@
         'accent-light-1': 'var(--c-athens)',
         checkmark: 'var(--c-waterloo)',
       }
-    : {}
+    : formattedPlan.isBusiness
+      ? {
+          accent: 'var(--c-blue)',
+          'accent-light-1': 'var(--c-blue-light-1)',
+          checkmark: 'var(--c-blue)',
+        }
+      : {}
 </script>
 
 <article
