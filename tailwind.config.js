@@ -66,6 +66,7 @@ export default {
         lima: '#26C953',
         'lima-hover': '#1bad44',
         'lima-light-1': { day: '#D6F6D6', night: '#1B3E33' },
+        'lima-light-2': { day: '#B4EFB4', night: '#215536' },
 
         red: '#FF6363',
         'red-hover': '#F85454',
