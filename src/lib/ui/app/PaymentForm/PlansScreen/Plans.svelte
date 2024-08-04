@@ -19,7 +19,7 @@
   useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))
 </script>
 
-<section class="flex divide-x rounded-lg border">
+<section class="flex min-h-[680px] divide-x rounded-lg border">
   {#if consumerPlans}
     {#each consumerPlans.billingGroupPlans as billingGroup}
       <PlanCard {billingGroup}></PlanCard>

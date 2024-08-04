@@ -15,7 +15,7 @@
   const { stripe } = useStripeCtx()
   const { customer } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan } = usePaymentFormCtx()
-  const { startPaymentFlow } = usePaymentFlow()
+  const { startCardPaymentFlow } = usePaymentFlow()
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial)
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
@@ -35,7 +35,7 @@
   async function onPayClick() {
     isPaymentIsProcess = true
 
-    startPaymentFlow()
+    startCardPaymentFlow()
       .then(() => {
         Controller.close()
       })

@@ -1,18 +1,22 @@
 import { Query } from '$lib/api/executor.js'
 import { useStripeCtx } from '$lib/ctx/stripe.js'
 import { notifcation } from '$ui/core/Notifications/index.js'
+import type { ConfirmCardSetupData, Token } from '@stripe/stripe-js'
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
+import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
 export function usePaymentFlow() {
   const { paymentForm, subscriptionPlan } = usePaymentFormCtx.get()
   const { stripe: stripeLoader } = useStripeCtx()
+  const { customer } = useCustomerCtx()
 
-  async function startPaymentFlow() {
+  async function startCardPaymentFlow() {
     const { selected: plan } = subscriptionPlan.$
     if (!plan) return
 
-    const { cardElement, addressElement, setupIntentClientSecret } = paymentForm.$
+    const { cardElement, addressElement } = paymentForm.$
     if (!cardElement || !addressElement) return
 
     const stripe = stripeLoader.$
@@ -25,16 +29,6 @@ export function usePaymentFlow() {
 
     const { name, address } = addressData.value
 
-    const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
-      setupIntentClientSecret,
-      {
-        payment_method: { card: cardElement, billing_details: addressData.value },
-      },
-      { handleActions: false },
-    )
-
-    console.log(setupIntent, confirmError)
-
     const { token: cardToken, error: cardTokenError } = await stripe.createToken(cardElement, {
       name,
       address_city: address.city,
@@ -42,6 +36,41 @@ export function usePaymentFlow() {
       address_line1: address.line1,
       address_line2: address.line2 || undefined,
     })
+
+    if (cardTokenError) {
+      return Promise.reject('Cannot create card token')
+    }
+
+    return processPayment({
+      paymentMethod: {
+        card: cardElement,
+        billing_details: addressData.value,
+      },
+      plan,
+      cardToken,
+    })
+  }
+
+  async function processPayment({
+    paymentMethod,
+    plan,
+    cardToken,
+  }: {
+    paymentMethod: ConfirmCardSetupData['payment_method']
+    plan: TSubscriptionPlan
+    cardToken?: Token
+  }) {
+    const stripe = stripeLoader.$
+    if (!stripe) return
+
+    const { setupIntentClientSecret } = paymentForm.$
+    if (!setupIntentClientSecret) return
+
+    const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
+      setupIntentClientSecret,
+      { payment_method: paymentMethod },
+      { handleActions: false },
+    )
 
     if (confirmError) {
       // Report to the browser that the payment failed, prompting it to
@@ -104,6 +133,7 @@ export function usePaymentFlow() {
         return subscription
       })
       .then(() => {
+        customer.reload()
         notifcation.success(`You have successfully upgraded to the "${plan.name}" plan!`)
       })
       .catch((error) => {
@@ -115,5 +145,5 @@ export function usePaymentFlow() {
       })
   }
 
-  return { startPaymentFlow }
+  return { startCardPaymentFlow, processPayment }
 }

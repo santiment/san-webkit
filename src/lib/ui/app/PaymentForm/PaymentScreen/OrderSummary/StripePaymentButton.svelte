@@ -5,6 +5,7 @@
   } from '@stripe/stripe-js'
   import { useStripeCtx } from '$lib/ctx/stripe.js'
   import { usePaymentFormCtx } from '../../state.js'
+  import { usePaymentFlow } from '../../flow.js'
 
   let {
     onSuccess,
@@ -16,6 +17,7 @@
 
   const { stripe } = useStripeCtx()
   const { paymentForm, subscriptionPlan } = usePaymentFormCtx()
+  const { processPayment } = usePaymentFlow()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
@@ -64,6 +66,10 @@
     })
 
     expressCheckoutElement.on('confirm', async (event) => {
+      if (!selectedPlan) {
+        return Promise.reject('Missing selected plan')
+      }
+
       const { error, paymentIntent } = await _stripe.confirmPayment({
         elements,
         clientSecret,
@@ -79,7 +85,15 @@
         return onError?.()
       }
 
-      console.log(paymentIntent)
+      const paymentMethod = paymentIntent.payment_method
+      if (!paymentMethod) {
+        return Promise.reject('Cannot process payment method')
+      }
+
+      return processPayment({
+        plan: selectedPlan,
+        paymentMethod: typeof paymentMethod === 'string' ? paymentMethod : paymentMethod.id,
+      }).then(onSuccess)
     })
   })
 </script>
