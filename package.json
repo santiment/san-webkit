@@ -44,7 +44,8 @@
     "./plugins/*": {
       "types": "./plugins/*.d.ts",
       "default": "./plugins/*.js"
-    }
+    },
+    "./api/*": "./dist/api/*"
   },
   "files": [
     "dist",
