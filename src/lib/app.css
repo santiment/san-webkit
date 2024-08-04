@@ -59,6 +59,10 @@
 }
  */
 
+html {
+  @apply text-base;
+}
+
 body {
   color: var(--black);
   fill: var(--black);

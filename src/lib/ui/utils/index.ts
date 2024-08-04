@@ -4,10 +4,14 @@ import type { TransitionConfig } from 'svelte/transition'
 
 import { twMerge, type ClassNameValue } from 'tailwind-merge'
 import { cubicOut } from 'svelte/easing'
+import { BROWSER } from 'esm-env'
 
 export function cn(...classLists: ClassNameValue[]) {
   return twMerge(...classLists)
 }
+
+export const getBrowserCssVariable = (color: string) =>
+  BROWSER ? getComputedStyle(document.documentElement).getPropertyValue(`--${color}`) : ''
 
 export function applyBuilder(node: HTMLElement, builder: Builder) {
   const { action, ...attrs } = builder

@@ -25,6 +25,7 @@ export type TGqlSchema =
 export const RxQuery = <T>(
   schema: TGqlSchema,
   options?: Partial<{
+    refCount?: boolean
     map: (data: unknown) => T
   }>,
 ) => {
@@ -56,7 +57,15 @@ export const RxQuery = <T>(
       return options?.map ? options.map(data) : data
     }),
 
-    shareReplay(1),
+    /**
+     * `shareReplay` will preserve ongoing ajax request (it will not cancel it even if amount of subscribers is 0).
+     * This will allow to keep cached data even after `refCount` is `0`, while cancelling follow-up instructions.
+     * Setting `refCount: true` will cancel ongoing ajax request when amount of subscribers is `0`.
+     */
+    shareReplay({
+      bufferSize: 1,
+      refCount: options?.refCount ?? false,
+    }),
   )
 }
 

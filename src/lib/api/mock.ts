@@ -62,7 +62,7 @@ export function mockApi(
     const mocked = register['query ' + name]?.mock()
 
     if (mocked !== undefined) {
-      if (mocked.error) {
+      if (mocked?.error) {
         error = mocked.error
       } else {
         // @ts-expect-error
