@@ -4,7 +4,11 @@
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
 
-  let { screens, active = $bindable() }: { screens: string[]; active: string } = $props()
+  let {
+    screens,
+    active = $bindable(),
+    disabled,
+  }: { screens: string[]; active: string; disabled?: string } = $props()
 
   const { Controller } = getDialogControllerCtx()
 </script>
@@ -18,7 +22,11 @@
         <Svg id="arrow-right" w="5" h="8"></Svg>
       {/if}
 
-      <Button class={cn(screen === active && 'text-rhino')} onclick={() => (active = screen)}>
+      <Button
+        class={cn(screen === active && 'text-rhino')}
+        disabled={screen === disabled}
+        onclick={() => (active = screen)}
+      >
         {screen}
       </Button>
     {/each}

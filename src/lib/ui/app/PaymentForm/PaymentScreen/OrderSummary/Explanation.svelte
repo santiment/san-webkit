@@ -8,13 +8,14 @@
   let { price = 99999 } = $props()
 
   const { customer } = useCustomerCtx()
-  const { paymentForm, billingPeriod } = usePaymentFormCtx()
+  const { paymentForm, subscriptionPlan, billingPeriod } = usePaymentFormCtx()
 
   const now = new Date()
   const trialLastChangeDate = modifyDate(new Date(now), { days: +13 })
   const trialEndDate = modifyDate(new Date(now), { days: +14 })
 
   let isCardPayment = $derived(paymentForm.$.isCardPayment)
+  let isConsumerPlan = $derived(!subscriptionPlan.$.formatted?.isBusiness)
 
   const CARD_STEPS = [
     {
@@ -61,7 +62,7 @@
   ]
 </script>
 
-{#if customer.$.isEligibleForSanbaseTrial}
+{#if isConsumerPlan && customer.$.isEligibleForSanbaseTrial}
   <h2 class="text-base font-semibold text-rhino">How the Trial Works</h2>
 
   <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column">

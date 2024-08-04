@@ -3,7 +3,7 @@ import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 
 export const mutateSubscribe = Mutation(
   (variables: {
-    planId: number | string
+    planId: number
     cardToken?: string
     coupon?: string
     paymentMethodId?: string

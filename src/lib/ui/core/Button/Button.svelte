@@ -20,6 +20,8 @@
     explanation,
     size,
 
+    loading = false,
+
     action = () => {},
     actionArgs,
 
@@ -35,6 +37,7 @@
     iconOnRight?: boolean
     explanation?: string
     size?: 'lg'
+    loading?: boolean
 
     action?: Action
     actionArgs?: any
@@ -55,6 +58,7 @@
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed !fill-mystic !text-mystic ' },
       size: { lg: 'h-10 py-1.5 px-5 text-base' },
+      loading: { true: 'loading' },
     },
     compoundVariants: [
       { variant: undefined, class: 'hover:text-green hover:fill-green' },
@@ -80,6 +84,7 @@
       variant,
       iconOnRight,
       size,
+      loading,
       explanation: !!explanation,
       disabled: !!rest.disabled,
       children: !!children,

@@ -1,16 +1,21 @@
 <script lang="ts">
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { notifcation } from '$ui/core/Notifications/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
   import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { usePaymentFlow } from '../../flow.js'
+  import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
 
+  const { Controller } = getDialogControllerCtx()
   const { stripe } = useStripeCtx()
   const { customer } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan } = usePaymentFormCtx()
+  const { startPaymentFlow } = usePaymentFlow()
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial)
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
@@ -23,72 +28,20 @@
   let discountedPrice = $derived(planPrice)
 
   let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
-  let isBusinessPlan = $derived(!isConsumerPlan)
 
   let isMetamaskConnected = false
+  let isPaymentIsProcess = $state(false)
 
   async function onPayClick() {
-    const { cardElement, addressElement, setupIntentClientSecret } = paymentForm.$
-    if (!cardElement || !addressElement) return
+    isPaymentIsProcess = true
 
-    const _stripe = stripe.$
-    if (!_stripe) return
-
-    const addressData = await addressElement
-      .getValue()
-      .catch(() => ({ complete: false, value: null }))
-    if (!addressData.complete || !addressData.value) return
-    addressData.value
-    const { name, address } = addressData.value
-
-    console.log(paymentForm.$, stripe.$)
-
-    const { setupIntent, error: confirmError } = await _stripe.confirmCardSetup(
-      setupIntentClientSecret,
-      {
-        payment_method: { card: cardElement, billing_details: addressData.value },
-      },
-      { handleActions: false },
-    )
-
-    console.log(setupIntent, confirmError)
-
-    const { token: cardToken, error: cardTokenError } = await _stripe.createToken(cardElement, {
-      name,
-      address_city: address.city,
-      address_country: address.country,
-      address_line1: address.line1,
-      address_line2: address.line2 || undefined,
-    })
-
-    if (confirmError) {
-      // Report to the browser that the payment failed, prompting it to
-      // re-show the payment interface, or show an error message and close
-      // the payment interface.
-      return Promise.reject('setupIntent error')
-    }
-
-    if (!setupIntent) {
-      return Promise.reject('setupIntent error')
-    }
-
-    if (!setupIntent.payment_method) {
-      return Promise.reject('paymentMethod is missing')
-    }
-
-    // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
-    // handle the flow. If using an API version older than "2019-02-11"
-    // instead check for: `paymentIntent.status === "requires_source_action"`.
-    if (setupIntent?.status === 'requires_action') {
-      // Let Stripe.js handle the rest of the payment flow.
-      const { error } = await _stripe.confirmCardSetup(setupIntentClientSecret)
-
-      if (error) {
-        console.log({ error })
-        return Promise.reject('3DS setupIntent error')
-        // The payment failed -- ask your customer for a new payment method.
-      }
-    }
+    startPaymentFlow()
+      .then(() => {
+        Controller.close()
+      })
+      .catch(() => {
+        isPaymentIsProcess = false
+      })
   }
 </script>
 
@@ -154,7 +107,13 @@
           {/if}
         </Button>
       {:else}
-        <Button variant="fill" size="lg" class="center" onclick={onPayClick}>
+        <Button
+          variant="fill"
+          size="lg"
+          class="center"
+          loading={isPaymentIsProcess}
+          onclick={onPayClick}
+        >
           {#if isEligibleForSanbaseTrial}
             Start Free Trial
           {:else}
@@ -167,7 +126,7 @@
         <StripePaymentButton></StripePaymentButton>
       {/if}
 
-      {#if isEligibleForSanbaseTrial && isCardPayment}
+      {#if isConsumerPlan && isEligibleForSanbaseTrial && isCardPayment}
         <p class="text-center text-waterloo">
           Cancel anytime. No charge before the end of the free trial
         </p>

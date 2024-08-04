@@ -23,6 +23,9 @@ dependencies:
   svelte-runes:
     specifier: ^0.0.3
     version: 0.0.3(svelte@5.0.0-next.208)
+  svelte-sonner:
+    specifier: ^0.3.27
+    version: 0.3.27(svelte@5.0.0-next.208)
   tailwind-variants:
     specifier: ^0.2.1
     version: 0.2.1(tailwindcss@3.4.3)
@@ -7724,6 +7727,14 @@ packages:
       svelte: 5.0.0-next.95
     dependencies:
       esm-env: 1.0.0
+      svelte: 5.0.0-next.208
+    dev: false
+
+  /svelte-sonner@0.3.27(svelte@5.0.0-next.208):
+    resolution: {integrity: sha512-+PvbuePNTyTNCepCWqKcFeu+Lo27yYuwfSc7zJvrWjCRMJrWAmccPg3j7jO1W13QoN3TySXU5Trb956VBQiM5Q==}
+    peerDependencies:
+      svelte: ^3.0.0 || ^4.0.0 || ^5.0.0-next.1
+    dependencies:
       svelte: 5.0.0-next.208
     dev: false
 

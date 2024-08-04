@@ -118,6 +118,7 @@
     "esm-env": "^1.0.0",
     "fast-glob": "^3.3.2",
     "svelte-runes": "^0.0.3",
+    "svelte-sonner": "^0.3.27",
     "tailwind-variants": "^0.2.1",
     "virtua": "^0.31.0",
     "zod": "^3.23.8"

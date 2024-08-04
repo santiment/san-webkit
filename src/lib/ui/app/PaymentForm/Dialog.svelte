@@ -35,7 +35,11 @@
 </script>
 
 <Dialog class="w-full column">
-  <DialogHeader screens={SCREENS} bind:active={screen}></DialogHeader>
+  <DialogHeader
+    screens={SCREENS}
+    disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}
+    bind:active={screen}
+  ></DialogHeader>
 
   <div class="flex gap-10 overflow-y-scroll px-36 pb-20 pt-16">
     {#if screen === SCREENS[0]}
