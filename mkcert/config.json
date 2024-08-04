@@ -1,0 +1,15 @@
+{
+  "record": {
+    "hosts": [
+      "localhost",
+      "127.0.0.1",
+      "192.168.0.103",
+      "10.0.0.2"
+    ],
+    "hash": {
+      "key": "1de18ec945f392a887dce684baad2bfabdcc33e3cfb3b26e84f5336db4dd961f",
+      "cert": "596b862120132ed9d7672c7e67ab698f7a948dfc19ff0931a74cd78b4ff2d02a"
+    }
+  },
+  "configFilePath": "/Users/vanguard/Documents/santiment/san-webkit/mkcert/config.json"
+}
