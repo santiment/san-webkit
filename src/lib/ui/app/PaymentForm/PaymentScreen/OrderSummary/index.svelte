@@ -6,7 +6,9 @@
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
+  import { useStripeCtx } from '$lib/ctx/stripe.js'
 
+  const { stripe } = useStripeCtx()
   const { customer } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan } = usePaymentFormCtx()
 
@@ -22,6 +24,72 @@
 
   let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
   let isBusinessPlan = $derived(!isConsumerPlan)
+
+  let isMetamaskConnected = false
+
+  async function onPayClick() {
+    const { cardElement, addressElement, setupIntentClientSecret } = paymentForm.$
+    if (!cardElement || !addressElement) return
+
+    const _stripe = stripe.$
+    if (!_stripe) return
+
+    const addressData = await addressElement
+      .getValue()
+      .catch(() => ({ complete: false, value: null }))
+    if (!addressData.complete || !addressData.value) return
+    addressData.value
+    const { name, address } = addressData.value
+
+    console.log(paymentForm.$, stripe.$)
+
+    const { setupIntent, error: confirmError } = await _stripe.confirmCardSetup(
+      setupIntentClientSecret,
+      {
+        payment_method: { card: cardElement, billing_details: addressData.value },
+      },
+      { handleActions: false },
+    )
+
+    console.log(setupIntent, confirmError)
+
+    const { token: cardToken, error: cardTokenError } = await _stripe.createToken(cardElement, {
+      name,
+      address_city: address.city,
+      address_country: address.country,
+      address_line1: address.line1,
+      address_line2: address.line2 || undefined,
+    })
+
+    if (confirmError) {
+      // Report to the browser that the payment failed, prompting it to
+      // re-show the payment interface, or show an error message and close
+      // the payment interface.
+      return Promise.reject('setupIntent error')
+    }
+
+    if (!setupIntent) {
+      return Promise.reject('setupIntent error')
+    }
+
+    if (!setupIntent.payment_method) {
+      return Promise.reject('paymentMethod is missing')
+    }
+
+    // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
+    // handle the flow. If using an API version older than "2019-02-11"
+    // instead check for: `paymentIntent.status === "requires_source_action"`.
+    if (setupIntent?.status === 'requires_action') {
+      // Let Stripe.js handle the rest of the payment flow.
+      const { error } = await _stripe.confirmCardSetup(setupIntentClientSecret)
+
+      if (error) {
+        console.log({ error })
+        return Promise.reject('3DS setupIntent error')
+        // The payment failed -- ask your customer for a new payment method.
+      }
+    }
+  }
 </script>
 
 <div class="min-w-[480px] max-w-[480px] gap-4 self-start column">
@@ -78,7 +146,7 @@
     <div class="gap-3 column">
       {#if isCardPayment === false}
         <Button variant="fill" size="lg" class="center">
-          {#if isEligibleForSanbaseTrial}
+          {#if isEligibleForSanbaseTrial || isMetamaskConnected}
             Contact us
           {:else}
             <img src="/webkit/icons/metamask.svg" alt="MetaMask" class="h-4" />
@@ -86,7 +154,7 @@
           {/if}
         </Button>
       {:else}
-        <Button variant="fill" size="lg" class="center">
+        <Button variant="fill" size="lg" class="center" onclick={onPayClick}>
           {#if isEligibleForSanbaseTrial}
             Start Free Trial
           {:else}

@@ -24,12 +24,19 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
 ) {
   type CtxValue = ReturnType<CtxCreator>
 
-  return (...args: Parameters<CtxCreator>) => {
+  const ctxCreator = (...args: Parameters<CtxCreator>) => {
     const ctx = getContext(CTX) as CtxValue
     if (ctx) return ctx
 
     return setContext(CTX, creator(...args)) as CtxValue
   }
+
+  /**
+   * Used in cases where context initialization is not required.
+   */
+  ctxCreator.get = () => getContext(CTX) as CtxValue
+
+  return ctxCreator
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {

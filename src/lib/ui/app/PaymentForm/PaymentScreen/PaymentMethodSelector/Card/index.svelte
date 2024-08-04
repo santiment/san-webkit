@@ -84,13 +84,17 @@
       },
     })
 
-    const stripeCard = elements.create('card', SETTINGS)
-    stripeCard?.mount('#card-element')
+    const cardElement = elements.create('card', SETTINGS)
+    cardElement.mount('#card-element')
 
-    const addressElement = elements.create('address', {
-      mode: 'billing',
-    })
+    const addressElement = elements.create('address', { mode: 'billing' })
     addressElement.mount('#address-element')
+
+    Object.assign(paymentForm.$, { cardElement, addressElement })
+
+    return () => {
+      Object.assign(paymentForm.$, { cardElement: null, addressElement: null })
+    }
   })
 </script>
 
@@ -101,3 +105,11 @@
 
   <div id="address-element"></div>
 </div>
+
+<style lang="postcss">
+  :global {
+    .StripeElement--invalid {
+      @apply border-red;
+    }
+  }
+</style>

@@ -7,6 +7,7 @@ import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
 import { getFormattedPlan } from '../SubscriptionPlan/utils.js'
+import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
 
 const DEFAULT_PAYMENT_METHOD = CardMethod
 export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
@@ -14,6 +15,9 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
     isCardPayment: DEFAULT_PAYMENT_METHOD === CardMethod,
 
     setupIntentClientSecret: '',
+
+    cardElement: null as null | StripeCardElement,
+    addressElement: null as null | StripeAddressElement,
   })
   const billingPeriod = ss('month' as 'month' | 'year')
   const paymentMethod = ss(DEFAULT_PAYMENT_METHOD)
@@ -75,6 +79,7 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
 
         billingPeriod.$ = selectedPlan.interval
         plan.$.selected = selectedPlan
+        plan.$ = plan.$
       })
     },
   }
