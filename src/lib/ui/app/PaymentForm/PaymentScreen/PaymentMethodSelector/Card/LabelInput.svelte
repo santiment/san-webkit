@@ -4,8 +4,8 @@
 
   let {
     label,
-    children,
     class: className,
+    children,
     ...props
   }: ComponentProps<Input> & { label: string } = $props()
 </script>

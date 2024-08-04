@@ -1,4 +1,4 @@
-import { Mutation } from '$lib/api/index.js'
+import { Fetcher, Mutation } from '$lib/api/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 
 export const mutateSubscribe = Mutation(
@@ -39,4 +39,19 @@ export const mutateSubscribe = Mutation(
       plan: TSubscriptionPlan
     }
   }) => gql.subscribe,
+)
+
+export type TCoupon = {
+  isValid: boolean
+  percentOff: number
+}
+export const queryDiscountCoupon = Fetcher(
+  (coupon: string) => `{
+  getCoupon(coupon:"${coupon}") {
+    isValid
+    percentOff
+  }
+}`,
+  (gql: { getCoupon: null | TCoupon }) => gql.getCoupon,
+  { cache: false },
 )

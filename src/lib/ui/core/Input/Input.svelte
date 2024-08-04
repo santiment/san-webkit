@@ -2,6 +2,7 @@
   import type { HTMLInputAttributes } from 'svelte/elements'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+  import type { Snippet } from 'svelte'
 
   let {
     class: className,
@@ -10,6 +11,7 @@
     placeholder = '',
     icon,
     iconSize = 12,
+    right,
     ...rest
   }: HTMLInputAttributes & {
     class?: string
@@ -18,6 +20,7 @@
     icon?: string
     iconSize?: number | string
     inputClass?: string
+    right?: Snippet
   } = $props()
 </script>
 
@@ -41,4 +44,6 @@
       inputClass,
     )}
   />
+
+  {@render right?.()}
 </div>
