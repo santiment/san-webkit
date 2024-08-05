@@ -1,8 +1,6 @@
-<script context="module">var _a;
-</script>
+<script context="module"></script>
 
-<script>var _a;
-import Area from './Area.svelte';
+<script>import Area from './Area.svelte';
 import { getTooltipContext } from './tooltip';
 import { getOffset, getValueAt } from './utils';
 import SvgTooltip from './SvgTooltip.svelte';
@@ -13,7 +11,7 @@ export let areas;
 export let tooltipVisible = false;
 export let tooltipSyncKey = '';
 const defaultFormatter = (value) => value.toString();
-const { offset$: sharedOffset$, syncKey$, updateOffset } = (_a = getTooltipContext()) !== null && _a !== void 0 ? _a : {};
+const { offset$: sharedOffset$, syncKey$, updateOffset } = getTooltipContext() ?? {};
 let localOffset = 0;
 $: offset = getOffset({
     localOffset,
@@ -24,13 +22,13 @@ $: offset = getOffset({
 function onMouseMove({ offsetX }) {
     localOffset = offsetX;
     if (tooltipSyncKey) {
-        updateOffset === null || updateOffset === void 0 ? void 0 : updateOffset(offsetX, tooltipSyncKey);
+        updateOffset?.(offsetX, tooltipSyncKey);
     }
 }
 function onMouseLeave() {
     localOffset = 0;
     if (tooltipSyncKey) {
-        updateOffset === null || updateOffset === void 0 ? void 0 : updateOffset(0, tooltipSyncKey);
+        updateOffset?.(0, tooltipSyncKey);
     }
 }
 </script>

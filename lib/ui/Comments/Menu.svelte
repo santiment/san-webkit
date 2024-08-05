@@ -27,11 +27,10 @@ function onCommentDelete() {
 function updateReplies(isWithTagname = true) {
     const id = '#comment-' + comment.id;
     Array.from(commentsNode.querySelectorAll(`a[href="${id}"]`)).forEach((commentNode) => {
-        var _a;
         const reply = commentNode.firstChild;
         if (!reply)
             return;
-        const authorNode = (_a = reply.firstChild) === null || _a === void 0 ? void 0 : _a.lastChild;
+        const authorNode = reply.firstChild?.lastChild;
         const textNode = reply.lastChild;
         if (textNode)
             textNode.textContent = markdownToPlainText(comment.content);
@@ -42,7 +41,7 @@ function updateReplies(isWithTagname = true) {
 }
 </script>
 
-<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-x95RaC">
+<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-q9Y02y">
   <button slot="trigger" class="menu btn row hv-center mrg-a mrg--l {className}"
     ><Svg id="horz-dots" w="16" h="4" /></button
   >
@@ -58,7 +57,7 @@ function updateReplies(isWithTagname = true) {
     width: 32px;
     height: 32px;
   }
-  :global(.active-x95RaC) {
+  :global(.active-q9Y02y) {
     --bg: var(--green-light-1);
     --color: var(--green);
     --color-hover: var(--green-hover);

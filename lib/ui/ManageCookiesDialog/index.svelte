@@ -13,7 +13,6 @@ export const Cookies = {
 };
 export const showManageCookiesDialog = (props) => dialogs.show(ManageCookiesDialog, Object.assign({ strict: true }, props));
 export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted = false) {
-    var _a;
     saveBoolean(Cookies.Basic, true);
     saveBoolean(Cookies.Functional, isFunctionalAccepted);
     saveBoolean(Cookies.Performance, isPerformanceAccepted);
@@ -21,7 +20,7 @@ export function applyCookies(isFunctionalAccepted = false, isPerformanceAccepted
     setCookie(COOKIE_POLICY_ACCEPTED, true);
     setSessionValue({ isCookiesVisible: false });
     track.event('Cookie policy accepted', { category: 'User' });
-    (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'update', {
+    window.gtag?.('consent', 'update', {
         security_storage: 'granted',
         ad_storage: isFunctionalAccepted ? 'granted' : 'denied',
         ad_user_data: isFunctionalAccepted ? 'granted' : 'denied',
@@ -60,8 +59,8 @@ function onAllowAllClick() {
   {...$$props}
   title="Cookie settings"
   bind:closeDialog
-  class="dialog-FII0qi"
-  titleClassName="title-9JHgGp"
+  class="dialog-gTFV4b"
+  titleClassName="title-s9RzJG"
 >
   <div class="cookies" class:body-2={$IsMobile}>
     <p>
@@ -131,7 +130,7 @@ function onAllowAllClick() {
   }
 }
 */
-:global(.dialog-FII0qi) {
+:global(.dialog-gTFV4b) {
   max-width: 600px !important;
 }
 
@@ -150,10 +149,10 @@ p {
   gap: 12px;
 }
 
-:global(body:not(.desktop)) :global(.dialog-FII0qi) {
+:global(body:not(.desktop)) :global(.dialog-gTFV4b) {
   height: 100%;
 }
-:global(body:not(.desktop)) :global(.title-9JHgGp) {
+:global(body:not(.desktop)) :global(.title-s9RzJG) {
   padding: 14px 16px !important;
   color: var(--fiord);
 }

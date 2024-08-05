@@ -44,14 +44,13 @@ $: label = (() => {
     return 'Buy now';
 })();
 function onClick() {
-    var _a;
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
     if (isCustomPlan) {
         window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank');
         return;
     }
     if (!isLoggedIn) {
-        return (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, '/login');
+        return window.__onLinkClick?.('/login');
     }
     if (!isBusinessPlan) {
         if (!annualDiscount.isEligible) {

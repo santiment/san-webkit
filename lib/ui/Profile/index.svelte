@@ -11,14 +11,13 @@ export let placeholderSize = undefined;
 $: if (isTagName && user.username === 'anonymous')
     isTagName = false;
 function onClick(e) {
-    var _a;
     trackProfileClick({
         id: user.id,
         username: user.username || undefined,
         feature,
         source,
     });
-    (_a = window.__onLinkClick) === null || _a === void 0 ? void 0 : _a.call(window, e);
+    window.__onLinkClick?.(e);
 }
 </script>
 
@@ -27,7 +26,7 @@ function onClick(e) {
   href="{SANBASE_ORIGIN}/profile/{user.id}"
   on:click={onClick}
 >
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-TzHuN7" {placeholderSize} />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-N+XK2L" {placeholderSize} />
 
   <span>
     {#if $$slots.name}
@@ -59,7 +58,7 @@ a {
 a:hover {
   --color: var(--accent, var(--green));
 }
-a:hover :global(.pic-TzHuN7) {
+a:hover :global(.pic-N\+XK2L) {
   box-shadow: 0px 0px 0px 1px var(--green);
 }
 

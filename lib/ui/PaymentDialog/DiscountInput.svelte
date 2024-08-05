@@ -43,7 +43,7 @@ function invalidateCoupon() {
 }
 function setDefaultPromoCode() {
     const { promoCodes } = $currentUser$ || {};
-    const validPromos = promoCodes === null || promoCodes === void 0 ? void 0 : promoCodes.filter((p) => p.timesRedeemed < p.maxRedemptions);
+    const validPromos = promoCodes?.filter((p) => p.timesRedeemed < p.maxRedemptions);
     if (!validPromos)
         return;
     const maxOffPromo = validPromos.reduce((prevPromo, promo) => (promo.percentOff > prevPromo.percentOff ? promo : prevPromo), { percentOff: 0, coupon: '' });
@@ -68,25 +68,25 @@ onDestroy(clearTimer);
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin status-Yrhirq" />
+      <div class="loading-spin status-LJfiFw" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="status-Yrhirq {isValid ? 'valid-yOZYSp' : ''}"
+        class="status-LJfiFw {isValid ? 'valid-Dm9PRt' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  :global(.status-Yrhirq) {
+  :global(.status-LJfiFw) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  :global(.valid-yOZYSp) {
+  :global(.valid-Dm9PRt) {
     fill: var(--green);
   }
 </style>

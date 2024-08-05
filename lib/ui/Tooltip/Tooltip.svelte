@@ -44,7 +44,7 @@ export function open() {
     isOpened = true;
     timerOpen = null;
     if (activeClass)
-        trigger === null || trigger === void 0 ? void 0 : trigger.classList.add(activeClass);
+        trigger?.classList.add(activeClass);
 }
 export function close() {
     stopOpenTimer();
@@ -52,7 +52,7 @@ export function close() {
     isOpened = false;
     tooltip = null;
     if (activeClass)
-        trigger === null || trigger === void 0 ? void 0 : trigger.classList.remove(activeClass);
+        trigger?.classList.remove(activeClass);
     window.removeEventListener('touchend', onTouchEnd);
     window.removeEventListener('click', onTouchEnd, { capture: true });
     // trigger?.removeEventListener('mouseleave', startCloseTimer)
@@ -93,9 +93,9 @@ function attach(node) {
 }
 function onTouchEnd({ target }) {
     if (target === trigger ||
-        (trigger === null || trigger === void 0 ? void 0 : trigger.contains(target)) ||
+        trigger?.contains(target) ||
         target.closest('[slot="tooltip"]') ||
-        (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
+        tooltip?.contains(target)) {
         return;
     }
     close();

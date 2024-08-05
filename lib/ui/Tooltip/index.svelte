@@ -95,11 +95,10 @@ function closeTooltip() {
     startCloseTimer();
 }
 function hookTooltip() {
-    var _a;
     if (!tooltip)
         return;
     if (passive)
-        (_a = trigger === null || trigger === void 0 ? void 0 : trigger.parentNode) === null || _a === void 0 ? void 0 : _a.append(tooltip);
+        trigger?.parentNode?.append(tooltip);
     if (!isEnabled)
         return;
     tooltip.onmouseenter = closeTimeout ? openTooltip : null;
@@ -111,12 +110,12 @@ function updateTooltipPosition() {
         return;
     const { left, top } = getTooltipStyles(tooltip, trigger, position, align, offsetX, offsetY);
     tooltip.style.left = left + 'px';
-    tooltip.style.top = top - ((scrollParent === null || scrollParent === void 0 ? void 0 : scrollParent.scrollTop) || 0) + 'px';
+    tooltip.style.top = top - (scrollParent?.scrollTop || 0) + 'px';
 }
 function onTouchEnd({ target }) {
     if (target === trigger ||
         target.closest('[slot="tooltip"]') ||
-        (tooltip === null || tooltip === void 0 ? void 0 : tooltip.contains(target))) {
+        tooltip?.contains(target)) {
         return;
     }
     window.removeEventListener('touchend', onTouchEnd);

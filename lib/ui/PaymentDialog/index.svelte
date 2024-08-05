@@ -35,14 +35,14 @@ export let planData;
 export let plans = [];
 const { customer$ } = getCustomer$Ctx();
 let closeDialog;
-let plan = planData !== null && planData !== void 0 ? planData : {};
+let plan = planData ?? {};
 let loading = false;
 let StripeCard;
 let savedCard = $paymentCard$;
 $: isBusiness = checkIsBusinessPlan(plan);
 $: customer = $customer$;
 $: ({ subscription } = customer);
-$: isNotCanceled = !(subscription === null || subscription === void 0 ? void 0 : subscription.cancelAtPeriodEnd);
+$: isNotCanceled = !subscription?.cancelAtPeriodEnd;
 // TODO: make customer data accesible via context
 $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
 $: name = PlanName[plan.name] || plan.name;
@@ -62,8 +62,7 @@ function findDefaultPlan({ name, interval: billing }) {
     return defaultPlan === name && interval === billing;
 }
 async function getDefaultPlans(isBusiness) {
-    var _a;
-    const products = (_a = getCachedProducts()) !== null && _a !== void 0 ? _a : (await queryPlans());
+    const products = getCachedProducts() ?? (await queryPlans());
     return isBusiness ? getBusinessPlans(products) : getIndividualPlans(products);
 }
 async function getPlans(plans, isBusiness) {

@@ -13,7 +13,7 @@ export let onPageChange = noop;
 export let totalItems = undefined;
 $: restProps = $$restProps;
 $: hasMoreItems = totalItems !== undefined && totalItems !== items.length;
-$: itemsCount = totalItems !== null && totalItems !== void 0 ? totalItems : items.length;
+$: itemsCount = totalItems ?? items.length;
 $: pageOffset = page * pageSize;
 $: pageEndOffset = pageOffset + pageSize;
 $: pageItems = hasMoreItems ? items.slice(0, pageSize) : items.slice(pageOffset, pageEndOffset);

@@ -34,11 +34,10 @@ $: if (BROWSER)
 $: authorId = commentsFor.user.id;
 function setComments(data) {
     comments = mapComment ? data.map(mapComment) : data;
-    onNewComment === null || onNewComment === void 0 ? void 0 : onNewComment(commentsFor, data);
+    onNewComment?.(commentsFor, data);
 }
 function scrollToNewComment() {
-    var _a;
-    const node = (_a = commentsNode.lastElementChild) === null || _a === void 0 ? void 0 : _a.querySelector('.content');
+    const node = commentsNode.lastElementChild?.querySelector('.content');
     removeHighlight = scrollToComment(node);
 }
 function onSubmit() {
@@ -60,7 +59,7 @@ function onSubmit() {
         setComments(comments);
         editor.resetContent();
         clearSavedComment();
-        onCommentSubmitted === null || onCommentSubmitted === void 0 ? void 0 : onCommentSubmitted(comment);
+        onCommentSubmitted?.(comment);
         queryComments(commentsFor.id, type).then((comments) => {
             comments.push(comment);
         });
@@ -83,7 +82,7 @@ function onRepliedToClick(e) {
     removeHighlight = scrollToComment(comment, removeHighlight);
 }
 onDestroy(() => {
-    removeHighlight === null || removeHighlight === void 0 ? void 0 : removeHighlight();
+    removeHighlight?.();
 });
 </script>
 
@@ -93,7 +92,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-fIAFO9"
+    class="border fluid input-ausi97"
     placeholder="Type your comment here"
   />
 
@@ -126,7 +125,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-fIAFO9) {
+  :global(.input-ausi97) {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

@@ -4,7 +4,7 @@ export let id;
 export let w = undefined;
 export let h = undefined;
 export let illus = false;
-$: height = h !== null && h !== void 0 ? h : w;
+$: height = h ?? w;
 $: style = w && `width:${w}px;height:${height}px;min-width:${w}px`;
 </script>
 

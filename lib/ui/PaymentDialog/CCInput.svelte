@@ -20,8 +20,8 @@ const INPUT_STYLE = {
 const SETTINGS = { style: INPUT_STYLE, hidePostalCode: true };
 $: $stripe && ccNode && mountCC();
 function mountCC() {
-    StripeCard = $stripe === null || $stripe === void 0 ? void 0 : $stripe.elements().create('card', SETTINGS);
-    StripeCard === null || StripeCard === void 0 ? void 0 : StripeCard.mount('#card-element');
+    StripeCard = $stripe?.elements().create('card', SETTINGS);
+    StripeCard?.mount('#card-element');
 }
 </script>
 

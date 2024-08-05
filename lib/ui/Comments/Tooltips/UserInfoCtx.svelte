@@ -28,9 +28,8 @@ function hookTooltip(node) {
     getProfileLinks(node).forEach(hookTooltipNode);
 }
 function hookTooltipNode(node) {
-    var _a;
     const isInReply = node.closest('.caption');
-    const isAnonComment = (_a = node.textContent) === null || _a === void 0 ? void 0 : _a.includes('anonymous');
+    const isAnonComment = node.textContent?.includes('anonymous');
     if (isInReply || isAnonComment)
         return;
     if (node.__props__)

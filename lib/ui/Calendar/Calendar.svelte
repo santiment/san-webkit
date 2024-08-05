@@ -21,7 +21,7 @@ else {
     destroy();
 }
 function destroy() {
-    calendar === null || calendar === void 0 ? void 0 : calendar.destroy();
+    calendar?.destroy();
     calendar = null;
 }
 function onTriggerClick(e) {
@@ -52,11 +52,11 @@ function mount(parent) {
         onSelect(data) {
             if (range) {
                 if (+data.date[0] !== +date[0] || +data.date[1] !== +date[1]) {
-                    onDateSelect === null || onDateSelect === void 0 ? void 0 : onDateSelect(data.date);
+                    onDateSelect?.(data.date);
                 }
             }
             else {
-                onDateSelect === null || onDateSelect === void 0 ? void 0 : onDateSelect(data.date);
+                onDateSelect?.(data.date);
             }
         },
     });
@@ -75,8 +75,8 @@ function mount(parent) {
   style="flex-direction: row-reverse;"
   {onTriggerClick}
 >
-  {@const classes = `btn-2 row v-center trigger-fBO3yL ${
-    tooltip ? 'active-oesT39' : ''
+  {@const classes = `btn-2 row v-center trigger-CxAewx ${
+    tooltip ? 'active-ri6Oe2' : ''
   } ${className}`}
 
   <slot {trigger} isOpened={!!tooltip} {classes}>
@@ -104,7 +104,7 @@ function mount(parent) {
   }
 }
 */
-:global(.trigger-fBO3yL) {
+:global(.trigger-CxAewx) {
   color: var(--black) !important;
   --fill: var(--waterloo);
   --bg: var(--white);
@@ -112,7 +112,7 @@ function mount(parent) {
   --fill-hover: var(--green);
 }
 
-:global(.active-oesT39) {
+:global(.active-ri6Oe2) {
   --border: var(--green);
   --fill: var(--green);
 }

@@ -22,7 +22,7 @@ function changeCalendar(wasInputBlurred = false) {
             onDateSelect(dates);
         }
         else {
-            calendar === null || calendar === void 0 ? void 0 : calendar.selectDate(dates);
+            calendar?.selectDate(dates);
         }
     }
 }
@@ -132,7 +132,7 @@ export function selectNextGroup(node, isRightDir = false, caret = node.selection
     node.selectionStart = left;
     node.selectionEnd = left + 2;
     const isFirstDateFocused = node.selectionStart < 11;
-    calendar === null || calendar === void 0 ? void 0 : calendar.setViewDate(date[isFirstDateFocused ? 0 : 1]);
+    calendar?.setViewDate(date[isFirstDateFocused ? 0 : 1]);
 }
 // -------
 const NavigationChar = { ArrowLeft: true, ArrowRight: true };
@@ -183,7 +183,7 @@ function formatValue(dates) {
 
 <PresetCalendar {...$$restProps} {date} {onDateSelect} bind:calendar let:trigger let:classes>
   <label use:trigger class="relative {classes}">
-    <Svg class="s-mlyox0" id="calendar" w="16" />
+    <Svg class="s-3qvlpm" id="calendar" w="16" />
 
     <input
       bind:this={inputNode}
@@ -211,7 +211,7 @@ function formatValue(dates) {
     padding-left: 34px;
   }
 
-  :global(.s-mlyox0) {
+  :global(.s-3qvlpm) {
     position: absolute;
     pointer-events: none;
     left: 11px;

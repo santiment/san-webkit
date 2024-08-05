@@ -12,13 +12,13 @@ let isOpened = false;
 function onOptionSelect(option) {
     selected = option;
     isOpened = false;
-    onSelect === null || onSelect === void 0 ? void 0 : onSelect(option);
+    onSelect?.(option);
 }
 </script>
 
 <Field {title}>
   <div class="relative {className}">
-    <Tooltip on="click" class="tooltip-vT6Wkh" bind:isOpened>
+    <Tooltip on="click" class="tooltip-oDrMv_" bind:isOpened>
       <button slot="trigger" type="button" class="btn-2 btn--s row v-center justify fluid">
         <slot />
         <Svg id="arrow-down" w="8" h="5" class="mrg-xl mrg--l" />
@@ -41,7 +41,7 @@ function onOptionSelect(option) {
 </Field>
 
 <style>
-  :global(.tooltip-vT6Wkh) {
+  :global(.tooltip-oDrMv_) {
     padding: 8px;
     width: 100%;
   }

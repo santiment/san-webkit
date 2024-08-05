@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-    API: 'api-nUliNJ',
-    SHEETS: 'sheets-h7hs4u',
+    API: 'api-SvMBop',
+    SHEETS: 'sheets-yMmQiB',
 };
 </script>
 
@@ -22,8 +22,7 @@ function onManageClick() {
     });
 }
 onMount(() => {
-    var _a;
-    (_a = window.gtag) === null || _a === void 0 ? void 0 : _a.call(window, 'consent', 'default', {
+    window.gtag?.('consent', 'default', {
         security_storage: 'granted',
         functionality_storage: 'denied',
         performance_cookies: 'denied',
@@ -38,7 +37,7 @@ onMount(() => {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
-    <Svg illus id="cookies" class="pic-NADnZz" />
+    <Svg illus id="cookies" class="pic-xZtiLr" />
     <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -75,12 +74,12 @@ onMount(() => {
   text-align: center;
 }
 
-:global(.api-nUliNJ) {
+:global(.api-SvMBop) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-h7hs4u) {
+:global(.sheets-yMmQiB) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -89,7 +88,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-NADnZz) {
+:global(.pic-xZtiLr) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -103,7 +102,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-NADnZz) {
+:global(.desktop) :global(.pic-xZtiLr) {
   transform: initial;
   position: absolute;
   left: 24px;

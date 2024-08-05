@@ -10,9 +10,9 @@ let cursor = 0;
 $: feature = features[cursor];
 $: highlightedNode = document.querySelector('#' + (feature.nodeId || feature.id));
 $: if (!isElementInCenter(highlightedNode)) {
-    highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    highlightedNode?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-$: rect = (highlightedNode === null || highlightedNode === void 0 ? void 0 : highlightedNode.getBoundingClientRect()) || { bottom: -14, x: 7 };
+$: rect = highlightedNode?.getBoundingClientRect() || { bottom: -14, x: 7 };
 $: align = (rect, feature.align || 'left');
 $: ({ bottom, x, right } = rect);
 $: xPosition = x - 7;
@@ -38,7 +38,7 @@ const onPrevious = () => {
     trackWalkthrough('prev_step', cursor);
 };
 function trackWalkthrough(event, idx) {
-    const index = idx !== null && idx !== void 0 ? idx : cursor;
+    const index = idx ?? cursor;
     track.event(`walkthrough_${event}`, {
         category: ANALYTICS_CATEGORY,
         current_step: index + 1,

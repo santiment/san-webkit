@@ -21,15 +21,14 @@ $: getData(tab[1]);
 $: items = mapItems(assets);
 $: filtered = searchTerm ? filter(items) : items;
 function getData(dataQuery) {
-    var _a;
-    (_a = virtualController.scrollTo) === null || _a === void 0 ? void 0 : _a.call(virtualController, 0);
+    virtualController.scrollTo?.(0);
     loading = true;
     dataQuery()
         .then((data) => (assets = data))
         .finally(() => (loading = false));
 }
 onDestroy(() => {
-    clear === null || clear === void 0 ? void 0 : clear();
+    clear?.();
 });
 </script>
 

@@ -1,5 +1,4 @@
-<script>var _a;
-import { noop } from './../../utils';
+<script>import { noop } from './../../utils';
 import { getMinRows } from './utils';
 import SorterArrows from './SorterArrows.svelte';
 let className = '';
@@ -22,8 +21,8 @@ const ascSort = (a, b) => sortedColumnAccessor(a) - sortedColumnAccessor(b);
 const descSort = (a, b) => sortedColumnAccessor(b) - sortedColumnAccessor(a);
 $: currentSort = sortDirection === 'desc' ? descSort : ascSort;
 $: rowsPadding = getMinRows(minRows, items.length, columns.length);
-$: sortedColumnAccessor = (_a = sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) !== null && _a !== void 0 ? _a : (() => 0);
-$: sortedItems = (sortedColumn === null || sortedColumn === void 0 ? void 0 : sortedColumn.sortAccessor) ? applySort(currentSort, items) : items;
+$: sortedColumnAccessor = sortedColumn?.sortAccessor ?? (() => 0);
+$: sortedItems = sortedColumn?.sortAccessor ? applySort(currentSort, items) : items;
 function changeSort({ currentTarget }) {
     const i = currentTarget.dataset.i;
     const column = columns[+i];

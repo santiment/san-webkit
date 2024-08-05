@@ -6,7 +6,7 @@ import { setDialogCtx } from './ctx';
 let className = '';
 export { className as class };
 export let titleClassName = '';
-export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
+export let closeDialog = undefined;
 export let title = '';
 export let onBeforeDialogClose = () => { };
 export let noTitle = false;
@@ -16,6 +16,7 @@ export let animated = true;
 export let isClickawayDisabled = false;
 export let strict = false;
 const DialogCtx = $$props.DialogCtx;
+$: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
 $: ({ i, DialogPromise } = $$props);
 let isOpening = true;
 let clickAwayMouseDown = false;
@@ -28,7 +29,7 @@ function onKeyup({ code, target }) {
         if (isOpening)
             return;
         if (checkIsEditable(target))
-            onEditableEscaped === null || onEditableEscaped === void 0 ? void 0 : onEditableEscaped(target, requestDialogClose);
+            onEditableEscaped?.(target, requestDialogClose);
         else
             requestDialogClose();
     }
@@ -123,7 +124,7 @@ function transition(node) {
         <Svg
           id="close"
           w="12"
-          class="btn mrg-a mrg--l close-nCb8aY"
+          class="btn mrg-a mrg--l close-hLVdRJ"
           on:click={requestDialogClose}
         />
       </h2>
@@ -187,7 +188,7 @@ function transition(node) {
   padding: 16px;
 }
 
-:global(.close-nCb8aY) {
+:global(.close-hLVdRJ) {
   --fill: var(--waterloo);
   --fill-hover: var(--green);
 }

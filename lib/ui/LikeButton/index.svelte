@@ -23,7 +23,7 @@ export let source;
 function onClick() {
     if (typeof id !== 'number')
         return;
-    onVote === null || onVote === void 0 ? void 0 : onVote();
+    onVote?.();
     vote(id, type)
         .then(onVoted)
         .catch(() => {

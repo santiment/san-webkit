@@ -1,5 +1,4 @@
-<script>var _a, _b;
-import Svg from './../../../ui/Svg/svelte';
+<script>import Svg from './../../../ui/Svg/svelte';
 import { queryBillingHistory } from './../../../api/subscription';
 import { CardBrandIllustration } from './../../../ui/PaymentDialog/utils';
 import { showUpdatePaymentCardDialog } from './../../../ui/UpdatePaymentCardDialog.svelte';
@@ -33,8 +32,8 @@ $: customer = $customer$;
 $: ({ subscriptions, isEligibleForTrial, annualDiscount, isCanceled } = customer);
 $: paymentCard = $paymentCard$;
 $: subscription = subscriptions.find((sub) => checkIsActiveSubscription(sub));
-$: plan = (_a = subscription === null || subscription === void 0 ? void 0 : subscription.plan) !== null && _a !== void 0 ? _a : DEFAULT_PLAN;
-$: isFree = ((_b = plan === null || plan === void 0 ? void 0 : plan.name) === null || _b === void 0 ? void 0 : _b.toUpperCase()) === Plan.FREE;
+$: plan = subscription?.plan ?? DEFAULT_PLAN;
+$: isFree = plan?.name?.toUpperCase() === Plan.FREE;
 $: individualSuggestions = getIndividualSuggestions(plan, annualDiscount);
 $: businessSuggestions = getBusinessSuggestions(plan);
 $: if (process.browser) {
@@ -48,7 +47,7 @@ async function fetchPlans() {
     let [pppSettings, allPlans] = await Promise.all([queryPppSettings(), queryPlans()]);
     let individualPlans = getIndividualPlans(allPlans);
     const businessPlans = getBusinessPlans(allPlans);
-    if (pppSettings === null || pppSettings === void 0 ? void 0 : pppSettings.isEligibleForPpp) {
+    if (pppSettings?.isEligibleForPpp) {
         individualPlans = pppSettings.plans;
     }
     plans = individualPlans
@@ -60,7 +59,7 @@ async function fetchPlans() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-1AeuF_">
+  <Setting class="column subscriptions-QuU7Aw">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -81,7 +80,7 @@ async function fetchPlans() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-lZxDN5 justify">
+    <Setting class="setting-81QleK justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -94,7 +93,7 @@ async function fetchPlans() {
     </Setting>
   {/if}
 
-  <Setting class="setting-lZxDN5 justify">
+  <Setting class="setting-81QleK justify">
     <div>
       Payment method
 
@@ -123,7 +122,7 @@ async function fetchPlans() {
     </div>
   </Setting>
 
-  <Setting class="setting-lZxDN5 justify">
+  <Setting class="setting-81QleK justify">
     <div>
       Billing history
 
@@ -186,7 +185,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-1AeuF_) {
+:global(.subscriptions-QuU7Aw) {
   gap: 28px;
 }
 
@@ -212,8 +211,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-lZxDN5),
-:global(.phone-xs) :global(.setting-lZxDN5) {
+:global(.phone) :global(.setting-81QleK),
+:global(.phone-xs) :global(.setting-81QleK) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -234,9 +233,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-1AeuF_),
-:global(.tablet) :global(.subscriptions-1AeuF_),
-:global(.phone-xs) :global(.subscriptions-1AeuF_) {
+:global(.phone) :global(.subscriptions-QuU7Aw),
+:global(.tablet) :global(.subscriptions-QuU7Aw),
+:global(.phone-xs) :global(.subscriptions-QuU7Aw) {
   flex-direction: column;
 }
 :global(.phone) plans-section,

@@ -15,7 +15,7 @@ $: customer = $customer$;
 $: ({ subscription } = customer);
 $: ({ name } = monthPlan);
 $: isOnTrial = subscription && checkIsTrialSubscription(subscription);
-$: currentPlanId = subscription === null || subscription === void 0 ? void 0 : subscription.plan.id;
+$: currentPlanId = subscription?.plan.id;
 $: isTrialPlan = isOnTrial && (currentPlanId === monthPlan.id || currentPlanId === yearPlan.id);
 $: isBusiness = checkIsBusinessPlan(monthPlan);
 $: isFreePlan = name.includes(Plan.FREE);
@@ -59,7 +59,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-nm_9ew" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-aSaV5h" />
       {feature}
     </div>
   {/each}
@@ -131,7 +131,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
   max-width: 160px;
 }
 
-:global(.checkmark-nm_9ew) {
+:global(.checkmark-aSaV5h) {
   margin: 2px 10px 0 0;
   fill: var(--fill-checkmark, var(--accent));
 }</style>
