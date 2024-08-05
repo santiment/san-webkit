@@ -10,7 +10,7 @@
   let className = ''
   export { className as class }
   export let titleClassName = ''
-  export const closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
+  export let closeDialog: ((skipLockChecks?: boolean) => void) | undefined = undefined
   export let title: string | SvelteComponentModule = ''
   export let onBeforeDialogClose = () => {}
   export let noTitle = false
@@ -23,6 +23,7 @@
 
   const DialogCtx = $$props.DialogCtx as SAN.Dialog.Ctx
 
+  $: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
   $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
 
   let isOpening = true
