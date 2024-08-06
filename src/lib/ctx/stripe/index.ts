@@ -1,5 +1,6 @@
 import type { Stripe } from '@stripe/stripe-js'
 
+import { BROWSER } from 'esm-env'
 import { ss } from 'svelte-runes'
 import { loadStripe } from '@stripe/stripe-js/pure'
 import { createCtx } from '$lib/utils/index.js'
@@ -21,12 +22,14 @@ export const useStripeCtx = createCtx('useStripeCtx', () => {
       },
 
       load() {
-        if (stripe.$) return stripe.$
-        if (loading) return null
+        if (!BROWSER) return null
+        if (stripe.$) return Promise.resolve(stripe.$)
+        if (loading) return loading
 
         loading = loadStripe(STRIPE_KEY).then((data) => {
           stripe.$ = data
           loading = null
+          return data
         })
 
         return null

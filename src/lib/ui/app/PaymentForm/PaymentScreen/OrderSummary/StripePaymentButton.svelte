@@ -3,7 +3,7 @@
     BaseStripeElementsOptions,
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
-  import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow } from '../../flow.js'
 

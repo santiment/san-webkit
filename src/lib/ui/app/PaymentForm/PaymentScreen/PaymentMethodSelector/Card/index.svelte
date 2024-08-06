@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
   import LabelInput from './LabelInput.svelte'

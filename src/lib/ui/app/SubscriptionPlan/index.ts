@@ -1,8 +1,24 @@
-export { Product, SubscriptionPlan, BUSINESS_PLANS, SubscriptionPlanDetails } from './plans.js'
+export {
+  queryProductsWithPlans,
+  getProductPlans,
+  getApiBusinessPlans,
+  getSanbaseConsumerPlans,
+} from './api.js'
+
+export {
+  Product,
+  SubscriptionPlan,
+  SubscriptionPlanDetails,
+  BUSINESS_PLANS,
+  CONSUMER_PLANS,
+} from './plans.js'
 export {
   checkIsSanbaseProduct,
   checkIsSanApiProduct,
   checkIsBusinessPlan,
+  checkIsAlternativeBillingPlan,
+  checkIsCurrentPlan,
+  getPlanName,
   getFormattedPlan,
 } from './utils.js'
 

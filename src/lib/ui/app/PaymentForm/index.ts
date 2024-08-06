@@ -4,4 +4,4 @@ export { usePaymentFormCtx } from './state.js'
 
 export { usePaymentFlow } from './flow.js'
 
-export { mutateSubscribe } from './api.js'
+export { mutateSubscribe, queryDiscountCoupon } from './api.js'

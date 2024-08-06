@@ -1,13 +1,12 @@
 <script lang="ts">
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import { notifcation } from '$ui/core/Notifications/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFlow } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
 

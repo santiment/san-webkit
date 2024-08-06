@@ -6,7 +6,7 @@
 
 <script lang="ts">
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
-  import { useStripeCtx } from '$lib/ctx/stripe.js'
+  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
