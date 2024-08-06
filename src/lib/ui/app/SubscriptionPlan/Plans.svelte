@@ -2,7 +2,7 @@
   import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
-  import Plans from './Plans.svelte'
+  import Plans from './ProductPlans.svelte'
 
   const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
   let planType = $state(PLAN_TYPES[0])

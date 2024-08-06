@@ -10,7 +10,7 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
-  import PlansScreen from './PlansScreen/index.svelte'
+  import PlansScreen from '../SubscriptionPlan/Plans.svelte'
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'

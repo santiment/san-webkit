@@ -13,7 +13,7 @@
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
-  import { useSubscriptionPlanButtonCtx } from './ctx.js'
+  import { useSubscriptionPlanButtonCtx } from '../PaymentForm/PlansScreen/ctx.js'
 
   let { plan }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'> } = $props()
 
