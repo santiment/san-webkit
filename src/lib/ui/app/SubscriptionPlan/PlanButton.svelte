@@ -13,11 +13,11 @@
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
-  import { useSubscriptionPlanButtonCtx } from '../PaymentForm/PlansScreen/ctx.js'
+  import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
   let { plan }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'> } = $props()
 
-  const { onPlanButtonClick, onBillingPeriodChangeClick } = useSubscriptionPlanButtonCtx()
+  const { onPlanButtonClick, onBillingPeriodChangeClick } = useSubscriptionPlanButtonCtx.get()
   const { customer } = useCustomerCtx()
 
   let isBusinessPlan = $derived(BUSINESS_PLANS.has(plan.name))
