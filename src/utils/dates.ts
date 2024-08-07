@@ -158,5 +158,4 @@ export function setDayStart(date: Date, { utc = false } = {}) {
   return date
 }
 
-export const getTodaysEnd = () => setDayEnd(new Date())
-export const getTodaysEndUTC = () => setDayEnd(new Date(), { utc: true })
+export const getTodaysEnd = (options = { utc: false }) => setDayEnd(new Date(), options)
