@@ -8,7 +8,7 @@ import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
 export function usePaymentFlow() {
-  const { paymentForm, subscriptionPlan } = usePaymentFormCtx.get()
+  const { paymentForm, subscriptionPlan, coupon } = usePaymentFormCtx.get()
   const { stripe: stripeLoader } = useStripeCtx()
   const { customer } = useCustomerCtx()
 
@@ -106,7 +106,7 @@ export function usePaymentFlow() {
 
     return mutateSubscribe(Query)({
       paymentMethodId,
-      coupon: undefined,
+      coupon: coupon.$?.isValid ? coupon.$.value : undefined,
       planId: +plan.id,
       cardToken: cardToken?.id,
     })

@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { catchError, debounceTime, of, pipe, switchMap, tap } from 'rxjs'
+  import { catchError, debounceTime, map, of, pipe, switchMap, tap } from 'rxjs'
   import { Loader } from 'svelte-sonner'
   import Svg from '$ui/core/Svg/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import LabelInput from '../PaymentMethodSelector/Card/LabelInput.svelte'
   import Note from '../../Note.svelte'
   import { queryDiscountCoupon, type TCoupon } from '../../api.js'
+  import { usePaymentFormCtx } from '../../state.js'
+
+  const { coupon: paymentCoupon } = usePaymentFormCtx.get()
 
   const enum State {
     EMPTY,
@@ -17,21 +20,28 @@
 
   const onInput = useObserveFnCall<string>(() =>
     pipe(
-      tap(console.log),
       tap((value) => (state = value ? State.LOADING : State.EMPTY)),
+      tap(() => (paymentCoupon.$ = null)),
       debounceTime(700),
-      switchMap((value) => queryDiscountCoupon()(value).pipe(catchError(() => of(null)))),
+      switchMap((value) =>
+        queryDiscountCoupon()(value).pipe(
+          catchError(() => of(null)),
+          map((coupon) => coupon && { ...coupon, value }),
+        ),
+      ),
       tap(onCoupon),
     ),
   )
 
-  function onCoupon(coupon: null | TCoupon) {
+  function onCoupon(coupon: null | (TCoupon & { value: string })) {
     if (!coupon || !coupon.isValid) {
       state = State.INVALID
+      paymentCoupon.$ = null
       return
     }
 
     state = State.VALID
+    paymentCoupon.$ = coupon
   }
 </script>
 
@@ -41,6 +51,7 @@
     placeholder="2H8vZG5P"
     class="relative"
     oninput={(e) => onInput(e.currentTarget.value.trim())}
+    value={paymentCoupon.$?.value}
   >
     {#snippet right()}
       {#if state !== State.EMPTY}

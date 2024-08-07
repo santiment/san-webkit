@@ -16,7 +16,7 @@
   } = $props()
 
   const { stripe } = useStripeCtx()
-  const { paymentForm, subscriptionPlan } = usePaymentFormCtx()
+  const { paymentForm, subscriptionPlan, discount } = usePaymentFormCtx()
   const { processPayment } = usePaymentFlow()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
@@ -52,7 +52,7 @@
       appearance,
     })
     $effect(() => {
-      if (selectedPlan) elements.update({ amount: selectedPlan.amount })
+      if (selectedPlan) elements.update({ amount: discount.$?.amount || selectedPlan.amount })
     })
 
     const expressCheckoutElement = elements.create('expressCheckout', options)

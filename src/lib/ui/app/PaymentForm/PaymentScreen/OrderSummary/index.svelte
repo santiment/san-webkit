@@ -13,20 +13,19 @@
   const { Controller } = getDialogControllerCtx()
   const { stripe } = useStripeCtx()
   const { customer } = useCustomerCtx()
-  const { paymentForm, billingPeriod, subscriptionPlan } = usePaymentFormCtx()
+  const { paymentForm, billingPeriod, subscriptionPlan, coupon, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
-  let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial)
+  let plan = $derived(subscriptionPlan.$)
+  let planPrice = $derived(plan.formatted?.price[billingPeriod.$])
+  let discountedPrice = $derived(discount.$?.price || planPrice)
+  let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
+
+  let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
   let isCardPayment = $derived(paymentForm.$.isCardPayment)
 
   let isAnnualBilling = $derived(billingPeriod.$ === 'year')
-
-  let plan = $derived(subscriptionPlan.$)
-  let planPrice = $derived(plan.formatted?.price[billingPeriod.$])
-  let discountedPrice = $derived(planPrice)
-
-  let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
 
   let isMetamaskConnected = false
   let isPaymentIsProcess = $state(false)
@@ -58,7 +57,7 @@
         {/if}
       </div>
 
-      {#if isEligibleForSanbaseTrial && isConsumerPlan}
+      {#if isEligibleForSanbaseTrial}
         <span class="text-green">14 day Free Trial</span>
       {/if}
     </h2>
@@ -68,9 +67,17 @@
     {/if}
 
     <div class="mt-4 gap-4 column">
+      {#if isConsumerPlan && discount.$}
+        <div class="flex justify-between border-b pb-3 text-base font-medium text-waterloo">
+          {discount.$.description}
+          {discount.$.percentOff}%
+          <span class="text-green">- ${discount.$.priceOff}</span>
+        </div>
+      {/if}
+
       {#if isEligibleForSanbaseTrial}
         {@const now = new Date()}
-        <h4 class="justify-between text-base font-medium text-waterloo row">
+        <h4 class="flex justify-between text-base font-medium text-waterloo">
           Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
           <span> ${discountedPrice}</span>
         </h4>

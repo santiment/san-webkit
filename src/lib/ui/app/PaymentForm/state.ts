@@ -1,4 +1,4 @@
-import { ss, useObserve } from 'svelte-runes'
+import { ss, ssd, useObserve } from 'svelte-runes'
 import { tap } from 'rxjs'
 import { untrack } from 'svelte'
 import { createCtx } from '$lib/utils/index.js'
@@ -28,6 +28,35 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
     year: null as null | TSubscriptionPlan,
     formatted: null as null | ReturnType<typeof getFormattedPlan>,
   })
+  const coupon = ss(
+    null as null | {
+      value: string
+      isValid: boolean
+      percentOff: number
+    },
+  )
+  const discount = ssd(() => {
+    const selectedPlan = plan.$.selected
+    if (!selectedPlan) return null
+    if (plan.$.formatted?.isBusiness) return null
+
+    const discountCoupon = coupon.$
+    if (!discountCoupon || discountCoupon.isValid === false) return
+
+    const amountOff = Math.floor(selectedPlan.amount * (discountCoupon.percentOff / 100))
+    const amount = selectedPlan.amount - amountOff
+
+    return {
+      description: 'Promo code',
+      percentOff: discountCoupon.percentOff,
+
+      amount,
+      amountOff,
+
+      price: Math.ceil(amount / 100),
+      priceOff: Math.floor(amountOff / 100),
+    }
+  })
 
   const update = () => {
     paymentForm.$ = paymentForm.$
@@ -49,6 +78,8 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
     paymentMethod,
     billingPeriod,
     subscriptionPlan: plan,
+    coupon,
+    discount,
 
     selectPaymentMethod(option: typeof CardMethod) {
       paymentMethod.$ = option
@@ -62,6 +93,7 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
           return (plan.$ = { selected: null, month: null, year: null, formatted: null })
         }
 
+        // NOTE: Checking if a plan with a different name was selected
         if (plan.$.month?.name !== selectedPlan.name) {
           const productPlans = productsWithPlans.$.find(
             (product) => product.id === selectedPlan.product.id,
@@ -75,6 +107,7 @@ export const usePaymentFormCtx = createCtx('usePaymentFormCtx', () => {
             year: yearPlan,
             formatted: monthPlan && getFormattedPlan(monthPlan, yearPlan),
           })
+          coupon.$ = null
         }
 
         billingPeriod.$ = selectedPlan.interval
