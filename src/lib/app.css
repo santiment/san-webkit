@@ -155,3 +155,28 @@ loading-spin,
   transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
   z-index: var(--expl-z-index, 30);
 }
+
+skeleton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+skeleton,
+.skeleton {
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--porcelain) 29%, var(--white) 37%, var(--porcelain) 60%);
+  animation: SAN-move-gradient 1.4s ease infinite;
+  background-size: 400% 100%;
+}
+
+@keyframes SAN-move-gradient {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}

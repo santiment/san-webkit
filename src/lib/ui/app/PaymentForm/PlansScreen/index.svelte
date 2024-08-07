@@ -6,7 +6,7 @@
 
   const { selectSubscriptionPlan } = usePaymentFormCtx.get()
 
-  useSubscriptionPlanButtonCtx({
+  useSubscriptionPlanButtonCtx.set({
     onBillingPeriodChangeClick(plan) {},
     onPlanButtonClick(plan) {
       selectSubscriptionPlan(plan)

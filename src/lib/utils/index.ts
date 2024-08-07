@@ -36,6 +36,12 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
    */
   ctxCreator.get = () => getContext(CTX) as CtxValue
 
+  /**
+   * Used in cases where context should be modified.
+   */
+  ctxCreator.set = (...args: Parameters<CtxCreator>) =>
+    setContext(CTX, creator(...args)) as CtxValue
+
   return ctxCreator
 }
 
