@@ -138,14 +138,25 @@ export function parseIntervalString(interval: string) {
   }
 }
 
-export function setDayEnd(date: Date) {
-  date.setHours(23, 59, 59)
+export function setDayEnd(date: Date, { utc = false } = {}) {
+  if (utc) {
+    date.setUTCHours(23, 59, 59)
+  } else {
+    date.setHours(23, 59, 59)
+  }
+
   return date
 }
 
-export function setDayStart(date: Date) {
-  date.setHours(0, 0, 1)
+export function setDayStart(date: Date, { utc = false } = {}) {
+  if (utc) {
+    date.setUTCHours(0, 0, 1)
+  } else {
+    date.setHours(0, 0, 1)
+  }
+
   return date
 }
 
 export const getTodaysEnd = () => setDayEnd(new Date())
+export const getTodaysEndUTC = () => setDayEnd(new Date(), { utc: true })
