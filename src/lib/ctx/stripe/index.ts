@@ -23,8 +23,8 @@ export const useStripeCtx = createCtx('useStripeCtx', () => {
 
       load() {
         if (!BROWSER) return null
-        if (stripe.$) return Promise.resolve(stripe.$)
-        if (loading) return loading
+        if (stripe.$) return stripe.$
+        if (loading) return null
 
         loading = loadStripe(STRIPE_KEY).then((data) => {
           stripe.$ = data

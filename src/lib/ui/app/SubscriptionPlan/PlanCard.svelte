@@ -3,7 +3,7 @@
   import { getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
-  import Button from '$ui/core/Button/index.js'
+  import Switch from '$ui/core/Switch/index.js'
   import PlanButton from './PlanButton.svelte'
 
   let { billingGroup }: { billingGroup: TPlanBillingGroup[string] } = $props()
@@ -84,10 +84,14 @@
     </h4>
 
     {#if formattedPlan.amount.month}
-      <Button class="text-base text-waterloo" onclick={() => (isAnnualBilling = !isAnnualBilling)}>
-        {isAnnualBilling}
+      <label class="flex items-center gap-2 text-base text-waterloo">
+        <Switch
+          checked={isAnnualBilling}
+          onCheckedChange={() => (isAnnualBilling = !isAnnualBilling)}
+        ></Switch>
+
         Bill annually
-      </Button>
+      </label>
     {/if}
   </section>
 

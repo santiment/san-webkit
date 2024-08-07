@@ -1,5 +1,5 @@
 import { Query } from '$lib/api/executor.js'
-import { useStripeCtx } from '$lib/ctx/stripe.js'
+import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 import { notifcation } from '$ui/core/Notifications/index.js'
 import type { ConfirmCardSetupData, Token } from '@stripe/stripe-js'
 import { mutateSubscribe } from './api.js'
