@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Bottom from './Bottom.svelte';
   import { getSEOLinkFromIdAndTitle } from '$lib/utils/url.js';
 
   let {
@@ -18,7 +19,7 @@
     <div class="top column">
       <slot {href} {node}></slot>
     </div>
-    <!-- <Bottom {insight} {href} {source} /> -->
+    <Bottom {insight} {href} {source} />
   </div>
   <slot name="right"></slot>
 </div>
