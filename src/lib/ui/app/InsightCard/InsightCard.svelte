@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getDateFormats } from '$lib/utils/dates.js'
   import Card from './Card.svelte'
+  import Profile from '../Profile/Profile.svelte';
 
   let {
     class: className,
@@ -26,6 +27,8 @@
   </a>
 
   <div class="row v-center">
-    center
+    <Profile {user} {source} feature="insight" class="$style.profile {isMobile ? 'txt-m' : ''}">
+      <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
+    </Profile>
   </div>
 </Card>
