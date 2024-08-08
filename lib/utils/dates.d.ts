@@ -37,7 +37,13 @@ export declare function parseIntervalString(interval: string): {
     amount: number;
     format: string;
 };
-export declare function setDayEnd(date: Date): Date;
-export declare function setDayStart(date: Date): Date;
-export declare const getTodaysEnd: () => Date;
+export declare function setDayEnd(date: Date, { utc }?: {
+    utc?: boolean | undefined;
+}): Date;
+export declare function setDayStart(date: Date, { utc }?: {
+    utc?: boolean | undefined;
+}): Date;
+export declare const getTodaysEnd: (options?: {
+    utc: boolean;
+}) => Date;
 export {};
