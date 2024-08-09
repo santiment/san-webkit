@@ -1,34 +1,38 @@
 <script lang="ts">
-  import { getDateFormats } from '$lib/utils/dates.js'
-  import Card from './Card.svelte'
-  import Profile from '../Profile/Profile.svelte';
+  import Profile from './Profile.svelte'
+  import ActionButton from './ActionButton.svelte'
+  import Tags from './Tags.svelte'
+  import Editorial from './Editorial.svelte'
 
-  let {
-    class: className,
+  const {
     insight,
-    source,
-    isWithPrice = process.browser,
-  }: { class?: string, insight: any, source: string, isWithPrice: boolean } = $props();
-
-
-  const { title, user, publishedAt, tags } = $derived(insight);
-  const date = $derived(formatDate(publishedAt));
-  const isMobile = $derived(false);
-
-  function formatDate(date: Date) {
-    const { MMM, D, YYYY } = getDateFormats(new Date(date))
-    return `${MMM} ${D}, ${YYYY}`
-  }
+  }: {
+    insight: {
+      title: string
+      user: { avatarUrl?: string; id: string; username: string }
+      tags: { name: string }[]
+      publishedAt: string
+      commentsCount: number
+      votes: {
+        currentUserVotes: number
+      }
+    }
+  } = $props()
 </script>
 
-<Card {insight} {source} class={className} let:node let:href>
-  <a {href} class="{isMobile ? 'body-1' : 'body-2'} line-clamp mrg-m mrg--b" sapper:prefetch>
-    {title}
+<div class="rounded border border-porcelain p-6">
+  <a href="/" class="text-xl text-rhino hover:text-green">
+    <h4>{insight.title}</h4>
   </a>
-
-  <div class="row v-center">
-    <Profile {user} {source} feature="insight" class="$style.profile {isMobile ? 'txt-m' : ''}">
-      <div class="{isMobile ? 'body-3' : 'caption'} txt-r c-waterloo">{date}</div>
-    </Profile>
+  <div class="min-h-[66px] items-center justify-between row">
+    <Profile user={insight.user} publishedAt={insight.publishedAt} />
+    <Editorial />
   </div>
-</Card>
+  <div class="h-16 items-center justify-between border-t border-porcelain row">
+    <div class="gap-5 row">
+      <ActionButton count={insight.votes.currentUserVotes} iconId="like" />
+      <ActionButton count={insight.commentsCount} iconId="comment" />
+    </div>
+    <Tags items={insight.tags} />
+  </div>
+</div>
