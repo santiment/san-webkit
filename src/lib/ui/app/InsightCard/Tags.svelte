@@ -1,11 +1,16 @@
 <script lang="ts">
-  import Tag from './Tag.svelte'
+  import { INSIGHTS_ORIGIN } from '$lib/utils/links'
 
   const { items } = $props()
 </script>
 
-<div class="gap-1.5 row">
+<div class="h-6 gap-1.5 row">
   {#each items as { name }}
-    <Tag {name} />
+    <a
+      href="{INSIGHTS_ORIGIN}/?tags={name}"
+      class="inline-flex items-center gap-1.5 rounded border border-porcelain px-1 py-2 text-xs hover:text-green"
+    >
+      {name}
+    </a>
   {/each}
 </div>

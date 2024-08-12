@@ -13,13 +13,13 @@
     title: 'Dynamic embed test',
     user: {
       avatarUrl: null,
-      id: '113',
-      username: 'test2',
+      id: 79570,
+      username: 'serafim',
     },
     votedAt: null,
     votes: {
-      currentUserVotes: 52,
-      totalVotes: 0,
+      currentUserVotes: 0,
+      totalVotes: 52,
       userVotes: 0,
     },
   }
