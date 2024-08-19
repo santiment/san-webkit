@@ -2,6 +2,7 @@
   import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
 
   const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
@@ -24,8 +25,17 @@
   </div>
 
   {#if planType === PLAN_TYPES[0]}
-    <ProductPlans></ProductPlans>
+    <ProductPlans>
+      {#snippet children(plans)}
+        <BreakdownTable plans={plans?.billingGroupPlans?.map((v) => v.month) || []}
+        ></BreakdownTable>
+      {/snippet}
+    </ProductPlans>
   {:else}
-    <ProductPlans productFilter={getApiBusinessPlans}></ProductPlans>
+    <ProductPlans productFilter={getApiBusinessPlans}>
+      {#snippet children(plans)}
+        <BreakdownTable plans={plans?.billingGroupPlans || []}></BreakdownTable>
+      {/snippet}
+    </ProductPlans>
   {/if}
 </div>

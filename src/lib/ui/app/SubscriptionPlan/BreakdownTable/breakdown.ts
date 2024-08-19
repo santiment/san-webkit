@@ -1,5 +1,13 @@
-import { Plan } from '@/utils/plans'
 import { SubscriptionPlan } from '../plans.js'
+
+export type TBreakdownFeature = {
+  name: string
+  description?: string
+  isLimit?: boolean
+  isAccess?: boolean
+  isCheck?: boolean
+  postfix?: string
+}
 
 export const CONSUMER_PLANS_BREAKDOWN = [
   {
@@ -253,66 +261,31 @@ export const SubscriptionPlanBreakdown = {
     'Group chat with our experts': false,
     'Directs technical support': false,
   },
-}
 
-export const FREE_COMPARED_FEATURES = {
-  'Browser tabs': 'Up to 4',
-  'Bi-weekly report': false,
-  'Pro Insights': false,
+  [SubscriptionPlan.PRO.key]: {
+    'Dedicated account manager': false,
+    'Custom onboarding & education': false,
 
-  "Chart's data period": false,
-  'Hide watermark on charts': false,
-  'Download chart as CSV': false,
-  'Embed charts': 'Limited',
+    'Hide watermark on charts': false,
+    'Embed charts': 'Part access',
 
-  'Custom Alerts': 3,
-  'Alert durations': '30 days',
-  Webhooks: false,
+    'Custom Alerts': 20,
 
-  Screeners: 1,
-  'Screener filters': 'Limited',
+    'Historical data restriction': '1 year',
+    'Realtime restriction for restricted metrics': '30-day lag',
+    'API calls / minute': '100 API calls / min',
+    'API calls / hour': '1K API calls / hour	',
+    'API calls / month': '5K API calls / mo',
 
-  'Google Sheets Plugin': false,
-  CSV: false,
+    'Historical data access': '1 year',
+    Credits: '10K',
+    'Executed queries / minute restriction': '50 queries / min',
+    'Executed queries / hour restriction': '1K queries / hour',
+    'Executed queries / day restriction': '5K queries / day',
+    'Private queries': 'No',
 
-  'Trending Coins': 'No access to Top 3 tokens',
-  'Trending Words': 'No access to Top 3 words',
-  //   'Trending Topics': '',
-  'Social Context': 'Limited data',
+    'Directs technical support': false,
+  },
 
-  'Historical data restriction': '1 year',
-  'Realtime restriction for restricted metrics': '30-day lag',
-  'API calls / minute': '100 API calls / min',
-  'API calls / hour': '500 API calls / hour	',
-  'API calls / month': '1K API calls / mo',
-
-  'Historical data access': '1 year with 30-day lag',
-  Credits: '500',
-  'Executed queries / minute restriction': '20 queries / min',
-  'Executed queries / hour restriction': '200 queries / hour',
-  'Executed queries / day restriction': '500 queries / day',
-  'Private queries': 'No',
-
-  //   'Support through Intercom/Discord': true,
-  'Group chat with our experts': false,
-  'Directs technical support': false,
-}
-
-export const PRO_COMPARED_FEATURES = {
-  'Dedicated account manager': false,
-  'Custom onboarding & education': false,
-
-  'Hide watermark on charts': false,
-  'Embed charts': 'Part access',
-
-  'Custom Alerts': 20,
-}
-
-export const PRO_PLUS_COMPARED_FEATURES = {}
-
-export const PlanFeatures = {
-  [Plan.FREE]: FREE_COMPARED_FEATURES,
-  [Plan.PRO]: PRO_COMPARED_FEATURES,
-  [Plan.MAX]: PRO_PLUS_COMPARED_FEATURES,
-  [Plan.PRO_PLUS]: PRO_PLUS_COMPARED_FEATURES,
-}
+  [SubscriptionPlan.MAX.key]: {},
+} as Record<string, undefined | {}>
