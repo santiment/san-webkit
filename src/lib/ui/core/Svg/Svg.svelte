@@ -3,7 +3,7 @@
 
   let {
     id,
-    class: className,
+    class: className = '',
     w = 16,
     h = w,
     illus = false,
