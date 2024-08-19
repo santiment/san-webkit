@@ -8,12 +8,6 @@
     position="bottom-left"
     toastOptions={{
       unstyled: true,
-      classes: {
-        toast: 'border rounded shadow bg-white row p-4 gap-2',
-        title: 'text-black font-medium',
-        description: 'text-waterloo',
-        success: 'fill-green',
-      },
     }}
   ></Toaster>
 {/if}

@@ -1,6 +1,6 @@
 import { Query } from '$lib/api/executor.js'
 import { useStripeCtx } from '$lib/ctx/stripe/index.js'
-import { notifcation } from '$ui/core/Notifications/index.js'
+import { notification } from '$ui/core/Notifications/index.js'
 import type { ConfirmCardSetupData, Token } from '@stripe/stripe-js'
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
@@ -134,10 +134,10 @@ export function usePaymentFlow() {
       })
       .then(() => {
         customer.reload()
-        notifcation.success(`You have successfully upgraded to the "${plan.name}" plan!`)
+        notification.success(`You have successfully upgraded to the "${plan.name}" plan!`)
       })
       .catch((error) => {
-        notifcation.error(`Error during the payment`, {
+        notification.error(`Error during the payment`, {
           description: 'Please try again or contact our support',
         })
 
