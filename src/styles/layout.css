@@ -5,7 +5,7 @@
   background: var(--white);
 }
 
-.border:hover {
+.btn.border:hover {
   border-color: var(--border-hover, var(---border));
 }
 
