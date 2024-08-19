@@ -17,7 +17,7 @@
   }
 </script>
 
-<div class="td-h txt-left flex items-center gap-2.5">
+<div class="td-h txt-left flex items-center gap-2.5 text-rhino">
   {name}
   {#if description}
     <Popover side="bottom" align="center" offsetY={4} closeTimeout={0} activeClass="$style.opened">
@@ -38,7 +38,11 @@
   {@const value = getValue(cell[name])}
   {@const isCheckmark = isCheck || !(defaultValue || postfix)}
 
-  <div class="td flex center" class:disabled={value === false || value === 'None'}>
+  <div class="td flex center">
+    {#if value === false || value === 'None'}
+      <Svg id="close" w="12" class="fill-rhino"></Svg>
+    {/if}
+
     {#if isCheckmark}
       {#if value !== false}
         <Svg id="checkmark-circle-filled" w="24" />
@@ -54,10 +58,6 @@
     /* height: 24px; */
     /* width: 24px; */
     fill: var(--waterloo);
-  }
-
-  .disabled {
-    background: var(--athens);
   }
 
   .description {

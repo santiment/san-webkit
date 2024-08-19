@@ -33,7 +33,7 @@
 
 <section id="comparison" class={cn('rounded border', className)}>
   <Table plans={plansFeatures} breakdown={CONSUMER_PLANS_BREAKDOWN}>
-    <div class="sticky top-0 bg-white">
+    <div class="tr sticky -top-16 bg-white">
       {#if comparedPlans.length > 1}
         <div class="td-h"></div>
 

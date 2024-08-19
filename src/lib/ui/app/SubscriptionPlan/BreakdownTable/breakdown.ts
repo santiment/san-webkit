@@ -24,6 +24,12 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   },
 
   {
+    category: 'Metrics',
+    features: [],
+    link: { title: 'Metrics Documentation', url: 'https://academy.santiment.net/metrics/' },
+  },
+
+  {
     category: 'Charts',
     features: [
       {
@@ -79,47 +85,44 @@ export const CONSUMER_PLANS_BREAKDOWN = [
 
   {
     category: 'Social Trends',
-    isCheck: true,
     features: [
-      { name: 'Trending Coins' },
-      { name: 'Trending Words' },
-      { name: 'Trending Topics' },
-      { name: 'Social Context' },
+      { name: 'Trending Coins', isAccess: true },
+      { name: 'Trending Words', isAccess: true },
+      { name: 'Trending Topics', isAccess: true },
+      { name: 'Social Context', isAccess: true },
     ],
   },
 
   {
     category: 'API',
-    isCheck: true,
     features: [
-      { name: 'Historical data restriction' },
-      { name: 'Realtime restriction for restricted metrics' },
-      { name: 'API calls / minute' },
-      { name: 'API calls / hour' },
-      { name: 'API calls / month' },
+      { name: 'Historical data restriction', isLimit: true },
+
+      { name: 'Realtime restriction for restricted metrics', isLimit: true },
+      { name: 'API calls / minute', isLimit: true },
+      { name: 'API calls / hour', isLimit: true },
+      { name: 'API calls / month', isLimit: true },
     ],
   },
 
   {
     category: 'Queries',
-    isCheck: true,
     features: [
-      { name: 'Historical data access' },
-      { name: 'Credits' },
-      { name: 'Executed queries / minute restriction' },
-      { name: 'Executed queries / hour restriction' },
-      { name: 'Executed queries / day restriction' },
-      { name: 'Private queries' },
+      { name: 'Historical data access', isLimit: true },
+      { name: 'Credits', isLimit: true },
+      { name: 'Executed queries / minute restriction', isLimit: true },
+      { name: 'Executed queries / hour restriction', isLimit: true },
+      { name: 'Executed queries / day restriction', isLimit: true },
+      { name: 'Private queries', isLimit: true },
     ],
   },
 
   {
     category: 'Support',
-    isCheck: true,
     features: [
-      { name: 'Support through Intercom/Discord' },
-      { name: 'Group chat with our experts' },
-      { name: 'Direct technical support' },
+      { name: 'Support through Intercom/Discord', isCheck: true },
+      { name: 'Group chat with our experts', isCheck: true },
+      { name: 'Direct technical support', isCheck: true },
     ],
   },
 ]
@@ -257,9 +260,8 @@ export const SubscriptionPlanBreakdown = {
     'Executed queries / day restriction': '500 queries / day',
     'Private queries': 'No',
 
-    //   'Support through Intercom/Discord': true,
     'Group chat with our experts': false,
-    'Directs technical support': false,
+    'Direct technical support': false,
   },
 
   [SubscriptionPlan.PRO.key]: {
@@ -284,8 +286,23 @@ export const SubscriptionPlanBreakdown = {
     'Executed queries / day restriction': '5K queries / day',
     'Private queries': 'No',
 
-    'Directs technical support': false,
+    'Direct technical support': false,
   },
 
-  [SubscriptionPlan.MAX.key]: {},
+  [SubscriptionPlan.MAX.key]: {
+    'Custom Alerts': 20,
+
+    'Historical data restriction': '1 year',
+    'Realtime restriction for restricted metrics': 'No restriction',
+    'API calls / minute': '100 API calls / min',
+    'API calls / hour': '4K API calls / hour',
+    'API calls / month': '80K API calls / mo',
+
+    'Historical data access': '2 year',
+    Credits: '20K',
+    'Executed queries / minute restriction': '50 queries / min',
+    'Executed queries / hour restriction': '2K queries / hour',
+    'Executed queries / day restriction': '10K queries / day',
+    'Private queries': 'No',
+  },
 } as Record<string, undefined | {}>
