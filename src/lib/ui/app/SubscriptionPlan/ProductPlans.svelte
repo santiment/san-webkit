@@ -22,7 +22,7 @@
 
   const { stripe } = useStripeCtx()
 
-  let productsWithPlans = $state.frozen<TProductsWithPlans>([])
+  let productsWithPlans = $state.raw<TProductsWithPlans>([])
   let plans = $derived(productFilter(productsWithPlans))
 
   useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))

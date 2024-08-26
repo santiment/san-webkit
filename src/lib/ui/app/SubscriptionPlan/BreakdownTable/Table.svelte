@@ -17,14 +17,14 @@
   } = $props()
 </script>
 
-<div class="relative table w-full divide-y text-base">
+<div class="relative table w-full text-base [&>*]:border-b">
   {@render children()}
 
   {#each CONSUMER_PLANS_BREAKDOWN as { category, features, link }}
     <div
       class={cn(
-        'flex items-center justify-between divide-y px-6 pb-4 pt-10',
-        features.length === 0 && 'empty pt-[53px]',
+        'flex items-center justify-between px-6 pb-4 pt-10',
+        features.length === 0 && 'empty border-none pt-[53px]',
       )}
     >
       <h4 class="flex items-center text-lg font-semibold">
@@ -54,17 +54,12 @@
 
 <style>
   .table :global {
-    .empty + .divide-y {
-      border: none;
-    }
-
-    .tr,
-    .head {
-      /* @apply border-b; */
-    }
-
     .tr {
       @apply flex divide-x text-center;
+    }
+
+    .tr:last-child {
+      @apply border-none;
     }
 
     .td,
