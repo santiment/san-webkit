@@ -4,11 +4,19 @@
   import Table from './Table.svelte'
   // import Plan from './Plan.svelte'
   import type { TSubscriptionPlan } from '../types.js'
-  import { CONSUMER_PLANS_BREAKDOWN, SubscriptionPlanBreakdown } from './breakdown.js'
+  import {
+    BUSINESS_PLANS_BREAKDOWN,
+    CONSUMER_PLANS_BREAKDOWN,
+    SubscriptionPlanBreakdown,
+  } from './breakdown.js'
   import { cn } from '$ui/utils/index.js'
   import Plan from './Plan.svelte'
 
-  let { class: className, plans }: { plans: TSubscriptionPlan[]; class: '' } = $props()
+  let {
+    class: className,
+    plans,
+    isConsumerPlans = true,
+  }: { plans: TSubscriptionPlan[]; class: ''; isConsumerPlans?: boolean } = $props()
 
   let activeSlide = 0
 
@@ -32,10 +40,13 @@
   // }
 </script>
 
-<h2 class="mb-16 mt-[104px] text-center text-3xl">Detailed breakdown of plans</h2>
+<h2 class="mb-12 mt-[104px] text-center text-3xl">Detailed breakdown of plans</h2>
 
-<section id="comparison" class={cn('rounded border', className)}>
-  <Table plans={plansFeatures} breakdown={CONSUMER_PLANS_BREAKDOWN}>
+<section id="comparison" class={cn('rounded border', className)} class:business={!isConsumerPlans}>
+  <Table
+    plans={plansFeatures}
+    breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
+  >
     <div class="tr sticky -top-16 bg-white">
       {#if comparedPlans.length > 1}
         <div class="td-h"></div>
@@ -43,8 +54,6 @@
         {#each comparedPlans as plan}
           <div class="td">
             <Plan {plan}></Plan>
-
-            <!-- <Plan {plan} {plans} /> -->
           </div>
         {/each}
       {:else}
@@ -75,5 +84,10 @@
     --slides-v-padding: 22px 0 52px;
     --slides-h-padding: 16px;
     --indicators-bottom: 20px;
+  }
+
+  .business {
+    --c-green: var(--c-blue);
+    --orange: var(--blue);
   }
 </style>

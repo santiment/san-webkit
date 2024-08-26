@@ -5,7 +5,6 @@
 
   let { plan }: { plan: TSubscriptionPlan } = $props()
 
-  $inspect(plan)
   let formattedPlan = $derived(getFormattedPlan(plan))
 </script>
 
@@ -14,7 +13,11 @@
     {formattedPlan.name}
   </h4>
   <h5 class="text-base font-medium text-waterloo">
-    ${formattedPlan.price.month}
+    {#if formattedPlan.isCustom}
+      Custom
+    {:else}
+      ${formattedPlan.price.month}
+    {/if}
   </h5>
   <PlanButton {plan} class="mt-3"></PlanButton>
 </article>

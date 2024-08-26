@@ -20,7 +20,7 @@
 <div class="relative table w-full text-base [&>*]:border-b">
   {@render children()}
 
-  {#each CONSUMER_PLANS_BREAKDOWN as { category, features, link }}
+  {#each breakdown as { category, features, link }}
     <div
       class={cn(
         'flex items-center justify-between px-6 pb-4 pt-10',

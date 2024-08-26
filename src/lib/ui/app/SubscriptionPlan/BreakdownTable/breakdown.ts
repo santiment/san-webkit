@@ -132,32 +132,36 @@ export const BUSINESS_PLANS_BREAKDOWN = [
     category: 'General',
     features: [
       { name: 'Multi-seat account', isLimit: true },
-      { name: 'Access to our closed Discord channel', isLimit: true },
+      { name: 'Access to our closed Discord channel', isCheck: true },
     ],
   },
 
   {
+    category: 'Metrics',
+    features: [],
+    link: { title: 'Metrics Documentation', url: 'https://academy.santiment.net/metrics/' },
+  },
+
+  {
     category: 'API',
-    isCheck: true,
     features: [
-      { name: 'Historical data access' },
-      { name: 'Current data access' },
-      { name: 'API calls / minute' },
-      { name: 'API calls / hour' },
-      { name: 'API calls / month' },
+      { name: 'Historical data restriction', isLimit: true },
+      { name: 'Current data access', isLimit: true },
+      { name: 'API calls / minute', isLimit: true },
+      { name: 'API calls / hour', isLimit: true },
+      { name: 'API calls / month', isLimit: true },
     ],
   },
 
   {
     category: 'Queries',
-    isCheck: true,
     features: [
-      { name: 'Historical data access' },
-      { name: 'Credits' },
-      { name: 'Rate limit / minute' },
-      { name: 'Rate limit / hour' },
-      { name: 'Rate limit / day' },
-      { name: 'Private queries' },
+      { name: 'Historical data access', isLimit: true },
+      { name: 'Credits', isLimit: true },
+      { name: 'Rate limit / minute', isLimit: true },
+      { name: 'Rate limit / hour', isLimit: true },
+      { name: 'Rate limit / day', isLimit: true },
+      { name: 'Private queries', isLimit: true },
     ],
   },
 
@@ -304,5 +308,73 @@ export const SubscriptionPlanBreakdown = {
     'Executed queries / hour restriction': '2K queries / hour',
     'Executed queries / day restriction': '10K queries / day',
     'Private queries': 'No',
+  },
+
+  [SubscriptionPlan.CUSTOM.key]: {
+    'Multi-seat account': 'Custom',
+
+    'Historical data restriction': 'No restriction',
+    'Current data access': 'No restriction',
+
+    'API calls / minute': 'Custom',
+    'API calls / hour': 'Custom',
+    'API calls / month': 'Custom',
+
+    'Historical data access': 'Full history',
+    Credits: 'Custom',
+    'Rate limit / minute': 'Custom',
+    'Rate limit / hour': 'Custom',
+    'Rate limit / day': 'Custom',
+    'Private queries': 'Yes',
+
+    'Custom Alerts': 'Custom',
+  },
+
+  [SubscriptionPlan.BUSINESS_PRO.key]: {
+    'Multi-seat account': false,
+
+    'Historical data restriction': 'Last 2 years',
+    'Current data access': 'No restriction',
+
+    'API calls / minute': '600 API calls / min',
+    'API calls / hour': '30K API calls / hour	',
+    'API calls / month': '600K API calls / mo',
+
+    'Historical data access': '2 years',
+    Credits: '50K',
+    'Rate limit / minute': '100 queries / min',
+    'Rate limit / hour': '3000 queries / hour	',
+    'Rate limit / day': '15К queries / day',
+    'Private queries': 'Yes',
+
+    'Direct technical support': false,
+
+    'Custom Alerts': '20',
+
+    'Custom metric development': false,
+    'New blockchain integrations': false,
+    'Service Level Agreements': false,
+    'Data reselling rights': false,
+    'Custom data integratoins': false,
+  },
+
+  [SubscriptionPlan.BUSINESS_MAX.key]: {
+    'Multi-seat account': '3 seats',
+
+    'Historical data restriction': 'No restriction',
+    'Current data access': 'No restriction',
+
+    'API calls / minute': '1200 API calls / min',
+    'API calls / hour': '60K API calls / hour	',
+    'API calls / month': '1200K API calls / mo',
+
+    'Historical data access': 'Full history',
+    Credits: '50K',
+    'Rate limit / minute': '100 queries / min',
+    'Rate limit / hour': '3000 queries / hour	',
+    'Rate limit / day': '15К queries / day',
+    'Private queries': 'Yes',
+
+    'Custom Alerts': '20',
   },
 } as Record<string, undefined | {}>
