@@ -13,7 +13,7 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   {
     category: 'General',
     features: [
-      { name: 'Browser tabs', isLimit: true },
+      // { name: 'Browser tabs', isLimit: true },
       {
         name: 'Bi-weekly report',
         description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a biweekly basis`,

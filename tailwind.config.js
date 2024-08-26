@@ -121,6 +121,13 @@ export default {
         '.text-mono': {
           fontFamily: 'Monospace',
         },
+
+        '.no-scrollbar': {
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        },
         // '.text-lg': {
         //   fontSize: '18px',
         //   lineHeight: '26px',
