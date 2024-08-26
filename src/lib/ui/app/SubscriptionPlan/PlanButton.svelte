@@ -15,7 +15,10 @@
   import { cn } from '$ui/utils/index.js'
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
-  let { plan }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'> } = $props()
+  let {
+    plan,
+    class: className,
+  }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'>; class?: string } = $props()
 
   const { onPlanButtonClick, onBillingPeriodChangeClick } = useSubscriptionPlanButtonCtx.get()
   const { customer } = useCustomerCtx()
@@ -31,12 +34,15 @@
       'center',
       isBusinessPlan && 'bg-blue hover:bg-blue-hover',
       isConsumerPlan && 'bg-orange hover:bg-orange-hover',
+      className,
     ),
   })
 </script>
 
 {#if isCurrentPlan}
-  <Button variant="fill" size="lg" disabled class="!text-fiord center">Your current plan</Button>
+  <Button variant="fill" size="lg" disabled class={cn('!text-fiord center', className)}>
+    Your current plan
+  </Button>
 {:else if plan.name === SubscriptionPlan.FREE.key}
   <Button variant="border" size="lg" class="center">Default plan</Button>
 {:else if plan.name === SubscriptionPlan.CUSTOM.key}

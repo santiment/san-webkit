@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { TSubscriptionPlan } from './types.js'
+  import type { Snippet } from 'svelte'
   import {
     getApiBusinessPlans,
     getSanbaseConsumerPlans,
@@ -12,12 +14,16 @@
 
   let {
     productFilter = getSanbaseConsumerPlans,
-  }: { productFilter?: typeof getSanbaseConsumerPlans | typeof getApiBusinessPlans } = $props()
+    children,
+  }: {
+    productFilter?: typeof getSanbaseConsumerPlans | typeof getApiBusinessPlans
+    children?: Snippet<[typeof plans]>
+  } = $props()
 
   const { stripe } = useStripeCtx()
 
-  let productsWithPlans = $state.frozen<TProductsWithPlans>([])
-  let consumerPlans = $derived(productFilter(productsWithPlans))
+  let productsWithPlans = $state.raw<TProductsWithPlans>([])
+  let plans = $derived(productFilter(productsWithPlans))
 
   useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))
 
@@ -27,9 +33,11 @@
 </script>
 
 <section class="flex min-h-[680px] divide-x rounded-lg border">
-  {#if consumerPlans}
-    {#each consumerPlans.billingGroupPlans as billingGroup}
+  {#if plans}
+    {#each plans.billingGroupPlans as billingGroup}
       <PlanCard {billingGroup}></PlanCard>
     {/each}
   {/if}
 </section>
+
+{@render children?.(plans)}
