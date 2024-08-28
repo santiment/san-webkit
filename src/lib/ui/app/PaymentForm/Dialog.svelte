@@ -1,4 +1,4 @@
-<script context="module">
+<script module lang="ts">
   import Component from './Dialog.svelte'
 
   export const showPaymentDialog$ = () => dialogs$.new(Component)

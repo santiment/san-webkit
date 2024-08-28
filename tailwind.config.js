@@ -105,7 +105,7 @@ export default {
       },
     }),
 
-    plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+    plugin(function ({ addUtilities }) {
       addUtilities({
         '.row': {
           display: 'flex',

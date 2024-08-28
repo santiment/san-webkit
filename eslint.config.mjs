@@ -1,21 +1,16 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import globals from 'globals'
-import tsParser from '@typescript-eslint/parser'
-import parser from 'svelte-eslint-parser'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import js from '@eslint/js'
-import { FlatCompat } from '@eslint/eslintrc'
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
-})
+import ts from 'typescript-eslint'
+import prettier from 'eslint-config-prettier'
+import svelte from 'eslint-plugin-svelte'
 
 export default [
+  js.configs.recommended,
+  ...ts.configs.recommended,
+  ...svelte.configs['flat/recommended'],
+  prettier,
+  ...svelte.configs['flat/prettier'],
+
   {
     ignores: [
       '**/.DS_Store',
@@ -32,56 +27,38 @@ export default [
       'src/stories/*',
     ],
   },
-  ...compat.extends(
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:svelte/recommended',
-    'prettier',
-  ),
-  {
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-    },
 
+  {
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
-      },
-
-      parser: tsParser,
-      ecmaVersion: 2020,
-      sourceType: 'module',
-
-      parserOptions: {
-        extraFileExtensions: ['.svelte'],
+        $$Generic: 'readonly',
       },
     },
 
     rules: {
+      'no-self-assign': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'no-constant-binary-expression': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
+      'svelte/no-at-html-tags': 'off',
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
           argsIgnorePattern: '^_',
-          varsIgnorePattern: '^\\$\\$(Props|Events|Slots)$',
+          varsIgnorePattern: '^\\$\\$(Props|Events|Slots)$|^_',
         },
       ],
     },
   },
+
   {
     files: ['**/*.svelte'],
-
     languageOptions: {
-      parser: parser,
-      ecmaVersion: 5,
-      sourceType: 'script',
-
       parserOptions: {
-        parser: '@typescript-eslint/parser',
+        parser: ts.parser,
       },
     },
   },

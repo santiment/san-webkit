@@ -33,3 +33,20 @@ Chromium-based browsers may require additional steps to access the local HTTPS s
 
 1. Switch to the `next` branch and run `git pull`
 2. Run `npm run lib:release`
+
+### Generics inside Svelte files
+
+The new syntax for defining generics inside `generics` attribute of the `script` tag results in the eslint errors.
+
+```svelte
+<script lang="ts" generics="T">
+</script>
+```
+
+Therefore to declare a generic type use old meta type `$$Generic`.
+
+```svelte
+<script lang="ts">
+  type T = $$Generic // $$Generic<{ name: string }>
+</script>
+```

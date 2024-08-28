@@ -66,7 +66,15 @@
   <h2 class="text-base font-semibold text-rhino">How the Trial Works</h2>
 
   <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column">
-    {#snippet Step({ name, icon, description })}
+    {#snippet Step({
+      name,
+      icon,
+      description,
+    }: {
+      name: string
+      description: string
+      icon: { class?: string; id: string }
+    })}
       <div class="step relative before:absolute">
         <h3 class="items-center font-medium text-rhino row">
           <Svg w="12" {...icon} class={cn('absolute -left-8 bg-athens', icon.class)}></Svg>

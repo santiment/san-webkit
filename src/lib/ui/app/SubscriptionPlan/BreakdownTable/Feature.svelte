@@ -20,7 +20,7 @@
 <div class="td-h txt-left flex items-center gap-2.5 text-rhino">
   {name}
   {#if description}
-    <Popover side="bottom" align="center" offsetY={4} closeTimeout={0} activeClass="$style.opened">
+    <Popover side="bottom" align="center" contentProps={{ alignOffset: 8 }}>
       {#snippet children({ ref })}
         <div bind:this={ref.$} class="info btn mrg-xs mrg--l hv-center row">
           <Svg id="info" w="12" />
@@ -69,10 +69,5 @@
       font-weight: 600;
       color: var(--black);
     }
-  }
-
-  .opened {
-    --bg: var(--athens);
-    fill: var(--black) !important;
   }
 </style>

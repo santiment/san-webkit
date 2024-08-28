@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import Svg from '$ui/core/Svg/index.js'
   import { CONSUMER_PLANS_BREAKDOWN, BUSINESS_PLANS_BREAKDOWN } from './breakdown.js'
   import Feature from './Feature.svelte'
   import Button from '$ui/core/Button/index.js'
@@ -11,7 +10,7 @@
     breakdown = CONSUMER_PLANS_BREAKDOWN,
     children,
   }: {
-    plans: {}[]
+    plans: Record<string, any>[]
     breakdown: typeof CONSUMER_PLANS_BREAKDOWN | typeof BUSINESS_PLANS_BREAKDOWN
     children: Snippet
   } = $props()
@@ -52,7 +51,7 @@
   {/each}
 </div>
 
-<style>
+<style lang="postcss">
   .table :global {
     .tr {
       @apply flex divide-x text-center;

@@ -14,7 +14,7 @@
     isBusinessPlanSelected
       ? [CardMethod, EthStablecoinsMethod]
       : [CardMethod, EthStablecoinsMethod, SanTokenBurningMethod, UniswapLiquidityMethod],
-  )
+  ) as (typeof selectedPaymentMethod)[]
 
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)
@@ -31,5 +31,5 @@
 </Selector>
 
 {#if selectedPaymentMethod}
-  <svelte:component this={selectedPaymentMethod.Component}></svelte:component>
+  <selectedPaymentMethod.Component></selectedPaymentMethod.Component>
 {/if}

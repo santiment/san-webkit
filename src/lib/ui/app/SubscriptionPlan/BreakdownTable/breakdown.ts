@@ -377,4 +377,4 @@ export const SubscriptionPlanBreakdown = {
 
     'Custom Alerts': '20',
   },
-} as Record<string, undefined | {}>
+} as Record<string, undefined | Record<string, any>>

@@ -1,5 +1,12 @@
 <script lang="ts">
-  let { name, img, children, noteSnippet } = $props()
+  import type { Snippet } from 'svelte'
+
+  let {
+    name,
+    img,
+    children,
+    noteSnippet,
+  }: { name: string; img: string; noteSnippet?: Snippet; children: Snippet } = $props()
 </script>
 
 <div class="gap-4 text-base text-fiord column">

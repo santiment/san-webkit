@@ -11,8 +11,8 @@
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: any, walletName: string) => void
-    onError: (data: any, walletName: string) => void
+    onSuccess: (data: any, walletName?: string) => void
+    onError: (data: any, walletName?: string) => void
   } = $props()
 
   const { stripe } = useStripeCtx()
@@ -47,7 +47,7 @@
 
     const elements = _stripe.elements({
       mode: 'payment',
-      amount: 1000000,
+      amount: 10000000,
       currency: 'usd',
       appearance,
     })
@@ -65,7 +65,7 @@
       })
     })
 
-    expressCheckoutElement.on('confirm', async (event) => {
+    expressCheckoutElement.on('confirm', async (_event) => {
       if (!selectedPlan) {
         return Promise.reject('Missing selected plan')
       }
@@ -78,11 +78,11 @@
 
       if (error) {
         // This point is reached only if there's an immediate error when confirming the payment. Show the error to your customer (for example, payment details incomplete).
-        return onError?.()
+        return onError?.(error, error.payment_method?.type)
       }
 
       if (!paymentIntent) {
-        return onError?.()
+        return onError?.(error, undefined)
       }
 
       const paymentMethod = paymentIntent.payment_method
@@ -98,4 +98,4 @@
   })
 </script>
 
-<div id="payment-request-button" />
+<div id="payment-request-button"></div>

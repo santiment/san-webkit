@@ -11,9 +11,9 @@
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
 
   const { Controller } = getDialogControllerCtx()
-  const { stripe } = useStripeCtx()
+  const { stripe: _stripe } = useStripeCtx()
   const { customer } = useCustomerCtx()
-  const { paymentForm, billingPeriod, subscriptionPlan, coupon, discount } = usePaymentFormCtx()
+  const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
   let plan = $derived(subscriptionPlan.$)
@@ -129,7 +129,7 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton></StripePaymentButton>
+        <StripePaymentButton onSuccess={console.log} onError={console.log}></StripePaymentButton>
       {/if}
 
       {#if isConsumerPlan && isEligibleForSanbaseTrial && isCardPayment}

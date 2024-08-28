@@ -1,5 +1,7 @@
-<script lang="ts" generics="T">
+<script lang="ts">
   import type { Snippet } from 'svelte'
+
+  type T = $$Generic
 
   let {
     class: className,
@@ -31,7 +33,7 @@
 <section class="relative {className}">
   <div
     bind:this={node}
-    class="slides no-scrollbar flex flex-1 snap-mandatory overflow-x-auto"
+    class="slides flex flex-1 snap-mandatory overflow-x-auto no-scrollbar"
     onscroll={onScroll}
   >
     {#each items as item}

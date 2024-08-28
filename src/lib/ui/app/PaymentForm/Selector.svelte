@@ -3,6 +3,7 @@
   import type { Snippet } from 'svelte'
 
   type T = $$Generic<{ name: string }>
+
   let {
     name,
     smallGap = false,

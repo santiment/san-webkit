@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { INSIGHTS_ORIGIN } from '$lib/utils/links'
+  import { INSIGHTS_ORIGIN } from '$lib/utils/links.js'
 
-  const { items } = $props()
+  const { items }: { items: { name: string }[] } = $props()
 </script>
 
 <div class="h-6 gap-1.5 row">

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { TSubscriptionPlan } from './types.js'
   import type { Snippet } from 'svelte'
   import {
     getApiBusinessPlans,

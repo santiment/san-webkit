@@ -1,5 +1,3 @@
-import { Fetcher } from '$lib/api/index.js'
-import { calculateDaysTo } from '$lib/utils/dates.js'
 import { createCtx } from '$lib/utils/index.js'
 import { ss } from 'svelte-runes'
 import { DEFAULT, loadCustomerData } from './api.js'

@@ -1,4 +1,3 @@
-import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { exec, forFile } from './utils.js'

@@ -52,6 +52,7 @@ export function componentStyleSelector() {
                     return entry?.styles.push(child)
                   }
                 }
+                // eslint-disable-next-line no-fallthrough
                 default: {
                   selector = null
                 }

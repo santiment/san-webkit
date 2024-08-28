@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { INSIGHTS_ORIGIN } from '$lib/utils/links'
-  import { getSEOLinkFromIdAndTitle } from '$lib/utils/url'
+  import { INSIGHTS_ORIGIN } from '$lib/utils/links.js'
+  import { getSEOLinkFromIdAndTitle } from '$lib/utils/url.js'
 
   import Profile from './Profile.svelte'
   import SocialActionLink from './SocialActionLink.svelte'
@@ -13,7 +13,7 @@
     insight: {
       id: string
       title: string
-      user: { avatarUrl?: string; id: string; username: string }
+      user: { avatarUrl?: string; id: number; username: string; email?: string }
       tags: { name: string }[]
       publishedAt: string
       commentsCount: number

@@ -1,19 +1,18 @@
 <script lang="ts">
-  import Svg from '$ui/core/Svg'
-  import Picture from '$ui/app/Picture'
-  import { INSIGHTS_ORIGIN } from '$lib/utils/links'
-
-  import { getTimeSince } from '../../../utils/dates'
+  import Svg from '$ui/core/Svg/index.js'
+  import Picture from '$ui/app/Picture/index.js'
+  import { INSIGHTS_ORIGIN } from '$lib/utils/links.js'
+  import { getTimeSince } from '$lib/utils/dates.js'
 
   const {
     user,
     publishedAt,
   }: {
     user: {
-      avatarUrl?: string
-      id: string
+      id: number
       username: string
-      email: string
+      email?: null | string
+      avatarUrl?: string
     }
     publishedAt: string
   } = $props()
@@ -23,7 +22,7 @@
 </script>
 
 <div class="h-9 items-center gap-3 row" aria-label="User profile">
-  <Picture src={user.avatarUrl} alt="User profile" class="h-8 w-8 border border-transparent">
+  <Picture src={user.avatarUrl || ''} alt="User profile" class="h-8 w-8 border border-transparent">
     <Svg id="user" w={16} h={16} />
   </Picture>
   <div class="column">
