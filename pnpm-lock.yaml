@@ -29,6 +29,9 @@ dependencies:
   tailwind-variants:
     specifier: ^0.2.1
     version: 0.2.1(tailwindcss@3.4.3)
+  vaul-svelte:
+    specifier: ^0.3.2
+    version: 0.3.2(svelte@5.0.0-next.238)
   virtua:
     specifier: ^0.31.0
     version: 0.31.0(react-dom@18.3.1)(react@18.3.1)(svelte@5.0.0-next.238)
@@ -8285,6 +8288,15 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
     dev: true
+
+  /vaul-svelte@0.3.2(svelte@5.0.0-next.238):
+    resolution: {integrity: sha512-X4OGWttSTVUl417qGDsSFgOvIx24DoiMRY/jaP9z0v9FL8LQQJ0RQ1ZM0QpdyQPRlNd24ewjNQHh5EgYDtfNpw==}
+    peerDependencies:
+      svelte: ^4.0.0 || ^5.0.0-next.1
+    dependencies:
+      bits-ui: 0.21.13(svelte@5.0.0-next.238)
+      svelte: 5.0.0-next.238
+    dev: false
 
   /vinyl@2.2.1:
     resolution: {integrity: sha512-LII3bXRFBZLlezoG5FfZVcXflZgWP/4dCwKtxd5ky9+LOtM4CS3bIRQsmR1KMnMW07jpE8fqR2lcxPZ+8sJIcw==}

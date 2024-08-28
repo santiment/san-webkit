@@ -7,6 +7,7 @@ import {
   untrack,
   type ComponentConstructorOptions,
 } from 'svelte'
+import { getVaulCtx } from './vaul.js'
 
 type TController<GResolved, GRejected> = {
   lock: () => void
@@ -38,9 +39,16 @@ export const getDialogControllerCtx = <Resolved = unknown, Rejected = unknown>()
 export const dialogs$ = {
   new<TComponent extends TGenericComponent>(component: TComponent) {
     const ALL_CTX = getAllContexts()
+    const parentDialog = ALL_CTX.get(CTX)
+
+    // HACK
+    queueMicrotask(() => {
+      const [vaulCtxKey, vaulCtx] = getVaulCtx(parentDialog?.Controller?._context || ALL_CTX)
+      if (vaulCtx) ALL_CTX.set(vaulCtxKey, vaulCtx)
+    })
 
     type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
-    type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
+    type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject' | 'isNestedDialog'>
 
     type TResolve = TComponentProps extends Record<'resolve', infer Resolve> ? Resolve : never
     type TReturn = Promise<TResolve extends (args: any) => any ? Parameters<TResolve>[0] : unknown>
@@ -51,6 +59,8 @@ export const dialogs$ = {
 
         const { promise, resolve, reject } = Promise.withResolvers()
 
+        // const context = new Map(ALL_CTX)
+        const context = ALL_CTX
         const Controller = {
           lock: () => {},
           lockWarn: () => {},
@@ -61,9 +71,9 @@ export const dialogs$ = {
           reject,
 
           _unmount: () => {},
+          _context: context,
         }
 
-        const context = new Map(ALL_CTX)
         context.set(CTX, { Controller })
 
         const mounted = mount(component, {

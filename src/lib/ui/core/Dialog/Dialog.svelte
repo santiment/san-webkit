@@ -1,32 +1,33 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
-
-  import { fade } from 'svelte/transition'
-  import { createDialog } from '@melt-ui/svelte'
   import { BROWSER } from 'esm-env'
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { Drawer } from 'vaul-svelte'
   import { getDialogControllerCtx } from './dialogs.js'
+  import DesktopDialog from './DesktopDialog.svelte'
+  import MobileDialog from './MobileDialog.svelte'
 
   let {
     children,
     class: className,
-  }: { class?: string; children: Snippet<[{ close: typeof close }]> } = $props()
+  }: {
+    class?: string
+    children: Snippet<[{ close: () => void }]>
+  } = $props()
 
-  const TRANSITION_MS = 150
+  const TRANSITION_MS = 180
   const { Controller } = getDialogControllerCtx()
 
-  const {
-    elements: { overlay, content, portalled },
-    states: { open },
-  } = createDialog({ forceVisible: true, onOpenChange })
-
-  const close = () => open.set(false)
-
+  let isOpened = $state(true)
   let isMounted = false
+  let isNested = BROWSER && !!document.querySelector('[data-vaul-drawer-visible]')
+
+  let DrawerRoot = isNested ? Drawer.NestedRoot : Drawer.Root
+  console.log({ isNested })
+
+  const close = () => (isOpened = false)
+  Controller.close = close
 
   $effect(() => {
-    open.set(true)
-    Controller.close = close
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
 
@@ -44,25 +45,13 @@
 </script>
 
 {#if BROWSER}
-  {#if $open}
-    <div class="z-[10000]" {...$portalled} use:portalled>
-      <div
-        {...$overlay}
-        use:overlay
-        class="fixed inset-0 bg-[#000000cf]"
-        transition:fade={{ duration: TRANSITION_MS }}
-      ></div>
-      <div
-        class={cn(
-          'fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] -translate-x-1/2  -translate-y-1/2 rounded bg-white shadow-lg',
-          className,
-        )}
-        transition:flyAndScale
-        {...$content}
-        use:content
-      >
-        {@render children({ close })}
-      </div>
-    </div>
+  {#if isOpened}
+    <DrawerRoot shouldScaleBackground open={isOpened} onClose={() => onOpenChange({ next: false })}>
+      <MobileDialog {close} {children} {isNested}></MobileDialog>
+    </DrawerRoot>
+
+    {#if false}
+      <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+    {/if}
   {/if}
 {/if}
