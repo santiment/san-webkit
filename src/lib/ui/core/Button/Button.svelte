@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import type { HTMLButtonAttributes } from 'svelte/elements'
+  import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements'
   import type { Action } from 'svelte/action'
   import type { SS } from 'svelte-runes'
 
@@ -38,6 +38,7 @@
     explanation?: string
     size?: 'lg'
     loading?: boolean
+    target?: HTMLAnchorAttributes['target']
 
     action?: Action
     actionArgs?: any

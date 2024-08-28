@@ -2,10 +2,19 @@
   import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { type ComponentProps, type SvelteComponent, type Component } from 'svelte'
+  import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
 
+  type SnippetArgs<
+    GComponent extends SvelteComponent | Component<any, any>,
+    GSnippetName extends string,
+  > = Parameters<ComponentProps<GComponent>[GSnippetName]>
+
   const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
+
   let planType = $state(PLAN_TYPES[0])
+  let isConsumerPlans = $derived(planType === PLAN_TYPES[0])
 </script>
 
 <div class="self-start">
@@ -23,9 +32,14 @@
     {/each}
   </div>
 
-  {#if planType === PLAN_TYPES[0]}
-    <ProductPlans></ProductPlans>
+  {#if isConsumerPlans}
+    <ProductPlans children={PlansBreakdownTable}></ProductPlans>
   {:else}
-    <ProductPlans productFilter={getApiBusinessPlans}></ProductPlans>
+    <ProductPlans productFilter={getApiBusinessPlans} children={PlansBreakdownTable}></ProductPlans>
   {/if}
 </div>
+
+{#snippet PlansBreakdownTable(plans: SnippetArgs<ProductPlans, 'children'>[0])}
+  <BreakdownTable plans={plans?.billingGroupPlans?.map((v) => v.month) || []} {isConsumerPlans}
+  ></BreakdownTable>
+{/snippet}
