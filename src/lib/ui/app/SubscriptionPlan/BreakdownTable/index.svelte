@@ -16,7 +16,7 @@
     class: className,
     plans,
     isConsumerPlans = true,
-  }: { plans: TSubscriptionPlan[]; class: ''; isConsumerPlans?: boolean } = $props()
+  }: { class?: string; plans: TSubscriptionPlan[]; isConsumerPlans?: boolean } = $props()
 
   let activeSlide = 0
 
@@ -24,9 +24,9 @@
   let comparedPlans = $derived(getPlansLayout(plans, activeSlide))
   let plansFeatures = $derived(
     comparedPlans.map(({ name }) => SubscriptionPlanBreakdown[name]).filter(Boolean),
-  ) as {}[]
+  ) as Record<string, any>[]
 
-  function getPlansLayout(plans: TSubscriptionPlan[], slide: number) {
+  function getPlansLayout(plans: TSubscriptionPlan[], _slide: number) {
     return plans
   }
   // function getPlansLayout(plans: TSubscriptionPlan[], slide: number, device: string) {

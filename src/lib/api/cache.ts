@@ -1,4 +1,4 @@
-import { Observable, ReplaySubject, Subject, pipe, shareReplay } from 'rxjs'
+import { Observable } from 'rxjs'
 import { RxQuery, type Query, type TGqlSchema } from './executor.js'
 import type { TExecutorOptions } from './index.js'
 
@@ -16,7 +16,7 @@ export const ApiCache = {
       options: TExecutorOptions
     },
   ) {
-    let { executor, result, options } = config
+    const { executor, result, options } = config
     const key = getKey(schema, executor)
 
     this.queries.set(key, result)

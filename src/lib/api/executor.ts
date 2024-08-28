@@ -83,7 +83,7 @@ export const Query = <T>(
   const { schema: query, variables } =
     typeof schema === 'object' ? schema : { schema, variables: null }
 
-  let request = fetcher(ENDPOINT, {
+  const request = fetcher(ENDPOINT, {
     headers: { ...DEFAULT_HEADERS },
     body: JSON.stringify({ query, variables }),
     method: 'post',
