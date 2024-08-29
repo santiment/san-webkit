@@ -58,19 +58,17 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 *storybook.log
 
+
+/mkcert
+
 .husky
 /static/
 /src/
 /tests/`,
   )
 
-  const [gitAddMsg, gitAddError] = await exec(`git add . -A`)
-  console.log('gitAddMsg', gitAddMsg)
-  console.log('gitAddError', gitAddError)
-
-  const [gitCommitMsg, gitCommitError] = await exec(`git commit -m "[RELEASE] ${gitHash}"`)
-  console.log('gitCommitMsg', gitCommitMsg)
-  console.log('gitCommitError', gitCommitError)
+  await exec(`git add . -A`)
+  await exec(`git commit -m "[RELEASE] ${gitHash}"`)
 
   //  Make a new tag off of the latest build
   await exec(`git checkout ${MAIN_BRANCH}`)
