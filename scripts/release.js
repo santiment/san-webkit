@@ -58,6 +58,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 *storybook.log
 
+.husky
 /static/
 /src/
 /tests/`,
@@ -113,6 +114,7 @@ async function updateLibraryPackageJson() {
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
   pkgJson.scripts = {}
+  pkgJson['lint-staged'] = {}
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
 }
