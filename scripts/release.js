@@ -119,6 +119,7 @@ async function updateLibraryPackageJson() {
   pkgJson['lint-staged'] = {}
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
+  fs.rmdirSync(path.resolve(ROOT, '.husky'), { recursive: true, force: true })
 }
 
 async function processTypescriptFiles() {
