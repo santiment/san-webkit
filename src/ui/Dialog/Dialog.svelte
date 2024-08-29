@@ -23,15 +23,18 @@
 
   const DialogCtx = $$props.DialogCtx as SAN.Dialog.Ctx
 
-  $: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
-  $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
-
   let isOpening = true
   let clickAwayMouseDown = false
   let openingTimer: number
 
-  DialogCtx.close = closeDialog
-  setDialogCtx(DialogCtx)
+  $: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks)
+  $: setCloseInCtx(closeDialog)
+  $: ({ i, DialogPromise } = $$props as SAN.Dialog.Props)
+
+  function setCloseInCtx(close: (skipLockChecks?: boolean) => void) {
+    DialogCtx.close = close
+    setDialogCtx(DialogCtx)
+  }
 
   const checkIsEditable = ({ isContentEditable, localName }: HTMLElement): boolean =>
     isContentEditable || localName === 'input' || localName === 'textarea'
