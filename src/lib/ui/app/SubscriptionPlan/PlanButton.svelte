@@ -58,7 +58,15 @@
     </Button>
   {/if}
 {:else if plan.name === SubscriptionPlan.FREE.key}
-  <Button variant="border" size="lg" class="center">Default plan</Button>
+  <Button
+    variant="border"
+    size="lg"
+    class="center"
+    onclick={onSupportClick}
+    href="mailto:support@santiment.net"
+  >
+    Default plan
+  </Button>
 {:else if plan.name === SubscriptionPlan.CUSTOM.key}
   <Button
     variant="fill"
