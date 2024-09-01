@@ -48,11 +48,11 @@ export const getFormattedPlan = (
 
 export const checkIsCurrentPlan = (
   userPlan: null | TSubscriptionPlan,
-  targetPlan: TSubscriptionPlan,
+  targetPlan?: Pick<TSubscriptionPlan, 'name' | 'interval'>,
 ) =>
   userPlan
-    ? userPlan.name === targetPlan.name && userPlan.interval === targetPlan.interval
-    : targetPlan.name === SubscriptionPlan.FREE.key
+    ? userPlan.name === targetPlan?.name && userPlan.interval === targetPlan?.interval
+    : targetPlan?.name === SubscriptionPlan.FREE.key
 
 export const checkIsAlternativeBillingPlan = (
   userPlan: null | TSubscriptionPlan,

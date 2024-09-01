@@ -11,6 +11,15 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
+export const Anonymous: Story = {
+  name: 'Anonymous',
+  parameters: {
+    mockApi: () => ({
+      currentUser: null,
+    }),
+  },
+}
+
 export const NoTrialAvailable: Story = {
   name: 'Free - No Trial Available',
   parameters: {
@@ -43,6 +52,7 @@ export const ProOnTrial: Story = {
         plan: {
           pro: true,
           monthly: true,
+          trial: true,
         },
       },
     }),
@@ -58,6 +68,7 @@ export const MaxOnTrial: Story = {
         plan: {
           max: true,
           monthly: true,
+          trial: true,
         },
       },
     }),

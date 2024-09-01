@@ -147,7 +147,7 @@ export function mockUser(currentUser: CurrentUser) {
       const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
 
       subscriptions[0] = {
-        status: 'ACTIVE',
+        status: trial ? 'TRIALING' : 'ACTIVE',
         trialEnd,
         cancelAtPeriodEnd: cancelledInDays !== undefined,
         currentPeriodEnd: currentPeriodEndDate.toISOString(),
