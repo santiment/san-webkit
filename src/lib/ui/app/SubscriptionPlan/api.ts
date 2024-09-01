@@ -13,6 +13,10 @@ export type TProductsWithPlans = readonly {
   }[]
 }[]
 
+/**
+ * Fetching plans for all products.
+ * Caching result indefinitely.
+ */
 export const queryProductsWithPlans = Fetcher(
   () => `{
   productsWithPlans {

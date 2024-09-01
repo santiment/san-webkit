@@ -11,6 +11,8 @@
     GSnippetName extends string,
   > = Parameters<ComponentProps<GComponent>[GSnippetName]>
 
+  let { productsWithPlans }: Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> = $props()
+
   const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
 
   let planType = $state(PLAN_TYPES[0])
@@ -33,9 +35,13 @@
   </div>
 
   {#if isConsumerPlans}
-    <ProductPlans children={PlansBreakdownTable}></ProductPlans>
+    <ProductPlans {productsWithPlans} children={PlansBreakdownTable}></ProductPlans>
   {:else}
-    <ProductPlans productFilter={getApiBusinessPlans} children={PlansBreakdownTable}></ProductPlans>
+    <ProductPlans
+      {productsWithPlans}
+      productFilter={getApiBusinessPlans}
+      children={PlansBreakdownTable}
+    ></ProductPlans>
   {/if}
 </div>
 

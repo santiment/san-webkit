@@ -12,16 +12,17 @@
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 
   let {
+    productsWithPlans = [],
     productFilter = getSanbaseConsumerPlans,
     children,
   }: {
+    productsWithPlans?: TProductsWithPlans
     productFilter?: typeof getSanbaseConsumerPlans | typeof getApiBusinessPlans
     children?: Snippet<[typeof plans]>
   } = $props()
 
   const { stripe } = useStripeCtx()
 
-  let productsWithPlans = $state.raw<TProductsWithPlans>([])
   let plans = $derived(productFilter(productsWithPlans))
 
   useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))
