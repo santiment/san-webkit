@@ -43,6 +43,21 @@ export const EligibleForSanbaseTrial: Story = {
   },
 }
 
+export const Pro: Story = {
+  name: 'Pro',
+
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          pro: true,
+          monthly: true,
+          trial: false,
+        },
+      },
+    }),
+  },
+}
 export const ProOnTrial: Story = {
   name: 'Pro - On trial',
 

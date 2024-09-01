@@ -49,13 +49,19 @@
       {formattedPlan.name}
     </span>
 
-    {#if isCurrentPlan && customer.$.isTrialSubscription}
-      <span
-        class="expl-tooltip flex h-10 rounded-md bg-green-light-1 px-3 text-base text-green center"
-        aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
-      >
-        Your trial plan
-      </span>
+    {#if isCurrentPlan}
+      {#if customer.$.isTrialSubscription}
+        <span
+          class="expl-tooltip flex h-10 rounded-md bg-green-light-1 px-3 text-base text-green center"
+          aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
+        >
+          Your trial plan
+        </span>
+      {:else}
+        <span class="flex size-10 rounded-md bg-orange-light-1 fill-orange center">
+          <Svg id="crown" h="12"></Svg>
+        </span>
+      {/if}
     {/if}
   </h2>
 
