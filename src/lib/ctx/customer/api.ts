@@ -23,6 +23,9 @@ export type TCustomer = {
     daysLeft: number
   }
 
+  isBusinessSubscription: boolean
+  isConsumerSubscription: boolean
+
   isCanceledSubscription: boolean
   isIncompleteSubscription: boolean
 
@@ -63,6 +66,9 @@ export const DEFAULT: TCustomer = {
   isProPlus: false, // deprecated
   isBusinessPro: false,
   isBusinessMax: false,
+
+  isBusinessSubscription: false,
+  isConsumerSubscription: false,
 
   isTrialSubscription: false,
   trialDaysLeft: 0,

@@ -74,6 +74,9 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     isBusinessPro: false,
     isBusinessMax: false,
 
+    isBusinessSubscription: false,
+    isConsumerSubscription: false,
+
     isCanceledSubscription: false,
     isIncompleteSubscription: false,
     isTrialSubscription: false,
@@ -96,6 +99,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
     const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
     const isPro = isProPlus || isMax || planName === SubscriptionPlan.PRO.key
+    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax
 
     return {
       plan,
@@ -106,7 +110,10 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       isMax,
       isProPlus,
       isPro,
-      isFree: !isPro && !isMax && !isBusinessPro && !isBusinessMax,
+      isFree,
+
+      isBusinessSubscription: isBusiness,
+      isConsumerSubscription: isFree ? false : !isBusiness,
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),

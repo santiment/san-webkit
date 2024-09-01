@@ -35,7 +35,7 @@
     class: cn(
       'center',
       isBusinessPlan && 'bg-blue hover:bg-blue-hover',
-      isConsumerPlan && 'bg-orange hover:bg-orange-hover',
+      isConsumerPlan && !customer.$.isBusinessPro && 'bg-orange hover:bg-orange-hover',
       className,
     ),
   })
@@ -79,7 +79,7 @@
   >
     Change billing period
   </Button>
-{:else if isBusinessPlan}
+{:else if isBusinessPlan && customer.$.isFree}
   <Button
     variant="fill"
     size="lg"
@@ -101,12 +101,17 @@
   </Button>
 {:else}
   <Button
-    variant="fill"
+    variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
     {...classes}
-    onclick={() => onPlanButtonClick?.(plan)}
+    href="mailto:support@santiment.net"
+    onclick={onSupportClick}
     {...anonymousProps}
   >
-    Upgrade
+    {#if (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
+      Change plan
+    {:else}
+      Upgrade
+    {/if}
   </Button>
 {/if}

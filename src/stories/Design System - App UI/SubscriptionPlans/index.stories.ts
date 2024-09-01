@@ -74,3 +74,33 @@ export const MaxOnTrial: Story = {
     }),
   },
 }
+
+export const BusinessPro: Story = {
+  name: 'Business Pro',
+
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          businessPro: true,
+          monthly: true,
+        },
+      },
+    }),
+  },
+}
+
+export const BusinessMax: Story = {
+  name: 'Business Max',
+
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          businessMax: true,
+          monthly: true,
+        },
+      },
+    }),
+  },
+}
