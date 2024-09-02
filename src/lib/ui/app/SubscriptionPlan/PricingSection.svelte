@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { ComponentProps, SvelteComponent, Component, Snippet } from 'svelte'
+  import type { PlanType } from './plans.js'
 
   import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
   import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
+  import { PlanTypeDisplayNames, planTypes } from './plans.js'
 
   type SnippetArgs<
     GComponent extends SvelteComponent | Component<any, any>,
@@ -14,14 +16,13 @@
 
   type Props = Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> & {
     children?: Snippet
+    planType?: PlanType
   }
 
-  let { productsWithPlans, children }: Props = $props()
+  let { productsWithPlans, children, planType: initialPlanType = 'consumer' }: Props = $props()
 
-  const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
-
-  let planType = $state(PLAN_TYPES[0])
-  let isConsumerPlans = $derived(planType === PLAN_TYPES[0])
+  let planType = $state(initialPlanType)
+  let isConsumerPlans = $derived(planType === 'consumer')
 </script>
 
 <div class="self-start">
@@ -31,10 +32,10 @@
   </h1>
 
   <div class="mb-12 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo">
-    {#each PLAN_TYPES as item (item)}
+    {#each planTypes as item (item)}
       <Button
         class={cn('px-4 py-1.5', planType === item && 'bg-athens text-fiord')}
-        onclick={() => (planType = item)}>{item}</Button
+        onclick={() => (planType = item)}>{PlanTypeDisplayNames[item] ?? item}</Button
       >
     {/each}
   </div>

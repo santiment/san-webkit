@@ -8,6 +8,15 @@ export const Product = keyify(
   'name',
 )
 
+export type PlanType = 'business' | 'consumer'
+
+export const PlanTypeDisplayNames: Record<PlanType, string> = {
+  consumer: '👨‍🦱 For Individuals',
+  business: '💼 For Business',
+}
+
+export const planTypes = Object.keys(PlanTypeDisplayNames) as PlanType[]
+
 export const SubscriptionPlan = keyify({
   PRO_PLUS: { name: 'Sanbase Pro+' }, // Deprecated
 
