@@ -25,6 +25,6 @@ export {
 export { default as PlanButton } from './PlanButton.svelte'
 export { default as PlanCard } from './PlanCard.svelte'
 export { default as ProductPlans } from './ProductPlans.svelte'
-export { default as Plans } from './Plans.svelte'
+export { default as PricingSection } from './PricingSection.svelte'
 
 export { useSubscriptionPlanButtonCtx } from './ctx.js'
