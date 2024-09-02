@@ -78,6 +78,8 @@ vite.config.ts.timestamp-*
   await exec(`git push origin "${releaseTag}"`)
 
   console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
+
+  await exec(`npm run prepare`, false)
 }
 
 if (process.argv[2] === '--run') release()
