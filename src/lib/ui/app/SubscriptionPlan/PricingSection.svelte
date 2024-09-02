@@ -1,8 +1,9 @@
 <script lang="ts">
+  import type { ComponentProps, SvelteComponent, Component, Snippet } from 'svelte'
+
   import { getApiBusinessPlans } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
-  import { type ComponentProps, type SvelteComponent, type Component } from 'svelte'
   import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
 
@@ -11,7 +12,11 @@
     GSnippetName extends string,
   > = Parameters<ComponentProps<GComponent>[GSnippetName]>
 
-  let { productsWithPlans }: Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> = $props()
+  type Props = Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> & {
+    children?: Snippet
+  }
+
+  let { productsWithPlans, children }: Props = $props()
 
   const PLAN_TYPES = ['👨‍🦱 For Individuals', '💼 For Business']
 
@@ -35,17 +40,15 @@
   </div>
 
   {#if isConsumerPlans}
-    <ProductPlans {productsWithPlans} children={PlansBreakdownTable}></ProductPlans>
+    <ProductPlans {productsWithPlans} children={PlansDetails}></ProductPlans>
   {:else}
-    <ProductPlans
-      {productsWithPlans}
-      productFilter={getApiBusinessPlans}
-      children={PlansBreakdownTable}
+    <ProductPlans {productsWithPlans} productFilter={getApiBusinessPlans} children={PlansDetails}
     ></ProductPlans>
   {/if}
 </div>
 
-{#snippet PlansBreakdownTable(plans: SnippetArgs<ProductPlans, 'children'>[0])}
+{#snippet PlansDetails(plans: SnippetArgs<ProductPlans, 'children'>[0])}
+  {@render children?.()}
   <BreakdownTable plans={plans?.billingGroupPlans?.map((v) => v.month) || []} {isConsumerPlans}
   ></BreakdownTable>
 {/snippet}
