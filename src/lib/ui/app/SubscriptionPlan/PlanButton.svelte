@@ -1,5 +1,6 @@
 <script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { onSupportClick } from '$lib/utils/support.js'
   import {
     BUSINESS_PLANS,
     CONSUMER_PLANS,
@@ -39,12 +40,6 @@
       className,
     ),
   })
-
-  function onSupportClick(e: Event) {
-    if (window.Intercom) e.preventDefault()
-
-    window.Intercom?.('show')
-  }
 </script>
 
 {#if isCurrentPlan}

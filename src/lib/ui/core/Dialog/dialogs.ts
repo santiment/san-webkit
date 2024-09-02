@@ -49,7 +49,14 @@ export const dialogs$ = {
       untrack(() => {
         if (!BROWSER) return Promise.reject()
 
-        const { promise, resolve, reject } = Promise.withResolvers()
+        // NOTE: Promise.withResolvers() has a bug on iOS 17
+        // const { promise, resolve, reject } = Promise.withResolvers()
+        let resolve: (value: unknown) => void = () => {}
+        let reject: (reason?: unknown) => void = () => {}
+        const promise = new Promise((promiseResolve, promiseReject) => {
+          resolve = promiseResolve
+          reject = promiseReject
+        })
 
         const Controller = {
           lock: () => {},
