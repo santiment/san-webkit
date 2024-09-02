@@ -36,11 +36,21 @@
 
     startCardPaymentFlow()
       .then(() => {
-        Controller.close()
+        onPaymentSuccess()
       })
       .catch(() => {
-        isPaymentIsProcess = false
+        onPaymentError()
       })
+  }
+
+  function onPaymentSuccess(data?: any) {
+    console.log(data)
+    Controller.close()
+  }
+
+  function onPaymentError(e?: any) {
+    console.log(e)
+    isPaymentIsProcess = false
   }
 </script>
 
@@ -140,7 +150,8 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton onSuccess={console.log} onError={console.log}></StripePaymentButton>
+        <StripePaymentButton onSuccess={onPaymentSuccess} onError={onPaymentError}
+        ></StripePaymentButton>
       {/if}
 
       {#if isConsumerPlan && isEligibleForSanbaseTrial && isCardPayment}
