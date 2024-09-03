@@ -1,3 +1,3 @@
 import mkcert from 'vite-plugin-mkcert'
 
-mkcert({ savePath: './mkcert' }).config({})
+mkcert({ savePath: './mkcert', hosts: ['local.santiment.net'] }).config({})
