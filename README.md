@@ -50,7 +50,7 @@ This type of signal uses the `$state.raw` state declaration, meaning it is not d
 ```js
 customer.$.name = 'Joe' // This will not trigger updates
 customer.$ = customer.$ // Only this will trigger updates
-customer.$ = null // Yhis will trigger updates as well
+customer.$ = null // This will trigger updates as well
 ```
 
 The most common use case for this type of signal is when data has many fields that should be mutated at once, but those fields do not change often.
