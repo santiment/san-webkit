@@ -17,12 +17,23 @@
   type Props = Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> & {
     children?: Snippet
     planType?: PlanType
+    onPlanTypeChange?: (type: PlanType) => void
   }
 
-  let { productsWithPlans, children, planType: initialPlanType = 'consumer' }: Props = $props()
+  let {
+    productsWithPlans,
+    planType: initialPlanType = 'consumer',
+    onPlanTypeChange,
+    children,
+  }: Props = $props()
 
   let planType = $state(initialPlanType)
   let isConsumerPlans = $derived(planType === 'consumer')
+
+  function handlePlanClick(type: PlanType) {
+    planType = type
+    onPlanTypeChange?.(type)
+  }
 </script>
 
 <div class="self-start">
@@ -35,7 +46,7 @@
     {#each planTypes as item (item)}
       <Button
         class={cn('px-4 py-1.5', planType === item && 'bg-athens text-fiord')}
-        onclick={() => (planType = item)}>{PlanTypeDisplayNames[item] ?? item}</Button
+        onclick={() => handlePlanClick(item)}>{PlanTypeDisplayNames[item] ?? item}</Button
       >
     {/each}
   </div>
