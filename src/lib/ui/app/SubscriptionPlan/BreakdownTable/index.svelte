@@ -47,7 +47,7 @@
     plans={plansFeatures}
     breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
   >
-    <div class="tr sticky -top-16 bg-white">
+    <div class="tr sticky top-0 bg-white">
       {#if comparedPlans.length > 1}
         <div class="td-h"></div>
 
