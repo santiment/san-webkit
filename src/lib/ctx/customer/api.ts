@@ -12,6 +12,18 @@ import {
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 export type TCustomer = {
+  currentUser: null | {
+    id: string
+    email: null | string
+    name: null | string
+    username: null | string
+    avatarUrl: null | string
+    privacyPolicyAccepted: boolean
+    marketingAccepted: boolean
+    firstLogin: boolean
+    isModerator: boolean
+  }
+
   isLoggedIn: boolean
 
   sanBalance: number
@@ -49,6 +61,8 @@ export type TCustomer = {
 }
 
 export const DEFAULT: TCustomer = {
+  currentUser: null,
+
   isLoggedIn: false,
   sanBalance: 0,
   isEligibleForSanbaseTrial: false,
@@ -82,6 +96,15 @@ export const DEFAULT: TCustomer = {
 export const queryCurrentUserSubscriptions = Fetcher(
   () => `{
   currentUser {
+    id
+    email
+    name
+    username
+    avatarUrl
+    privacyPolicyAccepted
+    marketingAccepted
+    firstLogin
+    isModerator
     isEligibleForSanbaseTrial
     subscriptions {
       id
@@ -101,6 +124,16 @@ export const queryCurrentUserSubscriptions = Fetcher(
 }`,
   (gql: {
     currentUser: null | {
+      id: string
+      email: null | string
+      name: null | string
+      username: null | string
+      avatarUrl: null | string
+      privacyPolicyAccepted: boolean
+      marketingAccepted: boolean
+      firstLogin: boolean
+      isModerator: boolean
+
       isEligibleForSanbaseTrial: boolean
       subscriptions: null | TSubscription[]
     }
