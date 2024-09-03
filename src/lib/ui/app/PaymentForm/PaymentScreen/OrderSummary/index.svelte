@@ -9,6 +9,7 @@
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFlow } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
+  import { onSupportClick } from '$lib/utils/support.js'
 
   const { Controller } = getDialogControllerCtx()
   const { stripe: _stripe } = useStripeCtx()
@@ -35,11 +36,21 @@
 
     startCardPaymentFlow()
       .then(() => {
-        Controller.close()
+        onPaymentSuccess()
       })
       .catch(() => {
-        isPaymentIsProcess = false
+        onPaymentError()
       })
+  }
+
+  function onPaymentSuccess(data?: any) {
+    console.log(data)
+    Controller.close()
+  }
+
+  function onPaymentError(e?: any) {
+    console.log(e)
+    isPaymentIsProcess = false
   }
 </script>
 
@@ -97,21 +108,31 @@
         <p class="-mt-1">
           Your trial has expired! If you have accidentally bypassed the free trial, please get in
           touch with
-          <a href="mailto:support@santiment.net" class="text-green"> our support team</a>.
+          <a href="mailto:support@santiment.net" class="text-green" onclick={onSupportClick}>
+            our support team</a
+          >.
         </p>
       {/if}
     </div>
 
     <div class="gap-3 column">
       {#if isCardPayment === false}
-        <Button variant="fill" size="lg" class="center">
-          {#if isEligibleForSanbaseTrial || isMetamaskConnected}
+        {#if isEligibleForSanbaseTrial || isMetamaskConnected}
+          <Button
+            variant="fill"
+            size="lg"
+            class="center"
+            href="mailto:support@santiment.net"
+            onclick={onSupportClick}
+          >
             Contact us
-          {:else}
+          </Button>
+        {:else}
+          <Button variant="fill" size="lg" class="center">
             <img src="/webkit/icons/metamask.svg" alt="MetaMask" class="h-4" />
             Connect MetaMask
-          {/if}
-        </Button>
+          </Button>
+        {/if}
       {:else}
         <Button
           variant="fill"
@@ -129,7 +150,8 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton onSuccess={console.log} onError={console.log}></StripePaymentButton>
+        <StripePaymentButton onSuccess={onPaymentSuccess} onError={onPaymentError}
+        ></StripePaymentButton>
       {/if}
 
       {#if isConsumerPlan && isEligibleForSanbaseTrial && isCardPayment}

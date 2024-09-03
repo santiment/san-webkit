@@ -1,7 +1,7 @@
 import { Query } from '$lib/api/executor.js'
 import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 import { notifcation } from '$ui/core/Notifications/index.js'
-import type { ConfirmCardSetupData, Token } from '@stripe/stripe-js'
+import type { ConfirmCardSetupData, SetupIntent, Stripe, Token } from '@stripe/stripe-js'
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
@@ -51,14 +51,37 @@ export function usePaymentFlow() {
     })
   }
 
+  async function confirmPaymentSetup(
+    stripe: Stripe,
+    setupIntentClientSecret: string,
+    {
+      setupIntent,
+      paymentMethod,
+    }: {
+      paymentMethod?: ConfirmCardSetupData['payment_method']
+      setupIntent?: SetupIntent
+    },
+  ) {
+    if (setupIntent) {
+      return { setupIntent, error: null }
+    }
+
+    return stripe.confirmCardSetup(
+      setupIntentClientSecret,
+      { payment_method: paymentMethod },
+      { handleActions: false },
+    )
+  }
+
   async function processPayment({
-    paymentMethod,
     plan,
     cardToken,
+    ...paymentData
   }: {
-    paymentMethod: ConfirmCardSetupData['payment_method']
     plan: TSubscriptionPlan
     cardToken?: Token
+    paymentMethod?: ConfirmCardSetupData['payment_method']
+    setupIntent?: SetupIntent
   }) {
     const stripe = stripeLoader.$
     if (!stripe) return
@@ -66,10 +89,10 @@ export function usePaymentFlow() {
     const { setupIntentClientSecret } = paymentForm.$
     if (!setupIntentClientSecret) return
 
-    const { setupIntent, error: confirmError } = await stripe.confirmCardSetup(
+    const { setupIntent, error: confirmError } = await confirmPaymentSetup(
+      stripe,
       setupIntentClientSecret,
-      { payment_method: paymentMethod },
-      { handleActions: false },
+      paymentData,
     )
 
     if (confirmError) {

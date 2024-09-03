@@ -46,7 +46,7 @@
     } as StripeExpressCheckoutElementOptions
 
     const elements = _stripe.elements({
-      mode: 'payment',
+      mode: 'subscription',
       amount: 10000000,
       currency: 'usd',
       appearance,
@@ -70,10 +70,15 @@
         return Promise.reject('Missing selected plan')
       }
 
-      const { error, paymentIntent } = await _stripe.confirmPayment({
+      console.log(_event.expressPaymentType)
+
+      const { error, setupIntent } = await _stripe.confirmSetup({
         elements,
         clientSecret,
         redirect: 'if_required',
+        confirmParams: {
+          return_url: 'https://app.santiment.net/pricing',
+        },
       })
 
       if (error) {
@@ -81,19 +86,18 @@
         return onError?.(error, error.payment_method?.type)
       }
 
-      if (!paymentIntent) {
+      if (!setupIntent) {
         return onError?.(error, undefined)
-      }
-
-      const paymentMethod = paymentIntent.payment_method
-      if (!paymentMethod) {
-        return Promise.reject('Cannot process payment method')
       }
 
       return processPayment({
         plan: selectedPlan,
-        paymentMethod: typeof paymentMethod === 'string' ? paymentMethod : paymentMethod.id,
-      }).then(onSuccess)
+        setupIntent,
+      })
+        .then(onSuccess)
+        .catch((error) => {
+          return onError?.(error)
+        })
     })
   })
 </script>

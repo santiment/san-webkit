@@ -57,7 +57,7 @@
         >
           Your trial plan
         </span>
-      {:else}
+      {:else if customer.$.isPro}
         <span class="flex size-10 rounded-md bg-orange-light-1 fill-orange center">
           <Svg id="crown" h="12"></Svg>
         </span>
