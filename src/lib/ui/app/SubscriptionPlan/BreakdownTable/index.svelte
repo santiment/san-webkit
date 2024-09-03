@@ -40,7 +40,7 @@
   // }
 </script>
 
-<h2 class="mb-12 mt-[104px] text-center text-3xl">Detailed breakdown of plans</h2>
+<h2 class="mb-16 mt-[120px] text-center text-3xl font-medium">Detailed breakdown of plans</h2>
 
 <section id="comparison" class={cn('rounded border', className)} class:business={!isConsumerPlans}>
   <Table

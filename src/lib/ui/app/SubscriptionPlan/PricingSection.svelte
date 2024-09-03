@@ -37,7 +37,7 @@
 </script>
 
 <div class="self-start">
-  <h1 class="mb-16 text-3xl font-medium">
+  <h1 class="mb-16 max-w-4xl text-3xl font-medium">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers
   </h1>
