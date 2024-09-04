@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Plans, useSubscriptionPlanButtonCtx } from '$ui/app/SubscriptionPlan/index.js'
+  import { PricingSection, useSubscriptionPlanButtonCtx } from '$ui/app/SubscriptionPlan/index.js'
   import { usePaymentFormCtx } from '../state.js'
 
   let { onPlanSelect }: { onPlanSelect: () => void } = $props()
@@ -15,4 +15,4 @@
   })
 </script>
 
-<Plans></Plans>
+<PricingSection></PricingSection>

@@ -7,6 +7,7 @@ export const classes =
 export default {
   content: ['./src/**/*.{html,js,svelte,ts,mdx}'],
   safelist: ['night-mode'],
+  darkMode: ['selector', '.night-mode'],
   theme: {
     extend: {
       borderColor: {
