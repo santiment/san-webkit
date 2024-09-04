@@ -16,13 +16,16 @@ export let animated = true;
 export let isClickawayDisabled = false;
 export let strict = false;
 const DialogCtx = $$props.DialogCtx;
-$: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
-$: ({ i, DialogPromise } = $$props);
 let isOpening = true;
 let clickAwayMouseDown = false;
 let openingTimer;
-DialogCtx.close = closeDialog;
-setDialogCtx(DialogCtx);
+$: closeDialog = (skipLockChecks = true) => requestDialogClose(skipLockChecks);
+$: setCloseInCtx(closeDialog);
+$: ({ i, DialogPromise } = $$props);
+function setCloseInCtx(close) {
+    DialogCtx.close = close;
+    setDialogCtx(DialogCtx);
+}
 const checkIsEditable = ({ isContentEditable, localName }) => isContentEditable || localName === 'input' || localName === 'textarea';
 function onKeyup({ code, target }) {
     if (code === 'Escape' && target) {
