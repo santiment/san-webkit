@@ -16,6 +16,8 @@
   import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte'
   import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog'
   import PlanSuggestions from './SubscriptionCard/PlanSuggestions.svelte'
+  import { startCheckNftAccessFlow } from './nft'
+  import { track } from '@/analytics'
 
   let className = ''
   export { className as class }
@@ -69,6 +71,25 @@
         a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount,
       )
   }
+
+  let isNftLoading = false
+  function onCheckNftClick() {
+    isNftLoading = true
+
+    track.event('press', {
+      category: 'General',
+
+      type: 'sanr_nft_check',
+      source: 'subscription_settings',
+
+      source_url: window.location.origin + window.location.pathname,
+      source_search_params: window.location.search,
+    })
+
+    startCheckNftAccessFlow(customer$).finally(() => {
+      isNftLoading = false
+    })
+  }
 </script>
 
 <section id="subscription" class="border {className}">
@@ -107,6 +128,26 @@
       </button>
     </Setting>
   {/if}
+
+  <Setting class="$style.setting justify">
+    <div>
+      SanR NFT
+      <div class="description c-waterloo sanr-description">
+        Participate in battles in SanR app , win 10000 points and get 12 months subscription to
+        SanBase PRO plan.
+        <a
+          href="https://academy.santiment.net/products-and-plans/sanbase-subscription-via-sanr-nft/"
+          target="_blank"
+          class="c-accent"
+          data-source="sanr_nft_setting"
+          data-type="learn_more">Learn more</a
+        >
+      </div>
+    </div>
+    <button class="btn-2" class:loading={isNftLoading} on:click={onCheckNftClick}>
+      Check NFT access
+    </button>
+  </Setting>
 
   <Setting class="$style.setting justify">
     <div>
@@ -245,5 +286,9 @@
     plans-section {
       flex-direction: column;
     }
+  }
+
+  .sanr-description {
+    max-width: 525px;
   }
 </style>
