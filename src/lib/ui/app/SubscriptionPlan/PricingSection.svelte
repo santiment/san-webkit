@@ -41,8 +41,10 @@
     {#each planTypes as item (item)}
       <Button
         class={cn('px-4 py-1.5', planType === item && 'bg-athens text-fiord')}
-        onclick={() => handlePlanClick(item)}>{PlanTypeDisplayNames[item] ?? item}</Button
+        onclick={() => handlePlanClick(item)}
       >
+        {PlanTypeDisplayNames[item] ?? item}
+      </Button>
     {/each}
   </div>
 
