@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+  import type { TProductsWithPlans } from '$ui/app/SubscriptionPlan/api.js'
+
   import {
     getApiBusinessPlans,
     getSanbaseConsumerPlans,
     queryProductsWithPlans,
-    type TProductsWithPlans,
   } from '$ui/app/SubscriptionPlan/api.js'
   import { tap } from 'rxjs'
   import { useObserve } from 'svelte-runes'
