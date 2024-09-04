@@ -15,6 +15,8 @@ import { getIndividualSuggestions, getBusinessSuggestions } from './Subscription
 import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
 import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
 import PlanSuggestions from './SubscriptionCard/PlanSuggestions.svelte';
+import { startCheckNftAccessFlow } from './nft';
+import { track } from './../../../analytics';
 let className = '';
 export { className as class };
 const { customer$ } = getCustomer$Ctx();
@@ -54,12 +56,26 @@ async function fetchPlans() {
         .concat(businessPlans)
         .sort((a, b) => a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount);
 }
+let isNftLoading = false;
+function onCheckNftClick() {
+    isNftLoading = true;
+    track.event('press', {
+        category: 'General',
+        type: 'sanr_nft_check',
+        source: 'subscription_settings',
+        source_url: window.location.origin + window.location.pathname,
+        source_search_params: window.location.search,
+    });
+    startCheckNftAccessFlow(customer$).finally(() => {
+        isNftLoading = false;
+    });
+}
 </script>
 
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-QuU7Aw">
+  <Setting class="column subscriptions-RApgAa">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -80,7 +96,7 @@ async function fetchPlans() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-81QleK justify">
+    <Setting class="setting-ZDmqw9 justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -93,7 +109,27 @@ async function fetchPlans() {
     </Setting>
   {/if}
 
-  <Setting class="setting-81QleK justify">
+  <Setting class="setting-ZDmqw9 justify">
+    <div>
+      SanR NFT
+      <div class="description c-waterloo sanr-description">
+        Participate in battles in SanR app , win 10000 points and get 12 months subscription to
+        SanBase PRO plan.
+        <a
+          href="https://academy.santiment.net/products-and-plans/sanbase-subscription-via-sanr-nft/"
+          target="_blank"
+          class="c-accent"
+          data-source="sanr_nft_setting"
+          data-type="learn_more">Learn more</a
+        >
+      </div>
+    </div>
+    <button class="btn-2" class:loading={isNftLoading} on:click={onCheckNftClick}>
+      Check NFT access
+    </button>
+  </Setting>
+
+  <Setting class="setting-ZDmqw9 justify">
     <div>
       Payment method
 
@@ -122,7 +158,7 @@ async function fetchPlans() {
     </div>
   </Setting>
 
-  <Setting class="setting-81QleK justify">
+  <Setting class="setting-ZDmqw9 justify">
     <div>
       Billing history
 
@@ -185,7 +221,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-QuU7Aw) {
+:global(.subscriptions-RApgAa) {
   gap: 28px;
 }
 
@@ -211,8 +247,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-81QleK),
-:global(.phone-xs) :global(.setting-81QleK) {
+:global(.phone) :global(.setting-ZDmqw9),
+:global(.phone-xs) :global(.setting-ZDmqw9) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -233,13 +269,17 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-QuU7Aw),
-:global(.tablet) :global(.subscriptions-QuU7Aw),
-:global(.phone-xs) :global(.subscriptions-QuU7Aw) {
+:global(.phone) :global(.subscriptions-RApgAa),
+:global(.tablet) :global(.subscriptions-RApgAa),
+:global(.phone-xs) :global(.subscriptions-RApgAa) {
   flex-direction: column;
 }
 :global(.phone) plans-section,
 :global(.tablet) plans-section,
 :global(.phone-xs) plans-section {
   flex-direction: column;
+}
+
+.sanr-description {
+  max-width: 525px;
 }</style>
