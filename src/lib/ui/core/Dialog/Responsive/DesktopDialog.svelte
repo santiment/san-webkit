@@ -2,16 +2,19 @@
   import { type Snippet } from 'svelte'
 
   import { fade } from 'svelte/transition'
-  import { createDialog } from '@melt-ui/svelte'
-  import { BROWSER } from 'esm-env'
+  import { createDialog, type CreateDialogProps } from '@melt-ui/svelte'
   import { cn, flyAndScale } from '$ui/utils/index.js'
-  import { getDialogControllerCtx } from './dialogs.js'
+  import { getDialogControllerCtx } from '../dialogs.js'
 
   let {
     children,
     class: className,
     onOpenChange,
-  }: { class?: string; children: Snippet<[{ close: typeof close }]> } = $props()
+  }: {
+    class?: string
+    children: Snippet<[{ close: typeof close }]>
+    onOpenChange: CreateDialogProps['onOpenChange']
+  } = $props()
 
   const TRANSITION_MS = 150
   const { Controller } = getDialogControllerCtx()
@@ -38,7 +41,7 @@
   ></div>
   <div
     class={cn(
-      'fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] -translate-x-1/2  -translate-y-1/2 rounded bg-white shadow-lg',
+      'fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] -translate-x-1/2 -translate-y-1/2 rounded bg-white shadow-lg',
       className,
     )}
     transition:flyAndScale

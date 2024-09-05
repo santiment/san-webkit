@@ -41,14 +41,14 @@ export const dialogs$ = {
     const ALL_CTX = getAllContexts()
     const parentDialog = ALL_CTX.get(CTX)
 
-    // HACK
+    // HACK: Accessing parent's vaul ctx
     queueMicrotask(() => {
       const [vaulCtxKey, vaulCtx] = getVaulCtx(parentDialog?.Controller?._context || ALL_CTX)
       if (vaulCtx) ALL_CTX.set(vaulCtxKey, vaulCtx)
     })
 
     type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
-    type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject' | 'isNestedDialog'>
+    type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
 
     type TResolve = TComponentProps extends Record<'resolve', infer Resolve> ? Resolve : never
     type TReturn = Promise<TResolve extends (args: any) => any ? Parameters<TResolve>[0] : unknown>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Drawer } from 'vaul-svelte'
-  import { getDialogControllerCtx } from './dialogs.js'
-  import { getVaulCtx } from './vaul.js'
+  import { getDialogControllerCtx } from '../dialogs.js'
+  import { getVaulCtx } from '../vaul.js'
   import type { Snippet } from 'svelte'
   import { cn } from '$ui/utils/index.js'
 

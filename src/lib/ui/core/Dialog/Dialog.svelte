@@ -1,10 +1,9 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
-  import { Drawer } from 'vaul-svelte'
   import { getDialogControllerCtx } from './dialogs.js'
-  import DesktopDialog from './DesktopDialog.svelte'
-  import MobileDialog from './MobileDialog.svelte'
+  import DesktopDialog from './Responsive/DesktopDialog.svelte'
+  import MobileDialog from './Responsive/MobileDialog.svelte'
 
   let {
     children,
@@ -19,10 +18,6 @@
 
   let isOpened = $state(true)
   let isMounted = false
-  let isNested = BROWSER && !!document.querySelector('[data-vaul-drawer-visible]')
-
-  let DrawerRoot = isNested ? Drawer.NestedRoot : Drawer.Root
-  console.log({ isNested })
 
   const close = () => (isOpened = false)
   Controller.close = close
@@ -46,9 +41,8 @@
 
 {#if BROWSER}
   {#if isOpened}
-    <DrawerRoot shouldScaleBackground open={isOpened} onClose={() => onOpenChange({ next: false })}>
-      <MobileDialog {close} {children} {isNested}></MobileDialog>
-    </DrawerRoot>
+    <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
+    ></MobileDialog>
 
     {#if false}
       <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
