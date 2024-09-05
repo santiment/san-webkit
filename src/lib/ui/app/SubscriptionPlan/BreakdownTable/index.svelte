@@ -9,7 +9,6 @@
     CONSUMER_PLANS_BREAKDOWN,
     SubscriptionPlanBreakdown,
   } from './breakdown.js'
-  import { cn } from '$ui/utils/index.js'
   import Plan from './Plan.svelte'
 
   let {
@@ -40,33 +39,37 @@
   // }
 </script>
 
-<h2 class="mb-16 mt-[120px] text-center text-3xl font-medium">Detailed breakdown of plans</h2>
+<section id="comparison" class={className}>
+  <h2 class="mb-16 hidden text-center text-3xl font-medium md:block">
+    Detailed breakdown of plans
+  </h2>
 
-<section id="comparison" class={cn('rounded border', className)} class:business={!isConsumerPlans}>
-  <Table
-    plans={plansFeatures}
-    breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
-  >
-    <div class="tr sticky top-0 bg-white">
-      {#if comparedPlans.length > 1}
-        <div class="td-h"></div>
+  <section class="rounded border" class:business={!isConsumerPlans}>
+    <Table
+      plans={plansFeatures}
+      breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
+    >
+      <div class="tr sticky top-0 bg-white">
+        {#if comparedPlans.length > 1}
+          <div class="td-h"></div>
 
-        {#each comparedPlans as plan}
-          <div class="td">
-            <Plan {plan}></Plan>
-          </div>
-        {/each}
-      {:else}
-        <!--
+          {#each comparedPlans as plan}
+            <div class="td">
+              <Plan {plan}></Plan>
+            </div>
+          {/each}
+        {:else}
+          <!--
        <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
           {#each plans as plan (plan.id)}
              <Plan {plan} {plans} />
           {/each}
         </Slides>
          -->
-      {/if}
-    </div>
-  </Table>
+        {/if}
+      </div>
+    </Table>
+  </section>
 </section>
 
 <style>

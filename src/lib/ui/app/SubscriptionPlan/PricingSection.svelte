@@ -64,6 +64,7 @@
         {@render _children?.()}
 
         <BreakdownTable
+          class="mt-[104px] md:mt-[120px]"
           plans={plans?.billingGroupPlans?.map((v) => v.month) || []}
           {isConsumerPlans}
         />
