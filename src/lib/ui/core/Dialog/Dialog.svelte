@@ -41,13 +41,11 @@
   }
 </script>
 
-{#if BROWSER}
-  {#if isOpened}
-    {#if device.$.isDesktop}
-      <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
-    {:else}
-      <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
-      ></MobileDialog>
-    {/if}
+{#if BROWSER && isOpened}
+  {#if device.$.isDesktop}
+    <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+  {:else}
+    <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
+    ></MobileDialog>
   {/if}
 {/if}

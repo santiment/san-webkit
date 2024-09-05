@@ -1,6 +1,7 @@
-import { createCtx } from '$lib/utils/index.js'
 import { BROWSER } from 'esm-env'
+import { untrack } from 'svelte'
 import { ss } from 'svelte-runes'
+import { createCtx } from '$lib/utils/index.js'
 
 export enum DeviceType {
   Desktop = 'desktop',
@@ -17,14 +18,16 @@ function getDeviceInfo(type: DeviceType) {
 const device = ss(getDeviceInfo(DeviceType.Desktop))
 
 function onDeviceTypeChange(deviceType: DeviceType) {
-  if (device.$.type === deviceType) return
+  untrack(() => {
+    if (device.$.type === deviceType) return
 
-  if (BROWSER) {
-    document.body.classList.remove(device.$.type)
-    document.body.classList.add(deviceType)
-  }
+    if (BROWSER) {
+      document.body.classList.remove(device.$.type)
+      document.body.classList.add(deviceType)
+    }
 
-  device.$ = getDeviceInfo(deviceType)
+    device.$ = getDeviceInfo(deviceType)
+  })
 }
 
 if (BROWSER) {
