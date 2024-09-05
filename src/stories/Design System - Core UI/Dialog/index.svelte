@@ -1,8 +1,10 @@
 <script>
+  import { useDeviceCtx } from '$lib/ctx/device'
   import Dialog, { showDialog$ } from './Dialog.svelte'
   import StoryDialog from './StoryDialog.svelte'
 
   const showDialog = showDialog$()
+  useDeviceCtx()
 </script>
 
 <div class="flex flex-col justify-center divide-y p-6">

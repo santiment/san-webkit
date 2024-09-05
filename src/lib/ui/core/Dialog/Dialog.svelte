@@ -1,32 +1,30 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
-
-  import { fade } from 'svelte/transition'
-  import { createDialog } from '@melt-ui/svelte'
   import { BROWSER } from 'esm-env'
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.js'
   import { getDialogControllerCtx } from './dialogs.js'
+  import DesktopDialog from './Responsive/DesktopDialog.svelte'
+  import MobileDialog from './Responsive/MobileDialog.svelte'
+  import { TRANSITION_MS } from './state.js'
 
   let {
     children,
     class: className,
-  }: { class?: string; children: Snippet<[{ close: typeof close }]> } = $props()
+  }: {
+    class?: string
+    children: Snippet<[{ close: () => void }]>
+  } = $props()
 
-  const TRANSITION_MS = 150
   const { Controller } = getDialogControllerCtx()
+  const { device } = useDeviceCtx()
 
-  const {
-    elements: { overlay, content, portalled },
-    states: { open },
-  } = createDialog({ forceVisible: true, onOpenChange })
-
-  const close = () => open.set(false)
-
+  let isOpened = $state(true)
   let isMounted = false
 
+  const close = () => (isOpened = false)
+  Controller.close = close
+
   $effect(() => {
-    open.set(true)
-    Controller.close = close
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
 
@@ -43,26 +41,11 @@
   }
 </script>
 
-{#if BROWSER}
-  {#if $open}
-    <div class="z-[10000]" {...$portalled} use:portalled>
-      <div
-        {...$overlay}
-        use:overlay
-        class="fixed inset-0 bg-[#000000cf]"
-        transition:fade={{ duration: TRANSITION_MS }}
-      ></div>
-      <div
-        class={cn(
-          'fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] -translate-x-1/2  -translate-y-1/2 rounded bg-white shadow-lg',
-          className,
-        )}
-        transition:flyAndScale
-        {...$content}
-        use:content
-      >
-        {@render children({ close })}
-      </div>
-    </div>
+{#if BROWSER && isOpened}
+  {#if device.$.isDesktop}
+    <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+  {:else}
+    <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
+    ></MobileDialog>
   {/if}
 {/if}
