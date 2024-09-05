@@ -10,12 +10,14 @@
   import { PlanTypeDisplayNames, planTypes } from './plans.js'
 
   type Props = Pick<ComponentProps<ProductPlans>, 'productsWithPlans'> & {
+    class?: string
     children?: Snippet
     planType?: PlanType
     onPlanTypeChange?: (type: PlanType) => void
   }
 
   let {
+    class: className = '',
     productsWithPlans,
     planType: initialPlanType = 'consumer',
     onPlanTypeChange,
@@ -31,16 +33,21 @@
   }
 </script>
 
-<div class="self-start">
-  <h1 class="mb-16 max-w-4xl text-3xl font-medium">
+<section class={cn('self-start', className)}>
+  <h1 class="mb-16 max-w-4xl text-center text-3xl font-medium md:text-start">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers
   </h1>
 
-  <div class="mb-12 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo">
+  <div
+    class="mb-10 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo md:mb-12"
+  >
     {#each planTypes as item (item)}
       <Button
-        class={cn('px-4 py-1.5', planType === item && 'bg-athens text-fiord')}
+        class={cn(
+          'px-4 py-3 text-lg font-medium md:py-1.5 md:text-base',
+          planType === item && 'bg-athens text-black',
+        )}
         onclick={() => handlePlanClick(item)}
       >
         {PlanTypeDisplayNames[item] ?? item}
@@ -63,4 +70,4 @@
       {/snippet}
     </ProductPlans>
   {/key}
-</div>
+</section>
