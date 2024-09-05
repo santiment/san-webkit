@@ -4,6 +4,7 @@
   import { BROWSER } from 'esm-env'
   import { Drawer } from 'vaul-svelte'
   import MobileDrawer from './MobileDrawer.svelte'
+  import { TRANSITION_MS } from '../state.js'
 
   let {
     isOpened,
@@ -30,7 +31,7 @@
       drawerWrapperNode.style.transform = ''
       drawerWrapperNode.style.borderRadius = ''
       drawerWrapperNode.style.overflow = ''
-    }, 100)
+    }, TRANSITION_MS)
   })
 </script>
 

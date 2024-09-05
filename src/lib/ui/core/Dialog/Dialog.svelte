@@ -1,9 +1,11 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
+  import { useDeviceCtx } from '$lib/ctx/device/index.js'
   import { getDialogControllerCtx } from './dialogs.js'
   import DesktopDialog from './Responsive/DesktopDialog.svelte'
   import MobileDialog from './Responsive/MobileDialog.svelte'
+  import { TRANSITION_MS } from './state.js'
 
   let {
     children,
@@ -13,8 +15,8 @@
     children: Snippet<[{ close: () => void }]>
   } = $props()
 
-  const TRANSITION_MS = 180
   const { Controller } = getDialogControllerCtx()
+  const { device } = useDeviceCtx()
 
   let isOpened = $state(true)
   let isMounted = false
@@ -41,11 +43,11 @@
 
 {#if BROWSER}
   {#if isOpened}
-    <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
-    ></MobileDialog>
-
-    {#if false}
+    {#if device.$.isDesktop}
       <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+    {:else}
+      <MobileDialog {close} {children} {isOpened} onClose={() => onOpenChange({ next: false })}
+      ></MobileDialog>
     {/if}
   {/if}
 {/if}
