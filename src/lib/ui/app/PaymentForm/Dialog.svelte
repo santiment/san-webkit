@@ -26,8 +26,7 @@
 </script>
 
 <Dialog class="h-full w-full column">
-  <DialogHeader screens={SCREENS} disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}
-  ></DialogHeader>
+  <DialogHeader disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}></DialogHeader>
   {#if productsWithPlans.$.length === 0}
     <div class="skeleton absolute bottom-0 left-0 right-0 top-0 z-50"></div>
   {/if}

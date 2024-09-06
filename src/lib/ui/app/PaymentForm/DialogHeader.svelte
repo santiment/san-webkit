@@ -7,10 +7,10 @@
   import { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { SCREENS } from './state.js'
 
-  let { screens, disabled }: { screens: string[]; disabled?: string } = $props()
+  let { disabled }: { disabled?: (typeof SCREENS)[number] } = $props()
 
   const { Controller } = getDialogControllerCtx()
-  const { screen } = useScreenTransitionCtx(SCREENS)
+  const { screen, screens } = useScreenTransitionCtx(SCREENS)
 </script>
 
 <OnlyOnDevice desktop>
@@ -28,7 +28,7 @@
           disabled={item === disabled}
           onclick={() => (screen.$ = item)}
         >
-          {screen}
+          {item.name}
         </Button>
       {/each}
     </nav>

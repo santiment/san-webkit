@@ -3,6 +3,7 @@
   import { useScreenTransitionCtx } from './state.svelte.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
 
   let { class: className, children }: { class?: string; offsetTop?: number; children: Snippet } =
     $props()
@@ -11,31 +12,25 @@
   const { screen, screens } = useScreenTransitionCtx.get()
 
   let lastIndex = screen.index$
+  let backScreen = $derived(screens[screen.index$ - 1])
 
   const checkIsBack = () => lastIndex > screen.index$
 
   function out(node: HTMLElement) {
     const isBack = checkIsBack()
 
-    if (isBack) {
-      animate(
-        node,
-        () => {
+    animate(
+      node,
+      () => {
+        if (isBack) {
           return () => (node.style.transform = 'translateX(100%)')
-        },
-        { out: true },
-      )
-    } else {
-      animate(
-        node,
-        () => {
-          node.style.zIndex = '-1'
+        }
 
-          return () => (node.style.transform = 'translateX(-30%)')
-        },
-        { out: true },
-      )
-    }
+        node.style.zIndex = '-1'
+        return () => (node.style.transform = 'translateX(-30%)')
+      },
+      { out: true },
+    )
 
     return { duration: TRANSITION + 30 }
   }
@@ -92,19 +87,21 @@
   }
 </script>
 
-<span
-  class="5 fixed left-1/2 top-[6px] z-10 mx-auto h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic"
-></span>
+<OnlyOnDevice tablet phone>
+  <span
+    class="5 fixed left-1/2 top-[6px] z-10 mx-auto h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic"
+  ></span>
+</OnlyOnDevice>
 
 {#key screen.index$}
   <div out:out in:flyIn class="max-h-full column">
-    {#if screen.$ !== screens[0]}
+    {#if backScreen}
       <div class="sticky top-0 flex items-center bg-white px-2 py-3">
         <Button
           iconSize="14"
           icon="arrow-left-big"
           class="text-fiord"
-          onclick={() => (screen.$ = screens[0])}>Choose plan</Button
+          onclick={() => (screen.$ = backScreen)}>{backScreen.backLabel ?? 'Back'}</Button
         >
       </div>
     {/if}
