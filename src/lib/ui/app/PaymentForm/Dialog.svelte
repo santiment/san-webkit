@@ -32,8 +32,8 @@
   {/if}
 
   <ScreenTransition
-    offsetTop={52}
     class="flex gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 max-[800px]:px-5 max-[800px]:pt-12"
+    style="--plans-sticky-top: -65px"
   >
     {#if screen.$ === SCREENS[0]}
       <PlansScreen onPlanSelect={() => (screen.$ = SCREENS[1])}></PlansScreen>

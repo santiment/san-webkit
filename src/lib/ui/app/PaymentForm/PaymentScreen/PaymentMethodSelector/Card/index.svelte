@@ -1,7 +1,9 @@
 <script lang="ts">
+  import type { StripeCardElementOptions } from '@stripe/stripe-js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
-  import type { StripeCardElementOptions } from '@stripe/stripe-js'
+  import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
+  import fontSemiboldUrl from '$lib/fonts/ProximaNova-Semibold.woff2'
   import LabelInput from './LabelInput.svelte'
   import { usePaymentFormCtx } from '../../../state.js'
 
@@ -36,12 +38,12 @@
       fonts: [
         {
           family: 'Proxima Nova',
-          src: 'url(/src/lib/fonts/ProximaNova-Regular.woff2)',
+          src: `url(${fontRegularUrl})`,
           weight: '400',
         },
         {
           family: 'Proxima Nova',
-          src: 'url(/src/lib/fonts/ProximaNova-Semibold.woff2)',
+          src: `url(${fontSemiboldUrl})`,
           weight: '600',
         },
       ],

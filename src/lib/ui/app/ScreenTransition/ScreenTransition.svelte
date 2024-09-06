@@ -5,8 +5,11 @@
   import { cn } from '$ui/utils/index.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
 
-  let { class: className, children }: { class?: string; offsetTop?: number; children: Snippet } =
-    $props()
+  let {
+    class: className,
+    children,
+    style,
+  }: { class?: string; children: Snippet; style?: string } = $props()
 
   const TRANSITION = 350
   const { screen, screens } = useScreenTransitionCtx.get()
@@ -68,8 +71,12 @@
     const styles = node.getAttribute('style') ?? ''
 
     node.style.transition = `transform ${duration}ms cubic-bezier(0.465, 0.183, 0.153, 0.946)`
+    node.style.pointerEvents = 'none'
 
     if (out) {
+      const { offsetTop } = node
+      node.style.top = offsetTop + 'px'
+      node.style.bottom = '0'
       node.style.position = 'absolute'
       node.style.transform = 'translateX(0)'
     } else {
@@ -94,17 +101,20 @@
 </OnlyOnDevice>
 
 {#key screen.index$}
-  <div out:out in:flyIn class="max-h-full column">
-    {#if backScreen}
-      <div class="sticky top-0 flex items-center bg-white px-2 py-3">
-        <Button
-          iconSize="14"
-          icon="arrow-left-big"
-          class="text-fiord"
-          onclick={() => (screen.$ = backScreen)}>{backScreen.backLabel ?? 'Back'}</Button
-        >
-      </div>
-    {/if}
+  <div out:out in:flyIn class="max-h-full min-h-0 flex-1 column" {style}>
+    <OnlyOnDevice tablet phone>
+      {#if backScreen}
+        <div class="sticky top-0 flex items-center bg-white px-2 py-3">
+          <Button
+            iconSize="14"
+            icon="arrow-left-big"
+            class="text-fiord"
+            onclick={() => (screen.$ = backScreen)}>{backScreen.backLabel ?? 'Back'}</Button
+          >
+        </div>
+      {/if}
+    </OnlyOnDevice>
+
     <section class={cn('max-h-full min-h-full w-full', className)}>
       {@render children()}
     </section>
