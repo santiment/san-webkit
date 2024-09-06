@@ -1,0 +1,115 @@
+<script lang="ts">
+  import type { Snippet } from 'svelte'
+  import { useScreenTransitionCtx } from './state.svelte.js'
+  import Button from '$ui/core/Button/index.js'
+  import { cn } from '$ui/utils/index.js'
+
+  let { class: className, children }: { class?: string; offsetTop?: number; children: Snippet } =
+    $props()
+
+  const TRANSITION = 350
+  const { screen, screens } = useScreenTransitionCtx.get()
+
+  let lastIndex = screen.index$
+
+  const checkIsBack = () => lastIndex > screen.index$
+
+  function out(node: HTMLElement) {
+    const isBack = checkIsBack()
+
+    if (isBack) {
+      animate(
+        node,
+        () => {
+          return () => (node.style.transform = 'translateX(100%)')
+        },
+        { out: true },
+      )
+    } else {
+      animate(
+        node,
+        () => {
+          node.style.zIndex = '-1'
+
+          return () => (node.style.transform = 'translateX(-30%)')
+        },
+        { out: true },
+      )
+    }
+
+    return { duration: TRANSITION + 30 }
+  }
+
+  function flyIn(node: HTMLElement) {
+    const isBack = checkIsBack()
+
+    if (isBack) {
+      animate(
+        node,
+        () => {
+          node.style.left = '-70%'
+          node.style.zIndex = '-1'
+
+          return () => (node.style.transform = 'translateX(70%)')
+        },
+        { duration: 250 },
+      )
+    } else {
+      animate(node, () => {
+        node.style.left = '100%'
+
+        return () => (node.style.transform = 'translateX(-100%)')
+      })
+    }
+
+    return { duration: TRANSITION }
+  }
+
+  function animate(
+    node: HTMLElement,
+    transitionStart: () => () => void,
+    { out = false, duration = TRANSITION } = {},
+  ) {
+    const styles = node.getAttribute('style') ?? ''
+
+    node.style.transition = `transform ${duration}ms cubic-bezier(0.465, 0.183, 0.153, 0.946)`
+
+    if (out) {
+      node.style.position = 'absolute'
+      node.style.transform = 'translateX(0)'
+    } else {
+      node.style.position = 'relative'
+    }
+
+    requestAnimationFrame(transitionStart())
+
+    if (!out) {
+      setTimeout(() => {
+        node.setAttribute('style', styles)
+        lastIndex = screen.index$
+      }, TRANSITION + 30)
+    }
+  }
+</script>
+
+<span
+  class="5 fixed left-1/2 top-[6px] z-10 mx-auto h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic"
+></span>
+
+{#key screen.index$}
+  <div out:out in:flyIn class="max-h-full column">
+    {#if screen.$ !== screens[0]}
+      <div class="sticky top-0 flex items-center bg-white px-2 py-3">
+        <Button
+          iconSize="14"
+          icon="arrow-left-big"
+          class="text-fiord"
+          onclick={() => (screen.$ = screens[0])}>Choose plan</Button
+        >
+      </div>
+    {/if}
+    <section class={cn('max-h-full min-h-full w-full', className)}>
+      {@render children()}
+    </section>
+  </div>
+{/key}

@@ -9,6 +9,8 @@ import { queryProductsWithPlans, type TProductsWithPlans } from '../Subscription
 import { getFormattedPlan } from '../SubscriptionPlan/utils.js'
 import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
 
+export const SCREENS = ['1. Choose your plan', '2. Payment details']
+
 const DEFAULT_PAYMENT_METHOD = CardMethod
 export const usePaymentFormCtx = createCtx(
   'usePaymentFormCtx',

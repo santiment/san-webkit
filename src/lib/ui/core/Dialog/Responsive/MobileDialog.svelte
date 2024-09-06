@@ -7,16 +7,20 @@
   import { TRANSITION_MS } from '../state.js'
 
   let {
-    isOpened,
+    close,
     onClose,
     children,
   }: Pick<ComponentProps<MobileDrawer>, 'close' | 'children'> & {
-    isOpened: boolean
     onClose: ComponentProps<MobileDrawer>['close']
   } = $props()
 
+  let isOpened = $state(false)
   let isNested = BROWSER && !!document.querySelector('[data-vaul-drawer-visible]')
   let DrawerRoot = isNested ? Drawer.NestedRoot : Drawer.Root
+
+  $effect(() => {
+    isOpened = true
+  })
 
   // HACK: Enforcing initial drawer close style clean up
   $effect(() => () => {
