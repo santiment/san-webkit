@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@amplitude/analytics-browser':
+    specifier: ^2.11.2
+    version: 2.11.2
   '@internationalized/date':
     specifier: ^3.5.4
     version: 3.5.4
@@ -97,6 +100,9 @@ devDependencies:
   '@types/eslint':
     specifier: ^9.6.1
     version: 9.6.1
+  '@types/gtag.js':
+    specifier: ^0.0.20
+    version: 0.0.20
   autoprefixer:
     specifier: ^10.4.19
     version: 10.4.19(postcss@8.4.38)
@@ -194,6 +200,68 @@ packages:
   /@alloc/quick-lru@5.2.0:
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  /@amplitude/analytics-browser@2.11.2:
+    resolution: {integrity: sha512-RC3sAYDPZQrzyGWTyvDU+6vN2svHFSCzvpRMVm3TxyM1UWdw+WWXq+XR1R3FHAEhE8BszgUUv5CaXQ6F5Ng0CA==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.1
+      '@amplitude/analytics-core': 2.5.0
+      '@amplitude/analytics-remote-config': 0.4.0
+      '@amplitude/analytics-types': 2.8.0
+      '@amplitude/plugin-autocapture-browser': 1.0.1
+      '@amplitude/plugin-page-view-tracking-browser': 2.2.21
+      tslib: 2.7.0
+    dev: false
+
+  /@amplitude/analytics-client-common@2.3.1:
+    resolution: {integrity: sha512-HR5kdLkyz2niUqTA+9fP3MQgqixk5ToY0ohxNrsiqExFDftyKMplQenlFxjh/w5vb72lLf5gI3T2ssIUCkGuvw==}
+    dependencies:
+      '@amplitude/analytics-connector': 1.5.0
+      '@amplitude/analytics-core': 2.5.0
+      '@amplitude/analytics-types': 2.8.0
+      tslib: 2.7.0
+    dev: false
+
+  /@amplitude/analytics-connector@1.5.0:
+    resolution: {integrity: sha512-T8mOYzB9RRxckzhL0NTHwdge9xuFxXEOplC8B1Y3UX3NHa3BLh7DlBUZlCOwQgMc2nxDfnSweDL5S3bhC+W90g==}
+    dev: false
+
+  /@amplitude/analytics-core@2.5.0:
+    resolution: {integrity: sha512-WQSF6u2k+c+EvC0nVd1kVWvUV/dGyyU2fVBHlcqWtEadCFFZRgty94K5JDC3E+W41+PQeNnTbiH8Wkf98rPYdg==}
+    dependencies:
+      '@amplitude/analytics-types': 2.8.0
+      tslib: 2.7.0
+    dev: false
+
+  /@amplitude/analytics-remote-config@0.4.0:
+    resolution: {integrity: sha512-ilp9Dz8Z92V9Wilmz8XIbvEbtuVaN65+jM06JP8I7wL8eNOHVIi4HcI151BzIyekjbprbS1w18Ps3dj2sHlFXA==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.1
+      '@amplitude/analytics-core': 2.5.0
+      '@amplitude/analytics-types': 2.8.0
+      tslib: 2.7.0
+    dev: false
+
+  /@amplitude/analytics-types@2.8.0:
+    resolution: {integrity: sha512-LQ9XWtmv8n0qMGE/JfB0xOvwAc0swy63Xqz7fPhVinz/SUm2buUEKzUNAiq55tZJhEvGs/AsJRmJqu0G563Mgg==}
+    dev: false
+
+  /@amplitude/plugin-autocapture-browser@1.0.1:
+    resolution: {integrity: sha512-uc+OyTrNyz5C9/T49jattgNCfU7PRcs4jKzgAM+p1rjtaSPDIdQBm09icrFPOsai5hMKFKPYSWUq0HpoK0uaHA==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.1
+      '@amplitude/analytics-types': 2.8.0
+      rxjs: 7.8.1
+      tslib: 2.7.0
+    dev: false
+
+  /@amplitude/plugin-page-view-tracking-browser@2.2.21:
+    resolution: {integrity: sha512-gYydbkqpMi16zJn0MJcTcJxk6B8qcBvIa/Dnj0gVO0CV2IgjpzdGWfeOq4zhHpouO20NwdFxDITM38TQVcMq/A==}
+    dependencies:
+      '@amplitude/analytics-client-common': 2.3.1
+      '@amplitude/analytics-types': 2.8.0
+      tslib: 2.7.0
+    dev: false
 
   /@ampproject/remapping@2.3.0:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -3220,6 +3288,10 @@ packages:
 
   /@types/find-cache-dir@3.2.1:
     resolution: {integrity: sha512-frsJrz2t/CeGifcu/6uRo4b+SzAwT4NYCVPu1GN8IB9XTzrpPkGuV0tmh9mN+/L0PklAlsC3u5Fxt0ju00LXIw==}
+    dev: true
+
+  /@types/gtag.js@0.0.20:
+    resolution: {integrity: sha512-wwAbk3SA2QeU67unN7zPxjEHmPmlXwZXZvQEpbEUQuMCRGgKyE1m6XDuTUA9b6pCGb/GqJmdfMOY5LuDjJSbbg==}
     dev: true
 
   /@types/hast@3.0.4:
@@ -7204,7 +7276,6 @@ packages:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
       tslib: 2.7.0
-    dev: true
 
   /sade@1.8.1:
     resolution: {integrity: sha512-xal3CZX1Xlo/k4ApwCFrHVACi9fBqJ7V+mwhBsuf/1IOKbBy098Fex+Wa/5QMubw09pSZ/u8EY8PWgevJsXp1A==}

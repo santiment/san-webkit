@@ -81,6 +81,7 @@
     "@sveltejs/package": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "@types/eslint": "^9.6.1",
+    "@types/gtag.js": "^0.0.20",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
@@ -115,6 +116,7 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.11.2",
     "@internationalized/date": "^3.5.4",
     "@stripe/stripe-js": "^4.1.0",
     "bits-ui": "^0.21.13",
