@@ -22,6 +22,12 @@ export type TCustomer = {
     marketingAccepted: boolean
     firstLogin: boolean
     isModerator: boolean
+
+    settings: {
+      theme: null | 'nightmode'
+      isPromoter: boolean
+      sanbaseVersion: null | string
+    }
   }
 
   isLoggedIn: boolean
@@ -106,6 +112,11 @@ export const queryCurrentUserSubscriptions = Fetcher(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    settings {
+      theme
+      isPromoter
+      sanbaseVersion
+    }
     subscriptions {
       id
       status
@@ -133,6 +144,12 @@ export const queryCurrentUserSubscriptions = Fetcher(
       marketingAccepted: boolean
       firstLogin: boolean
       isModerator: boolean
+
+      settings: {
+        theme: null | 'nightmode'
+        isPromoter: boolean
+        sanbaseVersion: null | string
+      }
 
       isEligibleForSanbaseTrial: boolean
       subscriptions: null | TSubscription[]
@@ -199,7 +216,7 @@ export function loadCustomerData(
   const subscriptionsPromise = queryCurrentUserSubscriptions(executor)()
   const sanBalancePromise = BROWSER ? queryCurrentUserSanBalance(executor)() : Promise.resolve()
 
-  subscriptionsPromise
+  return subscriptionsPromise
     .then((currentUser) => {
       if (!currentUser) return update(defaultValue)
 

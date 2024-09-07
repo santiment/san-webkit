@@ -11,7 +11,7 @@ export const useCustomerCtx = createCtx('useCustomerCtx', () => {
   if (BROWSER) reload()
 
   function reload() {
-    loadCustomerData(fetch, (data) => {
+    return loadCustomerData(fetch, (data) => {
       Object.assign(customer.$, data)
       customer.$ = customer.$
       currentUser = customer.$.currentUser

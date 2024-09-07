@@ -82,6 +82,7 @@
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "@types/eslint": "^9.6.1",
     "@types/gtag.js": "^0.0.20",
+    "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.19",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
@@ -125,6 +126,7 @@
     "svelte-runes": "^0.0.4",
     "svelte-sonner": "^0.3.27",
     "tailwind-variants": "^0.2.1",
+    "ua-parser-js": "^1.0.38",
     "vaul-svelte": "^0.3.2",
     "virtua": "^0.31.0",
     "zod": "^3.23.8"
