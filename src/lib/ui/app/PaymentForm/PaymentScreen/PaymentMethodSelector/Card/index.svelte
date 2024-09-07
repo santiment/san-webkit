@@ -77,6 +77,7 @@
           },
         },
         variables: {
+          fontSmooth: 'never',
           fontFamily: 'Proxima Nova, sans-serif',
           borderRadius: '4px',
           gridRowSpacing: '16px',

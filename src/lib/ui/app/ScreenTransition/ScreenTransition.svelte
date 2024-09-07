@@ -115,7 +115,7 @@
       {/if}
     </OnlyOnDevice>
 
-    <section class={cn('max-h-full min-h-full w-full', className)}>
+    <section class={cn('h-full max-h-full w-full', className)}>
       {@render children()}
     </section>
   </div>
