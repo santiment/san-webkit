@@ -5,32 +5,35 @@
 
 <Notifications></Notifications>
 
+{#snippet description()}
+  We will check you insight and <a
+    href="https://www.example.com"
+    target="_blank"
+    class="text-green"
+  >
+    publish it very soon
+  </a>
+{/snippet}
+
 <div class="flex flex-col justify-center divide-y p-6">
   <div class="flex gap-4">
     <Button
       variant="border"
       onclick={() =>
         notification.info('Thanks for your thoughts', {
-          description: 'We will check your insight and publish it very soon.',
-        })}>Info</Button
+          description,
+        })}
     >
+      Info
+    </Button>
 
-    <Button
-      variant="border"
-      onclick={() => notification.info('Notification channel settings is changed bla bla bla bla')}
-    >
+    <Button variant="border" onclick={() => notification.info('One line title without decription')}>
       Short Info
     </Button>
 
     <Button
       variant="border"
-      onclick={() =>
-        notification.info('Notification channel settings is changed bla bla bla bla', {
-          action: {
-            label: 'Got it',
-            onClick: () => console.log('!'),
-          },
-        })}
+      onclick={() => notification.info('Notification channel settings is changed')}
     >
       Info with button
     </Button>
@@ -49,10 +52,6 @@
       onclick={() =>
         notification.warning('Event has been created', {
           description: 'We will check your insight and publish it very soon.',
-          action: {
-            label: 'Undo',
-            onClick: () => console.log('!'),
-          },
         })}
       >Warning
     </Button>
