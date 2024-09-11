@@ -15,5 +15,9 @@ export {}
 declare global {
   interface Window {
     Intercom?: (...args: any[]) => void
+
+    getPageType?: (pathname: string) => string
+
+    gtag?: Gtag.Gtag
   }
 }

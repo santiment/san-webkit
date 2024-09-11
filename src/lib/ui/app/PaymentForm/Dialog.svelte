@@ -8,41 +8,38 @@
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import { usePaymentFormCtx } from './state.js'
+  import { SCREENS, usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
   import PlansScreen from './PlansScreen/index.svelte'
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
   import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+  import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
 
   let { defaultPlan = null }: TDialogProps & { defaultPlan?: null | TSubscriptionPlan } = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
   useStripeCtx()
   useCustomerCtx()
-
-  const SCREENS = ['1. Choose your plan', '2. Payment details']
-  let screen = $state(SCREENS[defaultPlan ? 1 : 0])
+  const { screen } = useScreenTransitionCtx(SCREENS)
 </script>
 
 <Dialog class="h-full w-full column">
-  <DialogHeader
-    screens={SCREENS}
-    disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}
-    bind:active={screen}
-  ></DialogHeader>
+  <DialogHeader disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}></DialogHeader>
+  {#if productsWithPlans.$.length === 0}
+    <div class="skeleton absolute bottom-0 left-0 right-0 top-0 z-50"></div>
+  {/if}
 
-  <div class="flex gap-10 overflow-y-scroll px-36 pb-20 pt-16">
-    {#if productsWithPlans.$.length === 0}
-      <div class="skeleton absolute bottom-0 left-0 right-0 top-0 z-50"></div>
-    {/if}
-
-    {#if screen === SCREENS[0]}
-      <PlansScreen onPlanSelect={() => (screen = SCREENS[1])}></PlansScreen>
+  <ScreenTransition
+    class="flex gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 lg:flex-wrap lg:px-5 xl:p-10"
+    style="--plans-sticky-top: -65px"
+  >
+    {#if screen.$ === SCREENS[0]}
+      <PlansScreen onPlanSelect={() => (screen.$ = SCREENS[1])}></PlansScreen>
     {:else}
-      <div class="w-full gap-10 self-start column">
-        <h1 class="color-rhino text-2xl font-medium">
+      <div class="w-full min-w-[400px] gap-10 self-start column lg:min-w-0">
+        <h1 class="color-rhino text-2xl font-medium lg:text-3xl">
           {#if subscriptionPlan.$.formatted}
             {subscriptionPlan.$.formatted.name} plan
           {:else}
@@ -57,5 +54,5 @@
 
       <OrderSummary></OrderSummary>
     {/if}
-  </div>
+  </ScreenTransition>
 </Dialog>

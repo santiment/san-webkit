@@ -102,7 +102,7 @@
   >
     Start Free Trial
   </Button>
-{:else}
+{:else if (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
@@ -111,10 +111,15 @@
     onclick={onSupportClick}
     {...anonymousProps}
   >
-    {#if (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
-      Change plan
-    {:else}
-      Upgrade
-    {/if}
+    Change plan
+  </Button>
+{:else}
+  <Button
+    variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
+    size="lg"
+    {...classes}
+    onclick={() => onPlanButtonClick?.(plan)}
+  >
+    Upgrade
   </Button>
 {/if}

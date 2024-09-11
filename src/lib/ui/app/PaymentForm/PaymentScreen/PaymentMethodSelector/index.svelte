@@ -21,7 +21,14 @@
   }
 </script>
 
-<Selector name="Payment method" smallGap active={selectedPaymentMethod} {options} {onSelect}>
+<Selector
+  name="Payment method"
+  smallGap
+  active={selectedPaymentMethod}
+  {options}
+  {onSelect}
+  class="no-scrollbar sm:-mx-5 sm:flex-nowrap sm:overflow-auto sm:px-5"
+>
   {#snippet children(option)}
     <h3 class="flex gap-2 center">
       <img src={option.img} alt="{option.name} image" class="h-6 max-h-6" />

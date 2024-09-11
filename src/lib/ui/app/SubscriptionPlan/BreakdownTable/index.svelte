@@ -54,7 +54,7 @@
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
-      <div class="tr bg-white">
+      <div class="tr sticky top-[var(--plans-sticky-top,0)] bg-white">
         <div class={cn('td-h', 'items-start')}>
           <h5 class="max-w-24 text-start text-lg-2 font-medium md:hidden">Compare plans</h5>
         </div>
