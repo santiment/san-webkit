@@ -16,64 +16,107 @@
   } = $props()
 </script>
 
-<div class="relative table w-full text-base [&>*]:border-b">
-  {@render children()}
+<div class="table w-full text-base">
+  <header class="sticky top-0 z-10 flex h-[200px] w-full border-b">
+    {@render children()}
+  </header>
 
-  {#each breakdown as { category, features, link }}
-    <div
-      class={cn(
-        'flex items-center justify-between px-6 pb-4 pt-10',
-        features.length === 0 && 'empty border-none pt-[53px]',
-      )}
-    >
-      <h4 class="flex items-center text-lg font-semibold">
-        {category}
+  <section class="">
+    {#each breakdown as { category, features, link }}
+      <section
+        class={cn(
+          'category-section md:pt-10 md:[&:not(:last-child)]:border-b',
+          features.length === 0 && 'border-none',
+        )}
+      >
+        <div class={cn('tr')}>
+          <h4 class="td-h items-center !bg-athens text-lg font-semibold md:!bg-white md:pt-10">
+            {category}
+
+            {#if link && link.url}
+              <Button
+                iconOnRight
+                icon="pointer"
+                href={link.url}
+                target="_blank"
+                class="ml-3 hidden border-l fill-green pl-3 text-base font-normal text-green md:flex"
+              >
+                {link.title}
+              </Button>
+            {/if}
+          </h4>
+
+          {#each plans as _}
+            <div class="flex-1 bg-athens md:hidden"></div>
+          {/each}
+        </div>
 
         {#if link && link.url}
-          <Button
-            iconOnRight
-            icon="pointer"
-            href={link.url}
-            target="_blank"
-            class="ml-3 border-l fill-green pl-3 text-base font-normal text-green"
-          >
-            {link.title}
-          </Button>
-        {/if}
-      </h4>
-    </div>
+          <div class="tr md:!hidden">
+            <Button
+              iconOnRight
+              icon="pointer"
+              href={link.url}
+              target="_blank"
+              class="td-h justify-end fill-green text-base font-normal text-green "
+            >
+              {link.title}
+            </Button>
 
-    {#each features as feature}
-      <div class="tr">
-        <Feature {plans} {feature} />
-      </div>
+            {#each plans as _}
+              <div class="flex-1"></div>
+            {/each}
+          </div>
+        {/if}
+
+        {#each features as feature}
+          <div class="tr">
+            <Feature {plans} {feature} />
+          </div>
+        {/each}
+      </section>
     {/each}
-  {/each}
+  </section>
 </div>
 
 <style lang="postcss">
   .table :global {
     .tr {
-      @apply flex divide-x text-center;
+      @apply flex w-full divide-x divide-x-reverse text-center md:!divide-x;
     }
 
     .tr:last-child {
       @apply border-none;
     }
 
+    .category-section > .tr:last-child {
+      .td,
+      .td-h {
+        @apply pb-10 md:pb-4;
+      }
+    }
+
     .td,
     .td-h {
       fill: var(--accent);
 
-      @apply flex flex-1 items-center px-6 py-4;
+      @apply flex items-center px-5 py-4 md:px-6;
+    }
+
+    .td {
+      @apply min-w-48 flex-1;
+    }
+
+    .tr:not(:first-child) {
+      & > .td,
+      & > .td-h {
+        @apply md:border-t;
+      }
     }
 
     .td-h {
-      @apply min-w-[331px] max-w-[330px];
-
-      :global(.desktop) & {
-        max-width: 350px;
-      }
+      @apply sticky left-0 w-60 flex-grow-0 border-r bg-white text-start;
+      @apply md:w-auto md:max-w-80 md:flex-1 md:border-r-0;
     }
   }
 </style>

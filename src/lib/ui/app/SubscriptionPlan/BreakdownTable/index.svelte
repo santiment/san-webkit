@@ -3,6 +3,7 @@
   // import Slides from '@/ui/Slides.svelte'
   import Table from './Table.svelte'
   // import Plan from './Plan.svelte'
+  import { cn } from '$ui/utils/index.js'
   import type { TSubscriptionPlan } from '../types.js'
   import {
     BUSINESS_PLANS_BREAKDOWN,
@@ -39,34 +40,30 @@
   // }
 </script>
 
-<section id="comparison" class={className}>
+<!-- TODO: Make a note about margin here -->
+<section id="comparison" class={cn('-mx-5 md:mx-0', className)}>
   <h2 class="mb-16 hidden text-center text-3xl font-medium md:block">
     Detailed breakdown of plans
   </h2>
 
-  <section class="rounded border" class:business={!isConsumerPlans}>
+  <section
+    class="flex overflow-x-auto rounded border md:overflow-clip"
+    class:business={!isConsumerPlans}
+  >
     <Table
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
-      <div class="tr sticky top-0 bg-white">
-        {#if comparedPlans.length > 1}
-          <div class="td-h"></div>
+      <div class="tr bg-white">
+        <div class={cn('td-h', 'items-start')}>
+          <h5 class="max-w-24 text-start text-lg-2 font-medium md:hidden">Compare plans</h5>
+        </div>
 
-          {#each comparedPlans as plan}
-            <div class="td">
-              <Plan {plan}></Plan>
-            </div>
-          {/each}
-        {:else}
-          <!--
-       <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
-          {#each plans as plan (plan.id)}
-             <Plan {plan} {plans} />
-          {/each}
-        </Slides>
-         -->
-        {/if}
+        {#each comparedPlans as plan}
+          <div class="td">
+            <Plan {plan}></Plan>
+          </div>
+        {/each}
       </div>
     </Table>
   </section>
