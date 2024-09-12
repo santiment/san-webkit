@@ -32,14 +32,14 @@
   {/if}
 
   <ScreenTransition
-    class="flex gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 lg:flex-wrap lg:px-5 xl:p-10"
+    class="flex gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 lg:p-10 md:flex-wrap md:px-5"
     style="--plans-sticky-top: -65px"
   >
     {#if screen.$ === SCREENS[0]}
       <PlansScreen onPlanSelect={() => (screen.$ = SCREENS[1])}></PlansScreen>
     {:else}
-      <div class="w-full min-w-[400px] gap-10 self-start column lg:min-w-0">
-        <h1 class="color-rhino text-2xl font-medium lg:text-3xl">
+      <div class="w-full min-w-[400px] gap-10 self-start column md:min-w-0">
+        <h1 class="color-rhino text-2xl font-medium md:text-3xl">
           {#if subscriptionPlan.$.formatted}
             {subscriptionPlan.$.formatted.name} plan
           {:else}

@@ -15,6 +15,13 @@ export default {
       },
     },
 
+    screens: {
+      lg: { max: '1279px' }, //Laptop
+      md: { max: '992px' }, //Tablet
+      sm: { max: '768x' }, //Phone
+      xs: { max: '480px' }, //Phone XS
+    },
+
     fontSize: {
       '2xs': ['10px', '14px'],
       xs: ['12px', '16px'],

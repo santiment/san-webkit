@@ -27,7 +27,7 @@
   active={selectedPaymentMethod}
   {options}
   {onSelect}
-  class="no-scrollbar sm:-mx-5 sm:flex-nowrap sm:overflow-auto sm:px-5"
+  class="no-scrollbar xs:-mx-5 xs:flex-nowrap xs:overflow-auto xs:px-5"
 >
   {#snippet children(option)}
     <h3 class="flex gap-2 center">
