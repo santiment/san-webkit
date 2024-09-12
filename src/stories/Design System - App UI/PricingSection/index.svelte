@@ -14,6 +14,6 @@
   })
 </script>
 
-<main class="py-16">
+<main class="px-5 py-16 sm:px-0">
   <PricingSection {...props}></PricingSection>
 </main>

@@ -82,7 +82,7 @@
 <style lang="postcss">
   .table :global {
     .tr {
-      @apply flex w-full divide-x text-center sm:divide-x-reverse;
+      @apply flex w-full divide-x text-center sm:divide-x-0;
     }
 
     .tr:last-child {
