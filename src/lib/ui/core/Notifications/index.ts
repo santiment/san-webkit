@@ -1,12 +1,22 @@
-import { toast } from 'svelte-sonner'
+import { toast, type ExternalToast } from 'svelte-sonner'
 
 export { default } from './Notifications.svelte'
-import component from './Notification.svelte'
+import Component from './Notification.svelte'
+import type { ComponentType, Snippet } from 'svelte'
 
-function createToast(icon: string, ...rest: any) {
-  const [message, options] = rest
+type ModifiedExternalToastDescription<T extends ComponentType = ComponentType> = Omit<
+  ExternalToast<T>,
+  'description'
+> & {
+  description?: string | Snippet
+}
 
-  return toast.custom(component, {
+function createToast(
+  icon: string,
+  message: string,
+  options: ModifiedExternalToastDescription | undefined,
+) {
+  return toast.custom(Component, {
     componentProps: {
       icon,
       message,
@@ -15,9 +25,14 @@ function createToast(icon: string, ...rest: any) {
   })
 }
 
-toast.info = (...rest) => createToast('info', ...rest)
-toast.error = (...rest) => createToast('error', ...rest)
-toast.warning = (...rest) => createToast('warning', ...rest)
-toast.success = (...rest) => createToast('checkmark-circle', ...rest)
+const notification: Record<
+  'info' | 'error' | 'warning' | 'success',
+  (message: string, options?: ModifiedExternalToastDescription | undefined) => string | number
+> = {
+  info: (...rest) => createToast('info', ...rest),
+  error: (...rest) => createToast('error', ...rest),
+  warning: (...rest) => createToast('warning', ...rest),
+  success: (...rest) => createToast('checkmark-circle', ...rest),
+}
 
-export { toast as notification }
+export { notification }

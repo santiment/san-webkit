@@ -8,13 +8,12 @@
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
     description?: string | Snippet
-    action?: { label: string; onClick: VoidFunction; className?: string }
+    action?: { label: string; onClick: (event: MouseEvent) => void }
   }
 
   const { icon, message, description, action }: Props = $props()
 
   const dispatch = createEventDispatcher()
-  const hasAction = action && action.onClick && action.label
   const ICONS_MAP: { [key: string]: { fill: string; h?: number; w?: number } } = {
     info: { fill: 'fill-waterloo' },
     'checkmark-circle': { fill: 'fill-green' },
@@ -26,7 +25,7 @@
 <div
   class={cn(
     'w-[460px] gap-4 rounded-md border bg-white pl-6 pr-2.5 pt-5 shadow-notification row max-sm:w-full ',
-    description || !hasAction ? 'pb-6' : 'pb-5',
+    description || !action ? 'pb-6' : 'pb-5',
   )}
 >
   <figure class={cn('flex h-6 w-4 center', ICONS_MAP[icon].fill)}>
@@ -43,9 +42,9 @@
         {/if}
       </p>
     {/if}
-    {#if hasAction}
+    {#if action}
       <div class="mt-1">
-        <Button variant="fill" class={action?.className} onclick={action.onClick}>
+        <Button variant="fill" onclick={action.onClick}>
           {action.label}
         </Button>
       </div>

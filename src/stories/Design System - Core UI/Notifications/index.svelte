@@ -1,6 +1,6 @@
 <script>
-  import Button from '$ui/core/Button/index'
-  import Notifications, { notification } from '$ui/core/Notifications/index'
+  import Button from '$ui/core/Button'
+  import Notifications, { notification } from '$ui/core/Notifications'
 </script>
 
 <Notifications></Notifications>
