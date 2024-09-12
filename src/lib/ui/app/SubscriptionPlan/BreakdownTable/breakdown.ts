@@ -225,7 +225,12 @@ export const BUSINESS_PLANS_BREAKDOWN = [
   },
 ]
 
-export const SubscriptionPlanBreakdown = {
+export type PlanFeatureBreakdown = boolean | string | number
+
+export const SubscriptionPlanBreakdown: Record<
+  string,
+  undefined | Record<string, PlanFeatureBreakdown>
+> = {
   [SubscriptionPlan.FREE.key]: {
     'Browser tabs': 'Up to 4',
     'Bi-weekly report': false,
@@ -377,4 +382,4 @@ export const SubscriptionPlanBreakdown = {
 
     'Custom Alerts': '20',
   },
-} as Record<string, undefined | Record<string, any>>
+}

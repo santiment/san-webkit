@@ -22,16 +22,23 @@
   const { device } = useDeviceCtx()
 
   const activePlan = ssd(() => plans[0])
-
   const isPhone = $derived(device.$.isPhone)
+  const plansFeatures = $derived(getPlanFeatures(plans, activePlan.$, isPhone))
 
-  const plansFeatures = $derived(
-    isPhone
-      ? activePlan.$
-        ? [SubscriptionPlanBreakdown[activePlan.$.name]]
-        : []
-      : plans.map(({ name }) => SubscriptionPlanBreakdown[name]).filter(Boolean),
-  ) as Record<string, any>[]
+  function getPlanFeatures(
+    plans: TSubscriptionPlan[],
+    activePlan: TSubscriptionPlan,
+    isPhone: boolean,
+  ) {
+    if (!isPhone) {
+      return plans
+        .map(({ name }) => SubscriptionPlanBreakdown[name])
+        .filter((f): f is Exclude<typeof f, undefined> => Boolean(f))
+    }
+
+    const activePlanBreakdown = SubscriptionPlanBreakdown[activePlan?.name]
+    return activePlanBreakdown ? [activePlanBreakdown] : []
+  }
 
   function onSlideChange(plan: TSubscriptionPlan) {
     activePlan.$ = plan
