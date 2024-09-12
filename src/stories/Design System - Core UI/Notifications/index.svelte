@@ -33,7 +33,27 @@
 
     <Button
       variant="border"
-      onclick={() => notification.info('Notification channel settings is changed')}
+      onclick={() =>
+        notification.info('Notification channel settings is changed', {
+          action: {
+            label: 'Undo',
+            onClick: () => console.log('!'),
+          },
+        })}
+    >
+      Info with button
+    </Button>
+
+    <Button
+      variant="border"
+      onclick={() =>
+        notification.info('Notification channel settings is changed', {
+          description,
+          action: {
+            label: 'Undo',
+            onClick: () => console.log('!'),
+          },
+        })}
     >
       Info with button
     </Button>
