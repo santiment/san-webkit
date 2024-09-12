@@ -17,7 +17,7 @@
 </script>
 
 <div class="table w-full text-base">
-  <header class="sticky top-0 z-10 flex h-[200px] w-full border-b">
+  <header class="sticky top-0 z-10 flex w-full border-b">
     {@render children()}
   </header>
 
@@ -47,24 +47,24 @@
           </h4>
 
           {#each plans as _}
-            <div class="hidden flex-1 bg-athens sm:block"></div>
+            <div class="td !hidden bg-athens sm:!flex"></div>
           {/each}
         </div>
 
         {#if link && link.url}
-          <div class="tr !hidden sm:block">
+          <div class="tr !hidden sm:!flex">
             <Button
               iconOnRight
               icon="pointer"
               href={link.url}
               target="_blank"
-              class="td-h justify-end fill-green text-base font-normal text-green "
+              class="td-h justify-end fill-green text-base font-normal text-green"
             >
               {link.title}
             </Button>
 
             {#each plans as _}
-              <div class="flex-1"></div>
+              <div class="td"></div>
             {/each}
           </div>
         {/if}
@@ -115,7 +115,7 @@
     }
 
     .td-h {
-      @apply sticky left-0 max-w-80 flex-1 bg-white text-start sm:w-60 sm:flex-grow-0 sm:border-r;
+      @apply max-w-80 flex-1 bg-white text-start sm:w-60 sm:border-r;
     }
   }
 </style>

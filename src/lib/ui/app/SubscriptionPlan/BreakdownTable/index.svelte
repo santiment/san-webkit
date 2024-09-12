@@ -1,67 +1,68 @@
 <script lang="ts">
-  // import { Device, responsive$ } from '@/responsive'
-  // import Slides from '@/ui/Slides.svelte'
-  import Table from './Table.svelte'
-  // import Plan from './Plan.svelte'
-  import { cn } from '$ui/utils/index.js'
   import type { TSubscriptionPlan } from '../types.js'
+
+  import { ssd } from 'svelte-runes'
+  import { cn } from '$ui/utils/index.js'
+  import Slides from '$ui/core/Slides/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import {
     BUSINESS_PLANS_BREAKDOWN,
     CONSUMER_PLANS_BREAKDOWN,
     SubscriptionPlanBreakdown,
   } from './breakdown.js'
+  import Table from './Table.svelte'
   import Plan from './Plan.svelte'
 
-  let {
+  const {
     class: className,
     plans,
     isConsumerPlans = true,
   }: { class?: string; plans: TSubscriptionPlan[]; isConsumerPlans?: boolean } = $props()
 
-  let activeSlide = 0
+  const { device } = useDeviceCtx()
 
-  // let comparedPlans = $derived(getPlansLayout(plans, activeSlide, $responsive$))
-  let comparedPlans = $derived(getPlansLayout(plans, activeSlide))
-  let plansFeatures = $derived(
-    comparedPlans.map(({ name }) => SubscriptionPlanBreakdown[name]).filter(Boolean),
+  const activePlan = ssd(() => plans[0])
+
+  const isPhone = $derived(device.$.isPhone)
+
+  const plansFeatures = $derived(
+    isPhone
+      ? activePlan.$
+        ? [SubscriptionPlanBreakdown[activePlan.$.name]]
+        : []
+      : plans.map(({ name }) => SubscriptionPlanBreakdown[name]).filter(Boolean),
   ) as Record<string, any>[]
 
-  function getPlansLayout(plans: TSubscriptionPlan[], _slide: number) {
-    return plans
+  function onSlideChange(plan: TSubscriptionPlan) {
+    activePlan.$ = plan
   }
-  // function getPlansLayout(plans: TSubscriptionPlan[], slide: number, device: string) {
-  //   switch (device) {
-  //     case Device.Desktop:
-  //     case Device.Tablet:
-  //       return plans
-  //   }
-
-  //   return plans.slice(slide, slide + 1)
-  // }
 </script>
 
 <!-- TODO: Make a note about margin here -->
 <section id="comparison" class={cn('sm:-mx-5', className)}>
   <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
-  <section
-    class="flex overflow-clip rounded border sm:overflow-x-auto"
-    class:business={!isConsumerPlans}
-  >
+  <section class="flex overflow-clip rounded border" class:business={!isConsumerPlans}>
     <Table
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
       <div class="tr sticky top-[var(--plans-sticky-top,0)] bg-white">
-        <div class={cn('td-h', 'items-start')}>
-          <h5 class="hidden max-w-24 text-start text-lg-2 font-medium sm:block">Compare plans</h5>
-        </div>
+        <div class="td-h sm:!hidden"></div>
 
-        {#each comparedPlans as plan}
-          <div class="td">
-            <Plan {plan}></Plan>
-          </div>
-        {/each}
+        {#if isPhone}
+          <Slides items={plans} onChange={onSlideChange}>
+            {#snippet item(plan)}
+              <Plan {plan} class="px-4"></Plan>
+            {/snippet}
+          </Slides>
+        {:else}
+          {#each plans as plan}
+            <div class="td">
+              <Plan {plan}></Plan>
+            </div>
+          {/each}
+        {/if}
       </div>
     </Table>
   </section>
@@ -76,12 +77,6 @@
     :global(.desktop) & {
       border-radius: 4px;
     }
-  }
-
-  .slides {
-    --slides-v-padding: 22px 0 52px;
-    --slides-h-padding: 16px;
-    --indicators-bottom: 20px;
   }
 
   .business {
