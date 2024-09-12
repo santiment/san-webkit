@@ -1,9 +1,16 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import Picture from '$ui/app/Picture/index.js'
+
+  let {
+    ref,
+  }: {
+    ref?: ComponentProps<Button>['ref']
+  } = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -12,11 +19,14 @@
 </script>
 
 <Button
+  {ref}
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   href={currentUser.$$ ? '/account' : '/login'}
   class={cn(
     'flex size-8 rounded-full !fill-waterloo !text-waterloo center',
-    currentUser.$$ ? 'ring-[1.5px] ring-inset hover:ring-[2.5px]' : 'bg-athens hover:bg-porcelain',
+    currentUser.$$
+      ? 'ring-[1.5px] ring-inset hover:ring-[2.5px] data-[state=open]:ring-[2.5px]'
+      : 'bg-athens hover:bg-porcelain',
   )}
 >
   {#if currentUser.$$}

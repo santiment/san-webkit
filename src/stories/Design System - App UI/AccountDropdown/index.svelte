@@ -2,4 +2,6 @@
   import AccountDropdown from '$ui/app/AccountDropdown'
 </script>
 
-<AccountDropdown></AccountDropdown>
+<div class="flex center">
+  <AccountDropdown></AccountDropdown>
+</div>

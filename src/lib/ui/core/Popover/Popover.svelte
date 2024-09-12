@@ -8,7 +8,7 @@
   let {
     class: className,
     content,
-    children: _children,
+    children,
     noStyles = false,
 
     align,
@@ -36,11 +36,7 @@
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
   <Popover.Trigger {...triggerProps} class="hidden" asChild let:builder>
-    <Trigger {builder}>
-      {#snippet children({ ref })}
-        {@render _children({ ref })}
-      {/snippet}
-    </Trigger>
+    <Trigger {builder} {children}></Trigger>
   </Popover.Trigger>
 
   <Popover.Content
