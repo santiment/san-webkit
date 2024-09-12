@@ -7,6 +7,7 @@
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
+  import { useLogoutFlow } from '$lib/flow/logout/index.js'
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
 
@@ -18,10 +19,11 @@
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
+  const { startLogout } = useLogoutFlow()
 
   function onLogoutClick() {
     trackEvent('logout', { timestamp: Date.now() })
-    onLogout?.()
+    startLogout().then(onLogout)
   }
 </script>
 
