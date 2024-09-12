@@ -75,7 +75,7 @@ function onCheckNftClick() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-RApgAa">
+  <Setting class="column subscriptions-ZFCNsG">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -96,7 +96,7 @@ function onCheckNftClick() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-ZDmqw9 justify">
+    <Setting class="setting-1EDa3b justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -109,7 +109,7 @@ function onCheckNftClick() {
     </Setting>
   {/if}
 
-  <Setting class="setting-ZDmqw9 justify">
+  <Setting class="setting-1EDa3b justify">
     <div>
       SanR NFT
       <div class="description c-waterloo sanr-description">
@@ -129,7 +129,7 @@ function onCheckNftClick() {
     </button>
   </Setting>
 
-  <Setting class="setting-ZDmqw9 justify">
+  <Setting class="setting-1EDa3b justify">
     <div>
       Payment method
 
@@ -158,7 +158,7 @@ function onCheckNftClick() {
     </div>
   </Setting>
 
-  <Setting class="setting-ZDmqw9 justify">
+  <Setting class="setting-1EDa3b justify">
     <div>
       Billing history
 
@@ -221,7 +221,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-RApgAa) {
+:global(.subscriptions-ZFCNsG) {
   gap: 28px;
 }
 
@@ -247,8 +247,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-ZDmqw9),
-:global(.phone-xs) :global(.setting-ZDmqw9) {
+:global(.phone) :global(.setting-1EDa3b),
+:global(.phone-xs) :global(.setting-1EDa3b) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -269,9 +269,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-RApgAa),
-:global(.tablet) :global(.subscriptions-RApgAa),
-:global(.phone-xs) :global(.subscriptions-RApgAa) {
+:global(.phone) :global(.subscriptions-ZFCNsG),
+:global(.tablet) :global(.subscriptions-ZFCNsG),
+:global(.phone-xs) :global(.subscriptions-ZFCNsG) {
   flex-direction: column;
 }
 :global(.phone) plans-section,

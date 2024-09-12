@@ -1,3 +1,4 @@
+export declare function parseJson<T>(data: string): T | undefined;
 export declare function saveValue(key: string, value: string): void;
 export declare function saveJson<T>(key: string, value: T): T;
 export declare function getSavedValue(key: string, defaultValue?: string): string | undefined;

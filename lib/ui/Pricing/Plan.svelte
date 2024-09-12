@@ -59,7 +59,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-aSaV5h" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-2EQhz6" />
       {feature}
     </div>
   {/each}
@@ -131,7 +131,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
   max-width: 160px;
 }
 
-:global(.checkmark-aSaV5h) {
+:global(.checkmark-2EQhz6) {
   margin: 2px 10px 0 0;
   fill: var(--fill-checkmark, var(--accent));
 }</style>

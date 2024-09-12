@@ -58,7 +58,7 @@ function onSubmit({ currentTarget }) {
           <Svg illus {...CardBrandIllustration.Visa} class="mrg-m mrg--r" />
           <Svg illus {...CardBrandIllustration.MasterCard} />
 
-          <Checkmark class="checkmark-MtwVMc {isCardValid ? 'valid-ha4dzA' : ''}" />
+          <Checkmark class="checkmark-s2pOWj {isCardValid ? 'valid-S6rjsw' : ''}" />
         </div>
 
         <div class="dots row c-waterloo">
@@ -152,11 +152,11 @@ button {
   border: 1px solid var(--porcelain);
 }
 
-:global(.checkmark-MtwVMc) {
+:global(.checkmark-s2pOWj) {
   background: var(--porcelain) !important;
 }
 
-:global(.valid-ha4dzA) {
+:global(.valid-S6rjsw) {
   background: var(--green-light-1) !important;
   fill: var(--green) !important;
 }</style>

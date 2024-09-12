@@ -4,12 +4,12 @@ export let isActive = false;
 export let item;
 </script>
 
-<Item class="s-oau3l8" {item} on:click>
+<Item class="s-7vyvrw" {item} on:click>
   <Checkbox as="span" {isActive} />
 </Item>
 
 <style>
-  :global(.s-oau3l8) {
+  :global(.s-7vyvrw) {
     padding: 0 0 16px;
     --color-hover: var(--green);
   }
