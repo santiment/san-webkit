@@ -18,7 +18,7 @@ export default {
     screens: {
       lg: { max: '1279px' }, //Laptop
       md: { max: '992px' }, //Tablet
-      sm: { max: '768x' }, //Phone
+      sm: { max: '768px' }, //Phone
       xs: { max: '480px' }, //Phone XS
     },
 
