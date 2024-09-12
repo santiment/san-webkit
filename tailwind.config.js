@@ -12,6 +12,10 @@ export default {
       borderColor: {
         DEFAULT: 'var(--porcelain)',
       },
+      boxShadow: {
+        notification:
+          '0px 2px 24px 0px rgba(24, 27, 43, 0.04), 1px 3px 7px 0px rgba(47, 53, 77, 0.05)',
+      },
     },
 
     fontSize: {

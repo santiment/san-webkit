@@ -34,10 +34,11 @@
     <Button
       variant="border"
       onclick={() =>
-        notification.info('Notification channel settings is changed', {
+        notification.info('Informational', {
+          description: 'We will check your insight and publish it very soon',
           action: {
-            label: 'Undo',
-            onClick: () => console.log('!'),
+            label: 'Button',
+            onClick: () => console.log('test'),
           },
         })}
     >
@@ -51,7 +52,7 @@
           description,
           action: {
             label: 'Undo',
-            onClick: () => console.log('!'),
+            onClick: () => console.log('test'),
           },
         })}
     >
@@ -70,8 +71,9 @@
     <Button
       variant="border"
       onclick={() =>
-        notification.warning('Event has been created', {
-          description: 'We will check your insight and publish it very soon.',
+        notification.warning('Warning', {
+          description:
+            'To activate your SanR NFT subscription, you will need to cancel your existing Sanbase Pro subscription first.',
         })}
       >Warning
     </Button>
