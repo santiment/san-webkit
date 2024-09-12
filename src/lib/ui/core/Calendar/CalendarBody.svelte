@@ -16,7 +16,7 @@
   const Base = range ? RangeCalendar : Calendar
 </script>
 
-<div class="month flex flex-col space-y-4 px-3 pb-3 pt-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+<div class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 xs:flex-col xs:space-y-4">
   {#each months as month}
     <Base.Grid class="w-full border-collapse select-none space-y-1">
       <Base.GridHead>

@@ -55,7 +55,7 @@
 </script>
 
 <div
-  class="min-w-[400px] max-w-[480px] gap-4 self-start column lg:mt-10 lg:min-w-0 lg:max-w-full lg:gap-2 lg:[&>*]:-mx-5 lg:[&>*]:rounded-none"
+  class="min-w-[400px] max-w-[480px] gap-4 self-start column md:mt-10 md:min-w-0 md:max-w-full md:gap-2 md:[&>*]:-mx-5 md:[&>*]:rounded-none"
 >
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
     <h2 class="text-lg font-semibold text-rhino">
@@ -165,7 +165,7 @@
   </section>
 
   {#if isCardPayment || isAnnualBilling}
-    <section class="gap-6 rounded-lg bg-athens px-8 py-6 text-rhino column lg:-mb-10">
+    <section class="gap-6 rounded-lg bg-athens px-8 py-6 text-rhino column md:-mb-10">
       <Explanation price={planPrice}></Explanation>
     </section>
   {/if}
