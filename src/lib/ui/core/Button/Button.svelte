@@ -55,7 +55,7 @@
       variant: {
         fill: 'bg-green fill-white-day text-white-day hover:bg-green-hover',
         border: 'border bg-white px-[19px] py-[5px]',
-        ghost: 'px-3 hover:bg-athens hover:text-green',
+        ghost: 'px-2.5 hover:bg-athens hover:text-green',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
@@ -93,7 +93,7 @@
       children: !!children,
     }),
 
-    variant && icon && 'px-3',
+    variant && icon && 'px-2.5',
     variant && rest.disabled && '!bg-athens',
 
     !children && icon && 'size-8 p-0 center',

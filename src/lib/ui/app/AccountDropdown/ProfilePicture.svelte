@@ -17,7 +17,7 @@
   const { customer, currentUser } = useCustomerCtx()
 
   const isPro = $derived(customer.$.isPro)
-  const isBusinessPro = $derived(customer.$.isBusinessPro)
+  const isBusinessPro = $derived(customer.$.isBusinessPro || customer.$.isCustom)
 </script>
 
 <Button

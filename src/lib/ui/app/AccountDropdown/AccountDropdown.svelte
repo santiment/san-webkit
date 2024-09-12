@@ -1,91 +1,62 @@
 <script lang="ts">
+  import { type ComponentProps } from 'svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { onSupportClick } from '$lib/utils/support.js'
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
   import ProfilePicture from './ProfilePicture.svelte'
+  import AccountInfo from './AccountInfo.svelte'
 
-  let { version = '1.0.0' } = $props()
+  let {
+    version = '1.0.0',
+    onClassicClick,
+    onLogout,
+  }: { version?: string; onClassicClick?: () => void; onLogout?: () => void } = $props()
 
-  const { customer, currentUser } = useCustomerCtx()
+  const { currentUser } = useCustomerCtx()
+
+  function onLogoutClick() {
+    trackEvent('logout', { timestamp: Date.now() })
+    onLogout?.()
+  }
 </script>
 
-<Tooltip isOpened class="w-[240px] divide-y p-0 column">
+<Tooltip class="w-[240px] divide-y p-0 column">
   {#snippet children({ ref })}
     <ProfilePicture {ref}></ProfilePicture>
   {/snippet}
 
-  {#snippet content()}
+  {#snippet content({ close })}
     {#if currentUser.$$}
-      {@const { planName, isEligibleForSanbaseTrial, trialDaysLeft, isTrialSubscription } =
-        customer.$}
-      {@const { isFree, isCustom, isBusinessSubscription } = customer.$}
-      <section
-        class="!gap-2 !px-6 !pb-[14px] !pt-4"
-        style={isBusinessSubscription
-          ? '--c-orange:var(--c-blue);--c-orange-hover:var(--c-blue-hover)'
-          : ''}
-      >
-        <div class="flex items-center gap-2">
-          <ProfilePicture class="min-w-8"></ProfilePicture>
-
-          <div class="min-w-0">
-            <h4 class="font-medium text-rhino single-line">
-              @{currentUser.$$.username}
-            </h4>
-            {#if currentUser.$$.email}
-              <p class="text-xs text-waterloo single-line">
-                {currentUser.$$.email}
-              </p>
-            {/if}
-          </div>
-        </div>
-
-        <p class="text-xs font-medium text-waterloo">
-          Plan: {planName || 'Free'}{isTrialSubscription ? ', Free Trial' : ''}
-        </p>
-
-        {#if isEligibleForSanbaseTrial}
-          <Button variant="fill" class="w-max bg-orange hover:bg-orange-hover" href="/pricing">
-            Start Free 14-day Trial
-          </Button>
-        {:else if isFree || planName.includes('Pro')}
-          <Button variant="fill" class="w-max bg-orange hover:bg-orange-hover" href="/pricing">
-            Upgrade
-          </Button>
-        {:else if !isCustom}
-          <Button variant="fill" class="w-max bg-orange hover:bg-orange-hover" href="/pricing">
-            Learn about MAX
-          </Button>
-        {/if}
-
-        {#if isTrialSubscription}
-          <p class="-mt-1 text-orange">
-            Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
-          </p>
-        {:else if planName.includes('Pro')}
-          <a href="/pricing" class="-mt-1 text-orange">Learn about {planName}</a>
-        {/if}
-      </section>
+      <AccountInfo></AccountInfo>
 
       <section>
-        <div class="px-3">
+        <div class="px-2.5">
           Version: <span class="text-waterloo">{version}</span>
         </div>
       </section>
 
       <section>
-        <Button variant="ghost" href="/account">Historical balance</Button>
-        <Button variant="ghost" href="/account">Account settings</Button>
-        <Button variant="ghost" href="/account">My profile</Button>
-        <Button variant="ghost" href="/account">My watchlists</Button>
-        <Button variant="ghost" href="/account">My insights</Button>
-        <Button variant="fill" href="/account" class="ml-2 w-max">Write insight</Button>
+        {@render sanbaseLink('Historical balance', '/labs/balance')}
+
+        {@render sanbaseLink('Account settings', '/account')}
+
+        {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
+
+        {@render sanbaseLink('My watchlists', '/watchlists')}
+
+        {@render sanbaseLink('My insights', '/insights/my')}
+
+        {@render sanbaseLink('Write insight', '/insights/new', {
+          variant: 'fill',
+          class: 'ml-2.5 w-max',
+        })}
       </section>
     {:else}
       <section>
-        <Button variant="ghost" href="/login">Log in</Button>
+        {@render sanbaseLink('Log in', '/login', { icon: 'user', class: 'fill-green text-green' })}
       </section>
     {/if}
 
@@ -95,24 +66,38 @@
         <Switch></Switch>
       </Button>
 
-      <Button variant="ghost" icon="sparkle" iconOnRight iconSize={12} class="fill-yellow-hover">
-        Referral program
-      </Button>
+      {@render sanbaseLink('Referral Program', '/account#affiliate', {
+        icon: 'sparkle',
+        iconOnRight: true,
+        iconSize: 12,
+        class: 'fill-yellow-hover',
+      })}
 
-      <Button variant="ghost">Classic version</Button>
+      {#if onClassicClick}
+        <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
+      {/if}
 
-      <Button variant="ghost" href="mailto:support@santiment.net" onclick={onSupportClick}>
-        Contact us
-      </Button>
+      {@render sanbaseLink('Contact us', 'mailto:support@santiment.net', {
+        onclick: onSupportClick,
+      })}
 
       {#if currentUser.$$}
-        <Button variant="ghost" icon="logout" class="fill-waterloo hover:fill-red hover:text-red">
+        <Button
+          variant="ghost"
+          icon="logout"
+          class="fill-waterloo hover:fill-red hover:text-red"
+          onclick={() => (close(), onLogoutClick())}
+        >
           Log out
         </Button>
       {/if}
     </section>
   {/snippet}
 </Tooltip>
+
+{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<Button> = {})}
+  <Button variant="ghost" {...props} {href} data-source="account_dropdown">{text}</Button>
+{/snippet}
 
 <style lang="postcss">
   section {

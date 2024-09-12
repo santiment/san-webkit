@@ -20,19 +20,20 @@ export const config = defineConfig({
     WebkitSvg(),
 
     // Put the Sentry vite plugin after all other plugins
-    sentryVitePlugin({
-      debug: true,
-      org: 'sentry',
-      project: 'sanbase-app',
-      url: process.env.SENTRY_URL,
+    process.env.NODE_ENV === 'production' &&
+      sentryVitePlugin({
+        debug: true,
+        org: 'sentry',
+        project: 'sanbase-app',
+        url: process.env.SENTRY_URL,
 
-      sourcemaps: {
-        filesToDeleteAfterUpload: '**/*.map',
-      },
+        sourcemaps: {
+          filesToDeleteAfterUpload: '**/*.map',
+        },
 
-      // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-    }),
+        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+      }),
   ],
 
   test: {

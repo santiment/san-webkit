@@ -129,3 +129,18 @@ export const BusinessMax: Story = {
     }),
   },
 }
+
+export const Enterprise: Story = {
+  name: 'Enterprise',
+
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: {
+          custom: true,
+          monthly: true,
+        },
+      },
+    }),
+  },
+}
