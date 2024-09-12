@@ -31,7 +31,7 @@
       {@const isActive = option === active}
       <button
         class={cn(
-          'min-w-max gap-3 whitespace-nowrap rounded-lg border border-athens bg-athens px-4 py-[7px] column  lg:py-3',
+          'min-w-max gap-3 whitespace-nowrap rounded-lg border border-athens bg-athens px-4 py-[7px] column  md:py-3',
           !smallGap && 'flex-1',
           isActive && 'border-green bg-green-light-1',
         )}
