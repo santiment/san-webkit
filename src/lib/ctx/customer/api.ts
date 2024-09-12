@@ -232,6 +232,7 @@ export function loadCustomerData(
           {},
           defaultValue,
           currentUser,
+          { currentUser },
           getCustomerSubscriptionData(primarySubscription),
           {
             isLoggedIn: true,
