@@ -1,4 +1,4 @@
-function parseJson<T>(data: string): T | undefined {
+export function parseJson<T>(data: string): T | undefined {
   try {
     return JSON.parse(data)
   } catch (e) {
