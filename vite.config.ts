@@ -1,9 +1,9 @@
 import { sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig, mergeConfig } from 'vitest/config'
-import mkcert from 'vite-plugin-mkcert'
 import { execSync } from 'node:child_process'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
+import { mkcert } from './scripts/mkcert.js'
 
 const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
 const GQL_SERVER_FALLBACK = BACKEND_URL + '/graphql'
@@ -15,7 +15,7 @@ const GIT_HEAD =
 
 export const config = defineConfig({
   plugins: [
-    mkcert({ savePath: './mkcert', hosts: ['local.santiment.net'] }),
+    mkcert(),
     sveltekit(),
     WebkitSvg(),
 
