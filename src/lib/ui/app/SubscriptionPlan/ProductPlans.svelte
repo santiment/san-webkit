@@ -33,7 +33,7 @@
   })
 </script>
 
-<section class="flex flex-col divide-y rounded-lg border md:flex-row md:divide-x md:divide-y-0">
+<section class="flex divide-x rounded-lg border sm:flex-col sm:divide-y">
   {#if plans}
     {#each plans.billingGroupPlans as billingGroup}
       <PlanCard {billingGroup}></PlanCard>

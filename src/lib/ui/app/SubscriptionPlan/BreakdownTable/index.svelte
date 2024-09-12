@@ -41,13 +41,11 @@
 </script>
 
 <!-- TODO: Make a note about margin here -->
-<section id="comparison" class={cn('-mx-5 md:mx-0', className)}>
-  <h2 class="mb-16 hidden text-center text-3xl font-medium md:block">
-    Detailed breakdown of plans
-  </h2>
+<section id="comparison" class={cn('sm:-mx-5', className)}>
+  <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
   <section
-    class="flex overflow-x-auto rounded border md:overflow-clip"
+    class="flex overflow-clip rounded border sm:overflow-x-auto"
     class:business={!isConsumerPlans}
   >
     <Table
@@ -56,7 +54,7 @@
     >
       <div class="tr sticky top-[var(--plans-sticky-top,0)] bg-white">
         <div class={cn('td-h', 'items-start')}>
-          <h5 class="max-w-24 text-start text-lg-2 font-medium md:hidden">Compare plans</h5>
+          <h5 class="hidden max-w-24 text-start text-lg-2 font-medium sm:block">Compare plans</h5>
         </div>
 
         {#each comparedPlans as plan}

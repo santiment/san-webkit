@@ -25,12 +25,12 @@
     {#each breakdown as { category, features, link }}
       <section
         class={cn(
-          'category-section md:pt-10 md:[&:not(:last-child)]:border-b',
+          'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b',
           features.length === 0 && 'border-none',
         )}
       >
         <div class={cn('tr')}>
-          <h4 class="td-h items-center !bg-athens text-lg font-semibold md:!bg-white md:pt-10">
+          <h4 class="td-h items-center pt-10 text-lg font-semibold sm:!bg-athens sm:pt-0">
             {category}
 
             {#if link && link.url}
@@ -39,7 +39,7 @@
                 icon="pointer"
                 href={link.url}
                 target="_blank"
-                class="ml-3 hidden border-l fill-green pl-3 text-base font-normal text-green md:flex"
+                class="ml-3 flex border-l fill-green pl-3 text-base font-normal text-green sm:hidden"
               >
                 {link.title}
               </Button>
@@ -47,12 +47,12 @@
           </h4>
 
           {#each plans as _}
-            <div class="flex-1 bg-athens md:hidden"></div>
+            <div class="hidden flex-1 bg-athens sm:block"></div>
           {/each}
         </div>
 
         {#if link && link.url}
-          <div class="tr md:!hidden">
+          <div class="tr !hidden sm:block">
             <Button
               iconOnRight
               icon="pointer"
@@ -82,7 +82,7 @@
 <style lang="postcss">
   .table :global {
     .tr {
-      @apply flex w-full divide-x divide-x-reverse text-center md:!divide-x;
+      @apply flex w-full divide-x text-center sm:divide-x-reverse;
     }
 
     .tr:last-child {
@@ -92,7 +92,7 @@
     .category-section > .tr:last-child {
       .td,
       .td-h {
-        @apply pb-10 md:pb-4;
+        @apply pb-4 sm:pb-10;
       }
     }
 
@@ -100,7 +100,7 @@
     .td-h {
       fill: var(--accent);
 
-      @apply flex items-center px-5 py-4 md:px-6;
+      @apply flex items-center px-6 py-4 sm:px-5;
     }
 
     .td {
@@ -110,13 +110,12 @@
     .tr:not(:first-child) {
       & > .td,
       & > .td-h {
-        @apply md:border-t;
+        @apply border-t sm:border-t-0;
       }
     }
 
     .td-h {
-      @apply sticky left-0 w-60 flex-grow-0 border-r bg-white text-start;
-      @apply md:w-auto md:max-w-80 md:flex-1 md:border-r-0;
+      @apply sticky left-0 max-w-80 flex-1 bg-white text-start sm:w-60 sm:flex-grow-0 sm:border-r;
     }
   }
 </style>

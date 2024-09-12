@@ -34,18 +34,18 @@
 </script>
 
 <section class={cn('self-start', className)}>
-  <h1 class="mb-16 max-w-4xl text-center text-3xl font-medium md:text-start">
+  <h1 class="mb-16 max-w-4xl text-start text-3xl font-medium sm:text-center">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers
   </h1>
 
   <div
-    class="mb-10 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo md:mb-12"
+    class="mb-12 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo sm:mb-10"
   >
     {#each planTypes as item (item)}
       <Button
         class={cn(
-          'px-4 py-3 text-lg font-medium md:py-1.5 md:text-base',
+          'px-4 py-1.5 text-base font-medium sm:py-3 sm:text-lg',
           planType === item && 'bg-athens text-black',
         )}
         onclick={() => handlePlanClick(item)}
@@ -64,7 +64,7 @@
         {@render _children?.()}
 
         <BreakdownTable
-          class="mt-[104px] md:mt-[120px]"
+          class="mt-[120px] sm:mt-[104px]"
           plans={plans?.billingGroupPlans?.map((v) => v.month) || []}
           {isConsumerPlans}
         />

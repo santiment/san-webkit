@@ -66,12 +66,12 @@
   </h2>
 
   {#if formattedPlan.details}
-    <p class="mb-8 text-base text-waterloo md:mb-10">
+    <p class="mb-10 text-base text-waterloo sm:mb-8">
       {formattedPlan.details.description}
     </p>
   {/if}
 
-  <section class="column md:min-h-[164px]">
+  <section class="min-h-[164px] column sm:min-h-0">
     <h3 class="mb-3 text-4xl font-semibold">
       {#if formattedPlan.isCustom}
         Get a quote
@@ -86,7 +86,7 @@
       {/if}
     </h3>
 
-    <h4 class="mb-8 text-base text-fiord md:mb-10">
+    <h4 class="mb-10 text-base text-fiord sm:mb-8">
       {#if formattedPlan.isFree}
         Free forever
       {:else if formattedPlan.isCustom}
@@ -126,7 +126,7 @@
 
   {#if formattedPlan.details}
     <ul
-      class="mt-8 gap-5 fill-orange text-rhino column md:mt-10"
+      class="mt-10 gap-5 fill-orange text-rhino column sm:mt-8"
       style:--c-orange={theme.checkmark}
     >
       {#each formattedPlan.details.features as feature}
