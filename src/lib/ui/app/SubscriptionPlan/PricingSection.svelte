@@ -33,7 +33,10 @@
   }
 </script>
 
-<section class={cn('self-start', className)}>
+<section
+  style:--phone-px="var(--phone-section-px, 1.25rem)"
+  class={cn('sm:px-[var(--phone-px)]', className)}
+>
   <h1 class="mb-16 max-w-4xl text-start text-3xl font-medium sm:text-center">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers

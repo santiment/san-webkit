@@ -38,8 +38,7 @@
   }
 </script>
 
-<!-- TODO: Make a note about margin here -->
-<section id="comparison" class={cn('sm:-mx-5', className)}>
+<section id="comparison" class={cn('sm:-mx-[var(--phone-px)]', className)}>
   <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
   <section class="flex overflow-clip rounded border" class:business={!isConsumerPlans}>
