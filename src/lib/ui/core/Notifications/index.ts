@@ -1,20 +1,13 @@
-import { toast, type ExternalToast } from 'svelte-sonner'
+import { toast } from 'svelte-sonner'
 
 export { default } from './Notifications.svelte'
 import Component from './Notification.svelte'
-import type { ComponentType, Snippet } from 'svelte'
-
-type ModifiedExternalToastDescription<T extends ComponentType = ComponentType> = Omit<
-  ExternalToast<T>,
-  'description'
-> & {
-  description?: string | Snippet
-}
+import type { ComponentProps } from 'svelte'
 
 function createToast(
   icon: string,
   message: string,
-  options: ModifiedExternalToastDescription | undefined,
+  options?: Omit<ComponentProps<Component>, 'icon' | 'message'>,
 ) {
   return toast.custom(Component, {
     componentProps: {
@@ -27,7 +20,10 @@ function createToast(
 
 const notification: Record<
   'info' | 'error' | 'warning' | 'success',
-  (message: string, options?: ModifiedExternalToastDescription | undefined) => string | number
+  (
+    message: string,
+    options?: Omit<ComponentProps<Component>, 'icon' | 'message'>,
+  ) => string | number
 > = {
   info: (...rest) => createToast('info', ...rest),
   error: (...rest) => createToast('error', ...rest),
