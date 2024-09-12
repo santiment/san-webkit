@@ -130,6 +130,12 @@ export default {
           fontFamily: 'Monospace',
         },
 
+        '.single-line': {
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+
         '.no-scrollbar': {
           'scrollbar-width': 'none',
           '&::-webkit-scrollbar': {

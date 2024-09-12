@@ -73,6 +73,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     isMax: false,
     isBusinessPro: false,
     isBusinessMax: false,
+    isCustom: false,
 
     isBusinessSubscription: false,
     isConsumerSubscription: false,
@@ -94,6 +95,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     const planName = plan.name
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : 0
 
+    const isCustom = planName === SubscriptionPlan.CUSTOM.key
     const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
     const isBusinessPro = isBusinessMax || planName === SubscriptionPlan.BUSINESS_PRO.key
     const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
@@ -111,6 +113,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       isProPlus,
       isPro,
       isFree,
+      isCustom,
 
       isBusinessSubscription: isBusiness,
       isConsumerSubscription: isFree ? false : !isBusiness,

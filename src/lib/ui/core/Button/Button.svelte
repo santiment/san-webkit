@@ -19,6 +19,7 @@
     iconOnRight = false,
     explanation,
     size,
+    as = 'button',
 
     loading = false,
 
@@ -27,6 +28,7 @@
 
     ...rest
   }: HTMLButtonAttributes & {
+    as?: 'button' | 'label'
     ref?: SS<undefined | null | HTMLElement>
     href?: string
     icon?: string
@@ -55,7 +57,7 @@
         border: 'border bg-white px-[19px] py-[5px]',
         ghost: 'px-3 hover:bg-athens hover:text-green',
       },
-      iconOnRight: { true: 'flex-row-reverse' },
+      iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed !fill-mystic !text-mystic ' },
       size: { lg: 'h-10 py-1.5 px-5 text-base' },
@@ -73,7 +75,7 @@
 </script>
 
 <svelte:element
-  this={rest.href ? 'a' : 'button'}
+  this={rest.href ? 'a' : as}
   bind:this={ref.$}
   aria-label={explanation}
   {...rest}
