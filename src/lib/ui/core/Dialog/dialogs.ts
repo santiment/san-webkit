@@ -7,6 +7,7 @@ import {
   untrack,
   type ComponentConstructorOptions,
 } from 'svelte'
+import { getVaulCtx } from './vaul.js'
 
 type TController<GResolved, GRejected> = {
   lock: () => void
@@ -38,6 +39,13 @@ export const getDialogControllerCtx = <Resolved = unknown, Rejected = unknown>()
 export const dialogs$ = {
   new<TComponent extends TGenericComponent>(component: TComponent) {
     const ALL_CTX = getAllContexts()
+    const parentDialog = ALL_CTX.get(CTX)
+
+    // HACK: Accessing parent's vaul ctx
+    queueMicrotask(() => {
+      const [vaulCtxKey, vaulCtx] = getVaulCtx(parentDialog?.Controller?._context || ALL_CTX)
+      if (vaulCtx) ALL_CTX.set(vaulCtxKey, vaulCtx)
+    })
 
     type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
     type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
@@ -49,8 +57,17 @@ export const dialogs$ = {
       untrack(() => {
         if (!BROWSER) return Promise.reject()
 
-        const { promise, resolve, reject } = Promise.withResolvers()
+        // NOTE: Promise.withResolvers() has a bug on iOS 17
+        // const { promise, resolve, reject } = Promise.withResolvers()
+        let resolve: (value: unknown) => void = () => {}
+        let reject: (reason?: unknown) => void = () => {}
+        const promise = new Promise((promiseResolve, promiseReject) => {
+          resolve = promiseResolve
+          reject = promiseReject
+        })
 
+        // const context = new Map(ALL_CTX)
+        const context = ALL_CTX
         const Controller = {
           lock: () => {},
           lockWarn: () => {},
@@ -61,9 +78,9 @@ export const dialogs$ = {
           reject,
 
           _unmount: () => {},
+          _context: context,
         }
 
-        const context = new Map(ALL_CTX)
         context.set(CTX, { Controller })
 
         const mounted = mount(component, {

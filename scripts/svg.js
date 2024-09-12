@@ -20,13 +20,14 @@ export async function getSvgSprite(filePath, options, svg) {
   const fileName = path.basename(filePath, '.svg')
   const SVGSpriter = (await import('svg-sprite')).default
 
+  // eslint-disable-next-line no-async-promise-executor
   return new Promise(async (resolve) => {
     if (!svg) svg = await optimizeSvg(filePath)
 
     const spriter = new SVGSpriter(options)
 
     spriter.add(filePath, null, svg)
-    spriter.compile((error, result, data) => {
+    spriter.compile((_error, result, _data) => {
       const sprite = result.symbol.sprite.contents.toString().replace(`id="${fileName}"`, `id="0"`)
 
       resolve(sprite)

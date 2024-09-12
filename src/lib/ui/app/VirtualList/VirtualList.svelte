@@ -14,10 +14,12 @@ take whole available space.
 
  -->
 
-<script lang="ts" generics="T">
+<script lang="ts">
   import { type ComponentProps, type Snippet } from 'svelte'
 
   import { VList } from 'virtua/svelte'
+
+  type T = $$Generic
 
   let {
     class: className,

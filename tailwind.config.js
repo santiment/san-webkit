@@ -7,6 +7,7 @@ export const classes =
 export default {
   content: ['./src/**/*.{html,js,svelte,ts,mdx}'],
   safelist: ['night-mode'],
+  darkMode: ['selector', '.night-mode'],
   theme: {
     extend: {
       borderColor: {
@@ -18,12 +19,20 @@ export default {
       },
     },
 
+    screens: {
+      lg: { max: '1279px' }, //Laptop
+      md: { max: '992px' }, //Tablet
+      sm: { max: '768x' }, //Phone
+      xs: { max: '480px' }, //Phone XS
+    },
+
     fontSize: {
       '2xs': ['10px', '14px'],
       xs: ['12px', '16px'],
       sm: ['14px', '20px'],
       base: ['16px', '24px'],
       lg: ['18px', '26px'],
+      'lg-2': ['20px', '28px'],
       xl: ['24px', '32px'],
       '2xl': ['26px', '32px'],
       '3xl': ['32px', '40px'],
@@ -108,7 +117,7 @@ export default {
       },
     }),
 
-    plugin(function ({ addBase, addComponents, addUtilities, theme }) {
+    plugin(function ({ addUtilities }) {
       addUtilities({
         '.row': {
           display: 'flex',
@@ -123,6 +132,13 @@ export default {
         },
         '.text-mono': {
           fontFamily: 'Monospace',
+        },
+
+        '.no-scrollbar': {
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
         },
         // '.text-lg': {
         //   fontSize: '18px',

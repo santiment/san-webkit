@@ -6,9 +6,10 @@
 
   let {
     src,
+    alt = 'Avatar',
     class: className,
     children,
-  }: { src: string; class?: string; children: Snippet } = $props()
+  }: { src: string; alt?: string; class?: string; children: Snippet } = $props()
 
   const {
     states: { loadingStatus },
@@ -23,7 +24,7 @@
     className,
   )}
 >
-  <img loading="lazy" {...$image} use:image alt="Avatar" class="h-full w-full rounded-[inherit]" />
+  <img loading="lazy" {...$image} {alt} use:image class="h-full w-full rounded-[inherit]" />
   <span {...$fallback} use:fallback>
     {@render children()}
   </span>

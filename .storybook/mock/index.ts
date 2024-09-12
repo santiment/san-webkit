@@ -1,6 +1,3 @@
-import type { SelectionNode } from 'graphql'
-
-import { parse, Kind } from 'graphql'
 import { CURRENT_USER_MOCK } from './user'
 import { ANNUAL_DISCOUNT_MOCK } from './annualDiscount'
 import { SAVED_CARD_MOCK } from './savedCard'

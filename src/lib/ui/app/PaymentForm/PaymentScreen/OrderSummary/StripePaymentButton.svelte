@@ -11,8 +11,8 @@
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: any, walletName: string) => void
-    onError: (data: any, walletName: string) => void
+    onSuccess: (data: any, walletName?: string) => void
+    onError: (data: any, walletName?: string) => void
   } = $props()
 
   const { stripe } = useStripeCtx()
@@ -46,8 +46,8 @@
     } as StripeExpressCheckoutElementOptions
 
     const elements = _stripe.elements({
-      mode: 'payment',
-      amount: 1000000,
+      mode: 'subscription',
+      amount: 10000000,
       currency: 'usd',
       appearance,
     })
@@ -65,37 +65,41 @@
       })
     })
 
-    expressCheckoutElement.on('confirm', async (event) => {
+    expressCheckoutElement.on('confirm', async (_event) => {
       if (!selectedPlan) {
         return Promise.reject('Missing selected plan')
       }
 
-      const { error, paymentIntent } = await _stripe.confirmPayment({
+      console.log(_event.expressPaymentType)
+
+      const { error, setupIntent } = await _stripe.confirmSetup({
         elements,
         clientSecret,
         redirect: 'if_required',
+        confirmParams: {
+          return_url: 'https://app.santiment.net/pricing',
+        },
       })
 
       if (error) {
         // This point is reached only if there's an immediate error when confirming the payment. Show the error to your customer (for example, payment details incomplete).
-        return onError?.()
+        return onError?.(error, error.payment_method?.type)
       }
 
-      if (!paymentIntent) {
-        return onError?.()
-      }
-
-      const paymentMethod = paymentIntent.payment_method
-      if (!paymentMethod) {
-        return Promise.reject('Cannot process payment method')
+      if (!setupIntent) {
+        return onError?.(error, undefined)
       }
 
       return processPayment({
         plan: selectedPlan,
-        paymentMethod: typeof paymentMethod === 'string' ? paymentMethod : paymentMethod.id,
-      }).then(onSuccess)
+        setupIntent,
+      })
+        .then(onSuccess)
+        .catch((error) => {
+          return onError?.(error)
+        })
     })
   })
 </script>
 
-<div id="payment-request-button" />
+<div id="payment-request-button"></div>

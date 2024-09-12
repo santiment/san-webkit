@@ -2,14 +2,14 @@ import { toast } from 'svelte-sonner'
 
 export { default } from './Notifications.svelte'
 import Component from './Notification.svelte'
-import type { ComponentProps } from 'svelte'
+import type { ComponentProps, ComponentType } from 'svelte'
 
 function createToast(
   icon: string,
   message: string,
   options?: Omit<ComponentProps<Component>, 'icon' | 'message'>,
 ) {
-  return toast.custom(Component, {
+  return toast.custom(Component as unknown as ComponentType, {
     componentProps: {
       icon,
       message,

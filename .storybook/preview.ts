@@ -26,6 +26,13 @@ const preview: Preview = {
   },
   loaders: [
     (ctx) => {
+      const root = document.querySelector('#storybook-root') as null | HTMLElement
+      if (root) {
+        root.setAttribute('data-vaul-drawer-wrapper', '')
+        root.style.minHeight = '100vh'
+        root.classList.add('bg-white')
+      }
+
       // @ts-expect-error
       const dialogs = window.__STORYBOOK_DIALOGS__ as undefined | Set<() => void>
       if (dialogs) {

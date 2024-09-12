@@ -2,10 +2,22 @@
   import img from './uniswap.png'
   import Description from '../Description.svelte'
   import OnlyAnnualMethod from '../OnlyAnnualMethod.svelte'
+  import Note from '$ui/app/PaymentForm/Note.svelte'
+  import { onSupportClick } from '$lib/utils/support.js'
 </script>
 
 <OnlyAnnualMethod>
   <Description name="Providing SAN Uniswap Liquidity" {img}>
+    {#snippet noteSnippet()}
+      <Note class="mb-2">
+        For this payment method, you have to request a trial by contacting us directly.
+
+        <a href="mailto:support@santiment.net" class="text-green" onclick={onSupportClick}>
+          Contact us!
+        </a>
+      </Note>
+    {/snippet}
+
     <p>
       Another way to gain Pro access to Sanbase is by providing liquidity for the SAN/ETH trading
       pair on Uniswap V2! As long as you provide 3000+ SAN to our Uniswap V2 pool (and the

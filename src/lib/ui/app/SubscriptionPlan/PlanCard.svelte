@@ -1,17 +1,23 @@
 <script lang="ts">
   import { type TPlanBillingGroup } from '$ui/app/SubscriptionPlan/api.js'
-  import { getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
+  import { checkIsCurrentPlan, getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import Switch from '$ui/core/Switch/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import PlanButton from './PlanButton.svelte'
 
   let { billingGroup }: { billingGroup: TPlanBillingGroup[string] } = $props()
+
+  const { customer } = useCustomerCtx()
 
   const monthlyPlan = billingGroup.month
   const formattedPlan = getFormattedPlan(monthlyPlan, billingGroup.year)
 
   let isAnnualBilling = $state(false)
+  let isCurrentPlan = $derived(
+    checkIsCurrentPlan(customer.$.plan, isAnnualBilling ? billingGroup.year : billingGroup.month),
+  )
 
   const theme = formattedPlan.isFree
     ? {
@@ -21,11 +27,16 @@
       }
     : formattedPlan.isBusiness
       ? {
+          'c-green': 'var(--c-blue)',
+          'c-green-hover': 'var(--c-blue-hover)',
           accent: 'var(--c-blue)',
           'accent-light-1': 'var(--c-blue-light-1)',
           checkmark: 'var(--c-blue)',
         }
-      : {}
+      : {
+          'c-green': 'var(--c-orange)',
+          'c-green-hover': 'var(--c-orange-hover)',
+        }
 </script>
 
 <article
@@ -33,13 +44,25 @@
   style:--c-orange={theme.accent}
   style:--c-orange-light-1={theme['accent-light-1']}
 >
-  <h2
-    class={cn(
-      'mb-4 max-w-fit rounded-md px-3 py-1 text-2xl font-medium',
-      'bg-orange-light-1 text-orange',
-    )}
-  >
-    {formattedPlan.name}
+  <h2 class={cn('mb-4 flex max-w-fit gap-1')}>
+    <span class="rounded-md bg-orange-light-1 px-3 py-1 text-2xl font-medium text-orange">
+      {formattedPlan.name}
+    </span>
+
+    {#if isCurrentPlan}
+      {#if customer.$.isTrialSubscription}
+        <span
+          class="expl-tooltip flex h-10 rounded-md bg-green-light-1 px-3 text-base text-green center"
+          aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
+        >
+          Your trial plan
+        </span>
+      {:else if customer.$.isPro}
+        <span class="flex size-10 rounded-md bg-orange-light-1 fill-orange center">
+          <Svg id="crown" h="12"></Svg>
+        </span>
+      {/if}
+    {/if}
   </h2>
 
   {#if formattedPlan.details}
@@ -84,7 +107,11 @@
     </h4>
 
     {#if formattedPlan.amount.month}
-      <label class="flex items-center gap-2 text-base text-waterloo">
+      <label
+        class="flex items-center gap-2 text-base text-waterloo"
+        style:--c-green={theme['c-green']}
+        style:--c-green-hover={theme['c-green-hover']}
+      >
         <Switch
           checked={isAnnualBilling}
           onCheckedChange={() => (isAnnualBilling = !isAnnualBilling)}

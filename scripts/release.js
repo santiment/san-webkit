@@ -1,4 +1,3 @@
-import { exec as _exec } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { exec, forFile } from './utils.js'
@@ -59,6 +58,10 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 *storybook.log
 
+
+/mkcert
+
+.husky
 /static/
 /src/
 /tests/`,
@@ -75,6 +78,8 @@ vite.config.ts.timestamp-*
   await exec(`git push origin "${releaseTag}"`)
 
   console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
+
+  await exec(`npm run prepare`, false)
 }
 
 if (process.argv[2] === '--run') release()
@@ -111,8 +116,10 @@ async function updateLibraryPackageJson() {
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
   pkgJson.scripts = {}
+  pkgJson['lint-staged'] = {}
 
   fs.writeFileSync(filepath, JSON.stringify(pkgJson, null, 2))
+  fs.rmdirSync(path.resolve(ROOT, '.husky'), { recursive: true, force: true })
 }
 
 async function processTypescriptFiles() {

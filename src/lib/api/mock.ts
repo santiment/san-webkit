@@ -1,4 +1,4 @@
-import { parse, Kind } from 'graphql'
+import { parse, Kind, type SelectionNode } from 'graphql'
 import { startWith, Subject } from 'rxjs'
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 
@@ -44,7 +44,7 @@ export function mockApi(
   schema: { query: string; variables?: string },
   register: (typeof ApiMock)['mocks'],
 ) {
-  const { query, variables } = schema
+  const { query, variables: _variables } = schema
   const operation = parse(query).definitions[0]
 
   if (operation.kind !== Kind.OPERATION_DEFINITION) {

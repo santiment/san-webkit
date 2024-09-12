@@ -11,6 +11,9 @@
     children: _children,
     noStyles = false,
 
+    align,
+    side,
+
     rootProps,
     triggerProps,
     contentProps,
@@ -19,6 +22,9 @@
     children: ComponentProps<Trigger>['children']
     content: Snippet<[{ close: () => void }]>
     noStyles?: boolean
+
+    align?: Popover.ContentProps['align']
+    side?: Popover.ContentProps['side']
 
     rootProps?: Popover.Props
     triggerProps?: Popover.TriggerProps
@@ -41,6 +47,8 @@
     transition={flyAndScale}
     sideOffset={8}
     {...contentProps}
+    {align}
+    {side}
     class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
   >
     {@render content({ close: () => (isOpened = false) })}

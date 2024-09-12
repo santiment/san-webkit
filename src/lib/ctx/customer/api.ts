@@ -12,6 +12,24 @@ import {
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 export type TCustomer = {
+  currentUser: null | {
+    id: string
+    email: null | string
+    name: null | string
+    username: null | string
+    avatarUrl: null | string
+    privacyPolicyAccepted: boolean
+    marketingAccepted: boolean
+    firstLogin: boolean
+    isModerator: boolean
+
+    settings: {
+      theme: null | 'nightmode'
+      isPromoter: boolean
+      sanbaseVersion: null | string
+    }
+  }
+
   isLoggedIn: boolean
 
   sanBalance: number
@@ -22,6 +40,9 @@ export type TCustomer = {
     percent: null | number
     daysLeft: number
   }
+
+  isBusinessSubscription: boolean
+  isConsumerSubscription: boolean
 
   isCanceledSubscription: boolean
   isIncompleteSubscription: boolean
@@ -46,6 +67,8 @@ export type TCustomer = {
 }
 
 export const DEFAULT: TCustomer = {
+  currentUser: null,
+
   isLoggedIn: false,
   sanBalance: 0,
   isEligibleForSanbaseTrial: false,
@@ -64,6 +87,9 @@ export const DEFAULT: TCustomer = {
   isBusinessPro: false,
   isBusinessMax: false,
 
+  isBusinessSubscription: false,
+  isConsumerSubscription: false,
+
   isTrialSubscription: false,
   trialDaysLeft: 0,
 
@@ -76,7 +102,21 @@ export const DEFAULT: TCustomer = {
 export const queryCurrentUserSubscriptions = Fetcher(
   () => `{
   currentUser {
+    id
+    email
+    name
+    username
+    avatarUrl
+    privacyPolicyAccepted
+    marketingAccepted
+    firstLogin
+    isModerator
     isEligibleForSanbaseTrial
+    settings {
+      theme
+      isPromoter
+      sanbaseVersion
+    }
     subscriptions {
       id
       status
@@ -95,6 +135,22 @@ export const queryCurrentUserSubscriptions = Fetcher(
 }`,
   (gql: {
     currentUser: null | {
+      id: string
+      email: null | string
+      name: null | string
+      username: null | string
+      avatarUrl: null | string
+      privacyPolicyAccepted: boolean
+      marketingAccepted: boolean
+      firstLogin: boolean
+      isModerator: boolean
+
+      settings: {
+        theme: null | 'nightmode'
+        isPromoter: boolean
+        sanbaseVersion: null | string
+      }
+
       isEligibleForSanbaseTrial: boolean
       subscriptions: null | TSubscription[]
     }
@@ -160,7 +216,7 @@ export function loadCustomerData(
   const subscriptionsPromise = queryCurrentUserSubscriptions(executor)()
   const sanBalancePromise = BROWSER ? queryCurrentUserSanBalance(executor)() : Promise.resolve()
 
-  subscriptionsPromise
+  return subscriptionsPromise
     .then((currentUser) => {
       if (!currentUser) return update(defaultValue)
 

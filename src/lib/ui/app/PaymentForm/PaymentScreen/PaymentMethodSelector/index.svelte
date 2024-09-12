@@ -14,14 +14,21 @@
     isBusinessPlanSelected
       ? [CardMethod, EthStablecoinsMethod]
       : [CardMethod, EthStablecoinsMethod, SanTokenBurningMethod, UniswapLiquidityMethod],
-  )
+  ) as (typeof selectedPaymentMethod)[]
 
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)
   }
 </script>
 
-<Selector name="Payment method" smallGap active={selectedPaymentMethod} {options} {onSelect}>
+<Selector
+  name="Payment method"
+  smallGap
+  active={selectedPaymentMethod}
+  {options}
+  {onSelect}
+  class="no-scrollbar xs:-mx-5 xs:flex-nowrap xs:overflow-auto xs:px-5"
+>
   {#snippet children(option)}
     <h3 class="flex gap-2 center">
       <img src={option.img} alt="{option.name} image" class="h-6 max-h-6" />
@@ -31,5 +38,5 @@
 </Selector>
 
 {#if selectedPaymentMethod}
-  <svelte:component this={selectedPaymentMethod.Component}></svelte:component>
+  <selectedPaymentMethod.Component></selectedPaymentMethod.Component>
 {/if}
