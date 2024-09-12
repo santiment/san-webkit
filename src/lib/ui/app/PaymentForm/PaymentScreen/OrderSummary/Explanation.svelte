@@ -65,7 +65,7 @@
 {#if isConsumerPlan && customer.$.isEligibleForSanbaseTrial}
   <h2 class="text-base font-semibold text-rhino">How the Trial Works</h2>
 
-  <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column lg:pr-0">
+  <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column md:pr-0">
     {#snippet Step({
       name,
       icon,
