@@ -16,3 +16,6 @@ vite.config.ts.timestamp-*
 
 /static/webkit
 
+
+# Sentry Config File
+.sentryclirc

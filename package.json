@@ -67,6 +67,8 @@
     "@eslint/js": "^9.9.1",
     "@melt-ui/svelte": "^0.83.0",
     "@playwright/test": "^1.28.1",
+    "@sentry/sveltekit": "^8.28.0",
+    "@sentry/vite-plugin": "^2.22.4",
     "@storybook/addon-essentials": "^8.2.7",
     "@storybook/addon-interactions": "^8.2.7",
     "@storybook/addon-links": "^8.2.7",
