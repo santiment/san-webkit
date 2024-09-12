@@ -1,7 +1,8 @@
 <script lang="ts">
   import { type ComponentProps } from 'svelte'
   import { trackEvent } from '$lib/analytics/index.js'
-  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.js'
   import { onSupportClick } from '$lib/utils/support.js'
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
@@ -16,6 +17,7 @@
   }: { version?: string; onClassicClick?: () => void; onLogout?: () => void } = $props()
 
   const { currentUser } = useCustomerCtx()
+  const { ui } = useUiCtx()
 
   function onLogoutClick() {
     trackEvent('logout', { timestamp: Date.now() })
@@ -63,7 +65,7 @@
     <section>
       <Button as="label" variant="ghost" class="justify-between">
         Night mode
-        <Switch></Switch>
+        <Switch checked={ui.$$.isNightMode} onCheckedChange={ui.toggleNightMode}></Switch>
       </Button>
 
       {@render sanbaseLink('Referral Program', '/account#affiliate', {
