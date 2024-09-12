@@ -27,7 +27,7 @@
   }
 </script>
 
-<Tooltip class="w-[240px] divide-y p-0 column">
+<Tooltip class="w-[240px] divide-y overflow-auto p-0 column">
   {#snippet children({ ref })}
     <ProfilePicture {ref}></ProfilePicture>
   {/snippet}
