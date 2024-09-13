@@ -1,72 +1,79 @@
 <script lang="ts">
-  // import { Device, responsive$ } from '@/responsive'
-  // import Slides from '@/ui/Slides.svelte'
-  import Table from './Table.svelte'
-  // import Plan from './Plan.svelte'
   import type { TSubscriptionPlan } from '../types.js'
+
+  import { ssd } from 'svelte-runes'
+  import Slides from '$ui/core/Slides/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import {
     BUSINESS_PLANS_BREAKDOWN,
     CONSUMER_PLANS_BREAKDOWN,
     SubscriptionPlanBreakdown,
   } from './breakdown.js'
-  import { cn } from '$ui/utils/index.js'
+  import Table from './Table.svelte'
   import Plan from './Plan.svelte'
 
-  let {
+  const {
     class: className,
     plans,
     isConsumerPlans = true,
   }: { class?: string; plans: TSubscriptionPlan[]; isConsumerPlans?: boolean } = $props()
 
-  let activeSlide = 0
+  const { device } = useDeviceCtx()
 
-  // let comparedPlans = $derived(getPlansLayout(plans, activeSlide, $responsive$))
-  let comparedPlans = $derived(getPlansLayout(plans, activeSlide))
-  let plansFeatures = $derived(
-    comparedPlans.map(({ name }) => SubscriptionPlanBreakdown[name]).filter(Boolean),
-  ) as Record<string, any>[]
+  const activePlan = ssd(() => plans[0])
+  const isPhone = $derived(device.$.isPhone)
+  const plansFeatures = $derived(getPlanFeatures(plans, activePlan.$, isPhone))
 
-  function getPlansLayout(plans: TSubscriptionPlan[], _slide: number) {
-    return plans
+  function getPlanFeatures(
+    plans: TSubscriptionPlan[],
+    activePlan: TSubscriptionPlan,
+    isPhone: boolean,
+  ) {
+    if (!isPhone) {
+      return plans
+        .map(({ name }) => SubscriptionPlanBreakdown[name])
+        .filter((f): f is Exclude<typeof f, undefined> => Boolean(f))
+    }
+
+    const activePlanBreakdown = SubscriptionPlanBreakdown[activePlan?.name]
+    return activePlanBreakdown ? [activePlanBreakdown] : []
   }
-  // function getPlansLayout(plans: TSubscriptionPlan[], slide: number, device: string) {
-  //   switch (device) {
-  //     case Device.Desktop:
-  //     case Device.Tablet:
-  //       return plans
-  //   }
 
-  //   return plans.slice(slide, slide + 1)
-  // }
+  function onSlideChange(plan: TSubscriptionPlan) {
+    activePlan.$ = plan
+  }
 </script>
 
-<h2 class="mb-16 mt-[120px] text-center text-3xl font-medium">Detailed breakdown of plans</h2>
+<section id="comparison" class={className}>
+  <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
-<section id="comparison" class={cn('rounded border', className)} class:business={!isConsumerPlans}>
-  <Table
-    plans={plansFeatures}
-    breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
+  <section
+    class="flex overflow-clip rounded border sm:rounded-none sm:border-x-0"
+    class:business={!isConsumerPlans}
   >
-    <div class="tr sticky top-[var(--plans-sticky-top,0)] bg-white">
-      {#if comparedPlans.length > 1}
-        <div class="td-h"></div>
+    <Table
+      plans={plansFeatures}
+      breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
+    >
+      <div class="tr bg-white">
+        {#if isPhone}
+          <Slides items={plans} onChange={onSlideChange}>
+            {#snippet item(plan)}
+              <Plan {plan} class="px-4"></Plan>
+            {/snippet}
+          </Slides>
+        {:else}
+          <div class="td-h"></div>
 
-        {#each comparedPlans as plan}
-          <div class="td">
-            <Plan {plan}></Plan>
-          </div>
-        {/each}
-      {:else}
-        <!--
-       <Slides amount={plans.length} bind:active={activeSlide} class="$style.slides fluid">
-          {#each plans as plan (plan.id)}
-             <Plan {plan} {plans} />
+          {#each plans as plan}
+            <div class="td">
+              <Plan {plan}></Plan>
+            </div>
           {/each}
-        </Slides>
-         -->
-      {/if}
-    </div>
-  </Table>
+        {/if}
+      </div>
+    </Table>
+  </section>
 </section>
 
 <style>
@@ -74,20 +81,11 @@
     --accent: var(--orange);
     --accent-hover: var(--orange-hover);
     --accent-light-1: var(--orange-light-1);
-
-    :global(.desktop) & {
-      border-radius: 4px;
-    }
-  }
-
-  .slides {
-    --slides-v-padding: 22px 0 52px;
-    --slides-h-padding: 16px;
-    --indicators-bottom: 20px;
   }
 
   .business {
     --c-green: var(--c-blue);
     --orange: var(--blue);
+    --accent: var(--blue);
   }
 </style>

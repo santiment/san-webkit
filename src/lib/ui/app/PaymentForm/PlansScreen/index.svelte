@@ -15,4 +15,6 @@
   })
 </script>
 
-<PricingSection></PricingSection>
+<div class="gap-[120px] column sm:gap-[104px]">
+  <PricingSection></PricingSection>
+</div>

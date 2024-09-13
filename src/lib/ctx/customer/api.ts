@@ -53,6 +53,7 @@ export type TCustomer = {
   isMax: boolean
   isBusinessPro: boolean
   isBusinessMax: boolean
+  isCustom: boolean
 
   isTrialSubscription: boolean
   trialDaysLeft: number
@@ -86,6 +87,7 @@ export const DEFAULT: TCustomer = {
   isProPlus: false, // deprecated
   isBusinessPro: false,
   isBusinessMax: false,
+  isCustom: false,
 
   isBusinessSubscription: false,
   isConsumerSubscription: false,
@@ -232,6 +234,7 @@ export function loadCustomerData(
           {},
           defaultValue,
           currentUser,
+          { currentUser },
           getCustomerSubscriptionData(primarySubscription),
           {
             isLoggedIn: true,

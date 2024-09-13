@@ -9,12 +9,12 @@
     alt = 'Avatar',
     class: className,
     children,
-  }: { src: string; alt?: string; class?: string; children: Snippet } = $props()
+  }: { src?: null | string; alt?: string; class?: string; children: Snippet } = $props()
 
   const {
     states: { loadingStatus },
     elements: { image, fallback },
-  } = createAvatar({ src })
+  } = createAvatar({ src: src || '' })
 </script>
 
 <div

@@ -66,12 +66,12 @@
   </h2>
 
   {#if formattedPlan.details}
-    <p class="mb-10 text-base text-waterloo">
+    <p class="mb-10 text-base text-waterloo sm:mb-8">
       {formattedPlan.details.description}
     </p>
   {/if}
 
-  <section class="mb-4 min-h-[150px] column">
+  <section class="min-h-[164px] column sm:min-h-0">
     <h3 class="mb-3 text-4xl font-semibold">
       {#if formattedPlan.isCustom}
         Get a quote
@@ -86,7 +86,7 @@
       {/if}
     </h3>
 
-    <h4 class="mb-10 text-base text-fiord">
+    <h4 class="mb-10 text-base text-fiord sm:mb-8">
       {#if formattedPlan.isFree}
         Free forever
       {:else if formattedPlan.isCustom}
@@ -108,7 +108,7 @@
 
     {#if formattedPlan.amount.month}
       <label
-        class="flex items-center gap-2 text-base text-waterloo"
+        class="mb-4 flex items-center gap-2 text-base text-waterloo"
         style:--c-green={theme['c-green']}
         style:--c-green-hover={theme['c-green-hover']}
       >
@@ -125,7 +125,10 @@
   <PlanButton plan={isAnnualBilling ? billingGroup.year! : monthlyPlan}></PlanButton>
 
   {#if formattedPlan.details}
-    <ul class="mt-10 gap-5 fill-orange text-rhino column" style:--c-orange={theme.checkmark}>
+    <ul
+      class="mt-10 gap-5 fill-orange text-rhino column sm:mt-8"
+      style:--c-orange={theme.checkmark}
+    >
       {#each formattedPlan.details.features as feature}
         <li class="flex gap-2.5">
           <Svg id="checkmark-circle" class="mt-[1.5px]"></Svg>

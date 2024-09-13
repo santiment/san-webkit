@@ -49,6 +49,9 @@ export type CurrentUser = null | {
     businessMax?: boolean
 
     /** @default false */
+    custom?: boolean
+
+    /** @default false */
     monthly?: boolean
 
     /** @default false */
@@ -99,6 +102,7 @@ export function mockUser(currentUser: CurrentUser) {
       proPlus = false,
       businessPro = false,
       businessMax = false,
+      custom = false,
       monthly = false,
       yearly = false,
       trial = false,
@@ -107,7 +111,7 @@ export function mockUser(currentUser: CurrentUser) {
       name: planName,
     } = plan
 
-    if (!pro && !max && !proPlus && !businessPro && !businessMax && !planName) {
+    if (!pro && !max && !proPlus && !businessPro && !businessMax && !planName && !custom) {
       return document.write(
         'Plan should have "pro" or "proPlus" value set to "true" or have "name" property set',
       )
@@ -137,12 +141,13 @@ export function mockUser(currentUser: CurrentUser) {
       currentPeriodEndDate.setDate(currentPeriodEndDate.getDate() + cancelledInDays)
     }
 
-    if (pro || max || proPlus || businessPro || businessMax || planName) {
+    if (pro || max || proPlus || businessPro || businessMax || custom || planName) {
       let name = planName
       if (pro) name = SubscriptionPlan.PRO.key
       else if (max) name = SubscriptionPlan.MAX.key
       else if (businessPro) name = SubscriptionPlan.BUSINESS_PRO.key
       else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
+      else if (custom) name = SubscriptionPlan.CUSTOM.key
 
       const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
 
@@ -169,7 +174,7 @@ export function mockUser(currentUser: CurrentUser) {
     username,
     email,
     avatarUrl: avatar
-      ? 'https://production-sanbase-images.s3.amazonaws.com/uploads/242dc675b4de34d792f5cc7f29627fa67168b3e2284077163916237facf058e8_1671661438252_Optimism%20%28OP%29%20%5B23.23.48%2C%2021%20Dec%2C%202022%5D.png'
+      ? 'https://stage-sanbase-images.s3.amazonaws.com/uploads/9159027c9a89bea92bf8d2b936e239c4e98fb8d2b0ab195b604f547be8cf647a_1575455341226_1575455341095.jpeg'
       : null,
     sanBalance,
     isEligibleForSanbaseTrial,

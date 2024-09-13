@@ -11,8 +11,10 @@ export enum DeviceType {
 }
 
 function getDeviceInfo(type: DeviceType) {
-  const isMobile = type.includes(DeviceType.Phone) || type === DeviceType.Tablet
-  return { type, isMobile, isDesktop: !isMobile }
+  const isPhone = type.includes(DeviceType.Phone)
+  const isMobile = isPhone || type === DeviceType.Tablet
+
+  return { type, isMobile, isPhone, isDesktop: !isMobile }
 }
 
 const device = ss(getDeviceInfo(DeviceType.Desktop))
