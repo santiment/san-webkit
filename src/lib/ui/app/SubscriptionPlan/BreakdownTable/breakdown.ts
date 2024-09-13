@@ -225,11 +225,11 @@ export const BUSINESS_PLANS_BREAKDOWN = [
   },
 ]
 
-export type PlanFeatureBreakdown = boolean | string | number
+export type TPlanFeatureBreakdown = boolean | string | number
 
 export const SubscriptionPlanBreakdown: Record<
   string,
-  undefined | Record<string, PlanFeatureBreakdown>
+  undefined | Record<string, TPlanFeatureBreakdown>
 > = {
   [SubscriptionPlan.FREE.key]: {
     'Browser tabs': 'Up to 4',
