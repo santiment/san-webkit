@@ -38,8 +38,8 @@
       .then(() => {
         onPaymentSuccess()
       })
-      .catch(() => {
-        onPaymentError()
+      .catch((e) => {
+        onPaymentError(e)
       })
   }
 
@@ -125,6 +125,8 @@
             size="lg"
             class="center"
             href="mailto:support@santiment.net"
+            data-source="payment_form_order"
+            data-type="contact_us"
             onclick={onSupportClick}
           >
             Contact us

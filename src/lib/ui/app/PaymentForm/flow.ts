@@ -14,18 +14,27 @@ export function usePaymentFlow() {
 
   async function startCardPaymentFlow() {
     const { selected: plan } = subscriptionPlan.$
-    if (!plan) return
+    if (!plan) {
+      return Promise.reject(new Error('No selected plan'))
+    }
 
     const { cardElement, addressElement } = paymentForm.$
-    if (!cardElement || !addressElement) return
+    if (!cardElement || !addressElement) {
+      return Promise.reject(new Error('Incorrect data filled'))
+    }
 
     const stripe = stripeLoader.$
-    if (!stripe) return
+    if (!stripe) {
+      return Promise.reject(new Error('Failed to load Stripe'))
+    }
 
     const addressData = await addressElement
       .getValue()
       .catch(() => ({ complete: false, value: null }))
-    if (!addressData.complete || !addressData.value) return
+
+    if (!addressData.complete || !addressData.value) {
+      return Promise.reject(new Error('Incorrect billing information'))
+    }
 
     const { name, address } = addressData.value
 
