@@ -13,10 +13,28 @@ type Query = SAN.API.Query<'projects', Project[]>
 
 const accessor = ({ projects }: Query) => projects
 
+function allProjectsPrecacher() {
+  return (data) => {
+    if (Array.isArray(data.projects)) {
+      data.projects.push({
+        infrastructure: 'ETH',
+        logoUrl: null,
+        name: 'Morpho Token',
+        priceUsd: 0,
+        slug: 'morpho-token',
+        ticker: 'MORPHO',
+      })
+    }
+    return data
+  }
+}
 export const queryProjects = () =>
-  query<Query>(`{projects:allProjects(minVolume: 0) {
+  query<Query>(
+    `{projects:allProjects(minVolume: 0) {
     ${PROJECT_FRAGMENT}
-  }}`).then(accessor)
+  }}`,
+    { precacher: allProjectsPrecacher },
+  ).then(accessor)
 
 export const queryErc20Projects = () =>
   query(`{projects:allErc20Projects(minVolume: 0) {
