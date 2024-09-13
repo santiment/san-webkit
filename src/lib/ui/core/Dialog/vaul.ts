@@ -1,4 +1,4 @@
 import { getAllContexts } from 'svelte'
 
-export const getVaulCtx = (ctx = getAllContexts()): [] | [Symbol, any] =>
-  Array.from(ctx.entries()).find(([key, value]) => value?.states?.drawerId) || []
+export const getVaulCtx = (ctx = getAllContexts()): [] | [symbol, any] =>
+  Array.from(ctx.entries()).find(([_, value]) => value?.states?.drawerId) || []

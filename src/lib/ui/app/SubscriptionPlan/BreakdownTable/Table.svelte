@@ -16,64 +16,78 @@
   } = $props()
 </script>
 
-<div class="relative table w-full text-base [&>*]:border-b">
-  {@render children()}
+<div class="table w-full text-base">
+  <header class="sticky top-[var(--plans-sticky-top,0)] z-10 flex w-full border-b">
+    {@render children()}
+  </header>
 
   {#each breakdown as { category, features, link }}
-    <div
+    <section
       class={cn(
-        'flex items-center justify-between px-6 pb-4 pt-10',
-        features.length === 0 && 'empty border-none pt-[53px]',
+        'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b [&>.tr:last-child>*]:sm:!pb-10',
+        features.length === 0 && 'border-none',
       )}
     >
-      <h4 class="flex items-center text-lg font-semibold">
+      {#snippet pointerSnippet({ url, title }: NonNullable<typeof link>, className = '')}
+        <Button
+          iconOnRight
+          icon="pointer"
+          href={url}
+          target="_blank"
+          class={cn('flex !fill-green text-base font-normal text-green', className)}
+        >
+          {title}
+        </Button>
+      {/snippet}
+
+      <h4
+        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:bg-athens sm:!py-[13px]"
+      >
         {category}
 
         {#if link && link.url}
-          <Button
-            iconOnRight
-            icon="pointer"
-            href={link.url}
-            target="_blank"
-            class="ml-3 border-l fill-green pl-3 text-base font-normal text-green"
-          >
-            {link.title}
-          </Button>
+          {@render pointerSnippet(link, 'border-l ml-3 pl-3 sm:hidden')}
         {/if}
       </h4>
-    </div>
 
-    {#each features as feature}
-      <div class="tr">
-        <Feature {plans} {feature} />
-      </div>
-    {/each}
+      {#if link && link.url}
+        <div class="tr !hidden sm:!flex">
+          {@render pointerSnippet(link, 'td-h')}
+
+          {#each plans as _}
+            <div class="td"></div>
+          {/each}
+        </div>
+      {/if}
+
+      {#each features as feature}
+        <div class="tr border-t sm:border-none">
+          <Feature {plans} {feature} />
+        </div>
+      {/each}
+    </section>
   {/each}
 </div>
 
 <style lang="postcss">
   .table :global {
     .tr {
-      @apply flex divide-x text-center;
-    }
-
-    .tr:last-child {
-      @apply border-none;
+      @apply flex w-full divide-x text-center sm:divide-x-0;
     }
 
     .td,
     .td-h {
       fill: var(--accent);
 
-      @apply flex flex-1 items-center px-6 py-4;
+      @apply flex items-center px-6 py-4 sm:px-5;
+    }
+
+    .td {
+      @apply flex-1;
     }
 
     .td-h {
-      @apply min-w-[331px] max-w-[330px];
-
-      :global(.desktop) & {
-        max-width: 350px;
-      }
+      @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
     }
   }
 </style>

@@ -1,44 +1,15 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
-  import type { TProductsWithPlans } from '$ui/app/SubscriptionPlan/api.js'
+  import type { TProductPlans } from '$ui/app/SubscriptionPlan/api.js'
 
-  import {
-    getApiBusinessPlans,
-    getSanbaseConsumerPlans,
-    queryProductsWithPlans,
-  } from '$ui/app/SubscriptionPlan/api.js'
-  import { tap } from 'rxjs'
-  import { useObserve } from 'svelte-runes'
   import PlanCard from './PlanCard.svelte'
-  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 
-  let {
-    productsWithPlans = [],
-    productFilter = getSanbaseConsumerPlans,
-    children,
-  }: {
-    productsWithPlans?: TProductsWithPlans
-    productFilter?: typeof getSanbaseConsumerPlans | typeof getApiBusinessPlans
-    children?: Snippet<[typeof plans]>
-  } = $props()
-
-  const { stripe } = useStripeCtx()
-
-  let plans = $derived(productFilter(productsWithPlans))
-
-  useObserve(() => queryProductsWithPlans()().pipe(tap((data) => (productsWithPlans = data))))
-
-  $effect(() => {
-    stripe.load()
-  })
+  let { productPlans }: { productPlans: TProductPlans } = $props()
 </script>
 
-<section class="flex min-h-[680px] divide-x rounded-lg border">
-  {#if plans}
-    {#each plans.billingGroupPlans as billingGroup}
+<section class="flex divide-x rounded-lg border sm:flex-col sm:divide-x-0 sm:divide-y">
+  {#if productPlans}
+    {#each productPlans.billingGroupPlans as billingGroup (billingGroup)}
       <PlanCard {billingGroup}></PlanCard>
     {/each}
   {/if}
 </section>
-
-{@render children?.(plans)}
