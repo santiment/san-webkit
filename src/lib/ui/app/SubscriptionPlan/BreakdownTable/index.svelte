@@ -55,9 +55,7 @@
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
-      <div class="tr sticky top-[var(--plans-sticky-top,0)] bg-white">
-        <div class="td-h sm:!hidden"></div>
-
+      <div class="tr bg-white">
         {#if isPhone}
           <Slides items={plans} onChange={onSlideChange}>
             {#snippet item(plan)}
@@ -65,6 +63,8 @@
             {/snippet}
           </Slides>
         {:else}
+          <div class="td-h"></div>
+
           {#each plans as plan}
             <div class="td">
               <Plan {plan}></Plan>

@@ -17,7 +17,7 @@
 </script>
 
 <div class="table w-full text-base">
-  <header class="sticky top-0 z-10 flex w-full border-b">
+  <header class="sticky top-[var(--plans-sticky-top,0)] z-10 flex w-full border-b">
     {@render children()}
   </header>
 
@@ -41,7 +41,7 @@
       {/snippet}
 
       <h4
-        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:!bg-athens sm:!py-[13px]"
+        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:bg-athens sm:!py-[13px]"
       >
         {category}
 
@@ -87,7 +87,7 @@
     }
 
     .td-h {
-      @apply max-w-80 flex-1 bg-white text-start sm:w-60 sm:border-r;
+      @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
     }
   }
 </style>
