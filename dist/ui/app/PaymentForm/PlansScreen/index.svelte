@@ -1,0 +1,17 @@
+<script lang="ts">import { PricingSection, useSubscriptionPlanButtonCtx } from "../../SubscriptionPlan/index.js";
+import { usePaymentFormCtx } from "../state.js";
+let { onPlanSelect } = $props();
+const { selectSubscriptionPlan } = usePaymentFormCtx.get();
+useSubscriptionPlanButtonCtx.set({
+  onBillingPeriodChangeClick(_plan) {
+  },
+  onPlanButtonClick(plan) {
+    selectSubscriptionPlan(plan);
+    onPlanSelect();
+  }
+});
+</script>
+
+<div class="gap-[120px] column sm:gap-[104px]">
+  <PricingSection></PricingSection>
+</div>
