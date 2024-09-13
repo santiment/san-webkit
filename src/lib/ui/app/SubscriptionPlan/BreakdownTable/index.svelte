@@ -2,7 +2,6 @@
   import type { TSubscriptionPlan } from '../types.js'
 
   import { ssd } from 'svelte-runes'
-  import { cn } from '$ui/utils/index.js'
   import Slides from '$ui/core/Slides/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import {
@@ -45,7 +44,7 @@
   }
 </script>
 
-<section id="comparison" class={cn('sm:-mx-[var(--phone-px)]', className)}>
+<section id="comparison" class={className}>
   <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
   <section
@@ -82,14 +81,11 @@
     --accent: var(--orange);
     --accent-hover: var(--orange-hover);
     --accent-light-1: var(--orange-light-1);
-
-    :global(.desktop) & {
-      border-radius: 4px;
-    }
   }
 
   .business {
     --c-green: var(--c-blue);
     --orange: var(--blue);
+    --accent: var(--blue);
   }
 </style>
