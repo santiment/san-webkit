@@ -4,11 +4,9 @@ export { default } from './Notifications.svelte'
 import Component from './Notification.svelte'
 import type { ComponentProps, ComponentType } from 'svelte'
 
-function createToast(
-  icon: string,
-  message: string,
-  options?: Omit<ComponentProps<Component>, 'icon' | 'message'>,
-) {
+type ToastComponentProps = Omit<ComponentProps<Component>, 'icon' | 'message'>
+
+function createToast(icon: string, message: string, options?: ToastComponentProps) {
   return toast.custom(Component as unknown as ComponentType, {
     componentProps: {
       icon,
@@ -18,17 +16,19 @@ function createToast(
   })
 }
 
+const createNotificationType =
+  (icon: string) =>
+  (...rest: [message: string, options?: ToastComponentProps]) =>
+    createToast(icon, ...rest)
+
 const notification: Record<
   'info' | 'error' | 'warning' | 'success',
-  (
-    message: string,
-    options?: Omit<ComponentProps<Component>, 'icon' | 'message'>,
-  ) => string | number
+  (message: string, options?: ToastComponentProps) => string | number
 > = {
-  info: (...rest) => createToast('info', ...rest),
-  error: (...rest) => createToast('error', ...rest),
-  warning: (...rest) => createToast('warning', ...rest),
-  success: (...rest) => createToast('checkmark-circle', ...rest),
+  info: createNotificationType('info'),
+  error: createNotificationType('error'),
+  warning: createNotificationType('warning'),
+  success: createNotificationType('checkmark-circle'),
 }
 
 export { notification }
