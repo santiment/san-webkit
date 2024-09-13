@@ -17,83 +17,62 @@
 </script>
 
 <div class="table w-full text-base">
-  <header class="sticky top-0 z-10 flex w-full border-b">
+  <header class="sticky top-[var(--plans-sticky-top,0)] z-10 flex w-full border-b">
     {@render children()}
   </header>
 
-  <section class="">
-    {#each breakdown as { category, features, link }}
-      <section
-        class={cn(
-          'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b',
-          features.length === 0 && 'border-none',
-        )}
+  {#each breakdown as { category, features, link }}
+    <section
+      class={cn(
+        'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b [&>.tr:last-child>*]:sm:!pb-10',
+        features.length === 0 && 'border-none',
+      )}
+    >
+      {#snippet pointerSnippet({ url, title }: NonNullable<typeof link>, className = '')}
+        <Button
+          iconOnRight
+          icon="pointer"
+          href={url}
+          target="_blank"
+          class={cn('flex !fill-green text-base font-normal text-green', className)}
+        >
+          {title}
+        </Button>
+      {/snippet}
+
+      <h4
+        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:bg-athens sm:!py-[13px]"
       >
-        <div class={cn('tr')}>
-          <h4 class="td-h items-center pt-10 text-lg font-semibold sm:!bg-athens sm:pt-0">
-            {category}
-
-            {#if link && link.url}
-              <Button
-                iconOnRight
-                icon="pointer"
-                href={link.url}
-                target="_blank"
-                class="ml-3 flex border-l fill-green pl-3 text-base font-normal text-green sm:hidden"
-              >
-                {link.title}
-              </Button>
-            {/if}
-          </h4>
-
-          {#each plans as _}
-            <div class="td !hidden bg-athens sm:!flex"></div>
-          {/each}
-        </div>
+        {category}
 
         {#if link && link.url}
-          <div class="tr !hidden sm:!flex">
-            <Button
-              iconOnRight
-              icon="pointer"
-              href={link.url}
-              target="_blank"
-              class="td-h justify-end fill-green text-base font-normal text-green"
-            >
-              {link.title}
-            </Button>
-
-            {#each plans as _}
-              <div class="td"></div>
-            {/each}
-          </div>
+          {@render pointerSnippet(link, 'border-l ml-3 pl-3 sm:hidden')}
         {/if}
+      </h4>
 
-        {#each features as feature}
-          <div class="tr">
-            <Feature {plans} {feature} />
-          </div>
-        {/each}
-      </section>
-    {/each}
-  </section>
+      {#if link && link.url}
+        <div class="tr !hidden sm:!flex">
+          {@render pointerSnippet(link, 'td-h')}
+
+          {#each plans as _}
+            <div class="td"></div>
+          {/each}
+        </div>
+      {/if}
+
+      {#each features as feature}
+        <div class="tr border-t sm:border-none">
+          <Feature {plans} {feature} />
+        </div>
+      {/each}
+    </section>
+  {/each}
 </div>
 
 <style lang="postcss">
   .table :global {
     .tr {
       @apply flex w-full divide-x text-center sm:divide-x-0;
-    }
-
-    .tr:last-child {
-      @apply border-none;
-    }
-
-    .category-section > .tr:last-child {
-      .td,
-      .td-h {
-        @apply pb-4 sm:pb-10;
-      }
     }
 
     .td,
@@ -104,18 +83,11 @@
     }
 
     .td {
-      @apply min-w-48 flex-1;
-    }
-
-    .tr:not(:first-child) {
-      & > .td,
-      & > .td-h {
-        @apply border-t sm:border-t-0;
-      }
+      @apply flex-1;
     }
 
     .td-h {
-      @apply max-w-80 flex-1 bg-white text-start sm:w-60 sm:border-r;
+      @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
     }
   }
 </style>

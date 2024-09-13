@@ -74,6 +74,8 @@ export function getProductPlans(
   }
 }
 
+export type TProductPlans = ReturnType<typeof getProductPlans>
+
 export const getSanbaseConsumerPlans = (productsWithPlans: TProductsWithPlans) =>
   getProductPlans(productsWithPlans, Product.Sanbase.id, CONSUMER_PLANS)
 
