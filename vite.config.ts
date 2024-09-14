@@ -18,11 +18,11 @@ export const GIT_HEAD =
 export const config = defineConfig({
   plugins: [
     mkcert(),
-    sveltekit(),
     WebkitSvg(),
 
     // Put the Sentry vite plugin after all other plugins
     IS_DEV_MODE === false &&
+      process.env.SENTRY_AUTH_TOKEN &&
       sentryVitePlugin({
         debug: true,
         org: 'sentry',
@@ -65,5 +65,5 @@ export const config = defineConfig({
 })
 
 export default mergeConfig(config, {
-  plugins: [StaticAssetLogos()],
+  plugins: [sveltekit(), StaticAssetLogos()],
 })
