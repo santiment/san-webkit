@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'path'
-import { exec } from './utils.js'
-import { patchSvelteKitFile } from './patch.js'
+import { exec, patchSvelteKitFile } from './utils.js'
 
 run()
 

@@ -2,6 +2,7 @@ import { exec as _exec } from 'child_process'
 import fg from 'fast-glob'
 import path from 'path'
 import url from 'url'
+import fs from 'fs'
 
 /**
  *
@@ -37,4 +38,30 @@ export async function forFile(rule, clb, opts) {
 
 export function __dirname() {
   return path.dirname(url.fileURLToPath(import.meta.url))
+}
+
+/**
+ *
+ * @param {string} path
+ * @param {(file: string) => string} clb
+ * @returns
+ */
+export function patchSvelteKitFile(path, clb) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, null, (err, data) => {
+      if (err) {
+        reject(err)
+        return console.error(err)
+      }
+
+      fs.writeFile(path, clb(data.toString()), (err) => {
+        if (err) {
+          reject(err)
+          return console.error(err)
+        }
+
+        resolve()
+      })
+    })
+  })
 }

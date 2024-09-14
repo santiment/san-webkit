@@ -1,28 +1,7 @@
 #!/usr/bin/env node
 
-import fs from 'fs'
 import path from 'path'
-import { exec } from './utils.js'
-
-export function patchSvelteKitFile(path, clb) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, null, (err, data) => {
-      if (err) {
-        reject(err)
-        return console.error(err)
-      }
-
-      fs.writeFile(path, clb(data.toString()), (err) => {
-        if (err) {
-          reject(err)
-          return console.error(err)
-        }
-
-        resolve()
-      })
-    })
-  })
-}
+import { exec, patchSvelteKitFile } from './utils.js'
 
 run()
 
