@@ -29,10 +29,10 @@
 </script>
 
 <Drawer.Portal>
-  <Drawer.Overlay class="fixed inset-0 bg-[#000000cf] dark:bg-[#00000067]" />
+  <Drawer.Overlay class="fixed inset-0 z-[10000] bg-[#000000cf] dark:bg-[#00000067]" />
   <Drawer.Content
     class={cn(
-      'fixed bottom-0 left-0 right-0 mt-24 flex h-full max-h-[96%] flex-col overflow-hidden rounded-t-[10px] bg-white',
+      'fixed bottom-0 left-0 right-0 z-[10001] mt-24 flex h-full max-h-[96%] flex-col overflow-hidden rounded-t-[10px] bg-white',
       isNested && 'max-h-[94%]',
     )}
   >
