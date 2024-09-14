@@ -54,6 +54,7 @@ export const config = defineConfig({
 
     'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
     'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
+    'process.env.CORS_HOSTNAME': JSON.stringify('santiment.net'),
 
     'process.env.BACKEND_URL': JSON.stringify(BACKEND_URL),
     'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,

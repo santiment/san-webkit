@@ -16,7 +16,7 @@ async function run() {
     (file) =>
       file.replace(
         '`.${url.hostname}`.endsWith(`.${event.url.hostname}`)',
-        "(event.url.hostname.includes('santiment.net') || `.${url.hostname}`.endsWith(`.${event.url.hostname}`))",
+        '(event.url.hostname.includes(process.env.CORS_HOSTNAME) || `.${url.hostname}`.endsWith(`.${event.url.hostname}`))',
       ),
   )
 
@@ -25,7 +25,7 @@ async function run() {
     (file) =>
       file.replace(
         `const same_origin = url.origin === event.url.origin;`,
-        `const same_domain = url.hostname.includes('santiment.net');
+        `const same_domain = url.hostname.includes(process.env.CORS_HOSTNAME);
 const same_origin = same_domain || url.origin === event.url.origin;
         `,
       ),
