@@ -5,8 +5,10 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
+const IS_DEV_MODE = process.env.NODE_ENV === 'development'
+
 const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
-const GQL_SERVER_FALLBACK = BACKEND_URL + '/graphql'
+const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
 const IS_STAGE_BACKEND = BACKEND_URL.includes('-stage')
 const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 
@@ -20,7 +22,7 @@ export const config = defineConfig({
     WebkitSvg(),
 
     // Put the Sentry vite plugin after all other plugins
-    process.env.NODE_ENV === 'production' &&
+    IS_DEV_MODE === false &&
       sentryVitePlugin({
         debug: true,
         org: 'sentry',
@@ -47,8 +49,9 @@ export const config = defineConfig({
   define: {
     'process.env.SENTRY_DSN': JSON.stringify(''),
 
-    'process.env.IS_DEV_MODE': process.env.NODE_ENV === 'development',
-    'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_FALLBACK),
+    'process.env.IS_DEV_MODE': IS_DEV_MODE,
+    'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
+    'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
 
     'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
     'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,

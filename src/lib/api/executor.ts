@@ -5,6 +5,8 @@ import { ajax } from 'rxjs/ajax'
 const ENDPOINT = ((!BROWSER && process.env.NODE_GQL_SERVER_URL) ||
   process.env.GQL_SERVER_URL) as string
 
+console.log({ BROWSER }, process.env.NODE_GQL_SERVER_URL, process.env.GQL_SERVER_URL)
+
 const DEFAULT_HEADERS: HeadersInit = {
   'Content-Type': 'application/json',
   origin: 'https://app.santiment.net/',

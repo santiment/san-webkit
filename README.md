@@ -34,6 +34,12 @@ Chromium-based browsers may require additional steps to access the local HTTPS s
 - If `Accept and Continue` button is absent: click anywhere on the page and type `thisisunsafe`
 - Reset `HSTS` for the local domain in the `chrome://net-internals/#hsts` settings
 
+## Environment variables
+
+- `process.env.BACKEND_URL` - Main backend endpoint
+- `process.env.GQL_SERVER_URL` - Graphql endpoint that is platform agnostic
+- `process.env.NODE_GQL_SERVER_URL` - Graphql endpoint that is used only on the server side
+
 ### Shared Signals coding convention
 
 Signals can be stored in a container to allow them to be passed across function or file boundaries.
