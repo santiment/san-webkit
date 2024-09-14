@@ -125,19 +125,22 @@ async function updateLibraryPackageJson() {
 async function processTypescriptFiles() {
   const exports = {}
 
-  await forFile(['./plugins/*.{js,ts}', './scripts/*.{js,ts}', './*.config.js'], async (entry) => {
-    const rawPath = entry.slice(0, -3)
+  await forFile(
+    ['./plugins/*.{js,ts}', './scripts/*.{js,ts}', './*.config.{js,ts}'],
+    async (entry) => {
+      const rawPath = entry.slice(0, -3)
 
-    await exec(
-      `npx tsc ./${entry} --allowJs --declaration --lib esnext --module nodenext --moduleResolution nodenext`,
-      false,
-    )
+      await exec(
+        `npx tsc ./${entry} --allowJs --declaration --lib esnext --module nodenext --moduleResolution nodenext`,
+        false,
+      )
 
-    exports['./' + rawPath + '.js'] = {
-      types: './' + rawPath + '.d.ts',
-      default: './' + rawPath + '.js',
-    }
-  })
+      exports['./' + rawPath + '.js'] = {
+        types: './' + rawPath + '.d.ts',
+        default: './' + rawPath + '.js',
+      }
+    },
+  )
 
   return exports
 }
