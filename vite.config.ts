@@ -12,7 +12,7 @@ const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
 const IS_STAGE_BACKEND = BACKEND_URL.includes('-stage')
 const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 
-const GIT_HEAD =
+export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
 export const config = defineConfig({
@@ -47,12 +47,15 @@ export const config = defineConfig({
   },
 
   define: {
+    'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
+    'process.env.IS_DEV_MODE': IS_DEV_MODE,
+
     'process.env.SENTRY_DSN': JSON.stringify(''),
 
-    'process.env.IS_DEV_MODE': IS_DEV_MODE,
     'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
     'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
 
+    'process.env.BACKEND_URL': JSON.stringify(BACKEND_URL),
     'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
     'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
 
