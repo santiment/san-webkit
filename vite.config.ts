@@ -5,12 +5,12 @@ import { sentryVitePlugin } from '@sentry/vite-plugin'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
-const IS_DEV_MODE = process.env.NODE_ENV === 'development'
+export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
 
-const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
-const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
-const IS_STAGE_BACKEND = BACKEND_URL.includes('-stage')
-const IS_PROD_BACKEND = !IS_STAGE_BACKEND
+export const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
+export const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
+export const IS_STAGE_BACKEND = BACKEND_URL.includes('-stage')
+export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
