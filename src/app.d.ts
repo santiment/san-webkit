@@ -36,6 +36,9 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       IS_DEV_MODE: boolean
+      IS_LOGGING_ENABLED: boolean
+
+      IS_PROD_BACKEND: boolean
     }
   }
 }

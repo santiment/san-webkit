@@ -75,6 +75,7 @@ export function createConfig({
       'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
       'process.env.IS_DEV_MODE': IS_DEV_MODE,
       'process.env.IS_PROD_MODE': !IS_DEV_MODE,
+      'process.env.IS_LOGGING_ENABLED': IS_DEV_MODE || IS_STAGE_BACKEND,
 
       'process.env.SENTRY_DSN': JSON.stringify(SENTRY_DSN),
 

@@ -12,14 +12,14 @@ const mutateUpdateUserSettings = Mutation(
   }`,
 )
 
-export const useUiCtx = createCtx('useUiCtx', () => {
+export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
   const { currentUser } = useCustomerCtx.get()
 
   const isNightMode =
     currentUser.$$?.settings.theme === 'nightmode' ||
     (BROWSER && document.body.classList.contains('night-mode'))
 
-  const ui = $state({ isNightMode, isLiteVersion: false })
+  const ui = $state({ isNightMode, isLiteVersion })
 
   if (BROWSER) document.body.classList.toggle('night-mode', isNightMode || false)
 

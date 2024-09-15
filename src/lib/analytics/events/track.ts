@@ -30,7 +30,7 @@ export const track: { event: TTrackEventFn } = {
 
     const isTrackingDisabled = !canTrackBrowser()
 
-    if (process.env.IS_DEV_MODE || process.env.IS_STAGE_BACKEND) {
+    if (process.env.IS_LOGGING_ENABLED) {
       console.log(
         '%c[DEV ONLY] Analytics',
         'background:#FFCB47;color:black;padding:3px;border-radius:4px',

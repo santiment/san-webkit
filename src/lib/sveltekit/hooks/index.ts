@@ -51,10 +51,6 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   event.locals.device = device
   event.locals.customer = customer
   event.locals.theme = theme
-  // event.locals.isCookiesVisible = !event.cookies.get(COOKIE_POLICY_ACCEPTED)
-  // event.locals.isLiteVersion = event.url.searchParams.get('version') === 'LITE'
-
-  // handleAppVersionHook(currentUser, event)
 
   const response = await resolve(event, {
     transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
@@ -69,3 +65,5 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
 }
 
 export { sanbaseVersionHandle } from './sanbase.js'
+
+export { cookiePolicyHandle } from './cookie.js'

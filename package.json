@@ -125,8 +125,11 @@
   "type": "module",
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.2",
+    "@amplitude/plugin-session-replay-browser": "^1.6.24",
     "@internationalized/date": "^3.5.4",
+    "@melt-ui/svelte": "^0.83.0",
     "@stripe/stripe-js": "^4.1.0",
+    "bits-ui": "^0.21.13",
     "esm-env": "^1.0.0",
     "fast-glob": "^3.3.2",
     "svelte-runes": "^0.0.4",
@@ -135,8 +138,6 @@
     "ua-parser-js": "^1.0.38",
     "vaul-svelte": "^0.3.2",
     "virtua": "^0.31.0",
-    "zod": "^3.23.8",
-    "@melt-ui/svelte": "^0.83.0",
-    "bits-ui": "^0.21.13"
+    "zod": "^3.23.8"
   }
 }

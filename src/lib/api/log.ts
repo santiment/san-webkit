@@ -11,7 +11,7 @@ export function log({
   mocked?: any
   result?: any
 }) {
-  if (process.env.IS_DEV_MODE) {
+  if (process.env.IS_LOGGING_ENABLED) {
     const state = cached ? '(CACHED)' : mocked ? '(MOCKED)' : ''
 
     const executorName = executor
