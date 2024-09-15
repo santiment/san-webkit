@@ -1,10 +1,10 @@
 // import { getTodaysEnd } from '@/utils/dates'
-import { getTodaysEnd } from '../../src/lib/utils/dates'
+import { getTodaysEnd } from '../../src/lib/utils/dates.js'
 import {
   SubscriptionPlan,
   Product,
   checkIsBusinessPlan,
-} from '../../src/lib/ui/app/SubscriptionPlan'
+} from '../../src/lib/ui/app/SubscriptionPlan/index.js'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -61,7 +61,7 @@ export type CurrentUser = null | {
     trial?: boolean
 
     /** @default undefined */
-    name?: typeof SubscriptionPlan
+    name?: string
 
     /** @default undefined */
     trialDaysLeft?: number
@@ -145,6 +145,7 @@ export function mockUser(currentUser: CurrentUser) {
       let name = planName
       if (pro) name = SubscriptionPlan.PRO.key
       else if (max) name = SubscriptionPlan.MAX.key
+      else if (proPlus) name = SubscriptionPlan.PRO_PLUS.key
       else if (businessPro) name = SubscriptionPlan.BUSINESS_PRO.key
       else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
       else if (custom) name = SubscriptionPlan.CUSTOM.key
