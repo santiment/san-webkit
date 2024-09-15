@@ -54,10 +54,14 @@
     "dist",
     "plugins",
     "scripts",
+    "!*.config.ts",
     "!dist/**/*.test.*",
     "!dist/**/*.spec.*"
   ],
   "peerDependencies": {
+    "@sveltejs/adapter-auto": "^3.2.4",
+    "@sveltejs/adapter-node": "^5.2.2",
+    "@sveltejs/kit": "^2.5.27",
     "graphql": "^16.8.2",
     "rxjs": "^7.8.1",
     "svelte": "^5.0.0-next.1"

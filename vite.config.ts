@@ -1,4 +1,4 @@
-import { sveltekit } from '@sveltejs/kit/vite'
+import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig, mergeConfig } from 'vitest/config'
 import { execSync } from 'node:child_process'
 import { sentryVitePlugin } from '@sentry/vite-plugin'
@@ -15,55 +15,80 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
-export const config = defineConfig({
-  plugins: [
-    mkcert(),
-    WebkitSvg(),
+export function createConfig(
+  {
+    sveltekit,
+    sentry,
+  }: {
+    sveltekit: typeof _sveltekit
+    sentry?: Parameters<typeof sentryVitePlugin>[0]
+  } = { sveltekit: _sveltekit },
+) {
+  const SENTRY_DSN = process.env.SENTRY_DSN
+  const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
-    // Put the Sentry vite plugin after all other plugins
-    IS_DEV_MODE === false &&
-      process.env.SENTRY_AUTH_TOKEN &&
-      sentryVitePlugin({
-        debug: true,
-        org: 'sentry',
-        project: 'sanbase-app',
-        url: process.env.SENTRY_URL,
+  const sentryUrl = SENTRY_DSN && new URL(SENTRY_DSN).origin
+  const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
-        sourcemaps: {
-          filesToDeleteAfterUpload: '**/*.map',
-        },
+  return defineConfig({
+    plugins: [
+      mkcert(),
+      WebkitSvg(),
 
-        // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-        authToken: process.env.SENTRY_AUTH_TOKEN,
-      }),
-  ],
+      sveltekit(),
 
-  test: {
-    include: ['src/**/*.{test,spec}.{js,ts}'],
-  },
+      // Put the Sentry vite plugin after all other plugins
+      isSentryEnabled &&
+        sentryVitePlugin({
+          debug: true,
 
-  server: {
-    port: 3000,
-  },
+          // org: 'sentry',
+          // project: 'sanbase-app',
+          ...sentry,
 
-  define: {
-    'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
-    'process.env.IS_DEV_MODE': IS_DEV_MODE,
+          url: sentryUrl,
 
-    'process.env.SENTRY_DSN': JSON.stringify(''),
+          sourcemaps: {
+            filesToDeleteAfterUpload: '**/*.map',
+          },
 
-    'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
-    'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
-    'process.env.CORS_HOSTNAME': JSON.stringify('santiment.net'),
+          // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+          authToken: SENTRY_AUTH_TOKEN,
+        }),
+    ],
 
-    'process.env.BACKEND_URL': JSON.stringify(BACKEND_URL),
-    'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
-    'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
+    build: {
+      sourcemap: isSentryEnabled ? 'hidden' : false,
+    },
 
-    'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
-  },
-})
+    test: {
+      include: ['src/**/*.{test,spec}.{js,ts}'],
+    },
 
-export default mergeConfig(config, {
-  plugins: [sveltekit(), StaticAssetLogos()],
+    server: {
+      port: 3000,
+    },
+
+    define: {
+      'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
+      'process.env.IS_DEV_MODE': IS_DEV_MODE,
+      'process.env.IS_PROD_MODE': !IS_DEV_MODE,
+
+      'process.env.SENTRY_DSN': JSON.stringify(SENTRY_DSN),
+
+      'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
+      'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
+      'process.env.CORS_HOSTNAME': JSON.stringify('santiment.net'),
+
+      'process.env.BACKEND_URL': JSON.stringify(BACKEND_URL),
+      'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
+      'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
+
+      'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
+    },
+  })
+}
+
+export default mergeConfig(createConfig(), {
+  plugins: [StaticAssetLogos()],
 })
