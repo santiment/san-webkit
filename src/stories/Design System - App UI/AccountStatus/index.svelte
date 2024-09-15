@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AccountStatus from '$ui/app/AccountStatus.svelte'
+  import AccountStatus from '$ui/app/AccountStatus/index.js'
 </script>
 
 <main class="flex min-h-[inherit] items-center justify-center">

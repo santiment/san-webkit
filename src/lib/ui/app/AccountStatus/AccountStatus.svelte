@@ -1,6 +1,6 @@
 <script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import Button from '$ui/core/Button/Button.svelte'
+  import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
 
   const { currentUser, customer } = useCustomerCtx()
