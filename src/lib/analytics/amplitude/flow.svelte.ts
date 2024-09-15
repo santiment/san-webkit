@@ -1,11 +1,14 @@
+import { BROWSER } from 'esm-env'
 import * as amplitude from '@amplitude/analytics-browser'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-import { BROWSER } from 'esm-env'
+import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
+import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 
 export function useAmplitudeFlow() {
   if (!BROWSER) return
 
-  const { currentUser } = useCustomerCtx.get()
+  const { customer, currentUser } = useCustomerCtx.get()
+  const { ui } = useUiCtx.get()
 
   $effect(() => {
     const userId = currentUser.$$?.id
@@ -17,6 +20,18 @@ export function useAmplitudeFlow() {
       userId,
       name,
       email,
+    })
+  })
+
+  $effect(() => {
+    setAmplitudeUserProperties({
+      sanbase_version: ui.$$.isLiteVersion ? 'LITE' : 'CLASSIC',
+    })
+  })
+
+  $effect(() => {
+    setAmplitudeUserProperties({
+      sanbase_plan: customer.$.sanbaseSubscription?.plan?.name || SubscriptionPlan.FREE.key,
     })
   })
 }
