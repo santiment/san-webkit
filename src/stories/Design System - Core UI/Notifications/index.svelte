@@ -1,9 +1,7 @@
 <script>
   import Button from '$ui/core/Button/index'
-  import Notifications, { notifcation } from '$ui/core/Notifications/index'
+  import { notifcation } from '$ui/core/Notifications/index'
 </script>
-
-<Notifications></Notifications>
 
 <div class="flex flex-col justify-center divide-y p-6">
   <div class="flex gap-4">

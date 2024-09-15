@@ -6,6 +6,7 @@ import './preview.css'
 import { ApiMock } from '../src/lib/api/mock'
 import { ApiCache } from '../src/lib/api/cache'
 import { MockedApi } from './mock'
+import Decorator from './Decorator.svelte'
 
 const preview: Preview = {
   parameters: {
@@ -24,6 +25,14 @@ const preview: Preview = {
       },
     },
   },
+
+  decorators: [
+    (_, { args, loaded, parameters }) => ({
+      Component: Decorator,
+      props: { ...args, ...loaded, ui: parameters.ui, bodyStyle: parameters.bodyStyle || {} },
+    }),
+  ],
+
   loaders: [
     (ctx) => {
       const root = document.querySelector('#storybook-root') as null | HTMLElement

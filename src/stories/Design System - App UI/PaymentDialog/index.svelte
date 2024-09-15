@@ -1,6 +1,5 @@
 <script>
   import PaymentDialog, { showPaymentDialog$ } from '$ui/app/PaymentForm/Dialog.svelte'
-  import Notifications from '$ui/core/Notifications'
   import StoryDialog from '../../Design System - Core UI/Dialog/StoryDialog.svelte'
 
   const showPaymentDialog = showPaymentDialog$()
@@ -13,5 +12,3 @@
 </div>
 
 <StoryDialog render={PaymentDialog}></StoryDialog>
-
-<Notifications></Notifications>

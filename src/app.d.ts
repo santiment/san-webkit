@@ -32,4 +32,10 @@ declare global {
 
     gtag?: Gtag.Gtag
   }
+
+  namespace NodeJS {
+    interface ProcessEnv {
+      IS_DEV_MODE: boolean
+    }
+  }
 }

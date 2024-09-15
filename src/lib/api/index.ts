@@ -3,6 +3,7 @@ import { Observable } from 'rxjs'
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 import { MockExecutor } from './mock.js'
 import { ApiCache } from './cache.js'
+import { log } from './log.js'
 
 type TQueryExecutor = typeof RxQuery | typeof Query
 
@@ -86,6 +87,7 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
         const mocked = MockExecutor(executor, schema, { map: mapData })
 
         if (mocked !== undefined) {
+          if (process.env.IS_DEV_MODE) log({ schema, mocked, executor })
           return mocked as unknown as Result
         }
       }
@@ -96,12 +98,14 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
         const cached = ApiCache.get(schema, executor)
 
         if (cached && !options.recache) {
+          if (process.env.IS_DEV_MODE) log({ schema, executor, cached })
           return cached as unknown as Result
         }
 
         ApiCache.add(schema, { options, executor, result })
       }
 
+      if (process.env.IS_DEV_MODE) log({ schema, executor, result })
       return result
     }
   }
