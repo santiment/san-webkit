@@ -15,15 +15,17 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
-export function createConfig(
-  {
-    sveltekit,
-    sentry,
-  }: {
-    sveltekit: typeof _sveltekit
-    sentry?: Parameters<typeof sentryVitePlugin>[0]
-  } = { sveltekit: _sveltekit },
-) {
+export function createConfig({
+  corsOrigin = 'https://santiment.net',
+  sveltekit = _sveltekit,
+  sentry,
+}: {
+  corsOrigin?: string
+  sveltekit?: typeof _sveltekit
+  sentry?: Parameters<typeof sentryVitePlugin>[0]
+} = {}) {
+  const corsHostname = new URL(corsOrigin).hostname
+
   const SENTRY_DSN = process.env.SENTRY_DSN
   const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
@@ -78,7 +80,7 @@ export function createConfig(
 
       'process.env.GQL_SERVER_URL': JSON.stringify(GQL_SERVER_URL),
       'process.env.NODE_GQL_SERVER_URL': JSON.stringify(process.env.NODE_GQL_SERVER_URL),
-      'process.env.CORS_HOSTNAME': JSON.stringify('santiment.net'),
+      'process.env.CORS_HOSTNAME': JSON.stringify(corsHostname),
 
       'process.env.BACKEND_URL': JSON.stringify(BACKEND_URL),
       'process.env.IS_STAGE_BACKEND': IS_STAGE_BACKEND,
