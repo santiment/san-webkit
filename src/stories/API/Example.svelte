@@ -3,6 +3,7 @@
   import { Fetcher } from '$lib/api/index.js'
   import { useObserveFnCall } from '$lib/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { Query } from '$lib/api/executor.js'
 
   const queryCurrentUser = Fetcher(
     () => `{ currentUser { id  } }`,
@@ -30,9 +31,14 @@
       ),
     ),
   )
+
+  function onClick() {
+    queryCurrentUser(Query)().then((data) => console.log('Promise based', data))
+    startCacheTimer()
+  }
 </script>
 
-<Button variant="fill" onclick={startCacheTimer}>Run 3 requests</Button>
+<Button variant="fill" onclick={onClick}>Run 3 requests</Button>
 
 {#if cacheTime}
   Cache is valid for {cacheTime}s. No new requests will be made

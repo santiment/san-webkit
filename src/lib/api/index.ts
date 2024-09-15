@@ -92,20 +92,23 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
         }
       }
 
-      const result = executor<Data>(schema, { map: mapData }) as Result
+      const isCachingEnabled = BROWSER && options.cache
 
-      if (BROWSER && options.cache) {
+      if (isCachingEnabled) {
         const cached = ApiCache.get(schema, executor)
 
         if (cached && !options.recache) {
           if (process.env.IS_DEV_MODE) log({ schema, executor, cached })
           return cached as unknown as Result
         }
-
-        ApiCache.add(schema, { options, executor, result })
       }
 
+      const result = executor<Data>(schema, { map: mapData }) as Result
+
+      if (isCachingEnabled) ApiCache.add(schema, { options, executor, result })
+
       if (process.env.IS_DEV_MODE) log({ schema, executor, result })
+
       return result
     }
   }
