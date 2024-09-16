@@ -1,7 +1,7 @@
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig, mergeConfig } from 'vitest/config'
 import { execSync } from 'node:child_process'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { sentrySvelteKit } from '@sentry/sveltekit'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
@@ -22,7 +22,11 @@ export function createConfig({
 }: {
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
-  sentry?: Parameters<typeof sentryVitePlugin>[0]
+  sentry?: {
+    debug?: boolean
+    org: string
+    project: string
+  }
 } = {}) {
   const corsHostname = new URL(corsOrigin).hostname
 
@@ -30,7 +34,7 @@ export function createConfig({
   const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
   const sentryUrl = SENTRY_DSN && new URL(SENTRY_DSN).origin
-  const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
+  const isSentryEnabled = IS_DEV_MODE === false && sentry?.org && SENTRY_AUTH_TOKEN
 
   return defineConfig({
     plugins: [
@@ -41,21 +45,20 @@ export function createConfig({
 
       // Put the Sentry vite plugin after all other plugins
       isSentryEnabled &&
-        sentryVitePlugin({
-          debug: true,
+        sentrySvelteKit({
+          debug: sentry?.debug ?? true,
+          adapter: 'node',
+          autoInstrument: false,
+          sourceMapsUploadOptions: {
+            release: { name: GIT_HEAD },
 
-          // org: 'sentry',
-          // project: 'sanbase-app',
-          ...sentry,
+            ...sentry,
 
-          url: sentryUrl,
-
-          sourcemaps: {
-            filesToDeleteAfterUpload: '**/*.map',
+            // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
+            authToken: SENTRY_AUTH_TOKEN,
+            sourcemaps: { filesToDeleteAfterUpload: '**/*.map' },
+            unstable_sentryVitePluginOptions: { url: sentryUrl },
           },
-
-          // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-          authToken: SENTRY_AUTH_TOKEN,
         }),
     ],
 
