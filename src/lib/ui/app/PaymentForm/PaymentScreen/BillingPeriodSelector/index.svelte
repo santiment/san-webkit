@@ -22,7 +22,7 @@
 <Selector name="Billing period" active={selectedBillingPeriod} options={OPTIONS} {onSelect}>
   {#snippet children(option)}
     {@const isAnnualBilling = option.name === 'Annually'}
-    <h3 class="flex h-[26px] w-full items-center justify-between">
+    <h3 class="flex h-[26px] w-full items-center justify-between gap-2">
       {option.name}
 
       {#if isAnnualBilling && formattedPlan}

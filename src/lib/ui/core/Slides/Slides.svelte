@@ -39,7 +39,9 @@
   }
 </script>
 
-<section class={cn('relative flex w-full flex-col items-center gap-4 py-4', className)}>
+<section
+  class={cn('relative flex w-full max-w-[100vw] flex-col items-center gap-4 py-4', className)}
+>
   <div
     bind:this={node}
     class="flex w-full flex-1 snap-x snap-mandatory overflow-x-auto no-scrollbar"

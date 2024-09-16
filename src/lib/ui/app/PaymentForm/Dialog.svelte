@@ -32,26 +32,28 @@
   {/if}
 
   <ScreenTransition
-    class="flex gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 lg:p-10 md:flex-wrap md:px-5"
+    class="gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 column lg:p-10 md:px-5"
   >
     {#if screen.$ === SCREENS[0]}
       <PlansScreen onPlanSelect={() => (screen.$ = SCREENS[1])}></PlansScreen>
     {:else}
-      <div class="w-full min-w-[400px] gap-10 self-start column md:min-w-0">
-        <h1 class="color-rhino text-2xl font-medium md:text-3xl">
-          {#if subscriptionPlan.$.formatted}
-            {subscriptionPlan.$.formatted.name} plan
-          {:else}
-            Unknown plan
-          {/if}
-        </h1>
+      <div class="flex gap-10 md:flex-wrap">
+        <div class="w-full min-w-[400px] gap-10 self-start column md:min-w-0 md:gap-12">
+          <h1 class="color-rhino text-2xl font-medium md:text-3xl">
+            {#if subscriptionPlan.$.formatted}
+              {subscriptionPlan.$.formatted.name} plan
+            {:else}
+              Unknown plan
+            {/if}
+          </h1>
 
-        <BillingPeriodSelector></BillingPeriodSelector>
+          <BillingPeriodSelector></BillingPeriodSelector>
 
-        <PaymentMethodSelector></PaymentMethodSelector>
+          <PaymentMethodSelector></PaymentMethodSelector>
+        </div>
+
+        <OrderSummary></OrderSummary>
       </div>
-
-      <OrderSummary></OrderSummary>
     {/if}
   </ScreenTransition>
 </Dialog>
