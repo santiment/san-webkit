@@ -30,7 +30,9 @@
   let isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, plan))
   let isBillingChangeAvailable = $derived(checkIsAlternativeBillingPlan(customer.$.plan, plan))
   let isAnonymous = $derived(!customer.$.isLoggedIn)
-  let anonymousProps = $derived(isAnonymous ? { onclick: null, href: '/sign-up' } : {})
+  let anonymousProps = $derived(
+    isAnonymous ? { onclick: null, href: `/sign-up?from=${encodeURIComponent('/pricing')}` } : {},
+  )
 
   let classes = $derived({
     class: cn(
