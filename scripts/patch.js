@@ -16,7 +16,7 @@ async function run() {
     (file) =>
       file.replace(
         '`.${url.hostname}`.endsWith(`.${event.url.hostname}`)',
-        '(url.hostname === process.env.CORS_HOSTNAME || `.${url.hostname}`.endsWith(`.${event.url.hostname}`))',
+        '(url.hostname.includes(process.env.CORS_HOSTNAME) || `.${url.hostname}`.endsWith(`.${event.url.hostname}`))',
       ),
   )
 

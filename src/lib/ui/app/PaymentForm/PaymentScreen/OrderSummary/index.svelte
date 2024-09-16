@@ -17,10 +17,10 @@
   const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
-  let plan = $derived(subscriptionPlan.$)
-  let planPrice = $derived(plan.formatted?.price[billingPeriod.$])
+  let formattedPlan = $derived(subscriptionPlan.$.formatted)
+  let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
   let discountedPrice = $derived(discount.$?.price || planPrice)
-  let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
+  let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
@@ -60,8 +60,8 @@
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
     <h2 class="text-lg font-semibold text-rhino">
       <div class="flex justify-between">
-        {#if plan.formatted}
-          {plan.formatted.name} - Billed {isAnnualBilling ? 'annually' : 'monthly'}
+        {#if formattedPlan}
+          {formattedPlan.name} - Billed {isAnnualBilling ? 'annually' : 'monthly'}
           <span class="text-base font-normal text-waterloo">
             ${planPrice}/ {isAnnualBilling ? 'Year' : 'Month'}
           </span>
