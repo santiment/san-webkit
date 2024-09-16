@@ -39,9 +39,13 @@
         overflow: 'never',
       },
       paymentMethods: {
-        link: 'auto',
+        link: 'never',
         applePay: 'always',
         googlePay: 'always',
+      },
+      buttonType: {
+        applePay: 'subscribe',
+        googlePay: 'subscribe',
       },
     } as StripeExpressCheckoutElementOptions
 

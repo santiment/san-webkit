@@ -28,6 +28,8 @@ export type TCustomer = {
       isPromoter: boolean
       sanbaseVersion: null | string
     }
+
+    ethAccounts: { address: string }[]
   }
 
   isLoggedIn: boolean
@@ -114,6 +116,7 @@ export const queryCurrentUserSubscriptions = Fetcher(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    ethAccounts { address }
     settings {
       theme
       isPromoter
@@ -152,6 +155,8 @@ export const queryCurrentUserSubscriptions = Fetcher(
         isPromoter: boolean
         sanbaseVersion: null | string
       }
+
+      ethAccounts: { address: string }[]
 
       isEligibleForSanbaseTrial: boolean
       subscriptions: null | TSubscription[]

@@ -10,10 +10,11 @@
   import { usePaymentFlow } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
+  import ConnectMetamask from './ConnectMetamask.svelte'
 
   const { Controller } = getDialogControllerCtx()
   const { stripe: _stripe } = useStripeCtx()
-  const { customer } = useCustomerCtx()
+  const { customer, currentUser } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
@@ -28,11 +29,11 @@
 
   let isAnnualBilling = $derived(billingPeriod.$ === 'year')
 
-  let isMetamaskConnected = false
-  let isPaymentIsProcess = $state(false)
+  let isWalletCannected = $derived((currentUser.$$?.ethAccounts.length ?? 0) > 0)
+  let isPaymentInProcess = $state(false)
 
   async function onPayClick() {
-    isPaymentIsProcess = true
+    isPaymentInProcess = true
 
     startCardPaymentFlow()
       .then(() => {
@@ -50,7 +51,7 @@
 
   function onPaymentError(e?: any) {
     console.log(e)
-    isPaymentIsProcess = false
+    isPaymentInProcess = false
   }
 </script>
 
@@ -119,7 +120,7 @@
 
     <div class="gap-3 column">
       {#if isCardPayment === false}
-        {#if isEligibleForSanbaseTrial || isMetamaskConnected}
+        {#if isEligibleForSanbaseTrial || isWalletCannected}
           <Button
             variant="fill"
             size="lg"
@@ -132,17 +133,14 @@
             Contact us
           </Button>
         {:else}
-          <Button variant="fill" size="lg" class="center">
-            <img src="/webkit/icons/metamask.svg" alt="MetaMask" class="h-4" />
-            Connect MetaMask
-          </Button>
+          <ConnectMetamask></ConnectMetamask>
         {/if}
       {:else}
         <Button
           variant="fill"
           size="lg"
           class="center"
-          loading={isPaymentIsProcess}
+          loading={isPaymentInProcess}
           onclick={onPayClick}
         >
           {#if isEligibleForSanbaseTrial}

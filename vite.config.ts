@@ -45,11 +45,13 @@ export function createConfig({
 
       // Put the Sentry vite plugin after all other plugins
       isSentryEnabled &&
+        false &&
         sentrySvelteKit({
           debug: sentry?.debug ?? true,
           adapter: 'node',
           autoInstrument: false,
           sourceMapsUploadOptions: {
+            telemetry: false,
             release: { name: GIT_HEAD },
 
             ...sentry,

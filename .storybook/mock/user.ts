@@ -31,6 +31,8 @@ export type CurrentUser = null | {
   /** @default false */
   isEligibleForSanbaseTrial?: boolean
 
+  ethAccounts?: { address: string }[]
+
   /** @default null */
   plan?: null | {
     /** @default false */
@@ -87,6 +89,8 @@ export function mockUser(currentUser: CurrentUser) {
     moderator = false,
     sanBalance = 0,
     isEligibleForSanbaseTrial = false,
+
+    ethAccounts = [],
 
     plan = null,
     promoCodes,
@@ -178,6 +182,7 @@ export function mockUser(currentUser: CurrentUser) {
       ? 'https://stage-sanbase-images.s3.amazonaws.com/uploads/9159027c9a89bea92bf8d2b936e239c4e98fb8d2b0ab195b604f547be8cf647a_1575455341226_1575455341095.jpeg'
       : null,
     sanBalance,
+    ethAccounts,
     isEligibleForSanbaseTrial,
     isModerator: moderator,
     subscriptions,
