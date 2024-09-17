@@ -1,4 +1,4 @@
-export { default as Dialog, showPaymentDialog$ } from './Dialog.svelte'
+export { default as Dialog, showPaymentDialog$ } from './PaymentDialog.svelte'
 
 export { usePaymentFormCtx } from './state.js'
 

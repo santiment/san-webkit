@@ -7,10 +7,18 @@
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
-  import { usePaymentFlow } from '../../flow.js'
+  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
   import ConnectMetamask from './ConnectMetamask.svelte'
+
+  let {
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?: (data: TPaymentFlowResult) => void
+    onError?: () => void
+  } = $props()
 
   const { Controller } = getDialogControllerCtx()
   const { stripe: _stripe } = useStripeCtx()
@@ -36,22 +44,23 @@
     isPaymentInProcess = true
 
     startCardPaymentFlow()
-      .then(() => {
-        onPaymentSuccess()
+      .then((data) => {
+        onPaymentSuccess(data)
       })
       .catch((e) => {
         onPaymentError(e)
       })
   }
 
-  function onPaymentSuccess(data?: any) {
-    console.log(data)
+  function onPaymentSuccess(data: TPaymentFlowResult) {
     Controller.close()
+    onSuccess?.(data)
   }
 
   function onPaymentError(e?: any) {
     console.log(e)
     isPaymentInProcess = false
+    onError?.()
   }
 </script>
 

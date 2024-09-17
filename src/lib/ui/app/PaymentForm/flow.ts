@@ -7,6 +7,8 @@ import { usePaymentFormCtx } from './state.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
+export type TPaymentFlowResult = undefined | API.ExtractData<typeof mutateSubscribe>
+
 export function usePaymentFlow() {
   const { paymentForm, subscriptionPlan, coupon } = usePaymentFormCtx.get()
   const { stripe: stripeLoader } = useStripeCtx()
@@ -164,9 +166,10 @@ export function usePaymentFlow() {
 
         return subscription
       })
-      .then(() => {
+      .then((subscription) => {
         customer.reload()
         notifcation.success(`You have successfully upgraded to the "${plan.name}" plan!`)
+        return subscription
       })
       .catch((error) => {
         notifcation.error(`Error during the payment`, {

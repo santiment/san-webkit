@@ -125,7 +125,7 @@ declare global {
   namespace API {
     export type GqlData<T> = TData<T>
 
-    export type ExtractData<T> = T extends () => () => infer Result
+    export type ExtractData<T> = T extends (...args: any) => (...args: any) => infer Result
       ? Result extends Promise<infer Data>
         ? Data
         : never

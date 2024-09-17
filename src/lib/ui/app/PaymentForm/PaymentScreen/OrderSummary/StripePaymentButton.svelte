@@ -5,13 +5,13 @@
   } from '@stripe/stripe-js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFormCtx } from '../../state.js'
-  import { usePaymentFlow } from '../../flow.js'
+  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
 
   let {
     onSuccess,
     onError,
   }: {
-    onSuccess: (data: any, walletName?: string) => void
+    onSuccess: (data: TPaymentFlowResult, walletName?: string) => void
     onError: (data: any, walletName?: string) => void
   } = $props()
 

@@ -1,5 +1,5 @@
 <script>
-  import { showPaymentDialog$ } from '$ui/app/PaymentForm/Dialog.svelte'
+  import { showPaymentDialog$ } from '$ui/app/PaymentForm/PaymentDialog.svelte'
   import Plans from '$ui/app/SubscriptionPlan/ProductPlans.svelte'
 
   import { getApiBusinessPlans, getSanbaseConsumerPlans } from '$ui/app/SubscriptionPlan/api'

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  import Component from './Dialog.svelte'
+  import Component from './PaymentDialog.svelte'
 
   export const showPaymentDialog$ = () => dialogs$.new(Component)
 </script>
@@ -16,8 +16,14 @@
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
   import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
   import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
+  import type { ComponentProps } from 'svelte'
 
-  let { defaultPlan = null }: TDialogProps & { defaultPlan?: null | TSubscriptionPlan } = $props()
+  let {
+    defaultPlan = null,
+    onSuccess,
+    onError,
+  }: TDialogProps &
+    ComponentProps<OrderSummary> & { defaultPlan?: null | TSubscriptionPlan } = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
   useStripeCtx()
@@ -52,7 +58,7 @@
           <PaymentMethodSelector></PaymentMethodSelector>
         </div>
 
-        <OrderSummary></OrderSummary>
+        <OrderSummary {onSuccess} {onError}></OrderSummary>
       </div>
     {/if}
   </ScreenTransition>
