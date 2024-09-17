@@ -15,7 +15,11 @@
   import { mutateUpdateSubscription } from './api.js'
   import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
 
-  let { newPlan, Controller }: TDialogProps & { newPlan: TSubscriptionPlan } = $props()
+  let {
+    newPlan,
+    onSuccess,
+    Controller,
+  }: TDialogProps & { newPlan: TSubscriptionPlan; onSuccess?: () => void } = $props()
 
   const { customer } = useCustomerCtx()
 
@@ -28,6 +32,7 @@
 
     mutateUpdateSubscription(Query)(primarySubscription.id, newPlan.id).then(() => {
       customer.reload()
+      onSuccess?.()
     })
   }
 </script>
