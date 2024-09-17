@@ -24,5 +24,5 @@
     </Button>
   {/if}
 {:else}
-  <Button href="/sign-up" variant="fill">Sign up</Button>
+  <Button href="/login" variant="fill">Log in</Button>
 {/if}

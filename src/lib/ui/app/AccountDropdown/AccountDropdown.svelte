@@ -60,7 +60,10 @@
       </section>
     {:else}
       <section>
-        {@render sanbaseLink('Log in', '/login', { icon: 'user', class: 'fill-green text-green' })}
+        {@render sanbaseLink('Sign up', '/sign-up', {
+          icon: 'user',
+          class: 'fill-green text-green',
+        })}
       </section>
     {/if}
 
