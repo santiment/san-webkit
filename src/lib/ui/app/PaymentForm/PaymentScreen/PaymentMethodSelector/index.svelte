@@ -1,15 +1,15 @@
 <script lang="ts">
+  import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import { CardMethod } from './Card/index.js'
   import { EthStablecoinsMethod } from './EthStablecoins/index.js'
   import { SanTokenBurningMethod } from './SanTokenBurning/index.js'
   import { UniswapLiquidityMethod } from './UniswapLiquidity/index.js'
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { onMount } from 'svelte'
 
   const { paymentMethod, selectPaymentMethod, subscriptionPlan } = usePaymentFormCtx()
 
-  let delayStripe = $state(400)
+  const delayStripe = useDelayFlow(400)
 
   let isBusinessPlanSelected = $derived(!!subscriptionPlan.$.formatted?.isBusiness)
   let selectedPaymentMethod = $derived(paymentMethod.$)
@@ -22,8 +22,6 @@
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)
   }
-
-  onMount(() => (delayStripe = 0))
 </script>
 
 <Selector
@@ -43,5 +41,5 @@
 </Selector>
 
 {#if selectedPaymentMethod}
-  <selectedPaymentMethod.Component {delayStripe}></selectedPaymentMethod.Component>
+  <selectedPaymentMethod.Component delayStripe={delayStripe.$}></selectedPaymentMethod.Component>
 {/if}

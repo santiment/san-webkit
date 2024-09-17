@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
+  import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
@@ -22,12 +21,11 @@
   } = $props()
 
   const { Controller } = getDialogControllerCtx()
-  const { stripe: _stripe } = useStripeCtx()
   const { customer, currentUser } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
-  let delayStripe = $state(400)
+  const delayStripe = useDelayFlow(400)
   let isPaymentInProcess = $state(false)
 
   let formattedPlan = $derived(subscriptionPlan.$.formatted)
@@ -65,8 +63,6 @@
     isPaymentInProcess = false
     onError?.()
   }
-
-  onMount(() => (delayStripe = 0))
 </script>
 
 <div
@@ -166,7 +162,10 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton {delayStripe} onSuccess={onPaymentSuccess} onError={onPaymentError}
+        <StripePaymentButton
+          delayStripe={delayStripe.$}
+          onSuccess={onPaymentSuccess}
+          onError={onPaymentError}
         ></StripePaymentButton>
       {/if}
 

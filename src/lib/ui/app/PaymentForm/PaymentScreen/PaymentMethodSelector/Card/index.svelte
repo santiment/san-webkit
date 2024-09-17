@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
-  import { onMount } from 'svelte'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
@@ -11,18 +10,11 @@
   let { delayStripe = 0 } = $props()
 
   const { paymentForm } = usePaymentFormCtx()
-  const { stripe } = useStripeCtx()
+  const { stripe } = useStripeCtx({ delay: delayStripe })
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
-  let isMounted = $state(false)
-
-  onMount(() => {
-    const timer = setTimeout(() => (isMounted = true), delayStripe)
-    return () => clearTimeout(timer)
-  })
 
   $effect(() => {
-    if (!isMounted) return
     if (!stripe.$) return
     if (!clientSecret) return
 

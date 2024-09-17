@@ -3,7 +3,6 @@
     BaseStripeElementsOptions,
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
-  import { onMount } from 'svelte'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
@@ -18,23 +17,14 @@
     onError: (data: any, walletName?: string) => void
   } = $props()
 
-  const { stripe } = useStripeCtx()
+  const { stripe } = useStripeCtx({ delay: delayStripe })
   const { paymentForm, subscriptionPlan, discount } = usePaymentFormCtx()
   const { processPayment } = usePaymentFlow()
-
-  let isMounted = $state(false)
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
 
-  onMount(() => {
-    const timer = setTimeout(() => (isMounted = true), delayStripe)
-    return () => clearTimeout(timer)
-  })
-
   $effect(() => {
-    if (!isMounted) return
-
     const _stripe = stripe.$
     if (!_stripe) return
 

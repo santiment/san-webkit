@@ -6,7 +6,6 @@
 
 <script lang="ts">
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
-  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { SCREENS, usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
@@ -26,7 +25,6 @@
     ComponentProps<OrderSummary> & { defaultPlan?: null | TSubscriptionPlan } = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
-  useStripeCtx()
   useCustomerCtx()
   const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[defaultPlan ? 1 : 0])
 </script>
