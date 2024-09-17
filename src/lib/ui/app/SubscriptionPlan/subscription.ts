@@ -15,6 +15,7 @@ export enum Status {
 }
 
 export type TSubscription = {
+  id: string
   status: Status
   plan: TSubscriptionPlan
   trialEnd: null | string

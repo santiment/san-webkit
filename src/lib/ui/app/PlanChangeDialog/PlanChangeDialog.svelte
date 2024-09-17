@@ -5,12 +5,15 @@
 </script>
 
 <script lang="ts">
-  import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
-  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-  import Button from '$ui/core/Button/index.js'
-  import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
-  import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
   import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+
+  import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
+  import Button from '$ui/core/Button/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { Query } from '$lib/api/executor.js'
+  import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
+  import { mutateUpdateSubscription } from './api.js'
+  import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
 
   let { newPlan, Controller }: TDialogProps & { newPlan: TSubscriptionPlan } = $props()
 
@@ -18,6 +21,15 @@
 
   const formatDate = (date: string | number = Date.now()) =>
     getFormattedMonthDayYear(new Date(date))
+
+  function onChangeClick() {
+    const { primarySubscription } = customer.$
+    if (!primarySubscription) return
+
+    mutateUpdateSubscription(Query)(primarySubscription.id, newPlan.id).then(() => {
+      customer.reload()
+    })
+  }
 </script>
 
 {#if customer.$.plan}
@@ -42,7 +54,7 @@
     </p>
 
     <section class="mt-6 flex gap-2">
-      <Button href="/account" variant="fill">Change plan</Button>
+      <Button href="/account" variant="fill" onclick={onChangeClick}>Change plan</Button>
       <Button href="/account" variant="border" onclick={Controller.close}>Cancel</Button>
     </section>
   </Dialog>
