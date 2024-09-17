@@ -18,7 +18,7 @@
 </script>
 
 <div
-  class="gap-[120px] column sm:-mx-5 sm:gap-[104px]"
+  class="gap-[120px] column sm:gap-[104px]"
   style="--plans-sticky-top: -{device.$.isMobile ? 40 : 65}px"
 >
   <PricingSection></PricingSection>

@@ -10,10 +10,11 @@ const STRIPE_KEY =
     ? 'pk_test_gy9lndGDPXEFslDp8mJ24C3p'
     : 'pk_live_t7lOPOW79IIVcxjPPK5QfESD'
 
-export const useStripeCtx = createCtx('useStripeCtx', () => {
-  const stripe = ss<Stripe | null>(null)
+let _stripe = null as null | Stripe
+let _loading = null as null | Promise<any>
 
-  let loading = null as null | Promise<any>
+export const useStripeCtx = createCtx('useStripeCtx', () => {
+  const stripe = ss<Stripe | null>(_stripe)
 
   return {
     stripe: {
@@ -24,13 +25,13 @@ export const useStripeCtx = createCtx('useStripeCtx', () => {
       load() {
         if (!BROWSER) return null
         if (stripe.$) return stripe.$
-        if (loading) return null
 
-        loading = loadStripe(STRIPE_KEY).then((data) => {
-          stripe.$ = data
-          loading = null
-          return data
-        })
+        const update = (data: Stripe | null) => (stripe.$ = _stripe = data)
+
+        // NOTE: Reusing _loader, otherwise there is memory leak.
+        // Internal stripe state with global promise (loadStripe implementation) doesn't work
+        if (_loading) _loading.then(update)
+        else _loading = loadStripe(STRIPE_KEY).then(update)
 
         return null
       },

@@ -60,6 +60,7 @@
     })
 
     const expressCheckoutElement = elements.create('expressCheckout', options)
+
     expressCheckoutElement.mount('#payment-request-button')
 
     expressCheckoutElement.on('click', (event) => {
@@ -103,6 +104,10 @@
           return onError?.(error)
         })
     })
+
+    return () => {
+      expressCheckoutElement.destroy()
+    }
   })
 </script>
 

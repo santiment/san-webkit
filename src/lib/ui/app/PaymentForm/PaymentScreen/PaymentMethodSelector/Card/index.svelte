@@ -97,6 +97,21 @@
 
     return () => {
       Object.assign(paymentForm.$, { cardElement: null, addressElement: null })
+      cardElement.destroy()
+      addressElement.destroy()
+
+      // NOTE: Cleaning up Stripe memory leak
+      try {
+        // @ts-expect-error
+        const { _controller } = addressElement
+        if (_controller) {
+          Object.values(_controller._frames).forEach(
+            (frame: any) => frame.type === 'GOOGLE_MAPS_APP' && frame.destroy(),
+          )
+        }
+      } catch (e) {
+        console.error('Failed to clean up Stripe GOOGLE_MAPS_APP', e)
+      }
     }
   })
 </script>
