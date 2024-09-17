@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
@@ -26,6 +27,9 @@
   const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
+  let delayStripe = $state(400)
+  let isPaymentInProcess = $state(false)
+
   let formattedPlan = $derived(subscriptionPlan.$.formatted)
   let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
   let discountedPrice = $derived(discount.$?.price || planPrice)
@@ -38,7 +42,6 @@
   let isAnnualBilling = $derived(billingPeriod.$ === 'year')
 
   let isWalletCannected = $derived((currentUser.$$?.ethAccounts.length ?? 0) > 0)
-  let isPaymentInProcess = $state(false)
 
   async function onPayClick() {
     isPaymentInProcess = true
@@ -62,6 +65,8 @@
     isPaymentInProcess = false
     onError?.()
   }
+
+  onMount(() => (delayStripe = 0))
 </script>
 
 <div
@@ -161,7 +166,7 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton onSuccess={onPaymentSuccess} onError={onPaymentError}
+        <StripePaymentButton {delayStripe} onSuccess={onPaymentSuccess} onError={onPaymentError}
         ></StripePaymentButton>
       {/if}
 

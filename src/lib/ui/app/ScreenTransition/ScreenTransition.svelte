@@ -45,12 +45,15 @@
       animate(
         node,
         () => {
-          node.style.left = '-70%'
+          node.style.left = '-40%'
           node.style.zIndex = '-1'
 
-          return () => (node.style.transform = 'translateX(70%)')
+          return () => (node.style.transform = 'translateX(40%)')
         },
-        { duration: 250 },
+        {
+          duration: 230,
+          timing: 'linear', // 'cubic-bezier(0.98, 0.64, 1, 1)', // 'ease-in'
+        },
       )
     } else {
       animate(node, () => {
@@ -66,17 +69,22 @@
   function animate(
     node: HTMLElement,
     transitionStart: () => () => void,
-    { out = false, duration = TRANSITION } = {},
+    {
+      out = false,
+      duration = TRANSITION,
+      timing = 'cubic-bezier(0.465, 0.183, 0.153, 0.946)',
+    } = {},
   ) {
     const styles = node.getAttribute('style') ?? ''
 
-    node.style.transition = `transform ${duration}ms cubic-bezier(0.465, 0.183, 0.153, 0.946)`
+    node.style.transition = `transform ${duration}ms ${timing}`
     node.style.pointerEvents = 'none'
 
     if (out) {
       const { offsetTop } = node
       node.style.top = offsetTop + 'px'
       node.style.bottom = '0'
+      node.style.width = '100%'
       node.style.position = 'absolute'
       node.style.transform = 'translateX(0)'
     } else {

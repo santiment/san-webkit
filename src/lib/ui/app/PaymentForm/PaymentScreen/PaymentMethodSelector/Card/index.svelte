@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
+  import { onMount } from 'svelte'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
@@ -7,12 +8,21 @@
   import LabelInput from './LabelInput.svelte'
   import { usePaymentFormCtx } from '../../../state.js'
 
+  let { delayStripe = 0 } = $props()
+
   const { paymentForm } = usePaymentFormCtx()
   const { stripe } = useStripeCtx()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
+  let isMounted = $state(false)
+
+  onMount(() => {
+    const timer = setTimeout(() => (isMounted = true), delayStripe)
+    return () => clearTimeout(timer)
+  })
 
   $effect(() => {
+    if (!isMounted) return
     if (!stripe.$) return
     if (!clientSecret) return
 
@@ -118,10 +128,18 @@
 
 <div class="grid gap-4">
   <LabelInput label="Card number" class="">
-    <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green"></div>
+    <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green">
+      <span class="text-casper">Card number</span>
+    </div>
   </LabelInput>
 
-  <div id="address-element"></div>
+  <div id="address-element" class="min-h-[210px]">
+    <div class="gap-4 column">
+      <LabelInput label="Full name" placeholder="First and last name"></LabelInput>
+      <LabelInput label="Country or region" placeholder="Country or region"></LabelInput>
+      <LabelInput label="Address" placeholder="Street address"></LabelInput>
+    </div>
+  </div>
 </div>
 
 <style lang="postcss">
