@@ -45,6 +45,7 @@
   {#if device.$.isDesktop}
     <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
   {:else}
-    <MobileDialog {close} {children} onClose={() => onOpenChange({ next: false })}></MobileDialog>
+    <MobileDialog class={className} {close} {children} onClose={() => onOpenChange({ next: false })}
+    ></MobileDialog>
   {/if}
 {/if}

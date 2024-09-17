@@ -69,8 +69,8 @@
     variant="fill"
     size="lg"
     {...classes}
-    onclick={onSupportClick}
-    href="mailto:support@santiment.net"
+    target="_blank"
+    href="https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry"
   >
     Let's talk!
   </Button>

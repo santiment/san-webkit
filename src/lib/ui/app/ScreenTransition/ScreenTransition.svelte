@@ -94,12 +94,6 @@
   }
 </script>
 
-<OnlyOnDevice tablet phone>
-  <span
-    class="5 fixed left-1/2 top-[6px] z-[100] mx-auto h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic"
-  ></span>
-</OnlyOnDevice>
-
 {#key screen.index$}
   <div out:out in:flyIn class="max-h-full min-h-0 flex-1 column" {style}>
     <OnlyOnDevice tablet phone>

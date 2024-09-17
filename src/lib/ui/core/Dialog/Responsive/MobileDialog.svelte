@@ -7,10 +7,11 @@
   import { TRANSITION_MS } from '../state.js'
 
   let {
+    class: className,
     close,
     onClose,
     children,
-  }: Pick<ComponentProps<MobileDrawer>, 'close' | 'children'> & {
+  }: Pick<ComponentProps<MobileDrawer>, 'class' | 'close' | 'children'> & {
     onClose: ComponentProps<MobileDrawer>['close']
   } = $props()
 
@@ -40,5 +41,5 @@
 </script>
 
 <DrawerRoot shouldScaleBackground open={isOpened} {onClose}>
-  <MobileDrawer {close} {children} {isNested}></MobileDrawer>
+  <MobileDrawer class={className} {close} {children} {isNested}></MobileDrawer>
 </DrawerRoot>

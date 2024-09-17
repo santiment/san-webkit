@@ -19,6 +19,7 @@ export type TSubscription = {
   plan: TSubscriptionPlan
   trialEnd: null | string
   cancelAtPeriodEnd: null | string
+  currentPeriodEnd: string
 }
 
 export const checkIsTrialSubscription = ({ status } = {} as Pick<TSubscription, 'status'>) =>
@@ -89,7 +90,13 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
   }
 
   try {
-    const { trialEnd, plan, status, cancelAtPeriodEnd } = subscription
+    const {
+      trialEnd,
+      plan,
+      status,
+      cancelAtPeriodEnd,
+      currentPeriodEnd = Date.now(),
+    } = subscription
 
     const isBusiness = checkIsBusinessPlan(plan)
     const planName = plan.name
@@ -122,6 +129,8 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
       isTrialSubscription: trialDaysLeft > 0 && status === Status.TRIALING,
       trialDaysLeft,
+
+      currentPeriodEnd,
     }
   } catch (e) {
     console.error(e)
