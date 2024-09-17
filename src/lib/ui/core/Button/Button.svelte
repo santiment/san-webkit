@@ -8,37 +8,20 @@
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
-  let {
-    ref = { $: null },
-    icon,
-    variant,
-    children,
-    class: className,
-    iconSize = 16,
-    iconHeight,
-    iconOnRight = false,
-    explanation,
-    size,
-    as = 'button',
-
-    loading = false,
-
-    action = () => {},
-    actionArgs,
-
-    ...rest
-  }: HTMLButtonAttributes & {
+  type Props = HTMLButtonAttributes & {
     as?: 'button' | 'label'
     ref?: SS<undefined | null | HTMLElement>
     href?: string
     icon?: string
     class?: string
-    variant?: 'fill' | 'border' | 'ghost'
+    variant?: 'fill' | 'border' | 'ghost' | 'title' | 'link'
+    withPointer?: boolean
+    rounded?: boolean
     iconSize?: number | string
     iconHeight?: number | string
     iconOnRight?: boolean
     explanation?: string
-    size?: 'lg'
+    size?: 'lg' | 'md' | 'sm' | 'xs'
     loading?: boolean
     target?: HTMLAnchorAttributes['target']
 
@@ -46,57 +29,122 @@
     actionArgs?: any
 
     children?: Snippet
-  } = $props()
+  }
+
+  let {
+    ref = { $: null },
+    class: className,
+
+    as = 'button',
+    variant = 'fill',
+    size = 'md',
+    iconOnRight = false,
+    rounded = false,
+    loading = false,
+    withPointer = false,
+
+    icon,
+    iconHeight,
+    iconSize = size === 'md' || size === 'lg' ? 16 : 12,
+
+    explanation,
+    children,
+
+    action = () => {},
+    actionArgs,
+
+    ...rest
+  }: Props = $props()
 
   const button = tv({
-    base: 'flex cursor-pointer items-center gap-2',
+    base: 'flex justify-center items-center cursor-pointer gap-2 rounded-md',
     variants: {
       children: { false: '' },
+      icon: { false: '' },
       variant: {
-        fill: 'bg-green fill-white-day text-white-day hover:bg-green-hover',
-        border: 'border bg-white px-[19px] py-[5px]',
-        ghost: 'px-2.5 hover:bg-athens hover:text-green',
+        fill: 'bg-[var(--accent,var(--green))] px-5 fill-white-day text-white-day hover:bg-[var(--accent-hover,var(--green-hover))]',
+        border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
+        ghost: 'px-2.5 fill-waterloo hover:bg-athens',
+        title: 'hover:underline',
+        link: 'text-green fill-green hover:underline',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
-      disabled: { true: 'cursor-not-allowed !fill-mystic !text-mystic ' },
-      size: { lg: 'h-10 py-1.5 px-5 text-base' },
+      disabled: { true: 'cursor-not-allowed' },
+      rounded: { true: 'rounded-full' },
+      size: {
+        md: 'h-8 py-[5px]',
+        lg: 'h-10 py-1.5 text-base',
+        sm: 'p-0',
+        xs: 'p-0',
+      },
       loading: { true: 'loading' },
     },
+
     compoundVariants: [
-      { variant: undefined, class: 'hover:text-green hover:fill-green' },
       {
-        variant: 'border',
-        disabled: false,
-        class: 'hover:border-green hover:fill-green',
+        variant: ['fill', 'border', 'ghost'],
+        disabled: true,
+        class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+      },
+      {
+        variant: ['title', 'link'],
+        disabled: true,
+        class: 'text-mystic fill-mystic hover:no-underline',
+      },
+      {
+        children: false,
+        icon: true,
+        size: ['lg', 'md'],
+        class: 'size-8 px-0',
+      },
+      {
+        children: false,
+        icon: true,
+        size: 'sm',
+        class: 'size-6 px-0',
+      },
+      {
+        children: false,
+        icon: true,
+        size: 'xs',
+        class: 'size-5 px-0',
       },
     ],
   })
+
+  function getLoadingColor(variant: Props['variant']) {
+    switch (variant) {
+      case 'fill':
+        return 'white'
+      case 'link':
+        return 'var(--green)'
+      default:
+        return 'var(--black)'
+    }
+  }
 </script>
 
 <svelte:element
   this={rest.href ? 'a' : as}
   bind:this={ref.$}
   aria-label={explanation}
+  style:--loading-color={getLoadingColor(variant)}
+  style:--loading-size="2px"
   {...rest}
   use:action={actionArgs}
   class={cn(
-    variant && 'rounded-md px-5 py-1.5',
-
     button({
       variant,
       iconOnRight,
       size,
       loading,
+      rounded,
       explanation: !!explanation,
       disabled: !!rest.disabled,
       children: !!children,
+      icon: !!icon,
     }),
-
-    variant && icon && 'px-2.5',
-    variant && rest.disabled && '!bg-athens',
-
-    !children && icon && 'size-8 p-0 center',
 
     className,
   )}
@@ -107,5 +155,9 @@
 
   {#if children}
     {@render children()}
+  {/if}
+
+  {#if withPointer}
+    <Svg id="pointer" w="10"></Svg>
   {/if}
 </svelte:element>
