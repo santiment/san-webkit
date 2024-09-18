@@ -26,6 +26,7 @@ export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
   resolve: TDialogResolve<GResolved>
   reject: TDialogReject<GRejected>
   Controller: TController<TDialogResolve<GResolved>, TDialogReject<GRejected>>
+  source?: string
 }
 
 type TGenericComponent<Props extends Record<string, any> = any> = new (

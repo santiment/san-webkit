@@ -6,15 +6,16 @@ import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+import { trackEvent } from '$lib/analytics/index.js'
 
 export type TPaymentFlowResult = undefined | API.ExtractData<typeof mutateSubscribe>
 
 export function usePaymentFlow() {
-  const { paymentForm, subscriptionPlan, coupon } = usePaymentFormCtx.get()
+  const { paymentForm, subscriptionPlan, coupon, discount } = usePaymentFormCtx.get()
   const { stripe: stripeLoader } = useStripeCtx()
   const { customer } = useCustomerCtx()
 
-  async function startCardPaymentFlow() {
+  async function startCardPaymentFlow({ action = '' } = {}) {
     const { selected: plan } = subscriptionPlan.$
     if (!plan) {
       return Promise.reject(new Error('No selected plan'))
@@ -59,6 +60,9 @@ export function usePaymentFlow() {
       },
       plan,
       cardToken,
+
+      action,
+      method: 'card',
     })
   }
 
@@ -85,6 +89,9 @@ export function usePaymentFlow() {
   }
 
   async function processPayment({
+    method,
+    action,
+
     plan,
     cardToken,
     ...paymentData
@@ -93,6 +100,9 @@ export function usePaymentFlow() {
     cardToken?: Token
     paymentMethod?: ConfirmCardSetupData['payment_method']
     setupIntent?: SetupIntent
+
+    method?: string
+    action?: string
   }) {
     const stripe = stripeLoader.$
     if (!stripe) return
@@ -120,6 +130,24 @@ export function usePaymentFlow() {
     if (!setupIntent.payment_method) {
       return Promise.reject('paymentMethod is missing')
     }
+
+    const isConsumerPlan = !subscriptionPlan.$.formatted?.isBusiness
+    const isEligibleForSanbaseTrial = isConsumerPlan && customer.$.isEligibleForSanbaseTrial
+
+    const analytics = {
+      action,
+      method,
+      plan: plan.name,
+      plan_id: plan.id,
+      billing: plan.interval,
+      sanbase_trial: isEligibleForSanbaseTrial,
+
+      discount: discount.$?.description,
+      discountPercent: discount.$?.percentOff,
+
+      source: 'payment_dialog',
+    }
+    trackEvent('payment_form_submitted', analytics)
 
     // Check if the PaymentIntent requires any actions and, if so, let Stripe.js
     // handle the flow. If using an API version older than "2019-02-11"
@@ -169,12 +197,16 @@ export function usePaymentFlow() {
       .then((subscription) => {
         customer.reload()
         notifcation.success(`You have successfully upgraded to the "${plan.name}" plan!`)
+
+        trackEvent('payment_success', analytics)
+
         return subscription
       })
       .catch((error) => {
         notifcation.error(`Error during the payment`, {
           description: 'Please try again or contact our support',
         })
+        trackEvent('payment_fail', analytics)
 
         return Promise.reject(error)
       })

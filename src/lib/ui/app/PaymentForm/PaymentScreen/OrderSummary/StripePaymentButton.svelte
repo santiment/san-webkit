@@ -3,8 +3,9 @@
     BaseStripeElementsOptions,
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
-  import { onMount } from 'svelte'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
 
@@ -18,23 +19,18 @@
     onError: (data: any, walletName?: string) => void
   } = $props()
 
-  const { stripe } = useStripeCtx()
-  const { paymentForm, subscriptionPlan, discount } = usePaymentFormCtx()
+  const { stripe } = useStripeCtx({ delay: delayStripe })
+  const { paymentForm, subscriptionPlan, resultPayment, discount } = usePaymentFormCtx.get()
+  const { customer } = useCustomerCtx()
   const { processPayment } = usePaymentFlow()
-
-  let isMounted = $state(false)
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
 
-  onMount(() => {
-    const timer = setTimeout(() => (isMounted = true), delayStripe)
-    return () => clearTimeout(timer)
-  })
+  let isConsumerPlan = $derived(!subscriptionPlan.$.formatted?.isBusiness)
+  let isEligibleForSanbaseTrial = $derived(isConsumerPlan && customer.$.isEligibleForSanbaseTrial)
 
   $effect(() => {
-    if (!isMounted) return
-
     const _stripe = stripe.$
     if (!_stripe) return
 
@@ -68,7 +64,7 @@
       appearance,
     })
     $effect(() => {
-      if (selectedPlan) elements.update({ amount: discount.$?.amount || selectedPlan.amount })
+      if (selectedPlan) elements.update({ amount: resultPayment.$.amount })
     })
 
     const expressCheckoutElement = elements.create('expressCheckout', options)
@@ -80,14 +76,28 @@
         emailRequired: true,
         billingAddressRequired: true,
       })
+
+      trackEvent('press', {
+        type: 'payment_express_checkout',
+        source: 'payment_dialog',
+
+        action: event.expressPaymentType,
+        method: event.expressPaymentType,
+
+        plan: selectedPlan?.name,
+        plan_id: selectedPlan?.id,
+        billing: selectedPlan?.interval,
+        sanbase_trial: isEligibleForSanbaseTrial,
+
+        discount: discount.$?.description,
+        discountPercent: discount.$?.percentOff,
+      })
     })
 
     expressCheckoutElement.on('confirm', async (_event) => {
       if (!selectedPlan) {
         return Promise.reject('Missing selected plan')
       }
-
-      console.log(_event.expressPaymentType)
 
       const { error, setupIntent } = await _stripe.confirmSetup({
         elements,
@@ -110,6 +120,9 @@
       return processPayment({
         plan: selectedPlan,
         setupIntent,
+
+        action: _event.expressPaymentType,
+        method: _event.expressPaymentType,
       })
         .then(onSuccess)
         .catch((error) => {

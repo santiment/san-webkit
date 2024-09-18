@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
-  import { onMount } from 'svelte'
+  import { untrack } from 'svelte'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
@@ -11,26 +12,23 @@
   let { delayStripe = 0 } = $props()
 
   const { paymentForm } = usePaymentFormCtx()
-  const { stripe } = useStripeCtx()
+  const { stripe } = useStripeCtx({ delay: delayStripe })
+  const { device } = useDeviceCtx()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
-  let isMounted = $state(false)
-
-  onMount(() => {
-    const timer = setTimeout(() => (isMounted = true), delayStripe)
-    return () => clearTimeout(timer)
-  })
 
   $effect(() => {
-    if (!isMounted) return
     if (!stripe.$) return
     if (!clientSecret) return
+
+    const { isMobile } = untrack(() => device.$)
+    const fontSize = isMobile ? '16px' : '14px'
 
     const SETTINGS = {
       hidePostalCode: true,
       style: {
         base: {
-          fontSize: '14px',
+          fontSize,
           color: getBrowserCssVariable('black'),
           fontFamily: 'Proxima Nova, sans-serif',
           '::placeholder': {
@@ -68,9 +66,9 @@
           },
 
           '.Input': {
+            fontSize,
             boxShadow: 'none',
-            padding: '11px 16px',
-            fontSize: '14px',
+            padding: isMobile ? '10px 16px' : '11px 16px',
             color: getBrowserCssVariable('black'),
             borderColor: getBrowserCssVariable('porcelain'),
             transition: 'none',
@@ -126,7 +124,7 @@
   })
 </script>
 
-<div class="grid gap-4">
+<div class="grid gap-4 md:text-base">
   <LabelInput label="Card number" class="">
     <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green">
       <span class="text-casper">Card number</span>
@@ -144,8 +142,11 @@
 
 <style lang="postcss">
   :global {
+    .StripeElement--focus {
+      @apply border-green;
+    }
     .StripeElement--invalid {
-      @apply border-red;
+      @apply !border-red;
     }
   }
 </style>

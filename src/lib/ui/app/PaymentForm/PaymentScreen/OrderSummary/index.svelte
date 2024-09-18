@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
+  import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
@@ -22,17 +21,16 @@
   } = $props()
 
   const { Controller } = getDialogControllerCtx()
-  const { stripe: _stripe } = useStripeCtx()
   const { customer, currentUser } = useCustomerCtx()
-  const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
+  const { paymentForm, billingPeriod, subscriptionPlan, discount, resultPayment } =
+    usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
-  let delayStripe = $state(400)
+  const delayStripe = useDelayFlow(400)
   let isPaymentInProcess = $state(false)
 
   let formattedPlan = $derived(subscriptionPlan.$.formatted)
   let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
-  let discountedPrice = $derived(discount.$?.price || planPrice)
   let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
@@ -43,10 +41,15 @@
 
   let isWalletCannected = $derived((currentUser.$$?.ethAccounts.length ?? 0) > 0)
 
-  async function onPayClick() {
+  async function onPayClick(e: { currentTarget: HTMLElement }) {
     isPaymentInProcess = true
 
-    startCardPaymentFlow()
+    const plan = subscriptionPlan.$.selected
+    if (!plan) return
+
+    const action = e.currentTarget.textContent?.trim()
+
+    startCardPaymentFlow({ action })
       .then((data) => {
         onPaymentSuccess(data)
       })
@@ -61,12 +64,10 @@
   }
 
   function onPaymentError(e?: any) {
-    console.log(e)
+    console.error(e)
     isPaymentInProcess = false
     onError?.()
   }
-
-  onMount(() => (delayStripe = 0))
 </script>
 
 <div
@@ -107,7 +108,7 @@
         {@const now = new Date()}
         <h4 class="flex justify-between text-base font-medium text-waterloo">
           Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
-          <span> ${discountedPrice}</span>
+          <span> ${resultPayment.$.price}</span>
         </h4>
       {/if}
 
@@ -116,7 +117,7 @@
           {#if isEligibleForSanbaseTrial}
             $0
           {:else}
-            ${discountedPrice}
+            ${resultPayment.$.price}
           {/if}
         </span>
       </h3>
@@ -125,7 +126,13 @@
         <p class="-mt-1">
           Your trial has expired! If you have accidentally bypassed the free trial, please get in
           touch with
-          <a href="mailto:support@santiment.net" class="text-green" onclick={onSupportClick}>
+          <a
+            href="mailto:support@santiment.net"
+            class="text-green"
+            onclick={onSupportClick}
+            data-type="expired_trial_support"
+            data-source="payment_dialog"
+          >
             our support team</a
           >.
         </p>
@@ -140,8 +147,8 @@
             size="lg"
             class="center"
             href="mailto:support@santiment.net"
-            data-source="payment_form_order"
-            data-type="contact_us"
+            data-type="pay_crypto_contact_us"
+            data-source="payment_dialog"
             onclick={onSupportClick}
           >
             Contact us
@@ -166,7 +173,10 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton {delayStripe} onSuccess={onPaymentSuccess} onError={onPaymentError}
+        <StripePaymentButton
+          delayStripe={delayStripe.$}
+          onSuccess={onPaymentSuccess}
+          onError={onPaymentError}
         ></StripePaymentButton>
       {/if}
 

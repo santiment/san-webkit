@@ -6,8 +6,12 @@
   import Switch from '$ui/core/Switch/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import PlanButton from './PlanButton.svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
 
-  let { billingGroup }: { billingGroup: TPlanBillingGroup[string] } = $props()
+  let {
+    source: _source = '',
+    billingGroup,
+  }: { source?: string; billingGroup: TPlanBillingGroup[string] } = $props()
 
   const { customer } = useCustomerCtx()
 
@@ -15,6 +19,7 @@
   const formattedPlan = getFormattedPlan(monthlyPlan, billingGroup.year)
 
   let isAnnualBilling = $state(false)
+  let source = $derived(_source ? _source + '_plan_card' : 'plan_card')
   let isCurrentPlan = $derived(
     checkIsCurrentPlan(customer.$.plan, isAnnualBilling ? billingGroup.year : billingGroup.month),
   )
@@ -114,7 +119,15 @@
       >
         <Switch
           checked={isAnnualBilling}
-          onCheckedChange={() => (isAnnualBilling = !isAnnualBilling)}
+          onCheckedChange={() => {
+            trackEvent('toggle', {
+              action: isAnnualBilling ? 'off' : 'on',
+              type: 'annual_billing',
+              source,
+              plan: monthlyPlan.name,
+            })
+            isAnnualBilling = !isAnnualBilling
+          }}
         ></Switch>
 
         Bill annually
@@ -122,7 +135,7 @@
     {/if}
   </section>
 
-  <PlanButton plan={isAnnualBilling ? billingGroup.year! : monthlyPlan}></PlanButton>
+  <PlanButton {source} plan={isAnnualBilling ? billingGroup.year! : monthlyPlan}></PlanButton>
 
   {#if formattedPlan.details}
     <ul

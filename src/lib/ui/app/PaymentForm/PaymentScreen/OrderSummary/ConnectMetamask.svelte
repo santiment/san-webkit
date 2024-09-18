@@ -1,11 +1,17 @@
 <script lang="ts">
   import Button from '$ui/core/Button/index.js'
   import { useConnectMetamaskFlow } from '$lib/flow/web3/wallet.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   const { onConnectMetamaskClick } = useConnectMetamaskFlow()
 
   function onClick() {
     onConnectMetamaskClick()
+    trackEvent('press', {
+      action: 'connect_wallet',
+      type: 'pay_crypto_connect_metamask',
+      source: 'payment_dialog',
+    })
   }
 </script>
 
