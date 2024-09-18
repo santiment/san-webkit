@@ -66,7 +66,7 @@
       action: e.currentTarget.textContent?.trim() || '',
       type: e.currentTarget.dataset.type,
       plan: plan?.name,
-      interval: plan?.interval,
+      billing: plan?.interval,
       source,
     })
   }

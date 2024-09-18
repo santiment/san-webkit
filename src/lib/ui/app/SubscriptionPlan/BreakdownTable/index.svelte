@@ -2,6 +2,7 @@
   import type { TSubscriptionPlan } from '../types.js'
 
   import { ssd } from 'svelte-runes'
+  import { trackEvent } from '$lib/analytics/index.js'
   import Slides from '$ui/core/Slides/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import {
@@ -45,8 +46,17 @@
     return activePlanBreakdown ? [activePlanBreakdown] : []
   }
 
-  function onSlideChange(plan: TSubscriptionPlan) {
+  function onSlideChange(plan: TSubscriptionPlan, i: number) {
     activePlan.$ = plan
+
+    trackEvent('slides', {
+      slide: i,
+      type: 'plans_slides',
+      plan: plan?.name,
+      plan_id: plan?.id,
+      billing: plan?.interval,
+      source,
+    })
   }
 </script>
 
