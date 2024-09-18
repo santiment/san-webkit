@@ -10,7 +10,12 @@
   const showPaymentDialog = showPaymentDialog$()
 
   useSubscriptionPlanButtonCtx({
-    onPlanButtonClick: (plan) => showPaymentDialog({ defaultPlan: plan }),
+    onPlanButtonClick: (plan, e: { currentTarget: HTMLElement }) =>
+      showPaymentDialog({
+        defaultPlan: plan,
+        triggerLabel: e.currentTarget.textContent?.trim(),
+        triggerType: e.currentTarget.dataset.type,
+      }),
   })
 </script>
 

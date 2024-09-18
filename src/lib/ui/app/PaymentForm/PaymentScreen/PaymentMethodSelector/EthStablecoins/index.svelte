@@ -6,7 +6,7 @@
 </script>
 
 <OnlyAnnualMethod>
-  <Description name="ETH & Stable coins" img={ethImg}>
+  <Description type="stablecoins" name="ETH & Stable coins" img={ethImg}>
     <p>
       To make a payment with crypto, you can choose to use Ethereum (ETH), Dai (DAI), or other
       Ethereum-based stablecoins for any of our services. To make a payment with ETH or DAI, simply

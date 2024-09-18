@@ -7,6 +7,9 @@ import { ApiMock } from '../src/lib/api/mock'
 import { ApiCache } from '../src/lib/api/cache'
 import { MockedApi } from './mock'
 import Decorator from './Decorator.svelte'
+import { startLinksListener } from '../src/lib/analytics'
+
+startLinksListener()
 
 const preview: Preview = {
   parameters: {

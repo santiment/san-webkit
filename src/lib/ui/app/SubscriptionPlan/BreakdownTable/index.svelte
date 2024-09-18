@@ -13,10 +13,16 @@
   import Plan from './Plan.svelte'
 
   const {
+    source = '',
     class: className,
     plans,
     isConsumerPlans = true,
-  }: { class?: string; plans: TSubscriptionPlan[]; isConsumerPlans?: boolean } = $props()
+  }: {
+    source?: string
+    class?: string
+    plans: TSubscriptionPlan[]
+    isConsumerPlans?: boolean
+  } = $props()
 
   const { device } = useDeviceCtx()
 
@@ -67,7 +73,7 @@
 
           {#each plans as plan}
             <div class="td">
-              <Plan {plan}></Plan>
+              <Plan {source} {plan}></Plan>
             </div>
           {/each}
         {/if}

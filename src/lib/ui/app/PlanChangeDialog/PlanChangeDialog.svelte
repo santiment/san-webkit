@@ -7,6 +7,8 @@
 <script lang="ts">
   import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 
+  import { onMount } from 'svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
@@ -16,10 +18,14 @@
   import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
 
   let {
+    source = '',
     newPlan,
     onSuccess,
     Controller,
-  }: TDialogProps & { newPlan: TSubscriptionPlan; onSuccess?: () => void } = $props()
+  }: TDialogProps & {
+    newPlan: TSubscriptionPlan
+    onSuccess?: () => void
+  } = $props()
 
   const { customer } = useCustomerCtx()
 
@@ -35,6 +41,12 @@
       onSuccess?.()
     })
   }
+
+  onMount(() => {
+    trackEvent('dialog', { action: 'open', type: 'plan_change_dialog', source })
+
+    return () => trackEvent('dialog', { action: 'close', type: 'plan_change_dialog', source })
+  })
 </script>
 
 {#if customer.$.plan}
@@ -55,7 +67,12 @@
       Starting from this date your card will be charged ${newFormattedPlan.price} per
       {newPlan.interval}.
 
-      <Button href="/account" class="mt-4 text-green">Update your billing information here.</Button>
+      <Button
+        href="/account"
+        class="mt-4 text-green"
+        data-type="update_billing"
+        data-source="plan_change_dialog">Update your billing information here.</Button
+      >
     </p>
 
     <section class="mt-6 flex gap-2">

@@ -15,22 +15,49 @@
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
   import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
   import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
-  import type { ComponentProps } from 'svelte'
+  import { onMount, type ComponentProps } from 'svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   let {
+    source = '',
+    triggerType: trigger_type,
+    triggerLabel: trigger_label,
     defaultPlan = null,
     onSuccess,
     onError,
   }: TDialogProps &
-    ComponentProps<OrderSummary> & { defaultPlan?: null | TSubscriptionPlan } = $props()
+    ComponentProps<OrderSummary> & {
+      triggerType?: string
+      triggerLabel?: string
+      defaultPlan?: null | TSubscriptionPlan
+    } = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
   useCustomerCtx()
   const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[defaultPlan ? 1 : 0])
+
+  onMount(() => {
+    const analytics = {
+      plan: defaultPlan?.name,
+      plan_id: defaultPlan?.id,
+      billing: defaultPlan?.interval,
+      source,
+      trigger_type,
+      trigger_label,
+    }
+    trackEvent('payment_form_opened', analytics)
+    trackEvent('dialog', { ...analytics, type: 'payment_dialog', action: 'open' })
+
+    return () => {
+      trackEvent('dialog', { ...analytics, action: 'close', type: 'payment_dialog' })
+      trackEvent('payment_form_closed', { ...analytics, source })
+    }
+  })
 </script>
 
 <Dialog class="h-full w-full column">
   <DialogHeader disabled={subscriptionPlan.$.selected ? undefined : SCREENS[1]}></DialogHeader>
+
   {#if productsWithPlans.$.length === 0}
     <div class="skeleton absolute bottom-0 left-0 right-0 top-0 z-50"></div>
   {/if}

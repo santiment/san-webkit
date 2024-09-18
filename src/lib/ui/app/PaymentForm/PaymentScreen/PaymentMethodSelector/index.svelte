@@ -1,5 +1,6 @@
 <script lang="ts">
   import { useDelayFlow } from '$lib/ctx/stripe/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
   import { CardMethod } from './Card/index.js'
   import { EthStablecoinsMethod } from './EthStablecoins/index.js'
   import { SanTokenBurningMethod } from './SanTokenBurning/index.js'
@@ -21,6 +22,12 @@
 
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)
+
+    trackEvent('select', {
+      value: option.name,
+      type: 'payment_method',
+      source: 'payment_dialog',
+    })
   }
 </script>
 

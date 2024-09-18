@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { onSupportClick } from '$lib/utils/support.js'
   import {
@@ -17,21 +18,38 @@
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
   let {
+    source: _source = '',
     plan,
     class: className,
-  }: { plan: Exclude<TSubscriptionPlan, 'isDeprecated'>; class?: string } = $props()
+  }: {
+    plan: Exclude<TSubscriptionPlan, 'isDeprecated'>
+    class?: string
+    source?: string
+  } = $props()
 
-  const { onPlanButtonClick, onBillingPeriodChangeClick } = useSubscriptionPlanButtonCtx.get()
+  const { onPlanButtonClick, onPlanChangeClick, onBillingPeriodChangeClick } =
+    useSubscriptionPlanButtonCtx.get()
   const { customer } = useCustomerCtx()
 
+  let source = $derived(_source + '_plan_button')
   let isBusinessPlan = $derived(BUSINESS_PLANS.has(plan.name))
   let isConsumerPlan = $derived(CONSUMER_PLANS.has(plan.name))
 
   let isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, plan))
+  let isSameProductPlan = $derived(
+    (isConsumerPlan && customer.$.isConsumerSubscription) ||
+      (isBusinessPlan && customer.$.isBusinessSubscription),
+  )
   let isBillingChangeAvailable = $derived(checkIsAlternativeBillingPlan(customer.$.plan, plan))
   let isAnonymous = $derived(!customer.$.isLoggedIn)
   let anonymousProps = $derived(
-    isAnonymous ? { onclick: null, href: `/sign-up?from=${encodeURIComponent('/pricing')}` } : {},
+    isAnonymous
+      ? {
+          onclick: null,
+          href: `/sign-up?from=${encodeURIComponent('/pricing')}`,
+          'data-source': source,
+        }
+      : {},
   )
 
   let classes = $derived({
@@ -42,11 +60,27 @@
       className,
     ),
   })
+
+  function trackPress(e: { currentTarget: HTMLElement }, plan?: TSubscriptionPlan) {
+    trackEvent('press', {
+      action: e.currentTarget.textContent?.trim() || '',
+      type: e.currentTarget.dataset.type,
+      plan: plan?.name,
+      interval: plan?.interval,
+      source,
+    })
+  }
 </script>
 
 {#if isCurrentPlan}
   {#if isAnonymous}
-    <Button variant="fill" size="lg" class={cn('center', className)} {...anonymousProps}>
+    <Button
+      variant="fill"
+      size="lg"
+      class={cn('center', className)}
+      {...anonymousProps}
+      data-type="sign_up"
+    >
       Sing up
     </Button>
   {:else}
@@ -61,6 +95,8 @@
     class="center"
     onclick={onSupportClick}
     href="mailto:support@santiment.net"
+    data-type="default_plan"
+    data-source={source}
   >
     Default plan
   </Button>
@@ -71,6 +107,8 @@
     {...classes}
     target="_blank"
     href="https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry"
+    data-type="custom_business_plan"
+    data-source={source}
   >
     Let's talk!
   </Button>
@@ -79,8 +117,12 @@
     variant="fill"
     size="lg"
     {...classes}
-    onclick={() => onBillingPeriodChangeClick?.(plan)}
+    onclick={(e) => {
+      trackPress(e, plan)
+      onBillingPeriodChangeClick?.(plan, e)
+    }}
     {...anonymousProps}
+    data-type="change_billing"
   >
     Change billing period
   </Button>
@@ -89,8 +131,12 @@
     variant="fill"
     size="lg"
     {...classes}
-    onclick={() => onPlanButtonClick?.(plan)}
+    onclick={(e) => {
+      trackPress(e, plan)
+      onPlanButtonClick?.(plan, e)
+    }}
     {...anonymousProps}
+    data-type="get_business"
   >
     Get {getPlanName(plan)}
   </Button>
@@ -99,8 +145,12 @@
     variant="fill"
     size="lg"
     {...classes}
-    onclick={() => onPlanButtonClick?.(plan)}
+    onclick={(e) => {
+      trackPress(e, plan)
+      onPlanButtonClick?.(plan, e)
+    }}
     {...anonymousProps}
+    data-type="start_free_trial"
   >
     Start Free Trial
   </Button>
@@ -110,8 +160,14 @@
     size="lg"
     {...classes}
     href="mailto:support@santiment.net"
-    onclick={onSupportClick}
+    onclick={(e) => {
+      trackPress(e, plan)
+
+      if (isSameProductPlan) onPlanChangeClick?.(plan, e)
+      else onSupportClick(e)
+    }}
     {...anonymousProps}
+    data-type="{isConsumerPlan ? 'consumer' : 'business'}_change_plan"
   >
     Change plan
   </Button>
@@ -120,7 +176,13 @@
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
     {...classes}
-    onclick={() => onPlanButtonClick?.(plan)}
+    onclick={(e) => {
+      trackPress(e, plan)
+
+      if (isSameProductPlan) onPlanChangeClick?.(plan, e)
+      else onPlanButtonClick?.(plan, e)
+    }}
+    data-type="upgrade"
   >
     Upgrade
   </Button>

@@ -4,6 +4,7 @@
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   let {
     class: className,
@@ -111,8 +112,19 @@
             iconSize="14"
             icon="arrow-left-big"
             class="text-fiord"
-            onclick={() => (screen.$ = backScreen)}>{backScreen.backLabel ?? 'Back'}</Button
+            onclick={() => {
+              trackEvent('pagination', {
+                type: 'change_payment_screen',
+                value: 0,
+                label: backScreen.backLabel || 'Back',
+                source: 'payment_form',
+              })
+
+              screen.$ = backScreen
+            }}
           >
+            {backScreen.backLabel ?? 'Back'}
+          </Button>
         </div>
       {/if}
     </OnlyOnDevice>

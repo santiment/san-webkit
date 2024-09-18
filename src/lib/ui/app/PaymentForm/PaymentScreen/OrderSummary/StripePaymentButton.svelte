@@ -4,6 +4,7 @@
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
 
@@ -18,7 +19,7 @@
   } = $props()
 
   const { stripe } = useStripeCtx({ delay: delayStripe })
-  const { paymentForm, subscriptionPlan, discount } = usePaymentFormCtx()
+  const { paymentForm, subscriptionPlan, resultPayment } = usePaymentFormCtx()
   const { processPayment } = usePaymentFlow()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
@@ -58,7 +59,7 @@
       appearance,
     })
     $effect(() => {
-      if (selectedPlan) elements.update({ amount: discount.$?.amount || selectedPlan.amount })
+      if (selectedPlan) elements.update({ amount: resultPayment.$.amount })
     })
 
     const expressCheckoutElement = elements.create('expressCheckout', options)
@@ -70,14 +71,24 @@
         emailRequired: true,
         billingAddressRequired: true,
       })
+
+      trackEvent('press', {
+        action: event.expressPaymentType,
+        type: 'payment_express_checkout',
+        source: 'payment_dialog',
+        plan: selectedPlan?.name,
+        plan_id: selectedPlan?.id,
+        billing: selectedPlan?.interval,
+
+        // sanbase_trial: isEligibleForSanbaseTrial,
+        // san_tokens_discount: hasSanTokensDiscount,
+      })
     })
 
     expressCheckoutElement.on('confirm', async (_event) => {
       if (!selectedPlan) {
         return Promise.reject('Missing selected plan')
       }
-
-      console.log(_event.expressPaymentType)
 
       const { error, setupIntent } = await _stripe.confirmSetup({
         elements,
@@ -100,6 +111,9 @@
       return processPayment({
         plan: selectedPlan,
         setupIntent,
+
+        action: _event.expressPaymentType,
+        method: _event.expressPaymentType,
       })
         .then(onSuccess)
         .catch((error) => {

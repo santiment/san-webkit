@@ -54,7 +54,7 @@ export const usePaymentFormCtx = createCtx(
       const amount = selectedPlan.amount - amountOff
 
       return {
-        description: 'Promo code',
+        description: 'Promo code', // SAN Holder discount
         percentOff: discountCoupon.percentOff,
 
         amount,
@@ -62,6 +62,17 @@ export const usePaymentFormCtx = createCtx(
 
         price: Math.ceil(amount / 100),
         priceOff: Math.floor(amountOff / 100),
+      }
+    })
+    const resultPayment = ssd(() => {
+      if (discount.$) return discount.$
+
+      const { formatted } = plan.$
+      if (!formatted) return { amount: 10000000, price: 100000 }
+
+      return {
+        price: formatted.price[billingPeriod.$],
+        amount: formatted.amount[billingPeriod.$],
       }
     })
 
@@ -121,6 +132,7 @@ export const usePaymentFormCtx = createCtx(
       subscriptionPlan: plan,
       coupon,
       discount,
+      resultPayment,
       productsWithPlans,
 
       selectPaymentMethod(option: typeof CardMethod) {
