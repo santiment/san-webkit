@@ -31,7 +31,6 @@
 
   let formattedPlan = $derived(subscriptionPlan.$.formatted)
   let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
-  let discountedPrice = $derived(discount.$?.price || planPrice)
   let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
@@ -109,7 +108,7 @@
         {@const now = new Date()}
         <h4 class="flex justify-between text-base font-medium text-waterloo">
           Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
-          <span> ${resultPayment.$.price || discountedPrice}</span>
+          <span> ${resultPayment.$.price}</span>
         </h4>
       {/if}
 
@@ -118,7 +117,7 @@
           {#if isEligibleForSanbaseTrial}
             $0
           {:else}
-            ${resultPayment.$.price || discountedPrice}
+            ${resultPayment.$.price}
           {/if}
         </span>
       </h3>

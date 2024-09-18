@@ -4,6 +4,7 @@
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
@@ -19,11 +20,15 @@
   } = $props()
 
   const { stripe } = useStripeCtx({ delay: delayStripe })
-  const { paymentForm, subscriptionPlan, resultPayment } = usePaymentFormCtx()
+  const { paymentForm, subscriptionPlan, resultPayment, discount } = usePaymentFormCtx.get()
+  const { customer } = useCustomerCtx()
   const { processPayment } = usePaymentFlow()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
+
+  let isConsumerPlan = $derived(!subscriptionPlan.$.formatted?.isBusiness)
+  let isEligibleForSanbaseTrial = $derived(isConsumerPlan && customer.$.isEligibleForSanbaseTrial)
 
   $effect(() => {
     const _stripe = stripe.$
@@ -73,15 +78,19 @@
       })
 
       trackEvent('press', {
-        action: event.expressPaymentType,
         type: 'payment_express_checkout',
         source: 'payment_dialog',
+
+        action: event.expressPaymentType,
+        method: event.expressPaymentType,
+
         plan: selectedPlan?.name,
         plan_id: selectedPlan?.id,
         billing: selectedPlan?.interval,
+        sanbase_trial: isEligibleForSanbaseTrial,
 
-        // sanbase_trial: isEligibleForSanbaseTrial,
-        // san_tokens_discount: hasSanTokensDiscount,
+        discount: discount.$?.description,
+        discountPercent: discount.$?.percentOff,
       })
     })
 

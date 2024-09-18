@@ -68,6 +68,7 @@
     class:business={!isConsumerPlans}
   >
     <Table
+      {source}
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
