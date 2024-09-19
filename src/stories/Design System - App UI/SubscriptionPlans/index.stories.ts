@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 import component from './index.svelte'
+import { MOCKED_PLANS_API } from './plans.js'
 
 const meta = {
   component,
@@ -16,6 +17,7 @@ export const Anonymous: Story = {
   parameters: {
     mockApi: () => ({
       currentUser: null,
+      ...MOCKED_PLANS_API,
     }),
   },
 }
@@ -27,6 +29,7 @@ export const NoTrialAvailable: Story = {
       currentUser: {
         isEligibleForSanbaseTrial: false,
       },
+      ...MOCKED_PLANS_API,
     }),
   },
 }
@@ -36,6 +39,7 @@ export const EligibleForSanbaseTrial: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         isEligibleForSanbaseTrial: true,
       },
@@ -48,6 +52,7 @@ export const Pro: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         plan: {
           pro: true,
@@ -63,6 +68,7 @@ export const ProOnTrial: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         plan: {
           pro: true,
@@ -79,6 +85,7 @@ export const MaxOnTrial: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         plan: {
           max: true,
@@ -95,6 +102,7 @@ export const BusinessPro: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         plan: {
           businessPro: true,
@@ -110,6 +118,7 @@ export const BusinessMax: Story = {
 
   parameters: {
     mockApi: () => ({
+      ...MOCKED_PLANS_API,
       currentUser: {
         plan: {
           businessMax: true,
