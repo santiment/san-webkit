@@ -53,7 +53,7 @@
   <LabelInput
     label="Have a promo code?"
     placeholder="2H8vZG5P"
-    class="relative"
+    class="relative md:[&_input]:py-2 md:[&_input]:text-base"
     oninput={(e) => onInput(e.currentTarget.value.trim())}
     value={paymentCoupon.$?.value}
   >
