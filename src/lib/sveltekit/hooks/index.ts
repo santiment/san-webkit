@@ -9,9 +9,15 @@ export const amplitudeTrackHandle: Handle = async ({ event, resolve }) => {
   }
 
   const headers = event.request.headers
-  headers.delete('Content-Length')
+  headers.delete('content-length')
+  headers.delete(':method')
+  headers.delete(':authority')
+  headers.delete(':scheme')
+  headers.delete(':path')
+  headers.delete('pragma')
+  headers.delete('cache-control')
 
-  headers.set('host', 'api2.amplitude.com')
+  // headers.set('host', 'api2.amplitude.com')
 
   const body = await event.request.json()
 
