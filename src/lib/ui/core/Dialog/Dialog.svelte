@@ -24,6 +24,9 @@
   const close = () => (isOpened = false)
   Controller.close = close
 
+  // @ts-expect-error
+  const onClosed = () => Controller._unmount()
+
   $effect(() => {
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
@@ -33,8 +36,7 @@
       if (isMounted === false) return true
 
       // Forcing memory clean
-      // @ts-expect-error
-      setTimeout(Controller._unmount, TRANSITION_MS + 50)
+      setTimeout(onClosed, TRANSITION_MS + 50)
     }
 
     return next
@@ -45,7 +47,6 @@
   {#if device.$.isDesktop}
     <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
   {:else}
-    <MobileDialog class={className} {close} {children} onClose={() => onOpenChange({ next: false })}
-    ></MobileDialog>
+    <MobileDialog class={className} {children} {onClosed}></MobileDialog>
   {/if}
 {/if}

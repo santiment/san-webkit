@@ -43,6 +43,7 @@ const preview: Preview = {
         root.setAttribute('data-vaul-drawer-wrapper', '')
         root.style.minHeight = '100vh'
         root.classList.add('bg-white')
+        document.body.style.background = 'black'
       }
 
       // @ts-expect-error
