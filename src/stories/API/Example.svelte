@@ -33,8 +33,8 @@
   )
 
   function onClick() {
-    queryCurrentUser(Query)().then((data) => console.log('Promise based', data))
     startCacheTimer()
+    queryCurrentUser(Query)().then((data) => console.log('Promise based', data))
   }
 </script>
 
