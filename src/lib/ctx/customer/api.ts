@@ -1,6 +1,6 @@
 import { BROWSER } from 'esm-env'
 import { UniQuery } from '$lib/api/executor.js'
-import { Fetcher } from '$lib/api/index.js'
+import { ApiQuery } from '$lib/api/index.js'
 import { calculateDaysTo } from '$lib/utils/dates.js'
 import {
   getApiSubscription,
@@ -103,7 +103,7 @@ export const DEFAULT: TCustomer = {
   subscriptions: [],
 }
 
-export const queryCurrentUserSubscriptions = Fetcher(
+export const queryCurrentUserSubscriptions = ApiQuery(
   () => `{
   currentUser {
     id
@@ -172,7 +172,7 @@ type TApiAnnualDiscount = null | {
     expireAt: string
   }
 }
-export const queryCustomerAnnualDiscount = Fetcher(
+export const queryCustomerAnnualDiscount = ApiQuery(
   () => `{
   annualDiscount:checkAnnualDiscountEligibility {
     isEligible
@@ -186,7 +186,7 @@ export const queryCustomerAnnualDiscount = Fetcher(
   { cache: false },
 )
 
-export const queryCurrentUserSanBalance = Fetcher(
+export const queryCurrentUserSanBalance = ApiQuery(
   () => '{currentUser{sanBalance}}',
   (gql: {
     currentUser: null | {

@@ -1,6 +1,6 @@
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 
-export const mutateAddUserEthAddress = Mutation(
+export const mutateAddUserEthAddress = ApiMutation(
   (variables: { address: string; signature: string; messageHash: string }) => ({
     schema: `
   mutation ($address: String!, $signature: String!, $messageHash: String!) {

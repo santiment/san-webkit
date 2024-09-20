@@ -1,8 +1,8 @@
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { BROWSER } from 'esm-env'
 import type { TEventData } from './track.js'
 
-export const trackSanEvent = Mutation(
+export const trackSanEvent = ApiMutation(
   (event_name: string, created_at: Date, metadata: TEventData) => ({
     schema: `
   mutation trackEvents($event: json, $anonymousUserId: String) {

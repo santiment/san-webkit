@@ -1,10 +1,10 @@
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 import { BROWSER } from 'esm-env'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
-const mutateUpdateUserSettings = Mutation(
+const mutateUpdateUserSettings = ApiMutation(
   (isNightMode: boolean) => `mutation {
     updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
       theme

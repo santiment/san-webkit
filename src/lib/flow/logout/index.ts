@@ -1,10 +1,10 @@
 import { goto } from '$app/navigation'
 import { Query } from '$lib/api/executor.js'
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { notifcation } from '$ui/core/Notifications/index.js'
 
-const mutateLogout = Mutation(
+const mutateLogout = ApiMutation(
   () => `mutation {
     logout {
       success

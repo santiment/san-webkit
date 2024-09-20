@@ -2,7 +2,7 @@ import { ss, ssd, useObserve } from 'svelte-runes'
 import { tap } from 'rxjs'
 import { untrack } from 'svelte'
 import { createCtx } from '$lib/utils/index.js'
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
@@ -146,7 +146,7 @@ export const usePaymentFormCtx = createCtx(
   },
 )
 
-export const mutateCreateStripeSetupIntent = Mutation(
+export const mutateCreateStripeSetupIntent = ApiMutation(
   () => `mutation { createStripeSetupIntent { clientSecret } }`,
   (data: { createStripeSetupIntent: { clientSecret: string } }) =>
     data.createStripeSetupIntent.clientSecret,

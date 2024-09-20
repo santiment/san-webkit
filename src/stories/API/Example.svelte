@@ -1,11 +1,11 @@
 <script lang="ts">
   import { exhaustMap, merge, mergeMap, pipe, take, tap, timer } from 'rxjs'
-  import { Fetcher } from '$lib/api/index.js'
+  import { ApiQuery } from '$lib/api/index.js'
   import { useObserveFnCall } from '$lib/utils/index.js'
   import Button from '$ui/core/Button/index.js'
   import { Query } from '$lib/api/executor.js'
 
-  const queryCurrentUser = Fetcher(
+  const queryCurrentUser = ApiQuery(
     () => `{ currentUser { id  } }`,
     (gql: { currentUser: null | { id: number } }) => gql.currentUser,
   )

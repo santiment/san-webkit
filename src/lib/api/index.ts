@@ -66,7 +66,7 @@ function setupExecutor<GExecutor extends TQueryExecutor>(
  * )
  * ```
  */
-export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
+export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
   schemaCreator: SchemaCreator,
   mapData?: (data: any) => Data,
   globalOptions?: TExecutorOptions,
@@ -114,10 +114,10 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
   }
 }
 
-export const Mutation = <Data, SchemaCreator extends TGqlSchemaCreator>(
+export const ApiMutation = <Data, SchemaCreator extends TGqlSchemaCreator>(
   schemaCreator: SchemaCreator,
   mapData?: (data: any) => Data,
-) => Fetcher(schemaCreator, mapData, { cache: false })
+) => ApiQuery(schemaCreator, mapData, { cache: false })
 
 export type TData<T> = (...args: any[]) => (...args: any[]) => Observable<T> | Promise<T>
 

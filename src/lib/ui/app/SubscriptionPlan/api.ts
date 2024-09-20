@@ -1,4 +1,4 @@
-import { Fetcher } from '$lib/api/index.js'
+import { ApiQuery } from '$lib/api/index.js'
 import { BUSINESS_PLANS, CONSUMER_PLANS, Product, SubscriptionPlan } from './plans.js'
 
 export type TProductsWithPlans = readonly {
@@ -17,7 +17,7 @@ export type TProductsWithPlans = readonly {
  * Fetching plans for all products.
  * Caching result indefinitely.
  */
-export const queryProductsWithPlans = Fetcher(
+export const queryProductsWithPlans = ApiQuery(
   () => `{
   productsWithPlans {
     id
