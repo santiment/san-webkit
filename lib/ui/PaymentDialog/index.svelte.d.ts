@@ -1,6 +1,6 @@
 import { SvelteComponentTyped } from "svelte";
 import { Plan } from './../../utils/plans';
-export declare const showPaymentDialog: (props?: any) => Promise<unknown>;
+export declare const showPaymentDialog: (props?: any) => any;
 export declare const dataPreloader: (node: HTMLElement) => void;
 declare const __propDef: {
     props: {

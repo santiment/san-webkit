@@ -43,7 +43,7 @@ $: label = (() => {
     }
     return 'Buy now';
 })();
-function onClick() {
+function onClick(e) {
     window.dispatchEvent(new CustomEvent(PLAN_BUTTON_CLICKED));
     if (isCustomPlan) {
         window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank');
@@ -67,6 +67,7 @@ function onClick() {
         isEligibleForTrial,
         annualDiscount,
         source,
+        triggeredBy: e && e.currentTarget,
     });
 }
 </script>

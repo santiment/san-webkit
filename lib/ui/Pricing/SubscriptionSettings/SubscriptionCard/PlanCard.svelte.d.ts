@@ -15,7 +15,7 @@ declare const __propDef: {
         shouldHideBillingInfo?: boolean | undefined;
         plans?: SAN.Plan[] | undefined;
         description?: string | undefined;
-        onActionClick?: (() => Promise<unknown> | undefined) | undefined;
+        onActionClick?: ((e: any) => any) | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

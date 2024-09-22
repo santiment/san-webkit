@@ -12,7 +12,7 @@ export let isUpgrade = false;
 export let shouldHideBillingInfo = false;
 export let plans = [];
 export let description = '';
-export let onActionClick = () => {
+export let onActionClick = (e) => {
     if (plan.name === Plan.CUSTOM) {
         window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank');
         return;
@@ -23,6 +23,7 @@ export let onActionClick = () => {
         interval: plan.interval,
         planData: plan,
         source: 'account-subscription-suggestions',
+        triggeredBy: e && e.currentTarget,
     });
 };
 $: ({ name } = plan);

@@ -4,7 +4,9 @@ import { Preloader } from './../../utils/fn';
 import { stripe } from './../../stores/stripe';
 import { dialogs } from './../../ui/Dialog';
 import PaymentDialog from './index.svelte';
-export const showPaymentDialog = (props) => dialogs.show(PaymentDialog, props);
+export const showPaymentDialog = (props) => 
+// @ts-ignore
+window.showPaymentDialog?.(props) || dialogs.show(PaymentDialog, props);
 const preloadData = () => (queryPlans(), paymentCard$.query(), stripe.load());
 export const dataPreloader = Preloader(preloadData);
 </script>
