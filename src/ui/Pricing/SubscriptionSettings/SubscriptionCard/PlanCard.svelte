@@ -14,7 +14,7 @@
   export let shouldHideBillingInfo = false
   export let plans = [] as SAN.Plan[]
   export let description = ''
-  export let onActionClick = () => {
+  export let onActionClick = (e) => {
     if (plan.name === Plan.CUSTOM) {
       window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank')
       return
@@ -26,6 +26,7 @@
       interval: plan.interval,
       planData: plan,
       source: 'account-subscription-suggestions',
+      triggeredBy: e && e.currentTarget,
     })
   }
 
