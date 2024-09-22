@@ -55,6 +55,8 @@
 
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
 
+        {@render sanbaseLink('My alerts', '/alerts')}
+
         {@render sanbaseLink('My watchlists', '/watchlists')}
 
         {@render sanbaseLink('My insights', '/insights/my')}
