@@ -21,4 +21,6 @@ export const trackEvent = (
     source_url: window.location.origin + window.location.pathname,
     source_url_type: window.getPageType?.(window.location.pathname),
     source_search_params: window.location.search,
+
+    release_version: process.env.VERSION || process.env.GIT_HEAD,
   })

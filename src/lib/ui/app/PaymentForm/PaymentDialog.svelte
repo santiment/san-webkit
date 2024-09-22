@@ -18,23 +18,25 @@
   import { onMount, type ComponentProps } from 'svelte'
   import { trackEvent } from '$lib/analytics/index.js'
 
-  let {
-    source = '',
-    triggerType: trigger_type,
-    triggerLabel: trigger_label,
-    defaultPlan = null,
-    onSuccess,
-    onError,
-  }: TDialogProps &
+  type Props = TDialogProps &
     ComponentProps<OrderSummary> & {
-      triggerType?: string
-      triggerLabel?: string
       defaultPlan?: null | TSubscriptionPlan
-    } = $props()
+
+      triggeredBy?: {
+        textContent?: null | string
+        dataset: Partial<{ type: string; source: string }>
+      }
+    }
+
+  let { source = '', triggeredBy, defaultPlan = null, onSuccess, onError }: Props = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
   useCustomerCtx()
   const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[defaultPlan ? 1 : 0])
+
+  const trigger_type = triggeredBy?.dataset.type
+  const trigger_source = triggeredBy?.dataset.source
+  const trigger_label = triggeredBy?.textContent?.trim()
 
   onMount(() => {
     const analytics = {
@@ -43,6 +45,7 @@
       billing: defaultPlan?.interval,
       source,
       trigger_type,
+      trigger_source,
       trigger_label,
     }
     trackEvent('payment_form_opened', analytics)

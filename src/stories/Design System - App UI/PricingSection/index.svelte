@@ -13,8 +13,7 @@
     onPlanButtonClick: (plan, e: { currentTarget: HTMLElement }) =>
       showPaymentDialog({
         defaultPlan: plan,
-        triggerLabel: e.currentTarget.textContent?.trim(),
-        triggerType: e.currentTarget.dataset.type,
+        triggeredBy: e.currentTarget,
       }),
   })
 </script>
