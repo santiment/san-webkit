@@ -20,13 +20,14 @@
   export let isUpgrade = false
   export let shouldHideBillingInfo
   export let plans = [] as SAN.Plan[]
-  export let onActionClick = () => {
+  export let onActionClick = (e) => {
     return showPaymentDialog({
       plans,
       plan: plan.name,
       interval: plan.interval,
       planData: plan,
       source: 'account-subscription-suggestions',
+      triggeredBy: e && e.currentTarget,
     })
   }
 
@@ -61,10 +62,10 @@
   action={discount
     ? `Pay now ${discount}% Off`
     : isEligibleForTrial
-    ? 'Start 14-day Free Trial'
-    : isUpgrade
-    ? 'Upgrade'
-    : action}
+      ? 'Start 14-day Free Trial'
+      : isUpgrade
+        ? 'Upgrade'
+        : action}
   disabled={action === 'Default plan'}
   title={PlanName[name] + (isTrial ? ' Trial' : '') + annual}
   label={discount ? 'Special offer' : label}
