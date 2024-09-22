@@ -34,6 +34,9 @@ export function startCancellationFlow(
     .then(() => {
       closeDialog()
       customer$.refetch()
+      // @ts-ignore
+      window.onCanceledSubscription?.()
+
       notifications$.show({
         type: 'success',
         title: 'You have successfully canceled your subscription.',
