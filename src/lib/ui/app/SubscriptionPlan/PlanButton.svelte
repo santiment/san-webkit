@@ -159,7 +159,7 @@
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
     {...classes}
-    href="mailto:support@santiment.net"
+    href={isSameProductPlan ? undefined : 'mailto:support@santiment.net'}
     onclick={(e) => {
       trackPress(e, plan)
 

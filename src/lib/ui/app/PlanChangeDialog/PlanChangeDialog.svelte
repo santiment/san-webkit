@@ -17,6 +17,7 @@
   import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
   import { mutateUpdateSubscription } from './api.js'
   import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
+  import { cn } from '$ui/utils/index.js'
 
   let {
     source = '',
@@ -33,9 +34,12 @@
   const formatDate = (date: string | number = Date.now()) =>
     getFormattedMonthDayYear(new Date(date))
 
+  let loading = $state(false)
+
   function onChangeClick() {
     const { primarySubscription } = customer.$
     if (!primarySubscription) return
+    if (loading) return
 
     Controller.lock()
 
@@ -53,6 +57,7 @@
         notification.error(`Error during plan change`)
       })
       .finally(() => {
+        loading = false
         Controller.unlock()
       })
   }
@@ -91,7 +96,9 @@
     </p>
 
     <section class="mt-6 flex gap-2">
-      <Button href="/account" variant="fill" onclick={onChangeClick}>Change plan</Button>
+      <Button class={cn(loading && 'loading')} variant="fill" onclick={onChangeClick}>
+        Change plan
+      </Button>
       <Button href="/account" variant="border" onclick={() => Controller.close()}>Cancel</Button>
     </section>
   </Dialog>
