@@ -12,10 +12,17 @@ type TController<GResolved, GRejected> = {
   lock: () => void
   lockWarn: () => void
   unlock: () => void
+  checkIsLocked: (isForced?: boolean) => boolean
 
-  close: () => void
+  close: (isForced?: boolean) => void
   resolve: GResolved
   reject: GRejected
+}
+
+enum Locking {
+  FREE,
+  LOCKED,
+  LOCKED_WARN,
 }
 
 export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
@@ -59,12 +66,29 @@ export const dialogs$ = {
           reject = promiseReject
         })
 
+        let locking = Locking.FREE
+
         // const context = new Map(ALL_CTX)
         const context = ALL_CTX
         const Controller = {
-          lock: () => {},
-          lockWarn: () => {},
-          unlock: () => {},
+          lock: (): any => (locking = Locking.LOCKED),
+          lockWarn: (): any => (locking = Locking.LOCKED_WARN),
+          unlock: (): any => (locking = Locking.FREE),
+          checkIsLocked: (isForced?: boolean) => {
+            // NOTE: Enforcing boolean check
+            if (isForced === true) return false
+
+            if (locking === Locking.LOCKED) return true
+
+            if (
+              locking === Locking.LOCKED_WARN &&
+              confirm('Do you want to close the dialog?') === false
+            ) {
+              return true
+            }
+
+            return false
+          },
 
           close: () => {},
           resolve,

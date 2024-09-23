@@ -11,6 +11,7 @@
   import { trackEvent } from '$lib/analytics/index.js'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { notifcation as notification } from '$ui/core/Notifications/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
@@ -36,10 +37,24 @@
     const { primarySubscription } = customer.$
     if (!primarySubscription) return
 
-    mutateUpdateSubscription(Query)(primarySubscription.id, newPlan.id).then(() => {
-      customer.reload()
-      onSuccess?.()
-    })
+    Controller.lock()
+
+    mutateUpdateSubscription(Query)(primarySubscription.id, newPlan.id)
+      .then(() => {
+        customer.reload()
+        Controller.close(true)
+        onSuccess?.()
+
+        // TODO: Remove
+        window.__updateLegacyStoresOnPlanChange?.(newPlan)
+        notification.success(`You have successfully changed your plan to the "${newPlan.name}"!`)
+      })
+      .catch(() => {
+        notification.error(`Error during plan change`)
+      })
+      .finally(() => {
+        Controller.unlock()
+      })
   }
 
   onMount(() => {
@@ -77,7 +92,7 @@
 
     <section class="mt-6 flex gap-2">
       <Button href="/account" variant="fill" onclick={onChangeClick}>Change plan</Button>
-      <Button href="/account" variant="border" onclick={Controller.close}>Cancel</Button>
+      <Button href="/account" variant="border" onclick={() => Controller.close()}>Cancel</Button>
     </section>
   </Dialog>
 {/if}

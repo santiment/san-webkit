@@ -47,6 +47,7 @@
     const plan = subscriptionPlan.$.selected
     if (!plan) return
 
+    Controller.lock()
     const action = e.currentTarget.textContent?.trim()
 
     startCardPaymentFlow({ action })
@@ -56,10 +57,13 @@
       .catch((e) => {
         onPaymentError(e)
       })
+      .finally(() => {
+        Controller.unlock()
+      })
   }
 
   function onPaymentSuccess(data: TPaymentFlowResult) {
-    Controller.close()
+    Controller.close(true)
     onSuccess?.(data)
   }
 

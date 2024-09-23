@@ -31,6 +31,8 @@ declare global {
     getPageType?: (pathname: string) => string
 
     gtag?: Gtag.Gtag
+
+    __updateLegacyStoresOnPlanChange?: any
   }
 
   namespace NodeJS {
