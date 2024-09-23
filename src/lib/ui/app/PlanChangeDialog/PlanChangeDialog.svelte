@@ -16,7 +16,7 @@
   import { Query } from '$lib/api/executor.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
   import { mutateUpdateSubscription } from './api.js'
-  import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
+  import { getFormattedBillingPlan, getPlanName } from '../SubscriptionPlan/utils.js'
 
   let {
     source = '',
@@ -40,6 +40,7 @@
     if (!primarySubscription) return
     if (loading) return
 
+    const planDisplayName = getPlanName(newPlan)
     loading = true
     Controller.lock()
 
@@ -51,7 +52,7 @@
 
         // TODO: Remove
         window.__updateLegacyStoresOnPlanChange?.(newPlan)
-        notification.success(`You have successfully changed your plan to the "${newPlan.name}"!`)
+        notification.success(`You have successfully changed your plan to the "${planDisplayName}"!`)
       })
       .catch(() => {
         notification.error(`Error during plan change`)

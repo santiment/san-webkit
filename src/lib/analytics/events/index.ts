@@ -23,4 +23,5 @@ export const trackEvent = (
     ...props,
 
     release_version: process.env.VERSION || process.env.GIT_HEAD,
+    release_date: process.env.GIT_HEAD_DATETIME,
   })

@@ -15,6 +15,8 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
+export const GIT_HEAD_DATETIME = getGitHeadDate()
+
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
@@ -93,6 +95,7 @@ export function createConfig({
       'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
 
       'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
+      'process.env.GIT_HEAD_DATETIME': JSON.stringify(GIT_HEAD_DATETIME),
     },
   })
 }
@@ -100,3 +103,11 @@ export function createConfig({
 export default mergeConfig(createConfig(), {
   plugins: [StaticAssetLogos()],
 })
+
+function getGitHeadDate() {
+  const date: null | Date = new Date(
+    execSync('git show --no-patch --format=%ci ' + GIT_HEAD).toString(),
+  )
+
+  return Number.isNaN(+date) ? null : date
+}
