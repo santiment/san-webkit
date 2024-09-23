@@ -19,9 +19,9 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
   let store = { isNightMode: false, isLiteVersion: false, ...defaultValue }
 
   if (BROWSER) {
-    const { currentUser, theme } = getSessionValue()
+    const { currentUser, old_currentUser = currentUser, theme } = getSessionValue()
 
-    if (currentUser) {
+    if (old_currentUser) {
       store.isNightMode = theme === 'night-mode' || theme === 'nightmode'
     } else {
       const saved = getSavedJson('ui', store) as typeof store
@@ -40,13 +40,13 @@ export function UI$$(defaultValue = {} as Record<string, any>) {
     ui$: {
       ...ui$,
       toggleNightMode() {
-        const { currentUser } = getSessionValue()
+        const { currentUser, old_currentUser = currentUser } = getSessionValue()
         const isNightMode = document.body.classList.toggle('night-mode')
 
         // @ts-expect-error
         window.onNightModeToggle?.(isNightMode)
 
-        if (currentUser) {
+        if (old_currentUser) {
           mutate(TOGGLE_THEME_MUTATION(isNightMode)).catch(console.error)
         }
 
