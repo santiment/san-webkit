@@ -1,7 +1,7 @@
 import { track, Tracker } from '@/analytics'
 import { trackTwitterPurchaseEvent, TwitterTrackActions } from '@/analytics/twitter'
 import { mutateSubscribe } from '@/api/plans'
-import { PlanName } from '@/utils/plans'
+import { getPlanDisplayName } from '@/utils/plans'
 import { notifications$ } from '@/ui/Notifications'
 import { paymentCard$ } from '@/stores/paymentCard'
 import {
@@ -117,8 +117,8 @@ export function buyPlan(
 
 export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore, method?: string) {
   const { plan } = data
-  const { name, amount } = plan
-  const title = PlanName[name] || name
+  const { amount } = plan
+  const title = getPlanDisplayName(plan)
 
   trackTwitterPurchaseEvent()
 

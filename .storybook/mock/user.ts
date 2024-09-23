@@ -1,7 +1,7 @@
 import type { PromoCode } from '@/stores/user'
 
 import { getTodaysEnd } from '@/utils/dates'
-import { Plan, ProductId, checkIsBusinessPlan } from '@/utils/plans'
+import { Plan, ProductId } from '@/utils/plans'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -53,6 +53,9 @@ export type CurrentUser = null | {
 
     /** @default undefined */
     cancelledInDays?: number
+
+    /** @default ProductId.SANBASE */
+    productId?: ProductId
   }
 
   promoCodes?: PromoCode[]
@@ -90,6 +93,7 @@ export function mockUser(currentUser: CurrentUser) {
       trialDaysLeft,
       cancelledInDays,
       name: planName,
+      productId = ProductId.SANBASE,
     } = plan
 
     if (!pro && !proPlus && !planName) {
@@ -124,7 +128,6 @@ export function mockUser(currentUser: CurrentUser) {
 
     if (pro || proPlus || planName) {
       const name = pro ? Plan.PRO : proPlus ? Plan.PRO_PLUS : planName
-      const id = name && checkIsBusinessPlan({ name }) ? ProductId.SANAPI : ProductId.SANBASE
 
       subscriptions[0] = {
         status: 'ACTIVE',
@@ -137,7 +140,7 @@ export function mockUser(currentUser: CurrentUser) {
           id: '202',
           interval: yearly ? 'year' : 'month',
           name: name,
-          product: { id },
+          product: { id: productId },
         },
       }
     }
