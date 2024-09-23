@@ -40,6 +40,7 @@
     if (!primarySubscription) return
     if (loading) return
 
+    loading = true
     Controller.lock()
 
     mutateUpdateSubscription(Query)(primarySubscription.id, newPlan.id)

@@ -178,6 +178,7 @@
 
       {#if isCardPayment}
         <StripePaymentButton
+          bind:isPaymentInProcess
           delayStripe={delayStripe.$}
           onSuccess={onPaymentSuccess}
           onError={onPaymentError}

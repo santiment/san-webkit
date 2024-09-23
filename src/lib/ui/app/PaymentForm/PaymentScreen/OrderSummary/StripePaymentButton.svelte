@@ -3,6 +3,7 @@
     BaseStripeElementsOptions,
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
+  import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
@@ -10,15 +11,18 @@
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
 
   let {
+    isPaymentInProcess = $bindable(false),
     delayStripe = 0,
     onSuccess,
     onError,
   }: {
+    isPaymentInProcess?: boolean
     delayStripe?: number
     onSuccess: (data: TPaymentFlowResult, walletName?: string) => void
     onError: (data: any, walletName?: string) => void
   } = $props()
 
+  const { Controller } = getDialogControllerCtx()
   const { stripe } = useStripeCtx({ delay: delayStripe })
   const { paymentForm, subscriptionPlan, resultPayment, discount } = usePaymentFormCtx.get()
   const { customer } = useCustomerCtx()
@@ -117,6 +121,9 @@
         return onError?.(error, undefined)
       }
 
+      isPaymentInProcess = true
+      Controller.lock()
+
       return processPayment({
         plan: selectedPlan,
         setupIntent,
@@ -127,6 +134,10 @@
         .then(onSuccess)
         .catch((error) => {
           return onError?.(error)
+        })
+        .finally(() => {
+          isPaymentInProcess = false
+          Controller.unlock()
         })
     })
 
