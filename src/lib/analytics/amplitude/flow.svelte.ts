@@ -5,14 +5,14 @@ import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 
 function useDebouncedFn<GFunction extends (...args: any[]) => void>(time: number, fn: GFunction) {
-  let timer: number
+  let timer: NodeJS.Timeout
 
   const clear = () => clearTimeout(timer)
   $effect(() => clear)
 
   return ((...args) => {
     clear()
-    setTimeout(() => fn(...args), time)
+    timer = setTimeout(() => fn(...args), time)
   }) as GFunction
 }
 
