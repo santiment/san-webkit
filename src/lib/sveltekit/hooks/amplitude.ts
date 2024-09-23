@@ -7,10 +7,10 @@ export const amplitudeTrackHandle: Handle = async ({ event, resolve }) => {
 
   const headers = event.request.headers
   headers.delete('content-length')
-  headers.delete(':method')
-  headers.delete(':authority')
-  headers.delete(':scheme')
-  headers.delete(':path')
+  // headers.delete(':method')
+  // headers.delete(':authority')
+  // headers.delete(':scheme')
+  // headers.delete(':path')
   headers.delete('pragma')
   headers.delete('cache-control')
 
