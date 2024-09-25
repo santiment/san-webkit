@@ -9,19 +9,18 @@
     message: string
     description?: string | Snippet
     action?: { label: string; onClick: (event: MouseEvent) => void }
+    className?: string
   }
 
-  const { icon, message, description, action }: Props = $props()
+  const { icon, message, description, action, className }: Props = $props()
 
   const dispatch = createEventDispatcher()
-  const ICONS_MAP: Record<Props['icon'], { fill: string; h?: number; w?: number }> = {
-    info: { fill: 'fill-waterloo' },
-    'checkmark-circle': { fill: 'fill-green' },
-    warning: { fill: 'fill-orange', h: 14 },
-    error: { fill: 'fill-red' },
+  const ICONS_MAP = {
+    info: { class: 'fill-waterloo' },
+    'checkmark-circle': { class: 'fill-green' },
+    warning: { class: 'fill-orange', h: 14 },
+    error: { class: 'fill-red' },
   }
-
-  const currentIcon = ICONS_MAP[icon]
 </script>
 
 <section
@@ -29,13 +28,14 @@
   class={cn(
     'w-[460px] gap-4 rounded-md border bg-white pl-6 pr-2.5 pt-5 shadow row xs:w-full',
     description && !action ? 'pb-6' : 'pb-5',
+    className,
   )}
 >
   <figure class="flex h-6 w-4 center">
-    <Svg id={icon} class={currentIcon.fill} w={currentIcon.w || 16} h={currentIcon.h || 16} />
+    <Svg id={icon} {...ICONS_MAP[icon]} />
   </figure>
 
-  <div class="flex-1 gap-2 column">
+  <div class="flex-1 items-start gap-2 column">
     <h4 class="text-base font-medium text-rhino">{message}</h4>
 
     {#if description}
@@ -49,11 +49,9 @@
     {/if}
 
     {#if action}
-      <footer class="mt-1">
-        <Button variant="fill" onclick={action.onClick}>
-          {action.label}
-        </Button>
-      </footer>
+      <Button variant="fill" class="mt-1" onclick={action.onClick}>
+        {action.label}
+      </Button>
     {/if}
   </div>
 

@@ -74,6 +74,7 @@
         notification.warning('Warning', {
           description:
             'To activate your SanR NFT subscription, you will need to cancel your existing Sanbase Pro subscription first.',
+          className: 'bg-porcelain',
         })}
       >Warning
     </Button>
