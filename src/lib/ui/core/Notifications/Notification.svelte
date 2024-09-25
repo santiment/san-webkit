@@ -7,16 +7,16 @@
   type Props = {
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
-    description?: string | Snippet
-    duration?: number
+    content?: string | Snippet
     action?: { label: string; onClick: (event: MouseEvent) => void }
-    className?: string
+    class?: string
   }
 
-  const { icon, message, description, action, className }: Props = $props()
+  const { icon, message, content, action, class: className }: Props = $props()
 
   const dispatch = createEventDispatcher()
-  const ICONS_MAP = {
+
+  const ICONS = {
     info: { class: 'fill-waterloo' },
     'checkmark-circle': { class: 'fill-green' },
     warning: { class: 'fill-orange', h: 14 },
@@ -27,24 +27,24 @@
 <section
   role="alert"
   class={cn(
-    'w-[460px] gap-4 rounded-md border bg-white pl-6 pr-2.5 pt-5 shadow row xs:w-full',
-    description && !action ? 'pb-6' : 'pb-5',
+    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow',
+    content && !action ? 'pb-6' : 'pb-5',
     className,
   )}
 >
   <figure class="flex h-6 w-4 center">
-    <Svg id={icon} {...ICONS_MAP[icon]} />
+    <Svg id={icon} {...ICONS[icon]} />
   </figure>
 
   <div class="flex-1 items-start gap-2 column">
     <h4 class="text-base font-medium text-rhino">{message}</h4>
 
-    {#if description}
+    {#if content}
       <p class="text-base text-fiord">
-        {#if typeof description === 'string'}
-          {description}
+        {#if typeof content === 'function'}
+          {@render content()}
         {:else}
-          {@render description()}
+          {content}
         {/if}
       </p>
     {/if}

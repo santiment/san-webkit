@@ -1,30 +1,27 @@
+import type { ComponentProps, ComponentType } from 'svelte'
 import { toast } from 'svelte-sonner'
+import Component from './Notification.svelte'
 
 export { default } from './Notifications.svelte'
-import Component from './Notification.svelte'
-import type { ComponentProps, ComponentType } from 'svelte'
 
-type ToastComponentProps = Omit<ComponentProps<Component>, 'icon' | 'message'>
+type TOptions = Omit<ComponentProps<Component>, 'icon' | 'message'> & { duration?: number }
+type TIcon = ComponentProps<Component>['icon']
 
-function createToast(icon: string, message: string, options?: ToastComponentProps) {
+function createToast(icon: TIcon, message: string, { duration = 5000, ...options }: TOptions = {}) {
   return toast.custom(Component as unknown as ComponentType, {
-    componentProps: {
-      icon,
-      message,
-      ...options,
-    },
-    duration: options?.duration,
+    duration,
+    componentProps: { ...options, icon, message },
   })
 }
 
 const createNotificationType =
-  (icon: string) =>
-  (...rest: [message: string, options?: ToastComponentProps]) =>
+  (icon: TIcon) =>
+  (...rest: [message: string, options?: TOptions]) =>
     createToast(icon, ...rest)
 
 const notification: Record<
   'info' | 'error' | 'warning' | 'success',
-  (message: string, options?: ToastComponentProps) => string | number
+  (message: string, options?: TOptions) => string | number
 > = {
   info: createNotificationType('info'),
   error: createNotificationType('error'),

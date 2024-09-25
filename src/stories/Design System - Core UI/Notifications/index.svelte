@@ -1,27 +1,34 @@
 <script>
   import Button from '$ui/core/Button'
-  import Notifications, { notification } from '$ui/core/Notifications'
+  import { notification } from '$ui/core/Notifications'
+  import Notification from '$ui/core/Notifications/Notification.svelte'
 </script>
 
-<Notifications></Notifications>
-
-{#snippet description()}
-  We will check you insight and <a
-    href="https://www.example.com"
-    target="_blank"
-    class="text-green"
-  >
+{#snippet content()}
+  We will check you insight and <a href="about:blank" target="_blank" class="text-green">
     publish it very soon
   </a>
 {/snippet}
 
-<div class="flex flex-col justify-center divide-y p-6">
-  <div class="flex gap-4">
+<div class="gap-4 p-3 column">
+  <Notification icon="info" message="Info notification"></Notification>
+  <Notification icon="checkmark-circle" message="Success notification"></Notification>
+  <Notification icon="warning" message="Warning notification"></Notification>
+  <Notification icon="error" message="Error notification"></Notification>
+
+  <Notification
+    icon="checkmark-circle"
+    message="Long message: Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tenetur, recusandae doloribus! Iure praesentium"
+  ></Notification>
+</div>
+
+<div class="flex-coljustify-center flex divide-y p-6">
+  <div class="flex flex-wrap gap-4">
     <Button
       variant="border"
       onclick={() =>
         notification.info('Thanks for your thoughts', {
-          description,
+          content,
         })}
     >
       Info
@@ -29,16 +36,9 @@
 
     <Button
       variant="border"
-      onclick={() => notification.info('One line title without decription', { duration: 500 })}
-    >
-      Short Info
-    </Button>
-
-    <Button
-      variant="border"
       onclick={() =>
         notification.info('Informational', {
-          description: 'We will check your insight and publish it very soon',
+          content: 'We will check your insight and publish it very soon',
           action: {
             label: 'Button',
             onClick: () => console.log('test'),
@@ -52,7 +52,7 @@
       variant="border"
       onclick={() =>
         notification.info('Notification channel settings is changed', {
-          description,
+          content,
           action: {
             label: 'Undo',
             onClick: () => console.log('test'),
@@ -66,7 +66,7 @@
       variant="border"
       onclick={() =>
         notification.success('Event has been created', {
-          description: 'We will check your insight and publish it very soon.',
+          content: 'We will check your insight and publish it very soon.',
         })}
       >Success
     </Button>
@@ -75,7 +75,7 @@
       variant="border"
       onclick={() =>
         notification.warning('Warning', {
-          description:
+          content:
             'To activate your SanR NFT subscription, you will need to cancel your existing Sanbase Pro subscription first.',
           className: 'bg-porcelain',
         })}
