@@ -5,7 +5,11 @@
   import PlanButton from '../PlanButton.svelte'
   import { getFormattedPlan } from '../utils.js'
 
-  let { plan, class: className }: { plan: TSubscriptionPlan; class?: string } = $props()
+  let {
+    source = '',
+    plan,
+    class: className,
+  }: { source?: string; plan: TSubscriptionPlan; class?: string } = $props()
 
   let formattedPlan = $derived(getFormattedPlan(plan))
 </script>
@@ -21,5 +25,5 @@
       ${formattedPlan.price.month}
     {/if}
   </h5>
-  <PlanButton {plan} class="mt-3"></PlanButton>
+  <PlanButton {plan} class="mt-3" source="{source}_plans_breakdown"></PlanButton>
 </article>

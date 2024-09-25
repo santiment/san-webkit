@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trackEvent } from '$lib/analytics/index.js'
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
 
@@ -11,18 +12,26 @@
   let formattedPlan = $derived(plan.formatted)
 
   function onSelect(option: (typeof OPTIONS)[number]) {
-    const selected = option === OPTIONS[0] ? 'month' : 'year'
+    const isMonthSelected = option === OPTIONS[0]
+    const selected = isMonthSelected ? 'month' : 'year'
 
     selectSubscriptionPlan(plan[selected])
 
     billingPeriod.$ = selected
+
+    trackEvent('toggle', {
+      action: isMonthSelected ? 'off' : 'on',
+      type: 'annual_billing',
+      source: 'payment_dialog',
+      plan: plan.selected?.name,
+    })
   }
 </script>
 
 <Selector name="Billing period" active={selectedBillingPeriod} options={OPTIONS} {onSelect}>
   {#snippet children(option)}
     {@const isAnnualBilling = option.name === 'Annually'}
-    <h3 class="flex h-[26px] w-full items-center justify-between">
+    <h3 class="flex h-[26px] w-full items-center justify-between gap-2">
       {option.name}
 
       {#if isAnnualBilling && formattedPlan}

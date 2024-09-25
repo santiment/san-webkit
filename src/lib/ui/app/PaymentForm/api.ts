@@ -1,7 +1,7 @@
-import { Fetcher, Mutation } from '$lib/api/index.js'
+import { ApiQuery, ApiMutation } from '$lib/api/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 
-export const mutateSubscribe = Mutation(
+export const mutateSubscribe = ApiMutation(
   (variables: {
     planId: number
     cardToken?: string
@@ -45,7 +45,7 @@ export type TCoupon = {
   isValid: boolean
   percentOff: number
 }
-export const queryDiscountCoupon = Fetcher(
+export const queryDiscountCoupon = ApiQuery(
   (coupon: string) => `{
   getCoupon(coupon:"${coupon}") {
     isValid

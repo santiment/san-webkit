@@ -28,6 +28,14 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
     const ctx = getContext(CTX) as CtxValue
     if (ctx) return ctx
 
+    if (process.env.IS_LOGGING_ENABLED) {
+      console.log(
+        `%c[DEV ONLY] Context created`,
+        'background:#d13939;color:black;padding:3px;border-radius:4px',
+        CTX,
+      )
+    }
+
     return setContext(CTX, creator(...args)) as CtxValue
   }
 

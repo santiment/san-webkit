@@ -43,8 +43,14 @@ export function WebkitSvg() {
       const isIllus = file.includes(ILLUS_PATH.slice(1))
 
       if (isIcon || isIllus) {
+        const normalizedPathname = '.' + file.slice(file.indexOf('/src'))
+
+        if (normalizedPathname.startsWith('./src/lib') === false) {
+          throw new Error('Incorrect icon path')
+        }
+
         const options = isIcon ? SPRITES_OPTIONS : ILLUS_OPTIONS
-        await processSvgWithOutput(file, staticDir, spritesStaticDir, options)
+        await processSvgWithOutput(normalizedPathname, staticDir, spritesStaticDir, options)
 
         server.ws.send({
           type: 'full-reload',

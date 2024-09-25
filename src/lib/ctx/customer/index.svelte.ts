@@ -3,8 +3,8 @@ import { ss } from 'svelte-runes'
 import { DEFAULT, loadCustomerData, type TCustomer } from './api.js'
 import { BROWSER } from 'esm-env'
 
-export const useCustomerCtx = createCtx('useCustomerCtx', () => {
-  const defaultValue = Object.assign({}, DEFAULT)
+export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCustomer) => {
+  const defaultValue = Object.assign({}, DEFAULT, initialValue)
   const customer = ss(defaultValue)
   let currentUser = $state<TCustomer['currentUser']>(defaultValue.currentUser)
 

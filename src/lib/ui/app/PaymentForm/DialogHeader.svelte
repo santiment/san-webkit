@@ -6,6 +6,7 @@
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
   import { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { SCREENS } from './state.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   let { disabled }: { disabled?: (typeof SCREENS)[number] } = $props()
 
@@ -26,13 +27,30 @@
         <Button
           class={cn(item === screen.$ && 'text-rhino')}
           disabled={item === disabled}
-          onclick={() => (screen.$ = item)}
+          onclick={() => {
+            trackEvent('pagination', {
+              type: 'change_payment_screen',
+              value: i,
+              label: item.name,
+              source: 'payment_form',
+            })
+
+            screen.$ = item
+          }}
         >
           {item.name}
         </Button>
       {/each}
     </nav>
 
-    <Button variant="border" onclick={Controller.close}>Cancel</Button>
+    <Button
+      variant="border"
+      onclick={() => {
+        trackEvent('press', { action: 'click', type: 'close_dialog', source: 'payment_form' })
+        Controller.close()
+      }}
+    >
+      Cancel
+    </Button>
   </div>
 </OnlyOnDevice>

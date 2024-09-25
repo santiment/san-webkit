@@ -27,7 +27,10 @@
       Info
     </Button>
 
-    <Button variant="border" onclick={() => notification.info('One line title without decription')}>
+    <Button
+      variant="border"
+      onclick={() => notification.info('One line title without decription', { duration: 500 })}
+    >
       Short Info
     </Button>
 

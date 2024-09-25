@@ -2,25 +2,36 @@
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
+  import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { useStripeCtx } from '$lib/ctx/stripe/index.js'
-  import { usePaymentFlow } from '../../flow.js'
+  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
+  import ConnectMetamask from './ConnectMetamask.svelte'
+
+  let {
+    onSuccess,
+    onError,
+  }: {
+    onSuccess?: (data: TPaymentFlowResult) => void
+    onError?: () => void
+  } = $props()
 
   const { Controller } = getDialogControllerCtx()
-  const { stripe: _stripe } = useStripeCtx()
-  const { customer } = useCustomerCtx()
-  const { paymentForm, billingPeriod, subscriptionPlan, discount } = usePaymentFormCtx()
+  const { customer, currentUser } = useCustomerCtx()
+  const { paymentForm, billingPeriod, subscriptionPlan, discount, resultPayment } =
+    usePaymentFormCtx()
   const { startCardPaymentFlow } = usePaymentFlow()
 
-  let plan = $derived(subscriptionPlan.$)
-  let planPrice = $derived(plan.formatted?.price[billingPeriod.$])
-  let discountedPrice = $derived(discount.$?.price || planPrice)
-  let isConsumerPlan = $derived(!plan.formatted?.isBusiness)
+  const delayStripe = useDelayFlow(400)
+  let isPaymentInProcess = $state(false)
+
+  let formattedPlan = $derived(subscriptionPlan.$.formatted)
+  let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
+  let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
   let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
@@ -28,29 +39,38 @@
 
   let isAnnualBilling = $derived(billingPeriod.$ === 'year')
 
-  let isMetamaskConnected = false
-  let isPaymentIsProcess = $state(false)
+  let isWalletCannected = $derived((currentUser.$$?.ethAccounts.length ?? 0) > 0)
 
-  async function onPayClick() {
-    isPaymentIsProcess = true
+  async function onPayClick(e: { currentTarget: HTMLElement }) {
+    isPaymentInProcess = true
 
-    startCardPaymentFlow()
-      .then(() => {
-        onPaymentSuccess()
+    const plan = subscriptionPlan.$.selected
+    if (!plan) return
+
+    Controller.lock()
+    const action = e.currentTarget.textContent?.trim()
+
+    startCardPaymentFlow({ action })
+      .then((data) => {
+        onPaymentSuccess(data)
       })
-      .catch(() => {
-        onPaymentError()
+      .catch((e) => {
+        onPaymentError(e)
+      })
+      .finally(() => {
+        Controller.unlock()
       })
   }
 
-  function onPaymentSuccess(data?: any) {
-    console.log(data)
-    Controller.close()
+  function onPaymentSuccess(data: TPaymentFlowResult) {
+    Controller.close(true)
+    onSuccess?.(data)
   }
 
   function onPaymentError(e?: any) {
-    console.log(e)
-    isPaymentIsProcess = false
+    console.error(e)
+    isPaymentInProcess = false
+    onError?.()
   }
 </script>
 
@@ -60,8 +80,8 @@
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
     <h2 class="text-lg font-semibold text-rhino">
       <div class="flex justify-between">
-        {#if plan.formatted}
-          {plan.formatted.name} - Billed {isAnnualBilling ? 'annually' : 'monthly'}
+        {#if formattedPlan}
+          {formattedPlan.name} - Billed {isAnnualBilling ? 'annually' : 'monthly'}
           <span class="text-base font-normal text-waterloo">
             ${planPrice}/ {isAnnualBilling ? 'Year' : 'Month'}
           </span>
@@ -92,7 +112,7 @@
         {@const now = new Date()}
         <h4 class="flex justify-between text-base font-medium text-waterloo">
           Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
-          <span> ${discountedPrice}</span>
+          <span> ${resultPayment.$.price}</span>
         </h4>
       {/if}
 
@@ -101,7 +121,7 @@
           {#if isEligibleForSanbaseTrial}
             $0
           {:else}
-            ${discountedPrice}
+            ${resultPayment.$.price}
           {/if}
         </span>
       </h3>
@@ -110,7 +130,13 @@
         <p class="-mt-1">
           Your trial has expired! If you have accidentally bypassed the free trial, please get in
           touch with
-          <a href="mailto:support@santiment.net" class="text-green" onclick={onSupportClick}>
+          <a
+            href="mailto:support@santiment.net"
+            class="text-green"
+            onclick={onSupportClick}
+            data-type="expired_trial_support"
+            data-source="payment_dialog"
+          >
             our support team</a
           >.
         </p>
@@ -119,28 +145,27 @@
 
     <div class="gap-3 column">
       {#if isCardPayment === false}
-        {#if isEligibleForSanbaseTrial || isMetamaskConnected}
+        {#if isEligibleForSanbaseTrial || isWalletCannected}
           <Button
             variant="fill"
             size="lg"
             class="center"
             href="mailto:support@santiment.net"
+            data-type="pay_crypto_contact_us"
+            data-source="payment_dialog"
             onclick={onSupportClick}
           >
             Contact us
           </Button>
         {:else}
-          <Button variant="fill" size="lg" class="center">
-            <img src="/webkit/icons/metamask.svg" alt="MetaMask" class="h-4" />
-            Connect MetaMask
-          </Button>
+          <ConnectMetamask></ConnectMetamask>
         {/if}
       {:else}
         <Button
           variant="fill"
           size="lg"
           class="center"
-          loading={isPaymentIsProcess}
+          loading={isPaymentInProcess}
           onclick={onPayClick}
         >
           {#if isEligibleForSanbaseTrial}
@@ -152,7 +177,11 @@
       {/if}
 
       {#if isCardPayment}
-        <StripePaymentButton onSuccess={onPaymentSuccess} onError={onPaymentError}
+        <StripePaymentButton
+          bind:isPaymentInProcess
+          delayStripe={delayStripe.$}
+          onSuccess={onPaymentSuccess}
+          onError={onPaymentError}
         ></StripePaymentButton>
       {/if}
 

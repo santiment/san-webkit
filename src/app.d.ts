@@ -31,5 +31,16 @@ declare global {
     getPageType?: (pathname: string) => string
 
     gtag?: Gtag.Gtag
+
+    __updateLegacyStoresOnPlanChange?: any
+  }
+
+  namespace NodeJS {
+    interface ProcessEnv {
+      IS_DEV_MODE: boolean
+      IS_LOGGING_ENABLED: boolean
+
+      IS_PROD_BACKEND: boolean
+    }
   }
 }

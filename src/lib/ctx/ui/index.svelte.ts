@@ -1,10 +1,10 @@
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 import { BROWSER } from 'esm-env'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
-const mutateUpdateUserSettings = Mutation(
+const mutateUpdateUserSettings = ApiMutation(
   (isNightMode: boolean) => `mutation {
     updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
       theme
@@ -12,14 +12,14 @@ const mutateUpdateUserSettings = Mutation(
   }`,
 )
 
-export const useUiCtx = createCtx('useUiCtx', () => {
+export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
   const { currentUser } = useCustomerCtx.get()
 
   const isNightMode =
     currentUser.$$?.settings.theme === 'nightmode' ||
     (BROWSER && document.body.classList.contains('night-mode'))
 
-  const ui = $state({ isNightMode, isLiteVersion: false })
+  const ui = $state({ isNightMode, isLiteVersion })
 
   if (BROWSER) document.body.classList.toggle('night-mode', isNightMode || false)
 

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs'
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 import { MockExecutor } from './mock.js'
 import { ApiCache } from './cache.js'
+import { log } from './log.js'
 
 type TQueryExecutor = typeof RxQuery | typeof Query
 
@@ -65,7 +66,7 @@ function setupExecutor<GExecutor extends TQueryExecutor>(
  * )
  * ```
  */
-export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
+export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
   schemaCreator: SchemaCreator,
   mapData?: (data: any) => Data,
   globalOptions?: TExecutorOptions,
@@ -86,31 +87,37 @@ export function Fetcher<Data, SchemaCreator extends TGqlSchemaCreator>(
         const mocked = MockExecutor(executor, schema, { map: mapData })
 
         if (mocked !== undefined) {
+          if (process.env.IS_LOGGING_ENABLED) log({ schema, mocked, executor })
           return mocked as unknown as Result
+        }
+      }
+
+      const isCachingEnabled = BROWSER && options.cache
+
+      if (isCachingEnabled) {
+        const cached = ApiCache.get(schema, executor)
+
+        if (cached && !options.recache) {
+          if (process.env.IS_LOGGING_ENABLED) log({ schema, executor, cached })
+          return cached as unknown as Result
         }
       }
 
       const result = executor<Data>(schema, { map: mapData }) as Result
 
-      if (BROWSER && options.cache) {
-        const cached = ApiCache.get(schema, executor)
+      if (isCachingEnabled) ApiCache.add(schema, { options, executor, result })
 
-        if (cached && !options.recache) {
-          return cached as unknown as Result
-        }
-
-        ApiCache.add(schema, { options, executor, result })
-      }
+      if (process.env.IS_LOGGING_ENABLED) log({ schema, executor, result })
 
       return result
     }
   }
 }
 
-export const Mutation = <Data, SchemaCreator extends TGqlSchemaCreator>(
+export const ApiMutation = <Data, SchemaCreator extends TGqlSchemaCreator>(
   schemaCreator: SchemaCreator,
   mapData?: (data: any) => Data,
-) => Fetcher(schemaCreator, mapData, { cache: false })
+) => ApiQuery(schemaCreator, mapData, { cache: false })
 
 export type TData<T> = (...args: any[]) => (...args: any[]) => Observable<T> | Promise<T>
 
@@ -118,7 +125,7 @@ declare global {
   namespace API {
     export type GqlData<T> = TData<T>
 
-    export type ExtractData<T> = T extends () => () => infer Result
+    export type ExtractData<T> = T extends (...args: any) => (...args: any) => infer Result
       ? Result extends Promise<infer Data>
         ? Data
         : never

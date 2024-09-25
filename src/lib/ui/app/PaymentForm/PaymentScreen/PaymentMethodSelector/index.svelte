@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { useDelayFlow } from '$lib/ctx/stripe/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
   import { CardMethod } from './Card/index.js'
   import { EthStablecoinsMethod } from './EthStablecoins/index.js'
   import { SanTokenBurningMethod } from './SanTokenBurning/index.js'
@@ -7,6 +9,8 @@
   import { usePaymentFormCtx } from '../../state.js'
 
   const { paymentMethod, selectPaymentMethod, subscriptionPlan } = usePaymentFormCtx()
+
+  const delayStripe = useDelayFlow(400)
 
   let isBusinessPlanSelected = $derived(!!subscriptionPlan.$.formatted?.isBusiness)
   let selectedPaymentMethod = $derived(paymentMethod.$)
@@ -18,6 +22,12 @@
 
   function onSelect(option: typeof selectedPaymentMethod) {
     selectPaymentMethod(option)
+
+    trackEvent('select', {
+      value: option.name,
+      type: 'payment_method',
+      source: 'payment_dialog',
+    })
   }
 </script>
 
@@ -38,5 +48,5 @@
 </Selector>
 
 {#if selectedPaymentMethod}
-  <selectedPaymentMethod.Component></selectedPaymentMethod.Component>
+  <selectedPaymentMethod.Component delayStripe={delayStripe.$}></selectedPaymentMethod.Component>
 {/if}

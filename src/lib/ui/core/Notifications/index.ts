@@ -13,6 +13,7 @@ function createToast(icon: string, message: string, options?: ToastComponentProp
       message,
       ...options,
     },
+    duration: options?.duration,
   })
 }
 

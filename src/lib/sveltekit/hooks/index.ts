@@ -1,30 +1,7 @@
-import { json, type Handle } from '@sveltejs/kit'
+import { type Handle } from '@sveltejs/kit'
 import UAParser from 'ua-parser-js'
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
 import { DeviceType } from '$lib/ctx/device/index.svelte.js'
-
-export const amplitudeTrackHandle: Handle = async ({ event, resolve }) => {
-  if (event.url.pathname !== '/api/track') {
-    return resolve(event)
-  }
-
-  const headers = event.request.headers
-  headers.delete('Content-Length')
-
-  headers.set('host', 'api2.amplitude.com')
-
-  const body = await event.request.json()
-
-  const result = await fetch('https://api2.amplitude.com/2/httpapi', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body), //: event.request.body,
-  })
-
-  const data = await result.json()
-
-  return json(data)
-}
 
 function normalizeDeviceType(type: string | undefined): DeviceType {
   switch (type) {
@@ -51,10 +28,6 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   event.locals.device = device
   event.locals.customer = customer
   event.locals.theme = theme
-  // event.locals.isCookiesVisible = !event.cookies.get(COOKIE_POLICY_ACCEPTED)
-  // event.locals.isLiteVersion = event.url.searchParams.get('version') === 'LITE'
-
-  // handleAppVersionHook(currentUser, event)
 
   const response = await resolve(event, {
     transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
@@ -68,4 +41,8 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   return response
 }
 
+export { amplitudeTrackHandle } from './amplitude.js'
+
 export { sanbaseVersionHandle } from './sanbase.js'
+
+export { cookiePolicyHandle } from './cookie.js'

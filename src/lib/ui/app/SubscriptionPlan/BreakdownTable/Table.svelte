@@ -6,10 +6,12 @@
   import { cn } from '$ui/utils/index.js'
 
   let {
+    source = '',
     plans = [],
     breakdown = CONSUMER_PLANS_BREAKDOWN,
     children,
   }: {
+    source?: string
     plans: Record<string, any>[]
     breakdown: typeof CONSUMER_PLANS_BREAKDOWN | typeof BUSINESS_PLANS_BREAKDOWN
     children: Snippet
@@ -35,6 +37,8 @@
           href={url}
           target="_blank"
           class={cn('flex !fill-green text-base font-normal text-green', className)}
+          data-type={title}
+          data-source="{source}_plans_breakdown"
         >
           {title}
         </Button>

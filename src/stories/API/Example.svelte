@@ -1,10 +1,11 @@
 <script lang="ts">
   import { exhaustMap, merge, mergeMap, pipe, take, tap, timer } from 'rxjs'
-  import { Fetcher } from '$lib/api/index.js'
+  import { ApiQuery } from '$lib/api/index.js'
   import { useObserveFnCall } from '$lib/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { Query } from '$lib/api/executor.js'
 
-  const queryCurrentUser = Fetcher(
+  const queryCurrentUser = ApiQuery(
     () => `{ currentUser { id  } }`,
     (gql: { currentUser: null | { id: number } }) => gql.currentUser,
   )
@@ -30,9 +31,14 @@
       ),
     ),
   )
+
+  function onClick() {
+    startCacheTimer()
+    queryCurrentUser(Query)().then((data) => console.log('Promise based', data))
+  }
 </script>
 
-<Button variant="fill" onclick={startCacheTimer}>Run 3 requests</Button>
+<Button variant="fill" onclick={onClick}>Run 3 requests</Button>
 
 {#if cacheTime}
   Cache is valid for {cacheTime}s. No new requests will be made

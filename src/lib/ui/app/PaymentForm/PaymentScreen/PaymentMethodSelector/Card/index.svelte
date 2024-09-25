@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
+  import { untrack } from 'svelte'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
@@ -7,8 +9,11 @@
   import LabelInput from './LabelInput.svelte'
   import { usePaymentFormCtx } from '../../../state.js'
 
+  let { delayStripe = 0 } = $props()
+
   const { paymentForm } = usePaymentFormCtx()
-  const { stripe } = useStripeCtx()
+  const { stripe } = useStripeCtx({ delay: delayStripe })
+  const { device } = useDeviceCtx()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
 
@@ -16,11 +21,14 @@
     if (!stripe.$) return
     if (!clientSecret) return
 
+    const { isMobile } = untrack(() => device.$)
+    const fontSize = isMobile ? '16px' : '14px'
+
     const SETTINGS = {
       hidePostalCode: true,
       style: {
         base: {
-          fontSize: '14px',
+          fontSize,
           color: getBrowserCssVariable('black'),
           fontFamily: 'Proxima Nova, sans-serif',
           '::placeholder': {
@@ -58,9 +66,9 @@
           },
 
           '.Input': {
+            fontSize,
             boxShadow: 'none',
-            padding: '11px 16px',
-            fontSize: '14px',
+            padding: isMobile ? '10px 16px' : '11px 16px',
             color: getBrowserCssVariable('black'),
             borderColor: getBrowserCssVariable('porcelain'),
             transition: 'none',
@@ -97,22 +105,48 @@
 
     return () => {
       Object.assign(paymentForm.$, { cardElement: null, addressElement: null })
+      cardElement.destroy()
+      addressElement.destroy()
+
+      // NOTE: Cleaning up Stripe memory leak
+      try {
+        // @ts-expect-error
+        const { _controller } = addressElement
+        if (_controller) {
+          Object.values(_controller._frames).forEach(
+            (frame: any) => frame.type === 'GOOGLE_MAPS_APP' && frame.destroy(),
+          )
+        }
+      } catch (e) {
+        console.error('Failed to clean up Stripe GOOGLE_MAPS_APP', e)
+      }
     }
   })
 </script>
 
-<div class="grid gap-4">
+<div class="grid gap-4 md:text-base">
   <LabelInput label="Card number" class="">
-    <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green"></div>
+    <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green">
+      <span class="text-casper">Card number</span>
+    </div>
   </LabelInput>
 
-  <div id="address-element"></div>
+  <div id="address-element" class="min-h-[210px]">
+    <div class="gap-4 column">
+      <LabelInput label="Full name" placeholder="First and last name"></LabelInput>
+      <LabelInput label="Country or region" placeholder="Country or region"></LabelInput>
+      <LabelInput label="Address" placeholder="Street address"></LabelInput>
+    </div>
+  </div>
 </div>
 
 <style lang="postcss">
   :global {
+    .StripeElement--focus {
+      @apply border-green;
+    }
     .StripeElement--invalid {
-      @apply border-red;
+      @apply !border-red;
     }
   }
 </style>

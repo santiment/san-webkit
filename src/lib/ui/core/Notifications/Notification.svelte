@@ -8,6 +8,7 @@
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
     description?: string | Snippet
+    duration?: number
     action?: { label: string; onClick: (event: MouseEvent) => void }
     className?: string
   }

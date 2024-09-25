@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte'
 
-  import { showPaymentDialog$ } from '$ui/app/PaymentForm/Dialog.svelte'
+  import { showPaymentDialog$ } from '$ui/app/PaymentForm/PaymentDialog.svelte'
   import PricingSection from '$ui/app/SubscriptionPlan/PricingSection.svelte'
   import { useSubscriptionPlanButtonCtx } from '$ui/app/SubscriptionPlan/ctx'
 
@@ -10,7 +10,11 @@
   const showPaymentDialog = showPaymentDialog$()
 
   useSubscriptionPlanButtonCtx({
-    onPlanButtonClick: (plan) => showPaymentDialog({ defaultPlan: plan }),
+    onPlanButtonClick: (plan, e: { currentTarget: HTMLElement }) =>
+      showPaymentDialog({
+        defaultPlan: plan,
+        triggeredBy: e.currentTarget,
+      }),
   })
 </script>
 

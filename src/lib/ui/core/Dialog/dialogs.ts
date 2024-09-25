@@ -7,16 +7,22 @@ import {
   untrack,
   type ComponentConstructorOptions,
 } from 'svelte'
-import { getVaulCtx } from './vaul.js'
 
 type TController<GResolved, GRejected> = {
   lock: () => void
   lockWarn: () => void
   unlock: () => void
+  checkIsLocked: (isForced?: boolean) => boolean
 
-  close: () => void
+  close: (isForced?: boolean) => void
   resolve: GResolved
   reject: GRejected
+}
+
+enum Locking {
+  FREE,
+  LOCKED,
+  LOCKED_WARN,
 }
 
 export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
@@ -26,6 +32,7 @@ export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
   resolve: TDialogResolve<GResolved>
   reject: TDialogReject<GRejected>
   Controller: TController<TDialogResolve<GResolved>, TDialogReject<GRejected>>
+  source?: string
 }
 
 type TGenericComponent<Props extends Record<string, any> = any> = new (
@@ -39,13 +46,6 @@ export const getDialogControllerCtx = <Resolved = unknown, Rejected = unknown>()
 export const dialogs$ = {
   new<TComponent extends TGenericComponent>(component: TComponent) {
     const ALL_CTX = getAllContexts()
-    const parentDialog = ALL_CTX.get(CTX)
-
-    // HACK: Accessing parent's vaul ctx
-    queueMicrotask(() => {
-      const [vaulCtxKey, vaulCtx] = getVaulCtx(parentDialog?.Controller?._context || ALL_CTX)
-      if (vaulCtx) ALL_CTX.set(vaulCtxKey, vaulCtx)
-    })
 
     type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
     type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
@@ -66,12 +66,29 @@ export const dialogs$ = {
           reject = promiseReject
         })
 
+        let locking = Locking.FREE
+
         // const context = new Map(ALL_CTX)
         const context = ALL_CTX
         const Controller = {
-          lock: () => {},
-          lockWarn: () => {},
-          unlock: () => {},
+          lock: (): any => (locking = Locking.LOCKED),
+          lockWarn: (): any => (locking = Locking.LOCKED_WARN),
+          unlock: (): any => (locking = Locking.FREE),
+          checkIsLocked: (isForced?: boolean) => {
+            // NOTE: Enforcing boolean check
+            if (isForced === true) return false
+
+            if (locking === Locking.LOCKED) return true
+
+            if (
+              locking === Locking.LOCKED_WARN &&
+              confirm('Do you want to close the dialog?') === false
+            ) {
+              return true
+            }
+
+            return false
+          },
 
           close: () => {},
           resolve,

@@ -1,10 +1,10 @@
 // import { getTodaysEnd } from '@/utils/dates'
-import { getTodaysEnd } from '../../src/lib/utils/dates'
+import { getTodaysEnd } from '../../src/lib/utils/dates.js'
 import {
   SubscriptionPlan,
   Product,
   checkIsBusinessPlan,
-} from '../../src/lib/ui/app/SubscriptionPlan'
+} from '../../src/lib/ui/app/SubscriptionPlan/index.js'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -30,6 +30,8 @@ export type CurrentUser = null | {
 
   /** @default false */
   isEligibleForSanbaseTrial?: boolean
+
+  ethAccounts?: { address: string }[]
 
   /** @default null */
   plan?: null | {
@@ -61,7 +63,7 @@ export type CurrentUser = null | {
     trial?: boolean
 
     /** @default undefined */
-    name?: typeof SubscriptionPlan
+    name?: string
 
     /** @default undefined */
     trialDaysLeft?: number
@@ -87,6 +89,8 @@ export function mockUser(currentUser: CurrentUser) {
     moderator = false,
     sanBalance = 0,
     isEligibleForSanbaseTrial = false,
+
+    ethAccounts = [],
 
     plan = null,
     promoCodes,
@@ -145,6 +149,7 @@ export function mockUser(currentUser: CurrentUser) {
       let name = planName
       if (pro) name = SubscriptionPlan.PRO.key
       else if (max) name = SubscriptionPlan.MAX.key
+      else if (proPlus) name = SubscriptionPlan.PRO_PLUS.key
       else if (businessPro) name = SubscriptionPlan.BUSINESS_PRO.key
       else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
       else if (custom) name = SubscriptionPlan.CUSTOM.key
@@ -177,6 +182,7 @@ export function mockUser(currentUser: CurrentUser) {
       ? 'https://stage-sanbase-images.s3.amazonaws.com/uploads/9159027c9a89bea92bf8d2b936e239c4e98fb8d2b0ab195b604f547be8cf647a_1575455341226_1575455341095.jpeg'
       : null,
     sanBalance,
+    ethAccounts,
     isEligibleForSanbaseTrial,
     isModerator: moderator,
     subscriptions,

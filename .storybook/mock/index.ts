@@ -1,6 +1,6 @@
-import { CURRENT_USER_MOCK } from './user'
-import { ANNUAL_DISCOUNT_MOCK } from './annualDiscount'
-import { SAVED_CARD_MOCK } from './savedCard'
+import { CURRENT_USER_MOCK } from './user.js'
+import { ANNUAL_DISCOUNT_MOCK } from './annualDiscount.js'
+import { SAVED_CARD_MOCK } from './savedCard.js'
 
 export const MOCKS = [CURRENT_USER_MOCK, ANNUAL_DISCOUNT_MOCK, SAVED_CARD_MOCK] as const
 export const MockedApi = MOCKS.reduce(

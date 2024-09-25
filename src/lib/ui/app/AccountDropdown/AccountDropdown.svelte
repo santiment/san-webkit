@@ -12,10 +12,16 @@
   import AccountInfo from './AccountInfo.svelte'
 
   let {
+    class: className,
     version = '1.0.0',
     onClassicClick,
     onLogout,
-  }: { version?: string; onClassicClick?: () => void; onLogout?: () => void } = $props()
+  }: {
+    class?: string
+    version?: string
+    onClassicClick?: () => void
+    onLogout?: () => void
+  } = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -27,9 +33,9 @@
   }
 </script>
 
-<Tooltip class="w-[240px] divide-y overflow-auto p-0 column">
+<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 column">
   {#snippet children({ ref })}
-    <ProfilePicture {ref}></ProfilePicture>
+    <ProfilePicture class={className} {ref}></ProfilePicture>
   {/snippet}
 
   {#snippet content({ close })}
@@ -48,6 +54,8 @@
         {@render sanbaseLink('Account settings', '/account')}
 
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
+
+        {@render sanbaseLink('My alerts', '/alerts')}
 
         {@render sanbaseLink('My watchlists', '/watchlists')}
 
