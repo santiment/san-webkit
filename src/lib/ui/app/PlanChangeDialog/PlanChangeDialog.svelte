@@ -11,7 +11,7 @@
   import { trackEvent } from '$lib/analytics/index.js'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
-  import { notifcation as notification } from '$ui/core/Notifications/index.js'
+  import { notification } from '$ui/core/Notifications/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates.js'

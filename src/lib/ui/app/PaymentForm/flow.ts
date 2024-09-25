@@ -1,6 +1,6 @@
 import { Query } from '$lib/api/executor.js'
 import { useStripeCtx } from '$lib/ctx/stripe/index.js'
-import { notifcation as notification } from '$ui/core/Notifications/index.js'
+import { notification } from '$ui/core/Notifications/index.js'
 import type { ConfirmCardSetupData, SetupIntent, Stripe, Token } from '@stripe/stripe-js'
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
@@ -160,7 +160,7 @@ export function usePaymentFlow() {
 
       if (error) {
         notification.error(`Error during the payment`, {
-          description: error.message || 'Please try again or contact our support',
+          content: error.message || 'Please try again or contact our support',
           duration: 10000,
         })
         trackEvent('payment_fail', { ...analytics, error_code: error.code || '3ds_error' })
@@ -212,7 +212,7 @@ export function usePaymentFlow() {
       })
       .catch((error) => {
         notification.error(`Error during the payment`, {
-          description: 'Please try again or contact our support',
+          content: 'Please try again or contact our support',
         })
         trackEvent('payment_fail', { ...analytics, error_code: 'api_error' })
 

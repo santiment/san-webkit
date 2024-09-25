@@ -1,19 +1,14 @@
 <script lang="ts">
   import { BROWSER } from 'esm-env'
   import { Toaster } from 'svelte-sonner'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+
+  const { device } = useDeviceCtx()
 </script>
 
 {#if BROWSER}
   <Toaster
-    position="bottom-left"
-    toastOptions={{
-      unstyled: true,
-      classes: {
-        toast: 'border rounded shadow bg-white row p-4 gap-2',
-        title: 'text-black font-medium',
-        description: 'text-waterloo',
-        success: 'fill-green',
-      },
-    }}
+    position={device.$.isMobile ? 'top-center' : 'bottom-left'}
+    toastOptions={{ unstyled: true }}
   ></Toaster>
 {/if}

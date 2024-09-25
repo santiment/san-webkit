@@ -2,7 +2,7 @@ import { goto } from '$app/navigation'
 import { Query } from '$lib/api/executor.js'
 import { ApiMutation } from '$lib/api/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-import { notifcation } from '$ui/core/Notifications/index.js'
+import { notification } from '$ui/core/Notifications/index.js'
 
 const mutateLogout = ApiMutation(
   () => `mutation {
@@ -21,7 +21,7 @@ export function useLogoutFlow() {
       .then(() => {
         customer.reload()
 
-        notifcation.info("You've been logged out")
+        notification.info("You've been logged out")
       })
   }
 
