@@ -15,7 +15,7 @@ export type TGqlSchema =
   | string
   | {
       schema: string
-      variables: Record<string, null | undefined | number | string | boolean | Record<string, any>>
+      variables?: Record<string, null | undefined | number | string | boolean | Record<string, any>>
     }
 
 /**

@@ -74,13 +74,13 @@ export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
   return <GExecutor extends TQueryExecutor = typeof RxQuery>(
     executorConfig: GExecutor | TExecutorConfig<GExecutor> = RxQuery as GExecutor,
   ) => {
-    type Result = GExecutor extends (...args: any[]) => Observable<any>
-      ? Observable<Data>
-      : Promise<Data>
+    type Result<GData extends Data = Data> = GExecutor extends (...args: any[]) => Observable<any>
+      ? Observable<GData>
+      : Promise<GData>
 
     const { executor, options } = setupExecutor(executorConfig, globalOptions)
 
-    return (...args: Parameters<SchemaCreator>) => {
+    return <GData extends Data = Data>(...args: Parameters<SchemaCreator>) => {
       const schema = schemaCreator(...args)
 
       if (process.env.NODE_ENV !== 'production') {
@@ -88,7 +88,7 @@ export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
 
         if (mocked !== undefined) {
           if (process.env.IS_LOGGING_ENABLED) log({ schema, mocked, executor })
-          return mocked as unknown as Result
+          return mocked as unknown as Result<GData>
         }
       }
 
@@ -99,11 +99,11 @@ export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
 
         if (cached && !options.recache) {
           if (process.env.IS_LOGGING_ENABLED) log({ schema, executor, cached })
-          return cached as unknown as Result
+          return cached as unknown as Result<GData>
         }
       }
 
-      const result = executor<Data>(schema, { map: mapData }) as Result
+      const result = executor(schema, { map: mapData }) as Result<GData>
 
       if (isCachingEnabled) ApiCache.add(schema, { options, executor, result })
 
