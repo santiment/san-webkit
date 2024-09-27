@@ -1,7 +1,6 @@
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 import { defineConfig, mergeConfig } from 'vitest/config'
 import { execSync } from 'node:child_process'
-import { sentrySvelteKit } from '@sentry/sveltekit'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
@@ -17,54 +16,24 @@ export const GIT_HEAD =
 
 export const GIT_HEAD_DATETIME = getGitHeadDate()
 
+export const SENTRY_DSN = process.env.SENTRY_DSN
+export const SENTRY_URL = SENTRY_DSN && new URL(SENTRY_DSN).origin
+
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
-  sentry,
 }: {
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
-  sentry?: {
-    debug?: boolean
-    org: string
-    project: string
-  }
 } = {}) {
   const corsHostname = new URL(corsOrigin).hostname
 
-  const SENTRY_DSN = process.env.SENTRY_DSN
   const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
-  const sentryUrl = SENTRY_DSN && new URL(SENTRY_DSN).origin
-  const isSentryEnabled = IS_DEV_MODE === false && sentry?.org && SENTRY_AUTH_TOKEN
+  const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
   return defineConfig({
-    plugins: [
-      mkcert(),
-      WebkitSvg(),
-
-      sveltekit(),
-
-      // Put the Sentry vite plugin after all other plugins
-      isSentryEnabled &&
-        false &&
-        sentrySvelteKit({
-          debug: sentry?.debug ?? true,
-          adapter: 'node',
-          autoInstrument: false,
-          sourceMapsUploadOptions: {
-            telemetry: false,
-            release: { name: GIT_HEAD },
-
-            ...sentry,
-
-            // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-            authToken: SENTRY_AUTH_TOKEN,
-            sourcemaps: { filesToDeleteAfterUpload: '**/*.map' },
-            unstable_sentryVitePluginOptions: { url: sentryUrl },
-          },
-        }),
-    ],
+    plugins: [mkcert(), WebkitSvg(), sveltekit()],
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
