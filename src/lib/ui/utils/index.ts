@@ -4,6 +4,8 @@ import type { ActionReturn } from 'svelte/action'
 import { twMerge, type ClassNameValue } from 'tailwind-merge'
 import { BROWSER } from 'esm-env'
 
+export { applyStyles, preserveStyles } from 'drawer-svelte'
+
 export function cn(...classLists: ClassNameValue[]) {
   return twMerge(...classLists)
 }
