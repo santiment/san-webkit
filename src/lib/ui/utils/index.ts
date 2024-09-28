@@ -9,7 +9,7 @@ export function cn(...classLists: ClassNameValue[]) {
 }
 
 export const getBrowserCssVariable = (color: string) =>
-  BROWSER ? getComputedStyle(document.documentElement).getPropertyValue(`--${color}`) : ''
+  BROWSER ? getComputedStyle(document.body).getPropertyValue(`--${color}`) : ''
 
 export function applyBuilder(node: HTMLElement, builder: Builder) {
   const { action, ...attrs } = builder
