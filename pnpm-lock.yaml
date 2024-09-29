@@ -30,8 +30,8 @@ dependencies:
     specifier: ^0.21.13
     version: 0.21.13(svelte@5.0.0-next.260)
   drawer-svelte:
-    specifier: ^0.1.1
-    version: 0.1.1(@melt-ui/svelte@0.83.0)(esm-env@1.0.0)(svelte-runes@0.0.4)(svelte@5.0.0-next.260)
+    specifier: ^0.1.2
+    version: 0.1.2(@melt-ui/svelte@0.83.0)(esm-env@1.0.0)(svelte-runes@0.0.4)(svelte@5.0.0-next.260)
   esm-env:
     specifier: ^1.0.0
     version: 1.0.0
@@ -7707,8 +7707,8 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /drawer-svelte@0.1.1(@melt-ui/svelte@0.83.0)(esm-env@1.0.0)(svelte-runes@0.0.4)(svelte@5.0.0-next.260):
-    resolution: {integrity: sha512-xzhQtJ7qH2bJs/tnQHrh6/vyNsGXGH6V7agdUv8tiUcgbwzx2GamIQgs866q7B84J2kdyqeGZDQ7hYcT2CKq0A==}
+  /drawer-svelte@0.1.2(@melt-ui/svelte@0.83.0)(esm-env@1.0.0)(svelte-runes@0.0.4)(svelte@5.0.0-next.260):
+    resolution: {integrity: sha512-nYKShHaC2oN4O9Sjjfxm+DNnjkAaOf88p3N+rsBqh9BoGCAQWh+bfGQMNd4qSfhUTKf6yQnWIS073E5p4t4tng==}
     peerDependencies:
       '@melt-ui/svelte': ^0.83.0
       esm-env: ^1.0.0

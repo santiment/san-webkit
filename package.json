@@ -131,7 +131,7 @@
     "@wagmi/connectors": "^5.1.10",
     "@wagmi/core": "^2.13.5",
     "bits-ui": "^0.21.13",
-    "drawer-svelte": "^0.1.1",
+    "drawer-svelte": "^0.1.2",
     "esm-env": "^1.0.0",
     "fast-glob": "^3.3.2",
     "svelte-runes": "^0.0.4",
