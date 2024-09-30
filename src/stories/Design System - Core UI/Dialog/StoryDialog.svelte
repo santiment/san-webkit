@@ -2,7 +2,7 @@
   import { BROWSER } from 'esm-env'
   import { dialogs$ } from '$ui/core/Dialog/dialogs.js'
 
-  let { render, ...rest }: { render: any; rest: any } = $props()
+  let { render, ...rest }: { render: any; rest?: any } = $props()
 
   const showDialog = dialogs$.new(render)
 
