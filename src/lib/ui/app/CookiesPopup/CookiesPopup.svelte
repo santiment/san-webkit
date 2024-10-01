@@ -79,8 +79,7 @@
     </h2>
     <p class="mb-6 text-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
-      <!-- TODO: link-pointer issue -->
-      <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="text-green"
+      <a href="https://santiment.net/cookies/" target="_blank" rel="noreferrer" class="link-pointer"
         >Cookies Policy</a
       > to learn more.
     </p>

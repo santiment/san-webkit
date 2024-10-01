@@ -98,9 +98,8 @@
         href="https://santiment.net/cookies/"
         target="_blank"
         rel="noreferrer"
-        class="text-green">Learn more</a
+        class="link-pointer">Learn more</a
       >
-      <!-- TODO: add animation for link -->
     </p>
 
     <div class="mb-6"></div>
