@@ -45,15 +45,9 @@
   import { cn } from '$ui/utils/index.js'
   import Switch from '$ui/core/Switch/index.js'
 
-  let {
-    resolve,
-    isFunctionalAccepted = false,
-    isPerformanceAccepted = false,
-    Controller,
-  }: TDialogProps & {
-    isFunctionalAccepted?: boolean
-    isPerformanceAccepted?: boolean
-  } = $props()
+  let { resolve, Controller }: TDialogProps = $props()
+  let isFunctionalAccepted = $state(false)
+  let isPerformanceAccepted = $state(false)
 
   function onSaveClick() {
     applyCookies(isFunctionalAccepted, isPerformanceAccepted)
@@ -70,7 +64,7 @@
   const { device } = useDeviceCtx()
 </script>
 
-<Dialog class="max-w-[600px] md:max-w-full">
+<Dialog class="mx-auto h-auto max-w-[600px]">
   <header
     class="flex items-center justify-between border-b px-5 py-3 md:px-4 md:py-3.5 md:text-fiord"
   >
@@ -135,7 +129,7 @@
   </div>
   <div
     class={cn(
-      'flex gap-3 px-6 py-5 md:flex-col-reverse md:px-5 md:py-6 [&>button]:justify-center md:[&>button]:px-2 md:[&>button]:py-2',
+      'flex gap-3 px-6 py-5 md:flex-col-reverse md:px-5 md:py-6 [&>button]:justify-center [&>button]:px-3 md:[&>button]:px-2 md:[&>button]:py-2',
       device.$.isMobile && 'text-base',
     )}
   >

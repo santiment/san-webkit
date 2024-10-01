@@ -1,13 +1,7 @@
 <script module lang="ts">
   export const CookiesStyle = {
-    API: {
-      fill: '#dae0fd',
-      shadow: '#5275ff',
-    },
-    SHEETS: {
-      fill: '#b0ebdb',
-      shadow: '#21b074',
-    },
+    API: '--fill: #dae0fd; --shadow: #5275ff;',
+    SHEETS: '--fill: #b0ebdb; --shadow: #21b074;',
   } as const
 
   type CookiesStyle = typeof CookiesStyle
@@ -32,7 +26,7 @@
     isVisible: initIsVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED),
   }: {
     class?: string
-    style?: CookiesStyles
+    style?: string | CookiesStyles
     isVisible?: boolean
   } = $props()
 
@@ -58,21 +52,20 @@
       ad_personalization: 'granted',
     })
   })
-  console.log(style)
 </script>
 
 {#if isVisible}
   <div
     class={cn(
-      'fixed bottom-5 left-5 right-0 z-[101] max-w-[450px] rounded border bg-white pb-5 pl-[110px] pr-[43px] pt-5 shadow md:max-w-full md:rounded-b-none md:rounded-t md:px-5 md:py-6 md:text-center md:text-base',
+      'fixed bottom-5 left-5 right-0 z-[101] max-w-[450px] rounded border bg-white pb-5 pl-[110px] pr-[43px] pt-5 shadow md:bottom-0 md:left-0 md:max-w-full md:rounded-b-none md:rounded-t-[10px] md:px-5 md:py-6 md:text-center md:text-base',
       className,
     )}
+    {style}
   >
     <Svg
       illus
       id="cookies"
-      class="!md:w-[102px] !md:h-[128px] absolute left-6 !h-20 !w-[70px] md:static md:rotate-[270deg]"
-      style={style && `--fill: ${style.fill}; --shadow: ${style.shadow}`}
+      class="absolute left-6 inline-block !h-[88px] !w-[70px] md:static md:!h-[128px] md:!w-[102px] md:rotate-[270deg]"
     />
     <h2 class="mb-2 text-base font-medium md:mb-4 md:text-[20px] md:leading-[30px]">
       We are using cookies to improve your experience!
@@ -84,10 +77,14 @@
       > to learn more.
     </p>
     <footer
-      class="flex gap-3 md:flex-col-reverse [&>button]:justify-center md:[&>button]:w-full md:[&>button]:pb-2.5"
+      class="flex gap-4 md:flex-col md:gap-3 [&>button]:justify-center md:[&>button]:w-full md:[&>button]:p-2.5"
     >
       <Button variant="fill" onclick={onAllowAllClick}>Allow all</Button>
-      <Button variant="border" onclick={() => showManageCookiesDialog({})}>Manage cookies</Button>
+      <Button
+        variant="border"
+        onclick={() => showManageCookiesDialog({}).then(() => (isVisible = false))}
+        >Manage cookies</Button
+      >
     </footer>
   </div>
 {/if}

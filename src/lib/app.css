@@ -193,7 +193,6 @@ skeleton,
   height: 1px;
   bottom: 2px;
   left: 0;
-  background: var(--accent);
   @apply bg-green;
   transform: scaleX(0);
   transition: transform 0.3s;

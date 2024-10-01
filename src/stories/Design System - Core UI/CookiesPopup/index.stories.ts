@@ -2,9 +2,8 @@ import type { Meta, StoryObj } from '@storybook/svelte'
 
 import Component from './index.svelte'
 import ManageDialog from './ManageDialog.svelte'
-import StyledPopup, { Accent } from './StyledPopup.svelte'
 
-import { CookiesStyle } from '$ui/app/CookiesPopup/CookiesPopup.svelte'
+import { CookiesStyle } from '$ui/core/CookiesPopup/CookiesPopup.svelte'
 
 const meta = {
   component: Component,
