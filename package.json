@@ -127,6 +127,8 @@
     "@amplitude/plugin-session-replay-browser": "^1.6.24",
     "@internationalized/date": "^3.5.4",
     "@melt-ui/svelte": "^0.83.0",
+    "@reown/appkit": "^1.0.5",
+    "@reown/appkit-adapter-wagmi": "^1.0.5",
     "@stripe/stripe-js": "^4.1.0",
     "@wagmi/connectors": "^5.1.10",
     "@wagmi/core": "^2.13.5",
@@ -138,8 +140,9 @@
     "svelte-sonner": "^0.3.27",
     "tailwind-variants": "^0.2.1",
     "ua-parser-js": "^1.0.38",
-    "viem": "2.x",
+    "viem": "~2.21.7",
     "virtua": "^0.31.0",
+    "wagmi": "^2.12.16",
     "zod": "^3.23.8"
   }
 }
