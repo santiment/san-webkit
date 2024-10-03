@@ -59,6 +59,8 @@ export function createConfig({
     },
 
     define: {
+      __SENTRY_TRACING__: false,
+
       'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
       'process.env.IS_DEV_MODE': IS_DEV_MODE,
       'process.env.IS_PROD_MODE': !IS_DEV_MODE,

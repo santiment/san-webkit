@@ -71,7 +71,7 @@
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.9.1",
     "@playwright/test": "^1.28.1",
-    "@sentry/sveltekit": "^8.28.0",
+    "@sentry/sveltekit": "^8.33.1",
     "@storybook/addon-essentials": "^8.3.4",
     "@storybook/addon-interactions": "^8.3.4",
     "@storybook/addon-links": "^8.3.4",

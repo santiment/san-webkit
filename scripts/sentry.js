@@ -5,9 +5,16 @@ const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
 /**
  *
- * @param {{release:string, org:string, project:string, url?:string, flags?:{client?: string, server?: string}}} settings
+ * @param {{release:string, org:string, project:string, url?:string, serverPath?:string, flags?:{client?: string, server?: string}}} settings
  */
-export async function uploadSentrySourcemaps({ org, project, release, url, flags = {} }) {
+export async function uploadSentrySourcemaps({
+  org,
+  project,
+  release,
+  url,
+  serverPath = './build/server/chunks',
+  flags = {},
+}) {
   const urlFlag = url ? `--url ${url}` : ''
 
   if (SENTRY_AUTH_TOKEN) {
@@ -21,7 +28,7 @@ export async function uploadSentrySourcemaps({ org, project, release, url, flags
     const serverFlags = flags.server || ''
     // Server files upload
     const [, serverError] = await exec(
-      `npx sentry-cli ${urlFlag} sourcemaps upload --release ${release} ./build/server ${serverFlags} --org ${org} --project ${project} --auth-token ${SENTRY_AUTH_TOKEN}`,
+      `npx sentry-cli ${urlFlag} sourcemaps upload --release ${release} ${serverPath} ${serverFlags} --org ${org} --project ${project} --auth-token ${SENTRY_AUTH_TOKEN}`,
     )
     if (serverError) throw new Error(serverError)
 
