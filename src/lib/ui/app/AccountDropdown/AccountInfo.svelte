@@ -15,13 +15,14 @@
       ? '--c-orange:var(--c-blue);--c-orange-hover:var(--c-blue-hover)'
       : ''}
   >
-    <div class="flex items-center gap-2">
-      <ProfilePicture class="min-w-8"></ProfilePicture>
+    <div class="relative flex items-center gap-2">
+      <ProfilePicture as="div" class="min-w-8"></ProfilePicture>
 
-      <div class="min-w-0">
-        <h4 class="font-medium text-rhino single-line">
+      <div class="min-w-0 single-line">
+        <a href={'/profile/' + currentUser.$$.id} class="font-medium text-rhino link-as-bg">
           @{currentUser.$$.username}
-        </h4>
+        </a>
+
         {#if currentUser.$$.email}
           <p class="text-xs text-waterloo single-line">
             {currentUser.$$.email}
