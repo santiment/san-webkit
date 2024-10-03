@@ -28,9 +28,9 @@ export async function uploadSentrySourcemaps({ org, project, release, url, flags
     console.log('✅ Sourcemaps uploaded 🌥')
   }
 
-  await forFile('./build/**/*.*.map', (filePath) => fs.unlink(filePath))
+  await forFile('./build/client/**/*.*.map', (filePath) => fs.unlink(filePath))
 
-  await forFile('./build/**/*.js', async (filePath) => {
+  await forFile('./build/client/**/*.js', async (filePath) => {
     try {
       const fileContent = await fs.readFile(filePath, 'utf8')
 

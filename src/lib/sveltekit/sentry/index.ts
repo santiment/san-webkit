@@ -13,4 +13,4 @@ setTags({
   git_commit: process.env.GIT_HEAD,
 })
 
-export { handleErrorWithSentry } from '@sentry/sveltekit'
+export { sentryHandle, handleErrorWithSentry } from '@sentry/sveltekit'
