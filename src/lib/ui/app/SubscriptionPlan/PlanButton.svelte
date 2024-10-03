@@ -154,7 +154,7 @@
   >
     Start Free Trial
   </Button>
-{:else if (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
+{:else if customer.$.isCustom || (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
