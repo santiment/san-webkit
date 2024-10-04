@@ -3,9 +3,9 @@ import {
   init,
   setTags,
   setUser,
+  setExtra,
   handleErrorWithSentry as _handleErrorWithSentry,
 } from '@sentry/sveltekit'
-import type { HandleServerError } from '@sveltejs/kit'
 
 init({
   dsn: process.env.SENTRY_DSN,
@@ -22,21 +22,28 @@ setTags({
 
 export { sentryHandle } from '@sentry/sveltekit'
 
-export const handleErrorWithSentry = BROWSER
-  ? _handleErrorWithSentry
-  : (handler?: Parameters<typeof _handleErrorWithSentry>[0]) => {
-      const handleError = _handleErrorWithSentry(handler)
+export const handleErrorWithSentry = (handler?: Parameters<typeof _handleErrorWithSentry>[0]) => {
+  const handleError = _handleErrorWithSentry(handler)
 
-      return (async (input) => {
-        let ip_address = null as null | string
+  return async (input: any) => {
+    setExtra('event', normalizeEventError(input.event || {}))
 
-        try {
-          ip_address = input.event.getClientAddress()
-        } catch (e) {
-          console.error(e)
-        }
-        if (ip_address) setUser({ ip_address })
+    if (!BROWSER) {
+      let ip_address = null as null | string
 
-        return handleError(input)
-      }) as HandleServerError
+      try {
+        ip_address = input.event.getClientAddress()
+      } catch (e) {
+        console.error(e)
+      }
+
+      if (ip_address) setUser({ ip_address })
     }
+
+    return handleError(input)
+  }
+}
+
+function normalizeEventError({ url, route, isDataRequest, locals }: any) {
+  return { url, route, isDataRequest, ...locals }
+}
