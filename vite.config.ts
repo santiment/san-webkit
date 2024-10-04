@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { execSync } from 'node:child_process'
+import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig, mergeConfig } from 'vitest/config'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
