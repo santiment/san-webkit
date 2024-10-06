@@ -20,8 +20,6 @@ setTags({
   git_commit: process.env.GIT_HEAD,
 })
 
-export { sentryHandle } from '@sentry/sveltekit'
-
 export const handleErrorWithSentry = (handler?: Parameters<typeof _handleErrorWithSentry>[0]) => {
   const handleError = _handleErrorWithSentry(handler)
 
