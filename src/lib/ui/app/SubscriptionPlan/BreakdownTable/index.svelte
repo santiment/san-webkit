@@ -2,6 +2,7 @@
   import type { TSubscriptionPlan } from '../types.js'
 
   import { ssd } from 'svelte-runes'
+  import { trackEvent } from '$lib/analytics/index.js'
   import Slides from '$ui/core/Slides/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import {
@@ -13,10 +14,16 @@
   import Plan from './Plan.svelte'
 
   const {
+    source = '',
     class: className,
     plans,
     isConsumerPlans = true,
-  }: { class?: string; plans: TSubscriptionPlan[]; isConsumerPlans?: boolean } = $props()
+  }: {
+    source?: string
+    class?: string
+    plans: TSubscriptionPlan[]
+    isConsumerPlans?: boolean
+  } = $props()
 
   const { device } = useDeviceCtx()
 
@@ -39,8 +46,17 @@
     return activePlanBreakdown ? [activePlanBreakdown] : []
   }
 
-  function onSlideChange(plan: TSubscriptionPlan) {
+  function onSlideChange(plan: TSubscriptionPlan, i: number) {
     activePlan.$ = plan
+
+    trackEvent('slides', {
+      slide: i,
+      type: 'plans_slides',
+      plan: plan?.name,
+      plan_id: plan?.id,
+      billing: plan?.interval,
+      source,
+    })
   }
 </script>
 
@@ -52,6 +68,7 @@
     class:business={!isConsumerPlans}
   >
     <Table
+      {source}
       plans={plansFeatures}
       breakdown={isConsumerPlans ? CONSUMER_PLANS_BREAKDOWN : BUSINESS_PLANS_BREAKDOWN}
     >
@@ -67,7 +84,7 @@
 
           {#each plans as plan}
             <div class="td">
-              <Plan {plan}></Plan>
+              <Plan {source} {plan}></Plan>
             </div>
           {/each}
         {/if}

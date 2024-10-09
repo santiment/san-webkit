@@ -12,10 +12,16 @@
   import AccountInfo from './AccountInfo.svelte'
 
   let {
+    class: className,
     version = '1.0.0',
     onClassicClick,
     onLogout,
-  }: { version?: string; onClassicClick?: () => void; onLogout?: () => void } = $props()
+  }: {
+    class?: string
+    version?: string
+    onClassicClick?: () => void
+    onLogout?: () => void
+  } = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -27,9 +33,9 @@
   }
 </script>
 
-<Tooltip class="w-[240px] divide-y overflow-auto p-0 column">
+<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 column">
   {#snippet children({ ref })}
-    <ProfilePicture {ref}></ProfilePicture>
+    <ProfilePicture class={className} {ref}></ProfilePicture>
   {/snippet}
 
   {#snippet content({ close })}
@@ -49,6 +55,8 @@
 
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
 
+        {@render sanbaseLink('My alerts', '/alerts')}
+
         {@render sanbaseLink('My watchlists', '/watchlists')}
 
         {@render sanbaseLink('My insights', '/insights/my')}
@@ -60,7 +68,10 @@
       </section>
     {:else}
       <section>
-        {@render sanbaseLink('Log in', '/login', { icon: 'user', class: 'fill-green text-green' })}
+        {@render sanbaseLink('Sign up', '/sign-up', {
+          icon: 'user',
+          class: 'fill-green text-green',
+        })}
       </section>
     {/if}
 

@@ -1,15 +1,15 @@
+import { onMount } from 'svelte'
 import {
   Subject,
-  Subscription,
   groupBy,
   mergeMap,
   pipe,
   share,
+  type Subscription,
   type Observable,
   type OperatorFunction,
   type UnaryFunction,
 } from 'rxjs'
-import { untrack } from 'svelte'
 
 export function useObserveFnCall<GData = undefined>(
   fn: <T>() => UnaryFunction<T extends Observable<unknown> ? any : Observable<GData>, any>,
@@ -17,15 +17,13 @@ export function useObserveFnCall<GData = undefined>(
   const subject = new Subject<GData>()
   let subscriber: Subscription
 
-  $effect(() =>
-    untrack(() => {
-      const subscriber = ensureSubscription()
-      return () => {
-        subscriber.unsubscribe()
-        subject.complete()
-      }
-    }),
-  )
+  onMount(() => {
+    const subscriber = ensureSubscription()
+    return () => {
+      subscriber.unsubscribe()
+      subject.complete()
+    }
+  })
 
   function ensureSubscription() {
     if (subscriber) return subscriber

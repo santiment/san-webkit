@@ -15,10 +15,20 @@ type TLooseRecord<T extends Record<string, unknown>> = T & Record<string, undefi
 export const getPlanName = (plan: Pick<TSubscriptionPlan, 'name'>): string =>
   (SubscriptionPlan as TLooseRecord<typeof SubscriptionPlan>)[plan.name]?.name || plan.name
 
-export const getFormattedPlan = (
+export function getFormattedBillingPlan(plan: TSubscriptionPlan) {
+  const { name, amount, price } = getFormattedPlan(plan)
+  return {
+    name,
+    billing: plan.interval,
+    amount: amount.month,
+    price: price.month,
+  }
+}
+
+export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
-) => {
+) {
   const name = getPlanName(monthlyPlan)
   const details = SubscriptionPlanDetails[monthlyPlan.name]
 
@@ -51,7 +61,8 @@ export const checkIsCurrentPlan = (
   targetPlan?: Pick<TSubscriptionPlan, 'name' | 'interval'>,
 ) =>
   userPlan
-    ? userPlan.name === targetPlan?.name && userPlan.interval === targetPlan?.interval
+    ? userPlan.name === targetPlan?.name &&
+      (userPlan.name === SubscriptionPlan.CUSTOM.key || userPlan.interval === targetPlan?.interval)
     : targetPlan?.name === SubscriptionPlan.FREE.key
 
 export const checkIsAlternativeBillingPlan = (

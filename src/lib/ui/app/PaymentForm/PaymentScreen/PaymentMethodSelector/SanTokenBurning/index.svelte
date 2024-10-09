@@ -6,7 +6,7 @@
 </script>
 
 <OnlyAnnualMethod>
-  <Description name="Burning SAN Tokens for Subscription Payments" {img}>
+  <Description type="san_burning" name="Burning SAN Tokens for Subscription Payments" {img}>
     {#snippet noteSnippet()}
       <Note class="mb-2">
         SAN burn is not available for residents of the Swiss Confederation due to tax regulations

@@ -4,12 +4,14 @@ import type { ActionReturn } from 'svelte/action'
 import { twMerge, type ClassNameValue } from 'tailwind-merge'
 import { BROWSER } from 'esm-env'
 
+export { applyStyles, preserveStyles, type TStyles } from 'drawer-svelte'
+
 export function cn(...classLists: ClassNameValue[]) {
   return twMerge(...classLists)
 }
 
 export const getBrowserCssVariable = (color: string) =>
-  BROWSER ? getComputedStyle(document.documentElement).getPropertyValue(`--${color}`) : ''
+  BROWSER ? getComputedStyle(document.body).getPropertyValue(`--${color}`) : ''
 
 export function applyBuilder(node: HTMLElement, builder: Builder) {
   const { action, ...attrs } = builder

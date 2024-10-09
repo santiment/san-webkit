@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { Fetcher } from './index.js'
+import { ApiQuery } from './index.js'
 import { firstValueFrom } from 'rxjs'
 import { ApiMock } from './mock.js'
 import { Query } from './executor.js'
 
 describe('API mocking', () => {
-  const queryCurrentUser = Fetcher(
+  const queryCurrentUser = ApiQuery(
     () => `{ currentUser { id  } }`,
     (gql: { currentUser: null | { id: number } }) => gql.currentUser,
   )

@@ -3,11 +3,13 @@
   import type { Snippet } from 'svelte'
 
   let {
+    type,
     name,
     img,
     children,
     noteSnippet,
-  }: { name: string; img: string; noteSnippet?: Snippet; children: Snippet } = $props()
+  }: { type?: string; name: string; img: string; noteSnippet?: Snippet; children: Snippet } =
+    $props()
 </script>
 
 <div class="gap-4 text-base text-fiord column">
@@ -24,6 +26,8 @@
   <a
     href="mailto:support@santiment.net"
     class="mt-4 w-fit rounded-lg border border-green px-5 py-3 text-sm"
+    data-type="{type}_pay_crypto_help"
+    data-source="payment_dialog"
     onclick={onSupportClick}
   >
     <span class="mr-2">📩</span> Need help with crypto payments?

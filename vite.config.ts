@@ -1,7 +1,7 @@
-import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig, mergeConfig } from 'vitest/config'
+import path from 'node:path'
 import { execSync } from 'node:child_process'
-import { sentryVitePlugin } from '@sentry/vite-plugin'
+import { defineConfig, mergeConfig } from 'vite'
+import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
@@ -15,52 +15,39 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
+export const GIT_HEAD_DATETIME = getGitHeadDate()
+
+export const SENTRY_DSN = process.env.SENTRY_DSN
+export const SENTRY_URL = SENTRY_DSN && new URL(SENTRY_DSN).origin
+
+export const ROOT = path.resolve('.')
+
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
-  sentry,
 }: {
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
-  sentry?: Parameters<typeof sentryVitePlugin>[0]
 } = {}) {
   const corsHostname = new URL(corsOrigin).hostname
 
-  const SENTRY_DSN = process.env.SENTRY_DSN
   const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
 
-  const sentryUrl = SENTRY_DSN && new URL(SENTRY_DSN).origin
   const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
   return defineConfig({
-    plugins: [
-      mkcert(),
-      WebkitSvg(),
-
-      sveltekit(),
-
-      // Put the Sentry vite plugin after all other plugins
-      isSentryEnabled &&
-        sentryVitePlugin({
-          debug: true,
-
-          // org: 'sentry',
-          // project: 'sanbase-app',
-          ...sentry,
-
-          url: sentryUrl,
-
-          sourcemaps: {
-            filesToDeleteAfterUpload: '**/*.map',
-          },
-
-          // Auth tokens can be obtained from https://sentry.io/orgredirect/organizations/:orgslug/settings/auth-tokens/
-          authToken: SENTRY_AUTH_TOKEN,
-        }),
-    ],
+    plugins: [mkcert(), WebkitSvg(), sveltekit()],
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
+      rollupOptions: {
+        output: {
+          sourcemapPathTransform: (relativeSourcePath, sourcemapPath) => {
+            const absPath = path.resolve(path.dirname(sourcemapPath), relativeSourcePath)
+            return absPath.replace(ROOT, '')
+          },
+        },
+      },
     },
 
     test: {
@@ -72,6 +59,8 @@ export function createConfig({
     },
 
     define: {
+      __SENTRY_TRACING__: false,
+
       'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
       'process.env.IS_DEV_MODE': IS_DEV_MODE,
       'process.env.IS_PROD_MODE': !IS_DEV_MODE,
@@ -88,6 +77,7 @@ export function createConfig({
       'process.env.IS_PROD_BACKEND': IS_PROD_BACKEND,
 
       'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
+      'process.env.GIT_HEAD_DATETIME': JSON.stringify(GIT_HEAD_DATETIME),
     },
   })
 }
@@ -95,3 +85,11 @@ export function createConfig({
 export default mergeConfig(createConfig(), {
   plugins: [StaticAssetLogos()],
 })
+
+function getGitHeadDate() {
+  const date: null | Date = new Date(
+    execSync('git show --no-patch --format=%ci ' + GIT_HEAD).toString(),
+  )
+
+  return Number.isNaN(+date) ? null : date
+}

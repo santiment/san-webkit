@@ -7,6 +7,9 @@ import { ApiMock } from '../src/lib/api/mock'
 import { ApiCache } from '../src/lib/api/cache'
 import { MockedApi } from './mock'
 import Decorator from './Decorator.svelte'
+import { startLinksListener } from '../src/lib/analytics'
+
+startLinksListener()
 
 const preview: Preview = {
   parameters: {
@@ -40,6 +43,7 @@ const preview: Preview = {
         root.setAttribute('data-vaul-drawer-wrapper', '')
         root.style.minHeight = '100vh'
         root.classList.add('bg-white')
+        document.body.style.background = 'black'
       }
 
       // @ts-expect-error

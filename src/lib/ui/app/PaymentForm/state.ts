@@ -2,7 +2,7 @@ import { ss, ssd, useObserve } from 'svelte-runes'
 import { tap } from 'rxjs'
 import { untrack } from 'svelte'
 import { createCtx } from '$lib/utils/index.js'
-import { Mutation } from '$lib/api/index.js'
+import { ApiMutation } from '$lib/api/index.js'
 import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
@@ -54,7 +54,7 @@ export const usePaymentFormCtx = createCtx(
       const amount = selectedPlan.amount - amountOff
 
       return {
-        description: 'Promo code',
+        description: 'Promo code', // SAN Holder discount
         percentOff: discountCoupon.percentOff,
 
         amount,
@@ -62,6 +62,17 @@ export const usePaymentFormCtx = createCtx(
 
         price: Math.ceil(amount / 100),
         priceOff: Math.floor(amountOff / 100),
+      }
+    })
+    const resultPayment = ssd(() => {
+      if (discount.$) return discount.$
+
+      const { formatted } = plan.$
+      if (!formatted) return { amount: 10000000, price: 100000 }
+
+      return {
+        price: formatted.price[billingPeriod.$],
+        amount: formatted.amount[billingPeriod.$],
       }
     })
 
@@ -121,6 +132,7 @@ export const usePaymentFormCtx = createCtx(
       subscriptionPlan: plan,
       coupon,
       discount,
+      resultPayment,
       productsWithPlans,
 
       selectPaymentMethod(option: typeof CardMethod) {
@@ -134,7 +146,7 @@ export const usePaymentFormCtx = createCtx(
   },
 )
 
-export const mutateCreateStripeSetupIntent = Mutation(
+export const mutateCreateStripeSetupIntent = ApiMutation(
   () => `mutation { createStripeSetupIntent { clientSecret } }`,
   (data: { createStripeSetupIntent: { clientSecret: string } }) =>
     data.createStripeSetupIntent.clientSecret,

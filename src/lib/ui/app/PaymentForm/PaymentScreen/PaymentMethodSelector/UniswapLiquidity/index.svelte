@@ -7,12 +7,18 @@
 </script>
 
 <OnlyAnnualMethod>
-  <Description name="Providing SAN Uniswap Liquidity" {img}>
+  <Description type="uniswap" name="Providing SAN Uniswap Liquidity" {img}>
     {#snippet noteSnippet()}
       <Note class="mb-2">
         For this payment method, you have to request a trial by contacting us directly.
 
-        <a href="mailto:support@santiment.net" class="text-green" onclick={onSupportClick}>
+        <a
+          href="mailto:support@santiment.net"
+          class="text-green"
+          onclick={onSupportClick}
+          data-type="uniswap_trial_request"
+          data-source="payment_dialog"
+        >
           Contact us!
         </a>
       </Note>
@@ -30,6 +36,8 @@
       <a
         href="https://app.uniswap.org/add/v2/ETH/0x7C5A0CE9267ED19B22F8cae653F198e3E8daf098"
         class="break-all text-green"
+        data-type="add_uniswap_liquidity"
+        data-source="payment_dialog"
       >
         https://app.uniswap.org/#/add/v2/ETH/0x7C5A0CE9267ED19B22F8cae653F198e3E8daf098</a
       >.

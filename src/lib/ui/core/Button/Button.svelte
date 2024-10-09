@@ -9,7 +9,7 @@
   import Svg from '$ui/core/Svg/index.js'
 
   type Props = HTMLButtonAttributes & {
-    as?: 'button' | 'label'
+    as?: 'button' | 'label' | 'div'
     ref?: SS<undefined | null | HTMLElement>
     href?: string
     icon?: string

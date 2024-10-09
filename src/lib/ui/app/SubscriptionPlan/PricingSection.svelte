@@ -14,8 +14,10 @@
   import ProductPlans from './ProductPlans.svelte'
   import { PlanTypeDisplayNames, planTypes } from './plans.js'
   import { useProductPlansFlow } from './flow.svelte.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   type Props = {
+    source?: string
     productsWithPlans?: TProductsWithPlans
     class?: string
     children?: Snippet<[{ isConsumerPlans: boolean }]>
@@ -24,6 +26,7 @@
   }
 
   let {
+    source = '',
     class: className = '',
     productsWithPlans,
     planType: initialPlanType = 'consumer',
@@ -40,6 +43,11 @@
   function handlePlanClick(type: PlanType) {
     planType = type
     onPlanTypeChange?.(type)
+    trackEvent('select', {
+      value: type,
+      type: 'list_plans_for',
+      source,
+    })
   }
 </script>
 
@@ -62,12 +70,13 @@
     {/each}
   </div>
 
-  <ProductPlans productPlans={productPlans.$}></ProductPlans>
+  <ProductPlans {source} productPlans={productPlans.$}></ProductPlans>
 
   {@render children?.({ isConsumerPlans })}
 </section>
 
 <BreakdownTable
+  {source}
   plans={productPlans.$?.billingGroupPlans?.map((v) => v.month) || []}
   {isConsumerPlans}
 />

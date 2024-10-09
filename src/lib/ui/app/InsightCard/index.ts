@@ -1,1 +1,1 @@
-export { default } from './InsightCard.svelte';
+export { default } from './InsightCard.svelte'

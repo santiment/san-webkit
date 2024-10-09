@@ -24,7 +24,11 @@
     states: { open },
   } = createDialog({ forceVisible: true, onOpenChange })
 
-  const close = () => open.set(false)
+  function close(isForced?: boolean) {
+    if (Controller.checkIsLocked(isForced)) return false
+
+    open.set(false)
+  }
 
   $effect(() => {
     open.set(true)

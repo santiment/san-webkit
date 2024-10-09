@@ -4,8 +4,12 @@ import { createCtx } from '$lib/utils/index.js'
 export const useSubscriptionPlanButtonCtx = createCtx(
   'useSubscriptionPlanButtonCtx',
   (handlers?: {
-    onPlanButtonClick?: (plan: TSubscriptionPlan) => void
-    onBillingPeriodChangeClick?: (plan: TSubscriptionPlan) => void
+    onPlanButtonClick?: (plan: TSubscriptionPlan, e: { currentTarget: HTMLElement }) => void
+    onBillingPeriodChangeClick?: (
+      plan: TSubscriptionPlan,
+      e: { currentTarget: HTMLElement },
+    ) => void
+    onPlanChangeClick?: (plan: TSubscriptionPlan, e: { currentTarget: HTMLElement }) => void
   }) => {
     return handlers || {}
   },

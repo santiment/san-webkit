@@ -9,13 +9,13 @@ export function initAmplitude(id = '4acc1be0881406053d73b6e7429248d5') {
   // @ts-expect-error
   window.amplitude = amplitude
 
-  amplitude.add(sessionReplayPlugin())
+  amplitude.add(sessionReplayPlugin({ sampleRate: 0.4 }))
 
   amplitude.init(id, {
     flushIntervalMillis: 1,
     flushQueueSize: 1,
     serverUrl: '/api/track',
-    serverZone: 'EU',
+    // serverZone: 'EU',
   })
 }
 
