@@ -6,7 +6,6 @@
   import Twitter from './Twitter.svelte'
   // import EmailForm from './EmailForm.svelte'
   // import EmailConfirmation from './EmailConfirmation.svelte'
-  // import WalletConnect from './WalletConnect/index.svelte'
 
   type Props = {
     title: string
@@ -48,7 +47,5 @@
   <Divider />
 
   <!-- <EmailForm bind:verifiedEmail {isSignUp} {from} /> -->
-
-  <!-- <WalletConnect onLogin={onWalletConnectLogin} /> -->
 </Section>
 <!-- {/if} -->
