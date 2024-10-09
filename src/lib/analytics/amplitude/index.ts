@@ -19,4 +19,4 @@ export function initAmplitude(id = '4acc1be0881406053d73b6e7429248d5') {
   })
 }
 
-export { useAmplitudeFlow } from './flow.svelte.js'
+export { useAmplitudeFlow, setAmplitudeUserProperties } from './flow.svelte.js'
