@@ -1,6 +1,6 @@
 <script lang="ts">
   import Section from './Section.svelte'
-  // import Metamask from './Metamask.svelte'
+  import Metamask from './Metamask.svelte'
   import Divider from './Divider.svelte'
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
@@ -14,6 +14,7 @@
     bottomHref?: string
     isSignUp?: boolean
     from?: string
+    onMetamaskClick?: () => Promise<void>
   }
 
   const {
@@ -23,6 +24,7 @@
     bottomHref: bottomPath = '/sign-up',
     isSignUp = false,
     from = '',
+    onMetamaskClick,
   }: Props = $props()
 
   // export let onMetamaskClick
@@ -37,9 +39,11 @@
   <EmailConfirmation bind:verifiedEmail {isSignUp} />
 {:else} -->
 <Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
-  <!-- <Metamask {isSignUp} onClick={onMetamaskClick} /> -->
-
   <div class="flex flex-col gap-2">
+    {#if onMetamaskClick}
+      <Metamask {isSignUp} onclick={onMetamaskClick} />
+    {/if}
+
     <Google {isSignUp} {from} />
     <Twitter {isSignUp} {from} />
   </div>

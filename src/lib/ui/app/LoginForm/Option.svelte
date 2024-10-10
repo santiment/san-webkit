@@ -6,8 +6,8 @@
   type Props = {
     class?: string
     title: string
-    href: string
     icon: string
+    href?: string
     loading?: boolean
     isSignUp?: boolean
     onclick: MouseEventHandler<HTMLButtonElement>
