@@ -15,7 +15,7 @@
     ...rest
   }: HTMLInputAttributes & {
     class?: string
-    type?: 'text' | 'number'
+    type?: 'text' | 'number' | 'email'
     placeholder?: string
     icon?: string
     iconSize?: number | string

@@ -7,6 +7,7 @@
   import { tv } from 'tailwind-variants'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
   let {
     ref = { $: null },
@@ -18,7 +19,7 @@
     iconHeight,
     iconOnRight = false,
     explanation,
-    size,
+    size: initialSize,
     as = 'button',
 
     loading = false,
@@ -48,6 +49,9 @@
     children?: Snippet
   } = $props()
 
+  const { device } = useDeviceCtx()
+  const size = $derived(initialSize ?? (device.$.isMobile ? 'lg' : 'md'))
+
   const button = tv({
     base: 'flex cursor-pointer items-center gap-2',
     variants: {
@@ -60,7 +64,7 @@
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed !fill-mystic !text-mystic ' },
-      size: { lg: 'h-10 py-1.5 px-5 text-base' },
+      size: { lg: 'h-10 py-1.5 px-5 text-base', md: 'h-8 py-[5px]' },
       loading: { true: 'loading' },
     },
     compoundVariants: [
