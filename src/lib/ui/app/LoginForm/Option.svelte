@@ -2,6 +2,7 @@
   import type { MouseEventHandler } from 'svelte/elements'
 
   import Button from '$ui/core/Button/Button.svelte'
+  import { cn } from '$ui/utils/index.js'
 
   type Props = {
     class?: string
@@ -24,9 +25,9 @@
   }: Props = $props()
 </script>
 
-<Button variant="border" size="lg" class={className} {loading} {href} {onclick}>
+<Button variant="border" size="lg" class={cn('px-12', className)} {loading} {href} {onclick}>
   {#if icon}
-    <img src="/webkit/icons/{icon}.svg" alt={icon} />
+    <img src="/webkit/icons/{icon}.svg" alt={icon} class="size-4" />
   {/if}
 
   {isSignUp ? 'Sign up' : 'Log in'} with {title}
