@@ -53,7 +53,7 @@ export function useAmplitudeFlow() {
   })
 }
 
-function setAmplitudeUserProperties(props: Record<string, any>) {
+export function setAmplitudeUserProperties(props: Record<string, any>) {
   if (process.env.IS_LOGGING_ENABLED) return
 
   const identity = new amplitude.Identify()
