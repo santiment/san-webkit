@@ -11,7 +11,7 @@
     bottomLabel?: string
     bottomAction?: string
     bottomHref?: string
-    onclick?: MouseEventHandler<HTMLAnchorElement>
+    onBottomClick?: MouseEventHandler<HTMLAnchorElement>
     children: Snippet
   }
 
@@ -22,7 +22,7 @@
     bottomLabel,
     bottomAction,
     bottomHref,
-    onclick,
+    onBottomClick,
     children,
   }: Props = $props()
 </script>
@@ -43,7 +43,7 @@
   {#if bottomLabel}
     <div class="mt-3 text-base text-waterloo">
       {bottomLabel}
-      <a href={bottomHref} class="link-pointer" {onclick}>{bottomAction}</a>
+      <a href={bottomHref} class="link-pointer" onclick={onBottomClick}>{bottomAction}</a>
     </div>
   {/if}
 </section>

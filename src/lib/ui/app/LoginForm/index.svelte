@@ -5,7 +5,7 @@
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
   import EmailForm from './EmailForm.svelte'
-  // import EmailConfirmation from './EmailConfirmation.svelte'
+  import EmailConfirmation from './EmailConfirmation.svelte'
 
   type Props = {
     title: string
@@ -32,21 +32,21 @@
   const bottomHref = $derived(bottomPath + `?from=${encodeURIComponent(from)}`)
 </script>
 
-<!-- {#if verifiedEmail}
-  <EmailConfirmation bind:verifiedEmail {isSignUp} />
-{:else} -->
-<Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
-  <div class="flex flex-col gap-2">
-    {#if onMetamaskClick}
-      <Metamask {isSignUp} onclick={onMetamaskClick} />
-    {/if}
+{#if verifiedEmail}
+  <EmailConfirmation email={verifiedEmail} {isSignUp} clearEmail={() => (verifiedEmail = '')} />
+{:else}
+  <Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
+    <div class="flex flex-col gap-2">
+      {#if onMetamaskClick}
+        <Metamask {isSignUp} onclick={onMetamaskClick} />
+      {/if}
 
-    <Google {isSignUp} {from} />
-    <Twitter {isSignUp} {from} />
-  </div>
+      <Google {isSignUp} {from} />
+      <Twitter {isSignUp} {from} />
+    </div>
 
-  <Divider />
+    <Divider />
 
-  <EmailForm {isSignUp} {from} onSuccess={(email) => (verifiedEmail = email)} />
-</Section>
-<!-- {/if} -->
+    <EmailForm {isSignUp} {from} onSuccess={(email) => (verifiedEmail = email)} />
+  </Section>
+{/if}
