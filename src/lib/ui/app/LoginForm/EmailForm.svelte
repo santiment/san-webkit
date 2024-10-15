@@ -1,0 +1,52 @@
+<script lang="ts">
+  import { Query } from '$lib/api/executor.js'
+  import { mutateEmailLogin } from '$lib/flow/login/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
+  import Input from '$ui/core/Input/index.js'
+  import { notification } from '$ui/core/Notifications/index.js'
+
+  type Props = {
+    isSignUp: boolean
+    from?: string
+    onSuccess: (email: string) => void
+  }
+
+  const { from, isSignUp, onSuccess }: Props = $props()
+
+  let loading = $state(false)
+
+  function onsubmit(event: SubmitEvent) {
+    event.preventDefault()
+
+    const target = event.currentTarget as HTMLFormElement
+
+    const email: string = target.email.value
+    const redirectUrl = new URL(from || '/', window.location.origin)
+
+    loading = true
+    mutateEmailLogin(Query)({ email, successRedirectUrl: redirectUrl.href })
+      .then((success) => {
+        if (success) onSuccess(email)
+      })
+      .catch(() => notification.error("Can't login"))
+      .finally(() => (loading = false))
+
+    //FIXME: Add analytics
+  }
+</script>
+
+<form {onsubmit}>
+  <Input
+    type="email"
+    placeholder="Your email"
+    icon="envelope"
+    name="email"
+    class="text-base"
+    inputClass="py-2"
+    iconSize="16"
+  />
+
+  <Button variant="fill" size="lg" class="mt-4 w-full justify-center row" type="submit" {loading}>
+    {isSignUp ? 'Sign up' : 'Log in'}
+  </Button>
+</form>

@@ -4,7 +4,7 @@
   import Divider from './Divider.svelte'
   import Google from './Google.svelte'
   import Twitter from './Twitter.svelte'
-  // import EmailForm from './EmailForm.svelte'
+  import EmailForm from './EmailForm.svelte'
   // import EmailConfirmation from './EmailConfirmation.svelte'
 
   type Props = {
@@ -27,10 +27,7 @@
     onMetamaskClick,
   }: Props = $props()
 
-  // export let onMetamaskClick
-  // export let onWalletConnectLogin
-
-  // let verifiedEmail
+  let verifiedEmail = $state<string>()
 
   const bottomHref = $derived(bottomPath + `?from=${encodeURIComponent(from)}`)
 </script>
@@ -50,6 +47,6 @@
 
   <Divider />
 
-  <!-- <EmailForm bind:verifiedEmail {isSignUp} {from} /> -->
+  <EmailForm {isSignUp} {from} onSuccess={(email) => (verifiedEmail = email)} />
 </Section>
 <!-- {/if} -->
