@@ -29,7 +29,11 @@ type Query = SAN.API.Query<'productsWithPlans', ProductPlans[]>
 
 type ProductGetter = (products: ProductPlans[]) => undefined | ProductPlans['plans']
 
-const accessor = ({ productsWithPlans }: Query) => productsWithPlans
+const accessor = ({ productsWithPlans }: Query) =>
+  productsWithPlans.map((product) => ({
+    ...product,
+    plans: product.plans.map((plan) => ({ ...plan, product: { id: +product.id } })),
+  }))
 export const queryPlans = () => query<Query>(PLANS_QUERY).then(accessor)
 
 export const queryProductPlans = (
@@ -157,6 +161,9 @@ export const queryPppSettings = () =>
       interval
       amount
       isDeprecated
+      product {
+        id
+      }
     }
   }
 }`).then((data) => {

@@ -3,7 +3,7 @@
   import Svg from '@/ui/Svg/svelte'
   import Tooltip from '@/ui/Tooltip'
   import {
-    PlanName,
+    getPlanDisplayName,
     checkIsYearlyPlan,
     formatMonthlyPrice,
     Billing,
@@ -75,7 +75,7 @@
             class:active={plan === option}
             on:click={() => select(option)}
           >
-            {isSinglePlan ? 'Bill' : PlanName[option.name]}
+            {isSinglePlan ? 'Bill' : getPlanDisplayName(option)}
             {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 

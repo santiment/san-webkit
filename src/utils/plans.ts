@@ -37,17 +37,26 @@ export enum Plan {
 export const INDIVIDUAL_PLANS = new Set([Plan.FREE, Plan.PRO, Plan.MAX])
 export const BUSINESS_PLANS = new Set([Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM])
 
-export const PlanName = {
-  [Plan.PRO_PLUS]: 'Pro+',
+export const getPlanDisplayName = ({
+  name,
+  product: { id: productId },
+}: Pick<SAN.Plan, 'product' | 'name'>) => {
+  const sanbasePlans: Partial<Record<string, string>> = {
+    [Plan.PRO_PLUS]: 'Pro+',
 
-  [Plan.FREE]: 'FREE',
-  [Plan.PRO]: 'Sanbase Pro',
-  [Plan.MAX]: 'Sanbase Max',
+    [Plan.FREE]: 'FREE',
+    [Plan.PRO]: 'Sanbase Pro',
+    [Plan.MAX]: 'Sanbase Max',
+  }
+  const businessPlans: Partial<Record<string, string>> = {
+    [Plan.BUSINESS_PRO]: 'Business Pro',
+    [Plan.BUSINESS_MAX]: 'Business Max',
+    [Plan.CUSTOM]: 'Enterprise',
+  }
+  const planNames = productId === ProductId.SANAPI ? businessPlans : sanbasePlans
 
-  [Plan.BUSINESS_PRO]: 'Business Pro',
-  [Plan.BUSINESS_MAX]: 'Business Max',
-  [Plan.CUSTOM]: 'Enterprise',
-} as const
+  return planNames[name] ?? `${ProductNameById[productId]} ${name}`
+}
 
 export enum Billing {
   MONTH = 'month',
@@ -59,9 +68,11 @@ export enum PlanType {
   BUSINESS = 'business',
 }
 
-export const checkIsIndividualPlan = ({ name }: { name: string }) =>
-  INDIVIDUAL_PLANS.has(name as Plan)
-export const checkIsBusinessPlan = ({ name }: { name: string }) => BUSINESS_PLANS.has(name as Plan)
+export const checkIsIndividualPlan = ({ product: { id: productId } }: Pick<SAN.Plan, 'product'>) =>
+  productId === ProductId.SANBASE
+
+export const checkIsBusinessPlan = ({ product: { id: productId } }: Pick<SAN.Plan, 'product'>) =>
+  productId === ProductId.SANAPI
 
 export const checkIsPlanWithPrice = ({ amount }: Pick<SAN.Plan, 'amount'>) => amount > 0
 
