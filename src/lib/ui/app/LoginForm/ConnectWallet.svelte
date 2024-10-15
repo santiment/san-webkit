@@ -1,41 +1,58 @@
 <script lang="ts">
-  import type { AppKit } from '@reown/appkit'
-  import type { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-  import type { GetAccountReturnType } from 'wagmi/actions'
-
+  import type { EventsControllerState } from '@reown/appkit'
   import { onMount } from 'svelte'
-  import { watchAccount } from '@wagmi/core'
-  import { loginWithWallet, getAppKit } from '$lib/flow/web3/wallet-connect/appKit.js'
-  import Button from '$ui/core/Button/Button.svelte'
+  import { filter, from, merge, Subject, switchMap, takeUntil, tap } from 'rxjs'
+  import Button from '$ui/core/Button/index.js'
+  import { appKitEvents$, disconnectAccount, watchAccount$ } from '$lib/flow/web3/core/index.js'
+  import { useWalletConnectLoginFlow } from '$lib/flow/web3/wallet.js'
+  import { getAppKit } from '$lib/flow/web3/core/config.js'
+  import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 
-  let appKit = $state<AppKit | null>(null)
+  const { loginWithWallet } = useWalletConnectLoginFlow()
 
-  const wagmiAdapter = $derived(appKit?.adapter as WagmiAdapter | undefined)
-  const wagmiConfig = $derived(wagmiAdapter?.wagmiConfig)
+  let loading = $state(false)
 
-  $effect(() => {
-    if (!wagmiConfig) return
+  const startWalletConnectLoginFlow = useObserveFnCall(() => {
+    const modalClosed$ = new Subject<void>()
 
-    const unwatch = watchAccount(wagmiConfig, { onChange: onAccountChange })
-    return () => unwatch()
+    function handleModalClose({ data }: EventsControllerState) {
+      if (data.event === 'MODAL_CLOSE' && !loading) {
+        modalClosed$.next()
+      }
+    }
+
+    return switchMap(() =>
+      from(getAppKit()).pipe(
+        filter((appKit) => !!appKit),
+        tap((appKit) => appKit.open({ view: 'Connect' })),
+        switchMap(() =>
+          merge(
+            appKitEvents$().pipe(tap(alertPendingRequest), tap(handleModalClose)),
+            watchAccount$().pipe(
+              filter((account) => (account.address && account.isConnected ? true : false)),
+              tap(() => (loading = true)),
+              switchMap((account) => from(loginWithWallet(account.address!))),
+              tap(() => (loading = false)),
+              tap(disconnectAccount),
+              tap(() => modalClosed$.next()),
+            ),
+          ),
+        ),
+        takeUntil(modalClosed$),
+      ),
+    )
   })
 
-  async function onAccountChange(account: GetAccountReturnType) {
-    const { address, isConnected } = account
-    if (!isConnected || !address) return
-
-    loginWithWallet(address)
-  }
-
-  async function handleClick() {
-    appKit?.open()
+  function alertPendingRequest({ data }: EventsControllerState) {
+    if (data.event === 'CONNECT_ERROR' && data.properties.message.includes('already pending for')) {
+      alert('Browser wallet already has a pending connection request')
+    }
   }
 
   onMount(() => {
-    getAppKit().then((_appKit) => {
-      appKit = _appKit
-    })
+    disconnectAccount() // NOTE(vanguard): Forcing account disconnect before creating appkit
+    getAppKit()
   })
 </script>
 
-<Button variant="fill" onclick={handleClick} disabled={!appKit}>Connect wallet</Button>
+<Button variant="fill" onclick={startWalletConnectLoginFlow} {loading}>Connect wallet</Button>

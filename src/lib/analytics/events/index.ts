@@ -22,6 +22,7 @@ export const trackEvent = (
 
     ...props,
 
+    referrer: document.referrer,
     release_version: process.env.VERSION || process.env.GIT_HEAD,
     release_date: process.env.GIT_HEAD_DATETIME,
   })
