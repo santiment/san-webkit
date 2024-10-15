@@ -1,9 +1,11 @@
 import type { GetAccountReturnType } from '@wagmi/core'
 import { catchError, exhaustMap, filter, from, mergeMap, of, tap } from 'rxjs'
+import { Query } from '$lib/api/executor.js'
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { getAccount, connectAccounts, signMessage } from './core/index.js'
-import { mutateAddUserEthAddress } from './api.js'
+import { mutateAddUserEthAddress, mutateEthLogin } from './api/index.js'
+import { trackEvent } from '$lib/analytics/index.js'
 
 export function useConnectMetamaskFlow() {
   const { currentUser } = useCustomerCtx()
@@ -29,4 +31,40 @@ export function useConnectMetamaskFlow() {
   )
 
   return { onConnectMetamaskClick }
+}
+
+export function useWalletConnectLoginFlow(isSignUp = false) {
+  const { customer } = useCustomerCtx()
+
+  async function loginWithWallet(address: string) {
+    const date = new Date()
+    const trackEventData = {
+      method: 'wallet_connect',
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      timestamp: +date,
+    }
+
+    trackEvent('auth_start', trackEventData)
+    trackEvent(isSignUp ? 'signup_start' : 'login_start', trackEventData)
+
+    try {
+      const signedData = await signMessage(`Login in Santiment with address ${address}`)
+
+      return mutateEthLogin(Query)({ ...signedData, address }).then((user) => {
+        customer.reload()
+
+        trackEvent('auth_finish', { ...trackEventData, is_new_user_signup: user.firstLogin })
+        trackEvent(user.firstLogin ? 'signup_finish' : 'login_finish', trackEventData)
+
+        return user
+      })
+    } catch (e) {
+      console.error(e)
+      return Promise.resolve(null)
+    }
+  }
+
+  return { loginWithWallet }
 }

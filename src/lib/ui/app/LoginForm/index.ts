@@ -1,1 +1,1 @@
-export { default as ConnectWallet } from './ConnectWallet.svelte'
+export { default as WalletConnect } from './WalletConnect.svelte'
