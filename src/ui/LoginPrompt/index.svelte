@@ -26,6 +26,8 @@
   <EmailConfirmation bind:verifiedEmail {isSignUp} />
 {:else}
   <Section {title} class="body-2" titleMargin="mrg-xl" {bottomLabel} {bottomAction} {bottomHref}>
+    <slot />
+
     <Metamask {isSignUp} onClick={onMetamaskClick} />
 
     <Google {isSignUp} {from} />
