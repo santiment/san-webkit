@@ -6,12 +6,12 @@
   import { notification } from '$ui/core/Notifications/index.js'
 
   type Props = {
-    isSignUp: boolean
+    isSignUp?: boolean
     from?: string
     onSuccess: (email: string) => void
   }
 
-  const { from, isSignUp, onSuccess }: Props = $props()
+  const { from, isSignUp = false, onSuccess }: Props = $props()
 
   let loading = $state(false)
 

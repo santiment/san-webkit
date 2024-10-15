@@ -3,11 +3,11 @@
 
   type Props = {
     email: string
-    isSignUp: boolean
     clearEmail: () => void
+    isSignUp?: boolean
   }
 
-  const { email, isSignUp, clearEmail }: Props = $props()
+  const { email, isSignUp = false, clearEmail }: Props = $props()
 </script>
 
 <Section
