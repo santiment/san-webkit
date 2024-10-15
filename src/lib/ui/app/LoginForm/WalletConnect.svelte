@@ -7,8 +7,11 @@
   import { useWalletConnectLoginFlow } from '$lib/flow/web3/wallet.js'
   import { getAppKit } from '$lib/flow/web3/core/config.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import walletConnectSvg from './wallet-connect.svg'
 
-  const { loginWithWallet } = useWalletConnectLoginFlow()
+  let { isSignUp }: { isSignUp: boolean } = $props()
+
+  const { loginWithWallet } = useWalletConnectLoginFlow(isSignUp)
 
   let loading = $state(false)
 
@@ -55,4 +58,13 @@
   })
 </script>
 
-<Button variant="fill" onclick={startWalletConnectLoginFlow} {loading}>Connect wallet</Button>
+<Button
+  variant="border"
+  size="lg"
+  onclick={startWalletConnectLoginFlow}
+  {loading}
+  class="!border-porcelain center hover:text-green"
+>
+  <img src={walletConnectSvg} alt="WC" class="w-[25px]" />
+  {isSignUp ? 'Sign up' : 'Log in'} with WalletConnect
+</Button>
