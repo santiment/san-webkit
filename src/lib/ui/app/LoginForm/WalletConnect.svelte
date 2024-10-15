@@ -7,12 +7,18 @@
   import { useWalletConnectLoginFlow } from '$lib/flow/web3/wallet.js'
   import { getAppKit } from '$lib/flow/web3/core/config.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { cn } from '$ui/utils/index.js'
   import walletConnectSvg from './wallet-connect.svg'
 
   let {
+    class: className,
     isSignUp,
     onLoginComplete,
-  }: { isSignUp: boolean; onLoginComplete?: (user: null | { id: string }) => void } = $props()
+  }: {
+    class?: string
+    isSignUp: boolean
+    onLoginComplete?: (user: null | { id: string }) => void
+  } = $props()
 
   const { loginWithWallet } = useWalletConnectLoginFlow(isSignUp, onLoginComplete)
 
@@ -66,7 +72,7 @@
   size="lg"
   onclick={startWalletConnectLoginFlow}
   {loading}
-  class="!border-porcelain center hover:text-green"
+  class={cn('w-full !border-porcelain center hover:text-green', className)}
 >
   <img src={walletConnectSvg} alt="WC" class="w-[25px]" />
   {isSignUp ? 'Sign up' : 'Log in'} with WalletConnect
