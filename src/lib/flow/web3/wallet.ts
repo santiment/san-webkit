@@ -33,7 +33,10 @@ export function useConnectMetamaskFlow() {
   return { onConnectMetamaskClick }
 }
 
-export function useWalletConnectLoginFlow(isSignUp = false) {
+export function useWalletConnectLoginFlow(
+  isSignUp = false,
+  onLoginComplete?: (user: null | { id: string }) => void,
+) {
   const { customer } = useCustomerCtx()
 
   async function loginWithWallet(address: string) {
@@ -53,7 +56,7 @@ export function useWalletConnectLoginFlow(isSignUp = false) {
       const signedData = await signMessage(`Login in Santiment with address ${address}`)
 
       return mutateEthLogin(Query)({ ...signedData, address }).then((user) => {
-        customer.reload()
+        customer.reload().then(() => onLoginComplete?.(user))
 
         trackEvent('auth_finish', { ...trackEventData, is_new_user_signup: user.firstLogin })
         trackEvent(user.firstLogin ? 'signup_finish' : 'login_finish', trackEventData)

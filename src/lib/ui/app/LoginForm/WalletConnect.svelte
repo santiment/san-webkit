@@ -9,9 +9,12 @@
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import walletConnectSvg from './wallet-connect.svg'
 
-  let { isSignUp }: { isSignUp: boolean } = $props()
+  let {
+    isSignUp,
+    onLoginComplete,
+  }: { isSignUp: boolean; onLoginComplete?: (user: null | { id: string }) => void } = $props()
 
-  const { loginWithWallet } = useWalletConnectLoginFlow(isSignUp)
+  const { loginWithWallet } = useWalletConnectLoginFlow(isSignUp, onLoginComplete)
 
   let loading = $state(false)
 
