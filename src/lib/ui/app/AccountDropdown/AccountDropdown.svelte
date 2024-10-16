@@ -49,12 +49,12 @@
       </section>
 
       <section>
-        {@render sanbaseLink('Historical balance', '/labs/balance')}
-
-        {@render sanbaseLink('Account settings', '/account')}
-
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
 
+        {@render sanbaseLink('Account settings', '/account')}
+      </section>
+
+      <section>
         {@render sanbaseLink('My alerts', '/alerts')}
 
         {@render sanbaseLink('My watchlists', '/watchlists')}
@@ -87,6 +87,8 @@
         iconSize: 12,
         class: 'fill-yellow-hover',
       })}
+
+      {@render sanbaseLink('Historical balance', '/labs/balance')}
 
       {#if onClassicClick}
         <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
