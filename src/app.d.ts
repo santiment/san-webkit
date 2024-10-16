@@ -31,6 +31,7 @@ declare global {
     getPageType?: (pathname: string) => string
 
     gtag?: Gtag.Gtag
+    __SESSION__?: any
 
     __updateLegacyStoresOnPlanChange?: any
   }
