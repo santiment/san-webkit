@@ -7,7 +7,7 @@
   type Props = {
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
-    content?: string | Snippet
+    content?: string | Snippet<[{ close: () => void }]>
     action?: { label: string; onClick: (event: MouseEvent) => void }
     class?: string
   }
@@ -42,7 +42,7 @@
     {#if content}
       <p class="text-base text-fiord">
         {#if typeof content === 'function'}
-          {@render content()}
+          {@render content({ close: () => dispatch('closeToast') })}
         {:else}
           {content}
         {/if}
