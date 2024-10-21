@@ -10,7 +10,7 @@
     class: className,
     as,
     ref,
-  }: Partial<Pick<ComponentProps<Button>, 'as' | 'ref' | 'class'>> = $props()
+  }: Partial<Pick<ComponentProps<typeof Button>, 'as' | 'ref' | 'class'>> = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 

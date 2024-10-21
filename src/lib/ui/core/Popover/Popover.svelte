@@ -19,7 +19,7 @@
     contentProps,
   }: {
     class?: string
-    children: ComponentProps<Trigger>['children']
+    children: ComponentProps<typeof Trigger>['children']
     content: Snippet<[{ close: () => void }]>
     noStyles?: boolean
 

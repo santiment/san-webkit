@@ -112,7 +112,7 @@
   {/snippet}
 </Tooltip>
 
-{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<Button> = {})}
+{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
   <Button variant="ghost" {...props} {href} data-source="account_dropdown">{text}</Button>
 {/snippet}
 

@@ -19,7 +19,7 @@
   import { trackEvent } from '$lib/analytics/index.js'
 
   type Props = TDialogProps &
-    ComponentProps<OrderSummary> & {
+    ComponentProps<typeof OrderSummary> & {
       defaultPlan?: null | TSubscriptionPlan
 
       triggeredBy?: {
