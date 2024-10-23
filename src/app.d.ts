@@ -33,6 +33,7 @@ declare global {
     gtag?: Gtag.Gtag
 
     __updateLegacyStoresOnPlanChange?: any
+    __onLinkClick?: (e: MouseEvent | string) => void
   }
 
   namespace NodeJS {
