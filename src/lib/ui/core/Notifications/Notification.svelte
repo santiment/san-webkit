@@ -8,7 +8,7 @@
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
     content?: string | Snippet<[{ close: () => void }]>
-    action?: { label: string; onClick: (event: MouseEvent) => void }
+    action?: { label: string; onClick: (close: () => void) => void }
     class?: string
   }
 
@@ -50,7 +50,11 @@
     {/if}
 
     {#if action}
-      <Button variant="fill" class="mt-1" onclick={action.onClick}>
+      <Button
+        variant="fill"
+        class="mt-1"
+        onclick={() => action.onClick(() => dispatch('closeToast'))}
+      >
         {action.label}
       </Button>
     {/if}
