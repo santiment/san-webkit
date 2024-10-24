@@ -37,9 +37,7 @@
     {#if right}
       {@render right()}
     {:else}
-      {#if share}
-        {@render share()}
-      {/if}
+      {@render share?.()}
 
       <Button
         icon="search"
