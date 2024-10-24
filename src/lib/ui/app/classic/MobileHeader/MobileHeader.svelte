@@ -2,14 +2,13 @@
   import type { Snippet } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import Product from '$ui/app/Product/Product.svelte'
-  import { noop } from '$lib/utils/index.js'
 
   const {
     title = '',
     left,
     right,
     share,
-    onSearchClick = noop,
+    onSearchClick,
   }: {
     title?: string
     left?: Snippet

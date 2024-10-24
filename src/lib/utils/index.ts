@@ -62,5 +62,3 @@ export function Emitter<T extends Record<string, number | string>>(emit: any, ev
     {},
   ) as { [K in keyof T]: () => void }
 }
-
-export const noop = (_?: any) => _
