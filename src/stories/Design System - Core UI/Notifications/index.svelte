@@ -46,7 +46,7 @@
           content: 'We will check your insight and publish it very soon',
           action: {
             label: 'Button',
-            onClick: () => console.log('test'),
+            onClick: (close) => close(),
           },
         })}
     >
@@ -82,7 +82,7 @@
         notification.warning('Warning', {
           content:
             'To activate your SanR NFT subscription, you will need to cancel your existing Sanbase Pro subscription first.',
-          className: 'bg-porcelain',
+          class: 'bg-porcelain',
         })}
       >Warning
     </Button>
