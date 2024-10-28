@@ -3,7 +3,7 @@
 
   import { Calendar, RangeCalendar } from 'bits-ui'
   import Svg from '$ui/core/Svg/index.js'
-  import CalendarHeading from './CalendarHeading.svelte'
+  import MonthViewSelect from './MonthViewSelect.svelte'
 
   type Props = {
     range?: boolean
@@ -23,7 +23,7 @@
   >
     <Svg id="arrow-right" w="8" />
   </Base.PrevButton>
-  <CalendarHeading bind:placeholder {minValue} {maxValue} />
+  <MonthViewSelect bind:placeholder {minValue} {maxValue} />
   <Base.NextButton
     class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
   >
