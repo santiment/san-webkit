@@ -67,6 +67,8 @@
 
   <ScreenTransition
     class="gap-10 overflow-y-scroll bg-white px-36 pb-20 pt-16 column lg:p-10 md:px-0"
+    dataType="change_payment_screen"
+    dataSource="payment_form"
   >
     {#if screen.$ === SCREENS[0]}
       <PlansScreen onPlanSelect={() => (screen.$ = SCREENS[1])}></PlansScreen>

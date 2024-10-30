@@ -30,6 +30,13 @@ const preview: Preview = {
   },
 
   decorators: [
+    withThemeByClassName({
+      themes: {
+        light: '',
+        dark: 'night-mode',
+      },
+      defaultTheme: 'light',
+    }),
     (_, { args, loaded, parameters }) => ({
       Component: Decorator,
       props: { ...args, ...loaded, ui: parameters.ui, bodyStyle: parameters.bodyStyle || {} },
@@ -75,13 +82,4 @@ const preview: Preview = {
   ],
 }
 
-export const decorators = [
-  withThemeByClassName({
-    themes: {
-      light: '',
-      dark: 'night-mode',
-    },
-    defaultTheme: 'light',
-  }),
-]
 export default preview
