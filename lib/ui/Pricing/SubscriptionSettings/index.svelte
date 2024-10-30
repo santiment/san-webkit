@@ -13,7 +13,6 @@ import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
 import FullAccessCard from './SubscriptionCard/FullAccessCard.svelte';
 import { getIndividualSuggestions, getBusinessSuggestions } from './SubscriptionCard/suggestions';
 import { showBillingHistoryDialog } from './BillingHistoryDialog.svelte';
-import { showCancelSubscriptionDialog } from '../CancelSubscriptionDialog';
 import PlanSuggestions from './SubscriptionCard/PlanSuggestions.svelte';
 import { startCheckNftAccessFlow } from './nft';
 import { track } from './../../../analytics';
@@ -103,7 +102,7 @@ function onCheckNftClick() {
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="cancel-btn btn c-accent" on:click={() => showCancelSubscriptionDialog()}>
+      <button class="cancel-btn btn c-accent" on:click={() => window.showCancelSubscriptionDialog?.()}>
         Cancel subscription
       </button>
     </Setting>

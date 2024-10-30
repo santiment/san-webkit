@@ -6,7 +6,6 @@
   import { getTrialDaysLeft } from '@/utils/subscription'
   import PlanCard from './PlanCard.svelte'
   // import { showPlanSummaryDialog } from '../PlansSummaryDialog.svelte'
-  import { showCancelSubscriptionDialog } from '../../CancelSubscriptionDialog'
 
   const showPlanSummaryDialog = null // TODO: enable after making sure all new plans render correctly
 
@@ -36,7 +35,7 @@
   action={isPaidPlan ? 'Change plan' : isEligibleForTrial ? 'Default plan' : 'Upgrade'}
   onActionClick={showPlanSummaryDialog}
   subaction={isPaidPlan && 'Cancel subscription'}
-  onSubactionClick={isCancelled ? undefined : showCancelSubscriptionDialog}
+  onSubactionClick={isCancelled ? undefined : () => window.showCancelSubscriptionDialog?.()}
   shouldHideBillingInfo={discount && suggestionsCount === 2}
 >
   <p>
