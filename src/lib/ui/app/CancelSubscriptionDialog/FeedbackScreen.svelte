@@ -7,11 +7,11 @@
   import { trackEvent } from '$lib/analytics/index.js'
   import Layout from './Layout.svelte'
 
-  let {
-    onSubscriptionCancel,
-  }: { onSubscriptionCancel: (reasons: Set<string>, feedback: string) => void } = $props()
-
-  const { device } = useDeviceCtx()
+  type TProps = {
+    loading: boolean
+    onSubscriptionCancel: (reasons: Set<string>, feedback: string) => void
+  }
+  let { loading = false, onSubscriptionCancel }: TProps = $props()
 
   const REASONS = [
     'Found other tool that fits my needs better',
@@ -21,13 +21,16 @@
     'Other',
   ]
 
+  const { device } = useDeviceCtx()
+
   let reasons = new SvelteSet<string>()
   let textareaNode: HTMLTextAreaElement
 
   function toggleReason(reason: string) {
     const isActive = reasons.has(reason)
 
-    trackEvent('cancel_subscribtion_select_reason', { reason, action: isActive ? 'off' : 'on' })
+    trackEvent('cancel_subscribtion_select_reason', { reason, action: isActive ? 'off' : 'on' }) // NOTE: Old event with a typo
+    trackEvent('cancel_subscription_select_reason', { reason, action: isActive ? 'off' : 'on' })
 
     if (isActive) reasons.delete(reason)
     else reasons.add(reason)
@@ -39,7 +42,7 @@
 </script>
 
 <div class="flex">
-  <Layout title="We’re sorry to see you go 😔" {onContinueClick}>
+  <Layout title="We’re sorry to see you go 😔" {loading} {onContinueClick}>
     <section class="mb-5 text-left">
       <h4 class="mb-4 font-medium">Help us understand why*</h4>
 

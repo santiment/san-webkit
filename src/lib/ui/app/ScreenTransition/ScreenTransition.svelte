@@ -103,7 +103,6 @@
     if (isSizeTransition && !out) {
       const nodeHeight = node.clientHeight
       const nodeWidth = node.clientWidth
-      console.log({ outHeight, outWidth, nodeHeight, nodeWidth })
 
       applyStyles(node, { height: outHeight + 'px', width: outWidth + 'px' })
       requestAnimationFrame(() => {

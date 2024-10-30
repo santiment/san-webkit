@@ -4,8 +4,8 @@
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import type { Snippet } from 'svelte'
 
-  type TProps = { title: string; onContinueClick: () => void; children: Snippet }
-  let { title, children, onContinueClick }: TProps = $props()
+  type TProps = { title: string; onContinueClick: () => void; children: Snippet; loading?: boolean }
+  let { title, loading, children, onContinueClick }: TProps = $props()
 
   const { Controller } = getDialogControllerCtx()
 </script>
@@ -23,6 +23,7 @@
       size="lg"
       class="border-green text-sm text-green center hover:border-green-hover hover:text-green-hover"
       onclick={onContinueClick}
+      {loading}
     >
       Continue cancellation
     </Button>
@@ -32,8 +33,8 @@
       size="lg"
       class="text-sm center"
       href="mailto:support@santiment.net"
-      data-type=""
-      data-source=""
+      data-type="contact_customer_service"
+      data-source="cancel_subscription_dialog"
       onclick={(e) => {
         Controller.close()
         onSupportClick(e)

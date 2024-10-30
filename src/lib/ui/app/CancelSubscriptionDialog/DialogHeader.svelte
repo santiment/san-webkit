@@ -16,6 +16,12 @@
       icon="arrow-left-big"
       iconSize="12"
       onclick={() => {
+        trackEvent('pagination', {
+          type: 'change_cancel_subscription_screen',
+          value: 0,
+          label: 'Back',
+          source: 'feedback_form',
+        })
         screen.$ = screens[0]
       }}
     >

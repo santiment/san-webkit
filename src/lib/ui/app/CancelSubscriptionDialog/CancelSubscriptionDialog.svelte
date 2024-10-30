@@ -14,17 +14,16 @@
   import BeforeYouGoScreen from './BeforeYouGoScreen.svelte'
   import FeedbackScreen from './FeedbackScreen.svelte'
   import DialogHeader from './DialogHeader.svelte'
+  import { useSubscriptionCancelFlow } from './flow.js'
 
-  let {
-    source = '',
-  }: TDialogProps & {
-    onSuccess?: () => void
-  } = $props()
+  let { source = '', Controller }: TDialogProps = $props()
 
   const SCREENS = [BeforeYouGoScreen, FeedbackScreen]
-  const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[1])
-
+  const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[0])
   const { device } = useDeviceCtx()
+  const { startCancellationFlow } = useSubscriptionCancelFlow()
+
+  let loading = $state(false)
 
   function onSubscriptionCancel(reasons: Set<string>, feedback: string) {
     trackEvent('press', {
@@ -38,8 +37,16 @@
     }
 
     if (feedback) {
-      trackEvent('cancel_subscribtion_give_feedback', { feedback })
+      trackEvent('cancel_subscribtion_give_feedback', { feedback }) // NOTE: Old event with a typo
+      trackEvent('cancel_subscription_give_feedback', { feedback })
     }
+
+    loading = true
+    startCancellationFlow()
+      .then(() => Controller.close())
+      .finally(() => {
+        loading = false
+      })
   }
 
   onMount(() => {
@@ -68,7 +75,7 @@
         }}
       ></BeforeYouGoScreen>
     {:else}
-      <FeedbackScreen {onSubscriptionCancel}></FeedbackScreen>
+      <FeedbackScreen {loading} {onSubscriptionCancel}></FeedbackScreen>
     {/if}
   </ScreenTransition>
 </Dialog>
