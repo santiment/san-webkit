@@ -2,39 +2,277 @@
   "name": "san-webkit-next",
   "version": "0.0.1",
   "author": "DmitriVanGuard <dimavanguard@gmail.com>",
-  "lint-staged": {
-    "*.{js,ts,svelte,css,md,mdx}": [
-      "prettier --plugin-search-dir . --write"
-    ],
-    "*.{js,ts,svelte}": [
-      "eslint --fix",
-      "npm run check"
-    ]
-  },
+  "lint-staged": {},
   "bin": {
     "patch": "./scripts/patch.js",
     "patch-legacy-sanbase": "./scripts/patch-legacy-sanbase.js"
   },
-  "scripts": {
-    "dev": "npm run storybook",
-    "dev:https": "node ./scripts/mkcert.js --https && npm run storybook -- --https --ssl-cert ./mkcert/cert.pem --ssl-key ./mkcert/dev.pem",
-    "build": "vite build && npm run package",
-    "preview": "vite preview",
-    "package": "svelte-kit sync && svelte-package && publint",
-    "prepublishOnly": "npm run package",
-    "test": "npm run test:integration && npm run test:unit",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.check.json --fail-on-warnings",
-    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.check.json --watch",
-    "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
-    "test:integration": "playwright test",
-    "test:unit": "vitest",
-    "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
-    "build-storybook": "storybook build",
-    "lib:release": "node scripts/release.js --run",
-    "prepare": "husky"
-  },
+  "scripts": {},
   "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "svelte": "./dist/api/index.js"
+    },
+    "./analytics": {
+      "types": "./dist/analytics/index.d.ts",
+      "svelte": "./dist/analytics/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "svelte": "./dist/utils/index.js"
+    },
+    "./analytics/events": {
+      "types": "./dist/analytics/events/index.d.ts",
+      "svelte": "./dist/analytics/events/index.js"
+    },
+    "./analytics/amplitude": {
+      "types": "./dist/analytics/amplitude/index.d.ts",
+      "svelte": "./dist/analytics/amplitude/index.js"
+    },
+    "./ctx/device": {
+      "types": "./dist/ctx/device/index.d.ts",
+      "svelte": "./dist/ctx/device/index.js"
+    },
+    "./ctx/customer": {
+      "types": "./dist/ctx/customer/index.d.ts",
+      "svelte": "./dist/ctx/customer/index.js"
+    },
+    "./ctx/ui": {
+      "types": "./dist/ctx/ui/index.d.ts",
+      "svelte": "./dist/ctx/ui/index.js"
+    },
+    "./ctx/stripe": {
+      "types": "./dist/ctx/stripe/index.d.ts",
+      "svelte": "./dist/ctx/stripe/index.js"
+    },
+    "./flow/logout": {
+      "types": "./dist/flow/logout/index.d.ts",
+      "svelte": "./dist/flow/logout/index.js"
+    },
+    "./flow/web3": {
+      "types": "./dist/flow/web3/index.d.ts",
+      "svelte": "./dist/flow/web3/index.js"
+    },
+    "./sveltekit/hooks": {
+      "types": "./dist/sveltekit/hooks/index.d.ts",
+      "svelte": "./dist/sveltekit/hooks/index.js"
+    },
+    "./sveltekit/sentry": {
+      "types": "./dist/sveltekit/sentry/index.d.ts",
+      "svelte": "./dist/sveltekit/sentry/index.js"
+    },
+    "./ui/utils": {
+      "types": "./dist/ui/utils/index.d.ts",
+      "svelte": "./dist/ui/utils/index.js"
+    },
+    "./flow/web3/api": {
+      "types": "./dist/flow/web3/api/index.d.ts",
+      "svelte": "./dist/flow/web3/api/index.js"
+    },
+    "./flow/web3/core": {
+      "types": "./dist/flow/web3/core/index.d.ts",
+      "svelte": "./dist/flow/web3/core/index.js"
+    },
+    "./ui/app/AccountDropdown": {
+      "types": "./dist/ui/app/AccountDropdown/index.d.ts",
+      "svelte": "./dist/ui/app/AccountDropdown/index.js"
+    },
+    "./ui/app/AccountStatus": {
+      "types": "./dist/ui/app/AccountStatus/index.d.ts",
+      "svelte": "./dist/ui/app/AccountStatus/index.js"
+    },
+    "./ui/app/AssetLogo": {
+      "types": "./dist/ui/app/AssetLogo/index.d.ts",
+      "svelte": "./dist/ui/app/AssetLogo/index.js"
+    },
+    "./ui/app/CancelSubscriptionDialog": {
+      "types": "./dist/ui/app/CancelSubscriptionDialog/index.d.ts",
+      "svelte": "./dist/ui/app/CancelSubscriptionDialog/index.js"
+    },
+    "./ui/app/InsightCard": {
+      "types": "./dist/ui/app/InsightCard/index.d.ts",
+      "svelte": "./dist/ui/app/InsightCard/index.js"
+    },
+    "./ui/app/Picture": {
+      "types": "./dist/ui/app/Picture/index.d.ts",
+      "svelte": "./dist/ui/app/Picture/index.js"
+    },
+    "./ui/app/LoginForm": {
+      "types": "./dist/ui/app/LoginForm/index.d.ts",
+      "svelte": "./dist/ui/app/LoginForm/index.js"
+    },
+    "./ui/app/PaymentForm": {
+      "types": "./dist/ui/app/PaymentForm/index.d.ts",
+      "svelte": "./dist/ui/app/PaymentForm/index.js"
+    },
+    "./ui/app/PlanChangeDialog": {
+      "types": "./dist/ui/app/PlanChangeDialog/index.d.ts",
+      "svelte": "./dist/ui/app/PlanChangeDialog/index.js"
+    },
+    "./ui/app/Product": {
+      "types": "./dist/ui/app/Product/index.d.ts",
+      "svelte": "./dist/ui/app/Product/index.js"
+    },
+    "./ui/app/ScreenTransition": {
+      "types": "./dist/ui/app/ScreenTransition/index.d.ts",
+      "svelte": "./dist/ui/app/ScreenTransition/index.js"
+    },
+    "./ui/app/SubscriptionPlan": {
+      "types": "./dist/ui/app/SubscriptionPlan/index.d.ts",
+      "svelte": "./dist/ui/app/SubscriptionPlan/index.js"
+    },
+    "./ui/app/VirtualList": {
+      "types": "./dist/ui/app/VirtualList/index.d.ts",
+      "svelte": "./dist/ui/app/VirtualList/index.js"
+    },
+    "./ui/core/Button": {
+      "types": "./dist/ui/core/Button/index.d.ts",
+      "svelte": "./dist/ui/core/Button/index.js"
+    },
+    "./ui/core/Calendar": {
+      "types": "./dist/ui/core/Calendar/index.d.ts",
+      "svelte": "./dist/ui/core/Calendar/index.js"
+    },
+    "./ui/core/Checkbox": {
+      "types": "./dist/ui/core/Checkbox/index.d.ts",
+      "svelte": "./dist/ui/core/Checkbox/index.js"
+    },
+    "./ui/core/Dialog": {
+      "types": "./dist/ui/core/Dialog/index.d.ts",
+      "svelte": "./dist/ui/core/Dialog/index.js"
+    },
+    "./ui/core/Input": {
+      "types": "./dist/ui/core/Input/index.d.ts",
+      "svelte": "./dist/ui/core/Input/index.js"
+    },
+    "./ui/core/Notifications": {
+      "types": "./dist/ui/core/Notifications/index.d.ts",
+      "svelte": "./dist/ui/core/Notifications/index.js"
+    },
+    "./ui/core/Popover": {
+      "types": "./dist/ui/core/Popover/index.d.ts",
+      "svelte": "./dist/ui/core/Popover/index.js"
+    },
+    "./ui/core/Select": {
+      "types": "./dist/ui/core/Select/index.d.ts",
+      "svelte": "./dist/ui/core/Select/index.js"
+    },
+    "./ui/core/Slides": {
+      "types": "./dist/ui/core/Slides/index.d.ts",
+      "svelte": "./dist/ui/core/Slides/index.js"
+    },
+    "./ui/core/Svg": {
+      "types": "./dist/ui/core/Svg/index.d.ts",
+      "svelte": "./dist/ui/core/Svg/index.js"
+    },
+    "./ui/core/Switch": {
+      "types": "./dist/ui/core/Switch/index.d.ts",
+      "svelte": "./dist/ui/core/Switch/index.js"
+    },
+    "./ui/core/Tooltip": {
+      "types": "./dist/ui/core/Tooltip/index.d.ts",
+      "svelte": "./dist/ui/core/Tooltip/index.js"
+    },
+    "./ui/utils/OnlyOnDevice": {
+      "types": "./dist/ui/utils/OnlyOnDevice/index.d.ts",
+      "svelte": "./dist/ui/utils/OnlyOnDevice/index.js"
+    },
+    "./ui/app/SubscriptionPlan/BreakdownTable": {
+      "types": "./dist/ui/app/SubscriptionPlan/BreakdownTable/index.d.ts",
+      "svelte": "./dist/ui/app/SubscriptionPlan/BreakdownTable/index.js"
+    },
+    "./ui/app/classic/MobileHeader": {
+      "types": "./dist/ui/app/classic/MobileHeader/index.d.ts",
+      "svelte": "./dist/ui/app/classic/MobileHeader/index.js"
+    },
+    "./ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/Card": {
+      "types": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/Card/index.d.ts",
+      "svelte": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/Card/index.js"
+    },
+    "./ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/EthStablecoins": {
+      "types": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/EthStablecoins/index.d.ts",
+      "svelte": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/EthStablecoins/index.js"
+    },
+    "./ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/SanTokenBurning": {
+      "types": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/SanTokenBurning/index.d.ts",
+      "svelte": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/SanTokenBurning/index.js"
+    },
+    "./ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/UniswapLiquidity": {
+      "types": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/UniswapLiquidity/index.d.ts",
+      "svelte": "./dist/ui/app/PaymentForm/PaymentScreen/PaymentMethodSelector/UniswapLiquidity/index.js"
+    },
+    "./postcss.config.js": {
+      "types": "./postcss.config.d.ts",
+      "default": "./postcss.config.js"
+    },
+    "./scripts/fetch.js": {
+      "types": "./scripts/fetch.d.ts",
+      "default": "./scripts/fetch.js"
+    },
+    "./scripts/asset-logos.js": {
+      "types": "./scripts/asset-logos.d.ts",
+      "default": "./scripts/asset-logos.js"
+    },
+    "./scripts/mkcert.js": {
+      "types": "./scripts/mkcert.d.ts",
+      "default": "./scripts/mkcert.js"
+    },
+    "./plugins/tailwind.js": {
+      "types": "./plugins/tailwind.d.ts",
+      "default": "./plugins/tailwind.js"
+    },
+    "./scripts/svg.js": {
+      "types": "./scripts/svg.d.ts",
+      "default": "./scripts/svg.js"
+    },
+    "./tailwind.config.js": {
+      "types": "./tailwind.config.d.ts",
+      "default": "./tailwind.config.js"
+    },
+    "./plugins/svelte.js": {
+      "types": "./plugins/svelte.d.ts",
+      "default": "./plugins/svelte.js"
+    },
+    "./playwright.config.js": {
+      "types": "./playwright.config.d.ts",
+      "default": "./playwright.config.js"
+    },
+    "./scripts/patch.js": {
+      "types": "./scripts/patch.d.ts",
+      "default": "./scripts/patch.js"
+    },
+    "./scripts/utils.js": {
+      "types": "./scripts/utils.d.ts",
+      "default": "./scripts/utils.js"
+    },
+    "./scripts/patch-legacy-sanbase.js": {
+      "types": "./scripts/patch-legacy-sanbase.d.ts",
+      "default": "./scripts/patch-legacy-sanbase.js"
+    },
+    "./scripts/sentry.js": {
+      "types": "./scripts/sentry.d.ts",
+      "default": "./scripts/sentry.js"
+    },
+    "./plugins/vite.js": {
+      "types": "./plugins/vite.d.ts",
+      "default": "./plugins/vite.js"
+    },
+    "./scripts/release.js": {
+      "types": "./scripts/release.d.ts",
+      "default": "./scripts/release.js"
+    },
+    "./svelte.config.js": {
+      "types": "./svelte.config.d.ts",
+      "default": "./svelte.config.js"
+    },
+    "./vite.config.js": {
+      "types": "./vite.config.d.ts",
+      "default": "./vite.config.js"
+    },
     "./app.css": "./dist/app.css",
     "./ui/*": {
       "types": "./dist/ui/*.d.ts",
