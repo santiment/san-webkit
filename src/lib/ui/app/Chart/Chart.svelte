@@ -2,13 +2,19 @@
   import { createChart, createPathWatermark } from '@santiment-network/chart'
   import { onMount, type Snippet } from 'svelte'
   import { useChartCtx } from './ctx/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
+  import { getTheme } from './theme.js'
 
-  type TProps = { watermark?: string; children: Snippet }
-  let { watermark, children }: TProps = $props()
+  type TProps = { watermark?: boolean; watermarkOpacity?: string; children: Snippet }
+  let { watermark = true, watermarkOpacity, children }: TProps = $props()
 
   let chartContainerNode: HTMLElement
+  let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
 
+  const { ui } = useUiCtx()
   const { chart } = useChartCtx()
+
+  const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
@@ -19,12 +25,20 @@
 
     if (watermark) {
       const firstPane = chart.$.panes()[0]
-      const _textWatermark = createPathWatermark(firstPane, { color: watermark })
+      textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
     return () => {
       chart.$.remove()
     }
+  })
+
+  $effect(() => {
+    if (!chart.$) return
+
+    chart.$.applyOptions(theme)
+
+    textWatermark?.applyOptions?.({ color: theme.watermark })
   })
 </script>
 

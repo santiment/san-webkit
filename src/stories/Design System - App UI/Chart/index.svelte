@@ -73,7 +73,7 @@
     {/each}
   </div>
 
-  <Chart watermark={'#e7eaf3FA'}>
+  <Chart watermark>
     {#each metricSeries.$ as item}
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
