@@ -1,28 +1,34 @@
 <script lang="ts">
   import { type TMetricData } from '$ui/app/Chart/api/index.js'
-  import { useMetricSeriesCtx, useGlobalParametersCtx } from '$ui/app/Chart/ctx/index.js'
+  import {
+    useMetricSeriesCtx,
+    useGlobalParametersCtx,
+    useColorGenerator,
+  } from '$ui/app/Chart/ctx/index.js'
   import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
+
+  const { colorGenerator } = useColorGenerator()
 
   const { globalParameters } = useGlobalParametersCtx()
   const { metricSeries } = useMetricSeriesCtx([
     {
       name: 'price_usd',
       style: 'line',
-      color: 'green',
+      color: colorGenerator.new(),
       scaleId: 'right-price_usd',
     },
     {
       name: 'social_dominance_total',
       style: 'line',
-      color: 'orange',
+      color: colorGenerator.new(),
       scaleId: 'right-social_dominance_total',
     },
     {
       name: 'social_volume_total',
       style: 'histogram',
-      color: 'cyan',
+      color: colorGenerator.new(),
       scaleId: 'right-social_volume_total',
     },
     {
