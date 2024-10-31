@@ -4,7 +4,10 @@
   import { onMount } from 'svelte'
   import { useChartCtx } from '../ctx/index.js'
 
-  let { type, data, color, scale, pane, scaleFormatter }: TSeries = $props()
+  type TProps = { series: TSeries }
+  let { series }: TProps = $props()
+
+  const { type, data, color, scale, pane, scaleFormatter } = series
 
   const { chart } = useChartCtx()
 

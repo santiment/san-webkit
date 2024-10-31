@@ -7,7 +7,12 @@
 
   const { globalParameters } = useGlobalParametersCtx()
   const { metricSeries } = useMetricSeriesCtx([
-    { name: 'price_usd', style: 'line', color: 'green', scaleId: 'right-price_usd' },
+    {
+      name: 'price_usd',
+      style: 'line',
+      color: 'green',
+      scaleId: 'right-price_usd',
+    },
     {
       name: 'social_dominance_total',
       style: 'line',

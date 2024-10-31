@@ -12,6 +12,6 @@ export const useChartCtx = createCtx('useChartCtx', () => {
 
 export { useGlobalParametersCtx } from './global-parameters.svelte.js'
 
-export { useApiMetricDataFlow } from './metrics-data.svelte.js'
+export { useApiMetricDataFlow } from './metric-data.svelte.js'
 
 export { useMetricSeriesCtx } from './series.svelte.js'

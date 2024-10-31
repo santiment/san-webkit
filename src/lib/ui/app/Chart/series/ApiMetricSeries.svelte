@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { useApiMetricDataFlow } from '../ctx/metrics-data.svelte.js'
+  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
   import type { TSeries } from '../ctx/series.svelte.js'
   import RawSeries from './RawSeries.svelte'
 
@@ -10,5 +10,5 @@
 </script>
 
 {#key series.type.$}
-  <RawSeries {...series}></RawSeries>
+  <RawSeries {series}></RawSeries>
 {/key}

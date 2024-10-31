@@ -23,6 +23,7 @@ type TMetric = {
   scaleFormatter?: (value: number) => string
 }
 
+let __METRIC_SERIES_ID = 0
 export function createSeries({
   name,
   selector = null,
@@ -44,6 +45,7 @@ export function createSeries({
   })
 
   return {
+    id: __METRIC_SERIES_ID++,
     key: name,
     type: ss<TMetric['style']>(style),
     data: ss<TMetricData>([]),
@@ -74,7 +76,7 @@ export type TSeries = ReturnType<typeof createSeries>
 export const useMetricSeriesCtx = createCtx(
   'useMetricSeriesCtx',
   (defaultMetrics: TMetric[] = []) => {
-    const series = $state.raw(
+    let series = $state.raw(
       defaultMetrics.map((item) => {
         return createSeries(item)
       }),
@@ -85,8 +87,17 @@ export const useMetricSeriesCtx = createCtx(
         get $() {
           return series
         },
-        add() {},
-        delete() {},
+        add(metric: TMetric) {
+          series.push(createSeries(metric))
+          series = series.slice()
+        },
+        delete(metricSeries: TSeries) {
+          const index = series.indexOf(metricSeries)
+          if (index === -1) return
+
+          series.splice(index, 1)
+          series = series.slice()
+        },
       },
     }
   },

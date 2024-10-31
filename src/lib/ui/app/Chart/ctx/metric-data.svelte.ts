@@ -23,6 +23,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
   }>(() =>
     switchMap(({ localParameters, globalParameters }) => {
       metric.loading.$ = true
+      metric.data.$ = []
 
       return queryGetMetric()({
         metric: localParameters.metric,
@@ -32,7 +33,6 @@ export function useApiMetricDataFlow(metric: TSeries) {
         interval: globalParameters.interval,
       }).pipe(
         tap((data) => {
-          console.log({ data })
           const formattedData = metric.transformData?.(data) || data
           metric.data.$ = formattedData
           metric.loading.$ = false
