@@ -18,7 +18,7 @@
     {data}
     getKey={(item) => item.id}
   >
-    {#snippet children({ item })}
+    {#snippet children(item)}
       <div
         style={`
       height: ${item.size};
