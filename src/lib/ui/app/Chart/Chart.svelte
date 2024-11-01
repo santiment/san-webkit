@@ -1,12 +1,18 @@
 <script lang="ts">
-  import { createChart, createPathWatermark } from '@santiment-network/chart'
   import { onMount, type Snippet } from 'svelte'
-  import { useChartCtx } from './ctx/index.js'
+  import { createChart, createPathWatermark } from '@santiment-network/chart'
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
+  import { cn } from '$ui/utils/index.js'
   import { getTheme } from './theme.js'
+  import { useChartCtx } from './ctx/index.js'
 
-  type TProps = { watermark?: boolean; watermarkOpacity?: string; children: Snippet }
-  let { watermark = true, watermarkOpacity, children }: TProps = $props()
+  type TProps = {
+    class?: string
+    watermark?: boolean
+    watermarkOpacity?: string
+    children: Snippet
+  }
+  let { class: className, watermark = true, watermarkOpacity, children }: TProps = $props()
 
   let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
@@ -42,7 +48,7 @@
   })
 </script>
 
-<div bind:this={chartContainerNode} class="relative z-[1] h-[500px]">
+<div bind:this={chartContainerNode} class={cn('relative z-[1]', className)}>
   {#if chart.$}
     {@render children()}
   {/if}

@@ -2,8 +2,8 @@
   import type { MouseEventParams } from '@santiment-network/chart'
 
   import { onMount } from 'svelte'
-  import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
   import { getDateFormats, getTimeFormats } from '$lib/utils/dates.js'
+  import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
 
   const { chart } = useChartCtx()
   const { metricSeries } = useMetricSeriesCtx()
