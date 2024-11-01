@@ -5,9 +5,12 @@ import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import type { ISeriesApi } from '@santiment-network/chart'
 
 type TMetric = {
   name: string
+  label?: string
+
   style: 'line' | 'histogram'
   color?: string
 
@@ -26,6 +29,7 @@ type TMetric = {
 let __METRIC_SERIES_ID = 0
 export function createSeries({
   name,
+  label = name,
   selector = null,
   scaleId,
   style = 'line',
@@ -46,7 +50,10 @@ export function createSeries({
 
   return {
     id: __METRIC_SERIES_ID++,
-    key: name,
+
+    apiMetricName: name,
+    label,
+
     type: ss<TMetric['style']>(style),
     data: ss<TMetricData>([]),
     color: ss<string>(color || 'green'),
@@ -68,6 +75,8 @@ export function createSeries({
     },
 
     selector: ss<null | TMetricTargetSelectorInputObject>(selector),
+
+    chartSeriesApi: null as null | ISeriesApi<any>,
   }
 }
 

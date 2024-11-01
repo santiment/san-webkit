@@ -50,7 +50,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
 
     loadMetricData({
       localParameters: {
-        metric: metric.key,
+        metric: metric.apiMetricName,
         selector: metric.selector.$,
         transform: metric.transform,
       },

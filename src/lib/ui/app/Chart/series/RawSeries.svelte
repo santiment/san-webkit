@@ -19,6 +19,7 @@
     } as const)
 
   const chartSeries = createChartSeries()
+  series.chartSeriesApi = chartSeries
 
   $effect.pre(() => {
     chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })

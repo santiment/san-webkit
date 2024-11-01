@@ -5,7 +5,7 @@
     useGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
-  import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
+  import Chart, { Tooltip, ApiMetricSeries } from '$ui/app/Chart/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
@@ -79,7 +79,7 @@
   <div class="mt-4 flex gap-2">
     {#each metricSeries.$ as metric}
       <div class="rounded border p-1" style="border-color:{metric.color.$}">
-        {metric.key}
+        {metric.label}
       </div>
     {/each}
   </div>
@@ -88,6 +88,8 @@
     {#each metricSeries.$ as item}
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
+
+    <Tooltip></Tooltip>
   </Chart>
 
   <button onclick={toggle}> Toggle axis </button>
