@@ -15,6 +15,7 @@
   const { metricSeries } = useMetricSeriesCtx([
     {
       name: 'price_usd',
+      label: 'Price USD',
       style: 'line',
       color: colorGenerator.new(),
       scaleId: 'right-price_usd',

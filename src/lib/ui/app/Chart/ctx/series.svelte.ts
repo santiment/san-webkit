@@ -1,11 +1,13 @@
+import type { ISeriesApi } from '@santiment-network/chart'
+import type {
+  TMetricData,
+  TMetricTargetSelectorInputObject,
+  TTimeseriesMetricTransformInputObject,
+} from '../api/index.js'
+
 import { ss } from 'svelte-runes'
 import { createCtx } from '$lib/utils/index.js'
-import {
-  type TMetricData,
-  type TMetricTargetSelectorInputObject,
-  type TTimeseriesMetricTransformInputObject,
-} from '../api/index.js'
-import type { ISeriesApi } from '@santiment-network/chart'
+import { DEFAULT_FORMATTER } from './formatters.js'
 
 type TMetric = {
   name: string
@@ -19,6 +21,8 @@ type TMetric = {
   transform?: TTimeseriesMetricTransformInputObject
 
   pane?: number
+
+  tooltipFormatter?: (value: any) => number | string
 
   scaleId?: string
   scaleInverted?: boolean
@@ -39,6 +43,8 @@ export function createSeries({
   scaleInverted = false,
   transform,
   transformData,
+
+  tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
 }: TMetric) {
   const scale = $state({
@@ -66,6 +72,8 @@ export function createSeries({
     transform,
 
     transformData,
+
+    tooltipFormatter,
     scaleFormatter,
 
     scale: {
