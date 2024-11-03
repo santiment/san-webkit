@@ -9,8 +9,8 @@ export type TGlobalParameters = {
   includeIncompleteData: boolean
 }
 
-export const useGlobalParametersCtx = createCtx(
-  'useGlobalParametersCtx',
+export const useChartGlobalParametersCtx = createCtx(
+  'webkit_useChartGlobalParametersCtx',
   (defaultCtxValue?: Partial<TGlobalParameters>) => {
     const parameters = $state<TGlobalParameters>({
       from: 'utc_now-60d',

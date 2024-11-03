@@ -2,7 +2,7 @@
   import { type TMetricData } from '$ui/app/Chart/api/index.js'
   import {
     useMetricSeriesCtx,
-    useGlobalParametersCtx,
+    useChartGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
   import Chart, { Tooltip, ApiMetricSeries } from '$ui/app/Chart/index.js'
@@ -11,7 +11,7 @@
 
   const { colorGenerator } = useColorGenerator()
 
-  const { globalParameters } = useGlobalParametersCtx()
+  const { globalParameters } = useChartGlobalParametersCtx()
   const { metricSeries } = useMetricSeriesCtx([
     {
       name: 'price_usd',

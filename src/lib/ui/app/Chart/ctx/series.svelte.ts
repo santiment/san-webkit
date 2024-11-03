@@ -91,7 +91,7 @@ export function createSeries({
 export type TSeries = ReturnType<typeof createSeries>
 
 export const useMetricSeriesCtx = createCtx(
-  'useMetricSeriesCtx',
+  'webkit_useMetricSeriesCtx',
   (defaultMetrics: TMetric[] = []) => {
     let series = $state.raw(
       defaultMetrics.map((item) => {

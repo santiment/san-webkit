@@ -1,6 +1,6 @@
 import { switchMap, tap } from 'rxjs'
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
-import { useGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
+import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
 import {
   queryGetMetric,
@@ -15,7 +15,7 @@ type TLocalParameters = {
 }
 
 export function useApiMetricDataFlow(metric: TSeries) {
-  const { globalParameters } = useGlobalParametersCtx.get()
+  const { globalParameters } = useChartGlobalParametersCtx.get()
 
   const loadMetricData = useObserveFnCall<{
     localParameters: TLocalParameters

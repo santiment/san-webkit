@@ -6,7 +6,7 @@
   import { onMount } from 'svelte'
   import type { MouseEventHandler, Time } from '@santiment-network/chart'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
-  import { useGlobalParametersCtx } from './ctx/global-parameters.svelte.js'
+  import { useChartGlobalParametersCtx } from './ctx/global-parameters.svelte.js'
 
   type TProps = any
   let { series }: TProps = $props()
@@ -44,7 +44,7 @@
   )
   console.log(series)
 
-  const { globalParameters } = useGlobalParametersCtx()
+  const { globalParameters } = useChartGlobalParametersCtx()
 
   $effect(() => {
     const { slug } = globalParameters.$$.selector
