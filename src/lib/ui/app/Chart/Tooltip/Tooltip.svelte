@@ -2,7 +2,7 @@
   import type { MouseEventParams } from '@santiment-network/chart'
 
   import { onMount } from 'svelte'
-  import { getDateFormats, getTimeFormats } from '$lib/utils/dates.js'
+  import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
   import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
 
   const { chart } = useChartCtx()

@@ -2,7 +2,7 @@
   import Svg from '$ui/core/Svg/index.js'
   import Picture from '$ui/app/Picture/index.js'
   import { INSIGHTS_ORIGIN } from '$lib/utils/links.js'
-  import { getTimeSince } from '$lib/utils/dates.js'
+  import { getTimeSince } from '$lib/utils/dates/index.js'
 
   const {
     user,

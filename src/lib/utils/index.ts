@@ -1,7 +1,13 @@
 import { BROWSER } from 'esm-env'
 import { getContext, setContext } from 'svelte'
 
+export { keyify } from './object.js'
+
 export { useObserveFnCall, pipeGroupBy } from './observable.svelte.js'
+
+export { onSupportClick } from './support.js'
+
+export const getRandomKey = (): string => Math.floor(Math.random() * 0xffffffff).toString()
 
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot

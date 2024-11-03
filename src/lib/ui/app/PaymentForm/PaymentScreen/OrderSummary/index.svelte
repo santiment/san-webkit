@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from '$ui/core/Button/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates.js'
+  import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates/index.js'
   import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
