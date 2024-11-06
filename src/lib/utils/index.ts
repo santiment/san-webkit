@@ -55,8 +55,17 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
   /**
    * Used in cases where context should be modified.
    */
-  ctxCreator.set = (...args: Parameters<CtxCreator>) =>
-    setContext(CTX, creator(...args)) as CtxValue
+  ctxCreator.set = (...args: Parameters<CtxCreator>) => {
+    if (process.env.IS_LOGGING_ENABLED) {
+      console.log(
+        `%c[DEV ONLY] Context created (using .set)`,
+        'background:#d13939;color:black;padding:3px;border-radius:4px',
+        CTX,
+      )
+    }
+
+    return setContext(CTX, creator(...args)) as CtxValue
+  }
 
   return ctxCreator
 }
