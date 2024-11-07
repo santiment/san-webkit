@@ -5,6 +5,7 @@
   import type { SS } from 'svelte-runes'
 
   import { tv } from 'tailwind-variants'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
@@ -37,7 +38,7 @@
 
     as = 'button',
     variant = 'fill',
-    size = 'md',
+    size: initialSize,
     iconOnRight = false,
     rounded = false,
     loading = false,
@@ -45,7 +46,7 @@
 
     icon,
     iconHeight,
-    iconSize = size === 'md' || size === 'lg' ? 16 : 12,
+    iconSize: initialIconSize,
 
     explanation,
     children,
@@ -55,6 +56,12 @@
 
     ...rest
   }: TProps = $props()
+
+  const { device } = useDeviceCtx()
+
+  const isPhone = $derived(device.$.isPhone)
+  const size = $derived(initialSize ?? (isPhone ? 'lg' : 'md'))
+  const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
 
   const button = tv({
     base: 'flex justify-center items-center cursor-pointer gap-2 rounded-md',
@@ -95,7 +102,13 @@
       {
         children: false,
         icon: true,
-        size: ['lg', 'md'],
+        size: ['lg'],
+        class: 'size-10 px-0',
+      },
+      {
+        children: false,
+        icon: true,
+        size: ['md'],
         class: 'size-8 px-0',
       },
       {

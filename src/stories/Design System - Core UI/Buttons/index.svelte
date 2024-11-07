@@ -113,7 +113,7 @@
   </section>
 </main>
 
-{#snippet iconButtons(props: ComponentProps<Button>)}
+{#snippet iconButtons(props: ComponentProps<typeof Button>)}
   <div class="flex flex-col gap-2">
     <Button {...props} icon="info" />
     <Button {...props} icon="info" size="sm" />
