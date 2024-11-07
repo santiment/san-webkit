@@ -62,7 +62,7 @@ export function WebkitSvg() {
 }
 
 export async function StaticAssetLogos() {
-  const logos = JSON.stringify(await fetchStatusAssetLogos())
+  const logos = JSON.stringify(await fetchStatusAssetLogos().catch(() => []))
 
   return {
     name: 'static-asset-logos',

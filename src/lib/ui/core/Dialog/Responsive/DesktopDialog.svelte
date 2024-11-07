@@ -22,7 +22,7 @@
   const {
     elements: { overlay, content, portalled },
     states: { open },
-  } = createDialog({ forceVisible: true, onOpenChange })
+  } = createDialog({ forceVisible: true, closeOnOutsideClick: false, onOpenChange })
 
   function close(isForced?: boolean) {
     if (Controller.checkIsLocked(isForced)) return false
@@ -38,11 +38,13 @@
 
 {#if $open}
   <div class="relative z-[10000]" {...$portalled} use:portalled>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       {...$overlay}
       use:overlay
       class="fixed inset-0 z-10 bg-[#000000cf]"
       transition:fade={{ duration: TRANSITION_MS }}
+      onclick={() => Controller.close()}
     ></div>
     <div
       class={cn(

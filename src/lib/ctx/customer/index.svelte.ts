@@ -1,7 +1,8 @@
-import { createCtx } from '$lib/utils/index.js'
 import { ss } from 'svelte-runes'
-import { DEFAULT, loadCustomerData, type TCustomer } from './api.js'
 import { BROWSER } from 'esm-env'
+import { setUser } from '@sentry/sveltekit'
+import { createCtx } from '$lib/utils/index.js'
+import { DEFAULT, loadCustomerData, type TCustomer } from './api.js'
 
 export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCustomer) => {
   const defaultValue = Object.assign({}, DEFAULT, initialValue)
@@ -15,6 +16,15 @@ export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCusto
       Object.assign(customer.$, data)
       customer.$ = customer.$
       currentUser = customer.$.currentUser
+
+      if (currentUser) {
+        const { id, username } = currentUser
+        try {
+          setUser({ id, username: username || '' })
+        } catch (e) {
+          console.error(e)
+        }
+      }
     })
   }
 

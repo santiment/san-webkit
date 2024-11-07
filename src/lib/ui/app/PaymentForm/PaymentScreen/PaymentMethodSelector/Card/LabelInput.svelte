@@ -7,7 +7,7 @@
     class: className,
     children,
     ...props
-  }: ComponentProps<Input> & { label: string } = $props()
+  }: ComponentProps<typeof Input> & { label: string } = $props()
 </script>
 
 <label class={className}>
