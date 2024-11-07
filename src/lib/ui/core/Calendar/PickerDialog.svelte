@@ -12,7 +12,7 @@
   import Calendar from './Calendar.svelte'
   import Button from '../Button/Button.svelte'
 
-  type Props = {
+  type TProps = {
     date: Date
     class?: string
     minValue: DateValue
@@ -20,7 +20,7 @@
     timeZone: string
   }
 
-  let { date, ...rest }: Props = $props()
+  let { date, ...rest }: TProps = $props()
 </script>
 
 <Dialog class="h-auto">

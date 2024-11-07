@@ -7,7 +7,7 @@
   import MonthViewSelect from './MonthViewSelect.svelte'
   import { formatMonth } from './utils.svelte.js'
 
-  type Props = {
+  type TProps = {
     range?: boolean
     placeholder: DateValue
     minValue: DateValue
@@ -16,7 +16,7 @@
 
   const { device } = useDeviceCtx()
 
-  let { range = false, placeholder = $bindable(), minValue, maxValue }: Props = $props()
+  let { range = false, placeholder = $bindable(), minValue, maxValue }: TProps = $props()
 
   const Base = $derived(range ? RangeCalendar : Calendar)
   const isPhone = $derived(device.$.isPhone)
