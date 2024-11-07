@@ -8,7 +8,7 @@
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
-  type Props = HTMLButtonAttributes & {
+  type TProps = HTMLButtonAttributes & {
     as?: 'button' | 'label' | 'div'
     ref?: SS<undefined | null | HTMLElement>
     href?: string
@@ -54,7 +54,7 @@
     actionArgs,
 
     ...rest
-  }: Props = $props()
+  }: TProps = $props()
 
   const button = tv({
     base: 'flex justify-center items-center cursor-pointer gap-2 rounded-md',
@@ -113,7 +113,7 @@
     ],
   })
 
-  function getLoadingColor(variant: Props['variant']) {
+  function getLoadingColor(variant: TProps['variant']) {
     switch (variant) {
       case 'fill':
         return 'white'
