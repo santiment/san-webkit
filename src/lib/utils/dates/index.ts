@@ -56,7 +56,19 @@ export const SHORT_MONTH_NAMES = [
   'Dec',
 ] as const
 
-type FormattedDate = {
+export const WEEKDAYS = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+] as const
+
+export const SHORT_WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as const
+
+type TFormattedDate = {
   D: number
   DD: string | number
   M: number
@@ -65,15 +77,20 @@ type FormattedDate = {
   MMMM: (typeof MONTH_NAMES)[number]
   YY: string
   YYYY: number
+
+  ddd: (typeof SHORT_WEEKDAYS)[number]
+  dddd: (typeof WEEKDAYS)[number]
 }
 
-export function getDateFormats(date: Date, { utc = false } = {}): FormattedDate {
+export function getDateFormats(date: Date, { utc = false } = {}): TFormattedDate {
   const UTC = utc ? 'UTC' : ''
 
   const month = date[`get${UTC}Month`]()
   const M = month + 1
   const D = date[`get${UTC}Date`]()
   const YYYY = date[`get${UTC}FullYear`]()
+
+  const d = date[`get${UTC}Day`]()
 
   return {
     D,
@@ -84,6 +101,9 @@ export function getDateFormats(date: Date, { utc = false } = {}): FormattedDate 
     MMMM: MONTH_NAMES[month],
     YYYY,
     YY: YYYY.toString().slice(-2),
+
+    ddd: SHORT_WEEKDAYS[d],
+    dddd: WEEKDAYS[d],
   }
 }
 
@@ -117,5 +137,26 @@ export function getTimeSince(targetDate: Date) {
     return `${days} days`
   } else {
     return `${years} years`
+  }
+}
+
+type TFormattedTime = {
+  H: number
+  HH: number | string
+  m: number
+  mm: number | string
+}
+export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime {
+  const UTC = utc ? 'UTC' : ''
+
+  const m = date[`get${UTC}Minutes`]()
+  const H = date[`get${UTC}Hours`]()
+  // const s = date[`get${UTC}Seconds`]()
+
+  return {
+    H,
+    HH: H < 10 ? `0${H}` : H,
+    m,
+    mm: m < 10 ? `0${m}` : m,
   }
 }

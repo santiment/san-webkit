@@ -1,11 +1,13 @@
 <script lang="ts">
-  import { Checkbox } from 'bits-ui'
+  import { Checkbox, type CheckboxProps } from 'bits-ui'
   import { cn } from '$ui/utils/index.js'
 
-  let { isActive = false, class: className }: { isActive?: boolean; class?: string } = $props()
+  type TProps = CheckboxProps & { isActive?: boolean; class?: string }
+  let { isActive = false, class: className, ...rest }: TProps = $props()
 </script>
 
 <Checkbox.Root
+  {...rest}
   bind:checked={isActive}
   class={cn(
     'size-4 min-w-4 rounded border border-porcelain bg-white hover:border-green',

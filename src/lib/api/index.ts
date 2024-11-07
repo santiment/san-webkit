@@ -17,7 +17,9 @@ export type TExecutorOptions = {
   cache?: boolean
   cacheTime?: number
   recache?: boolean
-}
+} & Partial<{
+  fetcher: (typeof globalThis)['fetch']
+}>
 
 const DEFAULT_EXECUTOR_OPTIONS = {
   /**
@@ -103,7 +105,7 @@ export function ApiQuery<Data, SchemaCreator extends TGqlSchemaCreator>(
         }
       }
 
-      const result = executor(schema, { map: mapData }) as Result<GData>
+      const result = executor(schema, { map: mapData, fetcher: options.fetcher }) as Result<GData>
 
       if (isCachingEnabled) ApiCache.add(schema, { options, executor, result })
 

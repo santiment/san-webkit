@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, type Snippet } from 'svelte'
+  import { createEventDispatcher, onMount, type Snippet } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
@@ -22,6 +22,17 @@
     warning: { class: 'fill-orange', h: 14 },
     error: { class: 'fill-red' },
   }
+
+  onMount(() => {
+    const listNode = document.querySelector('[data-sonner-toaster]') as null | HTMLElement
+    if (!listNode) return
+
+    const container = listNode.parentElement!
+    if (container.parentElement === document.body) return
+
+    listNode.style.zIndex = '999999999'
+    document.body.appendChild(container)
+  })
 </script>
 
 <section

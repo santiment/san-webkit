@@ -36,6 +36,12 @@ export const handleErrorWithSentry = (handler?: Parameters<typeof _handleErrorWi
       }
 
       if (ip_address) setUser({ ip_address })
+
+      const { currentUser } = input.event?.locals?.customer || {}
+      if (currentUser) {
+        const { id, username } = currentUser
+        setUser({ id, username: username || '' })
+      }
     }
 
     return handleError(input)
