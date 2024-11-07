@@ -14,9 +14,9 @@
     maxValue: DateValue
   }
 
-  const { device } = useDeviceCtx()
-
   let { range = false, placeholder = $bindable(), minValue, maxValue }: TProps = $props()
+
+  const { device } = useDeviceCtx()
 
   const Base = $derived(range ? RangeCalendar : Calendar)
   const isPhone = $derived(device.$.isPhone)
