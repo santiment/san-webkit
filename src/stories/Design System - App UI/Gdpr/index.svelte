@@ -2,4 +2,6 @@
   import { Gdpr } from '$lib/ui/app/LoginPrompt/index.js'
 </script>
 
-<Gdpr />
+<div class="flex h-screen items-center justify-center">
+  <Gdpr />
+</div>
