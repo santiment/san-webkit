@@ -15,25 +15,43 @@
   import { mutateGdpr, mutateChangeUsername } from './api.js'
   import Section from './Section.svelte'
 
-  export let onAccept: any
-  export let currentUser: null | { username: null | string; privacyPolicyAccepted: boolean }
-  export let title = 'Welcome to Sanbase'
+  /*
+    TODO:
+    1. Разобраться с аналитикой
+    1.1 Посмотреть на реализации в других разделах
+    1.2 Разобраться что использовать в новой версии
+    1.3 Подключить аналитику
 
-  const constraints = { required: true, minlength: 3 }
-  const defaultUsername = currentUser && currentUser.username
+    2. Разобраться с использованием нового контекста
+    2.1 Узнать как выглядит новый контекст
+    2.2 Изучить код на предмет перезаписи контекста
+    2.3 Подключить новый контекст
+  */
 
-  let isActive = false
-  let error = ''
-  let loading = false
+  const {
+    onAccept,
+    currentUser,
+    title = 'Welcome to Sanbase',
+  }: {
+    onAccept: (username: string | null) => void
+    currentUser: { username: string | null; privacyPolicyAccepted: boolean }
+    title?: string
+  } = $props()
 
-  $: username = defaultUsername
-  $: isDisabled = !isActive || !username || !!error
+  let isActive = $state(false)
+  let error = $state('')
+  let loading = $state(false)
 
+  // INFO: Not sure
+  let username = $state(currentUser?.username)
+  const isDisabled = $derived(!isActive || !username || !!error)
+
+  // INFO: Rewrite to ZOD?
   const [checkValidity, clearTimer] = debounce(250, (input: any) => {
     const { value } = input
 
-    if (value.length < 3) {
-      error = 'Username should be at least 3 characters long'
+    if (value.length < 4) {
+      error = 'Username should be at least 4 characters long'
     } else if (value[0] === '@') {
       error = '@ is not allowed for the first character'
     } else {
@@ -41,12 +59,11 @@
     }
   })
 
-  $: console.log(error)
-
   function onBlur() {
     if (username) return
     error = ''
-    username = defaultUsername
+    // INFO: Not sure
+    username = currentUser?.username
   }
 
   function onInput({ currentTarget }: any) {
@@ -58,19 +75,19 @@
     if (isDisabled) return
 
     loading = true
-    const usernamePromise = defaultUsername
+    // INFO: Not sure
+    const usernamePromise = currentUser?.username
       ? Promise.resolve()
       : mutateChangeUsername(Query)({ username })
 
     usernamePromise
       .catch(onUsernameChangeError)
       .then(() => {
-        // TODO: Not sure about that
         return mutateGdpr(Query)({ privacyPolicyAccepted: true })
       })
       .then(() => {
-        // TODO: Not sure about that
         if (currentUser) {
+          // TODO: Not sure that it will work
           currentUser.privacyPolicyAccepted = true
         }
 
@@ -94,7 +111,7 @@
 
 <Section {title}>
   <div class="text-start text-waterloo">
-    {#if !defaultUsername}
+    {#if !currentUser?.username}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
       <div class="relative">
@@ -106,7 +123,8 @@
               class={cn('text-black [&>input]:pl-6', error && 'border-red')}
               oninput={onInput}
               onblur={onBlur}
-              {...constraints}
+              minlength={4}
+              required
             >
               {#snippet left()}
                 <span class="absolute left-2 text-green">@</span>
