@@ -1,17 +1,18 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
   import { debounce } from '$lib/utils/fn.js'
-  // import { mutateGdpr } from './api.js'
-  // import { mutateChangeUsername } from '@/api/user'
+  import { mutateGdpr } from './api.js'
+  import { mutateChangeUsername } from './api.js'
   // import FieldTooltip from '@/ui/FieldTooltip/svelte'
   // import InputWithIcon from '@/ui/InputWithIcon.svelte'
   import Input from '$ui/core/Input/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
   // import { trackGdprAccept } from '@/analytics/events/onboarding'
   import Section from './Section.svelte'
+  import { Query } from '$lib/api/executor.js'
 
-  // export let onAccept
-  export let currentUser: null | { username: null | string }
+  export let onAccept: any
+  export let currentUser: null | { username: null | string; privacyPolicyAccepted: boolean }
   export let title = 'Welcome to Sanbase'
 
   const constraints = { required: true, minlength: 3 }
@@ -51,31 +52,36 @@
     if (isDisabled) return
 
     loading = true
-    // const usernamePromise = defaultUsername ? Promise.resolve() : mutateChangeUsername(username)
+    const usernamePromise = defaultUsername
+      ? Promise.resolve()
+      : mutateChangeUsername(Query)({ username })
 
-    // usernamePromise
-    //   .catch(onUsernameChangeError)
-    //   .then(() => {
-    //     // TODO: Not sure about that
-    //     return mutateGdpr()({ privacyPolicyAccepted: true })
-    //   })
-    //   .then(() => {
-    //     currentUser.privacyPolicyAccepted = true
+    usernamePromise
+      .catch(onUsernameChangeError)
+      .then(() => {
+        // TODO: Not sure about that
+        return mutateGdpr(Query)({ privacyPolicyAccepted: true })
+      })
+      .then(() => {
+        // TODO: Not sure about that
+        if (currentUser) {
+          currentUser.privacyPolicyAccepted = true
+        }
 
-    //     if (window.onGdprAccept) window.onGdprAccept()
-    //     trackGdprAccept(true)
+        // if (window.onGdprAccept) window.onGdprAccept()
+        // trackGdprAccept(true)
 
-    //     return username
-    //   })
-    //   .then(onAccept)
-    //   .catch(console.error)
+        return username
+      })
+      .then(onAccept)
+      .catch(console.error)
   }
 
-  // function onUsernameChangeError() {
-  //   error = `Username "${username}" is already taken`
-  //   loading = false
-  //   return Promise.reject()
-  // }
+  function onUsernameChangeError() {
+    error = `Username "${username}" is already taken`
+    loading = false
+    return Promise.reject()
+  }
 
   onDestroy(clearTimer)
 </script>

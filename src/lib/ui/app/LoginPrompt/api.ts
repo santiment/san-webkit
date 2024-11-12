@@ -9,3 +9,13 @@ export const mutateGdpr = ApiMutation((variables: { privacyPolicyAccepted: boole
   `,
   variables,
 }))
+
+export const mutateChangeUsername = ApiMutation((variables: { username: string | null }) => ({
+  schema: `mutation($username: String) {
+    changeUsername(username: $username) {
+      id
+    }
+  }
+`,
+  variables,
+}))
