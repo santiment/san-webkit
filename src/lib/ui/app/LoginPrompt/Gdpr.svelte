@@ -1,14 +1,19 @@
 <script lang="ts">
+  // Svelte imports
   import { onDestroy } from 'svelte'
+
   import { debounce } from '$lib/utils/fn.js'
-  import { mutateGdpr } from './api.js'
-  import { mutateChangeUsername } from './api.js'
+  import { Query } from '$lib/api/executor.js'
   import Input from '$ui/core/Input/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
-  // import { trackGdprAccept } from '@/analytics/events/onboarding'
-  import Section from './Section.svelte'
-  import { Query } from '$lib/api/executor.js'
+  import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/index.js'
+  import Svg from '$ui/core/Svg/index.js'
+  import { cn } from '$ui/utils/index.js'
+  // import { trackGdprAccept } from '@/analytics/events/onboarding'
+
+  import { mutateGdpr, mutateChangeUsername } from './api.js'
+  import Section from './Section.svelte'
 
   export let onAccept: any
   export let currentUser: null | { username: null | string; privacyPolicyAccepted: boolean }
@@ -35,6 +40,8 @@
       error = ''
     }
   })
+
+  $: console.log(error)
 
   function onBlur() {
     if (username) return
@@ -90,32 +97,49 @@
     {#if !defaultUsername}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
-      <Input
-        value={username}
-        placeholder="username"
-        class="text-black [&>input]:pl-6"
-        oninput={onInput}
-        onblur={onBlur}
-        {...constraints}
-      >
-        {#snippet left()}
-          <span class="absolute left-2 text-green">@</span>
-        {/snippet}
-      </Input>
+      <div class="relative">
+        <Tooltip isOpened={!!error} class="absolute mt-1">
+          {#snippet children()}
+            <Input
+              value={username}
+              placeholder="username"
+              class={cn('text-black [&>input]:pl-6', error && 'border-red')}
+              oninput={onInput}
+              onblur={onBlur}
+              {...constraints}
+            >
+              {#snippet left()}
+                <span class="absolute left-2 text-green">@</span>
+              {/snippet}
+            </Input>
+          {/snippet}
+
+          {#snippet content()}
+            <span class="flex items-center gap-1 fill-red px-2 py-1.5">
+              <Svg id="error" class="mr-1" />
+              {error}
+            </span>
+          {/snippet}
+        </Tooltip>
+      </div>
     {/if}
 
     <p class="my-4 text-base">Review and accept our Privacy Policy to continue using Sanbase</p>
   </div>
 
-  <!-- eslint-disable-next-line svelte/no-unused-svelte-ignore -->
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <div class="flex items-center text-base">
     <Checkbox class="mr-3" {isActive} onCheckedChange={() => (isActive = !isActive)}></Checkbox>
     I accept
-    <a href="https://santiment.net/terms" target="_blank" class="mx-1 text-green">Terms</a>
+    <a
+      href="https://santiment.net/terms"
+      target="_blank"
+      class="mx-1 text-green hover:text-green-hover">Terms</a
+    >
     and
-    <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 text-green"
-      >Privacy Policy</a
+    <a
+      href="https://app.santiment.net/privacy-policy"
+      target="_blank"
+      class="mx-1 text-green hover:text-green-hover">Privacy Policy</a
     >
   </div>
 
