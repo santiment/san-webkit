@@ -92,7 +92,7 @@
   <Button
     variant="border"
     size="lg"
-    class="center"
+    class={cn('center', className)}
     onclick={onSupportClick}
     href="mailto:support@santiment.net"
     data-type="default_plan"

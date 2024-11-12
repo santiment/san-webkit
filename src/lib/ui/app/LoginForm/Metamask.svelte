@@ -12,7 +12,7 @@
   let loading = $state(false)
 
   function onLoginClick() {
-    if (!window.ethereum) {
+    if (!('ethereum' in window) || !window.ethereum) {
       return notification.error("We can't detect Metamask!", { content: noMetamask })
     }
 

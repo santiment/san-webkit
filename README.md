@@ -89,3 +89,47 @@ Therefore to declare a generic type use old meta type `$$Generic`.
   type T = $$Generic // $$Generic<{ name: string }>
 </script>
 ```
+
+### The order of definitions in Svelte components
+
+```svelte
+<script lang="ts">
+  // Define prop types with a separate type definition
+  type TProps = { someProp: '' }
+  let props: TProps = $props()
+
+  // Initialize and set the external contexts
+  const appCtx = useSomeAppCtx.get()
+  const someOtherCtx = useSomeOtherCtx.set(props.someProp)
+
+  // Initialize the dialog, which will capture all the contexts defined above
+  const showSomeDialog = showSomeDialog$()
+
+  // Define a state signal first
+  let state = $state('')
+  // Define a derived signal second
+  const derived = $derived(state + props.someProp)
+
+  // Create a one-liner using a function expression
+  const oneLineFn = () => {}
+
+  onMount(() => {
+    // Browser-only code that will run once when the component mounts
+    return () => {
+      // Cleanup if necessary
+    }
+  })
+
+  $effect(() => {
+    // Browser-only code that re-runs when any tracked signals change
+    return () => {
+      // Cleanup if necessary
+    }
+  })
+
+  // Define a function that could be used in the code above
+  function someFn() {
+    // Function body
+  }
+</script>
+```

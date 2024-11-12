@@ -1,6 +1,6 @@
 <script lang="ts">
   import { INSIGHTS_ORIGIN } from '$lib/utils/links.js'
-  import { getSEOLinkFromIdAndTitle } from '$lib/utils/url.js'
+  import { getSEOLinkFromIdAndTitle } from '$lib/utils/url/index.js'
 
   import Profile from './Profile.svelte'
   import SocialActionLink from './SocialActionLink.svelte'

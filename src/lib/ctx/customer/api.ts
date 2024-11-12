@@ -1,7 +1,7 @@
 import { BROWSER } from 'esm-env'
 import { UniQuery } from '$lib/api/executor.js'
 import { ApiQuery } from '$lib/api/index.js'
-import { calculateDaysTo } from '$lib/utils/dates.js'
+import { calculateDaysTo } from '$lib/utils/dates/index.js'
 import {
   getApiSubscription,
   getCustomerSubscriptionData,

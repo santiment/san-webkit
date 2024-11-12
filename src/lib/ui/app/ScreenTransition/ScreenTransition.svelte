@@ -2,21 +2,35 @@
   import type { Snippet } from 'svelte'
   import { useScreenTransitionCtx } from './state.svelte.js'
   import Button from '$ui/core/Button/index.js'
-  import { cn } from '$ui/utils/index.js'
+  import { applyStyles, cn } from '$ui/utils/index.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
+  type TProps = {
+    class?: string
+    children: Snippet
+    style?: string
+    isSizeTransition?: boolean
+    dataType: string
+    dataSource: string
+  }
   let {
     class: className,
     children,
     style,
-  }: { class?: string; children: Snippet; style?: string } = $props()
+    isSizeTransition = false,
+    dataType,
+    dataSource,
+  }: TProps = $props()
 
   const TRANSITION = 350
   const { screen, screens } = useScreenTransitionCtx.get()
 
   let lastIndex = screen.index$
   let backScreen = $derived(screens[screen.index$ - 1])
+
+  let outHeight = 0
+  let outWidth = 0
 
   const checkIsBack = () => lastIndex > screen.index$
 
@@ -27,11 +41,11 @@
       node,
       () => {
         if (isBack) {
-          return () => (node.style.transform = 'translateX(100%)')
+          return () => applyStyles(node, { transform: 'translateX(100%)' })
         }
 
-        node.style.zIndex = '-1'
-        return () => (node.style.transform = 'translateX(-30%)')
+        applyStyles(node, { zIndex: '-1' })
+        return () => applyStyles(node, { transform: 'translateX(-30%)' })
       },
       { out: true },
     )
@@ -46,10 +60,8 @@
       animate(
         node,
         () => {
-          node.style.left = '-40%'
-          node.style.zIndex = '-1'
-
-          return () => (node.style.transform = 'translateX(40%)')
+          applyStyles(node, { left: '-40%', zIndex: '-1' })
+          return () => applyStyles(node, { transform: 'translateX(40%)' })
         },
         {
           duration: 230,
@@ -58,9 +70,9 @@
       )
     } else {
       animate(node, () => {
-        node.style.left = '100%'
+        applyStyles(node, { left: '100%' })
 
-        return () => (node.style.transform = 'translateX(-100%)')
+        return () => applyStyles(node, { transform: 'translateX(-100%)' })
       })
     }
 
@@ -78,18 +90,38 @@
   ) {
     const styles = node.getAttribute('style') ?? ''
 
-    node.style.transition = `transform ${duration}ms ${timing}`
-    node.style.pointerEvents = 'none'
+    if (out) {
+      outHeight = node.clientHeight
+      outWidth = node.clientWidth
+    }
+
+    applyStyles(node, {
+      transition: `transform ${duration}ms ${timing}, height ${duration}ms, width ${duration}ms`,
+      pointerEvents: 'none',
+    })
+
+    if (isSizeTransition && !out) {
+      const nodeHeight = node.clientHeight
+      const nodeWidth = node.clientWidth
+
+      applyStyles(node, { height: outHeight + 'px', width: outWidth + 'px' })
+      requestAnimationFrame(() => {
+        applyStyles(node, { height: nodeHeight + 'px', width: nodeWidth + 'px' })
+      })
+    }
 
     if (out) {
       const { offsetTop } = node
-      node.style.top = offsetTop + 'px'
-      node.style.bottom = '0'
-      node.style.width = '100%'
-      node.style.position = 'absolute'
-      node.style.transform = 'translateX(0)'
+
+      applyStyles(node, {
+        top: offsetTop + 'px',
+        bottom: '0',
+        width: '100%',
+        position: 'absolute',
+        transform: 'translateX(0)',
+      })
     } else {
-      node.style.position = 'relative'
+      applyStyles(node, { position: 'relative' })
     }
 
     requestAnimationFrame(transitionStart())
@@ -104,7 +136,7 @@
 </script>
 
 {#key screen.index$}
-  <div out:out in:flyIn class="max-h-full min-h-0 flex-1 column" {style}>
+  <div out:out in:flyIn class="max-h-full min-h-0 flex-grow column" {style}>
     <OnlyOnDevice tablet phone>
       {#if backScreen}
         <div class="sticky top-0 flex items-center bg-white px-2 py-3">
@@ -114,10 +146,10 @@
             class="text-fiord"
             onclick={() => {
               trackEvent('pagination', {
-                type: 'change_payment_screen',
+                type: dataType,
                 value: 0,
                 label: backScreen.backLabel || 'Back',
-                source: 'payment_form',
+                source: dataSource,
               })
 
               screen.$ = backScreen
