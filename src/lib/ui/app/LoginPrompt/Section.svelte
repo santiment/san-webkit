@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { cn } from '$ui/utils/index.js'
 
+  import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 

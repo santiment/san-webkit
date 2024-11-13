@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte'
 
+  import type { TCustomer } from '$lib/ctx/customer/api.js'
   import { debounce } from '$lib/utils/fn.js'
   import { Query } from '$lib/api/executor.js'
   import Input from '$ui/core/Input/index.js'
@@ -9,37 +10,27 @@
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
-  import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
 
   import { mutateGdpr, mutateChangeUsername } from './api.js'
   import Section from './Section.svelte'
 
-  /*
-    2. Разобраться с использованием нового контекста
-    2.1 Узнать как выглядит новый контекст
-    2.2 Изучить код на предмет перезаписи контекста
-    2.3 Подключить новый контекст
-  */
-
   const {
     onAccept,
-    currentUser,
     title = 'Welcome to Sanbase',
+    currentUser,
   }: {
-    onAccept: (username: string | null) => void
-    currentUser: { username: string | null; privacyPolicyAccepted: boolean }
+    onAccept: (username: string) => void
     title?: string
+    currentUser: Exclude<TCustomer['currentUser'], null>
   } = $props()
 
-  let isActive = $state(false)
   let error = $state('')
+  let isActive = $state(false)
   let loading = $state(false)
+  let username = $state(currentUser.username)
 
-  // INFO: Not sure
-  let username = $state(currentUser?.username)
   const isDisabled = $derived(!isActive || !username || !!error)
 
-  // INFO: Rewrite to ZOD?
   const [checkValidity, clearTimer] = debounce(250, (input: any) => {
     const { value } = input
 
@@ -55,40 +46,26 @@
   function onBlur() {
     if (username) return
     error = ''
-    username = currentUser?.username
+    username = currentUser.username
   }
 
-  function onInput({ currentTarget }: any) {
+  function onInput({ currentTarget }: Event & { currentTarget: HTMLInputElement }) {
     username = currentTarget.value
     checkValidity(currentTarget)
   }
 
   function onSubmit() {
-    if (isDisabled) return
+    if (isDisabled || !username) return
 
     loading = true
-    // INFO: Not sure
-    const usernamePromise = currentUser?.username
+    const usernamePromise = currentUser.username
       ? Promise.resolve()
       : mutateChangeUsername(Query)({ username })
 
     usernamePromise
       .catch(onUsernameChangeError)
-      .then(() => {
-        return mutateGdpr(Query)({ privacyPolicyAccepted: true })
-      })
-      .then(() => {
-        if (currentUser) {
-          // TODO: Not sure that it will work
-          currentUser.privacyPolicyAccepted = true
-        }
-
-        if (window.onGdprAccept) window.onGdprAccept()
-        trackGdprAccept(true)
-
-        return username
-      })
-      .then(onAccept)
+      .then(() => mutateGdpr(Query)({ privacyPolicyAccepted: true }))
+      .then(() => username && onAccept(username))
       .catch(console.error)
   }
 
@@ -103,7 +80,7 @@
 
 <Section {title}>
   <div class="text-start text-waterloo">
-    {#if !currentUser?.username}
+    {#if !currentUser.username}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
       <div class="relative">
