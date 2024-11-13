@@ -50,7 +50,8 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
   /**
    * Used in cases where context initialization is not required.
    */
-  ctxCreator.get = () => getContext(CTX) as CtxValue
+  ctxCreator.get = (allCtxs?: Map<string, any>) =>
+    (allCtxs ? allCtxs.get(CTX) : getContext(CTX)) as CtxValue
 
   /**
    * Used in cases where context should be modified.
