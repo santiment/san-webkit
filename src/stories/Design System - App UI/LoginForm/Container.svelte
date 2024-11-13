@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { Component as ComponentType, ComponentProps } from 'svelte'
 
-  const { children }: { children: Snippet } = $props()
+  type T = $$Generic<ComponentType>
 
-  $inspect({ children })
+  const { Component, ...rest }: { Component: T } & ComponentProps<T> = $props()
 </script>
 
 <main class="flex min-h-[inherit] items-center justify-center">
-  {@render children()}
+  <Component {...rest} />
 </main>
