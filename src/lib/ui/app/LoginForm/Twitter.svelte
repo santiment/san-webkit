@@ -2,6 +2,7 @@
   import type { ComponentProps } from 'svelte'
 
   import { getOAuthLink } from '$lib/utils/auth.js'
+  import { trackAuth } from '$lib/analytics/events/auth.js'
   import Option from './Option.svelte'
 
   type Props = { from?: string } & Omit<
@@ -9,15 +10,14 @@
     'title' | 'href' | 'icon' | 'onclick'
   >
 
-  const { from, ...rest }: Props = $props()
+  const { from, isSignUp, ...rest }: Props = $props()
 </script>
 
 <Option
   {...rest}
+  {isSignUp}
   title="Twitter"
   href={getOAuthLink('twitter', from)}
   icon="twitter"
-  onclick={() => {
-    // FIXME: Add analytics here
-  }}
+  onclick={() => trackAuth('twitter')}
 />

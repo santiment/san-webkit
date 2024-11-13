@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { trackAuth } from '$lib/analytics/events/auth.js'
   import { Query } from '$lib/api/executor.js'
   import { mutateEmailLogin } from '$lib/flow/login/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -31,7 +32,7 @@
       .catch(() => notification.error("Can't login"))
       .finally(() => (loading = false))
 
-    //FIXME: Add analytics
+    trackAuth('email', isSignUp)
   }
 </script>
 
