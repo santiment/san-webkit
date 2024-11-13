@@ -1,6 +1,8 @@
-import { TrackCategory } from './utils.js'
-
-const track = TrackCategory('Onboarding')
+import { trackEvent } from './index.js'
 
 export const trackGdprAccept = (accepted: boolean) =>
-  track('gdpr_accept', { accepted, source_url: window.location.href })
+  trackEvent('gdpr_accept', {
+    accepted,
+    category: 'Onboarding',
+    source_url: window.location.href,
+  })

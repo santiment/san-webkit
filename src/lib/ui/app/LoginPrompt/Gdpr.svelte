@@ -10,6 +10,7 @@
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
 
   import { mutateGdpr, mutateChangeUsername } from './api.js'
   import Section from './Section.svelte'
@@ -65,6 +66,13 @@
     usernamePromise
       .catch(onUsernameChangeError)
       .then(() => mutateGdpr(Query)({ privacyPolicyAccepted: true }))
+      .then(() => {
+        currentUser.privacyPolicyAccepted = true
+
+        if (window.onGdprAccept) window.onGdprAccept()
+
+        trackGdprAccept(true)
+      })
       .then(() => username && onAccept(username))
       .catch(console.error)
   }
