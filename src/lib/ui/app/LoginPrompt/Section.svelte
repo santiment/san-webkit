@@ -26,11 +26,11 @@
 
 <section
   class={cn(
-    'relative flex min-w-[480px] flex-col justify-center rounded border px-24 py-10 text-center md:h-[85vh] md:min-w-0 md:flex-1 md:p-6',
+    'relative flex min-w-[480px] flex-col justify-center rounded border px-[99px] py-[39px] text-center md:h-[85vh] md:min-w-0 md:flex-1 md:p-6',
     className,
   )}
 >
-  <h2 class="mb-4 text-2xl">{title}</h2>
+  <h2 class="text-2xl">{title}</h2>
 
   {#if device.$.isMobile}
     <a

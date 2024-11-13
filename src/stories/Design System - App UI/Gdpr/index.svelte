@@ -9,9 +9,10 @@
     if (currentUser.currentUser.$$) {
       currentUser.currentUser.$$.privacyPolicyAccepted = true
     }
-    if (window.onGdprAccept) window.onGdprAccept()
-    trackGdprAccept(true)
 
+    if (window.onGdprAccept) window.onGdprAccept()
+
+    trackGdprAccept(true)
     console.log('username', username)
   }
 </script>

@@ -31,7 +31,7 @@
 
   const isDisabled = $derived(!isActive || !username || !!error)
 
-  const [checkValidity, clearTimer] = debounce(250, (input: any) => {
+  const [checkValidity, clearTimer] = debounce(250, (input: { value: string }) => {
     const { value } = input
 
     if (value.length < 4) {
@@ -79,7 +79,7 @@
 </script>
 
 <Section {title}>
-  <div class="text-start text-waterloo">
+  <div class="max-w-[380px] text-start text-waterloo">
     {#if !currentUser.username}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
@@ -89,7 +89,8 @@
             <Input
               value={username}
               placeholder="username"
-              class={cn('text-black [&>input]:pl-6', error && 'border-red')}
+              class={cn('text-black', error && 'border-red')}
+              inputClass="pl-6"
               oninput={onInput}
               onblur={onBlur}
               minlength={4}
@@ -102,7 +103,7 @@
           {/snippet}
 
           {#snippet content()}
-            <span class="flex items-center gap-1 fill-red px-2 py-1.5">
+            <span class="flex items-center gap-1 fill-red px-2 py-1.5 text-black">
               <Svg id="error" class="mr-1" />
               {error}
             </span>
@@ -114,7 +115,7 @@
     <p class="my-4 text-base">Review and accept our Privacy Policy to continue using Sanbase</p>
   </div>
 
-  <div class="flex items-center text-base">
+  <div class="flex max-w-[380px] items-center text-base">
     <Checkbox class="mr-3" {isActive} onCheckedChange={() => (isActive = !isActive)}></Checkbox>
     I accept
     <a
@@ -133,7 +134,7 @@
   <Button
     {loading}
     variant="fill"
-    class="mt-8 flex justify-center py-2.5"
+    class="mx-auto mt-8 flex min-w-[188px] justify-center py-2.5 md:min-w-full"
     disabled={isDisabled}
     onclick={onSubmit}
     style="--loading-color: var(--white)"
