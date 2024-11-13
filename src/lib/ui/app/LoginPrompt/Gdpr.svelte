@@ -1,5 +1,4 @@
 <script lang="ts">
-  // Svelte imports
   import { onDestroy } from 'svelte'
 
   import { debounce } from '$lib/utils/fn.js'
@@ -10,18 +9,12 @@
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
-  // import { trackGdprAccept } from '@/analytics/events/onboarding'
+  import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
 
   import { mutateGdpr, mutateChangeUsername } from './api.js'
   import Section from './Section.svelte'
 
   /*
-    TODO:
-    1. Разобраться с аналитикой
-    1.1 Посмотреть на реализации в других разделах
-    1.2 Разобраться что использовать в новой версии
-    1.3 Подключить аналитику
-
     2. Разобраться с использованием нового контекста
     2.1 Узнать как выглядит новый контекст
     2.2 Изучить код на предмет перезаписи контекста
@@ -62,7 +55,6 @@
   function onBlur() {
     if (username) return
     error = ''
-    // INFO: Not sure
     username = currentUser?.username
   }
 
@@ -91,8 +83,8 @@
           currentUser.privacyPolicyAccepted = true
         }
 
-        // if (window.onGdprAccept) window.onGdprAccept()
-        // trackGdprAccept(true)
+        if (window.onGdprAccept) window.onGdprAccept()
+        trackGdprAccept(true)
 
         return username
       })
