@@ -18,7 +18,6 @@
       href?: string
       icon?: string
       class?: string
-      withPointer?: boolean
       iconSize?: number | string
       iconHeight?: number | string
       iconOnRight?: boolean
@@ -43,7 +42,6 @@
     iconOnRight = false,
     rounded = false,
     loading = false,
-    withPointer = false,
 
     icon,
     iconHeight,
@@ -191,9 +189,5 @@
 
   {#if children}
     {@render children()}
-  {/if}
-
-  {#if withPointer}
-    <Svg id="pointer" w="10"></Svg>
   {/if}
 </svelte:element>

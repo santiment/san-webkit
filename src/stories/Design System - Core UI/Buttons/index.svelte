@@ -53,7 +53,7 @@
 
         <StatesGroup title="Link" variant="link" />
 
-        <StatesGroup title="Link Pointer" variant="link" withPointer />
+        <StatesGroup title="Link Pointer" variant="link" icon="pointer" iconSize="10" iconOnRight />
       </div>
     </section>
   </section>
