@@ -5,12 +5,12 @@
   import Option from './Option.svelte'
   import { trackAuth } from '$lib/analytics/events/auth.js'
 
-  type Props = { from?: string } & Omit<
+  type TProps = { from?: string } & Omit<
     ComponentProps<typeof Option>,
     'title' | 'href' | 'icon' | 'onclick'
   >
 
-  const { from, isSignUp, ...rest }: Props = $props()
+  const { from, isSignUp, ...rest }: TProps = $props()
 </script>
 
 <Option

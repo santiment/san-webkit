@@ -3,12 +3,12 @@
   import { notification } from '$ui/core/Notifications/index.js'
   import Option from './Option.svelte'
 
-  type Props = {
+  type TProps = {
     isSignUp?: boolean
     onclick: () => Promise<void>
   }
 
-  const { isSignUp = false, onclick }: Props = $props()
+  const { isSignUp = false, onclick }: TProps = $props()
 
   let loading = $state(false)
 

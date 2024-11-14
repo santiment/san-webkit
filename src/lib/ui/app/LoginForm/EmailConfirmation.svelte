@@ -1,13 +1,13 @@
 <script lang="ts">
   import Section from './Section.svelte'
 
-  type Props = {
+  type TProps = {
     email: string
     clearEmail: () => void
     isSignUp?: boolean
   }
 
-  const { email, isSignUp = false, clearEmail }: Props = $props()
+  const { email, isSignUp = false, clearEmail }: TProps = $props()
 </script>
 
 <Section

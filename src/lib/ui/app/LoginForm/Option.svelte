@@ -4,7 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
-  type Props = {
+  type TProps = {
     class?: string
     title: string
     icon: string
@@ -22,7 +22,7 @@
     loading = false,
     isSignUp = false,
     onclick,
-  }: Props = $props()
+  }: TProps = $props()
 </script>
 
 <Button variant="border" size="lg" class={cn('px-12', className)} {loading} {href} {onclick}>
