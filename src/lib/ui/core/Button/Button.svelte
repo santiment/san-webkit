@@ -37,7 +37,7 @@
     class: className,
 
     as = 'button',
-    variant = 'fill',
+    variant = 'ghost',
     accent = 'green',
     size: initialSize,
     iconOnRight = false,
