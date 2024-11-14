@@ -1,6 +1,6 @@
 <script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-  import { Gdpr } from '$lib/ui/app/LoginPrompt/index.js'
+  import { Gdpr } from '$lib/ui/app/LoginForm/index.js'
 
   const currentUser = useCustomerCtx()
 
