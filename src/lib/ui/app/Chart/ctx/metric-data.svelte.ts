@@ -1,4 +1,4 @@
-import { switchMap, tap } from 'rxjs'
+import { catchError, of, switchMap, tap } from 'rxjs'
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
@@ -35,7 +35,14 @@ export function useApiMetricDataFlow(metric: TSeries) {
         tap((data) => {
           const formattedData = metric.transformData?.(data) || data
           metric.data.$ = formattedData
+          metric.error.$ = null
           metric.loading.$ = false
+        }),
+        catchError((err) => {
+          metric.data.$ = []
+          metric.loading.$ = false
+          metric.error.$ = err
+          return of(null)
         }),
       )
     }),

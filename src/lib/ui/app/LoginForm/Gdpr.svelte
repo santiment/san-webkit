@@ -28,7 +28,7 @@
   let error = $state('')
   let isActive = $state(false)
   let loading = $state(false)
-  let username = $state(currentUser.username)
+  let username = $state(currentUser?.username)
 
   const isDisabled = $derived(!isActive || !username || !!error)
 
@@ -47,7 +47,7 @@
   function onBlur() {
     if (username) return
     error = ''
-    username = currentUser.username
+    username = currentUser?.username
   }
 
   function onInput({ currentTarget }: Event & { currentTarget: HTMLInputElement }) {
@@ -59,7 +59,7 @@
     if (isDisabled || !username) return
 
     loading = true
-    const usernamePromise = currentUser.username
+    const usernamePromise = currentUser?.username
       ? Promise.resolve()
       : mutateChangeUsername(Query)({ username })
 
@@ -88,7 +88,7 @@
 
 <Section {title}>
   <div class="max-w-[380px] text-start text-waterloo">
-    {#if !currentUser.username}
+    {#if !currentUser?.username}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
       <div class="relative">
@@ -126,16 +126,10 @@
   <div class="flex max-w-[380px] items-center text-base">
     <Checkbox class="mr-3" {isActive} onCheckedChange={() => (isActive = !isActive)}></Checkbox>
     I accept
-    <a
-      href="https://santiment.net/terms"
-      target="_blank"
-      class="mx-1 text-green hover:text-green-hover">Terms</a
-    >
+    <a href="https://santiment.net/terms" target="_blank" class="mx-1 link-pointer">Terms</a>
     and
-    <a
-      href="https://app.santiment.net/privacy-policy"
-      target="_blank"
-      class="mx-1 text-green hover:text-green-hover">Privacy Policy</a
+    <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 link-pointer"
+      >Privacy Policy</a
     >
   </div>
 

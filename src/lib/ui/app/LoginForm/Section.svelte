@@ -1,52 +1,49 @@
 <script lang="ts">
+  import type { MouseEventHandler } from 'svelte/elements'
   import type { Snippet } from 'svelte'
-
   import { cn } from '$ui/utils/index.js'
-  import Svg from '$ui/core/Svg/index.js'
-  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+  import Button from '$ui/core/Button/Button.svelte'
+
+  type TProps = {
+    class?: string
+    title: string
+    titleClass?: string
+    bottomLabel?: string
+    bottomAction?: string
+    bottomHref?: string
+    onBottomClick?: MouseEventHandler<HTMLAnchorElement>
+    children: Snippet
+  }
 
   const {
-    class: className = '',
+    class: className,
     title,
+    titleClass,
     bottomLabel,
     bottomAction,
     bottomHref,
+    onBottomClick,
     children,
-  }: {
-    title: string
-    class?: string
-    bottomLabel?: string
-    bottomHref?: string
-    bottomAction?: string
-    children: Snippet
-  } = $props()
-
-  const { device } = useDeviceCtx()
+  }: TProps = $props()
 </script>
 
 <section
   class={cn(
-    'relative flex min-w-[480px] flex-col justify-center rounded border px-[99px] py-[39px] text-center md:h-[85vh] md:min-w-0 md:flex-1 md:p-6',
+    'flex min-w-[480px] flex-col justify-center rounded border px-24 py-10 text-center',
+    'md:relative md:h-[85vh] md:min-w-0 md:flex-1 md:self-start md:border-none md:p-6',
     className,
   )}
 >
-  <h2 class="text-2xl">{title}</h2>
+  <h2 class={cn('mb-4 text-2xl', titleClass)}>{title}</h2>
 
-  {#if device.$.isMobile}
-    <a
-      href="/"
-      class="absolute right-5 top-5 cursor-pointer select-none fill-waterloo hover:fill-green"
-    >
-      <Svg id="close" />
-    </a>
-  {/if}
+  <Button icon="close" href="/" class="absolute right-5 top-5 z-10 hidden fill-waterloo md:flex" />
 
   {@render children()}
 
   {#if bottomLabel}
-    <div class="mt-3 text-waterloo">
+    <div class="mt-3 text-base text-waterloo">
       {bottomLabel}
-      <a href={bottomHref} class="link-pointer">{bottomAction}</a>
+      <a href={bottomHref} class="link-pointer" onclick={onBottomClick}>{bottomAction}</a>
     </div>
   {/if}
 </section>
