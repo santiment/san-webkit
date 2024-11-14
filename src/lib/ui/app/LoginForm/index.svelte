@@ -7,7 +7,7 @@
   import EmailForm from './EmailForm.svelte'
   import EmailConfirmation from './EmailConfirmation.svelte'
 
-  type Props = {
+  type TProps = {
     title: string
     bottomLabel?: string
     bottomAction?: string
@@ -25,7 +25,7 @@
     isSignUp = false,
     from = '',
     onMetamaskClick,
-  }: Props = $props()
+  }: TProps = $props()
 
   let verifiedEmail = $state<string>()
 

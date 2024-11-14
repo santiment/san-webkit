@@ -6,13 +6,13 @@
   import Input from '$ui/core/Input/index.js'
   import { notification } from '$ui/core/Notifications/index.js'
 
-  type Props = {
+  type TProps = {
     isSignUp?: boolean
     from?: string
     onSuccess: (email: string) => void
   }
 
-  const { from, isSignUp = false, onSuccess }: Props = $props()
+  const { from, isSignUp = false, onSuccess }: TProps = $props()
 
   let loading = $state(false)
 
