@@ -6,7 +6,7 @@ export const sluggify = (title: string): string =>
     title.replace(NON_WORDS_REGEX, ' ').trim().replace(SPACES_REGEX, '-').toLowerCase(),
   )
 
-export const getSEOLinkFromIdAndTitle = (id: string, title?: string): string =>
+export const getSEOLinkFromIdAndTitle = (id: number | string, title?: string): string =>
   title ? sluggify(title) + `-${id}` : `${id}`
 
 export const getIdFromSEOLink = (link: string): number =>

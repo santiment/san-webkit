@@ -10,9 +10,10 @@
     class?: string
     watermark?: boolean
     watermarkOpacity?: string
+    options?: Parameters<typeof createChart>[1]
     children: Snippet
   }
-  let { class: className, watermark = true, watermarkOpacity, children }: TProps = $props()
+  let { class: className, watermark = true, watermarkOpacity, options, children }: TProps = $props()
 
   let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
@@ -27,6 +28,7 @@
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
       overlayPriceScales: { autoScale: false },
+      ...options,
     })
 
     if (watermark) {
