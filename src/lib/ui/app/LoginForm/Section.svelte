@@ -4,7 +4,7 @@
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
 
-  type Props = {
+  type TProps = {
     class?: string
     title: string
     titleClass?: string
@@ -24,7 +24,7 @@
     bottomHref,
     onBottomClick,
     children,
-  }: Props = $props()
+  }: TProps = $props()
 </script>
 
 <section
