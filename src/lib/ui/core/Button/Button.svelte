@@ -65,7 +65,7 @@
   const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
 
   const button = tv({
-    base: 'flex justify-center items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md',
     variants: {
       children: { false: '' },
       icon: { false: '' },
@@ -74,8 +74,8 @@
         fill: 'px-5 fill-white-day text-white-day',
         border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
         ghost: 'px-2.5 fill-waterloo hover:bg-athens',
-        title: 'hover:underline',
-        link: 'text-green fill-green hover:underline',
+        title: 'rounded-none hover:underline',
+        link: 'rounded-none text-green fill-green hover:underline',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
@@ -125,25 +125,25 @@
         children: false,
         icon: true,
         size: ['lg'],
-        class: 'size-10 px-0',
+        class: 'justify-center size-10 px-0',
       },
       {
         children: false,
         icon: true,
         size: ['md'],
-        class: 'size-8 px-0',
+        class: 'justify-center size-8 px-0',
       },
       {
         children: false,
         icon: true,
         size: 'sm',
-        class: 'size-6 px-0',
+        class: 'justify-center size-6 px-0',
       },
       {
         children: false,
         icon: true,
         size: 'xs',
-        class: 'size-5 px-0',
+        class: 'justify-center size-5 px-0',
       },
     ],
   })
