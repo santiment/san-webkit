@@ -18,18 +18,8 @@
 
         <StatesGroup title="Default Accent (Green)" variant="fill" />
 
-        <StatesGroup
-          title="Custom Accent / Blue"
-          variant="fill"
-          --accent="var(--blue)"
-          --accent-hover="var(--blue-hover)"
-        />
-        <StatesGroup
-          title="Custom Accent / Orange"
-          variant="fill"
-          --accent="var(--orange)"
-          --accent-hover="var(--orange-hover)"
-        />
+        <StatesGroup title="Custom Accent / Blue" variant="fill" accent="blue" />
+        <StatesGroup title="Custom Accent / Orange" variant="fill" accent="orange" />
       </div>
 
       <div class="flex flex-col gap-6">

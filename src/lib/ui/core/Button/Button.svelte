@@ -16,6 +16,7 @@
     icon?: string
     class?: string
     variant?: 'fill' | 'border' | 'ghost' | 'title' | 'link'
+    accent?: 'green' | 'blue' | 'orange' | 'custom'
     withPointer?: boolean
     rounded?: boolean
     iconSize?: number | string
@@ -38,6 +39,7 @@
 
     as = 'button',
     variant = 'fill',
+    accent = 'green',
     size: initialSize,
     iconOnRight = false,
     rounded = false,
@@ -68,8 +70,9 @@
     variants: {
       children: { false: '' },
       icon: { false: '' },
+      accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
-        fill: 'bg-[var(--accent,var(--green))] px-5 fill-white-day text-white-day hover:bg-[var(--accent-hover,var(--green-hover))]',
+        fill: 'px-5 fill-white-day text-white-day',
         border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
         ghost: 'px-2.5 fill-waterloo hover:bg-athens',
         title: 'hover:underline',
@@ -89,6 +92,26 @@
     },
 
     compoundVariants: [
+      {
+        variant: 'fill',
+        accent: 'green',
+        class: 'bg-green hover:bg-green-hover',
+      },
+      {
+        variant: 'fill',
+        accent: 'blue',
+        class: 'bg-blue hover:bg-blue-hover',
+      },
+      {
+        variant: 'fill',
+        accent: 'orange',
+        class: 'bg-orange hover:bg-orange-hover',
+      },
+      {
+        variant: 'fill',
+        accent: 'custom',
+        class: 'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))]',
+      },
       {
         variant: ['fill', 'border', 'ghost'],
         disabled: true,
@@ -149,6 +172,7 @@
   class={cn(
     button({
       variant,
+      accent,
       iconOnRight,
       size,
       loading,
