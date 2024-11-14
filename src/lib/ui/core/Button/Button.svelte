@@ -4,34 +4,33 @@
   import type { Action } from 'svelte/action'
   import type { SS } from 'svelte-runes'
 
-  import { tv } from 'tailwind-variants'
+  import { tv, type VariantProps } from 'tailwind-variants'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
-  type TProps = HTMLButtonAttributes & {
-    as?: 'button' | 'label' | 'div'
-    ref?: SS<undefined | null | HTMLElement>
-    href?: string
-    icon?: string
-    class?: string
-    variant?: 'fill' | 'border' | 'ghost' | 'title' | 'link'
-    accent?: 'green' | 'blue' | 'orange' | 'custom'
-    withPointer?: boolean
-    rounded?: boolean
-    iconSize?: number | string
-    iconHeight?: number | string
-    iconOnRight?: boolean
-    explanation?: string
-    size?: 'lg' | 'md' | 'sm' | 'xs'
-    loading?: boolean
-    target?: HTMLAnchorAttributes['target']
+  type TButtonVariants = VariantProps<typeof button>
 
-    action?: Action
-    actionArgs?: any
+  type TProps = HTMLButtonAttributes &
+    Omit<TButtonVariants, 'icon' | 'explanation' | 'children'> & {
+      as?: 'button' | 'label' | 'div'
+      ref?: SS<undefined | null | HTMLElement>
+      href?: string
+      icon?: string
+      class?: string
+      withPointer?: boolean
+      iconSize?: number | string
+      iconHeight?: number | string
+      iconOnRight?: boolean
+      explanation?: string
+      loading?: boolean
+      target?: HTMLAnchorAttributes['target']
 
-    children?: Snippet
-  }
+      action?: Action
+      actionArgs?: any
+
+      children?: Snippet
+    }
 
   let {
     ref = { $: null },
