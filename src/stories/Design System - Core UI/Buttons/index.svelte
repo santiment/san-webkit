@@ -105,8 +105,8 @@
 
 {#snippet iconButtons(props: ComponentProps<typeof Button>)}
   <div class="flex flex-col gap-2">
-    <Button {...props} icon="info" />
-    <Button {...props} icon="info" size="sm" />
-    <Button {...props} icon="info" size="xs" />
+    <Button {...props} explanation="some info" icon="info" />
+    <Button {...props} explanation="some info" icon="info" size="sm" />
+    <Button {...props} explanation="some info" icon="info" size="xs" />
   </div>
 {/snippet}
