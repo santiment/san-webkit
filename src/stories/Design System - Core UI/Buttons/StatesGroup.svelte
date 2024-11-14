@@ -8,14 +8,14 @@
     withIcons = false,
     buttons = defaultButtons,
     ...buttonProps
-  }: ComponentProps<Button> & {
+  }: ComponentProps<typeof Button> & {
     title: string
     withIcons?: boolean
-    buttons?: Snippet<[ComponentProps<Button>]>
+    buttons?: Snippet<[ComponentProps<typeof Button>]>
   } = $props()
 </script>
 
-{#snippet defaultButtons(props: ComponentProps<Button>)}
+{#snippet defaultButtons(props: ComponentProps<typeof Button>)}
   <div class="flex flex-col items-start gap-2">
     <Button {...props}>Button</Button>
 
