@@ -2,7 +2,7 @@
   import type { Selected } from 'bits-ui'
 
   import { Select } from 'bits-ui'
-  import { cn } from '$ui/utils/index.js'
+  import { cn, flyAndScale } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
@@ -32,7 +32,12 @@
     </Button>
   </Select.Trigger>
 
-  <Select.Content class="z-10 rounded border bg-white p-2" sideOffset={8}>
+  <Select.Content
+    class="z-10 overflow-auto rounded border bg-white p-2"
+    sideOffset={8}
+    fitViewport
+    transition={flyAndScale}
+  >
     {#each items as { value, label }}
       <Select.Item
         {value}

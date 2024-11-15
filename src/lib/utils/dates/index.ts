@@ -107,8 +107,8 @@ export function getDateFormats(date: Date, { utc = false } = {}): TFormattedDate
   }
 }
 
-export function getFormattedMonthDayYear(date: Date) {
-  const { MMM, D, YYYY } = getDateFormats(date)
+export function getFormattedMonthDayYear(date: Date, options = {}) {
+  const { MMM, D, YYYY } = getDateFormats(date, options)
   return `${MMM} ${D}, ${YYYY}`
 }
 
