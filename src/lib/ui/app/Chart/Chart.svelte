@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, type Snippet } from 'svelte'
-  import { createChart, createPathWatermark } from '@santiment-network/chart'
+  import { createChart, createPathWatermark } from '@santiment-network/chart-next'
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import { getTheme } from './theme.js'
