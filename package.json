@@ -84,7 +84,7 @@
     "@eslint/js": "^9.13.0",
     "@melt-ui/svelte": "^0.86.0",
     "@playwright/test": "^1.28.1",
-    "@santiment-network/chart": "^1.0.0",
+    "@santiment-network/chart": "^1.0.2",
     "@sentry/sveltekit": "^8.33.1",
     "@storybook/addon-essentials": "^8.4.4",
     "@storybook/addon-interactions": "^8.4.4",

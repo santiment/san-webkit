@@ -68,8 +68,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart':
-    specifier: ^1.0.0
-    version: 1.0.0
+    specifier: ^1.0.2
+    version: 1.0.2
   '@sentry/sveltekit':
     specifier: ^8.33.1
     version: 8.33.1(@opentelemetry/api@1.9.0)(@opentelemetry/core@1.27.0)(@opentelemetry/instrumentation@0.53.0)(@opentelemetry/sdk-trace-base@1.27.0)(@opentelemetry/semantic-conventions@1.27.0)(@sveltejs/kit@2.8.1)(svelte@5.2.1)(vite@5.4.11)
@@ -4650,8 +4650,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.0:
-    resolution: {integrity: sha512-ZEpNWWQfMARgNPcR0jYVvMxQGDwCRojh3QGtjbLE3PrYpCBy7ptRgucxjpRteZcRsRoUmntHDedpZCl3gDGKCQ==}
+  /@santiment-network/chart@1.0.2:
+    resolution: {integrity: sha512-FU34tj3whasE81bDFDrL0jDPQjG1M3DqjyNDwVbI5o1LoI5303nHA0eQeAw0yb2dtkMMlo/7RY5JSlpTCKoOig==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
