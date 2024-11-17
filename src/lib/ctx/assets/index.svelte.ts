@@ -11,14 +11,13 @@ export const PROJECT_FRAGMENT = `slug
       name
       priceUsd
       infrastructure
-      logoUrl
       rank`
 
 export const queryAllProjects = ApiQuery(
   () => `{
     allProjects{ ${PROJECT_FRAGMENT} }
   }`,
-  (gql: { allProjects: TAsset[] }) =>
+  (gql: { allProjects: (TAsset & { priceUsd: null | number; infrastructure: null | string })[] }) =>
     gql.allProjects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999)),
   {
     cacheTime: undefined,
