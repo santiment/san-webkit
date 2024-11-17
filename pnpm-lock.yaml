@@ -45,8 +45,8 @@ dependencies:
     specifier: 1.0.39
     version: 1.0.39
   virtua:
-    specifier: ^0.37.1
-    version: 0.37.1(react-dom@18.3.1)(react@18.3.1)(svelte@5.2.2)
+    specifier: 0.36.3
+    version: 0.36.3(react-dom@18.3.1)(react@18.3.1)(svelte@5.2.2)
   zod:
     specifier: ^3.23.8
     version: 3.23.8
@@ -12581,8 +12581,8 @@ packages:
       replace-ext: 1.0.1
     dev: true
 
-  /virtua@0.37.1(react-dom@18.3.1)(react@18.3.1)(svelte@5.2.2):
-    resolution: {integrity: sha512-UMb7ksJnTGGnAVYsQ9R+fZMWruVVOOUS6XT11neb5j82gMQhAUX/JB77oz0xA7V+mEamuyzbuFiasgzmoFVBuQ==}
+  /virtua@0.36.3(react-dom@18.3.1)(react@18.3.1)(svelte@5.2.2):
+    resolution: {integrity: sha512-W5LovCjIJPT7plfka9r6XZIlsHxNbEyw9m9uTKdlB+R9+AoldsT+RFVW2/iVqHU8pmHv8csc3yw25A77OD5wwg==}
     peerDependencies:
       react: '>=16.14.0'
       react-dom: '>=16.14.0'

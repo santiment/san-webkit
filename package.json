@@ -155,7 +155,7 @@
     "svelte-sonner": "^0.3.28",
     "tailwind-variants": "^0.3.0",
     "ua-parser-js": "1.0.39",
-    "virtua": "^0.37.1",
+    "virtua": "0.36.3",
     "zod": "^3.23.8"
   }
 }
