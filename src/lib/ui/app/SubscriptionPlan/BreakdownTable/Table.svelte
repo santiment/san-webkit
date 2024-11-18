@@ -32,6 +32,7 @@
     >
       {#snippet pointerSnippet({ url, title }: NonNullable<typeof link>, className = '')}
         <Button
+          variant="link"
           iconOnRight
           icon="pointer"
           href={url}
