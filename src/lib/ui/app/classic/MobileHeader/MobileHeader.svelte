@@ -40,6 +40,7 @@
 
       <Button
         icon="search"
+        variant="plain"
         class="size-10 fill-black"
         iconSize={18}
         onclick={onSearchClick}

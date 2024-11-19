@@ -74,6 +74,7 @@
         ghost: 'px-2.5 fill-waterloo hover:bg-athens',
         title: 'rounded-none hover:underline',
         link: 'rounded-none text-green fill-green hover:underline',
+        plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
@@ -110,9 +111,14 @@
         class: 'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))]',
       },
       {
-        variant: ['fill', 'border', 'ghost'],
+        variant: ['fill', 'border'],
         disabled: true,
         class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+      },
+      {
+        variant: 'ghost',
+        disabled: true,
+        class: 'text-mystic fill-mystic bg-transparent hover:bg-transparent',
       },
       {
         variant: ['title', 'link'],
