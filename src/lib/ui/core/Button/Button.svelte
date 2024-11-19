@@ -111,9 +111,14 @@
         class: 'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))]',
       },
       {
-        variant: ['fill', 'border', 'ghost'],
+        variant: ['fill', 'border'],
         disabled: true,
         class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+      },
+      {
+        variant: 'ghost',
+        disabled: true,
+        class: 'text-mystic fill-mystic bg-transparent hover:bg-transparent',
       },
       {
         variant: ['title', 'link'],
