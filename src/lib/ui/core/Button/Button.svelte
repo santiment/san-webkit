@@ -74,6 +74,7 @@
         ghost: 'px-2.5 fill-waterloo hover:bg-athens',
         title: 'rounded-none hover:underline',
         link: 'rounded-none text-green fill-green hover:underline',
+        plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
