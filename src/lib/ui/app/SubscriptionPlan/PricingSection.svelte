@@ -58,11 +58,14 @@
   </h1>
 
   <div
-    class="mb-12 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
+    class="mb-12 inline-flex divide-x overflow-hidden rounded-lg border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
   >
     {#each planTypes as item (item)}
       <Button
-        class={cn('px-4 py-[7px] sm:py-3.5', planType === item && 'bg-athens text-black')}
+        class={cn(
+          'rounded-none px-4 py-[7px] sm:py-3.5',
+          planType === item && 'bg-athens text-black',
+        )}
         onclick={() => handlePlanClick(item)}
       >
         {PlanTypeDisplayNames[item] ?? item}

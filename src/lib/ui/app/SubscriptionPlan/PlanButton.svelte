@@ -81,7 +81,7 @@
       {...anonymousProps}
       data-type="sign_up"
     >
-      Sing up
+      Sign up
     </Button>
   {:else}
     <Button variant="fill" size="lg" disabled class={cn('!text-fiord center', className)}>
@@ -92,7 +92,7 @@
   <Button
     variant="border"
     size="lg"
-    class="center"
+    class={cn('center', className)}
     onclick={onSupportClick}
     href="mailto:support@santiment.net"
     data-type="default_plan"
@@ -154,7 +154,7 @@
   >
     Start Free Trial
   </Button>
-{:else if (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
+{:else if customer.$.isCustom || (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"

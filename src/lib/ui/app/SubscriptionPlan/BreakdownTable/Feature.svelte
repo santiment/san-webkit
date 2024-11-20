@@ -2,6 +2,7 @@
   import type { TBreakdownFeature } from './breakdown.js'
   import Svg from '$ui/core/Svg/index.js'
   import Popover from '$ui/core/Popover/index.js'
+  import Button from '$ui/core/Button/index.js'
 
   let {
     plans = [],
@@ -17,14 +18,12 @@
   }
 </script>
 
-<div class="td-h txt-left flex items-center gap-2.5 text-rhino">
+<div class="td-h txt-left flex items-center gap-1 text-rhino">
   {name}
   {#if description}
     <Popover side="bottom" align="center" contentProps={{ alignOffset: 8 }}>
       {#snippet children({ ref })}
-        <div bind:this={ref.$} class="info btn mrg-xs mrg--l hv-center row">
-          <Svg id="info" w="12" />
-        </div>
+        <Button {ref} icon="info" size="sm" />
       {/snippet}
 
       {#snippet content()}
@@ -54,12 +53,6 @@
 {/each}
 
 <style>
-  .info {
-    /* height: 24px; */
-    /* width: 24px; */
-    fill: var(--waterloo);
-  }
-
   .description {
     padding: 14px 20px;
     max-width: 252px;

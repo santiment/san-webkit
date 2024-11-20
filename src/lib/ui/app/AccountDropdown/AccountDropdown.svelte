@@ -49,12 +49,12 @@
       </section>
 
       <section>
-        {@render sanbaseLink('Historical balance', '/labs/balance')}
-
-        {@render sanbaseLink('Account settings', '/account')}
-
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
 
+        {@render sanbaseLink('Account settings', '/account')}
+      </section>
+
+      <section>
         {@render sanbaseLink('My alerts', '/alerts')}
 
         {@render sanbaseLink('My watchlists', '/watchlists')}
@@ -88,6 +88,8 @@
         class: 'fill-yellow-hover',
       })}
 
+      {@render sanbaseLink('Historical balance', '/labs/balance')}
+
       {#if onClassicClick}
         <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
       {/if}
@@ -110,7 +112,7 @@
   {/snippet}
 </Tooltip>
 
-{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<Button> = {})}
+{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
   <Button variant="ghost" {...props} {href} data-source="account_dropdown">{text}</Button>
 {/snippet}
 

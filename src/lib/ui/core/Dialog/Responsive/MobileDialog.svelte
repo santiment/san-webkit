@@ -20,16 +20,16 @@
     portalled,
     overlay,
     content,
+    dragOverlay,
 
     meltDialog,
-    onDragHandlePointerDown,
 
     inTransition,
     outTransition,
 
     openDrawer,
     closeDrawer: close,
-  } = useDrawer({ onClosed })
+  } = useDrawer({ onClosed, closeOnOutsideClick: false })
 
   const {
     states: { open },
@@ -37,16 +37,18 @@
 
   $effect(() => {
     openDrawer()
-    Controller.close = close
+    Controller.close = () => close()
   })
 </script>
 
 {#if $open}
   <div class="relative z-[10000]" {...$portalled} use:portalled in:inTransition out:outTransition>
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       {...$overlay}
       use:overlay
       class="fixed inset-0 z-[10000] bg-[#000000cf] dark:bg-[#00000067]"
+      onclick={() => Controller.close()}
     ></div>
 
     <div
@@ -58,10 +60,11 @@
         className,
       )}
     >
-      <span
-        onpointerdown={onDragHandlePointerDown}
-        class="handle fixed left-1/2 top-[6px] z-[100] mx-auto flex h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic center"
-      ></span>
+      <div use:dragOverlay class="z-[100]">
+        <span
+          class="handle fixed left-1/2 top-[6px] z-[100] mx-auto flex h-1.5 w-12 flex-shrink-0 -translate-x-1/2 rounded-full bg-mystic center dark:bg-casper"
+        ></span>
+      </div>
 
       <div class="relative w-full overflow-hidden rounded-t-[10px] column">
         {@render children({ close })}
@@ -76,6 +79,6 @@
     display: flex;
     position: absolute;
     width: 50vw;
-    height: 50px;
+    height: 40px;
   }
 </style>

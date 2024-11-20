@@ -1,34 +1,52 @@
 <script lang="ts">
+  import type { ComponentProps, Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
   import Popover from '$ui/core/Popover/index.js'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
+  import { cn } from '$ui/utils/index.js'
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
 
+  type TProps = {
+    as?: ComponentProps<typeof Button>['as']
+    class?: string
+    date: [Date, Date] | Date
+    withPresets?: boolean
+    minDate?: Date
+    maxDate?: Date
+    onChange?: (date: Date) => void
+    timeZone?: string
+    children?: Snippet
+  }
   let {
+    as,
+    class: className,
     date = $bindable(),
     withPresets,
+    maxDate,
+    children: _children,
     minDate = new Date(2009, 0, 1),
-    maxDate = new Date(),
-  }: { date: [Date, Date] | Date; withPresets?: boolean; minDate?: Date; maxDate?: Date } = $props()
+    timeZone = BROWSER ? getLocalTimeZone() : 'utc',
+    onChange,
+  }: TProps = $props()
 
-  const label = $derived(
-    Array.isArray(date)
-      ? `${date[0].toLocaleDateString()} - ${date[1].toLocaleDateString()}`
-      : date.toLocaleDateString(),
-  )
-  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
-  const minValue = $derived(fromDate(minDate, timeZone))
-  const maxValue = $derived(fromDate(maxDate, timeZone))
+  const minValue = $derived(BROWSER ? fromDate(minDate, timeZone) : undefined)
+  const maxValue = $derived(BROWSER && maxDate ? fromDate(maxDate, timeZone) : undefined)
 </script>
 
-<Popover noStyles>
+<Popover noStyles class="z-10">
   {#snippet children({ ref })}
-    <Button {ref} variant="border" class="whitespace-nowrap">
+    <Button {as} {ref} variant="border" class={cn('whitespace-nowrap', className)}>
       <Svg id="calendar" w="16" />
-      {label}
+      {#if _children}
+        {@render _children()}
+      {:else}
+        {Array.isArray(date)
+          ? `${date[0].toLocaleDateString()} - ${date[1].toLocaleDateString()}`
+          : date.toLocaleDateString()}
+      {/if}
     </Button>
   {/snippet}
 
@@ -36,7 +54,7 @@
     {#if Array.isArray(date)}
       <RangeCalendar bind:date {withPresets} {timeZone} {minValue} {maxValue} />
     {:else}
-      <Calendar bind:date {timeZone} {minValue} {maxValue} />
+      <Calendar bind:date {timeZone} {minValue} {maxValue} {onChange} />
     {/if}
   {/snippet}
 </Popover>

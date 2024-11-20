@@ -51,7 +51,7 @@ take whole available space.
     itemHeight?: number
 
     getKey: ComponentProps<VList<T>>['getKey']
-    children: Snippet<[{ item: T }]>
+    children: Snippet<[T, number]>
   } = $props()
 
   let style = $derived(
@@ -59,6 +59,4 @@ take whole available space.
   )
 </script>
 
-<VList class={className} {data} {getKey} {style} let:item>
-  {@render children({ item })}
-</VList>
+<VList class={className} {data} {getKey} {style} children={children as Snippet<[]>}></VList>

@@ -142,6 +142,16 @@ export default {
             display: 'none',
           },
         },
+
+        '.link-as-bg': {
+          '&::before': {
+            position: 'absolute',
+            content: '""',
+            display: 'block',
+            inset: 0,
+            zIndex: 0,
+          },
+        },
         // '.text-lg': {
         //   fontSize: '18px',
         //   lineHeight: '26px',

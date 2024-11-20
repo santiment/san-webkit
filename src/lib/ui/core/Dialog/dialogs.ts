@@ -5,7 +5,8 @@ import {
   mount,
   unmount,
   untrack,
-  type ComponentConstructorOptions,
+  type Component,
+  type ComponentProps,
 } from 'svelte'
 
 type TController<GResolved, GRejected> = {
@@ -25,6 +26,8 @@ enum Locking {
   LOCKED_WARN,
 }
 
+type TRequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K }[keyof T]
+
 export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
 export type TDialogReject<T = undefined> = T extends undefined ? () => void : (value: T) => void
 
@@ -35,19 +38,15 @@ export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
   source?: string
 }
 
-type TGenericComponent<Props extends Record<string, any> = any> = new (
-  options: ComponentConstructorOptions<Props>,
-) => any
-
 export const CTX = 'DialogController'
 export const getDialogControllerCtx = <Resolved = unknown, Rejected = unknown>() =>
   getContext(CTX) as { Controller: TController<Resolved, Rejected> }
 
 export const dialogs$ = {
-  new<TComponent extends TGenericComponent>(component: TComponent) {
+  new<GComponent extends Component<any>>(component: GComponent) {
     const ALL_CTX = getAllContexts()
 
-    type TComponentProps = TComponent extends TGenericComponent<infer Props> ? Props : never
+    type TComponentProps = ComponentProps<GComponent>
     type TProps = Omit<TComponentProps, 'Controller' | 'resolve' | 'reject'>
 
     type TResolve = TComponentProps extends Record<'resolve', infer Resolve> ? Resolve : never
@@ -118,8 +117,11 @@ export const dialogs$ = {
         return promise
       })
 
-    return showDialog as TProps extends Record<string, never>
-      ? () => TReturn
-      : (props: TProps) => TReturn
+    type TShowDialog = () => TReturn
+    type TShowDialogStrict = (props: TProps) => TReturn
+
+    return showDialog as TRequiredKeys<TProps> extends never
+      ? TShowDialog & TShowDialogStrict
+      : TShowDialogStrict
   },
 }

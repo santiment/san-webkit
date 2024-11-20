@@ -8,11 +8,9 @@
 
   let {
     class: className,
+    as,
     ref,
-  }: {
-    class?: string
-    ref?: ComponentProps<Button>['ref']
-  } = $props()
+  }: Partial<Pick<ComponentProps<typeof Button>, 'as' | 'ref' | 'class'>> = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -22,8 +20,9 @@
 
 <Button
   {ref}
+  {as}
+  variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
-  href={currentUser.$$ ? '/profile/' + currentUser.$$.id : '/login'}
   class={cn(
     'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center',
     currentUser.$$

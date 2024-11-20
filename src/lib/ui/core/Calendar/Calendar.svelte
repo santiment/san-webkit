@@ -8,19 +8,22 @@
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
 
+  type TProps = {
+    class?: string
+    date: Date
+    timeZone: string
+    minValue?: DateValue
+    maxValue?: DateValue
+    onChange?: (date: Date) => void
+  }
   let {
     class: className,
     date = $bindable(),
     minValue,
     maxValue,
     timeZone,
-  }: {
-    date: Date
-    class?: string
-    minValue: DateValue
-    maxValue: DateValue
-    timeZone: string
-  } = $props()
+    onChange,
+  }: TProps = $props()
 
   const value = $derived(fromDate(date, timeZone))
 
@@ -30,6 +33,7 @@
     if (!update) return
 
     date = update.toDate(timeZone)
+    onChange?.(date)
   }
 </script>
 
