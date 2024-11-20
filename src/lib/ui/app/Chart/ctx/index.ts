@@ -1,4 +1,4 @@
-import type { IChartApi } from '@santiment-network/chart'
+import type { IChartApi } from '@santiment-network/chart-next'
 import { ss } from 'svelte-runes'
 import { createCtx } from '$lib/utils/index.js'
 

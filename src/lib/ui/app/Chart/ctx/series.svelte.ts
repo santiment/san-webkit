@@ -1,4 +1,4 @@
-import type { ISeriesApi } from '@santiment-network/chart'
+import type { ISeriesApi } from '@santiment-network/chart-next'
 import type {
   TMetricData,
   TMetricTargetSelectorInputObject,

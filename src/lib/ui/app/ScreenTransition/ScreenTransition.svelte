@@ -144,6 +144,7 @@
             iconSize="14"
             icon="arrow-left-big"
             class="text-fiord"
+            variant="plain"
             onclick={() => {
               trackEvent('pagination', {
                 type: dataType,

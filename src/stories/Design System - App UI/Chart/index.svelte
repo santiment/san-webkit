@@ -86,7 +86,7 @@
   </div>
 
   <Chart watermark class="h-[500px]">
-    {#each metricSeries.$ as item}
+    {#each metricSeries.$ as item (item.id)}
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
 
