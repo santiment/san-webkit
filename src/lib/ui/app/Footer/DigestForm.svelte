@@ -22,7 +22,7 @@
     }),
   )
 
-  const handleSubmit = (event: SubmitEvent) => {
+  function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
 
     const form = event.currentTarget as HTMLFormElement
