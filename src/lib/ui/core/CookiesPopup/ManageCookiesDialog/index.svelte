@@ -45,7 +45,10 @@
   import { cn } from '$ui/utils/index.js'
   import Switch from '$ui/core/Switch/index.js'
 
-  let { resolve, Controller }: TDialogProps = $props()
+  const { resolve, Controller }: TDialogProps = $props()
+
+  const { device } = useDeviceCtx()
+
   let isFunctionalAccepted = $state(false)
   let isPerformanceAccepted = $state(false)
 
@@ -60,8 +63,6 @@
     resolve()
     Controller.close(true)
   }
-
-  const { device } = useDeviceCtx()
 </script>
 
 <Dialog class="mx-auto h-auto max-w-[600px]">
