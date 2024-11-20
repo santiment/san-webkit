@@ -1,5 +1,5 @@
 // import { getTodaysEnd } from '@/utils/dates'
-import { getTodaysEnd } from '../../src/lib/utils/dates.js'
+import { getTodaysEnd } from '../../src/lib/utils/dates/index.js'
 import {
   SubscriptionPlan,
   Product,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, type Snippet } from 'svelte'
+  import { createEventDispatcher, onMount, type Snippet } from 'svelte'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
@@ -7,8 +7,8 @@
   type Props = {
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
-    content?: string | Snippet
-    action?: { label: string; onClick: (event: MouseEvent) => void }
+    content?: string | Snippet<[{ close: () => void }]>
+    action?: { label: string; onClick: (close: () => void) => void }
     class?: string
   }
 
@@ -22,6 +22,17 @@
     warning: { class: 'fill-orange', h: 14 },
     error: { class: 'fill-red' },
   }
+
+  onMount(() => {
+    const listNode = document.querySelector('[data-sonner-toaster]') as null | HTMLElement
+    if (!listNode) return
+
+    const container = listNode.parentElement!
+    if (container.parentElement === document.body) return
+
+    listNode.style.zIndex = '999999999'
+    document.body.appendChild(container)
+  })
 </script>
 
 <section
@@ -42,7 +53,7 @@
     {#if content}
       <p class="text-base text-fiord">
         {#if typeof content === 'function'}
-          {@render content()}
+          {@render content({ close: () => dispatch('closeToast') })}
         {:else}
           {content}
         {/if}
@@ -50,7 +61,11 @@
     {/if}
 
     {#if action}
-      <Button variant="fill" class="mt-1" onclick={action.onClick}>
+      <Button
+        variant="fill"
+        class="mt-1"
+        onclick={() => action.onClick(() => dispatch('closeToast'))}
+      >
         {action.label}
       </Button>
     {/if}

@@ -14,7 +14,7 @@
   import { notification } from '$ui/core/Notifications/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
-  import { getFormattedMonthDayYear } from '$lib/utils/dates.js'
+  import { getFormattedMonthDayYear } from '$lib/utils/dates/index.js'
   import { mutateUpdateSubscription } from './api.js'
   import { getFormattedBillingPlan, getPlanName } from '../SubscriptionPlan/utils.js'
 
@@ -89,6 +89,7 @@
       {newPlan.interval}.
 
       <Button
+        variant="link"
         href="/account"
         class="mt-4 text-green"
         data-type="update_billing"

@@ -1,11 +1,11 @@
 import { onMount } from 'svelte'
 import {
   Subject,
-  Subscription,
   groupBy,
   mergeMap,
   pipe,
   share,
+  type Subscription,
   type Observable,
   type OperatorFunction,
   type UnaryFunction,

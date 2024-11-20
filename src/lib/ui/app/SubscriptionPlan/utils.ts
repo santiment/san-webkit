@@ -61,7 +61,8 @@ export const checkIsCurrentPlan = (
   targetPlan?: Pick<TSubscriptionPlan, 'name' | 'interval'>,
 ) =>
   userPlan
-    ? userPlan.name === targetPlan?.name && userPlan.interval === targetPlan?.interval
+    ? userPlan.name === targetPlan?.name &&
+      (userPlan.name === SubscriptionPlan.CUSTOM.key || userPlan.interval === targetPlan?.interval)
     : targetPlan?.name === SubscriptionPlan.FREE.key
 
 export const checkIsAlternativeBillingPlan = (

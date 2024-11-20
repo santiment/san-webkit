@@ -1,6 +1,7 @@
-import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
-import { defineConfig, mergeConfig } from 'vitest/config'
+import path from 'node:path'
 import { execSync } from 'node:child_process'
+import { defineConfig, mergeConfig } from 'vite'
+import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
@@ -18,6 +19,8 @@ export const GIT_HEAD_DATETIME = getGitHeadDate()
 
 export const SENTRY_DSN = process.env.SENTRY_DSN
 export const SENTRY_URL = SENTRY_DSN && new URL(SENTRY_DSN).origin
+
+export const ROOT = path.resolve('.')
 
 export function createConfig({
   corsOrigin = 'https://santiment.net',
@@ -37,6 +40,14 @@ export function createConfig({
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
+      rollupOptions: {
+        output: {
+          sourcemapPathTransform: (relativeSourcePath, sourcemapPath) => {
+            const absPath = path.resolve(path.dirname(sourcemapPath), relativeSourcePath)
+            return absPath.replace(ROOT, '')
+          },
+        },
+      },
     },
 
     test: {
@@ -48,6 +59,8 @@ export function createConfig({
     },
 
     define: {
+      __SENTRY_TRACING__: false,
+
       'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
       'process.env.IS_DEV_MODE': IS_DEV_MODE,
       'process.env.IS_PROD_MODE': !IS_DEV_MODE,

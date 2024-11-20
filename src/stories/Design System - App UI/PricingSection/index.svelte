@@ -5,7 +5,7 @@
   import PricingSection from '$ui/app/SubscriptionPlan/PricingSection.svelte'
   import { useSubscriptionPlanButtonCtx } from '$ui/app/SubscriptionPlan/ctx'
 
-  const props: ComponentProps<PricingSection> = $props()
+  const props: ComponentProps<typeof PricingSection> = $props()
 
   const showPaymentDialog = showPaymentDialog$()
 

@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
   import Button from '$ui/core/Button'
   import { notification } from '$ui/core/Notifications'
   import Notification from '$ui/core/Notifications/Notification.svelte'
 </script>
 
-{#snippet content()}
-  We will check you insight and <a href="about:blank" target="_blank" class="text-green">
+{#snippet content({ close }: { close: VoidFunction })}
+  We will check you insight and <a
+    href="about:blank"
+    target="_blank"
+    class="text-green"
+    onclick={close}
+  >
     publish it very soon
   </a>
 {/snippet}
@@ -41,7 +46,7 @@
           content: 'We will check your insight and publish it very soon',
           action: {
             label: 'Button',
-            onClick: () => console.log('test'),
+            onClick: (close) => close(),
           },
         })}
     >
@@ -77,7 +82,7 @@
         notification.warning('Warning', {
           content:
             'To activate your SanR NFT subscription, you will need to cancel your existing Sanbase Pro subscription first.',
-          className: 'bg-porcelain',
+          class: 'bg-porcelain',
         })}
       >Warning
     </Button>
