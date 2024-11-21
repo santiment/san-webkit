@@ -11,11 +11,17 @@
 {/if}
 
 <div
-  class="ml-auto flex max-w-[265px] items-center justify-between md:ml-0 md:max-w-[292px] sm:max-w-none hover:[&>a>svg]:fill-green sm:[&>a]:flex sm:[&>a]:h-10 sm:[&>a]:w-[46px] sm:[&>a]:items-center sm:[&>a]:justify-center sm:[&>a]:rounded sm:[&>a]:border"
+  class="ml-auto flex max-w-[265px] items-center justify-between md:ml-0 md:max-w-[292px] sm:max-w-none"
 >
   {#each socialMediaLinks as { href, id, width, height, label }}
-    <a {href} target="_blank" rel="noreferrer" aria-label={`Santiment on ${label}`}>
-      <Svg {id} w={width} h={height} />
+    <a
+      {href}
+      target="_blank"
+      class="group sm:flex sm:h-10 sm:w-[46px] sm:items-center sm:justify-center sm:rounded sm:border"
+      rel="noreferrer"
+      aria-label={`Santiment on ${label}`}
+    >
+      <Svg {id} w={width} h={height} class="group-hover:fill-green" />
     </a>
   {/each}
 </div>

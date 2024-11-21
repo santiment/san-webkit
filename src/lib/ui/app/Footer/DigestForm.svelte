@@ -1,13 +1,17 @@
 <script lang="ts">
-  import { tap, catchError, finalize, exhaustMap, from, of } from 'rxjs'
+  import { tap, catchError, exhaustMap, of } from 'rxjs'
   import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/Input.svelte'
   import { cn } from '$ui/utils/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { mutateEmailLoginNewsletter } from './api.js'
 
-  const { class: className = '', label = 'Leave request' }: { class?: string; label?: string } =
-    $props()
+  type TProps = {
+    class?: string
+    label?: string
+  }
+
+  const { class: className = '', label = 'Leave request' }: TProps = $props()
 
   let loading = $state(false)
 
@@ -15,9 +19,12 @@
     exhaustMap((email) => {
       loading = true
 
-      return from(mutateEmailLoginNewsletter()({ email })).pipe(
-        catchError((error) => of(null).pipe(tap(() => console.error(error)))),
-        finalize(() => (loading = false)),
+      return mutateEmailLoginNewsletter()(email).pipe(
+        catchError((error) => {
+          console.error(error)
+          return of(null)
+        }),
+        tap(() => (loading = false)),
       )
     }),
   )
