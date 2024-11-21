@@ -19,7 +19,8 @@
       ],
       "webkit/*": [
         "src/*"
-      ]
+      ],
+      "$app/*": ["./node_modules/@sveltejs/kit/types/index.d.ts"]
     }
   },
   "include": [
