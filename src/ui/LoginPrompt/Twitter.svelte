@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { get } from 'svelte/store'
   import { page } from '$app/stores'
   import { LoginType, trackAuthStart, trackLoginStart } from '@/analytics/events/general'
   import { trackSignupStart } from '@/analytics/events/onboarding'
@@ -7,7 +8,7 @@
 
   export let from = ''
 
-  $: origin = $page.url.origin
+  const origin = get(page).url.origin
 </script>
 
 <Option
