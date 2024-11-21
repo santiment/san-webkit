@@ -1,4 +1,5 @@
-import type { UTCTimestamp } from '@santiment-network/chart'
+import type { UTCTimestamp } from '@santiment-network/chart-next'
+import type { TNominal } from '$lib/utils/index.js'
 import { ApiQuery } from '$lib/api/index.js'
 
 export type TInterval = `${number}m` | `${number}h` | `${number}d` | `${number}y`
@@ -21,8 +22,10 @@ export type TBlockchainAddressSelectorInputObject = {
   infrastructure: string
 }
 
+export type TAddress = TNominal<string, 'TAddress'>
+
 export type TMetricTargetSelectorInputObject = Partial<{
-  address: string
+  address: TAddress
   blockchain: string
   blockchainAddress: TBlockchainAddressSelectorInputObject
   contractAddress: string

@@ -89,6 +89,7 @@
       {newPlan.interval}.
 
       <Button
+        variant="link"
         href="/account"
         class="mt-4 text-green"
         data-type="update_billing"

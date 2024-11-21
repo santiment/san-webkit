@@ -8,8 +8,8 @@
   type Props = {
     range?: boolean
     placeholder: DateValue
-    minValue: DateValue
-    maxValue: DateValue
+    minValue?: DateValue
+    maxValue?: DateValue
   }
 
   let { range = false, placeholder = $bindable(), minValue, maxValue }: Props = $props()
@@ -23,7 +23,9 @@
   >
     <Svg id="arrow-right" w="8" />
   </Base.PrevButton>
+
   <CalendarHeading bind:placeholder {minValue} {maxValue} />
+
   <Base.NextButton
     class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens"
   >

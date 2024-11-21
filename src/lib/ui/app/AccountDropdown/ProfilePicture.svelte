@@ -21,6 +21,7 @@
 <Button
   {ref}
   {as}
+  variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   class={cn(
     'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center',

@@ -22,8 +22,8 @@
     class?: string
     date: [Date, Date]
     withPresets?: boolean
-    minValue: DateValue
-    maxValue: DateValue
+    minValue?: DateValue
+    maxValue?: DateValue
     timeZone: string
   } = $props()
 

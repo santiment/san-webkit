@@ -1,4 +1,4 @@
-import type { IChartApi } from '@santiment-network/chart'
+import type { IChartApi } from '@santiment-network/chart-next'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
