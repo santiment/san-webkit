@@ -1,11 +1,7 @@
-import { BROWSER } from 'esm-env'
-
 export type TProviders = 'google' | 'twitter'
 
-export function getOAuthLink(provider: TProviders, redirectPath?: string) {
+export function getOAuthLink(provider: TProviders, origin: string, redirectPath?: string) {
   const base = `${process.env.BACKEND_URL}/auth/${provider}`
-  const origin = BROWSER ? window.location.origin : ''
-  if (!origin) return ''
 
   const redirectUrl = new URL(redirectPath || '/', origin)
   redirectUrl.searchParams.append('auth', provider)
