@@ -25,6 +25,8 @@ export default [
       '**/.DS_Store',
       '**/node_modules',
       'build',
+      'dist',
+      'vite.config.ts.timestamp-*',
       '.svelte-kit',
       'package',
       '**/.env',
