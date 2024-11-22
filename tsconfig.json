@@ -18,6 +18,7 @@
       "$lib/*": ["./src/lib/*"],
       "$routes/*": ["./src/routes/*"],
       "$static/*": ["./static/*"],
+      "$app/*": ["./node_modules/@sveltejs/kit/types/index.d.ts"]
     }
   }
 }
