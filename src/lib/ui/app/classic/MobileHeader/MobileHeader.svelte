@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+
   import Button from '$ui/core/Button/index.js'
   import Product from '$ui/app/Product/Product.svelte'
 

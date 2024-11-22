@@ -3,6 +3,7 @@
   import type { PlanType } from './plans.js'
 
   import { ssd } from 'svelte-runes'
+
   import {
     getApiBusinessPlans,
     getSanbaseConsumerPlans,
@@ -10,11 +11,12 @@
   } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
+
   import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
   import { PlanTypeDisplayNames, planTypes } from './plans.js'
   import { useProductPlansFlow } from './flow.svelte.js'
-  import { trackEvent } from '$lib/analytics/index.js'
 
   type Props = {
     source?: string

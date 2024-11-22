@@ -5,18 +5,21 @@
 </script>
 
 <script lang="ts">
+  import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+
+  import { onMount, type ComponentProps } from 'svelte'
+
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+  import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
+
   import { SCREENS, usePaymentFormCtx } from './state.js'
   import DialogHeader from './DialogHeader.svelte'
   import PlansScreen from './PlansScreen/index.svelte'
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
-  import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
-  import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
-  import { onMount, type ComponentProps } from 'svelte'
-  import { trackEvent } from '$lib/analytics/index.js'
 
   type Props = TDialogProps &
     ComponentProps<typeof OrderSummary> & {

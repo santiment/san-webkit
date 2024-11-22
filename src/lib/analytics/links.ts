@@ -1,4 +1,5 @@
 import { BROWSER } from 'esm-env'
+
 import { trackEvent } from './events/index.js'
 
 export function startLinksListener() {

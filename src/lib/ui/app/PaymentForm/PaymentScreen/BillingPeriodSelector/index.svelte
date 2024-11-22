@@ -1,5 +1,6 @@
 <script lang="ts">
   import { trackEvent } from '$lib/analytics/index.js'
+
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
 

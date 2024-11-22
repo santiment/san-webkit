@@ -2,6 +2,7 @@
   import type { TSeries } from '../ctx/series.svelte.js'
 
   import { onMount } from 'svelte'
+
   import { useChartCtx } from '../ctx/index.js'
 
   type TProps = { series: TSeries }

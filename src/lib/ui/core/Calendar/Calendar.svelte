@@ -3,7 +3,9 @@
 
   import { Calendar } from 'bits-ui'
   import { fromDate } from '@internationalized/date'
+
   import { cn } from '$ui/utils/index.js'
+
   import { createPlaceholder } from './utils.svelte.js'
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'

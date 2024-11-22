@@ -1,14 +1,16 @@
 <script lang="ts">
   import { catchError, debounceTime, map, of, pipe, switchMap, tap } from 'rxjs'
   import { Loader } from 'svelte-sonner'
+
   import Svg from '$ui/core/Svg/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { trackEvent } from '$lib/analytics/index.js'
+
   import { State } from './types.js'
   import LabelInput from '../PaymentMethodSelector/Card/LabelInput.svelte'
   import Note from '../../Note.svelte'
   import { queryDiscountCoupon, type TCoupon } from '../../api.js'
   import { usePaymentFormCtx } from '../../state.js'
-  import { trackEvent } from '$lib/analytics/index.js'
 
   const { coupon: paymentCoupon } = usePaymentFormCtx.get()
 

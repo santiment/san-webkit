@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount, type Snippet } from 'svelte'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { useUiCtx } from '$lib/ctx/ui/index.js'

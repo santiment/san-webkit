@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/svelte'
 
 import { withThemeByClassName } from '@storybook/addon-themes'
+
 import '../src/lib/app.css'
 import './preview.css'
 import { ApiMock } from '../src/lib/api/mock'

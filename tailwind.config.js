@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin'
+
 import { createColors } from './plugins/tailwind'
 
 export const classes =

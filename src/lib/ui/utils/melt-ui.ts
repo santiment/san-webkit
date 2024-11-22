@@ -1,7 +1,8 @@
 import type { MeltActionReturn } from '@melt-ui/svelte/internal/types'
 import type { Builder } from 'bits-ui'
-import { onMount } from 'svelte'
 import type { SS } from 'svelte-runes'
+
+import { onMount } from 'svelte'
 
 export function useMelt(
   ref: SS<null | HTMLElement>,

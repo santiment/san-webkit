@@ -2,6 +2,7 @@
   import type { TSubscriptionPlan } from '../types.js'
 
   import { cn } from '$ui/utils/index.js'
+
   import PlanButton from '../PlanButton.svelte'
   import { getFormattedPlan } from '../utils.js'
 

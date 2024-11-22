@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte'
 
   import { createAvatar } from '@melt-ui/svelte'
+
   import { cn } from '$ui/utils/index.js'
 
   let {

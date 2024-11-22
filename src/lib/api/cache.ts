@@ -1,6 +1,8 @@
-import { Observable, firstValueFrom, from } from 'rxjs'
-import { RxQuery, type Query, type TGqlSchema } from './executor.js'
 import type { TExecutorOptions } from './index.js'
+
+import { Observable, firstValueFrom, from } from 'rxjs'
+
+import { RxQuery, type Query, type TGqlSchema } from './executor.js'
 
 type TExecutor = typeof RxQuery | typeof Query
 type TResult = Promise<unknown> | Observable<unknown>

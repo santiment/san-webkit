@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+
 import { exec, forFile } from './utils.js'
 
 const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN

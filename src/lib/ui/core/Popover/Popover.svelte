@@ -2,7 +2,9 @@
   import type { ComponentProps, Snippet } from 'svelte'
 
   import { Popover } from 'bits-ui'
+
   import { cn, flyAndScale } from '$ui/utils/index.js'
+
   import Trigger from './Trigger.svelte'
 
   let {

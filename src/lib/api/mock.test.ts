@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { ApiQuery } from './index.js'
 import { firstValueFrom } from 'rxjs'
+
+import { ApiQuery } from './index.js'
 import { ApiMock } from './mock.js'
 import { Query } from './executor.js'
 

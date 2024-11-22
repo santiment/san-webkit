@@ -1,5 +1,6 @@
-import { ApiQuery, ApiMutation } from '$lib/api/index.js'
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+
+import { ApiQuery, ApiMutation } from '$lib/api/index.js'
 
 export const mutateSubscribe = ApiMutation(
   (variables: {

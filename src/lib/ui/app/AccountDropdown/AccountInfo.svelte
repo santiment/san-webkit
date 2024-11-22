@@ -1,6 +1,7 @@
 <script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import Button from '$ui/core/Button/index.js'
+
   import ProfilePicture from './ProfilePicture.svelte'
 
   const { customer, currentUser } = useCustomerCtx()

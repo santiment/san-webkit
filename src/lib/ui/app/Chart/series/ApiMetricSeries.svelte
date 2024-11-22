@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
   import type { TSeries } from '../ctx/series.svelte.js'
+
+  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
   import RawSeries from './RawSeries.svelte'
 
   type TProps = { series: TSeries }
