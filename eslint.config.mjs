@@ -3,6 +3,14 @@ import js from '@eslint/js'
 import ts from 'typescript-eslint'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
+import importPlugin from 'eslint-plugin-import'
+
+const importResolverConfig = {
+  'import/resolver': {
+    typescript: true,
+    node: true,
+  },
+}
 
 export default [
   js.configs.recommended,
@@ -10,7 +18,8 @@ export default [
   ...svelte.configs['flat/recommended'],
   prettier,
   ...svelte.configs['flat/prettier'],
-
+  importPlugin.flatConfigs.recommended,
+  importPlugin.flatConfigs.typescript,
   {
     ignores: [
       '**/.DS_Store',
@@ -51,6 +60,25 @@ export default [
           varsIgnorePattern: '^\\$\\$(Props|Events|Slots)$|^_',
         },
       ],
+      'import/no-duplicates': 'off',
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'type',
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling', 'index'],
+            'object',
+          ],
+          'newlines-between': 'always',
+        },
+      ],
+    },
+
+    settings: {
+      ...importResolverConfig,
     },
   },
 
@@ -60,6 +88,9 @@ export default [
       parserOptions: {
         parser: ts.parser,
       },
+    },
+    settings: {
+      ...importResolverConfig,
     },
   },
 ]

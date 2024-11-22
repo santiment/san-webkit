@@ -109,6 +109,8 @@
     "bits-ui": "^0.21.16",
     "eslint": "^9.13.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-svelte": "2.46.0",
     "estree-walker": "^3.0.3",
     "globals": "^15.9.0",
