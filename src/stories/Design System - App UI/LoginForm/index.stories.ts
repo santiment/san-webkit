@@ -15,6 +15,13 @@ const meta = {
   component,
   parameters: {
     layout: 'fullscreen',
+    sveltekit_experimental: {
+      stores: {
+        page: {
+          url: new URL(window.location.origin),
+        },
+      },
+    },
   },
 } satisfies Meta<component>
 type Story = StoryObj<typeof meta>
