@@ -11,13 +11,14 @@
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
 
-  let {
+  const {
     class: className,
-    date = $bindable(),
+    date,
     withPresets = false,
     minValue,
     maxValue,
     timeZone,
+    onChange,
   }: {
     class?: string
     date: [Date, Date]
@@ -25,6 +26,7 @@
     minValue?: DateValue
     maxValue?: DateValue
     timeZone: string
+    onChange?: (dates: [Date, Date]) => void
   } = $props()
 
   const value = $derived(getValue(date, timeZone))
@@ -38,7 +40,7 @@
     const endDateTime = toCalendarDateTime(end, new Time(23, 59, 59, 999))
     const startDateTime = toCalendarDateTime(start, new Time())
 
-    date = [startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)]
+    onChange?.([startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)])
   }
 
   function getValue([start, end]: [Date, Date], tz: string) {
