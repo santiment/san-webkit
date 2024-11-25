@@ -1,5 +1,7 @@
 import { catchError, of, switchMap, tap } from 'rxjs'
+
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
 import {

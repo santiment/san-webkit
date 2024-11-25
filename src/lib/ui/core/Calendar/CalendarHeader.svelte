@@ -2,7 +2,9 @@
   import type { DateValue } from '@internationalized/date'
 
   import { Calendar, RangeCalendar } from 'bits-ui'
+
   import Svg from '$ui/core/Svg/index.js'
+
   import CalendarHeading from './CalendarHeading.svelte'
 
   type Props = {

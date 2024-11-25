@@ -2,9 +2,11 @@
   import type { TSubscriptionPlan } from '../types.js'
 
   import { ssd } from 'svelte-runes'
+
   import { trackEvent } from '$lib/analytics/index.js'
   import Slides from '$ui/core/Slides/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+
   import {
     BUSINESS_PLANS_BREAKDOWN,
     CONSUMER_PLANS_BREAKDOWN,

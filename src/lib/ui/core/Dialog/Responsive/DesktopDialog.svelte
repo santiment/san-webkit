@@ -1,9 +1,10 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
-
   import { fade } from 'svelte/transition'
   import { createDialog, type CreateDialogProps } from '@melt-ui/svelte'
+
   import { cn, flyAndScale } from '$ui/utils/index.js'
+
   import { getDialogControllerCtx } from '../dialogs.js'
   import { TRANSITION_MS } from '../state.js'
 

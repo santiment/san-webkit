@@ -2,8 +2,9 @@
   import type { DateValue } from '@internationalized/date'
   import type { Month } from 'bits-ui'
 
-  import { cn } from '$ui/utils/index.js'
   import { Calendar, RangeCalendar } from 'bits-ui'
+
+  import { cn } from '$ui/utils/index.js'
 
   type Props = {
     range?: boolean

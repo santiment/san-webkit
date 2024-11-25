@@ -1,6 +1,8 @@
 import { BROWSER } from 'esm-env'
 import { track as amplitudeTrack } from '@amplitude/analytics-browser'
+
 import { Query } from '$lib/api/executor.js'
+
 import { trackSanEvent } from './api.js'
 
 export enum Tracker {

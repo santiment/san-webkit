@@ -1,11 +1,14 @@
 <script lang="ts">
   import type { ComponentProps, Snippet } from 'svelte'
+
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
+
   import Popover from '$ui/core/Popover/index.js'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
 

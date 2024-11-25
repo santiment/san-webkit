@@ -1,6 +1,8 @@
-import { ApiMutation } from '$lib/api/index.js'
-import { BROWSER } from 'esm-env'
 import type { TEventData } from './track.js'
+
+import { BROWSER } from 'esm-env'
+
+import { ApiMutation } from '$lib/api/index.js'
 
 export const trackSanEvent = ApiMutation(
   (event_name: string, created_at: Date, metadata: TEventData) => ({

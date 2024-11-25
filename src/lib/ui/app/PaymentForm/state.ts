@@ -1,13 +1,16 @@
+import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
+
 import { ss, ssd, useObserve } from 'svelte-runes'
 import { tap } from 'rxjs'
 import { untrack } from 'svelte'
+
 import { createCtx } from '$lib/utils/index.js'
 import { ApiMutation } from '$lib/api/index.js'
+
 import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
-import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
 import { getFormattedPlan } from '../SubscriptionPlan/utils.js'
-import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
 
 export const SCREENS = [
   { name: '1. Choose your plan', backLabel: 'Choose plan' },

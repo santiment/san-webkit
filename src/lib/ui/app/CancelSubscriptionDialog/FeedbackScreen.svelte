@@ -1,10 +1,12 @@
 <script lang="ts">
   import { SvelteSet } from 'svelte/reactivity'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
   import Button from '$ui/core/Button/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
   import Layout from './Layout.svelte'
 
   type TProps = {

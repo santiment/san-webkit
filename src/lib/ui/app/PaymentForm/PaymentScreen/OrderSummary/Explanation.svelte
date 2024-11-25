@@ -3,6 +3,7 @@
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+
   import { usePaymentFormCtx } from '../../state.js'
 
   let { price = 99999 } = $props()

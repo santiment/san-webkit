@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
   let {

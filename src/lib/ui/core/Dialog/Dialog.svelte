@@ -1,7 +1,9 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
+
   import { getDialogControllerCtx } from './dialogs.js'
   import DesktopDialog from './Responsive/DesktopDialog.svelte'
   import MobileDialog from './Responsive/MobileDialog.svelte'

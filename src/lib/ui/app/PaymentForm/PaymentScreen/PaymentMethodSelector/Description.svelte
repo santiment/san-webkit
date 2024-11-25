@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { onSupportClick } from '$lib/utils/support.js'
   import type { Snippet } from 'svelte'
+
+  import { onSupportClick } from '$lib/utils/support.js'
 
   let {
     type,

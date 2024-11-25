@@ -1,4 +1,5 @@
 import { onMount } from 'svelte'
+
 import { createCtx, type TNominal } from '$lib/utils/index.js'
 import { ApiQuery } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'

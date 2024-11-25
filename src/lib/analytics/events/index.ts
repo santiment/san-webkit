@@ -1,6 +1,8 @@
-import { BROWSER } from 'esm-env'
-import { track, type TEventData } from './track.js'
 import type { TGenericAnalyticEvents } from './types.js'
+
+import { BROWSER } from 'esm-env'
+
+import { track, type TEventData } from './track.js'
 
 export const trackEvent = (
   event: TGenericAnalyticEvents,

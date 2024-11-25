@@ -1,10 +1,12 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { useScreenTransitionCtx } from './state.svelte.js'
+
   import Button from '$ui/core/Button/index.js'
   import { applyStyles, cn } from '$ui/utils/index.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
+  import { useScreenTransitionCtx } from './state.svelte.js'
 
   type TProps = {
     class?: string

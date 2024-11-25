@@ -1,5 +1,6 @@
 <script lang="ts">
   import Svg from '$ui/core/Svg/index.js'
+
   import { SANTIMENT_IDS } from './consts.js'
 
   const { userId }: { userId: number } = $props()

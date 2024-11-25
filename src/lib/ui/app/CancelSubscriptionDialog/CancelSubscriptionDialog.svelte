@@ -6,11 +6,13 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
+
   import { trackEvent } from '$lib/analytics/index.js'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/OnlyOnDevice.svelte'
+
   import BeforeYouGoScreen from './BeforeYouGoScreen.svelte'
   import FeedbackScreen from './FeedbackScreen.svelte'
   import DialogHeader from './DialogHeader.svelte'
