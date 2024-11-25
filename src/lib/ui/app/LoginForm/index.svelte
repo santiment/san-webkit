@@ -16,7 +16,7 @@
     isSignUp?: boolean
     from?: string
     onMetamaskClick?: () => Promise<void>
-    onWalletConnectLogin?: (from?: string) => void
+    onLoginComplete?: () => void
   }
 
   const {
@@ -27,7 +27,7 @@
     isSignUp = false,
     from = '',
     onMetamaskClick,
-    onWalletConnectLogin,
+    onLoginComplete,
   }: TProps = $props()
 
   let verifiedEmail = $state<string>()
@@ -40,9 +40,7 @@
 {:else}
   <Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
     <div class="flex flex-col gap-2">
-      {#if onWalletConnectLogin}
-        <WalletConnect {isSignUp} onLoginComplete={() => onWalletConnectLogin(from)} />
-      {/if}
+      <WalletConnect {isSignUp} {onLoginComplete} />
 
       {#if onMetamaskClick}
         <Metamask {isSignUp} onclick={onMetamaskClick} />

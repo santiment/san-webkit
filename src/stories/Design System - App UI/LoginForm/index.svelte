@@ -6,6 +6,6 @@
   <LoginForm
     title="Welcome back"
     onMetamaskClick={() => Promise.resolve(undefined)}
-    onWalletConnectLogin={(from) => console.log('from', from)}
+    onLoginComplete={() => {}}
   />
 </main>
