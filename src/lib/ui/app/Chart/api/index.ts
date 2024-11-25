@@ -1,5 +1,6 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
 import type { TNominal } from '$lib/utils/index.js'
+
 import { ApiQuery } from '$lib/api/index.js'
 
 export type TInterval = `${number}m` | `${number}h` | `${number}d` | `${number}y`

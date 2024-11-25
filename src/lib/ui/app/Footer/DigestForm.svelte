@@ -1,9 +1,11 @@
 <script lang="ts">
   import { tap, catchError, exhaustMap, of } from 'rxjs'
+
   import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/Input.svelte'
   import { cn } from '$ui/utils/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+
   import { mutateEmailLoginNewsletter } from './api.js'
 
   type TProps = {

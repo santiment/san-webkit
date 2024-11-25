@@ -1,5 +1,6 @@
-import { createCtx } from '$lib/utils/index.js'
 import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.js'
+
+import { createCtx } from '$lib/utils/index.js'
 
 export type TGlobalParameters = {
   from: string

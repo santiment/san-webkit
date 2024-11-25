@@ -1,6 +1,8 @@
-import { deleteSavedValue, getSavedJson, saveJson } from '$lib/utils/localStorage.js'
-import { trackEvent } from './index.js'
 import type { Tracker } from './track.js'
+
+import { deleteSavedValue, getSavedJson, saveJson } from '$lib/utils/localStorage.js'
+
+import { trackEvent } from './index.js'
 
 export type TLoginType = 'email' | 'google' | 'twitter' | 'metamask' | 'wallet'
 

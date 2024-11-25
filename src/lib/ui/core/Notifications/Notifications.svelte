@@ -1,6 +1,7 @@
 <script lang="ts">
   import { BROWSER } from 'esm-env'
   import { Toaster } from 'svelte-sonner'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
   const { device } = useDeviceCtx()

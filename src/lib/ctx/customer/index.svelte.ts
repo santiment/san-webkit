@@ -1,7 +1,9 @@
 import { ss } from 'svelte-runes'
 import { BROWSER } from 'esm-env'
 import { setUser } from '@sentry/sveltekit'
+
 import { createCtx } from '$lib/utils/index.js'
+
 import { DEFAULT, loadCustomerData, type TCustomer } from './api.js'
 
 export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCustomer) => {

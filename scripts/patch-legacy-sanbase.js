@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import path from 'path'
+
 import { exec, patchSvelteKitFile } from './utils.js'
 
 run()

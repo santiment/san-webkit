@@ -1,5 +1,6 @@
 <script lang="ts">
   import { type ComponentProps } from 'svelte'
+
   import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { useUiCtx } from '$lib/ctx/ui/index.js'
@@ -8,6 +9,7 @@
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
   import { useLogoutFlow } from '$lib/flow/logout/index.js'
+
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
 

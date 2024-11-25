@@ -5,8 +5,9 @@
   import Svg from '$ui/core/Svg/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import PlanButton from './PlanButton.svelte'
   import { trackEvent } from '$lib/analytics/index.js'
+
+  import PlanButton from './PlanButton.svelte'
 
   let {
     source: _source = '',

@@ -1,6 +1,7 @@
 <script lang="ts">
   import Svg from '$ui/core/Svg/Svg.svelte'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte'
+
   import { socialMediaLinks } from './links.js'
 
   const { device } = useDeviceCtx()

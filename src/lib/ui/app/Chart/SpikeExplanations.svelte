@@ -1,9 +1,12 @@
 <script lang="ts">
   import type { MouseEventHandler, Time } from '@santiment-network/chart-next'
+
   import { onMount } from 'svelte'
   import { tap, switchMap, pipe } from 'rxjs'
   import { createSeriesMarkers } from '@santiment-network/chart-next'
+
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+
   import { queryGetMetricSpikeExplanations } from './api/spike-explanation.js'
   import { useChartCtx } from './ctx/index.js'
   import { useChartGlobalParametersCtx } from './ctx/global-parameters.svelte.js'

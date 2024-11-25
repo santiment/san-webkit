@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs/promises'
+
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from '../scripts/svg.js'
 import { forFile, __dirname } from '../scripts/utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from '../scripts/asset-logos.js'

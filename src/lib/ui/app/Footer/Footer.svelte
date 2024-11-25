@@ -1,8 +1,9 @@
 <script lang="ts">
   import Svg from '$ui/core/Svg/Svg.svelte'
+  import { cn } from '$ui/utils/index.js'
+
   import DigestForm from './DigestForm.svelte'
   import Bottom from './Bottom.svelte'
-  import { cn } from '$ui/utils/index.js'
   import { resourcesLinks } from './links.js'
 
   const { class: className }: { class: string } = $props()

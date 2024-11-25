@@ -1,11 +1,14 @@
 import type { GetAccountReturnType } from '@wagmi/core'
+
 import { catchError, exhaustMap, filter, from, mergeMap, of, tap } from 'rxjs'
+
 import { Query } from '$lib/api/executor.js'
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+import { trackEvent } from '$lib/analytics/index.js'
+
 import { getAccount, connectAccounts, signMessage } from './core/index.js'
 import { mutateAddUserEthAddress, mutateEthLogin } from './api/index.js'
-import { trackEvent } from '$lib/analytics/index.js'
 
 export function useConnectMetamaskFlow() {
   const { currentUser } = useCustomerCtx()

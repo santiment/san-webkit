@@ -1,4 +1,5 @@
 import { ApiQuery } from '$lib/api/index.js'
+
 import { BUSINESS_PLANS, CONSUMER_PLANS, Product, SubscriptionPlan } from './plans.js'
 
 export type TProductsWithPlans = readonly {
