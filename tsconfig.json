@@ -10,15 +10,6 @@
     "sourceMap": true,
     "strict": true,
     "moduleResolution": "NodeNext",
-    "module": "NodeNext",
-    "paths": {
-      "$ui": ["./src/lib/ui"],
-      "$ui/*": ["./src/lib/ui/*"],
-      "$lib": ["./src/lib"],
-      "$lib/*": ["./src/lib/*"],
-      "$routes/*": ["./src/routes/*"],
-      "$static/*": ["./static/*"],
-      "$app/*": ["./node_modules/@sveltejs/kit/types/index.d.ts"]
-    }
+    "module": "NodeNext"
   }
 }

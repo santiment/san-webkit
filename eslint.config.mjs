@@ -9,6 +9,14 @@ const importResolverConfig = {
   'import/resolver': {
     typescript: true,
     node: true,
+
+    'eslint-import-resolver-custom-alias': {
+      alias: {
+        $app: 'node_modules/@sveltejs/kit/src/runtime/app',
+        '@sveltejs/kit': 'node_modules/@sveltejs/kit/src/exports/index.js',
+      },
+      extensions: ['.js'],
+    },
   },
 }
 
@@ -52,7 +60,7 @@ export default [
       'no-self-assign': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      'no-constant-binary-expression': 'off',
+      'no-constant-binary-import/resolverexpression': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
       'svelte/no-at-html-tags': 'off',
       '@typescript-eslint/no-unused-vars': [
