@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
+  import { debounceTime, pipe, tap } from 'rxjs'
 
-  import type { TCustomer } from '$lib/ctx/customer/api.js'
-  import { debounce } from '$lib/utils/fn.js'
   import { Query } from '$lib/api/executor.js'
   import Input from '$ui/core/Input/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
@@ -11,6 +9,8 @@
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 
   import { mutateGdpr, mutateChangeUsername } from './api.js'
   import Section from './Section.svelte'
@@ -18,36 +18,43 @@
   const {
     onAccept,
     title = 'Welcome to Sanbase',
-    currentUser,
   }: {
     onAccept: (username: string) => void
     title?: string
-    currentUser: Exclude<TCustomer['currentUser'], null>
   } = $props()
+
+  const { customer, currentUser } = useCustomerCtx()
+
+  const defaultUsername = currentUser.$$?.username ?? ''
 
   let error = $state('')
   let isActive = $state(false)
   let loading = $state(false)
-  let username = $state(currentUser?.username)
+  let username = $state(defaultUsername)
 
-  const isDisabled = $derived(!isActive || !username || !!error)
+  const isDisabled = $derived(!isActive || (!defaultUsername && !username) || !!error)
 
-  const [checkValidity, clearTimer] = debounce(250, (input: { value: string }) => {
-    const { value } = input
+  const checkValidity = useObserveFnCall<{ value: string }>(() =>
+    pipe(
+      debounceTime(250),
+      tap((input) => {
+        const { value } = input
 
-    if (value.length < 4) {
-      error = 'Username should be at least 4 characters long'
-    } else if (value[0] === '@') {
-      error = '@ is not allowed for the first character'
-    } else {
-      error = ''
-    }
-  })
+        if (value.length < 4) {
+          error = 'Username should be at least 4 characters long'
+        } else if (value[0] === '@') {
+          error = '@ is not allowed for the first character'
+        } else {
+          error = ''
+        }
+      }),
+    ),
+  )
 
   function onBlur() {
     if (username) return
     error = ''
-    username = currentUser?.username
+    username = defaultUsername
   }
 
   function onInput({ currentTarget }: Event & { currentTarget: HTMLInputElement }) {
@@ -56,39 +63,46 @@
   }
 
   function onSubmit() {
-    if (isDisabled || !username) return
+    if (isDisabled) return
 
     loading = true
-    const usernamePromise = currentUser?.username
-      ? Promise.resolve()
-      : mutateChangeUsername(Query)({ username })
 
-    usernamePromise
-      .catch(onUsernameChangeError)
-      .then(() => mutateGdpr(Query)({ privacyPolicyAccepted: true }))
-      .then(() => {
-        currentUser.privacyPolicyAccepted = true
+    const changeUsernamePromise =
+      !defaultUsername && username ? mutateChangeUsername(Query)(username) : Promise.resolve()
 
-        if (window.onGdprAccept) window.onGdprAccept()
-
-        trackGdprAccept(true)
-      })
+    changeUsernamePromise
+      .then(() =>
+        mutateGdpr(Query)(true)
+          .then(() => customer.reload())
+          .then(() => {
+            window.onGdprAccept?.()
+            trackGdprAccept(true)
+          })
+          .catch(handleGdprPolicyError),
+      )
       .then(() => username && onAccept(username))
-      .catch(console.error)
+      .catch(handleUsernameChangeError)
+      .finally(() => {
+        loading = false
+      })
   }
 
-  function onUsernameChangeError() {
-    error = `Username "${username}" is already taken`
+  function handleGdprPolicyError() {
+    error = 'Failed to accept the privacy policy.'
     loading = false
     return Promise.reject()
   }
 
-  onDestroy(clearTimer)
+  function handleUsernameChangeError() {
+    error = `Username "${username}" is already taken.`
+    loading = false
+    return Promise.reject()
+  }
 </script>
 
 <Section {title}>
   <div class="max-w-[380px] text-start text-waterloo">
-    {#if !currentUser?.username}
+    {#if !defaultUsername}
       <p class="my-4 text-base">Please type your username to access all features</p>
 
       <div class="relative">

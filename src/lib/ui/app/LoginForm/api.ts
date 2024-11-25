@@ -1,21 +1,19 @@
 import { ApiMutation } from '$lib/api/index.js'
 
-export const mutateGdpr = ApiMutation((variables: { privacyPolicyAccepted: boolean }) => ({
-  schema: `mutation($privacyPolicyAccepted: Boolean) {
-      updateTermsAndConditions(privacyPolicyAccepted: $privacyPolicyAccepted) {
+export const mutateGdpr = ApiMutation(
+  (privacyPolicyAccepted: boolean) => `mutation {
+      updateTermsAndConditions(privacyPolicyAccepted: ${privacyPolicyAccepted}) {
         privacyPolicyAccepted
       }
     }
   `,
-  variables,
-}))
+)
 
-export const mutateChangeUsername = ApiMutation((variables: { username: string }) => ({
-  schema: `mutation($username: String!) {
-    changeUsername(username: $username) {
+export const mutateChangeUsername = ApiMutation(
+  (username: string) => `mutation {
+    changeUsername(username: "${username}") {
       id
     }
   }
 `,
-  variables,
-}))
+)

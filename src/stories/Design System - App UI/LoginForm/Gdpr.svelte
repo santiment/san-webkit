@@ -9,10 +9,6 @@
   }
 </script>
 
-<div class="flex h-screen items-center justify-center">
-  {#if !currentUser.currentUser.$$ || currentUser.currentUser.$$.privacyPolicyAccepted}
-    <h1 class="text-base">Gdpr policy is accepted</h1>
-  {:else}
-    <Gdpr currentUser={currentUser.currentUser.$$} {onAccept} />
-  {/if}
-</div>
+{#if currentUser.currentUser.$$}
+  <Gdpr {onAccept} />
+{/if}
