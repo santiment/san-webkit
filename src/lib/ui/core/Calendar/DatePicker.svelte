@@ -9,31 +9,45 @@
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
 
-  type TProps = {
+  type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
     class?: string
-    date: [Date, Date] | Date
-    withPresets?: boolean
     minDate?: Date
     maxDate?: Date
-    onChange?: (date: Date) => void
     timeZone?: string
     children?: Snippet
   }
-  let {
+
+  type TSingleProps = {
+    date: Date
+    onChange?: (date: Date) => void
+    withPresets?: never
+  }
+
+  type TRangeProps = {
+    date: [Date, Date]
+    onChange?: (date: [Date, Date]) => void
+    withPresets?: boolean
+  }
+
+  type TProps = TCommonProps & (TSingleProps | TRangeProps)
+
+  const {
     as,
     class: className,
-    date = $bindable(),
-    withPresets,
     maxDate,
     children: _children,
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
-    onChange,
+    ...rest
   }: TProps = $props()
 
   const minValue = $derived(BROWSER ? fromDate(minDate, timeZone) : undefined)
   const maxValue = $derived(BROWSER && maxDate ? fromDate(maxDate, timeZone) : undefined)
+
+  function isRangeProps(props: TSingleProps | TRangeProps): props is TRangeProps {
+    return Array.isArray(props.date)
+  }
 </script>
 
 <Popover noStyles class="z-10">
@@ -43,18 +57,22 @@
       {#if _children}
         {@render _children()}
       {:else}
-        {Array.isArray(date)
-          ? `${date[0].toLocaleDateString()} - ${date[1].toLocaleDateString()}`
-          : date.toLocaleDateString()}
+        {isRangeProps(rest)
+          ? `${rest.date[0].toLocaleDateString()} - ${rest.date[1].toLocaleDateString()}`
+          : rest.date.toLocaleDateString()}
       {/if}
     </Button>
   {/snippet}
 
   {#snippet content()}
-    {#if Array.isArray(date)}
-      <RangeCalendar bind:date {withPresets} {timeZone} {minValue} {maxValue} />
+    {#if isRangeProps(rest)}
+      {@const { date, withPresets, onChange } = rest}
+
+      <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
     {:else}
-      <Calendar bind:date {timeZone} {minValue} {maxValue} {onChange} />
+      {@const { date, onChange } = rest}
+
+      <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
     {/if}
   {/snippet}
 </Popover>

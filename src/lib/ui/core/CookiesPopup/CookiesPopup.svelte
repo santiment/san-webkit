@@ -4,8 +4,8 @@
     SHEETS: '--fill: #b0ebdb; --shadow: #21b074;',
   } as const
 
-  type CookiesStyle = typeof CookiesStyle
-  type CookiesStyles = CookiesStyle[keyof CookiesStyle]
+  type TCookiesStyle = typeof CookiesStyle
+  type TCookiesStyles = TCookiesStyle[keyof TCookiesStyle]
 </script>
 
 <script lang="ts">
@@ -26,7 +26,7 @@
     isVisible: initIsVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED),
   }: {
     class?: string
-    style?: string | CookiesStyles
+    style?: string | TCookiesStyles
     isVisible?: boolean
   } = $props()
 

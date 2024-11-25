@@ -9,6 +9,7 @@
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import walletConnectSvg from './wallet-connect.svg'
+  import { trackAuth } from '$lib/analytics/events/auth.js'
 
   let {
     class: className,
@@ -32,6 +33,8 @@
         modalClosed$.next()
       }
     }
+
+    trackAuth('wallet', isSignUp)
 
     return switchMap(() =>
       from(getAppKit()).pipe(

@@ -16,14 +16,7 @@
     maxValue?: DateValue
     onChange?: (date: Date) => void
   }
-  let {
-    class: className,
-    date = $bindable(),
-    minValue,
-    maxValue,
-    timeZone,
-    onChange,
-  }: TProps = $props()
+  const { class: className, date, minValue, maxValue, timeZone, onChange }: TProps = $props()
 
   const value = $derived(fromDate(date, timeZone))
 
@@ -32,8 +25,7 @@
   const onValueChange = (update: DateValue | undefined) => {
     if (!update) return
 
-    date = update.toDate(timeZone)
-    onChange?.(date)
+    onChange?.(update.toDate(timeZone))
   }
 </script>
 
