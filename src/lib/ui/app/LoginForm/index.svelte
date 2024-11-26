@@ -6,6 +6,7 @@
   import Twitter from './Twitter.svelte'
   import EmailForm from './EmailForm.svelte'
   import EmailConfirmation from './EmailConfirmation.svelte'
+  import WalletConnect from './WalletConnect.svelte'
 
   type TProps = {
     title: string
@@ -15,6 +16,7 @@
     isSignUp?: boolean
     from?: string
     onMetamaskClick?: () => Promise<void>
+    onLoginComplete?: () => void
   }
 
   const {
@@ -25,6 +27,7 @@
     isSignUp = false,
     from = '',
     onMetamaskClick,
+    onLoginComplete,
   }: TProps = $props()
 
   let verifiedEmail = $state<string>()
@@ -37,6 +40,8 @@
 {:else}
   <Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
     <div class="flex flex-col gap-2">
+      <WalletConnect {isSignUp} {onLoginComplete} />
+
       {#if onMetamaskClick}
         <Metamask {isSignUp} onclick={onMetamaskClick} />
       {/if}

@@ -3,5 +3,9 @@
 </script>
 
 <main class="flex h-screen items-center justify-center">
-  <LoginForm title="Welcome back" onMetamaskClick={() => Promise.resolve(undefined)} />
+  <LoginForm
+    title="Welcome back"
+    onMetamaskClick={() => Promise.resolve(undefined)}
+    onLoginComplete={() => {}}
+  />
 </main>
