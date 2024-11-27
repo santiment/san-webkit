@@ -1,11 +1,14 @@
 <script lang="ts">
   import type { StripeCardElementOptions } from '@stripe/stripe-js'
+
   import { untrack } from 'svelte'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
   import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
   import fontSemiboldUrl from '$lib/fonts/ProximaNova-Semibold.woff2'
+
   import LabelInput from './LabelInput.svelte'
   import { usePaymentFormCtx } from '../../../state.js'
 

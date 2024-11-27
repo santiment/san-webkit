@@ -1,8 +1,10 @@
 <script lang="ts">
-  import type { MouseEventParams } from '@santiment-network/chart'
+  import type { MouseEventParams } from '@santiment-network/chart-next'
 
   import { onMount } from 'svelte'
+
   import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
+
   import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
 
   const { chart } = useChartCtx()

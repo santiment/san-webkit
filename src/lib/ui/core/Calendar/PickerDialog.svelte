@@ -5,22 +5,23 @@
 </script>
 
 <script lang="ts">
-  import type { DateValue } from '@internationalized/date'
+  import type { ComponentProps } from 'svelte'
 
   import Dialog from '../Dialog/Dialog.svelte'
-  import { dialogs$ } from '../Dialog/dialogs.js'
+  import { dialogs$, type TDialogProps } from '../Dialog/dialogs.js'
   import Calendar from './Calendar.svelte'
   import Button from '../Button/Button.svelte'
 
-  type TProps = {
-    date: Date
-    class?: string
-    minValue: DateValue
-    maxValue: DateValue
-    timeZone: string
-  }
+  const {
+    Controller,
+    onChange,
+    date: initialDate,
+    ...rest
+  }: TDialogProps & ComponentProps<typeof Calendar> = $props()
 
-  let { date, ...rest }: TProps = $props()
+  let date = $state(initialDate)
+
+  const close = () => Controller.close()
 </script>
 
 <Dialog class="h-auto">
@@ -29,10 +30,20 @@
   >
     Choose a date
 
-    <Button icon="close" iconSize="12" class="h-6" />
+    <Button icon="close" iconSize="12" class="h-6" onclick={close} />
   </h2>
 
-  <Calendar bind:date class="max-w-full" {...rest} />
+  <Calendar class="max-w-full" {date} onChange={(d) => (date = d)} {...rest} />
 
-  <Button variant="fill" size="lg" class="mx-5 mb-5 mt-6 justify-center">Apply</Button>
+  <Button
+    variant="fill"
+    size="lg"
+    class="mx-5 mb-5 mt-6 justify-center"
+    onclick={() => {
+      onChange?.(date)
+      close()
+    }}
+  >
+    Apply
+  </Button>
 </Dialog>

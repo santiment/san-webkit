@@ -1,5 +1,7 @@
 import type { ComponentProps, ComponentType } from 'svelte'
+
 import { toast } from 'svelte-sonner'
+
 import Component from './Notification.svelte'
 
 export { default } from './Notifications.svelte'

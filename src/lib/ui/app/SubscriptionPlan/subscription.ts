@@ -1,6 +1,7 @@
+import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
+
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
-import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,

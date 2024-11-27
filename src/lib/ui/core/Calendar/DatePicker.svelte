@@ -1,68 +1,113 @@
 <script lang="ts">
+  import type { ComponentProps, Snippet } from 'svelte'
+
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
+
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import Popover from '$ui/core/Popover/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
+  import { cn } from '$ui/utils/index.js'
+
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
   import { showPickerDialog$ } from './PickerDialog.svelte'
 
+  type TCommonProps = {
+    as?: ComponentProps<typeof Button>['as']
+    class?: string
+    minDate?: Date
+    maxDate?: Date
+    timeZone?: string
+    children?: Snippet
+  }
+
+  type TSingleProps = {
+    date: Date
+    onChange?: (date: Date) => void
+    withPresets?: never
+  }
+
+  type TRangeProps = {
+    date: [Date, Date]
+    onChange?: (date: [Date, Date]) => void
+    withPresets?: boolean
+  }
+
+  type TProps = TCommonProps & (TSingleProps | TRangeProps)
+
+  const {
+    as,
+    class: className,
+    maxDate,
+    children: _children,
+    minDate = new Date(2009, 0, 1),
+    timeZone = BROWSER ? getLocalTimeZone() : 'utc',
+    ...rest
+  }: TProps = $props()
+
   const { device } = useDeviceCtx()
   const showPickerDialog = showPickerDialog$()
 
-  let {
-    date = $bindable(),
-    withPresets,
-    minDate = new Date(2009, 0, 1),
-    maxDate = new Date(),
-  }: { date: [Date, Date] | Date; withPresets?: boolean; minDate?: Date; maxDate?: Date } = $props()
-
   const isPhone = $derived(device.$.isPhone)
-  const label = $derived(
-    Array.isArray(date)
-      ? `${date[0].toLocaleDateString()} - ${date[1].toLocaleDateString()}`
-      : date.toLocaleDateString(),
-  )
-  const timeZone = $derived(BROWSER ? getLocalTimeZone() : 'utc')
-  const minValue = $derived(fromDate(minDate, timeZone))
-  const maxValue = $derived(fromDate(maxDate, timeZone))
+  const minValue = $derived(BROWSER ? fromDate(minDate, timeZone) : undefined)
+  const maxValue = $derived(BROWSER && maxDate ? fromDate(maxDate, timeZone) : undefined)
 
-  const isRange = (date: [Date, Date] | Date): date is [Date, Date] => Array.isArray(date)
+  function isRangeProps(props: TSingleProps | TRangeProps): props is TRangeProps {
+    return Array.isArray(props.date)
+  }
 </script>
 
-{#if isPhone && !isRange(date)}
-  {@const d = date}
+{#if isPhone && !isRangeProps(rest)}
   <Button
     onclick={() =>
       showPickerDialog({
-        date: d,
+        date: rest.date,
         timeZone,
         minValue,
         maxValue,
+        onChange: rest.onChange,
       })}
     variant="border"
+    icon="calendar"
     class="whitespace-nowrap"
   >
-    <Svg id="calendar" w="16" />
-    {label}
+    {@render label()}
   </Button>
 {:else}
-  <Popover noStyles>
+  <Popover noStyles class="z-10">
     {#snippet children({ ref })}
-      <Button {ref} variant="border" class="whitespace-nowrap">
-        <Svg id="calendar" w="16" />
-        {label}
+      <Button
+        {as}
+        {ref}
+        variant="border"
+        icon="calendar"
+        class={cn('whitespace-nowrap', className)}
+      >
+        {@render label()}
       </Button>
     {/snippet}
 
     {#snippet content()}
-      {#if isRange(date)}
-        <RangeCalendar bind:date {withPresets} {timeZone} {minValue} {maxValue} />
+      {#if isRangeProps(rest)}
+        {@const { date, withPresets, onChange } = rest}
+
+        <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
       {:else}
-        <Calendar bind:date {timeZone} {minValue} {maxValue} />
+        {@const { date, onChange } = rest}
+
+        <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
       {/if}
     {/snippet}
   </Popover>
 {/if}
+
+{#snippet label()}
+  {#if _children}
+    {@render _children()}
+  {:else}
+    {isRangeProps(rest)
+      ? `${rest.date[0].toLocaleDateString()} - ${rest.date[1].toLocaleDateString()}`
+      : rest.date.toLocaleDateString()}
+  {/if}
+{/snippet}

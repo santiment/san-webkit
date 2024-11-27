@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+
   import Button from '$ui/core/Button/index.js'
   import Product from '$ui/app/Product/Product.svelte'
 
@@ -40,6 +41,7 @@
 
       <Button
         icon="search"
+        variant="plain"
         class="size-10 fill-black"
         iconSize={18}
         onclick={onSearchClick}

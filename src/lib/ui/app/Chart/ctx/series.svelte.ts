@@ -1,4 +1,4 @@
-import type { ISeriesApi } from '@santiment-network/chart'
+import type { ISeriesApi } from '@santiment-network/chart-next'
 import type {
   TMetricData,
   TMetricTargetSelectorInputObject,
@@ -6,10 +6,12 @@ import type {
 } from '../api/index.js'
 
 import { ss } from 'svelte-runes'
+
 import { createCtx } from '$lib/utils/index.js'
+
 import { DEFAULT_FORMATTER } from './formatters.js'
 
-type TMetric = {
+export type TMetric = {
   name: string
   label?: string
 

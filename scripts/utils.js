@@ -1,8 +1,9 @@
 import { exec as _exec } from 'child_process'
-import fg from 'fast-glob'
 import path from 'path'
 import url from 'url'
 import fs from 'fs'
+
+import fg from 'fast-glob'
 
 /**
  *

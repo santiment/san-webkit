@@ -4,27 +4,31 @@
 
   import { RangeCalendar } from 'bits-ui'
   import { Time, fromDate, toCalendarDateTime } from '@internationalized/date'
+
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+
   import { createPlaceholder } from './utils.svelte.js'
   import { getPresets } from './presets.js'
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
 
-  let {
+  const {
     class: className,
-    date = $bindable(),
+    date,
     withPresets = false,
     minValue,
     maxValue,
     timeZone,
+    onChange,
   }: {
     class?: string
     date: [Date, Date]
     withPresets?: boolean
-    minValue: DateValue
-    maxValue: DateValue
+    minValue?: DateValue
+    maxValue?: DateValue
     timeZone: string
+    onChange?: (dates: [Date, Date]) => void
   } = $props()
 
   const value = $derived(getValue(date, timeZone))
@@ -38,7 +42,7 @@
     const endDateTime = toCalendarDateTime(end, new Time(23, 59, 59, 999))
     const startDateTime = toCalendarDateTime(start, new Time())
 
-    date = [startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)]
+    onChange?.([startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)])
   }
 
   function getValue([start, end]: [Date, Date], tz: string) {

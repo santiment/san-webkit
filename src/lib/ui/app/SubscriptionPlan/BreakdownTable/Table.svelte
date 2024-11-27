@@ -1,9 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import { CONSUMER_PLANS_BREAKDOWN, BUSINESS_PLANS_BREAKDOWN } from './breakdown.js'
-  import Feature from './Feature.svelte'
+
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+
+  import { CONSUMER_PLANS_BREAKDOWN, BUSINESS_PLANS_BREAKDOWN } from './breakdown.js'
+  import Feature from './Feature.svelte'
 
   let {
     source = '',
@@ -32,6 +34,7 @@
     >
       {#snippet pointerSnippet({ url, title }: NonNullable<typeof link>, className = '')}
         <Button
+          variant="link"
           iconOnRight
           icon="pointer"
           href={url}

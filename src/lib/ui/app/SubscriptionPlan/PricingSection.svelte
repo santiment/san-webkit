@@ -3,6 +3,7 @@
   import type { PlanType } from './plans.js'
 
   import { ssd } from 'svelte-runes'
+
   import {
     getApiBusinessPlans,
     getSanbaseConsumerPlans,
@@ -10,11 +11,12 @@
   } from '$ui/app/SubscriptionPlan/api.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
+
   import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
   import { PlanTypeDisplayNames, planTypes } from './plans.js'
   import { useProductPlansFlow } from './flow.svelte.js'
-  import { trackEvent } from '$lib/analytics/index.js'
 
   type Props = {
     source?: string
@@ -58,11 +60,14 @@
   </h1>
 
   <div
-    class="mb-12 inline-flex divide-x rounded-lg border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
+    class="mb-12 inline-flex divide-x overflow-hidden rounded-lg border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
   >
     {#each planTypes as item (item)}
       <Button
-        class={cn('px-4 py-[7px] sm:py-3.5', planType === item && 'bg-athens text-black')}
+        class={cn(
+          'rounded-none px-4 py-[7px] sm:py-3.5',
+          planType === item && 'bg-athens text-black',
+        )}
         onclick={() => handlePlanClick(item)}
       >
         {PlanTypeDisplayNames[item] ?? item}

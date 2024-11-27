@@ -1,9 +1,10 @@
 <script lang="ts">
   import { type Snippet } from 'svelte'
-  import { cn, flyAndScale } from '$ui/utils/index.js'
-  import { useMelt } from '$ui/utils/melt-ui.js'
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
+
+  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { useMelt } from '$ui/utils/melt-ui.js'
 
   type Props = {
     class?: string

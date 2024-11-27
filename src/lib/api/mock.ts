@@ -1,5 +1,6 @@
 import { parse, Kind, type SelectionNode } from 'graphql'
 import { startWith, Subject } from 'rxjs'
+
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 
 type TMockConfig = { mock: () => any }

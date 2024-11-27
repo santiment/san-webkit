@@ -1,8 +1,9 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
+
   import { onSupportClick } from '$lib/utils/support.js'
   import Button from '$ui/core/Button/index.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
-  import type { Snippet } from 'svelte'
 
   type TProps = { title: string; onContinueClick: () => void; children: Snippet; loading?: boolean }
   let { title, loading, children, onContinueClick }: TProps = $props()

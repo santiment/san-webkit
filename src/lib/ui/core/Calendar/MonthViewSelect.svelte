@@ -3,6 +3,7 @@
   import type { DateValue } from '@internationalized/date'
 
   import { CalendarDate } from '@internationalized/date'
+
   import Select from '../Select/Select.svelte'
 
   let {
@@ -11,20 +12,20 @@
     maxValue,
   }: {
     placeholder: DateValue
-    minValue: DateValue
-    maxValue: DateValue
+    minValue?: DateValue
+    maxValue?: DateValue
   } = $props()
 
   const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short' })
   const formatMonth = (month: number) => monthFormatter.format(new Date(0, month - 1, 1))
 
-  const maxYearSelected = $derived(placeholder.year === maxValue.year)
-  const minYearSelected = $derived(placeholder.year === minValue.year)
-  const yearItems = $derived(getYearItems(minValue.year, maxValue.year))
+  const maxYearSelected = $derived(placeholder.year === maxValue?.year)
+  const minYearSelected = $derived(placeholder.year === minValue?.year)
+  const yearItems = $derived(getYearItems(minValue?.year, maxValue?.year))
   const monthItems = $derived(
     getMonthItems(
-      minYearSelected ? minValue.month : undefined,
-      maxYearSelected ? maxValue.month : undefined,
+      minYearSelected ? minValue?.month : undefined,
+      maxYearSelected ? maxValue?.month : undefined,
     ),
   )
 
@@ -37,7 +38,7 @@
     label: formatMonth(placeholder.month),
   })
 
-  function getYearItems(minYear: number, maxYear: number) {
+  function getYearItems(minYear: number = 2009, maxYear: number = 2025) {
     return Array.from({ length: maxYear - minYear + 1 }, (_, i) => {
       const year = minYear + i
 

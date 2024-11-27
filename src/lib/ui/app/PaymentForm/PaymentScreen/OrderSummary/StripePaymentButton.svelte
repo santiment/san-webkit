@@ -3,10 +3,12 @@
     BaseStripeElementsOptions,
     StripeExpressCheckoutElementOptions,
   } from '@stripe/stripe-js'
+
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
 

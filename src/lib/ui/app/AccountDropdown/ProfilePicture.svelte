@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte'
+
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
@@ -21,6 +22,7 @@
 <Button
   {ref}
   {as}
+  variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   class={cn(
     'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center',

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import Input from '$ui/core/Input/index.js'
   import type { ComponentProps } from 'svelte'
+
+  import Input from '$ui/core/Input/index.js'
 
   let {
     label,

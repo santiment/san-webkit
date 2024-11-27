@@ -1,7 +1,8 @@
+import { BROWSER } from 'esm-env'
+
 import { ApiMutation } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
-import { BROWSER } from 'esm-env'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
 const mutateUpdateUserSettings = ApiMutation(

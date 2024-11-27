@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
+
   import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { onSupportClick } from '$lib/utils/support.js'
@@ -7,7 +9,6 @@
     CONSUMER_PLANS,
     SubscriptionPlan,
   } from '$ui/app/SubscriptionPlan/plans.js'
-  import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
   import {
     checkIsAlternativeBillingPlan,
     checkIsCurrentPlan,
@@ -15,6 +16,7 @@
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
   let {

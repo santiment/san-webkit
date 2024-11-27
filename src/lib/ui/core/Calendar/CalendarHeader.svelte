@@ -2,16 +2,18 @@
   import type { DateValue } from '@internationalized/date'
 
   import { Calendar, RangeCalendar } from 'bits-ui'
+
   import Svg from '$ui/core/Svg/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+
   import MonthViewSelect from './MonthViewSelect.svelte'
   import { formatMonth } from './utils.svelte.js'
 
   type TProps = {
     range?: boolean
     placeholder: DateValue
-    minValue: DateValue
-    maxValue: DateValue
+    minValue?: DateValue
+    maxValue?: DateValue
   }
 
   let { range = false, placeholder = $bindable(), minValue, maxValue }: TProps = $props()

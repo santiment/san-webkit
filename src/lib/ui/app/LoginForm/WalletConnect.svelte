@@ -1,13 +1,17 @@
 <script lang="ts">
   import type { EventsControllerState } from '@reown/appkit'
+
   import { onMount } from 'svelte'
   import { filter, from, merge, Subject, switchMap, takeUntil, tap } from 'rxjs'
+
   import Button from '$ui/core/Button/index.js'
   import { appKitEvents$, disconnectAccount, watchAccount$ } from '$lib/flow/web3/core/index.js'
   import { useWalletConnectLoginFlow } from '$lib/flow/web3/wallet.js'
   import { getAppKit } from '$lib/flow/web3/core/config.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { cn } from '$ui/utils/index.js'
+  import { trackAuth } from '$lib/analytics/events/auth.js'
+
   import walletConnectSvg from './wallet-connect.svg'
 
   let {
@@ -32,6 +36,8 @@
         modalClosed$.next()
       }
     }
+
+    trackAuth('wallet', isSignUp)
 
     return switchMap(() =>
       from(getAppKit()).pipe(

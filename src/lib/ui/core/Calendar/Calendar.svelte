@@ -3,24 +3,22 @@
 
   import { Calendar } from 'bits-ui'
   import { fromDate } from '@internationalized/date'
+
   import { cn } from '$ui/utils/index.js'
+
   import { createPlaceholder } from './utils.svelte.js'
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
 
-  let {
-    class: className,
-    date = $bindable(),
-    minValue,
-    maxValue,
-    timeZone,
-  }: {
-    date: Date
+  type TProps = {
     class?: string
-    minValue: DateValue
-    maxValue: DateValue
+    date: Date
     timeZone: string
-  } = $props()
+    minValue?: DateValue
+    maxValue?: DateValue
+    onChange?: (date: Date) => void
+  }
+  const { class: className, date, minValue, maxValue, timeZone, onChange }: TProps = $props()
 
   const value = $derived(fromDate(date, timeZone))
 
@@ -29,7 +27,7 @@
   const onValueChange = (update: DateValue | undefined) => {
     if (!update) return
 
-    date = update.toDate(timeZone)
+    onChange?.(update.toDate(timeZone))
   }
 </script>
 

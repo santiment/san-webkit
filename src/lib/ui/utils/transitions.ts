@@ -1,4 +1,5 @@
 import type { TransitionConfig } from 'svelte/transition'
+
 import { cubicOut } from 'svelte/easing'
 
 type FlyAndScaleParams = {

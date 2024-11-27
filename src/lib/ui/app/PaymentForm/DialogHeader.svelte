@@ -5,8 +5,9 @@
   import { cn } from '$ui/utils/index.js'
   import OnlyOnDevice from '$ui/utils/OnlyOnDevice/index.js'
   import { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
-  import { SCREENS } from './state.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
+  import { SCREENS } from './state.js'
 
   let { disabled }: { disabled?: (typeof SCREENS)[number] } = $props()
 

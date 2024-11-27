@@ -1,5 +1,7 @@
 import type { Observable } from 'rxjs'
+
 import { BROWSER } from 'esm-env'
+
 import { Query, RxQuery, type TGqlSchema } from './executor.js'
 import { MockExecutor } from './mock.js'
 import { ApiCache } from './cache.js'

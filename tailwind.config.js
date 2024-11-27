@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin'
+
 import { createColors } from './plugins/tailwind'
 
 export const classes =
@@ -150,6 +151,29 @@ export default {
             display: 'block',
             inset: 0,
             zIndex: 0,
+          },
+        },
+        '.link-pointer': {
+          position: 'relative',
+          display: 'inline-flex',
+          color: 'var(--accent, var(--green))',
+          fill: 'var(--accent, var(--green))',
+
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            width: '100%',
+            height: '1px',
+            bottom: '2px',
+            left: 0,
+            background: 'var(--accent, var(--green))',
+            transform: 'scaleX(0)',
+            transition: 'transform 0.3s',
+            transformOrigin: 'bottom left',
+          },
+
+          '&:hover::after': {
+            transform: 'scaleX(1)',
           },
         },
         // '.text-lg': {
