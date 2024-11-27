@@ -17,13 +17,17 @@
   const Base = range ? RangeCalendar : Calendar
 </script>
 
-<div class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 xs:flex-col xs:space-y-4">
+<div
+  class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 sm:px-5 sm:pb-0 sm:pt-6 sm:text-base xs:flex-col xs:space-y-4"
+>
   {#each months as month}
     <Base.Grid class="w-full border-collapse select-none space-y-1">
       <Base.GridHead>
-        <Base.GridRow class="mb-1 flex w-full justify-between">
+        <Base.GridRow class="mb-1 flex justify-between">
           {#each weekdays as day}
-            <Base.HeadCell class="w-8 rounded-md text-xs font-normal uppercase text-waterloo">
+            <Base.HeadCell
+              class="w-8 rounded-md text-xs font-normal uppercase text-waterloo sm:text-sm"
+            >
               {day.slice(0, 2)}
             </Base.HeadCell>
           {/each}
@@ -31,9 +35,12 @@
       </Base.GridHead>
       <Base.GridBody>
         {#each month.weeks as weekDates}
-          <Base.GridRow class="flex w-full">
+          <Base.GridRow class="flex w-full sm:justify-between">
             {#each weekDates as date}
-              <Base.Cell {date} class="relative m-0 size-8 w-8 p-0 text-center focus-within:z-20">
+              <Base.Cell
+                {date}
+                class="relative m-0 size-8 p-0 text-center focus-within:z-20 sm:size-10"
+              >
                 <Base.Day
                   {date}
                   month={month.value}

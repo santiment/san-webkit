@@ -4,13 +4,14 @@
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
 
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import Popover from '$ui/core/Popover/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
 
   import Calendar from './Calendar.svelte'
   import RangeCalendar from './RangeCalendar.svelte'
+  import { showPickerDialog$ } from './PickerDialog.svelte'
 
   type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
@@ -45,6 +46,10 @@
     ...rest
   }: TProps = $props()
 
+  const { device } = useDeviceCtx()
+  const showPickerDialog = showPickerDialog$()
+
+  const isPhone = $derived(device.$.isPhone)
   const minValue = $derived(BROWSER ? fromDate(minDate, timeZone) : undefined)
   const maxValue = $derived(BROWSER && maxDate ? fromDate(maxDate, timeZone) : undefined)
 
@@ -53,29 +58,56 @@
   }
 </script>
 
-<Popover noStyles class="z-10">
-  {#snippet children({ ref })}
-    <Button {as} {ref} variant="border" class={cn('whitespace-nowrap', className)}>
-      <Svg id="calendar" w="16" />
-      {#if _children}
-        {@render _children()}
+{#if isPhone && !isRangeProps(rest)}
+  <Button
+    onclick={() =>
+      showPickerDialog({
+        date: rest.date,
+        timeZone,
+        minValue,
+        maxValue,
+        onChange: rest.onChange,
+      })}
+    variant="border"
+    icon="calendar"
+    class="whitespace-nowrap"
+  >
+    {@render label()}
+  </Button>
+{:else}
+  <Popover noStyles class="z-10">
+    {#snippet children({ ref })}
+      <Button
+        {as}
+        {ref}
+        variant="border"
+        icon="calendar"
+        class={cn('whitespace-nowrap', className)}
+      >
+        {@render label()}
+      </Button>
+    {/snippet}
+
+    {#snippet content()}
+      {#if isRangeProps(rest)}
+        {@const { date, withPresets, onChange } = rest}
+
+        <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
       {:else}
-        {isRangeProps(rest)
-          ? `${rest.date[0].toLocaleDateString()} - ${rest.date[1].toLocaleDateString()}`
-          : rest.date.toLocaleDateString()}
+        {@const { date, onChange } = rest}
+
+        <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
       {/if}
-    </Button>
-  {/snippet}
+    {/snippet}
+  </Popover>
+{/if}
 
-  {#snippet content()}
-    {#if isRangeProps(rest)}
-      {@const { date, withPresets, onChange } = rest}
-
-      <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
-    {:else}
-      {@const { date, onChange } = rest}
-
-      <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
-    {/if}
-  {/snippet}
-</Popover>
+{#snippet label()}
+  {#if _children}
+    {@render _children()}
+  {:else}
+    {isRangeProps(rest)
+      ? `${rest.date[0].toLocaleDateString()} - ${rest.date[1].toLocaleDateString()}`
+      : rest.date.toLocaleDateString()}
+  {/if}
+{/snippet}

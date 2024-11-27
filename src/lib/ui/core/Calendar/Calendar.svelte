@@ -32,7 +32,7 @@
 </script>
 
 <Calendar.Root
-  class={cn('max-w-max rounded border bg-white', className)}
+  class={cn('max-w-max rounded border bg-white sm:border-0', className)}
   let:months
   let:weekdays
   weekdayFormat="short"
