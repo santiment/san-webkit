@@ -7,9 +7,7 @@ import {
   EmailConfirmation as EmailConfirmationComponent,
   SignUp as SignUpComponent,
 } from '$ui/app/LoginForm/index.js'
-import Gdpr from './Gdpr.svelte'
 import Container from './Container.svelte'
-import type { StoryProps } from '@storybook/blocks'
 
 const meta = {
   component,
@@ -33,11 +31,9 @@ export const Default: Story = {}
 const Wrapped = <GComp extends Component<any>>(
   component: GComp,
   componentProps: ComponentProps<GComp>,
-  storyProps: Story = {},
 ): StoryObj<Container<GComp>> => ({
   render: (props: any) => ({ Component: Container, props }),
   args: { Component: component, ...componentProps },
-  ...storyProps,
 })
 
 export const WalletConnectButton = Wrapped(WalletConnect, { isSignUp: false })
@@ -50,33 +46,3 @@ export const EmailConfirmation = Wrapped(EmailConfirmationComponent, {
 })
 
 export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up title' })
-
-export const GdprWithoutUsernamePolicyNotAccepted = Wrapped(
-  Gdpr,
-  {},
-  {
-    parameters: {
-      mockApi: () => ({
-        currentUser: {
-          username: null,
-          privacyPolicyAccepted: false,
-        },
-      }),
-    },
-  },
-)
-
-export const GdprWithUsernamePolicyNotAccepted = Wrapped(
-  Gdpr,
-  {},
-  {
-    parameters: {
-      mockApi: () => ({
-        currentUser: {
-          username: 'username',
-          privacyPolicyAccepted: false,
-        },
-      }),
-    },
-  },
-)

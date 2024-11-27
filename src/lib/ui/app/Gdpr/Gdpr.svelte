@@ -12,16 +12,15 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 
+  import Section from '../LoginForm/Section.svelte'
   import { mutateGdpr, mutateChangeUsername } from './api.js'
-  import Section from './Section.svelte'
 
-  const {
-    onAccept,
-    title = 'Welcome to Sanbase',
-  }: {
+  type TProps = {
     onAccept: (username: string) => void
     title?: string
-  } = $props()
+  }
+
+  const { onAccept, title = 'Welcome to Sanbase' }: TProps = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
