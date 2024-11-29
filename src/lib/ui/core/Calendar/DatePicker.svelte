@@ -20,6 +20,7 @@
     maxDate?: Date
     timeZone?: string
     children?: Snippet
+    popoverRootProps?: ComponentProps<typeof Popover>['rootProps']
   }
 
   type TSingleProps = {
@@ -75,13 +76,14 @@
     {@render label()}
   </Button>
 {:else}
-  <Popover noStyles class="z-10">
+  <Popover noStyles class="z-10" rootProps={rest.popoverRootProps}>
     {#snippet children({ ref })}
       <Button
         {as}
         {ref}
         variant="border"
         icon="calendar"
+        onclick={(e) => e.preventDefault()}
         class={cn('whitespace-nowrap', className)}
       >
         {@render label()}

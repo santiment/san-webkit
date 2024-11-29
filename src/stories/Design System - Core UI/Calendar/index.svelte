@@ -1,5 +1,6 @@
 <script lang="ts">
   import DatePicker from '$ui/core/Calendar/DatePicker.svelte'
+  import InputCalendar from '$ui/core/InputCalendar/index.js'
 
   let date = new Date()
   let dateOld = new Date(2017, 7, 9)
@@ -33,6 +34,10 @@
   <div class="flex flex-row items-center gap-2">
     Range:
     <DatePicker date={dates} onChange={onChangeDates} />
+  </div>
+  <div class="flex flex-row items-center gap-2">
+    InputCalendar:
+    <InputCalendar date={dates} onDateSelect={onChangeDates} />
   </div>
   <div class="flex flex-row items-center gap-2">
     With Presets:
