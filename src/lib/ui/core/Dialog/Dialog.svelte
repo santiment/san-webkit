@@ -7,7 +7,7 @@
   import { getDialogControllerCtx } from './dialogs.js'
   import DesktopDialog from './Responsive/DesktopDialog.svelte'
   import MobileDialog from './Responsive/MobileDialog.svelte'
-  import { TRANSITION_MS } from './state.js'
+  import { useOpenState } from './state.svelte.js'
 
   let {
     children,
@@ -19,30 +19,12 @@
 
   const { Controller } = getDialogControllerCtx()
   const { device } = useDeviceCtx()
+  const { onOpenChange, onClosed } = useOpenState()
 
   let isOpened = $state(true)
-  let isMounted = false
 
   const close = () => (isOpened = false)
   Controller.close = close
-
-  // @ts-expect-error
-  const onClosed = () => Controller._unmount()
-
-  $effect(() => {
-    setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
-  })
-
-  function onOpenChange({ next }: { next: boolean }) {
-    if (next === false) {
-      if (isMounted === false) return true
-
-      // Forcing memory clean
-      setTimeout(onClosed, TRANSITION_MS + 50)
-    }
-
-    return next
-  }
 </script>
 
 {#if BROWSER && isOpened}

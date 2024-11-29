@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { type Snippet } from 'svelte'
+  import type { Snippet } from 'svelte'
+  import type { CreateDialogProps } from '@melt-ui/svelte'
+
   import { fade } from 'svelte/transition'
-  import { createDialog, type CreateDialogProps } from '@melt-ui/svelte'
 
   import { cn, flyAndScale } from '$ui/utils/index.js'
 
-  import { getDialogControllerCtx } from '../dialogs.js'
-  import { TRANSITION_MS } from '../state.js'
+  import { TRANSITION_MS, useCreateDialog } from '../state.svelte.js'
 
   let {
     children,
@@ -18,23 +18,11 @@
     onOpenChange: CreateDialogProps['onOpenChange']
   } = $props()
 
-  const { Controller } = getDialogControllerCtx()
-
   const {
     elements: { overlay, content, portalled },
     states: { open },
-  } = createDialog({ forceVisible: true, closeOnOutsideClick: false, onOpenChange })
-
-  function close(isForced?: boolean) {
-    if (Controller.checkIsLocked(isForced)) return false
-
-    open.set(false)
-  }
-
-  $effect(() => {
-    open.set(true)
-    Controller.close = close
-  })
+    close,
+  } = useCreateDialog(onOpenChange)
 </script>
 
 {#if $open}
@@ -45,7 +33,7 @@
       use:overlay
       class="fixed inset-0 z-10 bg-[#000000cf]"
       transition:fade={{ duration: TRANSITION_MS }}
-      onclick={() => Controller.close()}
+      onclick={() => close()}
     ></div>
     <div
       class={cn(
