@@ -1,27 +1,21 @@
-<script lang="ts" module>
-  import Component from './LandscapeModal.svelte'
-
-  export const showLandscapeModal$ = () => dialogs$.new(Component)
-</script>
-
 <script lang="ts">
+  import type { CreateDialogProps } from '@melt-ui/svelte'
+
   import { BROWSER } from 'esm-env'
   import { onMount, type Snippet } from 'svelte'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn, flyAndScale } from '$ui/utils/index.js'
 
-  import { useCreateDialog, useOpenState } from '../Dialog/state.svelte.js'
-  import { dialogs$ } from '../Dialog/dialogs.js'
+  import { useCreateDialog } from '../state.svelte.js'
 
   type TProps = {
     class?: string
     children: Snippet<[{ close: () => void }]>
+    onOpenChange: CreateDialogProps['onOpenChange']
   }
 
-  const { class: className, children }: TProps = $props()
-
-  const { onOpenChange } = useOpenState()
+  const { class: className, children, onOpenChange }: TProps = $props()
 
   const {
     elements: { portalled, content },
@@ -54,7 +48,7 @@
   <div class="relative z-[10000]" {...$portalled} use:portalled>
     <div
       class={cn(
-        'fixed inset-0 z-50 overflow-hidden',
+        'fixed inset-0 z-50 overflow-hidden bg-white',
         !isLandscape && 'top-full h-[100vw] w-[100vh] origin-top-left -rotate-90',
         className,
       )}
