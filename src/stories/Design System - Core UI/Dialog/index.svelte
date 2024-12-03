@@ -12,7 +12,7 @@
 <div class="flex flex-col justify-center divide-y p-6">
   {#each repeat as _}
     <div class="my-10 flex gap-4">
-      <button class="flex" onclick={() => showDialog()}>Open</button>
+      <button class="flex" onclick={() => showDialog({ customProp: true })}>Open</button>
     </div>
 
     <p>
@@ -36,4 +36,4 @@
   {/each}
 </div>
 
-<StoryDialog render={Dialog}></StoryDialog>
+<StoryDialog render={Dialog} rest="any"></StoryDialog>
