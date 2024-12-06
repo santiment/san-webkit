@@ -37,7 +37,7 @@
   </div>
   <div class="flex flex-row items-center gap-2">
     InputCalendar:
-    <InputCalendar date={dates} onDateSelect={onChangeDates} />
+    <InputCalendar date={dates} onChange={onChangeDates} />
   </div>
   <div class="flex flex-row items-center gap-2">
     With Presets:
