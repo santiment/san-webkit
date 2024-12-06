@@ -21,6 +21,7 @@
     timeZone?: string
     children?: Snippet
     popoverRootProps?: ComponentProps<typeof Popover>['rootProps']
+    popoverIsOpened?: boolean
   }
 
   type TSingleProps = {
@@ -37,13 +38,14 @@
 
   type TProps = TCommonProps & (TSingleProps | TRangeProps)
 
-  const {
+  let {
     as,
     class: className,
     maxDate,
     children: _children,
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
+    popoverIsOpened = $bindable(false),
     ...rest
   }: TProps = $props()
 
@@ -76,18 +78,21 @@
     {@render label()}
   </Button>
 {:else}
-  <Popover noStyles class="z-10" rootProps={rest.popoverRootProps}>
+  <Popover noStyles class="z-10" rootProps={rest.popoverRootProps} bind:isOpened={popoverIsOpened}>
     {#snippet children({ ref })}
-      <Button
-        {as}
-        {ref}
-        variant="border"
-        icon="calendar"
-        onclick={(e) => e.preventDefault()}
-        class={cn('whitespace-nowrap', className)}
-      >
+      {#if ref}
+        <Button
+          {as}
+          {ref}
+          variant="border"
+          icon="calendar"
+          class={cn('whitespace-nowrap', className)}
+        >
+          {@render label()}
+        </Button>
+      {:else}
         {@render label()}
-      </Button>
+      {/if}
     {/snippet}
 
     {#snippet content()}
