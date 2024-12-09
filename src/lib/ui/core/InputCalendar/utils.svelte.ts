@@ -34,7 +34,6 @@ export function parseInputData(input: string) {
 export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date, Date]) => void) {
   const labelElement = ss<null | HTMLElement>(null)
   const inputNode = ss<HTMLInputElement>()
-  // const calendar = $state<any>()
 
   $effect(() => {
     if (inputNode) {
@@ -46,18 +45,12 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
     inputNode.$.value = formatValue(dates)
   }
 
-  function changeCalendar(wasInputBlurred = false) {
+  function changeCalendar() {
     const dates = validateInput(inputNode.$.value)
 
     if (dates) {
       setInputValue(dates)
-
-      // NOTE: Needed since calendar is unmounted on blur [@vanguard | 27 Jul, 2023]
-      if (wasInputBlurred) {
-        onDateSelect(dates)
-      } // else {
-      //   calendar?.selectDate(dates)
-      // }
+      onDateSelect(dates)
     }
   }
 
@@ -117,7 +110,7 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
 
     if (formatValue(date) !== inputNode.$.value) {
       fixInputValue()
-      changeCalendar(true)
+      changeCalendar()
     }
 
     return callback?.(false)
@@ -243,7 +236,6 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
   return {
     labelElement,
     inputNode,
-    // calendar,
     formatValue,
     onKeyDown,
     onInput,
