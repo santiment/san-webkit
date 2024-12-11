@@ -7,12 +7,18 @@
   } from '@santiment-network/chart-next'
 
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
+  import { useKeyboardShortcut } from '$lib/utils/keyboard/index.js'
   import { cn } from '$ui/utils/index.js'
 
   import { getTheme } from './theme.js'
   import { useChartCtx } from './ctx/index.js'
+  import { Mode, ModeOptions, type TMode } from './types.js'
 
   type TProps = {
+    /**
+     * DRAG, SHIFT, ZOOM
+     */
+    mode?: TMode
     class?: string
     watermark?: boolean
     watermarkOpacity?: string
@@ -22,6 +28,7 @@
     children: Snippet
   }
   let {
+    mode = $bindable(Mode.DRAG),
     class: className,
     watermark = true,
     watermarkOpacity,
@@ -38,6 +45,9 @@
   const { chart } = useChartCtx()
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
+
+  useChartModeShortcut('SHIFT', Mode.SHIFT)
+  useChartModeShortcut('CMD', Mode.ZOOM)
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
@@ -70,6 +80,24 @@
 
     textWatermark?.applyOptions?.({ color: theme.watermark })
   })
+
+  $effect(() => {
+    if (!chart.$) return
+
+    chart.$.applyOptions(ModeOptions[mode])
+  })
+
+  function useChartModeShortcut(key: 'SHIFT' | 'CMD', tempMode: 1 | 2) {
+    useKeyboardShortcut(key, () => {
+      if (chartContainerNode.matches(':hover') !== true) {
+        return
+      }
+
+      mode = tempMode
+
+      window.addEventListener('keyup', () => (mode = Mode.DRAG), { once: true })
+    })
+  }
 </script>
 
 <div bind:this={chartContainerNode} class={cn('relative z-[1]', className)}>
