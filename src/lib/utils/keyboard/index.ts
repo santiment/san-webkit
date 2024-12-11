@@ -34,6 +34,7 @@ export function useKeyboardShortcut(shortcut: string, clb: () => any, disableInp
         if (isContentEditable || EDITABLE_TAGS.has(tagName)) return
       }
 
+      // TODO: isSingleModKey prevent CMD+R when isCmdKey===true
       if (
         isCmdKey === (metaKey || ctrlKey) &&
         isAltKey === altKey &&

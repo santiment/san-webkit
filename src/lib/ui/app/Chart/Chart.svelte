@@ -99,6 +99,10 @@
     right: Parameters<TRangeSelectHandler>[1],
   ) {
     if (mode === Mode.ZOOM) {
+      if (right.point!.x - left.point!.x <= 20) {
+        return
+      }
+
       const fromDate = setDayStart(new Date((left.time as number) * 1000), { utc: true })
       const toDate = setDayEnd(new Date((right.time as number) * 1000), { utc: true })
 
