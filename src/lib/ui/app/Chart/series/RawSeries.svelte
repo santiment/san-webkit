@@ -42,12 +42,8 @@
     chartSeries.setData(data.$)
     chart.$.timeScale().fitContent()
 
-    // TOOD: Should it be handled by the library?
     // NOTE: This will correctly fit new data on a scale.
-    chartSeries.priceScale().applyOptions({ autoScale: true })
-    requestAnimationFrame(() => {
-      chartSeries.priceScale().applyOptions({ autoScale: false })
-    })
+    chartSeries.priceScale().applyOptions({ mode: 0 })
   })
 
   onMount(() => () => {

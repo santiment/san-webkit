@@ -12,20 +12,22 @@ export const ONE_YEAR_IN_MS = 31536000000 // Estimate
  * @param start - timestamp of the start date
  * @returns positive number of days if target date is in the future, negative number if target date is in the past
  */
-export const calculateDaysTo = (target: string, start = Date.now()): number =>
-  Math.ceil((Date.parse(target) - start) / ONE_DAY_IN_MS)
+export const calculateDaysTo = (target: Date | string, start = Date.now()): number =>
+  Math.ceil(((typeof target === 'string' ? Date.parse(target) : +target) - start) / ONE_DAY_IN_MS)
 
-export function setDayEnd(date: Date) {
-  date.setHours(23, 59, 59)
+export function setDayEnd(date: Date, { utc = false } = {}) {
+  const UTC = utc ? 'UTC' : ''
+  date[`set${UTC}Hours`](23, 59, 59, 0)
   return date
 }
 
-export function setDayStart(date: Date) {
-  date.setHours(0, 0, 1)
+export function setDayStart(date: Date, { utc = false } = {}) {
+  const UTC = utc ? 'UTC' : ''
+  date[`set${UTC}Hours`](0, 0, 1, 0)
   return date
 }
 
-export const getTodaysEnd = () => setDayEnd(new Date())
+export const getTodaysEnd = (options?: { utc: boolean }) => setDayEnd(new Date(), options)
 
 export const MONTH_NAMES = [
   'January',
@@ -112,6 +114,14 @@ export function getFormattedMonthDayYear(date: Date, options = {}) {
   return `${MMM} ${D}, ${YYYY}`
 }
 
+export function getFormattedDetailedTimestamp(time: number) {
+  const date = new Date(time)
+  const { ddd, DD, MMM, YY } = getDateFormats(date)
+  const { HH, mm } = getTimeFormats(date)
+
+  return `${ddd} ${DD} ${MMM}'${YY}  ${HH}:${mm}`
+}
+
 export function modifyDate(date: Date, modifier: { days: number }) {
   date.setDate(date.getDate() + modifier.days)
   return date
@@ -160,3 +170,8 @@ export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime
     mm: m < 10 ? `0${m}` : m,
   }
 }
+
+export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.000Z'), {
+  utc: true,
+})
+export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })

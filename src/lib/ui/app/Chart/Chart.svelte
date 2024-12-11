@@ -1,6 +1,10 @@
 <script lang="ts">
   import { onMount, type Snippet } from 'svelte'
-  import { createChart, createPathWatermark } from '@santiment-network/chart-next'
+  import {
+    createChart,
+    createPathWatermark,
+    createRangeSelection,
+  } from '@santiment-network/chart-next'
 
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
@@ -13,9 +17,19 @@
     watermark?: boolean
     watermarkOpacity?: string
     options?: Parameters<typeof createChart>[1]
+    onRangeSelectChange: Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
+    onRangeSelectEnd: Parameters<typeof createRangeSelection>[1]['onRangeSelectEnd']
     children: Snippet
   }
-  let { class: className, watermark = true, watermarkOpacity, options, children }: TProps = $props()
+  let {
+    class: className,
+    watermark = true,
+    watermarkOpacity,
+    options,
+    onRangeSelectChange,
+    onRangeSelectEnd,
+    children,
+  }: TProps = $props()
 
   let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
@@ -32,13 +46,19 @@
       overlayPriceScales: { autoScale: false },
       ...options,
     })
+    const firstPane = chart.$.panes()[0]
 
     if (watermark) {
-      const firstPane = chart.$.panes()[0]
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
+    createRangeSelection(firstPane, { color: '#9faac435', onRangeSelectChange, onRangeSelectEnd })
+
+    const resetScalesOnDblClick = () => chart.$.resetAllScales()
+    chart.$.subscribeDblClick(resetScalesOnDblClick)
+
     return () => {
+      chart.$.unsubscribeDblClick(resetScalesOnDblClick)
       chart.$.remove()
     }
   })

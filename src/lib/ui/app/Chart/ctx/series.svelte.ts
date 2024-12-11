@@ -17,6 +17,7 @@ export type TMetric = {
 
   style: 'line' | 'histogram'
   color?: string
+  visible?: boolean
 
   selector?: null | TMetricTargetSelectorInputObject
   transformData?: (data: TMetricData) => TMetricData
@@ -41,6 +42,7 @@ export function createSeries({
   style = 'line',
   color,
   pane,
+  visible = true,
   scaleMargins,
   scaleInverted = false,
   transform,
@@ -66,6 +68,7 @@ export function createSeries({
     data: ss<TMetricData>([]),
     color: ss<string>(color || 'green'),
 
+    visible: ss(visible),
     loading: ss(true),
     error: ss(null),
 
