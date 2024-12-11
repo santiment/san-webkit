@@ -8,12 +8,14 @@
 
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { useKeyboardShortcut } from '$lib/utils/keyboard/index.js'
+  import { setDayEnd, setDayStart } from '$lib/utils/dates/index.js'
   import { cn } from '$ui/utils/index.js'
 
   import { getTheme } from './theme.js'
-  import { useChartCtx } from './ctx/index.js'
+  import { useChartCtx, useChartGlobalParametersCtx } from './ctx/index.js'
   import { Mode, ModeOptions, type TMode } from './types.js'
 
+  type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
     /**
      * DRAG, SHIFT, ZOOM
@@ -23,8 +25,8 @@
     watermark?: boolean
     watermarkOpacity?: string
     options?: Parameters<typeof createChart>[1]
-    onRangeSelectChange: Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
-    onRangeSelectEnd: Parameters<typeof createRangeSelection>[1]['onRangeSelectEnd']
+    onRangeSelectChange: TRangeSelectHandler
+    onRangeSelectEnd: TRangeSelectHandler
     children: Snippet
   }
   let {
@@ -43,6 +45,7 @@
 
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
+  const { globalParameters } = useChartGlobalParametersCtx.get()
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
@@ -62,7 +65,11 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    createRangeSelection(firstPane, { color: '#9faac435', onRangeSelectChange, onRangeSelectEnd })
+    createRangeSelection(firstPane, {
+      color: '#9faac435',
+      onRangeSelectChange,
+      onRangeSelectEnd: _onRangeSelectEnd,
+    })
 
     const resetScalesOnDblClick = () => chart.$.resetAllScales()
     chart.$.subscribeDblClick(resetScalesOnDblClick)
@@ -86,6 +93,23 @@
 
     chart.$.applyOptions(ModeOptions[mode])
   })
+
+  function _onRangeSelectEnd(
+    left: Parameters<TRangeSelectHandler>[0],
+    right: Parameters<TRangeSelectHandler>[1],
+  ) {
+    if (mode === Mode.ZOOM) {
+      const fromDate = setDayStart(new Date((left.time as number) * 1000), { utc: true })
+      const toDate = setDayEnd(new Date((right.time as number) * 1000), { utc: true })
+
+      globalParameters.$$.from = fromDate.toISOString()
+      globalParameters.$$.to = toDate.toISOString()
+
+      return
+    }
+
+    onRangeSelectEnd?.(left, right)
+  }
 
   function useChartModeShortcut(key: 'SHIFT' | 'CMD', tempMode: 1 | 2) {
     useKeyboardShortcut(key, () => {
