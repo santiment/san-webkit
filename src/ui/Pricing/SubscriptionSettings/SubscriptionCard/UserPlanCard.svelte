@@ -46,16 +46,10 @@
           {formatDate(new Date(subscription.currentPeriodEnd))}
         </b>
       {:else}
-        {@const price = formatPrice(plan)}
-        {#if trialDaysLeft}
-          Your card will be charged <b>{price} after</b> your trial will finish on
-          <b>{formatDate(new Date(subscription.trialEnd))}</b>
-        {:else}
-          {#await queryUpcomingInvoice(subscription.id) then { upcomingInvoice }}
-            Your card will be charged <b>{formatPrice(upcomingInvoice)} per {plan.interval}</b>. It
-            will automatically renewed on <b>{formatDate(new Date(upcomingInvoice.dueDate))}</b>
-          {/await}
-        {/if}
+        {#await queryUpcomingInvoice(subscription.id) then { upcomingInvoice }}
+          Your card will be charged <b>{formatPrice(upcomingInvoice)} per {plan.interval}</b>. It
+          will automatically renewed on <b>{formatDate(new Date(upcomingInvoice.dueDate))}</b>
+        {/await}
       {/if}
     {:else}
       Starter plan with limited access to Sanbase features. Check all plans
