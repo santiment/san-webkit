@@ -12,7 +12,7 @@
   import { getCustomer$Ctx } from '@/stores/customer'
   import { Billing, formatPrice, PlanName } from '@/utils/plans'
   import { getDateFormats } from '@/utils/dates'
-  import { mutateUpdateSubscription } from '@/api/subscription'
+  import { mutateUpdateSubscription, queryUpcomingInvoice } from '@/api/subscription'
   import { onPlanChangeError, onPlanChangeSuccess } from './utils'
   import { SANBASE_ORIGIN } from '@/utils/links'
 
@@ -65,14 +65,15 @@
       </button>
     </div>
 
-    <p>
-      Your current plan ({currentPlanName}
-      {formatPrice(currentPlan)}/{currentPlan.interval}ly) is active until {formatDate()}. Starting
-      from this date your card will be charged {formatPrice(plan)} per {plan.interval}.{isNewBillingMonthly
-        ? ' With annual plan you can save up to 10%. '
-        : ''}
-      <a href="{SANBASE_ORIGIN}/account" class="btn">Update your billing information here.</a>
-    </p>
+    {#await queryUpcomingInvoice(subscription.id) then { upcomingInvoice }}}
+      <p>
+        Your current plan ({currentPlanName}
+        {formatPrice(upcomingInvoice)}/{currentPlan.interval}ly) is active until {formatDate()}.
+        Starting from this date your card will be charged {formatPrice(plan)} per
+        {plan.interval}.{isNewBillingMonthly ? ' With annual plan you can save up to 10%. ' : ''}
+        <a href="{SANBASE_ORIGIN}/account" class="btn">Update your billing information here.</a>
+      </p>
+    {/await}
 
     <actions class="row mrg-xl mrg--t">
       <button
