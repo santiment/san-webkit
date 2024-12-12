@@ -2,7 +2,7 @@
 export let item;
 </script>
 
-<ProjectIcon slug={item.slug} size="24" class="icon-oEYlTV" />
+<ProjectIcon slug={item.slug} size="24" class="icon-UMIiJ+" />
 <span class="name single-line">{item.name}</span>
 <span class="c-waterloo mrg-xs mrg--l">({item.ticker})</span>
 
@@ -11,7 +11,7 @@ export let item;
     display: block;
   }
 
-  :global(.icon-oEYlTV) {
+  :global(.icon-UMIiJ\+) {
     margin-right: 10px;
   }
 </style>

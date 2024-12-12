@@ -74,7 +74,7 @@ function onCheckNftClick() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-ZFCNsG">
+  <Setting class="column subscriptions-RApgAa">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -95,20 +95,23 @@ function onCheckNftClick() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-1EDa3b justify">
+    <Setting class="setting-ZDmqw9 justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
           If you cancel your subscription, you will not be able to see the most recent data
         </div>
       </div>
-      <button class="cancel-btn btn c-accent" on:click={() => window.showCancelSubscriptionDialog?.()}>
+      <button
+        class="cancel-btn btn c-accent"
+        on:click={() => window.showCancelSubscriptionDialog?.()}
+      >
         Cancel subscription
       </button>
     </Setting>
   {/if}
 
-  <Setting class="setting-1EDa3b justify">
+  <Setting class="setting-ZDmqw9 justify">
     <div>
       SanR NFT
       <div class="description c-waterloo sanr-description">
@@ -128,7 +131,7 @@ function onCheckNftClick() {
     </button>
   </Setting>
 
-  <Setting class="setting-1EDa3b justify">
+  <Setting class="setting-ZDmqw9 justify">
     <div>
       Payment method
 
@@ -157,7 +160,7 @@ function onCheckNftClick() {
     </div>
   </Setting>
 
-  <Setting class="setting-1EDa3b justify">
+  <Setting class="setting-ZDmqw9 justify">
     <div>
       Billing history
 
@@ -220,7 +223,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-ZFCNsG) {
+:global(.subscriptions-RApgAa) {
   gap: 28px;
 }
 
@@ -246,8 +249,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-1EDa3b),
-:global(.phone-xs) :global(.setting-1EDa3b) {
+:global(.phone) :global(.setting-ZDmqw9),
+:global(.phone-xs) :global(.setting-ZDmqw9) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -268,9 +271,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-ZFCNsG),
-:global(.tablet) :global(.subscriptions-ZFCNsG),
-:global(.phone-xs) :global(.subscriptions-ZFCNsG) {
+:global(.phone) :global(.subscriptions-RApgAa),
+:global(.tablet) :global(.subscriptions-RApgAa),
+:global(.phone-xs) :global(.subscriptions-RApgAa) {
   flex-direction: column;
 }
 :global(.phone) plans-section,

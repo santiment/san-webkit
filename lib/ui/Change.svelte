@@ -16,7 +16,7 @@ export let change;
 <div class="row v-center change {className}" class:down={change < 0} class:zero={change === 0}>
   {#if change !== 0}
     <span class="direction row hv-center mrg-xs mrg--r">
-      <Svg id="triangle" w="6" h="4" class="arrow-U82tM3" />
+      <Svg id="triangle" w="6" h="4" class="arrow-PKVO2p" />
     </span>
   {/if}
   {change}%
@@ -33,7 +33,7 @@ export let change;
     --bg: var(--red-light-1);
     --transform: rotate(180deg);
   }
-  :global(.arrow-U82tM3) {
+  :global(.arrow-PKVO2p) {
     transform: var(--transform);
   }
 

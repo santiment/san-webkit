@@ -30,7 +30,7 @@ interface Window {
   __onLinkClick?: (e: MouseEvent | string) => void
   identifyAmplitude?: (identity: any) => void
   onNftGameStart?: () => void
-  showCancelSubscriptionDialog?: (e: MouseEvent) => void
+  showCancelSubscriptionDialog?: (e?: MouseEvent) => void
   twq?: any
   __SAPPER__?: any
   __SESSION__?: any

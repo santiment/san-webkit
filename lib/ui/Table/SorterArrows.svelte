@@ -4,15 +4,15 @@
   export let isAscending = false
 </script>
 
-<Svg illus id="sorted" w="6" h="8" class="mrg-xs mrg--l {isAscending ? 'asc-4zpUPv' : ''} s-v1xe6r" />
+<Svg illus id="sorted" w="6" h="8" class="mrg-xs mrg--l {isAscending ? 'asc-V62ZTf' : ''} s-9wdw55" />
 
 <style>
-  :global(.s-v1xe6r) {
+  :global(.s-9wdw55) {
     vertical-align: initial;
     margin-right: -14px;
   }
 
-  :global(.asc-4zpUPv) {
+  :global(.asc-V62ZTf) {
     --sorter-up: var(--waterloo);
     --sorter-down: var(--mystic);
   }

@@ -92,7 +92,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-_BTmKG"
+    class="border fluid input-ausi97"
     placeholder="Type your comment here"
   />
 
@@ -125,7 +125,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-_BTmKG) {
+  :global(.input-ausi97) {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

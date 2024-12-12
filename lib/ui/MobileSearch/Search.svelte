@@ -44,12 +44,12 @@ let searchTerm = '';
 let type = FILTER_ITEMS.Assets;
 onMount(() => {
     document.body.style.width = document.body.offsetWidth + 'px';
-    document.body.classList.add('searching-fM3dn7');
+    document.body.classList.add('searching-IjLaAC');
 });
 onDestroy(() => {
     if (BROWSER) {
         document.body.style.width = '';
-        document.body.classList.remove('searching-fM3dn7');
+        document.body.classList.remove('searching-IjLaAC');
     }
 });
 </script>
@@ -73,7 +73,7 @@ onDestroy(() => {
     padding: 16px 0 83px;
   }
 
-  :global(.searching-fM3dn7) {
+  :global(.searching-IjLaAC) {
     overflow-y: 'hidden';
     touch-action: 'none';
   }

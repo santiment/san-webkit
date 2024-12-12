@@ -38,7 +38,7 @@ $: ({ isLiteVersion } = $ui$);
   overflowFlip={false}
   duration={130}
   bind:isOpened
-  activeClass="active-iO_dFS"
+  activeClass="active-bJrNK1"
   class={tooltipClass}
   let:trigger
 >
@@ -50,7 +50,7 @@ $: ({ isLiteVersion } = $ui$);
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l s-1avxx44" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l s-17k6r10" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </slot>
 
@@ -156,11 +156,11 @@ $: ({ isLiteVersion } = $ui$);
 </Tooltip>
 
 <style>
-  :global(.active-iO_dFS) :global(.s-1avxx44) {
+  :global(.active-bJrNK1) :global(.s-17k6r10) {
     --img-fill: var(--fiord);
   }
 
-  .pro :global(.s-1avxx44) {
+  .pro :global(.s-17k6r10) {
     --green: var(--orange-hover);
   }
 

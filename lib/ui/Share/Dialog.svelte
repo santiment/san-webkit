@@ -59,13 +59,13 @@ onMount(() => {
 });
 </script>
 
-<Dialog {...$$props} title="Share" titleClassName="title-htc2Vk body-2 txt-m">
+<Dialog {...$$props} title="Share" titleClassName="title-ONWz2v body-2 txt-m">
   <section class="body-2">
     {#if shareType}
       <div class="privacy">
         {#if !isPublic}
           <div class="row info body-3 mrg-m mrg--b">
-            <Svg id="warning" w="16" h="14" class="info-icon-KD_OIv mrg-s mrg--r" />
+            <Svg id="warning" w="16" h="14" class="info-icon-10WSaa mrg-s mrg--r" />
             Your watchlist is private. To able to share, please, switch it to “Public” first
           </div>
         {/if}
@@ -81,7 +81,7 @@ onMount(() => {
       aria-label={copyLabel}
       on:click|preventDefault={onCopy}
     >
-      <Svg id="link" w="16" class="copy-icon-yxNKtu mrg-m mrg--r" />
+      <Svg id="link" w="16" class="copy-icon-sTidqU mrg-m mrg--r" />
 
       Copy link
     </button>
@@ -100,7 +100,7 @@ onMount(() => {
             class="media row hv-center mrg-m mrg--r"
             style="background: {disabled ? 'var(--mystic)' : background}"
           >
-            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-HVZGIp" />
+            <Svg id={title.toLowerCase()} w="13" h="10" class="media-icon-iBGiV7" />
           </div>
           {title}
         </a>
@@ -123,7 +123,7 @@ onMount(() => {
   }
 }
 */
-:global(.title-htc2Vk) {
+:global(.title-ONWz2v) {
   padding: 12px 30px 12px 20px;
   color: var(--fiord);
   background: var(--whale);
@@ -155,7 +155,7 @@ a:active {
   border-radius: 6px;
 }
 
-:global(.info-icon-KD_OIv) {
+:global(.info-icon-10WSaa) {
   fill: var(--orange-hover);
   margin-top: 4px;
 }
@@ -172,11 +172,11 @@ a:active {
   margin-bottom: 20px;
 }
 
-.disabled :global(.copy-icon-yxNKtu) {
+.disabled :global(.copy-icon-sTidqU) {
   fill: var(--porcelain);
 }
 
-:global(.copy-icon-yxNKtu) {
+:global(.copy-icon-sTidqU) {
   fill: var(--waterloo);
 }
 
@@ -200,6 +200,6 @@ a:active {
   border-radius: 100%;
 }
 
-:global(.media-icon-HVZGIp) {
+:global(.media-icon-iBGiV7) {
   fill: var(--white);
 }</style>
