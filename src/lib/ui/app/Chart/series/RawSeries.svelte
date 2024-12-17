@@ -40,10 +40,7 @@
 
   $effect(() => {
     chartSeries.setData(data.$)
-    chart.$.timeScale().fitContent()
-
-    // NOTE: This will correctly fit new data on a scale.
-    chartSeries.priceScale().applyOptions({ mode: 0 })
+    chart.$.resetAllScales()
   })
 
   onMount(() => () => {
