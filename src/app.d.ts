@@ -33,6 +33,8 @@ declare global {
     gtag?: Gtag.Gtag
 
     __updateLegacyStoresOnPlanChange?: any
+
+    onGdprAccept?: () => void
   }
 
   namespace NodeJS {

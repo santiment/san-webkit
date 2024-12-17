@@ -12,6 +12,7 @@
     placeholder = '',
     icon,
     iconSize = 12,
+    left,
     right,
     ...rest
   }: HTMLInputAttributes & {
@@ -21,6 +22,7 @@
     icon?: string
     iconSize?: number | string
     inputClass?: string
+    left?: Snippet
     right?: Snippet
   } = $props()
 </script>
@@ -34,6 +36,8 @@
   {#if icon}
     <Svg id={icon} w={iconSize} class="absolute left-2.5"></Svg>
   {/if}
+
+  {@render left?.()}
 
   <input
     {...rest}
