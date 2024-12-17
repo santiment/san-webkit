@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { ComponentProps, Snippet } from 'svelte'
+  import type { Snippet } from 'svelte'
+  import type { SS } from 'svelte-runes'
 
   import { Popover } from 'bits-ui'
 
@@ -12,6 +13,7 @@
     content,
     children,
     noStyles = false,
+    isOpened = $bindable(false),
 
     align,
     side,
@@ -21,25 +23,31 @@
     contentProps,
   }: {
     class?: string
-    children: ComponentProps<typeof Trigger>['children']
+    children: Snippet<[{ ref?: SS<HTMLElement | null> }]>
     content: Snippet<[{ close: () => void }]>
     noStyles?: boolean
+    isOpened?: boolean
 
     align?: Popover.ContentProps['align']
     side?: Popover.ContentProps['side']
 
-    rootProps?: Popover.Props
+    rootProps?: Popover.Props & { outerControl?: boolean }
     triggerProps?: Popover.TriggerProps
     contentProps?: Popover.ContentProps
   } = $props()
-
-  let isOpened = $state(false)
 </script>
 
+{#if rootProps?.outerControl}
+  {@render children({})}
+{/if}
 <Popover.Root {...rootProps} bind:open={isOpened}>
-  <Popover.Trigger {...triggerProps} class="hidden" asChild let:builder>
-    <Trigger {builder} {children}></Trigger>
-  </Popover.Trigger>
+  {#if rootProps?.outerControl}
+    <Popover.Trigger class="absolute" />
+  {:else}
+    <Popover.Trigger {...triggerProps} class="hidden" asChild let:builder>
+      <Trigger {builder} {children}></Trigger>
+    </Popover.Trigger>
+  {/if}
 
   <Popover.Content
     transition={flyAndScale}
