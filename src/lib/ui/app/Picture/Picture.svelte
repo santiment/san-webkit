@@ -15,7 +15,7 @@
   const {
     states: { loadingStatus },
     elements: { image, fallback },
-  } = createAvatar({ src: src || '' })
+  } = $derived(createAvatar({ src: src || '' }))
 </script>
 
 <div
