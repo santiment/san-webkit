@@ -1,5 +1,6 @@
 import { type Handle } from '@sveltejs/kit'
 import UAParser from 'ua-parser-js'
+
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
 import { DeviceType } from '$lib/ctx/device/index.svelte.js'
 

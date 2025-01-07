@@ -85,7 +85,12 @@
     {/each}
   </div>
 
-  <Chart watermark class="h-[500px]">
+  <Chart
+    watermark
+    class="h-[500px]"
+    onRangeSelectChange={console.log}
+    onRangeSelectEnd={console.log}
+  >
     {#each metricSeries.$ as item (item.id)}
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { trackAuth } from '$lib/analytics/events/auth.js'
   import { notification } from '$ui/core/Notifications/index.js'
+
   import Option from './Option.svelte'
 
   type TProps = {

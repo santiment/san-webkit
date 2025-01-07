@@ -1,5 +1,6 @@
 import { BROWSER } from 'esm-env'
 import * as amplitude from '@amplitude/analytics-browser'
+
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'

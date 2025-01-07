@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { MouseEventHandler } from 'svelte/elements'
   import type { Snippet } from 'svelte'
+
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
 

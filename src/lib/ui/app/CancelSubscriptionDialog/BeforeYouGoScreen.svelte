@@ -2,6 +2,7 @@
   import { onSupportClick } from '$lib/utils/support.js'
   import Button from '$ui/core/Button/index.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
+
   import Layout from './Layout.svelte'
 
   let { onContinueClick }: { onContinueClick: () => void } = $props()

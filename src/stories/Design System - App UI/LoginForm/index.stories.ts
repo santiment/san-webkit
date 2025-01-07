@@ -30,10 +30,10 @@ export const Default: Story = {}
 
 const Wrapped = <GComp extends Component<any>>(
   component: GComp,
-  props: ComponentProps<GComp>,
+  componentProps: ComponentProps<GComp>,
 ): StoryObj<Container<GComp>> => ({
-  render: (props) => ({ Component: Container, props }),
-  args: { Component: component, ...props },
+  render: (props: any) => ({ Component: Container, props }),
+  args: { Component: component, ...componentProps },
 })
 
 export const WalletConnectButton = Wrapped(WalletConnect, { isSignUp: false })

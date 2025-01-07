@@ -1,7 +1,9 @@
 import type { GetAccountReturnType, WatchAccountParameters } from '@wagmi/core'
 import type { EventsControllerState } from '@reown/appkit'
+
 import { BROWSER } from 'esm-env'
 import { Observable } from 'rxjs'
+
 import { getAppKit, getConfig } from './config.js'
 
 export async function signMessage(message: string) {

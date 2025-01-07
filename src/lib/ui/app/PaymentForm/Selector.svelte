@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { cn } from '$ui/utils/index.js'
   import type { Snippet } from 'svelte'
+
+  import { cn } from '$ui/utils/index.js'
 
   type T = $$Generic<{ name: string }>
 

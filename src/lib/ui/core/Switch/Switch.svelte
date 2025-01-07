@@ -1,6 +1,8 @@
 <script lang="ts">
   import { Switch, type SwitchProps } from 'bits-ui'
+
   import { cn } from '$ui/utils/index.js'
+
   import Svg from '../Svg/index.js'
 
   let {

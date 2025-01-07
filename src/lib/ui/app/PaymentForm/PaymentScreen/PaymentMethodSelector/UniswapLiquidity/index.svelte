@@ -1,9 +1,10 @@
 <script lang="ts">
+  import Note from '$ui/app/PaymentForm/Note.svelte'
+  import { onSupportClick } from '$lib/utils/support.js'
+
   import img from './uniswap.png'
   import Description from '../Description.svelte'
   import OnlyAnnualMethod from '../OnlyAnnualMethod.svelte'
-  import Note from '$ui/app/PaymentForm/Note.svelte'
-  import { onSupportClick } from '$lib/utils/support.js'
 </script>
 
 <OnlyAnnualMethod>

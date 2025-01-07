@@ -1,5 +1,7 @@
 import type { IChartApi } from '@santiment-network/chart-next'
+
 import { ss } from 'svelte-runes'
+
 import { createCtx } from '$lib/utils/index.js'
 
 export const useChartCtx = createCtx('useChartCtx', () => {
@@ -14,6 +16,6 @@ export { useChartGlobalParametersCtx, type TGlobalParameters } from './global-pa
 
 export { useApiMetricDataFlow } from './metric-data.svelte.js'
 
-export { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
+export { useMetricSeriesCtx, createSeries, type TSeries } from './series.svelte.js'
 
 export { useColorGenerator } from './colors.js'

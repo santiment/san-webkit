@@ -3,8 +3,10 @@
 
   import { get } from 'svelte/store'
   import { page } from '$app/stores'
+
   import { getOAuthLink } from '$lib/utils/auth.js'
   import { trackAuth } from '$lib/analytics/events/auth.js'
+
   import Option from './Option.svelte'
 
   type TProps = { from?: string } & Omit<

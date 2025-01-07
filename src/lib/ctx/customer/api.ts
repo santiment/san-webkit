@@ -1,4 +1,7 @@
+import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
+
 import { BROWSER } from 'esm-env'
+
 import { UniQuery } from '$lib/api/executor.js'
 import { ApiQuery } from '$lib/api/index.js'
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
@@ -9,7 +12,6 @@ import {
   getSanbaseSubscription,
   type TSubscription,
 } from '$ui/app/SubscriptionPlan/subscription.js'
-import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 export type TCustomer = {
   currentUser: null | {

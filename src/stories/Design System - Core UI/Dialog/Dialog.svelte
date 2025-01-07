@@ -18,5 +18,5 @@
 
   <br />
 
-  <button onclick={() => showNestedDialog()}>Show Nested dialog</button>
+  <button onclick={() => showNestedDialog({ customProp })}>Show Nested dialog</button>
 </Dialog>

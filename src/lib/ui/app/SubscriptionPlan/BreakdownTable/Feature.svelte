@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { TBreakdownFeature } from './breakdown.js'
+
   import Svg from '$ui/core/Svg/index.js'
   import Popover from '$ui/core/Popover/index.js'
   import Button from '$ui/core/Button/index.js'

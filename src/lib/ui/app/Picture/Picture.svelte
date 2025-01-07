@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte'
 
   import { createAvatar } from '@melt-ui/svelte'
+
   import { cn } from '$ui/utils/index.js'
 
   let {
@@ -14,7 +15,7 @@
   const {
     states: { loadingStatus },
     elements: { image, fallback },
-  } = createAvatar({ src: src || '' })
+  } = $derived(createAvatar({ src: src || '' }))
 </script>
 
 <div

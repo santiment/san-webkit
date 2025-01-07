@@ -3,7 +3,9 @@
 
   import { Calendar } from 'bits-ui'
   import { fromDate } from '@internationalized/date'
+
   import { cn } from '$ui/utils/index.js'
+
   import { createPlaceholder } from './utils.svelte.js'
   import CalendarBody from './CalendarBody.svelte'
   import CalendarHeader from './CalendarHeader.svelte'
@@ -30,7 +32,7 @@
 </script>
 
 <Calendar.Root
-  class={cn('max-w-max rounded border bg-white', className)}
+  class={cn('max-w-max rounded border bg-white sm:border-0', className)}
   let:months
   let:weekdays
   weekdayFormat="short"

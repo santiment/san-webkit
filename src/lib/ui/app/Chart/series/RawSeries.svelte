@@ -2,6 +2,7 @@
   import type { TSeries } from '../ctx/series.svelte.js'
 
   import { onMount } from 'svelte'
+
   import { useChartCtx } from '../ctx/index.js'
 
   type TProps = { series: TSeries }
@@ -39,14 +40,7 @@
 
   $effect(() => {
     chartSeries.setData(data.$)
-    chart.$.timeScale().fitContent()
-
-    // TOOD: Should it be handled by the library?
-    // NOTE: This will correctly fit new data on a scale.
-    chartSeries.priceScale().applyOptions({ autoScale: true })
-    requestAnimationFrame(() => {
-      chartSeries.priceScale().applyOptions({ autoScale: false })
-    })
+    chart.$.resetAllScales()
   })
 
   onMount(() => () => {

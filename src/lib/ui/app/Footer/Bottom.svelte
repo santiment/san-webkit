@@ -1,6 +1,7 @@
 <script lang="ts">
-  import Socials from './Socials.svelte'
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
+
+  import Socials from './Socials.svelte'
 </script>
 
 <div

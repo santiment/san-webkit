@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-auto'
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
+
 import { componentStyleSelector } from './plugins/svelte.js'
 
 /** @type {import('@sveltejs/kit').Config} */

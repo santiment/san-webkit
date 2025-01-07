@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Checkbox, type CheckboxProps } from 'bits-ui'
+
   import { cn } from '$ui/utils/index.js'
 
   type TProps = CheckboxProps & { isActive?: boolean; class?: string }

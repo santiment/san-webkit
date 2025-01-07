@@ -3,13 +3,14 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { getFormattedMonthDayYear, modifyDate } from '$lib/utils/dates/index.js'
   import { useDelayFlow } from '$lib/ctx/stripe/index.js'
+  import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
+  import { onSupportClick } from '$lib/utils/support.js'
+
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
   import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
-  import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
-  import { onSupportClick } from '$lib/utils/support.js'
   import ConnectMetamask from './ConnectMetamask.svelte'
 
   let {

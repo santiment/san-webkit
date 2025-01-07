@@ -80,3 +80,8 @@ export function Emitter<T extends Record<string, number | string>>(emit: any, ev
     {},
   ) as { [K in keyof T]: () => void }
 }
+
+export const createValueMap = (inMin: number, inMax: number, outMin: number, outMax: number) => {
+  const factor = (outMax - outMin) / (inMax - inMin)
+  return (value: number) => (value - inMin) * factor + outMin
+}

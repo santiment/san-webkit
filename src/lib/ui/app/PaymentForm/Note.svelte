@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
 
