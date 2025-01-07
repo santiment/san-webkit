@@ -20,15 +20,17 @@
   import Button from '$lib/ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
+  type TProps = {
+    class?: string
+    style?: string | TCookiesStyles
+    isVisible?: boolean
+  }
+
   const {
     class: className = '',
     style,
     isVisible: initIsVisible = !getSavedBoolean(COOKIE_POLICY_ACCEPTED),
-  }: {
-    class?: string
-    style?: string | TCookiesStyles
-    isVisible?: boolean
-  } = $props()
+  }: TProps = $props()
 
   const showManageCookiesDialog = showManageCookiesDialog$()
 
