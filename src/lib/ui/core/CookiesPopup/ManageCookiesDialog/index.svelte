@@ -2,7 +2,7 @@
   import { track } from '$lib/analytics/index.js'
   import { saveBoolean } from '$lib/utils/localStorage.js'
   import { setCookie } from '$lib/utils/cookies.js'
-  import { setSessionValue } from '$lib/stores/utils.js'
+
   import Component from './index.svelte'
 
   export const COOKIE_POLICY_ACCEPTED = 'COOKIE_POLICY_ACCEPTED'
@@ -21,7 +21,6 @@
     saveBoolean(Cookies.Performance, isPerformanceAccepted)
     saveBoolean(COOKIE_POLICY_ACCEPTED, true)
     setCookie(COOKIE_POLICY_ACCEPTED, true)
-    setSessionValue({ isCookiesVisible: false })
 
     track.event('Cookie policy accepted', { category: 'User' })
 
@@ -41,9 +40,10 @@
   import Button from '$ui/core/Button/Button.svelte'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
-  import Section from './Section.svelte'
   import { cn } from '$ui/utils/index.js'
   import Switch from '$ui/core/Switch/index.js'
+
+  import Section from './Section.svelte'
 
   const { resolve, Controller }: TDialogProps = $props()
 
