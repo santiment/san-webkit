@@ -65,7 +65,7 @@
   }
 </script>
 
-<Dialog class="mx-auto h-auto max-w-[600px]">
+<Dialog class="mx-auto flex max-w-[600px] flex-col">
   <header
     class="flex items-center justify-between border-b px-5 py-3 md:px-4 md:py-3.5 md:text-fiord"
   >
