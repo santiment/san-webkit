@@ -56,9 +56,11 @@
   }
 
   function resetAnimation(node: HTMLElement) {
-    node.style.animation = 'none'
-    node.offsetWidth // NOTE(vanguard): Awaiting style recalc
-    node.style.animation = ''
+    if (node) {
+      node.style.animation = 'none'
+      node.offsetWidth // NOTE(vanguard): Awaiting style recalc
+      node.style.animation = ''
+    }
   }
 
   onDestroy(() => {
