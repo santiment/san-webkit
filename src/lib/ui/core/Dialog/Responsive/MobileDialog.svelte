@@ -69,9 +69,9 @@
         ></span>
       </div>
 
-      <div class="relative w-full overflow-hidden rounded-t-[10px] column">
+      <section class="relative h-full w-full overflow-hidden rounded-t-[10px] column">
         {@render children({ close })}
-      </div>
+      </section>
     </div>
   </div>
 {/if}
