@@ -47,9 +47,11 @@ function stopVote() {
     timer = window.setTimeout(() => (mooned = false), 1000);
 }
 function resetAnimation(node) {
-    node.style.animation = 'none';
-    node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
-    node.style.animation = '';
+    if (node) {
+        node.style.animation = 'none';
+        node.offsetWidth; // NOTE(vanguard): Awaiting style recalc
+        node.style.animation = '';
+    }
 }
 onDestroy(() => {
     clearTimeout(timer);

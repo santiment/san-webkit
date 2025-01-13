@@ -11,7 +11,7 @@
 
 <button class="btn {className}" on:click>
   <span class="row v-center">
-    <Svg id="chat" w="14" h="16" class="chat-5i9vfw mrg-s mrg--b" />
+    <Svg id="chat" w="14" h="16" class="chat-V7XtLa mrg-s mrg--b" />
     Help & Feedback
   </span>
 </button>
@@ -31,7 +31,7 @@
     writing-mode: vertical-lr;
   }
 
-  :global(.chat-5i9vfw) {
+  :global(.chat-V7XtLa) {
     transform: rotate(90deg);
   }
 </style>

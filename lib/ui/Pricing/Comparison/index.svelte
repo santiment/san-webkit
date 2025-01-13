@@ -32,7 +32,7 @@ function getPlansLayout(plans, slide, device) {
           </div>
         {/each}
       {:else}
-        <Slides amount={plans.length} bind:active={activeSlide} class="slides-NfaqsS fluid">
+        <Slides amount={plans.length} bind:active={activeSlide} class="slides-LHzjhQ fluid">
           {#each plans as plan (plan.id)}
             <Plan {plan} {plans} />
           {/each}
@@ -67,7 +67,7 @@ function getPlansLayout(plans, slide, device) {
   border-radius: 4px;
 }
 
-:global(.slides-NfaqsS) {
+:global(.slides-LHzjhQ) {
   --slides-v-padding: 22px 0 52px;
   --slides-h-padding: 16px;
   --indicators-bottom: 20px;

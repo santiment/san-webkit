@@ -68,25 +68,25 @@ onDestroy(clearTimer);
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin status-LJfiFw" />
+      <div class="loading-spin status-EAvJHW" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="status-LJfiFw {isValid ? 'valid-Dm9PRt' : ''}"
+        class="status-EAvJHW {isValid ? 'valid-WRan64' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  :global(.status-LJfiFw) {
+  :global(.status-EAvJHW) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  :global(.valid-Dm9PRt) {
+  :global(.valid-WRan64) {
     fill: var(--green);
   }
 </style>
