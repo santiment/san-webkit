@@ -26,7 +26,7 @@
   }: Props = $props()
 
   const {
-    elements: { trigger, content },
+    elements: { trigger, content, arrow },
     states: { open },
   } = createTooltip({
     openDelay: 0,
@@ -56,8 +56,18 @@
     {...$content}
     use:content
     transition:flyAndScale={{ y: -4 }}
-    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
+    class={cn(!noStyles && 'tooltip-drop-shadow z-10 flex rounded border bg-white p-2', className)}
   >
+    {#if options.arrowSize}
+      <div {...$arrow} use:arrow></div>
+    {/if}
+
     {@render contentSnippet({ close: () => open.set(false) })}
   </div>
 {/if}
+
+<style lang="postcss">
+  .tooltip-drop-shadow {
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+  }
+</style>
