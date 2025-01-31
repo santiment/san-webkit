@@ -1,16 +1,31 @@
 <script lang="ts">
-  import Tooltip from '$ui/core/Tooltip/index.js'
-  import Button from '$ui/core/Button/index.js'
+  import TooltipStory from './TooltipStory.svelte'
 </script>
 
-<div class="flex h-screen w-full center">
-  <Tooltip position="left" arrowSize={8}>
-    {#snippet children({ ref })}
-      <Button icon="plus" class="bg-white" {ref}></Button>
-    {/snippet}
+<main
+  class="mx-auto flex h-screen max-w-[500px] column center [&>div]:mb-4 [&>div]:flex [&>div]:w-full [&>div]:justify-between"
+>
+  <div>
+    <TooltipStory position="top-start" />
+    <TooltipStory position="top" />
+    <TooltipStory position="top-end" />
+  </div>
 
-    {#snippet content()}
-      <p>Add item to library</p>
-    {/snippet}
-  </Tooltip>
-</div>
+  <div>
+    <TooltipStory position="right-start" />
+    <TooltipStory position="right" />
+    <TooltipStory position="right-end" />
+  </div>
+
+  <div>
+    <TooltipStory position="left-start" />
+    <TooltipStory position="left" />
+    <TooltipStory position="left-end" />
+  </div>
+
+  <div>
+    <TooltipStory position="bottom-start" />
+    <TooltipStory position="bottom" />
+    <TooltipStory position="bottom-end" />
+  </div>
+</main>

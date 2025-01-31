@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
+import type { Component, ComponentProps } from 'svelte'
 
 import component from './index.svelte'
 

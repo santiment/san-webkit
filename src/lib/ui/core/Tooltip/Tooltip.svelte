@@ -6,10 +6,12 @@
   import { cn, flyAndScale } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
 
+  type TooltipType = 'plain' | 'arrow'
   type Props = {
     class?: string
     noStyles?: boolean
     isOpened?: boolean
+    type?: TooltipType
     children: Snippet<[{ ref: typeof triggerRef }]>
     content: Snippet<[{ close: () => void }]>
     position?: NonNullable<CreateTooltipProps['positioning']>['placement']
@@ -20,6 +22,7 @@
     noStyles = false,
     children,
     content: contentSnippet,
+    type = 'plain',
     isOpened = false,
     position = 'bottom-end',
     ...options
@@ -33,6 +36,7 @@
     closeDelay: 0,
     closeOnPointerDown: false,
     forceVisible: true,
+    arrowSize: type === 'arrow' ? 13 : undefined,
     ...options,
     positioning: {
       placement: position,
@@ -58,7 +62,7 @@
     transition:flyAndScale={{ y: -4 }}
     class={cn(!noStyles && 'tooltip-drop-shadow z-10 flex rounded border bg-white p-2', className)}
   >
-    {#if options.arrowSize}
+    {#if type === 'arrow'}
       <div {...$arrow} use:arrow></div>
     {/if}
 
