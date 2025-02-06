@@ -6,10 +6,12 @@
   import { cn, flyAndScale } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
 
+  type TooltipType = 'plain' | 'arrow'
   type Props = {
     class?: string
     noStyles?: boolean
     isOpened?: boolean
+    type?: TooltipType
     children: Snippet<[{ ref: typeof triggerRef }]>
     content: Snippet<[{ close: () => void }]>
     position?: NonNullable<CreateTooltipProps['positioning']>['placement']
@@ -20,19 +22,21 @@
     noStyles = false,
     children,
     content: contentSnippet,
+    type = 'plain',
     isOpened = false,
     position = 'bottom-end',
     ...options
   }: Props = $props()
 
   const {
-    elements: { trigger, content },
+    elements: { trigger, content, arrow },
     states: { open },
   } = createTooltip({
     openDelay: 0,
     closeDelay: 0,
     closeOnPointerDown: false,
     forceVisible: true,
+    arrowSize: type === 'arrow' ? 13 : undefined,
     ...options,
     positioning: {
       placement: position,
@@ -56,8 +60,18 @@
     {...$content}
     use:content
     transition:flyAndScale={{ y: -4 }}
-    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
+    class={cn(!noStyles && 'tooltip-drop-shadow z-10 flex rounded border bg-white p-2', className)}
   >
+    {#if type === 'arrow'}
+      <div {...$arrow} use:arrow></div>
+    {/if}
+
     {@render contentSnippet({ close: () => open.set(false) })}
   </div>
 {/if}
+
+<style lang="postcss">
+  .tooltip-drop-shadow {
+    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+  }
+</style>
