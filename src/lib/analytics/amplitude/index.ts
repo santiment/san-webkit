@@ -9,7 +9,7 @@ export function initAmplitude(id = '4acc1be0881406053d73b6e7429248d5') {
   // @ts-expect-error
   window.amplitude = amplitude
 
-  amplitude.add(sessionReplayPlugin({ sampleRate: 0.4 }))
+  amplitude.add(sessionReplayPlugin({ sampleRate: 0.1, shouldInlineStylesheet: true }))
 
   amplitude.init(id, {
     flushIntervalMillis: 1,
