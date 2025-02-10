@@ -36,7 +36,7 @@
     closeDelay: 0,
     closeOnPointerDown: false,
     forceVisible: true,
-    arrowSize: type === 'arrow' ? 13 : undefined,
+    arrowSize: type === 'arrow' ? 11 : undefined,
     ...options,
     positioning: {
       placement: position,
