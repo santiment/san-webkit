@@ -1,7 +1,7 @@
 import { error, json, text, type Handle } from '@sveltejs/kit'
 
 const POSTHOG_URL = 'https://eu.i.posthog.com'
-const PROXY_ROUTE = '/api/track/ingest'
+const PROXY_ROUTE = '/api/track/posthog'
 
 export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
   if (event.url.pathname.startsWith(PROXY_ROUTE)) {
@@ -17,8 +17,11 @@ export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
       }
 
       if (clonedRequest.method !== 'GET' && clonedRequest.method !== 'HEAD') {
-        options.body = clonedRequest.body
-        ;(options as any).duplex = 'half'
+        options.body = await clonedRequest.text()
+
+        const headers = new Headers(clonedRequest.headers)
+        headers.delete('content-length')
+        options.headers = headers
       }
 
       const res = await fetch(targetUrl, options)
