@@ -5,8 +5,8 @@
 
 <div class=" p-6">
   <Popover>
-    {#snippet children({ ref })}
-      <Button {ref}>Trigger</Button>
+    {#snippet children({ props })}
+      <Button {...props}>Trigger</Button>
     {/snippet}
 
     {#snippet content()}

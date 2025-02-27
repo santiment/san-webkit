@@ -1,12 +1,28 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
-  import type { SS } from 'svelte-runes'
 
-  import { Popover } from 'bits-ui'
+  import {
+    Popover,
+    type PopoverContentProps,
+    type PopoverRootProps,
+    type PopoverTriggerProps,
+  } from 'bits-ui'
 
   import { cn, flyAndScale } from '$ui/utils/index.js'
 
-  import Trigger from './Trigger.svelte'
+  type TProps = {
+    class?: string
+    children: PopoverTriggerProps['child']
+    content: Snippet<[{ close: () => void }]>
+    noStyles?: boolean
+    isOpened?: boolean
+
+    align?: PopoverContentProps['align']
+    side?: PopoverContentProps['side']
+
+    rootProps?: PopoverRootProps
+    contentProps?: PopoverContentProps
+  }
 
   let {
     class: className,
@@ -19,44 +35,31 @@
     side,
 
     rootProps,
-    triggerProps,
     contentProps,
-  }: {
-    class?: string
-    children: Snippet<[{ ref?: SS<HTMLElement | null> }]>
-    content: Snippet<[{ close: () => void }]>
-    noStyles?: boolean
-    isOpened?: boolean
+  }: TProps = $props()
 
-    align?: Popover.ContentProps['align']
-    side?: Popover.ContentProps['side']
-
-    rootProps?: Popover.Props & { outerControl?: boolean }
-    triggerProps?: Popover.TriggerProps
-    contentProps?: Popover.ContentProps
-  } = $props()
+  // TODO: Migrate js transition:flyAndScale to css from bits-ui example
 </script>
 
-{#if rootProps?.outerControl}
-  {@render children({})}
-{/if}
 <Popover.Root {...rootProps} bind:open={isOpened}>
-  {#if rootProps?.outerControl}
-    <Popover.Trigger class="absolute" />
-  {:else}
-    <Popover.Trigger {...triggerProps} class="hidden" asChild let:builder>
-      <Trigger {builder} {children}></Trigger>
-    </Popover.Trigger>
-  {/if}
+  <Popover.Trigger child={children}></Popover.Trigger>
 
   <Popover.Content
-    transition={flyAndScale}
     sideOffset={8}
     {...contentProps}
     {align}
     {side}
+    forceMount
     class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
   >
-    {@render content({ close: () => (isOpened = false) })}
+    {#snippet child({ wrapperProps, props, open })}
+      {#if open}
+        <div {...wrapperProps}>
+          <div {...props} transition:flyAndScale>
+            {@render content({ close: () => (isOpened = false) })}
+          </div>
+        </div>
+      {/if}
+    {/snippet}
   </Popover.Content>
 </Popover.Root>

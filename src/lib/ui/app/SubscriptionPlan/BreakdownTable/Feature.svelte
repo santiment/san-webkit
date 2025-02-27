@@ -23,8 +23,8 @@
   {name}
   {#if description}
     <Popover side="bottom" align="center" contentProps={{ alignOffset: 8 }}>
-      {#snippet children({ ref })}
-        <Button {ref} icon="info" size="sm" />
+      {#snippet children({ props })}
+        <Button {...props} icon="info" size="sm" />
       {/snippet}
 
       {#snippet content()}

@@ -79,20 +79,16 @@
   </Button>
 {:else}
   <Popover noStyles class="z-10" rootProps={rest.popoverRootProps} bind:isOpened={popoverIsOpened}>
-    {#snippet children({ ref })}
-      {#if ref}
-        <Button
-          {as}
-          {ref}
-          variant="border"
-          icon="calendar"
-          class={cn('whitespace-nowrap', className)}
-        >
-          {@render label()}
-        </Button>
-      {:else}
+    {#snippet children({ props })}
+      <Button
+        {...props}
+        {as}
+        variant="border"
+        icon="calendar"
+        class={cn('whitespace-nowrap', className)}
+      >
         {@render label()}
-      {/if}
+      </Button>
     {/snippet}
 
     {#snippet content()}
