@@ -1,5 +1,6 @@
 import { BROWSER } from 'esm-env'
 import { track as amplitudeTrack } from '@amplitude/analytics-browser'
+import { posthog } from 'posthog-js'
 
 import { Query } from '$lib/api/executor.js'
 
@@ -10,6 +11,7 @@ export enum Tracker {
   SAN = 'san',
   TWQ = 'twq',
   AMPLITUDE = 'AMPLITUDE',
+  POSTHOG = 'POSTHOG',
 }
 
 function canTrackBrowser(): boolean {
@@ -47,6 +49,13 @@ export const track: { event: TTrackEventFn } = {
 
     if (trackers.includes(Tracker.AMPLITUDE)) {
       amplitudeTrack(
+        action,
+        normalizeData({ event_category: category, event_label: label, ...rest }),
+      )
+    }
+
+    if (trackers.includes(Tracker.POSTHOG)) {
+      posthog.capture(
         action,
         normalizeData({ event_category: category, event_label: label, ...rest }),
       )
