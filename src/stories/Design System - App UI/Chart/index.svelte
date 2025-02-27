@@ -5,7 +5,8 @@
     useChartGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
-  import Chart, { Tooltip, ApiMetricSeries } from '$ui/app/Chart/index.js'
+  import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
+  import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
@@ -95,7 +96,13 @@
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
 
-    <Tooltip></Tooltip>
+    <PaneLegend>
+      {#snippet children({ metrics })}
+        {#each metrics as metric (metric.id)}
+          <PaneMetric {metric}></PaneMetric>
+        {/each}
+      {/snippet}
+    </PaneLegend>
   </Chart>
 
   <button onclick={toggle}> Toggle axis </button>

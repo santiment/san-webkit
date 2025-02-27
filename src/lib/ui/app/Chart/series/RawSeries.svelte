@@ -2,6 +2,7 @@
   import type { TSeries } from '../ctx/series.svelte.js'
 
   import { onMount } from 'svelte'
+  import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
 
   import { useChartCtx } from '../ctx/index.js'
 
@@ -52,9 +53,13 @@
 
     switch (type.$) {
       case 'histogram':
-        return chart.$.addHistogramSeries(Object.assign(base, { zOrder: 10 }), pane.$)
+        return chart.$.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
       default:
-        return chart.$.addLineSeries(Object.assign(base, { zOrder: 60 }), pane.$)
+        return chart.$.addSeries(
+          LineSeries,
+          Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth }),
+          pane.$,
+        )
     }
   }
 </script>
