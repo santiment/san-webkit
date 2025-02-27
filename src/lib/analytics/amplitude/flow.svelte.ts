@@ -5,7 +5,10 @@ import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 
-function useDebouncedFn<GFunction extends (...args: any[]) => void>(time: number, fn: GFunction) {
+export function useDebouncedFn<GFunction extends (...args: any[]) => void>(
+  time: number,
+  fn: GFunction,
+) {
   let timer: NodeJS.Timeout
 
   const clear = () => clearTimeout(timer)

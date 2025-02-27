@@ -16,3 +16,5 @@ export function initPosthog(id = 'phc_uehdF88phYxAqgTbYH5GHjM2dy2Us8AcI5r1zoIRLw
     autocapture: true,
   })
 }
+
+export { usePosthogFlow } from './flow.svelte.js'

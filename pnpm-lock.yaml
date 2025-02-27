@@ -33,8 +33,8 @@ dependencies:
     specifier: ^3.3.2
     version: 3.3.2
   posthog-js:
-    specifier: ^1.217.2
-    version: 1.217.2
+    specifier: ^1.224.0
+    version: 1.224.0(@rrweb/types@2.0.0-alpha.18)
   svelte-runes:
     specifier: ^0.0.7
     version: 0.0.7(svelte@5.20.4)
@@ -4718,6 +4718,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@rrweb/types@2.0.0-alpha.18:
+    resolution: {integrity: sha512-iMH3amHthJZ9x3gGmBPmdfim7wLGygC2GciIkw2A6SO8giSn8PHYtRT8OKNH4V+k3SZ6RSnYHcTQxBA7pSWZ3Q==}
+    dev: false
 
   /@rtsao/scc@1.1.0:
     resolution: {integrity: sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==}
@@ -11405,12 +11409,15 @@ packages:
       xtend: 4.0.2
     dev: true
 
-  /posthog-js@1.217.2:
-    resolution: {integrity: sha512-3KC+UjI0UT5zh8kAOVqe/AfvRjBMKynRIBQNlv0TXnfpZG0+h3r/1ONecDgCCGLs/a/55SJCExrugDlx+HPH3w==}
+  /posthog-js@1.224.0(@rrweb/types@2.0.0-alpha.18):
+    resolution: {integrity: sha512-JT1XQQeYs0CKb4lU2vujmeLTDLWc61I5lT7d6oG/H/cnCpXAqBi5rMuCFFeotHeMy3hqJ/Tpu3eAPFE2p5ErHA==}
+    peerDependencies:
+      '@rrweb/types': 2.0.0-alpha.17
     dependencies:
+      '@rrweb/types': 2.0.0-alpha.18
       core-js: 3.40.0
       fflate: 0.4.8
-      preact: 10.24.3
+      preact: 10.26.3
       web-vitals: 4.2.4
     dev: false
 
