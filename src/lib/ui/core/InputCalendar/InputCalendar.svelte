@@ -1,8 +1,7 @@
 <script lang="ts">
   import DatePicker from '$ui/core/Calendar/index.js'
-  import Button from '$ui/core/Button/index.js'
 
-  import { formatValue, useInputCalendar } from './utils.svelte.js'
+  import { formatValue, useInputCalendar } from './flow.svelte.js'
 
   type TProps = {
     date: [Date, Date]
@@ -13,39 +12,45 @@
 
   let isOpened = $state(false)
 
-  let { labelElement, inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(
-    date,
-    onChange,
-  )
+  let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(date, onChange)
+
+  function getIsOpened() {
+    return isOpened
+  }
 </script>
 
-<div class="relative" onfocusout={(e) => onBlur(e, (newIsOpened) => (isOpened = newIsOpened))}>
-  <DatePicker
-    {date}
-    {onChange}
-    class="relative"
-    popoverRootProps={{
-      //closeOnOutsideClick: false,
-      //disableFocusTrap: true,
-      //closeFocus: null,
-      //openFocus: null,
-      //portal: labelElement.$,
-      //outerControl: true,
+<!-- prettier-ignore-start -->
+<DatePicker
+  {date}
+  {onChange}
+  class="relative w-[180px]"
+  popoverContentProps={{
+    trapFocus: false,
+    onInteractOutside: (e) => {
+      const target = e.target as HTMLElement
+      if(target.closest('#' + inputNode.$.parentElement!.id)) return
+
+      onBlur()
+      isOpened = false
+    }
+  }}
+  bind:popoverIsOpened={getIsOpened, () => {}}
+  withPresets
+  as="label"
+>
+  <!-- prettier-ignore-end -->
+  <input
+    class="cursor-pointer select-none bg-transparent outline-none"
+    bind:this={inputNode.$}
+    type="text"
+    value={formatValue(date)}
+    onclick={onClick}
+    onkeydown={onKeyDown}
+    oninput={onInput}
+    onfocus={() => (isOpened = true)}
+    onpointerdown={(e) => {
+      e.stopImmediatePropagation()
+      isOpened = true
     }}
-    bind:popoverIsOpened={isOpened}
-    withPresets
-  >
-    <Button as="label" ref={labelElement} variant="border" icon="calendar">
-      <input
-        class="cursor-pointer select-none bg-transparent outline-none"
-        bind:this={inputNode.$}
-        type="text"
-        value={formatValue(date)}
-        onclick={onClick}
-        onfocus={() => (isOpened = true)}
-        onkeydown={onKeyDown}
-        oninput={onInput}
-      />
-    </Button>
-  </DatePicker>
-</div>
+  />
+</DatePicker>

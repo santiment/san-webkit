@@ -21,6 +21,7 @@
     timeZone?: string
     children?: Snippet
     popoverRootProps?: ComponentProps<typeof Popover>['rootProps']
+    popoverContentProps?: ComponentProps<typeof Popover>['contentProps']
     popoverIsOpened?: boolean
   }
 
@@ -78,7 +79,13 @@
     {@render label()}
   </Button>
 {:else}
-  <Popover noStyles class="z-10" rootProps={rest.popoverRootProps} bind:isOpened={popoverIsOpened}>
+  <Popover
+    noStyles
+    class="z-10"
+    rootProps={rest.popoverRootProps}
+    bind:isOpened={popoverIsOpened}
+    contentProps={rest.popoverContentProps}
+  >
     {#snippet children({ props })}
       <Button
         {...props}

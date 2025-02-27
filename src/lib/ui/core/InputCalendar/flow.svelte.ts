@@ -32,7 +32,6 @@ export function parseInputData(input: string) {
 }
 
 export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date, Date]) => void) {
-  const labelElement = ss<null | HTMLElement>(null)
   const inputNode = ss<HTMLInputElement>()
 
   $effect(() => {
@@ -103,11 +102,7 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
     return caret
   }
 
-  function onBlur(e: FocusEvent, callback?: (newState: boolean) => void) {
-    const relatedTarget = e.relatedTarget as Node
-
-    if (labelElement && labelElement.$?.contains(relatedTarget)) return callback?.(true)
-
+  function onBlur(callback?: (newState: boolean) => void) {
     if (formatValue(date) !== inputNode.$.value) {
       fixInputValue()
       changeCalendar()
@@ -234,7 +229,6 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
   }
 
   return {
-    labelElement,
     inputNode,
     formatValue,
     onKeyDown,
