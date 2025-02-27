@@ -12,7 +12,7 @@
 
   type TProps = {
     class?: string
-    children: PopoverTriggerProps['child']
+    children?: PopoverTriggerProps['child']
     content: Snippet<[{ close: () => void }]>
     noStyles?: boolean
     isOpened?: boolean

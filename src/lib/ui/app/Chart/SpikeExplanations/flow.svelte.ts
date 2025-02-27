@@ -21,7 +21,7 @@ export function drawSpikeExplanation(
   circleOptions: ICircleDrawOptions,
 ): void {
   if (this.state === ItemMouseState.ACTIVE) {
-    ctx.fillStyle = 'blue'
+    ctx.fillStyle = '#8358FF'
     drawCircle(ctx, coords, circleOptions)
     ctx.fill()
 
@@ -30,15 +30,15 @@ export function drawSpikeExplanation(
     return
   }
 
-  ctx.strokeStyle = 'blue'
+  ctx.strokeStyle = '#8358FF'
   drawCircle(ctx, coords, circleOptions)
   ctx.stroke()
 
   if (this.state === ItemMouseState.HOVER) {
-    ctx.fillStyle = 'cyan'
+    ctx.fillStyle = '#f2eeff'
     ctx.fill()
   }
 
-  ctx.fillStyle = 'blue'
+  ctx.fillStyle = '#8358FF'
   drawSvgIcon(ctx, coords, AI_ICON)
 }
