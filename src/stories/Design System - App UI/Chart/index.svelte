@@ -7,6 +7,7 @@
   } from '$ui/app/Chart/ctx/index.js'
   import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
+  import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
@@ -95,6 +96,8 @@
     {#each metricSeries.$ as item (item.id)}
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
+
+    <SpikeExplanations></SpikeExplanations>
 
     <PaneLegend>
       {#snippet children({ metrics })}

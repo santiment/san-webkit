@@ -1,4 +1,5 @@
 import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 
 import { createCtx } from '$lib/utils/index.js'
 
@@ -17,7 +18,7 @@ export const useChartGlobalParametersCtx = createCtx(
       from: 'utc_now-60d',
       to: 'utc_now',
       interval: '4h',
-      selector: { slug: 'bitcoin' },
+      selector: { slug: 'bitcoin' as TAssetSlug },
       includeIncompleteData: true,
       ...defaultCtxValue,
     })

@@ -1,5 +1,6 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
 import type { TNominal } from '$lib/utils/index.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 
 import { ApiQuery } from '$lib/api/index.js'
 
@@ -42,8 +43,8 @@ export type TMetricTargetSelectorInputObject = Partial<{
   organizations: string[]
   owner: string
   owners: string[]
-  slug: string
-  slugs: string[]
+  slug: TAssetSlug
+  slugs: TAssetSlug[]
   source: string
   text: string
   watchlistId: number

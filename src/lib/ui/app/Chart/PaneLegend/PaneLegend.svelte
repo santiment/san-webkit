@@ -5,7 +5,6 @@
 
   import { cn } from '$ui/utils/index.js'
 
-  //import Metric from './Metric.svelte'
   import { usePanesTooltip } from './ctx.svelte'
 
   type TProps = {
