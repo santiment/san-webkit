@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { Checkbox, type CheckboxProps } from 'bits-ui'
+  import { Checkbox, type CheckboxRootProps } from 'bits-ui'
 
   import { cn } from '$ui/utils/index.js'
 
-  type TProps = CheckboxProps & { isActive?: boolean; class?: string }
+  type TProps = CheckboxRootProps & { isActive?: boolean; class?: string }
   let { isActive = false, class: className, ...rest }: TProps = $props()
 </script>
 
@@ -16,6 +16,4 @@
       'border-green bg-green bg-[url(/webkit/icons/checkmark.svg)] bg-center bg-no-repeat hover:bg-green-hover',
     className,
   )}
->
-  <Checkbox.Indicator />
-</Checkbox.Root>
+></Checkbox.Root>

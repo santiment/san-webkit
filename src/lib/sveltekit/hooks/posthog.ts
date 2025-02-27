@@ -24,7 +24,7 @@ export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
     const response = await fetch(targetUrl, { method, headers, duplex, body: event.request.body })
     const isJson = (response.headers.get('content-type') ?? '').includes('application/json')
 
-    const data = await (isJson ? response.json() : response.text())
+    const data: any = await (isJson ? response.json() : response.text())
 
     return (isJson ? json : text)(data, { status: response.status })
   } catch (e) {

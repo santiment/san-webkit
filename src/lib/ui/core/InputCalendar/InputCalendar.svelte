@@ -25,12 +25,12 @@
     {onChange}
     class="relative"
     popoverRootProps={{
-      closeOnOutsideClick: false,
-      disableFocusTrap: true,
-      closeFocus: null,
-      openFocus: null,
-      portal: labelElement.$,
-      outerControl: true,
+      //closeOnOutsideClick: false,
+      //disableFocusTrap: true,
+      //closeFocus: null,
+      //openFocus: null,
+      //portal: labelElement.$,
+      //outerControl: true,
     }}
     bind:popoverIsOpened={isOpened}
     withPresets

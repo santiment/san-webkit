@@ -1,4 +1,3 @@
-import type { Builder } from 'bits-ui'
 import type { ActionReturn } from 'svelte/action'
 
 import { twMerge, type ClassNameValue } from 'tailwind-merge'
@@ -19,6 +18,7 @@ export function applyHexColorOpacity(color: string, hexOpacity: string): string 
   return color.slice(0, 7) + hexOpacity
 }
 
+export type Builder = { action: (node: HTMLElement) => ActionReturn, [x: string]: any }
 export function applyBuilder(node: HTMLElement, builder: Builder) {
   const { action, ...attrs } = builder
   const handler = action(node) as ActionReturn

@@ -14,9 +14,9 @@ export type TAjaxData<T> = { data: T[]; error?: unknown; errors?: unknown }
 export type TGqlSchema =
   | string
   | {
-      schema: string
-      variables?: Record<string, null | undefined | number | string | boolean | Record<string, any>>
-    }
+    schema: string
+    variables?: Record<string, null | undefined | number | string | boolean | Record<string, any>>
+  }
 
 /**
  * `Promise`-based executor for cases when `Observable`s are not a good fit
@@ -38,7 +38,7 @@ export function Query<T>(
     method: 'post',
     credentials: 'include',
   })
-    .then((response) => response.json())
+    .then((response) => response.json() as Promise<{ data: any, error: any, errors: any[] }>)
     .then(({ data, error, errors }) => {
       const queryError = error || errors
 
@@ -78,5 +78,5 @@ export const RxQuery = <T>(
  */
 export const UniQuery =
   (fetcher: (typeof globalThis)['fetch']) =>
-  <T>(schema: Parameters<typeof Query<T>>[0], options?: Parameters<typeof Query<T>>[1]) =>
-    Query<T>(schema, { ...options, fetcher })
+    <T>(schema: Parameters<typeof Query<T>>[0], options?: Parameters<typeof Query<T>>[1]) =>
+      Query<T>(schema, { ...options, fetcher })

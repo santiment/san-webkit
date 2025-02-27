@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Switch, type SwitchProps } from 'bits-ui'
+  import { Switch, type SwitchRootProps } from 'bits-ui'
 
   import { cn } from '$ui/utils/index.js'
 
@@ -7,8 +7,10 @@
 
   let {
     icon = { active: { id: 'checkmark', w: 8, h: 6 }, inactive: { id: 'cross', w: 7 } },
+    class: className,
     ...rest
-  }: SwitchProps & {
+  }: SwitchRootProps & {
+    class?: string
     icon?: {
       active: { id: string; w: number; h?: number }
       inactive: { id: string; w: number; h?: number }
@@ -21,7 +23,7 @@
   style="--_margin:3px;padding: 0 var(--_margin);"
   class={cn(
     'relative flex h-5 w-9 min-w-9 items-center rounded-[10px] bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover',
-    rest.class,
+    className,
   )}
 >
   <Switch.Thumb

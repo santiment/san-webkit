@@ -1,6 +1,6 @@
 import type { MeltActionReturn } from '@melt-ui/svelte/internal/types'
-import type { Builder } from 'bits-ui'
 import type { SS } from 'svelte-runes'
+import type { Builder } from './index.js'
 
 import { onMount } from 'svelte'
 
