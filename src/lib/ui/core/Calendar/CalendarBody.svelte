@@ -39,11 +39,10 @@
             {#each weekDates as date}
               <Base.Cell
                 {date}
+                month={month.value}
                 class="relative m-0 size-8 p-0 text-center focus-within:z-20 sm:size-10"
               >
                 <Base.Day
-                  {date}
-                  month={month.value}
                   class={cn(
                     'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded',
                     'hover:bg-athens hover:text-green',
@@ -54,9 +53,7 @@
                     range &&
                       'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
                   )}
-                >
-                  {date.day}
-                </Base.Day>
+                />
               </Base.Cell>
             {/each}
           </Base.GridRow>

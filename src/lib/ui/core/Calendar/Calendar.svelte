@@ -32,19 +32,19 @@
 </script>
 
 <Calendar.Root
+  type="single"
   class={cn('max-w-max rounded border bg-white sm:border-0', className)}
-  let:months
-  let:weekdays
   weekdayFormat="short"
   fixedWeeks
-  multiple={false}
   {value}
   {onValueChange}
   bind:placeholder={placeholder.date}
   {minValue}
   {maxValue}
 >
-  <CalendarHeader bind:placeholder={placeholder.date} {minValue} {maxValue} />
+  {#snippet children({ months, weekdays })}
+    <CalendarHeader bind:placeholder={placeholder.date} {minValue} {maxValue} />
 
-  <CalendarBody {months} {weekdays} />
+    <CalendarBody {months} {weekdays} />
+  {/snippet}
 </Calendar.Root>

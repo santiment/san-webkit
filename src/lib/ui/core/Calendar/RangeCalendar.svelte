@@ -52,8 +52,6 @@
 
 <RangeCalendar.Root
   class={cn('h-full max-w-max rounded border bg-white', className)}
-  let:months
-  let:weekdays
   weekdayFormat="short"
   fixedWeeks
   {value}
@@ -62,21 +60,23 @@
   {minValue}
   {maxValue}
 >
-  <div class="flex h-full flex-row items-stretch">
-    <div>
-      <CalendarHeader bind:placeholder={placeholder.date} range {minValue} {maxValue} />
+  {#snippet children({ months, weekdays })}
+    <div class="flex h-full flex-row items-stretch">
+      <div>
+        <CalendarHeader bind:placeholder={placeholder.date} range {minValue} {maxValue} />
 
-      <CalendarBody {months} {weekdays} range />
+        <CalendarBody {months} {weekdays} range />
+      </div>
+
+      {#if withPresets}
+        <aside class="flex min-w-36 flex-col items-stretch border-l p-2">
+          {#each presets as { title, range }}
+            <Button onclick={() => onValueChange(range)} class="px-[6px] py-2" variant="ghost">
+              {title}
+            </Button>
+          {/each}
+        </aside>
+      {/if}
     </div>
-
-    {#if withPresets}
-      <aside class="flex min-w-36 flex-col items-stretch border-l p-2">
-        {#each presets as { title, range }}
-          <Button onclick={() => onValueChange(range)} class="px-[6px] py-2" variant="ghost">
-            {title}
-          </Button>
-        {/each}
-      </aside>
-    {/if}
-  </div>
+  {/snippet}
 </RangeCalendar.Root>

@@ -17,6 +17,9 @@
       )}
     >
       {customer.$.planName}
+      {#if customer.$.isIncompleteSubscription}
+        (Incomplete)
+      {/if}
     </div>
   {:else}
     <Button href="/pricing" variant="fill" class="bg-orange hover:bg-orange-hover">

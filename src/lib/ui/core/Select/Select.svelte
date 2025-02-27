@@ -11,18 +11,12 @@
   type Props = {
     items: Selected<T>[]
     selected?: Selected<T>
-    onSelectedChange?: (value: Selected<T> | undefined) => void
+    onSelect?: (value: Selected<T> | undefined) => void
     triggerClass?: string
     contentClass?: string
   }
 
-  let {
-    items,
-    triggerClass,
-    contentClass,
-    selected = $bindable(),
-    onSelectedChange,
-  }: Props = $props()
+  let { items, triggerClass, contentClass, selected = $bindable(), onSelect }: Props = $props()
 
   let contentNode: undefined | HTMLDivElement = $state.raw()
 
@@ -34,37 +28,53 @@
     if (contentNode.clientHeight > 300) contentNode.style.height = '300px'
 
     const selectedNode = contentNode.querySelector('[data-selected]')
-    selectedNode?.scrollIntoView({ block: 'nearest' })
+    requestAnimationFrame(() => selectedNode?.scrollIntoView({ block: 'nearest' }))
   })
+
+  function onItemSelect(item: Selected<T>) {
+    if (selected === item) return
+
+    selected = item
+    onSelect?.(item)
+  }
 </script>
 
-<Select.Root bind:selected {items} {onSelectedChange}>
-  <Select.Trigger asChild let:builder>
-    <Button variant="border" {...builder} class={cn('gap-2 fill-fiord px-3', triggerClass)}>
-      <Select.Value />
-      <Svg id="arrow-down" w="12" />
-    </Button>
+<Select.Root value={selected?.value as string | undefined} type="single">
+  <Select.Trigger>
+    {#snippet child({ props })}
+      <Button variant="border" {...props} class={cn('gap-2 fill-fiord px-3', triggerClass)}>
+        {selected?.label}
+        <Svg id="arrow-down" w="12" />
+      </Button>
+    {/snippet}
   </Select.Trigger>
 
   <Select.Content
     class="z-10 overflow-auto rounded border bg-white p-2"
     sideOffset={8}
-    fitViewport
-    transition={flyAndScale}
     collisionPadding={8}
-    bind:el={contentNode}
+    forceMount
   >
-    {#each items as { value, label }}
-      <Select.Item
-        {value}
-        {label}
-        class={cn(
-          'z-50 cursor-pointer rounded px-3 py-2 hover:bg-athens [&[data-selected]]:text-green',
-          contentClass,
-        )}
-      >
-        {label}
-      </Select.Item>
-    {/each}
+    {#snippet child({ wrapperProps, props, open })}
+      {#if open}
+        <div {...wrapperProps}>
+          <div {...props} transition:flyAndScale bind:this={contentNode}>
+            {#each items as item}
+              <Select.Item
+                value={item.value as string}
+                label={item.label}
+                onclick={() => onItemSelect(item)}
+                class={cn(
+                  'z-50 cursor-pointer rounded px-3 py-2 hover:bg-athens [&[data-selected]]:text-green',
+                  contentClass,
+                )}
+              >
+                {item.label}
+              </Select.Item>
+            {/each}
+          </div>
+        </div>
+      {/if}
+    {/snippet}
   </Select.Content>
 </Select.Root>

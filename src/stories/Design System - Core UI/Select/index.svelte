@@ -9,7 +9,7 @@
     { value: 'bananas', label: 'Bananas' },
   ]
 
-  let selected = $state(items[0])
+  let selected = $state.raw(items[0])
 </script>
 
 <div class="flex flex-col justify-center gap-4 p-6">
