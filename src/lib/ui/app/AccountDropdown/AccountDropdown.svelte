@@ -9,21 +9,26 @@
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
   import { useLogoutFlow } from '$lib/flow/logout/index.js'
+  import { SANBASE_ORIGIN } from '$lib/utils/links.js'
 
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
+
+  type TProps = {
+    class?: string
+    version?: string
+    onClassicClick?: () => void
+    onLogout?: () => void
+    prependOrigin?: boolean
+  }
 
   let {
     class: className,
     version = '1.0.0',
     onClassicClick,
     onLogout,
-  }: {
-    class?: string
-    version?: string
-    onClassicClick?: () => void
-    onLogout?: () => void
-  } = $props()
+    prependOrigin = false,
+  }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -42,7 +47,7 @@
 
   {#snippet content({ close })}
     {#if currentUser.$$}
-      <AccountInfo></AccountInfo>
+      <AccountInfo {prependOrigin}></AccountInfo>
 
       <section>
         <div class="px-2.5">
@@ -51,21 +56,22 @@
       </section>
 
       <section>
-        {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
+        {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`, { prependOrigin })}
 
-        {@render sanbaseLink('Account settings', '/account')}
+        {@render sanbaseLink('Account settings', '/account', { prependOrigin })}
       </section>
 
       <section>
-        {@render sanbaseLink('My alerts', '/alerts')}
+        {@render sanbaseLink('My alerts', '/alerts', { prependOrigin })}
 
-        {@render sanbaseLink('My watchlists', '/watchlists')}
+        {@render sanbaseLink('My watchlists', '/watchlists', { prependOrigin })}
 
-        {@render sanbaseLink('My insights', '/insights/my')}
+        {@render sanbaseLink('My insights', '/insights/my', { prependOrigin })}
 
         {@render sanbaseLink('Write insight', '/insights/new', {
           variant: 'fill',
           class: 'ml-2.5 w-max',
+          prependOrigin,
         })}
       </section>
     {:else}
@@ -73,6 +79,7 @@
         {@render sanbaseLink('Sign up', '/sign-up', {
           icon: 'user',
           class: 'fill-green text-green',
+          prependOrigin,
         })}
       </section>
     {/if}
@@ -84,13 +91,14 @@
       </Button>
 
       {@render sanbaseLink('Referral Program', '/account#affiliate', {
+        prependOrigin,
         icon: 'sparkle',
         iconOnRight: true,
         iconSize: 12,
         class: 'fill-yellow-hover',
       })}
 
-      {@render sanbaseLink('Historical balance', '/labs/balance')}
+      {@render sanbaseLink('Historical balance', '/labs/balance', { prependOrigin })}
 
       {#if onClassicClick}
         <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
@@ -98,6 +106,7 @@
 
       {@render sanbaseLink('Contact us', 'mailto:support@santiment.net', {
         onclick: onSupportClick,
+        prependOrigin: false,
       })}
 
       {#if currentUser.$$}
@@ -114,8 +123,17 @@
   {/snippet}
 </Tooltip>
 
-{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
-  <Button variant="ghost" {...props} {href} data-source="account_dropdown">{text}</Button>
+{#snippet sanbaseLink(
+  text: string,
+  href: string,
+  props: ComponentProps<typeof Button> & { prependOrigin?: boolean } = { prependOrigin: false },
+)}
+  <Button
+    variant="ghost"
+    {...props}
+    href={props.prependOrigin ? SANBASE_ORIGIN + href : href}
+    data-source="account_dropdown">{text}</Button
+  >
 {/snippet}
 
 <style lang="postcss">
