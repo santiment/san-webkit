@@ -5,15 +5,7 @@
 
   import ProfilePicture from './ProfilePicture.svelte'
 
-  type TProps = {
-    prependOrigin?: boolean
-  }
-
-  const { prependOrigin = false }: TProps = $props()
-
   const { customer, currentUser } = useCustomerCtx()
-
-  const originPath = $derived(prependOrigin ? SANBASE_ORIGIN : '')
 </script>
 
 {#if currentUser.$$}
@@ -30,7 +22,7 @@
 
       <div class="min-w-0 single-line">
         <a
-          href={originPath + '/profile/' + currentUser.$$.id}
+          href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
           class="font-medium text-rhino link-as-bg"
         >
           @{currentUser.$$.username}
@@ -52,7 +44,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href={originPath + '/pricing'}
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Start Free 14-day Trial
@@ -61,7 +53,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href={originPath + '/pricing'}
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Upgrade
@@ -70,7 +62,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href={originPath + '/pricing'}
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Learn about MAX
@@ -82,7 +74,11 @@
         Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
       </p>
     {:else if planName.includes('Pro')}
-      <a href="/pricing" class="-mt-1 text-orange" data-source="account_dropdown">
+      <a
+        href={SANBASE_ORIGIN + '/pricing'}
+        class="-mt-1 text-orange"
+        data-source="account_dropdown"
+      >
         Learn about {planName}
       </a>
     {/if}
