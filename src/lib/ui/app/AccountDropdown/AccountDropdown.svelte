@@ -9,21 +9,19 @@
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
   import { useLogoutFlow } from '$lib/flow/logout/index.js'
+  import { SANBASE_ORIGIN } from '$lib/utils/links.js'
 
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
 
-  let {
-    class: className,
-    version = '1.0.0',
-    onClassicClick,
-    onLogout,
-  }: {
+  type TProps = {
     class?: string
     version?: string
     onClassicClick?: () => void
     onLogout?: () => void
-  } = $props()
+  }
+
+  let { class: className, version = '1.0.0', onClassicClick, onLogout }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -115,7 +113,9 @@
 </Tooltip>
 
 {#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
-  <Button variant="ghost" {...props} {href} data-source="account_dropdown">{text}</Button>
+  <Button variant="ghost" {...props} href={SANBASE_ORIGIN + href} data-source="account_dropdown"
+    >{text}</Button
+  >
 {/snippet}
 
 <style lang="postcss">

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { SANBASE_ORIGIN } from '$lib/utils/links.js'
   import Button from '$ui/core/Button/index.js'
 
   import ProfilePicture from './ProfilePicture.svelte'
@@ -20,7 +21,10 @@
       <ProfilePicture as="div" class="min-w-8"></ProfilePicture>
 
       <div class="min-w-0 single-line">
-        <a href={'/profile/' + currentUser.$$.id} class="font-medium text-rhino link-as-bg">
+        <a
+          href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
+          class="font-medium text-rhino link-as-bg"
+        >
           @{currentUser.$$.username}
         </a>
 
@@ -40,7 +44,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href="/pricing"
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Start Free 14-day Trial
@@ -49,7 +53,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href="/pricing"
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Upgrade
@@ -58,7 +62,7 @@
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"
-        href="/pricing"
+        href={SANBASE_ORIGIN + '/pricing'}
         data-source="account_dropdown"
       >
         Learn about MAX
@@ -70,7 +74,11 @@
         Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
       </p>
     {:else if planName.includes('Pro')}
-      <a href="/pricing" class="-mt-1 text-orange" data-source="account_dropdown">
+      <a
+        href={SANBASE_ORIGIN + '/pricing'}
+        class="-mt-1 text-orange"
+        data-source="account_dropdown"
+      >
         Learn about {planName}
       </a>
     {/if}
