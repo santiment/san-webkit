@@ -21,7 +21,7 @@ function canTrackBrowser(): boolean {
   return dnt !== '1' && dnt !== 'yes'
 }
 
-const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE]
+const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE, Tracker.POSTHOG]
 
 export type TEventData = {
   [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
