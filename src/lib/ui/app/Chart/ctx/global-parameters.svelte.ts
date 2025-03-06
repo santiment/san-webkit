@@ -1,5 +1,6 @@
 import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
+import type { TExecutorOptions } from '$lib/api/index.js'
 
 import { createCtx } from '$lib/utils/index.js'
 
@@ -9,6 +10,7 @@ export type TGlobalParameters = {
   interval: TInterval
   selector: TMetricTargetSelectorInputObject
   includeIncompleteData: boolean
+  executorOptions?: Partial<TExecutorOptions>
 }
 
 export const useChartGlobalParametersCtx = createCtx(

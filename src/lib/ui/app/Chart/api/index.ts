@@ -2,7 +2,7 @@ import type { UTCTimestamp } from '@santiment-network/chart-next'
 import type { TNominal } from '$lib/utils/index.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 
-import { ApiQuery } from '$lib/api/index.js'
+import { ApiQuery, type TExecutorOptions } from '$lib/api/index.js'
 
 export type TInterval = `${number}m` | `${number}h` | `${number}d` | `${number}y`
 
@@ -64,43 +64,52 @@ export type TVariables = {
   includeIncompleteData?: boolean
 }
 
-export const queryGetMetric = ApiQuery(
-  ({ metric, selector, from, to, interval, transform }: TVariables) => ({
-    schema: `
-  query getMetric(
-    $metric: String!
-    $from: DateTime!
-    $to: DateTime!
-    $interval: interval
-    $transform: TimeseriesMetricTransformInputObject
-    $aggregation: Aggregation
-    $includeIncompleteData: Boolean = true
-    $selector: MetricTargetSelectorInputObject
-  ) {
-    getMetric(metric: $metric) {
-      timeseriesData(
-        selector: $selector
-        from: $from
-        to: $to
-        interval: $interval
-        transform: $transform
-        aggregation: $aggregation
-        includeIncompleteData: $includeIncompleteData
-      ) {
-        d: datetime
-        v: value
+function createQueryGetMetric(options?: Partial<TExecutorOptions>) {
+  return ApiQuery(
+    ({ metric, selector, from, to, interval, transform }: TVariables) => ({
+      schema: `
+        query getMetric(
+          $metric: String!
+          $from: DateTime!
+          $to: DateTime!
+          $interval: interval
+          $transform: TimeseriesMetricTransformInputObject
+          $aggregation: Aggregation
+          $includeIncompleteData: Boolean = true
+          $selector: MetricTargetSelectorInputObject
+        ) {
+          getMetric(metric: $metric) {
+            timeseriesData(
+              selector: $selector
+            from: $from
+            to: $to
+            interval: $interval
+            transform: $transform
+            aggregation: $aggregation
+            includeIncompleteData: $includeIncompleteData
+          ) {
+            d: datetime
+            v: value
+          }
+        }
       }
-    }
-  }
-`,
-    variables: { metric, selector, from, to, interval, transform },
-  }),
-  (gql: { getMetric: { timeseriesData: { d: string; v: number }[] } }): TMetricData =>
-    gql.getMetric.timeseriesData.map((item) => ({
-      time: (Date.parse(item.d) / 1000) as UTCTimestamp,
-      value: item.v,
-    })),
-  { cacheTime: undefined },
-)
+    `,
+      variables: { metric, selector, from, to, interval, transform },
+    }),
+    (gql: { getMetric: { timeseriesData: { d: string; v: number }[] } }): TMetricData =>
+      gql.getMetric.timeseriesData.map((item) => ({
+        time: (Date.parse(item.d) / 1000) as UTCTimestamp,
+        value: item.v,
+      })),
+    {
+      cacheTime: undefined,
+      ...options,
+    },
+  )
+}
+
+export const queryGetMetric = createQueryGetMetric()
+
+export const queryGetMetricWithOptions = createQueryGetMetric
 
 export type TMetricData = { time: UTCTimestamp; value: number }[]

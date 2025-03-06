@@ -5,7 +5,7 @@ import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
 import {
-  queryGetMetric,
+  queryGetMetricWithOptions,
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
@@ -27,7 +27,9 @@ export function useApiMetricDataFlow(metric: TSeries) {
       metric.loading.$ = true
       metric.data.$ = []
 
-      return queryGetMetric()({
+      const query = queryGetMetricWithOptions(globalParameters?.executorOptions)
+
+      return query()({
         metric: localParameters.metric,
         selector: localParameters.selector || globalParameters.selector,
         from: globalParameters.from,
