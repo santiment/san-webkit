@@ -1,11 +1,13 @@
 import { catchError, of, switchMap, tap } from 'rxjs'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+import { type TExecutorOptions } from '$lib/api/index.js'
+import { RxQuery } from '$lib/api/executor.js'
 
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
 import {
-  queryGetMetricWithOptions,
+  queryGetMetric,
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
@@ -16,7 +18,10 @@ type TLocalParameters = {
   transform?: null | TTimeseriesMetricTransformInputObject
 }
 
-export function useApiMetricDataFlow(metric: TSeries) {
+export function useApiMetricDataFlow(
+  metric: TSeries,
+  { fetcher }: { fetcher?: TExecutorOptions['fetcher'] },
+) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
   const loadMetricData = useObserveFnCall<{
@@ -27,9 +32,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
       metric.loading.$ = true
       metric.data.$ = []
 
-      const query = queryGetMetricWithOptions(globalParameters?.executorOptions)
-
-      return query()({
+      return queryGetMetric({ executor: RxQuery, fetcher })({
         metric: localParameters.metric,
         selector: localParameters.selector || globalParameters.selector,
         from: globalParameters.from,
