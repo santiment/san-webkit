@@ -1,0 +1,20 @@
+import { ALERT_ASSET_SCHEMA } from './asset/schema.js'
+import { ALERT_SOCIAL_TRENDS_SCHEMA } from './social-trends/schema.js'
+
+export const SCHEMAS = [ALERT_ASSET_SCHEMA, ALERT_SOCIAL_TRENDS_SCHEMA] as const
+
+export const SchemaByType = SCHEMAS.reduce(
+  (acc, item) => {
+    // @ts-expect-error Assigning schema to reduced accumulator
+    acc[item.name] = item
+
+    return acc
+  },
+  {} as {
+    [V in (typeof SCHEMAS)[number] as V['name']]: V
+  },
+)
+
+export type TAlertSchemaUnion = (typeof SCHEMAS)[number]
+
+export { deduceApiAlertSchema } from './utils.js'
