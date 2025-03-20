@@ -2,7 +2,7 @@ import type { TSocialTrendsApiAlert } from '../schema.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
-import Component from './ui/index.svelte'
+import Form from './ui/index.svelte'
 
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
@@ -16,7 +16,13 @@ export type TBaseSchema = TStepBaseSchema<
 
 export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'select-trend',
-  Component,
+  ui: {
+    title: 'Select Social trend',
+    label: 'Select Social trend',
+    description: 'You can choose any social word, asset or watchlist',
+
+    Form,
+  },
 
   initState(apiAlert) {
     const { target, operation } = apiAlert?.settings || {}

@@ -14,21 +14,34 @@ export type TStepBaseSchema<
   validate: (state: ReturnType<GProps['initState']>) => boolean
 }
 
+export type TStepUI = {
+  ui: {
+    title: string
+    label: string
+    description: string
+
+    Form: Component<any>
+    Legend?: Component<any>
+  }
+}
+
 export type TStepSchema = TStepBaseSchema<
   string,
   {
     initState: (apiAlert?: null | TApiAlert) => any
   }
-> & { Component: Component<any> }
+> &
+  TStepUI
 
 export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any> = any>(
-  base: GBaseSchema & { Component: Component<any> },
+  base: GBaseSchema & TStepUI,
 ) {
   const schema = {
     name: base.name as GBaseSchema['name'],
-    Component: base.Component,
     initState: base.initState as GBaseSchema['initState'],
     validate: base.validate as GBaseSchema['validate'],
+
+    ui: base.ui,
   } as const
 
   return schema

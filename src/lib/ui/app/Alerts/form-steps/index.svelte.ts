@@ -1,6 +1,5 @@
-import type { Component } from 'svelte'
 import type { TApiAlert } from '../types.js'
-import type { TStepBaseSchema, TStepSchema } from './types.js'
+import type { TStepBaseSchema, TStepSchema, TStepUI } from './types.js'
 import type { IfAny } from '$lib/utils/types/index.js'
 
 export function createAlertStep<GStepSchema extends TStepSchema>(
@@ -12,7 +11,7 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
 
   return {
     name: schema.name,
-    Component: schema.Component,
+    ui: schema.ui,
 
     state: {
       get $$() {
@@ -34,7 +33,7 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
 
 export type TAlertStep<GStepSchema extends TStepBaseSchema<string, any>> = {
   name: GStepSchema['name']
-  Component: Component<any>
+  ui: TStepUI
 
   state: {
     get $$(): IfAny<

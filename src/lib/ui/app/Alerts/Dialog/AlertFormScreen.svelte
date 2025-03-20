@@ -27,12 +27,16 @@
   <h2 class="text-lg">Schema: {schema.name}</h2>
 
   {#each steps as step, i (step.name)}
-    <div class="flex">
+    <div class="m-2 flex border">
       <Button onclick={() => (selectedIndex = i)}>
         {step.name}
       </Button>
 
-      , valid: {step.isValid.$}
+      , valid: {step.isValid.$},
+
+      {#if step.ui.Legend}
+        <selectedStep.ui.Legend {step}></selectedStep.ui.Legend>
+      {/if}
     </div>
     <hr />
   {/each}
@@ -42,6 +46,6 @@
   <hr />
 
   <div class="p-4">
-    <selectedStep.Component step={selectedStep}></selectedStep.Component>
+    <selectedStep.ui.Form step={selectedStep}></selectedStep.ui.Form>
   </div>
 </section>

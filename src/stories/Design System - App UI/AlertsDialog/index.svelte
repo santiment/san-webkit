@@ -1,9 +1,11 @@
 <script>
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import AlertsDialog, { showAlertsDialog$ } from '$ui/app/Alerts/Dialog/index.js'
   import StoryDialog from '../../Design System - Core UI/Dialog/StoryDialog.svelte'
 
   let { apiAlert } = $props()
 
+  useAssetsCtx.set()
   const showAlertsDialog = showAlertsDialog$()
 </script>
 
