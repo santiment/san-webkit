@@ -31,4 +31,13 @@ export const STEP_NOTIFICATIONS_PRIVACY_SCHEMA = createStepSchema<TBaseSchema>({
   validate(state) {
     return state.channel.length > 0
   },
+
+  reduceToApi(apiAlert, state) {
+    const { channel, ...rest } = state
+
+    Object.assign(apiAlert, rest)
+    Object.assign(apiAlert.settings, { channel })
+
+    return apiAlert
+  },
 })

@@ -34,4 +34,10 @@ export const STEP_NAME_DESCRIPTION_SCHEMA = createStepSchema<TBaseSchema>({
   validate(state) {
     return !!state.title
   },
+
+  reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert, state)
+
+    return apiAlert
+  },
 })

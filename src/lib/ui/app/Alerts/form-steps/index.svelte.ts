@@ -13,6 +13,8 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
     name: schema.name,
     ui: schema.ui,
 
+    reduceToApi: schema.reduceToApi,
+
     state: {
       get $$() {
         return _state
@@ -34,6 +36,8 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
 export type TAlertStep<GStepSchema extends TStepBaseSchema<string, any>> = {
   name: GStepSchema['name']
   ui: TStepUI
+
+  reduceToApi: GStepSchema['reduceToApi']
 
   state: {
     get $$(): IfAny<

@@ -12,6 +12,11 @@ export type TStepBaseSchema<
   initState: GProps['initState']
 
   validate: (state: ReturnType<GProps['initState']>) => boolean
+
+  reduceToApi: (
+    apiAlert: { settings: object },
+    state: ReturnType<GProps['initState']>,
+  ) => { settings: object }
 }
 
 export type TStepUI = {
@@ -42,6 +47,8 @@ export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any
     validate: base.validate as GBaseSchema['validate'],
 
     ui: base.ui,
+
+    reduceToApi: base.reduceToApi as GBaseSchema['reduceToApi'],
   } as const
 
   return schema

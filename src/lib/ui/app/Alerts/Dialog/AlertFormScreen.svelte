@@ -16,11 +16,14 @@
 
   const isAlertValid = $derived(steps.every((step) => step.isValid.$))
 
-  /*
   // Reduce steps state.$$ to accumulated object
   function onAlertCreate() {
+    const reducedAlert = steps.reduce(
+      (acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)),
+      { settings: {} },
+    )
+    console.log(reducedAlert)
   }
-  */
 </script>
 
 <section>
@@ -35,7 +38,7 @@
       , valid: {step.isValid.$},
 
       {#if step.ui.Legend}
-        <selectedStep.ui.Legend {step}></selectedStep.ui.Legend>
+        <step.ui.Legend {step}></step.ui.Legend>
       {/if}
     </div>
     <hr />
@@ -48,4 +51,6 @@
   <div class="p-4">
     <selectedStep.ui.Form step={selectedStep}></selectedStep.ui.Form>
   </div>
+
+  <Button variant="fill" onclick={() => onAlertCreate()}>Submit</Button>
 </section>

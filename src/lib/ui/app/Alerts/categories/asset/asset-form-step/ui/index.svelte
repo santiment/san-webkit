@@ -13,7 +13,7 @@
 
   const { assets } = useAssetsCtx.get()
 
-  const selectedAssets = new SvelteSet(step.state.$$.slug)
+  const selectedAssets = new SvelteSet(step.state.$$.target.slug)
 </script>
 
 Loaded: {assets.$.length > 0}
@@ -28,7 +28,7 @@ Loaded: {assets.$.length > 0}
           if (value) selectedAssets.add(asset.slug)
           else selectedAssets.delete(asset.slug)
 
-          step.state.$$.slug = Array.from(selectedAssets)
+          step.state.$$.target.slug = Array.from(selectedAssets)
         }}
       ></Checkbox>
     </div>

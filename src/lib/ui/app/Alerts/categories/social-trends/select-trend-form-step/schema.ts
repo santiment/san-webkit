@@ -40,4 +40,10 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
   validate(state) {
     return !!state.target && (Array.isArray(state.target) ? state.target.length > 0 : true)
   },
+
+  reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, state)
+
+    return apiAlert
+  },
 })

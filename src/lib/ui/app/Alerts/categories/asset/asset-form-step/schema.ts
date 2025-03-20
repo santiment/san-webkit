@@ -10,7 +10,7 @@ export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
     initState: (apiAlert?: null | TAssetApiAlert) => {
-      slug: string[]
+      target: { slug: string[] }
     }
   }
 >
@@ -28,11 +28,19 @@ export const STEP_ASSETS_SCHEMA = createStepSchema<TBaseSchema>({
 
   initState(apiAlert) {
     return {
-      slug: apiAlert?.settings?.target.slug || [],
+      target: {
+        slug: apiAlert?.settings?.target.slug || [],
+      },
     }
   },
 
   validate(state) {
-    return state.slug.length > 0
+    return state.target.slug.length > 0
+  },
+
+  reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, state)
+
+    return apiAlert
   },
 })
