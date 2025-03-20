@@ -1,6 +1,6 @@
 export type TApiAlert<GSettings = any> = {
   id: number
-  type: ''
+  type: string
 
   description: null | string
   title: null | string
