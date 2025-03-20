@@ -1,3 +1,5 @@
+import type { TApiAlert } from '../types.js'
+
 import { ALERT_ASSET_SCHEMA } from './asset/schema.js'
 import { ALERT_SOCIAL_TRENDS_SCHEMA } from './social-trends/schema.js'
 
@@ -17,4 +19,6 @@ export const SchemaByType = SCHEMAS.reduce(
 
 export type TAlertSchemaUnion = (typeof SCHEMAS)[number]
 
-export { deduceApiAlertSchema } from './utils.js'
+export function deduceApiAlertSchema(apiAlert?: null | TApiAlert): null | TAlertSchemaUnion {
+  return (apiAlert && SCHEMAS.find((schema) => schema.deduceApiAlert(apiAlert))) || null
+}

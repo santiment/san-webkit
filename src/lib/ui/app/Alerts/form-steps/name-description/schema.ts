@@ -8,7 +8,7 @@ export type TBaseSchema = TStepBaseSchema<
   'name-description',
   {
     initState: (apiAlert?: null | TApiAlert) => {
-      name: string
+      title: string
       description: string
     }
   }
@@ -18,11 +18,12 @@ export const STEP_NAME_DESCRIPTION_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'name-description',
   Component,
 
-  initState() {
-    return { name: '', description: '' }
+  initState(apiAlert) {
+    const { title, description } = apiAlert ?? {}
+    return { title: title ?? '', description: description ?? '' }
   },
 
   validate(state) {
-    return !!state.name
+    return !!state.title
   },
 })

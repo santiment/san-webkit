@@ -9,7 +9,7 @@
   let { step }: TProps = $props()
 </script>
 
-Channel: <Checkbox
+Assets: <Checkbox
   isActive={step.isValid.$}
   onCheckedChange={(value) => {
     step.state.$$.slugs = value ? ['bitcoin'] : []

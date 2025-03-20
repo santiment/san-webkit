@@ -1,4 +1,5 @@
 import type { TStepSchema } from '../form-steps/types.js'
+import type { TApiAlert } from '../types.js'
 
 import { STEP_NAME_DESCRIPTION_SCHEMA } from '../form-steps/name-description/schema.js'
 import { STEP_NOTIFICATIONS_PRIVACY_SCHEMA } from '../form-steps/notifications-privacy/schema.js'
@@ -7,6 +8,7 @@ export type TAlertBaseSchema<
   GName,
   GProps extends {
     steps: TStepSchema[]
+    deduceApiAlert: (apiAlert: TApiAlert) => boolean
   },
 > = {
   name: GName
@@ -18,6 +20,8 @@ export type TAlertBaseSchema<
   }
 
   steps: GProps['steps']
+
+  deduceApiAlert: GProps['deduceApiAlert']
 }
 
 export function createAlertSchema<GBaseSchema extends TAlertBaseSchema<string, any> = any>(
@@ -31,6 +35,7 @@ export function createAlertSchema<GBaseSchema extends TAlertBaseSchema<string, a
       STEP_NOTIFICATIONS_PRIVACY_SCHEMA,
       STEP_NAME_DESCRIPTION_SCHEMA,
     ],
+    deduceApiAlert: base.deduceApiAlert as GBaseSchema['deduceApiAlert'],
   } as const
 
   return schema

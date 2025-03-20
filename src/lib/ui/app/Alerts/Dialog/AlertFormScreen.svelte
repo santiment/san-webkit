@@ -24,6 +24,8 @@
 </script>
 
 <section>
+  <h2 class="text-lg">Schema: {schema.name}</h2>
+
   {#each steps as step, i (step.name)}
     <div class="flex">
       <Button onclick={() => (selectedIndex = i)}>

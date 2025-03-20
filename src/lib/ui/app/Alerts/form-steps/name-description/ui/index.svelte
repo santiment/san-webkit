@@ -10,10 +10,10 @@
 </script>
 
 Name: <Input
-  defaultValue={step.state.$$.name}
+  defaultValue={step.state.$$.title}
   oninput={(e) => {
-    step.state.$$.name = e.currentTarget.value
+    step.state.$$.title = e.currentTarget.value
   }}
 ></Input>
 
-Description: <Input></Input>
+Description: <Input defaultValue={step.state.$$.description}></Input>
