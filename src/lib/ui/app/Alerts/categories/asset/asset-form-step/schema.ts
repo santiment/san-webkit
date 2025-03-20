@@ -1,4 +1,4 @@
-import type { TApiAlert } from '$ui/app/Alerts/types.js'
+import type { TAssetApiAlert } from '../schema.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -8,8 +8,8 @@ import Component from './ui/index.svelte'
 export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
-    initState: (apiAlert?: null | TApiAlert) => {
-      slugs: string[]
+    initState: (apiAlert?: null | TAssetApiAlert) => {
+      slug: string[]
     }
   }
 >
@@ -18,13 +18,13 @@ export const STEP_ASSETS_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'assets',
   Component,
 
-  initState() {
+  initState(apiAlert) {
     return {
-      slugs: [],
+      slug: apiAlert?.settings?.target.slug || [],
     }
   },
 
   validate(state) {
-    return state.slugs.length > 0
+    return state.slug.length > 0
   },
 })

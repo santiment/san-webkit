@@ -41,5 +41,7 @@
 
   <hr />
 
-  <selectedStep.Component step={selectedStep}></selectedStep.Component>
+  <div class="p-4">
+    <selectedStep.Component step={selectedStep}></selectedStep.Component>
+  </div>
 </section>

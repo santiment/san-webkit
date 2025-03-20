@@ -10,7 +10,7 @@
 <div>
   {#each SCHEMAS as schema (schema.name)}
     <Button onclick={() => onSelect(schema)}>
-      {schema.category.label}
+      {schema.ui.label}
     </Button>
   {/each}
 </div>

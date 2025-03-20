@@ -7,7 +7,7 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
   apiAlert: undefined | null | TApiAlert,
   schema: GStepSchema,
 ) {
-  const _state = $state<{ [key: string]: unknown }>(schema.initState(apiAlert))
+  let _state = $state<{ [key: string]: unknown }>(schema.initState(apiAlert))
   const _isValid = $derived(schema.validate(_state))
 
   return {
@@ -17,6 +17,10 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
     state: {
       get $$() {
         return _state
+      },
+
+      set $$(value) {
+        _state = value
       },
     },
 
@@ -38,6 +42,14 @@ export type TAlertStep<GStepSchema extends TStepBaseSchema<string, any>> = {
       unknown,
       ReturnType<GStepSchema['initState']>
     >
+
+    set $$(
+      value: IfAny<
+        ReturnType<GStepSchema['initState']>,
+        unknown,
+        ReturnType<GStepSchema['initState']>
+      >,
+    )
   }
 
   isValid: {

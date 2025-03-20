@@ -12,6 +12,6 @@
 Assets: <Checkbox
   isActive={step.isValid.$}
   onCheckedChange={(value) => {
-    step.state.$$.slugs = value ? ['bitcoin'] : []
+    step.state.$$.slug = value ? ['bitcoin'] : []
   }}
 ></Checkbox>

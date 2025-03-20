@@ -13,7 +13,7 @@ export type TAlertBaseSchema<
 > = {
   name: GName
 
-  category: {
+  ui: {
     label: string
     description: string
     icon: string
@@ -29,7 +29,7 @@ export function createAlertSchema<GBaseSchema extends TAlertBaseSchema<string, a
 ) {
   const schema = {
     name: base.name as GBaseSchema['name'],
-    category: base.category as GBaseSchema['category'],
+    ui: base.ui as GBaseSchema['ui'],
     steps: [
       ...(base.steps as GBaseSchema['steps']),
       STEP_NOTIFICATIONS_PRIVACY_SCHEMA,
