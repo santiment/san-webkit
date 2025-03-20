@@ -7,7 +7,7 @@ import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 export type TSocialTrendsApiAlert = TApiAlert<
   {
     type: 'trending_words'
-  } & ( //| { target: undefined; operation: undefined }
+  } & (
     | {
         target: { slug: TAssetSlug[] }
         operation: { trending_project: true }
