@@ -42,6 +42,7 @@
 
   let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
+  let isScrollEnabled = false
 
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
@@ -91,7 +92,17 @@
   $effect(() => {
     if (!chart.$) return
 
-    chart.$.applyOptions(ModeOptions[mode])
+    const scrollOptions = ModeOptions[mode].handleScroll
+
+    const options = {
+      handleScroll: {
+        pressedMouseMove: scrollOptions.pressedMouseMove,
+        mouseWheel: scrollOptions.mouseWheel && isScrollEnabled,
+      },
+      handleScale: { mouseWheel: isScrollEnabled },
+    }
+
+    chart.$.applyOptions(options)
   })
 
   function _onRangeSelectEnd(
@@ -121,10 +132,16 @@
         return
       }
 
+      isScrollEnabled = true
       mode = tempMode
 
-      window.addEventListener('keyup', () => (mode = Mode.DRAG), { once: true })
+      window.addEventListener('keyup', resetChartInteractionMode, { once: true })
     })
+  }
+
+  function resetChartInteractionMode() {
+    isScrollEnabled = false
+    mode = Mode.DRAG
   }
 </script>
 
