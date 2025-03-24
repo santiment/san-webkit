@@ -128,7 +128,10 @@
   }
 </script>
 
-<div bind:this={chartContainerNode} class={cn('relative z-[1]', className)}>
+<div
+  bind:this={chartContainerNode}
+  class={cn('relative z-[1] [&>div]:!overflow-visible', className)}
+>
   {#if chart.$}
     {@render children()}
   {/if}

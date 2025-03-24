@@ -14,10 +14,11 @@
   let { metric, label }: TProps = $props()
 </script>
 
-<div class="flex items-center gap-1 whitespace-nowrap">
+<div class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
   <div
+    style:---metric-color={metric.color.$}
     class={cn(
-      'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-porcelain hover:bg-white hover:shadow [&+span]:hover:hidden',
+      'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-[var(---metric-color)] hover:bg-white hover:shadow [&+span]:hover:hidden',
       !metric.visible.$ && 'text-casper',
     )}
   >
