@@ -9,6 +9,7 @@
 
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
+  import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
 
   import { queryGetMetricSpikeExplanations, type TData } from './api.js'
   import { useChartCtx, useMetricSeriesCtx, type TSeries } from '../ctx/index.js'
@@ -93,11 +94,23 @@
   isOpened={!!openedExplanation}
   contentProps={{ customAnchor: anchorNode, sideOffset: 16, interactOutsideBehavior: 'ignore' }}
   side="top"
-  class="w-[360px] bg-white/90 px-5 py-6 text-rhino"
+  class="w-[360px] px-6 py-5 pt-4 text-rhino"
 >
   {#snippet content()}
     {#if openedExplanation}
-      <div>{openedExplanation.explanation}</div>
+      <div>
+        <header class="mb-2.5 flex items-center justify-between">
+          <h3 class="font-medium">
+            {globalParameters.$$.selector.slug}
+          </h3>
+
+          <span class="text-xs text-waterloo">
+            {getFormattedDetailedTimestamp((openedExplanation.spikeStartDatetime as number) * 1000)}
+          </span>
+        </header>
+
+        {openedExplanation.explanation}
+      </div>
     {/if}
   {/snippet}
 </Popover>
