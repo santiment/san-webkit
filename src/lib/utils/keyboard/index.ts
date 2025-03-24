@@ -42,7 +42,7 @@ export function useKeyboardShortcut(shortcut: string, clb: () => any, disableInp
         (isSingleModKey || targetKey === key.toUpperCase())
       ) {
         e.preventDefault()
-        e.stopImmediatePropagation()
+        e.stopPropagation()
         clb()
       }
     }

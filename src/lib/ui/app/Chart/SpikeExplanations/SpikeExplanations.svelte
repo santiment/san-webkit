@@ -100,7 +100,7 @@
     {#if openedExplanation}
       <div>
         <header class="mb-2.5 flex items-center justify-between">
-          <h3 class="font-medium">
+          <h3 class="font-medium text-rhino">
             {globalParameters.$$.selector.slug}
           </h3>
 
