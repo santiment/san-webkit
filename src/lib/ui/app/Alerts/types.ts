@@ -5,7 +5,7 @@ export type TApiAlert<GSettings = any> = {
   description: null | string
   title: null | string
 
-  cooldown: `${number}d`
+  cooldown: TTimeWindow
 
   isActive: boolean
   isFrozen: boolean
@@ -18,3 +18,5 @@ export type TApiAlert<GSettings = any> = {
         channel: ('email' | 'telegram')[]
       } & GSettings)
 }
+
+export type TTimeWindow = `${number}${'d' | 'h' | 'm'}`

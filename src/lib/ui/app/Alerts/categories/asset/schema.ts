@@ -1,21 +1,19 @@
 import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 import type { TApiAlert } from '../../types.js'
 
+import { STEP_METRIC_CONDITIONS_SCHEMA } from '../../form-steps/metric-conditions/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_ASSETS_SCHEMA } from './asset-form-step/schema.js'
 
 export type TAssetApiAlert = TApiAlert<{
   type: 'metric_signal'
   target: { slug: TAssetSlug[] }
-  metric: string
-  operation: unknown
-  time_window: `${number}d`
 }>
 
 export type TBaseSchema = TAlertBaseSchema<
   'asset',
   {
-    steps: [typeof STEP_ASSETS_SCHEMA]
+    steps: [typeof STEP_ASSETS_SCHEMA, typeof STEP_METRIC_CONDITIONS_SCHEMA]
     deduceApiAlert: (apiAlert: TAssetApiAlert) => boolean
   }
 >
@@ -29,7 +27,7 @@ export const ALERT_ASSET_SCHEMA = createAlertSchema<TBaseSchema>({
     icon: 'asset-small',
   },
 
-  steps: [STEP_ASSETS_SCHEMA],
+  steps: [STEP_ASSETS_SCHEMA, STEP_METRIC_CONDITIONS_SCHEMA],
 
   deduceApiAlert(apiAlert) {
     return Boolean(
