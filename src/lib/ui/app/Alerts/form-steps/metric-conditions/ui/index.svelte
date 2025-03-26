@@ -22,8 +22,8 @@ Price: <Checkbox
 />
 
 Conditions: <Popover>
-  {#snippet children()}
-    <Button>Select</Button>
+  {#snippet children({ props })}
+    <Button {...props}>{step.state.$$.conditions.operation.type ?? 'Select'}</Button>
   {/snippet}
 
   {#snippet content()}
