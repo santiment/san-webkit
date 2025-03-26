@@ -176,6 +176,16 @@ export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.0
 })
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
 
+export function parseRangeString(
+  range: `${number}m` | `${number}h` | `${number}d` | `${number}y` | string,
+) {
+  const amount = parseInt(range, 10)
+  return {
+    amount,
+    modifier: range.slice(amount.toString().length) as 'm' | 'h' | 'd' | 'y',
+  }
+}
+
 export function parseDate(date: string) {
   if (date === 'utc_now') {
     return new Date()
@@ -183,7 +193,10 @@ export function parseDate(date: string) {
 
   if (date.startsWith('utc_now')) {
     const [, range] = date.split('-')
-    const days = range.slice(0, -1)
+
+    const { amount, modifier } = parseRangeString(range)
+    const days = modifier === 'y' ? amount * 365 : modifier === 'd' ? amount : 1
+
     return modifyDate(new Date(), { days: -days })
   }
 
@@ -195,6 +208,7 @@ export const parseAsStartEndDate = (date: string, options: { dayStart: boolean; 
 
 export function suggestPeriodInterval(from: Date, to: Date) {
   const diff = (+to - +from) / ONE_DAY_IN_MS
+
   if (diff < 7) return '5m'
   if (diff < 14) return '15m'
   if (diff < 20) return '30m'
@@ -203,7 +217,9 @@ export function suggestPeriodInterval(from: Date, to: Date) {
   if (diff < 100) return '3h'
   if (diff < 185) return '4h'
   if (diff < 360) return '8h'
-  if (diff < 800) return '12h'
-  if (diff < 1400) return '1d'
+  if (diff < 520) return '12h'
+  if (diff < 800) return '1d'
+  if (diff < 1400) return '2d'
+
   return '7d'
 }

@@ -3,16 +3,16 @@ import type { Time } from '@santiment-network/chart-next'
 
 import { ApiQuery } from '$lib/api/index.js'
 
-export type TVariables = { slug: TAssetSlug }
+export type TVariables = { slug: TAssetSlug; from?: string; to?: string }
 
 export const queryGetMetricSpikeExplanations = ApiQuery(
   (variables: TVariables) => ({
-    schema: `query ($slug: String!) {
+    schema: `query ($slug: String!, $from: DateTime! = "utc_now-60d", $to: DateTime! = "utc_now") {
   getMetricSpikeExplanations(
     metric: "mentions_percentage_1h_total"    
     slug:$slug,
-    from: "utc_now-60d"
-    to: "utc_now"
+    from:$from
+    to:$to
   ){
     ds:spikeStartDatetime
     de:spikeEndDatetime
