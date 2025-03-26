@@ -2,6 +2,7 @@ import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.j
 import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 
 import { createCtx } from '$lib/utils/index.js'
+import { parseAsStartEndDate } from '$lib/utils/dates/index.js'
 
 export type TGlobalParameters = {
   from: string
@@ -23,10 +24,21 @@ export const useChartGlobalParametersCtx = createCtx(
       ...defaultCtxValue,
     })
 
+    const dates = $derived({
+      from: parameters.from,
+      to: parameters.to,
+      fromUtcDate: parseAsStartEndDate(parameters.from, { dayStart: true, utc: true }),
+      toUtcDate: parseAsStartEndDate(parameters.to, { dayStart: true, utc: true }),
+    })
+
     return {
       globalParameters: {
         get $$() {
           return parameters
+        },
+
+        get dates$() {
+          return dates
         },
       },
     }
