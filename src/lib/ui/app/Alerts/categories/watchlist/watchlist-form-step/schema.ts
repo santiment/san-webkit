@@ -13,7 +13,7 @@ export type TBaseSchema = TStepBaseSchema<
   }
 >
 
-export const STEP_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
+export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'watchlist',
   ui: {
     title: 'Select Watchlist',

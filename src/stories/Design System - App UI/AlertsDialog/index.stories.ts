@@ -113,3 +113,32 @@ export const WatchlistAPIAlert: Story = {
     },
   },
 }
+
+export const ScreenerAPIAlert: Story = {
+  parameters: {},
+  args: {
+    apiAlert: {
+      cooldown: '1m',
+      description:
+        'Notify me when any project enters/exits My Screener. Send me notifications every 1 minute(s) via email, telegram.',
+      id: 44624,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'screener_signal',
+        target: {
+          watchlist_id: 36321,
+        },
+        operation: {
+          selector: {
+            watchlist_id: 36321,
+          },
+        },
+        channel: ['email', 'telegram'],
+      },
+      title: 'Project enters/exits My Screener',
+    },
+  },
+}
