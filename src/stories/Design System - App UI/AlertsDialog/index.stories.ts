@@ -75,3 +75,41 @@ export const SocialTrendsAPIAlert: Story = {
     },
   },
 }
+
+export const WatchlistAPIAlert: Story = {
+  parameters: {},
+  args: {
+    apiAlert: {
+      cooldown: '1m',
+      description:
+        'Notify me when the price of TestWatchlist moving up 20% or moving down 10% compared to 2 day(s) earlier. Send me notifications every 1 minute(s) via email.',
+      id: 2198,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'metric_signal',
+        template: null,
+        target: {
+          watchlist_id: 1663,
+        },
+        operation: {
+          some_of: [
+            {
+              percent_up: 20,
+            },
+            {
+              percent_down: 10,
+            },
+          ],
+        },
+        channel: ['email'],
+        metric: 'price_usd',
+        time_window: '2d',
+        extra_explanation: null,
+      },
+      title: 'TestWatchlist price moving up 20% or moving down 10% compared to 2 day(s) earlier',
+    },
+  },
+}
