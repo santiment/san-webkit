@@ -23,6 +23,8 @@ export const trackEvent = (
 
       source_url: window.location.origin + window.location.pathname,
       source_url_type: window.getPageType?.(window.location.pathname),
+      source_url_host: window.location.host,
+      source_url_pathname: window.location.pathname,
       source_search_params: window.location.search,
 
       ...props,
