@@ -1,21 +1,9 @@
 <script lang="ts">
+  import type { TProps } from './types.js'
+
   import { cn } from '$ui/utils/index.js'
 
-  let {
-    id,
-    class: className = '',
-    w = 16,
-    h = w,
-    illus = false,
-    style = '',
-  }: {
-    id: string
-    class?: string
-    w?: number | string
-    h?: number | string
-    illus?: boolean
-    style?: string
-  } = $props()
+  let { id, class: className = '', w = 16, h = w, illus = false, style = '' }: TProps = $props()
 </script>
 
 <svg style="width:{w}px;height:{h}px;min-width:{w}px;{style}" class={cn(className)}>

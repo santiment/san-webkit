@@ -38,7 +38,7 @@
     {@const chartPane = panes.$[+paneIndex]}
     {@const metricsList = paneSet.$[+paneIndex]}
     <section
-      class={cn('columns absolute left-1 top-1 z-[3] hidden rounded bg-white/70', className)}
+      class={cn('absolute left-1 top-1 z-[3] hidden items-start gap-0.5 column', className)}
       use:mountToPane={{ chartPane }}
     >
       {@render children({ pane: chartPane, metrics: metricsList, index: +paneIndex })}

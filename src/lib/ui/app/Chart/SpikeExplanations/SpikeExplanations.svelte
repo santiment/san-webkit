@@ -1,16 +1,17 @@
 <script lang="ts">
   import type { IEventMarker, IRenderItem } from '@santiment-network/chart-next'
-  import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 
   import { untrack } from 'svelte'
   import { tap, switchMap, pipe } from 'rxjs'
   import { createEventMarkers } from '@santiment-network/chart-next'
   import { applyStyles } from 'drawer-svelte'
 
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
+  import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
 
-  import { queryGetMetricSpikeExplanations, type TData } from './api.js'
+  import { queryGetMetricSpikeExplanations, type TData, type TVariables } from './api.js'
   import { useChartCtx, useMetricSeriesCtx, type TSeries } from '../ctx/index.js'
   import { useChartGlobalParametersCtx } from '../ctx/global-parameters.svelte.js'
   import { drawSpikeExplanation } from './flow.svelte.js'
@@ -18,6 +19,7 @@
   const { chart } = useChartCtx()
   const { metricSeries } = useMetricSeriesCtx.get()
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { getAssetBySlug } = useAssetsCtx.get()
 
   let attachedMetric = $state.raw<null | TSeries>(null)
   let openedExplanation = $state.raw<null | TData[number]>(null)
@@ -33,7 +35,7 @@
 
   const eventMarkers = createEventMarkers(chart.$, [], onEventMarkerSelect)
 
-  const getMetricSpikeExplanations = useObserveFnCall<{ slug: TAssetSlug }>(() =>
+  const getMetricSpikeExplanations = useObserveFnCall<TVariables>(() =>
     pipe(
       tap(() => {
         explanations = []
@@ -46,8 +48,9 @@
 
   $effect(() => {
     const { slug } = globalParameters.$$.selector
+    const { from, to } = globalParameters.dates$
     if (slug) {
-      getMetricSpikeExplanations({ slug })
+      getMetricSpikeExplanations({ slug, from, to })
     }
   })
 
@@ -93,11 +96,25 @@
   isOpened={!!openedExplanation}
   contentProps={{ customAnchor: anchorNode, sideOffset: 16, interactOutsideBehavior: 'ignore' }}
   side="top"
-  class="w-[360px] bg-white/90 px-5 py-6 text-rhino"
+  class="w-[360px] px-6 py-5 pt-4 text-rhino"
 >
   {#snippet content()}
     {#if openedExplanation}
-      <div>{openedExplanation.explanation}</div>
+      {@const slug = globalParameters.$$.selector.slug!}
+      {@const asset = getAssetBySlug(slug)}
+      <div>
+        <header class="mb-2.5 flex items-center justify-between">
+          <h3 class="font-medium text-rhino">
+            {asset?.name || slug}
+          </h3>
+
+          <span class="text-xs text-waterloo">
+            {getFormattedDetailedTimestamp((openedExplanation.spikeStartDatetime as number) * 1000)}
+          </span>
+        </header>
+
+        {openedExplanation.explanation}
+      </div>
     {/if}
   {/snippet}
 </Popover>

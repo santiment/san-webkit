@@ -9,7 +9,7 @@
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
-  const { type, data, color, scale, pane, scaleFormatter } = series
+  const { type, data, color, scale, pane, scaleFormatter, visible } = series
 
   const { chart } = useChartCtx()
 
@@ -22,6 +22,10 @@
 
   const chartSeries = createChartSeries()
   series.chartSeriesApi = chartSeries
+
+  $effect.pre(() => {
+    chartSeries.applyOptions({ visible: visible.$ })
+  })
 
   $effect.pre(() => {
     chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })

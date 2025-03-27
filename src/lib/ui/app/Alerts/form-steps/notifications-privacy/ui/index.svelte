@@ -4,17 +4,17 @@
 
   import Checkbox from '$ui/core/Checkbox/index.js'
   import Input from '$ui/core/Input/Input.svelte'
-  import { parseIntervalString } from '$lib/utils/dates/index.js'
+  import { parseRangeString } from '$lib/utils/dates/index.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import Button from '$ui/core/Button/Button.svelte'
-  import { TimeFormats } from '$ui/app/Alerts/time.js'
+  import { TimeModifiers } from '$ui/app/Alerts/time.js'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
-  const timeFormats = Object.keys(TimeFormats) as (keyof typeof TimeFormats)[]
-  const { amount, format } = $derived(parseIntervalString(step.state.$$.cooldown))
+  const timeModifiers = Object.keys(TimeModifiers) as (keyof typeof TimeModifiers)[]
+  const { amount, modifier } = $derived(parseRangeString(step.state.$$.cooldown))
 </script>
 
 Telgram: <Checkbox
@@ -55,22 +55,22 @@ isRepeating: <Checkbox
 Cooldown: <Input
   defaultValue={amount}
   oninput={(e) => {
-    step.state.$$.cooldown = `${+e.currentTarget.value}${format}`
+    step.state.$$.cooldown = `${+e.currentTarget.value}${modifier}`
   }}
 />
 <Popover>
   {#snippet children({ props })}
-    <Button {...props}>{format ?? 'Select'}</Button>
+    <Button {...props}>{modifier ?? 'Select'}</Button>
   {/snippet}
 
   {#snippet content()}
-    {#each timeFormats as key}
+    {#each timeModifiers as key}
       <Button
         onclick={() => {
           step.state.$$.cooldown = `${amount}${key}`
         }}
       >
-        {TimeFormats[key].frequencyLabel}
+        {TimeModifiers[key].frequencyLabel}
       </Button>
     {/each}
   {/snippet}

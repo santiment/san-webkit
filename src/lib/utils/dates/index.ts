@@ -176,12 +176,50 @@ export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.0
 })
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
 
-export function parseIntervalString<T extends string>(interval: T) {
-  type TimeFormat<T> = T extends `${number}${infer F}` ? F : string
+export function parseRangeString<T extends string>(range: T) {
+  type TimeFormat<T extends string> = T extends `${number}${infer Format}` ? Format : string
 
-  const amount = parseInt(interval, 10)
+  const amount = parseInt(range, 10)
   return {
     amount,
-    format: interval.slice(amount.toString().length) as TimeFormat<T>,
+    modifier: range.slice(amount.toString().length) as TimeFormat<T>,
   }
+}
+
+export function parseDate(date: string) {
+  if (date === 'utc_now') {
+    return new Date()
+  }
+
+  if (date.startsWith('utc_now')) {
+    const [, range] = date.split('-')
+
+    const { amount, modifier } = parseRangeString(range as `${number}${'m' | 'h' | 'd' | 'y'}`)
+    const days = modifier === 'y' ? amount * 365 : modifier === 'd' ? amount : 1
+
+    return modifyDate(new Date(), { days: -days })
+  }
+
+  return new Date(date)
+}
+
+export const parseAsStartEndDate = (date: string, options: { dayStart: boolean; utc?: boolean }) =>
+  (options.dayStart ? setDayStart : setDayEnd)(parseDate(date), options)
+
+export function suggestPeriodInterval(from: Date, to: Date) {
+  const diff = (+to - +from) / ONE_DAY_IN_MS
+
+  if (diff < 7) return '5m'
+  if (diff < 14) return '15m'
+  if (diff < 20) return '30m'
+  if (diff < 33) return '1h'
+  if (diff < 63) return '2h'
+  if (diff < 100) return '3h'
+  if (diff < 185) return '4h'
+  if (diff < 360) return '8h'
+  if (diff < 520) return '12h'
+  if (diff < 800) return '1d'
+  if (diff < 1400) return '2d'
+
+  return '7d'
 }

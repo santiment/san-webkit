@@ -31,7 +31,7 @@
 {#if lastData || hoverValue}
   {@const value = hoverValue || lastData.value}
 
-  <span style:color={metric.color.$}>
+  <span style:color={metric.color.$} class="pr-1.5">
     {formatter(value)}
 
     {#if firstData}

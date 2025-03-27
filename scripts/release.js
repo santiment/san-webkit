@@ -3,7 +3,7 @@ import path from 'path'
 
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from './svg.js'
+import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput, replaceSvgIdsType } from './svg.js'
 
 const MAIN_BRANCH = 'next'
 const RELEASE_BRANCH = 'lib-release'
@@ -155,12 +155,22 @@ async function replaceStaticAssetLogos() {
 }
 
 async function processSvg() {
+  const ids = []
   async function process(path, options) {
     await forFile(path, async (entry) => {
+      const id = entry.replace('./dist/icons/', '').replace('./dist/illus/', '').replace('.svg', '')
+      ids.push(id)
+
       processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
     })
   }
 
   await process(['./dist/icons/**/*.svg'], SPRITES_OPTIONS)
   await process(['./dist/illus/**/*.svg'], ILLUS_OPTIONS)
+
+  await forFile(['./dist/**/core/Svg/types.d.ts'], (entry) => {
+    const file = fs.readFileSync(entry)
+
+    fs.writeFileSync(entry, replaceSvgIdsType(file.toString(), ids))
+  })
 }

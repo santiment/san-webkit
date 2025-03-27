@@ -1,8 +1,8 @@
 import { BROWSER } from 'esm-env'
 
-import { trackEvent } from './events/index.js'
+import { trackEvent, Tracker } from './index.js'
 
-export function startLinksListener() {
+export function startLinksListener(trackers?: Tracker[]) {
   if (!BROWSER) return
 
   const root = document.documentElement
@@ -33,13 +33,17 @@ export function startLinksListener() {
       }
 
       if (type && source) {
-        trackEvent('link', {
-          type,
-          source,
-          url: href,
-          external: isExternal,
-          label: anchor.textContent?.trim() || '',
-        })
+        trackEvent(
+          'link',
+          {
+            type,
+            source,
+            url: href,
+            external: isExternal,
+            label: anchor.textContent?.trim() || '',
+          },
+          trackers,
+        )
       }
     },
     { capture: true },

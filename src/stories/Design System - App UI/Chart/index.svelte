@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+  import { parseAsStartEndDate, suggestPeriodInterval } from '$lib/utils/dates/index.js'
   import { type TMetricData } from '$ui/app/Chart/api/index.js'
   import {
     useMetricSeriesCtx,
@@ -11,9 +13,23 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
+  useAssetsCtx.set()
+
   const { colorGenerator } = useColorGenerator()
 
-  const { globalParameters } = useChartGlobalParametersCtx()
+  console.log(
+    suggestPeriodInterval(
+      parseAsStartEndDate('utc_now-2y', { dayStart: true }),
+      parseAsStartEndDate('utc_now', { dayStart: false }),
+    ),
+  )
+  const { globalParameters } = useChartGlobalParametersCtx({
+    from: 'utc_now-2y',
+    interval: suggestPeriodInterval(
+      parseAsStartEndDate('utc_now-2y', { dayStart: true }),
+      parseAsStartEndDate('utc_now', { dayStart: false }),
+    ),
+  })
   const { metricSeries } = useMetricSeriesCtx([
     {
       name: 'price_usd',

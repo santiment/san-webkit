@@ -13,13 +13,18 @@
   }
 </script>
 
-<div class="left-full hidden gap-2 bg-white px-2 pr-0 center group-hover/pane-metric:flex">
+<div class="left-full hidden gap-1.5 bg-white px-2 pr-0 center group-hover/pane-metric:flex">
   <Button
     icon={metric.visible.$ ? 'eye' : 'eye-crossed'}
     iconSize="14"
     class="size-5"
     explanation={metric.visible.$ ? 'Hide' : 'Show'}
     onclick={onHideClick}
+  ></Button>
+
+  <Button icon="info" iconSize="12" class="size-5" explanation="Metric info"></Button>
+
+  <Button icon="crown" iconSize="12" class="size-5 fill-orange" explanation="Upgrade to full data"
   ></Button>
 
   <!--
