@@ -98,3 +98,15 @@ export async function processSvgWithOutput(
   const sprite = await getSvgSprite(inputPath, spriteOptions, svg)
   await writeFile(outputSpriteDir + basePath, sprite)
 }
+
+/**
+ *
+ * @param {string} src - Source code
+ * @param {Array<string>} ids - Array of IDs
+ * @returns {string}
+ */
+export const replaceSvgIdsType = (src, ids) =>
+  src.replace(
+    'type TSvgId = string',
+    `type TSvgId = ${ids.map((id) => `"${id}"`).join(' | ')} | (string & {})`,
+  )
