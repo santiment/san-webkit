@@ -1,5 +1,6 @@
-import type { TApiAlert, TTimeWindow } from '../../types.js'
+import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
+import type { TTimeWindow } from '../../time.js'
 
 import { getOperationFromApi, reduceOperationToApi, type TOperation } from './operations.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'

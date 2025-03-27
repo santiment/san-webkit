@@ -175,3 +175,13 @@ export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.0
   utc: true,
 })
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
+
+export function parseIntervalString<T extends string>(interval: T) {
+  type TimeFormat<T> = T extends `${number}${infer F}` ? F : string
+
+  const amount = parseInt(interval, 10)
+  return {
+    amount,
+    format: interval.slice(amount.toString().length) as TimeFormat<T>,
+  }
+}

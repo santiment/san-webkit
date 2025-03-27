@@ -1,5 +1,6 @@
 import type { TApiOperation } from '../../operations.js'
-import type { TApiAlert, TTimeWindow } from '../../types.js'
+import type { TTimeWindow } from '../../time.js'
+import type { TApiAlert } from '../../types.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_SELECT_WALLET_SCHEMA } from './wallet-form-step/schema.js'
