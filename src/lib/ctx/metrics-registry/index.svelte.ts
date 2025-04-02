@@ -3,14 +3,47 @@ import { onMount } from 'svelte'
 import { createCtx, type TNominal } from '$lib/utils/index.js'
 import { ApiQuery } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
+import { percentFormatter, usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
-const queryGetOrderedMetrics = ApiQuery(
+export type TMetricUnit = '' | 'usd' | 'percent'
+
+export type TMetricsRegistry = Record<
+  string,
+  | undefined
+  | {
+      key: string
+      queryKey: undefined | string
+
+      label: string
+
+      category: string
+      group: string
+
+      chartStyle: string
+      node: string
+
+      unit: string
+      formatter: undefined | ((value: number) => string)
+
+      meta: {
+        args: object
+        isNew: boolean
+        //type: item.t,
+        //displayOrder: item.do,
+      }
+
+      reqMeta: object
+    }
+>
+
+export const queryGetOrderedMetrics = ApiQuery(
   () => `{
   getOrderedMetrics {
     categories
     metrics {
+      k:uiKey
       m:metric
       t:type
       ui:uiHumanReadableName
@@ -29,13 +62,14 @@ const queryGetOrderedMetrics = ApiQuery(
     getOrderedMetrics: {
       categories: string[]
       metrics: {
+        k: null | string
         m: TMetricKey
         t: string
         ui: string
         c: string
         g: null | string
         cs: string
-        un: string
+        un: TMetricUnit
         d: string
         a: object
         in: boolean
@@ -45,31 +79,50 @@ const queryGetOrderedMetrics = ApiQuery(
   }) => {
     const { categories, metrics } = gql.getOrderedMetrics
 
-    const metricByKey = metrics.reduce((acc, item) => {
-      return Object.assign(acc, {
-        [item.m]: {
-          key: item.m,
-          label: item.ui,
+    const CategoryIndex = categories.reduce(
+      (acc, item, i) => Object.assign(acc, { [item]: i + 1 }),
+      {} as Record<string, number>,
+    )
 
-          category: item.c,
-          group: item.g || '',
-          chartStyle: item.cs,
+    const MetricsRegistry = metrics
+      .sort((a, b) => {
+        const categoryDiff = CategoryIndex[a.c] - CategoryIndex[b.c]
 
-          unit: item.un,
-
-          meta: {
-            args: item.a,
-            type: item.t,
-            isNew: item.in,
-            displayOrder: item.do,
-          },
-        },
+        if (categoryDiff) return categoryDiff
+        else return a.do - b.do
       })
-    }, {})
+      .reduce((acc, item) => {
+        const key = item.k ?? item.m
 
-    console.log(metricByKey)
+        return Object.assign(acc, {
+          [key]: {
+            key,
+            queryKey: item.k ? item.m : undefined,
 
-    return gql.getOrderedMetrics
+            label: item.ui || '',
+
+            category: item.c || '',
+            group: item.g || '',
+
+            chartStyle: item.cs || 'line',
+            node: item.cs || 'line', // LEGACY
+
+            unit: item.un,
+            formatter: getTooltipFormatterByUnit(item.un), // LEGACY
+
+            meta: {
+              args: item.a,
+              isNew: item.in,
+              type: item.t,
+              //displayOrder: item.do,
+            },
+
+            reqMeta: item.a, // LEGACY
+          },
+        })
+      }, {} as TMetricsRegistry)
+
+    return MetricsRegistry
   },
   {
     cacheTime: undefined,
@@ -77,20 +130,28 @@ const queryGetOrderedMetrics = ApiQuery(
 )
 
 export const useMetricsRegistryCtx = createCtx('webkit_useMetricsRegistryCtx', () => {
-  let metrics = $state.raw<any[]>([])
-  //const assetBySlugMap = $derived(new Map(assets.map((item) => [item.slug, item])))
+  let MetricsRegistry = $state.raw<TMetricsRegistry>({})
 
   onMount(() => {
-    queryGetOrderedMetrics(Query)().then((items) => {
-      console.log(items)
+    queryGetOrderedMetrics(Query)().then((data) => {
+      MetricsRegistry = data
     })
   })
 
   return {
-    metrics: {
+    MetricsRegistry: {
       get $() {
-        return metrics
+        return MetricsRegistry
       },
     },
   }
 })
+
+function getTooltipFormatterByUnit(unit: TMetricUnit) {
+  switch (unit) {
+    case 'usd':
+      return usdFormatter
+    case 'percent':
+      return percentFormatter
+  }
+}
