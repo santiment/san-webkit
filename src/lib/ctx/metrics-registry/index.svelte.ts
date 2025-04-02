@@ -9,34 +9,31 @@ export type TMetricKey = TNominal<string, 'TMetricKey'>
 
 export type TMetricUnit = '' | 'usd' | 'percent'
 
-export type TMetricsRegistry = Record<
-  string,
-  | undefined
-  | {
-      key: string
-      queryKey: undefined | string
+export type TRegistryMetric = {
+  key: string
+  queryKey: undefined | string
 
-      label: string
+  label: string
 
-      category: string
-      group: string
+  category: string
+  group: string
 
-      chartStyle: string
-      node: string
+  chartStyle: string
+  node: string
 
-      unit: string
-      formatter: undefined | ((value: number) => string)
+  unit: string
+  formatter: undefined | ((value: number) => string)
 
-      meta: {
-        args: object
-        isNew: boolean
-        //type: item.t,
-        //displayOrder: item.do,
-      }
+  meta: {
+    args: object
+    isNew: boolean
+    //type: item.t,
+    //displayOrder: item.do,
+  }
 
-      reqMeta: object
-    }
->
+  reqMeta: object
+}
+export type TMetricsRegistry = Record<string, undefined | TRegistryMetric>
 
 export const queryGetOrderedMetrics = ApiQuery(
   () => `{
