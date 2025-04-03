@@ -16,7 +16,7 @@ export type TRegistryMetric = {
   label: string
 
   category: string
-  group: string
+  group?: string
 
   chartStyle: string
   node: string
@@ -98,7 +98,7 @@ export const queryGetOrderedMetrics = ApiQuery(
             label: item.ui || '',
 
             category: item.c || '',
-            group: item.g || '',
+            group: item.g || undefined,
 
             // enforce style check
             chartStyle: enforceCorrectChartStyle(item.cs),
