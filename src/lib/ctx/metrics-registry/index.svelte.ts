@@ -27,8 +27,7 @@ export type TRegistryMetric = {
   meta: {
     args: object
     isNew: boolean
-    //type: item.t,
-    //displayOrder: item.do,
+    displayOrder: number
   }
 
   reqMeta: object
@@ -101,8 +100,9 @@ export const queryGetOrderedMetrics = ApiQuery(
             category: item.c || '',
             group: item.g || '',
 
-            chartStyle: item.cs || 'line',
-            node: item.cs || 'line', // LEGACY
+            // enforce style check
+            chartStyle: enforceCorrectChartStyle(item.cs),
+            node: enforceCorrectChartStyle(item.cs), // LEGACY
 
             unit: item.un,
             formatter: getTooltipFormatterByUnit(item.un), // LEGACY
@@ -110,8 +110,8 @@ export const queryGetOrderedMetrics = ApiQuery(
             meta: {
               args: item.a,
               isNew: item.in,
-              type: item.t,
-              //displayOrder: item.do,
+              //type: item.t,
+              displayOrder: item.do,
             },
 
             reqMeta: item.a, // LEGACY
@@ -151,4 +151,9 @@ function getTooltipFormatterByUnit(unit: TMetricUnit) {
     case 'percent':
       return percentFormatter
   }
+}
+
+const ALLOWED_STYLES = new Set(['line', 'bar', 'greenRedBar', 'filledLine', 'gradientLine', 'area'])
+function enforceCorrectChartStyle(chartStyle: string) {
+  return ALLOWED_STYLES.has(chartStyle) ? chartStyle : 'line'
 }
