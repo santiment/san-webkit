@@ -84,7 +84,7 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
         slug: assetSlug ?? undefined,
       },
       time_window: conditions?.time,
-      operation: conditions?.operation && reduceOperationToApi(conditions?.operation),
+      operation: conditions?.operation && reduceOperationToApi(conditions.operation),
     })
 
     return apiAlert
