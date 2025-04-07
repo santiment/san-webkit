@@ -176,13 +176,13 @@ export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.0
 })
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
 
-export function parseRangeString(
-  range: `${number}m` | `${number}h` | `${number}d` | `${number}y` | string,
-) {
+export function parseRangeString<T extends string>(range: T) {
+  type TimeFormat<T extends string> = T extends `${number}${infer Format}` ? Format : string
+
   const amount = parseInt(range, 10)
   return {
     amount,
-    modifier: range.slice(amount.toString().length) as 'm' | 'h' | 'd' | 'y',
+    modifier: range.slice(amount.toString().length) as TimeFormat<T>,
   }
 }
 
@@ -194,7 +194,7 @@ export function parseDate(date: string) {
   if (date.startsWith('utc_now')) {
     const [, range] = date.split('-')
 
-    const { amount, modifier } = parseRangeString(range)
+    const { amount, modifier } = parseRangeString(range as `${number}${'m' | 'h' | 'd' | 'y'}`)
     const days = modifier === 'y' ? amount * 365 : modifier === 'd' ? amount : 1
 
     return modifyDate(new Date(), { days: -days })

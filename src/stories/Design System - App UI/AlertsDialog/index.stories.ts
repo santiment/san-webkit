@@ -75,3 +75,101 @@ export const SocialTrendsAPIAlert: Story = {
     },
   },
 }
+
+export const WatchlistAPIAlert: Story = {
+  parameters: {},
+  args: {
+    apiAlert: {
+      cooldown: '1m',
+      description:
+        'Notify me when the price of TestWatchlist moving up 20% or moving down 10% compared to 2 day(s) earlier. Send me notifications every 1 minute(s) via email.',
+      id: 2198,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'metric_signal',
+        template: null,
+        target: {
+          watchlist_id: 1663,
+        },
+        operation: {
+          some_of: [
+            {
+              percent_up: 20,
+            },
+            {
+              percent_down: 10,
+            },
+          ],
+        },
+        channel: ['email'],
+        metric: 'price_usd',
+        time_window: '2d',
+        extra_explanation: null,
+      },
+      title: 'TestWatchlist price moving up 20% or moving down 10% compared to 2 day(s) earlier',
+    },
+  },
+}
+
+export const ScreenerAPIAlert: Story = {
+  parameters: {},
+  args: {
+    apiAlert: {
+      cooldown: '1m',
+      description:
+        'Notify me when any project enters/exits My Screener. Send me notifications every 1 minute(s) via email, telegram.',
+      id: 44624,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'screener_signal',
+        target: {
+          watchlist_id: 36321,
+        },
+        operation: {
+          selector: {
+            watchlist_id: 36321,
+          },
+        },
+        channel: ['email', 'telegram'],
+      },
+      title: 'Project enters/exits My Screener',
+    },
+  },
+}
+
+export const WalletAPIAlert: Story = {
+  parameters: {},
+  args: {
+    apiAlert: {
+      cooldown: '1m',
+      description: null,
+      id: 2200,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'wallet_movement',
+        target: {
+          address: '0x123f123D2EFde0aD18B30b69acecC12dc3AB1f12',
+        },
+        operation: {
+          below: 1,
+        },
+        channel: ['email'],
+        time_window: '1d',
+        selector: {
+          slug: 'ethereum',
+          infrastructure: 'ETH',
+        },
+      },
+      title: 'Balance goes below 1 compared to 1 day(s) earlier',
+    },
+  },
+}

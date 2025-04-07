@@ -1,3 +1,6 @@
+import type { TApiChannel } from './channels.js'
+import type { TTimeWindow } from './time.js'
+
 export type TApiAlert<GSettings = any> = {
   id: number
   type: string
@@ -5,7 +8,7 @@ export type TApiAlert<GSettings = any> = {
   description: null | string
   title: null | string
 
-  cooldown: `${number}d`
+  cooldown: TTimeWindow
 
   isActive: boolean
   isFrozen: boolean
@@ -15,6 +18,6 @@ export type TApiAlert<GSettings = any> = {
   settings:
     | null
     | ({
-        channel: ('email' | 'telegram')[]
+        channel: TApiChannel[]
       } & GSettings)
 }
