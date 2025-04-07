@@ -18,11 +18,14 @@
 
   // Reduce steps state.$$ to accumulated object
   function onAlertCreate() {
-    const reducedAlert = steps.reduce(
-      (acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)),
-      { settings: {} },
-    )
+    const reducedAlert = createApiAlert()
     console.log(reducedAlert)
+  }
+
+  function createApiAlert() {
+    return steps.reduce((acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)), {
+      settings: {},
+    })
   }
 </script>
 
@@ -49,7 +52,7 @@
   <hr />
 
   <div class="p-4">
-    <selectedStep.ui.Form step={selectedStep}></selectedStep.ui.Form>
+    <selectedStep.ui.Form {schema} step={selectedStep} {createApiAlert}></selectedStep.ui.Form>
   </div>
 
   <Button variant="fill" onclick={() => onAlertCreate()}>Submit</Button>

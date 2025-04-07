@@ -32,4 +32,11 @@ export const ALERT_SCREENER_SCHEMA = createAlertSchema<TBaseSchema>({
   deduceApiAlert(apiAlert) {
     return apiAlert.settings?.type === 'screener_signal'
   },
+
+  suggestTitle(apiAlert) {
+    return ''
+  },
+  suggestDescription(apiAlert) {
+    return ''
+  },
 })

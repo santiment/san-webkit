@@ -46,4 +46,11 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
   deduceApiAlert(apiAlert) {
     return apiAlert.settings?.type === 'trending_words'
   },
+
+  suggestTitle(apiAlert) {
+    return ''
+  },
+  suggestDescription(apiAlert) {
+    return ''
+  },
 })

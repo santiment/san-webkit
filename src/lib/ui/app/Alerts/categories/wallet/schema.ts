@@ -42,4 +42,11 @@ export const ALERT_WALLET_SCHEMA = createAlertSchema<TBaseSchema>({
   deduceApiAlert(apiAlert) {
     return WalletAlertTypes.some((type) => type === apiAlert.settings?.type)
   },
+
+  suggestTitle(apiAlert) {
+    return ''
+  },
+  suggestDescription(apiAlert) {
+    return ''
+  },
 })
