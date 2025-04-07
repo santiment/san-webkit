@@ -4,17 +4,12 @@
 
   import Button from '$ui/core/Button/index.js'
 
-  import { createAlertStep } from '../form-steps/index.svelte.js'
+  import { useAlertFormCtx } from '../ctx/index.svelte.js'
 
   type TProps = { schema: TAlertSchemaUnion; apiAlert?: null | TApiAlert }
   let { schema, apiAlert }: TProps = $props()
 
-  const steps = schema.steps.map((step) => createAlertStep(apiAlert, step))
-
-  let selectedIndex = $state(0)
-  const selectedStep = $derived(steps[selectedIndex])
-
-  const isAlertValid = $derived(steps.every((step) => step.isValid.$))
+  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
 
   // Reduce steps state.$$ to accumulated object
   function onAlertCreate() {
@@ -34,7 +29,7 @@
 
   {#each steps as step, i (step.name)}
     <div class="m-2 flex border">
-      <Button onclick={() => (selectedIndex = i)}>
+      <Button onclick={() => (selectedStep.index$ = i)}>
         {step.name}
       </Button>
 
@@ -47,12 +42,12 @@
     <hr />
   {/each}
 
-  <div>Result validity: {isAlertValid}</div>
+  <div>Result validity: {isAlertValid.$}</div>
 
   <hr />
 
   <div class="p-4">
-    <selectedStep.ui.Form {schema} step={selectedStep} {createApiAlert}></selectedStep.ui.Form>
+    <selectedStep.$.ui.Form step={selectedStep.$}></selectedStep.$.ui.Form>
   </div>
 
   <Button variant="fill" onclick={() => onAlertCreate()}>Submit</Button>

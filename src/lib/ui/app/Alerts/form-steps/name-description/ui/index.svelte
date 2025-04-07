@@ -1,30 +1,27 @@
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '../../index.svelte.js'
-  import type { TAlertSchemaUnion } from '$ui/app/Alerts/categories/index.js'
-  import type { TApiAlert } from '$ui/app/Alerts/types.js'
 
   import { onMount } from 'svelte'
 
   import Input from '$ui/core/Input/index.js'
+  import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
 
   type TProps = {
     step: TAlertStep<TBaseSchema>
-    schema: TAlertSchemaUnion
-    createApiAlert: () => TApiAlert
   }
 
-  let { step, schema, createApiAlert }: TProps = $props()
+  let { step }: TProps = $props()
+
+  const { schema, steps } = useAlertFormCtx.get()
 
   onMount(() => {
-    const apiAlert = createApiAlert()
-
-    if (!apiAlert.title) {
-      step.state.$$.title = schema.suggestTitle(apiAlert)
+    if (!step.state.$$.title) {
+      step.state.$$.title = schema.suggestTitle(steps)
     }
 
-    if (!apiAlert.description) {
-      step.state.$$.description = schema.suggestDescription(apiAlert)
+    if (!step.state.$$.description) {
+      step.state.$$.description = schema.suggestDescription(steps)
     }
   })
 </script>

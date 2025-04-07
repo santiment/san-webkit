@@ -1,12 +1,24 @@
 import type { TStepSchema } from '../form-steps/types.js'
 import type { TApiAlert } from '../types.js'
+import type { TAlertStep } from '../form-steps/index.svelte.js'
+import type { IfAny } from '$lib/utils/types/index.js'
 
 import { STEP_NAME_DESCRIPTION_SCHEMA } from '../form-steps/name-description/schema.js'
 import { STEP_NOTIFICATIONS_PRIVACY_SCHEMA } from '../form-steps/notifications-privacy/schema.js'
 
-type TReplaceReturnType<T extends (...args: any) => any, TNewReturn> = (
-  ...args: Parameters<T>
-) => TNewReturn
+type TSchemaStepToAlertStep<GTuple extends [...any[]]> = IfAny<
+  GTuple,
+  any,
+  {
+    [Index in keyof GTuple]: TAlertStep<GTuple[Index]>
+  } & { length: GTuple['length'] }
+>
+
+type TGenericSteps<GSteps extends TStepSchema[]> = IfAny<
+  GSteps,
+  any,
+  [...GSteps, typeof STEP_NOTIFICATIONS_PRIVACY_SCHEMA, typeof STEP_NAME_DESCRIPTION_SCHEMA]
+>
 
 export type TAlertBaseSchema<
   GName,
@@ -26,8 +38,9 @@ export type TAlertBaseSchema<
   steps: GProps['steps']
 
   deduceApiAlert: GProps['deduceApiAlert']
-  suggestTitle: TReplaceReturnType<GProps['deduceApiAlert'], string>
-  suggestDescription: TReplaceReturnType<GProps['deduceApiAlert'], string>
+
+  suggestTitle: (steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>) => string
+  suggestDescription: (steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>) => string
 }
 
 export function createAlertSchema<GBaseSchema extends TAlertBaseSchema<string, any> = any>(

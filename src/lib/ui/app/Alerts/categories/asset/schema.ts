@@ -35,11 +35,13 @@ export const ALERT_ASSET_SCHEMA = createAlertSchema<TBaseSchema>({
     )
   },
 
-  suggestTitle(apiAlert) {
-    return 'Title: ' + apiAlert.settings?.target.slug
+  suggestTitle(steps) {
+    const assetStep = steps[0]
+    return 'Title: ' + assetStep.state.$$.target.slug
   },
 
-  suggestDescription(apiAlert) {
-    return 'Description: ' + apiAlert.settings?.target.slug
+  suggestDescription(steps) {
+    const assetStep = steps[0]
+    return 'Description: ' + assetStep.state.$$.target.slug
   },
 })
