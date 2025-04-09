@@ -1,10 +1,10 @@
 import { keyify } from '$lib/utils/object.js'
 
 export const TimeModifiers = keyify({
-  m: { frequencyLabel: 'Minutely', name: 'minute' },
-  h: { frequencyLabel: 'Hourly', name: 'hour' },
-  d: { frequencyLabel: 'Daily', name: 'day' },
-  w: { frequencyLabel: 'Weekly', name: 'week' },
+  m: { frequencyLabel: 'Minutely', label: 'Minute(s)', name: 'minute' },
+  h: { frequencyLabel: 'Hourly', label: 'Hour(s)', name: 'hour' },
+  d: { frequencyLabel: 'Daily', label: 'Day(s)', name: 'day' },
+  w: { frequencyLabel: 'Weekly', label: 'Week(s)', name: 'week' },
 })
 
 export type TTimeModifier = keyof typeof TimeModifiers

@@ -47,9 +47,20 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
     return apiAlert.settings?.type === 'trending_words'
   },
 
-  suggestTitle(_steps) {
+  suggestTitle(steps) {
+    const [trendStep] = steps
+
+    const { target } = trendStep.state.$$
+
+    if ('slug' in target) return `${target.slug} in trending assets`
+
+    if ('word' in target) return `${target.word} in trending words`
+
+    if ('watchlist_id' in target) return `"${target.watchlist_id}" is trending` //FIXME: Replace watchlist id with name
+
     return ''
   },
+
   suggestDescription(_steps) {
     return ''
   },

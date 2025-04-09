@@ -29,3 +29,8 @@ export function reduceChannelToApi(channels: TChannel) {
     return [...prev, { [key]: value } as TApiChannel]
   }, [])
 }
+
+export function formatChannels(channels: TChannel) {
+  const keys = Object.keys(channels) as (keyof typeof channels)[]
+  return keys.filter((channel) => channels[channel]).join(', ')
+}
