@@ -1,7 +1,10 @@
 import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 import type { TApiAlert } from '../../types.js'
 
+import { Query } from '$lib/api/executor.js'
+
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
+import { queryWatchlistName } from '../watchlist/api.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 
 export type TSocialTrendsApiAlert = TApiAlert<
@@ -47,16 +50,18 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
     return apiAlert.settings?.type === 'trending_words'
   },
 
-  suggestTitle(steps) {
-    const [trendStep] = steps
-
+  async suggestTitle([trendStep]) {
     const { target } = trendStep.state.$$
 
     if ('slug' in target) return `${target.slug} in trending assets`
 
     if ('word' in target) return `${target.word} in trending words`
 
-    if ('watchlist_id' in target) return `"${target.watchlist_id}" is trending` //FIXME: Replace watchlist id with name
+    if ('watchlist_id' in target) {
+      const watchlistName = await queryWatchlistName(Query)(target.watchlist_id)
+
+      return `"${watchlistName}" is trending`
+    }
 
     return ''
   },

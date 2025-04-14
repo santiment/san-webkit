@@ -12,6 +12,6 @@
 <Checkbox
   isActive={step.isValid.$}
   onCheckedChange={(value) => {
-    step.state.$$.target.watchlist_id = value ? 1 : null
+    step.state.$$.target.watchlist_id = value ? 669 : null
   }}
 ></Checkbox>

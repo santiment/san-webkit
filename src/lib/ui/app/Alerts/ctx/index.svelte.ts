@@ -17,8 +17,8 @@ export const useAlertFormCtx = createCtx(
 
     return {
       schema: schema as TAlertSchemaUnion & {
-        suggestTitle: (_steps: typeof steps) => string
-        suggestDescription: (_steps: typeof steps) => string
+        suggestTitle: (_steps: typeof steps) => Promise<string> | string
+        suggestDescription: (_steps: typeof steps) => Promise<string> | string
       },
       steps,
       selectedStep: {

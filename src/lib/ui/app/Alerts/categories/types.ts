@@ -39,8 +39,12 @@ export type TAlertBaseSchema<
 
   deduceApiAlert: GProps['deduceApiAlert']
 
-  suggestTitle: (steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>) => string
-  suggestDescription: (steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>) => string
+  suggestTitle: (
+    steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>,
+  ) => Promise<string> | string
+  suggestDescription: (
+    steps: TSchemaStepToAlertStep<TGenericSteps<GProps['steps']>>,
+  ) => Promise<string> | string
 }
 
 export function createAlertSchema<GBaseSchema extends TAlertBaseSchema<string, any> = any>(

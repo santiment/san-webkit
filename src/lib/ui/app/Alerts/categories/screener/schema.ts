@@ -1,11 +1,13 @@
 import type { TApiAlert } from '../../types.js'
 
 import { parseRangeString } from '$lib/utils/dates/index.js'
+import { Query } from '$lib/api/executor.js'
 
 import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { TimeModifiers } from '../../time.js'
 import { formatChannels } from '../../channels.js'
+import { queryWatchlistName } from '../watchlist/api.js'
 
 export type TScreenerApiAlert = TApiAlert<{
   type: 'screener_signal'
@@ -37,20 +39,27 @@ export const ALERT_SCREENER_SCHEMA = createAlertSchema<TBaseSchema>({
     return apiAlert.settings?.type === 'screener_signal'
   },
 
-  suggestTitle([screenerStep]) {
+  async suggestTitle([screenerStep]) {
     const { watchlist_id } = screenerStep.state.$$.target
+    if (!watchlist_id) return ''
 
-    return `Project enters/exits ${watchlist_id}` //FIXME: Find watchlist name
+    const watchlistName = await queryWatchlistName(Query)(watchlist_id)
+
+    return `Project enters/exits ${watchlistName}`
   },
 
-  suggestDescription([screenerStep, notificationStep]) {
+  async suggestDescription([screenerStep, notificationStep]) {
     const { watchlist_id } = screenerStep.state.$$.target
+    if (!watchlist_id) return ''
+
     const { cooldown, channel } = notificationStep.state.$$
 
     const { amount, modifier } = parseRangeString(cooldown)
 
     const cooldownLabel = TimeModifiers[modifier].label.toLowerCase()
 
-    return `Notify me when any project enters/exits ${watchlist_id}. Send me notifications every ${amount} ${cooldownLabel} via ${formatChannels(channel)}.`
+    const watchlistName = await queryWatchlistName(Query)(watchlist_id)
+
+    return `Notify me when any project enters/exits ${watchlistName}. Send me notifications every ${amount} ${cooldownLabel} via ${formatChannels(channel)}.`
   },
 })

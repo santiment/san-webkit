@@ -15,14 +15,18 @@
 
   const { schema, steps } = useAlertFormCtx.get()
 
-  onMount(() => {
+  async function suggestTitleAndDesc() {
     if (!step.state.$$.title) {
-      step.state.$$.title = schema.suggestTitle(steps)
+      step.state.$$.title = await schema.suggestTitle(steps)
     }
 
     if (!step.state.$$.description) {
-      step.state.$$.description = schema.suggestDescription(steps)
+      step.state.$$.description = await schema.suggestDescription(steps)
     }
+  }
+
+  onMount(() => {
+    suggestTitleAndDesc()
   })
 </script>
 
