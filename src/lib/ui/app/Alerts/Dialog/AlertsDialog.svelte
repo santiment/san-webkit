@@ -12,6 +12,7 @@
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
   import CategoriesScreen from './CategoriesScreen.svelte'
   import AlertFormScreen from './AlertFormScreen.svelte'
@@ -49,7 +50,14 @@
   })
 </script>
 
-<Dialog class="h-full w-full column">
+<Dialog class="h-full max-h-[640px] w-full max-w-[960px] column">
+  <h2
+    class="flex items-center justify-between border-b fill-waterloo px-5 py-3 text-base font-medium text-fiord"
+  >
+    Create custom alerts
+    <Button icon="close" iconSize="12" class="h-6" onclick={close} />
+  </h2>
+
   <ScreenTransition class="bg-white column" dataType="" dataSource="">
     {#if schema}
       <AlertFormScreen {apiAlert} {schema}></AlertFormScreen>
