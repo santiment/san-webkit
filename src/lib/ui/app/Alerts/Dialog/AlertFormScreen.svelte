@@ -6,8 +6,12 @@
 
   import { useAlertFormCtx } from '../ctx/index.svelte.js'
 
-  type TProps = { schema: TAlertSchemaUnion; apiAlert?: null | TApiAlert }
-  let { schema, apiAlert }: TProps = $props()
+  type TProps = {
+    schema: TAlertSchemaUnion
+    apiAlert?: null | TApiAlert
+    resetCategory: () => void
+  }
+  let { schema, apiAlert, resetCategory }: TProps = $props()
 
   const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
 
@@ -25,6 +29,18 @@
 </script>
 
 <section>
+  {#if !apiAlert}
+    <Button
+      variant="plain"
+      icon="arrow"
+      iconSize="8"
+      class="back fill-waterloo text-waterloo hover:fill-green hover:text-green [&>svg]:-rotate-90"
+      onclick={resetCategory}
+    >
+      Categories
+    </Button>
+  {/if}
+
   <h2 class="text-lg">Schema: {schema.name}</h2>
 
   {#each steps as step, i (step.name)}

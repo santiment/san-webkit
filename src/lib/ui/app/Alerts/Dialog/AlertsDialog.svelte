@@ -10,7 +10,6 @@
   import { onMount } from 'svelte'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
-  import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import Button from '$ui/core/Button/Button.svelte'
 
@@ -18,7 +17,6 @@
   import AlertFormScreen from './AlertFormScreen.svelte'
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
-  import { SCREENS } from './utils.js'
 
   type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
   let { apiAlert, source = '' }: TProps = $props()
@@ -32,11 +30,12 @@
     apiAlert = null
   }
 
-  const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[apiAlert ? 1 : 0])
-
   function onCategorySelect(value: TAlertSchemaUnion) {
     schema = value
-    screen.$ = SCREENS[1]
+  }
+
+  function resetCategory() {
+    schema = null
   }
 
   onMount(() => {
@@ -58,11 +57,9 @@
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />
   </h2>
 
-  <ScreenTransition class="bg-white column" dataType="" dataSource="">
-    {#if schema}
-      <AlertFormScreen {apiAlert} {schema}></AlertFormScreen>
-    {:else}
-      <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
-    {/if}
-  </ScreenTransition>
+  {#if schema}
+    <AlertFormScreen {apiAlert} {schema} {resetCategory}></AlertFormScreen>
+  {:else}
+    <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
+  {/if}
 </Dialog>
