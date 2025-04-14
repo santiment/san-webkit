@@ -6,7 +6,7 @@ import { TimeModifiers } from '../../time.js'
 import { Operations, type TOperationType } from './operations.js'
 
 function checkIsUsdMetric(metric: string) {
-  return new Set(['price_usd', 'marketcap_usd']).has(metric)
+  return ['price_usd', 'marketcap_usd'].includes(metric)
 }
 
 export function getOperationSign(metric: string, operation: TOperationType): '' | '%' | '$' {
