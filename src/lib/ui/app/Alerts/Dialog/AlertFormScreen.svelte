@@ -19,7 +19,7 @@
   // Reduce steps state.$$ to accumulated object
   function onAlertCreate() {
     const reducedAlert = createApiAlert()
-    console.log({ reducedAlert, isAlertValid })
+    console.log({ reducedAlert })
   }
 
   function createApiAlert() {
@@ -30,8 +30,10 @@
 </script>
 
 <section class="flex min-h-0 flex-1">
-  <aside class="relative h-full w-[374px] overflow-auto border-r pb-[100px] pl-12 pr-10 pt-8">
-    <div class="mb-6 flex items-center justify-between border-b pb-4">
+  <aside
+    class="relative flex h-full w-[374px] flex-col items-start overflow-auto border-r pb-6 pl-12 pr-10 pt-8"
+  >
+    <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
       <h2 class="text-xl">{schema.ui.label}</h2>
 
       {#if !apiAlert}
@@ -53,7 +55,14 @@
       onStepSelect={(i) => (selectedStep.index$ = i)}
     />
 
-    <Button variant="fill" onclick={() => onAlertCreate()}>Submit</Button>
+    <Button
+      class="mt-auto"
+      variant="fill"
+      disabled={!isAlertValid.$}
+      onclick={() => onAlertCreate()}
+    >
+      Create alert
+    </Button>
   </aside>
 
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
