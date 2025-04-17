@@ -46,7 +46,7 @@ export const CombinedOperations = keyify({
 
 type TOperationData = {
   label: string
-  describe: (values: [number, number]) => string
+  describe: (values: [string, string]) => string
 }
 
 export const Operations = { ...SimpleOperations, ...CombinedOperations }

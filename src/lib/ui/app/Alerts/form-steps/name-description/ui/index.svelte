@@ -2,11 +2,32 @@
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '../../index.svelte.js'
 
-  import Input from '$ui/core/Input/index.js'
+  import { onMount } from 'svelte'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  import Input from '$ui/core/Input/index.js'
+  import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
+
+  type TProps = {
+    step: TAlertStep<TBaseSchema>
+  }
 
   let { step }: TProps = $props()
+
+  const { schema, steps } = useAlertFormCtx.get()
+
+  async function suggestTitleAndDesc() {
+    if (!step.state.$$.title) {
+      step.state.$$.title = await schema.suggestTitle(steps)
+    }
+
+    if (!step.state.$$.description) {
+      step.state.$$.description = await schema.suggestDescription(steps)
+    }
+  }
+
+  onMount(() => {
+    suggestTitleAndDesc()
+  })
 </script>
 
 Name: <Input

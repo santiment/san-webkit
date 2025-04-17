@@ -120,7 +120,7 @@ export const ScreenerAPIAlert: Story = {
     apiAlert: {
       cooldown: '1m',
       description:
-        'Notify me when any project enters/exits My Screener. Send me notifications every 1 minute(s) via email, telegram.',
+        'Notify me when any project enters/exits Stablecoins. Send me notifications every 1 minute(s) via email, telegram.',
       id: 44624,
       isActive: true,
       isFrozen: false,
@@ -129,16 +129,16 @@ export const ScreenerAPIAlert: Story = {
       settings: {
         type: 'screener_signal',
         target: {
-          watchlist_id: 36321,
+          watchlist_id: 669,
         },
         operation: {
           selector: {
-            watchlist_id: 36321,
+            watchlist_id: 669,
           },
         },
         channel: ['email', 'telegram'],
       },
-      title: 'Project enters/exits My Screener',
+      title: 'Project enters/exits Stablecoins',
     },
   },
 }

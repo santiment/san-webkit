@@ -12,12 +12,14 @@ type TAlertSettings = {
   operation: TApiOperation
 }
 
+export type TConditionsState = {
+  operation: TOperation
+  time: TTimeWindow
+}
+
 export type TMetricConditionsState = {
   metric: string | null
-  conditions: {
-    operation: TOperation
-    time: TTimeWindow
-  }
+  conditions: TConditionsState
 }
 
 export type TBaseSchema = TStepBaseSchema<

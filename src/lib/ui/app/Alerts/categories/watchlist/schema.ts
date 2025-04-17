@@ -31,4 +31,12 @@ export const ALERT_WATCHLIST_SCHEMA = createAlertSchema<TBaseSchema>({
   deduceApiAlert({ settings }) {
     return Boolean(settings?.type.includes('metric_signal') && settings?.target.watchlist_id)
   },
+
+  suggestTitle(_steps) {
+    return ''
+  },
+
+  suggestDescription(_steps) {
+    return ''
+  },
 })
