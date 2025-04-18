@@ -1,5 +1,5 @@
 import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.js'
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { createCtx } from '$lib/utils/index.js'
 import { parseAsStartEndDate } from '$lib/utils/dates/index.js'

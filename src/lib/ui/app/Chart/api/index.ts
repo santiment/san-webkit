@@ -1,6 +1,6 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
 import type { TNominal } from '$lib/utils/index.js'
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { ApiQuery } from '$lib/api/index.js'
 

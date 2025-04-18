@@ -1,5 +1,5 @@
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 import type { TApiAlert } from '../../types.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { STEP_METRIC_CONDITIONS_SCHEMA } from '../../form-steps/metric-conditions/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'

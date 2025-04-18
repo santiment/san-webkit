@@ -1,44 +1,58 @@
 import { onMount } from 'svelte'
 
-import { createCtx, type TNominal } from '$lib/utils/index.js'
-import { ApiQuery } from '$lib/api/index.js'
+import { createCtx } from '$lib/utils/index.js'
 import { Query } from '$lib/api/executor.js'
 
-export type TAssetSlug = TNominal<string, 'TAssetSlug'>
-export type TAsset = { slug: TAssetSlug; name: string; ticker: string; rank?: null | number }
+import {
+  queryAllProjects,
+  queryDeFiProjects,
+  queryErc20Projects,
+  queryStablecoinProjects,
+  type TAsset,
+  type TAssetSlug,
+} from './api.js'
 
-export const PROJECT_FRAGMENT = `slug
-      ticker
-      name
-      priceUsd
-      infrastructure
-      rank`
-
-export const queryAllProjects = ApiQuery(
-  () => `{
-    allProjects{ ${PROJECT_FRAGMENT} }
-  }`,
-  (gql: { allProjects: (TAsset & { priceUsd: null | number; infrastructure: null | string })[] }) =>
-    gql.allProjects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999)),
-  {
-    cacheTime: undefined,
-  },
-)
+export type TAssetCategory = keyof ReturnType<(typeof useAssetsCtx)['get']>['assets']
 
 export const useAssetsCtx = createCtx('webkit_useAssetsCtx', () => {
   let assets = $state.raw<TAsset[]>([])
+  let erc20Assets = $state.raw<TAsset[]>([])
+  let stablecoinAssets = $state.raw<TAsset[]>([])
+  let defiAssets = $state.raw<TAsset[]>([])
+
   const assetBySlugMap = $derived(new Map(assets.map((item) => [item.slug, item])))
 
   onMount(() => {
     queryAllProjects(Query)().then((items) => (assets = items))
+    queryErc20Projects(Query)().then((items) => (erc20Assets = items))
+    queryStablecoinProjects(Query)().then((items) => (stablecoinAssets = items))
+    queryDeFiProjects(Query)().then((items) => (defiAssets = items))
   })
 
   return {
     assets: {
-      get $() {
-        return assets
+      all: {
+        get $() {
+          return assets
+        },
+      },
+      erc20: {
+        get $() {
+          return erc20Assets
+        },
+      },
+      stablecoins: {
+        get $() {
+          return stablecoinAssets
+        },
+      },
+      defi: {
+        get $() {
+          return defiAssets
+        },
       },
     },
+
     getAssetBySlug(slug: string): undefined | TAsset {
       return assetBySlugMap.get(slug as TAssetSlug)
     },
