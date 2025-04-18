@@ -4,6 +4,7 @@ import ts from 'typescript-eslint'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
 import importPlugin from 'eslint-plugin-import'
+import svelteParser from 'svelte-eslint-parser'
 
 const importResolverConfig = {
   'import/resolver': {
@@ -49,6 +50,11 @@ export default [
 
   {
     languageOptions: {
+      parser: ts.parser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -57,6 +63,7 @@ export default [
     },
 
     rules: {
+      'svelte/require-each-key': 'off',
       'no-self-assign': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -95,7 +102,11 @@ export default [
   {
     files: ['**/*.svelte'],
     languageOptions: {
+      parser: svelteParser,
       parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        extraFileExtensions: ['.svelte'],
         parser: ts.parser,
       },
     },

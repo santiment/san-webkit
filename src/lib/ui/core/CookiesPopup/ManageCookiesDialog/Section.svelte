@@ -1,19 +1,16 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+
   import Svg from '$ui/core/Svg/Svg.svelte'
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
-    title: string; 
-    description: string; 
+    title: string
+    description: string
     children: Snippet
   }
 
-  const {
-    title,
-    description,
-    children,
-  }: TProps = $props()
+  const { title, description, children }: TProps = $props()
 
   let isOpened = $state(false)
 </script>

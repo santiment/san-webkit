@@ -10,15 +10,17 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
+
+  import Svg from '$ui/core/Svg/Svg.svelte'
+  import { getSavedBoolean } from '$lib/utils/localStorage.js'
+  import Button from '$lib/ui/core/Button/Button.svelte'
+  import { cn } from '$ui/utils/index.js'
+
   import {
     showManageCookiesDialog$,
     COOKIE_POLICY_ACCEPTED,
     applyCookies,
   } from './ManageCookiesDialog/index.svelte'
-  import Svg from '$ui/core/Svg/Svg.svelte'
-  import { getSavedBoolean } from '$lib/utils/localStorage.js'
-  import Button from '$lib/ui/core/Button/Button.svelte'
-  import { cn } from '$ui/utils/index.js'
 
   type TProps = {
     class?: string
