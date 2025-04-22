@@ -6,6 +6,7 @@ type TSimpleChannels = Extract<TApiChannel, string>
 type TComplexChannels = UnionToIntersection<Extract<TApiChannel, object>>
 
 export type TChannel = z.util.flatten<Partial<Record<TSimpleChannels, boolean> & TComplexChannels>>
+export type TChannelSource = keyof TChannel
 
 export function getChannelFromApi(channels: TApiChannel[] | undefined): TChannel | null {
   if (!channels) return null
