@@ -6,6 +6,8 @@ import svelte from 'eslint-plugin-svelte'
 import importPlugin from 'eslint-plugin-import'
 import svelteParser from 'svelte-eslint-parser'
 
+import svelteConfig from './svelte.config.js'
+
 const importResolverConfig = {
   'import/resolver': {
     typescript: true,
@@ -100,14 +102,14 @@ export default [
   },
 
   {
-    files: ['**/*.svelte'],
+    files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
       parser: svelteParser,
       parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
+        projectService: true,
         extraFileExtensions: ['.svelte'],
         parser: ts.parser,
+        svelteConfig,
       },
     },
     settings: {

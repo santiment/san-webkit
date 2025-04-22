@@ -36,6 +36,6 @@ export function usePosthogFlow() {
   })
 
   $effect(() => {
-    updateUserSanbasePlan(customer.$.sanbaseSubscription?.plan?.name)
+    updateUserSanbasePlan(customer.$.plan?.name)
   })
 }
