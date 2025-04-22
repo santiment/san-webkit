@@ -18,6 +18,6 @@ export type TApiAlert<GSettings = any> = {
   settings:
     | null
     | ({
-        channel: TApiChannel[]
+        channel: TApiChannel | TApiChannel[]
       } & GSettings)
 }

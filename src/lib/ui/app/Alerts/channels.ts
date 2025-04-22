@@ -8,14 +8,19 @@ type TComplexChannels = UnionToIntersection<Extract<TApiChannel, object>>
 export type TChannel = z.util.flatten<Partial<Record<TSimpleChannels, boolean> & TComplexChannels>>
 export type TChannelSource = keyof TChannel
 
-export function getChannelFromApi(channels: TApiChannel[] | undefined): TChannel | null {
+export function getChannelFromApi(
+  channels: TApiChannel | TApiChannel[] | undefined,
+): TChannel | null {
   if (!channels) return null
 
-  return channels.reduce(
-    (prev, channel) =>
-      typeof channel === 'string' ? { ...prev, [channel]: true } : { ...prev, ...channel },
-    {} as TChannel,
-  )
+  const transformChannel = (base: TChannel, channel: TApiChannel) =>
+    typeof channel === 'string' ? { ...base, [channel]: true } : { ...base, ...channel }
+
+  if (Array.isArray(channels)) {
+    return channels.reduce((prev, channel) => transformChannel(prev, channel), {} as TChannel)
+  }
+
+  return transformChannel({}, channels)
 }
 
 export function reduceChannelToApi(channels: TChannel) {
