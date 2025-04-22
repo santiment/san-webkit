@@ -3,14 +3,16 @@ import type { TApiAlert } from '../../types.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 
+export type TState = {
+  title: string
+  description: string
+}
+
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'name-description',
   {
-    initState: (apiAlert?: null | TApiAlert) => {
-      title: string
-      description: string
-    }
+    initState: (apiAlert?: null | TApiAlert) => TState
   }
 >
 
