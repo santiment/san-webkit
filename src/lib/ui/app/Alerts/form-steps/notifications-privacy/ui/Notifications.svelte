@@ -3,8 +3,7 @@
   import type { TState } from '../schema.js'
 
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-  import Input from '$ui/core/Input/Input.svelte'
-
+  import Input from '$ui/core/Input/index.js'
 
   import Channel from './Channel.svelte'
   import Section from './Section.svelte'

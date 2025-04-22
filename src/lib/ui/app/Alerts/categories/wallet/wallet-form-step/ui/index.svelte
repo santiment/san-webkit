@@ -4,7 +4,7 @@
 
   import Checkbox from '$ui/core/Checkbox/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Input from '$ui/core/Input/Input.svelte'
+  import Input from '$ui/core/Input/index.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import { Operations } from '$ui/app/Alerts/form-steps/metric-conditions/operations.js'
 

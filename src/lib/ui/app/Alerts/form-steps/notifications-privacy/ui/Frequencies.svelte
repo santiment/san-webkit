@@ -5,7 +5,7 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { TimeModifiers, type TTimeModifier } from '$ui/app/Alerts/time.js'
   import Button from '$ui/core/Button/Button.svelte'
-  import Input from '$ui/core/Input/Input.svelte'
+  import Input from '$ui/core/Input/index.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
   import { exactObjectKeys } from '$lib/utils/types/index.js'
