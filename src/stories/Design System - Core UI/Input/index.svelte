@@ -9,5 +9,7 @@
     <Input placeholder="Placeholder"></Input>
 
     <Input icon="search"></Input>
+
+    <Input placeholder="Disabled input" disabled></Input>
   </div>
 </div>

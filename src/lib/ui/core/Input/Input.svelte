@@ -12,6 +12,7 @@
     placeholder = '',
     icon,
     iconSize = 12,
+    disabled,
     left,
     right,
     ...rest
@@ -30,6 +31,7 @@
 <div
   class={cn(
     'relative flex items-center rounded border bg-white fill-casper focus-within:border-green focus-within:fill-green hover:border-green',
+    disabled && 'hover:border-porcelain',
     className,
   )}
 >
@@ -41,10 +43,12 @@
 
   <input
     {...rest}
+    {disabled}
     {type}
     {placeholder}
     class={cn(
       'w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none',
+      disabled && 'bg-athens text-mystic',
       icon && 'pl-8',
       inputClass,
     )}
