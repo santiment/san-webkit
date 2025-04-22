@@ -5,6 +5,8 @@ import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
 import importPlugin from 'eslint-plugin-import'
 
+import svelteConfig from './svelte.config.js'
+
 const importResolverConfig = {
   'import/resolver': {
     typescript: true,
@@ -93,10 +95,13 @@ export default [
   },
 
   {
-    files: ['**/*.svelte'],
+    files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
       parserOptions: {
+        projectService: true,
+        extraFileExtensions: ['.svelte'],
         parser: ts.parser,
+        svelteConfig,
       },
     },
     settings: {
