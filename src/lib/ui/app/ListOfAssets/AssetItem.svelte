@@ -3,9 +3,9 @@
   import type { Snippet } from 'svelte'
   import type { HTMLAttributes } from 'svelte/elements'
 
-  import ProjectIcon from '$ui/app/ProjectIcon/ProjectIcon.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
+  import AssetLogo from '$ui/app/AssetLogo/AssetLogo.svelte'
 
   type TProps = {
     class?: string
@@ -16,7 +16,7 @@
   }
 
   const { class: className, item, isActive = false, onclick, children }: TProps = $props()
-  const { slug, logoUrl, name, ticker } = $derived(item)
+  const { slug, name, ticker } = $derived(item)
 </script>
 
 <Button
@@ -27,7 +27,7 @@
 >
   {@render children?.()}
 
-  <ProjectIcon {slug} {logoUrl} />
+  <AssetLogo {slug} />
   <span class="single-line">{name}</span>
 
   <span class="text-waterloo">({ticker})</span>

@@ -7,7 +7,6 @@ export type TAsset = {
   name: string
   ticker: string
   rank: null | number
-  logoUrl: null | string
   priceUsd: null | number
   infrastructure: null | string
 }
@@ -17,8 +16,7 @@ export const PROJECT_FRAGMENT = `slug
       name
       priceUsd
       infrastructure
-      rank
-      logoUrl`
+      rank`
 
 const assetAccessor = (gql: { projects: TAsset[] }) =>
   gql.projects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999))
