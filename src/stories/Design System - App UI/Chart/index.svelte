@@ -1,28 +1,28 @@
 <script lang="ts">
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { parseAsStartEndDate, suggestPeriodInterval } from '$lib/utils/dates/index.js'
+  import { JobScheduler } from '$lib/utils/job-scheduler.js'
   import { type TMetricData } from '$ui/app/Chart/api/index.js'
   import {
     useMetricSeriesCtx,
     useChartGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
+  import { useApiMetricFetchSettings } from '$ui/app/Chart/ctx/metric-data.svelte.js'
   import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
+  import { onMount } from 'svelte'
 
   useAssetsCtx.set()
 
+  const jobScheduler = JobScheduler()
+  useApiMetricFetchSettings.set({ jobScheduler })
+
   const { colorGenerator } = useColorGenerator()
 
-  console.log(
-    suggestPeriodInterval(
-      parseAsStartEndDate('utc_now-2y', { dayStart: true }),
-      parseAsStartEndDate('utc_now', { dayStart: false }),
-    ),
-  )
   const { globalParameters } = useChartGlobalParametersCtx({
     from: 'utc_now-2y',
     interval: suggestPeriodInterval(
@@ -80,6 +80,12 @@
   }
 
   const slugs = ['bitcoin', 'ethereum']
+
+  onMount(() => {
+    return () => {
+      jobScheduler.destroy()
+    }
+  })
 </script>
 
 <main class="p-4">

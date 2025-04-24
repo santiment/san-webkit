@@ -1,8 +1,11 @@
-import { catchError, of, switchMap, tap } from 'rxjs'
+import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
+
+import { catchError, of, Subject, switchMap, tap } from 'rxjs'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
 import { RxQuery } from '$lib/api/executor.js'
+import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
 
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
@@ -18,40 +21,60 @@ type TLocalParameters = {
   transform?: null | TTimeseriesMetricTransformInputObject
 }
 
-export function useApiMetricDataFlow(
-  metric: TSeries,
-  { fetcher }: { fetcher?: TExecutorOptions['fetcher'] },
-) {
+export const useApiMetricFetchSettings = createCtx(
+  'charts_useApiMetricFetchSettings',
+  (
+    ctx: {
+      fetcher?: TExecutorOptions['fetcher']
+      jobScheduler?: TJobScheduler
+    } = {},
+  ) => {
+    return ctx
+  },
+)
+
+export function useApiMetricDataFlow(metric: TSeries) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { fetcher, jobScheduler } = useApiMetricFetchSettings()
 
   const loadMetricData = useObserveFnCall<{
     localParameters: TLocalParameters
     globalParameters: TGlobalParameters
+    scheduledData: TScheduledData
   }>(() =>
-    switchMap(({ localParameters, globalParameters }) => {
+    switchMap(({ localParameters, globalParameters, scheduledData }) => {
       metric.loading.$ = true
       metric.data.$ = []
 
-      return queryGetMetric({ executor: RxQuery, fetcher })({
-        metric: localParameters.metric,
-        selector: localParameters.selector || globalParameters.selector,
-        from: globalParameters.from,
-        to: globalParameters.to,
-        interval: globalParameters.interval,
-      }).pipe(
-        tap((data) => {
-          const formattedData = metric.transformData?.(data) || data
-          metric.data.$ = formattedData
-          metric.error.$ = null
-          metric.loading.$ = false
-        }),
-        catchError((err) => {
-          metric.data.$ = []
-          metric.loading.$ = false
-          metric.error.$ = err
-          return of(null)
-        }),
-      )
+      const queryData$ = () =>
+        queryGetMetric({ executor: RxQuery, fetcher })({
+          metric: localParameters.metric,
+          selector: localParameters.selector || globalParameters.selector,
+          from: globalParameters.from,
+          to: globalParameters.to,
+          interval: globalParameters.interval,
+        }).pipe(
+          tap((data) => {
+            const formattedData = metric.transformData?.(data) || data
+            metric.data.$ = formattedData
+            metric.error.$ = null
+            metric.loading.$ = false
+
+            scheduledData?.resolve(undefined)
+          }),
+          catchError((err) => {
+            metric.data.$ = []
+            metric.loading.$ = false
+            metric.error.$ = err
+
+            scheduledData?.reject(err)
+            return of(null)
+          }),
+        )
+
+      return scheduledData
+        ? scheduledData.fetchStartSubject.pipe(switchMap(queryData$))
+        : queryData$()
     }),
   )
 
@@ -62,7 +85,10 @@ export function useApiMetricDataFlow(
     const interval = globalParameters.$$.interval
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
+    const { scheduledData } = createScheduledData(jobScheduler)
+
     loadMetricData({
+      scheduledData,
       localParameters: {
         metric: metric.apiMetricName,
         selector: metric.selector.$,
@@ -70,5 +96,32 @@ export function useApiMetricDataFlow(
       },
       globalParameters: { selector, from, to, interval, includeIncompleteData },
     })
+
+    return scheduledData?.cancel
   })
+}
+
+type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
+function createScheduledData(jobScheduler: undefined | null | TJobScheduler) {
+  if (!jobScheduler) return {}
+
+  const fetchStartSubject = new Subject<void>()
+  const { promise, resolve, reject } = controlledPromisePolyfill()
+
+  const job = jobScheduler.schedule(() => {
+    fetchStartSubject.next()
+    fetchStartSubject.complete()
+    return promise
+  })
+
+  return {
+    scheduledData: {
+      fetchStartSubject,
+      resolve,
+      reject,
+      cancel() {
+        if (job) jobScheduler.cancelJob(job)
+      },
+    },
+  }
 }

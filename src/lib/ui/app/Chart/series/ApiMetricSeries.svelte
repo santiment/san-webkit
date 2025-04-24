@@ -1,18 +1,16 @@
 <script lang="ts">
-  import type { TExecutorOptions } from '$lib/api/index.js'
   import type { TSeries } from '../ctx/series.svelte.js'
 
-  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
   import RawSeries from './RawSeries.svelte'
+  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
 
   type TProps = {
     series: TSeries
-    fetcher?: TExecutorOptions['fetcher']
   }
 
-  let { series, fetcher }: TProps = $props()
+  let { series }: TProps = $props()
 
-  useApiMetricDataFlow(series, { fetcher })
+  useApiMetricDataFlow(series)
 </script>
 
 {#key series.type.$}
