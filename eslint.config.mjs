@@ -4,6 +4,7 @@ import ts from 'typescript-eslint'
 import prettier from 'eslint-config-prettier'
 import svelte from 'eslint-plugin-svelte'
 import importPlugin from 'eslint-plugin-import'
+import svelteParser from 'svelte-eslint-parser'
 
 import svelteConfig from './svelte.config.js'
 
@@ -51,6 +52,11 @@ export default [
 
   {
     languageOptions: {
+      parser: ts.parser,
+      parserOptions: {
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
       globals: {
         ...globals.browser,
         ...globals.node,
@@ -59,6 +65,7 @@ export default [
     },
 
     rules: {
+      'svelte/require-each-key': 'off',
       'no-self-assign': 'off',
       '@typescript-eslint/no-namespace': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
@@ -97,6 +104,7 @@ export default [
   {
     files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
     languageOptions: {
+      parser: svelteParser,
       parserOptions: {
         projectService: true,
         extraFileExtensions: ['.svelte'],

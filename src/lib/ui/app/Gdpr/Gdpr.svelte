@@ -106,22 +106,20 @@
 
       <div class="relative">
         <Tooltip isOpened={!!error} class="absolute mt-1">
-          {#snippet children()}
-            <Input
-              value={username}
-              placeholder="username"
-              class={cn('text-black', error && 'border-red')}
-              inputClass="pl-6"
-              oninput={onInput}
-              onblur={onBlur}
-              minlength={4}
-              required
-            >
-              {#snippet left()}
-                <span class="absolute left-2 text-green">@</span>
-              {/snippet}
-            </Input>
-          {/snippet}
+          <Input
+            value={username}
+            placeholder="username"
+            class={cn('text-black', error && 'border-red')}
+            inputClass="pl-6"
+            oninput={onInput}
+            onblur={onBlur}
+            minlength={4}
+            required
+          >
+            {#snippet left()}
+              <span class="absolute left-2 text-green">@</span>
+            {/snippet}
+          </Input>
 
           {#snippet content()}
             <span class="flex items-center gap-1 fill-red px-2 py-1.5 text-black">
