@@ -1,4 +1,5 @@
 import { onMount } from 'svelte'
+
 import { page } from '$app/state'
 
 import { trackEvent } from './index.js'

@@ -1,6 +1,7 @@
-import { building } from '$app/environment'
 import { BROWSER } from 'esm-env'
 import { from } from 'rxjs'
+
+import { building } from '$app/environment'
 
 const ENDPOINT = (
   building
