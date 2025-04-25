@@ -31,6 +31,7 @@ export const useSearchCtx = createCtx(
 
     const filter = <T extends GItem>(items: T[]) => {
       const value = searchTerm.toLocaleLowerCase()
+      if (!value) return items
 
       return items.filter((item) => matchItem(value, item))
     }
