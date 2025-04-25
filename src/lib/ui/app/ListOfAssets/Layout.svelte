@@ -2,11 +2,11 @@
   import type { TAsset } from '$lib/ctx/assets/api.js'
 
   import { onMount, type Snippet } from 'svelte'
-  import { noop } from 'rxjs'
+  import { map, noop, pipe, switchMap, tap } from 'rxjs'
 
   import Input from '$ui/core/Input/Input.svelte'
   import { useSearchCtx } from '$lib/ctx/search/index.js'
-  import { Query } from '$lib/api/executor.js'
+  import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 
   import Tabs, { tabKeys, TABS, type TabKey } from './Tabs.svelte'
 
@@ -34,10 +34,6 @@
   let groupAssets = $state<TAsset[]>()
   let loading = $state(false)
 
-  $effect(() => {
-    loadTabAssets(tab)
-  })
-
   const filteredAssets = $derived(filter(groupAssets ?? []))
   const items = $derived(mapItems(filteredAssets))
 
@@ -46,14 +42,20 @@
     onTabSelect(tab)
   }
 
-  function loadTabAssets(tab: TabKey) {
-    const query = TABS[tab].query
+  type LoadProps = { tab: TabKey }
+  const loadTabAssets = useObserveFnCall<LoadProps>(() => {
+    return pipe(
+      tap(() => (loading = true)),
+      map(({ tab }) => TABS[tab].query),
+      switchMap((query) => query()()),
+      tap((assets) => (groupAssets = assets)),
+      tap(() => (loading = false)),
+    )
+  })
 
-    loading = true
-    query(Query)()
-      .then((assets) => (groupAssets = assets))
-      .finally(() => (loading = false))
-  }
+  $effect(() => {
+    loadTabAssets({ tab })
+  })
 
   onMount(() => {
     return () => clear()
