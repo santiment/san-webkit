@@ -5,7 +5,7 @@
     queryErc20Projects,
     queryStablecoinProjects,
   } from '$lib/ctx/assets/api.js'
-  import { exactObjectKeys } from '$lib/utils/types/index.js'
+  import { exactObjectKeys } from '$lib/utils/object.js'
 
   export type TabKey = keyof typeof TABS
 
