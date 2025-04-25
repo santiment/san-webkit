@@ -1,27 +1,43 @@
-<script lang="ts">
-  import type { TAssetCategory } from '$lib/ctx/assets/index.svelte.js'
+<script lang="ts" module>
+  import {
+    queryAllProjects,
+    queryDeFiProjects,
+    queryErc20Projects,
+    queryStablecoinProjects,
+  } from '$lib/ctx/assets/api.js'
+  import { exactObjectKeys } from '$lib/utils/types/index.js'
 
+  export type TabKey = keyof typeof TABS
+
+  const Tab = <GQuery extends (...args: any[]) => any>(query: GQuery, label: string) => ({
+    query,
+    label,
+  })
+
+  export const TABS = {
+    all: Tab(queryAllProjects, 'All'),
+    erc20: Tab(queryErc20Projects, 'ERC20'),
+    stablecoins: Tab(queryStablecoinProjects, 'Stablecoins'),
+    defi: Tab(queryDeFiProjects, 'DeFi'),
+  }
+
+  export const tabKeys = exactObjectKeys(TABS)
+</script>
+
+<script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
-  const TabNames: Record<TAssetCategory, string> = {
-    all: 'All',
-    erc20: 'ERC20',
-    stablecoins: 'Stablecoins',
-    defi: 'DeFi',
-  }
-
   type TProps = {
-    tabs: TAssetCategory[]
-    selected: TAssetCategory
-    onSelect: (tab: TAssetCategory) => void
+    selected: TabKey
+    onSelect: (tab: TabKey) => void
   }
 
-  const { tabs, selected, onSelect }: TProps = $props()
+  const { selected, onSelect }: TProps = $props()
 </script>
 
 <nav class="flex gap-4 border-b bg-white text-waterloo">
-  {#each tabs as tab}
+  {#each tabKeys as tab}
     <Button
       variant="plain"
       size="auto"
@@ -31,7 +47,7 @@
       )}
       onclick={() => onSelect(tab)}
     >
-      {TabNames[tab]}
+      {TABS[tab].label}
     </Button>
   {/each}
 </nav>

@@ -8,10 +8,7 @@
 
   let { step }: TProps = $props()
 
-  const {
-    assets: { all: assets },
-    getAssetBySlug,
-  } = useAssetsCtx.get()
+  const { assets, getAssetBySlug } = useAssetsCtx.get()
 </script>
 
 <div class="flex gap-2">

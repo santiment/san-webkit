@@ -11,9 +11,7 @@
 
   let { step }: TProps = $props()
 
-  const {
-    assets: { all: assets },
-  } = useAssetsCtx.get()
+  const { assets } = useAssetsCtx.get()
 
   const selectedAssets = new SvelteSet(step.state.$$.target.slug)
 </script>

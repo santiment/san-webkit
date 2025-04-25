@@ -4,18 +4,17 @@
   import { onDestroy, type Snippet } from 'svelte'
   import { noop } from 'rxjs'
 
-  import { exactObjectKeys } from '$lib/utils/types/index.js'
-  import { useAssetsCtx, type TAssetCategory } from '$lib/ctx/assets/index.svelte.js'
   import Input from '$ui/core/Input/Input.svelte'
   import { useSearchCtx } from '$lib/ctx/search/index.js'
+  import { Query } from '$lib/api/executor.js'
 
-  import Tabs from './Tabs.svelte'
+  import Tabs, { tabKeys, TABS, type TabKey } from './Tabs.svelte'
 
   type T = $$Generic
 
   type TProps = {
     mapItems: (assets: TAsset[]) => T[]
-    onTabSelect?: (tab: TAssetCategory) => void
+    onTabSelect?: (tab: TabKey) => void
     hasSearch?: boolean
     children: Snippet<[{ assets: T[] }]>
   }
@@ -31,19 +30,29 @@
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
-  const { assets } = useAssetsCtx.get()
-
-  const tabKeys = exactObjectKeys(assets)
-
   let tab = $state(tabKeys[0])
+  let groupAssets = $state<TAsset[]>()
+  let loading = $state(false)
 
-  const groupAssets = $derived(assets[tab])
-  const filteredAssets = $derived(filter(groupAssets.$))
+  $effect(() => {
+    loadTabAssets(tab)
+  })
+
+  const filteredAssets = $derived(filter(groupAssets ?? []))
   const items = $derived(mapItems(filteredAssets))
 
-  function handleTabSelect(_tab: TAssetCategory) {
+  function handleTabSelect(_tab: TabKey) {
     tab = _tab
     onTabSelect(tab)
+  }
+
+  function loadTabAssets(tab: TabKey) {
+    const query = TABS[tab].query
+
+    loading = true
+    query(Query)()
+      .then((assets) => (groupAssets = assets))
+      .finally(() => (loading = false))
   }
 
   onDestroy(() => {
@@ -61,10 +70,16 @@
       onkeyup={onKeyUp}
     />
 
-    <Tabs tabs={tabKeys} selected={tab} onSelect={handleTabSelect} />
+    <Tabs selected={tab} onSelect={handleTabSelect} />
   {/if}
 
   <section class="relative flex-1">
-    {@render children({ assets: items })}
+    {#if loading}
+      <section class="flex h-full w-full items-center justify-center p-4">
+        <div style:--loading-size="32px" class="loading-spin"></div>
+      </section>
+    {:else}
+      {@render children({ assets: items })}
+    {/if}
   </section>
 </section>
