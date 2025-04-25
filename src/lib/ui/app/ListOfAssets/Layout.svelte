@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { TAsset } from '$lib/ctx/assets/api.js'
 
-  import { onDestroy, type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { noop } from 'rxjs'
 
   import Input from '$ui/core/Input/Input.svelte'
@@ -55,8 +55,8 @@
       .finally(() => (loading = false))
   }
 
-  onDestroy(() => {
-    clear()
+  onMount(() => {
+    return () => clear()
   })
 </script>
 
