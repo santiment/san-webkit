@@ -25,7 +25,6 @@
 
   const isApiAlertDeduceFailed = $derived(apiAlert && !schema)
 
-  // eslint-disable-next-line svelte/valid-compile
   if (isApiAlertDeduceFailed) {
     apiAlert = null
   }

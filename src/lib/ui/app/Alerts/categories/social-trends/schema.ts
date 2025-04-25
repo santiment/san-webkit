@@ -1,5 +1,5 @@
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 import type { TApiAlert } from '../../types.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { Query } from '$lib/api/executor.js'
 

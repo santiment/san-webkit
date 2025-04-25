@@ -8,8 +8,8 @@
   import Input from '$ui/core/Input/index.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
-  import { exactObjectKeys } from '$lib/utils/types/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { exactObjectKeys } from '$lib/utils/object.js'
 
   import Section from './Section.svelte'
 

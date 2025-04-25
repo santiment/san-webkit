@@ -1,1 +1,2 @@
-export { queryAllProjects, useAssetsCtx, type TAssetSlug, type TAsset } from './index.svelte.js'
+export { useAssetsCtx } from './index.svelte.js'
+export { type TAssetSlug, type TAsset } from './api.js'

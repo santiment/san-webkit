@@ -9,3 +9,7 @@ export function keyify<T, GKeyProp extends string = 'key'>(
   }
   return object as Keyified<T, GKeyProp>
 }
+
+export function exactObjectKeys<T extends object>(obj: T) {
+  return Object.keys(obj) as (keyof typeof obj)[]
+}
