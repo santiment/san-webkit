@@ -4,33 +4,29 @@
 
   import { SvelteSet } from 'svelte/reactivity'
 
-  import Checkbox from '$ui/core/Checkbox/index.js'
-  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+  import { ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
-  const { assets } = useAssetsCtx.get()
-
   const selectedAssets = new SvelteSet(step.state.$$.target.slug)
+
+  $effect(() => {
+    step.state.$$.target.slug = Array.from(selectedAssets)
+  })
+
+  function onSelect(slug: string) {
+    if (selectedAssets.has(slug)) {
+      selectedAssets.delete(slug)
+    } else {
+      selectedAssets.add(slug)
+    }
+  }
 </script>
 
-Loaded: {assets.$.length > 0}
-<br />
-
-{#if assets.$.length}
-  {#each assets.$.slice(0, 2) as asset (asset.slug)}
-    <div>
-      {asset.name}: <Checkbox
-        isActive={selectedAssets.has(asset.slug)}
-        onCheckedChange={(value) => {
-          if (value) selectedAssets.add(asset.slug)
-          else selectedAssets.delete(asset.slug)
-
-          step.state.$$.target.slug = Array.from(selectedAssets)
-        }}
-      ></Checkbox>
-    </div>
-  {/each}
-{/if}
+<ListOfAssetsMulti
+  selected={selectedAssets}
+  {onSelect}
+  resetSelections={() => selectedAssets.clear()}
+/>
