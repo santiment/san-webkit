@@ -16,6 +16,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import { onMount } from 'svelte'
+  import { useChartPlanRestrictionsCtx } from '$ui/app/Chart/RestrictedDataDialog/index.js'
 
   useAssetsCtx.set()
   const { MetricsRestrictions } = useMetricsRestrictionsCtx.set()
@@ -76,6 +77,8 @@
       scaleId: 'right-sentiment',
     },
   ])
+
+  useChartPlanRestrictionsCtx.set()
 
   const priceSeries = metricSeries.$[0]
 
