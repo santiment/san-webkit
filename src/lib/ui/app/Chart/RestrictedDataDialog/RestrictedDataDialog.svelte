@@ -26,14 +26,14 @@
   })
 </script>
 
-<Dialog class="max-w-[480px]">
+<Dialog class="max-w-[480px] column">
   <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
     Restricted data
 
     <Button iconSize="12" size="sm" icon="close" onclick={close}></Button>
   </h2>
 
-  <section class="gap-4 px-6 py-5 column">
+  <section class="min-h-0 gap-4 px-6 py-5 column">
     <article class="overflow-auto rounded border column">
       <div class="flex bg-athens text-fiord">
         <section class="cell">Metric</section>

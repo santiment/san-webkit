@@ -8,7 +8,7 @@
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
-  import Svg from '$ui/core/Svg/index.js'
+  import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
 
   type TButtonVariants = VariantProps<typeof button>
 
@@ -17,7 +17,7 @@
       as?: 'button' | 'label' | 'div'
       ref?: SS<undefined | null | HTMLElement>
       href?: string
-      icon?: string
+      icon?: TSvgId
       class?: string
       iconSize?: number | string
       iconHeight?: number | string
