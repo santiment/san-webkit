@@ -21,7 +21,7 @@ type TLocalParameters = {
   transform?: null | TTimeseriesMetricTransformInputObject
 }
 
-export const useApiMetricFetchSettings = createCtx(
+export const useApiMetricFetchSettingsCtx = createCtx(
   'charts_useApiMetricFetchSettings',
   (
     ctx: {
@@ -35,7 +35,7 @@ export const useApiMetricFetchSettings = createCtx(
 
 export function useApiMetricDataFlow(metric: TSeries) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
-  const { fetcher, jobScheduler } = useApiMetricFetchSettings()
+  const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
   const loadMetricData = useObserveFnCall<{
     localParameters: TLocalParameters

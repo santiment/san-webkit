@@ -8,7 +8,7 @@
     useChartGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
-  import { useApiMetricFetchSettings } from '$ui/app/Chart/ctx/metric-data.svelte.js'
+  import { useApiMetricFetchSettingsCtx } from '$ui/app/Chart/ctx/metric-data.svelte.js'
   import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
@@ -19,7 +19,7 @@
   useAssetsCtx.set()
 
   const jobScheduler = JobScheduler()
-  useApiMetricFetchSettings.set({ jobScheduler })
+  useApiMetricFetchSettingsCtx.set({ jobScheduler })
 
   const { colorGenerator } = useColorGenerator()
 
