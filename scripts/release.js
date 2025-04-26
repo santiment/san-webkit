@@ -3,6 +3,10 @@ import path from 'path'
 
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
+import {
+  fetchMetricsRestrictions,
+  replaceDefaultMetricsRestrictionsSource,
+} from './metrics-restrictions.js'
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput, replaceSvgIdsType } from './svg.js'
 
 const MAIN_BRANCH = 'next'
@@ -39,6 +43,7 @@ export async function release() {
 
   await processSvg()
   await replaceStaticAssetLogos()
+  await replaceStaticMetricsRestrictions()
   await updateLibraryPackageJson()
 
   await exec('git rm --cached -r tests', false)
@@ -151,6 +156,14 @@ async function replaceStaticAssetLogos() {
   await forFile(['./dist/**/AssetLogo.svelte'], (entry) => {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, replaceAssetLogosSource(file.toString(), logos))
+  })
+}
+
+async function replaceStaticMetricsRestrictions() {
+  const data = JSON.stringify(await fetchMetricsRestrictions())
+  await forFile(['./dist/**/metrics-registry/restrictions/api.js'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, replaceDefaultMetricsRestrictionsSource(file.toString(), data))
   })
 }
 
