@@ -4,6 +4,10 @@ import fs from 'fs/promises'
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from '../scripts/svg.js'
 import { forFile, __dirname } from '../scripts/utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from '../scripts/asset-logos.js'
+import {
+  fetchMetricsRestrictions,
+  replaceDefaultMetricsRestrictionsSource,
+} from '../scripts/metrics-restrictions.js'
 
 export function WebkitSvg() {
   const base = __dirname()
@@ -72,6 +76,23 @@ export async function StaticAssetLogos() {
       if (id.includes('AssetLogo.svelte')) {
         return {
           code: replaceAssetLogosSource(src, logos),
+          map: null,
+        }
+      }
+    },
+  }
+}
+
+export async function StaticMetricsRestrictions() {
+  const data = JSON.stringify(await fetchMetricsRestrictions().catch(() => ({})))
+
+  return {
+    name: 'static-metrics-restrictions',
+
+    transform(src: string, id: string) {
+      if (id.includes('metrics-registry/restrictions/api')) {
+        return {
+          code: replaceDefaultMetricsRestrictionsSource(src, data),
           map: null,
         }
       }

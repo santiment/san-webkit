@@ -11,12 +11,16 @@
   import { useApiMetricFetchSettingsCtx } from '$ui/app/Chart/ctx/metric-data.svelte.js'
   import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
+  import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import { onMount } from 'svelte'
 
   useAssetsCtx.set()
+  const { MetricsRestrictions } = useMetricsRestrictionsCtx.set()
+
+  $inspect(MetricsRestrictions.$)
 
   const jobScheduler = JobScheduler()
   useApiMetricFetchSettingsCtx.set({ jobScheduler })

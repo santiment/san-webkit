@@ -4,7 +4,7 @@ import { execSync } from 'node:child_process'
 import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 
-import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
+import { StaticAssetLogos, WebkitSvg, StaticMetricsRestrictions } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
@@ -85,7 +85,7 @@ export function createConfig({
 }
 
 export default mergeConfig(createConfig(), {
-  plugins: [StaticAssetLogos()],
+  plugins: [StaticAssetLogos(), StaticMetricsRestrictions()],
 })
 
 function getGitHeadDate() {
