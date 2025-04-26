@@ -1,6 +1,6 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
 
-import { catchError, of, Subject, switchMap, tap } from 'rxjs'
+import { catchError, from, of, switchMap, tap } from 'rxjs'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
@@ -60,20 +60,20 @@ export function useApiMetricDataFlow(metric: TSeries) {
             metric.error.$ = null
             metric.loading.$ = false
 
-            scheduledData?.resolve(undefined)
+            scheduledData?.jobResolve()
           }),
           catchError((err) => {
             metric.data.$ = []
             metric.loading.$ = false
             metric.error.$ = err
 
-            scheduledData?.reject(err)
+            scheduledData?.jobReject(err)
             return of(null)
           }),
         )
 
       return scheduledData
-        ? scheduledData.fetchStartSubject.pipe(switchMap(queryData$))
+        ? from(scheduledData.fetchStartPromise).pipe(switchMap(queryData$))
         : queryData$()
     }),
   )
@@ -81,7 +81,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
   $effect(() => {
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
-    const selector = globalParameters.$$.selector
+    const selector = $state.snapshot(globalParameters.$$.selector)
     const interval = globalParameters.$$.interval
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
@@ -91,8 +91,8 @@ export function useApiMetricDataFlow(metric: TSeries) {
       scheduledData,
       localParameters: {
         metric: metric.apiMetricName,
-        selector: metric.selector.$,
-        transform: metric.transform,
+        selector: $state.snapshot(metric.selector.$),
+        transform: $state.snapshot(metric.transform),
       },
       globalParameters: { selector, from, to, interval, includeIncompleteData },
     })
@@ -105,20 +105,19 @@ type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
 function createScheduledData(jobScheduler: undefined | null | TJobScheduler) {
   if (!jobScheduler) return {}
 
-  const fetchStartSubject = new Subject<void>()
   const { promise, resolve, reject } = controlledPromisePolyfill()
+  const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
 
   const job = jobScheduler.schedule(() => {
-    fetchStartSubject.next()
-    fetchStartSubject.complete()
+    fetchStart()
     return promise
   })
 
   return {
     scheduledData: {
-      fetchStartSubject,
-      resolve,
-      reject,
+      fetchStartPromise,
+      jobResolve: resolve,
+      jobReject: reject,
       cancel() {
         if (job) jobScheduler.cancelJob(job)
       },
