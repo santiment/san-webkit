@@ -19,6 +19,7 @@ export type TConditionsState = {
 
 export type TMetricConditionsState = {
   metric: string | null
+  metricLabel: string
   conditions: TConditionsState
 }
 
@@ -34,6 +35,7 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
 
   initState: (alert) => ({
     metric: alert?.settings?.metric ?? null,
+    metricLabel: '',
     conditions: {
       operation: getOperationFromApi(alert?.settings?.operation) ?? {
         type: 'above',
