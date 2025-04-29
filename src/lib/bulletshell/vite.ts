@@ -77,7 +77,7 @@ export function BulletshellPlugin(): Plugin {
         return fg([`${SERVER_CHUNKS_PATH}/hooks.server-*.js`]).then(([entry]) => {
           const hooksFileSource = fs.readFileSync(entry).toString()
           const hooksFile = hooksFileSource.replace(
-            'BULLETSHELL_MANIFEST = {}',
+            /const BULLETSHELL_MANIFEST = .+;/,
             `BULLETSHELL_MANIFEST = {${bulletshell_routes
               .map((item) => {
                 return `${JSON.stringify(item.id)}:{
@@ -86,7 +86,7 @@ export function BulletshellPlugin(): Plugin {
   config: await import(${JSON.stringify(item.chunkFilepath)}).then(({server}) => server._bulletshell),
 }`
               })
-              .join(',')}, __fs_locks: new Set()}`,
+              .join(',')}, __fs_locks: new Set()};`,
           )
 
           fs.writeFileSync(entry, hooksFile)

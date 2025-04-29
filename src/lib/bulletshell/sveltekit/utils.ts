@@ -47,9 +47,9 @@ export function Bulletshell(event: RequestEvent) {
       return routeFilepaths!.dest
     },
 
-    sendRenderRequest(): Promise<Response> {
+    async sendRenderRequest(): Promise<void | Response> {
       if (IS_BULLETSHELL_MODE) {
-        return Promise.reject()
+        return Promise.resolve()
       }
 
       const headers = {} as Record<string, any>
@@ -61,6 +61,9 @@ export function Bulletshell(event: RequestEvent) {
 
       return fetch('http://0.0.0.0:3333' + event.url.pathname, {
         headers: { ...event.request.headers, ...headers },
+      }).catch((e) => {
+        console.log('[Bulletshell] Fetch error')
+        console.error(e)
       })
     },
 
@@ -90,7 +93,10 @@ export function Bulletshell(event: RequestEvent) {
       return Promise.all([
         compress_file(routeFilepaths!.dest, 'gz'),
         compress_file(routeFilepaths!.dest, 'br'),
-      ])
+      ]).catch((e) => {
+        console.log('[Bulletshell] Compress error')
+        console.error(e)
+      })
     },
 
     __allowServe() {
