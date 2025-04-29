@@ -1,8 +1,10 @@
+import type { Component as TComponent } from 'svelte'
+
 import Component from './index.svelte'
 import img from './uniswap.png'
 
 export const UniswapLiquidityMethod = {
   name: 'Uniswap Liquidity',
   img,
-  Component,
+  Component: Component as TComponent,
 }
