@@ -43,10 +43,11 @@
   }: TProps = $props()
 </script>
 
-<div
+<label
   class={cn(
-    'relative flex items-center rounded border bg-white fill-casper focus-within:border-green focus-within:fill-green hover:border-green',
-    disabled && 'hover:border-porcelain',
+    'relative flex items-center rounded border bg-white fill-casper pl-2.5 pr-3 focus-within:border-green focus-within:fill-green hover:border-green',
+    icon && 'pl-8',
+    disabled && 'bg-athens text-mystic hover:border-porcelain',
     className,
   )}
 >
@@ -62,13 +63,8 @@
     {disabled}
     {type}
     {placeholder}
-    class={cn(
-      'w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none',
-      disabled && 'bg-athens text-mystic',
-      icon && 'pl-8',
-      inputClass,
-    )}
+    class={cn('w-full rounded bg-transparent py-[5px] outline-none', inputClass)}
   />
 
   {@render right?.()}
-</div>
+</label>
