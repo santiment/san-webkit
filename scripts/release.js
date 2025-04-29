@@ -86,6 +86,7 @@ vite.config.ts.timestamp-*
 
   console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
 
+  await exec(`git clean -df`, false)
   await exec(`npm run prepare`, false)
 }
 
