@@ -78,7 +78,7 @@ export function BulletshellPlugin(): Plugin {
           const hooksFileSource = fs.readFileSync(entry).toString()
           const hooksFile = hooksFileSource.replace(
             /const BULLETSHELL_MANIFEST = .+;/,
-            `BULLETSHELL_MANIFEST = {${bulletshell_routes
+            `const BULLETSHELL_MANIFEST = {${bulletshell_routes
               .map((item) => {
                 return `${JSON.stringify(item.id)}:{
   route_id: ${JSON.stringify(item.id)},
