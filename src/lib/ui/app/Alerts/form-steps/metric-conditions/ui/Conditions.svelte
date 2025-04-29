@@ -1,12 +1,16 @@
 <script lang="ts">
   import type { TMetricConditionsState } from '../schema.js'
 
-  import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/Input.svelte'
-  import Popover from '$ui/core/Popover/Popover.svelte'
+  import { TimeModifiers } from '$ui/app/Alerts/time.js'
+  import { parseRangeString } from '$lib/utils/dates/index.js'
+  import { exactObjectKeys } from '$lib/utils/object.js'
+  import { cn } from '$ui/utils/index.js'
 
-  import { Operations } from '../operations.js'
+  import { getOperationSign } from '../utils.js'
   import Metric from './Metric.svelte'
+  import { isDuplexOperation, Operations } from '../operations.js'
+  import Dropdown from './Dropdown.svelte'
 
   type TProps = {
     state: { $$: TMetricConditionsState }
@@ -14,38 +18,83 @@
   }
 
   const { state, onMetricChange }: TProps = $props()
+
+  const operation = $derived(state.$$.conditions.operation)
+  const sign = $derived(getOperationSign(state.$$.metric ?? '', state.$$.conditions.operation.type))
+  const isDuplex = $derived(isDuplexOperation(operation.type))
+  const { amount: timeAmount, modifier: timeModifier } = $derived(
+    parseRangeString(state.$$.conditions.time),
+  )
 </script>
 
-<section>
+<section class="flex flex-col gap-8">
   <Metric label={state.$$.metricLabel} onclick={onMetricChange} />
 
-  Conditions: <Popover>
-    {#snippet children({ props })}
-      <Button {...props}>{state.$$.conditions.operation.type ?? 'Select'}</Button>
-    {/snippet}
+  <section>
+    <h4 class="mb-6 text-lg">Conditions</h4>
 
-    {#snippet content()}
-      {#each Object.values(Operations) as operation (operation.key)}
-        <Button
-          onclick={() => {
-            state.$$.conditions.operation.type = operation.key
-          }}>{operation.label}</Button
+    <section class="mb-4">
+      <section class="grid grid-cols-2 gap-x-2 gap-y-3">
+        <Dropdown
+          items={exactObjectKeys(Operations)}
+          class={cn(isDuplex && 'col-span-full grid')}
+          selected={operation.type}
+          onSelect={(operation) => (state.$$.conditions.operation.type = operation)}
         >
-      {/each}
-    {/snippet}
-  </Popover>
+          {#snippet label(operation)}
+            {Operations[operation].label}
+          {/snippet}
+        </Dropdown>
 
-  Value 1: <Input
-    defaultValue={state.$$.conditions.operation.values[0]}
-    oninput={(e) => {
-      state.$$.conditions.operation.values[0] = +e.currentTarget.value
-    }}
-  />
+        {@render input({
+          sign,
+          defaultValue: operation.values[0],
+          oninput: (value) => (state.$$.conditions.operation.values[0] = value),
+        })}
 
-  Value 2: <Input
-    defaultValue={state.$$.conditions.operation.values[1]}
-    oninput={(e) => {
-      state.$$.conditions.operation.values[1] = +e.currentTarget.value
-    }}
-  />
+        {#if isDuplex}
+          {@render input({
+            sign,
+            defaultValue: operation.values[1],
+            oninput: (value) => (state.$$.conditions.operation.values[1] = value),
+          })}
+        {/if}
+
+        {@render input({
+          defaultValue: timeAmount,
+          oninput: (value) => (state.$$.conditions.time = `${value}${timeModifier}`),
+        })}
+
+        <Dropdown
+          items={exactObjectKeys(TimeModifiers)}
+          selected={timeModifier}
+          onSelect={(modifier) => (state.$$.conditions.time = `${timeAmount}${modifier}`)}
+        >
+          {#snippet label(modifier)}
+            {TimeModifiers[modifier].label}
+          {/snippet}
+        </Dropdown>
+      </section>
+    </section>
+
+    <section>graph</section>
+  </section>
 </section>
+
+{#snippet input({
+  sign,
+  defaultValue,
+  oninput,
+}: {
+  sign?: string
+  defaultValue: number
+  oninput: (value: number) => void
+})}
+  <Input type="number" min="0" {defaultValue} oninput={(e) => oninput(+e.currentTarget.value)}>
+    {#snippet left()}
+      {#if sign}
+        <span class="mr-1 text-casper">{sign}</span>
+      {/if}
+    {/snippet}
+  </Input>
+{/snippet}
