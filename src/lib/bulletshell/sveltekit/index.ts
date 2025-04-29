@@ -62,3 +62,5 @@ function renderServiceHandle(
 
   return new Response(null, { status: STATUS.NO_CONTENT })
 }
+
+export { type TBulletshellConfig } from '../types.js'
