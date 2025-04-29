@@ -45,6 +45,7 @@ export async function release() {
   await replaceStaticAssetLogos()
   await replaceStaticMetricsRestrictions()
   await updateLibraryPackageJson()
+  await replaceViteConfigSrcImports()
 
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
@@ -164,6 +165,13 @@ async function replaceStaticMetricsRestrictions() {
   await forFile(['./dist/**/metrics-registry/restrictions/api.js'], (entry) => {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, replaceDefaultMetricsRestrictionsSource(file.toString(), data))
+  })
+}
+
+async function replaceViteConfigSrcImports() {
+  await forFile(['./vite.config.*'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, file.toString().replaceAll('./src/lib/', './dist/'))
   })
 }
 
