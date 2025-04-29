@@ -1,5 +1,6 @@
-import { ApiQuery } from '../../../api/index.js'
-import { mapAccessRestrictionsData } from './utils.js'
+import { ApiQuery } from '$lib/api/index.js'
+
+import { mapAccessRestrictionsData } from '../../../../../scripts/metrics-restrictions/utils.js'
 
 export type TMetricRestrictions = {
   name: string

@@ -1,5 +1,5 @@
-import { fetchGql } from './fetch.js'
-import { mapAccessRestrictionsData } from '../src/lib/ctx/metrics-registry/restrictions/utils.js'
+import { mapAccessRestrictionsData } from './utils.js'
+import { fetchGql } from '../fetch.js'
 
 export const fetchMetricsRestrictions = () =>
   fetchGql(`{ getAccessRestrictions  {

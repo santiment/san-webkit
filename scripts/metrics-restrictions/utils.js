@@ -10,7 +10,7 @@
  * d: { l: string }[]
  * }[]}} gql - GQL data response
  *
- * @returns {Record<string, undefined | import("./api.js").TMetricRestrictions>}
+ * @returns {Record<string, undefined | import("$lib/ctx/metrics-registry/restrictions/api.js").TMetricRestrictions>}
  */
 export function mapAccessRestrictionsData(gql) {
   const MetricsRestrictions = gql.getAccessRestrictions.reduce((acc, item) => {

@@ -7,7 +7,7 @@ import { fetchStatusAssetLogos, replaceAssetLogosSource } from '../scripts/asset
 import {
   fetchMetricsRestrictions,
   replaceDefaultMetricsRestrictionsSource,
-} from '../scripts/metrics-restrictions.js'
+} from '../scripts/metrics-restrictions/index.js'
 
 export function WebkitSvg() {
   const base = __dirname()

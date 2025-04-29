@@ -6,7 +6,7 @@ import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js
 import {
   fetchMetricsRestrictions,
   replaceDefaultMetricsRestrictionsSource,
-} from './metrics-restrictions.js'
+} from './metrics-restrictions/index.js'
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput, replaceSvgIdsType } from './svg.js'
 
 const MAIN_BRANCH = 'next'
@@ -45,7 +45,7 @@ export async function release() {
   await replaceStaticAssetLogos()
   await replaceStaticMetricsRestrictions()
   await updateLibraryPackageJson()
-  await replaceViteConfigSrcImports()
+  await replaceSrcImports()
 
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
@@ -168,10 +168,10 @@ async function replaceStaticMetricsRestrictions() {
   })
 }
 
-async function replaceViteConfigSrcImports() {
+async function replaceSrcImports() {
   await forFile(['./vite.config.*'], (entry) => {
     const file = fs.readFileSync(entry)
-    fs.writeFileSync(entry, file.toString().replaceAll('./src/lib/', './dist/'))
+    fs.writeFileSync(entry, file.toString().replaceAll('/src/lib/', '/dist/'))
   })
 }
 
