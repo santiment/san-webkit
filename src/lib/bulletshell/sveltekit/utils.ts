@@ -92,6 +92,10 @@ export function Bulletshell(event: RequestEvent) {
         compress_file(routeFilepaths!.dest, 'br'),
       ])
     },
+
+    __allowServe() {
+      return !event.url.searchParams.has('__bulletshellBypass')
+    },
   }
 }
 

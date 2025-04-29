@@ -23,8 +23,12 @@ export const bulletshellHandle: Handle = async ({ event, resolve }) => {
   if (bulletshell.isValidRoute()) {
     // TODO: Handle "force update"/"force delete" request [@vanguard, 29.04.25]
     try {
-      if (bulletshell.doesShellFileExist()) {
+      if (bulletshell.doesShellFileExist() && bulletshell.__allowServe()) {
         return serve(event.request, bulletshell)
+      }
+
+      if (!bulletshell.__allowServe()) {
+        console.log('\n[Bulletshell]: Bypassing serve\n\n')
       }
 
       bulletshell.sendRenderRequest()
