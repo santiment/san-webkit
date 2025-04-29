@@ -7,7 +7,7 @@
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
 
-  import { getOperationSign } from '../utils.js'
+  import { describeConditions, getOperationSign } from '../utils.js'
   import Metric from './Metric.svelte'
   import { isDuplexOperation, Operations } from '../operations.js'
   import Dropdown from './Dropdown.svelte'
@@ -19,12 +19,12 @@
 
   const { state, onMetricChange }: TProps = $props()
 
-  const operation = $derived(state.$$.conditions.operation)
-  const sign = $derived(getOperationSign(state.$$.metric ?? '', state.$$.conditions.operation.type))
+  const conditions = $derived(state.$$.conditions)
+  const metric = $derived(state.$$.metric)
+  const operation = $derived(conditions.operation)
+  const sign = $derived(getOperationSign(metric ?? '', operation.type))
   const isDuplex = $derived(isDuplexOperation(operation.type))
-  const { amount: timeAmount, modifier: timeModifier } = $derived(
-    parseRangeString(state.$$.conditions.time),
-  )
+  const { amount: timeAmount, modifier: timeModifier } = $derived(parseRangeString(conditions.time))
 </script>
 
 <section class="flex flex-col gap-8">
@@ -77,7 +77,11 @@
       </section>
     </section>
 
-    <section>graph</section>
+    <section class="flex flex-col">
+      <div class="font-medium text-fiord">
+        {describeConditions(metric, conditions)}
+      </div>
+    </section>
   </section>
 </section>
 

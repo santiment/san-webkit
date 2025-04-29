@@ -2,7 +2,7 @@ import type { TApiOperation } from '../../operations.js'
 import type { TTimeWindow } from '../../time.js'
 import type { TApiAlert } from '../../types.js'
 
-import { describe } from '../../form-steps/metric-conditions/utils.js'
+import { describeConditions } from '../../form-steps/metric-conditions/utils.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_SELECT_WALLET_SCHEMA } from './wallet-form-step/schema.js'
 
@@ -49,11 +49,11 @@ export const ALERT_WALLET_SCHEMA = createAlertSchema<TBaseSchema>({
     const { type, assetSlug, conditions } = walletStep.state.$$
 
     if (type === 'wallet_movement' && assetSlug && conditions) {
-      return `${assetSlug} ${describe(null, conditions)}`
+      return `${assetSlug} ${describeConditions(null, conditions)}`
     }
 
     if (type === 'wallet_usd_valuation' && conditions) {
-      return `Balance ${describe(null, conditions)}`
+      return `Balance ${describeConditions(null, conditions)}`
     }
 
     return 'Existed assets exit the wallet or new asset enters the wallet with non-zero balance'

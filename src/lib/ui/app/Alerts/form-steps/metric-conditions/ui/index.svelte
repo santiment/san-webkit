@@ -18,8 +18,6 @@
   const metric = $derived(selectedMetricKey ? (MetricsRegistry.$[selectedMetricKey] ?? null) : null)
   const isMetricScreen = ssd(() => !metric)
 
-  $inspect({ isMetricScreen: isMetricScreen.$ })
-
   $effect(() => {
     // Used to fill metric label in case state filled from ApiAlert
     step.state.$$.metricLabel = metric?.label ?? ''
