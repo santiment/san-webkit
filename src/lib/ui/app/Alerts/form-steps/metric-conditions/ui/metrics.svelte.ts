@@ -5,6 +5,7 @@ import {
   type TMetricsRegistry,
   type TRegistryMetric,
 } from '$lib/ctx/metrics-registry/index.svelte.js'
+import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
 import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
 
 import { queryAvailableMetrics } from '../api.js'
@@ -15,22 +16,31 @@ export const useMetricGraph = () => {
   const slugs = $derived(extractSlugs(steps[0].state.$$))
 
   const { MetricsRegistry } = useMetricsRegistryCtx()
+  const { filter, searchTerm, onInput, onKeyUp } = useSearchCtx<TRegistryMetric>({
+    getCompareValues: ({ label }) => [label],
+  })
 
-  let filteredMetrics = $state<TRegistryMetric[]>([])
+  let availableMetrics = $state<TRegistryMetric[]>([])
 
-  const metrics = $derived(
+  const allMetrics = $derived(
     Object.values(MetricsRegistry.$) as Exclude<TMetricsRegistry[string], undefined>[],
   )
 
   $effect(() => {
-    filterMetrics(slugs, metrics).then((metrics) => (filteredMetrics = metrics))
+    filterAvailableMetrics(slugs, allMetrics).then((metrics) => (availableMetrics = metrics))
   })
 
+  const filteredMetrics = $derived(searchTerm.$ ? filter(availableMetrics) : availableMetrics)
   const metricGraph = $derived(getMetricsCategoryGroupGraph(filteredMetrics))
 
   return {
-    get $() {
-      return metricGraph
+    onSearchInput: onInput,
+    onSearchKeyUp: onKeyUp,
+    searchTerm,
+    graph: {
+      get $() {
+        return metricGraph
+      },
     },
   }
 }
@@ -54,7 +64,7 @@ function extractSlugs(targetState: unknown) {
   return []
 }
 
-async function filterMetrics(slugs: string[], allMetrics: TRegistryMetric[]) {
+async function filterAvailableMetrics(slugs: string[], allMetrics: TRegistryMetric[]) {
   if (!slugs.length) return allMetrics
 
   const smallestAvailable = await getAvailableMetrics(slugs)

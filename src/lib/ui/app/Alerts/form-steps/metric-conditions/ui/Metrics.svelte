@@ -4,6 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import { type TRegistryMetric } from '$lib/ctx/metrics-registry/index.svelte.js'
+  import Input from '$ui/core/Input/Input.svelte'
 
   import { useMetricGraph } from './metrics.svelte.js'
   import Metric from './Metric.svelte'
@@ -15,7 +16,7 @@
 
   const { metric, onSelect }: TProps = $props()
 
-  const metricGraph = useMetricGraph()
+  const { graph, searchTerm, onSearchInput, onSearchKeyUp } = useMetricGraph()
 
   const openedCategories = new SvelteSet<string>(['Financial'])
 
@@ -29,14 +30,21 @@
 </script>
 
 <section class="flex flex-col gap-3">
+  <Input
+    icon="search"
+    placeholder="Search for metric"
+    oninput={onSearchInput}
+    onkeyup={onSearchKeyUp}
+  />
+
   {#if metric}
     <Metric label={metric.label} />
   {/if}
 
   <section class="flex flex-col gap-2">
-    {#each metricGraph.$ as groups}
+    {#each graph.$ as groups}
       {@const { category } = groups[0][0]}
-      {@const isOpened = openedCategories.has(category)}
+      {@const isOpened = openedCategories.has(category) || searchTerm.$}
 
       <Button
         variant="plain"
