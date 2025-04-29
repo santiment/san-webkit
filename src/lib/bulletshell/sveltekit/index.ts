@@ -1,0 +1,60 @@
+import type { Handle } from '@sveltejs/kit'
+
+import { serve } from './serve.js'
+import { Bulletshell, STATUS, type TBulletshellManager } from './utils.js'
+import { IS_BULLETSHELL_MODE } from '../env.js'
+
+/**
+ * Add it at the beggining of the sveltekit's `handleError`. This function ensures to stop the rendering->save process if error was encountered
+ **/
+export function bulletshellHandleError() {
+  if (IS_BULLETSHELL_MODE) {
+    throw new Error('Bulletshell render error')
+  }
+}
+
+export const bulletshellHandle: Handle = async ({ event, resolve }) => {
+  const bulletshell = Bulletshell(event)
+
+  if (IS_BULLETSHELL_MODE) {
+    return renderServiceHandle(bulletshell, () => resolve(event) as Promise<Response>)
+  }
+
+  if (bulletshell.isValidRoute()) {
+    // TODO: Handle "force update"/"force delete" request [@vanguard, 29.04.25]
+    try {
+      if (bulletshell.doesShellFileExist()) {
+        return serve(event.request, bulletshell)
+      }
+
+      bulletshell.sendRenderRequest()
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  return resolve(event)
+}
+
+function renderServiceHandle(
+  bulletshell: TBulletshellManager,
+  resolveEvent: () => Promise<Response>,
+) {
+  if (!bulletshell.isValidRoute()) {
+    return new Response(null, { status: STATUS.BAD_REQUEST })
+  }
+
+  const unlockShellWrite = bulletshell.lockShellWrite()
+
+  resolveEvent()
+    .then((pageResponse) => bulletshell.writeShellFiles(pageResponse))
+    .catch((e) => {
+      console.log('Render error ->')
+      console.error(e)
+    })
+    .finally(() => {
+      unlockShellWrite()
+    })
+
+  return new Response(null, { status: STATUS.NO_CONTENT })
+}

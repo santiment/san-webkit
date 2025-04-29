@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 export function log({
   executor,
   cached,
@@ -21,11 +23,12 @@ export function log({
       ? 'UniQuery'
       : executor.name
 
+    const data = mocked || cached || result
     console.log(
       `%c[DEV ONLY] [${executorName}] New query ${state}`,
       'background:#478FFF;color:black;padding:3px;border-radius:4px',
       typeof schema === 'string' ? { schema } : schema,
-      mocked || cached || result,
+      BROWSER ? data : data && typeof data === 'object' ? data.constructor.name : data,
     )
   }
 }

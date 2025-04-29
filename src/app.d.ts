@@ -49,6 +49,8 @@ declare global {
       IS_LOGGING_ENABLED: boolean
 
       IS_PROD_BACKEND: boolean
+
+      BULLETSHELL: boolean
     }
   }
 }
