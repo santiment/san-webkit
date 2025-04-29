@@ -173,6 +173,14 @@ async function replaceSrcImports() {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, file.toString().replace('/src/lib/', '/dist/'))
   })
+
+  await forFile(['./dist/**/metrics-registry/restrictions/api.*'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(
+      entry,
+      file.toString().replace("from '$scripts/", "from '../../../../scripts/"),
+    )
+  })
 }
 
 async function processSvg() {
