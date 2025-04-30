@@ -93,10 +93,14 @@ export function Bulletshell(event: RequestEvent) {
       return Promise.all([
         compress_file(routeFilepaths!.dest, 'gz'),
         compress_file(routeFilepaths!.dest, 'br'),
-      ]).catch((e) => {
-        console.log('[Bulletshell] Compress error')
-        console.error(e)
-      })
+      ])
+        .catch((e) => {
+          console.log('[Bulletshell] Compress error')
+          console.error(e)
+        })
+        .finally(() => {
+          console.log('[Bulletshell] Shell files written: ', routeFilepaths!.dest)
+        })
     },
 
     __allowServe() {

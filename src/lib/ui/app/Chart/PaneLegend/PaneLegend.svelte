@@ -46,7 +46,7 @@
     >
       {@render children({ pane: chartPane, metrics: metricsList, index: +paneIndex })}
 
-      {#if Object.keys(chartPlanRestrictions.$).length}
+      {#if +paneIndex === 0 && Object.keys(chartPlanRestrictions.$).length}
         <Button
           variant="border"
           icon="crown"
