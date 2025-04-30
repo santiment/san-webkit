@@ -63,15 +63,17 @@
     class="mb-8 inline-flex rounded-md border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
   >
     {#each planTypes as item (item)}
+      {@const info = PlanTypeDisplayInfo[item]}
+      {@const isActive = planType === item}
+
       <Button
         class={cn(
           'h-[38px] px-4 py-[8px] sm:py-3.5',
-          planType === item &&
-            `z-10 rounded-md text-rhino outline outline-1 ${PlanTypeDisplayInfo[planType].className}`,
+          isActive && cn('z-10 rounded-md text-rhino outline outline-1', info.className),
         )}
         onclick={() => handlePlanClick(item)}
       >
-        {PlanTypeDisplayInfo[item].name ?? item}
+        {info.name ?? item}
       </Button>
     {/each}
   </div>
