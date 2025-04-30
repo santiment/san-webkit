@@ -13,6 +13,7 @@ const config = {
       $ui: './src/lib/ui/',
       '$ui/*': './src/lib/ui/*',
       '$routes/*': './src/routes/*',
+      '$scripts/*': './scripts/*',
       '$static/*': './static/*',
     },
   },

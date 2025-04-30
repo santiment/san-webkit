@@ -53,7 +53,7 @@ export function useAmplitudeFlow() {
   })
 
   $effect(() => {
-    updateUserSanbasePlan(customer.$.sanbaseSubscription?.plan?.name)
+    updateUserSanbasePlan(customer.$.plan?.name)
   })
 }
 

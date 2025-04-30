@@ -46,7 +46,6 @@
 
 {#if $open}
   <div class="relative z-[10000]" {...$portalled} use:portalled in:inTransition out:outTransition>
-    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       {...$overlay}
       use:overlay

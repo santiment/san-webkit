@@ -1,6 +1,6 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
 import type { TNominal } from '$lib/utils/index.js'
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { ApiQuery } from '$lib/api/index.js'
 
@@ -78,7 +78,7 @@ export const queryGetMetric = ApiQuery(
     $selector: MetricTargetSelectorInputObject
   ) {
     getMetric(metric: $metric) {
-      timeseriesData(
+      timeseriesDataJson(
         selector: $selector
         from: $from
         to: $to
@@ -86,17 +86,15 @@ export const queryGetMetric = ApiQuery(
         transform: $transform
         aggregation: $aggregation
         includeIncompleteData: $includeIncompleteData
-      ) {
-        d: datetime
-        v: value
-      }
+        fields: {datetime: "d" value: "v" }
+      ) 
     }
   }
 `,
     variables: { metric, selector, from, to, interval, transform },
   }),
-  (gql: { getMetric: { timeseriesData: { d: string; v: number }[] } }): TMetricData =>
-    gql.getMetric.timeseriesData.map((item) => ({
+  (gql: { getMetric: { timeseriesDataJson: { d: string; v: number }[] } }): TMetricData =>
+    gql.getMetric.timeseriesDataJson.map((item) => ({
       time: (Date.parse(item.d) / 1000) as UTCTimestamp,
       value: item.v,
     })),

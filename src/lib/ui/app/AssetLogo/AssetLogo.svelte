@@ -18,6 +18,7 @@
 
 {#key logo}
   <Picture
+    alt="logo"
     {...rest}
     src="https://production-sanbase-images.s3.amazonaws.com/uploads/logo64_{logo}.png"
   >

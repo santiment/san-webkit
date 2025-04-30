@@ -32,7 +32,7 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
 ) {
   type CtxValue = ReturnType<CtxCreator>
 
-  const ctxCreator = (...args: Parameters<CtxCreator>) => {
+  const ctxCreator = (...args: Parameters<CtxCreator>): CtxValue => {
     const ctx = getContext(CTX) as CtxValue
     if (ctx) return ctx
 
@@ -44,19 +44,19 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
       )
     }
 
-    return setContext(CTX, creator(...args)) as CtxValue
+    return setContext(CTX, creator(...args))
   }
 
   /**
    * Used in cases where context initialization is not required.
    */
-  ctxCreator.get = (allCtxs?: Map<string, any>) =>
+  const get = (allCtxs?: Map<string, any>) =>
     (allCtxs ? allCtxs.get(CTX) : getContext(CTX)) as CtxValue
 
   /**
    * Used in cases where context should be modified.
    */
-  ctxCreator.set = (...args: Parameters<CtxCreator>) => {
+  const set = ((...args) => {
     if (process.env.IS_LOGGING_ENABLED) {
       console.log(
         `%c[DEV ONLY] Context created (using .set)`,
@@ -65,10 +65,13 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
       )
     }
 
-    return setContext(CTX, creator(...args)) as CtxValue
-  }
+    return setContext(CTX, creator(...args))
+  }) as CtxCreator
 
-  return ctxCreator
+  ctxCreator.get = get
+  ctxCreator.set = set
+
+  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set }
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {
@@ -84,4 +87,17 @@ export function Emitter<T extends Record<string, number | string>>(emit: any, ev
 export const createValueMap = (inMin: number, inMax: number, outMin: number, outMax: number) => {
   const factor = (outMax - outMin) / (inMax - inMin)
   return (value: number) => (value - inMin) * factor + outMin
+}
+
+// NOTE: Promise.withResolvers() has a bug on iOS 17
+// const { promise, resolve, reject } = Promise.withResolvers()
+export function controlledPromisePolyfill() {
+  let resolve: (value?: unknown) => void = () => {}
+  let reject: (reason?: unknown) => void = () => {}
+  const promise = new Promise((pResolve, pReject) => {
+    resolve = pResolve
+    reject = pReject
+  })
+
+  return { promise, resolve: resolve!, reject: reject! }
 }

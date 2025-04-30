@@ -3,6 +3,10 @@ import path from 'path'
 
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
+import {
+  fetchMetricsRestrictions,
+  replaceDefaultMetricsRestrictionsSource,
+} from './metrics-restrictions/index.js'
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput, replaceSvgIdsType } from './svg.js'
 
 const MAIN_BRANCH = 'next'
@@ -39,7 +43,9 @@ export async function release() {
 
   await processSvg()
   await replaceStaticAssetLogos()
+  await replaceStaticMetricsRestrictions()
   await updateLibraryPackageJson()
+  await replaceSrcImports()
 
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
@@ -80,6 +86,7 @@ vite.config.ts.timestamp-*
 
   console.log(`\n✅ Library published. Tag: ${releaseTag} (git: ${gitHash})\n`)
 
+  await exec(`git clean -df`, false)
   await exec(`npm run prepare`, false)
 }
 
@@ -151,6 +158,29 @@ async function replaceStaticAssetLogos() {
   await forFile(['./dist/**/AssetLogo.svelte'], (entry) => {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, replaceAssetLogosSource(file.toString(), logos))
+  })
+}
+
+async function replaceStaticMetricsRestrictions() {
+  const data = JSON.stringify(await fetchMetricsRestrictions())
+  await forFile(['./dist/**/metrics-registry/restrictions/api.js'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, replaceDefaultMetricsRestrictionsSource(file.toString(), data))
+  })
+}
+
+async function replaceSrcImports() {
+  await forFile(['./vite.config.*'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(entry, file.toString().replace('/src/lib/', '/dist/'))
+  })
+
+  await forFile(['./dist/**/metrics-registry/restrictions/api.*'], (entry) => {
+    const file = fs.readFileSync(entry)
+    fs.writeFileSync(
+      entry,
+      file.toString().replace("from '$scripts/", "from '../../../../scripts/"),
+    )
   })
 }
 

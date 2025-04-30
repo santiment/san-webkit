@@ -1,14 +1,13 @@
-import { building } from '$app/environment'
 import { BROWSER } from 'esm-env'
 import { from } from 'rxjs'
+
+import { building } from '$app/environment'
 
 const ENDPOINT = (
   building
     ? process.env.GQL_SERVER_URL
     : (!BROWSER && process.env.NODE_GQL_SERVER_URL) || process.env.GQL_SERVER_URL
 ) as string
-
-console.log({ ENDPOINT })
 
 const DEFAULT_HEADERS: HeadersInit = {
   'Content-Type': 'application/json',

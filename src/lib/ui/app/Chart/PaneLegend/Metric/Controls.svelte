@@ -1,12 +1,16 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
 
-  import Button from '$ui/core/Button/Button.svelte'
+  import Button from '$ui/core/Button/index.js'
+
+  import { useChartPlanRestrictionsCtx } from '../../RestrictedDataDialog/index.js'
 
   type TProps = {
     metric: TSeries
   }
   let { metric }: TProps = $props()
+
+  const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
 
   function onHideClick() {
     metric.visible.$ = !metric.visible.$
@@ -24,8 +28,15 @@
 
   <Button icon="info" iconSize="12" class="size-5" explanation="Metric info"></Button>
 
-  <Button icon="crown" iconSize="12" class="size-5 fill-orange" explanation="Upgrade to full data"
-  ></Button>
+  {#if chartPlanRestrictions.has$(metric.apiMetricName)}
+    <Button
+      icon="crown"
+      iconSize="12"
+      class="size-5 fill-orange"
+      explanation="Restricted data"
+      onclick={() => chartPlanRestrictions.showDialog({ source: 'chart_pane_legend_metric' })}
+    ></Button>
+  {/if}
 
   <!--
   <Button icon="cog" iconSize="11" class="size-5" explanation="Settings"></Button>

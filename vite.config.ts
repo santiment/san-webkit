@@ -4,8 +4,9 @@ import { execSync } from 'node:child_process'
 import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 
-import { StaticAssetLogos, WebkitSvg } from './plugins/vite.js'
+import { StaticAssetLogos, WebkitSvg, StaticMetricsRestrictions } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
+import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
 
@@ -27,7 +28,9 @@ export const ROOT = path.resolve('.')
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
+  bulletshell,
 }: {
+  bulletshell?: boolean
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
 } = {}) {
@@ -38,7 +41,9 @@ export function createConfig({
   const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
   return defineConfig({
-    plugins: [mkcert(), WebkitSvg(), sveltekit()],
+    plugins: [mkcert(), WebkitSvg(), sveltekit(), bulletshell && BulletshellPlugin()].filter(
+      Boolean,
+    ),
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
@@ -85,7 +90,7 @@ export function createConfig({
 }
 
 export default mergeConfig(createConfig(), {
-  plugins: [StaticAssetLogos()],
+  plugins: [StaticAssetLogos(), StaticMetricsRestrictions()],
 })
 
 function getGitHeadDate() {

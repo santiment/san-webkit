@@ -1,5 +1,5 @@
-import type { TAssetSlug } from '$lib/ctx/assets/index.svelte.js'
 import type { Time } from '@santiment-network/chart-next'
+import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { ApiQuery } from '$lib/api/index.js'
 

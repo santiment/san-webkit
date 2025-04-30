@@ -2,6 +2,7 @@
   import type { ComponentProps } from 'svelte'
 
   import { get } from 'svelte/store'
+
   import { page } from '$app/stores'
 
   import { getOAuthLink } from '$lib/utils/auth.js'

@@ -9,6 +9,8 @@ import {
   type ComponentProps,
 } from 'svelte'
 
+import { controlledPromisePolyfill } from '$lib/utils/index.js'
+
 type TController<GResolved, GRejected> = {
   lock: () => void
   lockWarn: () => void
@@ -56,14 +58,7 @@ export const dialogs$ = {
       untrack(() => {
         if (!BROWSER) return Promise.reject()
 
-        // NOTE: Promise.withResolvers() has a bug on iOS 17
-        // const { promise, resolve, reject } = Promise.withResolvers()
-        let resolve: (value: unknown) => void = () => {}
-        let reject: (reason?: unknown) => void = () => {}
-        const promise = new Promise((promiseResolve, promiseReject) => {
-          resolve = promiseResolve
-          reject = promiseReject
-        })
+        const { promise, resolve, reject } = controlledPromisePolyfill()
 
         let locking = Locking.FREE
 

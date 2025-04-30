@@ -16,11 +16,12 @@ take whole available space.
 
 <script lang="ts">
   import { type ComponentProps, type Snippet } from 'svelte'
-  import { VList } from 'virtua/svelte'
+  import { VList, type VListHandle } from 'virtua/svelte'
 
   type T = $$Generic
 
   let {
+    handle = $bindable(),
     class: className,
     data,
     getKey,
@@ -30,6 +31,7 @@ take whole available space.
 
     children,
   }: {
+    handle?: VListHandle
     class?: string
     data: T[]
 
@@ -58,4 +60,4 @@ take whole available space.
   )
 </script>
 
-<VList class={className} {data} {getKey} {style} children={children as Snippet<[]>}></VList>
+<VList bind:this={handle} class={className} {data} {getKey} {style} {children}></VList>
