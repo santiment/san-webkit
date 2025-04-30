@@ -1,4 +1,5 @@
 import type { TAssetApiAlert } from '../schema.js'
+import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -10,7 +11,7 @@ export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
     initState: (apiAlert?: null | TAssetApiAlert) => {
-      target: { slug: string[] }
+      target: { slug: TAssetSlug[] }
     }
   }
 >

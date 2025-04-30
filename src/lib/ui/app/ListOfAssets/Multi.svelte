@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TAsset } from '$lib/ctx/assets/api.js'
+  import type { TAsset, TAssetSlug } from '$lib/ctx/assets/api.js'
   import type { VListHandle } from 'virtua/svelte'
 
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
@@ -11,8 +11,8 @@
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
-    selected: Set<string>
-    onSelect: (slug: string) => void
+    selected: Set<TAssetSlug>
+    onSelect: (slug: TAssetSlug) => void
     resetSelections: () => void
     hasSearch?: boolean
     hasResetButton?: boolean

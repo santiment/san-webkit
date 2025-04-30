@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 
   import { SvelteSet } from 'svelte/reactivity'
 
@@ -16,7 +17,7 @@
     step.state.$$.target.slug = Array.from(selectedAssets)
   })
 
-  function onSelect(slug: string) {
+  function onSelect(slug: TAssetSlug) {
     if (selectedAssets.has(slug)) {
       selectedAssets.delete(slug)
     } else {

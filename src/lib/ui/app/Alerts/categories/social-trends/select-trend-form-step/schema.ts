@@ -4,13 +4,13 @@ import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-step
 
 import Form from './ui/index.svelte'
 
+export type TTrendState = Pick<NonNullable<TSocialTrendsApiAlert['settings']>, 'target'>
+
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'select-trend',
   {
-    initState: (
-      apiAlert?: null | TSocialTrendsApiAlert,
-    ) => Pick<NonNullable<TSocialTrendsApiAlert['settings']>, 'target' | 'operation'>
+    initState: (apiAlert?: null | TSocialTrendsApiAlert) => TTrendState
   }
 >
 
@@ -28,12 +28,11 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
     const { target, operation } = apiAlert?.settings || {}
 
     if (target && operation) {
-      return { target, operation }
+      return { target }
     }
 
     return {
       target: { slug: [] },
-      operation: { trending_project: true },
     }
   },
 
@@ -43,7 +42,14 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
 
   reduceToApi(apiAlert, state) {
     Object.assign(apiAlert.settings, state)
+    Object.assign(apiAlert.settings, { operation: getApiOperation(state) })
 
     return apiAlert
   },
 })
+
+function getApiOperation({ target }: TTrendState) {
+  if ('word' in target) return 'trending_word'
+
+  return 'trending_project'
+}

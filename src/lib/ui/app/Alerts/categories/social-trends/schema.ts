@@ -20,7 +20,7 @@ export type TSocialTrendsApiAlert = TApiAlert<
         operation: { trending_word: true }
       }
     | {
-        target: { watchlist_id: number }
+        target: { watchlist_id: number | null }
         operation: { trending_project: true }
       }
   )
@@ -57,7 +57,7 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
 
     if ('word' in target) return `${target.word} in trending words`
 
-    if ('watchlist_id' in target) {
+    if ('watchlist_id' in target && target.watchlist_id !== null) {
       const watchlistName = await queryWatchlistName(Query)(target.watchlist_id)
 
       return `"${watchlistName}" is trending`
