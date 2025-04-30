@@ -7,6 +7,8 @@
   import { cn } from '$ui/utils/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
 
+  import Asset from './Asset.svelte'
+
   type TProps = { step: TAlertStep<TBaseSchema> }
   const Tab = (title: string, Component?: Component<{ state: { $$: TTrendState } }>) => ({
     title,
@@ -14,7 +16,7 @@
   })
 
   const TAB_MAP = {
-    asset: Tab('Trending assets'),
+    asset: Tab('Trending assets', Asset),
     word: Tab('Trending words'),
     watchlist: Tab('Watchlist'),
   } as const satisfies Record<string, ReturnType<typeof Tab>>
