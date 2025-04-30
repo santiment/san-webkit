@@ -7,15 +7,15 @@
   import { ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
 
   type TProps = {
-    state: { $$: TTrendState }
+    stepState: { $$: TTrendState }
   }
 
-  const { state }: TProps = $props()
+  const { stepState }: TProps = $props()
 
-  const selected = new SvelteSet('slug' in state.$$.target ? state.$$.target.slug : [])
+  const selected = new SvelteSet('slug' in stepState.$$.target ? stepState.$$.target.slug : [])
 
   $effect(() => {
-    state.$$.target = { slug: Array.from(selected) }
+    stepState.$$.target = { slug: Array.from(selected) }
   })
 
   function onSelect(slug: TAssetSlug) {

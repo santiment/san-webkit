@@ -8,16 +8,17 @@
   import { exactObjectKeys } from '$lib/utils/object.js'
 
   import Asset from './Asset.svelte'
+  import Word from './Word.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
-  const Tab = (title: string, Component?: Component<{ state: { $$: TTrendState } }>) => ({
+  const Tab = (title: string, Component?: Component<{ stepState: { $$: TTrendState } }>) => ({
     title,
     Component,
   })
 
   const TAB_MAP = {
     asset: Tab('Trending assets', Asset),
-    word: Tab('Trending words'),
+    word: Tab('Trending words', Word),
     watchlist: Tab('Watchlist'),
   } as const satisfies Record<string, ReturnType<typeof Tab>>
 
@@ -73,6 +74,6 @@
   </nav>
 
   {#if TabComponent}
-    <TabComponent state={step.state} />
+    <TabComponent stepState={step.state} />
   {/if}
 </section>
