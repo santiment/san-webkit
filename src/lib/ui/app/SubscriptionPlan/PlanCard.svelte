@@ -99,16 +99,10 @@
         Based on your needs
       {:else if isAnnualBilling}
         <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
-        <span class="text-waterloo"> / month</span>
+        <span class="text-waterloo"> / month, billed annually</span>
       {:else}
         <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
-        <span class="mr-1 text-waterloo"> / year</span>
-
-        {#if formattedPlan.price.savePercentWithAnnual}
-          <span class="text-orange">
-            - {formattedPlan.price.savePercentWithAnnual}% 🎉
-          </span>
-        {/if}
+        <span class="mr-1 text-waterloo"> / year, billed monthly</span>
       {/if}
     </h4>
 
@@ -132,6 +126,12 @@
         ></Switch>
 
         Bill annually
+
+        {#if formattedPlan.price.savePercentWithAnnual}
+          <span class="text-orange">
+            - {formattedPlan.price.savePercentWithAnnual}% 🎉
+          </span>
+        {/if}
       </label>
     {/if}
   </section>
