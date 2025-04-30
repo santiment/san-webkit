@@ -39,8 +39,8 @@
   <label class="title flex flex-col rounded border px-4 py-3">
     <p class="text-xs text-waterloo">{title}</p>
     <Textarea
-      class="border-none"
-      inputClass="px-0 pb-0 resize-none"
+      class="border-none px-0"
+      inputClass="pb-0 resize-none"
       {rows}
       value={step.state.$$[name]}
       oninput={(e) => (step.state.$$[name] = e.currentTarget.value)}
