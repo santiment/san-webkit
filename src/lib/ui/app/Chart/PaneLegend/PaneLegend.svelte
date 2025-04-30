@@ -15,7 +15,7 @@
   }
   let { class: className, children }: TProps = $props()
 
-  const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
+  const { chartPlanRestrictions } = useChartPlanRestrictionsCtx()
   const { paneSet, panes } = usePanesTooltip()
 
   function mountToPane(node: HTMLElement, { chartPane }: { chartPane: any }) {
