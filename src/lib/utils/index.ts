@@ -101,3 +101,5 @@ export function controlledPromisePolyfill() {
 
   return { promise, resolve: resolve!, reject: reject! }
 }
+
+export { JobScheduler, type TJobScheduler, type TJob } from './job-scheduler.js'
