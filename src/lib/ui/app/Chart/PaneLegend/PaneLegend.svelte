@@ -7,6 +7,7 @@
   import Button from '$ui/core/Button/index.js'
 
   import { usePanesTooltip } from './ctx.svelte'
+  import MetricInfoPopover from './Metric/InfoPopover.svelte'
   import { useChartPlanRestrictionsCtx } from '../RestrictedDataDialog/index.js'
 
   type TProps = {
@@ -36,28 +37,30 @@
   }
 </script>
 
-{#key paneSet.$}
-  {#each Object.keys(paneSet.$) as paneIndex}
-    {@const chartPane = panes.$[+paneIndex]}
-    {@const metricsList = paneSet.$[+paneIndex]}
-    <section
-      class={cn('absolute left-1 top-1 z-[3] hidden items-start gap-0.5 column', className)}
-      use:mountToPane={{ chartPane }}
-    >
-      {@render children({ pane: chartPane, metrics: metricsList, index: +paneIndex })}
+<MetricInfoPopover>
+  {#key paneSet.$}
+    {#each Object.keys(paneSet.$) as paneIndex}
+      {@const chartPane = panes.$[+paneIndex]}
+      {@const metricsList = paneSet.$[+paneIndex]}
+      <section
+        class={cn('absolute left-1 top-1 z-[3] hidden items-start gap-0.5 column', className)}
+        use:mountToPane={{ chartPane }}
+      >
+        {@render children({ pane: chartPane, metrics: metricsList, index: +paneIndex })}
 
-      {#if +paneIndex === 0 && Object.keys(chartPlanRestrictions.$).length}
-        <Button
-          variant="border"
-          icon="crown"
-          iconSize="12"
-          class="border-orange fill-orange"
-          onclick={() =>
-            chartPlanRestrictions.showDialog({ source: 'chart_pane_legend_upgrade_btn' })}
-        >
-          Upgrade to see all Data!
-        </Button>
-      {/if}
-    </section>
-  {/each}
-{/key}
+        {#if +paneIndex === 0 && Object.keys(chartPlanRestrictions.$).length}
+          <Button
+            variant="border"
+            icon="crown"
+            iconSize="12"
+            class="border-orange fill-orange"
+            onclick={() =>
+              chartPlanRestrictions.showDialog({ source: 'chart_pane_legend_upgrade_btn' })}
+          >
+            Upgrade to see all Data!
+          </Button>
+        {/if}
+      </section>
+    {/each}
+  {/key}
+</MetricInfoPopover>

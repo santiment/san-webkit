@@ -6,7 +6,7 @@
   minInterval: string
   restrictedFrom: null | string
   restrictedTo: null | string
-  docs: { links: string }
+  docs: { description?: string; links: string }
 }} _TMetricRestrictions
  */
 
@@ -20,7 +20,15 @@
  * d: { l: string }[]
  * }[]}} gql - GQL data response
  *
- * @returns {Record<string, undefined | _TMetricRestrictions>}
+ * @returns {Record<string, undefined | {
+ * minInterval: string,
+ * restrictedFrom: null | string,
+ * restrictedTo: null | string,
+ * docs: {
+ *  description?: string
+ *  academyLinks: string[]
+ * }
+ * }>}
  */
 export function mapAccessRestrictionsData(gql) {
   const MetricsRestrictions = gql.getAccessRestrictions.reduce((acc, item) => {

@@ -8,6 +8,8 @@ import {
   type TMetricRestrictions,
 } from './api.js'
 
+export { type TMetricRestrictions } from './api.js'
+
 export const useMetricsRestrictionsCtx = createCtx('webkit_useMetricsRestrictionsCtx ', () => {
   const { customer } = useCustomerCtx.get()
 
