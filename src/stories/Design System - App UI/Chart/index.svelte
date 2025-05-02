@@ -17,8 +17,11 @@
   import { cn } from '$ui/utils/index.js'
   import { onMount } from 'svelte'
   import { useChartPlanRestrictionsCtx } from '$ui/app/Chart/RestrictedDataDialog/index.js'
+  import { TimeZoneSelector } from '$ui/app/Chart/index.js'
+  import { useClockCtx } from '$lib/ctx/time/index.js'
 
   useAssetsCtx.set()
+  useClockCtx.set()
   const { MetricsRestrictions } = useMetricsRestrictionsCtx.set()
 
   $inspect(MetricsRestrictions.$)
@@ -106,6 +109,10 @@
         }}>{slug}</Button
       >
     {/each}
+  </div>
+
+  <div class="flex center">
+    <TimeZoneSelector></TimeZoneSelector>
   </div>
 
   <div class="mt-4 flex gap-2">

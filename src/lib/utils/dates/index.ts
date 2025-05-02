@@ -223,3 +223,5 @@ export function suggestPeriodInterval(from: Date, to: Date) {
 
   return '7d'
 }
+
+export { TimeZones, type TTimeZone } from './timezone.js'

@@ -143,6 +143,8 @@
     isScrollEnabled = false
     mode = Mode.DRAG
   }
+
+  // TODO: Viewport priority index
 </script>
 
 <div
