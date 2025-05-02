@@ -11,9 +11,9 @@
     console.log('date changed')
   }
 
-  function onChangeDates(_dates: [Date, Date]) {
+  function onChangeDates(_dates: [Date, Date], timeRange?: string) {
     dates = _dates
-    console.log('dates changed')
+    console.log('dates changed', _dates, timeRange)
   }
 </script>
 

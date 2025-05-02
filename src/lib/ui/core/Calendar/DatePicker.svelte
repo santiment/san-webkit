@@ -33,7 +33,7 @@
 
   type TRangeProps = {
     date: [Date, Date]
-    onChange?: (date: [Date, Date]) => void
+    onChange?: (date: [Date, Date], timeRange?: string) => void
     withPresets?: boolean
   }
 
