@@ -10,16 +10,24 @@ export const useClockCtx = createCtx('utils_useClockCtx', () => {
   let date = $state.raw(new Date())
   let time = $state(createTime(date))
 
-  $effect.pre(() => {
+  function updateClock() {
     const offset = timeZone.$?.utcMinutesOffset || 0
 
     untrack(() => {
       date = applyTimeZoneOffset(new Date(), offset)
       time = createTime(date)
     })
-  })
+  }
+
+  $effect.pre(updateClock)
 
   onMount(() => {
+    function onVisibilityChange() {
+      if (document.hidden) return
+
+      updateClock()
+    }
+
     const interval = setInterval(() => {
       if (++time[2] === 60) {
         time[2] = 0
@@ -32,7 +40,11 @@ export const useClockCtx = createCtx('utils_useClockCtx', () => {
       }
     }, 1000)
 
-    return () => clearInterval(interval)
+    document.addEventListener('visibilitychange', onVisibilityChange)
+    return () => {
+      clearInterval(interval)
+      document.removeEventListener('visibilitychange', onVisibilityChange)
+    }
   })
 
   return {
