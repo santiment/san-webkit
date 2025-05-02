@@ -174,6 +174,7 @@ export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime
 export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.000Z'), {
   utc: true,
 })
+export const CRYPTO_ERA_START_ISO = CRYPTO_ERA_START_DATE.toISOString()
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
 
 export function parseRangeString<T extends string>(range: T) {

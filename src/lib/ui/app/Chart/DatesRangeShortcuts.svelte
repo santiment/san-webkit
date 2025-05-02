@@ -1,7 +1,6 @@
 <script lang="ts" module>
-  import { CRYPTO_ERA_START_DATE, setDayStart } from '$lib/utils/dates/index.js'
+  import { CRYPTO_ERA_START_ISO, setDayStart } from '$lib/utils/dates/index.js'
 
-  const CRYPTO_ERA_START_ISO = CRYPTO_ERA_START_DATE.toISOString()
   const YTD_ISO = getYearToDateIso()
 
   const SHORTCUTS = [
@@ -51,8 +50,7 @@
   })
 
   function onDateRangeShortcutClick(dateRange: string) {
-    globalParameters.$$.to = 'utc_now'
-    globalParameters.$$.from = checkIsFixedIsoRange(dateRange) ? dateRange : 'utc_now-' + dateRange
+    globalParameters.applyDateRange(dateRange)
   }
 </script>
 
