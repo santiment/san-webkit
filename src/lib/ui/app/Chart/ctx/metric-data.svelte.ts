@@ -82,7 +82,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
-    const interval = globalParameters.$$.interval
+    const interval = globalParameters.interval$.manual || globalParameters.interval$.auto
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { scheduledData } = createScheduledData(jobScheduler)

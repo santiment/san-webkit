@@ -2,7 +2,11 @@ import type { TInterval, TMetricTargetSelectorInputObject } from '../api/index.j
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { createCtx } from '$lib/utils/index.js'
-import { CRYPTO_ERA_START_ISO, parseAsStartEndDate } from '$lib/utils/dates/index.js'
+import {
+  CRYPTO_ERA_START_ISO,
+  parseAsStartEndDate,
+  suggestPeriodInterval,
+} from '$lib/utils/dates/index.js'
 
 export type TGlobalParameters = {
   from: string
@@ -31,6 +35,11 @@ export const useChartGlobalParametersCtx = createCtx(
       toUtcDate: parseAsStartEndDate(parameters.to, { dayStart: true, utc: true }),
     })
 
+    const interval = $derived({
+      auto: suggestPeriodInterval(dates.fromUtcDate, dates.toUtcDate) as TInterval,
+      manual: null as null | TInterval,
+    })
+
     return {
       globalParameters: {
         get $$() {
@@ -39,6 +48,10 @@ export const useChartGlobalParametersCtx = createCtx(
 
         get dates$() {
           return dates
+        },
+
+        get interval$() {
+          return interval
         },
 
         changeDates(from: string, to: string) {
