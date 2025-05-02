@@ -114,8 +114,8 @@ export function getFormattedMonthDayYear(date: Date, options = {}) {
   return `${MMM} ${D}, ${YYYY}`
 }
 
-export function getFormattedDetailedTimestamp(time: number) {
-  const date = new Date(time)
+export function getFormattedDetailedTimestamp(datetime: number | Date) {
+  const date = datetime instanceof Date ? datetime : new Date(datetime)
   const { ddd, DD, MMM, YY } = getDateFormats(date)
   const { HH, mm } = getTimeFormats(date)
 

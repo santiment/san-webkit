@@ -1,26 +1,20 @@
 import { onMount, untrack } from 'svelte'
 
 import { createCtx } from '$lib/utils/index.js'
-import { TimeZones } from '$lib/utils/dates/index.js'
-import { useUiCtx } from '$lib/ctx/ui/index.js'
+
+import { useTimeZoneCtx } from './timezone.svelte.js'
 
 export const useClockCtx = createCtx('utils_useClockCtx', () => {
-  const { ui } = useUiCtx.get()
-
-  const timeZone = $derived(TimeZones[ui.$$.timeZone])
-  const utcLabel = $derived(timeZone?.utcLabel || 'UTC')
+  const { timeZone, applyTimeZoneOffset } = useTimeZoneCtx()
 
   let date = $state.raw(new Date())
   let time = $state(createTime(date))
 
   $effect.pre(() => {
-    const offset = timeZone?.utcMinutesOffset || 0
+    const offset = timeZone.$?.utcMinutesOffset || 0
 
     untrack(() => {
-      const updated = new Date()
-      updated.setUTCMinutes(updated.getUTCMinutes() + offset)
-
-      date = updated
+      date = applyTimeZoneOffset(new Date(), offset)
       time = createTime(date)
     })
   })
@@ -44,7 +38,7 @@ export const useClockCtx = createCtx('utils_useClockCtx', () => {
   return {
     time: {
       get $() {
-        return `${pad(time[0])}:${pad(time[1])}:${pad(time[2])} (${utcLabel})`
+        return `${pad(time[0])}:${pad(time[1])}:${pad(time[2])} (${timeZone.utcLabel$})`
       },
     },
   }

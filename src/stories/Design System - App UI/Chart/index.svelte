@@ -1,6 +1,11 @@
 <script lang="ts">
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
-  import { parseAsStartEndDate, suggestPeriodInterval } from '$lib/utils/dates/index.js'
+  import {
+    getDateFormats,
+    getTimeFormats,
+    parseAsStartEndDate,
+    suggestPeriodInterval,
+  } from '$lib/utils/dates/index.js'
   import { JobScheduler } from '$lib/utils/job-scheduler.js'
   import { type TMetricData } from '$ui/app/Chart/api/index.js'
   import {
@@ -18,9 +23,10 @@
   import { onMount } from 'svelte'
   import { useChartPlanRestrictionsCtx } from '$ui/app/Chart/RestrictedDataDialog/index.js'
   import { TimeZoneSelector } from '$ui/app/Chart/index.js'
-  import { useClockCtx } from '$lib/ctx/time/index.js'
+  import { useClockCtx, useTimeZoneCtx } from '$lib/ctx/time/index.js'
 
   useAssetsCtx.set()
+  const { applyTimeZoneOffset } = useTimeZoneCtx.set()
   useClockCtx.set()
   const { MetricsRestrictions } = useMetricsRestrictionsCtx.set()
 
@@ -91,6 +97,15 @@
 
   const slugs = ['bitcoin', 'ethereum']
 
+  function timeFormatter(time: number) {
+    const date = applyTimeZoneOffset(new Date(time * 1000))
+
+    const { ddd, DD, MMM, YY } = getDateFormats(date)
+    const { HH, mm } = getTimeFormats(date)
+
+    return `${ddd} ${DD} ${MMM}'${YY}  ${HH}:${mm}`
+  }
+
   onMount(() => {
     return () => {
       jobScheduler.destroy()
@@ -128,6 +143,9 @@
     class="h-[500px]"
     onRangeSelectChange={console.log}
     onRangeSelectEnd={console.log}
+    options={{
+      localization: { timeFormatter },
+    }}
   >
     {#each metricSeries.$ as item (item.id)}
       <ApiMetricSeries series={item}></ApiMetricSeries>
