@@ -32,7 +32,7 @@ export const useChartGlobalParametersCtx = createCtx(
       from: parameters.from,
       to: parameters.to,
       fromUtcDate: parseAsStartEndDate(parameters.from, { dayStart: true, utc: true }),
-      toUtcDate: parseAsStartEndDate(parameters.to, { dayStart: true, utc: true }),
+      toUtcDate: parseAsStartEndDate(parameters.to, { dayStart: false, utc: true }),
     })
 
     const interval = $derived({
@@ -57,8 +57,6 @@ export const useChartGlobalParametersCtx = createCtx(
         changeDates(from: string, to: string) {
           parameters.from = from
           parameters.to = to
-
-          //suggestPeriodInterval
         },
 
         applyDateRange(dateRange: string) {

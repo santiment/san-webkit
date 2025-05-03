@@ -122,8 +122,16 @@ export function getFormattedDetailedTimestamp(datetime: number | Date) {
   return `${ddd} ${DD} ${MMM}'${YY}  ${HH}:${mm}`
 }
 
-export function modifyDate(date: Date, modifier: { days: number }) {
-  date.setDate(date.getDate() + modifier.days)
+export function getFormattedDayMonthYear(datetime: number | Date) {
+  const date = datetime instanceof Date ? datetime : new Date(datetime)
+
+  const { DD, MMM, YY } = getDateFormats(date)
+  return `${DD} ${MMM}'${YY}`
+}
+
+export function modifyDate(date: Date, modifier: { days: number; utc?: boolean }) {
+  const UTC = modifier.utc ? 'UTC' : ''
+  date[`set${UTC}Date`](date[`get${UTC}Date`]() + modifier.days)
   return date
 }
 
@@ -175,7 +183,10 @@ export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.0
   utc: true,
 })
 export const CRYPTO_ERA_START_ISO = CRYPTO_ERA_START_DATE.toISOString()
+
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
+
+export const DAYS_SINCE_CRYPTO_ERA_START = calculateDaysTo(TODAY_END_DATE, +CRYPTO_ERA_START_DATE)
 
 export function parseRangeString<T extends string>(range: T) {
   type TimeFormat<T extends string> = T extends `${number}${infer Format}` ? Format : string
@@ -187,7 +198,7 @@ export function parseRangeString<T extends string>(range: T) {
   }
 }
 
-export function parseDate(date: string) {
+export function parseDate(date: string, options?: { utc?: boolean }) {
   if (date === 'utc_now') {
     return new Date()
   }
@@ -198,7 +209,7 @@ export function parseDate(date: string) {
     const { amount, modifier } = parseRangeString(range as `${number}${'m' | 'h' | 'd' | 'y'}`)
     const days = modifier === 'y' ? amount * 365 : modifier === 'd' ? amount : 1
 
-    return modifyDate(new Date(), { days: -days })
+    return modifyDate(new Date(), { days: -days, utc: options?.utc })
   }
 
   return new Date(date)

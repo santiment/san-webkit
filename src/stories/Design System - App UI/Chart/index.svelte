@@ -14,7 +14,7 @@
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
   import { useApiMetricFetchSettingsCtx } from '$ui/app/Chart/ctx/metric-data.svelte.js'
-  import Chart, { ApiMetricSeries, DatesRangeShortcuts } from '$ui/app/Chart/index.js'
+  import Chart, { ApiMetricSeries, DatesRangeShortcuts, Minimap } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
@@ -162,8 +162,12 @@
     </PaneLegend>
   </Chart>
 
-  <div class="mt-3 flex">
-    <DatesRangeShortcuts></DatesRangeShortcuts>
+  <div class="mt-3 column">
+    <Minimap></Minimap>
+
+    <div class="flex">
+      <DatesRangeShortcuts></DatesRangeShortcuts>
+    </div>
   </div>
 
   <button onclick={toggle}> Toggle axis </button>
