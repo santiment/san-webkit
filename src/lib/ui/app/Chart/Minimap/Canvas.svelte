@@ -50,6 +50,8 @@
     const ctx = canvasNode?.getContext('2d')
     if (!ctx) return
 
+    ctx.clearRect(0, 0, canvasNode!.offsetWidth, canvasNode!.offsetHeight)
+
     for (const painter of paints) {
       painter(ctx)
     }
