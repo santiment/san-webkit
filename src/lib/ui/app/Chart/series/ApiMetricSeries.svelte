@@ -10,7 +10,7 @@
 
   let { series }: TProps = $props()
 
-  useApiMetricDataFlow(series)
+  useApiMetricDataFlow(series, { priority: 0 })
 </script>
 
 {#key series.type.$}

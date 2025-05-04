@@ -19,7 +19,7 @@
 
   const minimapMetric = createMinimapSeries(series)
 
-  useApiMetricDataFlow(minimapMetric)
+  useApiMetricDataFlow(minimapMetric, { priority: 10_000, minimalDelay: 2000 })
 
   const scaler = $derived.by(() => {
     if (!canvasNode) return

@@ -61,13 +61,17 @@ export function JobScheduler({ concurrentLimit = CONCURRENT_LIMIT } = {}) {
     }, 50)
   }
 
-  function createForceTimer(job: TJob, index: number) {
-    const forceTimeout = (index + 1) * 400
+  function createForceTimer(job: TJob, index: number, minimalDelay = 0) {
+    const forceTimeout = minimalDelay + (index + 1) * 500
     return setTimeout(() => scheduler.run(job, true), forceTimeout)
   }
 
   return {
-    schedule(fn: TJob['fn'], id?: number | string, priority?: number) {
+    schedule(
+      fn: TJob['fn'],
+      id?: number | string,
+      { priority, minimalDelay }: { priority?: number; minimalDelay?: number } = {},
+    ) {
       if (isSchedulerActive && activeJobs < concurrentLimit) {
         scheduler.execute(fn)
         return
@@ -90,7 +94,7 @@ export function JobScheduler({ concurrentLimit = CONCURRENT_LIMIT } = {}) {
       index = index! ?? queue.push(job)
 
       if (isSchedulerActive) {
-        job.forceTimer = createForceTimer(job, index)
+        job.forceTimer = createForceTimer(job, index, minimalDelay)
       }
 
       return job

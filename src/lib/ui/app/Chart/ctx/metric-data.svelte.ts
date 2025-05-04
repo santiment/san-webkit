@@ -33,7 +33,10 @@ export const useApiMetricFetchSettingsCtx = createCtx(
   },
 )
 
-export function useApiMetricDataFlow(metric: TSeries) {
+export function useApiMetricDataFlow(
+  metric: TSeries,
+  settings?: { priority?: number; minimalDelay?: number },
+) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
@@ -85,7 +88,7 @@ export function useApiMetricDataFlow(metric: TSeries) {
     const interval = globalParameters.interval$.manual || globalParameters.interval$.auto
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { scheduledData } = createScheduledData(jobScheduler)
+    const { scheduledData } = createScheduledData(jobScheduler, settings)
 
     loadMetricData({
       scheduledData,
@@ -102,16 +105,23 @@ export function useApiMetricDataFlow(metric: TSeries) {
 }
 
 type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
-function createScheduledData(jobScheduler: undefined | null | TJobScheduler) {
+function createScheduledData(
+  jobScheduler: undefined | null | TJobScheduler,
+  settings?: { minimalDelay?: number; priority?: number },
+) {
   if (!jobScheduler) return {}
 
   const { promise, resolve, reject } = controlledPromisePolyfill()
   const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
 
-  const job = jobScheduler.schedule(() => {
-    fetchStart()
-    return promise
-  })
+  const job = jobScheduler.schedule(
+    () => {
+      fetchStart()
+      return promise
+    },
+    undefined,
+    settings,
+  )
 
   return {
     scheduledData: {
