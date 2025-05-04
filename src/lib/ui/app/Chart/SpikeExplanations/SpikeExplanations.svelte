@@ -115,6 +115,7 @@
               applyTimeZoneOffset(
                 new Date((openedExplanation.spikeStartDatetime as number) * 1000),
               ),
+              { utc: true },
             )}
           </span>
         </header>

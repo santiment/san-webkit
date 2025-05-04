@@ -2,6 +2,7 @@
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import {
     getDateFormats,
+    getFormattedDetailedTimestamp,
     getTimeFormats,
     parseAsStartEndDate,
     suggestPeriodInterval,
@@ -98,12 +99,7 @@
   const slugs = ['bitcoin', 'ethereum']
 
   function timeFormatter(time: number) {
-    const date = applyTimeZoneOffset(new Date(time * 1000))
-
-    const { ddd, DD, MMM, YY } = getDateFormats(date)
-    const { HH, mm } = getTimeFormats(date)
-
-    return `${ddd} ${DD} ${MMM}'${YY}  ${HH}:${mm}`
+    return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
   }
 
   onMount(() => {

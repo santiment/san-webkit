@@ -24,7 +24,7 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.get()
 
   function formatDate(date: Date) {
-    return getFormattedDayMonthYear(applyTimeZoneOffset(new Date(date)))
+    return getFormattedDayMonthYear(applyTimeZoneOffset(new Date(date)), { utc: true })
   }
 </script>
 
