@@ -9,6 +9,7 @@
 
   import Asset from './Asset.svelte'
   import Word from './Word.svelte'
+  import Watchlist from './Watchlist.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
   const Tab = (title: string, Component?: Component<{ stepState: { $$: TTrendState } }>) => ({
@@ -19,11 +20,11 @@
   const TAB_MAP = {
     asset: Tab('Trending assets', Asset),
     word: Tab('Trending words', Word),
-    watchlist: Tab('Watchlist'),
+    watchlist: Tab('Watchlist', Watchlist),
   } as const satisfies Record<string, ReturnType<typeof Tab>>
 
   const TABS = exactObjectKeys(TAB_MAP)
-  type Tab = (typeof TABS)[number]
+  type TabKey = (typeof TABS)[number]
 
   let { step }: TProps = $props()
 
@@ -34,11 +35,11 @@
   )
   const TabComponent = $derived(TAB_MAP[selectedTab].Component)
 
-  function selectTab(tab: Tab) {
+  function selectTab(tab: TabKey) {
     step.state.$$.target = getTabInitTarget(tab)
   }
 
-  function getTabInitTarget(tab: Tab) {
+  function getTabInitTarget(tab: TabKey) {
     switch (tab) {
       case 'asset':
         return { slug: [] }
