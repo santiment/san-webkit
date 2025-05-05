@@ -12,9 +12,11 @@ export const WalletAlertTypes = [
   'wallet_assets_held',
 ] as const
 
+export type TWalletAlertType = (typeof WalletAlertTypes)[number]
+
 export type TWalletApiAlert = TApiAlert<{
   target: { address: string }
-  type: (typeof WalletAlertTypes)[number]
+  type: TWalletAlertType
   selector: { infrastructure?: string; slug?: string }
   operation?: TApiOperation
   time_window?: TTimeWindow

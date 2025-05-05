@@ -6,7 +6,7 @@ import {
   getOperationFromApi,
   reduceOperationToApi,
 } from '$ui/app/Alerts/form-steps/metric-conditions/operations.js'
-import { getAddressInfrastructure } from '$lib/utils/address.js'
+import { getAddressInfrastructure, Infrastructure } from '$lib/utils/address.js'
 
 import Form from './ui/index.svelte'
 
@@ -16,7 +16,10 @@ export type TBaseSchema = TStepBaseSchema<
   'wallet',
   {
     initState: (apiAlert?: null | TWalletApiAlert) => {
-      target: TWalletSettings['target'] | null
+      target: {
+        address: TWalletSettings['target']['address'] | null
+        readonly infrastructure: Infrastructure | undefined
+      }
       assetSlug: string | null
       type: TWalletSettings['type'] | null
       conditions: TMetricConditionsState['conditions'] | null
@@ -46,7 +49,12 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     const operation = getOperationFromApi(apiOperation)
 
     return {
-      target: target ?? null,
+      target: {
+        address: target?.address ?? null,
+        get infrastructure() {
+          return getAddressInfrastructure(this.address ?? '')
+        },
+      },
       type: type ?? null,
       assetSlug: selector?.slug ?? null,
       conditions:
@@ -62,14 +70,16 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     }
   },
 
-  validate(state) {
-    switch (state.type) {
+  validate({ target: { address, infrastructure }, type, conditions, assetSlug }) {
+    if (!address || !infrastructure) return false
+
+    switch (type) {
       case 'wallet_assets_held':
-        return !!state.target?.address
+        return true
       case 'wallet_movement':
-        return !!state.target?.address && !!state.conditions && !!state.assetSlug
+        return !!conditions && !!assetSlug
       case 'wallet_usd_valuation':
-        return !!state.target?.address && !!state.conditions
+        return !!conditions
       case null:
         return false
     }
@@ -80,7 +90,7 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
       target,
       type,
       selector: {
-        infrastructure: getAddressInfrastructure(target?.address ?? ''),
+        infrastructure: target?.infrastructure,
         slug: assetSlug ?? undefined,
       },
       time_window: conditions?.time,
