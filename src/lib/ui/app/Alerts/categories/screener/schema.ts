@@ -7,12 +7,12 @@ import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { TimeModifiers } from '../../time.js'
 import { formatChannels } from '../../channels.js'
-import { queryWatchlistName } from '../watchlist/api.js'
+import { queryWatchlistName, type Watchlist } from '../watchlist/api.js'
 
 export type TScreenerApiAlert = TApiAlert<{
   type: 'screener_signal'
   metric: 'social_volume_total'
-  target: { watchlist_id: number | null }
+  target: { watchlist_id: Watchlist['id'] | null }
 }>
 
 export type TBaseSchema = TAlertBaseSchema<

@@ -14,9 +14,10 @@
   type TProps = {
     selectedId: Watchlist['id'] | null
     onSelect: (watchlist: Watchlist | null) => void
+    loadScreeners?: boolean
   }
 
-  const { selectedId, onSelect }: TProps = $props()
+  const { selectedId, onSelect, loadScreeners = false }: TProps = $props()
 
   const { filter, clear, onInput, onKeyUp } = useSearchCtx<Watchlist>({
     getCompareValues: ({ title, description }) => [title, description ?? ''],
@@ -29,7 +30,7 @@
   const loadWatchlists = useObserveFnCall(() =>
     pipe(
       switchMap(() => queryUserWatchlists()()),
-      map((watchlists) => watchlists.filter(({ isScreener }) => !isScreener)),
+      map((watchlists) => watchlists.filter(({ isScreener }) => loadScreeners === isScreener)),
       tap((_watchlists) => (watchlists = _watchlists)),
     ),
   )

@@ -2,7 +2,7 @@ import type { TScreenerApiAlert } from '../schema.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
-import Form from '../../watchlist/watchlist-form-step/ui/index.svelte'
+import Form from './ui/index.svelte'
 
 export type TBaseSchema = TStepBaseSchema<
   'screener',
