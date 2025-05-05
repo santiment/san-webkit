@@ -4,7 +4,7 @@ import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 import { Query } from '$lib/api/executor.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
-import { queryWatchlistName } from '../watchlist/api.js'
+import { queryWatchlistName, type Watchlist } from '../watchlist/api.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 
 export type TSocialTrendsApiAlert = TApiAlert<
@@ -20,7 +20,7 @@ export type TSocialTrendsApiAlert = TApiAlert<
         operation: { trending_word: true }
       }
     | {
-        target: { watchlist_id: string | number | null }
+        target: { watchlist_id: Watchlist['id'] | null }
         operation: { trending_project: true }
       }
   )

@@ -1,4 +1,5 @@
 import type { TWatchlistApiAlert } from '../schema.js'
+import type { Watchlist } from '../api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -8,7 +9,7 @@ export type TBaseSchema = TStepBaseSchema<
   'watchlist',
   {
     initState: (apiAlert?: null | TWatchlistApiAlert) => {
-      target: { watchlist_id: number | null }
+      target: { watchlist_id: Watchlist['id'] | null }
     }
   }
 >
