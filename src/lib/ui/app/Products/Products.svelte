@@ -1,9 +1,10 @@
 <script lang="ts">
   import { cn } from '$ui/utils/index.js'
 
-  import ProductCard from './ProductCard.svelte'
+  import ProductCard, { type TProductCard } from './ProductCard.svelte'
   import { business } from './business.js'
   import { chain } from './chain.js'
+  import { initiatives } from './initiatives.js'
 
   type TProps = {
     class?: string
@@ -28,21 +29,12 @@
     className,
   )}
 >
-  <section class={cn('column', isColumn && 'border-b border-porcelain pb-6')}>
-    <h3 class={cn('mb-5 text-waterloo', isCompact ? 'ml-0' : 'ml-4')}>SAN Business</h3>
+  <div class="gap-6 column">
+    {@render section('SAN business', isColumn, isCompact, business)}
+    {@render section('Initiatives', isColumn, isCompact, initiatives)}
+  </div>
 
-    {#each business as product}
-      <ProductCard {...product} active={active === product.id} {isCompact} />
-    {/each}
-  </section>
-
-  <section class="column">
-    <h3 class={cn('mb-5 text-waterloo', isCompact ? 'ml-0' : 'ml-4')}>SAN Chain</h3>
-
-    {#each chain as product}
-      <ProductCard {...product} active={active === product.id} {isCompact} />
-    {/each}
-  </section>
+  {@render section('SAN Chain', isColumn, isCompact, chain)}
 
   {#if isColumn}
     <section class="max-w-[260px] border-t border-porcelain pt-6 text-base text-waterloo">
@@ -51,3 +43,13 @@
     </section>
   {/if}
 </div>
+
+{#snippet section(title: string, isColumn: boolean, isCompact: boolean, items: TProductCard[])}
+  <section class={cn('column', isColumn && 'border-b border-porcelain pb-6')}>
+    <h3 class={cn('mb-5 text-waterloo', isCompact ? 'ml-0' : 'ml-4')}>{title}</h3>
+
+    {#each items as product}
+      <ProductCard {...product} active={active === product.id} {isCompact} />
+    {/each}
+  </section>
+{/snippet}

@@ -1,4 +1,6 @@
-export const chain = [
+import type { TProductCard } from './ProductCard.svelte'
+
+export const chain: TProductCard[] = [
   // {
   //   id: 'sanx',
   //   title: 'SanX',

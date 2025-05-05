@@ -1,4 +1,6 @@
-export const business = [
+import type { TProductCard } from './ProductCard.svelte'
+
+export const business: TProductCard[] = [
   {
     id: 'sanbase',
     title: 'Sanbase',
@@ -23,4 +25,4 @@ export const business = [
     dimensions: [24, 22],
     accent: 'var(--blue)',
   },
-] as const
+]

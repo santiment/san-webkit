@@ -1,3 +1,7 @@
+<script module lang="ts">
+  export type TProductCard = Omit<TProps, 'active'>
+</script>
+
 <script lang="ts">
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
@@ -7,9 +11,9 @@
     title: string
     href: string
     desc: string
-    dimensions: readonly [number, number]
-    active: boolean
-    accent: string
+    dimensions: [number, number]
+    active?: boolean
+    accent?: string
     note?: string | undefined
     isCompact?: boolean
   }
