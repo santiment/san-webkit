@@ -1,6 +1,7 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
 
 import { catchError, from, of, switchMap, tap } from 'rxjs'
+import { untrack } from 'svelte'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
@@ -88,7 +89,10 @@ export function useApiMetricDataFlow(
     const interval = globalParameters.interval$.manual || globalParameters.interval$.auto
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { scheduledData } = createScheduledData(jobScheduler, settings)
+    const { scheduledData } = createScheduledData(
+      jobScheduler,
+      untrack(() => $state.snapshot(settings)),
+    )
 
     loadMetricData({
       scheduledData,

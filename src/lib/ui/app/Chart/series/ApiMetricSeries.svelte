@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
 
+  import { useItemViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
+
   import RawSeries from './RawSeries.svelte'
-  import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
+  import { useApiMetricDataFlow } from '../ctx/index.js'
 
   type TProps = {
     series: TSeries
@@ -10,7 +12,8 @@
 
   let { series }: TProps = $props()
 
-  useApiMetricDataFlow(series, { priority: 0 })
+  const { settings = { priority: 0 } } = useItemViewportPriorityCtx.get() || {}
+  useApiMetricDataFlow(series, settings)
 </script>
 
 {#key series.type.$}

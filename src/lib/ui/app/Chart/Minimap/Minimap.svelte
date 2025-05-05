@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { useItemViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.svelte.js'
   import {
     CRYPTO_ERA_START_DATE,
     TODAY_END_DATE,
@@ -7,12 +8,13 @@
   } from '$lib/utils/dates/index.js'
   import { createValueMap } from '$lib/utils/index.js'
 
-  import { useChartGlobalParametersCtx } from '../ctx/global-parameters.svelte.js'
+  import { useChartGlobalParametersCtx } from '../ctx/index.js'
   import Canvas from './Canvas.svelte'
   import Handles from './Handles.svelte'
   import YearMarks from './YearMarks.svelte'
 
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const viewportPriorityCtx = useItemViewportPriorityCtx.get()
 
   let minimapWidth = $state(0)
 
@@ -137,7 +139,7 @@
   class="relative my-4 flex h-[40px] select-none bg-white center"
   bind:clientWidth={minimapWidth}
 >
-  {#if minimapWidth}
+  {#if minimapWidth && (viewportPriorityCtx?.checkIsInViewport$() ?? true)}
     <Canvas onpointerdown={onAreaPointerDown}></Canvas>
 
     <Handles
