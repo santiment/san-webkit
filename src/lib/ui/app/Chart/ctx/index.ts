@@ -5,7 +5,7 @@ import { ss } from 'svelte-runes'
 import { createCtx } from '$lib/utils/index.js'
 
 export const useChartCtx = createCtx('useChartCtx', () => {
-  const chart = ss<IChartApi>()
+  const chart = ss<undefined | IChartApi>()
 
   return {
     chart,

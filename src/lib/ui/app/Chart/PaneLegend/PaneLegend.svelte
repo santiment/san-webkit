@@ -3,12 +3,12 @@
   import type { IPaneApi, Time } from '@santiment-network/chart-next'
   import type { TSeries } from '../ctx/series.svelte.js'
 
-  import { applyStyles, cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
 
   import { usePanesTooltip } from './ctx.svelte'
   import MetricInfoPopover from './Metric/InfoPopover.svelte'
   import { useChartPlanRestrictionsCtx } from '../RestrictedDataDialog/index.js'
+  import Pane from './Pane.svelte'
 
   type TProps = {
     class?: string
@@ -18,24 +18,6 @@
 
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx()
   const { paneSet, panes } = usePanesTooltip()
-
-  function mountToPane(node: HTMLElement, { chartPane }: { chartPane: any }) {
-    requestAnimationFrame(() => {
-      const el = chartPane.getHTMLElement()
-      if (!el) return
-
-      el.children[1].appendChild(node)
-      applyStyles(node.previousElementSibling as HTMLElement, { zIndex: '0' })
-
-      node.classList.remove('hidden')
-    })
-
-    return {
-      destroy() {
-        node?.remove()
-      },
-    }
-  }
 </script>
 
 <MetricInfoPopover>
@@ -43,10 +25,8 @@
     {#each Object.keys(paneSet.$) as paneIndex}
       {@const chartPane = panes.$[+paneIndex]}
       {@const metricsList = paneSet.$[+paneIndex]}
-      <section
-        class={cn('absolute left-1 top-1 z-[3] hidden items-start gap-0.5 column', className)}
-        use:mountToPane={{ chartPane }}
-      >
+
+      <Pane class={className} {chartPane}>
         {@render children({ pane: chartPane, metrics: metricsList, index: +paneIndex })}
 
         {#if +paneIndex === 0 && Object.keys(chartPlanRestrictions.$).length}
@@ -61,7 +41,7 @@
             Upgrade to see all Data!
           </Button>
         {/if}
-      </section>
+      </Pane>
     {/each}
   {/key}
 </MetricInfoPopover>

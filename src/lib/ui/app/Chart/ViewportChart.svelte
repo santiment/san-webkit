@@ -7,9 +7,10 @@
   import { cn } from '$ui/utils/index.js'
 
   import Chart from './Chart.svelte'
+  import { Mode } from './types.js'
 
   type TProps = ComponentProps<typeof Chart>
-  let props: TProps = $props()
+  let { mode = $bindable(Mode.DRAG), ...props }: TProps = $props()
 
   const viewportPriorityCtx = useItemViewportPriorityCtx.get()
   if (BROWSER && process.env.IS_DEV_MODE) {
@@ -22,7 +23,7 @@
 </script>
 
 {#if viewportPriorityCtx?.checkIsInViewport$()}
-  <Chart {...props}></Chart>
+  <Chart bind:mode {...props}></Chart>
 {:else}
   <div class={cn('relative z-[1] column [&>div]:!overflow-visible', props.class)}></div>
 {/if}

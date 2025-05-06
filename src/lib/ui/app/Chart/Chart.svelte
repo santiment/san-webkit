@@ -72,12 +72,15 @@
       onRangeSelectEnd: _onRangeSelectEnd,
     })
 
-    const resetScalesOnDblClick = () => chart.$.resetAllScales()
+    const resetScalesOnDblClick = () => chart.$?.resetAllScales()
     chart.$.subscribeDblClick(resetScalesOnDblClick)
 
     return () => {
+      if (!chart.$) return
+
       chart.$.unsubscribeDblClick(resetScalesOnDblClick)
       chart.$.remove()
+      chart.$ = undefined
     }
   })
 

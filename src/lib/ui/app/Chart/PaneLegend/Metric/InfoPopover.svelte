@@ -25,6 +25,8 @@
 
   useMetricInfoCtx.set(() => openedMetric, onMetricInfoClick)
 
+  const preventFocus = (e: Event) => e.preventDefault()
+
   function onMetricInfoClick(item: null | TSeries, anchor?: HTMLElement) {
     if (!item || !anchor) {
       openedMetric = openedInfo = null
@@ -53,7 +55,12 @@
 <Popover
   isOpened={!!openedMetric}
   rootProps={{ onOpenChange }}
-  contentProps={{ customAnchor: anchorNode, sideOffset: 16 }}
+  contentProps={{
+    customAnchor: anchorNode,
+    sideOffset: 16,
+    onCloseAutoFocus: preventFocus,
+    onOpenAutoFocus: preventFocus,
+  }}
   side="right"
   class="w-[360px] px-6 py-5 pt-4 text-rhino column"
 >

@@ -35,7 +35,7 @@
     })),
   )
 
-  const eventMarkers = createEventMarkers(chart.$, [], onEventMarkerSelect)
+  const eventMarkers = createEventMarkers(chart.$!, [], onEventMarkerSelect)
 
   const getMetricSpikeExplanations = useObserveFnCall<TVariables>(() =>
     pipe(
