@@ -3,7 +3,8 @@
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
-  import Chart, {
+  import BaseChart, {
+    ViewportChart,
     ApiMetricSeries,
     DatesRangeShortcuts,
     Minimap,
@@ -20,13 +21,19 @@
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
+  const Chart = viewportPriority ? ViewportChart : BaseChart
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
   }
 </script>
 
-<div class="column" use:viewportObserverAction>
+<div class="relative column">
+  <div
+    class="viewport-anchor"
+    use:viewportObserverAction={{ top: '-150px', bottom: '-150px' }}
+  ></div>
+
   <div class="flex center">
     <TimeZoneSelector></TimeZoneSelector>
   </div>

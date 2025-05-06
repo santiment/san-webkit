@@ -4,6 +4,7 @@ import { onMount } from 'svelte'
 import { BROWSER } from 'esm-env'
 
 import { createCtx } from '$lib/utils/index.js'
+import { applyStyles } from '$lib/ui/utils/index.js'
 
 export const VIEWPORT_PRIORITY = {
   VISIBLE: 0,
@@ -58,16 +59,21 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
     priority: VIEWPORT_PRIORITY.NOT_VISIBLE,
   })
 
-  const action: Action = (node) => {
-    ObservedSettings.set(node, settings)
-    observer.observe(node)
+  const action: Action<HTMLElement, { top: string; bottom: string } | undefined> = (
+    node,
+    margins = { top: '0px', bottom: '0px' },
+  ) => {
+    const viewportAnchor = createViewportAnchor(node, margins)
 
-    settings.priority = getNodeClientRectViewportPriority(node)
+    ObservedSettings.set(viewportAnchor, settings)
+    observer.observe(viewportAnchor)
+
+    settings.priority = getNodeClientRectViewportPriority(viewportAnchor)
 
     return {
       destroy() {
-        observer.unobserve(node)
-        ObservedSettings.delete(node)
+        observer.unobserve(viewportAnchor)
+        ObservedSettings.delete(viewportAnchor)
       },
     }
   }
@@ -80,6 +86,23 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
     },
   }
 })
+
+/**
+ * Viewport anchor allows to have rootMargins without providing custom `root` scroll element
+ */
+function createViewportAnchor(node: HTMLElement, margins: { top: string; bottom: string }) {
+  const div = document.createElement('div')
+  applyStyles(div, {
+    position: 'absolute',
+    left: '0',
+    right: '0',
+    zIndex: '-1',
+    top: margins.top,
+    bottom: margins.bottom,
+  })
+  node.appendChild(div)
+  return div
+}
 
 function getNodeClientRectViewportPriority(node: Element) {
   const viewportHeight = window.innerHeight
