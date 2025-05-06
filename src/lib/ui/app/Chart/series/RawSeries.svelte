@@ -45,11 +45,11 @@
 
   $effect(() => {
     chartSeries.setData(data.$)
-    chart.$.resetAllScales()
+    chart.$!.resetAllScales()
   })
 
   onMount(() => () => {
-    chart.$.removeSeries(chartSeries)
+    chart.$!.removeSeries(chartSeries)
   })
 
   function createChartSeries() {
@@ -57,9 +57,9 @@
 
     switch (type.$) {
       case 'histogram':
-        return chart.$.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
+        return chart.$!.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
       default:
-        return chart.$.addSeries(
+        return chart.$!.addSeries(
           LineSeries,
           Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth }),
           pane.$,

@@ -35,9 +35,9 @@
   }
 
   onMount(() => {
-    chart.$.subscribeCrosshairMove(handleCrosshairMove)
+    chart.$!.subscribeCrosshairMove(handleCrosshairMove)
     return () => {
-      chart.$.unsubscribeCrosshairMove(handleCrosshairMove)
+      chart.$!.unsubscribeCrosshairMove(handleCrosshairMove)
     }
   })
 </script>

@@ -10,6 +10,7 @@
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
+  import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
 
   import { queryGetMetricSpikeExplanations, type TData, type TVariables } from './api.js'
   import { useChartCtx, useMetricSeriesCtx, type TSeries } from '../ctx/index.js'
@@ -20,6 +21,7 @@
   const { metricSeries } = useMetricSeriesCtx.get()
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
+  const { applyTimeZoneOffset } = useTimeZoneCtx.get()
 
   let attachedMetric = $state.raw<null | TSeries>(null)
   let openedExplanation = $state.raw<null | TData[number]>(null)
@@ -33,7 +35,7 @@
     })),
   )
 
-  const eventMarkers = createEventMarkers(chart.$, [], onEventMarkerSelect)
+  const eventMarkers = createEventMarkers(chart.$!, [], onEventMarkerSelect)
 
   const getMetricSpikeExplanations = useObserveFnCall<TVariables>(() =>
     pipe(
@@ -109,7 +111,12 @@
           </h3>
 
           <span class="text-xs text-waterloo">
-            {getFormattedDetailedTimestamp((openedExplanation.spikeStartDatetime as number) * 1000)}
+            {getFormattedDetailedTimestamp(
+              applyTimeZoneOffset(
+                new Date((openedExplanation.spikeStartDatetime as number) * 1000),
+              ),
+              { utc: true },
+            )}
           </span>
         </header>
 

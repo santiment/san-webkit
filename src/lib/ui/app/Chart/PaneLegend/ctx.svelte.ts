@@ -30,12 +30,12 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
     ),
   )
 
-  const panes = $derived(paneSet && chart.$.panes())
+  const panes = $derived(paneSet && chart.$!.panes())
 
   onMount(() => {
-    chart.$.subscribeCrosshairMove(handleCrosshairMove)
+    chart.$!.subscribeCrosshairMove(handleCrosshairMove)
     return () => {
-      chart.$.unsubscribeCrosshairMove(handleCrosshairMove)
+      chart.$!.unsubscribeCrosshairMove(handleCrosshairMove)
     }
   })
 

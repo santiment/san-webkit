@@ -9,22 +9,26 @@
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
   import { useApiMetricFetchSettingsCtx } from '$ui/app/Chart/ctx/metric-data.svelte.js'
-  import Chart, { ApiMetricSeries } from '$ui/app/Chart/index.js'
-  import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
-  import SpikeExplanations from '$ui/app/Chart/SpikeExplanations'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import { onMount } from 'svelte'
   import { useChartPlanRestrictionsCtx } from '$ui/app/Chart/RestrictedDataDialog/index.js'
+  import { useClockCtx, useTimeZoneCtx } from '$lib/ctx/time/index.js'
+  import { useViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
+  import ChartWidget from './ChartWidget.svelte'
+
+  let { viewportPriority = false } = $props()
 
   useAssetsCtx.set()
-  const { MetricsRestrictions } = useMetricsRestrictionsCtx.set()
+  useMetricsRestrictionsCtx.set()
 
-  $inspect(MetricsRestrictions.$)
+  useTimeZoneCtx.set()
+  useClockCtx.set()
 
   const jobScheduler = JobScheduler()
   useApiMetricFetchSettingsCtx.set({ jobScheduler })
+  if (viewportPriority) useViewportPriorityCtx.set()
 
   const { colorGenerator } = useColorGenerator()
 
@@ -95,7 +99,7 @@
   })
 </script>
 
-<main class="p-4">
+<main class="p-4" style={viewportPriority ? 'padding:900px 16px' : ''}>
   <div class="flex gap-2 p-3">
     {#each slugs as slug}
       <Button
@@ -108,34 +112,7 @@
     {/each}
   </div>
 
-  <div class="mt-4 flex gap-2">
-    {#each metricSeries.$ as metric}
-      <div class="rounded border p-1" style="border-color:{metric.color.$}">
-        {metric.label}
-      </div>
-    {/each}
-  </div>
-
-  <Chart
-    watermark
-    class="h-[500px]"
-    onRangeSelectChange={console.log}
-    onRangeSelectEnd={console.log}
-  >
-    {#each metricSeries.$ as item (item.id)}
-      <ApiMetricSeries series={item}></ApiMetricSeries>
-    {/each}
-
-    <SpikeExplanations></SpikeExplanations>
-
-    <PaneLegend>
-      {#snippet children({ metrics })}
-        {#each metrics as metric (metric.id)}
-          <PaneMetric {metric}></PaneMetric>
-        {/each}
-      {/snippet}
-    </PaneLegend>
-  </Chart>
+  <ChartWidget {viewportPriority}></ChartWidget>
 
   <button onclick={toggle}> Toggle axis </button>
 </main>

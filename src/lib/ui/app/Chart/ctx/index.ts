@@ -5,7 +5,7 @@ import { ss } from 'svelte-runes'
 import { createCtx } from '$lib/utils/index.js'
 
 export const useChartCtx = createCtx('useChartCtx', () => {
-  const chart = ss<IChartApi>()
+  const chart = ss<undefined | IChartApi>()
 
   return {
     chart,
@@ -14,7 +14,7 @@ export const useChartCtx = createCtx('useChartCtx', () => {
 
 export { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 
-export { useApiMetricDataFlow } from './metric-data.svelte.js'
+export { useApiMetricDataFlow, useApiMetricFetchSettingsCtx } from './metric-data.svelte.js'
 
 export { useMetricSeriesCtx, createSeries, type TSeries } from './series.svelte.js'
 

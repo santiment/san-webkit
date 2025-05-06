@@ -1,8 +1,6 @@
 import { ApiQuery } from '$lib/api/index.js'
 import { mapAccessRestrictionsData } from '$scripts/metrics-restrictions/utils.js'
 
-export type TMetricRestrictions = NonNullable<ReturnType<typeof mapAccessRestrictionsData>[string]>
-
 export const queryGetAccessRestrictions = ApiQuery(
   () => `{ getAccessRestrictions  {
   n:name
@@ -14,5 +12,9 @@ export const queryGetAccessRestrictions = ApiQuery(
   mapAccessRestrictionsData,
   { cache: false },
 )
+
+export type TMetricRestrictions = NonNullable<
+  API.ExtractData<typeof queryGetAccessRestrictions>[string]
+>
 
 export const DEFAULT_METRICS_RESTRICTIONS = {}

@@ -20,7 +20,7 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
     currentUser.$$?.settings.theme === 'nightmode' ||
     (BROWSER && document.body.classList.contains('night-mode'))
 
-  const ui = $state({ isNightMode, isLiteVersion })
+  const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
 
   if (BROWSER) document.body.classList.toggle('night-mode', isNightMode || false)
 
