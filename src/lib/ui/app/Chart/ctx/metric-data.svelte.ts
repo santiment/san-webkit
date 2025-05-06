@@ -1,6 +1,6 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
 
-import { catchError, from, of, switchMap, tap } from 'rxjs'
+import { catchError, finalize, from, of, switchMap, tap } from 'rxjs'
 import { untrack } from 'svelte'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
@@ -63,17 +63,15 @@ export function useApiMetricDataFlow(
             metric.data.$ = formattedData
             metric.error.$ = null
             metric.loading.$ = false
-
-            scheduledData?.jobResolve()
           }),
           catchError((err) => {
             metric.data.$ = []
             metric.loading.$ = false
             metric.error.$ = err
 
-            scheduledData?.jobReject(err)
             return of(null)
           }),
+          finalize(() => scheduledData?.jobResolve()),
         )
 
       return scheduledData
@@ -115,7 +113,7 @@ function createScheduledData(
 ) {
   if (!jobScheduler) return {}
 
-  const { promise, resolve, reject } = controlledPromisePolyfill()
+  const { promise, resolve } = controlledPromisePolyfill()
   const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
 
   const job = jobScheduler.schedule(
@@ -131,7 +129,6 @@ function createScheduledData(
     scheduledData: {
       fetchStartPromise,
       jobResolve: resolve,
-      jobReject: reject,
       cancel() {
         if (job) jobScheduler.cancelJob(job)
       },

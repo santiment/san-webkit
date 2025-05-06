@@ -3,7 +3,7 @@
   import type { IPaneApi, Time } from '@santiment-network/chart-next'
   import type { TSeries } from '../ctx/series.svelte.js'
 
-  import { cn } from '$ui/utils/index.js'
+  import { applyStyles, cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
 
   import { usePanesTooltip } from './ctx.svelte'
@@ -25,6 +25,7 @@
       if (!el) return
 
       el.children[1].appendChild(node)
+      applyStyles(node.previousElementSibling as HTMLElement, { zIndex: '0' })
 
       node.classList.remove('hidden')
     })

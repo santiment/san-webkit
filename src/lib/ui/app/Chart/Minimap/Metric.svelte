@@ -5,6 +5,7 @@
   import { onMount } from 'svelte'
 
   import { createValueMap } from '$lib/utils/index.js'
+  import { useItemViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.svelte.js'
 
   import { useApiMetricDataFlow } from '../ctx/metric-data.svelte.js'
 
@@ -18,8 +19,10 @@
   let data = $state.raw<TMetricData>([])
 
   const minimapMetric = createMinimapSeries(series)
+  const viewportCtx = useItemViewportPriorityCtx.get()
 
-  useApiMetricDataFlow(minimapMetric, { priority: 10_000, minimalDelay: 2000 })
+  const settings = { priority: 10_000, minimalDelay: 2000 }
+  useApiMetricDataFlow(minimapMetric, settings)
 
   const scaler = $derived.by(() => {
     if (!canvasNode) return
@@ -37,6 +40,12 @@
   })
 
   onMount(() => register(paint))
+
+  if (viewportCtx) {
+    $effect.pre(() => {
+      settings.priority = 10_000 + viewportCtx.settings.priority
+    })
+  }
 
   function paint(ctx: CanvasRenderingContext2D) {
     if (!scaler) return
