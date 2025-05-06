@@ -1,8 +1,14 @@
 <script>
   import Products from '@/ui/Products/Products.svelte'
+  import ProductsButton from '@/ui/Products/index.svelte'
 </script>
 
 <main class="column gap-xl">
+  <div>
+    <h2 class="h5">Button</h2>
+    <ProductsButton />
+  </div>
+
   <div>
     <h2 class="h5">Regular</h2>
     <div class="border">
