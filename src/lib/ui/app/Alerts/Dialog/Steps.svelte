@@ -13,7 +13,7 @@
   const { steps, selectedIndex, onStepSelect }: TProps = $props()
 </script>
 
-<nav>
+<nav class="w-full">
   {#each steps as step, i}
     {@const { title, description } = step.ui}
     {@const active = selectedIndex === i}
