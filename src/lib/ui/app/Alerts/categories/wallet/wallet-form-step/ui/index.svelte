@@ -30,6 +30,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import { type TWalletAlertType } from '../../schema.js'
+  import Capitalisation from './Capitalisation.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
@@ -99,6 +100,6 @@
   {#if alertType === 'wallet_movement'}
     Asset Movement
   {:else if alertType === 'wallet_usd_valuation'}
-    Capitalization
+    <Capitalisation stepState={step.state} />
   {/if}
 </section>

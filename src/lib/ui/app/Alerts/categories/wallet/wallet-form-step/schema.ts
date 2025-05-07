@@ -12,18 +12,20 @@ import Form from './ui/index.svelte'
 
 type TWalletSettings = NonNullable<TWalletApiAlert['settings']>
 
+export type TWalletState = {
+  target: {
+    address: TWalletSettings['target']['address'] | null
+    readonly infrastructure: Infrastructure | undefined
+  }
+  assetSlug: string | null
+  type: TWalletSettings['type'] | null
+  conditions: TMetricConditionsState['conditions'] | null
+}
+
 export type TBaseSchema = TStepBaseSchema<
   'wallet',
   {
-    initState: (apiAlert?: null | TWalletApiAlert) => {
-      target: {
-        address: TWalletSettings['target']['address'] | null
-        readonly infrastructure: Infrastructure | undefined
-      }
-      assetSlug: string | null
-      type: TWalletSettings['type'] | null
-      conditions: TMetricConditionsState['conditions'] | null
-    }
+    initState: (apiAlert?: null | TWalletApiAlert) => TWalletState
   }
 >
 

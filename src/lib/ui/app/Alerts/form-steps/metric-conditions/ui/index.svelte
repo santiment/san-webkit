@@ -8,13 +8,14 @@
 
   import Metrics from './Metrics.svelte'
   import Conditions from './Conditions.svelte'
+  import Metric from './Metric.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
   const { MetricsRegistry } = useMetricsRegistryCtx()
 
-  const selectedMetricKey = $derived(step.state.$$.metric)
+  const { metric: selectedMetricKey, metricLabel, conditions } = $derived(step.state.$$)
   const metric = $derived(selectedMetricKey ? (MetricsRegistry.$[selectedMetricKey] ?? null) : null)
   const isMetricScreen = ssd(() => !metric)
 
@@ -36,5 +37,11 @@
 {#if isMetricScreen.$}
   <Metrics {metric} onSelect={onMetricSelect} />
 {:else}
-  <Conditions state={step.state} onMetricChange={onScreenToggle} />
+  <Conditions
+    {conditions}
+    metric={selectedMetricKey}
+    updateConditions={(conditions) => (step.state.$$.conditions = conditions)}
+  >
+    <Metric label={metricLabel} onclick={onScreenToggle} />
+  </Conditions>
 {/if}
