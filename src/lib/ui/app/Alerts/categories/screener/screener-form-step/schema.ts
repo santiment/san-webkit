@@ -4,6 +4,7 @@ import type { Watchlist } from '../../watchlist/api.js'
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
+import Legend from './ui/Legend.svelte'
 
 export type TScreenerState = {
   metric: NonNullable<TScreenerApiAlert['settings']>['metric']
@@ -28,6 +29,7 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
     description: 'You can choose any of your screeners',
 
     Form,
+    Legend,
   },
 
   initState(apiAlert) {
