@@ -4,6 +4,7 @@ import type { Watchlist } from '../api.js'
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
+import Legend from './ui/Legend.svelte'
 
 export type TWatchlistState = {
   watchlist: {
@@ -27,6 +28,7 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
     description: 'You can choose any of your watchlists',
 
     Form,
+    Legend,
   },
 
   initState(apiAlert) {
