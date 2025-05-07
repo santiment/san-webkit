@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TState } from '../schema.js'
+  import type { TNotificationsState } from '../schema.js'
   import type { ChangeEventHandler } from 'svelte/elements'
 
   import { parseRangeString } from '$lib/utils/dates/index.js'
@@ -14,7 +14,7 @@
   import Section from './Section.svelte'
 
   type TProps = {
-    state: { $$: TState }
+    state: { $$: TNotificationsState }
   }
 
   const { state }: TProps = $props()

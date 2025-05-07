@@ -5,7 +5,7 @@ import { getChannelFromApi, reduceChannelToApi, type TChannel } from '../../chan
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 
-export type TState = {
+export type TNotificationsState = {
   channel: TChannel
   isPublic: boolean
   isRepeating: boolean
@@ -15,7 +15,7 @@ export type TState = {
 export type TBaseSchema = TStepBaseSchema<
   'notifications-privacy',
   {
-    initState: (apiAlert?: null | TApiAlert<unknown>) => TState
+    initState: (apiAlert?: null | TApiAlert<unknown>) => TNotificationsState
   }
 >
 

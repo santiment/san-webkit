@@ -17,7 +17,7 @@ export type TWalletState = {
     address: TWalletSettings['target']['address'] | null
     readonly infrastructure: Infrastructure | undefined
   }
-  assetSlug: string | null
+  asset: { slug: string; name: string } | null
   type: TWalletSettings['type'] | null
   conditions: TMetricConditionsState['conditions'] | null
 }
@@ -58,7 +58,7 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
         },
       },
       type: type ?? null,
-      assetSlug: selector?.slug ?? null,
+      asset: selector?.slug ? { slug: selector.slug, name: '' } : null,
       conditions:
         operation && time_window
           ? {
@@ -72,14 +72,14 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     }
   },
 
-  validate({ target: { address, infrastructure }, type, conditions, assetSlug }) {
+  validate({ target: { address, infrastructure }, type, conditions, asset }) {
     if (!address || !infrastructure) return false
 
     switch (type) {
       case 'wallet_assets_held':
         return true
       case 'wallet_movement':
-        return !!conditions && !!assetSlug
+        return !!conditions && !!asset
       case 'wallet_usd_valuation':
         return !!conditions
       case null:
@@ -87,13 +87,13 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     }
   },
 
-  reduceToApi(apiAlert, { target, type, conditions, assetSlug }) {
+  reduceToApi(apiAlert, { target, type, conditions, asset }) {
     Object.assign(apiAlert.settings, {
       target,
       type,
       selector: {
         infrastructure: target?.infrastructure,
-        slug: assetSlug ?? undefined,
+        slug: asset?.slug,
       },
       time_window: conditions?.time,
       operation: conditions?.operation && reduceOperationToApi(conditions.operation),

@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { TState } from '../schema.js'
+  import type { TNotificationsState } from '../schema.js'
 
   import Switch from '$ui/core/Switch/Switch.svelte'
 
   import Section from './Section.svelte'
 
   type TProps = {
-    state: { $$: TState }
+    state: { $$: TNotificationsState }
   }
 
   const { state }: TProps = $props()

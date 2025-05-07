@@ -13,7 +13,7 @@
 
 <div class="flex gap-2">
   {#if assets.$.length}
-    {#each step.state.$$.target.slug as slug (slug)}
+    {#each step.state.$$.target.slugs as slug (slug)}
       {@const asset = getAssetBySlug(slug)}
       <div class="border">
         {asset?.name || slug}

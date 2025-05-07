@@ -1,17 +1,5 @@
 import { ApiQuery } from '$lib/api/index.js'
 
-export const queryWatchlistName = ApiQuery(
-  (id: number | string) => ({
-    schema: `query ($id: ID!) {
-  watchlist(id: $id) {
-    name
-  }
-}`,
-    variables: { id },
-  }),
-  (gql: { watchlist: { name: string } | null }) => gql.watchlist?.name,
-)
-
 export type Watchlist = {
   id: string | number
   title: string

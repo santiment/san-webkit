@@ -5,12 +5,17 @@ import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-step
 
 import Form from './ui/index.svelte'
 
+export type TWatchlistState = {
+  watchlist: {
+    id: Watchlist['id'] | null
+    title: string
+  }
+}
+
 export type TBaseSchema = TStepBaseSchema<
   'watchlist',
   {
-    initState: (apiAlert?: null | TWatchlistApiAlert) => {
-      target: { watchlist_id: Watchlist['id'] | null }
-    }
+    initState: (apiAlert?: null | TWatchlistApiAlert) => TWatchlistState
   }
 >
 
@@ -26,18 +31,19 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
 
   initState(apiAlert) {
     return {
-      target: {
-        watchlist_id: apiAlert?.settings?.target.watchlist_id || null,
+      watchlist: {
+        id: apiAlert?.settings?.target.watchlist_id || null,
+        title: '',
       },
     }
   },
 
   validate(state) {
-    return !!state.target.watchlist_id
+    return !!state.watchlist.id
   },
 
   reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, state)
+    Object.assign(apiAlert.settings, { target: { watchlist_id: state.watchlist.id } })
 
     return apiAlert
   },

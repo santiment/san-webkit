@@ -6,12 +6,14 @@ import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-step
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
+export type TAssetTarget = { slugs: TAssetSlug[]; namesMap: Map<TAssetSlug, string> }
+
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
     initState: (apiAlert?: null | TAssetApiAlert) => {
-      target: { slug: TAssetSlug[] }
+      target: TAssetTarget
     }
   }
 >
@@ -30,17 +32,18 @@ export const STEP_ASSETS_SCHEMA = createStepSchema<TBaseSchema>({
   initState(apiAlert) {
     return {
       target: {
-        slug: apiAlert?.settings?.target.slug || [],
+        slugs: apiAlert?.settings?.target.slug || [],
+        namesMap: new Map(),
       },
     }
   },
 
   validate(state) {
-    return state.target.slug.length > 0
+    return state.target.slugs.length > 0
   },
 
   reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, state)
+    Object.assign(apiAlert.settings, { target: { slug: state.target.slugs } })
 
     return apiAlert
   },

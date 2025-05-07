@@ -6,28 +6,34 @@
   import { SvelteSet } from 'svelte/reactivity'
 
   import { ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+
+  import { mapSlugNames } from '../../utils.js'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
-  const selectedAssets = new SvelteSet(step.state.$$.target.slug)
+  const { getAssetBySlug } = useAssetsCtx()
+
+  const selectedSlugs = new SvelteSet(step.state.$$.target.slugs)
 
   $effect(() => {
-    step.state.$$.target.slug = Array.from(selectedAssets)
+    const slugs = Array.from(selectedSlugs)
+    step.state.$$.target = { slugs, namesMap: mapSlugNames(slugs, getAssetBySlug) }
   })
 
   function onSelect(slug: TAssetSlug) {
-    if (selectedAssets.has(slug)) {
-      selectedAssets.delete(slug)
+    if (selectedSlugs.has(slug)) {
+      selectedSlugs.delete(slug)
     } else {
-      selectedAssets.add(slug)
+      selectedSlugs.add(slug)
     }
   }
 </script>
 
 <ListOfAssetsMulti
-  selected={selectedAssets}
+  selected={selectedSlugs}
   {onSelect}
-  resetSelections={() => selectedAssets.clear()}
+  resetSelections={() => selectedSlugs.clear()}
 />

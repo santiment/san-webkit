@@ -8,11 +8,12 @@
 
   let { step }: TProps = $props()
 
-  const selectedId = $derived(step.state.$$.target.watchlist_id)
+  const selectedId = $derived(step.state.$$.screener.id)
 </script>
 
 <ListOfWatchlists
   {selectedId}
-  onSelect={(watchlist) => (step.state.$$.target.watchlist_id = watchlist?.id ?? null)}
+  onSelect={(screener) =>
+    (step.state.$$.screener = { id: screener?.id ?? null, title: screener?.title ?? '' })}
   loadScreeners
 />

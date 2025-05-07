@@ -1,10 +1,32 @@
 import type { TSocialTrendsApiAlert } from '../schema.js'
+import type { TAssetSlug } from '$lib/ctx/assets/api.js'
+import type { Watchlist } from '../../watchlist/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
+import { getApiTarget, getInitTrendTarget, parseApiTarget } from './utils.js'
 
-export type TTrendState = Pick<NonNullable<TSocialTrendsApiAlert['settings']>, 'target'>
+type TAssetTarget = {
+  slugs: TAssetSlug[]
+  namesMap: Map<TAssetSlug, string>
+  type: 'asset'
+}
+
+type TWordTarget = {
+  words: string[]
+  type: 'word'
+}
+
+type TWatchlistTarget = {
+  id: Watchlist['id'] | null
+  title: string
+  type: 'watchlist'
+}
+
+export type TTrendState = {
+  target: TAssetTarget | TWordTarget | TWatchlistTarget
+}
 
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
@@ -28,23 +50,23 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
     const { target, operation } = apiAlert?.settings || {}
 
     if (target && operation) {
-      return { target }
+      return { target: parseApiTarget(target) }
     }
 
     return {
-      target: { slug: [] },
+      target: getInitTrendTarget('asset'),
     }
   },
 
   validate({ target }) {
-    if ('slug' in target) return !!target.slug.length
-    if ('word' in target) return !!target.word.length
+    if (target.type === 'asset') return !!target.slugs.length
+    if (target.type === 'word') return !!target.words.length
 
-    return !!target.watchlist_id
+    return !!target.id
   },
 
   reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, state)
+    Object.assign(apiAlert.settings, { target: getApiTarget(state.target) })
     Object.assign(apiAlert.settings, { operation: getApiOperation(state) })
 
     return apiAlert
@@ -52,7 +74,7 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
 })
 
 function getApiOperation({ target }: TTrendState) {
-  if ('word' in target) return 'trending_word'
+  if (target.type === 'word') return 'trending_word'
 
   return 'trending_project'
 }

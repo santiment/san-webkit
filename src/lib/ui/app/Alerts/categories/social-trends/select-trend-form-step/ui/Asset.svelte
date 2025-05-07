@@ -5,6 +5,9 @@
   import { SvelteSet } from 'svelte/reactivity'
 
   import { ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+
+  import { mapSlugNames } from '../../../asset/utils.js'
 
   type TProps = {
     stepState: { $$: TTrendState }
@@ -12,10 +15,16 @@
 
   const { stepState }: TProps = $props()
 
-  const selected = new SvelteSet('slug' in stepState.$$.target ? stepState.$$.target.slug : [])
+  const { getAssetBySlug } = useAssetsCtx()
+
+  const selected = new SvelteSet(
+    stepState.$$.target.type === 'asset' ? stepState.$$.target.slugs : [],
+  )
 
   $effect(() => {
-    stepState.$$.target = { slug: Array.from(selected) }
+    const slugs = Array.from(selected)
+
+    stepState.$$.target = { type: 'asset', slugs, namesMap: mapSlugNames(slugs, getAssetBySlug) }
   })
 
   function onSelect(slug: TAssetSlug) {

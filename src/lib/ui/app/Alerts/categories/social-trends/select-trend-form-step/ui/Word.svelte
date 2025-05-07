@@ -37,11 +37,13 @@
     getCompareValues: ({ value }) => value,
   })
 
-  const selected = new SvelteSet('word' in stepState.$$.target ? stepState.$$.target.word : [])
+  const selected = new SvelteSet(
+    stepState.$$.target.type === 'word' ? stepState.$$.target.words : [],
+  )
   let wordItems = $state<Item[]>([])
 
   $effect(() => {
-    stepState.$$.target = { word: Array.from(selected) }
+    stepState.$$.target = { type: 'word', words: Array.from(selected) }
   })
 
   const selections = $derived(

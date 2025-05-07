@@ -28,9 +28,16 @@
   const {
     target: { address, infrastructure },
     conditions,
-    assetSlug,
+    asset: stateAsset,
   } = $derived(stepState.$$)
-  const asset = $derived(assetSlug ? getAssetBySlug(assetSlug) : undefined)
+  const slug = $derived(stateAsset?.slug ?? null)
+  const asset = $derived(slug ? getAssetBySlug(slug) : undefined)
+
+  $effect(() => {
+    if (asset && !stateAsset?.name) {
+      stepState.$$.asset = { slug: asset.slug, name: asset.name }
+    }
+  })
 
   const loadWalletAssets = useObserveFnCall(() =>
     pipe(
@@ -40,6 +47,10 @@
       tap((_assets) => (assets = _assets)),
     ),
   )
+
+  function onSelect(slug: string) {
+    stepState.$$.asset = { slug, name: getAssetBySlug(slug)?.name ?? '' }
+  }
 
   onMount(() => {
     loadWalletAssets()
@@ -54,11 +65,7 @@
   >
     {#snippet info()}
       <section class="flex flex-col gap-3">
-        <SelectAsset
-          selected={assetSlug}
-          slugs={assets.map(({ slug }) => slug)}
-          onSelect={(slug) => (stepState.$$.assetSlug = slug)}
-        />
+        <SelectAsset selected={slug} slugs={assets.map(({ slug }) => slug)} {onSelect} />
 
         {#if asset && +(asset.priceUsd?.toFixed(0) ?? 0) !== 1}
           <Info>

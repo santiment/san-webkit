@@ -10,44 +10,33 @@
   import Asset from './Asset.svelte'
   import Word from './Word.svelte'
   import Watchlist from './Watchlist.svelte'
+  import { getInitTrendTarget } from '../utils.js'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
   const Tab = (title: string, Component?: Component<{ stepState: { $$: TTrendState } }>) => ({
     title,
     Component,
   })
 
-  const TAB_MAP = {
+  const TAB_MAP: Record<TTrendState['target']['type'], ReturnType<typeof Tab>> = {
     asset: Tab('Trending assets', Asset),
     word: Tab('Trending words', Word),
     watchlist: Tab('Watchlist', Watchlist),
-  } as const satisfies Record<string, ReturnType<typeof Tab>>
+  }
 
   const TABS = exactObjectKeys(TAB_MAP)
-  type TabKey = (typeof TABS)[number]
+  type TabKey = TTrendState['target']['type']
+
+  type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
   const { target } = $derived(step.state.$$)
 
-  const selectedTab = $derived(
-    target ? TABS['slug' in target ? 0 : 'word' in target ? 1 : 2] : TABS[0],
-  )
+  const selectedTab = $derived(target.type)
   const TabComponent = $derived(TAB_MAP[selectedTab].Component)
 
   function selectTab(tab: TabKey) {
-    step.state.$$.target = getTabInitTarget(tab)
-  }
-
-  function getTabInitTarget(tab: TabKey) {
-    switch (tab) {
-      case 'asset':
-        return { slug: [] }
-      case 'word':
-        return { word: [] }
-      case 'watchlist':
-        return { watchlist_id: null }
-    }
+    step.state.$$.target = getInitTrendTarget(tab)
   }
 </script>
 

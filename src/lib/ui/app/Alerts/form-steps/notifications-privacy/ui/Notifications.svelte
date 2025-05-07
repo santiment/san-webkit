@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TChannel, TChannelSource } from '$ui/app/Alerts/channels.js'
-  import type { TState } from '../schema.js'
+  import type { TNotificationsState } from '../schema.js'
 
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import Input from '$ui/core/Input/index.js'
@@ -9,7 +9,7 @@
   import Section from './Section.svelte'
 
   type TProps = {
-    state: { $$: TState }
+    state: { $$: TNotificationsState }
   }
 
   const { state }: TProps = $props()

@@ -48,10 +48,10 @@ export const ALERT_WALLET_SCHEMA = createAlertSchema<TBaseSchema>({
 
   suggestTitle(steps) {
     const walletStep = steps[0]
-    const { type, assetSlug, conditions } = walletStep.state.$$
+    const { type, asset, conditions } = walletStep.state.$$
 
-    if (type === 'wallet_movement' && assetSlug && conditions) {
-      return `${assetSlug} ${describeConditions(null, conditions)}`
+    if (type === 'wallet_movement' && asset && conditions) {
+      return `${asset.name} ${describeConditions(null, conditions)}`
     }
 
     if (type === 'wallet_usd_valuation' && conditions) {

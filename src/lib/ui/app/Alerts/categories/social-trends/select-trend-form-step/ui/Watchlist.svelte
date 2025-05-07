@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { TTrendState } from '../schema.js'
+  import type { Watchlist } from '../../../watchlist/api.js'
 
   import ListOfWatchlists from '../../../watchlist/watchlist-form-step/ui/ListOfWatchlists.svelte'
 
@@ -10,10 +11,15 @@
   const { stepState }: TProps = $props()
 
   const target = $derived(stepState.$$.target)
-  const selectedId = $derived('watchlist_id' in target ? target.watchlist_id : null)
+  const selectedId = $derived(target.type === 'watchlist' ? target.id : null)
+
+  function onSelect(watchlist: Watchlist | null) {
+    stepState.$$.target = {
+      type: 'watchlist',
+      id: watchlist?.id ?? null,
+      title: watchlist?.title ?? '',
+    }
+  }
 </script>
 
-<ListOfWatchlists
-  {selectedId}
-  onSelect={(watchlist) => (stepState.$$.target = { watchlist_id: watchlist?.id ?? null })}
-/>
+<ListOfWatchlists {selectedId} {onSelect} />
