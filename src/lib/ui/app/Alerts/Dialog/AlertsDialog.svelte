@@ -19,15 +19,17 @@
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
 
   type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
-  let { apiAlert, source = '' }: TProps = $props()
+  let { apiAlert, Controller, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(apiAlert))
 
   const isApiAlertDeduceFailed = $derived(apiAlert && !schema)
 
-  if (isApiAlertDeduceFailed) {
-    apiAlert = null
-  }
+  $effect(() => {
+    if (isApiAlertDeduceFailed) {
+      apiAlert = null
+    }
+  })
 
   function onCategorySelect(value: TAlertSchemaUnion) {
     schema = value
@@ -36,6 +38,8 @@
   function resetCategory() {
     schema = null
   }
+
+  const close = () => Controller.close()
 
   onMount(() => {
     const analytics = { source }
@@ -57,7 +61,7 @@
   </h2>
 
   {#if schema}
-    <AlertFormScreen {apiAlert} {schema} {resetCategory}></AlertFormScreen>
+    <AlertFormScreen {apiAlert} {schema} {resetCategory} {close}></AlertFormScreen>
   {:else}
     <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
   {/if}

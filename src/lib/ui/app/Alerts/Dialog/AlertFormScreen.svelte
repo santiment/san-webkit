@@ -3,23 +3,40 @@
   import type { TApiAlert } from '../types.js'
 
   import Button from '$ui/core/Button/index.js'
+  import { Query } from '$lib/api/executor.js'
+  import { notification } from '$ui/core/Notifications/index.js'
 
   import { useAlertFormCtx } from '../ctx/index.svelte.js'
   import Steps from './Steps.svelte'
+  import { mutateSaveAlert } from './api.js'
 
   type TProps = {
     schema: TAlertSchemaUnion
     apiAlert?: null | TApiAlert
     resetCategory: () => void
+    close: () => void
   }
-  let { schema, apiAlert, resetCategory }: TProps = $props()
+  let { schema, apiAlert, resetCategory, close }: TProps = $props()
 
   const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
 
+  let loading = $state(false)
+
   // Reduce steps state.$$ to accumulated object
-  function onAlertCreate() {
-    const reducedAlert = createApiAlert()
-    console.log({ reducedAlert })
+  async function onAlertCreate() {
+    try {
+      loading = true
+      const reducedAlert = createApiAlert() as TApiAlert
+
+      await mutateSaveAlert(Query)(reducedAlert)
+
+      close()
+    } catch (e) {
+      console.error(e)
+      notification.error('Failed to create alert')
+    } finally {
+      loading = false
+    }
   }
 
   function createApiAlert() {
@@ -59,7 +76,8 @@
       class="mt-auto"
       variant="fill"
       disabled={!isAlertValid.$}
-      onclick={() => onAlertCreate()}
+      onclick={onAlertCreate}
+      {loading}
     >
       Create alert
     </Button>

@@ -6,7 +6,7 @@ export type TApiAlert<GSettings = any> = {
   type: string
 
   description: null | string
-  title: null | string
+  title: string
 
   cooldown: TTimeWindow
 
