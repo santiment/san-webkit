@@ -31,6 +31,7 @@
 
   import { type TWalletAlertType } from '../../schema.js'
   import Capitalisation from './Capitalisation.svelte'
+  import AssetMovements from './AssetMovements.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
@@ -98,7 +99,7 @@
   </section>
 
   {#if alertType === 'wallet_movement'}
-    Asset Movement
+    <AssetMovements stepState={step.state} />
   {:else if alertType === 'wallet_usd_valuation'}
     <Capitalisation stepState={step.state} />
   {/if}
