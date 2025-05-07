@@ -2,7 +2,7 @@ import type { TMetricConditionsState } from '../metric-conditions/schema.js'
 import type { TNotificationsState } from '../notifications-privacy/schema.js'
 
 import { describeConditions } from '../metric-conditions/utils.js'
-import { describeNotifications } from '../utils.js'
+import { describeNotifications } from '../notifications-privacy/utils.js'
 
 export function defaultMetricTitle(targetTitle: string, metricStepState: TMetricConditionsState) {
   const { metric, metricLabel, conditions } = metricStepState

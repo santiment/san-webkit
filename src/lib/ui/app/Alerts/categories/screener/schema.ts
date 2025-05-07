@@ -3,7 +3,7 @@ import type { TApiAlert } from '../../types.js'
 import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { type Watchlist } from '../watchlist/api.js'
-import { describeNotifications } from '../../form-steps/utils.js'
+import { describeNotifications } from '../../form-steps/notifications-privacy/utils.js'
 
 export type TScreenerApiAlert = TApiAlert<{
   type: 'screener_signal'
