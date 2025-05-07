@@ -46,6 +46,7 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   reduceToApi(apiAlert, { metric, screener }) {
+    Object.assign(apiAlert.settings, { type: 'screener_signal' })
     Object.assign(apiAlert.settings, {
       metric,
       target: { watchlist_id: screener.id },

@@ -45,6 +45,7 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, { type: 'metric_signal' })
     Object.assign(apiAlert.settings, { target: { watchlist_id: state.watchlist.id } })
 
     return apiAlert

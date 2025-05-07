@@ -66,6 +66,7 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, { type: 'trending_words' })
     Object.assign(apiAlert.settings, { target: getApiTarget(state.target) })
     Object.assign(apiAlert.settings, { operation: getApiOperation(state) })
 

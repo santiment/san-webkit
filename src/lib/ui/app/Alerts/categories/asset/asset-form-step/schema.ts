@@ -43,6 +43,7 @@ export const STEP_ASSETS_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, { type: 'metric_signal' })
     Object.assign(apiAlert.settings, { target: { slug: state.target.slugs } })
 
     return apiAlert
