@@ -176,6 +176,12 @@ export default {
             transform: 'scaleX(1)',
           },
         },
+        '.backface-hidden': {
+          'backface-visibility': 'hidden',
+        },
+        '.backface-visible': {
+          'backface-visibility': 'visible',
+        },
         // '.text-lg': {
         //   fontSize: '18px',
         //   lineHeight: '26px',

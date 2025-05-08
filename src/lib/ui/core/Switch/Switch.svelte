@@ -27,7 +27,7 @@
   )}
 >
   <Switch.Thumb
-    class="flex size-[14px] rounded-full bg-white transition-transform data-[state=checked]:translate-x-[16px]"
+    class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px]"
   />
 
   {#if icon}
