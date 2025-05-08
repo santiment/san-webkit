@@ -29,6 +29,8 @@
   const { productPlans: businessPlans } = useProductPlansFlow([], { $: getApiBusinessPlans })
 </script>
 
-<Plans productPlans={sanbasePlans.$}></Plans>
+<div class="max-w-6xl">
+  <Plans productPlans={sanbasePlans.$}></Plans>
 
-<Plans productPlans={businessPlans.$}></Plans>
+  <Plans productPlans={businessPlans.$}></Plans>
+</div>
