@@ -12,7 +12,7 @@
 
   let isOpened = $state(false)
 
-  let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(date, onChange)
+  let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(() => date, onChange)
 
   function getIsOpened() {
     return isOpened
