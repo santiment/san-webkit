@@ -2,13 +2,15 @@ import { error, json, text, type Handle } from '@sveltejs/kit'
 
 import { POSTHOG_URL, PROXY_ROUTE } from '$lib/analytics/posthog/index.js'
 
+const ensureSlash = (route: string) => (route[0] === '/' ? route : `/${route}`)
+
 export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
   if (!event.url.pathname.startsWith(PROXY_ROUTE)) {
     return resolve(event)
   }
 
   const route = event.url.pathname.replace(PROXY_ROUTE, '')
-  const targetUrl = `${POSTHOG_URL}/${route}${event.url.search}`
+  const targetUrl = `${POSTHOG_URL}${ensureSlash(route)}${event.url.search}`
 
   const { method, headers } = event.request
 
