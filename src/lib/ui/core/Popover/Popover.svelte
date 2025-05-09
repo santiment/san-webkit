@@ -38,6 +38,8 @@
     contentProps,
   }: TProps = $props()
 
+  const preventFocus = (e: Event) => e.preventDefault()
+
   // TODO: Migrate js transition:flyAndScale to css from bits-ui example
 </script>
 
@@ -46,6 +48,8 @@
 
   <Popover.Content
     sideOffset={8}
+    onCloseAutoFocus={preventFocus}
+    onOpenAutoFocus={preventFocus}
     {...contentProps}
     {align}
     {side}
