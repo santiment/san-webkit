@@ -33,9 +33,11 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
   }
 }
 
-export type TAlertStep<GStepSchema extends TStepBaseSchema<string, any>> = {
+export type TAlertStep<
+  GStepSchema extends TStepBaseSchema<string, any> = TStepBaseSchema<string, any>,
+> = {
   name: GStepSchema['name']
-  ui: TStepUI
+  ui: TStepUI['ui']
 
   reduceToApi: GStepSchema['reduceToApi']
 

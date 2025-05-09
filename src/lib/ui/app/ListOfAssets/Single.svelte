@@ -5,7 +5,7 @@
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
-    selected?: string
+    selected: string
     onSelect: (slug: string) => void
   }
 

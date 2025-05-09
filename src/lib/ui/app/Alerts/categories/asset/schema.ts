@@ -4,6 +4,11 @@ import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 import { STEP_METRIC_CONDITIONS_SCHEMA } from '../../form-steps/metric-conditions/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_ASSETS_SCHEMA } from './asset-form-step/schema.js'
+import {
+  defaultMetricDescription,
+  defaultMetricTitle,
+} from '../../form-steps/name-description/utils.js'
+import { getAssetTargetTitle } from './utils.js'
 
 export type TAssetApiAlert = TApiAlert<{
   type: 'metric_signal'
@@ -35,13 +40,19 @@ export const ALERT_ASSET_SCHEMA = createAlertSchema<TBaseSchema>({
     )
   },
 
-  suggestTitle(steps) {
-    const assetStep = steps[0]
-    return 'Title: ' + assetStep.state.$$.target.slug
+  suggestTitle([assetStep, metricStep]) {
+    const { target } = assetStep.state.$$
+
+    return defaultMetricTitle(getAssetTargetTitle(target), metricStep.state.$$)
   },
 
-  suggestDescription(steps) {
-    const assetStep = steps[0]
-    return 'Description: ' + assetStep.state.$$.target.slug
+  suggestDescription([assetStep, metricStep, notificationStep]) {
+    const { target } = assetStep.state.$$
+
+    return defaultMetricDescription(
+      getAssetTargetTitle(target),
+      metricStep.state.$$,
+      notificationStep.state.$$,
+    )
   },
 })

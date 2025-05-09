@@ -3,18 +3,40 @@
   import type { TApiAlert } from '../types.js'
 
   import Button from '$ui/core/Button/index.js'
+  import { Query } from '$lib/api/executor.js'
+  import { notification } from '$ui/core/Notifications/index.js'
 
   import { useAlertFormCtx } from '../ctx/index.svelte.js'
+  import Steps from './Steps.svelte'
+  import { mutateSaveAlert } from './api.js'
 
-  type TProps = { schema: TAlertSchemaUnion; apiAlert?: null | TApiAlert }
-  let { schema, apiAlert }: TProps = $props()
+  type TProps = {
+    schema: TAlertSchemaUnion
+    apiAlert?: null | TApiAlert
+    resetCategory: () => void
+    close: () => void
+  }
+  let { schema, apiAlert, resetCategory, close }: TProps = $props()
 
   const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
 
+  let loading = $state(false)
+
   // Reduce steps state.$$ to accumulated object
-  function onAlertCreate() {
-    const reducedAlert = createApiAlert()
-    console.log(reducedAlert)
+  async function onAlertCreate() {
+    try {
+      loading = true
+      const reducedAlert = createApiAlert() as TApiAlert
+
+      await mutateSaveAlert(Query)(reducedAlert)
+
+      close()
+    } catch (e) {
+      console.error(e)
+      notification.error('Failed to create alert')
+    } finally {
+      loading = false
+    }
   }
 
   function createApiAlert() {
@@ -24,31 +46,48 @@
   }
 </script>
 
-<section>
-  <h2 class="text-lg">Schema: {schema.name}</h2>
+<section class="flex min-h-0 flex-1">
+  <aside
+    class="relative flex h-full w-[374px] flex-col items-start overflow-auto border-r pb-6 pl-12 pr-10 pt-8"
+  >
+    <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
+      <h2 class="text-xl">{schema.ui.label}</h2>
 
-  {#each steps as step, i (step.name)}
-    <div class="m-2 flex border">
-      <Button onclick={() => (selectedStep.index$ = i)}>
-        {step.name}
-      </Button>
-
-      , valid: {step.isValid.$},
-
-      {#if step.ui.Legend}
-        <step.ui.Legend {step}></step.ui.Legend>
+      {#if !apiAlert}
+        <Button
+          variant="plain"
+          icon="arrow"
+          iconSize="8"
+          class="back fill-waterloo text-waterloo hover:fill-green hover:text-green [&>svg]:-rotate-90"
+          onclick={resetCategory}
+        >
+          Categories
+        </Button>
       {/if}
     </div>
-    <hr />
-  {/each}
 
-  <div>Result validity: {isAlertValid.$}</div>
+    <Steps
+      {steps}
+      selectedIndex={selectedStep.index$}
+      onStepSelect={(i) => (selectedStep.index$ = i)}
+    />
 
-  <hr />
+    <Button
+      class="mt-auto"
+      variant="fill"
+      disabled={!isAlertValid.$}
+      onclick={onAlertCreate}
+      {loading}
+    >
+      Create alert
+    </Button>
+  </aside>
 
-  <div class="p-4">
+  <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
+    <div class="mb-4 flex justify-between">
+      <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
+    </div>
+
     <selectedStep.$.ui.Form step={selectedStep.$}></selectedStep.$.ui.Form>
-  </div>
-
-  <Button variant="fill" onclick={() => onAlertCreate()}>Submit</Button>
+  </main>
 </section>

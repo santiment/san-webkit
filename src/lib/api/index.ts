@@ -57,6 +57,13 @@ function setupExecutor<GExecutor extends TQueryExecutor>(
   return { executor, options }
 }
 
+export type ApiQueryResult<T extends ReturnType<typeof ApiQuery>> = AwaitedOrObserved<
+  ReturnType<ReturnType<T>>
+>
+
+type AwaitedOrObserved<T extends Observable<unknown> | Promise<unknown>> =
+  T extends Promise<infer Res> ? Res : T extends Observable<infer Res> ? Res : never
+
 /**
  * Factory for setting up an API request
  *

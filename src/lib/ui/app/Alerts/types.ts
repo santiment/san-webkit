@@ -6,7 +6,7 @@ export type TApiAlert<GSettings = any> = {
   type: string
 
   description: null | string
-  title: null | string
+  title: string
 
   cooldown: TTimeWindow
 
@@ -18,6 +18,6 @@ export type TApiAlert<GSettings = any> = {
   settings:
     | null
     | ({
-        channel: TApiChannel[]
+        channel: TApiChannel | TApiChannel[]
       } & GSettings)
 }

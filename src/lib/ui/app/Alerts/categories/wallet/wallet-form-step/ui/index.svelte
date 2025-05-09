@@ -1,96 +1,106 @@
+<script lang="ts" module>
+  const EVENTS = [
+    {
+      title: 'Asset Movements',
+      description:
+        'Track value changes of the specific asset in the particular wallet. Choose constant or percentage conditions',
+      type: 'wallet_movement',
+    },
+    {
+      title: 'Capitalisation',
+      description:
+        'Track the combined value of all assets in the wallet. Full capitalisation calculated as a total portfolio in USD',
+      type: 'wallet_usd_valuation',
+    },
+    {
+      title: 'Wallet Activities',
+      description:
+        'Track a list of assets inside the particular wallet for entering or exiting the wallet. Assets have to be with non-zero balance.',
+      type: 'wallet_assets_held',
+    },
+  ] satisfies { title: string; description: string; type: TWalletAlertType }[]
+</script>
+
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
 
-  import Checkbox from '$ui/core/Checkbox/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Input from '$ui/core/Input/Input.svelte'
-  import Popover from '$ui/core/Popover/Popover.svelte'
-  import { Operations } from '$ui/app/Alerts/form-steps/metric-conditions/operations.js'
+  import Input from '$ui/core/Input/index.js'
+  import { cn } from '$ui/utils/index.js'
 
-  import { WalletAlertTypes } from '../../schema.js'
+  import { type TWalletAlertType } from '../../schema.js'
+  import Capitalisation from './Capitalisation.svelte'
+  import AssetMovements from './AssetMovements.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
-  const conditions = $derived(step.state.$$.conditions)
-  const operationType = $derived(conditions?.operation.type ?? 'above')
-  const operationValues: [number, number] = $derived(conditions?.operation.values ?? [1, 1])
-  const time = $derived(conditions?.time ?? '1d')
+  const {
+    target: { address, infrastructure },
+    type: alertType,
+  } = $derived(step.state.$$)
 </script>
 
-Address: <Input
-  defaultValue={step.state.$$.target?.address}
-  oninput={(e) => {
-    step.state.$$.target = { address: e.currentTarget.value }
-  }}
-/>
+<section>
+  <label class="group mb-6 flex flex-col gap-1">
+    <h4 class="flex justify-between text-xs font-medium text-waterloo">
+      Wallet address
 
-Type: <Popover>
-  {#snippet children({ props })}
-    <Button {...props}>{step.state.$$.type ?? 'Select'}</Button>
-  {/snippet}
+      {#if infrastructure}
+        <Button variant="link" size="auto" href="/labs/balance?address={address}" target="_blank">
+          Open Sanbase
+        </Button>
+      {/if}
+    </h4>
 
-  {#snippet content()}
-    {#each WalletAlertTypes as walletType}
+    <Input
+      class="group-hover:border-green"
+      defaultValue={address ?? ''}
+      oninput={({ currentTarget }) => {
+        step.state.$$.target.address = currentTarget.value
+      }}
+    />
+  </label>
+
+  <section class="mb-8 flex flex-col gap-3">
+    {#each EVENTS as { type, title, description }}
+      {@const active = type === alertType}
+      {@const disabled = !infrastructure}
+
       <Button
+        variant="plain"
+        size="auto"
+        class={cn(
+          'group flex flex-col items-stretch gap-1 rounded border px-4 py-3',
+          disabled ? 'bg-athens text-casper' : 'hover:border-green',
+          active && 'active',
+        )}
+        {disabled}
         onclick={() => {
-          step.state.$$.type = walletType
+          step.state.$$.type = type
         }}
       >
-        {walletType}
+        <div class="flex justify-between">
+          {title}
+
+          <span
+            class={cn(
+              'size-4 rounded-full border',
+              !disabled && 'group-hover:border-green',
+              active && 'border-4 border-green',
+            )}
+          ></span>
+        </div>
+        <p class={cn('text-start text-waterloo', disabled && 'text-casper')}>{description}</p>
       </Button>
     {/each}
-  {/snippet}
-</Popover>
+  </section>
 
-{#if step.state.$$.type === 'wallet_movement'}
-  Asset: Ethereum <Checkbox
-    isActive={!!step.state.$$.assetSlug}
-    onCheckedChange={(value) => {
-      step.state.$$.assetSlug = value ? 'ethereum' : null
-    }}
-  />
-{/if}
-
-{#if step.state.$$.type === 'wallet_movement' || step.state.$$.type === 'wallet_usd_valuation'}
-  Conditions: <Popover>
-    {#snippet children({ props })}
-      <Button {...props}>{step.state.$$.conditions?.operation.type ?? 'Select'}</Button>
-    {/snippet}
-
-    {#snippet content()}
-      {#each Object.values(Operations) as operation (operation.key)}
-        <Button
-          onclick={() => {
-            step.state.$$.conditions = {
-              operation: { type: operation.key, values: operationValues },
-              time,
-            }
-          }}>{operation.label}</Button
-        >
-      {/each}
-    {/snippet}
-  </Popover>
-
-  Value 1: <Input
-    defaultValue={operationValues[0]}
-    oninput={(e) => {
-      step.state.$$.conditions = {
-        operation: { type: operationType, values: [+e.currentTarget.value, operationValues[1]] },
-        time,
-      }
-    }}
-  />
-
-  Value 2: <Input
-    defaultValue={operationValues[1]}
-    oninput={(e) => {
-      step.state.$$.conditions = {
-        operation: { type: operationType, values: [operationValues[0], +e.currentTarget.value] },
-        time,
-      }
-    }}
-  />
-{/if}
+  {#if alertType === 'wallet_movement'}
+    <AssetMovements stepState={step.state} />
+  {:else if alertType === 'wallet_usd_valuation'}
+    <Capitalisation stepState={step.state} />
+  {/if}
+</section>

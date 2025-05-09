@@ -1,8 +1,6 @@
 <script lang="ts">
-  import type { TAsset } from '$lib/ctx/assets/api.js'
+  import type { TAsset, TAssetSlug } from '$lib/ctx/assets/api.js'
   import type { VListHandle } from 'virtua/svelte'
-
-  import { SvelteSet } from 'svelte/reactivity'
 
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
@@ -13,9 +11,9 @@
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
-    selected?: Set<string>
-    onSelect: (slug: string) => void
-    resetSelections?: () => void
+    selected: Set<TAssetSlug>
+    onSelect: (slug: TAssetSlug) => void
+    resetSelections: () => void
     hasSearch?: boolean
     hasResetButton?: boolean
     keepSelectedInList?: boolean
@@ -23,7 +21,7 @@
   }
 
   const {
-    selected = new SvelteSet(),
+    selected,
     onSelect,
     resetSelections,
     hasSearch = true,
