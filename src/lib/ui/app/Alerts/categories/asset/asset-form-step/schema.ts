@@ -1,20 +1,16 @@
 import type { TAssetApiAlert } from '../schema.js'
-import type { TAssetSlug } from '$lib/ctx/assets/api.js'
+import type { TAssetState } from './state.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-export type TAssetTarget = { slugs: TAssetSlug[]; namesMap: Map<TAssetSlug, string> }
-
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
-    initState: (apiAlert?: null | TAssetApiAlert) => {
-      target: TAssetTarget
-    }
+    initState: (apiAlert?: null | TAssetApiAlert) => TAssetState
   }
 >
 

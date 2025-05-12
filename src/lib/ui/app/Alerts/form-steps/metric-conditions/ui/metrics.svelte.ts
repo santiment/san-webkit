@@ -6,15 +6,17 @@ import {
   type TRegistryMetric,
 } from '$lib/ctx/metrics-registry/index.svelte.js'
 import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+import { stateIsAsset } from '$ui/app/Alerts/categories/asset/asset-form-step/state.js'
+import { stateIsWatchlist } from '$ui/app/Alerts/categories/watchlist/watchlist-form-step/state.js'
 import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
 
 import { queryAvailableMetrics } from '../api.js'
+import { availableMetrics as metricsForWatchlists } from './watchlist-metrics.js'
 
 export const useMetricGraph = () => {
   const { steps } = useAlertFormCtx.get()
 
-  const slugs = $derived(extractSlugs(steps[0].state.$$))
-
+  const targetState = $derived(steps[0].state.$$)
   const { MetricsRegistry } = useMetricsRegistryCtx()
   const { filter, searchTerm, onInput, onKeyUp } = useSearchCtx<TRegistryMetric>({
     getCompareValues: ({ label }) => [label],
@@ -27,7 +29,7 @@ export const useMetricGraph = () => {
   )
 
   $effect(() => {
-    filterAvailableMetrics(slugs, allMetrics).then((metrics) => (availableMetrics = metrics))
+    filterAvailableMetrics(targetState, allMetrics).then((metrics) => (availableMetrics = metrics))
   })
 
   const filteredMetrics = $derived(searchTerm.$ ? filter(availableMetrics) : availableMetrics)
@@ -45,34 +47,27 @@ export const useMetricGraph = () => {
   }
 }
 
-function extractSlugs(targetState: unknown) {
-  if (typeof targetState !== 'object' || !targetState) return []
-  if (!('target' in targetState)) return []
+async function filterAvailableMetrics(state: unknown, allMetrics: TRegistryMetric[]) {
+  const available = await getAvailableMetrics(state)
 
-  const { target } = targetState
+  if (!available.size) return allMetrics
 
-  if (typeof target !== 'object' || !target) return []
-  if (!('slug' in target)) return []
+  return allMetrics.filter((metric) => available.has(metric.key))
+}
 
-  const { slug } = target
-  if (!Array.isArray(slug)) return typeof slug === 'string' ? [slug] : []
-
-  if (slug.length && typeof slug[0] === 'string') {
-    return slug as string[]
+async function getAvailableMetrics(state: unknown) {
+  if (stateIsAsset(state)) {
+    return getAvailableForSlugs(state.target.slugs)
   }
 
-  return []
+  if (stateIsWatchlist(state)) {
+    return metricsForWatchlists
+  }
+
+  return new Set<string>()
 }
 
-async function filterAvailableMetrics(slugs: string[], allMetrics: TRegistryMetric[]) {
-  if (!slugs.length) return allMetrics
-
-  const smallestAvailable = await getAvailableMetrics(slugs)
-
-  return allMetrics.filter((metric) => smallestAvailable.has(metric.key))
-}
-
-async function getAvailableMetrics(slugs: string[]) {
+async function getAvailableForSlugs(slugs: string[]) {
   if (!slugs.length) return new Set<string>()
 
   const allAvailableMetrics = await Promise.all(
