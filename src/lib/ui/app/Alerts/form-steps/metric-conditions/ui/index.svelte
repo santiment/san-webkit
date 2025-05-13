@@ -2,8 +2,6 @@
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '../../index.svelte.js'
 
-  import { ssd } from 'svelte-runes'
-
   import { useMetricsRegistryCtx } from '$lib/ctx/metrics-registry/index.svelte.js'
 
   import Metrics from './Metrics.svelte'
@@ -17,7 +15,7 @@
 
   const { metric: selectedMetricKey, metricLabel, conditions } = $derived(step.state.$$)
   const metric = $derived(selectedMetricKey ? (MetricsRegistry.$[selectedMetricKey] ?? null) : null)
-  const isMetricScreen = ssd(() => !metric)
+  let isMetricScreen = $derived(!metric)
 
   $effect(() => {
     // Used to fill metric label in case state filled from ApiAlert
@@ -26,15 +24,15 @@
 
   function onMetricSelect(metric: string) {
     step.state.$$.metric = metric
-    isMetricScreen.$ = false
+    isMetricScreen = false
   }
 
   function onScreenToggle() {
-    isMetricScreen.$ = !isMetricScreen.$
+    isMetricScreen = !isMetricScreen
   }
 </script>
 
-{#if isMetricScreen.$}
+{#if isMetricScreen}
   <Metrics {metric} onSelect={onMetricSelect} />
 {:else}
   <Conditions
