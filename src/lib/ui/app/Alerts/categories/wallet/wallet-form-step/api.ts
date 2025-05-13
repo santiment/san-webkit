@@ -1,8 +1,8 @@
-import { ApiQuery, type ApiQueryResult } from '$lib/api/index.js'
+import { ApiQuery } from '$lib/api/index.js'
 
 type AddressVariables = { address: string; infrastructure: string }
 
-export type TWalletAsset = ApiQueryResult<typeof queryAddressAssets>[number]
+export type TWalletAsset = API.ExtractData<typeof queryAddressAssets>[number]
 
 export const queryAddressAssets = ApiQuery(
   (variables: AddressVariables) => ({
