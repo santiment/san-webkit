@@ -30,7 +30,7 @@ function changePage(newPage) {
             class:disabled={page < Page.Top}
             on:click={() => changePage(page - 1)}
           >
-            <Svg id="pointer" w="14" h="8" class="back-s5ikxF" />
+            <Svg id="pointer" w="14" h="8" class="back-lYdMah" />
             Back
           </button>
 
@@ -86,6 +86,6 @@ main {
   fill: var(--mystic);
 }
 
-:global(.back-s5ikxF) {
+:global(.back-lYdMah) {
   transform: rotate(180deg);
 }</style>

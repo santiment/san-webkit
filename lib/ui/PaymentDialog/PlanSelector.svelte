@@ -40,7 +40,7 @@ function select(option) {
     <Tooltip
       bind:isOpened
       on="click"
-      activeClass="opened-UopNAR"
+      activeClass="opened-NjftqQ"
       position="bottom-start"
       clickaway
       margin={{ mainAxis: 2, crossAxis: -16 }}
@@ -48,7 +48,7 @@ function select(option) {
     >
       <button type="button" use:trigger class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="10" class="arrow-Q8ZARS mrg-xs mrg--l" />
+        <Svg id="arrow" w="10" class="arrow-EqV1pE mrg-xs mrg--l" />
       </button>
 
       <div slot="tooltip" class="column">
@@ -92,11 +92,11 @@ function select(option) {
     --fill-hover: var(--waterloo);
   }
 
-  :global(.opened-UopNAR) {
+  :global(.opened-NjftqQ) {
     --rotate: 0;
   }
 
-  :global(.arrow-Q8ZARS) {
+  :global(.arrow-EqV1pE) {
     transition: transform 0.2s;
     transform: rotate(var(--rotate, 180deg));
   }

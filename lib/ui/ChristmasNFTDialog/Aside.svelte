@@ -54,7 +54,7 @@
     {/each}
 
     <div class="question border row txt-m mrg-a mrg--t">
-      <Svg id="chat" w="14" h="16" class="question-icon-_RP0oF" />
+      <Svg id="chat" w="14" h="16" class="question-icon-WkdAi0" />
 
       <div>
         Have questions?
@@ -95,7 +95,7 @@
     border-radius: 6px;
   }
 
-  :global(.question-icon-_RP0oF) {
+  :global(.question-icon-WkdAi0) {
     margin: 3px 10px 0px 0;
   }
 </style>

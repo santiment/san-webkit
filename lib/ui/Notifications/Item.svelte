@@ -69,9 +69,9 @@
   transition:notify
 >
   <div class="row v-center">
-    <Svg id={TypeIcon[type] || type} class="icon-Zn2jZY {type}" />
+    <Svg id={TypeIcon[type] || type} class="icon-EbcuGF {type}" />
     <div class="title txt-m">{title}</div>
-    <Svg id="close" class="btn close-CraVpy" on:click={destroy} />
+    <Svg id="close" class="btn close-YYs0y5" on:click={destroy} />
   </div>
   {#if description}
     <p>{@html description}</p>
@@ -112,22 +112,22 @@
   width: 100%;
 }
 
-:global(.icon-Zn2jZY) {
+:global(.icon-EbcuGF) {
   width: 16px;
   height: 16px;
   fill: var(--waterloo);
 }
 
-:global(.icon-Zn2jZY.success) {
+:global(.icon-EbcuGF.success) {
   fill: var(--green);
 }
-:global(.icon-Zn2jZY.error) {
+:global(.icon-EbcuGF.error) {
   fill: var(--red);
 }
-:global(.icon-Zn2jZY.warning) {
+:global(.icon-EbcuGF.warning) {
   fill: var(--orange);
 }
-:global(.icon-Zn2jZY.info) {
+:global(.icon-EbcuGF.info) {
   fill: var(--blue);
 }
 
@@ -135,7 +135,7 @@
   margin: 0 24px 0 16px;
 }
 
-:global(.close-CraVpy) {
+:global(.close-YYs0y5) {
   width: 12px;
   height: 12px;
   cursor: pointer;

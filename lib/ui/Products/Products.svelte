@@ -1,5 +1,6 @@
 <script>import { business } from './business';
 import { chain } from './chain';
+import { initiatives } from './initiatives';
 import Product from './Product.svelte';
 let className = '';
 export { className as class };
@@ -13,14 +14,23 @@ export let active = undefined;
   class:compact={isCompact}
   class:column={isColumn}
 >
-  <section class="business column">
-    <h3>SAN Business</h3>
-    {#each business as product}
-      <Product {...product} active={active === product.id} {isCompact} />
-    {/each}
-  </section>
+  <div class="column gap-xl">
+    <section class="business">
+      <h3>SAN Business</h3>
+      {#each business as product}
+        <Product {...product} active={active === product.id} {isCompact} />
+      {/each}
+    </section>
 
-  <section class="chain column">
+    <section class="initiatives">
+      <h3>Initiatives</h3>
+      {#each initiatives as product}
+        <Product {...product} active={active === product.id} {isCompact} />
+      {/each}
+    </section>
+  </div>
+
+  <section class="chain">
     <h3>SAN Chain</h3>
     {#each chain as product}
       <Product {...product} active={active === product.id} {isCompact} />
@@ -68,6 +78,7 @@ h3 {
 .products.column {
   flex-direction: column;
 }
+.products.column .initiatives,
 .products.column .business {
   padding: 0 0 24px;
   border-bottom: 1px solid var(--porcelain);

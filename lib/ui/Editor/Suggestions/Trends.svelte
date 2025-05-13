@@ -9,13 +9,13 @@ let items = [0];
 
 <Suggestions {...$$props} {items}>
   <div class="c-black">
-    <Svg id="fire" w="12" h="15" class="svg-UBg6Zy mrg-xs mrg--r" />
+    <Svg id="fire" w="12" h="15" class="svg-SRPmql mrg-xs mrg--r" />
     Link trend
   </div>
 </Suggestions>
 
 <style>
-  :global(.svg-UBg6Zy) {
+  :global(.svg-SRPmql) {
     fill: var(--black);
     margin-top: -2px;
   }

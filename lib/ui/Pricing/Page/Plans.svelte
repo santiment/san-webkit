@@ -19,7 +19,7 @@
         {annualDiscount}
         {isLoggedIn}
         {isEligibleForTrial}
-        class="plan-D50XoA"
+        class="plan-AaVYs5"
       />
     {/each}
   </div>
@@ -52,7 +52,7 @@
   margin: 0 auto;
 }
 
-:global(.plan-D50XoA) {
+:global(.plan-AaVYs5) {
   --h-padding: 40px;
   flex: 1;
   width: 100%;
@@ -60,9 +60,9 @@
   max-width: 386px;
   border-right: 1px solid var(--porcelain);
 }
-:global(.plan-D50XoA:last-child) {
+:global(.plan-AaVYs5:last-child) {
   border: 0;
 }
-:global(body:not(.desktop)) :global(.plan-D50XoA) {
+:global(body:not(.desktop)) :global(.plan-AaVYs5) {
   --h-padding: 24px;
 }</style>

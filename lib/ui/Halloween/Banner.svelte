@@ -2,9 +2,9 @@
 </script>
 
 <div class="wrapper column fluid relative txt-left">
-  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-od4grP" />
+  <Svg illus id="halloween/halloween-banner" w="706" h="320" class="banner-SXm2qV" />
   <Svg illus id="santiment" w="97" h="18" class="" />
-  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="sales-89t8si" />
+  <Svg illus id="halloween/halloween-sales" w="181" h="18" class="sales-m7NWmP" />
   <h2 class="txt-b">27% Off</h2>
   <p class="body-2 txt-m mrg-xs mrg--b">Play by the rules:</p>
   <p class="body-2 rules">
@@ -38,13 +38,13 @@
   border-radius: 6px;
 }
 
-:global(.banner-od4grP) {
+:global(.banner-SXm2qV) {
   position: absolute;
   top: 0;
   right: 0;
 }
 
-:global(.sales-89t8si) {
+:global(.sales-m7NWmP) {
   margin: 28px 0 6px;
 }
 

@@ -11,7 +11,7 @@ function onInput({ currentTarget }) {
   on:input={onInput}
   placeholder="Search for assets, trends..."
   big
-  class="input-hv4p63 body-2"
+  class="input-RYCC1g body-2"
 >
   <div class="search row hv-center" slot="left">
     <Svg id="search" w="12" />
@@ -37,10 +37,10 @@ function onInput({ currentTarget }) {
   }
 }
 */
-:global(.input-hv4p63) {
+:global(.input-RYCC1g) {
   --left: 36px !important;
 }
-:global(.input-hv4p63) > :global(input) {
+:global(.input-RYCC1g) > :global(input) {
   padding: 8px 44px 8px 36px;
 }
 

@@ -9,7 +9,7 @@ import bg from './banner-bg.svg';
 <section class="row justify">
   <div class="info column">
     <div class="logo row v-center">
-      <Svg illus id="santiment" w="86" h="16" class="santiment-_WxpMn" />
+      <Svg illus id="santiment" w="86" h="16" class="santiment-mOFZkY" />
       <img src={battle} alt="xmas" class="mrg-s mrg--l" />
     </div>
     <h3 class="h3 txt-m nowrap">Predict next market <br /> move. Win NFT!</h3>
@@ -19,7 +19,7 @@ import bg from './banner-bg.svg';
     </p>
     {#if $IsMobile}
       <div class="tip row">
-        <Svg id="light" w="16" h="22" class="light-HsTaOf mrg-m mrg--r" />
+        <Svg id="light" w="16" h="22" class="light-ccvY1n mrg-m mrg--r" />
         <span class="body-2 c-fiord">
           Head to Sanbase’s desktop version for the ability to participate in the Battle
         </span>
@@ -62,7 +62,7 @@ section {
   margin-bottom: 26px;
 }
 
-:global(.santiment-_WxpMn) {
+:global(.santiment-mOFZkY) {
   --black: var(--white);
   margin-bottom: 3px;
 }
@@ -120,6 +120,6 @@ button {
   background: var(--purple-light-1);
   border-radius: 8px;
 }
-:global(body:not(.desktop)) :global(.light-HsTaOf) {
+:global(body:not(.desktop)) :global(.light-ccvY1n) {
   fill: var(--purple);
 }</style>
