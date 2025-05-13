@@ -55,10 +55,8 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
     const { target } = trendStep.state.$$
 
     switch (target.type) {
-      case 'asset': {
-        console.log({ target, name: getAssetTargetTitle(target) })
+      case 'asset':
         return `${getAssetTargetTitle(target)} in trending assets`
-      }
       case 'word':
         return `${target.words.join(', ')} in trending words`
       case 'watchlist':
