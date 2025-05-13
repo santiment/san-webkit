@@ -41,24 +41,29 @@
     right,
     ...rest
   }: TProps = $props()
+
+  let inputEl = $state<HTMLInputElement | HTMLTextAreaElement>()
 </script>
 
-<label
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div
   class={cn(
     'relative flex items-center rounded border bg-white fill-casper pl-2.5 pr-3 focus-within:border-green focus-within:fill-green hover:border-green',
-    icon && 'pl-8',
     disabled && 'bg-athens text-mystic hover:border-porcelain',
     className,
   )}
+  onclick={() => inputEl?.focus()}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} class="absolute left-2.5"></Svg>
+    <Svg id={icon} w={iconSize} class="mr-2.5" />
   {/if}
 
   {@render left?.()}
 
   <svelte:element
     this={as ?? 'input'}
+    bind:this={inputEl}
     {...rest}
     {disabled}
     {type}
@@ -67,4 +72,4 @@
   />
 
   {@render right?.()}
-</label>
+</div>
