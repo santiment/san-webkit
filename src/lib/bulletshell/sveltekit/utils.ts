@@ -146,6 +146,8 @@ export function getBulletshellFileHeaders(filepath: string) {
     headers['Content-Encoding'] = encoding
   }
 
+  headers['Cache-Control'] = 'public,max-age=900,immutable'
+
   //let cc = opts.maxAge != null && `public,max-age=${opts.maxAge}`;
   //if (cc) {
   //  if (opts.immutable) cc += ',immutable';
