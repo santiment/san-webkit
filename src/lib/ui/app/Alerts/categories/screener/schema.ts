@@ -1,14 +1,18 @@
 import type { TApiAlert } from '../../types.js'
 
+import { parseRangeString } from '$lib/utils/dates/index.js'
+import { Query } from '$lib/api/executor.js'
+
 import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
-import { type Watchlist } from '../watchlist/api.js'
-import { describeNotifications } from '../../form-steps/notifications-privacy/utils.js'
+import { TimeModifiers } from '../../time.js'
+import { formatChannels } from '../../channels.js'
+import { queryWatchlistName } from '../watchlist/api.js'
 
 export type TScreenerApiAlert = TApiAlert<{
   type: 'screener_signal'
   metric: 'social_volume_total'
-  target: { watchlist_id: Watchlist['id'] | null }
+  target: { watchlist_id: number | null }
 }>
 
 export type TBaseSchema = TAlertBaseSchema<
@@ -36,14 +40,26 @@ export const ALERT_SCREENER_SCHEMA = createAlertSchema<TBaseSchema>({
   },
 
   async suggestTitle([screenerStep]) {
-    const { title } = screenerStep.state.$$.screener
+    const { watchlist_id } = screenerStep.state.$$.target
+    if (!watchlist_id) return ''
 
-    return `Project enters/exits "${title}"`
+    const watchlistName = await queryWatchlistName(Query)(watchlist_id)
+
+    return `Project enters/exits ${watchlistName}`
   },
 
   async suggestDescription([screenerStep, notificationStep]) {
-    const { title } = screenerStep.state.$$.screener
+    const { watchlist_id } = screenerStep.state.$$.target
+    if (!watchlist_id) return ''
 
-    return `Notify me when any project enters/exits "${title}". ${describeNotifications(notificationStep.state.$$)}`
+    const { cooldown, channel } = notificationStep.state.$$
+
+    const { amount, modifier } = parseRangeString(cooldown)
+
+    const cooldownLabel = TimeModifiers[modifier].label.toLowerCase()
+
+    const watchlistName = await queryWatchlistName(Query)(watchlist_id)
+
+    return `Notify me when any project enters/exits ${watchlistName}. Send me notifications every ${amount} ${cooldownLabel} via ${formatChannels(channel)}.`
   },
 })

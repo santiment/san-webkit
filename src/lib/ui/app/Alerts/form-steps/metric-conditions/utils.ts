@@ -17,7 +17,7 @@ export function getOperationSign(metric: string, operation: TOperationType): '' 
   return ''
 }
 
-export function describeConditions(metric: null | string, conditions: TConditionsState) {
+export function describe(metric: null | string, conditions: TConditionsState) {
   const { time, operation } = conditions
   const sign = metric ? getOperationSign(metric, operation.type) : ''
 

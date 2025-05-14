@@ -2,7 +2,7 @@ import { keyify } from '$lib/utils/object.js'
 
 import { isNumericOperation, type TApiOperation } from '../../operations.js'
 
-const SimpleOperations = keyify({
+export const SimpleOperations = keyify({
   above: {
     label: 'More than',
     describe: ([value]) => `above ${value}`,
@@ -37,7 +37,7 @@ const SimpleOperations = keyify({
   },
 } as const satisfies Record<string, TOperationData>)
 
-const CombinedOperations = keyify({
+export const CombinedOperations = keyify({
   percent_up_or_down: {
     label: 'Moving up or down %',
     describe: ([left, right]) => `up ${left} or moving down ${right}`,
@@ -51,7 +51,8 @@ type TOperationData = {
 
 export const Operations = { ...SimpleOperations, ...CombinedOperations }
 
-type TSimpleOperationType = keyof typeof SimpleOperations
+export type TSimpleOperationType = keyof typeof SimpleOperations
+export type TCombinedOperationType = keyof typeof CombinedOperations
 export type TOperationType = keyof typeof Operations
 
 export function isSimpleOperationKey(key: string): key is TSimpleOperationType {
@@ -87,13 +88,10 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   return null
 }
 
-const DUPLEX_OPERATIONS = new Set<TOperationType>([
-  'inside_channel',
-  'outside_channel',
-  'percent_up_or_down',
-])
-export function isDuplexOperation(type: TOperationType) {
-  return DUPLEX_OPERATIONS.has(type)
+function isDuplexOperation(type: TOperationType) {
+  const duplexTypes: TOperationType[] = ['inside_channel', 'outside_channel']
+
+  return duplexTypes.includes(type)
 }
 
 function assertNever(_: never): never {

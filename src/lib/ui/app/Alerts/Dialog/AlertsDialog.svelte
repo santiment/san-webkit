@@ -10,36 +10,32 @@
   import { onMount } from 'svelte'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
+  import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
-  import Button from '$ui/core/Button/Button.svelte'
 
   import CategoriesScreen from './CategoriesScreen.svelte'
   import AlertFormScreen from './AlertFormScreen.svelte'
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
+  import { SCREENS } from './utils.js'
 
   type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
-  let { apiAlert, Controller, source = '' }: TProps = $props()
+  let { apiAlert, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(apiAlert))
 
   const isApiAlertDeduceFailed = $derived(apiAlert && !schema)
 
-  $effect(() => {
-    if (isApiAlertDeduceFailed) {
-      apiAlert = null
-    }
-  })
+  if (isApiAlertDeduceFailed) {
+    apiAlert = null
+  }
+
+  const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[apiAlert ? 1 : 0])
 
   function onCategorySelect(value: TAlertSchemaUnion) {
     schema = value
+    screen.$ = SCREENS[1]
   }
-
-  function resetCategory() {
-    schema = null
-  }
-
-  const close = () => Controller.close()
 
   onMount(() => {
     const analytics = { source }
@@ -52,17 +48,12 @@
   })
 </script>
 
-<Dialog class="h-full max-h-[640px] w-full max-w-[960px] column">
-  <h2
-    class="flex items-center justify-between border-b fill-waterloo px-5 py-3 text-base font-medium text-fiord"
-  >
-    Create custom alerts
-    <Button icon="close" iconSize="12" class="h-6" onclick={close} />
-  </h2>
-
-  {#if schema}
-    <AlertFormScreen {apiAlert} {schema} {resetCategory} {close}></AlertFormScreen>
-  {:else}
-    <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
-  {/if}
+<Dialog class="h-full w-full column">
+  <ScreenTransition class="bg-white column" dataType="" dataSource="">
+    {#if schema}
+      <AlertFormScreen {apiAlert} {schema}></AlertFormScreen>
+    {:else}
+      <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
+    {/if}
+  </ScreenTransition>
 </Dialog>

@@ -8,10 +8,10 @@ import { ALERT_WATCHLIST_SCHEMA } from './watchlist/schema.js'
 
 export const SCHEMAS = [
   ALERT_ASSET_SCHEMA,
+  ALERT_SOCIAL_TRENDS_SCHEMA,
   ALERT_WATCHLIST_SCHEMA,
   ALERT_SCREENER_SCHEMA,
   ALERT_WALLET_SCHEMA,
-  ALERT_SOCIAL_TRENDS_SCHEMA,
 ] as const
 
 export const SchemaByType = SCHEMAS.reduce(

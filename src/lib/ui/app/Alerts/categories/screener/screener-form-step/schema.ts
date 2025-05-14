@@ -1,23 +1,15 @@
 import type { TScreenerApiAlert } from '../schema.js'
-import type { Watchlist } from '../../watchlist/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
-import Form from './ui/index.svelte'
-import Legend from './ui/Legend.svelte'
-
-export type TScreenerState = {
-  metric: NonNullable<TScreenerApiAlert['settings']>['metric']
-  screener: {
-    id: Watchlist['id'] | null
-    title: string
-  }
-}
+import Form from '../../watchlist/watchlist-form-step/ui/index.svelte'
 
 export type TBaseSchema = TStepBaseSchema<
   'screener',
   {
-    initState: (apiAlert?: null | TScreenerApiAlert) => TScreenerState
+    initState: (
+      apiAlert?: null | TScreenerApiAlert,
+    ) => Pick<NonNullable<TScreenerApiAlert['settings']>, 'target' | 'metric'>
   }
 >
 
@@ -29,7 +21,6 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
     description: 'You can choose any of your screeners',
 
     Form,
-    Legend,
   },
 
   initState(apiAlert) {
@@ -37,22 +28,18 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
 
     return {
       metric: 'social_volume_total',
-      screener: { id: watchlist_id, title: '' },
+      target: { watchlist_id },
     }
   },
 
   validate(state) {
-    return !!state.screener.id
+    return !!state.target.watchlist_id
   },
 
-  reduceToApi(apiAlert, { metric, screener }) {
-    Object.assign(apiAlert.settings, { type: 'screener_signal' })
+  reduceToApi(apiAlert, state) {
+    Object.assign(apiAlert.settings, state)
     Object.assign(apiAlert.settings, {
-      metric,
-      target: { watchlist_id: screener.id },
-    })
-    Object.assign(apiAlert.settings, {
-      operation: { selector: { watchlist_id: screener.id } },
+      operation: { selector: { watchlist_id: state.target.watchlist_id } },
     })
 
     return apiAlert

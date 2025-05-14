@@ -29,8 +29,6 @@ export type TCustomer = {
       theme: null | 'nightmode'
       isPromoter: boolean
       sanbaseVersion: null | string
-      alertNotifyEmail: boolean
-      alertNotifyTelegram: boolean
     }
 
     ethAccounts: { address: string }[]
@@ -125,8 +123,6 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       theme
       isPromoter
       sanbaseVersion
-      alertNotifyEmail
-      alertNotifyTelegram
     }
     subscriptions {
       id
@@ -160,8 +156,6 @@ export const queryCurrentUserSubscriptions = ApiQuery(
         theme: null | 'nightmode'
         isPromoter: boolean
         sanbaseVersion: null | string
-        alertNotifyEmail: boolean
-        alertNotifyTelegram: boolean
       }
 
       ethAccounts: { address: string }[]
