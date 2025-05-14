@@ -1,4 +1,5 @@
 import type { TAssetApiAlert } from '../schema.js'
+import type { TAssetState } from './state.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -9,9 +10,7 @@ import Legend from './ui/Legend.svelte'
 export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
-    initState: (apiAlert?: null | TAssetApiAlert) => {
-      target: { slug: string[] }
-    }
+    initState: (apiAlert?: null | TAssetApiAlert) => TAssetState
   }
 >
 
@@ -29,17 +28,19 @@ export const STEP_ASSETS_SCHEMA = createStepSchema<TBaseSchema>({
   initState(apiAlert) {
     return {
       target: {
-        slug: apiAlert?.settings?.target.slug || [],
+        slugs: apiAlert?.settings?.target.slug || [],
+        namesMap: new Map(),
       },
     }
   },
 
   validate(state) {
-    return state.target.slug.length > 0
+    return state.target.slugs.length > 0
   },
 
   reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, state)
+    Object.assign(apiAlert.settings, { type: 'metric_signal' })
+    Object.assign(apiAlert.settings, { target: { slug: state.target.slugs } })
 
     return apiAlert
   },

@@ -9,5 +9,33 @@
     <Input placeholder="Placeholder"></Input>
 
     <Input icon="search"></Input>
+
+    <Input icon="search">
+      {#snippet left()}
+        left
+      {/snippet}
+    </Input>
+
+    <Input>
+      {#snippet left()}
+        left
+      {/snippet}
+
+      {#snippet right()}
+        right
+      {/snippet}
+    </Input>
+
+    <Input icon="search" disabled>
+      {#snippet left()}
+        left
+      {/snippet}
+
+      {#snippet right()}
+        right
+      {/snippet}
+    </Input>
+
+    <Input placeholder="Disabled input" disabled></Input>
   </div>
 </div>

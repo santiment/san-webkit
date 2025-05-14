@@ -5,6 +5,7 @@ import type { TTimeWindow } from '../../time.js'
 import { getOperationFromApi, reduceOperationToApi, type TOperation } from './operations.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
+import Legend from './ui/Legend.svelte'
 
 type TAlertSettings = {
   metric: string
@@ -19,6 +20,7 @@ export type TConditionsState = {
 
 export type TMetricConditionsState = {
   metric: string | null
+  metricLabel: string
   conditions: TConditionsState
 }
 
@@ -34,6 +36,7 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
 
   initState: (alert) => ({
     metric: alert?.settings?.metric ?? null,
+    metricLabel: '',
     conditions: {
       operation: getOperationFromApi(alert?.settings?.operation) ?? {
         type: 'above',
@@ -62,5 +65,6 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
       'Depend on which asset you choose, there will be available metrics for it and the opposite...',
 
     Form,
+    Legend,
   },
 })
