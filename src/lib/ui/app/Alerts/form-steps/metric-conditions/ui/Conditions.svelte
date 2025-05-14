@@ -119,7 +119,8 @@
   <Input type="number" min="0" {defaultValue} oninput={(e) => oninput(+e.currentTarget.value)}>
     {#snippet left()}
       {#if sign}
-        <span class="mr-1 text-casper">{sign}</span>
+        <!-- FIXME: [input-left-fix] Update after Input structure with [left] is fixed -->
+        <span class="-mr-1.5 ml-2 text-casper">{sign}</span>
       {/if}
     {/snippet}
   </Input>

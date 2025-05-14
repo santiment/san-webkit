@@ -41,34 +41,34 @@
     right,
     ...rest
   }: TProps = $props()
-
-  let inputEl = $state<HTMLInputElement | HTMLTextAreaElement>()
 </script>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
+<!-- FIXME: Fix structure after design is discussed. Currently works incorrectly with [left] and [right] added -->
+<!-- Search for [input-left-fix] to fix hacks after update -->
 <div
   class={cn(
-    'relative flex items-center rounded border bg-white fill-casper pl-2.5 pr-3 focus-within:border-green focus-within:fill-green hover:border-green',
+    'relative flex items-center rounded border bg-white fill-casper focus-within:border-green focus-within:fill-green hover:border-green',
     disabled && 'bg-athens text-mystic hover:border-porcelain',
     className,
   )}
-  onclick={() => inputEl?.focus()}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} class="mr-2.5" />
+    <Svg id={icon} w={iconSize} class="absolute left-2.5"></Svg>
   {/if}
 
   {@render left?.()}
 
   <svelte:element
-    this={as ?? 'input'}
-    bind:this={inputEl}
+    this={as}
     {...rest}
     {disabled}
     {type}
     {placeholder}
-    class={cn('w-full rounded bg-transparent py-[5px] outline-none', inputClass)}
+    class={cn(
+      'w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none',
+      icon && 'pl-8',
+      inputClass,
+    )}
   />
 
   {@render right?.()}
