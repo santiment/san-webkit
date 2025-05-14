@@ -1,41 +1,69 @@
 <script lang="ts">
-  import type { TBaseSchema } from '../schema.js'
+  import type { TBaseSchema, TTrendState } from '../schema.js'
   import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { Component } from 'svelte'
 
-  import Checkbox from '$ui/core/Checkbox/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { cn } from '$ui/utils/index.js'
+  import { exactObjectKeys } from '$lib/utils/object.js'
+
+  import Asset from './Asset.svelte'
+  import Word from './Word.svelte'
+  import Watchlist from './Watchlist.svelte'
+  import { getInitTrendTarget } from '../utils.js'
+
+  const Tab = (title: string, Component?: Component<{ stepState: { $$: TTrendState } }>) => ({
+    title,
+    Component,
+  })
+
+  const TAB_MAP: Record<TTrendState['target']['type'], ReturnType<typeof Tab>> = {
+    asset: Tab('Trending assets', Asset),
+    word: Tab('Trending words', Word),
+    watchlist: Tab('Watchlist', Watchlist),
+  }
+
+  const TABS = exactObjectKeys(TAB_MAP)
+  type TabKey = TTrendState['target']['type']
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
+
+  const { target } = $derived(step.state.$$)
+
+  const selectedTab = $derived(target.type)
+  const TabComponent = $derived(TAB_MAP[selectedTab].Component)
+
+  function selectTab(tab: TabKey) {
+    step.state.$$.target = getInitTrendTarget(tab)
+  }
 </script>
 
-<Button as="label" class="gap-2 text-fiord">
-  Assets
-  <Checkbox
-    isActive={'slug' in step.state.$$.target}
-    onCheckedChange={() => {
-      step.state.$$ = { target: { slug: [] }, operation: { trending_project: true } }
-    }}
-  ></Checkbox>
-</Button>
+<section class="flex h-full flex-col gap-4">
+  <nav class="flex rounded-md border">
+    {#each TABS as tab}
+      {@const isActive = tab === selectedTab}
 
-<Button as="label" class="gap-2 text-fiord">
-  Trending words
-  <Checkbox
-    isActive={'word' in step.state.$$.target}
-    onCheckedChange={() => {
-      step.state.$$ = { target: { word: [] }, operation: { trending_word: true } }
-    }}
-  ></Checkbox>
-</Button>
+      <Button
+        variant="plain"
+        size="auto"
+        class={cn(
+          '-m-px flex-1 justify-center rounded-md border border-transparent px-3 py-1.5 hover:text-green',
+          isActive && ' border-green bg-green-light-1 text-green',
+        )}
+        onclick={() => {
+          if (isActive) return
 
-<Button as="label" class="gap-2 text-fiord">
-  Watchlist
-  <Checkbox
-    isActive={'watchlist_id' in step.state.$$.target}
-    onCheckedChange={() => {
-      step.state.$$ = { target: { watchlist_id: 0 }, operation: { trending_project: true } }
-    }}
-  ></Checkbox>
-</Button>
+          selectTab(tab)
+        }}
+      >
+        {TAB_MAP[tab].title}
+      </Button>
+    {/each}
+  </nav>
+
+  {#if TabComponent}
+    <TabComponent stepState={step.state} />
+  {/if}
+</section>
