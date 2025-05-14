@@ -2,16 +2,17 @@
   import type { TBaseSchema } from '../schema.js'
   import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
 
-  import Checkbox from '$ui/core/Checkbox/index.js'
+  import ListOfWatchlists from './ListOfWatchlists.svelte'
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
+
+  const selectedId = $derived(step.state.$$.watchlist.id)
 </script>
 
-<Checkbox
-  isActive={step.isValid.$}
-  onCheckedChange={(value) => {
-    step.state.$$.target.watchlist_id = value ? 669 : null
-  }}
-></Checkbox>
+<ListOfWatchlists
+  {selectedId}
+  onSelect={(watchlist) =>
+    (step.state.$$.watchlist = { id: watchlist?.id ?? null, title: watchlist?.title ?? '' })}
+/>

@@ -1,11 +1,10 @@
 import type { TApiAlert } from '../../types.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
-import { Query } from '$lib/api/executor.js'
-
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
-import { queryWatchlistName } from '../watchlist/api.js'
+import { type Watchlist } from '../watchlist/api.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
+import { getAssetTargetTitle } from '../asset/utils.js'
 
 export type TSocialTrendsApiAlert = TApiAlert<
   {
@@ -20,11 +19,13 @@ export type TSocialTrendsApiAlert = TApiAlert<
         operation: { trending_word: true }
       }
     | {
-        target: { watchlist_id: number }
+        target: { watchlist_id: Watchlist['id'] | null }
         operation: { trending_project: true }
       }
   )
 >
+
+export type TSocialTrendsApiAlertTarget = NonNullable<TSocialTrendsApiAlert['settings']>['target']
 
 export type TBaseSchema = TAlertBaseSchema<
   'social-trends',
@@ -53,17 +54,14 @@ export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
   async suggestTitle([trendStep]) {
     const { target } = trendStep.state.$$
 
-    if ('slug' in target) return `${target.slug} in trending assets`
-
-    if ('word' in target) return `${target.word} in trending words`
-
-    if ('watchlist_id' in target) {
-      const watchlistName = await queryWatchlistName(Query)(target.watchlist_id)
-
-      return `"${watchlistName}" is trending`
+    switch (target.type) {
+      case 'asset':
+        return `${getAssetTargetTitle(target)} in trending assets`
+      case 'word':
+        return `${target.words.join(', ')} in trending words`
+      case 'watchlist':
+        return `"${target.title}" is trending`
     }
-
-    return ''
   },
 
   suggestDescription(_steps) {
