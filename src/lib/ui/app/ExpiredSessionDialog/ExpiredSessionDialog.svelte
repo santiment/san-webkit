@@ -12,8 +12,6 @@
   let { Controller }: TDialogProps = $props()
 </script>
 
-// TODO: Make no sense for now from any perspective
-
 <Dialog class="w-full max-w-[600px] px-[92px] py-12 text-center md:max-w-full">
   <Svg illus id="hourglass" h={182} w={190} class="mx-auto mb-6"></Svg>
   <h3 class="text-2xl font-medium text-rhino">Your session has expired</h3>
