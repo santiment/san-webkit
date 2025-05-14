@@ -4,19 +4,16 @@ import type { TApiAlert } from '../../types.js'
 import { getChannelFromApi, reduceChannelToApi, type TChannel } from '../../channels.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
-import Legend from './ui/Legend.svelte'
-
-export type TNotificationsState = {
-  channel: TChannel
-  isPublic: boolean
-  isRepeating: boolean
-  cooldown: TTimeWindow
-}
 
 export type TBaseSchema = TStepBaseSchema<
   'notifications-privacy',
   {
-    initState: (apiAlert?: null | TApiAlert<unknown>) => TNotificationsState
+    initState: (apiAlert?: null | TApiAlert<unknown>) => {
+      channel: TChannel
+      isPublic: boolean
+      isRepeating: boolean
+      cooldown: TTimeWindow
+    }
   }
 >
 
@@ -29,7 +26,6 @@ export const STEP_NOTIFICATIONS_PRIVACY_SCHEMA = createStepSchema<TBaseSchema>({
     description: 'Choose one or multiple alert methods',
 
     Form,
-    Legend,
   },
 
   initState(apiAlert) {

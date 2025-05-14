@@ -16,7 +16,6 @@
     content: Snippet<[{ close: () => void }]>
     noStyles?: boolean
     isOpened?: boolean
-    matchTriggerWidth?: boolean
 
     align?: PopoverContentProps['align']
     side?: PopoverContentProps['side']
@@ -30,7 +29,6 @@
     content,
     children,
     noStyles = false,
-    matchTriggerWidth = false,
     isOpened = $bindable(false),
 
     align,
@@ -56,11 +54,7 @@
     {align}
     {side}
     forceMount
-    class={cn(
-      !noStyles && 'z-10 flex rounded border bg-white p-2 shadow',
-      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
-      className,
-    )}
+    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 shadow', className)}
   >
     {#snippet child({ wrapperProps, props, open })}
       {#if open}

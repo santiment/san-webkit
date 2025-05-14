@@ -6,26 +6,21 @@ import {
   getOperationFromApi,
   reduceOperationToApi,
 } from '$ui/app/Alerts/form-steps/metric-conditions/operations.js'
-import { getAddressInfrastructure, Infrastructure } from '$lib/utils/address.js'
+import { getAddressInfrastructure } from '$lib/utils/address.js'
 
 import Form from './ui/index.svelte'
 
 type TWalletSettings = NonNullable<TWalletApiAlert['settings']>
 
-export type TWalletState = {
-  target: {
-    address: TWalletSettings['target']['address'] | null
-    readonly infrastructure: Infrastructure | undefined
-  }
-  asset: { slug: string; name: string } | null
-  type: TWalletSettings['type'] | null
-  conditions: TMetricConditionsState['conditions'] | null
-}
-
 export type TBaseSchema = TStepBaseSchema<
   'wallet',
   {
-    initState: (apiAlert?: null | TWalletApiAlert) => TWalletState
+    initState: (apiAlert?: null | TWalletApiAlert) => {
+      target: TWalletSettings['target'] | null
+      assetSlug: string | null
+      type: TWalletSettings['type'] | null
+      conditions: TMetricConditionsState['conditions'] | null
+    }
   }
 >
 
@@ -51,14 +46,9 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     const operation = getOperationFromApi(apiOperation)
 
     return {
-      target: {
-        address: target?.address ?? null,
-        get infrastructure() {
-          return getAddressInfrastructure(this.address ?? '')
-        },
-      },
+      target: target ?? null,
       type: type ?? null,
-      asset: selector?.slug ? { slug: selector.slug, name: '' } : null,
+      assetSlug: selector?.slug ?? null,
       conditions:
         operation && time_window
           ? {
@@ -72,28 +62,26 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     }
   },
 
-  validate({ target: { address, infrastructure }, type, conditions, asset }) {
-    if (!address || !infrastructure) return false
-
-    switch (type) {
+  validate(state) {
+    switch (state.type) {
       case 'wallet_assets_held':
-        return true
+        return !!state.target?.address
       case 'wallet_movement':
-        return !!conditions && !!asset
+        return !!state.target?.address && !!state.conditions && !!state.assetSlug
       case 'wallet_usd_valuation':
-        return !!conditions
+        return !!state.target?.address && !!state.conditions
       case null:
         return false
     }
   },
 
-  reduceToApi(apiAlert, { target, type, conditions, asset }) {
+  reduceToApi(apiAlert, { target, type, conditions, assetSlug }) {
     Object.assign(apiAlert.settings, {
       target,
       type,
       selector: {
-        infrastructure: target?.infrastructure,
-        slug: asset?.slug,
+        infrastructure: getAddressInfrastructure(target?.address ?? ''),
+        slug: assetSlug ?? undefined,
       },
       time_window: conditions?.time,
       operation: conditions?.operation && reduceOperationToApi(conditions.operation),
