@@ -1,15 +1,10 @@
 import { BROWSER } from 'esm-env'
 import { from } from 'rxjs'
 
-import { building } from '$app/environment'
+const ENDPOINT = ((!BROWSER && process.env.NODE_GQL_SERVER_URL) ||
+  process.env.GQL_SERVER_URL) as string
 
-const ENDPOINT = (
-  building
-    ? process.env.GQL_SERVER_URL
-    : (!BROWSER && process.env.NODE_GQL_SERVER_URL) || process.env.GQL_SERVER_URL
-) as string
-
-const DEFAULT_HEADERS: HeadersInit = {
+export const DEFAULT_HEADERS: Record<string, string> = {
   'Content-Type': 'application/json',
   origin: 'https://app.santiment.net/',
 }
