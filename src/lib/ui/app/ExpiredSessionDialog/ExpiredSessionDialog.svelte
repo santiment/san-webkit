@@ -20,7 +20,7 @@
     experience
   </p>
   <footer class="flex justify-center gap-4">
-    <Button variant="fill" class="h-10 w-36 text-base center" href="/sign-in">Sign in</Button>
+    <Button variant="fill" class="h-10 w-36 text-base center" href="/login">Sign in</Button>
     <Button variant="border" class="h-10 w-36 text-base center" onclick={() => Controller.close()}
       >No, thanks</Button
     >
