@@ -1987,20 +1987,16 @@ packages:
       i18next: 23.11.5
       react: ^18.2.0
       react-dom: ^18.2.0
-      react-native: '*'
     peerDependenciesMeta:
       react:
         optional: true
       react-dom:
-        optional: true
-      react-native:
         optional: true
     dependencies:
       i18next: 23.11.5
       qr-code-styling: 1.8.4
       react: 19.0.0
       react-dom: 19.1.0(react@19.0.0)
-      react-native: 0.79.1(@babel/core@7.26.0)(@types/react@19.1.2)(react@19.0.0)
 
   /@metamask/sdk@0.30.1(react-dom@19.1.0)(react-native@0.79.1)(react@19.0.0):
     resolution: {integrity: sha512-NelEjJZsF5wVpSQELpmvXtnS9+C6HdxGQ4GB9jMRzeejphmPyKqmrIGM6XtaPrJtlpX+40AcJ2dtBQcjJVzpbQ==}
@@ -2030,7 +2026,6 @@ packages:
       qrcode-terminal-nooctal: 0.12.1
       react: 19.0.0
       react-dom: 19.1.0(react@19.0.0)
-      react-native-webview: 11.26.1(react-native@0.79.1)(react@19.0.0)
       readable-stream: 3.6.2
       socket.io-client: 4.8.1
       util: 0.12.5
@@ -2038,7 +2033,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - encoding
-      - react-native
       - supports-color
       - utf-8-validate
 
@@ -2924,97 +2918,6 @@ packages:
       - supports-color
     dev: true
 
-  /@react-native/assets-registry@0.79.1:
-    resolution: {integrity: sha512-q5BwZtL0YbaJRgofl8qrD9BNdGJkecTJNYG8VFOVQYXPTBa3ZSooip1aj0wrjoa0HloKx/Hmx5UMvuhfEsjn8A==}
-    engines: {node: '>=18'}
-
-  /@react-native/codegen@0.79.1(@babel/core@7.26.0):
-    resolution: {integrity: sha512-cTVXfCICkmUU6UvUpnLP4BE82O14JRuVz42cg/A19oasTaZmzHl0+uIDzt2cZEbt/N2sJ/EZnZL61qqpwbNXWQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@babel/core': '*'
-    dependencies:
-      '@babel/core': 7.26.0
-      glob: 7.2.3
-      hermes-parser: 0.25.1
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      yargs: 17.7.2
-
-  /@react-native/community-cli-plugin@0.79.1:
-    resolution: {integrity: sha512-hqCMQrMRi19G7yxEsYwV9A0MHB6Hri7B5dytRD7kU5vtz0Lzg1fZYYvmS0x9OdWJWPntmHA8xiijwM+4cT8cpQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@react-native-community/cli': '*'
-    peerDependenciesMeta:
-      '@react-native-community/cli':
-        optional: true
-    dependencies:
-      '@react-native/dev-middleware': 0.79.1
-      chalk: 4.1.2
-      debug: 2.6.9
-      invariant: 2.2.4
-      metro: 0.82.2
-      metro-config: 0.82.2
-      metro-core: 0.82.2
-      semver: 7.7.1
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  /@react-native/debugger-frontend@0.79.1:
-    resolution: {integrity: sha512-IgbQM/djzBhkkjzIT/b36zwkc4UMxZLTKgRVJrSEjuwtOPmgfh/1F5m3OUitbMd4/e06VgN0vPLyBzToj1kiwA==}
-    engines: {node: '>=18'}
-
-  /@react-native/dev-middleware@0.79.1:
-    resolution: {integrity: sha512-xegUHwi6h8wOLIl/9ImZoIVVwzecE+ENGTELIrD2PsseBbtdRMKzZ8A1LTBjPPt3IjHPH6103JcSPwgepP6zFA==}
-    engines: {node: '>=18'}
-    dependencies:
-      '@isaacs/ttlcache': 1.4.1
-      '@react-native/debugger-frontend': 0.79.1
-      chrome-launcher: 0.15.2
-      chromium-edge-launcher: 0.2.0
-      connect: 3.7.0
-      debug: 2.6.9
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      open: 7.4.2
-      serve-static: 1.16.2
-      ws: 6.2.3
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
-  /@react-native/gradle-plugin@0.79.1:
-    resolution: {integrity: sha512-vfoNcOBig/+R7g3eqHkBSbSVkk0NMPzyXE5QY0V+/0flRa3kDZUHP2fr8ygoY/4rxbi05wPME2/dTEuoYcpnjg==}
-    engines: {node: '>=18'}
-
-  /@react-native/js-polyfills@0.79.1:
-    resolution: {integrity: sha512-P8j11kdD+ehL5jqHSCM1BOl4SnJ+3rvGPpsagAqyngU6WSausISO7YFufltrWA7kdpHdnAL2HfJJ62szTRGShw==}
-    engines: {node: '>=18'}
-
-  /@react-native/normalize-colors@0.79.1:
-    resolution: {integrity: sha512-Fj12xKyihZhrFH45ruqECd2JVx9lyYe+dyxO7MYgkqY6UENsSS3JKcfzjSNBZLW7NXts6JkbaqLQPwaHmPF7QA==}
-
-  /@react-native/virtualized-lists@0.79.1(@types/react@19.1.2)(react-native@0.79.1)(react@19.0.0):
-    resolution: {integrity: sha512-v1KeqJeVJXjc2mewjKQYSay7D7+VSacxryejuuVXlPE9E9wVbzMPCfPjbIS8C9nMC7a4rsRFilX7RVKYkeZaGg==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      '@types/react': ^19.0.0
-      react: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@types/react': 19.1.2
-      invariant: 2.2.4
-      nullthrows: 1.1.1
-      react: 19.0.0
-      react-native: 0.79.1(@babel/core@7.26.0)(@types/react@19.1.2)(react@19.0.0)
-
   /@reown/appkit-adapter-wagmi@1.2.0(@coinbase/wallet-sdk@4.0.3)(@types/react@19.1.2)(@wagmi/connectors@5.3.3)(@wagmi/core@2.14.1)(react@19.0.0)(typescript@5.7.3)(viem@2.21.38)(wagmi@2.12.25)(zod@3.23.8):
     resolution: {integrity: sha512-NozYLFgALElwIzSH/rbvUJxcvWSUcu+J/rIFOlfv5xatqMIpl3DqKU1PmpdBa/EBB7MoNOj/BD0aJjETZQGknQ==}
     peerDependencies:
@@ -3051,7 +2954,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -3109,7 +3011,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -3155,7 +3056,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -3191,7 +3091,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -3235,7 +3134,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -3288,7 +3186,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -5446,7 +5343,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -5455,7 +5351,6 @@ packages:
       - ioredis
       - react
       - react-dom
-      - react-native
       - supports-color
       - uWebSockets.js
       - utf-8-validate
@@ -5514,7 +5409,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@upstash/redis'
       - '@vercel/kv'
       - bufferutil
@@ -5550,7 +5444,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@types/react'
       - '@upstash/redis'
       - '@vercel/kv'
@@ -5617,11 +5510,6 @@ packages:
 
   /@walletconnect/keyvaluestorage@1.1.1:
     resolution: {integrity: sha512-V7ZQq2+mSxAq7MrRqDxanTzu2RcElfK1PfNYiaVnJgJ7Q7G7hTVwF8voIBx92qsRyGHZihrwNPHuZd1aKkd0rA==}
-    peerDependencies:
-      '@react-native-async-storage/async-storage': 1.x
-    peerDependenciesMeta:
-      '@react-native-async-storage/async-storage':
-        optional: true
     dependencies:
       '@walletconnect/safe-json': 1.0.2
       idb-keyval: 6.2.1
@@ -5717,7 +5605,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@upstash/redis'
       - '@vercel/kv'
       - bufferutil
@@ -5749,7 +5636,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@upstash/redis'
       - '@vercel/kv'
       - ioredis
@@ -5777,7 +5663,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@upstash/redis'
       - '@vercel/kv'
       - bufferutil
@@ -5815,7 +5700,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@upstash/redis'
       - '@vercel/kv'
       - ioredis
@@ -10932,73 +10816,6 @@ packages:
   /react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
 
-  /react-native-webview@11.26.1(react-native@0.79.1)(react@19.0.0):
-    resolution: {integrity: sha512-hC7BkxOpf+z0UKhxFSFTPAM4shQzYmZHoELa6/8a/MspcjEP7ukYKpuSUTLDywQditT8yI9idfcKvfZDKQExGw==}
-    peerDependencies:
-      react: '*'
-      react-native: '*'
-    dependencies:
-      escape-string-regexp: 2.0.0
-      invariant: 2.2.4
-      react: 19.0.0
-      react-native: 0.79.1(@babel/core@7.26.0)(@types/react@19.1.2)(react@19.0.0)
-
-  /react-native@0.79.1(@babel/core@7.26.0)(@types/react@19.1.2)(react@19.0.0):
-    resolution: {integrity: sha512-MZQFEKyKPjqvyjuMUvH02elnmRQFzbS0yf46YOe9ktJWTZGwklsbJkRgaXJx9KA3SK6v1/QXVeCqZmrzho+1qw==}
-    engines: {node: '>=18'}
-    hasBin: true
-    peerDependencies:
-      '@types/react': ^19.0.0
-      react: ^19.0.0
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-    dependencies:
-      '@jest/create-cache-key-function': 29.7.0
-      '@react-native/assets-registry': 0.79.1
-      '@react-native/codegen': 0.79.1(@babel/core@7.26.0)
-      '@react-native/community-cli-plugin': 0.79.1
-      '@react-native/gradle-plugin': 0.79.1
-      '@react-native/js-polyfills': 0.79.1
-      '@react-native/normalize-colors': 0.79.1
-      '@react-native/virtualized-lists': 0.79.1(@types/react@19.1.2)(react-native@0.79.1)(react@19.0.0)
-      '@types/react': 19.1.2
-      abort-controller: 3.0.0
-      anser: 1.4.10
-      ansi-regex: 5.0.1
-      babel-jest: 29.7.0(@babel/core@7.26.0)
-      babel-plugin-syntax-hermes-parser: 0.25.1
-      base64-js: 1.5.1
-      chalk: 4.1.2
-      commander: 12.1.0
-      event-target-shim: 5.0.1
-      flow-enums-runtime: 0.0.6
-      glob: 7.2.3
-      invariant: 2.2.4
-      jest-environment-node: 29.7.0
-      memoize-one: 5.2.1
-      metro-runtime: 0.82.2
-      metro-source-map: 0.82.2
-      nullthrows: 1.1.1
-      pretty-format: 29.7.0
-      promise: 8.3.0
-      react: 19.0.0
-      react-devtools-core: 6.1.1
-      react-refresh: 0.14.2
-      regenerator-runtime: 0.13.11
-      scheduler: 0.25.0
-      semver: 7.7.1
-      stacktrace-parser: 0.1.11
-      whatwg-fetch: 3.6.20
-      ws: 6.2.3
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - '@babel/core'
-      - '@react-native-community/cli'
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   /react-refresh@0.14.2:
     resolution: {integrity: sha512-jCvmsr+1IUSMUyzOkRcvnVbX3ZYC6g9TDrDbFuFmRDq7PD4yaGbLKNQL6k2jnArV8hjYxh7hVhAZB6s9HDGpZA==}
     engines: {node: '>=0.10.0'}
@@ -12943,7 +12760,6 @@ packages:
       - '@capacitor/preferences'
       - '@netlify/blobs'
       - '@planetscale/database'
-      - '@react-native-async-storage/async-storage'
       - '@tanstack/query-core'
       - '@types/react'
       - '@upstash/redis'
@@ -12953,7 +12769,6 @@ packages:
       - immer
       - ioredis
       - react-dom
-      - react-native
       - supports-color
       - uWebSockets.js
       - utf-8-validate
