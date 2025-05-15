@@ -1,8 +1,19 @@
 import type { Handle } from '@sveltejs/kit'
 
+import { GQL_BASIC_AUTH_USERNAME, GQL_BASIC_AUTH_PASSWORD } from '$env/static/private'
+
+import { DEFAULT_HEADERS } from '$lib/api/executor.js'
+
 import { serve } from './serve.js'
 import { Bulletshell, STATUS, type TBulletshellManager } from './utils.js'
 import { IS_BULLETSHELL_MODE } from '../env.js'
+
+if (IS_BULLETSHELL_MODE) {
+  if (GQL_BASIC_AUTH_USERNAME && GQL_BASIC_AUTH_PASSWORD) {
+    DEFAULT_HEADERS['Authorization'] =
+      `Basic ${btoa(`${GQL_BASIC_AUTH_USERNAME}:${GQL_BASIC_AUTH_PASSWORD}`)}`
+  }
+}
 
 /**
  * Add it at the beggining of the sveltekit's `handleError`. This function ensures to stop the rendering->save process if error was encountered
