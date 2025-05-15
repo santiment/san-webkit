@@ -42,6 +42,9 @@
       ? 'bg-orage-light-1 group mb-3 inline-block w-[260px] rounded text-orange last:m-0'
       : 'group w-[292px] rounded px-4 py-3 hover:bg-athens',
   )}
+  target="_blank"
+  data-type={`open_${id}`}
+  data-source="products_dialog"
   style="--accent:{accent}"
 >
   {#if isLarge}

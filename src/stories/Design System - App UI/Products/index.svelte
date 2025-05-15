@@ -12,7 +12,7 @@
 
   <div>
     <h2 class="text-xl">Custom element</h2>
-    <ProductsButton>
+    <ProductsButton activeClass="text-red">
       {#snippet children({ ref })}
         <Button {ref}>custom element</Button>
       {/snippet}

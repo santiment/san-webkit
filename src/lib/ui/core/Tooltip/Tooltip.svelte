@@ -15,6 +15,7 @@
     children: Snippet<[{ ref: typeof triggerRef }]>
     content: Snippet<[{ close: () => void }]>
     position?: NonNullable<CreateTooltipProps['positioning']>['placement']
+    activeClass?: string
   } & Omit<CreateTooltipProps, 'positioning'>
 
   let {
@@ -25,6 +26,7 @@
     type = 'plain',
     isOpened = false,
     position = 'bottom-end',
+    activeClass,
     ...options
   }: Props = $props()
 
@@ -47,6 +49,16 @@
   let triggerRef = ss<null | HTMLElement>(null)
 
   useMelt(triggerRef, trigger)
+
+  $effect(() => {
+    if (!activeClass) return
+
+    if ($open) {
+      triggerRef.$?.classList.add(activeClass)
+    } else {
+      triggerRef.$?.classList.remove(activeClass)
+    }
+  })
 
   $effect(() => {
     open.set(isOpened)

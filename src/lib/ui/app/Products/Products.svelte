@@ -30,11 +30,11 @@
   )}
 >
   <div class="gap-6 column">
-    {@render section('SAN business', isColumn, isCompact, business)}
-    {@render section('Initiatives', isColumn, isCompact, initiatives)}
+    {@render section('SAN business', business)}
+    {@render section('Initiatives', initiatives)}
   </div>
 
-  {@render section('SAN Chain', isColumn, isCompact, chain)}
+  {@render section('SAN Chain', chain)}
 
   {#if isColumn}
     <section class="max-w-[260px] border-t border-porcelain pt-6 text-base text-waterloo">
@@ -44,7 +44,7 @@
   {/if}
 </div>
 
-{#snippet section(title: string, isColumn: boolean, isCompact: boolean, items: TProductCard[])}
+{#snippet section(title: string, items: TProductCard[])}
   <section class={cn('column', isColumn && 'border-b border-porcelain pb-6')}>
     <h3 class={cn('mb-5 text-waterloo', isCompact ? 'ml-0' : 'ml-4')}>{title}</h3>
 
