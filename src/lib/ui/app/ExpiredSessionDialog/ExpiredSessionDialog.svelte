@@ -5,11 +5,18 @@
 </script>
 
 <script lang="ts">
+  import { onMount } from 'svelte'
+
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   let { Controller }: TDialogProps = $props()
+
+  onMount(() => {
+    trackEvent('dialog', { action: 'open', type: 'session_expired_dialog' })
+  })
 </script>
 
 <Dialog class="w-full max-w-[600px] px-[92px] py-12 text-center md:max-w-full">

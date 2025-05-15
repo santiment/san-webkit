@@ -4,7 +4,7 @@ import { deleteSavedValue, getSavedBoolean, saveBoolean } from '$lib/utils/local
 import { showExpiredSessionDialog$ } from './ExpiredSessionDialog.svelte'
 
 const LS_WAS_USER_LOGGED_IN = 'LS_WUL'
-const LS_SESSION_POPUP_SHOWN = 'LS_SESSION_POPUP_SHOWN'
+const LS_SESSION_DIALOG_SHOWN = 'LS_SESSION_DIALOG_SHOWN'
 
 export function useSessionExpiredFlow() {
   const { currentUser } = useCustomerCtx()
@@ -12,14 +12,14 @@ export function useSessionExpiredFlow() {
 
   $effect(() => {
     const wasUserPossiblyLogin = getSavedBoolean(LS_WAS_USER_LOGGED_IN)
-    const wasPopupAlreadyShown = getSavedBoolean(LS_SESSION_POPUP_SHOWN)
+    const wasPopupAlreadyShown = getSavedBoolean(LS_SESSION_DIALOG_SHOWN)
 
     if (currentUser.$$ && !wasUserPossiblyLogin) {
       saveBoolean(LS_WAS_USER_LOGGED_IN, true)
-      saveBoolean(LS_SESSION_POPUP_SHOWN, false)
+      saveBoolean(LS_SESSION_DIALOG_SHOWN, false)
     } else if (!currentUser.$$ && wasUserPossiblyLogin && !wasPopupAlreadyShown) {
       showExpiredSessionDialog()
-      saveBoolean(LS_SESSION_POPUP_SHOWN, true)
+      saveBoolean(LS_SESSION_DIALOG_SHOWN, true)
     }
 
     return () => {
