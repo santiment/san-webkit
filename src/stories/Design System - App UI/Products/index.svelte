@@ -12,9 +12,9 @@
 
   <div>
     <h2 class="text-xl">Custom element</h2>
-    <ProductsButton activeClass="text-red">
+    <ProductsButton>
       {#snippet children({ ref })}
-        <Button {ref}>custom element</Button>
+        <Button {ref} class="data-[state=open]:bg-red">custom element</Button>
       {/snippet}
     </ProductsButton>
   </div>

@@ -14,7 +14,6 @@
     isCompact?: boolean
     isColumn?: boolean
     isOpened?: any
-    activeClass?: string
     active?: any
     closeTimeout?: number
     children?: Snippet<[{ ref: SS<HTMLElement | null> }]>
@@ -26,14 +25,13 @@
     isColumn = false,
     isCompact = false,
     isOpened = undefined,
-    activeClass = '',
     active = undefined,
     closeTimeout,
     children: outerChildren,
   }: TProps = $props()
 </script>
 
-<Tooltip {isOpened} {activeClass} position="bottom-end" class={className} closeDelay={closeTimeout}>
+<Tooltip {isOpened} position="bottom-end" class={className} closeDelay={closeTimeout}>
   {#snippet children({ ref })}
     {#if outerChildren}
       {@render outerChildren({ ref })}
