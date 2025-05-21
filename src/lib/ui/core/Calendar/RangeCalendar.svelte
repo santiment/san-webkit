@@ -28,7 +28,7 @@
     minValue?: DateValue
     maxValue?: DateValue
     timeZone: string
-    onChange?: (dates: [Date, Date]) => void
+    onChange?: (dates: [Date, Date], timeRange?: string) => void
   } = $props()
 
   const value = $derived(getValue(date, timeZone))
@@ -36,13 +36,13 @@
 
   const placeholder = createPlaceholder(() => value.end)
 
-  const onValueChange = ({ start, end }: DateRange) => {
+  function onValueChange({ start, end }: DateRange, timeRange?: string) {
     if (!start || !end) return
 
     const endDateTime = toCalendarDateTime(end, new Time(23, 59, 59, 999))
     const startDateTime = toCalendarDateTime(start, new Time())
 
-    onChange?.([startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)])
+    onChange?.([startDateTime.toDate(timeZone), endDateTime.toDate(timeZone)], timeRange)
   }
 
   function getValue([start, end]: [Date, Date], tz: string) {
@@ -70,8 +70,8 @@
 
       {#if withPresets}
         <aside class="flex min-w-36 flex-col items-stretch border-l p-2">
-          {#each presets as { title, range }}
-            <Button onclick={() => onValueChange(range)} class="px-[6px] py-2" variant="ghost">
+          {#each presets as { id, title, range }}
+            <Button onclick={() => onValueChange(range, id)} class="px-[6px] py-2" variant="ghost">
               {title}
             </Button>
           {/each}

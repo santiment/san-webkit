@@ -1,6 +1,7 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
 
-import { catchError, from, of, switchMap, tap } from 'rxjs'
+import { catchError, finalize, from, of, switchMap, tap } from 'rxjs'
+import { untrack } from 'svelte'
 
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
@@ -33,7 +34,10 @@ export const useApiMetricFetchSettingsCtx = createCtx(
   },
 )
 
-export function useApiMetricDataFlow(metric: TSeries) {
+export function useApiMetricDataFlow(
+  metric: TSeries,
+  settings?: { priority?: number; minimalDelay?: number },
+) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
@@ -59,17 +63,15 @@ export function useApiMetricDataFlow(metric: TSeries) {
             metric.data.$ = formattedData
             metric.error.$ = null
             metric.loading.$ = false
-
-            scheduledData?.jobResolve()
           }),
           catchError((err) => {
             metric.data.$ = []
             metric.loading.$ = false
             metric.error.$ = err
 
-            scheduledData?.jobReject(err)
             return of(null)
           }),
+          finalize(() => scheduledData?.jobResolve()),
         )
 
       return scheduledData
@@ -82,10 +84,13 @@ export function useApiMetricDataFlow(metric: TSeries) {
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
-    const interval = globalParameters.$$.interval
+    const interval = globalParameters.interval$.manual || globalParameters.interval$.auto
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { scheduledData } = createScheduledData(jobScheduler)
+    const { scheduledData } = createScheduledData(
+      jobScheduler,
+      untrack(() => $state.snapshot(settings)),
+    )
 
     loadMetricData({
       scheduledData,
@@ -102,22 +107,28 @@ export function useApiMetricDataFlow(metric: TSeries) {
 }
 
 type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
-function createScheduledData(jobScheduler: undefined | null | TJobScheduler) {
+function createScheduledData(
+  jobScheduler: undefined | null | TJobScheduler,
+  settings?: { minimalDelay?: number; priority?: number },
+) {
   if (!jobScheduler) return {}
 
-  const { promise, resolve, reject } = controlledPromisePolyfill()
+  const { promise, resolve } = controlledPromisePolyfill()
   const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
 
-  const job = jobScheduler.schedule(() => {
-    fetchStart()
-    return promise
-  })
+  const job = jobScheduler.schedule(
+    () => {
+      fetchStart()
+      return promise
+    },
+    undefined,
+    settings,
+  )
 
   return {
     scheduledData: {
       fetchStartPromise,
       jobResolve: resolve,
-      jobReject: reject,
       cancel() {
         if (job) jobScheduler.cancelJob(job)
       },

@@ -1,22 +1,38 @@
 <script lang="ts">
-  import type { Selected } from 'bits-ui'
+  import type { SelectContentProps, Selected } from 'bits-ui'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import { Select } from 'bits-ui'
 
   import { cn, flyAndScale } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
 
   type T = $$Generic
   type Props = {
     items: Selected<T>[]
     selected?: Selected<T>
     onSelect?: (value: Selected<T> | undefined) => void
+
+    side?: SelectContentProps['side']
+    align?: SelectContentProps['align']
     triggerClass?: string
     contentClass?: string
-  }
 
-  let { items, triggerClass, contentClass, selected = $bindable(), onSelect }: Props = $props()
+    option?: Snippet<[Selected<T>]>
+  } & ComponentProps<typeof Button>
+
+  let {
+    items,
+    triggerClass,
+    contentClass,
+    selected = $bindable(),
+    side = 'bottom',
+    align = 'center',
+
+    onSelect,
+    option,
+    ...rest
+  }: Props = $props()
 
   let contentNode: undefined | HTMLDivElement = $state.raw()
 
@@ -42,17 +58,30 @@
 <Select.Root value={selected?.value as string | undefined} type="single">
   <Select.Trigger>
     {#snippet child({ props })}
-      <Button variant="border" {...props} class={cn('gap-2 fill-fiord px-3', triggerClass)}>
-        {selected?.label}
-        <Svg id="arrow-down" w="12" />
+      <Button
+        variant="border"
+        {...props}
+        icon="arrow-down"
+        iconSize="12"
+        iconOnRight
+        class={triggerClass}
+        {...rest}
+      >
+        {#if rest.children}
+          {@render rest.children()}
+        {:else}
+          {selected?.label}
+        {/if}
       </Button>
     {/snippet}
   </Select.Trigger>
 
   <Select.Content
-    class="z-10 overflow-auto rounded border bg-white p-2"
+    class="z-20 overflow-auto rounded border bg-white p-2"
     sideOffset={8}
     collisionPadding={8}
+    {side}
+    {align}
     forceMount
   >
     {#snippet child({ wrapperProps, props, open })}
@@ -69,7 +98,11 @@
                   contentClass,
                 )}
               >
-                {item.label}
+                {#if option}
+                  {@render option(item)}
+                {:else}
+                  {item.label}
+                {/if}
               </Select.Item>
             {/each}
           </div>

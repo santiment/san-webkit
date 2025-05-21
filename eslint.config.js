@@ -57,10 +57,11 @@ const rules = {
           // How matching imports will be positioned relative to "group"
           position: 'after',
         },
+        { pattern: '$env/**', group: 'external', position: 'after' },
       ],
     },
   ],
-  'import/no-unresolved': ['error', { ignore: ['^\\$app\\/'] }],
+  'import/no-unresolved': ['error', { ignore: ['^\\$app\\/', '^\\$env\\/'] }],
 }
 
 const importResolverConfig = {

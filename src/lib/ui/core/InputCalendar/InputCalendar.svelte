@@ -5,14 +5,14 @@
 
   type TProps = {
     date: [Date, Date]
-    onChange: (date: [Date, Date]) => void
+    onChange: (date: [Date, Date], timeRange?: string) => void
   }
 
   const { date, onChange }: TProps = $props()
 
   let isOpened = $state(false)
 
-  let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(date, onChange)
+  let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(() => date, onChange)
 
   function getIsOpened() {
     return isOpened

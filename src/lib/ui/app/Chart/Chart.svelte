@@ -72,12 +72,15 @@
       onRangeSelectEnd: _onRangeSelectEnd,
     })
 
-    const resetScalesOnDblClick = () => chart.$.resetAllScales()
+    const resetScalesOnDblClick = () => chart.$?.resetAllScales()
     chart.$.subscribeDblClick(resetScalesOnDblClick)
 
     return () => {
+      if (!chart.$) return
+
       chart.$.unsubscribeDblClick(resetScalesOnDblClick)
       chart.$.remove()
+      chart.$ = undefined
     }
   })
 
@@ -147,7 +150,7 @@
 
 <div
   bind:this={chartContainerNode}
-  class={cn('relative z-[1] [&>div]:!overflow-visible', className)}
+  class={cn('relative z-[1] column [&>div]:!overflow-visible', className)}
 >
   {#if chart.$}
     {@render children()}

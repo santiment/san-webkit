@@ -77,7 +77,7 @@
     </p>
   {/if}
 
-  <section class="min-h-[164px] column sm:min-h-0">
+  <section class="min-h-[156px] column sm:min-h-0">
     <h3 class="mb-3 text-4xl font-semibold">
       {#if formattedPlan.isCustom}
         Get a quote
@@ -92,23 +92,17 @@
       {/if}
     </h3>
 
-    <h4 class="mb-10 text-base text-fiord sm:mb-8">
+    <h4 class="mb-8 text-base text-fiord sm:mb-8">
       {#if formattedPlan.isFree}
         Free forever
       {:else if formattedPlan.isCustom}
         Based on your needs
       {:else if isAnnualBilling}
         <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
-        <span class="text-waterloo"> / month</span>
+        <span class="text-waterloo"> / month, billed annually</span>
       {:else}
         <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
-        <span class="mr-1 text-waterloo"> / year</span>
-
-        {#if formattedPlan.price.savePercentWithAnnual}
-          <span class="text-orange">
-            - {formattedPlan.price.savePercentWithAnnual}% 🎉
-          </span>
-        {/if}
+        <span class="mr-1 text-waterloo"> / year, billed monthly</span>
       {/if}
     </h4>
 
@@ -132,6 +126,12 @@
         ></Switch>
 
         Bill annually
+
+        {#if formattedPlan.price.savePercentWithAnnual}
+          <span class="text-orange">
+            - {formattedPlan.price.savePercentWithAnnual}% <span class="md:hidden">🎉</span>
+          </span>
+        {/if}
       </label>
     {/if}
   </section>

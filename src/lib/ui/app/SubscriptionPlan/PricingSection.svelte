@@ -15,7 +15,7 @@
 
   import BreakdownTable from './BreakdownTable/index.js'
   import ProductPlans from './ProductPlans.svelte'
-  import { PlanTypeDisplayNames, planTypes } from './plans.js'
+  import { PlanTypeDisplayInfo, planTypes } from './plans.js'
   import { useProductPlansFlow } from './flow.svelte.js'
 
   type Props = {
@@ -54,23 +54,26 @@
 </script>
 
 <section class={cn('sm:px-5', className)}>
-  <h1 class="mb-16 max-w-4xl text-start text-3xl font-medium sm:text-center">
+  <h1 class="mb-14 max-w-4xl text-start text-3xl font-medium sm:text-center">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers
   </h1>
 
   <div
-    class="mb-12 inline-flex divide-x overflow-hidden rounded-lg border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
+    class="mb-8 inline-flex rounded-md border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
   >
     {#each planTypes as item (item)}
+      {@const info = PlanTypeDisplayInfo[item]}
+      {@const isActive = planType === item}
+
       <Button
         class={cn(
-          'rounded-none px-4 py-[7px] sm:py-3.5',
-          planType === item && 'bg-athens text-black',
+          'h-[38px] px-4 py-[8px] sm:py-3.5',
+          isActive && cn('z-10 rounded-md text-rhino outline outline-1', info.className),
         )}
         onclick={() => handlePlanClick(item)}
       >
-        {PlanTypeDisplayNames[item] ?? item}
+        {info.name ?? item}
       </Button>
     {/each}
   </div>

@@ -31,12 +31,15 @@ export function parseInputData(input: string) {
   ] as [[[string, string, string], [string, string, string]], [Date, Date]]
 }
 
-export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date, Date]) => void) {
+export function useInputCalendar(
+  getDate: () => [Date, Date],
+  onDateSelect: (date: [Date, Date]) => void,
+) {
   const inputNode = ss<HTMLInputElement>()
 
   $effect(() => {
     if (inputNode) {
-      setInputValue(date)
+      setInputValue(getDate())
     }
   })
 
@@ -103,7 +106,7 @@ export function useInputCalendar(date: [Date, Date], onDateSelect: (date: [Date,
   }
 
   function onBlur(callback?: (newState: boolean) => void) {
-    if (formatValue(date) !== inputNode.$.value) {
+    if (formatValue(getDate()) !== inputNode.$.value) {
       fixInputValue()
       changeCalendar()
     }

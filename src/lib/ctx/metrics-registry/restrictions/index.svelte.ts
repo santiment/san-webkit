@@ -8,15 +8,22 @@ import {
   type TMetricRestrictions,
 } from './api.js'
 
-export const useMetricsRestrictionsCtx = createCtx('webkit_useMetricsRestrictionsCtx ', () => {
+export { type TMetricRestrictions } from './api.js'
+
+export const useMetricsRestrictionsCtx = createCtx('webkit_useMetricsRestrictionsCtx', () => {
   const { customer } = useCustomerCtx.get()
+  const planName = $derived(customer.$.planName) // NOTE: Using explicit derived to fix refeteches on `customer.$` changes
 
   let MetricsRestrictions = $state.raw<Record<string, undefined | TMetricRestrictions>>(
     DEFAULT_METRICS_RESTRICTIONS,
   )
 
   $effect(() => {
-    customer.$.planName // NOTE: Refetching restrictions info when customer plan changed
+    // NOTE: Refetching restrictions info when customer plan changed
+    if (!planName || planName.toLowerCase() === 'free') {
+      MetricsRestrictions = DEFAULT_METRICS_RESTRICTIONS
+      return
+    }
 
     let race = false
     queryGetAccessRestrictions(Query)().then((data) => {

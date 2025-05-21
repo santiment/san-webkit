@@ -12,7 +12,7 @@ const CONCURRENT_LIMIT = 7
 
 export type TJobScheduler = ReturnType<typeof JobScheduler>
 
-export function JobScheduler() {
+export function JobScheduler({ concurrentLimit = CONCURRENT_LIMIT } = {}) {
   let queue = [] as TJob[]
   let activeJobs = 0
 
@@ -51,7 +51,7 @@ export function JobScheduler() {
     startTimer = setTimeout(() => {
       isSchedulerActive = true
 
-      for (let i = 0; i < CONCURRENT_LIMIT; i++) {
+      for (let i = 0; i < concurrentLimit; i++) {
         scheduler.runNext()
       }
 
@@ -61,14 +61,18 @@ export function JobScheduler() {
     }, 50)
   }
 
-  function createForceTimer(job: TJob, index: number) {
-    const forceTimeout = (index + 1) * 400
+  function createForceTimer(job: TJob, index: number, minimalDelay = 0) {
+    const forceTimeout = minimalDelay + (index + 1) * 500
     return setTimeout(() => scheduler.run(job, true), forceTimeout)
   }
 
   return {
-    schedule(fn: TJob['fn'], id?: number | string, priority?: number) {
-      if (isSchedulerActive && activeJobs < CONCURRENT_LIMIT) {
+    schedule(
+      fn: TJob['fn'],
+      id?: number | string,
+      { priority, minimalDelay }: { priority?: number; minimalDelay?: number } = {},
+    ) {
+      if (isSchedulerActive && activeJobs < concurrentLimit) {
         scheduler.execute(fn)
         return
       }
@@ -90,7 +94,7 @@ export function JobScheduler() {
       index = index! ?? queue.push(job)
 
       if (isSchedulerActive) {
-        job.forceTimer = createForceTimer(job, index)
+        job.forceTimer = createForceTimer(job, index, minimalDelay)
       }
 
       return job

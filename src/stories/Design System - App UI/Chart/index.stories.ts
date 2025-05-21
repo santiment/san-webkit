@@ -18,3 +18,14 @@ export const Anonymous: Story = {
     }),
   },
 }
+
+export const ViewportPriority: Story = {
+  args: {
+    viewportPriority: true,
+  },
+  parameters: {
+    mockApi: () => ({
+      currentUser: null,
+    }),
+  },
+}

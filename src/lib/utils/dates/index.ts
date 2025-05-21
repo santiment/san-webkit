@@ -114,16 +114,27 @@ export function getFormattedMonthDayYear(date: Date, options = {}) {
   return `${MMM} ${D}, ${YYYY}`
 }
 
-export function getFormattedDetailedTimestamp(time: number) {
-  const date = new Date(time)
-  const { ddd, DD, MMM, YY } = getDateFormats(date)
-  const { HH, mm } = getTimeFormats(date)
+export function getFormattedDetailedTimestamp(
+  datetime: number | Date,
+  options?: { utc?: boolean },
+) {
+  const date = datetime instanceof Date ? datetime : new Date(datetime)
+  const { ddd, DD, MMM, YY } = getDateFormats(date, options)
+  const { HH, mm } = getTimeFormats(date, options)
 
   return `${ddd} ${DD} ${MMM}'${YY}  ${HH}:${mm}`
 }
 
-export function modifyDate(date: Date, modifier: { days: number }) {
-  date.setDate(date.getDate() + modifier.days)
+export function getFormattedDayMonthYear(datetime: number | Date, options?: { utc?: boolean }) {
+  const date = datetime instanceof Date ? datetime : new Date(datetime)
+
+  const { DD, MMM, YY } = getDateFormats(date, options)
+  return `${DD} ${MMM}'${YY}`
+}
+
+export function modifyDate(date: Date, modifier: { days: number; utc?: boolean }) {
+  const UTC = modifier.utc ? 'UTC' : ''
+  date[`set${UTC}Date`](date[`get${UTC}Date`]() + modifier.days)
   return date
 }
 
@@ -174,7 +185,11 @@ export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime
 export const CRYPTO_ERA_START_DATE = setDayStart(new Date('2009-01-01T00:00:00.000Z'), {
   utc: true,
 })
+export const CRYPTO_ERA_START_ISO = CRYPTO_ERA_START_DATE.toISOString()
+
 export const TODAY_END_DATE = setDayEnd(new Date(), { utc: true })
+
+export const DAYS_SINCE_CRYPTO_ERA_START = calculateDaysTo(TODAY_END_DATE, +CRYPTO_ERA_START_DATE)
 
 export function parseRangeString<T extends string>(range: T) {
   type TimeFormat<T extends string> = T extends `${number}${infer Format}` ? Format : string
@@ -186,7 +201,7 @@ export function parseRangeString<T extends string>(range: T) {
   }
 }
 
-export function parseDate(date: string) {
+export function parseDate(date: string, options?: { utc?: boolean }) {
   if (date === 'utc_now') {
     return new Date()
   }
@@ -197,7 +212,7 @@ export function parseDate(date: string) {
     const { amount, modifier } = parseRangeString(range as `${number}${'m' | 'h' | 'd' | 'y'}`)
     const days = modifier === 'y' ? amount * 365 : modifier === 'd' ? amount : 1
 
-    return modifyDate(new Date(), { days: -days })
+    return modifyDate(new Date(), { days: -days, utc: options?.utc })
   }
 
   return new Date(date)
@@ -223,3 +238,5 @@ export function suggestPeriodInterval(from: Date, to: Date) {
 
   return '7d'
 }
+
+export { TimeZones, type TTimeZone } from './timezone.js'
