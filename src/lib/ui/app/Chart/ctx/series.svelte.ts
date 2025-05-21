@@ -5,11 +5,11 @@ import type {
   TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
 
-import { ss } from 'svelte-runes'
-
-import { createCtx } from '$lib/utils/index.js'
+import { ss, createCtx, type SS } from '$lib/utils/index.js'
 
 import { DEFAULT_FORMATTER } from './formatters.js'
+
+type TMetricSelector = null | TMetricTargetSelectorInputObject
 
 export type TMetric = {
   name: string
@@ -19,7 +19,7 @@ export type TMetric = {
   color?: string
   visible?: boolean
 
-  selector?: null | TMetricTargetSelectorInputObject
+  selector?: TMetricSelector
   transformData?: (data: TMetricData) => TMetricData
   transform?: TTimeseriesMetricTransformInputObject
 
@@ -50,7 +50,7 @@ export function createSeries({
 
   tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
-}: TMetric) {
+}: TMetric & { selector?: TMetricSelector | SS<TMetricSelector> }) {
   const scale = $state({
     id: scaleId || name,
     visible: true,

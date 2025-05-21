@@ -11,6 +11,8 @@ export { onSupportClick } from './support.js'
 
 export const getRandomKey = (): string => Math.floor(Math.random() * 0xffffffff).toString()
 
+export { ss, type SS } from './state.svelte.js'
+
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
  */
