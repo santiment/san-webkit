@@ -4,7 +4,12 @@ import { execSync } from 'node:child_process'
 import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 
-import { StaticAssetLogos, WebkitSvg, StaticMetricsRestrictions } from './plugins/vite.js'
+import {
+  StaticAssetLogos,
+  WebkitSvg,
+  StaticMetricsRestrictions,
+  ReportMissingPreloadScriptsPlugin,
+} from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
 
@@ -29,10 +34,12 @@ export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
   bulletshell,
+  reportMissingPreloadScripts,
 }: {
   bulletshell?: boolean
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
+  reportMissingPreloadScripts?: boolean
 } = {}) {
   const corsHostname = new URL(corsOrigin).hostname
 
@@ -41,9 +48,13 @@ export function createConfig({
   const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
   return defineConfig({
-    plugins: [mkcert(), WebkitSvg(), sveltekit(), bulletshell && BulletshellPlugin()].filter(
-      Boolean,
-    ),
+    plugins: [
+      mkcert(),
+      WebkitSvg(),
+      sveltekit(),
+      bulletshell && BulletshellPlugin(),
+      reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
+    ].filter(Boolean),
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
