@@ -35,9 +35,11 @@ export const ROOT = path.resolve('.')
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
+  astro,
   bulletshell,
   reportMissingPreloadScripts,
 }: {
+  astro?: boolean
   bulletshell?: boolean
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
@@ -53,7 +55,7 @@ export function createConfig({
     plugins: [
       mkcert(),
       WebkitSvg(),
-      sveltekit(),
+      !astro && sveltekit(),
       bulletshell && BulletshellPlugin(),
       reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
     ].filter(Boolean),
@@ -106,6 +108,28 @@ export function createConfig({
 export default mergeConfig(createConfig(), {
   plugins: [StaticAssetLogos(), StaticMetricsRestrictions()],
 })
+
+export async function createAstroConfig() {
+  return _sveltekit().then((plugins) => {
+    const virtualModulesPlugin = plugins.find(
+      (plugin) => plugin.name === 'vite-plugin-sveltekit-virtual-modules',
+    )!
+
+    const sveltekitSetupPlugin = plugins.find(
+      (plugin) => plugin.name === 'vite-plugin-sveltekit-setup',
+    )!
+
+    return mergeConfig(
+      {
+        resolve: sveltekitSetupPlugin.config({}, { command: '' }).resolve,
+        plugins: [virtualModulesPlugin],
+        ssr: { noExternal: ['@sveltejs/kit'] },
+        optimizeDeps: { exclude: ['@sveltejs/kit', '$app', '$env'] },
+      },
+      createConfig({ astro: true }),
+    )
+  })
+}
 
 function getGitHeadDate() {
   const date: null | Date = new Date(
