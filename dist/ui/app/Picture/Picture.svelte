@@ -1,0 +1,32 @@
+<script lang="ts">
+  import type { Snippet } from 'svelte'
+
+  import { createAvatar } from '@melt-ui/svelte'
+
+  import { cn } from '../../utils/index.js'
+
+  let {
+    src,
+    alt = 'Avatar',
+    class: className,
+    children,
+  }: { src?: null | string; alt?: string; class?: string; children: Snippet } = $props()
+
+  const {
+    states: { loadingStatus },
+    elements: { image, fallback },
+  } = $derived(createAvatar({ src: src || '' }))
+</script>
+
+<div
+  class={cn(
+    'inline-flex size-5 rounded-full fill-waterloo center',
+    $loadingStatus !== 'loaded' && 'bg-porcelain',
+    className,
+  )}
+>
+  <img loading="lazy" {...$image} {alt} use:image class="h-full w-full rounded-[inherit]" />
+  <span {...$fallback} use:fallback>
+    {@render children()}
+  </span>
+</div>
