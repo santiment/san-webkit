@@ -23,6 +23,8 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
+export const GIT_CHANGES_COUNT = +execSync('git rev-list --count HEAD').toString().trim()
+
 export const GIT_HEAD_DATETIME = getGitHeadDate()
 
 export const SENTRY_DSN = process.env.SENTRY_DSN
@@ -96,6 +98,7 @@ export function createConfig({
 
       'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
       'process.env.GIT_HEAD_DATETIME': JSON.stringify(GIT_HEAD_DATETIME),
+      'process.env.GIT_CHANGES_COUNT': GIT_CHANGES_COUNT,
     },
   })
 }
