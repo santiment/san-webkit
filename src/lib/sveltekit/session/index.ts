@@ -1,1 +1,1 @@
-export { useAppSessionFlow } from './index.svelte.js'
+export { useAppSessionFlow, setupClientAppSession } from './index.svelte.js'
