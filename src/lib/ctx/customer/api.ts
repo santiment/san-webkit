@@ -246,7 +246,7 @@ export function loadCustomerData(
         Object.assign(
           {},
           defaultValue,
-          currentUser,
+          //currentUser,
           { currentUser },
           getCustomerSubscriptionData(primarySubscription),
           {
