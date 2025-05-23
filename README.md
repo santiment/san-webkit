@@ -133,3 +133,7 @@ Therefore to declare a generic type use old meta type `$$Generic`.
   }
 </script>
 ```
+
+## License
+
+This software incorporates several parts of lightweight-charts (https://github.com/tradingview/lightweight-charts, (c) TradingView) that are covered by Apache-2.0 license.

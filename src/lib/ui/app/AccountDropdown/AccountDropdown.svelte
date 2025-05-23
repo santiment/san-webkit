@@ -18,10 +18,17 @@
     class?: string
     version?: string
     onClassicClick?: () => void
+    onAcknowledgmentsClick?: () => void
     onLogout?: () => void
   }
 
-  let { class: className, version = '1.0.0', onClassicClick, onLogout }: TProps = $props()
+  let {
+    class: className,
+    version = '1.0.0',
+    onClassicClick,
+    onAcknowledgmentsClick,
+    onLogout,
+  }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -92,6 +99,10 @@
 
       {#if onClassicClick}
         <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
+      {/if}
+
+      {#if onAcknowledgmentsClick}
+        <Button variant="ghost" onclick={onAcknowledgmentsClick}>Acknowledgments</Button>
       {/if}
 
       {@render sanbaseLink('Contact us', 'mailto:support@santiment.net', {
