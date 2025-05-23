@@ -24,6 +24,7 @@ export type TCustomer = {
     marketingAccepted: boolean
     firstLogin: boolean
     isModerator: boolean
+    featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
 
     settings: {
       theme: null | 'nightmode'
@@ -37,6 +38,8 @@ export type TCustomer = {
   }
 
   isLoggedIn: boolean
+
+  isEarlyAccessMember: boolean
 
   sanBalance: number
   isEligibleForSanbaseTrial: boolean
@@ -81,6 +84,8 @@ export const DEFAULT: TCustomer = {
   isEligibleForSanbaseTrial: false,
   annualDiscount: normalizeAnnualDiscount(null),
 
+  isEarlyAccessMember: false,
+
   isCanceledSubscription: false,
   isIncompleteSubscription: false,
 
@@ -120,6 +125,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    featureAccessLevel
     ethAccounts { address }
     settings {
       theme
@@ -155,6 +161,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       marketingAccepted: boolean
       firstLogin: boolean
       isModerator: boolean
+      featureAccessLevel: string
 
       settings: {
         theme: null | 'nightmode'
@@ -251,6 +258,7 @@ export function loadCustomerData(
           getCustomerSubscriptionData(primarySubscription),
           {
             isLoggedIn: true,
+            isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
 
             primarySubscription,
             sanbaseSubscription,
@@ -267,4 +275,15 @@ export function loadCustomerData(
         .catch(() => {})
     })
     .catch(() => update(defaultValue))
+}
+
+function checkIsEarlyAccessMember(
+  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUserSubscriptions>>,
+): boolean {
+  const { email, featureAccessLevel } = currentUser
+  return (
+    email?.endsWith('@santiment.net') ||
+    featureAccessLevel === 'BETA' ||
+    featureAccessLevel === 'ALPHA'
+  )
 }

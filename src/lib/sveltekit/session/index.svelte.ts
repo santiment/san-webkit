@@ -5,12 +5,10 @@ import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
 if (BROWSER) {
-  // @ts-ignore
   if (!window.__SESSION__) window.__SESSION__ = {}
 }
 
-// @ts-ignore
-const __SESSION__: object = BROWSER ? window.__SESSION__ : {}
+let __SESSION__ = (BROWSER ? window.__SESSION__ : {}) as object
 
 export function useAppSessionFlow(data: {
   session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion'>
@@ -32,4 +30,15 @@ export function useAppSessionFlow(data: {
   $effect(() => {
     Object.assign(__SESSION__, { device: device.$.type })
   })
+}
+
+/**
+ * Pass LayoutLoad's `data` in `+layout.ts`
+ */
+export function setupClientAppSession(
+  data: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion'>,
+) {
+  if (!BROWSER) return
+
+  window.__SESSION__ = __SESSION__ = data || {}
 }

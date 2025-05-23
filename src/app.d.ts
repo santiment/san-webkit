@@ -41,6 +41,8 @@ declare global {
     __updateLegacyStoresOnPlanChange?: any
 
     onGdprAccept?: () => void
+
+    __SESSION__?: object
   }
 
   namespace NodeJS {
