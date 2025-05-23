@@ -11,7 +11,7 @@ import {
 export type TGlobalParameters = {
   from: string
   to: string
-  interval: TInterval
+  interval?: null | TInterval
   selector: TMetricTargetSelectorInputObject
   includeIncompleteData: boolean
 }
@@ -22,7 +22,6 @@ export const useChartGlobalParametersCtx = createCtx(
     const parameters = $state<TGlobalParameters>({
       from: 'utc_now-60d',
       to: 'utc_now',
-      interval: '4h',
       selector: { slug: 'bitcoin' as TAssetSlug },
       includeIncompleteData: true,
       ...defaultCtxValue,
@@ -35,10 +34,9 @@ export const useChartGlobalParametersCtx = createCtx(
       toUtcDate: parseAsStartEndDate(parameters.to, { dayStart: false, utc: true }),
     })
 
-    const interval = $derived({
-      auto: suggestPeriodInterval(dates.fromUtcDate, dates.toUtcDate) as TInterval,
-      manual: null as null | TInterval,
-    })
+    const autoInterval = $derived(
+      suggestPeriodInterval(dates.fromUtcDate, dates.toUtcDate) as TInterval,
+    )
 
     return {
       globalParameters: {
@@ -50,8 +48,8 @@ export const useChartGlobalParametersCtx = createCtx(
           return dates
         },
 
-        get interval$() {
-          return interval
+        get autoInterval$() {
+          return autoInterval
         },
 
         changeDates(from: string, to: string) {
