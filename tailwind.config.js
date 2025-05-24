@@ -72,6 +72,7 @@ export default {
         'green-light-1': { day: '#EDF8F5', night: '#182833' },
         'green-light-2': { day: '#DCF6EF', night: '#173D40' },
         'green-light-3': { day: '#B0EBDB', night: '#165E55' },
+        'green-light-4': { day: '#6CC5AE', night: '#31826D' },
 
         lima: '#26C953',
         'lima-hover': '#1bad44',
