@@ -1,13 +1,15 @@
 <script lang="ts">
+  import type { TAssetSlug } from '$lib/ctx/assets/api.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { ListOfAssets, ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
   import { SvelteSet } from 'svelte/reactivity'
 
-  let selectedSingle = $state<string>()
-  let selectedMulti = new SvelteSet<string>()
+  let selectedSingle = $state<TAssetSlug>()
+  let selectedMulti = new SvelteSet<TAssetSlug>()
 
-  let hasSearch = $state(true)
+  let hasSearch = $state(false)
+  let hasTabs = $state(false)
   let hasResetButton = $state(false)
   let keepSelectedInList = $state(false)
 
@@ -18,7 +20,12 @@
   <section class="flex flex-1 flex-col gap-4">
     <h3 class="text-lg">Selected Single Asset: {selectedSingle}</h3>
 
-    <ListOfAssets selected={selectedSingle} onSelect={(slug) => (selectedSingle = slug)} />
+    <ListOfAssets
+      selected={selectedSingle}
+      onSelect={(slug) => (selectedSingle = slug)}
+      {hasSearch}
+      {hasTabs}
+    />
   </section>
 
   <section class="flex flex-1 flex-col gap-4">
@@ -27,6 +34,7 @@
     <div>
       <div class="flex flex-col">
         {@render setting('hasSearch', hasSearch, (v) => (hasSearch = v))}
+        {@render setting('hasTabs', hasTabs, (v) => (hasTabs = v))}
         {@render setting('hasResetButton', hasResetButton, (v) => (hasResetButton = v))}
         {@render setting('keepSelectedInList', keepSelectedInList, (v) => (keepSelectedInList = v))}
       </div>
@@ -45,6 +53,7 @@
       {keepSelectedInList}
       {hasSearch}
       {hasResetButton}
+      {hasTabs}
     />
   </section>
 </main>

@@ -36,4 +36,10 @@
   }
 </script>
 
-<ListOfAssetsMulti {selected} {onSelect} resetSelections={() => selected.clear()} />
+<ListOfAssetsMulti
+  {selected}
+  {onSelect}
+  resetSelections={() => selected.clear()}
+  hasSearch
+  hasTabs
+/>
