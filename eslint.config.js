@@ -65,6 +65,7 @@ const rules = {
 }
 
 const importResolverConfig = {
+  'import/ignore': ['@tiptap'],
   'import/resolver': {
     typescript: true,
     node: true,
