@@ -12,7 +12,13 @@
   import Button from '$ui/core/Button/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
-  let { Controller }: TDialogProps = $props()
+  const { Controller }: TDialogProps = $props()
+
+  function handleClose() {
+    trackEvent('dialog', { action: 'close', type: 'session_expired_dialog' })
+
+    Controller.close()
+  }
 
   onMount(() => {
     trackEvent('dialog', { action: 'open', type: 'session_expired_dialog' })
@@ -27,8 +33,14 @@
     experience
   </p>
   <footer class="flex justify-center gap-4">
-    <Button variant="fill" class="h-10 w-36 text-base center" href="/login">Sign in</Button>
-    <Button variant="border" class="h-10 w-36 text-base center" onclick={() => Controller.close()}
+    <Button
+      variant="fill"
+      class="h-10 w-36 text-base center"
+      href="/login"
+      onclick={() => trackEvent('dialog', { action: 'link', type: 'session_expired_dialog' })}
+      >Sign in</Button
+    >
+    <Button variant="border" class="h-10 w-36 text-base center" onclick={handleClose}
       >No, thanks</Button
     >
   </footer>
