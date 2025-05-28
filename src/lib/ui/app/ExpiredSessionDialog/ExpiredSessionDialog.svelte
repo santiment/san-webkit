@@ -14,14 +14,10 @@
 
   const { Controller }: TDialogProps = $props()
 
-  function handleClose() {
-    trackEvent('dialog', { action: 'close', type: 'session_expired_dialog' })
-
-    Controller.close()
-  }
-
   onMount(() => {
     trackEvent('dialog', { action: 'open', type: 'session_expired_dialog' })
+
+    return () => trackEvent('dialog', { action: 'close', type: 'session_expired_dialog' })
   })
 </script>
 
@@ -40,7 +36,7 @@
       onclick={() => trackEvent('dialog', { action: 'link', type: 'session_expired_dialog' })}
       >Sign in</Button
     >
-    <Button variant="border" class="h-10 w-36 text-base center" onclick={handleClose}
+    <Button variant="border" class="h-10 w-36 text-base center" onclick={() => Controller.close()}
       >No, thanks</Button
     >
   </footer>
