@@ -15,14 +15,16 @@
   type TProps = {
     mapItems: (assets: TAsset[]) => T[]
     onTabSelect?: (tab: TabKey) => void
-    hasSearch?: boolean
+    hasSearch: boolean
+    hasTabs: boolean
     children: Snippet<[{ assets: T[] }]>
   }
 
   const {
     mapItems = (assets) => assets as T[],
     onTabSelect = noop,
-    hasSearch = true,
+    hasSearch,
+    hasTabs,
     children,
   }: TProps = $props()
 
@@ -63,17 +65,15 @@
 </script>
 
 <section class="flex h-full flex-1 flex-col">
-  {#if hasSearch}
-    <Input
-      class="mb-3"
-      icon="search"
-      placeholder="Search for asset"
-      oninput={onInput}
-      onkeyup={onKeyUp}
-    />
+  <header class="flex flex-col gap-3">
+    {#if hasSearch}
+      <Input icon="search" placeholder="Search for asset" oninput={onInput} onkeyup={onKeyUp} />
+    {/if}
 
-    <Tabs selected={tab} onSelect={handleTabSelect} />
-  {/if}
+    {#if hasTabs}
+      <Tabs selected={tab} onSelect={handleTabSelect} />
+    {/if}
+  </header>
 
   <section class="relative flex-1">
     {#if loading}
