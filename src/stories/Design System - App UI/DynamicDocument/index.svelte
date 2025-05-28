@@ -33,4 +33,6 @@
           `
 </script>
 
-<DynamicDocument {content}></DynamicDocument>
+<main class="p-8">
+  <DynamicDocument {content}></DynamicDocument>
+</main>
