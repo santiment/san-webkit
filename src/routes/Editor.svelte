@@ -1,36 +1,41 @@
 <script lang="ts">
   import { BROWSER } from 'esm-env'
 
-  import { BlockNoteEditor, BlockNoteSchema, getTipTapExtensions } from '@blocknote/core'
+  import {
+    BlockNoteEditor,
+    BlockNoteSchema,
+    defaultBlockSpecs,
+    getTipTapExtensions,
+  } from '@blocknote/core'
   import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
   import { onMount } from 'svelte'
   import SideMenu from './SideMenu.svelte'
   import SuggestionMenu from './SuggestionMenu.svelte'
+  import { Alert } from './nodes/blocks/alert/index.js'
+  import AlertComponent from './nodes/blocks/alert/Alert.svelte'
+  import { render } from 'svelte/server'
+  import BlockContentWrapper from '$ui/app/DynamicDocument/core/BlockContentWrapper.svelte'
 
   console.log('browser ->', BROWSER)
 
   type TProps = any
-  let { initialContent, children }: TProps = $props()
+  let { initialContent, renderedHTML, children }: TProps = $props()
 
-  const schema = BlockNoteSchema.create()
-  const extensions = getTipTapExtensions({
-    editor: { settings: { codeBlock: { default: '' } } },
+  const schema = BlockNoteSchema.create({
+    blockSpecs: {
+      // enable the default blocks if desired
+      ...defaultBlockSpecs,
 
-    blockSpecs: schema.blockSpecs,
-    styleSpecs: schema.styleSpecs,
-    inlineContentSpecs: schema.inlineContentSpecs,
-  })
-
-  const renderedHTML = renderToHTMLString({
-    extensions: extensions,
-    content: { type: 'doc', content: initialContent },
+      // Add your own custom blocks:
+      alert: Alert,
+    },
   })
 
   let editorNode: HTMLElement
 
   let editor: null | BlockNoteEditor = $state.raw(null)
   onMount(() => {
-    const _editor = BlockNoteEditor.create({ initialContent })
+    const _editor = BlockNoteEditor.create({ initialContent, schema })
 
     _editor.mount(editorNode)
 

@@ -7,74 +7,34 @@
 
   import { BlockNoteEditor, BlockNoteSchema, getTipTapExtensions } from '@blocknote/core'
   import { renderToHTMLString } from '@tiptap/static-renderer/pm/html-string'
-  import { onMount } from 'svelte'
+  import { hydrate, onMount, setContext } from 'svelte'
   import Editor from './Editor.svelte'
+  import BlockContentWrapper from '$ui/app/DynamicDocument/core/BlockContentWrapper.svelte'
+  import AlertComponent from './nodes/blocks/alert/Alert.svelte'
 
-  const data = [
-    {
-      id: 'b6e310cd-438e-414a-bc4f-906cfca95168',
-      type: 'paragraph',
+  let props = $props()
+
+  let editorNode: HTMLElement
+
+  setContext('test', 123)
+
+  onMount(() => {
+    if (props.data.isEdit) return
+
+    console.log(props.data.initialContent)
+
+    //const element = editorNode.querySelector('[data-content-type="alert"]')
+    //console.log(element)
+
+    const h = hydrate(BlockContentWrapper, {
+      target: editorNode,
       props: {
-        textColor: 'default',
-        backgroundColor: 'default',
-        textAlignment: 'left',
+        Component: AlertComponent,
+        blockType: 'alert',
       },
-      content: [
-        {
-          type: 'text',
-          text: 'Welcome to this demo!',
-          styles: {},
-        },
-      ],
-      children: [],
-    },
-    {
-      id: '42d35dbe-eadb-4299-95f2-7c5f759e121a',
-      type: 'heading',
-      props: {
-        textColor: 'default',
-        backgroundColor: 'default',
-        textAlignment: 'left',
-        level: 1,
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'This is a heading block',
-          styles: {},
-        },
-      ],
-      children: [],
-    },
-    {
-      id: '8e6ffe3f-ea5c-4736-b8d6-528e67c56d78',
-      type: 'paragraph',
-      props: {
-        textColor: 'default',
-        backgroundColor: 'default',
-        textAlignment: 'left',
-      },
-      content: [
-        {
-          type: 'text',
-          text: 'This is a paragraph block',
-          styles: {},
-        },
-      ],
-      children: [],
-    },
-    {
-      id: '45606696-6bf7-4239-adc4-839e829f1c79',
-      type: 'paragraph',
-      props: {
-        textColor: 'default',
-        backgroundColor: 'default',
-        textAlignment: 'left',
-      },
-      content: [],
-      children: [],
-    },
-  ]
+    })
+    console.log(h)
+  })
 </script>
 
 <h1>Welcome to your library project</h1>
@@ -82,5 +42,12 @@
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
 <main class="p-8">
-  <Editor initialContent={data}></Editor>
+  {#if props.data.isEdit}
+    <Editor initialContent={props.data.initialContent} renderedHTML={props.data.renderedHTML}
+    ></Editor>
+  {:else}
+    <div bind:this={editorNode}>
+      {@html props.data.renderedHTML}
+    </div>
+  {/if}
 </main>
