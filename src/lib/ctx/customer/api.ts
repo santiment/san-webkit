@@ -26,6 +26,10 @@ export type TCustomer = {
     isModerator: boolean
     featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
 
+    following: {
+      users: { id: string | number }[]
+    }
+
     settings: {
       theme: null | 'nightmode'
       isPromoter: boolean
@@ -127,6 +131,11 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     isEligibleForSanbaseTrial
     featureAccessLevel
     ethAccounts { address }
+    following {
+      users {
+        id
+      }
+    }
     settings {
       theme
       isPromoter
@@ -162,6 +171,10 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       firstLogin: boolean
       isModerator: boolean
       featureAccessLevel: string
+
+      following: {
+        users: { id: string | number }[]
+      }
 
       settings: {
         theme: null | 'nightmode'
