@@ -33,6 +33,7 @@ export {}
 declare global {
   interface Window {
     Intercom?: (...args: any[]) => void
+    intercomSettings: any
 
     getPageType?: (pathname: string) => string
 
