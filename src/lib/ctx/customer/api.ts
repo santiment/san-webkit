@@ -26,7 +26,7 @@ export type TCustomer = {
     isModerator: boolean
     featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
 
-    following: {
+    following?: {
       users: { id: string | number }[]
     }
 
@@ -131,11 +131,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     isEligibleForSanbaseTrial
     featureAccessLevel
     ethAccounts { address }
-    following {
-      users {
-        id
-      }
-    }
+    ${BROWSER ? 'following { users { id } }' : ''}
     settings {
       theme
       isPromoter
@@ -172,7 +168,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       isModerator: boolean
       featureAccessLevel: string
 
-      following: {
+      following?: {
         users: { id: string | number }[]
       }
 
