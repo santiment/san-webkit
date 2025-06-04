@@ -17,12 +17,15 @@ export function usePosthogFlow() {
       userId && posthog.identify(userId.toString(), { name, email }),
   )
 
-  const updateUserSanbasePlan = useDebouncedFn(1000, (sanbase_plan?: string) =>
-    posthog.capture('$set', {
-      $set: {
-        sanbase_plan: sanbase_plan || SubscriptionPlan.FREE.key,
-      },
-    }),
+  const updateUserSanbasePlan = useDebouncedFn(
+    1000,
+    (sanbase_plan?: string, featureAccessLevel?: string) =>
+      posthog.capture('$set', {
+        $set: {
+          sanbase_plan: sanbase_plan || SubscriptionPlan.FREE.key,
+          feature_access_level: featureAccessLevel,
+        },
+      }),
   )
 
   $effect(() => {
@@ -36,6 +39,8 @@ export function usePosthogFlow() {
   })
 
   $effect(() => {
-    updateUserSanbasePlan(customer.$.plan?.name)
+    const featureAccessLevel = currentUser.$$?.featureAccessLevel
+
+    updateUserSanbasePlan(customer.$.plan?.name, featureAccessLevel)
   })
 }

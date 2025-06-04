@@ -28,8 +28,19 @@ export function useAmplitudeFlow() {
 
   const updateUserData = useDebouncedFn(
     1000,
-    (userId?: string | number, name?: null | string, email?: null | string) =>
-      setAmplitudeUserProperties({ user_id: userId, userId, name, email }),
+    (
+      userId?: string | number,
+      name?: null | string,
+      email?: null | string,
+      featureAccessLevel?: string,
+    ) =>
+      setAmplitudeUserProperties({
+        user_id: userId,
+        userId,
+        name,
+        email,
+        feature_access_level: featureAccessLevel,
+      }),
   )
 
   const updateUserSanbaseVersion = useDebouncedFn(1000, (isLiteVersion: boolean) =>
@@ -44,8 +55,9 @@ export function useAmplitudeFlow() {
     const userId = currentUser.$$?.id
     const name = currentUser.$$?.username
     const email = currentUser.$$?.email
+    const featureAccessLevel = currentUser.$$?.featureAccessLevel
 
-    updateUserData(userId, name, email)
+    updateUserData(userId, name, email, featureAccessLevel)
   })
 
   $effect(() => {
