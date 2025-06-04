@@ -253,7 +253,7 @@ export function loadCustomerData(
 
       const annualDiscountPromise = queryCustomerAnnualDiscount(executor)()
 
-      const { subscriptions } = currentUser
+      const { subscriptions, isEligibleForSanbaseTrial } = currentUser
       const sanbaseSubscription = getSanbaseSubscription(subscriptions)
       const apiSubscription = getApiSubscription(subscriptions)
       const primarySubscription = getPrimarySubscription(subscriptions)
@@ -263,7 +263,7 @@ export function loadCustomerData(
           {},
           defaultValue,
           //currentUser,
-          { currentUser },
+          { currentUser, isEligibleForSanbaseTrial },
           getCustomerSubscriptionData(primarySubscription),
           {
             isLoggedIn: true,
