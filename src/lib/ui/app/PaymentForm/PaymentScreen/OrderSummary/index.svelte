@@ -127,7 +127,7 @@
         </span>
       </h3>
 
-      {#if isConsumerPlan && isEligibleForSanbaseTrial === false && trialDaysLeft < 1}
+      {#if isConsumerPlan && isEligibleForSanbaseTrial === false && trialDaysLeft !== null && trialDaysLeft < 1}
         <p class="-mt-1">
           Your trial has expired! If you have accidentally bypassed the free trial, please get in
           touch with

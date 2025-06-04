@@ -69,7 +69,7 @@ export type TCustomer = {
   isCustom: boolean
 
   isTrialSubscription: boolean
-  trialDaysLeft: number
+  trialDaysLeft: null | number
 
   plan: null | TSubscriptionPlan
   planName: string
@@ -108,7 +108,7 @@ export const DEFAULT: TCustomer = {
   isConsumerSubscription: false,
 
   isTrialSubscription: false,
-  trialDaysLeft: 0,
+  trialDaysLeft: null,
 
   primarySubscription: null,
   sanbaseSubscription: null,
