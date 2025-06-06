@@ -38,7 +38,6 @@
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
@@ -142,27 +141,29 @@
     </div>
 
     <p class="mb-3">Share on social media</p>
-    <div class="flex gap-3">
+    <div class="flex items-center gap-3">
       {#each SOCIALS as { id, href }}
-        <a
+        <Button
           href={href({ link, title: encodedTitle, text: encodedText })}
           class={cn(
-            'flex h-10 w-10 items-center justify-center rounded border border-porcelain hover:fill-green',
+            'flex h-10 w-10 items-center justify-center rounded border border-porcelain fill-black hover:bg-transparent hover:fill-green',
             disabled && 'pointer-events-none bg-athens fill-waterloo text-mystic',
           )}
           target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Svg {id} w="18" h="20" />
-        </a>
+          icon={id}
+          iconSize={18}
+          iconHeight={20}
+        ></Button>
       {/each}
 
       {#if isAuthor}
-        <button class="ml-auto flex items-center" onclick={onPublicityToggle}>
+        <Button as="label" class="ml-auto flex items-center">
           {isPublic ? 'Public' : 'Private'}
           {entity}
-          <Switch class="ml-3 cursor-pointer" checked={isPublic} disabled></Switch>
-        </button>
+
+          <Switch class="ml-3 cursor-pointer" checked={isPublic} onCheckedChange={onPublicityToggle}
+          ></Switch>
+        </Button>
       {/if}
     </div>
   </div>

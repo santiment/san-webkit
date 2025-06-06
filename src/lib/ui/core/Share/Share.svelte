@@ -2,15 +2,18 @@
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
   import { copy } from '$lib/utils/clipboard.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   import { showShareDialog$ } from './ShareDialog.svelte'
 
   type TProps = {
-    class?: string
     getLink: () => Promise<string>
+    class?: string
+    source?: string
+    feature?: string
   }
 
-  const { class: className = '', getLink }: TProps = $props()
+  const { class: className = '', getLink, feature, source }: TProps = $props()
 
   let explanation = $state('Copy link')
 
@@ -18,15 +21,18 @@
 
   function onShareClick() {
     getLink().then((link) => {
-      showShareDialog({ data: { link }, feature: 'chart_layout', source: 'charts' })
+      showShareDialog({ data: { link }, feature, source })
     })
   }
 
   function onCopyLinkClick() {
     explanation = 'Copied!'
+
     getLink().then((link) => {
       copy(link, () => (explanation = 'Copy link'), 1500)
     })
+
+    trackEvent('press', { type: 'quick_link_copy', source })
   }
 </script>
 

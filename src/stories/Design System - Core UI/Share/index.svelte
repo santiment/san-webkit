@@ -5,5 +5,5 @@
 </script>
 
 <div class="flex h-screen items-center justify-center">
-  <Share {getLink} />
+  <Share {getLink} feature="chart_layout" source="charts" />
 </div>
