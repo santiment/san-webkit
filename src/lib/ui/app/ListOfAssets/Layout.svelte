@@ -65,9 +65,9 @@
 </script>
 
 <section class="flex h-full flex-1 flex-col">
-  <header class="flex flex-col gap-3">
+  <header class="flex flex-col gap-3 px-2">
     {#if hasSearch}
-      <Input icon="search" placeholder="Search for asset" oninput={onInput} onkeyup={onKeyUp} />
+      <Input icon="search" placeholder="Search project" oninput={onInput} onkeyup={onKeyUp} />
     {/if}
 
     {#if hasTabs}
