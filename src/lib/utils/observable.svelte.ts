@@ -11,7 +11,7 @@ import {
   type UnaryFunction,
 } from 'rxjs'
 
-export function useObserveFnCall<GData = undefined>(
+export function useObserveFnCall<GData = unknown>(
   fn: <T>() => UnaryFunction<T extends Observable<unknown> ? any : Observable<GData>, any>,
 ) {
   const subject = new Subject<GData>()
@@ -31,11 +31,13 @@ export function useObserveFnCall<GData = undefined>(
     return (subscriber = subject.pipe(fn(), share()).subscribe())
   }
 
-  type Result = GData extends undefined ? () => void : (data: GData) => void
+  type Result = unknown extends GData
+    ? () => void
+    : (...args: undefined extends GData ? [] | [GData] : [GData]) => void
 
   return ((data) => {
     ensureSubscription()
-    subject.next(data)
+    subject.next(data as any)
   }) as Result
 }
 

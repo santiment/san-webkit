@@ -3,13 +3,15 @@ import { getContext, setContext } from 'svelte'
 
 export type { TNominal } from './types/index.js'
 
-export { keyify } from './object.js'
+export { keyify, exactObjectKeys } from './object.js'
 
 export { useObserveFnCall, pipeGroupBy } from './observable.svelte.js'
 
 export { onSupportClick } from './support.js'
 
 export const getRandomKey = (): string => Math.floor(Math.random() * 0xffffffff).toString()
+
+export { ss, type SS } from './state.svelte.js'
 
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot

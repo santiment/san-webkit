@@ -69,7 +69,7 @@
       </Button>
     {/if}
 
-    {#if isTrialSubscription}
+    {#if isTrialSubscription && trialDaysLeft !== null}
       <p class="-mt-1 text-orange">
         Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
       </p>

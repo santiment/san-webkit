@@ -33,6 +33,7 @@ export {}
 declare global {
   interface Window {
     Intercom?: (...args: any[]) => void
+    intercomSettings: any
 
     getPageType?: (pathname: string) => string
 
@@ -41,6 +42,8 @@ declare global {
     __updateLegacyStoresOnPlanChange?: any
 
     onGdprAccept?: () => void
+
+    __SESSION__?: object
   }
 
   namespace NodeJS {

@@ -24,6 +24,11 @@ export type TCustomer = {
     marketingAccepted: boolean
     firstLogin: boolean
     isModerator: boolean
+    featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
+
+    following?: {
+      users: { id: string | number }[]
+    }
 
     settings: {
       theme: null | 'nightmode'
@@ -37,6 +42,8 @@ export type TCustomer = {
   }
 
   isLoggedIn: boolean
+
+  isEarlyAccessMember: boolean
 
   sanBalance: number
   isEligibleForSanbaseTrial: boolean
@@ -62,7 +69,7 @@ export type TCustomer = {
   isCustom: boolean
 
   isTrialSubscription: boolean
-  trialDaysLeft: number
+  trialDaysLeft: null | number
 
   plan: null | TSubscriptionPlan
   planName: string
@@ -80,6 +87,8 @@ export const DEFAULT: TCustomer = {
   sanBalance: 0,
   isEligibleForSanbaseTrial: false,
   annualDiscount: normalizeAnnualDiscount(null),
+
+  isEarlyAccessMember: false,
 
   isCanceledSubscription: false,
   isIncompleteSubscription: false,
@@ -99,7 +108,7 @@ export const DEFAULT: TCustomer = {
   isConsumerSubscription: false,
 
   isTrialSubscription: false,
-  trialDaysLeft: 0,
+  trialDaysLeft: null,
 
   primarySubscription: null,
   sanbaseSubscription: null,
@@ -120,7 +129,9 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    featureAccessLevel
     ethAccounts { address }
+    ${BROWSER ? 'following { users { id } }' : ''}
     settings {
       theme
       isPromoter
@@ -155,6 +166,11 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       marketingAccepted: boolean
       firstLogin: boolean
       isModerator: boolean
+      featureAccessLevel: string
+
+      following?: {
+        users: { id: string | number }[]
+      }
 
       settings: {
         theme: null | 'nightmode'
@@ -237,7 +253,7 @@ export function loadCustomerData(
 
       const annualDiscountPromise = queryCustomerAnnualDiscount(executor)()
 
-      const { subscriptions } = currentUser
+      const { subscriptions, isEligibleForSanbaseTrial } = currentUser
       const sanbaseSubscription = getSanbaseSubscription(subscriptions)
       const apiSubscription = getApiSubscription(subscriptions)
       const primarySubscription = getPrimarySubscription(subscriptions)
@@ -246,11 +262,12 @@ export function loadCustomerData(
         Object.assign(
           {},
           defaultValue,
-          currentUser,
-          { currentUser },
+          //currentUser,
+          { currentUser, isEligibleForSanbaseTrial },
           getCustomerSubscriptionData(primarySubscription),
           {
             isLoggedIn: true,
+            isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
 
             primarySubscription,
             sanbaseSubscription,
@@ -267,4 +284,15 @@ export function loadCustomerData(
         .catch(() => {})
     })
     .catch(() => update(defaultValue))
+}
+
+function checkIsEarlyAccessMember(
+  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUserSubscriptions>>,
+): boolean {
+  const { email, featureAccessLevel } = currentUser
+  return (
+    email?.endsWith('@santiment.net') ||
+    featureAccessLevel === 'BETA' ||
+    featureAccessLevel === 'ALPHA'
+  )
 }

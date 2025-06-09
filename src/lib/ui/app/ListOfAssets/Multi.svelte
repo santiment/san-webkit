@@ -15,6 +15,7 @@
     onSelect: (slug: TAssetSlug) => void
     resetSelections: () => void
     hasSearch?: boolean
+    hasTabs?: boolean
     hasResetButton?: boolean
     keepSelectedInList?: boolean
     recents?: TAsset[]
@@ -24,7 +25,8 @@
     selected,
     onSelect,
     resetSelections,
-    hasSearch = true,
+    hasSearch = false,
+    hasTabs = false,
     hasResetButton = false,
     keepSelectedInList = false,
     recents = [],
@@ -77,7 +79,7 @@
   }
 </script>
 
-<Layout mapItems={mapAssets} {hasSearch} {onTabSelect}>
+<Layout mapItems={mapAssets} {hasSearch} {hasTabs} {onTabSelect}>
   {#snippet children({ assets })}
     {@const _items = [
       ...selections,

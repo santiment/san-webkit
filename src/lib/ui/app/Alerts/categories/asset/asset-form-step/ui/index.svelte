@@ -36,4 +36,6 @@
   selected={selectedSlugs}
   {onSelect}
   resetSelections={() => selectedSlugs.clear()}
+  hasSearch
+  hasTabs
 />

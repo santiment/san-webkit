@@ -84,7 +84,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     isCanceledSubscription: false,
     isIncompleteSubscription: false,
     isTrialSubscription: false,
-    trialDaysLeft: 0,
+    trialDaysLeft: null,
   }
 
   if (!subscription) {
@@ -102,7 +102,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
     const isBusiness = checkIsBusinessPlan(plan)
     const planName = plan.name
-    const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : 0
+    const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
     const isCustom = planName === SubscriptionPlan.CUSTOM.key
     const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
@@ -129,7 +129,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
-      isTrialSubscription: trialDaysLeft > 0 && status === Status.TRIALING,
+      isTrialSubscription: trialDaysLeft && trialDaysLeft > 0 && status === Status.TRIALING,
       trialDaysLeft,
 
       currentPeriodEnd,

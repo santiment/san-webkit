@@ -1,4 +1,3 @@
-import { ss } from 'svelte-runes'
 import { BROWSER } from 'esm-env'
 import { setUser } from '@sentry/sveltekit'
 
@@ -8,16 +7,18 @@ import { DEFAULT, loadCustomerData, type TCustomer } from './api.js'
 
 export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCustomer) => {
   const defaultValue = Object.assign({}, DEFAULT, initialValue)
-  const customer = ss(defaultValue)
+  let state = $state.raw(defaultValue)
+
   let currentUser = $state<TCustomer['currentUser']>(defaultValue.currentUser)
 
   if (BROWSER) reload()
 
   function reload() {
     return loadCustomerData(fetch, (data) => {
-      Object.assign(customer.$, data)
-      customer.$ = customer.$
-      currentUser = customer.$.currentUser
+      const customer = Object.assign({}, state, data)
+
+      state = customer
+      currentUser = state.currentUser
 
       if (currentUser) {
         const { id, username } = currentUser
@@ -33,7 +34,7 @@ export const useCustomerCtx = createCtx('useCustomerCtx', (initialValue?: TCusto
   return {
     customer: {
       get $() {
-        return customer.$
+        return state
       },
 
       reload,

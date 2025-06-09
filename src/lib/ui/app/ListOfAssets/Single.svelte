@@ -1,18 +1,22 @@
 <script lang="ts">
+  import type { TAssetSlug } from '$lib/ctx/assets/api.js'
+
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
 
   import Layout from './Layout.svelte'
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
-    selected: string
-    onSelect: (slug: string) => void
+    selected: TAssetSlug | undefined
+    onSelect: (slug: TAssetSlug) => void
+    hasSearch?: boolean
+    hasTabs?: boolean
   }
 
-  const { selected, onSelect }: TProps = $props()
+  const { selected, onSelect, hasSearch = false, hasTabs = false }: TProps = $props()
 </script>
 
-<Layout mapItems={(assets) => assets}>
+<Layout mapItems={(assets) => assets} {hasSearch} {hasTabs}>
   {#snippet children({ assets })}
     <VirtualList class="pt-4" itemHeight={32} data={assets} getKey={({ slug }) => slug}>
       {#snippet children(item)}

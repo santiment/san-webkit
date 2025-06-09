@@ -99,3 +99,24 @@ export async function StaticMetricsRestrictions() {
     },
   }
 }
+
+export function ReportMissingPreloadScriptsPlugin() {
+  return {
+    name: 'report-missing-preload-scripts',
+
+    transform(src: string, id: string) {
+      if (id.includes('preload-helper')) {
+        return {
+          code: src.replace(
+            'if (isCss) {',
+            `if (!isCss) {
+ link.addEventListener("error", () => handlePreloadError({href: link.href}))
+}
+if (isCss) {`,
+          ),
+          map: null,
+        }
+      }
+    },
+  }
+}

@@ -94,7 +94,7 @@
                 label={item.label}
                 onclick={() => onItemSelect(item)}
                 class={cn(
-                  'z-50 cursor-pointer rounded px-3 py-2 hover:bg-athens [&[data-selected]]:text-green',
+                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens [&[data-selected]]:text-green',
                   contentClass,
                 )}
               >

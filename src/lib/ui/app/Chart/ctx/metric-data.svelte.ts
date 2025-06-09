@@ -12,6 +12,7 @@ import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-pa
 import { type TSeries } from './series.svelte.js'
 import {
   queryGetMetric,
+  type TInterval,
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
@@ -43,7 +44,7 @@ export function useApiMetricDataFlow(
 
   const loadMetricData = useObserveFnCall<{
     localParameters: TLocalParameters
-    globalParameters: TGlobalParameters
+    globalParameters: TGlobalParameters & { interval: TInterval }
     scheduledData: TScheduledData
   }>(() =>
     switchMap(({ localParameters, globalParameters, scheduledData }) => {
@@ -84,7 +85,7 @@ export function useApiMetricDataFlow(
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
-    const interval = globalParameters.interval$.manual || globalParameters.interval$.auto
+    const interval = globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { scheduledData } = createScheduledData(

@@ -4,7 +4,12 @@ import { execSync } from 'node:child_process'
 import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 
-import { StaticAssetLogos, WebkitSvg, StaticMetricsRestrictions } from './plugins/vite.js'
+import {
+  StaticAssetLogos,
+  WebkitSvg,
+  StaticMetricsRestrictions,
+  ReportMissingPreloadScriptsPlugin,
+} from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
 
@@ -18,6 +23,8 @@ export const IS_PROD_BACKEND = !IS_STAGE_BACKEND
 export const GIT_HEAD =
   process.env.GIT_HEAD || execSync('git rev-parse HEAD').toString().trim().slice(0, 7)
 
+export const GIT_CHANGES_COUNT = +execSync('git rev-list --count HEAD').toString().trim()
+
 export const GIT_HEAD_DATETIME = getGitHeadDate()
 
 export const SENTRY_DSN = process.env.SENTRY_DSN
@@ -28,11 +35,15 @@ export const ROOT = path.resolve('.')
 export function createConfig({
   corsOrigin = 'https://santiment.net',
   sveltekit = _sveltekit,
+  astro,
   bulletshell,
+  reportMissingPreloadScripts,
 }: {
+  astro?: boolean
   bulletshell?: boolean
   corsOrigin?: string
   sveltekit?: typeof _sveltekit
+  reportMissingPreloadScripts?: boolean
 } = {}) {
   const corsHostname = new URL(corsOrigin).hostname
 
@@ -41,9 +52,13 @@ export function createConfig({
   const isSentryEnabled = IS_DEV_MODE === false && SENTRY_AUTH_TOKEN
 
   return defineConfig({
-    plugins: [mkcert(), WebkitSvg(), sveltekit(), bulletshell && BulletshellPlugin()].filter(
-      Boolean,
-    ),
+    plugins: [
+      mkcert(),
+      WebkitSvg(),
+      !astro && sveltekit(),
+      bulletshell && BulletshellPlugin(),
+      reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
+    ].filter(Boolean),
 
     build: {
       sourcemap: isSentryEnabled ? 'hidden' : false,
@@ -85,6 +100,7 @@ export function createConfig({
 
       'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
       'process.env.GIT_HEAD_DATETIME': JSON.stringify(GIT_HEAD_DATETIME),
+      'process.env.GIT_CHANGES_COUNT': GIT_CHANGES_COUNT,
     },
   })
 }
@@ -92,6 +108,28 @@ export function createConfig({
 export default mergeConfig(createConfig(), {
   plugins: [StaticAssetLogos(), StaticMetricsRestrictions()],
 })
+
+export async function createAstroConfig() {
+  return _sveltekit().then((plugins) => {
+    const virtualModulesPlugin = plugins.find(
+      (plugin) => plugin.name === 'vite-plugin-sveltekit-virtual-modules',
+    )!
+
+    const sveltekitSetupPlugin = plugins.find(
+      (plugin) => plugin.name === 'vite-plugin-sveltekit-setup',
+    )!
+
+    return mergeConfig(
+      {
+        resolve: sveltekitSetupPlugin.config({}, { command: '' }).resolve,
+        plugins: [virtualModulesPlugin],
+        ssr: { noExternal: ['@sveltejs/kit'] },
+        optimizeDeps: { exclude: ['@sveltejs/kit', '$app', '$env'] },
+      },
+      createConfig({ astro: true }),
+    )
+  })
+}
 
 function getGitHeadDate() {
   const date: null | Date = new Date(
