@@ -12,7 +12,7 @@ import {
   StaticAssetsList,
 } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
-import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
+import { BulletshellPlugin } from './dist/bulletshell/vite.js'
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
 
