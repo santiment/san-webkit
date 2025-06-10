@@ -19,16 +19,25 @@
   const { slug, name, ticker } = $derived(item)
 </script>
 
-<Button
-  variant="plain"
-  size="auto"
-  class={cn('flex items-center gap-2 pb-4 hover:text-green', isActive && 'text-green', className)}
-  {onclick}
->
-  {@render children?.()}
+<div class="pb-1">
+  <Button
+    variant="plain"
+    size="auto"
+    class={cn(
+      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 hover:bg-athens',
+      isActive && 'text-green',
+      className,
+    )}
+    {onclick}
+  >
+    {@render children?.()}
 
-  <AssetLogo {slug} />
-  <span class="single-line">{name}</span>
-
-  <span class="text-waterloo">({ticker})</span>
-</Button>
+    <div class="flex items-center gap-1.5">
+      <AssetLogo {slug} class="size-4" />
+      <span class="single-line">
+        <span class="text-fiord">{name}</span>
+        <span class="text-casper">{ticker}</span>
+      </span>
+    </div>
+  </Button>
+</div>
