@@ -19,7 +19,7 @@ dependencies:
     version: 1.2.0(@types/react@19.1.5)(react@19.0.0)(typescript@5.7.3)(zod@3.23.8)
   '@reown/appkit-adapter-wagmi':
     specifier: ^1.2.0
-    version: 1.2.0(@coinbase/wallet-sdk@4.3.2)(@types/react@19.1.5)(@wagmi/connectors@5.3.3)(@wagmi/core@2.14.1)(react@19.0.0)(typescript@5.7.3)(viem@2.21.38)(wagmi@2.12.25)(zod@3.23.8)
+    version: 1.2.0(@coinbase/wallet-sdk@4.0.3)(@types/react@19.1.5)(@wagmi/connectors@5.3.3)(@wagmi/core@2.14.1)(react@19.0.0)(typescript@5.7.3)(viem@2.21.38)(wagmi@2.12.25)(zod@3.23.8)
   '@stripe/stripe-js':
     specifier: ^4.1.0
     version: 4.1.0
@@ -32,9 +32,12 @@ dependencies:
   fast-glob:
     specifier: ^3.3.2
     version: 3.3.2
+  marked:
+    specifier: ^15.0.12
+    version: 15.0.12
   posthog-js:
     specifier: ^1.224.0
-    version: 1.224.0(@rrweb/types@2.0.0-alpha.18)
+    version: 1.224.0(@rrweb/types@2.0.0-alpha.17)
   svelte-runes:
     specifier: ^0.0.7
     version: 0.0.7(svelte@5.33.2)
@@ -72,7 +75,7 @@ devDependencies:
     version: /@santiment-network/chart@1.0.6
   '@sentry/sveltekit':
     specifier: ^9.2.0
-    version: 9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.1)(@opentelemetry/core@2.0.1)(@opentelemetry/instrumentation@0.201.1)(@opentelemetry/sdk-trace-base@2.0.1)(@opentelemetry/semantic-conventions@1.34.0)(@sveltejs/kit@2.20.7)(svelte@5.33.2)(vite@6.2.5)
+    version: 9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1)(@opentelemetry/core@1.30.1)(@opentelemetry/instrumentation@0.57.2)(@opentelemetry/sdk-trace-base@1.30.1)(@opentelemetry/semantic-conventions@1.34.0)(@sveltejs/kit@2.20.7)(svelte@5.33.2)(vite@6.2.5)
   '@storybook/addon-essentials':
     specifier: ^8.6.0
     version: 8.6.0(@types/react@19.1.5)(storybook@8.6.0)
@@ -820,6 +823,17 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
+  /@coinbase/wallet-sdk@4.0.3:
+    resolution: {integrity: sha512-y/OGEjlvosikjfB+wk+4CVb9OxD1ob9cidEBLI5h8Hxaf/Qoob2XoVT1uvhtAzBx34KpGYSd+alKvh/GCRre4Q==}
+    dependencies:
+      buffer: 6.0.3
+      clsx: 1.2.1
+      eventemitter3: 5.0.1
+      keccak: 3.0.4
+      preact: 10.26.7
+      sha.js: 2.4.11
+    dev: false
+
   /@coinbase/wallet-sdk@4.1.0:
     resolution: {integrity: sha512-SkJJ72X/AA3+aS21sPs/4o4t6RVeDSA7HuBW4zauySX3eBiPU0zmVw95tXH/eNSX50agKz9WzeN8P5F+HcwLOw==}
     dependencies:
@@ -827,15 +841,6 @@ packages:
       clsx: 1.2.1
       eventemitter3: 5.0.1
       preact: 10.24.3
-
-  /@coinbase/wallet-sdk@4.3.2:
-    resolution: {integrity: sha512-hOLA2YONq8Z9n8f6oVP6N//FEEHOen7nq+adG/cReol6juFTHUelVN5GnA5zTIxiLFMDcrhDwwgCA6Tdb5jubw==}
-    dependencies:
-      '@noble/hashes': 1.8.0
-      clsx: 1.2.1
-      eventemitter3: 5.0.1
-      preact: 10.26.7
-    dev: false
 
   /@colors/colors@1.6.0:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}
@@ -2217,11 +2222,6 @@ packages:
     resolution: {integrity: sha512-1j6kQFb7QRru7eKN3ZDvRcP13rugwdxZqCjbiAVZfIJwgj2A65UmT4TgARXGlXgnRkORLTDTrO19ZErt7+QXgA==}
     engines: {node: ^14.21.3 || >=16}
 
-  /@noble/hashes@1.8.0:
-    resolution: {integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==}
-    engines: {node: ^14.21.3 || >=16}
-    dev: false
-
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
@@ -2343,13 +2343,6 @@ packages:
       '@octokit/openapi-types': 22.2.0
     dev: true
 
-  /@opentelemetry/api-logs@0.201.1:
-    resolution: {integrity: sha512-IxcFDP1IGMDemVFG2by/AMK+/o6EuBQ8idUq3xZ6MxgQGeumYZuX5OwR0h9HuvcUc/JPjQGfU5OHKIKYDJcXeA==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-    dev: true
-
   /@opentelemetry/api-logs@0.53.0:
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
     engines: {node: '>=14'}
@@ -2385,15 +2378,6 @@ packages:
       '@opentelemetry/api': 1.9.0
     dev: true
 
-  /@opentelemetry/context-async-hooks@2.0.1(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-XuY23lSI3d4PEqKA+7SLtAgwqIfc6E/E9eAQWLN1vlpC53ybO3o6jW4BsXo1xvz9lYyyWItfQDDLzezER01mCw==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-    dev: true
-
   /@opentelemetry/core@1.30.1(@opentelemetry/api@1.9.0):
     resolution: {integrity: sha512-OOCM2C/QIURhJMuKaekP3TRBxBKxG/TWWA0TL2J6nXUtDnuCtccy49LUJF8xPFXMX+0LMcxFpCo8M9cGY1W6rQ==}
     engines: {node: '>=14'}
@@ -2402,16 +2386,6 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/semantic-conventions': 1.28.0
-    dev: true
-
-  /@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-MaZk9SJIDgo1peKevlbhP6+IwIiNPNmswNL4AF0WaQJLbHXjr9SrZMgS12+iqr9ToV4ZVosCcc0f8Rg67LXjxw==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/semantic-conventions': 1.34.0
     dev: true
 
   /@opentelemetry/instrumentation-amqplib@0.46.1(@opentelemetry/api@1.9.0):
@@ -2729,22 +2703,6 @@ packages:
       - supports-color
     dev: true
 
-  /@opentelemetry/instrumentation@0.201.1(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-6EOSoT2zcyBM3VryAzn35ytjRrOMeaWZyzQ/PHVfxoXp5rMf7UUgVToqxOhQffKOHtC7Dma4bHt+DuwIBBZyZA==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': ^1.3.0
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/api-logs': 0.201.1
-      '@types/shimmer': 1.2.0
-      import-in-the-middle: 1.13.2
-      require-in-the-middle: 7.5.2
-      shimmer: 1.2.1
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /@opentelemetry/instrumentation@0.53.0(@opentelemetry/api@1.9.0):
     resolution: {integrity: sha512-DMwg0hy4wzf7K73JJtl95m/e0boSoWhH07rfvHvYzQtBD3Bmv0Wc1x733vyZBqmFm8OjJD0/pfiUg1W3JjFX0A==}
     engines: {node: '>=14'}
@@ -2812,17 +2770,6 @@ packages:
       '@opentelemetry/semantic-conventions': 1.28.0
     dev: true
 
-  /@opentelemetry/resources@2.0.1(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-dZOB3R6zvBwDKnHDTB4X1xtMArB/d324VsbiPkX/Yu0Q8T2xceRthoIVFhJdvgVM2QhGVUyX9tzwiNxGtoBJUw==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.3.0 <1.10.0'
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
-    dev: true
-
   /@opentelemetry/sdk-trace-base@1.30.1(@opentelemetry/api@1.9.0):
     resolution: {integrity: sha512-jVPgBbH1gCy2Lb7X0AVQ8XAfgg0pJ4nvl8/IiQA6nxOsPvS+0zMJaFSs2ltXe0J6C8dqjcnpyqINDJmU30+uOg==}
     engines: {node: '>=14'}
@@ -2833,18 +2780,6 @@ packages:
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
-    dev: true
-
-  /@opentelemetry/sdk-trace-base@2.0.1(@opentelemetry/api@1.9.0):
-    resolution: {integrity: sha512-xYLlvk/xdScGx1aEqvxLwf6sXQLXCjk3/1SQT9X9AoN5rXRhkdvIFShuNNmtTEPRBqcsMbS4p/gJLNI2wXaDuQ==}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.3.0 <1.10.0'
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/resources': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.34.0
     dev: true
 
   /@opentelemetry/semantic-conventions@1.28.0:
@@ -3125,7 +3060,7 @@ packages:
       react: 19.0.0
       react-native: 0.79.2(@babel/core@7.26.0)(@types/react@19.1.5)(react@19.0.0)
 
-  /@reown/appkit-adapter-wagmi@1.2.0(@coinbase/wallet-sdk@4.3.2)(@types/react@19.1.5)(@wagmi/connectors@5.3.3)(@wagmi/core@2.14.1)(react@19.0.0)(typescript@5.7.3)(viem@2.21.38)(wagmi@2.12.25)(zod@3.23.8):
+  /@reown/appkit-adapter-wagmi@1.2.0(@coinbase/wallet-sdk@4.0.3)(@types/react@19.1.5)(@wagmi/connectors@5.3.3)(@wagmi/core@2.14.1)(react@19.0.0)(typescript@5.7.3)(viem@2.21.38)(wagmi@2.12.25)(zod@3.23.8):
     resolution: {integrity: sha512-NozYLFgALElwIzSH/rbvUJxcvWSUcu+J/rIFOlfv5xatqMIpl3DqKU1PmpdBa/EBB7MoNOj/BD0aJjETZQGknQ==}
     peerDependencies:
       '@coinbase/wallet-sdk': 4.0.3
@@ -3134,7 +3069,7 @@ packages:
       viem: 2.x
       wagmi: '>=2.12'
     dependencies:
-      '@coinbase/wallet-sdk': 4.3.2
+      '@coinbase/wallet-sdk': 4.0.3
       '@reown/appkit': 1.2.0(@types/react@19.1.5)(react@19.0.0)(typescript@5.7.3)(zod@3.23.8)
       '@reown/appkit-common': 1.2.0(typescript@5.7.3)(zod@3.23.8)
       '@reown/appkit-core': 1.2.0(@types/react@19.1.5)(react@19.0.0)(typescript@5.7.3)(zod@3.23.8)
@@ -3922,8 +3857,10 @@ packages:
     dev: true
     optional: true
 
-  /@rrweb/types@2.0.0-alpha.18:
-    resolution: {integrity: sha512-iMH3amHthJZ9x3gGmBPmdfim7wLGygC2GciIkw2A6SO8giSn8PHYtRT8OKNH4V+k3SZ6RSnYHcTQxBA7pSWZ3Q==}
+  /@rrweb/types@2.0.0-alpha.17:
+    resolution: {integrity: sha512-AfDTVUuCyCaIG0lTSqYtrZqJX39ZEYzs4fYKnexhQ+id+kbZIpIJtaut5cto6dWZbB3SEe4fW0o90Po3LvTmfg==}
+    dependencies:
+      rrweb-snapshot: 2.0.0-alpha.18
     dev: false
 
   /@rtsao/scc@1.1.0:
@@ -4216,7 +4153,7 @@ packages:
       '@sentry/core': 9.2.0
     dev: true
 
-  /@sentry/opentelemetry@9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.1)(@opentelemetry/core@2.0.1)(@opentelemetry/instrumentation@0.201.1)(@opentelemetry/sdk-trace-base@2.0.1)(@opentelemetry/semantic-conventions@1.34.0):
+  /@sentry/opentelemetry@9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1)(@opentelemetry/core@1.30.1)(@opentelemetry/instrumentation@0.57.2)(@opentelemetry/sdk-trace-base@1.30.1)(@opentelemetry/semantic-conventions@1.34.0):
     resolution: {integrity: sha512-ksd3M+KXuHt5vsPcqyy77YxVP0yb27J2LD19fasiybOPedb90XjynEk29zVBmW2iEPt8Ddw55FKDNVnHFEbUjw==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -4228,10 +4165,10 @@ packages:
       '@opentelemetry/semantic-conventions': ^1.28.0
     dependencies:
       '@opentelemetry/api': 1.9.0
-      '@opentelemetry/context-async-hooks': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/core': 2.0.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/instrumentation': 0.201.1(@opentelemetry/api@1.9.0)
-      '@opentelemetry/sdk-trace-base': 2.0.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/context-async-hooks': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.57.2(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.34.0
       '@sentry/core': 9.2.0
     dev: true
@@ -4248,7 +4185,7 @@ packages:
       svelte: 5.33.2
     dev: true
 
-  /@sentry/sveltekit@9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.1)(@opentelemetry/core@2.0.1)(@opentelemetry/instrumentation@0.201.1)(@opentelemetry/sdk-trace-base@2.0.1)(@opentelemetry/semantic-conventions@1.34.0)(@sveltejs/kit@2.20.7)(svelte@5.33.2)(vite@6.2.5):
+  /@sentry/sveltekit@9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1)(@opentelemetry/core@1.30.1)(@opentelemetry/instrumentation@0.57.2)(@opentelemetry/sdk-trace-base@1.30.1)(@opentelemetry/semantic-conventions@1.34.0)(@sveltejs/kit@2.20.7)(svelte@5.33.2)(vite@6.2.5):
     resolution: {integrity: sha512-TN3Qw9/aBbiDnDBHKln0TIpuZW7BQ3ElOVQ35CCQYO0WfIeUzXJsORkCpL4uu7BgPf2BAb3vIlgIc9hITg6/NQ==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -4261,7 +4198,7 @@ packages:
       '@sentry/cloudflare': 9.2.0
       '@sentry/core': 9.2.0
       '@sentry/node': 9.2.0
-      '@sentry/opentelemetry': 9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@2.0.1)(@opentelemetry/core@2.0.1)(@opentelemetry/instrumentation@0.201.1)(@opentelemetry/sdk-trace-base@2.0.1)(@opentelemetry/semantic-conventions@1.34.0)
+      '@sentry/opentelemetry': 9.2.0(@opentelemetry/api@1.9.0)(@opentelemetry/context-async-hooks@1.30.1)(@opentelemetry/core@1.30.1)(@opentelemetry/instrumentation@0.57.2)(@opentelemetry/sdk-trace-base@1.30.1)(@opentelemetry/semantic-conventions@1.34.0)
       '@sentry/svelte': 9.2.0(svelte@5.33.2)
       '@sentry/vite-plugin': 3.2.0
       '@sveltejs/kit': 2.20.7(@sveltejs/vite-plugin-svelte@5.0.3)(svelte@5.33.2)(vite@6.2.5)
@@ -5999,14 +5936,6 @@ packages:
       acorn: 8.14.0
     dev: true
 
-  /acorn-import-attributes@1.9.5(acorn@8.14.1):
-    resolution: {integrity: sha512-n02Vykv5uA3eHGM/Z2dQrcD56kL8TyDb2p1+0P83PClMnC/nc+anbQRhIOWnSq4Ke/KvDPrY3C9hDtC/A3eHnQ==}
-    peerDependencies:
-      acorn: ^8
-    dependencies:
-      acorn: 8.14.1
-    dev: true
-
   /acorn-jsx@5.3.2(acorn@8.14.0):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
@@ -6705,10 +6634,6 @@ packages:
 
   /cjs-module-lexer@1.4.1:
     resolution: {integrity: sha512-cuSVIHi9/9E/+821Qjdvngor+xpnlwnuwIyZOaLmHBVdXL+gP+I6QQB9VkO7RI77YIcTV+S1W9AreJ5eN63JBA==}
-    dev: true
-
-  /cjs-module-lexer@1.4.3:
-    resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
     dev: true
 
   /cli-cursor@4.0.0:
@@ -8831,15 +8756,6 @@ packages:
       module-details-from-path: 1.0.3
     dev: true
 
-  /import-in-the-middle@1.13.2:
-    resolution: {integrity: sha512-Yjp9X7s2eHSXvZYQ0aye6UvwYPrVB5C2k47fuXjFKnYinAByaDZjh4t9MT2wEga9775n6WaIqyHnQhBxYtX2mg==}
-    dependencies:
-      acorn: 8.14.1
-      acorn-import-attributes: 1.9.5(acorn@8.14.1)
-      cjs-module-lexer: 1.4.3
-      module-details-from-path: 1.0.4
-    dev: true
-
   /import-meta-resolve@4.1.0:
     resolution: {integrity: sha512-I6fiaX09Xivtk+THaMfAwnA3MVA5Big1WHF1Dfx9hFuvNIWpXnorlkzhcQf6ehrqQiiZECRt1poOAkPmer3ruw==}
     dev: true
@@ -9712,6 +9628,12 @@ packages:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
     dev: true
 
+  /marked@15.0.12:
+    resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: false
+
   /marky@1.3.0:
     resolution: {integrity: sha512-ocnPZQLNpvbedwTy9kNrQEsknEfgvcLMvOtz3sFeWApDq1MXH1TqkCIx58xlpESsfwQOnuBO9beyQuNGzVvuhQ==}
 
@@ -10093,10 +10015,6 @@ packages:
     resolution: {integrity: sha512-ySViT69/76t8VhE1xXHK6Ch4NcDd26gx0MzKXLO+F7NOtnqH68d9zF94nT8ZWSxXh8ELOERsnJO/sWt1xZYw5A==}
     dev: true
 
-  /module-details-from-path@1.0.4:
-    resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
-    dev: true
-
   /motion@10.16.2:
     resolution: {integrity: sha512-p+PurYqfUdcJZvtnmAqu5fJgV2kR0uLFQuBKtLeFVTrYEVllI99tiOTSefVNYuip9ELTEkepIIDftNdze76NAQ==}
     dependencies:
@@ -10145,7 +10063,6 @@ packages:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
-    dev: true
 
   /nanoid@3.3.7:
     resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
@@ -10782,7 +10699,6 @@ packages:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
-    dev: true
 
   /postgres-array@2.0.0:
     resolution: {integrity: sha512-VpZrUqU5A69eQyW2c5CA1jtLecCsN2U/bD6VilrFDWq5+5UIEVO7nazS3TEcHf1zuPYO/sqGvUvW62g86RXZuA==}
@@ -10806,12 +10722,12 @@ packages:
       xtend: 4.0.2
     dev: true
 
-  /posthog-js@1.224.0(@rrweb/types@2.0.0-alpha.18):
+  /posthog-js@1.224.0(@rrweb/types@2.0.0-alpha.17):
     resolution: {integrity: sha512-JT1XQQeYs0CKb4lU2vujmeLTDLWc61I5lT7d6oG/H/cnCpXAqBi5rMuCFFeotHeMy3hqJ/Tpu3eAPFE2p5ErHA==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
     dependencies:
-      '@rrweb/types': 2.0.0-alpha.18
+      '@rrweb/types': 2.0.0-alpha.17
       core-js: 3.40.0
       fflate: 0.4.8
       preact: 10.26.3
@@ -11283,17 +11199,6 @@ packages:
       - supports-color
     dev: true
 
-  /require-in-the-middle@7.5.2:
-    resolution: {integrity: sha512-gAZ+kLqBdHarXB64XpAe2VCjB7rIRv+mU8tfRWziHRJ5umKsIHN2tLLv6EtMw7WCdP19S0ERVMldNvxYCHnhSQ==}
-    engines: {node: '>=8.6.0'}
-    dependencies:
-      debug: 4.4.1
-      module-details-from-path: 1.0.4
-      resolve: 1.22.10
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
-
   /require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
 
@@ -11422,6 +11327,12 @@ packages:
       '@rollup/rollup-win32-x64-msvc': 4.40.1
       fsevents: 2.3.3
     dev: true
+
+  /rrweb-snapshot@2.0.0-alpha.18:
+    resolution: {integrity: sha512-hBHZL/NfgQX6wO1D9mpwqFu1NJPpim+moIcKhFEjVTZVRUfCln+LOugRc4teVTCISYHN8Cw5e2iNTWCSm+SkoA==}
+    dependencies:
+      postcss: 8.5.3
+    dev: false
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
@@ -11760,7 +11671,6 @@ packages:
   /source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
