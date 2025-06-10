@@ -1,4 +1,4 @@
-import { trackEvent } from '$lib/analytics/index.js'
+import { trackEvent } from '../analytics/index.js'
 
 export function onSupportClick(e?: Event) {
   if (window.Intercom) e?.preventDefault()

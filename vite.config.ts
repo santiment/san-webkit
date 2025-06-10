@@ -9,6 +9,7 @@ import {
   WebkitSvg,
   StaticMetricsRestrictions,
   ReportMissingPreloadScriptsPlugin,
+  StaticAssetsList,
 } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
 import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
@@ -55,6 +56,7 @@ export function createConfig({
     plugins: [
       mkcert(),
       WebkitSvg(),
+      StaticAssetsList(),
       !astro && sveltekit(),
       bulletshell && BulletshellPlugin(),
       reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
