@@ -16,11 +16,15 @@ function normalizeDeviceType(type: string | undefined): DeviceType {
 }
 export const appSessionHandle: Handle = async ({ event, resolve }) => {
   let customer = {} as TCustomer | undefined
-  // @ts-expect-error
-  await loadCustomerData(event.fetch, (data) => Object.assign(customer, data)).catch(() => {
-    console.log('loadCustomerData error')
-    customer = undefined
-  })
+
+  // NOTE: Only making a currentUser request if the sanbase cookie is present
+  if (event.cookies.get('_sanbase_sid') || event.cookies.get('_sanbase_stage_sid')) {
+    // @ts-expect-error
+    await loadCustomerData(event.fetch, (data) => Object.assign(customer, data)).catch(() => {
+      console.log('loadCustomerData error')
+      customer = undefined
+    })
+  }
 
   const theme = customer?.currentUser?.settings.theme === 'nightmode' ? 'night-mode' : ''
   const userAgent = UAParser(event.request.headers.get('user-agent') as any)
