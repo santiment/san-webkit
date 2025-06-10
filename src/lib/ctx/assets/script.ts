@@ -1,11 +1,11 @@
 import { queryAllProjects } from './api.js'
 import { Query } from '../../api/executor.js'
-import { fetcher } from '../../../../scripts/fetch.js'
 
 export const fetchAllProjects = () =>
   queryAllProjects({
+    // @ts-ignore
+    fetcher: globalThis.__VITE_GQL_FETCHER,
     executor: Query,
-    fetcher,
   })().catch((e) => {
     console.error(e)
     return []

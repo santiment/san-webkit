@@ -1,3 +1,5 @@
+import './scripts/fetch.js'
+
 import path from 'node:path'
 import { execSync } from 'node:child_process'
 

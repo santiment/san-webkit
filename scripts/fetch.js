@@ -15,6 +15,9 @@ export const fetcher = (_input, init) =>
     credentials: 'include',
   })
 
+// @ts-ignore Setting the global fetcher during the build process
+globalThis.__VITE_GQL_FETCHER = fetcher
+
 /**
  * @param {any} query
  * @param {any} variables

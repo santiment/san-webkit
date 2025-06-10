@@ -50,6 +50,7 @@ export async function release() {
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
   await exec('git rm --cached -r static', false)
+  await exec('git rm --cached -r vite.config.ts', false)
 
   fs.writeFileSync(
     '.gitignore',
