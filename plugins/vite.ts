@@ -8,7 +8,7 @@ import {
   fetchMetricsRestrictions,
   replaceDefaultMetricsRestrictionsSource,
 } from '../scripts/metrics-restrictions/index.js'
-import { fetchAllProjects } from '../src/lib/ctx/assets/script.js'
+import { fetchAllProjects } from '../dist/ctx/assets/script.js'
 
 export function WebkitSvg() {
   const base = __dirname()
