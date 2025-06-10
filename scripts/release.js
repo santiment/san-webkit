@@ -63,6 +63,7 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+vite.config.ts
 *storybook.log
 
 
@@ -170,7 +171,7 @@ async function replaceStaticMetricsRestrictions() {
 }
 
 async function replaceSrcImports() {
-  await forFile(['./vite.config.*'], (entry) => {
+  await forFile(['./vite.config.*', './plugins/vite.*'], (entry) => {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, file.toString().replace('/src/lib/', '/dist/'))
   })
