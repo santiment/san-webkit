@@ -5,7 +5,6 @@ import { untrack } from 'svelte'
 import { type TExecutorOptions } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
 import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
-import { ApiCache } from '$lib/api/cache.js'
 
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
@@ -56,7 +55,7 @@ export function useApiMetricDataFlow(
     metric.data.$ = []
 
     const queryData = () =>
-      queryGetMetric({ executor: Query, fetcher, signal: abortController.signal })({
+      queryGetMetric({ executor: Query, fetcher })({
         metric: localParameters.metric,
         selector: localParameters.selector || globalParameters.selector,
         from: globalParameters.from,
@@ -74,10 +73,7 @@ export function useApiMetricDataFlow(
           metric.loading.$ = false
         })
         .catch((err) => {
-          // NOTE: Returning early if abort signal was run
-          if (err.name === 'AbortError') {
-            const schema = err.__schema
-            if (schema) ApiCache.delete(schema)
+          if (abortController.signal.aborted) {
             return
           }
 
