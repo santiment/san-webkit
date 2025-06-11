@@ -6,10 +6,10 @@ import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 import { notification } from '$ui/core/Notifications/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 import { trackEvent } from '$lib/analytics/index.js'
+import { getPlanDisplayName } from '$lib/utils/plans/index.js'
 
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
-import { getPlanName } from '../SubscriptionPlan/utils.js'
 
 export type TPaymentFlowResult = undefined | API.ExtractData<typeof mutateSubscribe>
 
@@ -134,7 +134,7 @@ export function usePaymentFlow() {
       return Promise.reject('paymentMethod is missing')
     }
 
-    const planDisplayName = getPlanName(plan)
+    const planDisplayName = getPlanDisplayName(plan.name)
     const isConsumerPlan = !subscriptionPlan.$.formatted?.isBusiness
     const isEligibleForSanbaseTrial = isConsumerPlan && customer.$.isEligibleForSanbaseTrial
 

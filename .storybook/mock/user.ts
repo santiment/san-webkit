@@ -1,10 +1,7 @@
 // import { getTodaysEnd } from '@/utils/dates'
+import { checkIsBusinessPlan, Plan, Product } from '$lib/utils/plans/index.js'
+
 import { getTodaysEnd } from '../../src/lib/utils/dates/index.js'
-import {
-  SubscriptionPlan,
-  Product,
-  checkIsBusinessPlan,
-} from '../../src/lib/ui/app/SubscriptionPlan/index.js'
 
 export type CurrentUser = null | {
   /** @default 42 */
@@ -147,14 +144,14 @@ export function mockUser(currentUser: CurrentUser) {
 
     if (pro || max || proPlus || businessPro || businessMax || custom || planName) {
       let name = planName
-      if (pro) name = SubscriptionPlan.PRO.key
-      else if (max) name = SubscriptionPlan.MAX.key
-      else if (proPlus) name = SubscriptionPlan.PRO_PLUS.key
-      else if (businessPro) name = SubscriptionPlan.BUSINESS_PRO.key
-      else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
-      else if (custom) name = SubscriptionPlan.CUSTOM.key
+      if (pro) name = Plan.PRO
+      else if (max) name = Plan.MAX
+      else if (proPlus) name = Plan.PRO_PLUS
+      else if (businessPro) name = Plan.BUSINESS_PRO
+      else if (businessMax) name = Plan.BUSINESS_MAX
+      else if (custom) name = Plan.CUSTOM
 
-      const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
+      const id = name && checkIsBusinessPlan(name) ? Product.SANAPI.id : Product.SANBASE.id
 
       subscriptions[0] = {
         status: trial ? 'TRIALING' : 'ACTIVE',

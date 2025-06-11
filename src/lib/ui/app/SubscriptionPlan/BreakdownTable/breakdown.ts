@@ -1,4 +1,4 @@
-import { SubscriptionPlan } from '../plans.js'
+import { Plan } from '$lib/utils/plans/index.js'
 
 export type TBreakdownFeature = {
   name: string
@@ -231,7 +231,7 @@ export const SubscriptionPlanBreakdown: Record<
   string,
   undefined | Record<string, TPlanFeatureBreakdown>
 > = {
-  [SubscriptionPlan.FREE.key]: {
+  [Plan.FREE]: {
     'Browser tabs': 'Up to 4',
     'Bi-weekly report': false,
     'Pro Insights': false,
@@ -273,7 +273,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Direct technical support': false,
   },
 
-  [SubscriptionPlan.PRO.key]: {
+  [Plan.PRO]: {
     'Dedicated account manager': false,
     'Custom onboarding & education': false,
 
@@ -298,7 +298,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Direct technical support': false,
   },
 
-  [SubscriptionPlan.MAX.key]: {
+  [Plan.MAX]: {
     'Custom Alerts': 20,
 
     'Historical data restriction': '1 year',
@@ -315,7 +315,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Private queries': 'No',
   },
 
-  [SubscriptionPlan.CUSTOM.key]: {
+  [Plan.CUSTOM]: {
     'Multi-seat account': 'Custom',
 
     'Historical data restriction': 'No restriction',
@@ -335,7 +335,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Custom Alerts': 'Custom',
   },
 
-  [SubscriptionPlan.BUSINESS_PRO.key]: {
+  [Plan.BUSINESS_PRO]: {
     'Multi-seat account': false,
 
     'Historical data restriction': 'Last 2 years',
@@ -363,7 +363,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Custom data integratoins': false,
   },
 
-  [SubscriptionPlan.BUSINESS_MAX.key]: {
+  [Plan.BUSINESS_MAX]: {
     'Multi-seat account': '3 seats',
 
     'Historical data restriction': 'No restriction',

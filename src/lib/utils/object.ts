@@ -13,3 +13,7 @@ export function keyify<T, GKeyProp extends string = 'key'>(
 export function exactObjectKeys<T extends object>(obj: T) {
   return Object.keys(obj) as (keyof typeof obj)[]
 }
+
+export function createEnumMap<T extends string[]>(keys: T) {
+  return keys.reduce((res, key) => ({ ...res, [key]: key }), {} as { [K in T[number]]: K })
+}

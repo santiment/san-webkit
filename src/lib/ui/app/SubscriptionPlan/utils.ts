@@ -1,19 +1,13 @@
-import type { TProduct, TSubscriptionPlan } from './types.js'
+import type { TSubscriptionPlan } from './types.js'
 
-import { BUSINESS_PLANS, Product, SubscriptionPlan, SubscriptionPlanDetails } from './plans.js'
+import {
+  checkIsPlan,
+  Plan,
+  checkIsBusinessPlan,
+  getPlanDisplayName,
+} from '$lib/utils/plans/index.js'
 
-export const checkIsSanbaseProduct = (product: Pick<TProduct, 'id'>) =>
-  product.id === Product.Sanbase.id
-
-export const checkIsSanApiProduct = (product: Pick<TProduct, 'id'>) =>
-  product.id === Product.SanAPI.id
-
-export const checkIsBusinessPlan = (plan: null | Pick<TSubscriptionPlan, 'name'>) =>
-  plan ? BUSINESS_PLANS.has(plan.name) : false
-
-type TLooseRecord<T extends Record<string, unknown>> = T & Record<string, undefined | T[keyof T]>
-export const getPlanName = (plan: Pick<TSubscriptionPlan, 'name'>): string =>
-  (SubscriptionPlan as TLooseRecord<typeof SubscriptionPlan>)[plan.name]?.name || plan.name
+import { SubscriptionPlanDetails } from './plans.js'
 
 export function getFormattedBillingPlan(plan: TSubscriptionPlan) {
   const { name, amount, price } = getFormattedPlan(plan)
@@ -29,13 +23,15 @@ export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
 ) {
-  const name = getPlanName(monthlyPlan)
+  const plan = checkIsPlan(monthlyPlan.name) ? monthlyPlan.name : null
+  const name = getPlanDisplayName(monthlyPlan.name)
   const details = SubscriptionPlanDetails[monthlyPlan.name]
 
   return {
-    isFree: monthlyPlan.name === SubscriptionPlan.FREE.key,
-    isCustom: monthlyPlan.name === SubscriptionPlan.CUSTOM.key,
-    isBusiness: BUSINESS_PLANS.has(monthlyPlan.name),
+    plan,
+    isFree: plan === Plan.FREE,
+    isCustom: plan === Plan.CUSTOM,
+    isBusiness: checkIsBusinessPlan(monthlyPlan.name),
 
     name,
     details,
@@ -62,8 +58,8 @@ export const checkIsCurrentPlan = (
 ) =>
   userPlan
     ? userPlan.name === targetPlan?.name &&
-      (userPlan.name === SubscriptionPlan.CUSTOM.key || userPlan.interval === targetPlan?.interval)
-    : targetPlan?.name === SubscriptionPlan.FREE.key
+      (userPlan.name === Plan.CUSTOM || userPlan.interval === targetPlan?.interval)
+    : targetPlan?.name === Plan.FREE
 
 export const checkIsAlternativeBillingPlan = (
   userPlan: null | TSubscriptionPlan,

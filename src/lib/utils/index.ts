@@ -3,7 +3,7 @@ import { getContext, setContext } from 'svelte'
 
 export type { TNominal } from './types/index.js'
 
-export { keyify, exactObjectKeys } from './object.js'
+export { keyify, exactObjectKeys, createEnumMap } from './object.js'
 
 export { useObserveFnCall, pipeGroupBy } from './observable.svelte.js'
 

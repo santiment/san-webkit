@@ -5,17 +5,17 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { onSupportClick } from '$lib/utils/support.js'
   import {
-    BUSINESS_PLANS,
-    CONSUMER_PLANS,
-    SubscriptionPlan,
-  } from '$ui/app/SubscriptionPlan/plans.js'
-  import {
     checkIsAlternativeBillingPlan,
     checkIsCurrentPlan,
-    getPlanName,
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import {
+    checkIsBusinessPlan,
+    checkIsConsumerPlan,
+    getPlanDisplayName,
+    Plan,
+  } from '$lib/utils/plans/index.js'
 
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
@@ -34,8 +34,8 @@
   const { customer } = useCustomerCtx()
 
   let source = $derived(_source + '_plan_button')
-  let isBusinessPlan = $derived(BUSINESS_PLANS.has(plan.name))
-  let isConsumerPlan = $derived(CONSUMER_PLANS.has(plan.name))
+  let isBusinessPlan = $derived(checkIsBusinessPlan(plan.name))
+  let isConsumerPlan = $derived(checkIsConsumerPlan(plan.name))
 
   let isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, plan))
   let isSameProductPlan = $derived(
@@ -90,7 +90,7 @@
       Your current plan
     </Button>
   {/if}
-{:else if plan.name === SubscriptionPlan.FREE.key}
+{:else if plan.name === Plan.FREE}
   <Button
     variant="border"
     size="lg"
@@ -102,7 +102,7 @@
   >
     Default plan
   </Button>
-{:else if plan.name === SubscriptionPlan.CUSTOM.key}
+{:else if plan.name === Plan.CUSTOM}
   <Button
     variant="fill"
     size="lg"
@@ -140,7 +140,7 @@
     {...anonymousProps}
     data-type="get_business"
   >
-    Get {getPlanName(plan)}
+    Get {getPlanDisplayName(plan.name)}
   </Button>
 {:else if isConsumerPlan && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
   <Button
