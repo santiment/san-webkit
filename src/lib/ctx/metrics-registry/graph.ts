@@ -1,4 +1,4 @@
-import type { TRegistryMetric } from './index.svelte.js'
+import type { TRegistryMetric } from './api.js'
 
 export function getMetricsCategoryGroupGraph(metrics: TRegistryMetric[]): TRegistryMetric[][][] {
   const result = [] as TRegistryMetric[][][]

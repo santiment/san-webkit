@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import './scripts/fetch.js'
 
 import path from 'node:path'
@@ -11,10 +12,12 @@ import {
   WebkitSvg,
   StaticMetricsRestrictions,
   ReportMissingPreloadScriptsPlugin,
-  StaticAssetsList,
 } from './plugins/vite.js'
 import { mkcert } from './scripts/mkcert.js'
+
 import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
+import { StaticAssetsListPlugin } from './src/lib/ctx/assets/vite.js'
+import { StaticMetricsRegistryPlugin } from './src/lib/ctx/metrics-registry/vite.js'
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
 
@@ -58,7 +61,8 @@ export function createConfig({
     plugins: [
       mkcert(),
       WebkitSvg(),
-      StaticAssetsList(),
+      StaticAssetsListPlugin(),
+      StaticMetricsRegistryPlugin(),
       !astro && sveltekit(),
       bulletshell && BulletshellPlugin(),
       reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),

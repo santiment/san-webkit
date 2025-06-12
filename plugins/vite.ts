@@ -8,7 +8,6 @@ import {
   fetchMetricsRestrictions,
   replaceDefaultMetricsRestrictionsSource,
 } from '../scripts/metrics-restrictions/index.js'
-import { fetchAllProjects } from '../src/lib/ctx/assets/script.js'
 
 export function WebkitSvg() {
   const base = __dirname()
@@ -115,23 +114,6 @@ export function ReportMissingPreloadScriptsPlugin() {
 }
 if (isCss) {`,
           ),
-          map: null,
-        }
-      }
-    },
-  }
-}
-
-export async function StaticAssetsList() {
-  return {
-    name: 'static-assets-list',
-
-    async transform(src: string, id: string, env: { ssr: boolean }) {
-      if (env.ssr && id.includes('/ctx/assets/index.svelte.')) {
-        const assets = await fetchAllProjects()
-
-        return {
-          code: src.replace('DEFAULT_ASSETS = []', `DEFAULT_ASSETS = ${JSON.stringify(assets)}`),
           map: null,
         }
       }
