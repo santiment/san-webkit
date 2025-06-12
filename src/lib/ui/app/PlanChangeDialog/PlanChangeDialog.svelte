@@ -16,9 +16,10 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates/index.js'
+  import { getPlanDisplayName } from '$lib/utils/plans/index.js'
 
   import { mutateUpdateSubscription } from './api.js'
-  import { getFormattedBillingPlan, getPlanName } from '../SubscriptionPlan/utils.js'
+  import { getFormattedBillingPlan } from '../SubscriptionPlan/utils.js'
 
   let {
     source = '',
@@ -42,7 +43,7 @@
     if (!primarySubscription) return
     if (loading) return
 
-    const planDisplayName = getPlanName(newPlan)
+    const planDisplayName = getPlanDisplayName(newPlan.name)
     loading = true
     Controller.lock()
 
