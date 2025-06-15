@@ -21,13 +21,13 @@ export async function StaticMetricsRegistryPlugin() {
 
         let code = src.replace(
           `DEFAULT_METRIC_CATEGORIES = []`,
-          `DEFAULT_METRIC_CATEGORIES = ${data.categories}`,
+          `DEFAULT_METRIC_CATEGORIES = ${JSON.stringify(data.categories || [])}`,
         )
 
         if (env.ssr) {
           code = src.replace(
             'DEFAULT_METRICS_REGISTRY = {}',
-            `DEFAULT_METRICS_REGISTRY = ${JSON.stringify(data)}`,
+            `DEFAULT_METRICS_REGISTRY = ${JSON.stringify(data.MetricsRegistry || {})}`,
           )
         }
 
