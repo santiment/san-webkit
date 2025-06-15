@@ -71,8 +71,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart-next':
-    specifier: npm:@santiment-network/chart@^1.0.6
-    version: /@santiment-network/chart@1.0.6
+    specifier: npm:@santiment-network/chart@^1.0.7
+    version: /@santiment-network/chart@1.0.7
   '@sentry/sveltekit':
     specifier: ^9.2.0
     version: 9.2.0(@sveltejs/kit@2.20.7)(svelte@5.33.19)(vite@6.2.5)
@@ -538,8 +538,8 @@ packages:
       - react
     dev: true
 
-  /@cloudflare/workers-types@4.20250610.0:
-    resolution: {integrity: sha512-HxnUoey3QxCEfy07pUm7J42jBi9YPHq/hA3fw6JmOqYLHdviHI28OA8lup+2RUaHwDzh6q1DSfrBvvDqde645A==}
+  /@cloudflare/workers-types@4.20250614.0:
+    resolution: {integrity: sha512-a2r9Yamj+7YlXUeGbnpwZdxGyTx1rMyLdt2xtzk46HgpGq3QV8ka8s3B+tB4OzDPXH9x5TmplwlO9vTJkCXG1w==}
     requiresBuild: true
     dev: true
     optional: true
@@ -554,7 +554,7 @@ packages:
       eth-json-rpc-filters: 6.0.1
       eventemitter3: 5.0.1
       keccak: 3.0.4
-      preact: 10.26.8
+      preact: 10.26.9
       sha.js: 2.4.11
     transitivePeerDependencies:
       - supports-color
@@ -3007,8 +3007,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.6:
-    resolution: {integrity: sha512-nqtJ1dBaLHl7ZTVlPJuW/PBntceqcK5qMVJuF3NcaL7W3/Qirq9lKWo6ia2bSGsNlNQMKqDm6pWzben/7k5kSA==}
+  /@santiment-network/chart@1.0.7:
+    resolution: {integrity: sha512-bLvNI0b1HwFjS7rJQSCX/yIVv2VImal57Nd5FDc07bO/Tn40PvA1oAj6F9o0TrSlRZ2vV8pigl8QT0xkSWM7+Q==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
@@ -3197,7 +3197,7 @@ packages:
     dependencies:
       '@sentry/core': 9.2.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250610.0
+      '@cloudflare/workers-types': 4.20250614.0
     dev: true
 
   /@sentry/core@9.2.0:
@@ -8685,8 +8685,8 @@ packages:
   /preact@10.26.7:
     resolution: {integrity: sha512-43xS+QYc1X1IPbw03faSgY6I6OYWcLrJRv3hU0+qMOfh/XCHcP0MX2CVjNARYR2cC/guu975sta4OcjlczxD7g==}
 
-  /preact@10.26.8:
-    resolution: {integrity: sha512-1nMfdFjucm5hKvq0IClqZwK4FJkGXhRrQstOQ3P4vp8HxKrJEMFcY6RdBRVTdfQS/UlnX6gfbPuTvaqx/bDoeQ==}
+  /preact@10.26.9:
+    resolution: {integrity: sha512-SSjF9vcnF27mJK1XyFMNJzFd5u3pQiATFqoaDy03XuN00u4ziveVVEGt5RKJrDR8MHE/wJo9Nnad56RLzS2RMA==}
 
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
