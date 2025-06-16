@@ -15,4 +15,16 @@
   })
 </script>
 
+<div class="h-screen">
+  <p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, cum distinctio mollitia
+    voluptatem, totam eligendi ex nobis fugiat, fuga beatae quia quidem odio et molestiae modi
+    repudiandae reprehenderit excepturi illo.
+  </p>
+  <p class="mb-12">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus, cum distinctio mollitia
+    voluptatem, totam eligendi ex nobis fugiat, fuga beatae quia quidem odio et molestiae modi
+    repudiandae reprehenderit excepturi illo.
+  </p>
+</div>
 <Chatbot />

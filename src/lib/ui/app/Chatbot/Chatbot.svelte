@@ -8,9 +8,10 @@
   import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
   import Textarea from '$ui/core/Input/Textarea.svelte'
 
-  import { clickOutside } from './utils.js'
   import ChatSuggestions from './ChatSuggestions.svelte'
   import ChatScreen from './ChatScreen.svelte'
+  import SelectionTooltip from './SelectionTooltip.svelte'
+  import { clickOutside } from './utils.js'
 
   const chat = useChatContext()
 
@@ -156,3 +157,5 @@
     </div>
   {/if}
 </div>
+
+<SelectionTooltip onTooltipClick={(selectedText) => submit(selectedText)} />
