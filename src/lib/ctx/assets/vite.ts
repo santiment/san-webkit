@@ -16,11 +16,14 @@ export async function StaticAssetsListPlugin() {
     name: 'static-assets-list',
 
     async transform(src: string, id: string, env: { ssr: boolean }) {
-      if (env.ssr && id.includes('/ctx/assets/index.svelte.')) {
+      if (id.includes('/ctx/assets/index.svelte.')) {
         const assets = await fetchAllProjects()
 
         return {
-          code: src.replace('DEFAULT_ASSETS = []', `DEFAULT_ASSETS = ${JSON.stringify(assets)}`),
+          code: src.replace(
+            'DEFAULT_ASSETS = []',
+            `DEFAULT_ASSETS = ${JSON.stringify(env.ssr ? assets : assets.slice(0, 20))}`,
+          ),
           map: null,
         }
       }
