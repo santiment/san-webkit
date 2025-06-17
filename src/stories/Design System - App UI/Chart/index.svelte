@@ -8,6 +8,7 @@
     useChartGlobalParametersCtx,
     useColorGenerator,
   } from '$ui/app/Chart/ctx/index.js'
+  import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
   import { useApiMetricFetchSettingsCtx } from '$ui/app/Chart/ctx/metric-data.svelte.js'
   import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -25,7 +26,6 @@
 
   useTimeZoneCtx.set()
   useClockCtx.set()
-
   const jobScheduler = JobScheduler()
   useApiMetricFetchSettingsCtx.set({ jobScheduler })
   if (viewportPriority) useViewportPriorityCtx.set()

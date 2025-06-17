@@ -11,6 +11,8 @@
   import Popover from '$ui/core/Popover/Popover.svelte'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
+  import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
   import { queryGetMetricSpikeExplanations, type TData, type TVariables } from './api.js'
   import { useChartCtx, useMetricSeriesCtx, type TSeries } from '../ctx/index.js'
@@ -22,6 +24,7 @@
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
   const { applyTimeZoneOffset } = useTimeZoneCtx.get()
+  const chat = useChatContext.get()
 
   let attachedMetric = $state.raw<null | TSeries>(null)
   let openedExplanation = $state.raw<null | TData[number]>(null)
@@ -121,6 +124,16 @@
         </header>
 
         {openedExplanation.explanation}
+        {#if chat}
+          <Button
+            class="mt-2.5 rounded-full bg-white px-2.5 py-1.5 text-sm hover:border-green-hover"
+            variant="border"
+            onclick={() =>
+              chat.sendMessage('Make summary "' + openedExplanation?.explanation + '"')}
+          >
+            🤖 Ask AI for more insights
+          </Button>
+        {/if}
       </div>
     {/if}
   {/snippet}

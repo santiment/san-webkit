@@ -128,7 +128,7 @@
 {#if tooltipVisible}
   <div
     bind:this={tooltipEl}
-    class={cn('selection-tooltip fixed z-50 select-none', `w-[${WIDTH}px]`)}
+    class={cn('fixed z-50 select-none', `w-[${WIDTH}px]`)}
     style="left:{tooltipX}px; top:{tooltipY}px;"
     in:fade={{ duration: 150 }}
     out:fade={{ duration: 100 }}
@@ -136,7 +136,6 @@
     <Button
       class="w-full rounded-full border border-porcelain bg-white px-2.5 py-1.5 text-sm shadow transition-opacity hover:border-green-hover"
       onclick={clickTooltip}
-      onmousedown={(e) => e.stopPropagation()}
     >
       🤖 Ask&nbsp;AI
     </Button>

@@ -8,11 +8,40 @@ import { mutateSendChatMessage } from './api.js'
 export const useChatContext = createCtx(
   'webkit_useChatCtx',
   (initialContext: ChatContext | undefined = undefined) => {
+    let message = $state('')
+    let temporaryMessage = $state('')
+    let opened = $state(false)
     let loading = $state(false)
     const context = $state.raw<ChatContext | undefined>(initialContext)
     let session = $state.raw<ChatSession | undefined>(undefined)
 
     return {
+      message: {
+        get $$() {
+          return message
+        },
+
+        set $$(value) {
+          message = value
+        },
+      },
+
+      opened: {
+        get $$() {
+          return opened
+        },
+
+        set $$(value) {
+          opened = value
+        },
+      },
+
+      temporaryMessage: {
+        get $() {
+          return temporaryMessage
+        },
+      },
+
       session: {
         get $() {
           return session
@@ -25,8 +54,15 @@ export const useChatContext = createCtx(
         },
       },
 
-      async sendMessage(content: string) {
+      async sendMessage(value: string) {
+        const content = value.trim()
+
+        if (!content || loading) return
+
+        opened = true
+        temporaryMessage = content
         loading = true
+        message = ''
 
         await mutateSendChatMessage(Query)({
           chatId: session?.id,
@@ -34,7 +70,10 @@ export const useChatContext = createCtx(
           context,
         })
           .then((data) => (session = data))
-          .then(() => (loading = false))
+          .then(() => {
+            loading = false
+            temporaryMessage = ''
+          })
       },
     }
   },

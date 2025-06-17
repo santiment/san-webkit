@@ -7,13 +7,7 @@
 
   import { formatChatTime } from './utils.js'
 
-  type TProps = {
-    temporaryPrompt: string
-  }
-
   const chat = useChatContext()
-
-  const { temporaryPrompt }: TProps = $props()
 
   let chatMessagesRef = ss<null | HTMLElement>(null)
 
@@ -52,16 +46,16 @@
 
   {#if chat.loading.$}
     <div class="ml-auto w-fit self-end rounded-lg bg-porcelain px-2.5 py-2">
-      {temporaryPrompt}
+      {chat.temporaryMessage.$}
     </div>
 
     <div class="ml-5">
-      {@render snipper()}
+      {@render spinner()}
     </div>
   {/if}
 </div>
 
-{#snippet snipper()}
+{#snippet spinner()}
   <div
     class={cn(
       'h-[2.4px] w-[2.4px] rounded-full',

@@ -1,19 +1,26 @@
-export function clickOutside(node: Node, callback: (node: Event) => void) {
-  return outside(node, 'click', callback)
-}
+export function clickOutside(node: HTMLElement, callback: () => void) {
+  let isInternalClick = false
 
-function outside(node: Node, listener: string, callback: (node: Event) => void) {
-  const handleClick = (event: Event) => {
-    if (node && !node.contains(event.target as Node) && !event.defaultPrevented) {
-      callback(event)
-    }
+  function markInternal() {
+    isInternalClick = true
   }
 
-  document.addEventListener(listener, handleClick)
+  node.addEventListener('mousedown', markInternal)
+
+  function handleClick() {
+    if (!isInternalClick) {
+      callback()
+    }
+
+    isInternalClick = false
+  }
+
+  document.addEventListener('mousedown', handleClick)
 
   return {
     destroy() {
-      document.removeEventListener(listener, handleClick)
+      node.removeEventListener('mousedown', markInternal)
+      document.removeEventListener('mousedown', handleClick)
     },
   }
 }

@@ -16,37 +16,18 @@
   const chat = useChatContext()
 
   let focused = $state(false)
-  let chatOpened = $state(false)
-  let prompt = $state('')
-  let temporaryPrompt = $state('')
 
   let triggerRef = ss<null | HTMLElement>(null)
-
-  async function submit(value: string) {
-    if (!canSubmit(value)) return
-
-    handleChatOpen()
-    temporaryPrompt = value
-    prompt = ''
-
-    await chat.sendMessage(value)
-
-    temporaryPrompt = ''
-  }
-
-  function canSubmit(text: string) {
-    return text.trim() && !chat.loading.$
-  }
 
   function onKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault()
-      submit(prompt)
+      chat.sendMessage(chat.message.$$)
     }
   }
 
   function handleChatOpen() {
-    chatOpened = true
+    chat.opened.$$ = true
 
     focusTriggerWithDelay(200)
   }
@@ -56,8 +37,8 @@
   }
 </script>
 
-<div use:clickOutside={() => (chatOpened = false)}>
-  <div class="fixed bottom-6 right-6 flex gap-2 rounded-full bg-green-light-2 px-2 py-1">
+<div use:clickOutside={() => (chat.opened.$$ = false)}>
+  <div class="fixed bottom-6 right-6 z-40 flex gap-2 rounded-full bg-green-light-2 px-2 py-1">
     <div class="relative w-full">
       {#if chat.session.$}
         <Button
@@ -72,7 +53,7 @@
       {:else}
         <Input
           placeholder="Ask AI for insights"
-          value={prompt}
+          value={chat.message.$$}
           type="text"
           class="pr-13 h-10 w-56 rounded-full shadow"
           inputClass={cn(
@@ -81,7 +62,7 @@
           )}
           onfocus={() => (focused = true)}
           onblur={() => (focused = false)}
-          oninput={({ currentTarget }) => (prompt = currentTarget.value)}
+          oninput={({ currentTarget }) => (chat.message.$$ = currentTarget.value)}
           onkeydown={onKeyDown}
         ></Input>
       {/if}
@@ -99,7 +80,7 @@
         <Button
           icon="back-to-top"
           class="absolute right-1.5 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full bg-white hover:bg-green hover:fill-white"
-          onclick={() => submit(prompt)}
+          onclick={() => chat.sendMessage(chat.message.$$)}
           disabled={chat.loading.$}
         ></Button>
       {/if}
@@ -114,9 +95,9 @@
     {/if}
   </div>
 
-  {#if chatOpened}
+  {#if chat.opened.$$}
     <div
-      class="fixed bottom-6 right-6 flex h-[600px] w-[600px] flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow"
+      class="fixed bottom-6 right-6 z-50 flex h-[600px] w-[600px] flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow"
       in:fly={{ y: 24, opacity: 0, duration: 220 }}
       out:fade={{ duration: 160 }}
     >
@@ -125,14 +106,14 @@
           icon="close"
           class="size-3 hover:bg-white hover:fill-green-hover"
           iconSize={12}
-          onclick={() => (chatOpened = false)}
+          onclick={() => (chat.opened.$$ = false)}
         ></Button>
       </div>
 
       {#if !chat.session.$ && !chat.loading.$}
-        <ChatSuggestions onSubmit={(suggestion) => submit(suggestion)} />
+        <ChatSuggestions onSubmit={(suggestion) => chat.sendMessage(suggestion)} />
       {:else}
-        <ChatScreen {temporaryPrompt} />
+        <ChatScreen />
       {/if}
 
       <div class="relative mt-3 flex items-center">
@@ -141,15 +122,15 @@
           class="min-h-16 flex-1 resize-none rounded-lg border border-porcelain bg-transparent px-3 py-2.5 placeholder-casper outline-none"
           placeholder={`Ask Santiment AI...\nspace for 2 lines for text`}
           rows={2}
-          value={prompt}
-          oninput={(e) => (prompt = e.currentTarget.value)}
+          value={chat.message.$$}
+          oninput={(e) => (chat.message.$$ = e.currentTarget.value)}
           onkeydown={onKeyDown}
         ></Textarea>
 
         <Button
           icon="back-to-top"
           class="absolute bottom-1.5 right-1.5 h-8 w-8 rounded-full bg-casper fill-white hover:bg-green"
-          onclick={() => submit(prompt)}
+          onclick={() => chat.sendMessage(chat.message.$$)}
           onkeydown={onKeyDown}
           disabled={chat.loading.$}
         ></Button>
@@ -158,4 +139,4 @@
   {/if}
 </div>
 
-<SelectionTooltip onTooltipClick={(selectedText) => submit(selectedText)} />
+<SelectionTooltip onTooltipClick={(selectedText) => chat.sendMessage(selectedText)} />
