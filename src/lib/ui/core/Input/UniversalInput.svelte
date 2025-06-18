@@ -50,13 +50,13 @@
 <!-- Search for [input-left-fix] to fix hacks after update -->
 <div
   class={cn(
-    'relative flex items-center rounded border bg-white fill-casper focus-within:border-green focus-within:fill-green hover:border-green',
+    'relative flex items-center rounded-md border bg-white fill-waterloo  focus-within:border-green focus-within:fill-green hover:border-green',
     disabled && 'bg-athens text-mystic hover:border-porcelain',
     className,
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} class="absolute left-2.5"></Svg>
+    <Svg id={icon} w={iconSize} class="absolute left-3"></Svg>
   {/if}
 
   {@render left?.()}
@@ -69,7 +69,7 @@
     {type}
     {placeholder}
     class={cn(
-      'w-full rounded bg-transparent py-[5px] pl-2.5 pr-3 outline-none',
+      'w-full rounded-md bg-transparent py-[5px] pl-2.5 pr-3 outline-none placeholder:text-waterloo',
       icon && 'pl-8',
       inputClass,
     )}

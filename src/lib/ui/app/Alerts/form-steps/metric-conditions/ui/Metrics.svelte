@@ -3,7 +3,7 @@
 
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
-  import { type TRegistryMetric } from '$lib/ctx/metrics-registry/index.svelte.js'
+  import { type TRegistryMetric } from '$lib/ctx/metrics-registry/index.js'
   import Input from '$ui/core/Input/Input.svelte'
 
   import { useMetricGraph } from './metrics.svelte.js'

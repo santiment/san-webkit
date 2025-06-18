@@ -4,7 +4,7 @@ import {
   useMetricsRegistryCtx,
   type TMetricsRegistry,
   type TRegistryMetric,
-} from '$lib/ctx/metrics-registry/index.svelte.js'
+} from '$lib/ctx/metrics-registry/index.js'
 import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
 import { stateIsAsset } from '$ui/app/Alerts/categories/asset/asset-form-step/state.js'
 import { stateIsWatchlist } from '$ui/app/Alerts/categories/watchlist/watchlist-form-step/state.js'

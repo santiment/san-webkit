@@ -1,11 +1,9 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
 
-import { catchError, finalize, from, of, switchMap, tap } from 'rxjs'
 import { untrack } from 'svelte'
 
-import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
-import { RxQuery } from '$lib/api/executor.js'
+import { Query } from '$lib/api/executor.js'
 import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
 
 import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
@@ -42,44 +40,51 @@ export function useApiMetricDataFlow(
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
-  const loadMetricData = useObserveFnCall<{
+  function loadMetricData({
+    localParameters,
+    globalParameters,
+    scheduledData,
+    abortController,
+  }: {
     localParameters: TLocalParameters
     globalParameters: TGlobalParameters & { interval: TInterval }
     scheduledData: TScheduledData
-  }>(() =>
-    switchMap(({ localParameters, globalParameters, scheduledData }) => {
-      metric.loading.$ = true
-      metric.data.$ = []
+    abortController: AbortController
+  }) {
+    metric.loading.$ = true
+    metric.data.$ = []
 
-      const queryData$ = () =>
-        queryGetMetric({ executor: RxQuery, fetcher })({
-          metric: localParameters.metric,
-          selector: localParameters.selector || globalParameters.selector,
-          from: globalParameters.from,
-          to: globalParameters.to,
-          interval: globalParameters.interval,
-        }).pipe(
-          tap((data) => {
-            const formattedData = metric.transformData?.(data) || data
-            metric.data.$ = formattedData
-            metric.error.$ = null
-            metric.loading.$ = false
-          }),
-          catchError((err) => {
-            metric.data.$ = []
-            metric.loading.$ = false
-            metric.error.$ = err
+    const queryData = () =>
+      queryGetMetric({ executor: Query, fetcher })({
+        metric: localParameters.metric,
+        selector: localParameters.selector || globalParameters.selector,
+        from: globalParameters.from,
+        to: globalParameters.to,
+        interval: globalParameters.interval,
+      })
+        .then((data) => {
+          if (abortController.signal.aborted) {
+            return
+          }
 
-            return of(null)
-          }),
-          finalize(() => scheduledData?.jobResolve()),
-        )
+          const formattedData = metric.transformData?.(data) || data
+          metric.data.$ = formattedData
+          metric.error.$ = null
+          metric.loading.$ = false
+        })
+        .catch((err) => {
+          if (abortController.signal.aborted) {
+            return
+          }
 
-      return scheduledData
-        ? from(scheduledData.fetchStartPromise).pipe(switchMap(queryData$))
-        : queryData$()
-    }),
-  )
+          metric.data.$ = []
+          metric.loading.$ = false
+          metric.error.$ = err
+        })
+        .finally(() => scheduledData?.jobResolve())
+
+    return scheduledData ? scheduledData.fetchStartPromise.then(queryData) : queryData()
+  }
 
   $effect(() => {
     const from = globalParameters.$$.from
@@ -93,7 +98,10 @@ export function useApiMetricDataFlow(
       untrack(() => $state.snapshot(settings)),
     )
 
+    const abortController = new AbortController()
+
     loadMetricData({
+      abortController,
       scheduledData,
       localParameters: {
         metric: metric.apiMetricName,
@@ -103,7 +111,10 @@ export function useApiMetricDataFlow(
       globalParameters: { selector, from, to, interval, includeIncompleteData },
     })
 
-    return scheduledData?.cancel
+    return () => {
+      abortController.abort()
+      scheduledData?.cancel()
+    }
   })
 }
 
