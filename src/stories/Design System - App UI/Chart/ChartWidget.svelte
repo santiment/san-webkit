@@ -2,6 +2,7 @@
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
+  import { AiInsightButton } from '$ui/app/AIChatbot/index.js'
   import { useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
   import BaseChart, {
     ViewportChart,
@@ -59,7 +60,11 @@
       <ApiMetricSeries series={item}></ApiMetricSeries>
     {/each}
 
-    <SpikeExplanations></SpikeExplanations>
+    <SpikeExplanations>
+      {#snippet children({ slug, explanation })}
+        <AiInsightButton {slug} {explanation} />
+      {/snippet}
+    </SpikeExplanations>
 
     <PaneLegend>
       {#snippet children({ metrics })}

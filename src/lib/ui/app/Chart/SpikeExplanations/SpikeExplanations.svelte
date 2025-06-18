@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { IEventMarker, IRenderItem } from '@santiment-network/chart-next'
 
-  import { untrack } from 'svelte'
+  import { untrack, type Snippet } from 'svelte'
   import { tap, switchMap, pipe } from 'rxjs'
   import { createEventMarkers } from '@santiment-network/chart-next'
   import { applyStyles } from 'drawer-svelte'
@@ -17,11 +17,17 @@
   import { useChartGlobalParametersCtx } from '../ctx/global-parameters.svelte.js'
   import { drawSpikeExplanation } from './flow.svelte.js'
 
+  type TProps = {
+    children?: Snippet<[{ slug: string; explanation: string }]>
+  }
+
   const { chart } = useChartCtx()
   const { metricSeries } = useMetricSeriesCtx.get()
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
   const { applyTimeZoneOffset } = useTimeZoneCtx.get()
+
+  const { children }: TProps = $props()
 
   let attachedMetric = $state.raw<null | TSeries>(null)
   let openedExplanation = $state.raw<null | TData[number]>(null)
@@ -96,7 +102,12 @@
 
 <Popover
   isOpened={!!openedExplanation}
-  contentProps={{ customAnchor: anchorNode, sideOffset: 16, interactOutsideBehavior: 'ignore' }}
+  contentProps={{
+    customAnchor: anchorNode,
+    sideOffset: 16,
+    interactOutsideBehavior: 'ignore',
+    trapFocus: false,
+  }}
   side="top"
   class="w-[360px] px-6 py-5 pt-4 text-rhino"
 >
@@ -121,6 +132,10 @@
         </header>
 
         {openedExplanation.explanation}
+        {@render children?.({
+          slug: asset?.name || slug,
+          explanation: openedExplanation.explanation,
+        })}
       </div>
     {/if}
   {/snippet}

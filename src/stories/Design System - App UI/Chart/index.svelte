@@ -25,7 +25,6 @@
 
   useTimeZoneCtx.set()
   useClockCtx.set()
-
   const jobScheduler = JobScheduler()
   useApiMetricFetchSettingsCtx.set({ jobScheduler })
   if (viewportPriority) useViewportPriorityCtx.set()

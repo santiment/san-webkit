@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { HTMLInputAttributes, HTMLTextareaAttributes } from 'svelte/elements'
   import type { Snippet } from 'svelte'
+  import type { SS } from 'svelte-runes'
 
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
 
   type TCommonProps = {
+    ref?: SS<undefined | null | HTMLElement>
     class?: string
     type?: 'text' | 'number' | 'email'
     placeholder?: string
@@ -32,6 +34,7 @@
     class: className,
     inputClass,
     type = 'text',
+    ref = { $: null },
     as,
     placeholder = '',
     icon,
@@ -60,6 +63,7 @@
 
   <svelte:element
     this={as}
+    bind:this={ref.$}
     {...rest}
     {disabled}
     {type}
