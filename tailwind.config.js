@@ -57,7 +57,7 @@ export default {
         whale: { day: '#FCFDFE', night: '#1A1D2F' },
 
         athens: { day: '#F3F4FA', night: '#1E2234' },
-        porcelain: { day: '#e7eaf3', night: '#202436' },
+        porcelain: { day: '#ECEEF5', night: '#202436' },
         mystic: { day: '#D2D6E7', night: '#222639' },
         casper: { day: '#9FAAC4', night: '#4E5472' },
         waterloo: { day: '#7A859E', night: '#7A809A' },

@@ -11,4 +11,4 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const Chatbot: Story = {}
+export const AIChatbot: Story = {}

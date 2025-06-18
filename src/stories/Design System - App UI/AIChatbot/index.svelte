@@ -1,6 +1,5 @@
 <script>
-  import Chatbot from '$ui/app/Chatbot/index.js'
-  import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
+  import AIChatbot, { useChatContext } from '$ui/app/AIChatbot/index.js'
   import Chart from '../Chart/index.svelte'
 
   useChatContext.set({
@@ -27,4 +26,4 @@
   repudiandae reprehenderit excepturi illo.
 </p>
 <Chart />
-<Chatbot />
+<AIChatbot />

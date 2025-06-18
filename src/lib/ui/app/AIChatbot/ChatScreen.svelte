@@ -1,13 +1,15 @@
 <script lang="ts">
-  import { marked } from 'marked'
   import { ss } from 'svelte-runes'
+  import { onMount } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
-  import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
 
+  import { useChatContext } from './ctx.svelte.js'
   import { formatChatTime } from './utils.js'
 
   const chat = useChatContext()
+
+  let marked = $state<null | ((s: string) => any)>(null)
 
   let chatMessagesRef = ss<null | HTMLElement>(null)
 
@@ -20,6 +22,11 @@
     if (!chatMessagesRef.$) return
     chatMessagesRef.$.scrollTop = chatMessagesRef.$.scrollHeight
   }
+
+  onMount(async () => {
+    const mod = await import('marked')
+    marked = (s: string) => mod.marked(s)
+  })
 </script>
 
 <div class="mb-4 text-center text-xs text-waterloo">
@@ -32,28 +39,44 @@
 >
   {#if chat.session.$}
     {#each chat.session.$.chatMessages as msg}
-      <div
-        class={cn(
-          msg.role === 'USER'
-            ? 'ml-auto w-fit self-end rounded-lg bg-porcelain px-2.5 py-2'
-            : '[&_a]:link-pointer',
-        )}
-      >
-        {@html marked(msg.content)}
-      </div>
+      {#if msg.role === 'USER'}
+        {@render userInput(msg.content)}
+      {:else}
+        <div
+          class={cn(
+            'w-fit break-words',
+            '[&_ul]:mb-2 [&_ul]:list-disc [&_ul]:pl-6',
+            '[&_ol]:mb-2 [&_ol]:list-decimal [&_ol]:pl-6',
+            '[&_li]:mb-1',
+            '[&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-porcelain [&_pre]:p-3 [&_pre]:text-rhino',
+            '[&_code]:whitespace-normal [&_code]:break-words',
+            '[&_a]:link-pointer',
+          )}
+        >
+          {#if marked}
+            {@html marked(msg.content)}
+          {/if}
+        </div>
+      {/if}
     {/each}
   {/if}
 
   {#if chat.loading.$}
-    <div class="ml-auto w-fit self-end rounded-lg bg-porcelain px-2.5 py-2">
-      {chat.temporaryMessage.$}
-    </div>
+    {@render userInput(chat.temporaryMessage.$)}
 
     <div class="ml-5">
       {@render spinner()}
     </div>
   {/if}
 </div>
+
+{#snippet userInput(message: string)}
+  <div
+    class="m-0 ml-auto w-fit self-end whitespace-pre-wrap break-words rounded-lg bg-porcelain px-2.5 py-2"
+  >
+    {message}
+  </div>
+{/snippet}
 
 {#snippet spinner()}
   <div

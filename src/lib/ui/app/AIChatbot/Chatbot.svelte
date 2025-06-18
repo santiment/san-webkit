@@ -5,9 +5,9 @@
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
-  import { useChatContext } from '$lib/ctx/chat/index.svelte.js'
   import Textarea from '$ui/core/Input/Textarea.svelte'
 
+  import { useChatContext } from './ctx.svelte.js'
   import ChatSuggestions from './ChatSuggestions.svelte'
   import ChatScreen from './ChatScreen.svelte'
   import SelectionTooltip from './SelectionTooltip.svelte'

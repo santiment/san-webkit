@@ -57,9 +57,9 @@ export const useChatContext = createCtx(
       async sendMessage(value: string) {
         const content = value.trim()
 
+        if (!opened) opened = true
         if (!content || loading) return
 
-        opened = true
         temporaryMessage = content
         loading = true
         message = ''
