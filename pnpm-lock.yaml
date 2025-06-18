@@ -172,6 +172,9 @@ devDependencies:
   magic-string:
     specifier: ^0.30.10
     version: 0.30.17
+  marked:
+    specifier: ^15.0.12
+    version: 15.0.12
   postcss:
     specifier: ^8.4.38
     version: 8.5.3
@@ -7903,6 +7906,12 @@ packages:
 
   /map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
+    dev: true
+
+  /marked@15.0.12:
+    resolution: {integrity: sha512-8dD6FusOQSrpv9Z1rdNMdlSgQOIP880DHqnohobOmYLElGEqAL/JvxvuxZO16r4HtjTlfPRDC1hbvxC9dPN2nA==}
+    engines: {node: '>= 18'}
+    hasBin: true
     dev: true
 
   /math-intrinsics@1.1.0:
