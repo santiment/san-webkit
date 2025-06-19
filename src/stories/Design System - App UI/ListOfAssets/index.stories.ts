@@ -12,4 +12,14 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const Default: Story = {}
+export const Single: Story = {
+  args: {
+    isMulti: false,
+  },
+}
+
+export const Multi: Story = {
+  args: {
+    isMulti: true,
+  },
+}

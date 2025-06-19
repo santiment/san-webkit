@@ -5,6 +5,12 @@
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
   import { SvelteSet } from 'svelte/reactivity'
 
+  type TProps = {
+    isMulti: boolean
+  }
+
+  const { isMulti }: TProps = $props()
+
   let selectedSingle = $state<TAssetSlug>()
   let selectedMulti = new SvelteSet<TAssetSlug>()
 
@@ -18,18 +24,13 @@
 
 <main class="flex h-screen gap-6 p-5">
   <section class="flex flex-1 flex-col gap-4">
-    <h3 class="text-lg">Selected Single Asset: {selectedSingle}</h3>
-
-    <ListOfAssets
-      selected={selectedSingle}
-      onSelect={(slug) => (selectedSingle = slug)}
-      {hasSearch}
-      {hasTabs}
-    />
-  </section>
-
-  <section class="flex flex-1 flex-col gap-4">
-    <h3 class="text-lg">Selected Multi Assets: {Array.from(selectedMulti)}</h3>
+    <h3 class="text-lg">
+      {#if isMulti}
+        Selected Multi Assets: {Array.from(selectedMulti)}
+      {:else}
+        Selected Single Asset: {selectedSingle}
+      {/if}
+    </h3>
 
     <div>
       <div class="flex flex-col">
@@ -40,21 +41,30 @@
       </div>
     </div>
 
-    <ListOfAssetsMulti
-      selected={selectedMulti}
-      resetSelections={() => selectedMulti.clear()}
-      onSelect={(slug) => {
-        if (selectedMulti.has(slug)) {
-          selectedMulti.delete(slug)
-        } else {
-          selectedMulti.add(slug)
-        }
-      }}
-      {keepSelectedInList}
-      {hasSearch}
-      {hasResetButton}
-      {hasTabs}
-    />
+    {#if isMulti}
+      <ListOfAssetsMulti
+        selected={selectedMulti}
+        resetSelections={() => selectedMulti.clear()}
+        onSelect={(slug) => {
+          if (selectedMulti.has(slug)) {
+            selectedMulti.delete(slug)
+          } else {
+            selectedMulti.add(slug)
+          }
+        }}
+        {keepSelectedInList}
+        {hasSearch}
+        {hasResetButton}
+        {hasTabs}
+      />
+    {:else}
+      <ListOfAssets
+        selected={selectedSingle}
+        onSelect={(slug) => (selectedSingle = slug)}
+        {hasSearch}
+        {hasTabs}
+      />
+    {/if}
   </section>
 </main>
 
