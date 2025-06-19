@@ -65,9 +65,15 @@
 </script>
 
 <section class="flex h-full flex-1 flex-col">
-  <header class="flex flex-col gap-3 px-2">
+  <header class="flex flex-col gap-3 px-2 md:p-0">
     {#if hasSearch}
-      <Input icon="search" placeholder="Search project" oninput={onInput} onkeyup={onKeyUp} />
+      <Input
+        inputClass="md:py-2.5"
+        icon="search"
+        placeholder="Search project"
+        oninput={onInput}
+        onkeyup={onKeyUp}
+      />
     {/if}
 
     {#if hasTabs}
