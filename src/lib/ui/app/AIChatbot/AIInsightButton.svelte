@@ -1,14 +1,14 @@
 <script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
 
-  import { useChatContext } from './ctx.svelte.js'
+  import { useAIChatbotCtx } from './ctx.svelte.js'
 
   type TProps = {
     slug: string
     explanation: string
   }
 
-  const chat = useChatContext.get()
+  const aiChatbot = useAIChatbotCtx.get()
 
   const { slug, explanation }: TProps = $props()
 
@@ -28,7 +28,7 @@ Please:
 <Button
   class="mt-2.5 rounded-full bg-white px-2.5 py-1.5 text-sm hover:border-green-hover"
   variant="border"
-  onclick={() => chat.sendMessage(prompt)}
+  onclick={() => aiChatbot.sendMessage(prompt)}
 >
   🤖 Ask AI for more insights
 </Button>

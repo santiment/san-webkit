@@ -1,50 +1,39 @@
-import type { ChatContext, ChatSession } from './types.js'
+import type { AiChatbotContext, AiChatbotSession } from './types.js'
 
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
-import { mutateSendChatMessage } from './api.js'
+import { mutateSendAiChatbotMessage } from './api.js'
 
-export const useChatContext = createCtx(
-  'webkit_useChatCtx',
-  (initialContext: ChatContext | undefined = undefined) => {
-    let message = $state('')
-    let temporaryMessage = $state('')
-    let opened = $state(false)
+type TAIChatState = {
+  message: string
+  temporaryMessage: string
+  opened: boolean
+  session: AiChatbotSession | undefined
+  context: AiChatbotContext | undefined
+}
+
+export const useAIChatbotCtx = createCtx(
+  'webkit_useChatAICtx',
+  (initialContext: AiChatbotContext | undefined = undefined) => {
+    let state = $state<TAIChatState>({
+      message: '',
+      temporaryMessage: '',
+      opened: false,
+      session: undefined,
+      context: initialContext,
+    })
+
     let loading = $state(false)
-    const context = $state.raw<ChatContext | undefined>(initialContext)
-    let session = $state.raw<ChatSession | undefined>(undefined)
 
     return {
-      message: {
+      state: {
         get $$() {
-          return message
+          return state
         },
 
         set $$(value) {
-          message = value
-        },
-      },
-
-      opened: {
-        get $$() {
-          return opened
-        },
-
-        set $$(value) {
-          opened = value
-        },
-      },
-
-      temporaryMessage: {
-        get $() {
-          return temporaryMessage
-        },
-      },
-
-      session: {
-        get $() {
-          return session
+          state = value
         },
       },
 
@@ -57,22 +46,22 @@ export const useChatContext = createCtx(
       async sendMessage(value: string) {
         const content = value.trim()
 
-        if (!opened) opened = true
+        if (!state.opened) state.opened = true
         if (!content || loading) return
 
-        temporaryMessage = content
+        state.temporaryMessage = content
         loading = true
-        message = ''
+        state.message = ''
 
-        await mutateSendChatMessage(Query)({
-          chatId: session?.id,
+        await mutateSendAiChatbotMessage(Query)({
+          chatId: state.session?.id,
           content,
-          context,
+          context: state.context,
         })
-          .then((data) => (session = data))
+          .then((data) => (state.session = data))
           .then(() => {
             loading = false
-            temporaryMessage = ''
+            state.temporaryMessage = ''
           })
       },
     }
