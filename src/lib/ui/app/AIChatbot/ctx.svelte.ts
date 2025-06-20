@@ -1,79 +1,66 @@
-import type { ChatContext, ChatSession } from './types.js'
+import type { TAiChatbotContext, TAiChatbotSession } from './types.js'
 
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
-import { mutateSendChatMessage } from './api.js'
+import { mutateSendAiChatbotMessage } from './api.js'
 
-export const useChatContext = createCtx(
-  'webkit_useChatCtx',
-  (initialContext: ChatContext | undefined = undefined) => {
-    let message = $state('')
-    let temporaryMessage = $state('')
-    let opened = $state(false)
+type TAIChatState = {
+  message: string
+  temporaryMessage: string
+  opened: boolean
+  session: TAiChatbotSession | undefined
+  context: TAiChatbotContext | undefined
+}
+
+export const useAIChatbotCtx = createCtx(
+  'webkit_useChatAICtx',
+  (initialContext: TAiChatbotContext | undefined = undefined) => {
+    let state = $state<TAIChatState>({
+      message: '',
+      temporaryMessage: '',
+      opened: false,
+      session: undefined,
+      context: initialContext,
+    })
+
     let loading = $state(false)
-    const context = $state.raw<ChatContext | undefined>(initialContext)
-    let session = $state.raw<ChatSession | undefined>(undefined)
 
     return {
-      message: {
+      aiChatbot: {
         get $$() {
-          return message
+          return state
         },
 
         set $$(value) {
-          message = value
-        },
-      },
-
-      opened: {
-        get $$() {
-          return opened
+          state = value
         },
 
-        set $$(value) {
-          opened = value
-        },
-      },
-
-      temporaryMessage: {
-        get $() {
-          return temporaryMessage
-        },
-      },
-
-      session: {
-        get $() {
-          return session
-        },
-      },
-
-      loading: {
-        get $() {
+        get loading$() {
           return loading
         },
-      },
 
-      async sendMessage(value: string) {
-        const content = value.trim()
+        async sendMessage(value: string) {
+          const content = value.trim()
 
-        if (!opened) opened = true
-        if (!content || loading) return
+          if (!state.opened) state.opened = true
+          if (!content || loading) return
 
-        temporaryMessage = content
-        loading = true
-        message = ''
+          state.temporaryMessage = content
+          loading = true
+          state.message = ''
 
-        await mutateSendChatMessage(Query)({
-          chatId: session?.id,
-          content,
-          context,
-        })
-          .then((data) => (session = data))
-          .then(() => {
-            loading = false
-            temporaryMessage = ''
+          await mutateSendAiChatbotMessage(Query)({
+            chatId: state.session?.id,
+            content,
+            context: state.context,
           })
+            .then((data) => (state.session = data))
+            .then(() => {
+              loading = false
+              state.temporaryMessage = ''
+            })
+        },
       },
     }
   },
