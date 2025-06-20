@@ -1,13 +1,14 @@
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
-import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,
   checkIsSanbaseProduct,
-  getPlanName,
-} from '$ui/app/SubscriptionPlan/utils.js'
+  getPlanDisplayName,
+  isPlanEligibleFor,
+  Plan,
+} from '$lib/utils/plans/index.js'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -60,7 +61,7 @@ export const getApiSubscription = (subscriptions: null | TSubscription[]) =>
 export function getPrimarySubscription(subscriptions: null | TSubscription[]) {
   const apiSubscription = getApiSubscription(subscriptions)
 
-  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan)) {
+  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan.name)) {
     return apiSubscription
   }
 
@@ -100,21 +101,21 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       currentPeriodEnd = Date.now(),
     } = subscription
 
-    const isBusiness = checkIsBusinessPlan(plan)
+    const isBusiness = checkIsBusinessPlan(plan.name)
     const planName = plan.name
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
-    const isCustom = planName === SubscriptionPlan.CUSTOM.key
-    const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
-    const isBusinessPro = isBusinessMax || planName === SubscriptionPlan.BUSINESS_PRO.key
-    const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
-    const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
-    const isPro = isProPlus || isMax || planName === SubscriptionPlan.PRO.key
-    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax
+    const isCustom = isPlanEligibleFor(planName, Plan.CUSTOM)
+    const isBusinessMax = isPlanEligibleFor(planName, Plan.BUSINESS_MAX)
+    const isBusinessPro = isPlanEligibleFor(planName, Plan.BUSINESS_PRO)
+    const isMax = isPlanEligibleFor(planName, Plan.MAX)
+    const isProPlus = isPlanEligibleFor(planName, Plan.PRO_PLUS)
+    const isPro = isPlanEligibleFor(planName, Plan.PRO)
+    const isFree = !isPro
 
     return {
       plan,
-      planName: getPlanName(plan),
+      planName: getPlanDisplayName(plan.name),
 
       isBusinessMax,
       isBusinessPro,
