@@ -24,7 +24,7 @@
     variant="plain"
     size="auto"
     class={cn(
-      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 hover:bg-athens',
+      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 hover:bg-athens md:px-3 md:py-2 md:text-base',
       isActive && 'text-green',
       className,
     )}
@@ -33,7 +33,7 @@
     {@render children?.()}
 
     <div class="flex items-center gap-1.5">
-      <AssetLogo {slug} class="size-4" />
+      <AssetLogo {slug} class="size-4 md:size-5" />
       <span class="single-line">
         <span class="text-fiord">{name}</span>
         <span class="text-casper">{ticker}</span>
