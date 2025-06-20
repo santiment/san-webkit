@@ -1,37 +1,54 @@
 <script lang="ts">
   import { ss } from 'svelte-runes'
+  import { onMount, tick } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
 
   import { useAIChatbotCtx } from './ctx.svelte.js'
   import { formatChatTime } from './utils.js'
 
-  const aiChatbot = useAIChatbotCtx()
+  const { aiChatbot } = useAIChatbotCtx()
 
   let chatMessagesRef = ss<null | HTMLElement>(null)
 
   $effect(() => {
-    const shouldScroll = aiChatbot.loading.$ || aiChatbot.state.$$.session?.chatMessages.length
+    const shouldScroll = aiChatbot.loading$ || aiChatbot.$$.session?.chatMessages.length
 
-    if (shouldScroll) scrollToBottom()
+    if (shouldScroll) {
+      scrollToBottom('smooth')
+    }
   })
 
-  function scrollToBottom() {
-    if (!chatMessagesRef.$) return
-    chatMessagesRef.$.scrollTop = chatMessagesRef.$.scrollHeight
+  function scrollToBottom(behavior: 'smooth' | 'auto') {
+    tick().then(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (chatMessagesRef.$ && chatMessagesRef.$.offsetHeight > 0) {
+            chatMessagesRef.$.scroll({
+              top: chatMessagesRef.$.scrollHeight,
+              behavior,
+            })
+          }
+        })
+      })
+    })
   }
+
+  onMount(() => {
+    setTimeout(() => scrollToBottom('auto'), 0)
+  })
 </script>
 
 <div class="mb-4 text-center text-xs text-waterloo">
-  Today {formatChatTime(aiChatbot.state.$$.session?.insertedAt || new Date().toISOString())}
+  Today {formatChatTime(aiChatbot.$$.session?.insertedAt || new Date().toISOString())}
 </div>
 
 <div
   class="flex-1 overflow-y-auto pr-1 [&>div]:my-8 first:[&>div]:mt-0"
   bind:this={chatMessagesRef.$}
 >
-  {#if aiChatbot.state.$$.session}
-    {#each aiChatbot.state.$$.session.chatMessages as msg}
+  {#if aiChatbot.$$.session}
+    {#each aiChatbot.$$.session.chatMessages as msg}
       {#if msg.role === 'USER'}
         {@render userInput(msg.content)}
       {:else}
@@ -44,8 +61,8 @@
     {/each}
   {/if}
 
-  {#if aiChatbot.loading.$}
-    {@render userInput(aiChatbot.state.$$.temporaryMessage)}
+  {#if aiChatbot.loading$}
+    {@render userInput(aiChatbot.$$.temporaryMessage)}
 
     <div class="ml-5">
       {@render spinner()}
@@ -72,27 +89,29 @@
 {/snippet}
 
 <style lang="postcss">
-  :global(.content ul) {
-    @apply mb-2 list-disc pl-6;
-  }
+  :global(.content) {
+    & ul {
+      @apply mb-2 list-disc pl-6;
+    }
 
-  :global(.content ol) {
-    @apply mb-2 list-decimal pl-6;
-  }
+    & ol {
+      @apply mb-2 list-decimal pl-6;
+    }
 
-  :global(.content li) {
-    @apply mb-1;
-  }
+    & li {
+      @apply mb-1;
+    }
 
-  :global(.content pre) {
-    @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
-  }
+    & pre {
+      @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
+    }
 
-  :global(.content code) {
-    @apply whitespace-normal break-words;
-  }
+    & code {
+      @apply whitespace-normal break-words;
+    }
 
-  :global(.content a) {
-    @apply link-pointer;
+    & a {
+      @apply link-pointer;
+    }
   }
 </style>

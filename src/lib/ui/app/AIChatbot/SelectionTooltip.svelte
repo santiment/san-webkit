@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
+  import { onMount } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
@@ -106,15 +106,15 @@
 
     window.addEventListener('scroll', hideOnScrollOrResize, true)
     window.addEventListener('resize', hideOnScrollOrResize)
-  })
 
-  onDestroy(() => {
-    document.removeEventListener('selectionchange', handleSelection)
+    return () => {
+      document.removeEventListener('selectionchange', handleSelection)
 
-    window.removeEventListener('scroll', hideOnScrollOrResize, true)
-    window.removeEventListener('resize', hideOnScrollOrResize)
+      window.removeEventListener('scroll', hideOnScrollOrResize, true)
+      window.removeEventListener('resize', hideOnScrollOrResize)
 
-    if (showTimeout) clearTimeout(showTimeout)
+      if (showTimeout) clearTimeout(showTimeout)
+    }
   })
 </script>
 

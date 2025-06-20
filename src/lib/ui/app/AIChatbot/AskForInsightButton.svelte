@@ -8,7 +8,7 @@
     explanation: string
   }
 
-  const aiChatbot = useAIChatbotCtx.get()
+  const { aiChatbot } = useAIChatbotCtx.get()
 
   const { slug, explanation }: TProps = $props()
 
