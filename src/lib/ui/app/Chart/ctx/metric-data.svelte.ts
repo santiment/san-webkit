@@ -14,8 +14,10 @@ import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import { workerFetchMetric } from '../metrics-api-worker/index.js'
+import type { TFetchMetricMessage } from '../metrics-api-worker/types.js'
 
-type TLocalParameters = {
+export type TLocalParameters = {
   metric: string
   selector?: null | TMetricTargetSelectorInputObject
   transform?: null | TTimeseriesMetricTransformInputObject
@@ -40,50 +42,66 @@ export function useApiMetricDataFlow(
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
-  function loadMetricData({
-    localParameters,
-    globalParameters,
-    scheduledData,
-    abortController,
-  }: {
-    localParameters: TLocalParameters
-    globalParameters: TGlobalParameters & { interval: TInterval }
-    scheduledData: TScheduledData
-    abortController: AbortController
-  }) {
-    metric.loading.$ = true
-    metric.data.$ = []
+  //function loadMetricData({
+  //  localParameters,
+  //  globalParameters,
+  //  scheduledData,
+  //  abortController,
+  //}: {
+  //  localParameters: TLocalParameters
+  //  globalParameters: TGlobalParameters & { interval: TInterval }
+  //  scheduledData: TScheduledData
+  //  abortController: AbortController
+  //}) {
+  //  metric.loading.$ = true
+  //  metric.data.$ = []
+  //
+  //  const queryData = () =>
+  //    queryGetMetric({ executor: Query, fetcher })({
+  //      metric: localParameters.metric,
+  //      selector: localParameters.selector || globalParameters.selector,
+  //      from: globalParameters.from,
+  //      to: globalParameters.to,
+  //      interval: globalParameters.interval,
+  //    })
+  //      .then((data) => {
+  //        if (abortController.signal.aborted) {
+  //          return
+  //        }
+  //
+  //        const formattedData = metric.transformData?.(data) || data
+  //        metric.data.$ = formattedData
+  //        metric.error.$ = null
+  //        metric.loading.$ = false
+  //      })
+  //      .catch((err) => {
+  //        if (abortController.signal.aborted) {
+  //          return
+  //        }
+  //
+  //        metric.data.$ = []
+  //        metric.loading.$ = false
+  //        metric.error.$ = err
+  //      })
+  //      .finally(() => scheduledData?.jobResolve())
+  //
+  //  return scheduledData ? scheduledData.fetchStartPromise.then(queryData) : queryData()
+  //}
 
-    const queryData = () =>
-      queryGetMetric({ executor: Query, fetcher })({
-        metric: localParameters.metric,
-        selector: localParameters.selector || globalParameters.selector,
-        from: globalParameters.from,
-        to: globalParameters.to,
-        interval: globalParameters.interval,
-      })
-        .then((data) => {
-          if (abortController.signal.aborted) {
-            return
-          }
+  function onWorkerData(msg: TFetchMetricMessage['response']) {
+    if ('error' in msg.payload) {
+      metric.data.$ = []
+      metric.loading.$ = false
+      metric.error.$ = msg.payload.error
 
-          const formattedData = metric.transformData?.(data) || data
-          metric.data.$ = formattedData
-          metric.error.$ = null
-          metric.loading.$ = false
-        })
-        .catch((err) => {
-          if (abortController.signal.aborted) {
-            return
-          }
+      return
+    }
 
-          metric.data.$ = []
-          metric.loading.$ = false
-          metric.error.$ = err
-        })
-        .finally(() => scheduledData?.jobResolve())
-
-    return scheduledData ? scheduledData.fetchStartPromise.then(queryData) : queryData()
+    const data = msg.payload.timeseries
+    const formattedData = metric.transformData?.(data) || data
+    metric.data.$ = formattedData
+    metric.error.$ = null
+    metric.loading.$ = false
   }
 
   $effect(() => {
@@ -100,20 +118,34 @@ export function useApiMetricDataFlow(
 
     const abortController = new AbortController()
 
-    loadMetricData({
-      abortController,
-      scheduledData,
-      localParameters: {
-        metric: metric.apiMetricName,
-        selector: $state.snapshot(metric.selector.$),
-        transform: $state.snapshot(metric.transform),
-      },
-      globalParameters: { selector, from, to, interval, includeIncompleteData },
-    })
+    //loadMetricData({
+    //  abortController,
+    //  scheduledData,
+    //  localParameters: {
+    //    metric: metric.apiMetricName,
+    //    selector: $state.snapshot(metric.selector.$),
+    //    transform: $state.snapshot(metric.transform),
+    //  },
+    //  globalParameters: { selector, from, to, interval, includeIncompleteData },
+    //})
+
+    const payload = {
+      metric: metric.apiMetricName,
+      selector: $state.snapshot(metric.selector.$) || selector,
+      from,
+      to,
+      interval,
+      includeIncompleteData,
+    }
+
+    const workerRequest = workerFetchMetric(payload, onWorkerData)
+
+    //metricsApiSharedWorker.port.onmessage = console.log
 
     return () => {
       abortController.abort()
       scheduledData?.cancel()
+      workerRequest.cancel()
     }
   })
 }
