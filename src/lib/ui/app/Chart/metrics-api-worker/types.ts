@@ -42,11 +42,15 @@ export type TCancelRequestMessage = TMessageRequestResponse<TMessageType['Cancel
 
 export type TFetchMetricMessage = TMessageRequestResponse<
   TMessageType['FetchMetric'],
-  TLocalParameters & {
-    selector: TGlobalParameters['selector']
-    interval: TInterval
-    from: string
-    to: string
+  {
+    minimalDelay?: number
+    priority?: number
+    parameters: TLocalParameters & {
+      selector: TGlobalParameters['selector']
+      interval: TInterval
+      from: string
+      to: string
+    }
   },
   { timeseries: TMetricData } | { error: any }
 >
@@ -72,4 +76,4 @@ export type TRequestHandler<GMessage extends TMessages> = (
     data: Omit<GMessage['response'], 'id' | 'type'>,
   ) => void,
   msg: GMessage['request'],
-) => void
+) => void | (() => void)
