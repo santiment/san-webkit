@@ -1,5 +1,8 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
-import type { TFetchMetricMessage } from '../metrics-api-worker/types.js'
+import type {
+  TFetchFormulaMetricMessage,
+  TFetchMetricMessage,
+} from '../metrics-api-worker/types.js'
 
 import { untrack } from 'svelte'
 
@@ -12,7 +15,7 @@ import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
-import { workerFetchMetric } from '../metrics-api-worker/index.js'
+import { workerFetchFormulaMetric, workerFetchMetric } from '../metrics-api-worker/index.js'
 
 export type TLocalParameters = {
   metric: string
@@ -38,7 +41,9 @@ export function useApiMetricDataFlow(
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
-  function onWorkerData(msg: TFetchMetricMessage['response']) {
+  function onWorkerData(
+    msg: TFetchMetricMessage['response'] | TFetchFormulaMetricMessage['response'],
+  ) {
     if ('error' in msg.payload) {
       metric.data.$ = []
       metric.loading.$ = false
@@ -72,7 +77,14 @@ export function useApiMetricDataFlow(
     }
 
     const payload = { priority, minimalDelay, parameters }
-    const workerRequest = workerFetchMetric(payload, onWorkerData)
+    const workerRequest = metric.formula
+      ? workerFetchFormulaMetric({ ...payload, formula: metric.formula }, onWorkerData)
+      : workerFetchMetric(payload, onWorkerData)
+
+    untrack(() => {
+      metric.loading.$ = true
+      metric.data.$ = []
+    })
 
     return () => {
       workerRequest.cancel()

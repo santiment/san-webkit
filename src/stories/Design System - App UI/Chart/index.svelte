@@ -17,7 +17,7 @@
   import { useViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
   import ChartWidget from './ChartWidget.svelte'
 
-  let { viewportPriority = false } = $props()
+  let { viewportPriority = false, defaultMetrics = [] } = $props()
 
   useAssetsCtx.set()
   useMetricsRestrictionsCtx.set()
@@ -33,48 +33,56 @@
   const { globalParameters } = useChartGlobalParametersCtx({
     from: 'utc_now-2y',
   })
-  const { metricSeries } = useMetricSeriesCtx([
-    {
-      name: 'price_usd',
-      label: 'Price USD',
-      style: 'line',
-      color: colorGenerator.new(),
-      scaleId: 'right-price_usd',
-    },
-    {
-      name: 'social_dominance_total',
-      style: 'line',
-      color: colorGenerator.new(),
-      scaleId: 'right-social_dominance_total',
-    },
-    {
-      name: 'social_volume_total',
-      style: 'histogram',
-      color: colorGenerator.new(),
-      scaleId: 'right-social_volume_total',
-    },
-    {
-      name: 'sentiment_positive_total',
-      color: 'green',
-      style: 'histogram',
 
-      pane: 1,
+  const { metricSeries } = useMetricSeriesCtx(
+    defaultMetrics.length
+      ? defaultMetrics.map((item) => ({ ...item, color: colorGenerator.new() }))
+      : [
+          {
+            name: 'price_usd',
+            label: 'Price USD',
+            style: 'line',
+            color: colorGenerator.new(),
+            scaleId: 'right-price_usd',
+          },
+          {
+            name: 'social_dominance_total',
+            style: 'line',
+            color: colorGenerator.new(),
+            scaleId: 'right-social_dominance_total',
+          },
+          {
+            name: 'social_volume_total',
+            style: 'histogram',
+            color: colorGenerator.new(),
+            scaleId: 'right-social_volume_total',
+          },
+          {
+            name: 'sentiment_positive_total',
+            color: 'green',
+            style: 'histogram',
 
-      scaleId: 'right-sentiment',
-      scaleFormatter: (value) => Math.abs(value).toFixed(2),
-    },
-    {
-      name: 'sentiment_negative_total',
-      style: 'histogram',
-      color: 'red',
+            pane: 1,
 
-      pane: 1,
+            scaleId: 'right-sentiment',
+            scaleFormatter: (value) => Math.abs(value).toFixed(2),
+          },
+          {
+            name: 'sentiment_negative_total',
+            style: 'histogram',
+            color: 'red',
 
-      transformData: (data: TMetricData) => data.map((item) => ({ ...item, value: -item.value })),
+            pane: 1,
 
-      scaleId: 'right-sentiment',
-    },
-  ])
+            transformData: (data: TMetricData) =>
+              data.map((item) => ({ ...item, value: -item.value })),
+
+            scaleId: 'right-sentiment',
+          },
+        ],
+  )
+
+  $inspect(metricSeries.$)
 
   useChartPlanRestrictionsCtx.set()
 

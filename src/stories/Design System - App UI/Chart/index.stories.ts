@@ -29,3 +29,28 @@ export const ViewportPriority: Story = {
     }),
   },
 }
+
+export const PriceFormula: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        name: 'price_usd',
+        label: 'Price USD',
+        style: 'line',
+        scaleId: 'right-price_usd',
+      },
+
+      {
+        name: 'FORMULA_1',
+        label: 'Custom Formula - Price SMA(30)',
+        style: 'line',
+        scaleId: 'right-price_usd',
+        formula: {
+          expr: 'sma(x1, 30)',
+          scope: [{ var: 'x1', metric: 'price_usd' }],
+        },
+      },
+    ],
+  },
+  parameters: {},
+}

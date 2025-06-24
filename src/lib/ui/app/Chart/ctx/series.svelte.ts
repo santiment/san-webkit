@@ -50,7 +50,12 @@ export function createSeries({
 
   tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
-}: TMetric & { selector?: TMetricSelector | SS<TMetricSelector> }) {
+
+  formula,
+}: TMetric & {
+  selector?: TMetricSelector | SS<TMetricSelector>
+  formula?: { expr: string; scope: { var: string; metric: string }[] }
+}) {
   const scale = $state({
     id: scaleId || name,
     visible: true,
@@ -90,6 +95,8 @@ export function createSeries({
     selector: ss<null | TMetricTargetSelectorInputObject>(selector),
 
     chartSeriesApi: null as null | ISeriesApi<any>,
+
+    formula,
   }
 }
 
