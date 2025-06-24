@@ -12,7 +12,6 @@ import {
   type TRespondFn,
 } from './types.js'
 
-const CANCELLED_REQUESTS = new Set<TMessageId>()
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
 const jobScheduler = JobScheduler({ concurrentLimit: 10 })
@@ -41,14 +40,14 @@ onconnect = function (event: MessageEvent<unknown>) {
 
 // TODO: Potential memory leak: when the response was sent by the worker, but before host has received it - the cancel request was sent
 const handleCancelRequest: TRequestHandler<TCancelRequestMessage> = (_, msg) => {
-  CANCELLED_REQUESTS.add(msg.id)
-
   WORK_CANCEL_MAP.get(msg.id)?.()
   WORK_CANCEL_MAP.delete(msg.id)
 }
 
 const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) => {
   const { priority, minimalDelay, parameters } = msg.payload
+
+  let isCancelled = false
 
   const queryData = () =>
     queryGetMetric({ executor: Query })({
@@ -59,7 +58,7 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
       interval: parameters.interval,
     })
       .then((data) => {
-        if (CANCELLED_REQUESTS.delete(msg.id)) {
+        if (isCancelled) {
           return
         }
 
@@ -68,7 +67,7 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
         })
       })
       .catch((err) => {
-        if (CANCELLED_REQUESTS.delete(msg.id)) {
+        if (isCancelled) {
           return
         }
 
@@ -83,9 +82,8 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
   const job = jobScheduler.schedule(queryData, undefined, { priority, minimalDelay })
 
   return () => {
-    if (job) jobScheduler.cancelJob(job)
+    isCancelled = true
 
-    // NOTE: Cleaning up only if the job was not running
-    if (job?.scheduled) CANCELLED_REQUESTS.delete(msg.id)
+    if (job) jobScheduler.cancelJob(job)
   }
 }
