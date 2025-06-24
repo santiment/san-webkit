@@ -127,7 +127,7 @@
         <Textarea
           ref={triggerRef}
           class="min-h-16 flex-1 resize-none rounded-lg border border-porcelain bg-transparent px-3 py-2.5 placeholder-casper outline-none"
-          placeholder={`Ask Santiment AI...\nspace for 2 lines for text`}
+          placeholder="Ask Santiment AI..."
           rows={2}
           value={aiChatbot.$$.message}
           oninput={(e) => (aiChatbot.$$.message = e.currentTarget.value)}
