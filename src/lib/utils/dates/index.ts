@@ -166,19 +166,23 @@ type TFormattedTime = {
   HH: number | string
   m: number
   mm: number | string
+  s: number
+  ss: number | string
 }
 export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime {
   const UTC = utc ? 'UTC' : ''
 
   const m = date[`get${UTC}Minutes`]()
   const H = date[`get${UTC}Hours`]()
-  // const s = date[`get${UTC}Seconds`]()
+  const s = date[`get${UTC}Seconds`]()
 
   return {
     H,
     HH: H < 10 ? `0${H}` : H,
     m,
     mm: m < 10 ? `0${m}` : m,
+    s,
+    ss: s < 10 ? `0${s}` : s,
   }
 }
 

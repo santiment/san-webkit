@@ -24,12 +24,14 @@
     class?: string
     watermark?: boolean
     watermarkOpacity?: string
+    containerRef?: HTMLElement
     options?: Parameters<typeof createChart>[1]
     onRangeSelectChange: TRangeSelectHandler
     onRangeSelectEnd: TRangeSelectHandler
     children: Snippet
   }
   let {
+    containerRef: chartContainerNode = $bindable() as HTMLElement,
     mode = $bindable(Mode.DRAG),
     class: className,
     watermark = true,
@@ -40,7 +42,6 @@
     children,
   }: TProps = $props()
 
-  let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
   let isScrollEnabled = false
 

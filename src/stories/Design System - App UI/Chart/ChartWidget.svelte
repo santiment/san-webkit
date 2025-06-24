@@ -10,11 +10,15 @@
     DatesRangeShortcuts,
     Minimap,
     TimeZoneSelector,
+    downloadChartAsJpeg,
   } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
   let { viewportPriority = false } = $props()
+
+  let chartRef = $state() as HTMLElement
 
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
@@ -26,6 +30,14 @@
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
+  }
+
+  function exportChartAsJpeg() {
+    const filename = metricSeries.$.map((s) => s.apiMetricName)
+      .join(', ')
+      .replace(/[<>:"/\\|?*]+/g, '_')
+
+    downloadChartAsJpeg(filename, chartRef)
   }
 </script>
 
@@ -45,9 +57,12 @@
         {metric.label}
       </div>
     {/each}
+
+    <Button icon="download" class="ml-auto" onclick={exportChartAsJpeg}>Download as JPG</Button>
   </div>
 
   <Chart
+    bind:containerRef={chartRef}
     watermark
     class="h-[500px]"
     onRangeSelectChange={console.log}

@@ -1,5 +1,7 @@
 export { default } from './Chart.svelte'
 
+export { downloadChartAsJpeg } from './utils.js'
+
 export { default as ViewportChart } from './ViewportChart.svelte'
 
 export { RawSeries, ApiMetricSeries } from './series/index.js'
