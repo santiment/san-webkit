@@ -3,7 +3,7 @@
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
-  import { useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
+  import { useChartCtx, useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
@@ -23,6 +23,7 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+  const { chart } = useChartCtx()
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -37,7 +38,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    downloadChartAsJpeg(filename, chartRef)
+    downloadChartAsJpeg(filename, chartRef, chart.$, metricSeries.$)
   }
 </script>
 

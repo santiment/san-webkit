@@ -2,6 +2,7 @@
   import type { TSeries } from '../../ctx/series.svelte.js'
 
   import { usePanesTooltip } from '../ctx.svelte.js'
+  import { calculatePercentageChange } from '../../utils.js'
 
   type TProps = {
     metric: TSeries
@@ -18,14 +19,6 @@
   const data = $derived(metric.data.$)
   const firstData = $derived(data[0])
   const lastData = $derived(data[data.length - 1])
-
-  function calculateChange(firstValue: number, lastValue: number) {
-    const percent = ((lastValue - firstValue) / firstValue) * 100
-
-    const sign = percent >= 0 ? '+' : ''
-
-    return sign + percent.toFixed(2) + '%'
-  }
 </script>
 
 {#if lastData || hoverValue}
@@ -35,7 +28,7 @@
     {formatter(value)}
 
     {#if firstData}
-      ({calculateChange(firstData.value, value)})
+      ({calculatePercentageChange(firstData.value, value)})
     {/if}
   </span>
 {/if}

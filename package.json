@@ -156,7 +156,6 @@
     "eslint": "^9.28.0",
     "esm-env": "^1.2.2",
     "fast-glob": "^3.3.2",
-    "html-to-image": "^1.11.13",
     "posthog-js": "^1.224.0",
     "svelte-runes": "^0.0.7",
     "svelte-sonner": "^0.3.28",
