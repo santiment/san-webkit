@@ -18,8 +18,6 @@
 
   let { viewportPriority = false } = $props()
 
-  let chartRef = $state() as HTMLElement
-
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
@@ -38,7 +36,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    downloadChartAsJpeg(filename, chartRef, chart.$, metricSeries.$)
+    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
@@ -63,7 +61,6 @@
   </div>
 
   <Chart
-    bind:containerRef={chartRef}
     watermark
     class="h-[500px]"
     onRangeSelectChange={console.log}

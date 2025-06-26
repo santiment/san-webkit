@@ -1,3 +1,4 @@
+import type { IChartApi } from '@santiment-network/chart-next'
 import type { TSeries } from './ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
@@ -37,12 +38,8 @@ function removeAiOverlayCanvas(container: HTMLElement): void {
   topCanvas.remove()
 }
 
-export async function downloadChartAsJpeg(
-  title: string,
-  container: HTMLElement,
-  chart: any,
-  metrics: TSeries[],
-) {
+export async function downloadChartAsJpeg(title: string, metrics: TSeries[], chart?: IChartApi) {
+  const container = chart?.chartElement()
   if (!title || !container || !chart) return
 
   removeAiOverlayCanvas(container)
@@ -107,13 +104,14 @@ export async function downloadChartAsJpeg(
 
     list.forEach((m) => {
       const label = m.label ?? m.apiMetricName
-      const first = m.data.$[0].value
+      const first = m.data.$[0]?.value
       const last = m.data.$[m.data.$.length - 1].value
       const val = m.tooltipFormatter ? m.tooltipFormatter(last) : last
-      const ch = calculatePercentageChange(first, last)
+      const ch = first ? ` (${calculatePercentageChange(first, last)})` : ''
 
       const prefix = `${label}: `
-      const disp = `${val} (${ch})`
+      const disp = `${val}${ch}`
+
       const w1 = ctx.measureText(prefix).width
       const w2 = ctx.measureText(disp).width
       const bw = w1 + gap + w2 + ph * 2
