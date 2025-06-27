@@ -1,8 +1,8 @@
 <script>
-  import AIChatbot, { useChatContext } from '$ui/app/AIChatbot/index.js'
+  import AIChatbot, { useAIChatbotCtx } from '$ui/app/AIChatbot/index.js'
   import Chart from '../Chart/index.svelte'
 
-  useChatContext.set({
+  useAIChatbotCtx.set({
     dashboardId: '1099',
     asset: 'ethereum',
     metrics: [

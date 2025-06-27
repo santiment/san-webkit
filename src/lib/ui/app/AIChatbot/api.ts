@@ -1,6 +1,8 @@
+import type { TAiChatbotSession } from './types.js'
+
 import { ApiMutation } from '$lib/api/index.js'
 
-export const mutateSendChatMessage = ApiMutation(
+export const mutateSendAiChatbotMessage = ApiMutation(
   ({
     chatId,
     content,
@@ -29,5 +31,5 @@ export const mutateSendChatMessage = ApiMutation(
 `,
     variables: { chatId, content, context },
   }),
-  (gql: { sendChatMessage: any }) => gql.sendChatMessage,
+  (gql: { sendChatMessage: TAiChatbotSession }) => gql.sendChatMessage,
 )
