@@ -21,7 +21,7 @@
   const minimapMetric = createMinimapSeries(series)
   const viewportCtx = useItemViewportPriorityCtx.get()
 
-  const settings = { priority: 10_000, minimalDelay: 2000 }
+  const settings = { priority: 10_000, minimalDelay: 8_000 }
   useApiMetricDataFlow(minimapMetric, settings)
 
   const scaler = $derived.by(() => {

@@ -1,21 +1,20 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
+import type { TFetchMetricMessage } from '../metrics-api-worker/types.js'
 
 import { untrack } from 'svelte'
 
 import { type TExecutorOptions } from '$lib/api/index.js'
-import { Query } from '$lib/api/executor.js'
-import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
+import { createCtx } from '$lib/utils/index.js'
 
-import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
+import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
 import { type TSeries } from './series.svelte.js'
 import {
-  queryGetMetric,
-  type TInterval,
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import { workerFetchMetric } from '../metrics-api-worker/index.js'
 
-type TLocalParameters = {
+export type TLocalParameters = {
   metric: string
   selector?: null | TMetricTargetSelectorInputObject
   transform?: null | TTimeseriesMetricTransformInputObject
@@ -38,52 +37,21 @@ export function useApiMetricDataFlow(
   settings?: { priority?: number; minimalDelay?: number },
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
-  const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
 
-  function loadMetricData({
-    localParameters,
-    globalParameters,
-    scheduledData,
-    abortController,
-  }: {
-    localParameters: TLocalParameters
-    globalParameters: TGlobalParameters & { interval: TInterval }
-    scheduledData: TScheduledData
-    abortController: AbortController
-  }) {
-    metric.loading.$ = true
-    metric.data.$ = []
+  function onWorkerData(msg: TFetchMetricMessage['response']) {
+    if ('error' in msg.payload) {
+      metric.data.$ = []
+      metric.loading.$ = false
+      metric.error.$ = msg.payload.error
 
-    const queryData = () =>
-      queryGetMetric({ executor: Query, fetcher })({
-        metric: localParameters.metric,
-        selector: localParameters.selector || globalParameters.selector,
-        from: globalParameters.from,
-        to: globalParameters.to,
-        interval: globalParameters.interval,
-      })
-        .then((data) => {
-          if (abortController.signal.aborted) {
-            return
-          }
+      return
+    }
 
-          const formattedData = metric.transformData?.(data) || data
-          metric.data.$ = formattedData
-          metric.error.$ = null
-          metric.loading.$ = false
-        })
-        .catch((err) => {
-          if (abortController.signal.aborted) {
-            return
-          }
-
-          metric.data.$ = []
-          metric.loading.$ = false
-          metric.error.$ = err
-        })
-        .finally(() => scheduledData?.jobResolve())
-
-    return scheduledData ? scheduledData.fetchStartPromise.then(queryData) : queryData()
+    const data = msg.payload.timeseries
+    const formattedData = metric.transformData?.(data) || data
+    metric.data.$ = formattedData
+    metric.error.$ = null
+    metric.loading.$ = false
   }
 
   $effect(() => {
@@ -93,57 +61,21 @@ export function useApiMetricDataFlow(
     const interval = globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { scheduledData } = createScheduledData(
-      jobScheduler,
-      untrack(() => $state.snapshot(settings)),
-    )
+    const { priority, minimalDelay } = untrack(() => settings) || {}
+    const parameters = {
+      metric: metric.apiMetricName,
+      selector: $state.snapshot(metric.selector.$) || selector,
+      from,
+      to,
+      interval,
+      includeIncompleteData,
+    }
 
-    const abortController = new AbortController()
-
-    loadMetricData({
-      abortController,
-      scheduledData,
-      localParameters: {
-        metric: metric.apiMetricName,
-        selector: $state.snapshot(metric.selector.$),
-        transform: $state.snapshot(metric.transform),
-      },
-      globalParameters: { selector, from, to, interval, includeIncompleteData },
-    })
+    const payload = { priority, minimalDelay, parameters }
+    const workerRequest = workerFetchMetric(payload, onWorkerData)
 
     return () => {
-      abortController.abort()
-      scheduledData?.cancel()
+      workerRequest.cancel()
     }
   })
-}
-
-type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
-function createScheduledData(
-  jobScheduler: undefined | null | TJobScheduler,
-  settings?: { minimalDelay?: number; priority?: number },
-) {
-  if (!jobScheduler) return {}
-
-  const { promise, resolve } = controlledPromisePolyfill()
-  const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
-
-  const job = jobScheduler.schedule(
-    () => {
-      fetchStart()
-      return promise
-    },
-    undefined,
-    settings,
-  )
-
-  return {
-    scheduledData: {
-      fetchStartPromise,
-      jobResolve: resolve,
-      cancel() {
-        if (job) jobScheduler.cancelJob(job)
-      },
-    },
-  }
 }
