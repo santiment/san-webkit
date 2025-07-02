@@ -1,68 +1,68 @@
 <script lang="ts">
   import { ss } from 'svelte-runes'
-  import { onMount } from 'svelte'
+  import { onMount, tick } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
 
-  import { useChatContext } from './ctx.svelte.js'
+  import { useAIChatbotCtx } from './ctx.svelte.js'
   import { formatChatTime } from './utils.js'
 
-  const chat = useChatContext()
-
-  let marked = $state<null | ((s: string) => any)>(null)
+  const { aiChatbot } = useAIChatbotCtx()
 
   let chatMessagesRef = ss<null | HTMLElement>(null)
 
   $effect(() => {
-    const shouldScroll = chat.loading.$ && chat.session.$?.chatMessages.length
-    if (shouldScroll) scrollToBottom()
+    const shouldScroll = aiChatbot.loading$ || aiChatbot.$$.session?.chatMessages.length
+
+    if (shouldScroll) {
+      scrollToBottom('smooth')
+    }
   })
 
-  function scrollToBottom() {
-    if (!chatMessagesRef.$) return
-    chatMessagesRef.$.scrollTop = chatMessagesRef.$.scrollHeight
+  function scrollToBottom(behavior: 'smooth' | 'auto') {
+    tick().then(() => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (chatMessagesRef.$ && chatMessagesRef.$.offsetHeight > 0) {
+            chatMessagesRef.$.scroll({
+              top: chatMessagesRef.$.scrollHeight,
+              behavior,
+            })
+          }
+        })
+      })
+    })
   }
 
-  onMount(async () => {
-    const mod = await import('marked')
-    marked = (s: string) => mod.marked(s)
+  onMount(() => {
+    setTimeout(() => scrollToBottom('auto'), 0)
   })
 </script>
 
 <div class="mb-4 text-center text-xs text-waterloo">
-  Today {formatChatTime(chat.session.$?.insertedAt || new Date().toISOString())}
+  Today {formatChatTime(aiChatbot.$$.session?.insertedAt || new Date().toISOString())}
 </div>
 
 <div
   class="flex-1 overflow-y-auto pr-1 [&>div]:my-8 first:[&>div]:mt-0"
   bind:this={chatMessagesRef.$}
 >
-  {#if chat.session.$}
-    {#each chat.session.$.chatMessages as msg}
+  {#if aiChatbot.$$.session}
+    {#each aiChatbot.$$.session.chatMessages as msg}
       {#if msg.role === 'USER'}
         {@render userInput(msg.content)}
       {:else}
-        <div
-          class={cn(
-            'w-fit break-words',
-            '[&_ul]:mb-2 [&_ul]:list-disc [&_ul]:pl-6',
-            '[&_ol]:mb-2 [&_ol]:list-decimal [&_ol]:pl-6',
-            '[&_li]:mb-1',
-            '[&_pre]:overflow-x-auto [&_pre]:rounded-md [&_pre]:bg-porcelain [&_pre]:p-3 [&_pre]:text-rhino',
-            '[&_code]:whitespace-normal [&_code]:break-words',
-            '[&_a]:link-pointer',
-          )}
-        >
-          {#if marked}
+        <div class="content w-fit break-words">
+          {#await import('marked') then { marked }}
             {@html marked(msg.content)}
-          {/if}
+          {/await}
         </div>
       {/if}
     {/each}
   {/if}
 
-  {#if chat.loading.$}
-    {@render userInput(chat.temporaryMessage.$)}
+  {#if aiChatbot.loading$}
+    {@render userInput(aiChatbot.$$.temporaryMessage)}
 
     <div class="ml-5">
       {@render spinner()}
@@ -87,3 +87,31 @@
     )}
   ></div>
 {/snippet}
+
+<style lang="postcss">
+  :global(.content) {
+    & ul {
+      @apply mb-2 list-disc pl-6;
+    }
+
+    & ol {
+      @apply mb-2 list-decimal pl-6;
+    }
+
+    & li {
+      @apply mb-1;
+    }
+
+    & pre {
+      @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
+    }
+
+    & code {
+      @apply whitespace-normal break-words;
+    }
+
+    & a {
+      @apply link-pointer;
+    }
+  }
+</style>
