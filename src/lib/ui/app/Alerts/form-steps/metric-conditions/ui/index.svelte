@@ -19,7 +19,9 @@
 
   $effect(() => {
     // Used to fill metric label in case state filled from ApiAlert
-    step.state.$$.metricLabel = metric?.label ?? ''
+    if (selectedMetricKey && !metricLabel) {
+      step.state.$$.metricLabel = metric?.label ?? ''
+    }
   })
 
   function onMetricSelect(metric: string) {
