@@ -2,7 +2,7 @@ import { onMount } from 'svelte'
 import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-import { deleteSavedValue, getSavedBoolean, saveBoolean } from '$lib/utils/localStorage.js'
+import { deleteSavedValue, getSavedBoolean, saveBoolean } from '$lib/utils/localStorage/index.js'
 
 import { showExpiredSessionDialog$ } from './ExpiredSessionDialog.svelte'
 
