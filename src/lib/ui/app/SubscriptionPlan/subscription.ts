@@ -129,7 +129,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
-      isTrialSubscription: trialDaysLeft && trialDaysLeft > 0 && status === Status.TRIALING,
+      isTrialSubscription: !!trialDaysLeft && trialDaysLeft > 0 && status === Status.TRIALING,
       trialDaysLeft,
 
       currentPeriodEnd,

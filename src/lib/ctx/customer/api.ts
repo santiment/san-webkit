@@ -236,23 +236,18 @@ export function loadCustomerData(
       const apiSubscription = getApiSubscription(subscriptions)
       const primarySubscription = getPrimarySubscription(subscriptions)
 
-      update(
-        Object.assign(
-          {},
-          defaultValue,
-          //currentUser,
-          { currentUser, isEligibleForSanbaseTrial },
-          getCustomerSubscriptionData(primarySubscription),
-          {
-            isLoggedIn: true,
-            isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
+      update({
+        ...defaultValue,
+        currentUser,
+        isEligibleForSanbaseTrial,
+        ...getCustomerSubscriptionData(primarySubscription),
+        isLoggedIn: true,
+        isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
 
-            primarySubscription,
-            sanbaseSubscription,
-            apiSubscription,
-          },
-        ),
-      )
+        primarySubscription,
+        sanbaseSubscription,
+        apiSubscription,
+      })
 
       sanBalancePromise
         .then((data) => update({ sanBalance: data?.sanBalance ?? 0 }))
