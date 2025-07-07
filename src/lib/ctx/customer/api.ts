@@ -124,7 +124,7 @@ export type TCurrentUser = {
   subscriptions: null | TSubscription[]
 }
 
-export const queryCurrentUserSubscriptions = ApiQuery(
+const queryCurrentUser = ApiQuery(
   () => `{
   currentUser {
     id
@@ -222,10 +222,10 @@ export function loadCustomerData(
   const executor = UniQuery(fetcher)
   const defaultValue = Object.assign({}, DEFAULT)
 
-  const subscriptionsPromise = queryCurrentUserSubscriptions(executor)()
+  const currentUserPromise = queryCurrentUser(executor)()
   const sanBalancePromise = BROWSER ? queryCurrentUserSanBalance(executor)() : Promise.resolve()
 
-  return subscriptionsPromise
+  return currentUserPromise
     .then((currentUser) => {
       if (!currentUser) return update(defaultValue)
 
@@ -265,7 +265,7 @@ export function loadCustomerData(
 }
 
 function checkIsEarlyAccessMember(
-  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUserSubscriptions>>,
+  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUser>>,
 ): boolean {
   const { email, featureAccessLevel } = currentUser
   return (
