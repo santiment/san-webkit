@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { CurrentUser } from '@/ui/FollowButton/flow'
   import { queryUserLayouts } from '@/api/user/layouts'
   import { queryUserAddressWatchlists, queryUserWatchlists } from '@/api/user/watchlists'
   import FollowButton from '@/ui/FollowButton/svelte'
@@ -8,8 +7,8 @@
   import { CreationType } from './types'
   import { SANBASE_ORIGIN } from '@/utils/links'
 
-  export let user: SAN.Author & { name?: string }
-  export let currentUser: SAN.CurrentUser & CurrentUser
+  export let user: SAN.Author & { followers?: { count: number } }
+  export let currentUser: { id: string; following?: { users: { id: string }[] } } | null
   export let type: CreationType
 
   let creations: any[] = []
@@ -25,16 +24,16 @@
 
 <div class="info">
   <div class="row v-center justify">
-    <ProfileNames
-      {user}
-      feature={type}
-      followers={user && user.followers ? user.followers.count : undefined}
-    />
+    <ProfileNames {user} feature={type} followers={user.followers?.count} />
 
     {#if currentUser && +currentUser.id === +user.id}
-      <a href="{SANBASE_ORIGIN}/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}
-        >Account settings</a
+      <a
+        href="{SANBASE_ORIGIN}/account"
+        class="btn-1 mrg-xl mrg--l"
+        on:click={window.__onLinkClick}
       >
+        Account settings
+      </a>
     {:else}
       <FollowButton {user} {currentUser} class="mrg-xl mrg--l" />
     {/if}
