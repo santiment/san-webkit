@@ -137,8 +137,10 @@ const queryCurrentUser = ApiQuery(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    areUserAffiliateDatailsSubmitted
     featureAccessLevel
     ethAccounts { address }
+    apikeys
     ${BROWSER ? 'following { users { id } }' : ''}
     settings {
       theme
@@ -146,6 +148,7 @@ const queryCurrentUser = ApiQuery(
       sanbaseVersion
       alertNotifyEmail
       alertNotifyTelegram
+      hasTelegramConnected
     }
     subscriptions {
       id
