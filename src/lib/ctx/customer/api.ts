@@ -14,32 +14,7 @@ import {
 } from '$ui/app/SubscriptionPlan/subscription.js'
 
 export type TCustomer = {
-  currentUser: null | {
-    id: string
-    email: null | string
-    name: null | string
-    username: null | string
-    avatarUrl: null | string
-    privacyPolicyAccepted: boolean
-    marketingAccepted: boolean
-    firstLogin: boolean
-    isModerator: boolean
-    featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
-
-    following?: {
-      users: { id: string | number }[]
-    }
-
-    settings: {
-      theme: null | 'nightmode'
-      isPromoter: boolean
-      sanbaseVersion: null | string
-      alertNotifyEmail: boolean
-      alertNotifyTelegram: boolean
-    }
-
-    ethAccounts: { address: string }[]
-  }
+  currentUser: null | TCurrentUser
 
   isLoggedIn: boolean
 
@@ -116,6 +91,39 @@ export const DEFAULT: TCustomer = {
   subscriptions: [],
 }
 
+export type TCurrentUser = {
+  id: string
+  email: null | string
+  name: null | string
+  username: null | string
+  avatarUrl: null | string
+  privacyPolicyAccepted: boolean
+  marketingAccepted: boolean
+  firstLogin: boolean
+  isModerator: boolean
+  featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
+
+  following?: {
+    users: { id: string }[]
+  }
+
+  settings: {
+    theme: null | 'nightmode'
+    isPromoter: boolean
+    sanbaseVersion: null | string
+    alertNotifyEmail: boolean
+    alertNotifyTelegram: boolean
+    hasTelegramConnected: boolean
+  }
+
+  ethAccounts: { address: string }[]
+  apikeys: string[]
+
+  isEligibleForSanbaseTrial: boolean
+  areUserAffiliateDatailsSubmitted: boolean
+  subscriptions: null | TSubscription[]
+}
+
 export const queryCurrentUserSubscriptions = ApiQuery(
   () => `{
   currentUser {
@@ -155,37 +163,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     }
   }
 }`,
-  (gql: {
-    currentUser: null | {
-      id: string
-      email: null | string
-      name: null | string
-      username: null | string
-      avatarUrl: null | string
-      privacyPolicyAccepted: boolean
-      marketingAccepted: boolean
-      firstLogin: boolean
-      isModerator: boolean
-      featureAccessLevel: string
-
-      following?: {
-        users: { id: string | number }[]
-      }
-
-      settings: {
-        theme: null | 'nightmode'
-        isPromoter: boolean
-        sanbaseVersion: null | string
-        alertNotifyEmail: boolean
-        alertNotifyTelegram: boolean
-      }
-
-      ethAccounts: { address: string }[]
-
-      isEligibleForSanbaseTrial: boolean
-      subscriptions: null | TSubscription[]
-    }
-  }) => gql.currentUser,
+  (gql: { currentUser: null | TCurrentUser }) => gql.currentUser,
   { cache: false },
 )
 
