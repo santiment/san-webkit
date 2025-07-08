@@ -8,12 +8,14 @@ export const checkIsSanbaseProduct = (product: Pick<TProduct, 'id'>) =>
 export const checkIsSanApiProduct = (product: Pick<TProduct, 'id'>) =>
   product.id === Product.SanAPI.id
 
-export const checkIsBusinessPlan = (plan: null | Pick<TSubscriptionPlan, 'name'>) =>
-  plan ? BUSINESS_PLANS.has(plan.name) : false
+export const checkIsBusinessPlan = (planName: string | undefined) =>
+  planName ? BUSINESS_PLANS.has(planName) : false
 
 type TLooseRecord<T extends Record<string, unknown>> = T & Record<string, undefined | T[keyof T]>
-export const getPlanName = (plan: Pick<TSubscriptionPlan, 'name'>): string =>
-  (SubscriptionPlan as TLooseRecord<typeof SubscriptionPlan>)[plan.name]?.name || plan.name
+export const getPlanName = (planName: string): string => {
+  const subs: TLooseRecord<typeof SubscriptionPlan> = SubscriptionPlan
+  return subs[planName]?.name || planName
+}
 
 export function getFormattedBillingPlan(plan: TSubscriptionPlan) {
   const { name, amount, price } = getFormattedPlan(plan)
@@ -29,7 +31,7 @@ export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
 ) {
-  const name = getPlanName(monthlyPlan)
+  const name = getPlanName(monthlyPlan.name)
   const details = SubscriptionPlanDetails[monthlyPlan.name]
 
   return {

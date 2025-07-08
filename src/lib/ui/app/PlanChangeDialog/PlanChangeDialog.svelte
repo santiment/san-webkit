@@ -42,7 +42,7 @@
     if (!primarySubscription) return
     if (loading) return
 
-    const planDisplayName = getPlanName(newPlan)
+    const planDisplayName = getPlanName(newPlan.name)
     loading = true
     Controller.lock()
 

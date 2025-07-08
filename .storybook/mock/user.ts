@@ -154,7 +154,7 @@ export function mockUser(currentUser: CurrentUser) {
       else if (businessMax) name = SubscriptionPlan.BUSINESS_MAX.key
       else if (custom) name = SubscriptionPlan.CUSTOM.key
 
-      const id = name && checkIsBusinessPlan({ name }) ? Product.SanAPI.id : Product.Sanbase.id
+      const id = name && checkIsBusinessPlan(name) ? Product.SanAPI.id : Product.Sanbase.id
 
       subscriptions[0] = {
         status: trial ? 'TRIALING' : 'ACTIVE',
