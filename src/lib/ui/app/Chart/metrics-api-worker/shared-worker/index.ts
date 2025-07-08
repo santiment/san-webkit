@@ -1,5 +1,7 @@
+import { ApiCache } from '$lib/api/cache.js'
 import { Query } from '$lib/api/executor.js'
 import { JobScheduler, type TJob } from '$lib/utils/job-scheduler.js'
+import type { SymbolNode } from 'mathjs'
 
 import { queryGetMetric, type TMetricData } from '../../api/index.js'
 import {
@@ -13,6 +15,8 @@ import {
   type TRespondFn,
 } from '../types.js'
 import { math, Timeseries } from './math.js'
+import { parseFormulaVariables } from '../utils.js'
+import { fetchFormulaMetric } from './formula-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
@@ -94,72 +98,33 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
 }
 
 const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (respond, msg) => {
-  let isCancelled = false
+  const { minimalDelay, parameters, formula, index, metrics } = msg.payload
 
-  const { minimalDelay, parameters, formula } = msg.payload
+  console.log({ formula, metrics })
 
   // NOTE: Decreasing priority of the formula metric
-  const priority = (msg.payload.priority || 1) * 10
-
+  const jobSettings = { minimalDelay, priority: (msg.payload.priority || 1) * 10 }
   const jobs: TJob[] = []
-  const cancelJobs = () => jobs.forEach((job) => jobScheduler.cancelJob(job))
 
-  // TODO: Parse only used scope `var`s in `expr`
-  const metrics = formula.scope.map((item) => {
-    return new Promise<TMetricData>((resolve, reject) => {
-      const rejectAndCancel = (reason?: any) => (reject(reason), cancelJobs(), reason)
-
-      const dataRequest = () => queryMetric(item.metric, resolve, rejectAndCancel)
-
-      const job = jobScheduler.schedule(dataRequest, undefined, { priority, minimalDelay })
-
-      if (job) jobs.push(job)
-    })
-  })
-
-  function queryMetric(
-    metric: string,
-    resolve: (value: TMetricData) => void,
-    reject: (reason?: any) => void,
-  ): Promise<void> {
-    return queryGetMetric({ executor: Query })({
-      metric,
-      selector: parameters.selector,
-      from: parameters.from,
-      to: parameters.to,
-      interval: parameters.interval,
-    })
-      .then(resolve)
-      .catch(reject)
+  const cancelJobs = () => {
+    console.log('Cancelling all jobs')
+    jobs.forEach((job) => jobScheduler.cancelJob(job))
+  }
+  const addJob = (dataRequest: () => Promise<any>) => {
+    const job = jobScheduler.schedule(dataRequest, undefined, jobSettings)
+    if (job) jobs.push(job)
   }
 
-  Promise.all(metrics)
-    .then((metricsData) => {
-      if (isCancelled) return
+  const ctx = { metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
 
-      const { expr, scope } = formula
-      const result = math.evaluate(
-        expr,
-        scope.reduce(
-          (acc, item, i) => ({ ...acc, [item.var]: new Timeseries(metricsData[i]) }),
-          {} as object,
-        ),
-      )
+  fetchFormulaMetric(formula, index, ctx)
+    .then((timeseries) => {
+      if (ctx.isCancelled) return
 
-      if (result instanceof Timeseries) {
-        respond(MESSAGE_TYPE.FetchFormulaMetric, {
-          payload: { timeseries: result.toMetricData() },
-        })
-      } else if (typeof result === 'number') {
-        // TODO: Populate timeseries with constant number based on from/to and interval
-
-        respond(MESSAGE_TYPE.FetchFormulaMetric, {
-          payload: { timeseries: [] },
-        })
-      }
+      respond(MESSAGE_TYPE.FetchFormulaMetric, { payload: { timeseries } })
     })
     .catch((error) => {
-      if (isCancelled) return
+      if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
         payload: { error },
@@ -169,8 +134,85 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
       WORK_CANCEL_MAP.delete(msg.id)
     })
 
+  //const cacheKey = JSON.stringify({ formula, parameters })
+  //
+  //const cached = ApiCache.get(cacheKey, Query)
+  //
+  //console.log({ cached })
+  //
+  //// TODO: Parse only used scope `var`s in `expr`
+  //const metrics = formula.scope.map((item) => {
+  //  return new Promise<TMetricData>((resolve, reject) => {
+  //    const rejectAndCancel = (reason?: any) => (reject(reason), cancelJobs(), reason)
+  //
+  //    const dataRequest = () => queryMetric(item.metric, resolve, rejectAndCancel)
+  //
+  //    const job = jobScheduler.schedule(dataRequest, undefined, { priority, minimalDelay })
+  //
+  //    if (job) jobs.push(job)
+  //  })
+  //})
+
+  //function queryMetric(
+  //  metric: string,
+  //  resolve: (value: TMetricData) => void,
+  //  reject: (reason?: any) => void,
+  //): Promise<void> {
+  //  return queryGetMetric({ executor: Query })({
+  //    metric,
+  //    selector: parameters.selector,
+  //    from: parameters.from,
+  //    to: parameters.to,
+  //    interval: parameters.interval,
+  //  })
+  //    .then(resolve)
+  //    .catch(reject)
+  //}
+
+  //Promise.all(metrics)
+  //  .then((metricsData) => {
+  //    if (isCancelled) return
+  //
+  //    const { expr, scope } = formula
+  //    const result = math.evaluate(
+  //      expr,
+  //      scope.reduce(
+  //        (acc, item, i) => ({ ...acc, [item.var]: new Timeseries(metricsData[i]) }),
+  //        {} as object,
+  //      ),
+  //    )
+  //
+  //    let timeseries: TMetricData = []
+  //
+  //    if (result instanceof Timeseries) {
+  //      timeseries = result.toMetricData()
+  //    } else if (typeof result === 'number') {
+  //      // TODO: Populate timeseries with constant number based on from/to and interval
+  //
+  //      timeseries = []
+  //    }
+  //
+  //    ApiCache.add(cacheKey, {
+  //      executor: Query,
+  //      result: Promise.resolve(timeseries),
+  //      options: {},
+  //    })
+  //
+  //    respond(MESSAGE_TYPE.FetchFormulaMetric, { payload: { timeseries } })
+  //  })
+  //  .catch((error) => {
+  //    if (isCancelled) return
+  //
+  //    respond(MESSAGE_TYPE.FetchFormulaMetric, {
+  //      payload: { error },
+  //    })
+  //  })
+  //  .finally(() => {
+  //    WORK_CANCEL_MAP.delete(msg.id)
+  //  })
+
   return () => {
-    isCancelled = true
+    ctx.isCancelled = true
 
     cancelJobs()
   }

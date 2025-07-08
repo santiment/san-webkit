@@ -41,7 +41,7 @@ export type TMessageRequestResponse<
 
 export type TCancelRequestMessage = TMessageRequestResponse<TMessageType['CancelRequest']>
 
-type TMetricParameters = TLocalParameters & {
+export type TMetricParameters = TLocalParameters & {
   selector: TGlobalParameters['selector']
   interval: TInterval
   from: string
@@ -57,13 +57,15 @@ export type TFetchMetricMessage = TMessageRequestResponse<
   { timeseries: TMetricData } | { error: any }
 >
 
+export type TMetricFormula = { expr: string; locals: { metric: string }[] }
 export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   TMessageType['FetchFormulaMetric'],
   {
     minimalDelay?: number
     priority?: number
     parameters: TMetricParameters
-    formula: { expr: string; scope: { var: string; metric: string }[] }
+    formula: TMetricFormula
+    metrics: { metric: string; formula?: TMetricFormula }
   },
   { timeseries: TMetricData } | { error: any }
 >

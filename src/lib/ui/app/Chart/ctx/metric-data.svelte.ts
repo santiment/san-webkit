@@ -10,7 +10,7 @@ import { type TExecutorOptions } from '$lib/api/index.js'
 import { createCtx } from '$lib/utils/index.js'
 
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
-import { type TSeries } from './series.svelte.js'
+import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
@@ -37,9 +37,11 @@ export const useApiMetricFetchSettingsCtx = createCtx(
 
 export function useApiMetricDataFlow(
   metric: TSeries,
+  index: number,
   settings?: { priority?: number; minimalDelay?: number },
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { metricSeries } = useMetricSeriesCtx.get()
 
   function onWorkerData(
     msg: TFetchMetricMessage['response'] | TFetchFormulaMetricMessage['response'],
@@ -60,6 +62,12 @@ export function useApiMetricDataFlow(
   }
 
   $effect(() => {
+    //const formula = metric.formula
+    //
+    //if (formula?.valid === false) {
+    //  return
+    //}
+
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
@@ -78,7 +86,19 @@ export function useApiMetricDataFlow(
 
     const payload = { priority, minimalDelay, parameters }
     const workerRequest = metric.formula
-      ? workerFetchFormulaMetric({ ...payload, formula: metric.formula }, onWorkerData)
+      ? workerFetchFormulaMetric(
+          {
+            ...payload,
+            index,
+            formula: metric.formula,
+            metrics: metricSeries.$.map((item) => ({
+              name: item.apiMetricName,
+              selector: item.selector.$,
+              formula: item.formula,
+            })),
+          },
+          onWorkerData,
+        )
       : workerFetchMetric(payload, onWorkerData)
 
     untrack(() => {
