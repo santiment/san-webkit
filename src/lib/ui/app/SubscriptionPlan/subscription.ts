@@ -114,7 +114,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
     return {
       plan,
-      planName: getPlanName(plan),
+      planName: getPlanName(planName),
 
       isBusinessMax,
       isBusinessPro,
