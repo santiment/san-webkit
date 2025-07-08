@@ -60,7 +60,7 @@ export const getApiSubscription = (subscriptions: null | TSubscription[]) =>
 export function getPrimarySubscription(subscriptions: null | TSubscription[]) {
   const apiSubscription = getApiSubscription(subscriptions)
 
-  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan)) {
+  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan.name)) {
     return apiSubscription
   }
 
@@ -100,10 +100,10 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       currentPeriodEnd = Date.now(),
     } = subscription
 
-    const isBusiness = checkIsBusinessPlan(plan)
     const planName = plan.name.startsWith(SubscriptionPlan.CUSTOM.key)
       ? SubscriptionPlan.CUSTOM.key
       : plan.name
+    const isBusiness = checkIsBusinessPlan(planName)
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
     const isCustom = planName === SubscriptionPlan.CUSTOM.key
@@ -126,8 +126,8 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       isFree,
       isCustom,
 
-      isBusinessSubscription: isBusiness || isCustom,
-      isConsumerSubscription: isFree ? false : !isBusiness && !isCustom,
+      isBusinessSubscription: isBusiness,
+      isConsumerSubscription: isFree ? false : !isBusiness,
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
