@@ -3,12 +3,12 @@
 
   let className = ''
   export { className as class }
-  export let user: SAN.Author & { name?: string }
+  export let user: SAN.Author
   export let followers: number | undefined = undefined
   export let feature: string
 
   $: ({ username, email } = user)
-  $: subtitle = followers >= 0 ? `${followers} Followers` : email
+  $: subtitle = followers ? `${followers} Followers` : email
 </script>
 
 <Profile {user} {feature} source="profile_info_tooltip" class="txt-m {className}">

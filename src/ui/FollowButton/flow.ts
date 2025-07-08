@@ -5,7 +5,7 @@ export const ANON_EVENT = 'ANON_FOLLOW_CLICKED'
 
 type Id = number | string
 export type CurrentUser = {
-  following: {
+  following?: {
     users: {
       id: Id
     }[]
@@ -13,10 +13,10 @@ export type CurrentUser = {
 }
 
 export const checkIsFollowing = (currentUser: null | CurrentUser, userId: Id) =>
-  currentUser && currentUser.following.users.some(({ id }) => +id === +userId)
+  currentUser?.following?.users.some(({ id }) => +id === +userId) ?? false
 
 export function startFollowFlow(currentUser: CurrentUser, userId: Id) {
-  const followings = currentUser.following.users
+  const followings = currentUser.following?.users ?? []
   const userIndex = followings.findIndex(({ id }) => +id === +userId)
   const isFollowed = userIndex !== -1
 

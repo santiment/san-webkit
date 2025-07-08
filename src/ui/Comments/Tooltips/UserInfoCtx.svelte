@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { getContext, setContext, tick } from 'svelte'
+  import { ComponentProps, getContext, setContext, tick } from 'svelte'
 
   const ID = 'UserInfoTooltipCtx'
   export const getUserInfoTooltip = () => getContext(ID)
@@ -22,7 +22,7 @@
   export let comments: any[]
   export let commentsNode: HTMLElement
   export let type: CommentsType
-  export let currentUser
+  export let currentUser: ComponentProps<UserInfo>['currentUser']
 
   const once = { once: true }
   const Type = {
