@@ -38,7 +38,7 @@ $: hasInsights = insights.length > 0;
 </p>
 
 <div class="hint border relative mrg-xl mrg--t">
-  <Svg id="info" w="16" class="icon-m1WsSk mrg-m mrg--r" />
+  <Svg id="info" w="16" class="icon-cx8uMn mrg-m mrg--r" />
 
   <div>
     <p class="txt-m">
@@ -66,7 +66,7 @@ $: hasInsights = insights.length > 0;
     --border: var(--yellow);
   }
 
-  :global(.icon-m1WsSk) {
+  :global(.icon-cx8uMn) {
     position: absolute;
     top: 13px;
     left: 16px;

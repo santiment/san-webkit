@@ -7,6 +7,7 @@ import {
   Plan,
   checkIsBusinessPlan,
   checkIsIndividualPlan,
+  getIsCustomPlan,
 } from '@/utils/plans'
 
 export type Suggestion = {
@@ -94,7 +95,9 @@ export function getBusinessSuggestions(userPlan: UserPlan | null): PlanSuggestio
     return allBusinessSuggestions.slice(1)
   }
 
-  const planIndex = Array.from(BUSINESS_PLANS).indexOf(userPlan.name as Plan)
+  const planName = getIsCustomPlan(userPlan.name) ? Plan.CUSTOM : (userPlan.name as Plan)
+
+  const planIndex = Array.from(BUSINESS_PLANS).indexOf(planName)
   if (planIndex === -1) return allBusinessSuggestions
   if (planIndex >= BUSINESS_PLANS.size - 1) return []
 

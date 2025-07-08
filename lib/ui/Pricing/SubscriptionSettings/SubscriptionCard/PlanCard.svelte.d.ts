@@ -1,5 +1,4 @@
 import { SvelteComponentTyped } from "svelte";
-import { Plan } from './../../../../utils/plans';
 declare const __propDef: {
     props: {
         [x: string]: any;

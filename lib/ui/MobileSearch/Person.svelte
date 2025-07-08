@@ -2,7 +2,7 @@
 export let item;
 </script>
 
-<ProfilePic src={item.avatarUrl} placeholderSize="24" class="icon-3+RBOG" />
+<ProfilePic src={item.avatarUrl} placeholderSize="24" class="icon-oz49vK" />
 <span class="name single-line">
   @{item.username}
 </span>
@@ -12,7 +12,7 @@ export let item;
     display: block;
   }
 
-  :global(.icon-3\+RBOG) {
+  :global(.icon-oz49vK) {
     --img-size: 24px;
     margin-right: 10px;
   }

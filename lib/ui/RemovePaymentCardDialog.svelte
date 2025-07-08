@@ -37,7 +37,7 @@ export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardD
     <div class="h4 txt-m row v-center mrg-m mrg--b">
       Do you want to remove this card?
 
-      <Svg id="close" class="btn mrg-a mrg--l close-oftiKD" on:click={closeDialog} w="12" />
+      <Svg id="close" class="btn mrg-a mrg--l close-KriWa7" on:click={closeDialog} w="12" />
     </div>
 
     <p>
@@ -59,7 +59,7 @@ export const showRemovePaymentCardDialog = () => dialogs.show(RemovePaymentCardD
     max-width: 480px;
   }
 
-  :global(.close-oftiKD) {
+  :global(.close-KriWa7) {
     --fill: var(--waterloo);
     --fill-hover: var(--green);
   }

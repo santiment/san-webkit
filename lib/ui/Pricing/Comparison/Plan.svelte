@@ -1,4 +1,4 @@
-<script>import { formatMonthlyPrice, Plan, PlanName } from './../../../utils/plans';
+<script>import { formatMonthlyPrice, getPlanName, Plan } from './../../../utils/plans';
 import PlanButton from '../PlanButton.svelte';
 export let plan;
 export let plans = [];
@@ -9,7 +9,7 @@ $: isFreePlan = name.includes(Plan.FREE);
 
 <div class="fluid">
   <h3 class="row v-center">
-    <span class="h4 txt-m">{PlanName[name]}</span>
+    <span class="h4 txt-m">{getPlanName(name)}</span>
 
     {#if discount && !isFreePlan}<span class="discount mrg-m mrg--l">50% Off</span>{/if}
 

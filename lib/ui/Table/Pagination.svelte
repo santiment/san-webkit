@@ -90,7 +90,7 @@ function onPrevPage() {
   <nav-buttons class="row mrg-a mrg--l">
     <button class="btn-2 btn--s row hv-center" class:disabled={page <= 0} on:click={onPrevPage}>
       Prev
-      <Svg id="arrow-right" w="5" h="8" class="left-E1v4Et mrg-m mrg--l" />
+      <Svg id="arrow-right" w="5" h="8" class="left-O2RuL0 mrg-m mrg--l" />
     </button>
 
     <button
@@ -118,7 +118,7 @@ function onPrevPage() {
   }
 }
 */
-:global(.left-E1v4Et) {
+:global(.left-O2RuL0) {
   transform: rotate(180deg);
 }
 

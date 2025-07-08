@@ -6,7 +6,7 @@ import { showRemovePaymentCardDialog } from './../../../ui/RemovePaymentCardDial
 import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from './../../../api/plans';
 import { getCustomer$Ctx } from './../../../stores/customer';
 import { paymentCard$ } from './../../../stores/paymentCard';
-import { Billing, Plan, PlanName, ProductId } from './../../../utils/plans';
+import { Billing, getIsCustomPlan, getPlanName, Plan, ProductId } from './../../../utils/plans';
 import { checkIsActiveSubscription } from './../../../utils/subscription';
 import Setting from './Setting.svelte';
 import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte';
@@ -53,7 +53,7 @@ async function fetchPlans() {
     }
     plans = individualPlans
         .concat(businessPlans)
-        .sort((a, b) => a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount);
+        .sort((a, b) => getIsCustomPlan(a.name) ? 1 : getIsCustomPlan(b.name) ? -1 : a.amount - b.amount);
 }
 let isNftLoading = false;
 function onCheckNftClick() {
@@ -74,7 +74,7 @@ function onCheckNftClick() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-rd79fR">
+  <Setting class="column subscriptions-m4c18t">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -85,7 +85,7 @@ function onCheckNftClick() {
       />
 
       <PlanSuggestions suggestions={individualSuggestions} {plans} {isEligibleForTrial}>
-        <FullAccessCard currentPlanName={PlanName[plan.name]} />
+        <FullAccessCard currentPlanName={getPlanName(plan.name)} />
       </PlanSuggestions>
     </plans-section>
 
@@ -95,7 +95,7 @@ function onCheckNftClick() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-oDoLic justify">
+    <Setting class="setting-od1tLu justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -111,7 +111,7 @@ function onCheckNftClick() {
     </Setting>
   {/if}
 
-  <Setting class="setting-oDoLic justify">
+  <Setting class="setting-od1tLu justify">
     <div>
       SanR NFT
       <div class="description c-waterloo sanr-description">
@@ -131,7 +131,7 @@ function onCheckNftClick() {
     </button>
   </Setting>
 
-  <Setting class="setting-oDoLic justify">
+  <Setting class="setting-od1tLu justify">
     <div>
       Payment method
 
@@ -160,7 +160,7 @@ function onCheckNftClick() {
     </div>
   </Setting>
 
-  <Setting class="setting-oDoLic justify">
+  <Setting class="setting-od1tLu justify">
     <div>
       Billing history
 
@@ -223,7 +223,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-rd79fR) {
+:global(.subscriptions-m4c18t) {
   gap: 28px;
 }
 
@@ -249,8 +249,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-oDoLic),
-:global(.phone-xs) :global(.setting-oDoLic) {
+:global(.phone) :global(.setting-od1tLu),
+:global(.phone-xs) :global(.setting-od1tLu) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -271,9 +271,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-rd79fR),
-:global(.tablet) :global(.subscriptions-rd79fR),
-:global(.phone-xs) :global(.subscriptions-rd79fR) {
+:global(.phone) :global(.subscriptions-m4c18t),
+:global(.tablet) :global(.subscriptions-m4c18t),
+:global(.phone-xs) :global(.subscriptions-m4c18t) {
   flex-direction: column;
 }
 :global(.phone) plans-section,

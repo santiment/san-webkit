@@ -1,7 +1,7 @@
 import { track, Tracker } from '@/analytics'
 import { trackTwitterPurchaseEvent, TwitterTrackActions } from '@/analytics/twitter'
 import { mutateSubscribe } from '@/api/plans'
-import { PlanName } from '@/utils/plans'
+import { getPlanName } from '@/utils/plans'
 import { notifications$ } from '@/ui/Notifications'
 import { paymentCard$ } from '@/stores/paymentCard'
 import {
@@ -62,8 +62,10 @@ function submitPayment(plan: SAN.Plan, discount: any, source: string, cardTokenI
 }
 
 export function createCardToken(
+  /* eslint-disable */
   stripe: stripe.Stripe,
   card: stripe.elements.Element,
+  /* eslint-enable */
   checkoutInfo: { [key: string]: any },
 ) {
   return stripe.createToken(card, checkoutInfo).then(({ token, error }) => {
@@ -76,8 +78,10 @@ export function createCardToken(
 export function buyPlan(
   customer$: SAN.CustomerStore,
   plan: SAN.Plan,
+  /* eslint-disable */
   stripe: stripe.Stripe,
   card: stripe.elements.Element,
+  /* eslint-enable */
   form: { [key: string]: any },
   source: string,
   savedCard?: SAN.PaymentCard,
@@ -118,7 +122,7 @@ export function buyPlan(
 export function onPaymentSuccess(data, source, customer$: SAN.CustomerStore, method?: string) {
   const { plan } = data
   const { name, amount } = plan
-  const title = PlanName[name] || name
+  const title = getPlanName(name)
 
   trackTwitterPurchaseEvent()
 

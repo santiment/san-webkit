@@ -1,7 +1,7 @@
 <script>import { trackPaymentFormPlanSelect } from './../../analytics/events/payment';
 import Svg from './../../ui/Svg/svelte';
 import Tooltip from './../../ui/Tooltip';
-import { PlanName, checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, calculateYearDiscount, } from './../../utils/plans';
+import { checkIsYearlyPlan, formatMonthlyPrice, Billing, getAlternativePlan, getSavedAmount, calculateYearDiscount, getPlanName, } from './../../utils/plans';
 export let plans;
 export let plan;
 export let price;
@@ -40,7 +40,7 @@ function select(option) {
     <Tooltip
       bind:isOpened
       on="click"
-      activeClass="opened-NjftqQ"
+      activeClass="opened-F8pdCk"
       position="bottom-start"
       clickaway
       margin={{ mainAxis: 2, crossAxis: -16 }}
@@ -48,7 +48,7 @@ function select(option) {
     >
       <button type="button" use:trigger class="selector btn body-1 txt-b" on:click>
         {selectedNameBilling}
-        <Svg id="arrow" w="10" class="arrow-EqV1pE mrg-xs mrg--l" />
+        <Svg id="arrow" w="10" class="arrow-7Vgd3i mrg-xs mrg--l" />
       </button>
 
       <div slot="tooltip" class="column">
@@ -59,7 +59,7 @@ function select(option) {
             class:active={plan === option}
             on:click={() => select(option)}
           >
-            {isSinglePlan ? 'Bill' : PlanName[option.name]}
+            {isSinglePlan ? 'Bill' : getPlanName(option.name)}
             {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 
@@ -92,11 +92,11 @@ function select(option) {
     --fill-hover: var(--waterloo);
   }
 
-  :global(.opened-NjftqQ) {
+  :global(.opened-F8pdCk) {
     --rotate: 0;
   }
 
-  :global(.arrow-EqV1pE) {
+  :global(.arrow-7Vgd3i) {
     transition: transform 0.2s;
     transform: rotate(var(--rotate, 180deg));
   }

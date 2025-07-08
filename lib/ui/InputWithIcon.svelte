@@ -18,7 +18,7 @@ export let autofocus = null;
   {#if $$slots.left}
     <slot name="left" />
   {:else if icon}
-    <Svg id={icon} {w} {h} class="icon-5tITY2" />
+    <Svg id={icon} {w} {h} class="icon-Wfn3ba" />
   {/if}
   <input
     {...constraints}
@@ -57,7 +57,7 @@ export let autofocus = null;
     max-width: 100%;
   }
 
-  :global(.icon-5tITY2) {
+  :global(.icon-Wfn3ba) {
     position: absolute;
     left: var(--icon-left, 14px);
   }

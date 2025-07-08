@@ -1,5 +1,5 @@
 <script>import { SANBASE_ORIGIN } from './../../../../utils/links';
-import { formatPrice, Plan, PlanName } from './../../../../utils/plans';
+import { formatPrice, getIsCustomPlan, getPlanName } from './../../../../utils/plans';
 import { showPaymentDialog } from './../../../../ui/PaymentDialog/index.svelte';
 import Card from './Card.svelte';
 export let plan;
@@ -13,7 +13,7 @@ export let shouldHideBillingInfo = false;
 export let plans = [];
 export let description = '';
 export let onActionClick = (e) => {
-    if (plan.name === Plan.CUSTOM) {
+    if (getIsCustomPlan(plan.name)) {
         window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank');
         return;
     }
@@ -29,7 +29,7 @@ export let onActionClick = (e) => {
 $: ({ name } = plan);
 $: ({ billing, price } = getBillingPrice(plan));
 function getBillingPrice(plan) {
-    if (plan.name === Plan.CUSTOM)
+    if (getIsCustomPlan(plan.name))
         return {
             price: 'Custom',
             billing: 'Based on your needs',
@@ -48,7 +48,7 @@ function getBillingPrice(plan) {
   {discount}
   {shouldHideBillingInfo}
   {onActionClick}
-  action={plan.name === Plan.CUSTOM
+  action={getIsCustomPlan(plan.name)
     ? 'Let’s talk!'
     : discount
     ? `Pay now ${discount}% Off`
@@ -58,7 +58,7 @@ function getBillingPrice(plan) {
     ? 'Upgrade'
     : action}
   disabled={action === 'Default plan'}
-  title={PlanName[name] + (isTrial ? ' Trial' : '')}
+  title={getPlanName(name) + (isTrial ? ' Trial' : '')}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
   badgeIcon={discount ? null : badgeIcon}

@@ -21,7 +21,7 @@
       align="center"
       offsetY={4}
       closeTimeout={0}
-      activeClass="opened-yqUh0e"
+      activeClass="opened-jI2OUc"
     >
       <div slot="trigger" class="info btn mrg-xs mrg--l row hv-center">
         <Svg id="info" w="12" />
@@ -80,7 +80,7 @@
   color: var(--black);
 }
 
-:global(.opened-yqUh0e) {
+:global(.opened-jI2OUc) {
   --bg: var(--athens);
   fill: var(--black) !important;
 }</style>

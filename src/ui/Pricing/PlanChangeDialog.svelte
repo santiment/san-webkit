@@ -10,7 +10,7 @@
   import { DialogLock } from '@/ui/Dialog/dialogs'
   import Svg from '@/ui/Svg/svelte'
   import { getCustomer$Ctx } from '@/stores/customer'
-  import { Billing, formatPrice, PlanName } from '@/utils/plans'
+  import { Billing, formatPrice, getPlanName } from '@/utils/plans'
   import { getDateFormats } from '@/utils/dates'
   import { mutateUpdateSubscription, queryUpcomingInvoice } from '@/api/subscription'
   import { onPlanChangeError, onPlanChangeSuccess } from './utils'
@@ -26,12 +26,12 @@
   const { customer$ } = getCustomer$Ctx()
 
   const subscription = $customer$.subscription as SAN.Subscription
-  const newName = PlanName[plan.name] || plan.name
+  const newName = getPlanName(plan.name)
   const isNewBillingMonthly = plan.interval === Billing.MONTH
   const newBilling = isNewBillingMonthly ? 'Monthly' : 'Annual'
 
   const { currentPeriodEnd = Date.now(), plan: currentPlan } = subscription
-  const currentPlanName = PlanName[currentPlan.name] || currentPlan.name
+  const currentPlanName = getPlanName(currentPlan.name)
 
   function formatDate() {
     const { MMMM, DD, YYYY } = getDateFormats(new Date(currentPeriodEnd))

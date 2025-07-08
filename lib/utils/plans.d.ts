@@ -25,17 +25,10 @@ export declare enum Plan {
     BUSINESS_MAX = "BUSINESS_MAX",
     CUSTOM = "CUSTOM"
 }
+export declare function getIsCustomPlan(planName: string): boolean;
 export declare const INDIVIDUAL_PLANS: Set<Plan>;
 export declare const BUSINESS_PLANS: Set<Plan>;
-export declare const PlanName: {
-    readonly PRO_PLUS: "Pro+";
-    readonly FREE: "FREE";
-    readonly PRO: "Sanbase Pro";
-    readonly MAX: "Sanbase Max";
-    readonly BUSINESS_PRO: "Business Pro";
-    readonly BUSINESS_MAX: "Business Max";
-    readonly CUSTOM: "Enterprise";
-};
+export declare function getPlanName(planName: string): any;
 export declare enum Billing {
     MONTH = "month",
     YEAR = "year"

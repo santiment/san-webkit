@@ -1,5 +1,5 @@
 <script>import { getCustomer$Ctx } from './../../stores/customer';
-import { Billing, Plan, checkIsBusinessPlan } from './../../utils/plans';
+import { Billing, Plan, checkIsBusinessPlan, getIsCustomPlan } from './../../utils/plans';
 import { dataPreloader, showPaymentDialog } from './../../ui/PaymentDialog/index.svelte';
 import { showPlanChangeDialog } from './PlanChangeDialog.svelte';
 import { checkIsUpgrade, PLAN_BUTTON_CLICKED } from './utils';
@@ -13,7 +13,7 @@ $: customer = $customer$;
 $: ({ isLoggedIn, isEligibleForTrial, annualDiscount, subscription } = customer);
 $: ({ id, name } = plan);
 $: isBusinessPlan = checkIsBusinessPlan(plan);
-$: isCustomPlan = name === Plan.CUSTOM;
+$: isCustomPlan = getIsCustomPlan(name);
 $: isFreePlan = name === Plan.FREE;
 $: isCurrentPlan = subscription ? subscription.plan.id === id : isFreePlan && isLoggedIn;
 $: isUpgrade = checkIsUpgrade(plan, subscription);

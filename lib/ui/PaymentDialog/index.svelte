@@ -1,5 +1,5 @@
 <script context="module">import { queryPlans, getCachedProducts, getBusinessPlans, getIndividualPlans } from './../../api/plans';
-import { formatPrice, checkIsBusinessPlan, checkIsPlanWithPrice, Plan } from './../../utils/plans';
+import { formatPrice, checkIsBusinessPlan, checkIsPlanWithPrice, Plan, getPlanName, } from './../../utils/plans';
 import { Preloader } from './../../utils/fn';
 import { stripe } from './../../stores/stripe';
 import { dialogs } from './../../ui/Dialog';
@@ -14,7 +14,6 @@ export const dataPreloader = Preloader(preloadData);
 <script>import { onDestroy } from 'svelte';
 import Dialog from './../../ui/Dialog';
 import { DialogLock } from './../../ui/Dialog/dialogs';
-import { PlanName } from './../../utils/plans';
 import { paymentCard$ } from './../../stores/paymentCard';
 import { getCustomer$Ctx } from './../../stores/customer';
 import { trackPaymentFormClosed, trackPaymentFormOpened } from './../../analytics/events/payment';
@@ -47,7 +46,7 @@ $: ({ subscription } = customer);
 $: isNotCanceled = !subscription?.cancelAtPeriodEnd;
 // TODO: make customer data accesible via context
 $: ({ sanBalance, isEligibleForTrial, annualDiscount } = $customer$);
-$: name = PlanName[plan.name] || plan.name;
+$: name = getPlanName(plan.name);
 $: price = name ? formatPrice(plan) : '';
 $: if (BROWSER) {
     const { id, name, amount } = planData || {};

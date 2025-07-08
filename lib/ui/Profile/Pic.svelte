@@ -10,7 +10,7 @@ export let alt = 'S';
   {#if src}
     <img alt={alt.slice(1)} {src} loading="lazy" class="hv-center txt-b" />
   {:else}
-    <Svg id="user" w={placeholderSize} class="svg-LLh36R" />
+    <Svg id="user" w={placeholderSize} class="svg-O5Pg5k" />
   {/if}
   <slot />
 </div>
@@ -33,7 +33,7 @@ export let alt = 'S';
     fill: var(--img-fill, var(--waterloo));
   }
 
-  :global(.svg-LLh36R) {
+  :global(.svg-O5Pg5k) {
     max-width: 50%;
     min-width: 0 !important;
   }

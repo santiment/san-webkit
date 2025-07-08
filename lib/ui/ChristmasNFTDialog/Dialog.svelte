@@ -63,7 +63,7 @@ onDestroy(() => {
   {...$$props}
   noTitle={!page}
   title={page ? 'Game details' : undefined}
-  class="dialog-D2WrjI"
+  class="dialog-08wLAH"
   let:closeDialog
 >
   {#if page === Page.Intro}
@@ -85,7 +85,7 @@ onDestroy(() => {
 </Dialog>
 
 <style>
-  :global(.dialog-D2WrjI) {
+  :global(.dialog-08wLAH) {
     padding: 0 !important;
     width: 960px;
     height: 600px;

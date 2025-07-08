@@ -1,6 +1,6 @@
 <script>import { getCustomer$Ctx } from './../../stores/customer';
 import Svg from './../../ui/Svg/svelte';
-import { calculateYearDiscount, formatPrice, checkIsBusinessPlan, Plan, PlanName, } from './../../utils/plans';
+import { calculateYearDiscount, formatPrice, checkIsBusinessPlan, Plan, getIsCustomPlan, getPlanName, } from './../../utils/plans';
 import { checkIsTrialSubscription } from './../../utils/subscription';
 import PlanButton from './PlanButton.svelte';
 import { PlanDescription } from './description';
@@ -19,7 +19,7 @@ $: currentPlanId = subscription?.plan.id;
 $: isTrialPlan = isOnTrial && (currentPlanId === monthPlan.id || currentPlanId === yearPlan.id);
 $: isBusiness = checkIsBusinessPlan(monthPlan);
 $: isFreePlan = name.includes(Plan.FREE);
-$: isCustomPlan = name.includes(Plan.CUSTOM);
+$: isCustomPlan = getIsCustomPlan(name);
 $: ({ description, features } = PlanDescription[name]);
 $: monthPrice = formatPrice(monthPlan);
 $: yearPrice = formatPrice(yearPlan);
@@ -28,7 +28,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
 </script>
 
 <div class="plan txt-center relative {className}" class:isBusiness class:free={isFreePlan}>
-  <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
+  <div class="name h4 txt-m c-accent">{getPlanName(name)}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 
@@ -59,7 +59,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
 
   {#each features as feature}
     <div class="row txt-left mrg-l mrg--t">
-      <Svg id="checkmark-circle" w="16" class="checkmark-1apXOb" />
+      <Svg id="checkmark-circle" w="16" class="checkmark-HBd_9I" />
       {feature}
     </div>
   {/each}
@@ -131,7 +131,7 @@ $: yearDiscount = calculateYearDiscount(monthPlan, yearPlan);
   max-width: 160px;
 }
 
-:global(.checkmark-1apXOb) {
+:global(.checkmark-HBd_9I) {
   margin: 2px 10px 0 0;
   fill: var(--fill-checkmark, var(--accent));
 }</style>
