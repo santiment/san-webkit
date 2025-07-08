@@ -34,10 +34,14 @@ export enum Plan {
   CUSTOM = 'CUSTOM',
 }
 
+export function getIsCustomPlan(planName: string): boolean {
+  return planName.startsWith(Plan.CUSTOM)
+}
+
 export const INDIVIDUAL_PLANS = new Set([Plan.FREE, Plan.PRO, Plan.MAX])
 export const BUSINESS_PLANS = new Set([Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM])
 
-export const PlanName = {
+const PlanName = {
   [Plan.PRO_PLUS]: 'Pro+',
 
   [Plan.FREE]: 'FREE',
@@ -48,6 +52,11 @@ export const PlanName = {
   [Plan.BUSINESS_MAX]: 'Business Max',
   [Plan.CUSTOM]: 'Enterprise',
 } as const
+
+export function getPlanName(planName: string) {
+  const adaptedPlanName = getIsCustomPlan(planName) ? Plan.CUSTOM : planName
+  return PlanName[adaptedPlanName] ?? planName
+}
 
 export enum Billing {
   MONTH = 'month',
@@ -61,7 +70,10 @@ export enum PlanType {
 
 export const checkIsIndividualPlan = ({ name }: { name: string }) =>
   INDIVIDUAL_PLANS.has(name as Plan)
-export const checkIsBusinessPlan = ({ name }: { name: string }) => BUSINESS_PLANS.has(name as Plan)
+export const checkIsBusinessPlan = ({ name }: { name: string }) => {
+  const planName = getIsCustomPlan(name) ? Plan.CUSTOM : (name as Plan)
+  return BUSINESS_PLANS.has(planName)
+}
 
 export const checkIsPlanWithPrice = ({ amount }: Pick<SAN.Plan, 'amount'>) => amount > 0
 

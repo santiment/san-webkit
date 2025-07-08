@@ -6,7 +6,8 @@
     formatPrice,
     checkIsBusinessPlan,
     Plan,
-    PlanName,
+    getIsCustomPlan,
+    getPlanName,
   } from '@/utils/plans'
   import { checkIsTrialSubscription } from '@/utils/subscription'
   import PlanButton from './PlanButton.svelte'
@@ -31,7 +32,7 @@
   $: isBusiness = checkIsBusinessPlan(monthPlan)
 
   $: isFreePlan = name.includes(Plan.FREE)
-  $: isCustomPlan = name.includes(Plan.CUSTOM)
+  $: isCustomPlan = getIsCustomPlan(name)
 
   $: ({ description, features } = PlanDescription[name])
 
@@ -43,7 +44,7 @@
 </script>
 
 <div class="plan txt-center relative {className}" class:isBusiness class:free={isFreePlan}>
-  <div class="name h4 txt-m c-accent">{PlanName[name]}</div>
+  <div class="name h4 txt-m c-accent">{getPlanName(name)}</div>
 
   {#if isTrialPlan}<div class="trial label">Your trial plan</div>{/if}
 

@@ -173,3 +173,19 @@ export const BusinessProYearNoCard: Story = {
     }),
   },
 }
+
+export const CustomEnterprise: Story = {
+  parameters: {
+    mockApi: () => ({
+      ...mockPlans,
+      ...pppMock,
+      savedCard: false,
+      currentUser: {
+        plan: {
+          name: 'CUSTOM_BUSINESS_PRO_MAX_ULTRA_3M',
+          yearly: true,
+        },
+      },
+    }),
+  },
+}

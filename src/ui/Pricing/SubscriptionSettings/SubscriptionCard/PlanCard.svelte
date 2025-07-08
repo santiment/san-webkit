@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SANBASE_ORIGIN } from '@/utils/links'
-  import { formatPrice, Plan, PlanName } from '@/utils/plans'
+  import { formatPrice, getIsCustomPlan, getPlanName } from '@/utils/plans'
   import { showPaymentDialog } from '@/ui/PaymentDialog/index.svelte'
   import Card from './Card.svelte'
 
@@ -15,7 +15,7 @@
   export let plans = [] as SAN.Plan[]
   export let description = ''
   export let onActionClick = (e) => {
-    if (plan.name === Plan.CUSTOM) {
+    if (getIsCustomPlan(plan.name)) {
       window.open('https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry', '_blank')
       return
     }
@@ -34,7 +34,7 @@
   $: ({ billing, price } = getBillingPrice(plan))
 
   function getBillingPrice(plan: SAN.Plan) {
-    if (plan.name === Plan.CUSTOM)
+    if (getIsCustomPlan(plan.name))
       return {
         price: 'Custom',
         billing: 'Based on your needs',
@@ -54,7 +54,7 @@
   {discount}
   {shouldHideBillingInfo}
   {onActionClick}
-  action={plan.name === Plan.CUSTOM
+  action={getIsCustomPlan(plan.name)
     ? 'Let’s talk!'
     : discount
     ? `Pay now ${discount}% Off`
@@ -64,7 +64,7 @@
     ? 'Upgrade'
     : action}
   disabled={action === 'Default plan'}
-  title={PlanName[name] + (isTrial ? ' Trial' : '')}
+  title={getPlanName(name) + (isTrial ? ' Trial' : '')}
   label={discount ? 'Special offer' : label}
   badge={discount ? `${discount}% Off` : badge}
   badgeIcon={discount ? null : badgeIcon}
