@@ -9,7 +9,7 @@ import {
   normalizeAnnualDiscount,
   Status,
 } from '@/utils/subscription'
-import { Plan, PlanName, checkIsBusinessPlan } from '@/utils/plans'
+import { Plan, checkIsBusinessPlan, getPlanName } from '@/utils/plans'
 import { QueryStore, setSessionValue } from './utils'
 import { BROWSER } from 'esm-env'
 
@@ -129,7 +129,7 @@ function getCustomerSubscriptionData(subscription: undefined | null | any) {
 
     isTrial: trialDaysLeft > 0 && status === Status.TRIALING,
     trialDaysLeft,
-    planName: PlanName[planName] || planName,
+    planName: getPlanName(planName),
     isCanceled: !!cancelAtPeriodEnd,
   }
 }

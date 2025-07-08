@@ -7,7 +7,7 @@
   import { getBusinessPlans, getIndividualPlans, queryPlans, queryPppSettings } from '@/api/plans'
   import { getCustomer$Ctx } from '@/stores/customer'
   import { paymentCard$ } from '@/stores/paymentCard'
-  import { Billing, Plan, PlanName, ProductId } from '@/utils/plans'
+  import { Billing, getIsCustomPlan, getPlanName, Plan, ProductId } from '@/utils/plans'
   import { checkIsActiveSubscription } from '@/utils/subscription'
   import Setting from './Setting.svelte'
   import UserPlanCard from './SubscriptionCard/UserPlanCard.svelte'
@@ -68,7 +68,7 @@
     plans = individualPlans
       .concat(businessPlans)
       .sort((a, b) =>
-        a.name === Plan.CUSTOM ? 1 : b.name === Plan.CUSTOM ? -1 : a.amount - b.amount,
+        getIsCustomPlan(a.name) ? 1 : getIsCustomPlan(b.name) ? -1 : a.amount - b.amount,
       )
   }
 
@@ -106,7 +106,7 @@
       />
 
       <PlanSuggestions suggestions={individualSuggestions} {plans} {isEligibleForTrial}>
-        <FullAccessCard currentPlanName={PlanName[plan.name]} />
+        <FullAccessCard currentPlanName={getPlanName(plan.name)} />
       </PlanSuggestions>
     </plans-section>
 
