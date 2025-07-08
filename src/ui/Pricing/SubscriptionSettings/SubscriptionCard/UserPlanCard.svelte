@@ -19,7 +19,6 @@
   $: isPaidPlan = plan?.name !== Plan.FREE
   $: trialDaysLeft = subscription && getTrialDaysLeft(subscription)
   $: isCancelled = Boolean(subscription && subscription.cancelAtPeriodEnd)
-  $: console.log({ plan })
 
   function formatDate(date) {
     const { DD, MMMM, YYYY } = getDateFormats(date)
