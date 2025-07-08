@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { track } from '$lib/analytics/index.js'
-  import { saveBoolean } from '$lib/utils/localStorage.js'
+  import { saveBoolean } from '$lib/utils/localStorage/index.js'
   import { setCookie } from '$lib/utils/cookies.js'
 
   import Component from './index.svelte'

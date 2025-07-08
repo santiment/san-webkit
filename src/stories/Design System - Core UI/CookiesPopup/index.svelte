@@ -2,7 +2,7 @@
   import type { ComponentProps } from 'svelte'
 
   import CookiesPopup from '$ui/core/CookiesPopup/CookiesPopup.svelte'
-  import { deleteSavedValue } from '$lib/utils/localStorage.js'
+  import { deleteSavedValue } from '$lib/utils/localStorage/index.js'
 
   export let props: ComponentProps<CookiesPopup> = {}
 

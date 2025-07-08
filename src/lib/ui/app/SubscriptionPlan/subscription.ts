@@ -1,6 +1,9 @@
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
+
+import { checkIsCustomPlan } from './utils.js'
+
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 import {
   checkIsBusinessPlan,
@@ -60,7 +63,7 @@ export const getApiSubscription = (subscriptions: null | TSubscription[]) =>
 export function getPrimarySubscription(subscriptions: null | TSubscription[]) {
   const apiSubscription = getApiSubscription(subscriptions)
 
-  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan)) {
+  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan.name)) {
     return apiSubscription
   }
 
@@ -100,21 +103,20 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       currentPeriodEnd = Date.now(),
     } = subscription
 
-    const isBusiness = checkIsBusinessPlan(plan)
-    const planName = plan.name
+    const isBusiness = checkIsBusinessPlan(plan.name)
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
-    const isCustom = planName === SubscriptionPlan.CUSTOM.key
-    const isBusinessMax = isBusiness && planName === SubscriptionPlan.BUSINESS_MAX.key
-    const isBusinessPro = isBusinessMax || planName === SubscriptionPlan.BUSINESS_PRO.key
-    const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
-    const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
-    const isPro = isProPlus || isMax || planName === SubscriptionPlan.PRO.key
-    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax
+    const isCustom = checkIsCustomPlan(plan.name)
+    const isBusinessMax = isBusiness && plan.name === SubscriptionPlan.BUSINESS_MAX.key
+    const isBusinessPro = isBusinessMax || plan.name === SubscriptionPlan.BUSINESS_PRO.key
+    const isMax = isBusiness || plan.name === SubscriptionPlan.MAX.key
+    const isProPlus = isBusiness || plan.name === SubscriptionPlan.PRO_PLUS.key
+    const isPro = isProPlus || isMax || plan.name === SubscriptionPlan.PRO.key
+    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax && !isCustom
 
     return {
       plan,
-      planName: getPlanName(plan),
+      planName: getPlanName(plan.name),
 
       isBusinessMax,
       isBusinessPro,

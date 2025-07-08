@@ -1,6 +1,6 @@
 import type { Tracker } from './track.js'
 
-import { deleteSavedValue, getSavedJson, saveJson } from '$lib/utils/localStorage.js'
+import { deleteSavedValue, getSavedJson, saveJson } from '$lib/utils/localStorage/index.js'
 
 import { trackEvent } from './index.js'
 

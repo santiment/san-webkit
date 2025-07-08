@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte'
-  import { fade } from 'svelte/transition'
+  import { onMount } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
+  import Popover from '$ui/core/Popover/Popover.svelte'
 
   type TProps = {
     onTooltipClick: (text: string) => void
@@ -97,47 +97,52 @@
     tooltipVisible = false
   }
 
-  function hideOnOutsideClick(e: MouseEvent) {
-    if (!tooltipEl || !e.target) return
-    if (!tooltipEl.contains(e.target as Node)) tooltipVisible = false
-  }
-
   function hideOnScrollOrResize() {
     tooltipVisible = false
   }
 
   onMount(() => {
     document.addEventListener('selectionchange', handleSelection)
-    document.addEventListener('mousedown', hideOnOutsideClick)
 
     window.addEventListener('scroll', hideOnScrollOrResize, true)
     window.addEventListener('resize', hideOnScrollOrResize)
-  })
 
-  onDestroy(() => {
-    document.removeEventListener('selectionchange', handleSelection)
-    document.removeEventListener('mousedown', hideOnOutsideClick)
+    return () => {
+      document.removeEventListener('selectionchange', handleSelection)
 
-    window.removeEventListener('scroll', hideOnScrollOrResize, true)
-    window.removeEventListener('resize', hideOnScrollOrResize)
+      window.removeEventListener('scroll', hideOnScrollOrResize, true)
+      window.removeEventListener('resize', hideOnScrollOrResize)
 
-    if (showTimeout) clearTimeout(showTimeout)
+      if (showTimeout) clearTimeout(showTimeout)
+    }
   })
 </script>
 
-{#if tooltipVisible}
-  <div
-    bind:this={tooltipEl}
-    class={cn('fixed z-50 select-none', `w-[${WIDTH}px]`)}
-    style="left:{tooltipX}px; top:{tooltipY}px;"
-    in:fade={{ duration: 150 }}
-    out:fade={{ duration: 100 }}
-  >
+<Popover
+  noStyles
+  bind:isOpened={tooltipVisible}
+  align="start"
+  side="bottom"
+  contentProps={{
+    customAnchor: tooltipEl,
+    alignOffset: 0,
+    sideOffset: 0,
+  }}
+>
+  {#snippet children()}
+    <div
+      bind:this={tooltipEl}
+      style={`left:${tooltipX}px; top:${tooltipY}px;`}
+      class={cn('invisible absolute', `w-[${WIDTH}px]`)}
+    ></div>
+  {/snippet}
+
+  {#snippet content()}
     <Button
-      class="w-full rounded-full border border-porcelain bg-white px-2.5 py-1.5 text-sm shadow transition-opacity hover:border-green-hover"
+      class="w-full select-none rounded-full border border-porcelain bg-white px-2.5 py-1.5 text-sm shadow transition-opacity hover:border-green-hover"
       onclick={clickTooltip}
     >
       🤖 Ask&nbsp;AI
     </Button>
-  </div>
-{/if}
+  {/snippet}
+</Popover>

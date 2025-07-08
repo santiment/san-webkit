@@ -140,7 +140,7 @@
     {...anonymousProps}
     data-type="get_business"
   >
-    Get {getPlanName(plan)}
+    Get {getPlanName(plan.name)}
   </Button>
 {:else if isConsumerPlan && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
   <Button
