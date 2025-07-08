@@ -39,7 +39,6 @@
 
     if (disabled) return
 
-    // Checking right button mouse click
     if (e.button === 2) {
       return
     }
