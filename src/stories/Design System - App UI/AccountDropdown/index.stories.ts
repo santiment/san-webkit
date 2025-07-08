@@ -152,7 +152,7 @@ export const CustomEnterprise: Story = {
     mockApi: () => ({
       currentUser: {
         plan: {
-          name: 'CUSTOM_SOME_PLAN',
+          name: 'CUSTOM_BUSINESS_MAX_PRO_ULTRA_3M',
           monthly: true,
         },
       },

@@ -106,3 +106,14 @@ export const Enterprise: Story = {
     }),
   },
 }
+
+export const CustomEnterprise: Story = {
+  name: 'Custom Enterprise',
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: { name: 'CUSTOM_BUSINESS_MAX_PRO_ULTRA_3M', yearly: true },
+      },
+    }),
+  },
+}
