@@ -101,7 +101,9 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     } = subscription
 
     const isBusiness = checkIsBusinessPlan(plan)
-    const planName = plan.name
+    const planName = plan.name.startsWith(SubscriptionPlan.CUSTOM.key)
+      ? SubscriptionPlan.CUSTOM.key
+      : plan.name
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
     const isCustom = planName === SubscriptionPlan.CUSTOM.key
@@ -110,7 +112,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     const isMax = isBusiness || planName === SubscriptionPlan.MAX.key
     const isProPlus = isBusiness || planName === SubscriptionPlan.PRO_PLUS.key
     const isPro = isProPlus || isMax || planName === SubscriptionPlan.PRO.key
-    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax
+    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax && !isCustom
 
     return {
       plan,
@@ -124,8 +126,8 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
       isFree,
       isCustom,
 
-      isBusinessSubscription: isBusiness,
-      isConsumerSubscription: isFree ? false : !isBusiness,
+      isBusinessSubscription: isBusiness || isCustom,
+      isConsumerSubscription: isFree ? false : !isBusiness && !isCustom,
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
