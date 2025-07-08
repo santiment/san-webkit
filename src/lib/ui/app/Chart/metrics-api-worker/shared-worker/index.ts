@@ -100,16 +100,11 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
 const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (respond, msg) => {
   const { minimalDelay, parameters, formula, index, metrics } = msg.payload
 
-  console.log({ formula, metrics })
-
   // NOTE: Decreasing priority of the formula metric
   const jobSettings = { minimalDelay, priority: (msg.payload.priority || 1) * 10 }
   const jobs: TJob[] = []
 
-  const cancelJobs = () => {
-    console.log('Cancelling all jobs')
-    jobs.forEach((job) => jobScheduler.cancelJob(job))
-  }
+  const cancelJobs = () => jobs.forEach((job) => jobScheduler.cancelJob(job))
   const addJob = (dataRequest: () => Promise<any>) => {
     const job = jobScheduler.schedule(dataRequest, undefined, jobSettings)
     if (job) jobs.push(job)
