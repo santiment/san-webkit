@@ -1,6 +1,4 @@
 <script>
-  import {} from './math.js'
-  //import {} from './math-custom.js'
 </script>
 
 <h1>Welcome to your library project</h1>
