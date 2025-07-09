@@ -62,9 +62,7 @@ export function useApiMetricDataFlow(
   }
 
   $effect(() => {
-    //const formula = metric.formula
-    //
-    //if (formula?.valid === false) {
+    //if (meric.formula?.valid === false) {
     //  return
     //}
 
@@ -91,11 +89,7 @@ export function useApiMetricDataFlow(
             ...payload,
             index,
             formula: metric.formula,
-            metrics: metricSeries.$.map((item) => ({
-              name: item.apiMetricName,
-              selector: item.selector.$,
-              formula: item.formula,
-            })),
+            metrics: metricSeries.asScope$,
           },
           onWorkerData,
         )

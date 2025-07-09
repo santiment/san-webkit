@@ -54,7 +54,7 @@ export function createSeries({
   formula,
 }: TMetric & {
   selector?: TMetricSelector | SS<TMetricSelector>
-  formula?: { expr: string; scope: { var: string; metric: string }[] }
+  formula?: { expr: string }
 }) {
   const scale = $state({
     id: scaleId || name,
@@ -111,11 +111,24 @@ export const useMetricSeriesCtx = createCtx(
       }),
     )
 
+    const asScope = $derived(
+      series.map((item) => ({
+        name: item.apiMetricName,
+        selector: $state.snapshot(item.selector.$),
+        formula: item.formula,
+      })),
+    )
+
     return {
       metricSeries: {
         get $() {
           return series
         },
+
+        get asScope$() {
+          return asScope
+        },
+
         add(metric: TMetric) {
           series.push(createSeries(metric))
           series = series.slice()
