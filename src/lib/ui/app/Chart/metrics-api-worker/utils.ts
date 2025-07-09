@@ -1,5 +1,5 @@
-export function parseFormulaVariables(expr: string) {
-  const vars = expr.match(/(x|m)\d+/g) || []
+export function parseFormulaChartVariables(expr: string) {
+  const vars = expr.match(/(m)\d+/g) || []
 
   return vars.map((item) => ({
     name: item,

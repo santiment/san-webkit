@@ -1,5 +1,5 @@
 import type { TNominal } from '$lib/utils/index.js'
-import type { TInterval, TMetricData } from '../api/index.js'
+import type { TInterval, TMetricData, TMetricTargetSelectorInputObject } from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
 
@@ -57,15 +57,21 @@ export type TFetchMetricMessage = TMessageRequestResponse<
   { timeseries: TMetricData } | { error: any }
 >
 
-export type TMetricFormula = { expr: string; locals: { metric: string }[] }
+export type TMetricFormula = { expr: string }
+
 export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   TMessageType['FetchFormulaMetric'],
   {
     minimalDelay?: number
     priority?: number
     parameters: TMetricParameters
+    index: number
     formula: TMetricFormula
-    metrics: { metric: string; formula?: TMetricFormula }
+    metrics: {
+      name: string
+      selector: null | TMetricTargetSelectorInputObject
+      formula?: TMetricFormula
+    }[]
   },
   { timeseries: TMetricData } | { error: any }
 >
@@ -91,4 +97,4 @@ export type TRequestHandler<GMessage extends TMessages> = (
     data: Omit<GMessage['response'], 'id' | 'type'>,
   ) => void,
   msg: GMessage['request'],
-) => void | (() => void)
+) => unknown extends GMessage['response']['payload'] ? void : () => void

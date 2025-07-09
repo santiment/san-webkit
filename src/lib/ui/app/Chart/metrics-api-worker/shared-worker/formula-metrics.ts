@@ -1,4 +1,4 @@
-import type { TMetricFormula, TMetricParameters } from '../types.js'
+import type { TFetchFormulaMetricMessage } from '../types.js'
 
 import { BROWSER } from 'esm-env'
 
@@ -7,29 +7,50 @@ import { ApiCache } from '$lib/api/cache.js'
 import { controlledPromisePolyfill } from '$lib/utils/promise.js'
 
 import { queryGetMetric, type TMetricData } from '../../api/index.js'
-import { parseFormulaVariables } from '../utils.js'
+import { parseFormulaChartVariables } from '../utils.js'
 import { math, Timeseries } from './math.js'
 
 type TContext = {
   isCancelled: boolean
 
-  parameters: TMetricParameters
-  metrics: any[]
+  parameters: TFetchFormulaMetricMessage['request']['payload']['parameters']
+  metrics: TFetchFormulaMetricMessage['request']['payload']['metrics']
   path: number[]
 
   addJob: (dataRequest: () => Promise<any>) => void
   cancelJobs: () => void
 }
+
+function queryMetric(metric: string, parameters: TContext['parameters']) {
+  const { selector, interval, from, to } = parameters
+  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval })
+}
+
+function getFormulaCacheKey(
+  formula: { expr: string },
+  variables: { metricIndex: number }[],
+  ctx: TContext,
+) {
+  const { metrics, parameters } = ctx
+  const { from, to, interval, selector } = parameters
+
+  return JSON.stringify({
+    formula: formula.expr,
+    parameters: { from, to, selector, interval },
+    metrics: variables.map((variable) => metrics[variable.metricIndex]),
+  })
+}
+
 export function fetchFormulaMetric(
-  formula: TMetricFormula,
-  index: number,
+  formula: TFetchFormulaMetricMessage['request']['payload']['formula'],
+  index: TFetchFormulaMetricMessage['request']['payload']['index'],
   ctx: TContext,
 ): Promise<TMetricData> {
   if (ctx.isCancelled) {
     return Promise.reject(new Error('Request cancelled'))
   }
 
-  const variables = parseFormulaVariables(formula.expr)
+  const variables = parseFormulaChartVariables(formula.expr)
 
   const cacheKey = JSON.stringify(getFormulaCacheKey(formula, variables, ctx))
   const cached = ApiCache.get(cacheKey, Query)
@@ -95,25 +116,5 @@ export function fetchFormulaMetric(
     cachePromiseController.resolve(timeseries)
 
     return timeseries
-  })
-}
-
-function queryMetric(metric: string, parameters: TMetricParameters) {
-  const { selector, interval, from, to } = parameters
-  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval })
-}
-
-function getFormulaCacheKey(
-  formula: { expr: string },
-  variables: { metricIndex: number }[],
-  ctx: TContext,
-) {
-  const { metrics, parameters } = ctx
-  const { from, to, interval, selector } = parameters
-
-  return JSON.stringify({
-    formula: formula.expr,
-    parameters: { from, to, selector, interval },
-    metrics: variables.map((variable) => metrics[variable.metricIndex]),
   })
 }
