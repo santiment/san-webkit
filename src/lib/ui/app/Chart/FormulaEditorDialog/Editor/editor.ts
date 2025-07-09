@@ -5,10 +5,16 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 //import * as monaco from 'monaco-editor'
 
 import 'monaco-editor/esm/vs/editor/contrib/parameterHints/browser/parameterHints.js'
+import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineCompletions.contribution.js'
+//import 'monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestController.js'
+//import 'monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestInlineCompletions.js'
 
-import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
+//import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+import './language.js'
+import { setModelMetadata } from './metadata.js'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (moduleId, label) {
@@ -34,27 +40,19 @@ const LINE_HEIGHT = 24
 
 export function createEditor(domElement: HTMLElement): TEditor {
   const value = [
-    'sma(m1, 5)',
-    'from banana import *',
-    '',
-    'class Monkey:',
-    '	# Bananas the monkey can eat.',
-    '	capacity = 10',
-    '	def eat(self, N):',
-    "		'''Make the monkey eat N bananas!'''",
-    '		capacity = capacity - N*banana.size',
-    '',
-    '	def feeding_frenzy(self):',
-    '		eat(9.25)',
-    '		return "Yum yum"',
+    '/* Example formula */',
+    'x1 = sma(m1, 5)',
+    'x2 = ema(m2, 10) + 5',
+    'x3 = rsi(m3, 14) * 2 - 1',
   ].join('\n')
 
-  //const model = monaco.editor.createModel(value, 'python')
+  const model = monaco.editor.createModel(value, 'formula-lang')
+  setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], chartVariables: ['m1', 'm2'] })
 
   const editor = monaco.editor.create(domElement, {
-    //model,
-    value,
-    language: 'python',
+    //value,
+    //language: 'formula-lang',
+    model,
 
     fontFamily: 'Menlo',
     fontSize: 16,
@@ -96,56 +94,14 @@ export function createEditor(domElement: HTMLElement): TEditor {
   editor.onDidContentSizeChange(updateHeight)
   updateHeight()
 
-  monaco.languages.registerSignatureHelpProvider('python', {
-    signatureHelpTriggerCharacters: ['(', ','],
-    provideSignatureHelp: (model, position) => {
-      return {
-        value: {
-          activeSignature: 0,
-          activeParameter: 0, // you need to change which parameter is typing
-          signatures: [
-            {
-              label: 'sma(metric: Timeseries, period: number)', // siagnature label must be entire function signature
-              parameters: [
-                {
-                  label: 'metric', // parameter label must be partial of signature label
-                },
-                {
-                  label: 'period', // parameter label must be partial of signature label
-                },
-              ],
-            },
-          ],
-        },
-        dispose: () => {},
-      }
-    },
+  editor.onDidChangeCursorPosition((event) => {
+    console.log(event)
+    if (event.source === 'snippet' || event.source === 'mouse') {
+      requestAnimationFrame(() => {
+        editor.trigger('keyboard', 'editor.action.triggerParameterHints', {})
+      })
+    }
   })
-
-  // Wait for editor to be ready
-  setTimeout(() => {
-    // Position cursor after "print("
-    editor.setPosition({ lineNumber: 1, column: 5 })
-
-    // Focus the editor
-    editor.focus()
-
-    // Trigger signature help
-    editor.trigger('keyboard', 'editor.action.triggerParameterHints', {})
-  }, 500)
 
   return editor
 }
-
-/*
- {
-				label: "sma",
-				kind: monaco.languages.CompletionItemKind.Function,
-				insertText: "testing(${1:condition})",
-				insertTextRules:
-					monaco.languages.CompletionItemInsertTextRule
-						.InsertAsSnippet,
-				range: range,
-			},
-
-*/
