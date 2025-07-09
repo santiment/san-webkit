@@ -71,6 +71,8 @@
 
     downloadCsv(filename, headers, rows)
   }
+
+  showFormulaEditorDialog()
 </script>
 
 <div class="relative column">

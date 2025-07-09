@@ -15,7 +15,7 @@
   const { Controller }: TProps = $props()
 </script>
 
-<Dialog class="h-[400px] w-[500px]">
+<Dialog class="h-[400px] w-[500px] !overflow-visible">
   123
 
   <Editor></Editor>
