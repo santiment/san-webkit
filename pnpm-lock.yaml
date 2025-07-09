@@ -181,6 +181,9 @@ devDependencies:
   mathjs:
     specifier: ^14.5.2
     version: 14.5.2
+  monaco-editor:
+    specifier: ^0.52.2
+    version: 0.52.2
   postcss:
     specifier: ^8.4.38
     version: 8.5.3
@@ -8128,6 +8131,10 @@ packages:
 
   /module-details-from-path@1.0.4:
     resolution: {integrity: sha512-EGWKgxALGMgzvxYF1UyGTy0HXX/2vHLkw6+NvDKW2jypWbHpjQuj4UMcqQWXHERJhVGKikolT06G3bcKe4fi7w==}
+    dev: true
+
+  /monaco-editor@0.52.2:
+    resolution: {integrity: sha512-GEQWEZmfkOGLdd3XK8ryrfWz3AIP8YymVXiPHEdewrUq7mh0qrKrfHLNCXcbB6sTnMLnOZ3ztSiKcciFUkIJwQ==}
     dev: true
 
   /motion@10.16.2:
