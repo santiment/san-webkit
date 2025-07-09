@@ -50,8 +50,6 @@ export function createEditor(domElement: HTMLElement, metadata: Partial<TMetadat
   setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], ...metadata })
 
   const editor = monaco.editor.create(domElement, {
-    //value,
-    //language: 'formula-lang',
     model,
 
     fontFamily: 'Menlo',

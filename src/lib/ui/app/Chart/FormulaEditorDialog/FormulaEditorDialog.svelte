@@ -56,7 +56,7 @@
         {/each}
 
         <h3 class="mt-2 font-medium">Functions</h3>
-        {#each ['sma', 'ema', 'rsi'] as fn}
+        {#each ['sma', 'ema', 'rsi', 'asset_metric'] as fn}
           <Button icon="fx">{fn}</Button>
         {/each}
       </div>

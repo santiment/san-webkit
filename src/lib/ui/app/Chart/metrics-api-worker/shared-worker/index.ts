@@ -117,6 +117,7 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
       })
     })
     .catch((error) => {
+      console.warn(error)
       if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {

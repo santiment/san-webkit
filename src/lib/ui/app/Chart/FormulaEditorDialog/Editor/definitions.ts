@@ -45,4 +45,19 @@ export const DEFINITIONS = [
       parameters: [{ label: 'data: Timeseries' }, { label: 'period: number' }],
     },
   },
+
+  {
+    label: 'asset_metric',
+    detail: 'Function', // Displayed in completion as a description on the right
+
+    kind: monaco.languages.CompletionItemKind.Function,
+    documentation: 'Asset Metric',
+    insertText: 'asset_metric(${1:"price_usd"}, ${2:"bitcoin"})',
+    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
+
+    signature: {
+      label: 'asset_metric(api_metric: string, slug: string)',
+      parameters: [{ label: 'api_metric: string' }, { label: 'slug: string' }],
+    },
+  },
 ]

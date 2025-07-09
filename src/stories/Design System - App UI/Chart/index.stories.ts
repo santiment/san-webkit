@@ -46,23 +46,23 @@ export const PriceFormula: Story = {
         style: 'line',
         scaleId: 'right-price_usd',
         formula: {
-          expr: 'sma(m3, 5)',
+          expr: 'x1 = asset_metric("price_usd", "bitcoin") \nsma(x1, 30)',
           locals: [],
         },
       },
 
-      {
-        name: 'FORMULA_1',
-        label: 'Custom Formula - Price SMA(30)',
-        style: 'line',
-        scaleId: 'right-price_usd',
-        formula: {
-          expr: 'sma(m1, 30)',
-          locals: [],
-          //expr: 'sma(x1, 30)',
-          //locals: [{ var: 'x1', metric: 'price_usd' }],
-        },
-      },
+      //{
+      //  name: 'FORMULA_1',
+      //  label: 'Custom Formula - Price SMA(30)',
+      //  style: 'line',
+      //  scaleId: 'right-price_usd',
+      //  formula: {
+      //    expr: 'sma(m1, 30)',
+      //    locals: [],
+      //    //expr: 'sma(x1, 30)',
+      //    //locals: [{ var: 'x1', metric: 'price_usd' }],
+      //  },
+      //},
     ],
   },
   parameters: {},

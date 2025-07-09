@@ -79,6 +79,26 @@ export function fetchFormulaMetric(
       throw new Error('Recursive formula expression')
     }
 
+    return createFetchJob(variable, metric)
+  })
+
+  const parsedExpression = math.parse(formula.expr)
+  const transformedExpression = parsedExpression.transform((node) => {
+    if (node instanceof math.FunctionNode && node.fn.name === 'asset_metric') {
+      const [metricNameNode, slugNode] = node.args
+
+      const variable = { name: '__asset_metric_1' }
+      const metric = { name: metricNameNode.value, selector: { slug: slugNode.value } }
+
+      fetchedMetrics.push(createFetchJob(variable, metric))
+
+      return new math.SymbolNode(variable.name)
+    }
+
+    return node
+  })
+
+  function createFetchJob(variable: { name: string }, metric: (typeof ctx)['metrics'][number]) {
     return new Promise<[string, TMetricData]>((resolve, reject) => {
       const rejectAndCancel = (reason?: any) => (
         reject(reason), ctx.cancelJobs(), deleteCache(), reason
@@ -97,12 +117,17 @@ export function fetchFormulaMetric(
 
       ctx.addJob(dataRequest)
     })
-  })
+  }
 
   return Promise.all(fetchedMetrics).then((metrics) => {
     const scope = new Map(metrics.map(([variable, data]) => [variable, new Timeseries(data)]))
 
-    const result = math.evaluate(formula.expr, scope)
+    const compiledFormula = transformedExpression.compile()
+    const rawAnswer = compiledFormula.evaluate(scope)
+
+    const result = math.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
+
+    //const result = math.evaluate(formula.expr, scope)
 
     let timeseries: TMetricData = []
 
@@ -114,6 +139,9 @@ export function fetchFormulaMetric(
     }
 
     cachePromiseController.resolve(timeseries)
+
+    const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
+    console.log({ usedVariables })
 
     return timeseries
   })
