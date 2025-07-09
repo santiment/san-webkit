@@ -1,6 +1,6 @@
 import type { editor } from 'monaco-editor'
 
-type TMetadata = {
+export type TMetadata = {
   localVariables: string[]
   chartVariables: string[]
 }

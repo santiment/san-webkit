@@ -14,7 +14,7 @@ import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineComp
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
 import './language.js'
-import { setModelMetadata } from './metadata.js'
+import { setModelMetadata, type TMetadata } from './metadata.js'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (moduleId, label) {
@@ -34,11 +34,11 @@ self.MonacoEnvironment = {
   },
 }
 
-type TEditor = monaco.editor.IStandaloneCodeEditor
+export type TEditor = monaco.editor.IStandaloneCodeEditor
 
 const LINE_HEIGHT = 24
 
-export function createEditor(domElement: HTMLElement): TEditor {
+export function createEditor(domElement: HTMLElement, metadata: Partial<TMetadata>): TEditor {
   const value = [
     '/* Example formula */',
     'x1 = sma(m1, 5)',
@@ -47,7 +47,7 @@ export function createEditor(domElement: HTMLElement): TEditor {
   ].join('\n')
 
   const model = monaco.editor.createModel(value, 'formula-lang')
-  setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], chartVariables: ['m1', 'm2'] })
+  setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], ...metadata })
 
   const editor = monaco.editor.create(domElement, {
     //value,
@@ -80,7 +80,7 @@ export function createEditor(domElement: HTMLElement): TEditor {
 
   //let ignoreEvent = false
   const updateHeight = () => {
-    const contentWidth = domElement.offsetWidth - 1
+    const contentWidth = domElement.offsetWidth - 2
     const contentHeight = Math.min(LINE_HEIGHT * 8, editor.getContentHeight())
 
     domElement.style.height = `${contentHeight + 2}px`

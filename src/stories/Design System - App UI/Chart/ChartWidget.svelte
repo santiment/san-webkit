@@ -71,8 +71,6 @@
 
     downloadCsv(filename, headers, rows)
   }
-
-  showFormulaEditorDialog()
 </script>
 
 <div class="relative column">
@@ -92,7 +90,7 @@
       <div
         class="rounded border p-1"
         style="border-color:{metric.color.$}"
-        onclick={metric.formula ? () => showFormulaEditorDialog() : null}
+        onclick={metric.formula ? () => showFormulaEditorDialog({ metric }) : null}
       >
         {metric.label}
       </div>
