@@ -15,7 +15,7 @@ type TRequestFn = <GType extends TMessageTypeValues>(
 ) => void
 
 export const metricsApiSharedWorker = new SharedWorker(
-  new URL('./shared-worker.js', import.meta.url),
+  new URL('./shared-worker/index.js', import.meta.url),
   { type: 'module' },
 )
 // metricsApiSharedWorker.port.start() // IS REQUIRED WHEN USING addEventListener

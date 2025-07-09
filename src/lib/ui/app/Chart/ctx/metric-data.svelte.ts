@@ -1,5 +1,8 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
-import type { TFetchMetricMessage } from '../metrics-api-worker/types.js'
+import type {
+  TFetchFormulaMetricMessage,
+  TFetchMetricMessage,
+} from '../metrics-api-worker/types.js'
 
 import { untrack } from 'svelte'
 
@@ -7,12 +10,12 @@ import { type TExecutorOptions } from '$lib/api/index.js'
 import { createCtx } from '$lib/utils/index.js'
 
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
-import { type TSeries } from './series.svelte.js'
+import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
-import { workerFetchMetric } from '../metrics-api-worker/index.js'
+import { workerFetchFormulaMetric, workerFetchMetric } from '../metrics-api-worker/index.js'
 
 export type TLocalParameters = {
   metric: string
@@ -34,11 +37,15 @@ export const useApiMetricFetchSettingsCtx = createCtx(
 
 export function useApiMetricDataFlow(
   metric: TSeries,
+  index: number,
   settings?: { priority?: number; minimalDelay?: number },
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { metricSeries } = useMetricSeriesCtx.get()
 
-  function onWorkerData(msg: TFetchMetricMessage['response']) {
+  function onWorkerData(
+    msg: TFetchMetricMessage['response'] | TFetchFormulaMetricMessage['response'],
+  ) {
     if ('error' in msg.payload) {
       metric.data.$ = []
       metric.loading.$ = false
@@ -55,6 +62,10 @@ export function useApiMetricDataFlow(
   }
 
   $effect(() => {
+    //if (meric.formula?.valid === false) {
+    //  return
+    //}
+
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
@@ -72,7 +83,22 @@ export function useApiMetricDataFlow(
     }
 
     const payload = { priority, minimalDelay, parameters }
-    const workerRequest = workerFetchMetric(payload, onWorkerData)
+    const workerRequest = metric.formula
+      ? workerFetchFormulaMetric(
+          {
+            ...payload,
+            index,
+            formula: metric.formula,
+            metrics: metricSeries.asScope$,
+          },
+          onWorkerData,
+        )
+      : workerFetchMetric(payload, onWorkerData)
+
+    untrack(() => {
+      metric.loading.$ = true
+      metric.data.$ = []
+    })
 
     return () => {
       workerRequest.cancel()

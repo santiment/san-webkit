@@ -1,5 +1,5 @@
 import type { TNominal } from '$lib/utils/index.js'
-import type { TInterval, TMetricData } from '../api/index.js'
+import type { TInterval, TMetricData, TMetricTargetSelectorInputObject } from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
 
@@ -8,6 +8,7 @@ export type TMessageId = TNominal<number, 'TMessageId'>
 export const MESSAGE_TYPE = {
   CancelRequest: 0,
   FetchMetric: 1,
+  FetchFormulaMetric: 2,
 } as const
 
 export type TMessageType = {
@@ -40,24 +41,44 @@ export type TMessageRequestResponse<
 
 export type TCancelRequestMessage = TMessageRequestResponse<TMessageType['CancelRequest']>
 
+export type TMetricParameters = TLocalParameters & {
+  selector: TGlobalParameters['selector']
+  interval: TInterval
+  from: string
+  to: string
+}
 export type TFetchMetricMessage = TMessageRequestResponse<
   TMessageType['FetchMetric'],
   {
     minimalDelay?: number
     priority?: number
-    parameters: TLocalParameters & {
-      selector: TGlobalParameters['selector']
-      interval: TInterval
-      from: string
-      to: string
-    }
+    parameters: TMetricParameters
+  },
+  { timeseries: TMetricData } | { error: any }
+>
+
+export type TMetricFormula = { expr: string }
+
+export type TFetchFormulaMetricMessage = TMessageRequestResponse<
+  TMessageType['FetchFormulaMetric'],
+  {
+    minimalDelay?: number
+    priority?: number
+    parameters: TMetricParameters
+    index: number
+    formula: TMetricFormula
+    metrics: {
+      name: string
+      selector: null | TMetricTargetSelectorInputObject
+      formula?: TMetricFormula
+    }[]
   },
   { timeseries: TMetricData } | { error: any }
 >
 
 //
 
-export type TMessages = TCancelRequestMessage | TFetchMetricMessage
+export type TMessages = TCancelRequestMessage | TFetchMetricMessage | TFetchFormulaMetricMessage
 
 //
 
@@ -76,4 +97,4 @@ export type TRequestHandler<GMessage extends TMessages> = (
     data: Omit<GMessage['response'], 'id' | 'type'>,
   ) => void,
   msg: GMessage['request'],
-) => void | (() => void)
+) => unknown extends GMessage['response']['payload'] ? void : () => void

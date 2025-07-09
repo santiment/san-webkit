@@ -70,8 +70,8 @@
 ></canvas>
 
 {#if canvasNode}
-  {#each metricSeries.$.slice(0, 4) as item (item.id)}
-    <Metric series={item} {canvasNode} register={registerMetricPainter}></Metric>
+  {#each metricSeries.$.slice(0, 4) as item, index (item.id)}
+    <Metric {index} series={item} {canvasNode} register={registerMetricPainter}></Metric>
   {/each}
 {/if}
 

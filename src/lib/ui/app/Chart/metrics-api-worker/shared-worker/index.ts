@@ -1,16 +1,18 @@
 import { Query } from '$lib/api/executor.js'
-import { JobScheduler } from '$lib/utils/job-scheduler.js'
+import { JobScheduler, type TJob } from '$lib/utils/job-scheduler.js'
 
-import { queryGetMetric } from '../api/index.js'
+import { queryGetMetric } from '../../api/index.js'
 import {
   MESSAGE_TYPE,
+  type TFetchFormulaMetricMessage,
   type TCancelRequestMessage,
   type TFetchMetricMessage,
   type TMessageId,
   type TMessages,
   type TRequestHandler,
   type TRespondFn,
-} from './types.js'
+} from '../types.js'
+import { fetchFormulaMetric } from './formula-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
@@ -27,7 +29,10 @@ onconnect = function (event: MessageEvent<unknown>) {
 
     switch (msg.type) {
       case MESSAGE_TYPE.FetchMetric:
-        return WORK_CANCEL_MAP.set(msg.id, handleFetchMetric(respond, msg)!)
+        return WORK_CANCEL_MAP.set(msg.id, handleFetchMetric(respond, msg))
+
+      case MESSAGE_TYPE.FetchFormulaMetric:
+        return WORK_CANCEL_MAP.set(msg.id, handleFetchFormulaMetric(respond, msg))
 
       case MESSAGE_TYPE.CancelRequest:
         return handleCancelRequest(respond, msg)
@@ -57,13 +62,13 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
       to: parameters.to,
       interval: parameters.interval,
     })
-      .then((data) => {
+      .then((timeseries) => {
         if (isCancelled) {
           return
         }
 
         respond(MESSAGE_TYPE.FetchMetric, {
-          payload: { timeseries: data },
+          payload: { timeseries },
         })
       })
       .catch((err) => {
@@ -85,5 +90,46 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
     isCancelled = true
 
     if (job) jobScheduler.cancelJob(job)
+  }
+}
+
+const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (respond, msg) => {
+  const { minimalDelay, parameters, formula, index, metrics } = msg.payload
+
+  // NOTE: Decreasing priority of the formula metric
+  const jobSettings = { minimalDelay, priority: (msg.payload.priority || 1) * 10 }
+  const jobs: TJob[] = []
+
+  const cancelJobs = () => jobs.forEach((job) => jobScheduler.cancelJob(job))
+  const addJob = (dataRequest: () => Promise<any>) => {
+    const job = jobScheduler.schedule(dataRequest, undefined, jobSettings)
+    if (job) jobs.push(job)
+  }
+
+  const ctx = { metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
+
+  fetchFormulaMetric(formula, index, ctx)
+    .then((timeseries) => {
+      if (ctx.isCancelled) return
+
+      respond(MESSAGE_TYPE.FetchFormulaMetric, {
+        payload: { timeseries },
+      })
+    })
+    .catch((error) => {
+      if (ctx.isCancelled) return
+
+      respond(MESSAGE_TYPE.FetchFormulaMetric, {
+        payload: { error },
+      })
+    })
+    .finally(() => {
+      WORK_CANCEL_MAP.delete(msg.id)
+    })
+
+  return () => {
+    ctx.isCancelled = true
+
+    cancelJobs()
   }
 }

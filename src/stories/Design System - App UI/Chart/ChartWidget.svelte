@@ -56,8 +56,8 @@
       localization: { timeFormatter },
     }}
   >
-    {#each metricSeries.$ as item (item.id)}
-      <ApiMetricSeries series={item}></ApiMetricSeries>
+    {#each metricSeries.$ as item, index (item.id)}
+      <ApiMetricSeries {index} series={item}></ApiMetricSeries>
     {/each}
 
     <SpikeExplanations>

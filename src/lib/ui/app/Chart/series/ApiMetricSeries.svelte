@@ -8,12 +8,13 @@
 
   type TProps = {
     series: TSeries
+    index: number
   }
 
-  let { series }: TProps = $props()
+  let { series, index }: TProps = $props()
 
   const { settings = { priority: 0 } } = useItemViewportPriorityCtx.get() || {}
-  useApiMetricDataFlow(series, settings)
+  useApiMetricDataFlow(series, index, settings)
 </script>
 
 {#key series.type.$}
