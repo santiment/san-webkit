@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Action } from 'svelte/action'
-  import type { createEditor } from './editor.js'
+  import type { createEditor } from '$ui/app/san-formulas/language/editor.js'
 
   import Svg from '$ui/core/Svg/Svg.svelte'
 
@@ -12,7 +12,17 @@
     node: HTMLElement,
     { createEditor },
   ) => {
-    const editor = createEditor(node, { chartVariables })
+    const editor = createEditor(
+      node,
+      [
+        '# Example formula',
+        'x1 = sma(m1, 5)',
+        'x2 = ema(m2, 10) + 5',
+        'x3 = rsi(m3, 14) * 2 - 1',
+      ].join('\n'),
+
+      { chartVariables },
+    )
 
     return {
       destroy() {
@@ -22,7 +32,7 @@
   }
 </script>
 
-{#await import('./editor.js')}
+{#await import('../../../san-formulas/language/editor.js')}
   <div class="h-8"></div>
 {:then { createEditor }}
   <div

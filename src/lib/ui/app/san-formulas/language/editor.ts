@@ -1,23 +1,22 @@
 //import 'monaco-editor/esm/vs/editor/browser/coreCommands.js'
 
 // eslint-disable-next-line import/order
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
-//import * as monaco from 'monaco-editor'
+import { editor as monacoEditor } from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import 'monaco-editor/esm/vs/editor/contrib/parameterHints/browser/parameterHints.js'
 import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineCompletions.contribution.js'
-//import 'monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestController.js'
-//import 'monaco-editor/esm/vs/editor/contrib/suggest/browser/suggestInlineCompletions.js'
-
-//import 'monaco-editor/esm/vs/basic-languages/python/python.contribution.js'
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
 import { setModelMetadata, type TMetadata } from './metadata.js'
 import { LANGUAGE_ID } from './language.js'
+import './tokens-provider.js'
+import './completion-provider.js'
+import './signature-help-provider.js'
 
 self.MonacoEnvironment = {
-  getWorkerUrl: function (moduleId, label) {
+  // @ts-ignore
+  getWorkerUrl: function (_moduleId, _label) {
     // if (label === 'json') {
     // 	return './json.worker.bundle.js';
     // }
@@ -34,22 +33,19 @@ self.MonacoEnvironment = {
   },
 }
 
-export type TEditor = monaco.editor.IStandaloneCodeEditor
-
 const LINE_HEIGHT = 24
 
-export function createEditor(domElement: HTMLElement, metadata: Partial<TMetadata>): TEditor {
-  const value = [
-    '/* Example formula */',
-    'x1 = sma(m1, 5)',
-    'x2 = ema(m2, 10) + 5',
-    'x3 = rsi(m3, 14) * 2 - 1',
-  ].join('\n')
+export type TEditor = monacoEditor.IStandaloneCodeEditor
 
-  const model = monaco.editor.createModel(value, LANGUAGE_ID)
-  setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], ...metadata })
+export function createEditor(
+  domElement: HTMLElement,
+  value: string,
+  metadata: Partial<TMetadata>,
+): TEditor {
+  const model = monacoEditor.createModel(value, LANGUAGE_ID)
+  setModelMetadata(model, { ...metadata })
 
-  const editor = monaco.editor.create(domElement, {
+  const editor = monacoEditor.create(domElement, {
     model,
 
     fontFamily: 'Menlo',
@@ -101,5 +97,6 @@ export function createEditor(domElement: HTMLElement, metadata: Partial<TMetadat
     }
   })
 
+  // TODO: dispose model and editor  on unmount?
   return editor
 }

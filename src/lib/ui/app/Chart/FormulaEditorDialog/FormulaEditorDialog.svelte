@@ -10,10 +10,10 @@
 <script lang="ts">
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
+  import { DEFINITIONS } from '$ui/app/san-formulas/language/definitions.js'
 
   import Editor from './Editor/index.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
-    import { DEFINITIONS } from './Editor/definitions.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
