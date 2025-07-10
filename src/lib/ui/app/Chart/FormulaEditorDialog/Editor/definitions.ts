@@ -1,63 +1,60 @@
-import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
+import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
+
+const FunctionSignature = (fnName: string, ...args: string[]) => ({
+  label: fnName,
+  detail: 'Function', // Displayed in completion as a description on the right
+
+  kind: CompletionKind.Function,
+  insertTextRules: CompletionInsertTextRule.InsertAsSnippet,
+
+  signature: {
+    label: `${fnName}(${args.join(', ')})`,
+    parameters: args.map((label) => ({ label })),
+  },
+})
+
+type TCompletionItemKind = typeof monaco.languages.CompletionItemKind
+type TCompletionItemKindRecord = {
+  [K in keyof TCompletionItemKind]?: TCompletionItemKind[K]
+}
+const CompletionKind = {
+  Function: 1,
+} satisfies TCompletionItemKindRecord
+
+type TCompletionItemInsertTextRule = typeof monaco.languages.CompletionItemInsertTextRule
+type TCompletionItemInsertTextRuleRecord = {
+  [K in keyof TCompletionItemInsertTextRule]?: TCompletionItemInsertTextRule[K]
+}
+const CompletionInsertTextRule = {
+  InsertAsSnippet: 4,
+} satisfies TCompletionItemInsertTextRuleRecord
 
 export const DEFINITIONS = [
   {
-    label: 'sma',
-    detail: 'Function', // Displayed in completion as a description on the right
+    ...FunctionSignature('sma', 'data: Timeseries', 'period: Number'),
 
-    kind: monaco.languages.CompletionItemKind.Function,
     documentation: 'Simple Moving Average',
     insertText: 'sma(${1:m1}, ${2:30})',
-    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-
-    signature: {
-      label: 'sma(data: Timeseries, period: number)',
-      parameters: [{ label: 'data: Timeseries' }, { label: 'period: number' }],
-    },
   },
 
   {
-    label: 'ema',
-    detail: 'Function', // Displayed in completion as a description on the right
+    ...FunctionSignature('ema', 'data: Timeseries', 'period: Number'),
 
-    kind: monaco.languages.CompletionItemKind.Function,
     documentation: 'Exponential Moving Average',
     insertText: 'ema(${1:m1}, ${2:30})',
-    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-
-    signature: {
-      label: 'ema(data: Timeseries, period: number)',
-      parameters: [{ label: 'data: Timeseries' }, { label: 'period: number' }],
-    },
   },
 
   {
-    label: 'rsi',
-    detail: 'Function', // Displayed in completion as a description on the right
+    ...FunctionSignature('rsi', 'data: Timeseries', 'period: Number'),
 
-    kind: monaco.languages.CompletionItemKind.Function,
     documentation: 'Relative Strength Index',
     insertText: 'rsi(${1:m1}, ${2:30})',
-    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-
-    signature: {
-      label: 'rsi(data: Timeseries, period: number)',
-      parameters: [{ label: 'data: Timeseries' }, { label: 'period: number' }],
-    },
   },
 
   {
-    label: 'asset_metric',
-    detail: 'Function', // Displayed in completion as a description on the right
+    ...FunctionSignature('asset_metric', 'api_metric: String', 'asset_slug: String'),
 
-    kind: monaco.languages.CompletionItemKind.Function,
     documentation: 'Asset Metric',
     insertText: 'asset_metric(${1:"price_usd"}, ${2:"bitcoin"})',
-    insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet,
-
-    signature: {
-      label: 'asset_metric(api_metric: string, slug: string)',
-      parameters: [{ label: 'api_metric: string' }, { label: 'slug: string' }],
-    },
   },
 ]

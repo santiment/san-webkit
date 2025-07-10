@@ -13,8 +13,8 @@ import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineComp
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
-import './language.js'
 import { setModelMetadata, type TMetadata } from './metadata.js'
+import { LANGUAGE_ID } from './language.js'
 
 self.MonacoEnvironment = {
   getWorkerUrl: function (moduleId, label) {
@@ -46,7 +46,7 @@ export function createEditor(domElement: HTMLElement, metadata: Partial<TMetadat
     'x3 = rsi(m3, 14) * 2 - 1',
   ].join('\n')
 
-  const model = monaco.editor.createModel(value, 'formula-lang')
+  const model = monaco.editor.createModel(value, LANGUAGE_ID)
   setModelMetadata(model, { localVariables: ['x1', 'x2', 'x3'], ...metadata })
 
   const editor = monaco.editor.create(domElement, {

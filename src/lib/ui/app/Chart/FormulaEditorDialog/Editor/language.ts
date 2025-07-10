@@ -3,9 +3,11 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 import { getModelMetadata } from './metadata.js'
 import { DEFINITIONS } from './definitions.js'
 
-monaco.languages.register({ id: 'formula-lang' })
+export const LANGUAGE_ID = 'san-formulas'
 
-monaco.languages.setLanguageConfiguration('formula-lang', {
+monaco.languages.register({ id: LANGUAGE_ID })
+
+monaco.languages.setLanguageConfiguration(LANGUAGE_ID, {
   comments: {
     blockComment: ['/*', '*/'],
   },
@@ -21,7 +23,7 @@ monaco.languages.setLanguageConfiguration('formula-lang', {
 })
 
 // NOTE: https://microsoft.github.io/monaco-editor/monarch.html
-monaco.languages.setMonarchTokensProvider('formula-lang', {
+monaco.languages.setMonarchTokensProvider(LANGUAGE_ID, {
   //defaultToken: '',
 
   keywords: DEFINITIONS.map((item) => item.label),
@@ -91,7 +93,7 @@ monaco.languages.setMonarchTokensProvider('formula-lang', {
   },
 })
 
-monaco.languages.registerCompletionItemProvider('formula-lang', {
+monaco.languages.registerCompletionItemProvider(LANGUAGE_ID, {
   provideCompletionItems: function (model, position) {
     const { localVariables = [], chartVariables = [] } = getModelMetadata(model)
 
@@ -134,7 +136,7 @@ const SIGNATURES = DEFINITIONS.map((item, i) => {
   return item.signature
 })
 
-monaco.languages.registerSignatureHelpProvider('formula-lang', {
+monaco.languages.registerSignatureHelpProvider(LANGUAGE_ID, {
   signatureHelpTriggerCharacters: ['(', ','],
   provideSignatureHelp: (model, position) => {
     // Get the text until the current position

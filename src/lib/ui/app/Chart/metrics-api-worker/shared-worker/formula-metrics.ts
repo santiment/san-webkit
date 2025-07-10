@@ -126,7 +126,6 @@ export function fetchFormulaMetric(
     const rawAnswer = compiledFormula.evaluate(scope)
 
     const result = math.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
-
     //const result = math.evaluate(formula.expr, scope)
 
     let timeseries: TMetricData = []
