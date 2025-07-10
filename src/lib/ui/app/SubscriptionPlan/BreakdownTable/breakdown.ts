@@ -106,18 +106,6 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   },
 
   {
-    category: 'Queries',
-    features: [
-      { name: 'Historical data access', isLimit: true },
-      { name: 'Credits', isLimit: true },
-      { name: 'Executed queries / minute restriction', isLimit: true },
-      { name: 'Executed queries / hour restriction', isLimit: true },
-      { name: 'Executed queries / day restriction', isLimit: true },
-      { name: 'Private queries', isLimit: true },
-    ],
-  },
-
-  {
     category: 'Support',
     features: [
       { name: 'Support through Intercom/Discord', isCheck: true },
@@ -150,18 +138,6 @@ export const BUSINESS_PLANS_BREAKDOWN = [
       { name: 'API calls / minute', isLimit: true },
       { name: 'API calls / hour', isLimit: true },
       { name: 'API calls / month', isLimit: true },
-    ],
-  },
-
-  {
-    category: 'Queries',
-    features: [
-      { name: 'Historical data access', isLimit: true },
-      { name: 'Credits', isLimit: true },
-      { name: 'Rate limit / minute', isLimit: true },
-      { name: 'Rate limit / hour', isLimit: true },
-      { name: 'Rate limit / day', isLimit: true },
-      { name: 'Private queries', isLimit: true },
     ],
   },
 

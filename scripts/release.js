@@ -50,6 +50,7 @@ export async function release() {
   await exec('git rm --cached -r tests', false)
   await exec('git rm --cached -r src', false)
   await exec('git rm --cached -r static', false)
+  await exec('git rm --cached -r vite.config.ts', false)
 
   fs.writeFileSync(
     '.gitignore',
@@ -63,6 +64,7 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+vite.config.ts
 *storybook.log
 
 
@@ -170,9 +172,9 @@ async function replaceStaticMetricsRestrictions() {
 }
 
 async function replaceSrcImports() {
-  await forFile(['./vite.config.*'], (entry) => {
+  await forFile(['./vite.config.*', './plugins/vite.*'], (entry) => {
     const file = fs.readFileSync(entry)
-    fs.writeFileSync(entry, file.toString().replace('/src/lib/', '/dist/'))
+    fs.writeFileSync(entry, file.toString().replaceAll('/src/lib/', '/dist/'))
   })
 
   await forFile(['./dist/**/metrics-registry/restrictions/api.*'], (entry) => {

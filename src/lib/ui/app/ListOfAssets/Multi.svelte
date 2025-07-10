@@ -6,6 +6,7 @@
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
+  import { cn } from '$ui/utils/index.js'
 
   import Layout from './Layout.svelte'
   import AssetItem from './AssetItem.svelte'
@@ -91,20 +92,30 @@
 
     <VirtualList
       bind:handle={vlistHandle}
-      class="pt-4"
+      class="pt-4 md:pt-6"
       itemHeight={36}
       data={items}
       getKey={({ value, key }) => key ?? (typeof value === 'string' ? value : value.slug)}
     >
-      {#snippet children({ type, value, isActive })}
+      {#snippet children({ type, value, isActive }, i)}
         {#if type === 'item'}
-          <AssetItem item={value} onclick={() => onSelect(value.slug)}>
-            <Checkbox isActive={isActive || selected.has(value.slug)} />
+          <AssetItem class="group" item={value} onclick={() => onSelect(value.slug)}>
+            <Checkbox
+              class="group-hover:border-green"
+              isActive={isActive || selected.has(value.slug)}
+            />
           </AssetItem>
         {:else if type === 'title'}
-          <h4 class="mb-4 text-xs font-medium text-waterloo">{value}</h4>
+          <h4
+            class={cn(
+              'mb-2.5 px-2 text-xs font-semibold text-waterloo md:px-3 md:text-sm md:font-normal',
+              i !== 0 && 'mt-3 md:mt-4',
+            )}
+          >
+            {value}
+          </h4>
         {:else if type === 'reset' && selections.length}
-          <Button variant="border" class="mb-2 text-center" onclick={resetSelections}>
+          <Button variant="border" class="mx-2 mb-2 text-center" onclick={resetSelections}>
             Reset to All projects
           </Button>
         {/if}

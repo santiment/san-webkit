@@ -1,5 +1,5 @@
-import { type TNominal } from '$lib/utils/index.js'
-import { ApiQuery } from '$lib/api/index.js'
+import { type TNominal } from '../../utils/types/index.js'
+import { ApiQuery } from '../../api/index.js'
 
 export type TAssetSlug = TNominal<string, 'TAssetSlug'>
 export type TAsset = {

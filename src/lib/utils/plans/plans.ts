@@ -41,20 +41,38 @@ export function getPlanData<T extends TPlan>(plan: T) {
   return PLAN_MAP[plan]
 }
 
-export const checkIsBusinessPlan = (planName: string | undefined): planName is TBusinessPlan =>
-  planName ? BUSINESS_PLANS.has(planName as TBusinessPlan) : false
+const checkIsCustomPlan = (planName: string | undefined) =>
+  planName?.startsWith(Plan.CUSTOM) ?? false
 
-export const checkIsConsumerPlan = (planName: string | undefined): planName is TConsumerPlan =>
-  planName ? CONSUMER_PLANS.has(planName as TConsumerPlan) : false
+const checkIsPlan = (planName: string | undefined): planName is TPlan =>
+  planName ? PLANS.has(planName as TPlan) : false
 
-export const checkIsPlan = (planName: string | undefined): planName is TPlan =>
-  planName ? checkIsBusinessPlan(planName) || checkIsConsumerPlan(planName) : false
+export function planFromRaw(planName: string | undefined): TPlan | null {
+  if (checkIsCustomPlan(planName)) return Plan.CUSTOM
+  if (checkIsPlan(planName)) return planName
 
-export function isPlanEligibleFor(planName: string, target: TPlan) {
-  if (!checkIsPlan(planName)) return false
-
-  return getPlanData(planName).level >= getPlanData(target).level
+  return null
 }
 
-export const getPlanDisplayName = (planName: string) =>
-  checkIsPlan(planName) ? getPlanData(planName).name : planName
+export function checkIsBusinessPlan(planName: string | undefined) {
+  const plan = planFromRaw(planName)
+  return plan ? BUSINESS_PLANS.has(plan as TBusinessPlan) : false
+}
+
+export function checkIsConsumerPlan(planName: string | undefined) {
+  const plan = planFromRaw(planName)
+
+  return plan ? CONSUMER_PLANS.has(plan as TConsumerPlan) : false
+}
+
+export function isPlanEligibleFor(planName: string, target: TPlan) {
+  const plan = planFromRaw(planName)
+  if (!plan) return false
+
+  return getPlanData(plan).level >= getPlanData(target).level
+}
+
+export const getPlanDisplayName = (planName: string) => {
+  const plan = planFromRaw(planName)
+  return plan ? getPlanData(plan).name : planName
+}

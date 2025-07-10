@@ -25,7 +25,7 @@
     {@render children()}
   </header>
 
-  {#each breakdown as { category, features, link }}
+  {#each breakdown as { category, features, link } (category)}
     <section
       class={cn(
         'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b [&>.tr:last-child>*]:sm:!pb-10',

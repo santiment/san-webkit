@@ -1,4 +1,11 @@
-import { checkIsBusinessPlan, checkIsConsumerPlan, getPlanData, Plan, type TPlan } from './plans.js'
+import {
+  checkIsBusinessPlan,
+  checkIsConsumerPlan,
+  getPlanData,
+  Plan,
+  planFromRaw,
+  type TPlan,
+} from './plans.js'
 import { checkIsSanApiProduct, checkIsSanbaseProduct } from './products.js'
 
 type Subscription = { planName: string; productName?: string; productId?: string }
@@ -15,10 +22,11 @@ function getCheckerForProduct({ productId, productName }: Subscription) {
 
 function getPlanSubscription(sub: Subscription) {
   const checker = getCheckerForProduct(sub)
+  const plan = planFromRaw(sub.planName)
 
-  if (!checker) return null
+  if (!checker || !plan) return null
 
-  return checker(sub.planName) ? sub.planName : null
+  return checker(plan) ? plan : null
 }
 
 export function extractPlanFromSubscriptions(subscriptions: Subscription[]): TPlan {

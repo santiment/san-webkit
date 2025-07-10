@@ -166,19 +166,23 @@ type TFormattedTime = {
   HH: number | string
   m: number
   mm: number | string
+  s: number
+  ss: string | number
 }
 export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime {
   const UTC = utc ? 'UTC' : ''
 
   const m = date[`get${UTC}Minutes`]()
   const H = date[`get${UTC}Hours`]()
-  // const s = date[`get${UTC}Seconds`]()
+  const s = date[`get${UTC}Seconds`]()
 
   return {
     H,
     HH: H < 10 ? `0${H}` : H,
     m,
     mm: m < 10 ? `0${m}` : m,
+    s,
+    ss: s < 10 ? `0${s}` : s,
   }
 }
 
@@ -230,9 +234,9 @@ export function suggestPeriodInterval(from: Date, to: Date) {
   if (diff < 33) return '2h'
   if (diff < 63) return '3h'
   if (diff < 100) return '4h'
-  if (diff < 185) return '6h'
+  //if (diff < 185) return '6h'
   if (diff < 360) return '8h'
-  if (diff < 520) return '12h'
+  //if (diff < 520) return '12h'
   if (diff < 800) return '1d'
   if (diff < 1400) return '2d'
 

@@ -1,8 +1,10 @@
 <script lang="ts">
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
+  import { downloadCsv } from '$lib/utils/csv.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
-  import { useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
+  import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
+  import { useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
@@ -12,6 +14,7 @@
   } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
   let { viewportPriority = false } = $props()
 
@@ -25,6 +28,45 @@
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
+  }
+
+  function mergeSeries(series: TSeries[]) {
+    const map = new Map<number, Record<string, any>>()
+
+    for (const s of series) {
+      const key = s.apiMetricName
+      for (const { time, value } of s.data.$) {
+        if (!map.has(time)) map.set(time, { time })
+        map.get(time)![key] = value
+      }
+    }
+
+    return Array.from(map.values()).sort((a, b) => a.time - b.time)
+  }
+
+  function buildHeaders(series: TSeries[]) {
+    const dateHeader = {
+      title: 'Date',
+      format: (row: any) => new Date(row.time * 1000).toISOString(),
+    }
+
+    const metricHeaders = series.map((metric) => ({
+      title: metric.label,
+      format: (row: any) => row[metric.apiMetricName] ?? '',
+    }))
+
+    return [dateHeader, ...metricHeaders]
+  }
+
+  function exportCSV() {
+    const rows = mergeSeries(metricSeries.$)
+    const headers = buildHeaders(metricSeries.$)
+
+    const filename = metricSeries.$.map((s) => s.apiMetricName)
+      .join(', ')
+      .replace(/[<>:"/\\|?*]+/g, '_')
+
+    downloadCsv(filename, headers, rows)
   }
 </script>
 
@@ -44,6 +86,8 @@
         {metric.label}
       </div>
     {/each}
+
+    <Button icon="download" variant="fill" onclick={exportCSV}>Download as CSV</Button>
   </div>
 
   <Chart
@@ -55,11 +99,15 @@
       localization: { timeFormatter },
     }}
   >
-    {#each metricSeries.$ as item (item.id)}
-      <ApiMetricSeries series={item}></ApiMetricSeries>
+    {#each metricSeries.$ as item, index (item.id)}
+      <ApiMetricSeries {index} series={item}></ApiMetricSeries>
     {/each}
 
-    <SpikeExplanations></SpikeExplanations>
+    <SpikeExplanations>
+      {#snippet children({ slug, explanation })}
+        <AskForInsightButton {slug} {explanation}></AskForInsightButton>
+      {/snippet}
+    </SpikeExplanations>
 
     <PaneLegend>
       {#snippet children({ metrics })}

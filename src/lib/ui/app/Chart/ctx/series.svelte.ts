@@ -50,7 +50,12 @@ export function createSeries({
 
   tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
-}: TMetric & { selector?: TMetricSelector | SS<TMetricSelector> }) {
+
+  formula,
+}: TMetric & {
+  selector?: TMetricSelector | SS<TMetricSelector>
+  formula?: { expr: string }
+}) {
   const scale = $state({
     id: scaleId || name,
     visible: true,
@@ -90,6 +95,8 @@ export function createSeries({
     selector: ss<null | TMetricTargetSelectorInputObject>(selector),
 
     chartSeriesApi: null as null | ISeriesApi<any>,
+
+    formula,
   }
 }
 
@@ -104,11 +111,24 @@ export const useMetricSeriesCtx = createCtx(
       }),
     )
 
+    const asScope = $derived(
+      series.map((item) => ({
+        name: item.apiMetricName,
+        selector: $state.snapshot(item.selector.$),
+        formula: item.formula,
+      })),
+    )
+
     return {
       metricSeries: {
         get $() {
           return series
         },
+
+        get asScope$() {
+          return asScope
+        },
+
         add(metric: TMetric) {
           series.push(createSeries(metric))
           series = series.slice()

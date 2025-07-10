@@ -1,23 +1,23 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
+import type {
+  TFetchFormulaMetricMessage,
+  TFetchMetricMessage,
+} from '../metrics-api-worker/types.js'
 
-import { catchError, finalize, from, of, switchMap, tap } from 'rxjs'
 import { untrack } from 'svelte'
 
-import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
 import { type TExecutorOptions } from '$lib/api/index.js'
-import { RxQuery } from '$lib/api/executor.js'
-import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
+import { createCtx } from '$lib/utils/index.js'
 
-import { useChartGlobalParametersCtx, type TGlobalParameters } from './global-parameters.svelte.js'
-import { type TSeries } from './series.svelte.js'
+import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
+import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
-  queryGetMetric,
-  type TInterval,
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import { workerFetchFormulaMetric, workerFetchMetric } from '../metrics-api-worker/index.js'
 
-type TLocalParameters = {
+export type TLocalParameters = {
   metric: string
   selector?: null | TMetricTargetSelectorInputObject
   transform?: null | TTimeseriesMetricTransformInputObject
@@ -37,102 +37,71 @@ export const useApiMetricFetchSettingsCtx = createCtx(
 
 export function useApiMetricDataFlow(
   metric: TSeries,
+  index: number,
   settings?: { priority?: number; minimalDelay?: number },
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
-  const { fetcher, jobScheduler } = useApiMetricFetchSettingsCtx()
+  const { metricSeries } = useMetricSeriesCtx.get()
 
-  const loadMetricData = useObserveFnCall<{
-    localParameters: TLocalParameters
-    globalParameters: TGlobalParameters & { interval: TInterval }
-    scheduledData: TScheduledData
-  }>(() =>
-    switchMap(({ localParameters, globalParameters, scheduledData }) => {
-      metric.loading.$ = true
+  function onWorkerData(
+    msg: TFetchMetricMessage['response'] | TFetchFormulaMetricMessage['response'],
+  ) {
+    if ('error' in msg.payload) {
       metric.data.$ = []
+      metric.loading.$ = false
+      metric.error.$ = msg.payload.error
 
-      const queryData$ = () =>
-        queryGetMetric({ executor: RxQuery, fetcher })({
-          metric: localParameters.metric,
-          selector: localParameters.selector || globalParameters.selector,
-          from: globalParameters.from,
-          to: globalParameters.to,
-          interval: globalParameters.interval,
-        }).pipe(
-          tap((data) => {
-            const formattedData = metric.transformData?.(data) || data
-            metric.data.$ = formattedData
-            metric.error.$ = null
-            metric.loading.$ = false
-          }),
-          catchError((err) => {
-            metric.data.$ = []
-            metric.loading.$ = false
-            metric.error.$ = err
+      return
+    }
 
-            return of(null)
-          }),
-          finalize(() => scheduledData?.jobResolve()),
-        )
-
-      return scheduledData
-        ? from(scheduledData.fetchStartPromise).pipe(switchMap(queryData$))
-        : queryData$()
-    }),
-  )
+    const data = msg.payload.timeseries
+    const formattedData = metric.transformData?.(data) || data
+    metric.data.$ = formattedData
+    metric.error.$ = null
+    metric.loading.$ = false
+  }
 
   $effect(() => {
+    //if (meric.formula?.valid === false) {
+    //  return
+    //}
+
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
     const interval = globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { scheduledData } = createScheduledData(
-      jobScheduler,
-      untrack(() => $state.snapshot(settings)),
-    )
+    const { priority, minimalDelay } = untrack(() => settings) || {}
+    const parameters = {
+      metric: metric.apiMetricName,
+      selector: $state.snapshot(metric.selector.$) || selector,
+      from,
+      to,
+      interval,
+      includeIncompleteData,
+    }
 
-    loadMetricData({
-      scheduledData,
-      localParameters: {
-        metric: metric.apiMetricName,
-        selector: $state.snapshot(metric.selector.$),
-        transform: $state.snapshot(metric.transform),
-      },
-      globalParameters: { selector, from, to, interval, includeIncompleteData },
+    const payload = { priority, minimalDelay, parameters }
+    const workerRequest = metric.formula
+      ? workerFetchFormulaMetric(
+          {
+            ...payload,
+            index,
+            formula: metric.formula,
+            metrics: metricSeries.asScope$,
+          },
+          onWorkerData,
+        )
+      : workerFetchMetric(payload, onWorkerData)
+
+    untrack(() => {
+      metric.loading.$ = true
+      metric.data.$ = []
     })
 
-    return scheduledData?.cancel
+    return () => {
+      workerRequest.cancel()
+    }
   })
-}
-
-type TScheduledData = ReturnType<typeof createScheduledData>['scheduledData']
-function createScheduledData(
-  jobScheduler: undefined | null | TJobScheduler,
-  settings?: { minimalDelay?: number; priority?: number },
-) {
-  if (!jobScheduler) return {}
-
-  const { promise, resolve } = controlledPromisePolyfill()
-  const { promise: fetchStartPromise, resolve: fetchStart } = controlledPromisePolyfill()
-
-  const job = jobScheduler.schedule(
-    () => {
-      fetchStart()
-      return promise
-    },
-    undefined,
-    settings,
-  )
-
-  return {
-    scheduledData: {
-      fetchStartPromise,
-      jobResolve: resolve,
-      cancel() {
-        if (job) jobScheduler.cancelJob(job)
-      },
-    },
-  }
 }

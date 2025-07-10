@@ -26,6 +26,7 @@ export function Query<T>(
   options?: Partial<{
     map: (data: unknown) => T
     fetcher: (typeof globalThis)['fetch']
+    signal: null | AbortSignal
   }>,
 ) {
   const fetcher = options?.fetcher ?? globalThis.fetch
@@ -37,7 +38,15 @@ export function Query<T>(
     body: JSON.stringify({ query, variables }),
     method: 'post',
     credentials: 'include',
+    signal: options?.signal,
   })
+    .catch((err) => {
+      if (err.name === 'AbortError') {
+        err.__schema = JSON.stringify(schema)
+      }
+
+      throw err
+    })
     .then((response) => response.json() as Promise<{ data: any; error: any; errors: any[] }>)
     .then(({ data, error, errors }) => {
       const queryError = error || errors

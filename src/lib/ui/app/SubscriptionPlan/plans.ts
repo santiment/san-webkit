@@ -29,7 +29,6 @@ export const SubscriptionPlanDetails: Record<
     features: [
       '30-day lag in Sanbase',
       'Hidden top 3 tokens in Trending Coins',
-      '500 credits for Queries tool',
       '30-day lag for API with basic access',
       'No filters and sorting for Screener',
       'Up to 3 simultaneous alerts',
@@ -41,7 +40,6 @@ export const SubscriptionPlanDetails: Record<
     features: [
       'Present-day and full historical data in Sanbase',
       'Full access to Trending Coins',
-      '10K credits for Queries tool',
       '30-day lag for API with basic access',
       'Full access to screener, 20 alerts',
       'Access to Google Sheets plugin',
@@ -54,7 +52,6 @@ export const SubscriptionPlanDetails: Record<
     features: [
       'Present-day and full historical data in Sanbase and Trending Coins',
       'Technical support included',
-      '20K credits for Queries tool',
       'Full API access, 14-day lag for some metrics',
       'Full access to screener, 20 alerts',
       'Access to Google Sheets plugin',
@@ -68,7 +65,6 @@ export const SubscriptionPlanDetails: Record<
       '2 years of historical data through API',
       'Real-time API data without restrictions',
       '600K API calls / mo with 2 years historical data',
-      '50K credits for Queries tool',
       'Dedicated account manager',
       'Technical support included',
     ],
@@ -80,7 +76,6 @@ export const SubscriptionPlanDetails: Record<
       'Full historical data and metrics',
       'Real-time API data without restrictions',
       '1200K API calls / mo, all historical data',
-      '500K credits for Queries tool',
       'Dedicated account manager',
       'Technical support included',
       'Multi-seat account with 3 seats',
@@ -94,7 +89,7 @@ export const SubscriptionPlanDetails: Record<
       'Data reselling rights agreement',
       'SLA',
       'All historical data available',
-      'Custom API calls and Queries credits',
+      'Custom API calls',
       'Technical support included',
     ],
   },

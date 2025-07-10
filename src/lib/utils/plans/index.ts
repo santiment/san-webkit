@@ -6,7 +6,7 @@ export {
   getPlanData,
   checkIsBusinessPlan,
   checkIsConsumerPlan,
-  checkIsPlan,
+  planFromRaw,
   isPlanEligibleFor,
   getPlanDisplayName,
 } from './plans.js'
