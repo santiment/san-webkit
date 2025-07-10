@@ -1,3 +1,5 @@
+import type * as monaco from 'monaco-editor'
+
 import { languages } from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import { LANGUAGE_ID } from './language.js'
@@ -12,40 +14,84 @@ const SIGNATURES = DEFINITIONS.map((item, i) => {
 languages.registerSignatureHelpProvider(LANGUAGE_ID, {
   signatureHelpTriggerCharacters: ['(', ','],
   provideSignatureHelp: (model, position) => {
-    // Get the text until the current position
-    const textUntilPosition = model.getValueInRange({
-      startLineNumber: 1,
-      startColumn: 1,
-      endLineNumber: position.lineNumber,
-      endColumn: position.column,
-    })
+    // TODO: Reuse last computation if no new mouse event or `,` or `)` was not pressed
+    const signature = getSignatureData(model, position)
 
-    // TODO: Get back to it
-    //const _lastCall = textUntilPosition.match(/(\w+)\(/g)?.at(-1)
-    //if (_lastCall) {
-    //  console.log(textUntilPosition.slice(textUntilPosition.lastIndexOf(a)))
-    //}
-
-    // Simple parser to find the current function call
-    const functionCallMatch = textUntilPosition.match(/(\w+)\s*\(([^)]*)$/)
-    if (!functionCallMatch) {
+    if (!signature) {
       return null
     }
 
-    const functionName = functionCallMatch[1]
-    const currentArgText = functionCallMatch[2]
-
-    // Count commas in the current argument text to determine active parameter
-    const activeParameter = currentArgText.split(',').length - 1
-
-    const index = SignatureIndex[functionName]
     return {
       value: {
         activeSignature: 0,
-        activeParameter,
-        signatures: SIGNATURES.slice(index, index + 1),
+        activeParameter: signature.activeParameter,
+        signatures: SIGNATURES.slice(signature.index, signature.index + 1),
       },
       dispose: () => {},
     }
   },
 })
+
+// TODO: Provide signatures for chart metrics (e.g. `m1`)
+function getSignatureOfWordAtPosition(
+  model: monaco.editor.ITextModel,
+  position: monaco.Position,
+  activeParameter = -1,
+) {
+  const wordAtPosition = model.getWordAtPosition(position)
+
+  if (wordAtPosition) {
+    const index = SignatureIndex[wordAtPosition.word]
+
+    if (index !== undefined) {
+      return { index, activeParameter }
+    }
+  }
+
+  return null
+}
+
+function getSignatureData(model: monaco.editor.ITextModel, position: monaco.Position) {
+  const signature = getSignatureOfWordAtPosition(model, position)
+  if (signature) {
+    return signature
+  }
+
+  // Get the text until the current position
+  const textUntilPosition = model.getValueInRange({
+    startLineNumber: 1,
+    startColumn: 1,
+    endLineNumber: position.lineNumber,
+    endColumn: position.column,
+  })
+
+  const argPositions = [0]
+
+  let cursor = textUntilPosition.length
+  let columnDelta = 0
+
+  while ((columnDelta--, cursor-- > 0)) {
+    const char = textUntilPosition[cursor]
+
+    if (char === '(') {
+      if (argPositions.length === 1) {
+        break
+      } else {
+        argPositions.pop()
+        continue
+      }
+    }
+
+    if (char === ')') {
+      argPositions.push(0)
+      continue
+    }
+
+    if (char === ',') {
+      argPositions[argPositions.length - 1]++
+      continue
+    }
+  }
+
+  return getSignatureOfWordAtPosition(model, position.delta(0, columnDelta), argPositions.at(-1))
+}
