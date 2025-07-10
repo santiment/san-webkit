@@ -14,6 +14,7 @@
 
   import Editor from './Editor/index.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
+  import { cn } from '$ui/utils/index.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -26,6 +27,11 @@
   const chartMetrics = metricSeries.$.map((item, i) =>
     item === currentMetric ? null : [`m${i + 1}`, item],
   ).filter(Boolean) as [string, TSeries][]
+
+  let hoveredIndex = $state(0)
+  function onSignatureHelp(value: number) {
+    hoveredIndex = value
+  }
 </script>
 
 <Dialog class="h-[600px] w-[900px] !overflow-visible">
@@ -36,7 +42,7 @@
 
       <br />
       Formula:
-      <Editor chartVariables={chartMetrics.map((item) => item[0])}></Editor>
+      <Editor chartVariables={chartMetrics.map((item) => item[0])} {onSignatureHelp}></Editor>
     </div>
 
     <div class="flex flex-1 overflow-hidden border-y">
@@ -57,12 +63,20 @@
         {/each}
 
         <h3 class="mt-2 font-medium">Functions</h3>
-        {#each DEFINITIONS as definition}
-          <Button icon="fx">{definition.label}</Button>
+        {#each DEFINITIONS as definition, i}
+          <Button
+            icon="fx"
+            class={cn('hover:bg-white', hoveredIndex === i && '!bg-athens')}
+            onmouseenter={() => (hoveredIndex = i)}
+          >
+            {definition.label}
+          </Button>
         {/each}
       </div>
 
-      <div class="overflow-auto p-4 column">Documentation for XYZ</div>
+      <div class="overflow-auto p-4 column">
+        Documentation for {DEFINITIONS[hoveredIndex]?.label}
+      </div>
     </div>
 
     <div class="flex justify-end gap-2 p-3">

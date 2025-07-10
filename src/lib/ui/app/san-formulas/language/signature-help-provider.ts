@@ -4,6 +4,7 @@ import { languages } from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import { LANGUAGE_ID } from './language.js'
 import { DEFINITIONS } from './definitions.js'
+import { getModelMetadata } from './metadata.js'
 
 const SignatureIndex = {} as Record<string, number>
 const SIGNATURES = DEFINITIONS.map((item, i) => {
@@ -44,6 +45,8 @@ function getSignatureOfWordAtPosition(
     const index = SignatureIndex[wordAtPosition.word]
 
     if (index !== undefined) {
+      getModelMetadata(model)?.onSignatureHelp?.(index)
+
       return { index, activeParameter }
     }
   }

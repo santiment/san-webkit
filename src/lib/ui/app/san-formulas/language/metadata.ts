@@ -3,6 +3,7 @@ import type { editor } from 'monaco-editor'
 export type TMetadata = {
   localVariables: string[]
   chartVariables: string[]
+  onSignatureHelp: (index: number) => void
 }
 
 export function setModelMetadata(model: editor.ITextModel, metadata: Partial<TMetadata>) {

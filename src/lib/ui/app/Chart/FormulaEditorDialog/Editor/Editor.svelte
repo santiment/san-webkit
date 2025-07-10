@@ -4,9 +4,9 @@
 
   import Svg from '$ui/core/Svg/Svg.svelte'
 
-  type TProps = { chartVariables: string[] }
+  type TProps = { chartVariables: string[]; onSignatureHelp: (index: number) => void }
 
-  let { chartVariables }: TProps = $props()
+  let { chartVariables, onSignatureHelp }: TProps = $props()
 
   const mount: Action<HTMLDivElement, { createEditor: typeof createEditor }> = (
     node: HTMLElement,
@@ -21,7 +21,7 @@
         'x3 = rsi(m3, 14) * 2 - 1',
       ].join('\n'),
 
-      { chartVariables },
+      { chartVariables, onSignatureHelp },
     )
 
     return {
