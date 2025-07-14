@@ -13,8 +13,9 @@
   import { DEFINITIONS } from '$ui/app/san-formulas/language/definitions.js'
   import { cn } from '$ui/utils/index.js'
 
-  import Editor from './Editor/index.js'
+  import TextEditor from './TextEditor.svelte'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
+  import { useFormulaEditorCtx } from './ctx.svelte.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -28,10 +29,9 @@
     item === currentMetric ? null : [`m${i + 1}`, item],
   ).filter(Boolean) as [string, TSeries][]
 
-  let hoveredIndex = $state(0)
-  function onSignatureHelp(value: number) {
-    hoveredIndex = value
-  }
+  const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
+    chartVariables: chartMetrics.map((item) => item[0]),
+  })
 </script>
 
 <Dialog class="h-[600px] w-[900px] !overflow-visible">
@@ -41,8 +41,9 @@
       <Input defaultValue={currentMetric.label}></Input>
 
       <br />
+
       Formula:
-      <Editor chartVariables={chartMetrics.map((item) => item[0])} {onSignatureHelp}></Editor>
+      <TextEditor></TextEditor>
     </div>
 
     <div class="flex flex-1 overflow-hidden border-y">
@@ -51,8 +52,8 @@
         {#each chartMetrics as [variable, metric], i}
           {@const index = -chartMetrics.length + i}
           <Button
-            class={cn('hover:bg-white', hoveredIndex === index && '!bg-athens')}
-            onmouseenter={() => (hoveredIndex = index)}
+            class={cn('hover:bg-white', hoveredDefinitionIndex.$ === index && '!bg-athens')}
+            onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
           >
             <span class="-ml-1 rounded bg-green-light-2-day px-1 py-0.5 text-2xs text-mono">
               {variable}
@@ -70,8 +71,8 @@
         {#each DEFINITIONS as definition, i}
           <Button
             icon="fx"
-            class={cn('hover:bg-white', hoveredIndex === i && '!bg-athens')}
-            onmouseenter={() => (hoveredIndex = i)}
+            class={cn('hover:bg-white', hoveredDefinitionIndex.$ === i && '!bg-athens')}
+            onmouseenter={() => (hoveredDefinitionIndex.$ = i)}
           >
             {definition.label}
           </Button>
@@ -79,9 +80,9 @@
       </div>
 
       <div class="overflow-auto p-4 column">
-        Documentation for {hoveredIndex < 0
-          ? chartMetrics[hoveredIndex + chartMetrics.length][0]
-          : DEFINITIONS[hoveredIndex]?.label}
+        Documentation for {hoveredDefinitionIndex.$ < 0
+          ? chartMetrics[hoveredDefinitionIndex.$ + chartMetrics.length][0]
+          : DEFINITIONS[hoveredDefinitionIndex.$]?.label}
       </div>
     </div>
 

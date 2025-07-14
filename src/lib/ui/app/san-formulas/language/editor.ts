@@ -37,13 +37,10 @@ const LINE_HEIGHT = 24
 
 export type TEditor = monacoEditor.IStandaloneCodeEditor
 
-export function createEditor(
-  domElement: HTMLElement,
-  value: string,
-  metadata: Partial<TMetadata>,
-): TEditor {
+export type TSanFormulasEditor = ReturnType<typeof createEditor>
+
+export function createEditor(domElement: HTMLElement, value: string) {
   const model = monacoEditor.createModel(value, LANGUAGE_ID)
-  setModelMetadata(model, { ...metadata })
 
   const editor = monacoEditor.create(domElement, {
     model,
@@ -85,10 +82,10 @@ export function createEditor(
       //ignoreEvent = false
     }
   }
-  editor.onDidContentSizeChange(updateHeight)
+  const onDidContentSizeChangeDisposable = editor.onDidContentSizeChange(updateHeight)
   updateHeight()
 
-  editor.onDidChangeCursorPosition((event) => {
+  const onDidChangeCursorPositionDisposable = editor.onDidChangeCursorPosition((event) => {
     console.log(event)
     if (event.source === 'snippet' || event.source === 'mouse') {
       requestAnimationFrame(() => {
@@ -98,5 +95,16 @@ export function createEditor(
   })
 
   // TODO: dispose model and editor  on unmount?
-  return editor
+  return {
+    api: { editor, model },
+
+    updateMetadata: (metadata: Partial<TMetadata>) => setModelMetadata(model, { ...metadata }),
+
+    dispose() {
+      editor.dispose()
+      model.dispose()
+      onDidContentSizeChangeDisposable.dispose()
+      onDidChangeCursorPositionDisposable.dispose()
+    },
+  }
 }

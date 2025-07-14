@@ -4,15 +4,15 @@
 
   import Svg from '$ui/core/Svg/Svg.svelte'
 
-  type TProps = { chartVariables: string[]; onSignatureHelp: (index: number) => void }
+  import { useFormulaEditorCtx } from './ctx.svelte.js'
 
-  let { chartVariables, onSignatureHelp }: TProps = $props()
+  const { formulaEditor, importSanFormulasEditor } = useFormulaEditorCtx.get()
 
   const mount: Action<HTMLDivElement, { createEditor: typeof createEditor }> = (
     node: HTMLElement,
     { createEditor },
   ) => {
-    const editor = createEditor(
+    formulaEditor.$ = createEditor(
       node,
       [
         '# Example formula',
@@ -20,19 +20,11 @@
         'x2 = ema(m2, 10) + 5',
         'x3 = rsi(m3, 14) * 2 - 1',
       ].join('\n'),
-
-      { chartVariables, onSignatureHelp },
     )
-
-    return {
-      destroy() {
-        editor.dispose()
-      },
-    }
   }
 </script>
 
-{#await import('../../../san-formulas/language/editor.js')}
+{#await importSanFormulasEditor()}
   <div class="h-8"></div>
 {:then { createEditor }}
   <div

@@ -14,3 +14,7 @@ export function getModelMetadata(model: editor.ITextModel): Partial<TMetadata> {
   // @ts-ignore
   return model.__metadata
 }
+
+export function getLocalVariables(formula: string): string[] {
+  return Array.from(formula.matchAll(/(\w+)\s*=/g)).map((match) => match[1])
+}
