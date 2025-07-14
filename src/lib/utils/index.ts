@@ -13,6 +13,8 @@ export const getRandomKey = (): string => Math.floor(Math.random() * 0xffffffff)
 
 export { ss, type SS } from './state.svelte.js'
 
+export { getCookie, setCookie, deleteCookie } from './cookies.js'
+
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
  */
