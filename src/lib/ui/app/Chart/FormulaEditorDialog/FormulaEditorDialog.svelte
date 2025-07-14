@@ -11,11 +11,11 @@
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import { DEFINITIONS } from '$ui/app/san-formulas/language/definitions.js'
-  import { cn } from '$ui/utils/index.js'
 
   import TextEditor from './TextEditor.svelte'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
   import { useFormulaEditorCtx } from './ctx.svelte.js'
+  import Definitions from './Definitions.svelte'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -48,13 +48,8 @@
 
     <div class="flex flex-1 overflow-hidden border-y">
       <div class="max-w-[340px] overflow-auto border-r p-4 column">
-        <h3 class="font-medium">Chart metrics</h3>
-        {#each chartMetrics as [variable, metric], i}
-          {@const index = -chartMetrics.length + i}
-          <Button
-            class={cn('hover:bg-white', hoveredDefinitionIndex.$ === index && '!bg-athens')}
-            onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
-          >
+        <Definitions title="Chart metrics" indexOffset={-chartMetrics.length} items={chartMetrics}>
+          {#snippet children([variable, metric])}
             <span class="-ml-1 rounded bg-green-light-2-day px-1 py-0.5 text-2xs text-mono">
               {variable}
             </span>
@@ -64,19 +59,14 @@
             {/if}
 
             {metric.label}
-          </Button>
-        {/each}
+          {/snippet}
+        </Definitions>
 
-        <h3 class="mt-2 font-medium">Functions</h3>
-        {#each DEFINITIONS as definition, i}
-          <Button
-            icon="fx"
-            class={cn('hover:bg-white', hoveredDefinitionIndex.$ === i && '!bg-athens')}
-            onmouseenter={() => (hoveredDefinitionIndex.$ = i)}
-          >
+        <Definitions title="Functions" items={DEFINITIONS} itemIcon="fx">
+          {#snippet children(definition)}
             {definition.label}
-          </Button>
-        {/each}
+          {/snippet}
+        </Definitions>
       </div>
 
       <div class="overflow-auto p-4 column">

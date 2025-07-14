@@ -6,6 +6,7 @@ export const useFormulaEditorCtx = createCtx(
   'webkit_useFormulaEditorCtx',
   ({ chartVariables }: { chartVariables: string[] }) => {
     let formulaEditor = $state.raw<null | TSanFormulasEditor>(null)
+
     const hoveredDefinitionIndex = ss(0)
 
     function onSignatureHelp(value: number) {
