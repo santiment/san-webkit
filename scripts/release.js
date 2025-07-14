@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
+import './san-formulas-check.js'
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
 import {
