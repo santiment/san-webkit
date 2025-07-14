@@ -5,10 +5,10 @@ import { BROWSER } from 'esm-env'
 import { Query } from '$lib/api/executor.js'
 import { ApiCache } from '$lib/api/cache.js'
 import { controlledPromisePolyfill } from '$lib/utils/promise.js'
+import { SanFormulas, Timeseries } from '$ui/app/san-formulas/math/index.js'
 
 import { queryGetMetric, type TMetricData } from '../../api/index.js'
 import { parseFormulaChartVariables } from '../utils.js'
-import { math, Timeseries } from './math.js'
 
 type TContext = {
   isCancelled: boolean
@@ -82,9 +82,9 @@ export function fetchFormulaMetric(
     return createFetchJob(variable, metric)
   })
 
-  const parsedExpression = math.parse(formula.expr)
+  const parsedExpression = SanFormulas.parse(formula.expr)
   const transformedExpression = parsedExpression.transform((node) => {
-    if (node instanceof math.FunctionNode && node.fn.name === 'asset_metric') {
+    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'asset_metric') {
       const [metricNameNode, slugNode] = node.args
 
       const variable = { name: '__asset_metric_1' }
@@ -92,7 +92,7 @@ export function fetchFormulaMetric(
 
       fetchedMetrics.push(createFetchJob(variable, metric))
 
-      return new math.SymbolNode(variable.name)
+      return new SanFormulas.SymbolNode(variable.name)
     }
 
     return node
@@ -125,7 +125,7 @@ export function fetchFormulaMetric(
     const compiledFormula = transformedExpression.compile()
     const rawAnswer = compiledFormula.evaluate(scope)
 
-    const result = math.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
+    const result = SanFormulas.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
     //const result = math.evaluate(formula.expr, scope)
 
     let timeseries: TMetricData = []

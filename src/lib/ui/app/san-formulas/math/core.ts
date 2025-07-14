@@ -3,10 +3,9 @@ import type { TMetricData } from '$ui/app/Chart/api/index.js'
 
 // use light-weight, number-only implementations of functions
 import { create, parserDependencies } from 'mathjs/number'
-import { sma as calculateSMA } from 'indicatorts'
 
 //const math = create(all)
-const math = create({ parserDependencies })
+export const math = create({ parserDependencies })
 
 // create a new data type
 export class Timeseries {
@@ -44,23 +43,3 @@ math.typed.addType({
   name: 'Timeseries',
   test: (input: unknown) => input instanceof Timeseries,
 })
-
-const add = math.typed('add', {
-  'Timeseries, Timeseries': (a: Timeseries, b: Timeseries) => {
-    return new Timeseries(
-      a.values.map((value, i) => value + b.values[i]),
-      a.timestamps,
-    )
-  },
-  'number, number': (a, b) => a + b,
-})
-
-const sma = math.typed('sma', {
-  'Timeseries, number': (timeseries: Timeseries, period: number) => {
-    return new Timeseries(calculateSMA(timeseries.values, { period }), timeseries.timestamps)
-  },
-})
-
-math.import({ add, sma }, { override: true })
-
-export { math }

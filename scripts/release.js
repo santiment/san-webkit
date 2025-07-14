@@ -111,14 +111,17 @@ async function getReleaseTag() {
 async function updateLibraryPackageJson() {
   const exports = {}
 
-  await forFile([path.resolve(ROOT, 'src/lib/**/index.ts')], async (entry) => {
-    const rawPath = entry.slice(path.resolve(ROOT, 'src/lib').length, -'/index.ts'.length)
+  await forFile(
+    [path.resolve(ROOT, 'src/lib/**/index.ts'), '!src/lib/san-formulas/'],
+    async (entry) => {
+      const rawPath = entry.slice(path.resolve(ROOT, 'src/lib').length, -'/index.ts'.length)
 
-    exports['.' + rawPath] = {
-      types: './dist' + rawPath + '/index.d.ts',
-      svelte: './dist' + rawPath + '/index.js',
-    }
-  })
+      exports['.' + rawPath] = {
+        types: './dist' + rawPath + '/index.d.ts',
+        svelte: './dist' + rawPath + '/index.js',
+      }
+    },
+  )
   const tsExports = await processTypescriptFiles()
 
   const filepath = path.resolve(ROOT, 'package.json')
