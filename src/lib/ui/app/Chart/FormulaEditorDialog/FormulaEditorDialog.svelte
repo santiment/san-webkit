@@ -11,10 +11,10 @@
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import { DEFINITIONS } from '$ui/app/san-formulas/language/definitions.js'
+  import { cn } from '$ui/utils/index.js'
 
   import Editor from './Editor/index.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
-  import { cn } from '$ui/utils/index.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -48,8 +48,12 @@
     <div class="flex flex-1 overflow-hidden border-y">
       <div class="max-w-[340px] overflow-auto border-r p-4 column">
         <h3 class="font-medium">Chart metrics</h3>
-        {#each chartMetrics as [variable, metric]}
-          <Button>
+        {#each chartMetrics as [variable, metric], i}
+          {@const index = -chartMetrics.length + i}
+          <Button
+            class={cn('hover:bg-white', hoveredIndex === index && '!bg-athens')}
+            onmouseenter={() => (hoveredIndex = index)}
+          >
             <span class="-ml-1 rounded bg-green-light-2-day px-1 py-0.5 text-2xs text-mono">
               {variable}
             </span>
@@ -75,7 +79,9 @@
       </div>
 
       <div class="overflow-auto p-4 column">
-        Documentation for {DEFINITIONS[hoveredIndex]?.label}
+        Documentation for {hoveredIndex < 0
+          ? chartMetrics[hoveredIndex + chartMetrics.length][0]
+          : DEFINITIONS[hoveredIndex]?.label}
       </div>
     </div>
 
