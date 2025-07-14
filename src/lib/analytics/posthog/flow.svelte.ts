@@ -1,8 +1,11 @@
+import type { ABSettings } from '$lib/ctx/abTest/cookies.js'
+
 import { posthog } from 'posthog-js'
 import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import { useABTestCtx } from '$lib/ctx/abTest/index.svelte.js'
 
 import { useDebouncedFn } from '../amplitude/flow.svelte.js'
 
@@ -10,11 +13,17 @@ export function usePosthogFlow() {
   if (!BROWSER) return
 
   const { customer, currentUser } = useCustomerCtx.get()
+  const { abTests } = useABTestCtx.get()
 
+  type User = {
+    id?: string
+    name?: string | null
+    email?: string | null
+  }
   const updateUserData = useDebouncedFn(
     1000,
-    (userId?: string | number, name?: null | string, email?: null | string) =>
-      userId && posthog.identify(userId.toString(), { name, email }),
+    ({ id, email, name }: User, abTests?: ABSettings) =>
+      id && posthog.identify(id.toString(), { name, email, abTests }),
   )
 
   const updateUserSanbasePlan = useDebouncedFn(
@@ -29,12 +38,8 @@ export function usePosthogFlow() {
   )
 
   $effect(() => {
-    const userId = currentUser.$$?.id
-    const name = currentUser.$$?.username
-    const email = currentUser.$$?.email
-
-    if (userId) {
-      updateUserData(userId, name, email)
+    if (currentUser.$$?.id) {
+      updateUserData(currentUser.$$ ?? {}, abTests.$)
     }
   })
 
