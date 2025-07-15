@@ -16,7 +16,19 @@
 
   let { title, items, children, itemIcon, indexOffset = 0 }: TProps = $props()
 
-  const { hoveredDefinitionIndex } = useFormulaEditorCtx.get()
+  const { formulaEditor, hoveredDefinitionIndex } = useFormulaEditorCtx.get()
+
+  function onItemClick(item: GItem) {
+    if (!item.insertText) return
+    if (!formulaEditor.$) return
+
+    const { editor } = formulaEditor.$.api
+
+    const contribution = editor.getContribution('snippetController2')
+    contribution?.insert(item.insertText)
+
+    editor.focus()
+  }
 </script>
 
 <h3 class="font-medium">{title}</h3>
@@ -25,9 +37,10 @@
   {@const index = indexOffset + i}
 
   <Button
+    icon={itemIcon}
     class={cn('hover:bg-white', hoveredDefinitionIndex.$ === index && '!bg-athens')}
     onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
-    icon={itemIcon}
+    onclick={() => onItemClick(item)}
   >
     {@render children(item)}
   </Button>
