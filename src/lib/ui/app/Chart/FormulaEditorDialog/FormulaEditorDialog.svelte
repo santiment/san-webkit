@@ -10,7 +10,11 @@
 <script lang="ts">
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
-  import { DEFINITIONS } from '$ui/app/san-formulas/language/definitions.js'
+  import {
+    createVariableDefinition,
+    createChartVariableDocumentation,
+    DEFINITIONS,
+  } from '$ui/app/san-formulas/language/definitions.js'
 
   import TextEditor from './TextEditor.svelte'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
@@ -29,6 +33,18 @@
   const chartMetrics = metricSeries.$.map((item, i) =>
     item === currentMetric ? null : [`m${i + 1}`, item],
   ).filter(Boolean) as [string, TSeries][]
+
+  const chartVariables = metricSeries.$.map((item, i) => {
+    if (item === currentMetric) return null
+
+    const name = `m${i + 1}`
+
+    return createVariableDefinition(name, {
+      detail: 'Chart metric',
+      documentation: createChartVariableDocumentation(item, name),
+      metricLabel: item.label,
+    })
+  }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
 
   const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
     chartVariables: chartMetrics.map((item) => item[0]),
@@ -72,7 +88,7 @@
 
       <Documentation
         definition={hoveredDefinitionIndex.$ < 0
-          ? chartMetrics[hoveredDefinitionIndex.$ + chartMetrics.length][1]
+          ? chartVariables[hoveredDefinitionIndex.$ + chartMetrics.length]
           : DEFINITIONS[hoveredDefinitionIndex.$]}
       ></Documentation>
     </div>
