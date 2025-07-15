@@ -16,9 +16,9 @@ export function usePosthogFlow() {
   const { abTests } = useABTestCtx.get()
 
   type User = {
-    id?: string
-    name?: string | null
-    email?: string | null
+    id: string
+    name: string | null
+    email: string | null
   }
   const updateUserData = useDebouncedFn(
     1000,
@@ -38,8 +38,9 @@ export function usePosthogFlow() {
   )
 
   $effect(() => {
-    if (currentUser.$$?.id) {
-      updateUserData(currentUser.$$ ?? {}, abTests.$)
+    if (currentUser.$$) {
+      const { id, name, email } = currentUser.$$
+      updateUserData({ id, name, email }, abTests.$)
     }
   })
 

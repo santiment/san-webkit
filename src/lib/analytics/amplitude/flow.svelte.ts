@@ -58,7 +58,8 @@ export function useAmplitudeFlow() {
   )
 
   $effect(() => {
-    updateUserData(currentUser.$$ ?? {}, abTests.$)
+    const { id, email, name, featureAccessLevel } = currentUser.$$ ?? {}
+    updateUserData({ id, email, name, featureAccessLevel }, abTests.$)
   })
 
   $effect(() => {
