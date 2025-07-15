@@ -5,6 +5,8 @@ import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 
+import { useABTestCtx } from '../ab.js'
+
 export function useDebouncedFn<GFunction extends (...args: any[]) => void>(
   time: number,
   fn: GFunction,
@@ -25,21 +27,24 @@ export function useAmplitudeFlow() {
 
   const { customer, currentUser } = useCustomerCtx.get()
   const { ui } = useUiCtx.get()
+  const { abTests } = useABTestCtx.get()
 
+  type UserData = {
+    id?: string | number
+    name?: string | null
+    email?: string | null
+    featureAccessLevel?: string
+  }
   const updateUserData = useDebouncedFn(
     1000,
-    (
-      userId?: string | number,
-      name?: null | string,
-      email?: null | string,
-      featureAccessLevel?: string,
-    ) =>
+    ({ id: userId, name, email, featureAccessLevel }: UserData, abTests?: Record<string, string>) =>
       setAmplitudeUserProperties({
         user_id: userId,
         userId,
         name,
         email,
         feature_access_level: featureAccessLevel,
+        abTests,
       }),
   )
 
@@ -52,12 +57,8 @@ export function useAmplitudeFlow() {
   )
 
   $effect(() => {
-    const userId = currentUser.$$?.id
-    const name = currentUser.$$?.username
-    const email = currentUser.$$?.email
-    const featureAccessLevel = currentUser.$$?.featureAccessLevel
-
-    updateUserData(userId, name, email, featureAccessLevel)
+    const { id, email, name, featureAccessLevel } = currentUser.$$ ?? {}
+    updateUserData({ id, email, name, featureAccessLevel }, abTests.$)
   })
 
   $effect(() => {
