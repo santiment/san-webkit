@@ -5,19 +5,17 @@ import { BROWSER } from 'esm-env'
 
 import { createCtx, getCookie, setCookie } from '$lib/utils/index.js'
 
-export type BaseABSchema = {
+export type TBaseABSchema = {
   key: string
   cookieKey: string
   variants: string[]
 }
 
-type SchemaToRecord<T extends BaseABSchema> = {
-  [K in T as K['key']]: K['variants'][number]
-}
+export type ABSettings<GSchema extends TBaseABSchema> = Prettify<{
+  [K in GSchema as K['key']]: K['variants'][number]
+}>
 
-export function createABTestCtx<T extends BaseABSchema = BaseABSchema>(testSchemas: T[] = []) {
-  type ABSettings = Prettify<SchemaToRecord<T>>
-
+export function createABTestCtx<T extends TBaseABSchema = TBaseABSchema>(testSchemas: T[] = []) {
   const initABSettings = (event: RequestEvent) =>
     testSchemas.reduce((prev, schema) => {
       const cookieValue = event.cookies.get(schema.cookieKey)
@@ -28,12 +26,11 @@ export function createABTestCtx<T extends BaseABSchema = BaseABSchema>(testSchem
         : schema.variants[Math.floor(Math.random() * schema.variants.length)]
 
       return { ...prev, [schema.key]: abValue }
-    }, {} as ABSettings)
+    }, {} as ABSettings<T>)
 
   return {
     initABSettings,
-
-    useABTestCtx: createCtx('webkit_useABTestCtx', (settings: ABSettings) => ({
+    useABTestCtx: createCtx('webkit_useABTestCtx', (settings: ABSettings<T>) => ({
       abTests: {
         get $() {
           return settings
@@ -46,7 +43,7 @@ export function createABTestCtx<T extends BaseABSchema = BaseABSchema>(testSchem
             const cookieValue = getCookie(schema.cookieKey)
             if (cookieValue) return
 
-            const key = schema.key as keyof ABSettings
+            const key = schema.key as keyof ABSettings<T>
             const abValue = settings[key]
 
             setCookie(schema.cookieKey, abValue as string)
