@@ -11,7 +11,7 @@ export type TBaseABSchema = {
   variants: string[]
 }
 
-export type ABSettings<GSchema extends TBaseABSchema> = Prettify<{
+export type TSettingsAB<GSchema extends TBaseABSchema> = Prettify<{
   [K in GSchema as K['key']]: K['variants'][number]
 }>
 
@@ -26,11 +26,11 @@ export function createABTestCtx<T extends TBaseABSchema = TBaseABSchema>(testSch
         : schema.variants[Math.floor(Math.random() * schema.variants.length)]
 
       return { ...prev, [schema.key]: abValue }
-    }, {} as ABSettings<T>)
+    }, {} as TSettingsAB<T>)
 
   return {
     initABSettings,
-    useABTestCtx: createCtx('webkit_useABTestCtx', (settings: ABSettings<T>) => ({
+    useABTestCtx: createCtx('webkit_useABTestCtx', (settings: TSettingsAB<T>) => ({
       abTests: {
         get $() {
           return settings
@@ -43,7 +43,7 @@ export function createABTestCtx<T extends TBaseABSchema = TBaseABSchema>(testSch
             const cookieValue = getCookie(schema.cookieKey)
             if (cookieValue) return
 
-            const key = schema.key as keyof ABSettings<T>
+            const key = schema.key as keyof TSettingsAB<T>
             const abValue = settings[key]
 
             setCookie(schema.cookieKey, abValue as string)

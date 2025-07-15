@@ -1,1 +1,1 @@
-export { createABTestCtx, type TBaseABSchema, type ABSettings } from './index.svelte.js'
+export { createABTestCtx, type TBaseABSchema, type TSettingsAB } from './index.svelte.js'
