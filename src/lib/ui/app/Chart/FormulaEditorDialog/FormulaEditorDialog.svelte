@@ -16,6 +16,7 @@
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
   import { useFormulaEditorCtx } from './ctx.svelte.js'
   import Definitions from './Definitions.svelte'
+  import Documentation from './Documentation.svelte'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -47,7 +48,7 @@
     </div>
 
     <div class="flex flex-1 overflow-hidden border-y">
-      <div class="max-w-[340px] overflow-auto border-r p-4 column">
+      <div class="max-w-[340px] shrink-0 overflow-auto border-r p-4 column">
         <Definitions title="Chart metrics" indexOffset={-chartMetrics.length} items={chartMetrics}>
           {#snippet children([variable, metric])}
             <span class="-ml-1 rounded bg-green-light-2-day px-1 py-0.5 text-2xs text-mono">
@@ -69,11 +70,11 @@
         </Definitions>
       </div>
 
-      <div class="overflow-auto p-4 column">
-        Documentation for {hoveredDefinitionIndex.$ < 0
-          ? chartMetrics[hoveredDefinitionIndex.$ + chartMetrics.length][0]
-          : DEFINITIONS[hoveredDefinitionIndex.$]?.label}
-      </div>
+      <Documentation
+        definition={hoveredDefinitionIndex.$ < 0
+          ? chartMetrics[hoveredDefinitionIndex.$ + chartMetrics.length][1]
+          : DEFINITIONS[hoveredDefinitionIndex.$]}
+      ></Documentation>
     </div>
 
     <div class="flex justify-end gap-2 p-3">
