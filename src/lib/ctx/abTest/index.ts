@@ -1,2 +1,1 @@
-export { useABTestCtx } from './index.svelte.js'
-export { type ABKey, type ABSettings, getABSettings } from './cookies.js'
+export { createABTestCtx, type BaseABSchema } from './index.svelte.js'

@@ -1,12 +1,11 @@
-import type { ABSettings } from '$lib/ctx/abTest/cookies.js'
-
 import { BROWSER } from 'esm-env'
 import * as amplitude from '@amplitude/analytics-browser'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
-import { useABTestCtx } from '$lib/ctx/abTest/index.svelte.js'
+
+import { useABTestCtx } from '../ab.js'
 
 export function useDebouncedFn<GFunction extends (...args: any[]) => void>(
   time: number,
@@ -38,7 +37,7 @@ export function useAmplitudeFlow() {
   }
   const updateUserData = useDebouncedFn(
     1000,
-    ({ id: userId, name, email, featureAccessLevel }: UserData, abTests?: ABSettings) =>
+    ({ id: userId, name, email, featureAccessLevel }: UserData, abTests?: Record<string, string>) =>
       setAmplitudeUserProperties({
         user_id: userId,
         userId,

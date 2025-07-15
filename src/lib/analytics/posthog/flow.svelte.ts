@@ -1,13 +1,11 @@
-import type { ABSettings } from '$lib/ctx/abTest/cookies.js'
-
 import { posthog } from 'posthog-js'
 import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
-import { useABTestCtx } from '$lib/ctx/abTest/index.svelte.js'
 
 import { useDebouncedFn } from '../amplitude/flow.svelte.js'
+import { useABTestCtx } from '../ab.js'
 
 export function usePosthogFlow() {
   if (!BROWSER) return
@@ -22,7 +20,7 @@ export function usePosthogFlow() {
   }
   const updateUserData = useDebouncedFn(
     1000,
-    ({ id, email, name }: User, abTests?: ABSettings) =>
+    ({ id, email, name }: User, abTests?: Record<string, string>) =>
       id && posthog.identify(id.toString(), { name, email, abTests }),
   )
 
