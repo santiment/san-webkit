@@ -33,30 +33,26 @@ export function createABTestCtx<T extends BaseABSchema = BaseABSchema>(testSchem
   return {
     initABSettings,
 
-    useABTestCtx: createCtx('webkit_useABTestCtx', (initialValue: ABSettings) => {
-      const settings = $state.raw(initialValue)
-
-      return {
-        abTests: {
-          get $() {
-            return settings
-          },
-
-          setCookies() {
-            if (!BROWSER) return
-
-            testSchemas.forEach((schema: T) => {
-              const cookieValue = getCookie(schema.cookieKey)
-              if (cookieValue) return
-
-              const key = schema.key as keyof ABSettings
-              const abValue = settings[key]
-
-              setCookie(schema.cookieKey, abValue as string)
-            })
-          },
+    useABTestCtx: createCtx('webkit_useABTestCtx', (settings: ABSettings) => ({
+      abTests: {
+        get $() {
+          return settings
         },
-      }
-    }),
+
+        setCookies() {
+          if (!BROWSER) return
+
+          testSchemas.forEach((schema: T) => {
+            const cookieValue = getCookie(schema.cookieKey)
+            if (cookieValue) return
+
+            const key = schema.key as keyof ABSettings
+            const abValue = settings[key]
+
+            setCookie(schema.cookieKey, abValue as string)
+          })
+        },
+      },
+    })),
   }
 }
