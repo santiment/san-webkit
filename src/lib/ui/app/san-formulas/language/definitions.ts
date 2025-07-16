@@ -3,6 +3,8 @@
 import type { TSeries } from '$ui/app/Chart/ctx/series.svelte.js'
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 
+import { escapeHtml } from '$lib/utils/escape.js'
+
 import { addDocumentationSnippetSyntax } from './syntax-highlight.js'
 
 const FunctionSignature = (fnName: string, ...args: string[]) => ({
@@ -99,7 +101,7 @@ asset_metric("price_usd", "bitcoin")
 
 You can also save the result in a local variable for later use.  
 \`\`\`
-# asd asdklfjansdlkf jn123 123 asdkfjansldfk "asdaksd"
+# Lorem ipsum 123 "string" only as comment
 
 x1 = asset_metric("price_usd", "bitcoin")
 \`\`\``,
@@ -120,16 +122,18 @@ export const createVariableDefinition = (
 
 export const createChartVariableDocumentation = (metric: TSeries, varName: string) =>
   addDocumentationSnippetSyntax(
-    metric.formula
-      ? `<p>The "${metric.label}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+    escapeHtml(
+      metric.formula
+        ? `<p>The "${metric.label}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>The "${metric.label}" has a following formula:</p>
 <pre><code>${metric.formula.expr}</code></pre>`
-      : `<p>The "${metric.label}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+        : `<p>The "${metric.label}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>You can also define this metric as a local variable.</p>
-<pre><code>x1 = asset_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector.$?.slug || 'bitcoin'}&quot;)
+<pre><code>x1 = asset_metric("${metric.apiMetricName}", "${metric.selector.$?.slug || 'bitcoin'}")
 </code></pre>`,
+    ),
   )
 
 // @RELEASE:DELETE:START
