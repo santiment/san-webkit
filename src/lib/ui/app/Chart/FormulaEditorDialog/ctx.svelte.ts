@@ -6,6 +6,7 @@ export const useFormulaEditorCtx = createCtx(
   'webkit_useFormulaEditorCtx',
   ({ chartVariables }: { chartVariables: string[] }) => {
     let formulaEditor = $state.raw<null | TSanFormulasEditor>(null)
+    let errors = $state.raw([])
 
     const hoveredDefinitionIndex = ss(0)
 
@@ -22,14 +23,32 @@ export const useFormulaEditorCtx = createCtx(
 
       const { model } = formulaEditor.api
 
+      let localVariablesTimer = 0
+
+      const updateLocalVariablesMetadata = () =>
+        formulaEditor?.updateMetadata({
+          localVariables: Array.from(model.getValue().matchAll(/(\b[_a-zA-Z]+[0-9]?)[\s]?=/g)).map(
+            ([_, varName]) => varName,
+          ),
+        })
+
       const onDidChangeContent = model.onDidChangeContent(() => {
         const value = model.getValue()
-        console.log({ value })
+
+        if (!value) {
+          errors = []
+          return
+        }
+
+        window.clearTimeout(localVariablesTimer)
+        localVariablesTimer = window.setTimeout(updateLocalVariablesMetadata, 300)
       })
 
       return () => {
         formulaEditor?.dispose()
         onDidChangeContent.dispose()
+
+        window.clearTimeout(localVariablesTimer)
       }
     })
 
@@ -41,6 +60,10 @@ export const useFormulaEditorCtx = createCtx(
 
         set $(value: TSanFormulasEditor) {
           formulaEditor = value
+        },
+
+        get errors$() {
+          return errors
         },
       },
 
