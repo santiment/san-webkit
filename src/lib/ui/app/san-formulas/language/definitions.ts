@@ -7,15 +7,17 @@ import { escapeHtml } from '$lib/utils/escape.js'
 
 import { addDocumentationSnippetSyntax } from './syntax-highlight.js'
 
-const FunctionSignature = (fnName: string, ...args: string[]) => ({
+// ...args: [Signature, Default value in snippet][]
+const FunctionSignature = (fnName: string, ...args: [string, string][]) => ({
   label: fnName,
   detail: 'Function', // Displayed in completion as a description on the right
 
   kind: CompletionKind.Function,
   insertTextRules: CompletionInsertTextRule.InsertAsSnippet,
+  insertText: `${fnName}(${args.map((arg, i) => '${' + (i + 1) + ':' + arg[1] + '}').join(', ')})`,
 
   signature: {
-    label: `${fnName}(${args.join(', ')})`,
+    label: `${fnName}(${args.map((arg) => arg[0]).join(', ')})`,
     parameters: args.map((label) => ({ label })),
   },
 })
@@ -37,10 +39,38 @@ const CompletionInsertTextRule = {
   InsertAsSnippet: 4,
 } satisfies TCompletionItemInsertTextRuleRecord
 
+export const createVariableDefinition = (
+  name: string,
+  extra: { detail: string; documentation?: string; metricLabel?: string },
+) => ({
+  label: name,
+  kind: CompletionKind.Variable,
+  insertText: name,
+  documentation: '',
+  ...extra,
+})
+
+export function createChartVariableDocumentation(metric: TSeries, varName: string) {
+  const escapedLabel = escapeHtml(metric.label)
+  const escapedFormula = metric.formula && escapeHtml(metric.formula.expr)
+
+  return addDocumentationSnippetSyntax(
+    metric.formula
+      ? `<p>The "${escapedLabel}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+<pre><code>sma(${varName}, 30)</code></pre>
+<p>The "${escapedLabel}" has a following formula:</p>
+<pre><code>${escapedFormula}</code></pre>`
+      : `<p>The "${escapedLabel}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+<pre><code>sma(${varName}, 30)</code></pre>
+<p>You can also define this metric as a local variable.</p>
+<pre><code>x1 = asset_metric("${metric.apiMetricName}", "${metric.selector.$?.slug || 'bitcoin'}")
+</code></pre>`,
+  )
+}
+
 export const DEFINITIONS = [
   {
-    ...FunctionSignature('sma', 'data: Timeseries', 'period: Number'),
-    insertText: 'sma(${1:m1}, ${2:30})',
+    ...FunctionSignature('sma', ['data: Timeseries', 'm1'], ['period: Number', '30']),
 
     // @RELEASE:MD-COMPILE:START
     documentation: `Simple Moving Average (SMA) indicator calculates the average of a timeseries over a specified period by summing closing values and dividing by the number of periods. It smooths timeseries data to identify trends by reducing noise from short-term fluctuations.
@@ -56,8 +86,7 @@ x1 = sma(m2, 7)
   },
 
   {
-    ...FunctionSignature('ema', 'data: Timeseries', 'period: Number'),
-    insertText: 'ema(${1:m1}, ${2:30})',
+    ...FunctionSignature('ema', ['data: Timeseries', 'm1'], ['period: Number', '30']),
 
     // @RELEASE:MD-COMPILE:START
     documentation: `The Exponential Moving Average (EMA) indicator gives more weight to recent prices in a timeseries over a specified period, reacting faster to price changes than a Simple Moving Average. It's commonly used to spot trends early and filter out minor price fluctuations.
@@ -73,8 +102,7 @@ x1 = ema(m2, 7)
   },
 
   {
-    ...FunctionSignature('rsi', 'data: Timeseries', 'period: Number'),
-    insertText: 'rsi(${1:m1}, ${2:30})',
+    ...FunctionSignature('rsi', ['data: Timeseries', 'm1'], ['period: Number', '30']),
 
     // @RELEASE:MD-COMPILE:START
     documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of price movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.  
@@ -90,8 +118,11 @@ x1 = rsi(m2, 7)
   },
 
   {
-    ...FunctionSignature('asset_metric', 'api_metric: String', 'asset_slug: String'),
-    insertText: 'asset_metric(${1:"price_usd"}, ${2:"bitcoin"})',
+    ...FunctionSignature(
+      'asset_metric',
+      ['api_metric: String', '"price_usd"'],
+      ['asset_slug: String', '"bitcoin"'],
+    ),
 
     // @RELEASE:MD-COMPILE:START
     documentation: `Fetches a \`timeseries\` metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
@@ -108,33 +139,6 @@ x1 = asset_metric("price_usd", "bitcoin")
     // @RELEASE:MD-COMPILE:END
   },
 ]
-
-export const createVariableDefinition = (
-  name: string,
-  extra: { detail: string; documentation?: string; metricLabel?: string },
-) => ({
-  label: name,
-  kind: CompletionKind.Variable,
-  insertText: name,
-  documentation: '',
-  ...extra,
-})
-
-export const createChartVariableDocumentation = (metric: TSeries, varName: string) =>
-  addDocumentationSnippetSyntax(
-    escapeHtml(
-      metric.formula
-        ? `<p>The "${metric.label}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
-<pre><code>sma(${varName}, 30)</code></pre>
-<p>The "${metric.label}" has a following formula:</p>
-<pre><code>${metric.formula.expr}</code></pre>`
-        : `<p>The "${metric.label}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
-<pre><code>sma(${varName}, 30)</code></pre>
-<p>You can also define this metric as a local variable.</p>
-<pre><code>x1 = asset_metric("${metric.apiMetricName}", "${metric.selector.$?.slug || 'bitcoin'}")
-</code></pre>`,
-    ),
-  )
 
 // @RELEASE:DELETE:START
 // eslint-disable-next-line import/order
