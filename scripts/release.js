@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-import './san-formulas-check.js'
+import { processFormulasModules } from './san-formulas-check.js'
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
 import {
@@ -38,6 +38,9 @@ export async function release() {
 
   // Create a new release branch
   await exec(`git checkout -b ${RELEASE_BRANCH}`)
+
+  // Processing @RELEASE directives
+  await processFormulasModules()
 
   // Building library
   await exec(`npm run prepublishOnly`)
