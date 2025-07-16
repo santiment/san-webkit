@@ -96,6 +96,15 @@ export function isDuplexOperation(type: TOperationType) {
   return DUPLEX_OPERATIONS.has(type)
 }
 
+const COMPARISON_OPERATIONS = new Set<TOperationType>([
+  'percent_up',
+  'percent_down',
+  'percent_up_or_down',
+])
+
+export const isComparisonOperation = (operation: TOperationType) =>
+  COMPARISON_OPERATIONS.has(operation)
+
 function assertNever(_: never): never {
   throw new Error("Didn't expect to get here")
 }

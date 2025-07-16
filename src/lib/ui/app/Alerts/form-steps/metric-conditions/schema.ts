@@ -2,7 +2,12 @@ import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
 import type { TTimeWindow } from '../../time.js'
 
-import { getOperationFromApi, reduceOperationToApi, type TOperation } from './operations.js'
+import {
+  getOperationFromApi,
+  isComparisonOperation,
+  reduceOperationToApi,
+  type TOperation,
+} from './operations.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
@@ -48,12 +53,17 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
 
   validate: ({ metric }) => !!metric,
 
-  reduceToApi: (apiAlert, state) => {
+  reduceToApi: (apiAlert, { metric, conditions }) => {
     Object.assign(apiAlert.settings, {
-      metric: state.metric,
-      operation: reduceOperationToApi(state.conditions.operation),
-      time_window: state.conditions.time,
+      metric: metric,
+      operation: reduceOperationToApi(conditions.operation),
     })
+
+    if (isComparisonOperation(conditions.operation.type)) {
+      Object.assign(apiAlert.settings, {
+        time_window: conditions.time,
+      })
+    }
 
     return apiAlert
   },
