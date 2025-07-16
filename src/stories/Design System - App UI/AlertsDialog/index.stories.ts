@@ -19,7 +19,7 @@ export const AssetAPIAlert: Story = {
   parameters: {},
   args: {
     apiAlert: {
-      cooldown: '1d',
+      cooldown: '2w',
       description:
         'Notify me when the price of Ethereum, Tether [on Ethereum] goes above 1$ compared to 1 day(s) earlier. Send me notifications every 1 day(s) via email.',
       id: 43617,
@@ -38,7 +38,7 @@ export const AssetAPIAlert: Story = {
         },
         channel: ['email'],
         metric: 'price_usd',
-        time_window: '1d',
+        time_window: '3w',
         extra_explanation: null,
       },
       title: 'Ethereum, Tether [on Ethereum] price goes above 1$ compared to 1 day(s) earlier',
