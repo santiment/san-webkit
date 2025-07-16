@@ -111,7 +111,8 @@ export function reduceOperationToApi({ type, values }: TOperation): TApiOperatio
   }
 
   if (type === 'percent_up_or_down') {
-    return { some_of: [{ percent_up: values[0] }, { percent_down: values[0] }] }
+    const [upValue, downValue] = isDuplexOperation(type) ? values : [values[0], values[0]]
+    return { some_of: [{ percent_up: upValue }, { percent_down: downValue }] }
   }
 
   assertNever(type)
