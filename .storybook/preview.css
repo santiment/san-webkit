@@ -1,3 +1,3 @@
-*:not(pre *, [role='code'] *) {
+*:not(pre *, [role='code'] *, code) {
   font-family: 'Proxima Nova';
 }

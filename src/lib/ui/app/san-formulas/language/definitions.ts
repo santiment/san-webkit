@@ -3,7 +3,7 @@
 import type { TSeries } from '$ui/app/Chart/ctx/series.svelte.js'
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 
-import { escapeHtml } from '$lib/utils/escape.js'
+import { escapeTag } from '$lib/utils/escape.js'
 
 import { addDocumentationSnippetSyntax } from './syntax-highlight.js'
 
@@ -51,19 +51,16 @@ export const createVariableDefinition = (
 })
 
 export function createChartVariableDocumentation(metric: TSeries, varName: string) {
-  const escapedLabel = escapeHtml(metric.label)
-  const escapedFormula = metric.formula && escapeHtml(metric.formula.expr)
-
   return addDocumentationSnippetSyntax(
     metric.formula
-      ? `<p>The "${escapedLabel}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+      ? escapeTag`<p>The "${metric.label}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
-<p>The "${escapedLabel}" has a following formula:</p>
-<pre><code>${escapedFormula}</code></pre>`
-      : `<p>The "${escapedLabel}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+<p>The "${metric.label}" has a following formula:</p>
+<pre><code>${metric.formula.expr}</code></pre>`
+      : escapeTag`<p>The "${metric.label}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>You can also define this metric as a local variable.</p>
-<pre><code>x1 = asset_metric("${metric.apiMetricName}", "${metric.selector.$?.slug || 'bitcoin'}")
+<pre><code>x1 = asset_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector.$?.slug || 'bitcoin'}&quot;)
 </code></pre>`,
   )
 }
