@@ -1,6 +1,6 @@
-import type { TTimeWindow } from '../../time.js'
 import type { TApiAlert } from '../../types.js'
 
+import { getTimeFromApi, type TTimeWindow } from '../../time.js'
 import { getChannelFromApi, reduceChannelToApi, type TChannel } from '../../channels.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
@@ -37,7 +37,7 @@ export const STEP_NOTIFICATIONS_PRIVACY_SCHEMA = createStepSchema<TBaseSchema>({
       channel: getChannelFromApi(apiAlert?.settings?.channel) ?? {},
       isPublic: apiAlert?.isPublic ?? false,
       isRepeating: apiAlert?.isRepeating ?? true,
-      cooldown: apiAlert?.cooldown ?? '1d',
+      cooldown: apiAlert ? getTimeFromApi(apiAlert.cooldown) : '1d',
     }
   },
 
