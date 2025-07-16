@@ -35,7 +35,7 @@
     {/snippet}
 
     {#snippet content({ close })}
-      <section class="flex flex-col">
+      <section class="flex w-full flex-col">
         {#each items as item}
           <Button
             onclick={() => {
