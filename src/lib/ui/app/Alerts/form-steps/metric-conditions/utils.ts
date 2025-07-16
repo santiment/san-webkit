@@ -3,7 +3,7 @@ import type { TConditionsState } from './schema.js'
 import { parseRangeString } from '$lib/utils/dates/index.js'
 
 import { TimeModifiers } from '../../time.js'
-import { Operations, type TOperationType } from './operations.js'
+import { isComparisonOperation, Operations, type TOperationType } from './operations.js'
 
 function checkIsUsdMetric(metric: string) {
   return ['price_usd', 'marketcap_usd'].includes(metric)
@@ -18,19 +18,20 @@ export function getOperationSign(metric: string, operation: TOperationType): '' 
 }
 
 export function describeConditions(metric: null | string, conditions: TConditionsState) {
-  const { time, operation } = conditions
+  const { operation } = conditions
   const sign = metric ? getOperationSign(metric, operation.type) : ''
 
-  let description = operation.type.includes('percent') ? 'moving ' : 'goes '
-
-  description += Operations[operation.type].describe(
+  const description = Operations[operation.type].describe(
     operation.values.map((v) => (v || 1) + sign) as [string, string],
   )
 
+  return description + getTimeDescription(conditions)
+}
+
+function getTimeDescription({ operation, time }: TConditionsState) {
+  if (!isComparisonOperation(operation.type)) return ''
+
   const { amount, modifier } = parseRangeString(time)
 
-  return (
-    description +
-    ` compared to ${amount || 1} ${TimeModifiers[modifier].label.toLowerCase()} earlier`
-  )
+  return ` compared to ${amount || 1} ${TimeModifiers[modifier].label.toLowerCase()} ago`
 }
