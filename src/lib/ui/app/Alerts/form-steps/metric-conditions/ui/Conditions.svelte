@@ -23,7 +23,7 @@
   const { conditions, metric, updateConditions, info, children }: TProps = $props()
 
   const { operation, time } = $derived(conditions)
-  const sign = $derived(getOperationSign(metric ?? '', operation.type))
+  const sign = $derived(getOperationSign(metric, operation.type))
   const isDuplex = $derived(isDuplexOperation(operation.type))
   const { amount: timeAmount, modifier: timeModifier } = $derived(parseRangeString(conditions.time))
 </script>

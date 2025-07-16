@@ -9,17 +9,17 @@ function checkIsUsdMetric(metric: string) {
   return ['price_usd', 'marketcap_usd'].includes(metric)
 }
 
-export function getOperationSign(metric: string, operation: TOperationType): '' | '%' | '$' {
+export function getOperationSign(metric: string | null, operation: TOperationType): '' | '%' | '$' {
   if (operation.includes('percent')) return '%'
 
-  if (checkIsUsdMetric(metric)) return '$'
+  if (metric && checkIsUsdMetric(metric)) return '$'
 
   return ''
 }
 
 export function describeConditions(metric: null | string, conditions: TConditionsState) {
   const { operation } = conditions
-  const sign = metric ? getOperationSign(metric, operation.type) : ''
+  const sign = getOperationSign(metric, operation.type)
 
   const description = Operations[operation.type].describe(
     operation.values.map((v) => (v || 1) + sign) as [string, string],
