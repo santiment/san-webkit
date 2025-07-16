@@ -145,3 +145,9 @@ export function fetchFormulaMetric(
     return timeseries
   })
 }
+
+export function validateFormula(expr: string, scopeVariables: string[]) {
+  const scope = new Map(scopeVariables.map((item) => [item, new Timeseries([])]))
+
+  return SanFormulas.evaluate(expr, scope)
+}

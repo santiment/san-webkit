@@ -33,8 +33,17 @@
   ></div>
 
   <div class="mt-2 flex items-center gap-2">
-    <Svg id="checkmark-circle"></Svg>
-    Formula is valid
+    {#if formulaEditor.validation.$.length}
+      <div class="flex flex-wrap items-center gap-2 fill-red text-red">
+        <Svg id="warning"></Svg>
+        {formulaEditor.validation.$}
+      </div>
+    {:else if formulaEditor.validation.isLoading$}
+      <div class="skeleton h-[20px] w-3/4"></div>
+    {:else}
+      <Svg id="checkmark-circle"></Svg>
+      Formula is valid
+    {/if}
   </div>
 {/await}
 

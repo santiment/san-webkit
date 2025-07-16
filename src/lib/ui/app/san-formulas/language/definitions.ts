@@ -8,19 +8,22 @@ import { escapeTag } from '$lib/utils/escape.js'
 import { addDocumentationSnippetSyntax } from './syntax-highlight.js'
 
 // ...args: [Signature, Default value in snippet][]
-const FunctionSignature = (fnName: string, ...args: [string, string][]) => ({
-  label: fnName,
-  detail: 'Function', // Displayed in completion as a description on the right
+const FunctionSignature = (fnName: string, ...args: [string, string][]) => {
+  const signatureArgs = args.map((arg) => arg[0])
+  return {
+    label: fnName,
+    detail: 'Function', // Displayed in completion as a description on the right
 
-  kind: CompletionKind.Function,
-  insertTextRules: CompletionInsertTextRule.InsertAsSnippet,
-  insertText: `${fnName}(${args.map((arg, i) => '${' + (i + 1) + ':' + arg[1] + '}').join(', ')})`,
+    kind: CompletionKind.Function,
+    insertTextRules: CompletionInsertTextRule.InsertAsSnippet,
+    insertText: `${fnName}(${args.map((arg, i) => '${' + (i + 1) + ':' + arg[1] + '}').join(', ')})`,
 
-  signature: {
-    label: `${fnName}(${args.map((arg) => arg[0]).join(', ')})`,
-    parameters: args.map((label) => ({ label })),
-  },
-})
+    signature: {
+      label: `${fnName}(${signatureArgs.join(', ')})`,
+      parameters: signatureArgs.map((label) => ({ label })),
+    },
+  }
+}
 
 type TCompletionItemKind = typeof monaco.languages.CompletionItemKind
 type TCompletionItemKindRecord = {

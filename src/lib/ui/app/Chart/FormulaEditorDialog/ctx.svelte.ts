@@ -1,14 +1,19 @@
 import type { TSanFormulasEditor } from '../../san-formulas/language/editor.js'
+import type { TValidateFormulaMessage } from '../metrics-api-worker/types.js'
+
+import { onMount } from 'svelte'
 
 import { createCtx, ss } from '$lib/utils/index.js'
+
+import { workerValidateFormula } from '../metrics-api-worker/index.js'
 
 export const useFormulaEditorCtx = createCtx(
   'webkit_useFormulaEditorCtx',
   ({ chartVariables }: { chartVariables: string[] }) => {
     let formulaEditor = $state.raw<null | TSanFormulasEditor>(null)
-    let errors = $state.raw([])
 
     const hoveredDefinitionIndex = ss(0)
+    const formulaValidationWorker = useWorkerMessagesFlow([])
 
     function onSignatureHelp(value: number) {
       hoveredDefinitionIndex.$ = value
@@ -19,11 +24,9 @@ export const useFormulaEditorCtx = createCtx(
         return
       }
 
-      formulaEditor.updateMetadata({ chartVariables, onSignatureHelp })
-
       const { model } = formulaEditor.api
 
-      let localVariablesTimer = 0
+      let timer = 0
 
       const updateLocalVariablesMetadata = () =>
         formulaEditor?.updateMetadata({
@@ -33,22 +36,31 @@ export const useFormulaEditorCtx = createCtx(
         })
 
       const onDidChangeContent = model.onDidChangeContent(() => {
-        const value = model.getValue()
+        window.clearTimeout(timer)
 
-        if (!value) {
-          errors = []
-          return
+        const value = model.getValue().trim()
+
+        if (value) {
+          formulaValidationWorker.schedule({ isLoading: true })
+
+          timer = window.setTimeout(() => {
+            formulaValidationWorker.sendMessage({ formula: value, scope: chartVariables })
+            updateLocalVariablesMetadata()
+          }, 500)
+        } else {
+          formulaValidationWorker.reset()
         }
-
-        window.clearTimeout(localVariablesTimer)
-        localVariablesTimer = window.setTimeout(updateLocalVariablesMetadata, 300)
       })
+
+      formulaEditor.updateMetadata({ chartVariables, onSignatureHelp })
+      updateLocalVariablesMetadata()
+      formulaValidationWorker.sendMessage({ formula: model.getValue(), scope: chartVariables })
 
       return () => {
         formulaEditor?.dispose()
         onDidChangeContent.dispose()
 
-        window.clearTimeout(localVariablesTimer)
+        window.clearTimeout(timer)
       }
     })
 
@@ -62,8 +74,8 @@ export const useFormulaEditorCtx = createCtx(
           formulaEditor = value
         },
 
-        get errors$() {
-          return errors
+        get validation() {
+          return formulaValidationWorker.data
         },
       },
 
@@ -73,3 +85,56 @@ export const useFormulaEditorCtx = createCtx(
     }
   },
 )
+
+function useWorkerMessagesFlow(defaultValue: string[]) {
+  let currentWorkerRequest: null | ReturnType<typeof workerValidateFormula> = null
+
+  let data = $state.raw(defaultValue)
+  let isLoading = $state(false)
+
+  function onWorkerData(msg: TValidateFormulaMessage['response']) {
+    if (!currentWorkerRequest || msg.id !== currentWorkerRequest.id) {
+      return
+    }
+
+    data = msg.payload.errors
+    isLoading = false
+
+    console.log(msg)
+  }
+
+  onMount(() => () => {
+    currentWorkerRequest?.cancel()
+    currentWorkerRequest = null
+  })
+
+  return {
+    data: {
+      get $() {
+        return data
+      },
+
+      get isLoading$() {
+        return isLoading
+      },
+    },
+
+    schedule(options: { isLoading?: boolean }) {
+      if (options.isLoading) isLoading = options.isLoading
+    },
+
+    reset() {
+      currentWorkerRequest?.cancel()
+      currentWorkerRequest = null
+
+      data = defaultValue
+      isLoading = false
+    },
+    sendMessage(payload: TValidateFormulaMessage['request']['payload']) {
+      currentWorkerRequest?.cancel()
+      currentWorkerRequest = workerValidateFormula(payload, onWorkerData)
+
+      isLoading = true
+    },
+  }
+}
