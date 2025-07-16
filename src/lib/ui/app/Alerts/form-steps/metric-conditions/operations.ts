@@ -1,3 +1,4 @@
+import { assertNever } from '$lib/utils/assert.js'
 import { keyify } from '$lib/utils/object.js'
 
 import { isNumericOperation, type TApiOperation } from '../../operations.js'
@@ -88,6 +89,7 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
 }
 
 const DUPLEX_OPERATIONS = new Set<TOperationType>(['inside_channel', 'outside_channel'])
+
 export function isDuplexOperation(type: TOperationType) {
   return DUPLEX_OPERATIONS.has(type)
 }
@@ -100,10 +102,6 @@ const COMPARISON_OPERATIONS = new Set<TOperationType>([
 
 export const isComparisonOperation = (operation: TOperationType) =>
   COMPARISON_OPERATIONS.has(operation)
-
-function assertNever(_: never): never {
-  throw new Error("Didn't expect to get here")
-}
 
 export function reduceOperationToApi({ type, values }: TOperation): TApiOperation {
   if (isSimpleOperationKey(type)) {
