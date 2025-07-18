@@ -4,12 +4,12 @@
   import TableHead from '$ui/core/Table/TableHead.svelte'
   import { generateItems, type Item } from './utils.js'
 
-  const DATA: Item[] = generateItems(10)
+  const DATA: Item[] = generateItems(100)
 </script>
 
-<div class="flex h-screen items-start justify-center px-10 py-5">
+<div class="flex items-start justify-center px-10 py-5">
   <Table>
-    <TableHeader>
+    <TableHeader sticky>
       <TableRow>
         <TableHead>#</TableHead>
         <TableHead>Name</TableHead>

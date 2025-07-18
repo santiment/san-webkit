@@ -6,12 +6,13 @@
 
   type TProps = {
     class?: string
+    sticky?: boolean
     children: Snippet
   } & HTMLAttributes<HTMLTableSectionElement>
 
-  const { class: className, children, ...props }: TProps = $props()
+  const { class: className, children, sticky = false, ...props }: TProps = $props()
 </script>
 
-<thead class={cn('', className)} {...props}>
+<thead class={cn('', sticky && 'sticky top-0', className)} {...props}>
   {@render children()}
 </thead>
