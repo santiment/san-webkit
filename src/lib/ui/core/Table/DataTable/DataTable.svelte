@@ -14,14 +14,28 @@
   type TProps = {
     items: GItem[]
     columns: GColumn[]
+
+    class?: string
+    headerClass?: string
+    bodyClass?: string
+    headerRowClass?: string
+    bodyRowClass?: string
   }
 
-  const { items, columns }: TProps = $props()
+  const {
+    items,
+    columns,
+    class: className,
+    headerClass,
+    bodyClass,
+    headerRowClass,
+    bodyRowClass,
+  }: TProps = $props()
 </script>
 
-<Table>
-  <TableHeader>
-    <TableRow>
+<Table class={className}>
+  <TableHeader class={headerClass}>
+    <TableRow class={headerRowClass}>
       {#each columns as { title, Head, class: className }}
         {#if Head}
           <Head />
@@ -31,9 +45,9 @@
       {/each}
     </TableRow>
   </TableHeader>
-  <TableBody>
+  <TableBody class={bodyClass}>
     {#each items as item, i}
-      <TableRow>
+      <TableRow class={bodyRowClass}>
         {#each columns as column}
           {#if column.Cell}
             <column.Cell {item} />
