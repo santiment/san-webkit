@@ -14,7 +14,7 @@ export const columns: BaseTableColumn<Item>[] = [
   },
   {
     title: 'Price',
-    format: ({ value }) => usdFormatter(value),
+    format: ({ price }) => usdFormatter(price),
   },
   {
     title: 'Tokens',
