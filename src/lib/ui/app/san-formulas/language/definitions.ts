@@ -42,9 +42,20 @@ const CompletionInsertTextRule = {
   InsertAsSnippet: 4,
 } satisfies TCompletionItemInsertTextRuleRecord
 
+type TDocMetric = {
+  apiMetricName: string
+  label: string
+  fullLabel: string
+  selector: string
+  fullSelector: string
+}
 export const createVariableDefinition = (
   name: string,
-  extra: { detail: string; documentation?: string; metricLabel?: string },
+  extra: {
+    detail: string
+    documentation?: string
+    metric?: TDocMetric
+  },
 ) => ({
   label: name,
   kind: CompletionKind.Variable,
@@ -53,17 +64,21 @@ export const createVariableDefinition = (
   ...extra,
 })
 
-export function createChartVariableDocumentation(metric: TSeries, varName: string) {
+export function createChartVariableDocumentation(
+  metric: TDocMetric,
+  varName: string,
+  formula: TSeries['formula'],
+) {
   return addDocumentationSnippetSyntax(
-    metric.formula
+    formula
       ? escapeTag`<p>The "${metric.label}" is a user defined formula metric. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>The "${metric.label}" has a following formula:</p>
-<pre><code>${metric.formula.expr}</code></pre>`
-      : escapeTag`<p>The "${metric.label}" is an asset metric with a selector <code>Bitcoin (BTC)</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
+<pre><code>${formula.expr}</code></pre>`
+      : escapeTag`<p>The "${metric.label}" is an asset metric with a selector <code>${metric.fullSelector}</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>You can also define this metric as a local variable.</p>
-<pre><code>x1 = asset_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector.$?.slug || 'bitcoin'}&quot;)
+<pre><code>x1 = asset_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector}&quot;)
 </code></pre>`,
   )
 }

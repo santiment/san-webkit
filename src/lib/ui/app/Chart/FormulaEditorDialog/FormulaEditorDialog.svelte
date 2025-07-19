@@ -21,6 +21,7 @@
   import { useFormulaEditorCtx } from './ctx.svelte.js'
   import Definitions from './Definitions.svelte'
   import Documentation from './Documentation.svelte'
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -29,6 +30,7 @@
   const { Controller, metric: currentMetric }: TProps = $props()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+  const { getAssetBySlug } = useAssetsCtx.get()
 
   const chartMetrics = metricSeries.$.map((item, i) =>
     item === currentMetric ? null : [`m${i + 1}`, item],
@@ -39,16 +41,44 @@
 
     const name = `m${i + 1}`
 
+    const [selector, fullSelector, shortSelector] = formatMetricSelector(item)
+    const metric = {
+      apiMetricName: item.apiMetricName,
+      label: item.label,
+      fullLabel: item.formula ? item.label : `${shortSelector} - ${item.label}`,
+      selector,
+      fullSelector,
+    }
+
     return createVariableDefinition(name, {
       detail: 'Chart metric',
-      documentation: createChartVariableDocumentation(item, name),
-      metricLabel: item.label,
+      documentation: createChartVariableDocumentation(metric, name, item.formula),
+      metric,
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
 
   const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
     chartVariables: chartMetrics.map((item) => item[0]),
   })
+
+  function formatMetricSelector(metric: TSeries): [string, string, string] {
+    const selector = metric.selector.$
+
+    let result = ['bitcoin', 'Bitcoin (BTC)', 'BTC'] as [string, string, string]
+
+    if (!selector) {
+      return result
+    }
+
+    if (selector.slug) {
+      const asset = getAssetBySlug(selector.slug)
+      if (asset) {
+        result = [selector.slug, `${asset.name} (${asset.ticker})`, asset.ticker]
+      }
+    }
+
+    return result
+  }
 </script>
 
 <Dialog class="h-[600px] w-[900px] !overflow-visible">
@@ -69,21 +99,17 @@
           icon="chart"
           title="Chart metrics"
           indexOffset={-chartMetrics.length}
-          items={chartMetrics}
+          items={chartVariables}
         >
-          {#snippet children([variable, metric])}
+          {#snippet children(item)}
             <span
               class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
             >
-              {variable}
+              {item.label}
             </span>
 
             <span class="single-line">
-              {#if !metric.formula}
-                BTC -
-              {/if}
-
-              {metric.label}
+              {item.metric!.fullLabel}
             </span>
           {/snippet}
         </Definitions>
