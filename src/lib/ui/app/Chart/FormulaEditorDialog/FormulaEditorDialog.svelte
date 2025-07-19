@@ -64,22 +64,31 @@
     </div>
 
     <div class="flex flex-1 overflow-hidden border-y">
-      <div class="max-w-[340px] shrink-0 overflow-auto border-r p-4 column">
-        <Definitions title="Chart metrics" indexOffset={-chartMetrics.length} items={chartMetrics}>
+      <div class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column">
+        <Definitions
+          icon="chart"
+          title="Chart metrics"
+          indexOffset={-chartMetrics.length}
+          items={chartMetrics}
+        >
           {#snippet children([variable, metric])}
-            <span class="-ml-1 rounded bg-green-light-2-day px-1 py-0.5 text-2xs text-mono">
+            <span
+              class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
+            >
               {variable}
             </span>
 
-            {#if !metric.formula}
-              BTC -
-            {/if}
+            <span class="single-line">
+              {#if !metric.formula}
+                BTC -
+              {/if}
 
-            {metric.label}
+              {metric.label}
+            </span>
           {/snippet}
         </Definitions>
 
-        <Definitions title="Functions" items={DEFINITIONS} itemIcon="fx">
+        <Definitions icon="fx" title="Functions" items={DEFINITIONS}>
           {#snippet children(definition)}
             {definition.label}
           {/snippet}

@@ -71,6 +71,7 @@ export function createChartVariableDocumentation(metric: TSeries, varName: strin
 export const DEFINITIONS = [
   {
     ...FunctionSignature('sma', ['data: Timeseries', 'm1'], ['period: Number', '30']),
+    icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
     documentation: `Simple Moving Average (SMA) indicator calculates the average of a timeseries over a specified period by summing closing values and dividing by the number of periods. It smooths timeseries data to identify trends by reducing noise from short-term fluctuations.
@@ -87,6 +88,7 @@ x1 = sma(m2, 7)
 
   {
     ...FunctionSignature('ema', ['data: Timeseries', 'm1'], ['period: Number', '30']),
+    icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
     documentation: `The Exponential Moving Average (EMA) indicator gives more weight to recent prices in a timeseries over a specified period, reacting faster to price changes than a Simple Moving Average. It's commonly used to spot trends early and filter out minor price fluctuations.
@@ -103,6 +105,7 @@ x1 = ema(m2, 7)
 
   {
     ...FunctionSignature('rsi', ['data: Timeseries', 'm1'], ['period: Number', '30']),
+    icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
     documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of price movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.  
@@ -123,6 +126,7 @@ x1 = rsi(m2, 7)
       ['api_metric: String', '"price_usd"'],
       ['asset_slug: String', '"bitcoin"'],
     ),
+    icon: 'asset-small',
 
     // @RELEASE:MD-COMPILE:START
     documentation: `Fetches a \`timeseries\` metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
@@ -135,6 +139,24 @@ You can also save the result in a local variable for later use.
 # Lorem ipsum 123 "string" only as comment
 
 x1 = asset_metric("price_usd", "bitcoin")
+\`\`\``,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('selector_from', ['chart_metric: Timeseries', 'm1']),
+    icon: 'alert',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Fetches a \`timeseries\` metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
+\`\`\`
+selector_from(m1)
+\`\`\`
+
+You can also save the result in a local variable for later use.  
+\`\`\`
+m1_selector = selector_from(m1)
+x1 = asset_metric("price_usd", m1_selector)
 \`\`\``,
     // @RELEASE:MD-COMPILE:END
   },

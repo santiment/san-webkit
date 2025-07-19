@@ -8,7 +8,7 @@ import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineComp
 
 import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
-import { setModelMetadata, type TMetadata } from './metadata.js'
+import { getModelMetadata, setModelMetadata, type TMetadata } from './metadata.js'
 import { LANGUAGE_ID } from './language.js'
 import './tokens-provider.js'
 import './completion-provider.js'
@@ -46,7 +46,7 @@ export function createEditor(domElement: HTMLElement, value: string) {
     model,
 
     fontFamily: 'Menlo',
-    fontSize: 16,
+    fontSize: 14,
     lineHeight: LINE_HEIGHT,
     padding: { top: 3, bottom: 3 },
 
@@ -98,7 +98,8 @@ export function createEditor(domElement: HTMLElement, value: string) {
   return {
     api: { editor, model },
 
-    updateMetadata: (metadata: Partial<TMetadata>) => setModelMetadata(model, { ...metadata }),
+    updateMetadata: (metadata: Partial<TMetadata>) =>
+      setModelMetadata(model, Object.assign(getModelMetadata(model) || {}, metadata)),
 
     dispose() {
       editor.dispose()
