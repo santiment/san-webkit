@@ -1,9 +1,50 @@
 <script lang="ts">
+  import type { TDocMetric } from '$ui/app/san-formulas/language/definitions.js'
+
+  import { onMount } from 'svelte'
+
+  import { copy } from '$lib/utils/clipboard.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Svg from '$ui/core/Svg/Svg.svelte'
 
-  type TProps = { definition: { label: string; documentation: string; metricLabel?: string } }
+  type TProps = {
+    definition: { icon: string; label: string; documentation: string; metric?: TDocMetric }
+  }
   const { definition }: TProps = $props()
+
+  let copyLabel = $state('Copy')
+
+  let docsElement: HTMLElement
+  let currentPreElement: null | undefined | HTMLElement = null
+
+  function onCopy() {
+    copyLabel = 'Copied!'
+    copy(currentPreElement?.innerText.trim() || '', () => (copyLabel = 'Copy'), 1000)
+  }
+
+  onMount(() => {
+    const copyButtonElement = docsElement.lastElementChild as HTMLButtonElement
+
+    function onMouseOver(e: MouseEvent) {
+      const preElement = (e.target as null | HTMLElement)?.closest('pre')
+
+      if (preElement === currentPreElement) {
+        return
+      }
+
+      currentPreElement = preElement
+
+      if (!preElement) {
+        return copyButtonElement.classList.add('invisible')
+      }
+
+      preElement.appendChild(copyButtonElement)
+      copyButtonElement.classList.remove('invisible')
+    }
+
+    docsElement.addEventListener('mouseover', onMouseOver)
+    return () => docsElement.removeEventListener('mouseover', onMouseOver)
+  })
 </script>
 
 <section class="gap-3 overflow-auto p-4 column">
@@ -19,17 +60,22 @@
     {/if}
   </h2>
 
-  <div class="docs relative gap-2 text-fiord column">
+  <div bind:this={docsElement} class="docs relative gap-2 text-fiord column">
     {@html definition.documentation || ''}
 
-    <Button icon="copy" explanation="Copy" class="!absolute bottom-3 right-1"></Button>
+    <Button
+      icon="copy"
+      explanation={copyLabel}
+      class="invisible !absolute right-1.5 top-1.5 hover:bg-mystic/50"
+      onclick={onCopy}
+    ></Button>
   </div>
 </section>
 
-<style>
+<style lang="postcss">
   .docs :global {
     pre {
-      @apply rounded bg-athens p-3 text-black;
+      @apply relative rounded bg-athens p-3 text-black;
     }
 
     p code {

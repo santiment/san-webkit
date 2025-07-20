@@ -42,7 +42,7 @@ const CompletionInsertTextRule = {
   InsertAsSnippet: 4,
 } satisfies TCompletionItemInsertTextRuleRecord
 
-type TDocMetric = {
+export type TDocMetric = {
   apiMetricName: string
   label: string
   fullLabel: string
