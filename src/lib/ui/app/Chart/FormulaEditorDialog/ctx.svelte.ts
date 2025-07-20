@@ -39,7 +39,7 @@ export const useFormulaEditorCtx = createCtx(
 
       const updateLocalVariablesMetadata = () =>
         formulaEditor?.updateMetadata({
-          localVariables: Array.from(model.getValue().matchAll(/(\b[_a-zA-Z]+[0-9]?)[\s]?=/g)).map(
+          localVariables: Array.from(model.getValue().matchAll(/(\b[_a-zA-Z0-9]+)[\s]?=/g)).map(
             ([_, varName]) => varName,
           ),
         })

@@ -1,5 +1,5 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
-import type { TMetricData } from '$ui/app/Chart/api/index.js'
+import type { TMetricData, TMetricTargetSelectorInputObject } from '$ui/app/Chart/api/index.js'
 
 // use light-weight, number-only implementations of functions
 import { create, parserDependencies } from 'mathjs/number'
@@ -11,12 +11,21 @@ export const math = create({ parserDependencies })
 export class Timeseries {
   values: number[]
   timestamps: UTCTimestamp[]
+  selector: null | TMetricTargetSelectorInputObject
 
-  constructor(...args: [TMetricData] | [number[], number[]]) {
-    const [data, timestamps = new Array(data.length)] = args
+  // TODO: Refactor...
+  constructor(
+    ...args: [TMetricData, null | TMetricTargetSelectorInputObject] | [number[], number[]]
+  ) {
+    //const [data, timestamps = new Array(data.length)] = args
+    const [data, selectorOrTimestamps] = args
 
     const isMetricData = typeof data[0] !== 'number'
-    const values = isMetricData ? new Array(data.length) : data
+
+    const values = (isMetricData ? new Array(data.length) : data) as number[]
+    const timestamps = (
+      isMetricData ? new Array(data.length) : selectorOrTimestamps
+    ) as UTCTimestamp[]
 
     if (isMetricData) {
       for (let i = 0; i < data.length; i++) {
@@ -28,6 +37,9 @@ export class Timeseries {
 
     this.values = values
     this.timestamps = timestamps
+    this.selector = isMetricData
+      ? (selectorOrTimestamps as null | TMetricTargetSelectorInputObject)
+      : null
   }
 
   toMetricData() {

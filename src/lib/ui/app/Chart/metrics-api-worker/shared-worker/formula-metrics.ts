@@ -72,20 +72,24 @@ export function fetchFormulaMetric(
     options: { cache: BROWSER, cacheTime: 15 },
   })
 
-  // Registring visited formula index
-  ctx.path.push(index)
-
   // TODO: replace with `processRecursiveFormula`
-  const fetchedMetrics = variables.map((variable) => {
-    const index = variable.metricIndex
-    const metric = ctx.metrics[index]
-
-    if (metric.formula && ctx.path.includes(index)) {
-      throw new Error('Recursive formula expression')
-    }
-
-    return createFetchJob(variable, metric)
-  })
+  //
+  // Registring visited formula index
+  //ctx.path.push(index)
+  //
+  //const fetchedMetrics = variables.map((variable) => {
+  //  const index = variable.metricIndex
+  //  const metric = ctx.metrics[index]
+  //
+  //  if (metric.formula && ctx.path.includes(index)) {
+  //    throw new Error('Recursive formula expression')
+  //  }
+  //
+  //  return createFetchJob(variable, metric)
+  //})
+  const fetchedMetrics = processRecursiveFormula(index, variables, ctx, (variable, metric) =>
+    createFetchJob(variable, metric),
+  )
 
   const parsedExpression = SanFormulas.parse(formula.expr)
   const transformedExpression = parsedExpression.transform((node) => {
@@ -104,28 +108,31 @@ export function fetchFormulaMetric(
   })
 
   function createFetchJob(variable: { name: string }, metric: (typeof ctx)['metrics'][number]) {
-    return new Promise<[string, TMetricData]>((resolve, reject) => {
-      const rejectAndCancel = (reason?: any) => (
-        reject(reason), ctx.cancelJobs(), deleteCache(), reason
-      )
-
-      const dataRequest = () =>
-        (metric.formula
-          ? fetchFormulaMetric(metric.formula, index, ctx)
-          : queryMetric(metric.name, {
-              ...ctx.parameters,
-              selector: metric.selector || ctx.parameters.selector,
-            })
+    return new Promise<[string, TMetricData, null | TMetricTargetSelectorInputObject]>(
+      (resolve, reject) => {
+        const rejectAndCancel = (reason?: any) => (
+          reject(reason), ctx.cancelJobs(), deleteCache(), reason
         )
-          .then((data) => resolve([variable.name, data]))
-          .catch(rejectAndCancel)
 
-      ctx.addJob(dataRequest)
-    })
+        const selector = metric.formula ? null : metric.selector || ctx.parameters.selector
+
+        const dataRequest = () =>
+          (metric.formula
+            ? fetchFormulaMetric(metric.formula, index, ctx)
+            : queryMetric(metric.name, { ...ctx.parameters, selector: selector! })
+          )
+            .then((data) => resolve([variable.name, data, selector]))
+            .catch(rejectAndCancel)
+
+        ctx.addJob(dataRequest)
+      },
+    )
   }
 
   return Promise.all(fetchedMetrics).then((metrics) => {
-    const scope = new Map(metrics.map(([variable, data]) => [variable, new Timeseries(data)]))
+    const scope = new Map(
+      metrics.map(([variable, data, selector]) => [variable, new Timeseries(data, selector)]),
+    )
 
     const compiledFormula = transformedExpression.compile()
     const rawAnswer = compiledFormula.evaluate(scope)
