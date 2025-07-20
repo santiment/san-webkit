@@ -29,11 +29,37 @@
 <style>
   .docs :global {
     pre {
-      @apply rounded bg-athens p-3;
+      @apply rounded bg-athens p-3 text-black;
     }
 
     p code {
       @apply rounded bg-athens px-1.5 py-0.5 font-medium text-fiord;
+    }
+  }
+
+  :global {
+    .mtk1 {
+      @apply !text-black;
+    }
+
+    /* Comments */
+    .mtk8 {
+      @apply !text-waterloo;
+    }
+
+    /* Strings */
+    .mtk20 {
+      @apply !text-lima-hover;
+    }
+
+    /* Functions */
+    .mtk6 {
+      @apply !text-purple;
+    }
+
+    /* Numbers */
+    .mtk7 {
+      @apply !text-orange-hover;
     }
   }
 </style>

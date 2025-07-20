@@ -56,6 +56,14 @@
       --vscode-focusBorder: transparent;
       --vscode-editorGutter-background: transparent;
       --vscode-list-hoverBackground: var(--mystic);
+
+      --vscode-editorSuggestWidget-foreground: var(--black);
+      --vscode-editorSuggestWidget-background: var(--white);
+    }
+
+    .monaco-editor .cursors-layer .cursor {
+      background-color: var(--black);
+      border-color: var(--black);
     }
   }
 
