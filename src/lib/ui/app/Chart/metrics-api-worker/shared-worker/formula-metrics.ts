@@ -5,7 +5,12 @@ import { BROWSER } from 'esm-env'
 import { Query } from '$lib/api/executor.js'
 import { ApiCache } from '$lib/api/cache.js'
 import { controlledPromisePolyfill } from '$lib/utils/promise.js'
-import { SanFormulas, Timeseries } from '$ui/app/san-formulas/math/index.js'
+import {
+  evaluateTransformationScope,
+  SanFormulas,
+  Timeseries,
+  TRANSFORMABLE_FNS,
+} from '$ui/app/san-formulas/math/index.js'
 
 import {
   queryGetMetric,
@@ -91,13 +96,21 @@ export function fetchFormulaMetric(
     createFetchJob(variable, metric),
   )
 
+  const transformationScope = evaluateTransformationScope(
+    formula.expr,
+    variables.map((variable) => [variable.name, ctx.metrics[variable.metricIndex].selector]),
+  )
+
   const parsedExpression = SanFormulas.parse(formula.expr)
   const transformedExpression = parsedExpression.transform((node) => {
     if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'asset_metric') {
-      const [metricNameNode, slugNode] = node.args
+      const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
 
-      const variable = { name: '__asset_metric_1' }
-      const metric = { name: metricNameNode.value, selector: { slug: slugNode.value } }
+      const variableName = controller.getTransformationVariableName(transformationScope)
+      const [apiMetricName, selector] = transformationScope.get(variableName)!
+
+      const variable = { name: variableName }
+      const metric = { name: apiMetricName, selector }
 
       fetchedMetrics.push(createFetchJob(variable, metric))
 
