@@ -148,8 +148,9 @@ const handleValidateFormula: TRequestHandler<TValidateFormulaMessage> = (respond
   })
 
   function formulaValidationJob() {
+    const { formula, index, metrics } = msg.payload
     return Promise.resolve()
-      .then(() => validateFormula(msg.payload.formula, msg.payload.scope))
+      .then(() => validateFormula(formula, index, metrics))
       .then(() => {
         if (isCancelled) return
 

@@ -25,10 +25,11 @@
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
 
   type TProps = TDialogProps & {
+    index: number
     metric: TSeries
   }
 
-  const { Controller, metric: currentMetric }: TProps = $props()
+  const { Controller, index, metric: currentMetric }: TProps = $props()
 
   const { metricSeries } = useMetricSeriesCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
@@ -59,7 +60,9 @@
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
 
   const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
+    index,
     chartVariables: chartMetrics.map((item) => item[0]),
+    metrics: metricSeries.asScope$,
   })
 
   function formatMetricSelector(metric: TSeries): [string, string, string] {

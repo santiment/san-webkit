@@ -84,13 +84,13 @@
   </div>
 
   <div class="mt-4 flex gap-2">
-    {#each metricSeries.$ as metric}
+    {#each metricSeries.$ as metric, index}
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="rounded border p-1"
         style="border-color:{metric.color.$}"
-        onclick={metric.formula ? () => showFormulaEditorDialog({ metric }) : null}
+        onclick={metric.formula ? () => showFormulaEditorDialog({ metric, index }) : null}
       >
         {metric.label}
       </div>

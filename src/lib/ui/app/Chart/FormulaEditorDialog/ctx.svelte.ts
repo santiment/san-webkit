@@ -9,7 +9,15 @@ import { workerValidateFormula } from '../metrics-api-worker/index.js'
 
 export const useFormulaEditorCtx = createCtx(
   'webkit_useFormulaEditorCtx',
-  ({ chartVariables }: { chartVariables: string[] }) => {
+  ({
+    index,
+    chartVariables,
+    metrics,
+  }: {
+    index: number
+    chartVariables: string[]
+    metrics: TValidateFormulaMessage['request']['payload']['metrics']
+  }) => {
     let formulaEditor = $state.raw<null | TSanFormulasEditor>(null)
 
     const hoveredDefinitionIndex = ss(0)
@@ -45,7 +53,7 @@ export const useFormulaEditorCtx = createCtx(
           formulaValidationWorker.schedule({ isLoading: true })
 
           timer = window.setTimeout(() => {
-            formulaValidationWorker.sendMessage({ formula: value, scope: chartVariables })
+            formulaValidationWorker.sendMessage({ formula: value, index, metrics })
             updateLocalVariablesMetadata()
           }, 500)
         } else {
@@ -57,7 +65,7 @@ export const useFormulaEditorCtx = createCtx(
 
       if (defaultValue) {
         updateLocalVariablesMetadata()
-        formulaValidationWorker.sendMessage({ formula: model.getValue(), scope: chartVariables })
+        formulaValidationWorker.sendMessage({ formula: model.getValue(), index, metrics })
       }
 
       return () => {

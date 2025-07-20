@@ -78,7 +78,11 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
 >
 export type TValidateFormulaMessage = TMessageRequestResponse<
   TMessageType['ValidateFormula'],
-  { formula: string; scope: string[] },
+  {
+    formula: string
+    index: number
+    metrics: TFetchFormulaMetricMessage['request']['payload']['metrics']
+  },
   { errors: string[] }
 >
 

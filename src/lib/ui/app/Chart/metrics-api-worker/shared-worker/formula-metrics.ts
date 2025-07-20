@@ -7,7 +7,11 @@ import { ApiCache } from '$lib/api/cache.js'
 import { controlledPromisePolyfill } from '$lib/utils/promise.js'
 import { SanFormulas, Timeseries } from '$ui/app/san-formulas/math/index.js'
 
-import { queryGetMetric, type TMetricData } from '../../api/index.js'
+import {
+  queryGetMetric,
+  type TMetricData,
+  type TMetricTargetSelectorInputObject,
+} from '../../api/index.js'
 import { parseFormulaChartVariables } from '../utils.js'
 
 type TContext = {
@@ -71,6 +75,7 @@ export function fetchFormulaMetric(
   // Registring visited formula index
   ctx.path.push(index)
 
+  // TODO: replace with `processRecursiveFormula`
   const fetchedMetrics = variables.map((variable) => {
     const index = variable.metricIndex
     const metric = ctx.metrics[index]
@@ -139,15 +144,68 @@ export function fetchFormulaMetric(
 
     cachePromiseController.resolve(timeseries)
 
-    const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
-    console.log({ usedVariables })
+    //const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
+    //console.log({ usedVariables })
 
     return timeseries
   })
 }
 
-export function validateFormula(expr: string, scopeVariables: string[]) {
-  const scope = new Map(scopeVariables.map((item) => [item, new Timeseries([])]))
+export function validateFormula(expr: string, index: number, chartMetrics: TContext['metrics']) {
+  const path: number[] = []
+  const ctx = { path, metrics: chartMetrics }
 
-  return SanFormulas.evaluate(expr, scope)
+  const scope = new Map(
+    chartMetrics.map((item, index) => [`m${index + 1}`, new Timeseries([], item.selector)]),
+  )
+
+  const result = SanFormulas.evaluate(expr, scope)
+
+  // NOTE: First resolving syntax/type errors, then recursion errors
+  validateRecursiveFormula(index, expr, ctx)
+
+  return result
+}
+
+function processRecursiveFormula<GResult>(
+  index: number,
+  variables: ReturnType<typeof parseFormulaChartVariables>,
+  ctx: Pick<TContext, 'path' | 'metrics'>,
+  fn: (variable: (typeof variables)[number], metric: TContext['metrics'][number]) => GResult,
+) {
+  // Registring visited formula index
+  ctx.path.push(index)
+
+  return variables.map((variable) => {
+    const index = variable.metricIndex
+    const metric = ctx.metrics[index]
+
+    if (metric.formula && ctx.path.includes(index)) {
+      throw new Error(
+        'Recursive formula expression: ' +
+          ctx.path
+            .concat(index)
+            .map((v) => `m${v + 1}`)
+            .join(' ➝ '),
+      )
+    }
+
+    return fn(variable, metric)
+  })
+}
+
+function validateRecursiveFormula(
+  index: number,
+  expr: string,
+  ctx: Pick<TContext, 'path' | 'metrics'>,
+) {
+  const variables = parseFormulaChartVariables(expr)
+
+  processRecursiveFormula(
+    index,
+    variables,
+    ctx,
+    (variable, metric) =>
+      metric.formula && validateRecursiveFormula(variable.metricIndex, metric.formula.expr, ctx),
+  )
 }
