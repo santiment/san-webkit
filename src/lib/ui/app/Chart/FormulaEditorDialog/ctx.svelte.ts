@@ -25,6 +25,7 @@ export const useFormulaEditorCtx = createCtx(
       }
 
       const { model } = formulaEditor.api
+      const defaultValue = model.getValue().trim()
 
       let timer = 0
 
@@ -53,8 +54,11 @@ export const useFormulaEditorCtx = createCtx(
       })
 
       formulaEditor.updateMetadata({ chartVariables, onSignatureHelp })
-      updateLocalVariablesMetadata()
-      formulaValidationWorker.sendMessage({ formula: model.getValue(), scope: chartVariables })
+
+      if (defaultValue) {
+        updateLocalVariablesMetadata()
+        formulaValidationWorker.sendMessage({ formula: model.getValue(), scope: chartVariables })
+      }
 
       return () => {
         formulaEditor?.dispose()
@@ -99,8 +103,6 @@ function useWorkerMessagesFlow(defaultValue: string[]) {
 
     data = msg.payload.errors
     isLoading = false
-
-    console.log(msg)
   }
 
   onMount(() => () => {

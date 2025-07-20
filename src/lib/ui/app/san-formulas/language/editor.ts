@@ -33,7 +33,7 @@ self.MonacoEnvironment = {
   },
 }
 
-const LINE_HEIGHT = 24
+const LINE_HEIGHT = 20
 
 export type TEditor = monacoEditor.IStandaloneCodeEditor
 
@@ -48,7 +48,7 @@ export function createEditor(domElement: HTMLElement, value: string) {
     fontFamily: 'Menlo',
     fontSize: 14,
     lineHeight: LINE_HEIGHT,
-    padding: { top: 3, bottom: 3 },
+    padding: { top: 5, bottom: 5 },
 
     lineNumbers: 'off',
     minimap: { enabled: false },
@@ -65,6 +65,10 @@ export function createEditor(domElement: HTMLElement, value: string) {
       alwaysConsumeMouseWheel: false,
     },
 
+    folding: false,
+    lineDecorationsWidth: 12,
+    //lineNumbersMinChars: 0,
+
     // @ts-expect-error
     'bracketPairColorization.enabled': false,
   })
@@ -72,7 +76,7 @@ export function createEditor(domElement: HTMLElement, value: string) {
   //let ignoreEvent = false
   const updateHeight = () => {
     const contentWidth = domElement.offsetWidth - 2
-    const contentHeight = Math.min(LINE_HEIGHT * 8, editor.getContentHeight())
+    const contentHeight = Math.min(LINE_HEIGHT * 10, editor.getContentHeight())
 
     domElement.style.height = `${contentHeight + 2}px`
     try {

@@ -15,13 +15,14 @@
     createChartVariableDocumentation,
     DEFINITIONS,
   } from '$ui/app/san-formulas/language/definitions.js'
+  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
 
   import TextEditor from './TextEditor.svelte'
-  import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
-  import { useFormulaEditorCtx } from './ctx.svelte.js'
+  import Validity from './Validity.svelte'
   import Definitions from './Definitions.svelte'
   import Documentation from './Documentation.svelte'
-  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+  import { useFormulaEditorCtx } from './ctx.svelte.js'
+  import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
 
   type TProps = TDialogProps & {
     metric: TSeries
@@ -81,56 +82,60 @@
   }
 </script>
 
-<Dialog class="h-[600px] w-[900px] !overflow-visible">
-  <div class="h-full max-h-full column">
-    <div class="p-4">
-      Name:
-      <Input defaultValue={currentMetric.label}></Input>
+<Dialog class="w-[900px] !overflow-visible column">
+  <div class="gap-4 p-4 column">
+    <label>
+      <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
 
-      <br />
+      <Input defaultValue={currentMetric.label} placeholder="Write formula name here..."></Input>
+    </label>
 
-      Formula:
+    <label>
+      <div class="mb-1 text-xs font-medium text-waterloo">Formula:</div>
+
       <TextEditor></TextEditor>
+    </label>
+
+    <Validity></Validity>
+  </div>
+
+  <div class="flex flex-1 overflow-hidden border-y">
+    <div class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column">
+      <Definitions
+        icon="chart"
+        title="Chart metrics"
+        indexOffset={-chartMetrics.length}
+        items={chartVariables}
+      >
+        {#snippet children(item)}
+          <span
+            class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
+          >
+            {item.label}
+          </span>
+
+          <span class="single-line">
+            {item.metric!.fullLabel}
+          </span>
+        {/snippet}
+      </Definitions>
+
+      <Definitions icon="fx" title="Functions" items={DEFINITIONS}>
+        {#snippet children(definition)}
+          {definition.label}
+        {/snippet}
+      </Definitions>
     </div>
 
-    <div class="flex flex-1 overflow-hidden border-y">
-      <div class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column">
-        <Definitions
-          icon="chart"
-          title="Chart metrics"
-          indexOffset={-chartMetrics.length}
-          items={chartVariables}
-        >
-          {#snippet children(item)}
-            <span
-              class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
-            >
-              {item.label}
-            </span>
+    <Documentation
+      definition={hoveredDefinitionIndex.$ < 0
+        ? chartVariables[hoveredDefinitionIndex.$ + chartMetrics.length]
+        : DEFINITIONS[hoveredDefinitionIndex.$]}
+    ></Documentation>
+  </div>
 
-            <span class="single-line">
-              {item.metric!.fullLabel}
-            </span>
-          {/snippet}
-        </Definitions>
-
-        <Definitions icon="fx" title="Functions" items={DEFINITIONS}>
-          {#snippet children(definition)}
-            {definition.label}
-          {/snippet}
-        </Definitions>
-      </div>
-
-      <Documentation
-        definition={hoveredDefinitionIndex.$ < 0
-          ? chartVariables[hoveredDefinitionIndex.$ + chartMetrics.length]
-          : DEFINITIONS[hoveredDefinitionIndex.$]}
-      ></Documentation>
-    </div>
-
-    <div class="flex justify-end gap-2 p-3">
-      <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
-      <Button variant="fill">Save</Button>
-    </div>
+  <div class="flex justify-start gap-2 p-4">
+    <Button variant="fill">Save</Button>
+    <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
   </div>
 </Dialog>
