@@ -238,6 +238,9 @@ devDependencies:
   typescript-eslint:
     specifier: ^8.31.0
     version: 8.31.0(eslint@9.28.0)(typescript@5.7.3)
+  uuid:
+    specifier: ^11.1.0
+    version: 11.1.0
   viem:
     specifier: ~2.21.38
     version: 2.21.38(typescript@5.7.3)(zod@3.23.8)
@@ -10378,6 +10381,11 @@ packages:
       is-generator-function: 1.1.0
       is-typed-array: 1.1.15
       which-typed-array: 1.1.19
+
+  /uuid@11.1.0:
+    resolution: {integrity: sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==}
+    hasBin: true
+    dev: true
 
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}

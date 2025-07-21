@@ -18,6 +18,7 @@
     DEFINITIONS,
   } from '$ui/app/san-formulas/language/definitions.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
+  import { uuidv4, type TUUIDv4 } from '$lib/utils/uuid/index.js'
 
   import TextEditor from './TextEditor.svelte'
   import Validity from './Validity.svelte'
@@ -26,7 +27,8 @@
   import { useFormulaEditorCtx } from './ctx.svelte.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
 
-  type TProps = TDialogProps & {
+  type TResult = { formula: { id: TUUIDv4; expr: string } }
+  type TProps = TDialogProps<TResult> & {
     index: number
     metric: TSeries
   }
@@ -36,9 +38,7 @@
   const { metricSeries } = useMetricSeriesCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
 
-  const chartMetrics = metricSeries.$.map((item, i) =>
-    item === currentMetric ? null : [`m${i + 1}`, item],
-  ).filter(Boolean) as [string, TSeries][]
+  Controller.lockWarn()
 
   const chartVariables = metricSeries.$.map((item, i) => {
     if (item === currentMetric) return null
@@ -61,9 +61,9 @@
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
 
-  const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
+  const { formulaEditor, hoveredDefinitionIndex } = useFormulaEditorCtx.set({
     index,
-    chartVariables: chartMetrics.map((item) => item[0]),
+    chartVariables: chartVariables.map(({ label }) => label),
     metrics: metricSeries.asScope$,
     onEditorSignatureShown,
   })
@@ -95,6 +95,17 @@
         ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     })
   }
+
+  function onSave() {
+    const expr = formulaEditor.$?.api.model.getValue().trim() || ''
+
+    Controller.unlock()
+    Controller.resolve({
+      formula: { id: uuidv4(), expr },
+    })
+
+    Controller.close()
+  }
 </script>
 
 <Dialog class="w-[900px] !overflow-visible column">
@@ -122,7 +133,7 @@
       <Definitions
         icon="chart"
         title="Chart metrics"
-        indexOffset={-chartMetrics.length}
+        indexOffset={-chartVariables.length}
         items={chartVariables}
       >
         {#snippet children(item)}
@@ -147,13 +158,13 @@
 
     <Documentation
       definition={hoveredDefinitionIndex.$ < 0
-        ? chartVariables[hoveredDefinitionIndex.$ + chartMetrics.length]
+        ? chartVariables[hoveredDefinitionIndex.$ + chartVariables.length]
         : DEFINITIONS[hoveredDefinitionIndex.$]}
     ></Documentation>
   </div>
 
   <div class="flex justify-start gap-2 p-4">
-    <Button variant="fill">Save</Button>
+    <Button variant="fill" onclick={onSave}>Save</Button>
     <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
   </div>
 </Dialog>

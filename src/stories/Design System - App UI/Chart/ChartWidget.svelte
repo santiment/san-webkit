@@ -90,7 +90,12 @@
       <div
         class="rounded border p-1"
         style="border-color:{metric.color.$}"
-        onclick={metric.formula ? () => showFormulaEditorDialog({ metric, index }) : null}
+        onclick={metric.formula
+          ? () =>
+              showFormulaEditorDialog({ metric, index })
+                .then(console.log)
+                .catch((e) => console.error('In catch', e))
+          : null}
       >
         {metric.label}
       </div>
