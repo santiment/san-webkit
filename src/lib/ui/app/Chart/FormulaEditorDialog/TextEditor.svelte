@@ -59,12 +59,22 @@
 
       --vscode-editorSuggestWidget-foreground: var(--black);
       --vscode-editorSuggestWidget-background: var(--white);
+
+      --vscode-editorHoverWidget-foreground: var(--black);
+      --vscode-editorHoverWidget-background: var(--white);
+
+      --vscode-editor-snippetTabstopHighlightBackground: var(--porcelain);
+      /*--vscode-editor-inactiveSelectionBackground: var(--blue-light-3)*/
     }
 
     .monaco-editor .cursors-layer .cursor {
       background-color: var(--black);
       border-color: var(--black);
     }
+  }
+
+  :global(.night-mode) div :global(.monaco-editor) {
+    --vscode-editor-snippetTabstopHighlightBackground: var(--casper);
   }
 
   pre {
