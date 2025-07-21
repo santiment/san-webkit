@@ -27,21 +27,23 @@
   import { useFormulaEditorCtx } from './ctx.svelte.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
 
-  type TResult = { formula: { id: TUUIDv4; expr: string } }
+  type TResult = { formula: { id: TUUIDv4; name: string; expr: string } }
+
   type TProps = TDialogProps<TResult> & {
     index: number
-    metric: TSeries
+    formula: null | { id: TUUIDv4; expr: string; name: string }
   }
 
-  const { Controller, index, metric: currentMetric }: TProps = $props()
+  const { Controller, index, formula }: TProps = $props()
+
+  const defaultValues = formula || { expr: '', name: '' }
+  const currentFormula = $state(defaultValues)
 
   const { metricSeries } = useMetricSeriesCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
 
-  Controller.lockWarn()
-
   const chartVariables = metricSeries.$.map((item, i) => {
-    if (item === currentMetric) return null
+    if (i === index) return null
 
     const name = `m${i + 1}`
 
@@ -61,11 +63,19 @@
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
 
-  const { formulaEditor, hoveredDefinitionIndex } = useFormulaEditorCtx.set({
+  const { hoveredDefinitionIndex } = useFormulaEditorCtx.set({
     index,
     chartVariables: chartVariables.map(({ label }) => label),
     metrics: metricSeries.asScope$,
     onEditorSignatureShown,
+  })
+
+  $effect(() => {
+    if (currentFormula.expr === defaultValues.expr && currentFormula.name === defaultValues.name) {
+      Controller.unlock()
+    } else {
+      Controller.lockWarn('Do you want to close this dialog? Changes you made may not be saved.')
+    }
   })
 
   function formatMetricSelector(metric: TSeries): [string, string, string] {
@@ -96,12 +106,22 @@
     })
   }
 
-  function onSave() {
-    const expr = formulaEditor.$?.api.model.getValue().trim() || ''
+  function onFormSubmit(e: Event) {
+    e.preventDefault()
+
+    // TODO: Handle invalid formula inputs with report validity
+    if (!currentFormula.name) {
+      return
+    }
+
+    if (!currentFormula.expr) {
+      return
+    }
+    const { id, name, expr } = { ...currentFormula, id: formula?.id ?? uuidv4() }
 
     Controller.unlock()
     Controller.resolve({
-      formula: { id: uuidv4(), expr },
+      formula: { id, name, expr },
     })
 
     Controller.close()
@@ -109,62 +129,69 @@
 </script>
 
 <Dialog class="w-[900px] !overflow-visible column">
-  <div class="gap-4 p-4 column">
-    <label>
-      <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
+  <form onsubmit={onFormSubmit}>
+    <div class="gap-4 p-4 column">
+      <label>
+        <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
 
-      <Input defaultValue={currentMetric.label} placeholder="Write formula name here..."></Input>
-    </label>
+        <Input
+          required
+          defaultValue={currentFormula.name}
+          placeholder="Write formula name here..."
+          oninput={(e) => (currentFormula.name = e.currentTarget.value.trim())}
+        ></Input>
+      </label>
 
-    <label>
-      <div class="mb-1 text-xs font-medium text-waterloo">Formula:</div>
+      <label>
+        <div class="mb-1 text-xs font-medium text-waterloo">Formula:</div>
 
-      <TextEditor></TextEditor>
-    </label>
+        <TextEditor bind:value={currentFormula.expr}></TextEditor>
+      </label>
 
-    <Validity></Validity>
-  </div>
-
-  <div class="flex flex-1 overflow-hidden border-y">
-    <div
-      bind:this={definitionsElement}
-      class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column"
-    >
-      <Definitions
-        icon="chart"
-        title="Chart metrics"
-        indexOffset={-chartVariables.length}
-        items={chartVariables}
-      >
-        {#snippet children(item)}
-          <span
-            class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
-          >
-            {item.label}
-          </span>
-
-          <span class="single-line">
-            {item.metric!.fullLabel}
-          </span>
-        {/snippet}
-      </Definitions>
-
-      <Definitions icon="fx" title="Functions" items={DEFINITIONS}>
-        {#snippet children(definition)}
-          {definition.label}
-        {/snippet}
-      </Definitions>
+      <Validity></Validity>
     </div>
 
-    <Documentation
-      definition={hoveredDefinitionIndex.$ < 0
-        ? chartVariables[hoveredDefinitionIndex.$ + chartVariables.length]
-        : DEFINITIONS[hoveredDefinitionIndex.$]}
-    ></Documentation>
-  </div>
+    <div class="flex flex-1 overflow-hidden border-y">
+      <div
+        bind:this={definitionsElement}
+        class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column"
+      >
+        <Definitions
+          icon="chart"
+          title="Chart metrics"
+          indexOffset={-chartVariables.length}
+          items={chartVariables}
+        >
+          {#snippet children(item)}
+            <span
+              class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
+            >
+              {item.label}
+            </span>
 
-  <div class="flex justify-start gap-2 p-4">
-    <Button variant="fill" onclick={onSave}>Save</Button>
-    <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
-  </div>
+            <span class="single-line">
+              {item.metric!.fullLabel}
+            </span>
+          {/snippet}
+        </Definitions>
+
+        <Definitions icon="fx" title="Functions" items={DEFINITIONS}>
+          {#snippet children(definition)}
+            {definition.label}
+          {/snippet}
+        </Definitions>
+      </div>
+
+      <Documentation
+        definition={hoveredDefinitionIndex.$ < 0
+          ? chartVariables[hoveredDefinitionIndex.$ + chartVariables.length]
+          : DEFINITIONS[hoveredDefinitionIndex.$]}
+      ></Documentation>
+    </div>
+
+    <div class="flex justify-start gap-2 p-4">
+      <Button variant="fill" type="submit">Save</Button>
+      <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
+    </div>
+  </form>
 </Dialog>

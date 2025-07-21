@@ -92,7 +92,7 @@
         style="border-color:{metric.color.$}"
         onclick={metric.formula
           ? () =>
-              showFormulaEditorDialog({ metric, index })
+              showFormulaEditorDialog({ formula: metric.formula, index })
                 .then(console.log)
                 .catch((e) => console.error('In catch', e))
           : null}

@@ -4,9 +4,10 @@
 
   import { useFormulaEditorCtx } from './ctx.svelte.js'
 
+  let { value = $bindable('') } = $props()
+
   const { formulaEditor, importSanFormulasEditor } = useFormulaEditorCtx.get()
 
-  let value = ''
   const mount: Action<HTMLDivElement> = (node: HTMLElement) => {
     let isUnmounted = false
     let onDidBlurEditorTextDisposable: null | IDisposable = null

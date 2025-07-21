@@ -46,6 +46,7 @@ export const PriceFormula: Story = {
         style: 'line',
         scaleId: 'right-price_usd',
         formula: {
+          name: 'Derived formula - Price SMA(SMA(30), 5)',
           expr: 'btc="bitcoin"\nx1 = asset_metric("price_usd", btc) \nsma(x1, 30)',
           locals: [],
         },
