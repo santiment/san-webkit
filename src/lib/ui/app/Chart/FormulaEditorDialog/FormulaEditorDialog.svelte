@@ -8,6 +8,8 @@
 </script>
 
 <script lang="ts">
+  import { tick } from 'svelte'
+
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import {
@@ -63,6 +65,7 @@
     index,
     chartVariables: chartMetrics.map((item) => item[0]),
     metrics: metricSeries.asScope$,
+    onEditorSignatureShown,
   })
 
   function formatMetricSelector(metric: TSeries): [string, string, string] {
@@ -82,6 +85,15 @@
     }
 
     return result
+  }
+
+  let definitionsElement: HTMLElement
+  function onEditorSignatureShown() {
+    tick().then(() => {
+      definitionsElement
+        .querySelector('.active-definition')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    })
   }
 </script>
 
@@ -103,7 +115,10 @@
   </div>
 
   <div class="flex flex-1 overflow-hidden border-y">
-    <div class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column">
+    <div
+      bind:this={definitionsElement}
+      class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column"
+    >
       <Definitions
         icon="chart"
         title="Chart metrics"

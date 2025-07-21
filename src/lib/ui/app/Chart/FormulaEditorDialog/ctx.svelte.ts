@@ -13,10 +13,12 @@ export const useFormulaEditorCtx = createCtx(
     index,
     chartVariables,
     metrics,
+    onEditorSignatureShown,
   }: {
     index: number
     chartVariables: string[]
     metrics: TValidateFormulaMessage['request']['payload']['metrics']
+    onEditorSignatureShown: () => void
   }) => {
     let formulaEditor = $state.raw<null | TSanFormulasEditor>(null)
 
@@ -25,6 +27,7 @@ export const useFormulaEditorCtx = createCtx(
 
     function onSignatureHelp(value: number) {
       hoveredDefinitionIndex.$ = value
+      onEditorSignatureShown()
     }
 
     $effect(() => {

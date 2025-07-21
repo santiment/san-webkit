@@ -46,7 +46,7 @@
         icon={item.icon}
         iconSize="14"
         class={cn(
-          'px-2 hover:bg-white',
+          'scroll-m-4 px-2 hover:bg-white',
           hoveredDefinitionIndex.$ === index && 'active-definition !bg-athens',
         )}
         onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
