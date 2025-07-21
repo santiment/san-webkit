@@ -1,4 +1,5 @@
 import type { TFetchFormulaMetricMessage } from '../types.js'
+import type { MathNode } from 'mathjs'
 
 import { BROWSER } from 'esm-env'
 
@@ -77,21 +78,6 @@ export function fetchFormulaMetric(
     options: { cache: BROWSER, cacheTime: 15 },
   })
 
-  // TODO: replace with `processRecursiveFormula`
-  //
-  // Registring visited formula index
-  //ctx.path.push(index)
-  //
-  //const fetchedMetrics = variables.map((variable) => {
-  //  const index = variable.metricIndex
-  //  const metric = ctx.metrics[index]
-  //
-  //  if (metric.formula && ctx.path.includes(index)) {
-  //    throw new Error('Recursive formula expression')
-  //  }
-  //
-  //  return createFetchJob(variable, metric)
-  //})
   const fetchedMetrics = processRecursiveFormula(index, variables, ctx, (variable, metric) =>
     createFetchJob(variable, metric),
   )
@@ -103,6 +89,8 @@ export function fetchFormulaMetric(
 
   const parsedExpression = SanFormulas.parse(formula.expr)
   const transformedExpression = parsedExpression.transform((node) => {
+    throwImplicitOperationError(node)
+
     if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'asset_metric') {
       const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
 
@@ -147,8 +135,7 @@ export function fetchFormulaMetric(
       metrics.map(([variable, data, selector]) => [variable, new Timeseries(data, selector)]),
     )
 
-    const compiledFormula = transformedExpression.compile()
-    const rawAnswer = compiledFormula.evaluate(scope)
+    const rawAnswer = transformedExpression.evaluate(scope)
 
     const result = SanFormulas.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
     //const result = math.evaluate(formula.expr, scope)
@@ -159,6 +146,7 @@ export function fetchFormulaMetric(
       timeseries = result.toMetricData()
     } else if (typeof result === 'number') {
       // TODO: Populate timeseries with constant number based on from/to and interval
+      // Or return a constant number and handle it differently on visualisation level
       timeseries = []
     }
 
@@ -175,11 +163,16 @@ export function validateFormula(expr: string, index: number, chartMetrics: TCont
   const path: number[] = []
   const ctx = { path, metrics: chartMetrics }
 
+  const parsedExpression = SanFormulas.parse(expr)
+  parsedExpression.traverse((node) => {
+    throwImplicitOperationError(node)
+  })
+
   const scope = new Map(
     chartMetrics.map((item, index) => [`m${index + 1}`, new Timeseries([], item.selector)]),
   )
 
-  const result = SanFormulas.evaluate(expr, scope)
+  const result = parsedExpression.evaluate(scope)
 
   // NOTE: First resolving syntax/type errors, then recursion errors
   validateRecursiveFormula(index, expr, ctx)
@@ -228,4 +221,10 @@ function validateRecursiveFormula(
     (variable, metric) =>
       metric.formula && validateRecursiveFormula(variable.metricIndex, metric.formula.expr, ctx),
   )
+}
+
+function throwImplicitOperationError(node: MathNode) {
+  if (node instanceof SanFormulas.OperatorNode && node.implicit) {
+    throw new Error(`Invalid syntax: Implicit operation (trying "${node.fn}") is now allowed`)
+  }
 }
