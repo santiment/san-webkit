@@ -67,7 +67,7 @@ export const createVariableDefinition = (
 export function createChartVariableDocumentation(
   metric: TDocMetric,
   varName: string,
-  formula: TSeries['formula'],
+  formula: TSeries['formula']['$'],
 ) {
   return addDocumentationSnippetSyntax(
     formula

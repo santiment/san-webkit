@@ -58,7 +58,7 @@
 
     return createVariableDefinition(name, {
       detail: 'Chart metric',
-      documentation: createChartVariableDocumentation(metric, name, item.formula),
+      documentation: createChartVariableDocumentation(metric, name, item.formula.$),
       metric,
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]

@@ -83,12 +83,12 @@ export function useApiMetricDataFlow(
     }
 
     const payload = { priority, minimalDelay, parameters }
-    const workerRequest = metric.formula
+    const workerRequest = metric.formula.$
       ? workerFetchFormulaMetric(
           {
             ...payload,
             index,
-            formula: metric.formula,
+            formula: metric.formula.$,
             metrics: metricSeries.asScope$,
           },
           onWorkerData,

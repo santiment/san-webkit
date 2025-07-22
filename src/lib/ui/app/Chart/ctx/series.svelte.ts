@@ -4,12 +4,15 @@ import type {
   TMetricTargetSelectorInputObject,
   TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import type { TUUIDv4 } from '$lib/utils/uuid/index.js'
 
 import { ss, createCtx, type SS } from '$lib/utils/index.js'
 
 import { DEFAULT_FORMATTER } from './formatters.js'
 
 type TMetricSelector = null | TMetricTargetSelectorInputObject
+
+type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
 
 export type TMetric = {
   name: string
@@ -54,7 +57,7 @@ export function createSeries({
   formula,
 }: TMetric & {
   selector?: TMetricSelector | SS<TMetricSelector>
-  formula?: { expr: string }
+  formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
 }) {
   const scale = $state({
     id: scaleId || name,
@@ -96,7 +99,7 @@ export function createSeries({
 
     chartSeriesApi: null as null | ISeriesApi<any>,
 
-    formula,
+    formula: ss<undefined | TMetricFormula>(formula),
   }
 }
 
@@ -115,7 +118,7 @@ export const useMetricSeriesCtx = createCtx(
       series.map((item) => ({
         name: item.apiMetricName,
         selector: $state.snapshot(item.selector.$),
-        formula: item.formula,
+        formula: $state.snapshot(item.formula.$),
       })),
     )
 
