@@ -144,15 +144,13 @@ x1 = rsi(m2, 7)
     icon: 'asset-small',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `Fetches a \`timeseries\` metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
+    documentation: `Fetches a timeseries metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
 \`\`\`
 asset_metric("price_usd", "bitcoin")
 \`\`\`
 
 You can also save the result in a local variable for later use.  
 \`\`\`
-# Lorem ipsum 123 "string" only as comment
-
 x1 = asset_metric("price_usd", "bitcoin")
 \`\`\``,
     // @RELEASE:MD-COMPILE:END
@@ -163,7 +161,7 @@ x1 = asset_metric("price_usd", "bitcoin")
     icon: 'alert',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `Fetches a \`timeseries\` metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
+    documentation: `Extracts the selector (e.g., "Bitcoin") from an existing chart metric. Useful for reusing the dynamic selector in other functions. 
 \`\`\`
 selector_from(m1)
 \`\`\`
