@@ -1,4 +1,4 @@
-import { sma as calculateSMA } from 'indicatorts'
+import { sma as calculateSMA, ema as calculateEMA, rsi as calculateRSI } from 'indicatorts'
 
 import { math, Timeseries } from './core.js'
 
@@ -8,6 +8,20 @@ const sma = math.typed('sma', {
   },
 })
 
+const ema = math.typed('ema', {
+  'Timeseries, number': (timeseries: Timeseries, period: number) => {
+    return new Timeseries(calculateEMA(timeseries.values, { period }), timeseries.timestamps)
+  },
+})
+
+const rsi = math.typed('rsi', {
+  'Timeseries, number': (timeseries: Timeseries, period: number) => {
+    return new Timeseries(calculateRSI(timeseries.values, { period }), timeseries.timestamps)
+  },
+})
+
 export const MathIndicators = {
   sma,
+  ema,
+  rsi,
 }
