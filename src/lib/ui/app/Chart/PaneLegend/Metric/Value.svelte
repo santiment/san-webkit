@@ -16,11 +16,15 @@
   const hoverValue = $derived(seriesPoint && 'value' in seriesPoint ? seriesPoint.value : undefined)
 
   const data = $derived(metric.data.$)
-  const firstData = $derived(data[0])
+  const firstData = $derived(data.find((item) => item.value))
   const lastData = $derived(data[data.length - 1])
 
   function calculateChange(firstValue: number, lastValue: number) {
     const percent = ((lastValue - firstValue) / firstValue) * 100
+
+    if (!Number.isFinite(percent)) {
+      return ''
+    }
 
     const sign = percent >= 0 ? '+' : ''
 
@@ -35,7 +39,10 @@
     {formatter(value)}
 
     {#if firstData}
-      ({calculateChange(firstData.value, value)})
+      {@const change = calculateChange(firstData.value, value)}
+      {#if change}
+        ({change})
+      {/if}
     {/if}
   </span>
 {/if}

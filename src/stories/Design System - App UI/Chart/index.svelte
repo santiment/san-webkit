@@ -34,9 +34,14 @@
     from: 'utc_now-2y',
   })
 
+  const selector = {
+    get $() {
+      return globalParameters.$$.selector
+    },
+  }
   const { metricSeries } = useMetricSeriesCtx(
     defaultMetrics.length
-      ? defaultMetrics.map((item) => ({ ...item, color: colorGenerator.new() }))
+      ? defaultMetrics.map((item) => ({ ...item, selector, color: colorGenerator.new() }))
       : [
           {
             name: 'price_usd',

@@ -62,6 +62,7 @@ export function createWorkerRequester<GType extends TMessageTypeValues>(type: GT
     ResponseHandler.set(msgId, { ondata })
 
     return {
+      id: msgId,
       cancel: () => workerCancelRequest(msgId),
     }
   }

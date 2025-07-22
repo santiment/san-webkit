@@ -9,6 +9,7 @@ export const MESSAGE_TYPE = {
   CancelRequest: 0,
   FetchMetric: 1,
   FetchFormulaMetric: 2,
+  ValidateFormula: 3,
 } as const
 
 export type TMessageType = {
@@ -75,10 +76,23 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   },
   { timeseries: TMetricData } | { error: any }
 >
+export type TValidateFormulaMessage = TMessageRequestResponse<
+  TMessageType['ValidateFormula'],
+  {
+    formula: string
+    index: number
+    metrics: TFetchFormulaMetricMessage['request']['payload']['metrics']
+  },
+  { errors: string[] }
+>
 
 //
 
-export type TMessages = TCancelRequestMessage | TFetchMetricMessage | TFetchFormulaMetricMessage
+export type TMessages =
+  | TCancelRequestMessage
+  | TFetchMetricMessage
+  | TFetchFormulaMetricMessage
+  | TValidateFormulaMessage
 
 //
 
