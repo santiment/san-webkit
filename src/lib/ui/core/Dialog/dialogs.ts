@@ -13,7 +13,7 @@ import { controlledPromisePolyfill } from '$lib/utils/index.js'
 
 type TController<GResolved, GRejected> = {
   lock: () => void
-  lockWarn: () => void
+  lockWarn: (msg?: string) => void
   unlock: () => void
   checkIsLocked: (isForced?: boolean) => boolean
 

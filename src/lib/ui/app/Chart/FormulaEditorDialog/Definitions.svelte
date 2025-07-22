@@ -1,4 +1,7 @@
-<script lang="ts" generics="GItem">
+<script
+  lang="ts"
+  generics="GItem extends {insertText: string, icon?: string, label: string, metric?: any}"
+>
   import type { Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
@@ -26,6 +29,7 @@
     const { editor } = formulaEditor.$.api
 
     const contribution = editor.getContribution('snippetController2')
+    // @ts-ignore
     contribution?.insert(item.insertText)
 
     editor.focus()

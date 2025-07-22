@@ -8,7 +8,7 @@
   import Svg from '$ui/core/Svg/Svg.svelte'
 
   type TProps = {
-    definition: { icon: string; label: string; documentation: string; metric?: TDocMetric }
+    definition: { icon?: string; label: string; documentation: string; metric?: TDocMetric }
   }
   const { definition }: TProps = $props()
 
@@ -55,7 +55,7 @@
       </span>
       {definition.metric.fullLabel}
     {:else}
-      <Svg id={definition.icon}></Svg>
+      <Svg id={definition.icon!}></Svg>
       {definition.label}
     {/if}
   </h2>
