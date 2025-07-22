@@ -10,9 +10,9 @@ import { ss, createCtx, type SS } from '$lib/utils/index.js'
 
 import { DEFAULT_FORMATTER } from './formatters.js'
 
-type TMetricSelector = null | TMetricTargetSelectorInputObject
+export type TMetricSelector = null | TMetricTargetSelectorInputObject
 
-type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
+export type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
 
 export type TMetric = {
   name: string
