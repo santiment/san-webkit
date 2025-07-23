@@ -9,7 +9,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import { describeConditions, getOperationSign } from '../utils.js'
-  import { isDuplexOperation, Operations } from '../operations.js'
+  import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
   import Dropdown from './Dropdown.svelte'
 
   type TProps = {
@@ -23,7 +23,7 @@
   const { conditions, metric, updateConditions, info, children }: TProps = $props()
 
   const { operation, time } = $derived(conditions)
-  const sign = $derived(getOperationSign(metric ?? '', operation.type))
+  const sign = $derived(getOperationSign(metric, operation.type))
   const isDuplex = $derived(isDuplexOperation(operation.type))
   const { amount: timeAmount, modifier: timeModifier } = $derived(parseRangeString(conditions.time))
 </script>
@@ -73,28 +73,30 @@
             })}
           {/if}
 
-          {@render input({
-            defaultValue: timeAmount,
-            oninput: (value) =>
-              updateConditions({
-                time: `${value}${timeModifier}`,
-                operation,
-              }),
-          })}
+          {#if isComparisonOperation(operation.type)}
+            {@render input({
+              defaultValue: timeAmount,
+              oninput: (value) =>
+                updateConditions({
+                  time: `${value}${timeModifier}`,
+                  operation,
+                }),
+            })}
 
-          <Dropdown
-            items={exactObjectKeys(TimeModifiers)}
-            selected={timeModifier}
-            onSelect={(modifier) =>
-              updateConditions({
-                time: `${timeAmount}${modifier}`,
-                operation,
-              })}
-          >
-            {#snippet label(modifier)}
-              {TimeModifiers[modifier].label}
-            {/snippet}
-          </Dropdown>
+            <Dropdown
+              items={exactObjectKeys(TimeModifiers)}
+              selected={timeModifier}
+              onSelect={(modifier) =>
+                updateConditions({
+                  time: `${timeAmount}${modifier}`,
+                  operation,
+                })}
+            >
+              {#snippet label(modifier)}
+                {TimeModifiers[modifier].label}
+              {/snippet}
+            </Dropdown>
+          {/if}
         </section>
       </section>
     </section>
