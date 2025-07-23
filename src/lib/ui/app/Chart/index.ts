@@ -1,6 +1,6 @@
 export { default } from './Chart.svelte'
 
-export { downloadChartAsJpeg } from './utils.js'
+export { downloadChartAsJpeg } from './screenshot.js'
 
 export { default as ViewportChart } from './ViewportChart.svelte'
 

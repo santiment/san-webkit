@@ -2,7 +2,7 @@
   import type { TSeries } from '../../ctx/series.svelte.js'
 
   import { usePanesTooltip } from '../ctx.svelte.js'
-  import { calculatePercentageChange } from '../../utils.js'
+  import { calculatePercentageChange } from '../../ctx/formatters.js'
 
   type TProps = {
     metric: TSeries
