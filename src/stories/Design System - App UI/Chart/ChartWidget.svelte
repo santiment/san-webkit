@@ -12,6 +12,7 @@
     DatesRangeShortcuts,
     Minimap,
     TimeZoneSelector,
+    downloadChartAsJpeg,
   } from '$ui/app/Chart/index.js'
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
@@ -71,6 +72,14 @@
 
     downloadCsv(filename, headers, rows)
   }
+  
+    function exportChartAsJpeg() {
+    const filename = metricSeries.$.map((s) => s.apiMetricName)
+      .join(', ')
+      .replace(/[<>:"/\\|?*]+/g, '_')
+
+    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+  }
 </script>
 
 <div class="relative column">
@@ -105,6 +114,7 @@
     {/each}
 
     <Button icon="download" variant="fill" onclick={exportCSV}>Download as CSV</Button>
+    <Button icon="download" variant="fill" onclick={exportChartAsJpeg}>Download as JPG</Button>
   </div>
 
   <Chart
