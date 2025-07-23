@@ -17,7 +17,7 @@ export type TScreenerState = {
 export type TBaseSchema = TStepBaseSchema<
   'screener',
   {
-    initState: (apiAlert?: null | TScreenerApiAlert) => TScreenerState
+    initState: (apiAlert?: null | Partial<TScreenerApiAlert>) => TScreenerState
   }
 >
 

@@ -12,7 +12,7 @@
 
   type TProps = {
     schema: TAlertSchemaUnion
-    apiAlert?: null | TApiAlert
+    apiAlert?: null | Partial<TApiAlert>
     resetCategory: () => void
     close: () => void
   }

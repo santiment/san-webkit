@@ -18,7 +18,7 @@
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
 
-  type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
+  type TProps = TDialogProps & { source?: string; apiAlert?: null | Partial<TApiAlert> }
   let { apiAlert, Controller, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(apiAlert))

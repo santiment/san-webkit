@@ -16,7 +16,7 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_SCREENER_SCHEMA]
 
-    deduceApiAlert: (apiAlert: TScreenerApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TScreenerApiAlert>) => boolean
   }
 >
 

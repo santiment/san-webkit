@@ -32,7 +32,7 @@ export type TMetricConditionsState = {
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
   {
-    initState: (alert?: TApiAlert<TAlertSettings> | null) => TMetricConditionsState
+    initState: (alert?: Partial<TApiAlert<TAlertSettings>> | null) => TMetricConditionsState
   }
 >
 

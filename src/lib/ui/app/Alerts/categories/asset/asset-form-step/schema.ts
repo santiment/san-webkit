@@ -10,7 +10,7 @@ import Legend from './ui/Legend.svelte'
 export type TBaseSchema = TStepBaseSchema<
   'assets',
   {
-    initState: (apiAlert?: null | TAssetApiAlert) => TAssetState
+    initState: (apiAlert?: null | Partial<TAssetApiAlert>) => TAssetState
   }
 >
 

@@ -32,7 +32,7 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_TREND_SCHEMA]
 
-    deduceApiAlert: (apiAlert: TSocialTrendsApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TSocialTrendsApiAlert>) => boolean
   }
 >
 

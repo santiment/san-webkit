@@ -3,7 +3,7 @@ import type { TStepBaseSchema, TStepSchema, TStepUI } from './types.js'
 import type { IfAny } from '$lib/utils/types/index.js'
 
 export function createAlertStep<GStepSchema extends TStepSchema>(
-  apiAlert: undefined | null | TApiAlert,
+  apiAlert: undefined | null | Partial<TApiAlert>,
   schema: GStepSchema,
 ) {
   let _state = $state<{ [key: string]: unknown }>(schema.initState(apiAlert))

@@ -27,7 +27,7 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_WALLET_SCHEMA]
 
-    deduceApiAlert: (apiAlert: TWalletApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TWalletApiAlert>) => boolean
   }
 >
 

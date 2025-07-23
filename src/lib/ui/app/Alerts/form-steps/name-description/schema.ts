@@ -13,7 +13,7 @@ export type TState = {
 export type TBaseSchema = TStepBaseSchema<
   'name-description',
   {
-    initState: (apiAlert?: null | TApiAlert) => TState
+    initState: (apiAlert?: null | Partial<TApiAlert>) => TState
   }
 >
 

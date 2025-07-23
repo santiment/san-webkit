@@ -7,7 +7,7 @@ import { createAlertStep } from '../form-steps/index.svelte.js'
 
 export const useAlertFormCtx = createCtx(
   'alerts_useAlertFormCtx',
-  ({ schema, apiAlert }: { schema: TAlertSchemaUnion; apiAlert?: null | TApiAlert }) => {
+  ({ schema, apiAlert }: { schema: TAlertSchemaUnion; apiAlert?: null | Partial<TApiAlert> }) => {
     const steps = schema.steps.map((step) => createAlertStep(apiAlert, step))
 
     let selectedIndex = $state(0)

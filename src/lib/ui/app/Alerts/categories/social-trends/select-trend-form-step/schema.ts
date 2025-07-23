@@ -32,7 +32,7 @@ export type TTrendState = {
 export type TBaseSchema = TStepBaseSchema<
   'select-trend',
   {
-    initState: (apiAlert?: null | TSocialTrendsApiAlert) => TTrendState
+    initState: (apiAlert?: null | Partial<TSocialTrendsApiAlert>) => TTrendState
   }
 >
 

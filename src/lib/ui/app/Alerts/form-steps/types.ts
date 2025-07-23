@@ -4,7 +4,7 @@ import type { TApiAlert } from '../types.js'
 export type TStepBaseSchema<
   GName,
   GProps extends {
-    initState: (apiAlert?: null | TApiAlert) => { [key: string]: unknown }
+    initState: (apiAlert?: null | Partial<TApiAlert>) => { [key: string]: unknown }
   },
 > = {
   name: GName
@@ -33,7 +33,7 @@ export type TStepUI = {
 export type TStepSchema = TStepBaseSchema<
   string,
   {
-    initState: (apiAlert?: null | TApiAlert) => any
+    initState: (apiAlert?: null | Partial<TApiAlert>) => any
   }
 > &
   TStepUI
