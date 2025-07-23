@@ -4,7 +4,6 @@
   import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import { useUiCtx } from '$lib/ctx/ui/index.js'
-  import { onSupportClick } from '$lib/utils/support.js'
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
@@ -17,18 +16,11 @@
   type TProps = {
     class?: string
     version?: string
-    onClassicClick?: () => void
     onAcknowledgmentsClick?: () => void
     onLogout?: () => void
   }
 
-  let {
-    class: className,
-    version = '1.0.0',
-    onClassicClick,
-    onAcknowledgmentsClick,
-    onLogout,
-  }: TProps = $props()
+  let { class: className, version = '1.0.0', onAcknowledgmentsClick, onLogout }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
@@ -88,26 +80,9 @@
         <Switch checked={ui.$$.isNightMode} onCheckedChange={ui.toggleNightMode}></Switch>
       </Button>
 
-      {@render sanbaseLink('Referral Program', '/account#affiliate', {
-        icon: 'sparkle',
-        iconOnRight: true,
-        iconSize: 12,
-        class: 'fill-yellow-hover',
-      })}
-
-      {@render sanbaseLink('Historical balance', '/labs/balance')}
-
-      {#if onClassicClick}
-        <Button variant="ghost" onclick={onClassicClick}>Classic version</Button>
-      {/if}
-
       {#if onAcknowledgmentsClick}
         <Button variant="ghost" onclick={onAcknowledgmentsClick}>Acknowledgments</Button>
       {/if}
-
-      {@render sanbaseLink('Contact us', 'mailto:support@santiment.net', {
-        onclick: onSupportClick,
-      })}
 
       {#if currentUser.$$}
         <Button
@@ -124,9 +99,9 @@
 </Tooltip>
 
 {#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
-  <Button variant="ghost" {...props} href={SANBASE_ORIGIN + href} data-source="account_dropdown"
-    >{text}</Button
-  >
+  <Button variant="ghost" {...props} href={SANBASE_ORIGIN + href} data-source="account_dropdown">
+    {text}
+  </Button>
 {/snippet}
 
 <style lang="postcss">
