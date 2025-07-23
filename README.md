@@ -40,7 +40,7 @@ Chromium-based browsers may require additional steps to access the local HTTPS s
 - `process.env.GQL_SERVER_URL` - Graphql endpoint that is platform agnostic
 - `process.env.NODE_GQL_SERVER_URL` - Graphql endpoint that is used only on the server side
 
-### Shared Signals coding convention
+## Shared Signals coding convention
 
 Signals can be stored in a container to allow them to be passed across function or file boundaries.
 
@@ -49,7 +49,7 @@ There are two types of shared signals:
 - **Fixed Shared Signal**: `{ $: T }`
 - **Deeply Shared Signal**: `{ $$: T }`
 
-#### Fixed Shared Signal
+### Fixed Shared Signal
 
 This type of signal uses the `$state.raw` state declaration, meaning it is not deeply reactive. Reactivity is achieved only by _reassigning_ the container's `$` property:
 
@@ -61,7 +61,7 @@ customer.$ = null // This will trigger updates as well
 
 The most common use case for this type of signal is when data has many fields that should be mutated at once, but those fields do not change often.
 
-#### Deeply Shared Signal
+### Deeply Shared Signal
 
 This type of signal uses the `$state` state declaration, meaning it is deeply reactive. Updates are triggered whenever any of the internal fields change:
 
@@ -73,7 +73,59 @@ currentUser.$$.email = 'test@gmail.com' // Triggers update
 
 The most common use case for this type of signal is when data has fields that are updated frequently and independently of each other.
 
-### Generics inside Svelte files
+### How `$effect` behaves with deeply reactive signals (e.g. `currentUser.$$`)
+
+We use `currentUser` from `useCustomerCtx` and pass it to an update function that accepts selected fields from the user.
+
+#### Case 1: Passing the full object directly
+
+```svelte
+$effect(() => {
+  if (currentUser.$$) {
+    update(currentUser.$$)
+  }
+})
+```
+
+> This does not trigger `$effect` when individual fields of `currentUser.$$` change.
+
+#### Case 2: Copying the object with spread or `Object.assign`
+
+```svelte
+$effect(() => {
+  if (currentUser.$$) {
+    update({ ...currentUser.$$ })
+  }
+})
+```
+
+**OR**
+
+```svelte
+$effect(() => {
+  if (currentUser.$$) {
+    const user = Object.assign({}, currentUser.$$)
+    update(user)
+  }
+})
+```
+
+> In this case, `$effect` is triggered when any field of `currentUser.$$` changes.
+
+#### Case 3: Destructuring only required fields
+
+```svelte
+$effect(() => {
+  if (currentUser.$$) {
+    const { id, name, email } = currentUser.$$
+    update({ id, name, email })
+  }
+})
+```
+
+> This triggers `$effect` only when the selected fields change, which is the expected behavior.
+
+## Generics inside Svelte files
 
 The new syntax for defining generics inside `generics` attribute of the `script` tag results in the eslint errors.
 
@@ -90,7 +142,7 @@ Therefore to declare a generic type use old meta type `$$Generic`.
 </script>
 ```
 
-### The order of definitions in Svelte components
+## The order of definitions in Svelte components
 
 ```svelte
 <script lang="ts">

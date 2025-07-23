@@ -8,6 +8,7 @@ export function parseJson<T>(data: string): T | undefined {
 
 export function saveValue(key: string, value: string) {
   window.localStorage.setItem(key, value)
+  return value
 }
 
 export function getSavedValue(key: string) {
@@ -28,6 +29,7 @@ export function getSavedJson<T>(key: string) {
 
 export function saveBoolean(key: string, value: boolean) {
   saveValue(key, value ? '+' : '')
+  return value
 }
 
 export function getSavedBoolean(key: string) {

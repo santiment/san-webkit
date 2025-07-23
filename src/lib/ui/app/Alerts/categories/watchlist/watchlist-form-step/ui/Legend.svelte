@@ -4,13 +4,25 @@
 
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
 
+  import { useUserWatchlistsCtx } from '../../data.svelte.js'
+
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()
 
-  const { title } = $derived(step.state.$$.watchlist)
+  const { getWatchlistById } = useUserWatchlistsCtx()
+
+  const { id, title } = $derived(step.state.$$.watchlist)
+
+  $effect(() => {
+    if (id && !title) {
+      step.state.$$.watchlist.title = getWatchlistById(id)?.title ?? ''
+    }
+  })
 </script>
 
-<StepValue>
-  {title}
-</StepValue>
+{#if title}
+  <StepValue>
+    {title}
+  </StepValue>
+{/if}

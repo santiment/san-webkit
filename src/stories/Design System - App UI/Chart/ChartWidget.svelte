@@ -1,9 +1,11 @@
 <script lang="ts">
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
+  import { downloadCsv } from '$lib/utils/csv.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
-  import { useChartCtx, useMetricSeriesCtx } from '$ui/app/Chart/ctx/index.js'
+  import { useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
+  import { showFormulaEditorDialog$ } from '$ui/app/Chart/FormulaEditorDialog/index.js'
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
@@ -21,17 +23,57 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
-  const { chart } = useChartCtx()
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
   const Chart = viewportPriority ? ViewportChart : BaseChart
 
+  const showFormulaEditorDialog = showFormulaEditorDialog$()
+
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
   }
 
-  function exportChartAsJpeg() {
+  function mergeSeries(series: TSeries[]) {
+    const map = new Map<number, Record<string, any>>()
+
+    for (const s of series) {
+      const key = s.apiMetricName
+      for (const { time, value } of s.data.$) {
+        if (!map.has(time)) map.set(time, { time })
+        map.get(time)![key] = value
+      }
+    }
+
+    return Array.from(map.values()).sort((a, b) => a.time - b.time)
+  }
+
+  function buildHeaders(series: TSeries[]) {
+    const dateHeader = {
+      title: 'Date',
+      format: (row: any) => new Date(row.time * 1000).toISOString(),
+    }
+
+    const metricHeaders = series.map((metric) => ({
+      title: metric.label,
+      format: (row: any) => row[metric.apiMetricName] ?? '',
+    }))
+
+    return [dateHeader, ...metricHeaders]
+  }
+
+  function exportCSV() {
+    const rows = mergeSeries(metricSeries.$)
+    const headers = buildHeaders(metricSeries.$)
+
+    const filename = metricSeries.$.map((s) => s.apiMetricName)
+      .join(', ')
+      .replace(/[<>:"/\\|?*]+/g, '_')
+
+    downloadCsv(filename, headers, rows)
+  }
+  
+    function exportChartAsJpeg() {
     const filename = metricSeries.$.map((s) => s.apiMetricName)
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
@@ -51,13 +93,28 @@
   </div>
 
   <div class="mt-4 flex gap-2">
-    {#each metricSeries.$ as metric}
-      <div class="rounded border p-1" style="border-color:{metric.color.$}">
+    {#each metricSeries.$ as metric, index}
+      <!-- svelte-ignore a11y_click_events_have_key_events -->
+      <!-- svelte-ignore a11y_no_static_element_interactions -->
+      <div
+        class="rounded border p-1"
+        style="border-color:{metric.color.$}"
+        onclick={metric.formula
+          ? () =>
+              showFormulaEditorDialog({ formula: metric.formula.$, index })
+                .then((data) => {
+                  console.log(data)
+                  metric.formula.$ = data.formula
+                })
+                .catch((e) => console.error('In catch', e))
+          : null}
+      >
         {metric.label}
       </div>
     {/each}
 
-    <Button icon="download" class="ml-auto" onclick={exportChartAsJpeg}>Download as JPG</Button>
+    <Button icon="download" variant="fill" onclick={exportCSV}>Download as CSV</Button>
+    <Button icon="download" variant="fill" onclick={exportChartAsJpeg}>Download as JPG</Button>
   </div>
 
   <Chart
@@ -69,8 +126,8 @@
       localization: { timeFormatter },
     }}
   >
-    {#each metricSeries.$ as item (item.id)}
-      <ApiMetricSeries series={item}></ApiMetricSeries>
+    {#each metricSeries.$ as item, index (item.id)}
+      <ApiMetricSeries {index} series={item}></ApiMetricSeries>
     {/each}
 
     <SpikeExplanations>

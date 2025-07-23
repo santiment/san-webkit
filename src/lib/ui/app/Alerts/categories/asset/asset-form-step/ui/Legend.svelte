@@ -6,7 +6,6 @@
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
   import AssetLogo from '$ui/app/AssetLogo/AssetLogo.svelte'
 
-
   type TProps = { step: TAlertStep<TBaseSchema> }
 
   let { step }: TProps = $props()

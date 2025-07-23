@@ -1,23 +1,23 @@
-export type ChatContext = {
+export type TAiChatbotContext = {
   dashboardId?: string
   asset?: string
   metrics?: string[]
   [key: string]: any
 }
 
-type ChatMessage = {
+type TAiChatbotMessage = {
   id: string
   content: string
   role: 'USER' | 'ASSISTANT'
-  context?: ChatContext
+  context?: TAiChatbotContext
   insertedAt: string
 }
 
-export type ChatSession = {
-  chatMessages: [ChatMessage]
+export type TAiChatbotSession = {
+  chatMessages: [TAiChatbotMessage]
   id: string
   insertedAt: string
-  latestMessage: ChatMessage
+  latestMessage: TAiChatbotMessage
   messagesCount: number
   title: string
   type: 'DYOR_DASHBOARD'

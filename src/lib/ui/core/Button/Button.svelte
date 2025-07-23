@@ -172,6 +172,7 @@
   aria-label={explanation}
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
+  type="button"
   {...rest}
   use:action={actionArgs}
   class={cn(

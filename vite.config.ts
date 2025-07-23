@@ -64,7 +64,7 @@ export function createConfig({
       StaticAssetsListPlugin(),
       StaticMetricsRegistryPlugin(),
       !astro && sveltekit(),
-      bulletshell && BulletshellPlugin(),
+      BulletshellPlugin({ enabled: !!bulletshell }),
       reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
     ].filter(Boolean),
 

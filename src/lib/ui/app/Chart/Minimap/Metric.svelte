@@ -11,18 +11,19 @@
 
   type TProps = {
     series: TSeries
+    index: number
     canvasNode: null | HTMLCanvasElement
     register: (paint: (ctx: CanvasRenderingContext2D) => void) => () => void
   }
-  let { series, canvasNode, register }: TProps = $props()
+  let { series, index, canvasNode, register }: TProps = $props()
 
   let data = $state.raw<TMetricData>([])
 
   const minimapMetric = createMinimapSeries(series)
   const viewportCtx = useItemViewportPriorityCtx.get()
 
-  const settings = { priority: 10_000, minimalDelay: 2000 }
-  useApiMetricDataFlow(minimapMetric, settings)
+  const settings = { priority: 10_000, minimalDelay: 8_000 }
+  useApiMetricDataFlow(minimapMetric, index, settings)
 
   const scaler = $derived.by(() => {
     if (!canvasNode) return

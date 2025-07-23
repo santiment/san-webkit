@@ -4,12 +4,15 @@ import type {
   TMetricTargetSelectorInputObject,
   TTimeseriesMetricTransformInputObject,
 } from '../api/index.js'
+import type { TUUIDv4 } from '$lib/utils/uuid/index.js'
 
 import { ss, createCtx, type SS } from '$lib/utils/index.js'
 
 import { DEFAULT_FORMATTER } from './formatters.js'
 
-type TMetricSelector = null | TMetricTargetSelectorInputObject
+export type TMetricSelector = null | TMetricTargetSelectorInputObject
+
+export type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
 
 export type TMetric = {
   name: string
@@ -50,7 +53,12 @@ export function createSeries({
 
   tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
-}: TMetric & { selector?: TMetricSelector | SS<TMetricSelector> }) {
+
+  formula,
+}: TMetric & {
+  selector?: TMetricSelector | SS<TMetricSelector>
+  formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
+}) {
   const scale = $state({
     id: scaleId || name,
     visible: true,
@@ -90,6 +98,8 @@ export function createSeries({
     selector: ss<null | TMetricTargetSelectorInputObject>(selector),
 
     chartSeriesApi: null as null | ISeriesApi<any>,
+
+    formula: ss<undefined | TMetricFormula>(formula),
   }
 }
 
@@ -104,11 +114,24 @@ export const useMetricSeriesCtx = createCtx(
       }),
     )
 
+    const asScope = $derived(
+      series.map((item) => ({
+        name: item.apiMetricName,
+        selector: $state.snapshot(item.selector.$),
+        formula: $state.snapshot(item.formula.$),
+      })),
+    )
+
     return {
       metricSeries: {
         get $() {
           return series
         },
+
+        get asScope$() {
+          return asScope
+        },
+
         add(metric: TMetric) {
           series.push(createSeries(metric))
           series = series.slice()

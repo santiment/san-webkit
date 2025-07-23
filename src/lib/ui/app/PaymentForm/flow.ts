@@ -134,7 +134,7 @@ export function usePaymentFlow() {
       return Promise.reject('paymentMethod is missing')
     }
 
-    const planDisplayName = getPlanName(plan)
+    const planDisplayName = getPlanName(plan.name)
     const isConsumerPlan = !subscriptionPlan.$.formatted?.isBusiness
     const isEligibleForSanbaseTrial = isConsumerPlan && customer.$.isEligibleForSanbaseTrial
 
