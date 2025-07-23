@@ -66,7 +66,14 @@ export function percentFormatter(value: number) {
   return +value.toFixed(2) + '%'
 }
 
-export function calculatePercentageChange(a: number, b: number) {
-  const p = ((b - a) / a) * 100
-  return `${p >= 0 ? '+' : ''}${p.toFixed(2)}%`
+export function calculatePercentageChange(firstValue: number, lastValue: number) {
+  const percent = ((lastValue - firstValue) / firstValue) * 100
+
+  if (!Number.isFinite(percent)) {
+    return ''
+  }
+
+  const sign = percent >= 0 ? '+' : ''
+
+  return sign + percent.toFixed(2) + '%'
 }
