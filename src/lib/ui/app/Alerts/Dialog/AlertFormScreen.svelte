@@ -26,9 +26,9 @@
   async function onAlertCreate() {
     try {
       loading = true
-      const reducedAlert = createApiAlert() as TApiAlert
+      const reducedAlert = createApiAlert()
 
-      await mutateSaveAlert(Query)(reducedAlert)
+      await mutateSaveAlert(Query)({ ...reducedAlert, id: apiAlert?.id ?? null })
 
       close()
     } catch (e) {
@@ -42,7 +42,7 @@
   function createApiAlert() {
     return steps.reduce((acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)), {
       settings: {},
-    })
+    }) as Omit<TApiAlert, 'id'>
   }
 </script>
 
