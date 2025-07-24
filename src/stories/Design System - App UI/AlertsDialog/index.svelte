@@ -1,9 +1,14 @@
-<script>
+<script lang="ts">
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import AlertsDialog, { showAlertsDialog$ } from '$ui/app/Alerts/Dialog/index.js'
+  import type { TApiAlert } from '$ui/app/Alerts/types.js'
   import StoryDialog from '../../Design System - Core UI/Dialog/StoryDialog.svelte'
 
-  let { apiAlert } = $props()
+  type TProps = {
+    alert: Partial<TApiAlert>
+  }
+
+  let { alert }: TProps = $props()
 
   useAssetsCtx.set()
   const showAlertsDialog = showAlertsDialog$()
@@ -15,4 +20,4 @@
   </div>
 </div>
 
-<StoryDialog render={AlertsDialog} {apiAlert}></StoryDialog>
+<StoryDialog render={AlertsDialog} {alert}></StoryDialog>

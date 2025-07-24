@@ -18,7 +18,7 @@ export const Empty: Story = {
 export const AssetAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '2w',
       description:
         'Notify me when the price of Ethereum, Tether [on Ethereum] goes above 1$ compared to 1 day(s) earlier. Send me notifications every 1 day(s) via email.',
@@ -49,7 +49,7 @@ export const AssetAPIAlert: Story = {
 export const SocialTrendsAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1d',
       description:
         'Notify me when the bear, market appears in social trends. Send me notifications every 1 day(s) via telegram.',
@@ -79,7 +79,7 @@ export const SocialTrendsAPIAlert: Story = {
 export const WatchlistAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description:
         'Notify me when the price of TestWatchlist moving up 20% or moving down 10% compared to 2 day(s) earlier. Send me notifications every 1 minute(s) via email.',
@@ -117,7 +117,7 @@ export const WatchlistAPIAlert: Story = {
 export const ScreenerAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description:
         'Notify me when any project enters/exits Stablecoins. Send me notifications every 1 minute(s) via email, telegram.',
@@ -146,7 +146,7 @@ export const ScreenerAPIAlert: Story = {
 export const WalletAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description: null,
       id: 2200,

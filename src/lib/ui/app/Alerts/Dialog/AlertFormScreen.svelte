@@ -12,13 +12,13 @@
 
   type TProps = {
     schema: TAlertSchemaUnion
-    apiAlert?: null | Partial<TApiAlert>
+    alert?: null | Partial<TApiAlert>
     resetCategory: () => void
     close: () => void
   }
-  let { schema, apiAlert, resetCategory, close }: TProps = $props()
+  let { schema, alert, resetCategory, close }: TProps = $props()
 
-  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
+  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, alert })
 
   let loading = $state(false)
 
@@ -28,7 +28,7 @@
       loading = true
       const reducedAlert = createApiAlert()
 
-      await mutateSaveAlert(Query)({ ...reducedAlert, id: apiAlert?.id ?? null })
+      await mutateSaveAlert(Query)({ ...reducedAlert, id: alert?.id ?? null })
 
       close()
     } catch (e) {
@@ -53,7 +53,7 @@
     <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
       <h2 class="text-xl">{schema.ui.label}</h2>
 
-      {#if !apiAlert}
+      {#if !alert}
         <Button
           variant="plain"
           icon="arrow"
