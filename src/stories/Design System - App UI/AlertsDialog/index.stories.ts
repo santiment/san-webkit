@@ -6,7 +6,7 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<component>
+} satisfies Meta<typeof component>
 type Story = StoryObj<typeof meta>
 
 export default meta
@@ -14,6 +14,9 @@ export default meta
 export const Empty: Story = {
   parameters: {},
 }
+
+const MOCK_SCREENER_ID = '36321'
+const MOCK_WATCHLIST_ID = 36415
 
 export const AssetAPIAlert: Story = {
   parameters: {},
@@ -92,7 +95,7 @@ export const WatchlistAPIAlert: Story = {
         type: 'metric_signal',
         template: null,
         target: {
-          watchlist_id: 1663,
+          watchlist_id: MOCK_WATCHLIST_ID,
         },
         operation: {
           some_of: [
@@ -129,11 +132,11 @@ export const ScreenerAPIAlert: Story = {
       settings: {
         type: 'screener_signal',
         target: {
-          watchlist_id: 669,
+          watchlist_id: MOCK_SCREENER_ID,
         },
         operation: {
           selector: {
-            watchlist_id: 669,
+            watchlist_id: MOCK_SCREENER_ID,
           },
         },
         channel: ['email', 'telegram'],
@@ -170,6 +173,50 @@ export const WalletAPIAlert: Story = {
         },
       },
       title: 'Balance goes below 1 compared to 1 day(s) earlier',
+    },
+  },
+}
+
+export const PartialTrendsAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'trending_words',
+        target: {
+          word: ['bear', 'market'],
+        },
+        operation: {
+          trending_word: true,
+        },
+      },
+    },
+  },
+}
+
+export const PartialScreenerAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'screener_signal',
+        metric: null,
+        target: { watchlist_id: MOCK_SCREENER_ID },
+        operation: { selector: { watchlist_id: MOCK_SCREENER_ID } },
+      },
+    },
+  },
+}
+
+export const PartialWatchlistAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'metric_signal',
+        metric: null,
+        target: { watchlist_id: MOCK_WATCHLIST_ID },
+      },
     },
   },
 }
