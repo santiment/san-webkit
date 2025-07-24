@@ -1,5 +1,6 @@
 import type { Component } from 'svelte'
 import type { TApiAlert } from '../types.js'
+import type { TBaseState } from './index.svelte.js'
 
 export type TStepBaseSchema<
   GName,
@@ -19,14 +20,14 @@ export type TStepBaseSchema<
   ) => { settings: object }
 }
 
-export type TStepUI = {
+export type TStepUI<GState extends Record<string, any>> = {
   ui: {
     title: string
     label: string
     description: string
 
-    Form: Component<any>
-    Legend?: Component<any>
+    Form: Component<GState>
+    Legend?: Component<GState>
   }
 }
 
@@ -36,10 +37,10 @@ export type TStepSchema = TStepBaseSchema<
     initState: (apiAlert?: null | Partial<TApiAlert>) => any
   }
 > &
-  TStepUI
+  TStepUI<any>
 
 export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any> = any>(
-  base: GBaseSchema & TStepUI,
+  base: GBaseSchema & TStepUI<{ state: TBaseState<GBaseSchema> }>,
 ) {
   const schema = {
     name: base.name as GBaseSchema['name'],

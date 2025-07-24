@@ -26,9 +26,9 @@
   async function onAlertCreate() {
     try {
       loading = true
-      const reducedAlert = createApiAlert()
+      const reducedAlert = { ...createApiAlert(), id: alert?.id ?? null }
 
-      await mutateSaveAlert(Query)({ ...reducedAlert, id: alert?.id ?? null })
+      await mutateSaveAlert(Query)(reducedAlert)
 
       close()
     } catch (e) {
@@ -40,9 +40,15 @@
   }
 
   function createApiAlert() {
-    return steps.reduce((acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)), {
-      settings: {},
-    }) as Omit<TApiAlert, 'id'>
+    return steps.reduce(
+      (acc, step) => {
+        const state = $state.snapshot(step.state.$$) as typeof step.state.$$
+        return step.reduceToApi(acc, state as UnionToIntersection<typeof state>)
+      },
+      {
+        settings: {},
+      },
+    ) as Omit<TApiAlert, 'id'>
   }
 </script>
 
@@ -88,6 +94,6 @@
       <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
     </div>
 
-    <selectedStep.$.ui.Form step={selectedStep.$}></selectedStep.$.ui.Form>
+    <selectedStep.$.ui.Form state={selectedStep.$.state}></selectedStep.$.ui.Form>
   </main>
 </section>

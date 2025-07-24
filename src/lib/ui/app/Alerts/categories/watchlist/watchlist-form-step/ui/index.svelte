@@ -1,14 +1,12 @@
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
 
   import ListOfWatchlists from './ListOfWatchlists.svelte'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  const { step }: TProps = $props()
-
-  const state = step.state
+  const { state }: TProps = $props()
 
   const selectedId = $derived(state.$$.watchlist.id)
 </script>
