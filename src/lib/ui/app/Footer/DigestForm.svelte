@@ -5,6 +5,7 @@
   import Input from '$ui/core/Input/index.js'
   import { cn } from '$ui/utils/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { notification } from '$ui/core/Notifications/index.js'
 
   import { mutateEmailLoginNewsletter } from './api.js'
 
@@ -27,6 +28,11 @@
           return of(null)
         }),
         tap(() => (loading = false)),
+        tap((result) => {
+          if (result) {
+            notification.success('Verification email was sent to the provided email!')
+          }
+        }),
       )
     }),
   )
