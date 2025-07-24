@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TBaseSchema, TState } from '../schema.js'
+  import type { TBaseSchema, TNameDescriptionState } from '../schema.js'
   import type { TBaseState } from '../../index.svelte.js'
 
   import { onMount } from 'svelte'
@@ -35,7 +35,7 @@
   {@render textarea('Description', 'description', 4)}
 </section>
 
-{#snippet textarea(title: string, name: keyof TState, rows: number)}
+{#snippet textarea(title: string, name: keyof TNameDescriptionState, rows: number)}
   <label class="title flex flex-col rounded border px-4 py-3">
     <p class="text-xs text-waterloo">{title}</p>
     <Textarea

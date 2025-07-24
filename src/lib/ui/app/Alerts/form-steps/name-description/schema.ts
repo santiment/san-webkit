@@ -4,7 +4,7 @@ import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-export type TState = {
+export type TNameDescriptionState = {
   title: string
   description: string
 }
@@ -13,7 +13,7 @@ export type TState = {
 export type TBaseSchema = TStepBaseSchema<
   'name-description',
   {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => TState
+    initState: (apiAlert?: null | Partial<TApiAlert>) => TNameDescriptionState
   }
 >
 
