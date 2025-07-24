@@ -6,15 +6,17 @@
 
   type TProps = { step: TAlertStep<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { step }: TProps = $props()
 
-  const selectedId = $derived(step.state.$$.screener.id)
+  const state = step.state
+
+  const selectedId = $derived(state.$$.screener.id)
 </script>
 
 <ListOfWatchlists
   {selectedId}
   onSelect={(screener) =>
-    (step.state.$$.screener = {
+    (state.$$.screener = {
       id: screener?.id ? +screener.id : null,
       title: screener?.title ?? '',
     })}
