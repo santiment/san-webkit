@@ -66,7 +66,9 @@ export function createSeries({
     scaleMargins,
   })
 
-  return {
+  let paneSignal = $state(pane)
+
+  const metric = {
     id: __METRIC_SERIES_ID++,
 
     apiMetricName: name,
@@ -80,7 +82,17 @@ export function createSeries({
     loading: ss(true),
     error: ss(null),
 
-    pane: ss(pane),
+    pane: {
+      get $() {
+        // Reading signal
+        paneSignal
+        return metric.chartSeriesApi?.getPane().paneIndex() ?? pane
+      },
+      update$() {
+        // Triggering signal update
+        paneSignal = NaN
+      },
+    },
 
     transform,
 
@@ -101,6 +113,8 @@ export function createSeries({
 
     formula: ss<undefined | TMetricFormula>(formula),
   }
+
+  return metric
 }
 
 export type TSeries = ReturnType<typeof createSeries>

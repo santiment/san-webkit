@@ -24,3 +24,5 @@ export {
 } from './series.svelte.js'
 
 export { useColorGenerator } from './colors.js'
+
+export { useChartPanesCtx } from './panes.svelte.js'

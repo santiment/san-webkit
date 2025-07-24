@@ -11,8 +11,9 @@
   type TProps = {
     metric: TSeries
     label?: Snippet<[TSeries]>
+    paneControls?: boolean
   }
-  let { metric, label }: TProps = $props()
+  let { metric, label, paneControls }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
 </script>
@@ -33,7 +34,7 @@
       {metric.label}
     {/if}
 
-    <Controls {metric}></Controls>
+    <Controls {metric} {paneControls}></Controls>
   </div>
 
   {#if metric.visible.$}
