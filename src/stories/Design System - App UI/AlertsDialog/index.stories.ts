@@ -200,7 +200,6 @@ export const PartialScreenerAlert: Story = {
     alert: {
       settings: {
         type: 'screener_signal',
-        metric: null,
         target: { watchlist_id: MOCK_SCREENER_ID },
         operation: { selector: { watchlist_id: MOCK_SCREENER_ID } },
       },
@@ -214,8 +213,32 @@ export const PartialWatchlistAlert: Story = {
     alert: {
       settings: {
         type: 'metric_signal',
-        metric: null,
         target: { watchlist_id: MOCK_WATCHLIST_ID },
+      },
+    },
+  },
+}
+
+export const PartialAssetAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'metric_signal',
+        target: { slug: ['ethereum'] },
+      },
+    },
+  },
+}
+
+export const PartialWalletMovementAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'wallet_movement',
+        target: { address: '0x123f123D2EFde0aD18B30b69acecC12dc3AB1f12' },
+        selector: { infrastructure: 'ETH' },
       },
     },
   },
