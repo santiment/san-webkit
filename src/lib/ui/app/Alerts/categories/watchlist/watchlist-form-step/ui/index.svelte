@@ -14,5 +14,8 @@
 <ListOfWatchlists
   {selectedId}
   onSelect={(watchlist) =>
-    (step.state.$$.watchlist = { id: watchlist?.id ?? null, title: watchlist?.title ?? '' })}
+    (step.state.$$.watchlist = {
+      id: watchlist?.id ? +watchlist.id : null,
+      title: watchlist?.title ?? '',
+    })}
 />

@@ -14,6 +14,9 @@
 <ListOfWatchlists
   {selectedId}
   onSelect={(screener) =>
-    (step.state.$$.screener = { id: screener?.id ?? null, title: screener?.title ?? '' })}
+    (step.state.$$.screener = {
+      id: screener?.id ? +screener.id : null,
+      title: screener?.title ?? '',
+    })}
   loadScreeners
 />

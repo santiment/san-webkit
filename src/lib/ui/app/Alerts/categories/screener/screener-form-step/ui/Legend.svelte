@@ -16,7 +16,7 @@
 
   $effect(() => {
     if (id && !title) {
-      step.state.$$.screener.title = getWatchlistById(id)?.title ?? ''
+      step.state.$$.screener.title = getWatchlistById(id.toString())?.title ?? ''
     }
   })
 </script>

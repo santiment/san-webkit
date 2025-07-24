@@ -15,7 +15,7 @@ export const Empty: Story = {
   parameters: {},
 }
 
-const MOCK_SCREENER_ID = '36321'
+const MOCK_SCREENER_ID = 36321
 const MOCK_WATCHLIST_ID = 36415
 
 export const AssetAPIAlert: Story = {

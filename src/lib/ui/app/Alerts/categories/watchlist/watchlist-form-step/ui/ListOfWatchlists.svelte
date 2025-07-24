@@ -11,7 +11,7 @@
   import { useUserWatchlistsCtx } from '../../data.svelte.js'
 
   type TProps = {
-    selectedId: Watchlist['id'] | null
+    selectedId: number | null
     onSelect: (watchlist: Watchlist | null) => void
     loadScreeners?: boolean
   }
@@ -37,7 +37,7 @@
   <section class="flex flex-col gap-3">
     {#each filteredWatchlists as watchlist}
       {@const { id, title, description } = watchlist}
-      {@const isActive = selectedId === id}
+      {@const isActive = selectedId === +id}
 
       <Button
         variant="plain"
