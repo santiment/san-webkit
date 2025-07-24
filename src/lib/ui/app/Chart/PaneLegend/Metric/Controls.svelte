@@ -3,13 +3,15 @@
 
   import Button from '$ui/core/Button/index.js'
 
+  import PaneControls from './PaneControls.svelte'
   import { useMetricInfoCtx } from './ctx.svelte.js'
   import { useChartPlanRestrictionsCtx } from '../../RestrictedDataDialog/index.js'
 
   type TProps = {
     metric: TSeries
+    paneControls?: boolean
   }
-  let { metric }: TProps = $props()
+  let { metric, paneControls }: TProps = $props()
 
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
   const { onMetricInfoClick } = useMetricInfoCtx.get()
@@ -48,22 +50,11 @@
     ></Button>
   {/if}
 
+  {#if paneControls}
+    <PaneControls {metric}></PaneControls>
+  {/if}
+
   <!--
   <Button icon="cog" iconSize="11" class="size-5" explanation="Settings"></Button>
-
-      <Button
-        icon="arrow-down"
-        iconSize="10"
-        class="size-5 [&>svg]:rotate-180"
-        explanation="Move to pane above"
-        onclick={onMoveAbovePane}
-      ></Button>
-      <Button
-        icon="arrow-down"
-        iconSize="10"
-        class="size-5"
-        explanation="Move to pane below"
-        onclick={onMoveBelowPane}
-      ></Button>
   -->
 </div>

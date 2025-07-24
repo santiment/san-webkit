@@ -72,8 +72,8 @@
 
     downloadCsv(filename, headers, rows)
   }
-  
-    function exportChartAsJpeg() {
+
+  function exportChartAsJpeg() {
     const filename = metricSeries.$.map((s) => s.apiMetricName)
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
@@ -139,7 +139,7 @@
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
-          <PaneMetric {metric}></PaneMetric>
+          <PaneMetric {metric} paneControls></PaneMetric>
         {/each}
       {/snippet}
     </PaneLegend>
