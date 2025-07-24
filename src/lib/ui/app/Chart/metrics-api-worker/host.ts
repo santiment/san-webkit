@@ -17,8 +17,10 @@ type TRequestFn = <GType extends TMessageTypeValues>(
 ) => void
 
 export const metricsApiSharedWorker = BROWSER
-  ? new SharedWorker(new URL('./shared-worker/index.js', import.meta.url), { type: 'module' })
+  ? globalThis.DEV_SHAREDWORKER_SUBSTITUTE ||
+    new SharedWorker(new URL('./shared-worker/index.js', import.meta.url), { type: 'module' })
   : { port: { onmessage: null, postMessage: () => {} } }
+
 // metricsApiSharedWorker.port.start() // IS REQUIRED WHEN USING addEventListener
 
 const ResponseHandler = new Map<number, { ondata: (data: any) => void }>()
@@ -67,4 +69,9 @@ export function createWorkerRequester<GType extends TMessageTypeValues>(type: GT
       cancel: () => workerCancelRequest(msgId),
     }
   }
+}
+
+declare global {
+  // eslint-disable-next-line no-var
+  var DEV_SHAREDWORKER_SUBSTITUTE: SharedWorker
 }

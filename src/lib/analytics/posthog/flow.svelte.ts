@@ -21,7 +21,7 @@ export function usePosthogFlow() {
   const updateUserData = useDebouncedFn(
     1000,
     ({ id, email, name }: User, abTests?: Record<string, string>) =>
-      id && posthog.identify(id.toString(), { name, email, abTests }),
+      id && posthog.identify(id.toString(), { user_id: id, name, email, abTests }),
   )
 
   const updateUserSanbasePlan = useDebouncedFn(
