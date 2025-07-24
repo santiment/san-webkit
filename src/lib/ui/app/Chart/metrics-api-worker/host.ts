@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 import {
   MESSAGE_TYPE,
   type TMessageId,
@@ -14,10 +16,9 @@ type TRequestFn = <GType extends TMessageTypeValues>(
   data: Omit<TMessageRequestByType[GType], 'type'>,
 ) => void
 
-export const metricsApiSharedWorker = new SharedWorker(
-  new URL('./shared-worker/index.js', import.meta.url),
-  { type: 'module' },
-)
+export const metricsApiSharedWorker = BROWSER
+  ? new SharedWorker(new URL('./shared-worker/index.js', import.meta.url), { type: 'module' })
+  : { port: { onmessage: null, postMessage: () => {} } }
 // metricsApiSharedWorker.port.start() // IS REQUIRED WHEN USING addEventListener
 
 const ResponseHandler = new Map<number, { ondata: (data: any) => void }>()
