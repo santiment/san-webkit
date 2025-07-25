@@ -27,9 +27,6 @@
         Media Kit
       </a>
       <a href="https://status.santiment.net" rel="noreferrer" target="_blank">Status</a>
-      <a href="https://academy.santiment.net/changelog" rel="noreferrer" target="_blank">
-        Changelog
-      </a>
     </div>
   </div>
 
