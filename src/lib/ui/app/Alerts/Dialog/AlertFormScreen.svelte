@@ -12,13 +12,13 @@
 
   type TProps = {
     schema: TAlertSchemaUnion
-    apiAlert?: null | TApiAlert
+    alert?: null | Partial<TApiAlert>
     resetCategory: () => void
     close: () => void
   }
-  let { schema, apiAlert, resetCategory, close }: TProps = $props()
+  let { schema, alert, resetCategory, close }: TProps = $props()
 
-  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
+  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, alert })
 
   let loading = $state(false)
 
@@ -26,7 +26,7 @@
   async function onAlertCreate() {
     try {
       loading = true
-      const reducedAlert = createApiAlert() as TApiAlert
+      const reducedAlert = { ...createApiAlert(), id: alert?.id ?? null }
 
       await mutateSaveAlert(Query)(reducedAlert)
 
@@ -40,9 +40,15 @@
   }
 
   function createApiAlert() {
-    return steps.reduce((acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)), {
-      settings: {},
-    })
+    return steps.reduce(
+      (acc, step) => {
+        const state = $state.snapshot(step.state.$$) as typeof step.state.$$
+        return step.reduceToApi(acc, state as UnionToIntersection<typeof state>)
+      },
+      {
+        settings: {},
+      },
+    ) as Omit<TApiAlert, 'id'>
   }
 </script>
 
@@ -53,7 +59,7 @@
     <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
       <h2 class="text-xl">{schema.ui.label}</h2>
 
-      {#if !apiAlert}
+      {#if !alert}
         <Button
           variant="plain"
           icon="arrow"
@@ -88,6 +94,6 @@
       <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
     </div>
 
-    <selectedStep.$.ui.Form step={selectedStep.$}></selectedStep.$.ui.Form>
+    <selectedStep.$.ui.Form state={selectedStep.$.state}></selectedStep.$.ui.Form>
   </main>
 </section>

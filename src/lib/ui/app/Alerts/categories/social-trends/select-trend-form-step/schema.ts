@@ -1,6 +1,5 @@
 import type { TSocialTrendsApiAlert } from '../schema.js'
 import type { TAssetSlug } from '$lib/ctx/assets/api.js'
-import type { Watchlist } from '../../watchlist/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -19,7 +18,7 @@ type TWordTarget = {
 }
 
 type TWatchlistTarget = {
-  id: Watchlist['id'] | null
+  id: number | null
   title: string
   type: 'watchlist'
 }
@@ -32,7 +31,7 @@ export type TTrendState = {
 export type TBaseSchema = TStepBaseSchema<
   'select-trend',
   {
-    initState: (apiAlert?: null | TSocialTrendsApiAlert) => TTrendState
+    initState: (apiAlert?: null | Partial<TSocialTrendsApiAlert>) => TTrendState
   }
 >
 

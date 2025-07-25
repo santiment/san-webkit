@@ -15,9 +15,13 @@
 
 <nav class="w-full">
   {#each steps as step, i}
-    {@const { title, description } = step.ui}
+    {@const {
+      state,
+      isValid,
+      ui: { title, description, Legend },
+    } = step}
     {@const active = selectedIndex === i}
-    {@const valid = step.isValid.$}
+    {@const valid = isValid.$}
     {@const next = !valid && (steps[i - 1] ? steps[i - 1].isValid.$ : true)}
 
     <button
@@ -46,9 +50,9 @@
 
       <div class="min-w-0 text-start">
         <h3 class="text-base">{title}</h3>
-        {#if valid && step.ui.Legend}
+        {#if valid && Legend}
           <div class="mt-2 flex text-fiord">
-            <step.ui.Legend {step} />
+            <Legend {state} />
           </div>
         {:else if active}
           <p class="text-fiord">

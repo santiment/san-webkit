@@ -1,5 +1,4 @@
 import type { TScreenerApiAlert } from '../schema.js'
-import type { Watchlist } from '../../watchlist/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -9,7 +8,7 @@ import Legend from './ui/Legend.svelte'
 export type TScreenerState = {
   metric: NonNullable<TScreenerApiAlert['settings']>['metric']
   screener: {
-    id: Watchlist['id'] | null
+    id: number | null
     title: string
   }
 }
@@ -17,7 +16,7 @@ export type TScreenerState = {
 export type TBaseSchema = TStepBaseSchema<
   'screener',
   {
-    initState: (apiAlert?: null | TScreenerApiAlert) => TScreenerState
+    initState: (apiAlert?: null | Partial<TScreenerApiAlert>) => TScreenerState
   }
 >
 

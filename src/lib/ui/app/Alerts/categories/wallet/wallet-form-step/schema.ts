@@ -25,7 +25,7 @@ export type TWalletState = {
 export type TBaseSchema = TStepBaseSchema<
   'wallet',
   {
-    initState: (apiAlert?: null | TWalletApiAlert) => TWalletState
+    initState: (apiAlert?: null | Partial<TWalletApiAlert>) => TWalletState
   }
 >
 

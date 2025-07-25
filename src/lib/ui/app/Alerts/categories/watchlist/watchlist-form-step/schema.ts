@@ -9,7 +9,7 @@ import Legend from './ui/Legend.svelte'
 export type TBaseSchema = TStepBaseSchema<
   'watchlist',
   {
-    initState: (apiAlert?: null | TWatchlistApiAlert) => TWatchlistState
+    initState: (apiAlert?: null | Partial<TWatchlistApiAlert>) => TWatchlistState
   }
 >
 

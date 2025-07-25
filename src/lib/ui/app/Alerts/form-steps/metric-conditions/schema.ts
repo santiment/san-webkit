@@ -32,7 +32,7 @@ export type TMetricConditionsState = {
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
   {
-    initState: (alert?: TApiAlert<TAlertSettings> | null) => TMetricConditionsState
+    initState: (alert?: Partial<TApiAlert<TAlertSettings>> | null) => TMetricConditionsState
   }
 >
 
@@ -47,7 +47,7 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
         type: 'above',
         values: [1, 1],
       },
-      time: alert?.settings ? getTimeFromApi(alert.settings.time_window) : '1d',
+      time: alert?.settings?.time_window ? getTimeFromApi(alert.settings.time_window) : '1d',
     },
   }),
 

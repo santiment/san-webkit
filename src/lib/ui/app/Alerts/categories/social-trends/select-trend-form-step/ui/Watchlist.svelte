@@ -16,7 +16,7 @@
   function onSelect(watchlist: Watchlist | null) {
     stepState.$$.target = {
       type: 'watchlist',
-      id: watchlist?.id ?? null,
+      id: watchlist?.id ? +watchlist.id : null,
       title: watchlist?.title ?? '',
     }
   }

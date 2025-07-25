@@ -19,7 +19,7 @@ export type TBaseSchema = TAlertBaseSchema<
   'asset',
   {
     steps: [typeof STEP_ASSETS_SCHEMA, typeof STEP_METRIC_CONDITIONS_SCHEMA]
-    deduceApiAlert: (apiAlert: TAssetApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TAssetApiAlert>) => boolean
   }
 >
 

@@ -16,7 +16,7 @@ export type TNotificationsState = {
 export type TBaseSchema = TStepBaseSchema<
   'notifications-privacy',
   {
-    initState: (apiAlert?: null | TApiAlert<unknown>) => TNotificationsState
+    initState: (apiAlert?: null | Partial<TApiAlert<unknown>>) => TNotificationsState
   }
 >
 
@@ -37,7 +37,7 @@ export const STEP_NOTIFICATIONS_PRIVACY_SCHEMA = createStepSchema<TBaseSchema>({
       channel: getChannelFromApi(apiAlert?.settings?.channel) ?? {},
       isPublic: apiAlert?.isPublic ?? false,
       isRepeating: apiAlert?.isRepeating ?? true,
-      cooldown: apiAlert ? getTimeFromApi(apiAlert.cooldown) : '1d',
+      cooldown: apiAlert?.cooldown ? getTimeFromApi(apiAlert.cooldown) : '1d',
     }
   },
 

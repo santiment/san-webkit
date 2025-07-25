@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
   import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 
   import { SvelteSet } from 'svelte/reactivity'
@@ -10,17 +10,17 @@
 
   import { mapSlugNames } from '../../utils.js'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
   const { getAssetBySlug } = useAssetsCtx()
 
-  const selectedSlugs = new SvelteSet(step.state.$$.target.slugs)
+  const selectedSlugs = new SvelteSet(state.$$.target.slugs)
 
   $effect(() => {
     const slugs = Array.from(selectedSlugs)
-    step.state.$$.target = { slugs, namesMap: mapSlugNames(slugs, getAssetBySlug) }
+    state.$$.target = { slugs, namesMap: mapSlugNames(slugs, getAssetBySlug) }
   })
 
   function onSelect(slug: TAssetSlug) {

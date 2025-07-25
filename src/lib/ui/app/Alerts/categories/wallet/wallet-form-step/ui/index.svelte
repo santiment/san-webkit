@@ -23,7 +23,7 @@
 
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
 
   import Button from '$ui/core/Button/index.js'
   import Input from '$ui/core/Input/index.js'
@@ -33,14 +33,14 @@
   import Capitalisation from './Capitalisation.svelte'
   import AssetMovements from './AssetMovements.svelte'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
   const {
     target: { address, infrastructure },
     type: alertType,
-  } = $derived(step.state.$$)
+  } = $derived(state.$$)
 </script>
 
 <section>
@@ -59,7 +59,7 @@
       class="group-hover:border-green"
       defaultValue={address ?? ''}
       oninput={({ currentTarget }) => {
-        step.state.$$.target.address = currentTarget.value
+        state.$$.target.address = currentTarget.value
       }}
     />
   </label>
@@ -79,7 +79,7 @@
         )}
         {disabled}
         onclick={() => {
-          step.state.$$.type = type
+          state.$$.type = type
         }}
       >
         <div class="flex justify-between">
@@ -99,8 +99,8 @@
   </section>
 
   {#if alertType === 'wallet_movement'}
-    <AssetMovements stepState={step.state} />
+    <AssetMovements stepState={state} />
   {:else if alertType === 'wallet_usd_valuation'}
-    <Capitalisation stepState={step.state} />
+    <Capitalisation stepState={state} />
   {/if}
 </section>

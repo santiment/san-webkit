@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TAlertStep } from '../../index.svelte.js'
+  import type { TBaseState } from '../../index.svelte.js'
   import type { TBaseSchema } from '../schema.js'
 
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
@@ -7,11 +7,11 @@
 
   import { formatChannels } from '../utils.js'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
-  const { channel, isPublic } = $derived(step.state.$$)
+  const { channel, isPublic } = $derived(state.$$)
 
   const formattedChannels = $derived(formatChannels(channel))
 </script>
