@@ -50,6 +50,7 @@
 
   onMount(() => () => {
     chart.$!.removeSeries(chartSeries)
+    series.chartSeriesApi = null
   })
 
   function createChartSeries() {

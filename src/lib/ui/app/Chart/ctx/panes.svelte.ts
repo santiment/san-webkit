@@ -1,8 +1,10 @@
+import type { IPaneApi } from '@santiment-network/chart-next'
+
 import { SvelteMap } from 'svelte/reactivity'
 
 import { createCtx, type TNominal } from '$lib/utils/index.js'
 
-export type TPane = TNominal<unknown, 'TPane'>
+export type TPane = TNominal<unknown, 'TPane'> & IPaneApi<any>
 
 type TPaneWidget = {
   _paneCell: HTMLElement
