@@ -31,39 +31,6 @@ export class RectanglePaneRenderer implements IPrimitivePaneRenderer {
   }
 }
 
-export class RectangleAxisPaneRenderer implements IPrimitivePaneRenderer {
-  _p1: number | null
-  _p2: number | null
-  _fillColor: string
-  _vertical: boolean = false
-
-  constructor(p1: number | null, p2: number | null, fillColor: string, vertical: boolean) {
-    this._p1 = p1
-    this._p2 = p2
-    this._fillColor = fillColor
-    this._vertical = vertical
-  }
-
-  draw(target: CanvasRenderingTarget2D) {
-    target.useBitmapCoordinateSpace((scope) => {
-      if (this._p1 === null || this._p2 === null) return
-      const ctx = scope.context
-      ctx.globalAlpha = 0.5
-      const positions = positionsBox(
-        this._p1,
-        this._p2,
-        this._vertical ? scope.verticalPixelRatio : scope.horizontalPixelRatio,
-      )
-      ctx.fillStyle = this._fillColor
-      if (this._vertical) {
-        ctx.fillRect(0, positions.position, 15, positions.length)
-      } else {
-        ctx.fillRect(positions.position, 0, positions.length, 15)
-      }
-    })
-  }
-}
-
 /**
  * Determines the bitmap position and length for a dimension of a shape to be drawn.
  * @param position1Media - media coordinate for the first point

@@ -1,14 +1,15 @@
 import type { Coordinate, ISeriesPrimitiveAxisView } from '@santiment-network/chart-next'
-import type { RectanglePrimitive } from './rectangle/primitive.js'
 import type { Point } from './types.js'
+import type { DrawingPrimitive } from './primitive.js'
 
-export abstract class DrawingToolAxisView implements ISeriesPrimitiveAxisView {
-  _source: RectanglePrimitive
-  _p: Point
-  _pos: Coordinate | null = null
-  constructor(source: RectanglePrimitive, p: Point) {
+export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
+  protected _source: DrawingPrimitive<any>
+  protected _point: Point
+  protected _pos: Coordinate | null = null
+
+  constructor(source: DrawingPrimitive<any>, point: Point) {
     this._source = source
-    this._p = p
+    this._point = point
   }
   abstract update(): void
   abstract text(): string
@@ -32,7 +33,31 @@ export abstract class DrawingToolAxisView implements ISeriesPrimitiveAxisView {
     return this._source._options.labelColor
   }
   movePoint(p: Point) {
-    this._p = p
+    this._point = p
     this.update()
+  }
+}
+
+export class DrawingTimeAxisView extends DrawingAxisView {
+  update() {
+    const timeScale = this._source.chart.timeScale()
+    this._pos = timeScale.timeToCoordinate(this._point.time)
+  }
+  text() {
+    const chart = this._source.chart
+    return (
+      chart.options().localization.timeFormatter?.(this._point.time) || this._point.time.toString()
+    )
+  }
+}
+
+export class DrawingPriceAxisView extends DrawingAxisView {
+  update() {
+    const series = this._source.series
+    this._pos = series.priceToCoordinate(this._point.price)
+  }
+  text() {
+    const series = this._source.series
+    return series.priceFormatter().format(this._point.price)
   }
 }

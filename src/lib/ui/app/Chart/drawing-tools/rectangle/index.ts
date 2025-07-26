@@ -6,7 +6,7 @@ import type {
 } from '@santiment-network/chart-next'
 
 import { ensureDefined, type Point, type RectangleDrawingToolOptions } from '../types.js'
-import { PreviewRectanglePrimitive, RectanglePrimitive } from './_primitive.js'
+import { PreviewRectanglePrimitive, RectanglePrimitive } from './primitive.js'
 
 export class RectangleDrawingTool {
   private _chart: IChartApi | undefined
