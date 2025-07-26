@@ -10,9 +10,9 @@ import type {
 
 import { ensureDefined } from './types.js'
 
-export abstract class DrawingToolPrimitive implements ISeriesPrimitive<Time> {
-  private _chart: IChartApi | undefined = undefined
-  private _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
+export abstract class DrawingPrimitive implements ISeriesPrimitive<Time> {
+  protected _chart: IChartApi | undefined = undefined
+  protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
 
   protected dataUpdated?(scope: DataChangedScope): void
   protected requestUpdate(): void {

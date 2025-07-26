@@ -1,4 +1,4 @@
-import { DrawingToolPrimitive } from '../primitive.js'
+import { DrawingPrimitive } from '../primitive.js'
 import { defaultOptions, type Point, type RectangleDrawingToolOptions } from '../types.js'
 import { RectanglePriceAxisView, RectangleTimeAxisView } from './axis-view.js'
 import {
@@ -7,7 +7,7 @@ import {
   RectangleTimeAxisPaneView,
 } from './pane-view.js'
 
-export class RectanglePrimitive extends DrawingToolPrimitive {
+export class RectanglePrimitive extends DrawingPrimitive {
   _options: RectangleDrawingToolOptions
   _p1: Point
   _p2: Point

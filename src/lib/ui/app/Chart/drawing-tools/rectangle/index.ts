@@ -6,7 +6,7 @@ import type {
 } from '@santiment-network/chart-next'
 
 import { ensureDefined, type Point, type RectangleDrawingToolOptions } from '../types.js'
-import { PreviewRectangle, RectanglePrimitive } from './primitive.js'
+import { PreviewRectanglePrimitive, RectanglePrimitive } from './_primitive.js'
 
 export class RectangleDrawingTool {
   private _chart: IChartApi | undefined
@@ -14,7 +14,7 @@ export class RectangleDrawingTool {
   private _drawingsToolbarContainer: HTMLDivElement | undefined
   private _defaultOptions: Partial<RectangleDrawingToolOptions>
   private _rectangles: RectanglePrimitive[]
-  private _previewRectangle: PreviewRectangle | undefined = undefined
+  private _previewRectangle: PreviewRectanglePrimitive | undefined = undefined
   private _points: Point[] = []
   private _drawing: boolean = false
   private _toolbarButton: HTMLDivElement | undefined
@@ -113,7 +113,7 @@ export class RectangleDrawingTool {
   }
 
   private _addNewRectangle(p1: Point, p2: Point) {
-    const rectangle = new RectanglePrimitive(p1, p2, { ...this._defaultOptions })
+    const rectangle = new RectanglePrimitive([p1, p2], { ...this._defaultOptions })
     this._rectangles.push(rectangle)
     ensureDefined(this._series).attachPrimitive(rectangle)
   }
@@ -123,7 +123,7 @@ export class RectangleDrawingTool {
   }
 
   private _addPreviewRectangle(p: Point) {
-    this._previewRectangle = new PreviewRectangle(p, p, {
+    this._previewRectangle = new PreviewRectanglePrimitive([p, p], {
       ...this._defaultOptions,
     })
     ensureDefined(this._series).attachPrimitive(this._previewRectangle)

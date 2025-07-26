@@ -57,7 +57,7 @@
       chartSeries,
       document.querySelector<HTMLDivElement>('#toolbar')!,
       {
-        showLabels: false,
+        showLabels: true,
       },
     )
   })
