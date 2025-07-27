@@ -1,13 +1,13 @@
 import type { Coordinate, ISeriesPrimitiveAxisView } from '@santiment-network/chart-next'
-import type { Point } from './types.js'
+import type { TPoint } from './types.js'
 import type { DrawingPrimitive } from './primitive.js'
 
 export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
   protected _source: DrawingPrimitive<any>
-  protected _point: Point
+  protected _point: TPoint
   protected _pos: Coordinate | null = null
 
-  constructor(source: DrawingPrimitive<any>, point: Point) {
+  constructor(source: DrawingPrimitive<any>, point: TPoint) {
     this._source = source
     this._point = point
   }
@@ -32,7 +32,7 @@ export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
   backColor() {
     return this._source._options.labelColor
   }
-  movePoint(p: Point) {
+  movePoint(p: TPoint) {
     this._point = p
     this.update()
   }

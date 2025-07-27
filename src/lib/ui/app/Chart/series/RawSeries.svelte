@@ -5,7 +5,6 @@
   import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
 
   import { useChartCtx } from '../ctx/index.js'
-  import { RectangleDrawingTool } from '../drawing-tools/rectangle/index.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
@@ -47,19 +46,6 @@
   $effect(() => {
     chartSeries.setData(data.$)
     chart.$!.resetAllScales()
-  })
-
-  onMount(() => {
-    if (series.apiMetricName !== 'price_usd') return
-
-    new RectangleDrawingTool(
-      chart.$!,
-      chartSeries,
-      document.querySelector<HTMLDivElement>('#toolbar')!,
-      {
-        showLabels: true,
-      },
-    )
   })
 
   onMount(() => () => {

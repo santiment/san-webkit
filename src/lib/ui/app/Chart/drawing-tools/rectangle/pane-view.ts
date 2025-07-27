@@ -1,11 +1,11 @@
-import type { ViewPoint } from '../types.js'
+import type { TViewPoint } from '../types.js'
 
 import { DrawingPaneView } from '../pane-view.js'
 import { RectanglePaneRenderer } from './renderer.js'
 
 export class RectanglePaneView extends DrawingPaneView {
-  private _p1: ViewPoint = { x: null, y: null }
-  private _p2: ViewPoint = { x: null, y: null }
+  private _p1: TViewPoint = { x: null, y: null }
+  private _p2: TViewPoint = { x: null, y: null }
 
   update() {
     const series = this._source.series

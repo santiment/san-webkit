@@ -1,23 +1,13 @@
-import type { Point } from '../types.js'
+import type { TPoint } from '../types.js'
 
-import { DrawingPrimitive, PreviewDrawingPrimitive } from '../primitive.js'
+import { DrawingPrimitive } from '../primitive.js'
 import { RectanglePaneView } from './pane-view.js'
 
-export class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
-  protected __type = 'rectangle' as const
+export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
+  public __type = 'rectangle' as const
   protected _paneViews: RectanglePaneView[] = [new RectanglePaneView(this)]
-}
 
-export class PreviewRectanglePrimitive
-  extends RectanglePrimitive
-  implements PreviewDrawingPrimitive
-{
-  constructor(points: Point[], options: Partial<any> = {}) {
-    super(points, options)
-    this._options.fillColor = this._options.previewFillColor
-  }
-
-  public updateEndPoint(point: Point) {
+  public updateEndPoint(point: TPoint) {
     this._points[1] = point
     //this._p2 = point
 

@@ -40,17 +40,14 @@ export class FibRetracementPaneView extends DrawingPaneView {
       y2,
       levels: FIBONACCI_LEVELS.map((item) => {
         const price = p2.price + priceDiff * item.level
-        return {
-          ...item,
-          value: formatter.format(price),
-          y: series.priceToCoordinate(price)!,
-        }
+        return { ...item, value: formatter.format(price), y: series.priceToCoordinate(price)! }
       }),
     }
   }
 
   renderer() {
     const { x1, x2, y1, y2 } = this._data
+
     if (x1 !== null && x2 !== null && y1 !== null && y2 !== null) {
       return new FibRetracementPaneRenderer(this._data)
     }

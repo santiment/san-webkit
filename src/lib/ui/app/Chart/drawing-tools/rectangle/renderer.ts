@@ -1,13 +1,13 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { IPrimitivePaneRenderer } from '@santiment-network/chart-next'
-import type { ViewPoint } from '../types.js'
+import type { TViewPoint } from '../types.js'
 
 export class RectanglePaneRenderer implements IPrimitivePaneRenderer {
-  _p1: ViewPoint
-  _p2: ViewPoint
+  _p1: TViewPoint
+  _p2: TViewPoint
   _fillColor: string
 
-  constructor(p1: ViewPoint, p2: ViewPoint, fillColor: string) {
+  constructor(p1: TViewPoint, p2: TViewPoint, fillColor: string) {
     this._p1 = p1
     this._p2 = p2
     this._fillColor = fillColor

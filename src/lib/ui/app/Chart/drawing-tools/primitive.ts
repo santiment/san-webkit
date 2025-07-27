@@ -1,4 +1,4 @@
-// https://github.com/difurious/lightweight-charts-line-tools/tree/main
+// https://github.com/tradingview/lightweight-charts/blob/master/plugin-examples/src/plugins/rectangle-drawing-tool/rectangle-drawing-tool.ts#L267
 
 import type {
   DataChangedScope,
@@ -11,7 +11,7 @@ import type {
 } from '@santiment-network/chart-next'
 
 import { DrawingPriceAxisView, DrawingTimeAxisView, type DrawingAxisView } from './axis-view.js'
-import { defaultOptions, type Point, type RectangleDrawingToolOptions } from './types.js'
+import { defaultOptions, type TPoint, type RectangleDrawingToolOptions } from './types.js'
 import {
   DrawingPaneView,
   DrawingPriceAxisPaneView,
@@ -22,16 +22,13 @@ import {
 export abstract class DrawingPrimitive<GDrawingType extends string>
   implements ISeriesPrimitive<Time>
 {
-  //protected _pointChanged: Delegate = new Delegate()
-  //protected _pointAdded: Delegate = new Delegate()
-
-  protected abstract readonly __type: GDrawingType
+  public abstract readonly __type: GDrawingType
   protected abstract readonly _paneViews: DrawingPaneView[]
 
   protected _chart: IChartApi | undefined = undefined
   protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
 
-  protected _points: Point[]
+  protected _points: TPoint[]
   _options: RectangleDrawingToolOptions
 
   protected _timeAxisViews: DrawingAxisView[] = []
@@ -39,27 +36,13 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected _priceAxisPaneViews: DrawingAxisPaneView[] = []
   protected _timeAxisPaneViews: DrawingAxisPaneView[] = []
 
-  //protected readonly _options: LineToolOptionsInternal<T>
-  //protected readonly _toolType!: LineToolType
-
-  protected _hovered: boolean = false
-  protected _selected: boolean = false
-  protected _finished: boolean = false
-  protected _editing: boolean = false
-  protected _creating: boolean = false
-
-  //protected _ownerSource: IPriceDataSource | null = null
-  //protected _lastPoint: LineToolPoint | null = null
-  //protected _points: LineToolPoint[] = []
-  // protected _model: ChartModel;
-
   protected dataUpdated?(scope: DataChangedScope): void
   protected requestUpdate(): void {
     if (this._requestUpdate) this._requestUpdate()
   }
   private _requestUpdate?: () => void
 
-  public constructor(points: Point[], options: Partial<RectangleDrawingToolOptions> = {}) {
+  public constructor(points: TPoint[], options: Partial<RectangleDrawingToolOptions> = {}) {
     this._points = points
     this._options = { ...defaultOptions, ...options }
 
@@ -89,7 +72,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     this._requestUpdate = undefined
   }
 
-  public get points(): Point[] {
+  public get points(): TPoint[] {
     return this._points
   }
 
@@ -146,13 +129,6 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
       this.dataUpdated(scope)
     }
   }
-}
 
-export abstract class PreviewDrawingPrimitive extends DrawingPrimitive<any> {
-  constructor(points: Point[], options: Partial<RectangleDrawingToolOptions> = {}) {
-    super(points, options)
-    this._options.fillColor = this._options.previewFillColor
-  }
-
-  public abstract updateEndPoint(p: Point): void
+  public abstract updateEndPoint(p: TPoint): void
 }
