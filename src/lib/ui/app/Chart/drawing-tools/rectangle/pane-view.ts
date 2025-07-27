@@ -1,5 +1,7 @@
 import type { TViewPoint } from '../types.js'
 
+import { getBrowserCssVariable } from '$ui/utils/index.js'
+
 import { DrawingPaneView } from '../pane-view.js'
 import { RectanglePaneRenderer } from './renderer.js'
 
@@ -24,6 +26,6 @@ export class RectanglePaneView extends DrawingPaneView {
   }
 
   renderer() {
-    return new RectanglePaneRenderer(this._p1, this._p2, this._source._options.fillColor)
+    return new RectanglePaneRenderer(this._p1, this._p2, getBrowserCssVariable('red') + '50')
   }
 }

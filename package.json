@@ -117,6 +117,7 @@
     "eslint-plugin-prettier": "^5.2.6",
     "eslint-plugin-svelte": "^3.5.1",
     "estree-walker": "^3.0.3",
+    "fancy-canvas": "^2.1.0",
     "globals": "^15.9.0",
     "graphql": "^16.8.2",
     "husky": "^9.0.11",

@@ -157,6 +157,9 @@ devDependencies:
   estree-walker:
     specifier: ^3.0.3
     version: 3.0.3
+  fancy-canvas:
+    specifier: ^2.1.0
+    version: 2.1.0
   globals:
     specifier: ^15.9.0
     version: 15.9.0

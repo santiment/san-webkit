@@ -18,19 +18,19 @@ export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
     return this._pos ?? -1
   }
 
-  visible(): boolean {
-    return this._source._options.showLabels
-  }
-
-  tickVisible(): boolean {
-    return this._source._options.showLabels
-  }
-
+  //visible(): boolean {
+  //  return this._source._options.showLabels
+  //}
+  //
+  //tickVisible(): boolean {
+  //  return this._source._options.showLabels
+  //}
+  //
   textColor() {
-    return this._source._options.labelTextColor
+    return this._source.options.axisLabels.textColor
   }
   backColor() {
-    return this._source._options.labelColor
+    return this._source.options.axisLabels.bg
   }
   movePoint(p: TPoint) {
     this._point = p

@@ -38,7 +38,7 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
   renderer() {
     return new DrawingAxisPaneRenderer(
       this._points,
-      this._source._options.fillColor,
+      this._source.options.axisLabels.bg,
       this._vertical,
     )
   }

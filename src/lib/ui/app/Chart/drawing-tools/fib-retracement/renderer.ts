@@ -65,7 +65,7 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
         ctx.save()
         const label = `${level} (${value})`
 
-        ctx.font = `${10 * scope.verticalPixelRatio}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`
+        ctx.font = `${11 * scope.verticalPixelRatio}px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif`
         ctx.textBaseline = 'middle'
         ctx.fillStyle = color
         ctx.textAlign = 'right'

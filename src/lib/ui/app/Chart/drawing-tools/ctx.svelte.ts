@@ -54,8 +54,6 @@ export const useDrawingToolsCtx = createCtx(
 
     const targetMetric = $derived(metricSeries.$[0])
 
-    console.log(targetMetric)
-
     function onDrawingToolSelect(type: TDrawingTypes) {
       // Same tool pressed === cancel drawing
       if (state.name === 'drawing' && state.payload.type === type) {

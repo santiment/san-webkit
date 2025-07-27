@@ -10,8 +10,10 @@ import type {
   Time,
 } from '@santiment-network/chart-next'
 
+import { getBrowserCssVariable } from '$ui/utils/index.js'
+
 import { DrawingPriceAxisView, DrawingTimeAxisView, type DrawingAxisView } from './axis-view.js'
-import { defaultOptions, type TPoint, type RectangleDrawingToolOptions } from './types.js'
+import { type TOptions, type TPoint } from './types.js'
 import {
   DrawingPaneView,
   DrawingPriceAxisPaneView,
@@ -29,7 +31,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
 
   protected _points: TPoint[]
-  _options: RectangleDrawingToolOptions
+  protected _options: TOptions
 
   protected _timeAxisViews: DrawingAxisView[] = []
   protected _priceAxisViews: DrawingAxisView[] = []
@@ -42,9 +44,15 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
   private _requestUpdate?: () => void
 
-  public constructor(points: TPoint[], options: Partial<RectangleDrawingToolOptions> = {}) {
+  public constructor(points: TPoint[], options: Partial<TOptions> = {}) {
     this._points = points
-    this._options = { ...defaultOptions, ...options }
+    this._options = {
+      axisLabels: {
+        bg: getBrowserCssVariable('casper'),
+        textColor: getBrowserCssVariable('black'),
+      },
+      ...options,
+    }
 
     for (let i = 0; i < points.length; i++) {
       this._priceAxisViews.push(new DrawingPriceAxisView(this, points[i]))
@@ -84,6 +92,10 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     return this._series!
   }
 
+  public get options(): TOptions {
+    return this._options
+  }
+
   public updateAllViews(): void {
     //if (!this._options.visible) {
     //  return
@@ -116,7 +128,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     return this._timeAxisPaneViews
   }
 
-  public applyOptions(options: Partial<RectangleDrawingToolOptions>) {
+  public applyOptions(options: Partial<TOptions>) {
     this._options = { ...this._options, ...options }
     this.requestUpdate()
   }
