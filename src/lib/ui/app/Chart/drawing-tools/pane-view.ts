@@ -9,7 +9,7 @@ import type { DrawingPrimitive } from './primitive.js'
 import { DrawingAxisPaneRenderer } from './renderer.js'
 
 export abstract class DrawingPaneView implements IPrimitivePaneView {
-  _source: DrawingPrimitive<any>
+  protected _source: DrawingPrimitive<any>
 
   constructor(source: DrawingPrimitive<any>) {
     this._source = source
