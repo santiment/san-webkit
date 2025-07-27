@@ -120,8 +120,6 @@
     <Button icon="download" variant="fill" onclick={exportChartAsJpeg}>Download as JPG</Button>
   </div>
 
-  <div id="toolbar" class="flex"></div>
-
   <DrawingTools></DrawingTools>
 
   <Chart
