@@ -4,8 +4,9 @@
   import { downloadCsv } from '$lib/utils/csv.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
-  import { useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
+  import { useChartCtx, useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
   import { showFormulaEditorDialog$ } from '$ui/app/Chart/FormulaEditorDialog/index.js'
+
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
@@ -17,9 +18,11 @@
   import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import DrawingTools from './DrawingTools.svelte'
 
   let { viewportPriority = false } = $props()
 
+  useChartCtx()
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
@@ -116,6 +119,8 @@
     <Button icon="download" variant="fill" onclick={exportCSV}>Download as CSV</Button>
     <Button icon="download" variant="fill" onclick={exportChartAsJpeg}>Download as JPG</Button>
   </div>
+
+  <DrawingTools></DrawingTools>
 
   <Chart
     watermark
