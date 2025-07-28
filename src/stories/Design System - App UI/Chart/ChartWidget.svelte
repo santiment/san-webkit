@@ -36,6 +36,7 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+  const { chart } = useChartCtx()
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
 

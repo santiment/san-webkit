@@ -1,124 +1,167 @@
-import type { IChartApi, IPaneApi } from '@santiment-network/chart-next'
+import type { IChartApi } from '@santiment-network/chart-next'
 import type { TSeries } from './ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
 import { applyHexColorOpacity, getBrowserCssVariable } from '$ui/utils/index.js'
 import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
 
-// TODO: Refactor and use native takeScreenshot
-export async function downloadChartAsJpeg(title: string, metrics: TSeries[], chart?: IChartApi) {
-  const container = chart?.chartElement()
-  if (!title || !container || !chart) return
+const LEGEND_CONFIG = {
+  font: '12px "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  lineHeight: 18,
+  paddingHorizontal: 6,
+  paddingVertical: 4,
+  gap: 6,
+  borderRadius: 4,
+}
 
-  const canvasElements = container.querySelectorAll('canvas')
+function createCompositeScreenshot(container: HTMLElement): HTMLCanvasElement | null {
+  const sourceCanvases = container.querySelectorAll('canvas')
+  if (!sourceCanvases.length) return null
 
-  if (!canvasElements.length) return
-
-  const bounds = container.getBoundingClientRect()
+  const containerBounds = container.getBoundingClientRect()
   const dpr = window.devicePixelRatio || 1
-  const canvas = document.createElement('canvas')
 
-  canvas.width = bounds.width * dpr
-  canvas.height = bounds.height * dpr
+  const finalCanvas = document.createElement('canvas')
 
-  const ctx = canvas.getContext('2d')!
+  finalCanvas.width = containerBounds.width * dpr
+  finalCanvas.height = containerBounds.height * dpr
+
+  const ctx = finalCanvas.getContext('2d')
+  if (!ctx) return null
+
   ctx.scale(dpr, dpr)
+  ctx.fillStyle = getBrowserCssVariable('white')
+  ctx.fillRect(0, 0, containerBounds.width, containerBounds.height)
 
-  const black = getBrowserCssVariable('black')
-  const whiteHex = getBrowserCssVariable('white')
-  const badgeBg = applyHexColorOpacity(whiteHex, 'b0')
-
-  ctx.fillStyle = whiteHex
-  ctx.fillRect(0, 0, bounds.width, bounds.height)
-
-  canvasElements.forEach((item) => {
-    const { left, top, width, height } = item.getBoundingClientRect()
-    ctx.drawImage(item, left - bounds.left, top - bounds.top, width, height)
+  sourceCanvases.forEach((canvasEl) => {
+    const { left, top, width, height } = canvasEl.getBoundingClientRect()
+    ctx.drawImage(canvasEl, left - containerBounds.left, top - containerBounds.top, width, height)
   })
 
-  const byPane: Record<number, TSeries[]> = {}
-  metrics.forEach((m) => {
-    const i = m.pane?.$ ?? 0
-    ;(byPane[i] ||= []).push(m)
+  return finalCanvas
+}
+
+function drawMetricsOnCanvas(ctx: CanvasRenderingContext2D, chart: IChartApi, metrics: TSeries[]) {
+  const metricsGroupedByPane: Record<number, TSeries[]> = {}
+
+  metrics.forEach((metric) => {
+    const paneIndex = metric.pane && metric.pane.$ != null ? metric.pane.$ : 0
+
+    if (!metricsGroupedByPane[paneIndex]) {
+      metricsGroupedByPane[paneIndex] = []
+    }
+
+    metricsGroupedByPane[paneIndex].push(metric)
   })
 
-  const lh = 18,
-    ph = 6,
-    pv = 4,
-    gap = 6,
-    rad = 4
-
-  ctx.font = '12px "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+  ctx.font = LEGEND_CONFIG.font
   ctx.textBaseline = 'middle'
 
-  chart.panes().forEach((pane: IPaneApi<any>, i: number) => {
-    const list = byPane[i]
-    if (!list?.length) return
+  const chartBounds = chart.chartElement().getBoundingClientRect()
 
-    let paneElement: null | HTMLElement
+  chart.panes().forEach((pane, index) => {
+    const paneMetrics = metricsGroupedByPane[index]
+    if (!paneMetrics?.length) return
+
+    let paneElement: HTMLElement | null
 
     try {
-      paneElement = pane.getHTMLElement()!
+      paneElement = pane.getHTMLElement()
     } catch {
       return
     }
 
-    const pr = paneElement.getBoundingClientRect()
-    const x = pr.left - bounds.left + ph
-    let y = pr.top - bounds.top + pv + lh / 2
+    if (!paneElement) return
 
-    list.forEach((m) => {
-      const label = m.label ?? m.apiMetricName
-      const firstValue = m.data.$.find((item) => item.value)?.value
-      const lastValue = m.data.$[m.data.$.length - 1].value
-      const formattedValue = m.ui.$$.tooltipFormatter
-        ? m.ui.$$.tooltipFormatter(lastValue)
-        : lastValue
-      const percentChange = firstValue
-        ? ` (${calculatePercentageChange(firstValue, lastValue)})`
-        : ''
+    const paneBounds = paneElement.getBoundingClientRect()
+    const paneStartX = paneBounds.left - chartBounds.left + LEGEND_CONFIG.paddingHorizontal
+    let currentY = paneBounds.top - chartBounds.top + LEGEND_CONFIG.paddingVertical
 
-      const labelText = `${label}: `
-      const valueText = `${formattedValue}${percentChange}`
-
-      const labelWidth = ctx.measureText(labelText).width
-      const valueWidth = ctx.measureText(valueText).width
-      const bw = labelWidth + gap + valueWidth + ph * 2
-      const bh = lh + pv * 2
-
-      ctx.globalAlpha = 0.7
-      ctx.fillStyle = badgeBg
-      ctx.beginPath()
-
-      if (typeof ctx.roundRect === 'function') {
-        ctx.roundRect(x - ph, y - lh / 2 - pv, bw, bh, rad)
-      } else {
-        ctx.moveTo(x, y)
-      }
-      ctx.fill()
-      ctx.globalAlpha = 1
-
-      ctx.fillStyle = black
-      ctx.fillText(labelText, x, y)
-
-      ctx.fillStyle = m.ui.$$.color || black
-      ctx.fillText(valueText, x + labelWidth + gap, y)
-
-      y += bh + pv
+    paneMetrics.forEach((metric) => {
+      const legendData = prepareLegendDataForMetric(metric)
+      const badgeHeight = drawLegendBadge(ctx, legendData, { x: paneStartX, y: currentY })
+      currentY += badgeHeight + LEGEND_CONFIG.paddingVertical
     })
   })
+}
 
-  ctx.globalCompositeOperation = 'destination-over'
-  ctx.fillStyle = whiteHex
-  ctx.fillRect(0, 0, bounds.width, bounds.height)
+function prepareLegendDataForMetric(metric: TSeries) {
+  const label = metric.label ?? metric.apiMetricName
+  const lastDataPoint = metric.data.$[metric.data.$.length - 1]
+  const firstDataPoint = metric.data.$.find((item) => item.value !== undefined)
 
-  const url = canvas.toDataURL('image/jpeg', 0.9)
+  const lastValue = lastDataPoint?.value
+  const firstValue = firstDataPoint?.value
+  const formattedValue = metric.tooltipFormatter ? metric.tooltipFormatter(lastValue) : lastValue
+
+  const percentChangeText =
+    firstValue !== undefined && lastValue !== undefined
+      ? ` (${calculatePercentageChange(firstValue, lastValue)})`
+      : ''
+
+  return {
+    labelText: `${label}: `,
+    valueText: `${formattedValue}${percentChangeText}`,
+    color: metric.color?.$ || getBrowserCssVariable('black'),
+  }
+}
+
+function drawLegendBadge(
+  ctx: CanvasRenderingContext2D,
+  legendData: ReturnType<typeof prepareLegendDataForMetric>,
+  position: { x: number; y: number },
+) {
+  const { labelText, valueText, color } = legendData
+  const { paddingHorizontal, paddingVertical, lineHeight, gap, borderRadius } = LEGEND_CONFIG
+
+  const badgeBg = applyHexColorOpacity(getBrowserCssVariable('white'), 'b0')
+
+  const labelWidth = ctx.measureText(labelText).width
+  const valueWidth = ctx.measureText(valueText).width
+
+  const badgeWidth = labelWidth + gap + valueWidth + paddingHorizontal * 2
+  const badgeHeight = lineHeight + paddingVertical * 2
+  const badgeTopY = position.y
+
+  const textBaselineY = badgeTopY + paddingVertical + lineHeight / 2
+
+  ctx.globalAlpha = 0.7
+  ctx.fillStyle = badgeBg
+  ctx.beginPath()
+  ctx.roundRect(position.x, badgeTopY, badgeWidth, badgeHeight, borderRadius)
+  ctx.fill()
+  ctx.globalAlpha = 1
+
+  const textStartX = position.x + paddingHorizontal
+
+  ctx.fillStyle = getBrowserCssVariable('black')
+  ctx.fillText(labelText, textStartX, textBaselineY)
+
+  ctx.fillStyle = color
+  ctx.fillText(valueText, textStartX + labelWidth + gap, textBaselineY)
+
+  return badgeHeight
+}
+
+export async function downloadChartAsJpeg(title: string, metrics: TSeries[], chart?: IChartApi) {
+  const chartContainer = chart?.chartElement()
+  if (!title || !chartContainer || !chart) return
+
+  const finalCanvas = createCompositeScreenshot(chartContainer)
+  if (!finalCanvas) return
+
+  const ctx = finalCanvas.getContext('2d')
+  if (!ctx) return
+
+  drawMetricsOnCanvas(ctx, chart, metrics)
+
+  const url = finalCanvas.toDataURL('image/jpeg', 0.9)
   const now = new Date()
   const { DD, MMM, YYYY } = getDateFormats(now)
   const { HH, mm, ss } = getTimeFormats(now)
-  const a = document.createElement('a')
 
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
+  const a = document.createElement('a')
   a.href = url
+  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
   a.click()
 }
