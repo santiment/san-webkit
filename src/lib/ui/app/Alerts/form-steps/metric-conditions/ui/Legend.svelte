@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TAlertStep } from '../../index.svelte.js'
+  import type { TBaseState } from '../../index.svelte.js'
   import type { TBaseSchema } from '../schema.js'
 
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
@@ -7,17 +7,17 @@
 
   import { describeConditions } from '../utils.js'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  let { state }: TProps = $props()
 
   const { MetricsRegistry } = useMetricsRegistryCtx()
 
-  const { metric, metricLabel, conditions } = $derived(step.state.$$)
+  const { metric, metricLabel, conditions } = $derived(state.$$)
 
   $effect(() => {
     if (metric && !metricLabel) {
-      step.state.$$.metricLabel = MetricsRegistry.$[metric]?.label ?? ''
+      state.$$.metricLabel = MetricsRegistry.$[metric]?.label ?? ''
     }
   })
 </script>

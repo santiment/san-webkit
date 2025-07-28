@@ -2,7 +2,6 @@ import type { TApiAlert } from '../../types.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
-import { type Watchlist } from '../watchlist/api.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 import { getAssetTargetTitle } from '../asset/utils.js'
 
@@ -19,7 +18,7 @@ export type TSocialTrendsApiAlert = TApiAlert<
         operation: { trending_word: true }
       }
     | {
-        target: { watchlist_id: Watchlist['id'] | null }
+        target: { watchlist_id: number | null }
         operation: { trending_project: true }
       }
   )
@@ -32,7 +31,7 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_TREND_SCHEMA]
 
-    deduceApiAlert: (apiAlert: TSocialTrendsApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TSocialTrendsApiAlert>) => boolean
   }
 >
 

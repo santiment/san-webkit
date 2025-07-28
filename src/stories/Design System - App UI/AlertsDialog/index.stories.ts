@@ -6,7 +6,7 @@ const meta = {
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<component>
+} satisfies Meta<typeof component>
 type Story = StoryObj<typeof meta>
 
 export default meta
@@ -15,10 +15,13 @@ export const Empty: Story = {
   parameters: {},
 }
 
+const MOCK_SCREENER_ID = 36321
+const MOCK_WATCHLIST_ID = 36415
+
 export const AssetAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '2w',
       description:
         'Notify me when the price of Ethereum, Tether [on Ethereum] goes above 1$ compared to 1 day(s) earlier. Send me notifications every 1 day(s) via email.',
@@ -49,7 +52,7 @@ export const AssetAPIAlert: Story = {
 export const SocialTrendsAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1d',
       description:
         'Notify me when the bear, market appears in social trends. Send me notifications every 1 day(s) via telegram.',
@@ -79,7 +82,7 @@ export const SocialTrendsAPIAlert: Story = {
 export const WatchlistAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description:
         'Notify me when the price of TestWatchlist moving up 20% or moving down 10% compared to 2 day(s) earlier. Send me notifications every 1 minute(s) via email.',
@@ -92,7 +95,7 @@ export const WatchlistAPIAlert: Story = {
         type: 'metric_signal',
         template: null,
         target: {
-          watchlist_id: 1663,
+          watchlist_id: MOCK_WATCHLIST_ID,
         },
         operation: {
           some_of: [
@@ -117,7 +120,7 @@ export const WatchlistAPIAlert: Story = {
 export const ScreenerAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description:
         'Notify me when any project enters/exits Stablecoins. Send me notifications every 1 minute(s) via email, telegram.',
@@ -129,11 +132,11 @@ export const ScreenerAPIAlert: Story = {
       settings: {
         type: 'screener_signal',
         target: {
-          watchlist_id: 669,
+          watchlist_id: MOCK_SCREENER_ID,
         },
         operation: {
           selector: {
-            watchlist_id: 669,
+            watchlist_id: MOCK_SCREENER_ID,
           },
         },
         channel: ['email', 'telegram'],
@@ -146,7 +149,7 @@ export const ScreenerAPIAlert: Story = {
 export const WalletAPIAlert: Story = {
   parameters: {},
   args: {
-    apiAlert: {
+    alert: {
       cooldown: '1m',
       description: null,
       id: 2200,
@@ -170,6 +173,73 @@ export const WalletAPIAlert: Story = {
         },
       },
       title: 'Balance goes below 1 compared to 1 day(s) earlier',
+    },
+  },
+}
+
+export const PartialTrendsAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'trending_words',
+        target: {
+          word: ['bear', 'market'],
+        },
+        operation: {
+          trending_word: true,
+        },
+      },
+    },
+  },
+}
+
+export const PartialScreenerAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'screener_signal',
+        target: { watchlist_id: MOCK_SCREENER_ID },
+        operation: { selector: { watchlist_id: MOCK_SCREENER_ID } },
+      },
+    },
+  },
+}
+
+export const PartialWatchlistAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'metric_signal',
+        target: { watchlist_id: MOCK_WATCHLIST_ID },
+      },
+    },
+  },
+}
+
+export const PartialAssetAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'metric_signal',
+        target: { slug: ['ethereum'] },
+      },
+    },
+  },
+}
+
+export const PartialWalletMovementAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'wallet_movement',
+        target: { address: '0x123f123D2EFde0aD18B30b69acecC12dc3AB1f12' },
+        selector: { infrastructure: 'ETH' },
+      },
     },
   },
 }

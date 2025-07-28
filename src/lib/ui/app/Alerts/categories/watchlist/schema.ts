@@ -17,7 +17,7 @@ export type TBaseSchema = TAlertBaseSchema<
   'watchlist',
   {
     steps: [typeof STEP_SELECT_WATCHLIST_SCHEMA, typeof STEP_METRIC_CONDITIONS_SCHEMA]
-    deduceApiAlert: (apiAlert: TWatchlistApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TWatchlistApiAlert>) => boolean
   }
 >
 
