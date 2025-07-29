@@ -22,6 +22,8 @@
 
   let loading = $state(false)
 
+  const isEditing = $derived(!!alert?.id)
+
   // Reduce steps state.$$ to accumulated object
   async function onAlertCreate() {
     try {
@@ -85,7 +87,7 @@
       onclick={onAlertCreate}
       {loading}
     >
-      Create alert
+      {isEditing ? 'Update' : 'Create'} alert
     </Button>
   </aside>
 
