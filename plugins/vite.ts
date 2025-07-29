@@ -1,5 +1,5 @@
 import path from 'path'
-import fs from 'fs/promises'
+import fs from 'fs'
 
 import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from '../scripts/svg.js'
 import { forFile, __dirname } from '../scripts/utils.js'
@@ -22,25 +22,36 @@ export function WebkitSvg() {
   return {
     name: 'webkit-svg',
 
-    buildStart() {
+    async buildStart() {
       if (isLibPackage) {
         const root = path.resolve(base, '..')
 
         const copyTargets = ['icons', 'illus', 'sprites']
-        copyTargets.forEach((dir) => {
-          fs.cp(path.resolve(root, 'dist', dir), staticDir + dir, { recursive: true, force: true })
-        })
+
+        await Promise.all(
+          copyTargets.map((dir) => {
+            const sourcePath = path.resolve(root, 'dist', dir)
+            const destPath = staticDir + dir
+
+            if (fs.existsSync(sourcePath)) {
+              fs.mkdirSync(destPath, { recursive: true })
+              fs.cpSync(sourcePath, destPath, { recursive: true, force: true })
+            }
+          }),
+        )
 
         return
       }
 
-      forFile([ICONS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
+      const iconPromises = await forFile([ICONS_PATH + '/**/*.svg'], (entry) => {
+        return processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
       })
 
-      forFile([ILLUS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
+      const illusPromises = await forFile([ILLUS_PATH + '/**/*.svg'], (entry) => {
+        return processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
       })
+
+      await Promise.all([...iconPromises, ...illusPromises])
     },
 
     async handleHotUpdate({ file, server }) {
