@@ -12,6 +12,7 @@ export const useAlertFormCtx = createCtx(
 
     let selectedIndex = $state(0)
     const selectedStep = $derived(steps[selectedIndex])
+    const nextStep = $derived(selectedIndex < steps.length ? steps[selectedIndex + 1] : null)
 
     const isAlertValid = $derived(steps.every((step) => step.isValid.$))
 
@@ -31,6 +32,11 @@ export const useAlertFormCtx = createCtx(
         },
         set index$(value: number) {
           selectedIndex = value
+        },
+      },
+      nextStep: {
+        get $() {
+          return nextStep
         },
       },
 

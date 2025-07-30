@@ -21,7 +21,7 @@
   }
   let { schema, alert, resetCategory, close }: TProps = $props()
 
-  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, alert })
+  const { steps, selectedStep, nextStep, isAlertValid } = useAlertFormCtx({ schema, alert })
   const { MetricsRestrictions } = useMetricsRestrictionsCtx()
 
   let loading = $state(false)
@@ -117,6 +117,18 @@
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
     <div class="mb-4 flex justify-between">
       <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
+
+      {#if selectedStep.$.isValid.$ && nextStep.$}
+        <Button
+          variant="link"
+          onclick={() => (selectedStep.index$ += 1)}
+          icon="pointer"
+          iconSize="14"
+          iconOnRight
+        >
+          {nextStep.$.ui.label}
+        </Button>
+      {/if}
     </div>
 
     <selectedStep.$.ui.Form state={selectedStep.$.state}></selectedStep.$.ui.Form>

@@ -11,7 +11,7 @@
 
   type TProps = {
     metric: TRegistryMetric | null
-    onSelect: (metric: string) => void
+    onSelect: (metric: TRegistryMetric) => void
   }
 
   const { metric, onSelect }: TProps = $props()
@@ -71,7 +71,7 @@
               <Button
                 variant="title"
                 class="hover:text-green hover:no-underline"
-                onclick={() => onSelect(metric.key)}
+                onclick={() => onSelect(metric)}
               >
                 {metric.label}
               </Button>
