@@ -88,6 +88,12 @@
   })
 
   $effect(() => {
+    if (mode === Mode.DRAG) {
+      isScrollEnabled = false
+    }
+  })
+
+  $effect(() => {
     if (!chart.$) return
 
     chart.$.applyOptions(theme)
