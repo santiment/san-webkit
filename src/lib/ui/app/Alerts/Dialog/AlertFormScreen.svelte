@@ -36,6 +36,8 @@
 
       await mutateSaveAlert(Query)(reducedAlert)
 
+      notification.success(`Alert was succesfully ${isEditing ? 'updated' : 'created'}`)
+
       close()
     } catch (e) {
       console.error(e)
