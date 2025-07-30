@@ -32,11 +32,9 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   initState(apiAlert) {
-    const watchlist_id = apiAlert?.settings?.target.watchlist_id || null
-
     return {
       metric: 'social_volume_total',
-      screener: { id: watchlist_id, title: '' },
+      screener: { id: getApiWatchlistId(apiAlert?.settings), title: '' },
     }
   },
 
@@ -57,3 +55,13 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
     return apiAlert
   },
 })
+
+function getApiWatchlistId(settings: TScreenerApiAlert['settings'] | undefined): number | null {
+  if (!settings) return null
+  if (settings.target === 'default') {
+    return +settings.operation.selector.watchlist_id
+  }
+
+  const { watchlist_id } = settings.target
+  return watchlist_id !== null ? +watchlist_id : null
+}
