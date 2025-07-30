@@ -41,7 +41,7 @@
       close()
     } catch (e) {
       console.error(e)
-      notification.error('Failed to create alert')
+      notification.error(`Failed to ${isEditing ? 'update' : 'create'} alert`)
     } finally {
       loading = false
     }
