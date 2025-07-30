@@ -15,7 +15,7 @@
   {selectedId}
   onSelect={(watchlist) =>
     (state.$$.watchlist = {
-      id: watchlist?.id ? +watchlist.id : null,
+      id: watchlist?.id ?? null,
       title: watchlist?.title ?? '',
     })}
 />

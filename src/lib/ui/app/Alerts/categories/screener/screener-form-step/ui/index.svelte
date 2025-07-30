@@ -15,7 +15,7 @@
   {selectedId}
   onSelect={(screener) =>
     (state.$$.screener = {
-      id: screener?.id ? +screener.id : null,
+      id: screener?.id ?? null,
       title: screener?.title ?? '',
     })}
   loadScreeners

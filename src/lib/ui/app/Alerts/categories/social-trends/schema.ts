@@ -18,7 +18,7 @@ export type TSocialTrendsApiAlert = TApiAlert<
         operation: { trending_word: true }
       }
     | {
-        target: { watchlist_id: number | null }
+        target: { watchlist_id: string | number | null }
         operation: { trending_project: true }
       }
   )

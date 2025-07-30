@@ -21,7 +21,7 @@ export function parseApiTarget(apiTarget: TSocialTrendsApiAlertTarget): TTrendSt
     return { type: 'word', words: apiTarget.word }
   }
 
-  return { type: 'watchlist', id: apiTarget.watchlist_id, title: '' }
+  return { type: 'watchlist', id: apiTarget.watchlist_id?.toString() ?? null, title: '' }
 }
 
 export function getApiTarget(target: TTrendState['target']): TSocialTrendsApiAlertTarget {

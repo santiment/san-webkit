@@ -8,7 +8,7 @@ import Legend from './ui/Legend.svelte'
 export type TScreenerState = {
   metric: NonNullable<TScreenerApiAlert['settings']>['metric']
   screener: {
-    id: number | null
+    id: string | null
     title: string
   }
 }
@@ -56,12 +56,12 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 })
 
-function getApiWatchlistId(settings: TScreenerApiAlert['settings'] | undefined): number | null {
+function getApiWatchlistId(settings: TScreenerApiAlert['settings'] | undefined): string | null {
   if (!settings) return null
   if (settings.target === 'default') {
-    return +settings.operation.selector.watchlist_id
+    return settings.operation.selector.watchlist_id.toString()
   }
 
   const { watchlist_id } = settings.target
-  return watchlist_id !== null ? +watchlist_id : null
+  return watchlist_id !== null ? watchlist_id.toString() : null
 }
