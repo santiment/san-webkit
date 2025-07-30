@@ -7,11 +7,15 @@
     modifyDate,
   } from '$lib/utils/dates/index.js'
   import { createValueMap } from '$lib/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   import { useChartGlobalParametersCtx } from '../ctx/index.js'
   import Canvas from './Canvas.svelte'
   import Handles from './Handles.svelte'
   import YearMarks from './YearMarks.svelte'
+
+  type TProps = { class?: string }
+  const { class: className }: TProps = $props()
 
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const viewportPriorityCtx = useItemViewportPriorityCtx.get()
@@ -136,7 +140,7 @@
 </script>
 
 <section
-  class="relative my-4 flex h-[40px] select-none bg-white center"
+  class={cn('relative flex h-[40px] select-none bg-white center', className)}
   bind:clientWidth={minimapWidth}
 >
   {#if minimapWidth && (viewportPriorityCtx?.checkIsInViewport$() ?? true)}

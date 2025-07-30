@@ -156,6 +156,10 @@ loading-spin,
   z-index: var(--expl-z-index, 30);
 }
 
+.expl-tooltip[aria-expanded='true']:hover::before {
+  display: none;
+}
+
 skeleton {
   position: absolute;
   top: 0;
