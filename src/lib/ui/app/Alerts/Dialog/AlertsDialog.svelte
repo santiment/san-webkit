@@ -17,6 +17,7 @@
   import AlertFormScreen from './AlertFormScreen.svelte'
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
+  import RestrictionMessage from './RestrictionMessage.svelte'
 
   type TProps = TDialogProps & { source?: string; alert?: null | Partial<TApiAlert> }
   let { alert, Controller, source = '' }: TProps = $props()
@@ -59,6 +60,8 @@
     Create custom alerts
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />
   </h2>
+
+  <RestrictionMessage />
 
   {#if schema}
     <AlertFormScreen {alert} {schema} {resetCategory} {close}></AlertFormScreen>

@@ -5,10 +5,13 @@
   import Button from '$ui/core/Button/index.js'
   import { Query } from '$lib/api/executor.js'
   import { notification } from '$ui/core/Notifications/index.js'
+  import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
 
   import { useAlertFormCtx } from '../ctx/index.svelte.js'
   import Steps from './Steps.svelte'
   import { mutateSaveAlert } from './api.js'
+
+  type TReducedAlert = Omit<TApiAlert<{ type: string; target: object }>, 'id'>
 
   type TProps = {
     schema: TAlertSchemaUnion
@@ -19,8 +22,11 @@
   let { schema, alert, resetCategory, close }: TProps = $props()
 
   const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, alert })
+  const { MetricsRestrictions } = useMetricsRestrictionsCtx()
 
   let loading = $state(false)
+
+  const isEditing = $derived(!!alert?.id)
 
   // Reduce steps state.$$ to accumulated object
   async function onAlertCreate() {
@@ -40,7 +46,7 @@
   }
 
   function createApiAlert() {
-    return steps.reduce(
+    const apiAlert = steps.reduce(
       (acc, step) => {
         const state = $state.snapshot(step.state.$$) as typeof step.state.$$
         return step.reduceToApi(acc, state as UnionToIntersection<typeof state>)
@@ -48,7 +54,26 @@
       {
         settings: {},
       },
-    ) as Omit<TApiAlert, 'id'>
+    ) as TReducedAlert
+
+    const changedType = getChangedType(apiAlert.settings)
+    if (changedType && apiAlert.settings) {
+      apiAlert.settings.type = changedType
+    }
+
+    return apiAlert
+  }
+
+  function getChangedType(settings: TReducedAlert['settings']) {
+    if (settings?.type !== 'metric_signal') return null
+    if (!('metric' in settings) || typeof settings.metric !== 'string') return null
+
+    const minInterval = MetricsRestrictions.$[settings.metric]?.minInterval
+    if (minInterval === '1d') {
+      return 'daily_metric_signal'
+    }
+
+    return null
   }
 </script>
 
@@ -85,7 +110,7 @@
       onclick={onAlertCreate}
       {loading}
     >
-      Create alert
+      {isEditing ? 'Update' : 'Create'} alert
     </Button>
   </aside>
 

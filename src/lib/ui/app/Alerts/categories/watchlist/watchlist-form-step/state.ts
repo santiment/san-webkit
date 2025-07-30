@@ -1,6 +1,6 @@
 export type TWatchlistState = {
   watchlist: {
-    id: number | null
+    id: string | null
     title: string
   }
 }
@@ -17,7 +17,6 @@ export function stateIsWatchlist(state: unknown): state is TWatchlistState {
   const { id } = watchlist
 
   if (id === null) return true
-  if (typeof id === 'number') return true
   if (typeof id === 'string') return true
 
   return false

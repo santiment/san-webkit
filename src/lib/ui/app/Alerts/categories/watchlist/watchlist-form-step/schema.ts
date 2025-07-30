@@ -27,7 +27,7 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
   initState(apiAlert) {
     return {
       watchlist: {
-        id: apiAlert?.settings?.target.watchlist_id || null,
+        id: apiAlert?.settings?.target.watchlist_id.toString() || null,
         title: '',
       },
     }

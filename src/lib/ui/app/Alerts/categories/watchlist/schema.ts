@@ -10,7 +10,7 @@ import {
 
 export type TWatchlistApiAlert = TApiAlert<{
   type: 'metric_signal'
-  target: { watchlist_id: number }
+  target: { watchlist_id: string | number }
 }>
 
 export type TBaseSchema = TAlertBaseSchema<

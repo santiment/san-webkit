@@ -18,7 +18,7 @@ type TWordTarget = {
 }
 
 type TWatchlistTarget = {
-  id: number | null
+  id: string | null
   title: string
   type: 'watchlist'
 }
