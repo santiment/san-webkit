@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { TBaseSchema } from '../schema.js'
   import type { TBaseState } from '../../index.svelte.js'
+  import type { TRegistryMetric } from '$lib/ctx/metrics-registry/api.js'
 
   import { useMetricsRegistryCtx } from '$lib/ctx/metrics-registry/index.svelte.js'
 
@@ -25,8 +26,9 @@
     }
   })
 
-  function onMetricSelect(metric: string) {
-    state.$$.metric = metric
+  function onMetricSelect(metric: TRegistryMetric) {
+    state.$$.metric = metric.key
+    state.$$.metricLabel = metric.label
     isMetricScreen = false
   }
 
