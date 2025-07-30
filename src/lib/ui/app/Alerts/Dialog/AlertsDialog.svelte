@@ -19,8 +19,12 @@
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
   import RestrictionMessage from './RestrictionMessage.svelte'
 
-  type TProps = TDialogProps & { source?: string; alert?: null | Partial<TApiAlert> }
-  let { alert, Controller, source = '' }: TProps = $props()
+  type TProps = TDialogProps & {
+    source?: string
+    alert?: null | Partial<TApiAlert>
+    onCreate?: (alert: TApiAlert) => void
+  }
+  let { alert, Controller, onCreate, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(alert))
 
@@ -64,7 +68,7 @@
   <RestrictionMessage />
 
   {#if schema}
-    <AlertFormScreen {alert} {schema} {resetCategory} {close}></AlertFormScreen>
+    <AlertFormScreen {alert} {schema} {resetCategory} {close} {onCreate}></AlertFormScreen>
   {:else}
     <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
   {/if}
