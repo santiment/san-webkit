@@ -3,7 +3,6 @@ import { map, pipe, switchMap, tap } from 'rxjs'
 
 import { createCtx } from '$lib/utils/index.js'
 import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
-import { RxQuery } from '$lib/api/executor.js'
 
 import { queryUserWatchlists, type Watchlist } from './api.js'
 
@@ -18,7 +17,7 @@ export const useUserWatchlistsCtx = createCtx(
 
     const loadWatchlists = useObserveFnCall(() =>
       pipe(
-        switchMap(() => queryUserWatchlists({ executor: RxQuery, cache: false })()),
+        switchMap(() => queryUserWatchlists()()),
         map((watchlists) => watchlists.filter(({ isScreener }) => loadScreeners === isScreener)),
         tap((_watchlists) => (watchlists = _watchlists)),
       ),
