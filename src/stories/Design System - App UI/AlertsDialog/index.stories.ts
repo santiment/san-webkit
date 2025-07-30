@@ -243,3 +243,16 @@ export const PartialWalletMovementAlert: Story = {
     },
   },
 }
+
+export const PartialAssetWithDailyMetricAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'daily_metric_signal',
+        target: { slug: ['bitcoin'] },
+        metric: 'daily_active_addresses',
+      },
+    },
+  },
+}
