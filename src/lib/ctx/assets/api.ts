@@ -12,6 +12,7 @@ export type TAsset = {
   priceUsd: null | number
   infrastructure: null | string
   marketSegments?: string[]
+  chain?: (typeof Blockchain)[keyof typeof Blockchain]
 }
 
 export const PROJECT_FRAGMENT = `slug
@@ -22,8 +23,19 @@ export const PROJECT_FRAGMENT = `slug
       marketSegments
       rank`
 
-const assetAccessor = (gql: { projects: TAsset[] }) =>
-  gql.projects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999))
+function assetAccessor(gql: { projects: TAsset[] }) {
+  const assets = gql.projects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999))
+
+  for (let i = 0; i < assets.length; i++) {
+    const asset = assets[i]
+    if (asset.infrastructure) {
+      const chain = Blockchain[asset.infrastructure as keyof typeof Blockchain]
+      if (chain && chain.slug !== asset.slug) asset.chain = chain
+    }
+  }
+
+  return assets
+}
 
 export const queryAllProjects = ApiQuery(
   () => `{
@@ -60,19 +72,20 @@ export const queryDeFiProjects = getQueryWatchlistProjects('defi')
 
 export const Blockchain = keyify(
   {
-    BTC: { slug: 'bitcoin', name: 'Bitcoin' },
-    ETH: { slug: 'ethereum', name: 'Ethereum' },
-    BEP20: { slug: 'binance-coin', name: 'BNB Chain' },
-    XRP: { slug: 'xrp', name: 'XRPL' },
-    Cardano: { slug: 'cardano', name: 'Cardano' },
-    //DOGE: { slug: 'dogecoin', name: 'Dogecoin' },
-    Polygon: { slug: 'matic-network', name: 'Polygon' },
-    Avalanche: { slug: 'avalanche', name: 'Avalanche' },
-    Arbitrum: { slug: 'arbitrum', name: 'Arbitrum' },
-    LTC: { slug: 'litecoin', name: 'Litecoin' },
-    BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash' },
-    Optimism: { slug: 'optimism-ethereum', name: 'Optimism' },
-    ICP: { slug: 'internet-computer', name: 'ICP' },
+    BTC: { slug: 'bitcoin', name: 'Bitcoin', ticker: 'BTC' },
+    ETH: { slug: 'ethereum', name: 'Ethereum', ticker: 'ETH' },
+    BEP20: { slug: 'binance-coin', name: 'BNB Chain', ticker: 'BSC' }, // BSC = BNB Smart Chain
+    XRP: { slug: 'xrp', name: 'XRPL', ticker: 'XRP' },
+    Cardano: { slug: 'cardano', name: 'Cardano', ticker: 'ADA' },
+    //DOGE: { slug: 'dogecoin', name: 'Dogecoin', ticker: 'DOGE' },
+    Polygon: { slug: 'matic-network', name: 'Polygon', ticker: 'POL' },
+    Avalanche: { slug: 'avalanche', name: 'Avalanche', ticker: 'AVAX' },
+    Arbitrum: { slug: 'arbitrum', name: 'Arbitrum', ticker: 'ARB' },
+    LTC: { slug: 'litecoin', name: 'Litecoin', ticker: 'LTC' },
+    BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash', ticker: 'BCH' },
+    Optimism: { slug: 'optimism-ethereum', name: 'Optimism', ticker: 'OP' },
+    ICP: { slug: 'internet-computer', name: 'ICP', ticker: 'ICP' },
+    Solana: { slug: 'solana', name: 'Solana', ticker: 'SOL' },
   },
   'infrastructure',
 )
