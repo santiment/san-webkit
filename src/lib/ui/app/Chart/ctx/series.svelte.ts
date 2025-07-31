@@ -7,8 +7,7 @@ import type {
 import type { TUUIDv4 } from '$lib/utils/uuid/index.js'
 
 import { ss, createCtx, type SS } from '$lib/utils/index.js'
-
-import { DEFAULT_FORMATTER } from './formatters.js'
+import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
 
 export type TMetricSelector = null | TMetricTargetSelectorInputObject
 

@@ -3,8 +3,7 @@ import type { TSeries } from './ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
 import { applyHexColorOpacity, getBrowserCssVariable } from '$ui/utils/index.js'
-
-import { calculatePercentageChange } from './ctx/formatters.js'
+import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
 
 // TODO: Refactor and use native takeScreenshot
 export async function downloadChartAsJpeg(title: string, metrics: TSeries[], chart?: IChartApi) {
