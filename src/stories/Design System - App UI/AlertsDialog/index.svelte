@@ -20,4 +20,8 @@
   </div>
 </div>
 
-<StoryDialog render={AlertsDialog} {alert}></StoryDialog>
+<StoryDialog
+  render={AlertsDialog}
+  {alert}
+  onCreate={({ title }) => console.log(`Alert ${title} saved`)}
+></StoryDialog>
