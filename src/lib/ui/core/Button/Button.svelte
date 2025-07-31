@@ -15,6 +15,7 @@
   type TProps = HTMLButtonAttributes &
     Omit<TButtonVariants, 'icon' | 'explanation' | 'children'> & {
       as?: 'button' | 'label' | 'div'
+      for?: string
       ref?: SS<undefined | null | HTMLElement>
       href?: string
       icon?: TSvgId
