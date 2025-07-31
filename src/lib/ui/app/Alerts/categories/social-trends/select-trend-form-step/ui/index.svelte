@@ -48,7 +48,7 @@
         variant="plain"
         size="auto"
         class={cn(
-          '-m-px flex-1 justify-center rounded-md border border-transparent px-3 py-1.5 hover:text-green',
+          '-m-px flex-1 justify-center rounded-md border border-transparent bg-transparent px-3 py-1.5 hover:text-green',
           isActive && ' border-green bg-green-light-1 text-green',
         )}
         onclick={() => {

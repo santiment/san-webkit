@@ -18,8 +18,9 @@
     alert?: null | Partial<TApiAlert>
     resetCategory: () => void
     close: () => void
+    onCreate?: (alert: TApiAlert) => void
   }
-  let { schema, alert, resetCategory, close }: TProps = $props()
+  let { schema, alert, resetCategory, close, onCreate }: TProps = $props()
 
   const { steps, selectedStep, nextStep, isAlertValid } = useAlertFormCtx({ schema, alert })
   const { MetricsRestrictions } = useMetricsRestrictionsCtx()
@@ -34,12 +35,15 @@
       loading = true
       const reducedAlert = { ...createApiAlert(), id: alert?.id ?? null }
 
-      await mutateSaveAlert(Query)(reducedAlert)
+      const { id } = await mutateSaveAlert(Query)(reducedAlert)
 
+      onCreate?.({ ...reducedAlert, id })
+
+      notification.success(`Alert was succesfully ${isEditing ? 'updated' : 'created'}`)
       close()
     } catch (e) {
       console.error(e)
-      notification.error('Failed to create alert')
+      notification.error(`Failed to ${isEditing ? 'update' : 'create'} alert`)
     } finally {
       loading = false
     }
