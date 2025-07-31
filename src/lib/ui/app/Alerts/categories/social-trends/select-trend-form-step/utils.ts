@@ -12,25 +12,27 @@ export function getInitTrendTarget(type: TTrendState['target']['type']): TTrendS
   }
 }
 
-export function parseApiTarget(apiTarget: TSocialTrendsApiAlertTarget): TTrendState['target'] {
-  if ('slug' in apiTarget) {
-    return { type: 'asset', slugs: apiTarget.slug, namesMap: new Map() }
+export function parseApiTarget(
+  target: TSocialTrendsApiAlertTarget['target'],
+): TTrendState['target'] {
+  if ('slug' in target) {
+    return { type: 'asset', slugs: target.slug, namesMap: new Map() }
   }
 
-  if ('word' in apiTarget) {
-    return { type: 'word', words: apiTarget.word }
+  if ('word' in target) {
+    return { type: 'word', words: target.word }
   }
 
-  return { type: 'watchlist', id: apiTarget.watchlist_id?.toString() ?? null, title: '' }
+  return { type: 'watchlist', id: target.watchlist_id?.toString() ?? null, title: '' }
 }
 
 export function getApiTarget(target: TTrendState['target']): TSocialTrendsApiAlertTarget {
   switch (target.type) {
     case 'asset':
-      return { slug: target.slugs }
+      return { target: { slug: target.slugs }, operation: { trending_project: true } }
     case 'word':
-      return { word: target.words }
+      return { target: { word: target.words }, operation: { trending_word: true } }
     case 'watchlist':
-      return { watchlist_id: target.id }
+      return { target: { watchlist_id: target.id }, operation: { trending_project: true } }
   }
 }

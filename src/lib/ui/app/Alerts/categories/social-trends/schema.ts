@@ -8,23 +8,22 @@ import { getAssetTargetTitle } from '../asset/utils.js'
 export type TSocialTrendsApiAlert = TApiAlert<
   {
     type: 'trending_words'
-  } & (
-    | {
-        target: { slug: TAssetSlug[] }
-        operation: { trending_project: true }
-      }
-    | {
-        target: { word: string[] }
-        operation: { trending_word: true }
-      }
-    | {
-        target: { watchlist_id: string | number | null }
-        operation: { trending_project: true }
-      }
-  )
+  } & TSocialTrendsApiAlertTarget
 >
 
-export type TSocialTrendsApiAlertTarget = NonNullable<TSocialTrendsApiAlert['settings']>['target']
+export type TSocialTrendsApiAlertTarget =
+  | {
+      target: { slug: TAssetSlug[] }
+      operation: { trending_project: true }
+    }
+  | {
+      target: { word: string[] }
+      operation: { trending_word: true }
+    }
+  | {
+      target: { watchlist_id: string | number | null }
+      operation: { trending_project: true }
+    }
 
 export type TBaseSchema = TAlertBaseSchema<
   'social-trends',

@@ -1,12 +1,20 @@
 import type { TApiChannel } from './channels.js'
 import type { TAPITimeWindow } from './time.js'
 
-export type TApiAlert<GSettings = any> = {
-  id: number
+export type TGenericSettings = {
   type: string
+  target: unknown
+  operation?: unknown
+  selector?: object
+  time_window?: TAPITimeWindow
+  metric?: string
+}
 
-  description: null | string
+export type TApiAlert<GSettings extends Partial<TGenericSettings> = any> = {
+  id: number
+
   title: string
+  description: null | string
 
   cooldown: TAPITimeWindow
 
@@ -15,9 +23,7 @@ export type TApiAlert<GSettings = any> = {
   isPublic: boolean
   isRepeating: boolean
 
-  settings:
-    | null
-    | ({
-        channel: TApiChannel | TApiChannel[]
-      } & GSettings)
+  settings: {
+    channel: TApiChannel[]
+  } & GSettings
 }
