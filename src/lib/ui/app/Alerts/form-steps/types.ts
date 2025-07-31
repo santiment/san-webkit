@@ -1,23 +1,20 @@
 import type { Component } from 'svelte'
 import type { TApiAlert } from '../types.js'
 import type { TBaseState } from './index.svelte.js'
+import type { DeepPartial } from '$lib/utils/types/index.js'
 
 export type TStepBaseSchema<
   GName,
-  GProps extends {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => { [key: string]: unknown }
-  },
+  GAlert extends TApiAlert,
+  GState extends { [key: string]: unknown },
 > = {
   name: GName
 
-  initState: GProps['initState']
+  initState: (apiAlert?: null | Partial<GAlert>) => GState
 
-  validate: (state: ReturnType<GProps['initState']>) => boolean
+  validate: (state: GState) => boolean
 
-  reduceToApi: (
-    apiAlert: { settings: object },
-    state: ReturnType<GProps['initState']>,
-  ) => { settings: object }
+  reduceToApi: (state: GState) => DeepPartial<GAlert>
 }
 
 export type TStepUI<GState extends Record<string, any>> = {
@@ -31,15 +28,9 @@ export type TStepUI<GState extends Record<string, any>> = {
   }
 }
 
-export type TStepSchema = TStepBaseSchema<
-  string,
-  {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => any
-  }
-> &
-  TStepUI<any>
+export type TStepSchema = TStepBaseSchema<string, TApiAlert, any> & TStepUI<any>
 
-export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any> = any>(
+export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any, any> = any>(
   base: GBaseSchema & TStepUI<{ state: TBaseState<GBaseSchema> }>,
 ) {
   const schema = {

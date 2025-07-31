@@ -1,6 +1,8 @@
 import type { TWalletApiAlert } from '../schema.js'
 import type { TMetricConditionsState } from '$ui/app/Alerts/form-steps/metric-conditions/schema.js'
 
+import assert from 'assert'
+
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 import {
   getOperationFromApi,
@@ -22,12 +24,7 @@ export type TWalletState = {
   conditions: TMetricConditionsState['conditions'] | null
 }
 
-export type TBaseSchema = TStepBaseSchema<
-  'wallet',
-  {
-    initState: (apiAlert?: null | Partial<TWalletApiAlert>) => TWalletState
-  }
->
+export type TBaseSchema = TStepBaseSchema<'wallet', TWalletApiAlert, TWalletState>
 
 export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'wallet',
@@ -87,18 +84,24 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
     }
   },
 
-  reduceToApi(apiAlert, { target, type, conditions, asset }) {
-    Object.assign(apiAlert.settings, {
-      target,
-      type,
-      selector: {
-        infrastructure: target?.infrastructure,
-        slug: asset?.slug,
-      },
-      time_window: conditions?.time,
-      operation: conditions?.operation && reduceOperationToApi(conditions.operation),
-    })
+  reduceToApi({ target, type, conditions, asset }) {
+    assert(type)
+    assert(target.address)
+    assert(target.infrastructure)
 
-    return apiAlert
+    return {
+      settings: {
+        type,
+        target: {
+          address: target.address,
+        },
+        selector: {
+          infrastructure: target.infrastructure,
+          slug: asset?.slug,
+        },
+        time_window: conditions?.time,
+        operation: conditions?.operation && reduceOperationToApi(conditions.operation),
+      },
+    }
   },
 })

@@ -1,5 +1,7 @@
 import type { TScreenerApiAlert } from '../schema.js'
 
+import assert from 'assert'
+
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
@@ -13,12 +15,7 @@ export type TScreenerState = {
   }
 }
 
-export type TBaseSchema = TStepBaseSchema<
-  'screener',
-  {
-    initState: (apiAlert?: null | Partial<TScreenerApiAlert>) => TScreenerState
-  }
->
+export type TBaseSchema = TStepBaseSchema<'screener', TScreenerApiAlert, TScreenerState>
 
 export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'screener',
@@ -42,17 +39,17 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
     return !!state.screener.id
   },
 
-  reduceToApi(apiAlert, { metric, screener }) {
-    Object.assign(apiAlert.settings, { type: 'screener_signal' })
-    Object.assign(apiAlert.settings, {
-      metric,
-      target: { watchlist_id: screener.id },
-    })
-    Object.assign(apiAlert.settings, {
-      operation: { selector: { watchlist_id: screener.id } },
-    })
+  reduceToApi({ metric, screener }) {
+    assert(screener.id, 'Screener is not selected')
 
-    return apiAlert
+    return {
+      settings: {
+        type: 'screener_signal',
+        metric,
+        target: { watchlist_id: screener.id },
+        operation: { selector: { watchlist_id: screener.id } },
+      },
+    }
   },
 })
 

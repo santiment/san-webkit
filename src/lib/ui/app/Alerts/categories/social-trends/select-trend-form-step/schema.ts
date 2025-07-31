@@ -28,12 +28,7 @@ export type TTrendState = {
 }
 
 // Declaring a type so it can be later used in Component's props
-export type TBaseSchema = TStepBaseSchema<
-  'select-trend',
-  {
-    initState: (apiAlert?: null | Partial<TSocialTrendsApiAlert>) => TTrendState
-  }
->
+export type TBaseSchema = TStepBaseSchema<'select-trend', TSocialTrendsApiAlert, TTrendState>
 
 export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'select-trend',
@@ -64,17 +59,10 @@ export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
     return !!target.id
   },
 
-  reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, { type: 'trending_words' })
-    Object.assign(apiAlert.settings, { target: getApiTarget(state.target) })
-    Object.assign(apiAlert.settings, { operation: { [getApiOperation(state)]: true } })
-
-    return apiAlert
-  },
+  reduceToApi: (state) => ({
+    settings: {
+      type: 'trending_words',
+      ...getApiTarget(state.target),
+    },
+  }),
 })
-
-function getApiOperation({ target }: TTrendState) {
-  if (target.type === 'word') return 'trending_word'
-
-  return 'trending_project'
-}

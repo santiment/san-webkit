@@ -34,7 +34,7 @@ export function createAlertStep<GStepSchema extends TStepSchema>(
 }
 
 export type TBaseState<
-  GStepSchema extends TStepBaseSchema<string, any> = TStepBaseSchema<string, any>,
+  GStepSchema extends TStepBaseSchema<string, any, any> = TStepBaseSchema<string, any, any>,
 > = {
   get $$(): IfAny<
     ReturnType<GStepSchema['initState']>,
@@ -52,7 +52,7 @@ export type TBaseState<
 }
 
 export type TAlertStep<
-  GStepSchema extends TStepBaseSchema<string, any> = TStepBaseSchema<string, any>,
+  GStepSchema extends TStepBaseSchema<string, any, any> = TStepBaseSchema<string, any, any>,
 > = {
   name: GStepSchema['name']
   ui: TStepUI<{ state: TBaseState<GStepSchema> }>['ui']

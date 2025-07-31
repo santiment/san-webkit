@@ -1,6 +1,8 @@
 import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
 
+import assert from 'assert'
+
 import { getTimeFromApi, type TAPITimeWindow, type TTimeWindow } from '../../time.js'
 import {
   getOperationFromApi,
@@ -31,9 +33,8 @@ export type TMetricConditionsState = {
 
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
-  {
-    initState: (alert?: Partial<TApiAlert<TAlertSettings>> | null) => TMetricConditionsState
-  }
+  TApiAlert<TAlertSettings>,
+  TMetricConditionsState
 >
 
 export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
@@ -53,19 +54,18 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
 
   validate: ({ metric }) => !!metric,
 
-  reduceToApi: (apiAlert, { metric, conditions }) => {
-    Object.assign(apiAlert.settings, {
-      metric: metric,
-      operation: reduceOperationToApi(conditions.operation),
-    })
+  reduceToApi: ({ metric, conditions }) => {
+    assert(metric)
 
-    if (isComparisonOperation(conditions.operation.type)) {
-      Object.assign(apiAlert.settings, {
-        time_window: conditions.time,
-      })
+    return {
+      settings: {
+        metric,
+        operation: reduceOperationToApi(conditions.operation),
+        ...(isComparisonOperation(conditions.operation.type)
+          ? { time_window: conditions.time }
+          : {}),
+      },
     }
-
-    return apiAlert
   },
 
   ui: {
