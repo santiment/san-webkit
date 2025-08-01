@@ -10,6 +10,10 @@
   import TableHead from '../TableHead.svelte'
   import TableHeader from '../TableHeader.svelte'
   import TableRow from '../TableRow.svelte'
+  import Pagination from '../Pagination/Pagination.svelte'
+  import type { ComponentProps } from 'svelte'
+
+  type TPaginationProps = ComponentProps<typeof Pagination>
 
   type TProps = {
     items: GItem[]
@@ -20,7 +24,7 @@
     bodyClass?: string
     headerRowClass?: string
     bodyRowClass?: string
-  }
+  } & TPaginationProps
 
   const {
     items,
@@ -30,34 +34,39 @@
     bodyClass,
     headerRowClass,
     bodyRowClass,
+    ...paginationProps
   }: TProps = $props()
 </script>
 
-<Table class={className}>
-  <TableHeader class={headerClass}>
-    <TableRow class={headerRowClass}>
-      {#each columns as { title, Head, class: className }}
-        {#if Head}
-          <Head />
-        {:else}
-          <TableHead class={className}>{title}</TableHead>
-        {/if}
-      {/each}
-    </TableRow>
-  </TableHeader>
-  <TableBody class={bodyClass}>
-    {#each items as item, i}
-      <TableRow class={bodyRowClass}>
-        {#each columns as column}
-          {#if column.Cell}
-            <column.Cell {item} />
+<article class="flex w-full flex-col gap-4">
+  <Table class={className}>
+    <TableHeader class={headerClass}>
+      <TableRow class={headerRowClass}>
+        {#each columns as { title, Head, class: className }}
+          {#if Head}
+            <Head />
           {:else}
-            <TableCell class={column.class}>
-              {column.format(item, i)}
-            </TableCell>
+            <TableHead class={className}>{title}</TableHead>
           {/if}
         {/each}
       </TableRow>
-    {/each}
-  </TableBody>
-</Table>
+    </TableHeader>
+    <TableBody class={bodyClass}>
+      {#each items as item, i}
+        <TableRow class={bodyRowClass}>
+          {#each columns as column}
+            {#if column.Cell}
+              <column.Cell {item} />
+            {:else}
+              <TableCell class={column.class}>
+                {column.format(item, i)}
+              </TableCell>
+            {/if}
+          {/each}
+        </TableRow>
+      {/each}
+    </TableBody>
+  </Table>
+
+  <Pagination {...paginationProps} totalItems={items.length} />
+</article>

@@ -3,9 +3,9 @@
   import { generateItems } from '../utils.js'
   import { columns } from './columns.js'
 
-  const items = generateItems(10)
+  const items = generateItems(50)
 </script>
 
 <main class="flex h-screen items-start justify-center px-10 py-5">
-  <DataTable {items} {columns} />
+  <DataTable {items} {columns} pageSize={10} />
 </main>
