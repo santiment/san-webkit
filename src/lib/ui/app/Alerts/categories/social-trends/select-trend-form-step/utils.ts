@@ -33,6 +33,9 @@ export function getApiTarget(target: TTrendState['target']): TSocialTrendsApiAle
     case 'word':
       return { target: { word: target.words }, operation: { trending_word: true } }
     case 'watchlist':
-      return { target: { watchlist_id: target.id }, operation: { trending_project: true } }
+      return {
+        target: { watchlist_id: target.id ? +target.id : null },
+        operation: { trending_project: true },
+      }
   }
 }
