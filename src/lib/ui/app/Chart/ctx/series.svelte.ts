@@ -54,9 +54,11 @@ export function createSeries({
   scaleFormatter,
 
   formula,
+  meta,
 }: TMetric & {
   selector?: TMetricSelector | SS<TMetricSelector>
   formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
+  meta?: Record<string, any>
 }) {
   const scale = $state({
     id: scaleId || name,
@@ -111,6 +113,8 @@ export function createSeries({
     chartSeriesApi: null as null | ISeriesApi<any>,
 
     formula: ss<undefined | TMetricFormula>(formula),
+
+    meta,
   }
 
   return metric
