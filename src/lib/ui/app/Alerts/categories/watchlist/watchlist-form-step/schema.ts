@@ -41,7 +41,7 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
       settings: {
         type: 'metric_signal',
         target: {
-          watchlist_id: state.watchlist.id,
+          watchlist_id: +state.watchlist.id,
         },
       },
     }

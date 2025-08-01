@@ -16,7 +16,7 @@ type TWalletSettings = NonNullable<TWalletApiAlert['settings']>
 
 export type TWalletState = {
   target: {
-    address: TWalletSettings['target']['address'] | null
+    address: string | null
     readonly infrastructure: Infrastructure | undefined
   }
   asset: { slug: string; name: string } | null
@@ -49,7 +49,7 @@ export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
 
     return {
       target: {
-        address: target?.address ?? null,
+        address: Array.isArray(target?.address) ? target.address[0] : (target?.address ?? null),
         get infrastructure() {
           return getAddressInfrastructure(this.address ?? '')
         },

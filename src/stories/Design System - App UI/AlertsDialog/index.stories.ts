@@ -177,6 +177,37 @@ export const WalletAPIAlert: Story = {
   },
 }
 
+export const WalletArrayTargetAPIAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      cooldown: '1m',
+      description: null,
+      id: 2200,
+      isActive: true,
+      isFrozen: false,
+      isPublic: false,
+      isRepeating: true,
+      settings: {
+        type: 'wallet_movement',
+        target: {
+          address: ['0x123f123D2EFde0aD18B30b69acecC12dc3AB1f12'],
+        },
+        operation: {
+          below: 1,
+        },
+        channel: ['email'],
+        time_window: '1d',
+        selector: {
+          slug: 'ethereum',
+          infrastructure: 'ETH',
+        },
+      },
+      title: 'Balance goes below 1 compared to 1 day(s) earlier',
+    },
+  },
+}
+
 export const PartialTrendsAlert: Story = {
   parameters: {},
   args: {
