@@ -17,6 +17,7 @@
     scaleFormatter &&
     ({
       type: 'custom',
+      minMove: 0.0001,
       formatter: scaleFormatter,
     } as const)
 

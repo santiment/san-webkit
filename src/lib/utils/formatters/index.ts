@@ -4,6 +4,9 @@ export function DEFAULT_FORMATTER(value: number) {
   }
 
   const absValue = Math.abs(value)
+  //if (absValue > 99999) {
+  //  return millify(value, 3)
+  //}
 
   if (absValue < 0.000001) {
     return +value.toFixed(10)

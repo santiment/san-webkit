@@ -20,6 +20,8 @@ export {
   useMetricSeriesCtx,
   createSeries,
   type TSeries,
+  type TMetric,
+  type TChartMetric,
   type TMetricFormula,
 } from './series.svelte.js'
 

@@ -33,9 +33,18 @@ export type TMetric = {
   scaleInverted?: boolean
   scaleMargins?: { top: number; bottom: number }
   scaleFormatter?: (value: number) => string
+
+  meta?: Record<string, any>
 }
 
 let __METRIC_SERIES_ID = 0
+
+export type TChartMetric = TMetric & {
+  selector?: TMetricSelector | SS<TMetricSelector>
+  formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
+  meta?: Record<string, any>
+}
+
 export function createSeries({
   name,
   label = name,
@@ -55,11 +64,7 @@ export function createSeries({
 
   formula,
   meta,
-}: TMetric & {
-  selector?: TMetricSelector | SS<TMetricSelector>
-  formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
-  meta?: Record<string, any>
-}) {
+}: TChartMetric) {
   const scale = $state({
     id: scaleId || name,
     visible: true,
@@ -124,7 +129,7 @@ export type TSeries = ReturnType<typeof createSeries>
 
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
-  (defaultMetrics: TMetric[] = []) => {
+  (defaultMetrics: TChartMetric[] = []) => {
     let series = $state.raw(
       defaultMetrics.map((item) => {
         return createSeries(item)
@@ -149,16 +154,28 @@ export const useMetricSeriesCtx = createCtx(
           return asScope
         },
 
-        add(metric: TMetric) {
-          series.push(createSeries(metric))
+        add(metric: TChartMetric): TSeries {
+          const series = createSeries(metric)
+          this.addSeries(series)
+          return series
+        },
+
+        addSeries(metricSeries: TSeries): number {
+          const index = series.push(metricSeries)
+          series = series.slice()
+          return index
+        },
+
+        delete(index: number) {
+          series.splice(index, 1)
           series = series.slice()
         },
-        delete(metricSeries: TSeries) {
+
+        deleteSeries(metricSeries: TSeries) {
           const index = series.indexOf(metricSeries)
           if (index === -1) return
 
-          series.splice(index, 1)
-          series = series.slice()
+          this.delete(index)
         },
       },
     }
