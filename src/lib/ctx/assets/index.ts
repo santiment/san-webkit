@@ -1,4 +1,4 @@
-export { useAssetsCtx } from './index.svelte.js'
+export { useAssetsCtx, defaultAssetsPromise } from './index.svelte.js'
 export {
   queryAllProjects,
   checkIsErc20Asset,

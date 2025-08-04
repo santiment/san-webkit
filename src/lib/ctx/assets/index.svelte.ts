@@ -1,4 +1,5 @@
 import { onMount } from 'svelte'
+import { BROWSER } from 'esm-env'
 
 import { createCtx } from '$lib/utils/index.js'
 import { Query } from '$lib/api/executor.js'
@@ -13,7 +14,11 @@ import {
 } from './api.js'
 
 // TODO: Replace with build time vite plugin
-const DEFAULT_ASSETS: TAsset[] = []
+let DEFAULT_ASSETS: TAsset[] = []
+
+export const defaultAssetsPromise = BROWSER
+  ? queryAllProjects(Query)().then((items) => (DEFAULT_ASSETS = items))
+  : Promise.resolve()
 
 export const useAssetsCtx = createCtx('webkit_useAssetsCtx', () => {
   let assets = $state.raw<TAsset[]>(DEFAULT_ASSETS)
