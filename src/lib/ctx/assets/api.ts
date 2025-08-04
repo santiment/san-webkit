@@ -112,3 +112,36 @@ export const checkIsAssetOnBlockchain = <GBlockchain extends TBlockchainInfrastr
   blockchainInfrastructure: GBlockchain,
 ): asset is TAsset & { infrastructure: GBlockchain } =>
   asset.infrastructure === blockchainInfrastructure
+
+const TradFinanceItem = (slug: string, name: string, ticker: string) =>
+  ({
+    slug: slug as TAssetSlug,
+    name,
+    ticker,
+    priceUsd: null,
+    rank: null,
+    infrastructure: null,
+
+    // @ts-ignore
+    group: undefined,
+  }) satisfies TAsset
+
+export const FIATS = [
+  TradFinanceItem('s-and-p-500', 'S&P 500', 'SPX'),
+  TradFinanceItem('gold', 'Gold', 'Gold'),
+  TradFinanceItem('crude-oil', 'Crude Oil', 'CrudeOil'),
+]
+
+export const INDICES_AND_SUPPLY = [
+  TradFinanceItem('dxy', 'USDX Index', 'DXY'),
+  TradFinanceItem('m2-money', 'M2 Money', 'M2M'),
+]
+
+export const FUNDS = [
+  TradFinanceItem('gbtc', 'GBTC', 'GBTC'),
+  TradFinanceItem('ibit', 'IBIT', 'IBIT'),
+  TradFinanceItem('fbtc', 'FBTC', 'FBTC'),
+  TradFinanceItem('arkb', 'ARKB', 'ARKB'),
+  TradFinanceItem('btco', 'BTCO', 'BTCO'),
+  TradFinanceItem('bitb', 'BITB', 'BITB'),
+]

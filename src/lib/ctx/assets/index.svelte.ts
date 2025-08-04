@@ -3,7 +3,14 @@ import { onMount } from 'svelte'
 import { createCtx } from '$lib/utils/index.js'
 import { Query } from '$lib/api/executor.js'
 
-import { queryAllProjects, type TAsset, type TAssetSlug } from './api.js'
+import {
+  FIATS,
+  FUNDS,
+  INDICES_AND_SUPPLY,
+  queryAllProjects,
+  type TAsset,
+  type TAssetSlug,
+} from './api.js'
 
 // TODO: Replace with build time vite plugin
 const DEFAULT_ASSETS: TAsset[] = []
@@ -12,7 +19,11 @@ export const useAssetsCtx = createCtx('webkit_useAssetsCtx', () => {
   let assets = $state.raw<TAsset[]>(DEFAULT_ASSETS)
 
   const assetBySlugMap = $derived(
-    new Map(assets.map((item) => [item.slug.toLowerCase() as string, item])),
+    new Map(
+      assets
+        .concat(FIATS, FUNDS, INDICES_AND_SUPPLY)
+        .map((item) => [item.slug.toLowerCase() as string, item]),
+    ),
   )
   const assetByTickerMap = $derived(createAssetTickerMap(assets))
 
