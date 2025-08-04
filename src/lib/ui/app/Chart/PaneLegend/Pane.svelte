@@ -20,6 +20,12 @@
 
     node.classList.remove('hidden')
     mounted = true
+
+    return {
+      destroy() {
+        node.remove()
+      },
+    }
   }
 </script>
 

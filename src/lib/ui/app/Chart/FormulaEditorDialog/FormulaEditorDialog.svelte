@@ -129,7 +129,7 @@
 </script>
 
 <Dialog class="w-[900px] !overflow-visible column">
-  <form onsubmit={onFormSubmit}>
+  <form onsubmit={onFormSubmit} class="min-h-0 column">
     <div class="gap-4 p-4 column">
       <label>
         <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
