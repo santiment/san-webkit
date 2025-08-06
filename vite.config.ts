@@ -6,6 +6,7 @@ import { execSync } from 'node:child_process'
 
 import { defineConfig, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
+import { svelteTesting } from '@testing-library/svelte/vite'
 
 import {
   StaticAssetLogos,
@@ -20,6 +21,7 @@ import { StaticAssetsListPlugin } from './src/lib/ctx/assets/vite.js'
 import { StaticMetricsRegistryPlugin } from './src/lib/ctx/metrics-registry/vite.js'
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
+const IS_TEST_MODE = process.env.VITEST
 
 export const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
 export const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
@@ -66,6 +68,7 @@ export function createConfig({
       !astro && sveltekit(),
       BulletshellPlugin({ enabled: !!bulletshell }),
       reportMissingPreloadScripts && ReportMissingPreloadScriptsPlugin(),
+      svelteTesting(),
     ].filter(Boolean),
 
     build: {
@@ -82,7 +85,12 @@ export function createConfig({
 
     test: {
       include: ['src/**/*.{test,spec}.{js,ts}'],
+      environment: 'jsdom',
+      setupFiles: './vitest-setup.ts',
+      globals: true,
     },
+
+    ssr: IS_TEST_MODE ? { noExternal: true } : undefined,
 
     server: {
       port: 3000,
