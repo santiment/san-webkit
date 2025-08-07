@@ -1,4 +1,8 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
+
+  import { cn } from '$ui/utils/index.js'
+
   import Section from './Section.svelte'
   import Metamask from './Metamask.svelte'
   import Divider from './Divider.svelte'
@@ -14,6 +18,8 @@
     bottomHref?: string
     isSignUp?: boolean
     from?: string
+    children?: Snippet
+    class?: string
     onMetamaskClick?: () => Promise<void>
   }
 
@@ -24,6 +30,8 @@
     bottomHref: bottomPath = '/sign-up',
     isSignUp = false,
     from = '',
+    class: className = '',
+    children,
     onMetamaskClick,
   }: TProps = $props()
 
@@ -35,8 +43,17 @@
 {#if verifiedEmail}
   <EmailConfirmation email={verifiedEmail} {isSignUp} clearEmail={() => (verifiedEmail = '')} />
 {:else}
-  <Section {title} class="body-2" titleClass="mb-6" {bottomLabel} {bottomAction} {bottomHref}>
+  <Section
+    {title}
+    class={cn('text-base', className)}
+    titleClass="mb-6"
+    {bottomLabel}
+    {bottomAction}
+    {bottomHref}
+  >
     <div class="flex flex-col gap-2">
+      {@render children?.()}
+
       {#if onMetamaskClick}
         <Metamask {isSignUp} onclick={onMetamaskClick} />
       {/if}
