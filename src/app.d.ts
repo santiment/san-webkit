@@ -54,6 +54,8 @@ declare global {
       IS_PROD_BACKEND: boolean
 
       BULLETSHELL: boolean
+
+      VITEST: boolean
     }
   }
 }
