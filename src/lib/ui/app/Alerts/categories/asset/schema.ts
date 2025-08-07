@@ -10,10 +10,12 @@ import {
 } from '../../form-steps/name-description/utils.js'
 import { getAssetTargetTitle } from './utils.js'
 
-export type TAssetApiAlert = TApiAlert<{
+export type TAssetAlertSettings = {
   type: 'metric_signal'
   target: { slug: TAssetSlug[] }
-}>
+}
+
+export type TAssetApiAlert = TApiAlert<TAssetAlertSettings>
 
 export type TBaseSchema = TAlertBaseSchema<
   'asset',

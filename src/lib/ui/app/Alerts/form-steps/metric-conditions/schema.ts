@@ -14,7 +14,7 @@ import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-type TAlertSettings = {
+export type TConditionsAlertSettings = {
   metric: string
   time_window: TAPITimeWindow
   operation: TApiOperation
@@ -33,7 +33,7 @@ export type TMetricConditionsState = {
 
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
-  TApiAlert<TAlertSettings>,
+  TApiAlert<TConditionsAlertSettings>,
   TMetricConditionsState
 >
 
