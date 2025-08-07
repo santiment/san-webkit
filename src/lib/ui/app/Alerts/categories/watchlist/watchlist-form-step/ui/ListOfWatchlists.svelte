@@ -26,6 +26,15 @@
 
   const filteredWatchlists = $derived(filter(watchlists.$))
 
+  $effect(() => {
+    if (!watchlists.loaded$) return
+
+    const selectedInList = !!watchlists.$.find(({ id }) => selectedId === id)
+    if (!selectedInList) {
+      onSelect(null)
+    }
+  })
+
   onMount(() => {
     return () => clear()
   })
