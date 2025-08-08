@@ -1,5 +1,3 @@
-import type { TApiAlert } from '../../types.js'
-
 import { STEP_METRIC_CONDITIONS_SCHEMA } from '../../form-steps/metric-conditions/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_SELECT_WATCHLIST_SCHEMA } from './watchlist-form-step/schema.js'
@@ -8,10 +6,12 @@ import {
   defaultMetricTitle,
 } from '../../form-steps/name-description/utils.js'
 
-export type TWatchlistApiAlert = TApiAlert<{
-  type: 'metric_signal'
-  target: { watchlist_id: string | number }
-}>
+export type TWatchlistApiAlert = {
+  settings: {
+    type: 'metric_signal'
+    target: { watchlist_id: string | number }
+  }
+}
 
 export type TBaseSchema = TAlertBaseSchema<
   'watchlist',
