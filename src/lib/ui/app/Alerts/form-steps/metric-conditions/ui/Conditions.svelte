@@ -11,6 +11,7 @@
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
   import Dropdown from './Dropdown.svelte'
+  import AlertPreview from './AlertPreview/index.js'
 
   type TProps = {
     conditions: TConditionsState
@@ -104,6 +105,8 @@
     <section class="flex flex-col">
       <div class="font-medium text-fiord">
         {describeConditions(metric, conditions)}
+
+        <AlertPreview />
       </div>
     </section>
   </section>
