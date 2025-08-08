@@ -45,4 +45,4 @@ export const EmailConfirmation = Wrapped(EmailConfirmationComponent, {
   clearEmail: () => {},
 })
 
-export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up title' })
+export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up' })
