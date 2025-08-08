@@ -5,7 +5,7 @@
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
-    steps: TAlertStep[]
+    steps: readonly TAlertStep[]
     selectedIndex: number
     onStepSelect: (index: number) => void
   }

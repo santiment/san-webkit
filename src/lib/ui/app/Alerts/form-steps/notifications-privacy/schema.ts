@@ -1,7 +1,10 @@
-import type { TApiAlert } from '../../types.js'
-
-import { getTimeFromApi, type TTimeWindow } from '../../time.js'
-import { getChannelFromApi, reduceChannelToApi, type TChannel } from '../../channels.js'
+import { getTimeFromApi, type TApiTimeWindow, type TTimeWindow } from '../../time.js'
+import {
+  getChannelFromApi,
+  reduceChannelToApi,
+  type TApiChannel,
+  type TChannel,
+} from '../../channels.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
@@ -13,7 +16,20 @@ export type TNotificationsState = {
   cooldown: TTimeWindow
 }
 
-export type TBaseSchema = TStepBaseSchema<'notifications-privacy', TApiAlert, TNotificationsState>
+export type TNotificationsApiAlert = {
+  cooldown: TApiTimeWindow
+  isPublic: boolean
+  isRepeating: boolean
+  settings: {
+    channel: TApiChannel[]
+  }
+}
+
+export type TBaseSchema = TStepBaseSchema<
+  'notifications-privacy',
+  TNotificationsApiAlert,
+  TNotificationsState
+>
 
 export const STEP_NOTIFICATIONS_PRIVACY_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'notifications-privacy',
