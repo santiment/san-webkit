@@ -1,15 +1,14 @@
-import type { TApiAlert } from '../../types.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 import { getAssetTargetTitle } from '../asset/utils.js'
 
-export type TSocialTrendsApiAlert = TApiAlert<
-  {
+export type TSocialTrendsApiAlert = {
+  settings: {
     type: 'trending_words'
   } & TSocialTrendsApiAlertTarget
->
+}
 
 export type TSocialTrendsApiAlertTarget =
   | {

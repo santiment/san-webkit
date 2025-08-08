@@ -7,13 +7,13 @@ export const TimeModifiers = keyify({
   d: { label: 'Day(s)', name: 'day' },
 })
 
-export type TAPITimeWindow = `${number}${'m' | 'h' | 'd' | 'w'}`
+export type TApiTimeWindow = `${number}${'m' | 'h' | 'd' | 'w'}`
 
 export type TTimeModifier = keyof typeof TimeModifiers
 
 export type TTimeWindow = `${number}${TTimeModifier}`
 
-export function getTimeFromApi(timeSetting: TAPITimeWindow): TTimeWindow {
+export function getTimeFromApi(timeSetting: TApiTimeWindow): TTimeWindow {
   const { amount, modifier } = parseRangeString(timeSetting)
   if (modifier === 'w') return `${amount * 7}d`
 

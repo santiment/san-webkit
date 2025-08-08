@@ -6,9 +6,7 @@ import {
   type TRegistryMetric,
 } from '$lib/ctx/metrics-registry/index.js'
 import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
-import { stateIsAsset } from '$ui/app/Alerts/categories/asset/asset-form-step/state.js'
-import { stateIsWatchlist } from '$ui/app/Alerts/categories/watchlist/watchlist-form-step/state.js'
-import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
+import { useAlertFormCtx, type TAnyStep } from '$ui/app/Alerts/ctx/index.svelte.js'
 
 import { queryAvailableMetrics } from '../api.js'
 import { availableMetrics as metricsForWatchlists } from './watchlist-metrics.js'
@@ -16,7 +14,6 @@ import { availableMetrics as metricsForWatchlists } from './watchlist-metrics.js
 export const useMetricGraph = () => {
   const { steps } = useAlertFormCtx.get()
 
-  const targetState = $derived(steps[0].state.$$)
   const { MetricsRegistry } = useMetricsRegistryCtx()
   const { filter, searchTerm, onInput, onKeyUp } = useSearchCtx<TRegistryMetric>({
     getCompareValues: ({ label }) => [label],
@@ -29,7 +26,7 @@ export const useMetricGraph = () => {
   )
 
   $effect(() => {
-    filterAvailableMetrics(targetState, allMetrics).then((metrics) => (availableMetrics = metrics))
+    filterAvailableMetrics(steps[0], allMetrics).then((metrics) => (availableMetrics = metrics))
   })
 
   const filteredMetrics = $derived(searchTerm.$ ? filter(availableMetrics) : availableMetrics)
@@ -47,20 +44,20 @@ export const useMetricGraph = () => {
   }
 }
 
-async function filterAvailableMetrics(state: unknown, allMetrics: TRegistryMetric[]) {
-  const available = await getAvailableMetrics(state)
+async function filterAvailableMetrics(step: TAnyStep, allMetrics: TRegistryMetric[]) {
+  const available = await getAvailableMetrics(step)
 
   if (!available.size) return allMetrics
 
   return allMetrics.filter((metric) => available.has(metric.key))
 }
 
-async function getAvailableMetrics(state: unknown) {
-  if (stateIsAsset(state)) {
-    return getAvailableForSlugs(state.target.slugs)
+async function getAvailableMetrics(step: TAnyStep) {
+  if (step.name === 'assets') {
+    return getAvailableForSlugs(step.state.$$.target.slugs)
   }
 
-  if (stateIsWatchlist(state)) {
+  if (step.name === 'watchlist') {
     return metricsForWatchlists
   }
 

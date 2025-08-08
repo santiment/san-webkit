@@ -1,17 +1,26 @@
 import type { TAlertSchemaUnion } from '../categories/index.js'
 import type { TApiAlert, TGenericSettings } from '../types.js'
+import type { TStepSchema } from '../form-steps/types.js'
 
 import { createCtx } from '$lib/utils/index.js'
 import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
+import { mergeDeep } from '$lib/utils/object.js'
 
-import { createAlertStep } from '../form-steps/index.svelte.js'
+import { createAlertStep, type TAlertStep } from '../form-steps/index.svelte.js'
 
 export type TReducedAlert = Omit<TApiAlert<TGenericSettings>, 'id'>
+
+const mapSteps = <G extends readonly TStepSchema[]>(
+  steps: G,
+  fn: <T extends G[number]>(el: T) => TAlertStep<T>,
+): { [K in keyof G]: TAlertStep<G[K]> } => steps.map((step) => fn(step as any)) as any
+
+export type TAnyStep = ReturnType<typeof mapSteps<TAlertSchemaUnion['steps']>>[number]
 
 export const useAlertFormCtx = createCtx(
   'alerts_useAlertFormCtx',
   ({ schema, alert }: { schema: TAlertSchemaUnion; alert?: null | Partial<TApiAlert> }) => {
-    const steps = schema.steps.map((step) => createAlertStep(alert, step))
+    const steps = mapSteps(schema.steps, (step) => createAlertStep(alert, step))
 
     const { MetricsRestrictions } = useMetricsRestrictionsCtx()
 
@@ -27,11 +36,7 @@ export const useAlertFormCtx = createCtx(
 
         const stepAlertPart = step.reduceToApi(state as UnionToIntersection<typeof state>)
 
-        return {
-          ...acc,
-          ...stepAlertPart,
-          settings: { ...acc.settings, ...stepAlertPart.settings },
-        }
+        return mergeDeep(acc, stepAlertPart)
       }, {} as TReducedAlert)
 
       const changedType = getChangedAlertType(apiAlert.settings)

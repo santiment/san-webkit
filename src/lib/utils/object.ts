@@ -15,3 +15,27 @@ export function keyify<T, GKeyProp extends string = 'key'>(
 export function exactObjectKeys<T extends object>(obj: T) {
   return Object.keys(obj) as (keyof typeof obj)[]
 }
+
+export function mergeDeep<T1, T2, T3, T4>(obj1: T1, obj2: T2, obj3: T3, obj4: T4): T1 & T2 & T3 & T4
+export function mergeDeep<T1, T2, T3>(obj1: T1, obj2: T2, obj3: T3): T1 & T2 & T3
+export function mergeDeep<T1, T2>(obj1: T1, obj2: T2): T1 & T2
+export function mergeDeep(...objects: Record<string, any>[]) {
+  const isObject = (obj: unknown): obj is object => !!obj && typeof obj === 'object'
+
+  return objects.reduce((prev, obj) => {
+    Object.keys(obj).forEach((key) => {
+      const pVal = prev[key]
+      const oVal = obj[key]
+
+      if (Array.isArray(pVal) && Array.isArray(oVal)) {
+        prev[key] = pVal.concat(...oVal)
+      } else if (isObject(pVal) && isObject(oVal)) {
+        prev[key] = mergeDeep(pVal, oVal)
+      } else {
+        prev[key] = oVal
+      }
+    })
+
+    return prev
+  }, {})
+}
