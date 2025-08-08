@@ -18,7 +18,7 @@
   bottomHref={isSignUp ? '/sign-up' : '/login'}
   onBottomClick={clearEmail}
 >
-  <p class="mb-8 max-w-80 text-waterloo">
+  <p class="mb-5 max-w-80 text-waterloo">
     We just sent an email to <span class="text-black">{email}</span>. Please check your inbox and
     click on the confirmation link.
   </p>
