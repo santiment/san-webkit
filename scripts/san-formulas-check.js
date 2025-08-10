@@ -11,7 +11,16 @@ Promise.all([
   import('../src/lib/ui/app/san-formulas/math/index.ts'),
 ]).then(([language, spec]) => {
   const languageDefinitions = new Set(language.DEFINITIONS.map((item) => item.label))
-  const skip = new Set(['add', 'subtract', 'multiply', 'divide', 'pow', 'unaryMinus', 'unaryPlus'])
+  const skip = new Set([
+    'add',
+    'subtract',
+    'multiply',
+    'divide',
+    'pow',
+    'unaryMinus',
+    'unaryPlus',
+    'log',
+  ])
 
   for (const key in spec.DEFINITIONS) {
     const isSupportedInLanguage = languageDefinitions.has(key)
