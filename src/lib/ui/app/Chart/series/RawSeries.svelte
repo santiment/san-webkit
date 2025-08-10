@@ -50,7 +50,7 @@
 
   $effect(() => {
     chartSeries.setData(data.$)
-    chart.$!.resetAllScales()
+    chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
