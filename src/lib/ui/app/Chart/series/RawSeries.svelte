@@ -29,6 +29,10 @@
   })
 
   $effect.pre(() => {
+    chartSeries.applyOptions(getSeriesTypeOptions())
+  })
+
+  $effect.pre(() => {
     chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })
   })
 
@@ -55,17 +59,24 @@
   })
 
   function createChartSeries() {
-    const base = { color: color.$, priceScaleId: scale.$$.id, zOrder: 10, priceFormat }
+    const options = { ...getSeriesTypeOptions(), color: color.$, priceScaleId: scale.$$.id }
 
     switch (type.$) {
       case 'histogram':
-        return chart.$!.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
+        return chart.$!.addSeries(HistogramSeries, options, pane.$)
       default:
-        return chart.$!.addSeries(
-          LineSeries,
-          Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth }),
-          pane.$,
-        )
+        return chart.$!.addSeries(LineSeries, options, pane.$)
+    }
+  }
+
+  function getSeriesTypeOptions() {
+    const base = { zOrder: 10, priceFormat }
+
+    switch (type.$) {
+      case 'histogram':
+        return Object.assign(base, { zOrder: 10 })
+      default:
+        return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
     }
   }
 </script>
