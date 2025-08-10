@@ -1,10 +1,13 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
+  import type { MaybeCtx } from '$lib/utils/index.js'
 
   import { onMount } from 'svelte'
   import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
 
-  import { useChartCtx } from '../ctx/index.js'
+  import { applyHexColorOpacity } from '$ui/utils/index.js'
+
+  import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
@@ -12,6 +15,9 @@
   const { type, data, color, scale, pane, scaleFormatter, visible } = series
 
   const { chart } = useChartCtx()
+  const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
+    typeof useHighlightedMetricCtx
+  >
 
   const priceFormat =
     scaleFormatter &&
@@ -33,7 +39,13 @@
   })
 
   $effect.pre(() => {
-    chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })
+    let _color = color.$
+
+    if (highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$) {
+      _color = applyHexColorOpacity(_color, '29')
+    }
+
+    chartSeries.applyOptions({ color: _color, priceScaleId: scale.$$.id })
   })
 
   $effect.pre(() => {
