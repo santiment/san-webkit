@@ -4,7 +4,12 @@
   import { downloadCsv } from '$lib/utils/csv.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
-  import { useChartCtx, useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
+  import {
+    useChartCtx,
+    useHighlightedMetricCtx,
+    useMetricSeriesCtx,
+    type TSeries,
+  } from '$ui/app/Chart/ctx/index.js'
   import { showFormulaEditorDialog$ } from '$ui/app/Chart/FormulaEditorDialog/index.js'
 
   import BaseChart, {
@@ -26,6 +31,10 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+
+  const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
+
+  $inspect(highlighted.$)
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -102,6 +111,8 @@
       <div
         class="rounded border p-1"
         style="border-color:{metric.color.$}"
+        onmouseenter={() => onMetricEnter(metric)}
+        onmouseleave={onMetricLeave}
         onclick={metric.formula
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula.$, index })

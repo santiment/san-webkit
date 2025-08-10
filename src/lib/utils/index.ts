@@ -32,6 +32,8 @@ export const BootFlag = {
   },
 }
 
+export type MaybeCtx<GCtx> = GCtx extends { get: () => infer T } ? undefined | T : never
+
 export function createCtx<CtxName extends string, CtxCreator extends (...args: any[]) => any>(
   CTX: CtxName,
   creator: CtxCreator,
