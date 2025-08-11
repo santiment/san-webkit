@@ -20,6 +20,7 @@ Promise.all([
     'unaryMinus',
     'unaryPlus',
     'log',
+    'z_score',
   ])
 
   for (const key in spec.DEFINITIONS) {
