@@ -2,6 +2,7 @@
   import type { TAlertStep } from '../../../index.svelte.js'
 
   import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
 
   import PreviewChart from './PreviewChart.svelte'
   import AssetPrice from './AssetPrice.svelte'
@@ -46,7 +47,14 @@
     {#if isSingleAsset}
       <PreviewChart {...assetAlertData} />
     {:else}
-      <section class="border">NOT SINGLE BANNER</section>
+      <section class="flex justify-center gap-4 rounded-lg border pb-12 pt-10 text-sm text-fiord">
+        <Svg id="data" w="75" h="87" illus />
+
+        <section class="flex max-w-36 flex-col gap-2">
+          <h4 class="font-semibold">Chart unavailable!</h4>
+          <p>Please select a single asset to view data</p>
+        </section>
+      </section>
     {/if}
   {/if}
 </section>
