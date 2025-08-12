@@ -5,6 +5,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import { getValue } from './utils.js'
+  import { noop } from '@melt-ui/svelte/internal/helpers'
 
   type TProps = {
     class?: string
@@ -15,8 +16,8 @@
     style?: string
     areaFill: Snippet<[{ points: string[]; linePoints: string }]>
     children?: Snippet
-    onmousemove: (e: MouseEvent) => void
-    onmouseleave: (e: MouseEvent) => void
+    onmousemove?: (e: MouseEvent) => void
+    onmouseleave?: (e: MouseEvent) => void
   }
 
   const {
@@ -28,8 +29,8 @@
     style = '',
     areaFill,
     children,
-    onmousemove,
-    onmouseleave,
+    onmousemove = noop,
+    onmouseleave = noop,
   }: TProps = $props()
 
   const points = $derived(getPoints(data))
