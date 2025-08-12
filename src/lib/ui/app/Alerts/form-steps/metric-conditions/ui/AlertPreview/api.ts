@@ -32,3 +32,16 @@ export const queryHistoricalTriggerPoints = ApiQuery(
   }),
   (gql: { historicalTriggerPoints: THistoricalPointRaw[] }) => gql.historicalTriggerPoints,
 )
+
+export const queryAssetPriceUsd = ApiQuery(
+  (slug: string) => ({
+    schema: `
+    query projectPriceUsd($slug: String!){
+      projectBySlug(slug: $slug) {
+        priceUsd
+      }
+    }`,
+    variables: { slug },
+  }),
+  (gql: { projectBySlug: { priceUsd: number } }) => gql.projectBySlug.priceUsd,
+)

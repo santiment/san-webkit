@@ -1,7 +1,10 @@
 <script lang="ts">
   import type { TAlertStep } from '../../../index.svelte.js'
+
   import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
+
   import PreviewChart from './PreviewChart.svelte'
+  import AssetPrice from './AssetPrice.svelte'
 
   type TProps = {
     description: string
@@ -34,8 +37,8 @@
   <div class="flex justify-between font-medium text-fiord">
     <span>{description}</span>
 
-    {#if isSingleAsset}
-      <span>PRICE</span>
+    {#if assetAlertData && isSingleAsset}
+      <AssetPrice slug={assetAlertData.asset.settings.target.slug[0]} />
     {/if}
   </div>
 
