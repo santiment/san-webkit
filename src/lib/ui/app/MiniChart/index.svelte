@@ -13,10 +13,9 @@
     height?: number
     valueKey?: TMiniChartProps['valueKey']
     style?: string
-    areaFill: Snippet<[{ points: string[]; linePoints: string }]>
-    children?: Snippet
-    onmousemove: (e: MouseEvent) => void
-    onmouseleave: (e: MouseEvent) => void
+    children?: Snippet<[{ points: string[]; linePoints: string }]>
+    onmousemove?: (e: MouseEvent) => void
+    onmouseleave?: (e: MouseEvent) => void
   }
 
   const {
@@ -26,7 +25,6 @@
     height = 50,
     valueKey,
     style = '',
-    areaFill,
     children,
     onmousemove,
     onmouseleave,
@@ -72,7 +70,6 @@
     {onmouseleave}
   >
     <polyline class="fill-none stroke-[var(--color)] stroke-2" points={linePoints} />
-    {@render areaFill({ points, linePoints })}
-    {@render children?.()}
+    {@render children?.({ points, linePoints })}
   </svg>
 {/if}
