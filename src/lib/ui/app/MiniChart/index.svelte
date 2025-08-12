@@ -2,6 +2,8 @@
   import type { Snippet } from 'svelte'
   import type { TMiniChartProps } from './types.js'
 
+  import { noop } from '@melt-ui/svelte/internal/helpers'
+
   import { cn } from '$ui/utils/index.js'
 
   import { getValue } from './utils.js'
@@ -10,6 +12,7 @@
     class?: string
     data?: TMiniChartProps['data']
     width?: number
+    margin?: number
     height?: number
     valueKey?: TMiniChartProps['valueKey']
     style?: string
@@ -25,11 +28,14 @@
     height = 50,
     valueKey,
     style = '',
+    margin = 0,
     children,
     onmousemove,
     onmouseleave,
   }: TProps = $props()
 
+  const graphWidth = $derived(width - margin * 2)
+  const graphHeight = $derived(height - margin * 2)
   const points = $derived(getPoints(data))
   const linePoints = $derived(points.join(' '))
 
@@ -50,8 +56,8 @@
 
     if (min === max) min = 0
 
-    const xAxisFactor = width / (length - 1)
-    const yAxisFactor = height / (max - min)
+    const xAxisFactor = graphWidth / (length - 1)
+    const yAxisFactor = graphHeight / (max - min)
 
     return data.map(
       (item, i) => `${i * xAxisFactor},${(max - getValue(item, valueKey)) * yAxisFactor}`,
@@ -69,7 +75,9 @@
     {onmousemove}
     {onmouseleave}
   >
-    <polyline class="fill-none stroke-[var(--color)] stroke-2" points={linePoints} />
-    {@render children?.({ points, linePoints })}
+    <g width={graphWidth} height={graphHeight} transform="translate({margin}, {margin})">
+      <polyline class="fill-none stroke-[var(--color)] stroke-2" points={linePoints} />
+      {@render children?.({ points, linePoints })}
+    </g>
   </svg>
 {/if}
