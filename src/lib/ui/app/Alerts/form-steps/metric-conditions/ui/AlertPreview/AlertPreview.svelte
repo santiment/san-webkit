@@ -33,22 +33,20 @@
     step.name === name ? step.reduceToApi(step.state.$$) : null
 </script>
 
-<section class="flex flex-col">
-  <div class="flex justify-between font-medium text-fiord">
+<section class="flex flex-col gap-2 text-xs font-medium">
+  <section class="flex justify-between text-fiord">
     <span>{description}</span>
 
     {#if assetAlertData && isSingleAsset}
       <AssetPrice slug={assetAlertData.asset.settings.target.slug[0]} />
     {/if}
-  </div>
+  </section>
 
   {#if assetAlertData}
-    <section class="border">
-      {#if isSingleAsset}
-        <PreviewChart {...assetAlertData} />
-      {:else}
-        NOT SINGLE BANNER
-      {/if}
-    </section>
+    {#if isSingleAsset}
+      <PreviewChart {...assetAlertData} />
+    {:else}
+      <section class="border">NOT SINGLE BANNER</section>
+    {/if}
   {/if}
 </section>

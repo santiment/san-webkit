@@ -1,5 +1,6 @@
 <script lang="ts">
   import { mergeMap, pipe, tap } from 'rxjs'
+  import { onMount } from 'svelte'
 
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { cn } from '$ui/utils/index.js'
@@ -21,13 +22,12 @@
 
   const ticker = $derived(getAssetBySlug(slug)?.ticker ?? slug)
 
-  $effect(() => {
+  onMount(() => {
     fetchPrice()
   })
 
   const fetchPrice = useObserveFnCall(() =>
     pipe(
-      tap(() => (price = undefined)),
       mergeMap(() => queryAssetPriceUsd()(slug)),
       tap((priceUsd) => (price = priceUsd)),
     ),
