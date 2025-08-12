@@ -102,13 +102,7 @@
       </section>
     </section>
 
-    <section class="flex flex-col">
-      <div class="font-medium text-fiord">
-        {describeConditions(metric, conditions)}
-
-        <AlertPreview />
-      </div>
-    </section>
+    <AlertPreview description={describeConditions(metric, conditions)} />
   </section>
 </section>
 
