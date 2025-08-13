@@ -43,7 +43,7 @@
           target: { slug: asset.settings.target.slug[0] },
         },
       })),
-      debounceTime(200),
+      debounceTime(500),
       mergeMap((props) => queryHistoricalTriggerPoints()(props)),
       map((data) =>
         data.map(
