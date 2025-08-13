@@ -7,26 +7,32 @@ const SimpleOperations = keyify({
   above: {
     label: 'Above',
     describe: ([value]) => `is above ${value}`,
+    icon: 'condition/above',
   },
   below: {
     label: 'Below',
     describe: ([value]) => `is below ${value}`,
+    icon: 'condition/below',
   },
   inside_channel: {
     label: 'In range',
     describe: ([left, right]) => `is above ${left} and below ${right}`,
+    icon: 'condition/in-range',
   },
   outside_channel: {
     label: 'Out of range',
     describe: ([left, right]) => `is below ${left} or above ${right}`,
+    icon: 'condition/out-of-range',
   },
   percent_up: {
     label: 'Increase %',
     describe: ([value]) => `increased ${value} or more`,
+    icon: 'condition/percent-up',
   },
   percent_down: {
     label: 'Decrease %',
     describe: ([value]) => `decreased ${value} or more`,
+    icon: 'condition/percent-down',
   },
 } as const satisfies Record<string, TOperationData>)
 
@@ -34,12 +40,14 @@ const CombinedOperations = keyify({
   percent_up_or_down: {
     label: 'Change %',
     describe: ([value]) => `changed ${value} or more`,
+    icon: 'condition/percent-change',
   },
 } as const satisfies Record<string, TOperationData>)
 
 type TOperationData = {
   label: string
   describe: (values: [string, string]) => string
+  icon: string
 }
 
 export const Operations = { ...SimpleOperations, ...CombinedOperations }

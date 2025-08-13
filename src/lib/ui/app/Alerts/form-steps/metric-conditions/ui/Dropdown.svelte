@@ -27,7 +27,7 @@
       <Button
         {...props}
         variant="border"
-        class="flex-1 justify-between hover:border-green hover:bg-white"
+        class="flex-1 justify-between px-[11px] hover:border-green hover:bg-white"
       >
         {@render label(selected)}
         <Svg id="arrow-down" w="8" class={cn(isOpened && 'rotate-180')} />
@@ -38,6 +38,7 @@
       <section class="flex w-full flex-col">
         {#each items as item}
           <Button
+            class="px-2"
             onclick={() => {
               onSelect(item)
               close()

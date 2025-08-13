@@ -7,6 +7,7 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
 
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
@@ -47,7 +48,12 @@
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
           >
             {#snippet label(operation)}
-              {Operations[operation].label}
+              {@const { label, icon } = Operations[operation]}
+
+              <section class="flex items-center gap-2">
+                <Svg id={icon} illus />
+                {label}
+              </section>
             {/snippet}
           </Dropdown>
 
