@@ -80,6 +80,6 @@
   {loading}
   class={cn('w-full !border-porcelain center hover:text-green', className)}
 >
-  <img src={walletConnectSvg} alt="WC" class="w-[25px]" />
+  <img src={walletConnectSvg} alt="WC" class="w-[16px]" />
   {isSignUp ? 'Sign up' : 'Log in'} with WalletConnect
 </Button>
