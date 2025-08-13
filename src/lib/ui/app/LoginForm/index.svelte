@@ -46,12 +46,12 @@
   <Section
     {title}
     class={cn('text-base', className)}
-    titleClass="mb-6"
+    titleClass="mb-8"
     {bottomLabel}
     {bottomAction}
     {bottomHref}
   >
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-3">
       {@render children?.()}
 
       {#if onMetamaskClick}
