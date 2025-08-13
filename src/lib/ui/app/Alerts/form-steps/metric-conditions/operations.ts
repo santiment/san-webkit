@@ -8,17 +8,9 @@ const SimpleOperations = keyify({
     label: 'Above',
     describe: ([value]) => `is above ${value}`,
   },
-  above_or_equal: {
-    label: 'Above or equal',
-    describe: ([value]) => `is above or equal ${value}`,
-  },
   below: {
     label: 'Below',
     describe: ([value]) => `is below ${value}`,
-  },
-  below_or_equal: {
-    label: 'Below or equal',
-    describe: ([value]) => `is below or equal ${value}`,
   },
   inside_channel: {
     label: 'In range',
@@ -65,12 +57,13 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   if (!operation) return null
 
   const key = Object.keys(operation)[0]
+  const stateKey = compatLegacyOperations(key)
 
-  if (isSimpleOperationKey(key)) {
+  if (isSimpleOperationKey(stateKey)) {
     const value = operation[key]
     if (!isNumericOperation(value)) return null
 
-    return { type: key, values: Array.isArray(value) ? value : [value, value] }
+    return { type: stateKey, values: Array.isArray(value) ? value : [value, value] }
   }
 
   if (operation.some_of && Array.isArray(operation.some_of)) {
@@ -86,6 +79,17 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   }
 
   return null
+}
+
+function compatLegacyOperations(key: string): TSimpleOperationType | (string & {}) {
+  switch (key) {
+    case 'above_or_equal':
+      return 'above'
+    case 'below_or_equal':
+      return 'below'
+    default:
+      return key
+  }
 }
 
 const DUPLEX_OPERATIONS = new Set<TOperationType>(['inside_channel', 'outside_channel'])

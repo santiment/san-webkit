@@ -262,6 +262,20 @@ export const PartialAssetAlert: Story = {
   },
 }
 
+export const AssetWithBelowOrEqualConditionsAlert: Story = {
+  parameters: {},
+  args: {
+    alert: {
+      settings: {
+        type: 'metric_signal',
+        target: { slug: ['bitcoin'] },
+        metric: 'price_usd',
+        operation: { below_or_equal: 10 },
+      },
+    },
+  },
+}
+
 export const PartialWalletMovementAlert: Story = {
   parameters: {},
   args: {
