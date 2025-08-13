@@ -124,7 +124,13 @@
   defaultValue: number
   oninput: (value: number) => void
 })}
-  <Input type="number" min="0" {defaultValue} oninput={(e) => oninput(+e.currentTarget.value)}>
+  <Input
+    class="transition-colors focus-within:border-porcelain hover:border-porcelain hover:bg-athens"
+    type="number"
+    min="0"
+    {defaultValue}
+    oninput={(e) => oninput(+e.currentTarget.value)}
+  >
     {#snippet left()}
       {#if sign}
         <!-- FIXME: [input-left-fix] Update after Input structure with [left] is fixed -->

@@ -65,7 +65,7 @@
   const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
 
   const button = tv({
-    base: 'flex items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md transition-colors',
     variants: {
       children: { false: '' },
       icon: { false: '' },

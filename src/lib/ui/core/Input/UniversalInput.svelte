@@ -50,7 +50,8 @@
 <!-- Search for [input-left-fix] to fix hacks after update -->
 <div
   class={cn(
-    'relative flex items-center rounded-md border bg-white fill-waterloo  focus-within:border-green focus-within:fill-green hover:border-green',
+    'relative flex items-center rounded-md border bg-white fill-waterloo',
+    'focus-within:border-green focus-within:fill-green hover:border-green',
     disabled && 'bg-athens text-mystic hover:border-porcelain',
     className,
   )}
