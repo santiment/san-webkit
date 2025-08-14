@@ -57,7 +57,7 @@
     {side}
     forceMount
     class={cn(
-      !noStyles && 'z-10 flex rounded border bg-white p-2 shadow',
+      !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
       className,
     )}
