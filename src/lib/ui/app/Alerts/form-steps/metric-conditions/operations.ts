@@ -6,22 +6,22 @@ import { isNumericOperation, type TApiOperation } from '../../operations.js'
 const SimpleOperations = keyify({
   above: {
     label: 'Above',
-    describe: ([value]) => `is above ${value}`,
+    describe: ([value]) => `goes above ${value}`,
     icon: 'condition/above',
   },
   below: {
     label: 'Below',
-    describe: ([value]) => `is below ${value}`,
+    describe: ([value]) => `goes below ${value}`,
     icon: 'condition/below',
   },
   inside_channel: {
     label: 'In range',
-    describe: ([left, right]) => `is above ${left} and below ${right}`,
+    describe: ([left, right]) => `goes above ${left} and below ${right}`,
     icon: 'condition/in-range',
   },
   outside_channel: {
     label: 'Out of range',
-    describe: ([left, right]) => `is below ${left} or above ${right}`,
+    describe: ([left, right]) => `goes below ${left} or above ${right}`,
     icon: 'condition/out-of-range',
   },
   percent_up: {
