@@ -39,10 +39,10 @@
       {@render info?.()}
 
       <section class="mb-4">
-        <section class="grid grid-cols-2 gap-x-2 gap-y-3">
+        <section class={cn('grid grid-cols-2 gap-x-2 gap-y-3', isDuplex && 'grid-cols-4')}>
           <Dropdown
             items={exactObjectKeys(Operations)}
-            class={cn(isDuplex && 'col-span-full grid')}
+            class={cn(isDuplex && 'col-span-2  grid')}
             selected={operation.type}
             onSelect={(selected) =>
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
