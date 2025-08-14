@@ -30,7 +30,7 @@
 
 <section
   class={cn(
-    'flex min-w-[480px] flex-col justify-center rounded px-[92px] py-10 text-center',
+    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center',
     'md:relative md:h-[85vh] md:min-w-0 md:flex-1 md:self-start md:p-6',
     className,
   )}

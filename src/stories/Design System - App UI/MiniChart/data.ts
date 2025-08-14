@@ -1,5 +1,5 @@
 import type { TArea } from '$ui/app/MiniChart/index.js'
-import { usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
+import { usdFormatter } from '$lib/utils/formatters/index.js'
 
 function randomNum(min: number, max: number, step: number) {
   return min + Math.floor((Math.random() * (max - min + 1)) / step) * step
