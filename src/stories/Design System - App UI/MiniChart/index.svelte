@@ -2,7 +2,7 @@
   import { InteractiveArea, MultiArea } from '$ui/app/MiniChart/index.js'
   import { multiAreas, prices, volumes } from './data.js'
   import { useMiniChartTooltipCtx } from '$ui/app/MiniChart/ctx.svelte.js'
-  import { usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
+  import { usdFormatter } from '$lib/utils/formatters/index.js'
 
   useMiniChartTooltipCtx.set()
 
