@@ -6,6 +6,8 @@ const platform: string = BROWSER
   : ''
 
 export const isMac = BROWSER ? platform.toLowerCase().includes('mac') : false
+export const isTouchDevice = BROWSER ? !!navigator.maxTouchPoints : false
+
 export const CMD = isMac ? '⌘' : 'Ctrl'
 
 export const CMD_EVENT_KEY = isMac ? 'Meta' : 'Control'
