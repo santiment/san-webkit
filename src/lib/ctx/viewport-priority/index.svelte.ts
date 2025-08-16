@@ -10,14 +10,18 @@ export const VIEWPORT_PRIORITY = {
   VISIBLE: 0,
   HALF_VISIBLE: 10,
   NOT_VISIBLE: 100,
-}
+} as const
 
 export const useViewportPriorityCtx = createCtx('webkit_useIntersectionObserverCtx', () => {
   if (!BROWSER) {
     return
   }
 
-  const ObservedSettings = new Map<Element, { priority: number }>()
+  const ObservedSettings = new Map<
+    Element,
+    { settings: { priority: number }; lazyTimer: null | number }
+  >()
+
   const observer = new IntersectionObserver((entries) => entries.forEach(entryObserver), {
     threshold: [0, 0.5],
   })
@@ -25,10 +29,23 @@ export const useViewportPriorityCtx = createCtx('webkit_useIntersectionObserverC
   onMount(() => () => observer.disconnect())
 
   function entryObserver(entry: IntersectionObserverEntry) {
-    const settings = ObservedSettings.get(entry.target)
-    if (!settings) return
+    const observedData = ObservedSettings.get(entry.target)
+    if (!observedData) return
+
+    const { settings } = observedData
+
+    window.clearTimeout(observedData.lazyTimer)
 
     if (!entry.isIntersecting) {
+      // NOTE: Lazy timer helps to avoid multiple mount/unmounts, when user scrolls in/out on an item multiple times
+      if (settings.priority < VIEWPORT_PRIORITY.NOT_VISIBLE) {
+        observedData.lazyTimer = window.setTimeout(() => {
+          settings.priority = VIEWPORT_PRIORITY.NOT_VISIBLE
+        }, 10_000)
+
+        return
+      }
+
       return (settings.priority = VIEWPORT_PRIORITY.NOT_VISIBLE)
     }
 
@@ -56,7 +73,7 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
 
   const { observer, ObservedSettings } = rootCtx
   const settings = $state({
-    priority: VIEWPORT_PRIORITY.NOT_VISIBLE,
+    priority: VIEWPORT_PRIORITY.NOT_VISIBLE as number,
   })
 
   const action: Action<HTMLElement, { top: string; bottom: string } | undefined> = (
@@ -65,13 +82,15 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
   ) => {
     const viewportAnchor = createViewportAnchor(node, margins)
 
-    ObservedSettings.set(viewportAnchor, settings)
+    const observedData = { settings, lazyTimer: null as null | number }
+    ObservedSettings.set(viewportAnchor, observedData)
     observer.observe(viewportAnchor)
 
     settings.priority = getNodeClientRectViewportPriority(viewportAnchor)
 
     return {
       destroy() {
+        window.clearTimeout(observedData.lazyTimer)
         observer.unobserve(viewportAnchor)
         ObservedSettings.delete(viewportAnchor)
       },
