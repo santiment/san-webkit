@@ -74,6 +74,10 @@ const event: SendEvent = isTrackingEnabled
         )
       }
 
+      if (BROWSER) {
+        window.__trackLegacyWebkitEvent(action, { category, label, ...rest })
+      }
+
       if (trackers.includes(Tracker.AMPLITUDE) && window.amplitude && window.amplitude.track) {
         window.amplitude.track(
           action,

@@ -1,3 +1,5 @@
+import type { EventData } from '@/analytics'
+
 declare module 'svelte/internal'
 
 declare namespace NodeJS {
@@ -27,6 +29,7 @@ interface Window {
   twq?: any
   __SAPPER__?: any
   __SESSION__?: any
+  __trackLegacyWebkitEvent?: (eventName: string, data?: EventData) => void
 
   amplitude?: {
     track: (action: string, eventProperties: { [key: string]: any }) => void
