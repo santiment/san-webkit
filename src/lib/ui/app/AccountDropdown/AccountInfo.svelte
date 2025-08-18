@@ -21,10 +21,7 @@
       <ProfilePicture as="div" class="min-w-8"></ProfilePicture>
 
       <div class="min-w-0 single-line">
-        <a
-          href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
-          class="font-medium text-rhino link-as-bg"
-        >
+        <a href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id} class="font-medium link-as-bg">
           @{currentUser.$$.username}
         </a>
 

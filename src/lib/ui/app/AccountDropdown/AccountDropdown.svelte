@@ -32,7 +32,7 @@
   }
 </script>
 
-<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 column">
+<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column">
   {#snippet children({ ref })}
     <ProfilePicture class={className} {ref}></ProfilePicture>
   {/snippet}
