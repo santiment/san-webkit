@@ -18,6 +18,7 @@
     content: Snippet<[{ close: () => void }]>
     position?: FloatingConfig['placement']
     offset?: number
+    positionConfig?: FloatingConfig
   } & Omit<CreateTooltipProps, 'positioning'>
 
   let {
@@ -28,6 +29,7 @@
     type = 'plain',
     isOpened = false,
     position = 'bottom-end',
+    positionConfig,
     offset,
     ...options
   }: Props = $props()
@@ -49,6 +51,7 @@
       gutter: offset ? 0 : 5,
       // NOTE: [mainAxis] is here to compensate zero gutter. 5 is the default [gutter] value
       offset: offset ? { mainAxis: 5, crossAxis: offset } : undefined,
+      ...positionConfig,
     },
   })
 
