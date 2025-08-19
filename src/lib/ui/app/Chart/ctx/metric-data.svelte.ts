@@ -69,7 +69,8 @@ export function useApiMetricDataFlow(
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
-    const interval = globalParameters.$$.interval || globalParameters.autoInterval$
+    const interval =
+      metric.interval.$ || globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
