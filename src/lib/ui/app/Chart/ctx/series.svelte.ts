@@ -29,6 +29,7 @@ export function createSeries({
   scaleId,
   scaleMargins,
   scaleInverted = false,
+  scaleVisible = true,
 
   isSelectorLocked = false,
   transformData,
@@ -42,7 +43,7 @@ export function createSeries({
 }: TChartMetric) {
   const scale = $state({
     id: scaleId || apiMetricName,
-    visible: true,
+    visible: scaleVisible,
     inverted: scaleInverted,
     scaleMargins,
   })

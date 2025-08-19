@@ -78,6 +78,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   pane?: number
 
   scaleId?: string
+  scaleVisible?: boolean
   scaleInverted?: boolean
   scaleMargins?: { top: number; bottom: number }
   scaleFormatter?: (value: number) => string
