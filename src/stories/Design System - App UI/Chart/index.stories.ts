@@ -34,14 +34,14 @@ export const PriceFormula: Story = {
   args: {
     defaultMetrics: [
       {
-        name: 'price_usd',
+        apiMetricName: 'price_usd',
         label: 'Price USD',
         style: 'line',
         scaleId: 'right-price_usd',
       },
 
       {
-        name: 'FORMULA_2',
+        apiMetricName: 'FORMULA_2',
         label: 'Derived formula - Price SMA(SMA(30), 5)',
         style: 'line',
         scaleId: 'right-price_usd',

@@ -12,7 +12,7 @@
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
-  const { type, data, color, scale, pane, scaleFormatter, visible } = series
+  const { data, scale, pane, visible, ui } = series
 
   const { chart } = useChartCtx()
   const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
@@ -20,11 +20,11 @@
   >
 
   const priceFormat =
-    scaleFormatter &&
+    ui.$$.scaleFormatter &&
     ({
       type: 'custom',
       minMove: 0.0001,
-      formatter: scaleFormatter,
+      formatter: ui.$$.scaleFormatter,
     } as const)
 
   const chartSeries = createChartSeries()
@@ -39,7 +39,7 @@
   })
 
   $effect.pre(() => {
-    let _color = color.$
+    let _color = ui.$$.color
 
     if (highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$) {
       _color = applyHexColorOpacity(_color, '29')
@@ -71,9 +71,10 @@
   })
 
   function createChartSeries() {
-    const options = { ...getSeriesTypeOptions(), color: color.$, priceScaleId: scale.$$.id }
+    const { style, color } = ui.$$
+    const options = { ...getSeriesTypeOptions(), color, priceScaleId: scale.$$.id }
 
-    switch (type.$) {
+    switch (style) {
       case 'histogram':
         return chart.$!.addSeries(HistogramSeries, options, pane.$)
       default:
@@ -84,7 +85,7 @@
   function getSeriesTypeOptions() {
     const base = { zOrder: 10, priceFormat }
 
-    switch (type.$) {
+    switch (ui.$$.style) {
       case 'histogram':
         return Object.assign(base, { zOrder: 10 })
       default:
