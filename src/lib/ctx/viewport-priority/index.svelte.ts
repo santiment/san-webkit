@@ -119,6 +119,7 @@ function createViewportAnchor(node: HTMLElement, margins: { top: string; bottom:
     top: margins.top,
     bottom: margins.bottom,
   })
+  div.classList.add('viewport-anchor')
   node.appendChild(div)
   return div
 }
