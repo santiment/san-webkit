@@ -1,6 +1,6 @@
 <script lang="ts">
   import { BROWSER } from 'esm-env'
-  import { onDestroy } from 'svelte'
+  import { ComponentProps, onDestroy } from 'svelte'
   import { track } from '@/analytics'
   import { CommentsType, queryComments } from '@/api/comments'
   import { createComment } from '@/api/comments/mutate'
@@ -16,7 +16,7 @@
 
   export let type: CommentsType
   export let commentsFor: SAN.CommentsFor
-  export let currentUser: null | SAN.CurrentUser = null
+  export let currentUser: ComponentProps<UserInfoTooltipCtx>['currentUser'] = null
   export let onNewComment: (commentsFor: SAN.CommentsFor, comments: SAN.Comment[]) => void
   export let onAnonComment: () => void = noop
   export let onCommentError = noop
