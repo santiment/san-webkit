@@ -5,8 +5,8 @@
 
   import Svg from '../Svg/Svg.svelte'
 
-  type TProps = CheckboxRootProps & { isActive?: boolean; class?: string }
-  let { isActive = false, class: className, disabled, ...rest }: TProps = $props()
+  type TProps = CheckboxRootProps & { isActive?: boolean; class?: string; error?: boolean }
+  let { isActive = false, class: className, disabled, error, ...rest }: TProps = $props()
 </script>
 
 <Checkbox.Root
@@ -15,6 +15,7 @@
   bind:checked={isActive}
   class={cn(
     'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-white fill-athens-day transition-colors hover:border-casper hover:bg-athens',
+    error && 'border-red hover:border-red-hover',
     isActive &&
       'border-green bg-green bg-center bg-no-repeat hover:border-green-hover hover:bg-green-hover',
     disabled && 'border-mystic bg-athens hover:border-mystic hover:bg-athens',
