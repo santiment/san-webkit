@@ -16,14 +16,7 @@ export { useChartGlobalParametersCtx, type TGlobalParameters } from './global-pa
 
 export { useApiMetricDataFlow, useApiMetricFetchSettingsCtx } from './metric-data.svelte.js'
 
-export {
-  useMetricSeriesCtx,
-  createSeries,
-  type TSeries,
-  type TMetric,
-  type TChartMetric,
-  type TMetricFormula,
-} from './series.svelte.js'
+export { useMetricSeriesCtx, createSeries, type TSeries } from './series.svelte.js'
 
 export { useColorGenerator } from './colors.js'
 
