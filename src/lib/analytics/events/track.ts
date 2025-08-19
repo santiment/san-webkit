@@ -79,6 +79,17 @@ export const track: { event: TTrackEventFn } = {
   },
 }
 
+export function setupLegacyBridge() {
+  if (!BROWSER) return
+  if (!window.__trackLegacyWebkitEvent) {
+    window.__trackLegacyWebkitEvent = (eventName: string, data?: any) => {
+      track.event(eventName, data, [Tracker.POSTHOG])
+    }
+  }
+}
+
+setupLegacyBridge()
+
 function normalizeData(data: Record<string, any>) {
   const normalized = {} as Record<string, any>
   for (const key in data) {

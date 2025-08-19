@@ -1,8 +1,6 @@
 import { posthog } from 'posthog-js'
 import { BROWSER } from 'esm-env'
 
-import { Tracker, track } from '../events/track.js'
-
 export const POSTHOG_URL = 'https://eu.i.posthog.com'
 export const PROXY_ROUTE = '/api/track/posthog'
 
@@ -17,13 +15,6 @@ export function initPosthog(id = 'phc_uehdF88phYxAqgTbYH5GHjM2dy2Us8AcI5r1zoIRLw
     enable_heatmaps: true,
     autocapture: true,
   })
-
-  // NOTE: The bridge for legacy events
-  if (!window.__trackLegacyWebkitEvent) {
-    window.__trackLegacyWebkitEvent = (eventName: string, data: any) => {
-      track.event(eventName, data, [Tracker.POSTHOG])
-    }
-  }
 }
 
 export { usePosthogFlow } from './flow.svelte.js'
