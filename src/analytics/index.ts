@@ -7,7 +7,6 @@ export enum Tracker {
   GA = 'ga',
   SAN = 'san',
   TWQ = 'twq',
-  AMPLITUDE = 'AMPLITUDE',
 }
 
 const noop = () => {} // eslint-disable-line
@@ -21,7 +20,7 @@ function canTrackBrowser() {
 export const isTrackingEnabled =
   BROWSER && (process.env.IS_DEV_MODE || (process.env.IS_PROD_BACKEND ? canTrackBrowser() : true))
 
-const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE]
+const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN]
 
 export type EventData = {
   [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
@@ -74,17 +73,8 @@ const event: SendEvent = isTrackingEnabled
         )
       }
 
-      if (trackers.includes(Tracker.AMPLITUDE) && window.amplitude && window.amplitude.track) {
-        window.amplitude.track(
-          action,
-          normalizeData({
-            event_category: category,
-            event_label: label,
-            ...rest,
-          }),
-        )
-        // NOTE: Was causing issues, since was called before amplitude's internal config init
-        // window.amplitude.flush()
+      if (BROWSER) {
+        window.__trackLegacyWebkitEvent(action, { category, label, ...rest })
       }
 
       return date
