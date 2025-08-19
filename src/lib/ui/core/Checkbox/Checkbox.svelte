@@ -3,6 +3,8 @@
 
   import { cn } from '$ui/utils/index.js'
 
+  import Svg from '../Svg/Svg.svelte'
+
   type TProps = CheckboxRootProps & { isActive?: boolean; class?: string }
   let { isActive = false, class: className, disabled, ...rest }: TProps = $props()
 </script>
@@ -12,11 +14,19 @@
   {disabled}
   bind:checked={isActive}
   class={cn(
-    'size-4 min-w-4 rounded border border-porcelain bg-white hover:border-green',
+    'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-white fill-athens-day transition-colors hover:border-casper hover:bg-athens',
     isActive &&
-      'border-green bg-green bg-[url(/webkit/icons/checkmark.svg)] bg-center bg-no-repeat hover:bg-green-hover',
-    disabled && 'border-porcelain bg-porcelain hover:border-porcelain',
-    disabled && isActive && 'border-porcelain text-mystic hover:bg-porcelain',
+      'border-green bg-green bg-center bg-no-repeat hover:border-green-hover hover:bg-green-hover',
+    disabled && 'border-mystic bg-athens hover:border-mystic hover:bg-athens',
+    disabled &&
+      isActive &&
+      'border-porcelain bg-porcelain fill-casper hover:border-porcelain hover:bg-porcelain',
     className,
   )}
-></Checkbox.Root>
+>
+  {#snippet children({ checked })}
+    {#if checked}
+      <Svg id="checkmark" w="8" />
+    {/if}
+  {/snippet}
+</Checkbox.Root>
