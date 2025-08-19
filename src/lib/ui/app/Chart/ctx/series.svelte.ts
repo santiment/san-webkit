@@ -59,7 +59,7 @@ export function createSeries({
     scaleFormatter,
   })
 
-  const formula = 'formula' in rest ? ss(rest.formula) : undefined
+  const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
 
   const metric = {
     id: uuidv4(),
