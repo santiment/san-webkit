@@ -74,7 +74,7 @@ const event: SendEvent = isTrackingEnabled
       }
 
       if (BROWSER) {
-        window.__trackLegacyWebkitEvent(action, { category, label, ...rest })
+        window.__trackLegacyWebkitEvent?.(action, { category, label, ...rest })
       }
 
       return date

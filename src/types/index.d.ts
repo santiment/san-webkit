@@ -1,5 +1,3 @@
-import type { EventData } from '@/analytics'
-
 declare module 'svelte/internal'
 
 declare namespace NodeJS {
@@ -26,10 +24,11 @@ interface Window {
   identifyAmplitude?: (identity: any) => void
   onNftGameStart?: () => void
   showCancelSubscriptionDialog?: (e: MouseEvent) => void
+  __trackLegacyWebkitEvent?: (eventName: string, data?: any) => void
+
   twq?: any
   __SAPPER__?: any
   __SESSION__?: any
-  __trackLegacyWebkitEvent?: (eventName: string, data?: EventData) => void
 
   amplitude?: {
     track: (action: string, eventProperties: { [key: string]: any }) => void
