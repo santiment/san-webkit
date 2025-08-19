@@ -79,6 +79,14 @@ export const track: { event: TTrackEventFn } = {
   },
 }
 
+if (BROWSER) {
+  if (!window.__trackLegacyWebkitEvent) {
+    window.__trackLegacyWebkitEvent = (eventName: string, data?: any) => {
+      track.event(eventName, data, [Tracker.POSTHOG])
+    }
+  }
+}
+
 function normalizeData(data: Record<string, any>) {
   const normalized = {} as Record<string, any>
   for (const key in data) {
