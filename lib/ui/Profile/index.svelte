@@ -26,7 +26,7 @@ function onClick(e) {
   href="{SANBASE_ORIGIN}/profile/{user.id}"
   on:click={onClick}
 >
-  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-lXREE3" {placeholderSize} />
+  <Pic src={user.avatarUrl} class="mrg-s mrg--r pic-otHEr6" {placeholderSize} />
 
   <span>
     {#if $$slots.name}
@@ -58,7 +58,7 @@ a {
 a:hover {
   --color: var(--accent, var(--green));
 }
-a:hover :global(.pic-lXREE3) {
+a:hover :global(.pic-otHEr6) {
   box-shadow: 0px 0px 0px 1px var(--green);
 }
 

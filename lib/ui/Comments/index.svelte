@@ -92,7 +92,7 @@ onDestroy(() => {
   <Editor
     isComments
     bind:editor
-    class="border fluid input-mqFX_e"
+    class="border fluid input-oMmgko"
     placeholder="Type your comment here"
   />
 
@@ -125,7 +125,7 @@ onDestroy(() => {
 </div>
 
 <style>
-  :global(.input-mqFX_e) {
+  :global(.input-oMmgko) {
     padding: 5px 10px;
     min-height: 32px;
     min-height: 100%;

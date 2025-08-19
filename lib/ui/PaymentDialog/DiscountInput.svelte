@@ -68,25 +68,25 @@ onDestroy(clearTimer);
 >
   {#if value}
     {#if loading}
-      <div class="loading-spin status-PpIKab" />
+      <div class="loading-spin status-ov1yub" />
     {:else}
       <Svg
         id={isValid ? 'checkmark-circle' : 'error'}
         w="16"
-        class="status-PpIKab {isValid ? 'valid-HmilnJ' : ''}"
+        class="status-ov1yub {isValid ? 'valid-DmohM9' : ''}"
       />
     {/if}
   {/if}
 </Input>
 
 <style>
-  :global(.status-PpIKab) {
+  :global(.status-ov1yub) {
     position: absolute;
     bottom: 12px;
     right: 12px;
     fill: var(--red);
   }
-  :global(.valid-HmilnJ) {
+  :global(.valid-DmohM9) {
     fill: var(--green);
   }
 </style>

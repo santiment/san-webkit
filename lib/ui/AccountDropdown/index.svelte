@@ -22,7 +22,8 @@ export let isShowingFollowers = true;
 export let onOldVersionClick = undefined;
 const { ui$ } = getUI$Ctx();
 const { customer$ } = getCustomer$Ctx();
-const REFERRAL_ANNOUNCEMENT_URL = 'https://medium.com/santiment/santiment-is-proud-to-announce-the-relaunch-of-our-referral-program-now-with-increased-commission-e8b7feb5606c';
+// const REFERRAL_ANNOUNCEMENT_URL =
+//   'https://medium.com/santiment/santiment-is-proud-to-announce-the-relaunch-of-our-referral-program-now-with-increased-commission-e8b7feb5606c'
 function onLogout() {
     isOpened = false;
     trackLogout();
@@ -38,7 +39,7 @@ $: ({ isLiteVersion } = $ui$);
   overflowFlip={false}
   duration={130}
   bind:isOpened
-  activeClass="active-v6urLZ"
+  activeClass="active-J0ZMmv"
   class={tooltipClass}
   let:trigger
 >
@@ -50,7 +51,7 @@ $: ({ isLiteVersion } = $ui$);
       on:click={window.__onLinkClick}
       class:pro={isPro}
     >
-      <Pic class="btn mrg-m mrg--l s-1o0ex4p" src={currentUser ? currentUser.avatarUrl : ''} />
+      <Pic class="btn mrg-m mrg--l s-1mkmuq6" src={currentUser ? currentUser.avatarUrl : ''} />
     </a>
   </slot>
 
@@ -128,16 +129,16 @@ $: ({ isLiteVersion } = $ui$);
         </a>
       {/if}
 
-      <a
-        href={currentUser ? `${SANBASE_ORIGIN}/account#affiliate` : REFERRAL_ANNOUNCEMENT_URL}
-        target={currentUser ? '_self' : '_blank'}
-        class="btn-ghost row gap-s v-center"
-        style:fill="var(--orange)"
-        on:click={window.__onLinkClick}
-      >
-        Referral Program
-        <Svg id="sparkle" w="12" />
-      </a>
+      <!-- <a -->
+      <!--   href={currentUser ? `${SANBASE_ORIGIN}/account#affiliate` : REFERRAL_ANNOUNCEMENT_URL} -->
+      <!--   target={currentUser ? '_self' : '_blank'} -->
+      <!--   class="btn-ghost row gap-s v-center" -->
+      <!--   style:fill="var(--orange)" -->
+      <!--   on:click={window.__onLinkClick} -->
+      <!-- > -->
+      <!--   Referral Program -->
+      <!--   <Svg id="sparkle" w="12" /> -->
+      <!-- </a> -->
 
       <button
         class="btn-ghost row justify v-center"
@@ -156,11 +157,11 @@ $: ({ isLiteVersion } = $ui$);
 </Tooltip>
 
 <style>
-  :global(.active-v6urLZ) :global(.s-1o0ex4p) {
+  :global(.active-J0ZMmv) :global(.s-1mkmuq6) {
     --img-fill: var(--fiord);
   }
 
-  .pro :global(.s-1o0ex4p) {
+  .pro :global(.s-1mkmuq6) {
     --green: var(--orange-hover);
   }
 

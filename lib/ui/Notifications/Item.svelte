@@ -69,9 +69,9 @@
   transition:notify
 >
   <div class="row v-center">
-    <Svg id={TypeIcon[type] || type} class="icon-CEaLhb {type}" />
+    <Svg id={TypeIcon[type] || type} class="icon-Q8b4QS {type}" />
     <div class="title txt-m">{title}</div>
-    <Svg id="close" class="btn close-NB2Qrm" on:click={destroy} />
+    <Svg id="close" class="btn close-aEn5bf" on:click={destroy} />
   </div>
   {#if description}
     <p>{@html description}</p>
@@ -112,22 +112,22 @@
   width: 100%;
 }
 
-:global(.icon-CEaLhb) {
+:global(.icon-Q8b4QS) {
   width: 16px;
   height: 16px;
   fill: var(--waterloo);
 }
 
-:global(.icon-CEaLhb.success) {
+:global(.icon-Q8b4QS.success) {
   fill: var(--green);
 }
-:global(.icon-CEaLhb.error) {
+:global(.icon-Q8b4QS.error) {
   fill: var(--red);
 }
-:global(.icon-CEaLhb.warning) {
+:global(.icon-Q8b4QS.warning) {
   fill: var(--orange);
 }
-:global(.icon-CEaLhb.info) {
+:global(.icon-Q8b4QS.info) {
   fill: var(--blue);
 }
 
@@ -135,7 +135,7 @@
   margin: 0 24px 0 16px;
 }
 
-:global(.close-NB2Qrm) {
+:global(.close-aEn5bf) {
   width: 12px;
   height: 12px;
   cursor: pointer;

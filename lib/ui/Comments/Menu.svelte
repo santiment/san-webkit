@@ -41,7 +41,7 @@ function updateReplies(isWithTagname = true) {
 }
 </script>
 
-<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-nVD0Ia">
+<Tooltip on="click" duration={0} position="top" align="end" activeClass="active-bLasie">
   <button slot="trigger" class="menu btn row hv-center mrg-a mrg--l {className}"
     ><Svg id="horz-dots" w="16" h="4" /></button
   >
@@ -57,7 +57,7 @@ function updateReplies(isWithTagname = true) {
     width: 32px;
     height: 32px;
   }
-  :global(.active-nVD0Ia) {
+  :global(.active-bLasie) {
     --bg: var(--green-light-1);
     --color: var(--green);
     --color-hover: var(--green-hover);

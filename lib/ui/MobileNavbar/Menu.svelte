@@ -43,19 +43,19 @@ function adjustHeight(node) {
 </script>
 
 <nav class="column fluid body-1 {className}" use:adjustHeight>
-  <slot {user} {onHelpClick} linkClass="link-Pzk30I" dividerClass="divider-UVWYBs">
+  <slot {user} {onHelpClick} linkClass="link-6bUkbx" dividerClass="divider-xKRQZE">
     <section class="links column gap-l">
       {#each MOBILE_MENU_LINKS as { title, link }}
         {@const href = isFullLink ? getFullLink(link) : link}
-        <a {href} on:click={window.__onLinkClick} class="link-Pzk30I">
+        <a {href} on:click={window.__onLinkClick} class="link-6bUkbx">
           {title}
         </a>
       {/each}
     </section>
 
-    <div class="divider-UVWYBs fluid" />
+    <div class="divider-xKRQZE fluid" />
 
-    <button class="btn-0 link-Pzk30I" on:click={onHelpClick}>Help & Feedback</button>
+    <button class="btn-0 link-6bUkbx" on:click={onHelpClick}>Help & Feedback</button>
 
     <Account class="mrg-a mrg--t" {user} {isFullLink} />
 
@@ -86,11 +86,11 @@ nav {
   background: var(--white);
 }
 
-:global(.link-Pzk30I) {
+:global(.link-6bUkbx) {
   padding: 7px 0;
 }
 
-:global(.divider-UVWYBs) {
+:global(.divider-xKRQZE) {
   height: 1px;
   min-height: 1px;
   background: var(--porcelain);

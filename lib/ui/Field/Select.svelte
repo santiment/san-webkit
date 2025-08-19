@@ -18,7 +18,7 @@ function onOptionSelect(option) {
 
 <Field {title}>
   <div class="relative {className}">
-    <Tooltip on="click" class="tooltip-ptLf9c" bind:isOpened>
+    <Tooltip on="click" class="tooltip-ZkH2Ej" bind:isOpened>
       <button slot="trigger" type="button" class="btn-2 btn--s row v-center justify fluid">
         <slot />
         <Svg id="arrow-down" w="8" h="5" class="mrg-xl mrg--l" />
@@ -41,7 +41,7 @@ function onOptionSelect(option) {
 </Field>
 
 <style>
-  :global(.tooltip-ptLf9c) {
+  :global(.tooltip-ZkH2Ej) {
     padding: 8px;
     width: 100%;
   }

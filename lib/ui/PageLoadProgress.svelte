@@ -9,7 +9,7 @@
   }
 
   function end(node) {
-    node.classList.add('loaded-h1Ec1f')
+    node.classList.add('loaded-SWsp2D')
     return { duration: 800 }
   }
 </script>
@@ -40,7 +40,7 @@
     transition: transform 3s cubic-bezier(0.4, 1, 1, 1);
   }
 
-  :global(.loaded-h1Ec1f) {
+  :global(.loaded-SWsp2D) {
     transition: transform 400ms cubic-bezier(0, 0, 0.4, 0) !important;
     transform: translateX(0) !important;
     animation: fade 250ms 350ms forwards;
