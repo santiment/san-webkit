@@ -65,7 +65,7 @@ export function createSeries({
     id: uuidv4(),
 
     type,
-    apiMetricName: 'apiMetricName' in rest ? (rest.apiMetricName as string) : undefined,
+    apiMetricName,
 
     label,
     getLabels$,

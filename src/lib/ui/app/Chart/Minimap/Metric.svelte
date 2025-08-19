@@ -51,7 +51,7 @@
   function paint(ctx: CanvasRenderingContext2D) {
     if (!scaler) return
 
-    const color = minimapMetric.color.$
+    const color = minimapMetric.ui.$$.color
     const { data, mapIndexToX, mapValueToY } = scaler
 
     ctx.save()

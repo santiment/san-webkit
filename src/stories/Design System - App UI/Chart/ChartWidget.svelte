@@ -90,7 +90,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+    //downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
@@ -110,15 +110,15 @@
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="rounded border p-1"
-        style="border-color:{metric.color.$}"
+        style="border-color:{metric.ui.$$.color}"
         onmouseenter={() => onMetricEnter(metric)}
         onmouseleave={onMetricLeave}
         onclick={metric.formula
           ? () =>
-              showFormulaEditorDialog({ formula: metric.formula.$, index })
+              showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
                   console.log(data)
-                  metric.formula.$ = data.formula
+                  metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
           : null}
