@@ -28,5 +28,15 @@
       <Checkbox error></Checkbox>
       Error
     </label>
+
+    <label class="flex items-center gap-2">
+      <Checkbox indeterminate></Checkbox>
+      Indeterminate
+    </label>
+
+    <label class="flex items-center gap-2">
+      <Checkbox indeterminate disabled></Checkbox>
+      Disabled Indeterminate
+    </label>
   </div>
 </div>
