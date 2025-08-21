@@ -60,7 +60,7 @@
     {...$content}
     use:content
     transition:flyAndScale={{ y: -4 }}
-    class={cn(!noStyles && 'tooltip-drop-shadow z-10 flex rounded border bg-white p-2', className)}
+    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown', className)}
   >
     {#if type === 'arrow'}
       <div {...$arrow} use:arrow></div>
@@ -69,9 +69,3 @@
     {@render contentSnippet({ close: () => open.set(false) })}
   </div>
 {/if}
-
-<style lang="postcss">
-  .tooltip-drop-shadow {
-    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
-  }
-</style>

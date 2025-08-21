@@ -17,7 +17,7 @@
 
   let focused = $state(false)
 
-  let triggerRef = ss<null | HTMLElement>(null)
+  let triggerRef = ss<null | HTMLTextAreaElement>(null)
 
   function onInputKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') {

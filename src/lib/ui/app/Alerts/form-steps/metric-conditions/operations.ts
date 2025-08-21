@@ -6,35 +6,33 @@ import { isNumericOperation, type TApiOperation } from '../../operations.js'
 const SimpleOperations = keyify({
   above: {
     label: 'Above',
-    describe: ([value]) => `is above ${value}`,
-  },
-  above_or_equal: {
-    label: 'Above or equal',
-    describe: ([value]) => `is above or equal ${value}`,
+    describe: ([value]) => `goes above ${value}`,
+    icon: 'condition/above',
   },
   below: {
     label: 'Below',
-    describe: ([value]) => `is below ${value}`,
-  },
-  below_or_equal: {
-    label: 'Below or equal',
-    describe: ([value]) => `is below or equal ${value}`,
+    describe: ([value]) => `goes below ${value}`,
+    icon: 'condition/below',
   },
   inside_channel: {
     label: 'In range',
-    describe: ([left, right]) => `is above ${left} and below ${right}`,
+    describe: ([left, right]) => `goes above ${left} and below ${right}`,
+    icon: 'condition/in-range',
   },
   outside_channel: {
     label: 'Out of range',
-    describe: ([left, right]) => `is below ${left} or above ${right}`,
+    describe: ([left, right]) => `goes below ${left} or above ${right}`,
+    icon: 'condition/out-of-range',
   },
   percent_up: {
     label: 'Increase %',
     describe: ([value]) => `increased ${value} or more`,
+    icon: 'condition/percent-up',
   },
   percent_down: {
     label: 'Decrease %',
     describe: ([value]) => `decreased ${value} or more`,
+    icon: 'condition/percent-down',
   },
 } as const satisfies Record<string, TOperationData>)
 
@@ -42,12 +40,14 @@ const CombinedOperations = keyify({
   percent_up_or_down: {
     label: 'Change %',
     describe: ([value]) => `changed ${value} or more`,
+    icon: 'condition/percent-change',
   },
 } as const satisfies Record<string, TOperationData>)
 
 type TOperationData = {
   label: string
   describe: (values: [string, string]) => string
+  icon: string
 }
 
 export const Operations = { ...SimpleOperations, ...CombinedOperations }
@@ -65,12 +65,13 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   if (!operation) return null
 
   const key = Object.keys(operation)[0]
+  const stateKey = compatLegacyOperations(key)
 
-  if (isSimpleOperationKey(key)) {
+  if (isSimpleOperationKey(stateKey)) {
     const value = operation[key]
     if (!isNumericOperation(value)) return null
 
-    return { type: key, values: Array.isArray(value) ? value : [value, value] }
+    return { type: stateKey, values: Array.isArray(value) ? value : [value, value] }
   }
 
   if (operation.some_of && Array.isArray(operation.some_of)) {
@@ -86,6 +87,17 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   }
 
   return null
+}
+
+function compatLegacyOperations(key: string): TSimpleOperationType | (string & {}) {
+  switch (key) {
+    case 'above_or_equal':
+      return 'above'
+    case 'below_or_equal':
+      return 'below'
+    default:
+      return key
+  }
 }
 
 const DUPLEX_OPERATIONS = new Set<TOperationType>(['inside_channel', 'outside_channel'])

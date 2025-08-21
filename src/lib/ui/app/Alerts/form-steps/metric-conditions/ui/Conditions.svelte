@@ -7,6 +7,7 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
 
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
@@ -38,16 +39,21 @@
       {@render info?.()}
 
       <section class="mb-4">
-        <section class="grid grid-cols-2 gap-x-2 gap-y-3">
+        <section class={cn('grid grid-cols-2 gap-x-2 gap-y-3', isDuplex && 'grid-cols-4')}>
           <Dropdown
             items={exactObjectKeys(Operations)}
-            class={cn(isDuplex && 'col-span-full grid')}
+            class={cn(isDuplex && 'col-span-2  grid')}
             selected={operation.type}
             onSelect={(selected) =>
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
           >
             {#snippet label(operation)}
-              {Operations[operation].label}
+              {@const { label, icon } = Operations[operation]}
+
+              <section class="flex items-center gap-2">
+                <Svg id={icon} illus />
+                {label}
+              </section>
             {/snippet}
           </Dropdown>
 
@@ -118,7 +124,13 @@
   defaultValue: number
   oninput: (value: number) => void
 })}
-  <Input type="number" min="0" {defaultValue} oninput={(e) => oninput(+e.currentTarget.value)}>
+  <Input
+    class="transition-colors focus-within:border-porcelain hover:border-porcelain hover:bg-athens"
+    type="number"
+    min="0"
+    {defaultValue}
+    oninput={(e) => oninput(+e.currentTarget.value)}
+  >
     {#snippet left()}
       {#if sign}
         <!-- FIXME: [input-left-fix] Update after Input structure with [left] is fixed -->

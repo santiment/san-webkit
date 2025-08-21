@@ -14,6 +14,14 @@ export default {
       borderColor: {
         DEFAULT: 'var(--porcelain)',
       },
+
+      boxShadow: {
+        dropdown: '0 4px 8px 0 rgba(24, 27, 43, 0.08)',
+      },
+
+      dropShadow: {
+        dropdown: '0 4px 8px rgba(24, 27, 43, 0.08)',
+      },
     },
 
     screens: {
