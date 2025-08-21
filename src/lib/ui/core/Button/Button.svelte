@@ -43,6 +43,7 @@
     size: initialSize,
     iconOnRight = false,
     rounded = false,
+    circle = false,
     loading = false,
 
     icon,
@@ -65,7 +66,7 @@
   const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
 
   const button = tv({
-    base: 'flex items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex transition-colors items-center cursor-pointer gap-2 rounded-md',
     variants: {
       children: { false: '' },
       icon: { false: '' },
@@ -81,7 +82,8 @@
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed' },
-      rounded: { true: 'rounded-full' },
+      rounded: { true: 'rounded-[14px]' },
+      circle: { true: 'rounded-full' },
       size: {
         auto: 'p-0',
         md: 'h-8 py-[5px]',
@@ -137,8 +139,16 @@
       {
         children: false,
         icon: true,
+        rounded: false,
         size: ['md'],
         class: 'justify-center size-8 px-0',
+      },
+      {
+        children: false,
+        icon: true,
+        rounded: true,
+        size: ['md'],
+        class: 'justify-center',
       },
       {
         children: false,
@@ -184,6 +194,7 @@
       size,
       loading,
       rounded,
+      circle,
       explanation: !!explanation,
       disabled: !!rest.disabled,
       children: !!children,

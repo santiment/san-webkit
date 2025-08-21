@@ -27,9 +27,11 @@
 
         <StatesGroup title="Default" variant="border" withIcons />
 
-        <StatesGroup title="Rounded" variant="border" withIcons rounded />
+        <StatesGroup title="Circle" variant="border" withIcons circle />
 
         <StatesGroup title="Icon" variant="border" buttons={iconButtons} />
+
+        <StatesGroup title="Icon Circle" variant="border" circle buttons={iconButtons} />
 
         <StatesGroup title="Icon Rounded" variant="border" rounded buttons={iconButtons} />
       </div>
@@ -39,9 +41,11 @@
 
         <StatesGroup title="Default" variant="ghost" withIcons />
 
-        <StatesGroup title="Rounded" variant="ghost" withIcons rounded />
+        <StatesGroup title="Circle" variant="ghost" withIcons circle />
 
         <StatesGroup title="Icon" variant="ghost" buttons={iconButtons} />
+
+        <StatesGroup title="Icon Circle" variant="ghost" circle buttons={iconButtons} />
 
         <StatesGroup title="Icon Rounded" variant="ghost" rounded buttons={iconButtons} />
       </div>
