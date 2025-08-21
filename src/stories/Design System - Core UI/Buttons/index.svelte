@@ -112,7 +112,7 @@
 </main>
 
 {#snippet iconButtons(props: ComponentProps<typeof Button>)}
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col items-start gap-2">
     <Button {...props} explanation="some info" icon="info" size="lg" />
     <Button {...props} explanation="some info" icon="info" />
     <Button {...props} explanation="some info" icon="info" size="sm" />

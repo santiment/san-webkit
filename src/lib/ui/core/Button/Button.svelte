@@ -147,8 +147,7 @@
         children: false,
         icon: true,
         rounded: true,
-        size: ['md'],
-        class: 'justify-center',
+        class: 'justify-center h-8 w-auto px-[9px]',
       },
       {
         children: false,
