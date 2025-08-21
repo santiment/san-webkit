@@ -7,10 +7,10 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
+  import Dropdown from '$ui/core/Dropdown/index.js'
 
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
-  import Dropdown from './Dropdown.svelte'
 
   type TProps = {
     conditions: TConditionsState
@@ -41,10 +41,11 @@
         <section class="grid grid-cols-2 gap-x-2 gap-y-3">
           <Dropdown
             items={exactObjectKeys(Operations)}
-            class={cn(isDuplex && 'col-span-full grid')}
             selected={operation.type}
             onSelect={(selected) =>
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
+            triggerClass={cn(isDuplex && 'col-span-full')}
+            matchTriggerWidth
           >
             {#snippet label(operation)}
               {Operations[operation].label}
@@ -91,6 +92,7 @@
                   time: `${timeAmount}${modifier}`,
                   operation,
                 })}
+              matchTriggerWidth
             >
               {#snippet label(modifier)}
                 {TimeModifiers[modifier].label}
