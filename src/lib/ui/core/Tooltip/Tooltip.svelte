@@ -6,6 +6,8 @@
   import { cn, flyAndScale } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
 
+  type FloatingConfig = NonNullable<CreateTooltipProps['positioning']>
+
   type TooltipType = 'plain' | 'arrow'
   type Props = {
     class?: string
@@ -14,7 +16,9 @@
     type?: TooltipType
     children: Snippet<[{ ref: typeof triggerRef }]>
     content: Snippet<[{ close: () => void }]>
-    position?: NonNullable<CreateTooltipProps['positioning']>['placement']
+    position?: FloatingConfig['placement']
+    offset?: number
+    positionConfig?: FloatingConfig
   } & Omit<CreateTooltipProps, 'positioning'>
 
   let {
@@ -25,6 +29,8 @@
     type = 'plain',
     isOpened = false,
     position = 'bottom-end',
+    positionConfig,
+    offset,
     ...options
   }: Props = $props()
 
@@ -41,6 +47,11 @@
     positioning: {
       placement: position,
       fitViewport: true,
+      // NOTE: [gutter] must be set to 0 in order to offset to work
+      gutter: offset ? 0 : 5,
+      // NOTE: [mainAxis] is here to compensate zero gutter. 5 is the default [gutter] value
+      offset: offset ? { mainAxis: 5, crossAxis: offset } : undefined,
+      ...positionConfig,
     },
   })
 
