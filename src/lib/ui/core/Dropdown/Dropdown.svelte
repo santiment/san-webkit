@@ -1,5 +1,5 @@
 <script lang="ts" generics="T extends {icon?: string} | string">
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import Popover from '$ui/core/Popover/Popover.svelte'
@@ -14,9 +14,10 @@
     selected?: T
     label?: Snippet<[T]>
     trigger?: Snippet
+    triggerClass?: string
     onSelect: (item: T) => void
     closeDelay?: number
-  }
+  } & Omit<ComponentProps<typeof Popover>, 'content' | 'children'>
 
   const {
     class: className,
@@ -24,9 +25,11 @@
     valueKey,
     selected: propSelected,
     trigger,
+    triggerClass,
     label = defaultLabel,
     onSelect,
     closeDelay = 0,
+    ...rest
   }: TProps = $props()
 
   let isOpened = $state(false)
@@ -54,14 +57,9 @@
   }
 </script>
 
-<Popover
-  bind:isOpened
-  align="start"
-  class={cn('min-w-40', className)}
-  contentProps={{ strategy: 'absolute' }}
->
+<Popover bind:isOpened align="start" class={cn('min-w-40', className)} {...rest}>
   {#snippet children({ props })}
-    <Button {...props} active={isOpened} variant="border" dropdown>
+    <Button {...props} class={triggerClass} active={isOpened} variant="border" dropdown>
       {#if selected}
         {@const icon = getItemIcon(selected)}
         {#if icon}
