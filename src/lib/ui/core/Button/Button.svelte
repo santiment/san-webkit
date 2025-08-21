@@ -206,13 +206,15 @@
   {/if}
 
   {#if dropdown}
-    <div
-      class={cn(
-        'ml-0.5 flex size-4 items-center justify-center rounded transition-colors',
-        active && !loading && 'bg-athens',
-      )}
-    >
-      <Svg id="arrow-down" w="8" class={cn('transition-transform', active && 'rotate-180')} />
+    <div class="ml-auto pl-0.5">
+      <div
+        class={cn(
+          'flex size-4 items-center justify-center rounded transition-colors',
+          active && !loading && 'bg-athens',
+        )}
+      >
+        <Svg id="arrow-down" w="8" class={cn('transition-transform', active && 'rotate-180')} />
+      </div>
     </div>
   {/if}
 </svelte:element>
