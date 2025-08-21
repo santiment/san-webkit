@@ -1,12 +1,12 @@
 import type { TApiChannel } from './channels.js'
-import type { TAPITimeWindow } from './time.js'
+import type { TApiTimeWindow } from './time.js'
 
 export type TGenericSettings = {
   type: string
   target: unknown
   operation?: unknown
   selector?: object
-  time_window?: TAPITimeWindow
+  time_window?: TApiTimeWindow
   metric?: string
 }
 
@@ -16,7 +16,7 @@ export type TApiAlert<GSettings extends Partial<TGenericSettings> = any> = {
   title: string
   description: null | string
 
-  cooldown: TAPITimeWindow
+  cooldown: TApiTimeWindow
 
   isActive: boolean
   isFrozen: boolean

@@ -1,4 +1,3 @@
-import type { TApiAlert } from '../../types.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { STEP_METRIC_CONDITIONS_SCHEMA } from '../../form-steps/metric-conditions/schema.js'
@@ -10,10 +9,12 @@ import {
 } from '../../form-steps/name-description/utils.js'
 import { getAssetTargetTitle } from './utils.js'
 
-export type TAssetApiAlert = TApiAlert<{
-  type: 'metric_signal'
-  target: { slug: TAssetSlug[] }
-}>
+export type TAssetApiAlert = {
+  settings: {
+    type: 'metric_signal'
+    target: { slug: TAssetSlug[] }
+  }
+}
 
 export type TBaseSchema = TAlertBaseSchema<
   'asset',

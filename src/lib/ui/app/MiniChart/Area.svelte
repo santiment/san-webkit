@@ -29,7 +29,7 @@
     style,
     onmousemove,
     onmouseleave,
-    children,
+    children: areaChildren,
   }: TProps = $props()
 
   function getAreaPoints(points: TMiniChartProps['points'], linePoints: string) {
@@ -50,7 +50,7 @@
   {onmouseleave}
   class={cn('relative', className)}
 >
-  {#snippet areaFill({ points, linePoints })}
+  {#snippet children({ points, linePoints })}
     <polyline points={getAreaPoints(points, linePoints)} fill="url(#{id}-area)" />
 
     <defs>
@@ -59,7 +59,7 @@
         <stop offset="60%" stop-color="var(--white)" stop-opacity="0" />
       </linearGradient>
     </defs>
-  {/snippet}
 
-  {@render children?.()}
+    {@render areaChildren?.()}
+  {/snippet}
 </Chart>
