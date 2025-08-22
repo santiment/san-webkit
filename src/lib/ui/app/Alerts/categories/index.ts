@@ -1,4 +1,5 @@
-import type { TApiAlert } from '../types.js'
+import type { TApiAlert, TApiAlertFromSchema } from '../types.js'
+import type { TAlertBaseSchema } from './types.js'
 
 import { ALERT_ASSET_SCHEMA } from './asset/schema.js'
 import { ALERT_SCREENER_SCHEMA } from './screener/schema.js'
@@ -27,6 +28,12 @@ export const SchemaByType = SCHEMAS.reduce(
 )
 
 export type TAlertSchemaUnion = (typeof SCHEMAS)[number]
+
+type TSchemasAlerts<T extends readonly TAlertBaseSchema<string, any>[]> = {
+  [K in keyof T]: TApiAlertFromSchema<T[K]>
+}
+
+export type TApiAlert1 = TSchemasAlerts<typeof SCHEMAS>[number]
 
 export function deduceApiAlertSchema(
   apiAlert?: null | Partial<TApiAlert>,
