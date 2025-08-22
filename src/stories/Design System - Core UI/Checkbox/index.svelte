@@ -25,7 +25,7 @@
     </label>
 
     <label class="flex items-center gap-2">
-      <Checkbox error></Checkbox>
+      <Checkbox error="Some validation error"></Checkbox>
       Error
     </label>
 
