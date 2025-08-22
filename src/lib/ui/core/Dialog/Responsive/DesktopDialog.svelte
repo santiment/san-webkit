@@ -32,7 +32,11 @@
       use:overlay
       class="fixed inset-0 z-10 bg-[#000000cf]"
       transition:fade={{ duration: TRANSITION_MS }}
-      onclick={() => close()}
+      onclick={(e) => {
+        const dialogElement = e.currentTarget.nextElementSibling as null | HTMLElement
+        dialogElement?.focus()
+        close()
+      }}
     ></div>
     <div
       class={cn(

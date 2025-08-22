@@ -44,26 +44,26 @@
       ? defaultMetrics.map((item) => ({ ...item, selector, color: colorGenerator.new() }))
       : [
           {
-            name: 'price_usd',
+            apiMetricName: 'price_usd',
             label: 'Price USD',
             style: 'line',
             color: colorGenerator.new(),
             scaleId: 'right-price_usd',
           },
           {
-            name: 'social_dominance_total',
+            apiMetricName: 'social_dominance_total',
             style: 'line',
             color: colorGenerator.new(),
             scaleId: 'right-social_dominance_total',
           },
           {
-            name: 'social_volume_total',
+            apiMetricName: 'social_volume_total',
             style: 'histogram',
             color: colorGenerator.new(),
             scaleId: 'right-social_volume_total',
           },
           {
-            name: 'sentiment_positive_total',
+            apiMetricName: 'sentiment_positive_total',
             color: 'green',
             style: 'histogram',
 
@@ -73,7 +73,7 @@
             scaleFormatter: (value) => Math.abs(value).toFixed(2),
           },
           {
-            name: 'sentiment_negative_total',
+            apiMetricName: 'sentiment_negative_total',
             style: 'histogram',
             color: 'red',
 

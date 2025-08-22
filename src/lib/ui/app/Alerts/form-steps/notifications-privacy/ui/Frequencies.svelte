@@ -69,6 +69,7 @@
     </Popover>
 
     <Input
+      class="transition-colors focus-within:border-porcelain hover:border-porcelain hover:bg-athens"
       value={cooldownValue}
       type="number"
       min="0"

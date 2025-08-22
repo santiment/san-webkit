@@ -55,7 +55,7 @@ export type TAlertStep<
   GStepSchema extends TStepBaseSchema<string, any, any> = TStepBaseSchema<string, any, any>,
 > = {
   name: GStepSchema['name']
-  ui: TStepUI<{ state: TBaseState<GStepSchema> }>['ui']
+  ui: TStepUI['ui']
 
   reduceToApi: GStepSchema['reduceToApi']
 

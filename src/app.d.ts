@@ -41,6 +41,8 @@ declare global {
 
     __updateLegacyStoresOnPlanChange?: any
 
+    __trackLegacyWebkitEvent?: (eventName: string, data: any) => void
+
     onGdprAccept?: () => void
 
     __SESSION__?: object

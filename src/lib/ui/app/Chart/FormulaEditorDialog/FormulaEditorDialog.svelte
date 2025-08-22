@@ -8,6 +8,8 @@
 </script>
 
 <script lang="ts">
+  import type { TMetricFormula } from '$lib/ctx/metrics-registry/types/index.js'
+
   import { tick } from 'svelte'
 
   import Input from '$ui/core/Input/Input.svelte'
@@ -18,7 +20,7 @@
     DEFINITIONS,
   } from '$ui/app/san-formulas/language/definitions.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
-  import { uuidv4, type TUUIDv4 } from '$lib/utils/uuid/index.js'
+  import { uuidv4 } from '$lib/utils/uuid/index.js'
 
   import TextEditor from './TextEditor.svelte'
   import Validity from './Validity.svelte'
@@ -27,11 +29,11 @@
   import { useFormulaEditorCtx } from './ctx.svelte.js'
   import { useMetricSeriesCtx, type TSeries } from '../ctx/series.svelte.js'
 
-  type TResult = { formula: { id: TUUIDv4; name: string; expr: string } }
+  type TResult = { formula: TMetricFormula }
 
   type TProps = TDialogProps<TResult> & {
     index: number
-    formula: null | { id: TUUIDv4; expr: string; name: string }
+    formula: null | TMetricFormula
   }
 
   const { Controller, index, formula }: TProps = $props()
@@ -58,7 +60,7 @@
 
     return createVariableDefinition(name, {
       detail: 'Chart metric',
-      documentation: createChartVariableDocumentation(metric, name, item.formula.$),
+      documentation: createChartVariableDocumentation(metric, name, item.formula?.$),
       metric,
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]

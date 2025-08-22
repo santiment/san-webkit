@@ -30,3 +30,13 @@ export const EligibleForSanbaseTrial: Story = {
     }),
   },
 }
+
+export const SanBalanceDiscount: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        sanBalance: 1001,
+      },
+    }),
+  },
+}

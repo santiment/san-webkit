@@ -12,7 +12,7 @@
 
   const { hoverPoint } = usePanesTooltip.get()
 
-  const formatter = metric.tooltipFormatter
+  const formatter = metric.ui.$$.tooltipFormatter
 
   const seriesPoint = $derived(hoverPoint.$?.seriesData.get(metric.chartSeriesApi!))
   const hoverValue = $derived(seriesPoint && 'value' in seriesPoint ? seriesPoint.value : undefined)
@@ -25,7 +25,7 @@
 {#if lastData || hoverValue}
   {@const value = hoverValue || lastData.value}
 
-  <span style:color={metric.color.$} class="pr-1.5">
+  <span style:color={metric.ui.$$.color} class="pr-1.5">
     {formatter(value)}
 
     {#if firstData}
