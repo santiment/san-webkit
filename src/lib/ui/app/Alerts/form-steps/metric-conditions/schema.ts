@@ -1,9 +1,8 @@
-import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
 
 import assert from 'assert'
 
-import { getTimeFromApi, type TAPITimeWindow, type TTimeWindow } from '../../time.js'
+import { getTimeFromApi, type TApiTimeWindow, type TTimeWindow } from '../../time.js'
 import {
   getOperationFromApi,
   isComparisonOperation,
@@ -14,10 +13,12 @@ import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-type TAlertSettings = {
-  metric: string
-  time_window: TAPITimeWindow
-  operation: TApiOperation
+export type TMetricConditionsApiAlert = {
+  settings: {
+    metric: string
+    time_window?: TApiTimeWindow
+    operation: TApiOperation
+  }
 }
 
 export type TConditionsState = {
@@ -33,7 +34,7 @@ export type TMetricConditionsState = {
 
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
-  TApiAlert<TAlertSettings>,
+  TMetricConditionsApiAlert,
   TMetricConditionsState
 >
 

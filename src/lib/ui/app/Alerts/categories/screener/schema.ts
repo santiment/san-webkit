@@ -1,15 +1,15 @@
-import type { TApiAlert } from '../../types.js'
-
 import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { describeNotifications } from '../../form-steps/notifications-privacy/utils.js'
 
-export type TScreenerApiAlert = TApiAlert<{
-  type: 'screener_signal'
-  metric: 'social_volume_total'
-  target: { watchlist_id: string | number | null } | 'default'
-  operation: { selector: { watchlist_id: string | number } }
-}>
+export type TScreenerApiAlert = {
+  settings: {
+    type: 'screener_signal'
+    metric: 'social_volume_total'
+    target: { watchlist_id: string | number | null } | 'default'
+    operation: { selector: { watchlist_id: string | number } }
+  }
+}
 
 export type TBaseSchema = TAlertBaseSchema<
   'screener',

@@ -8,9 +8,11 @@
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
   import Dropdown from '$ui/core/Dropdown/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
 
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
+  import AlertPreview from './AlertPreview/index.js'
 
   type TProps = {
     conditions: TConditionsState
@@ -38,17 +40,23 @@
       {@render info?.()}
 
       <section class="mb-4">
-        <section class="grid grid-cols-2 gap-x-2 gap-y-3">
+        <section class={cn('grid grid-cols-2 gap-x-2 gap-y-3', isDuplex && 'grid-cols-4')}>
           <Dropdown
             items={exactObjectKeys(Operations)}
+            class={cn(isDuplex && 'col-span-2  grid')}
             selected={operation.type}
             onSelect={(selected) =>
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
-            triggerClass={cn(isDuplex && 'col-span-full')}
+            triggerClass={cn(isDuplex && 'col-span-2')}
             matchTriggerWidth
           >
             {#snippet label(operation)}
-              {Operations[operation].label}
+              {@const { label, icon } = Operations[operation]}
+
+              <section class="flex items-center gap-2">
+                <Svg id={icon} illus />
+                {label}
+              </section>
             {/snippet}
           </Dropdown>
 
@@ -103,11 +111,7 @@
       </section>
     </section>
 
-    <section class="flex flex-col">
-      <div class="font-medium text-fiord">
-        {describeConditions(metric, conditions)}
-      </div>
-    </section>
+    <AlertPreview description={describeConditions(metric, conditions)} />
   </section>
 </section>
 
@@ -120,7 +124,13 @@
   defaultValue: number
   oninput: (value: number) => void
 })}
-  <Input type="number" min="0" {defaultValue} oninput={(e) => oninput(+e.currentTarget.value)}>
+  <Input
+    class="transition-colors focus-within:border-porcelain hover:border-porcelain hover:bg-athens"
+    type="number"
+    min="0"
+    {defaultValue}
+    oninput={(e) => oninput(+e.currentTarget.value)}
+  >
     {#snippet left()}
       {#if sign}
         <!-- FIXME: [input-left-fix] Update after Input structure with [left] is fixed -->
