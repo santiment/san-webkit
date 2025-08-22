@@ -59,6 +59,22 @@
 
         <StatesGroup title="Plain Icon (No styles)" variant="plain" buttons={iconButtons} />
       </div>
+
+      <div class="flex flex-col gap-6">
+        <div>
+          <h2 class="text-lg-2 font-semibold">Dropdown / DD Button / Sec Icon + Arrow</h2>
+          <p class="text-waterloo">It's border button with dropdown icon</p>
+        </div>
+
+        <StatesGroup
+          title="Dropdown"
+          variant="border"
+          buttons={justButton}
+          icon="info"
+          withIcons
+          dropdown
+        />
+      </div>
     </section>
   </section>
 
@@ -106,6 +122,10 @@
     </section>
   </section>
 </main>
+
+{#snippet justButton(props: ComponentProps<typeof Button>)}
+  <Button {...props}>Button</Button>
+{/snippet}
 
 {#snippet iconButtons(props: ComponentProps<typeof Button>)}
   <div class="flex flex-col gap-2">

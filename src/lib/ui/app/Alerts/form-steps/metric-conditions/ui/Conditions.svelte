@@ -7,11 +7,11 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
+  import Dropdown from '$ui/core/Dropdown/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
 
   import { describeConditions, getOperationSign } from '../utils.js'
   import { isComparisonOperation, isDuplexOperation, Operations } from '../operations.js'
-  import Dropdown from './Dropdown.svelte'
   import AlertPreview from './AlertPreview/index.js'
 
   type TProps = {
@@ -47,6 +47,8 @@
             selected={operation.type}
             onSelect={(selected) =>
               updateConditions({ time, operation: { type: selected, values: operation.values } })}
+            triggerClass={cn(isDuplex && 'col-span-2')}
+            matchTriggerWidth
           >
             {#snippet label(operation)}
               {@const { label, icon } = Operations[operation]}
@@ -98,6 +100,7 @@
                   time: `${timeAmount}${modifier}`,
                   operation,
                 })}
+              matchTriggerWidth
             >
               {#snippet label(modifier)}
                 {TimeModifiers[modifier].label}
