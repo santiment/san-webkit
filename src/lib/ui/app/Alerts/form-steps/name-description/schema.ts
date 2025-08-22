@@ -7,7 +7,7 @@ export type TNameDescriptionState = {
   description: string
 }
 
-export type TNameDescriptionApiAlert = {
+export type TNameDescriptionApiAlertPart = {
   title: string
   description: null | string
 }
@@ -15,7 +15,7 @@ export type TNameDescriptionApiAlert = {
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'name-description',
-  TNameDescriptionApiAlert,
+  TNameDescriptionApiAlertPart,
   TNameDescriptionState
 >
 

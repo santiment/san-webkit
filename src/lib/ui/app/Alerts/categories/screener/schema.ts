@@ -1,8 +1,10 @@
+import type { TApiAlertFromSchema } from '../../types.js'
+
 import { STEP_SELECT_SCREENER_SCHEMA } from './screener-form-step/schema.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { describeNotifications } from '../../form-steps/notifications-privacy/utils.js'
 
-export type TScreenerApiAlert = {
+export type TScreenerApiAlertPart = {
   settings: {
     type: 'screener_signal'
     metric: 'social_volume_total'
@@ -16,9 +18,11 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_SCREENER_SCHEMA]
 
-    deduceApiAlert: (apiAlert: Partial<TScreenerApiAlert>) => boolean
+    deduceApiAlert: (apiAlert: Partial<TScreenerApiAlertPart>) => boolean
   }
 >
+
+export type TScreenerApiAlert = TApiAlertFromSchema<typeof ALERT_SCREENER_SCHEMA>
 
 export const ALERT_SCREENER_SCHEMA = createAlertSchema<TBaseSchema>({
   name: 'screener',
