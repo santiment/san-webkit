@@ -88,7 +88,7 @@
 
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
     <div class="mb-4 flex justify-between">
-      <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
+      <h3 class="h-8 text-lg font-medium">{selectedStep.$.ui.label}</h3>
 
       {#if selectedStep.$.isValid.$ && nextStep.$}
         <Button

@@ -1,5 +1,4 @@
 import type { TWatchlistApiAlert } from '../schema.js'
-import type { TWatchlistState } from './state.js'
 
 import assert from 'assert'
 
@@ -7,6 +6,13 @@ import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-step
 
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
+
+type TWatchlistState = {
+  watchlist: {
+    id: string | null
+    title: string
+  }
+}
 
 export type TBaseSchema = TStepBaseSchema<'watchlist', TWatchlistApiAlert, TWatchlistState>
 

@@ -117,6 +117,11 @@
     chart.$.applyOptions(options)
   })
 
+  onMount(() => {
+    window.addEventListener('blur', resetChartInteractionMode)
+    return () => window.removeEventListener('blur', resetChartInteractionMode)
+  })
+
   function _onRangeSelectEnd(
     left: Parameters<TRangeSelectHandler>[0],
     right: Parameters<TRangeSelectHandler>[1],

@@ -9,6 +9,7 @@
   import Tooltip from '$ui/core/Tooltip/index.js'
   import { useLogoutFlow } from '$lib/flow/logout/index.js'
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
+  import { cn } from '$ui/utils/index.js'
 
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
@@ -32,7 +33,7 @@
   }
 </script>
 
-<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 column">
+<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column">
   {#snippet children({ ref })}
     <ProfilePicture class={className} {ref}></ProfilePicture>
   {/snippet}
@@ -41,19 +42,17 @@
     {#if currentUser.$$}
       <AccountInfo></AccountInfo>
 
-      <section>
-        <div class="px-2.5">
-          Version: <span class="text-waterloo">{version}</span>
-        </div>
+      <section class="px-5 py-2.5">
+        Version: <span class="text-waterloo">{version}</span>
       </section>
 
-      <section>
+      <section class="flex flex-col gap-1 px-3 py-1">
         {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
 
         {@render sanbaseLink('Account settings', '/account')}
       </section>
 
-      <section>
+      <section class="flex flex-col gap-1 px-3 pb-2.5 pt-2">
         {@render sanbaseLink('My alerts', '/alerts')}
 
         {@render sanbaseLink('My watchlists', '/watchlists')}
@@ -62,11 +61,11 @@
 
         {@render sanbaseLink('Write insight', '/insights/new', {
           variant: 'fill',
-          class: 'ml-2.5 w-max',
+          class: 'ml-2.5 w-max px-5',
         })}
       </section>
     {:else}
-      <section>
+      <section class="flex flex-col px-3 py-2.5">
         {@render sanbaseLink('Sign up', '/sign-up', {
           icon: 'user',
           class: 'fill-green text-green',
@@ -74,7 +73,7 @@
       </section>
     {/if}
 
-    <section>
+    <section class="flex flex-col gap-1 px-3 py-2.5">
       <Button as="label" variant="ghost" class="justify-between">
         Night mode
         <Switch checked={ui.$$.isNightMode} onCheckedChange={ui.toggleNightMode}></Switch>
@@ -98,14 +97,18 @@
   {/snippet}
 </Tooltip>
 
-{#snippet sanbaseLink(text: string, href: string, props: ComponentProps<typeof Button> = {})}
-  <Button variant="ghost" {...props} href={SANBASE_ORIGIN + href} data-source="account_dropdown">
+{#snippet sanbaseLink(
+  text: string,
+  href: string,
+  { class: className, ...props }: ComponentProps<typeof Button> = {},
+)}
+  <Button
+    variant="ghost"
+    class={cn('px-2', className)}
+    {...props}
+    href={SANBASE_ORIGIN + href}
+    data-source="account_dropdown"
+  >
     {text}
   </Button>
 {/snippet}
-
-<style lang="postcss">
-  section {
-    @apply gap-0.5 px-3 py-2.5 column;
-  }
-</style>
