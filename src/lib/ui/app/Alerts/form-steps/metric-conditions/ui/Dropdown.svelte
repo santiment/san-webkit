@@ -1,12 +1,9 @@
-<script lang="ts">
+<script lang="ts" generics="T extends string | number">
   import type { Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import Popover from '$ui/core/Popover/Popover.svelte'
-  import Svg from '$ui/core/Svg/Svg.svelte'
   import { cn } from '$ui/utils/index.js'
-
-  type T = $$Generic
 
   type TProps = {
     class?: string
@@ -22,22 +19,33 @@
 </script>
 
 <article class={cn('relative flex', className)}>
-  <Popover bind:isOpened align="start" contentProps={{ strategy: 'absolute' }} matchTriggerWidth>
+  <Popover
+    bind:isOpened
+    align="start"
+    contentProps={{ strategy: 'absolute', class: 'border' }}
+    matchTriggerWidth
+  >
     {#snippet children({ props })}
       <Button
         {...props}
         variant="border"
-        class="flex-1 justify-between hover:border-green hover:bg-white"
+        class={cn(
+          'flex-1 justify-between px-[11px] [&>svg]:transition-transform',
+          isOpened && '[&>svg]:rotate-180',
+        )}
+        icon="arrow-down"
+        iconSize="8"
+        iconOnRight
       >
         {@render label(selected)}
-        <Svg id="arrow-down" w="8" class={cn(isOpened && 'rotate-180')} />
       </Button>
     {/snippet}
 
     {#snippet content({ close })}
-      <section class="flex flex-col">
+      <section class="flex w-full flex-col gap-0.5">
         {#each items as item}
           <Button
+            class={cn('px-2', selected === item && 'bg-porcelain hover:bg-porcelain')}
             onclick={() => {
               onSelect(item)
               close()

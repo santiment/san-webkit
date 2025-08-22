@@ -11,15 +11,16 @@
   type TProps = {
     metric: TSeries
     label?: Snippet<[TSeries]>
+    paneControls?: boolean
   }
-  let { metric, label }: TProps = $props()
+  let { metric, label, paneControls }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
 </script>
 
 <div class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
   <div
-    style:---metric-color={metric.color.$}
+    style:---metric-color={metric.ui.$$.color}
     class={cn(
       'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-[var(---metric-color)] hover:bg-white hover:shadow [&+span]:hover:hidden',
       openedMetric.$ === metric &&
@@ -33,7 +34,7 @@
       {metric.label}
     {/if}
 
-    <Controls {metric}></Controls>
+    <Controls {metric} {paneControls}></Controls>
   </div>
 
   {#if metric.visible.$}

@@ -9,11 +9,15 @@ import fg from 'fast-glob'
 const SERVER_MANIFEST = path.resolve('.', 'build/server/manifest.js')
 const SERVER_CHUNKS_PATH = 'build/server/chunks'
 
-export function BulletshellPlugin(): Plugin {
+export function BulletshellPlugin({ enabled = false }): Plugin {
   const virtualModuleId = 'virtual:bulletshell'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
 
   const detectedBulletshellRoutes = new Set<string>()
+
+  if (enabled) {
+    console.log({ SERVER_MANIFEST })
+  }
 
   return {
     name: 'bulletshell-plugin', // required, will show up in warnings and errors
@@ -51,6 +55,11 @@ export function BulletshellPlugin(): Plugin {
     },
 
     closeBundle() {
+      if (!enabled) return
+
+      console.log({ SERVER_MANIFEST })
+      fg(['build/server/']).then(console.log)
+
       if (this.environment.name !== 'ssr') return
 
       return import(SERVER_MANIFEST).then(async ({ manifest }: { manifest: TServerManifest }) => {

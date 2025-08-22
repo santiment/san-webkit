@@ -1,16 +1,28 @@
 <script lang="ts">
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
   import type { TBaseSchema } from '../schema.js'
 
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  import { useUserWatchlistsCtx } from '../../../watchlist/data.svelte.js'
 
-  let { step }: TProps = $props()
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  const { title } = $derived(step.state.$$.screener)
+  const { state }: TProps = $props()
+
+  const { getWatchlistById } = useUserWatchlistsCtx({ loadScreeners: true })
+
+  const { id, title } = $derived(state.$$.screener)
+
+  $effect(() => {
+    if (id && !title) {
+      state.$$.screener.title = getWatchlistById(id.toString())?.title ?? ''
+    }
+  })
 </script>
 
-<StepValue>
-  {title}
-</StepValue>
+{#if title}
+  <StepValue>
+    {title}
+  </StepValue>
+{/if}

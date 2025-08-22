@@ -167,7 +167,7 @@ type TFormattedTime = {
   m: number
   mm: number | string
   s: number
-  ss: string | number
+  ss: number | string
 }
 export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime {
   const UTC = utc ? 'UTC' : ''

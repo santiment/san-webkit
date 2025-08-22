@@ -19,3 +19,7 @@ export { useApiMetricDataFlow, useApiMetricFetchSettingsCtx } from './metric-dat
 export { useMetricSeriesCtx, createSeries, type TSeries } from './series.svelte.js'
 
 export { useColorGenerator } from './colors.js'
+
+export { useChartPanesCtx } from './panes.svelte.js'
+
+export { useHighlightedMetricCtx } from './highlighted-metric.svelte.js'

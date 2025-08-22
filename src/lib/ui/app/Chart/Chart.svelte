@@ -14,6 +14,7 @@
   import { getTheme } from './theme.js'
   import { useChartCtx, useChartGlobalParametersCtx } from './ctx/index.js'
   import { Mode, ModeOptions, type TMode } from './types.js'
+  import { useChartPanesCtx } from './ctx/panes.svelte.js'
 
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
@@ -46,6 +47,7 @@
 
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
+  const { onPaneWidgetMount } = useChartPanesCtx()
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
@@ -58,6 +60,7 @@
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
       overlayPriceScales: { autoScale: false },
+      onPaneWidgetMount,
       ...options,
     })
     const firstPane = chart.$.panes()[0]
@@ -85,6 +88,12 @@
   })
 
   $effect(() => {
+    if (mode === Mode.DRAG) {
+      isScrollEnabled = false
+    }
+  })
+
+  $effect(() => {
     if (!chart.$) return
 
     chart.$.applyOptions(theme)
@@ -106,6 +115,11 @@
     }
 
     chart.$.applyOptions(options)
+  })
+
+  onMount(() => {
+    window.addEventListener('blur', resetChartInteractionMode)
+    return () => window.removeEventListener('blur', resetChartInteractionMode)
   })
 
   function _onRangeSelectEnd(

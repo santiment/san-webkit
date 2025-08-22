@@ -1,5 +1,5 @@
 import type { TAsset, TAssetSlug } from '$lib/ctx/assets/api.js'
-import type { TAssetState } from './asset-form-step/state.js'
+import type { TAssetState } from './asset-form-step/schema.js'
 
 export const getAssetTargetTitle = ({ slugs, namesMap }: TAssetState['target']) =>
   slugs.map((slug) => namesMap.get(slug) ?? '').join(', ')

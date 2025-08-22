@@ -11,8 +11,9 @@ import {
   type TMessages,
   type TRequestHandler,
   type TRespondFn,
+  type TValidateFormulaMessage,
 } from '../types.js'
-import { fetchFormulaMetric } from './formula-metrics.js'
+import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
@@ -33,6 +34,9 @@ onconnect = function (event: MessageEvent<unknown>) {
 
       case MESSAGE_TYPE.FetchFormulaMetric:
         return WORK_CANCEL_MAP.set(msg.id, handleFetchFormulaMetric(respond, msg))
+
+      case MESSAGE_TYPE.ValidateFormula:
+        return WORK_CANCEL_MAP.set(msg.id, handleValidateFormula(respond, msg))
 
       case MESSAGE_TYPE.CancelRequest:
         return handleCancelRequest(respond, msg)
@@ -117,6 +121,7 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
       })
     })
     .catch((error) => {
+      console.warn(error)
       if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
@@ -131,5 +136,39 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
     ctx.isCancelled = true
 
     cancelJobs()
+  }
+}
+
+const handleValidateFormula: TRequestHandler<TValidateFormulaMessage> = (respond, msg) => {
+  let isCancelled = false
+
+  const job = jobScheduler.schedule(formulaValidationJob, undefined, {
+    priority: 10000,
+    minimalDelay: 5000,
+  })
+
+  function formulaValidationJob() {
+    const { formula, index, metrics } = msg.payload
+    return Promise.resolve()
+      .then(() => validateFormula(formula, index, metrics))
+      .then(() => {
+        if (isCancelled) return
+
+        respond(MESSAGE_TYPE.ValidateFormula, { payload: { errors: [] } })
+      })
+      .catch((err) => {
+        if (isCancelled) return
+
+        respond(MESSAGE_TYPE.ValidateFormula, { payload: { errors: [err] } })
+      })
+      .finally(() => {
+        WORK_CANCEL_MAP.delete(msg.id)
+      })
+  }
+
+  return () => {
+    isCancelled = true
+
+    if (job) jobScheduler.cancelJob(job)
   }
 }

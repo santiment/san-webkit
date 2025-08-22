@@ -5,4 +5,6 @@ export const workerFetchMetric = createWorkerRequester(MESSAGE_TYPE.FetchMetric)
 
 export const workerFetchFormulaMetric = createWorkerRequester(MESSAGE_TYPE.FetchFormulaMetric)
 
+export const workerValidateFormula = createWorkerRequester(MESSAGE_TYPE.ValidateFormula)
+
 export { workerCancelRequest } from './host.js'

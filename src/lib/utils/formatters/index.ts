@@ -1,9 +1,16 @@
+import { millify } from './millify.js'
+
+export { millify } from './millify.js'
+
 export function DEFAULT_FORMATTER(value: number) {
   if (value === undefined || value === null) {
     return 'Invalid data'
   }
 
   const absValue = Math.abs(value)
+  if (absValue > 99999) {
+    return millify(value, 3)
+  }
 
   if (absValue < 0.000001) {
     return +value.toFixed(10)
@@ -64,4 +71,16 @@ export function percentFormatter(value: number) {
   }
 
   return +value.toFixed(2) + '%'
+}
+
+export function calculatePercentageChange(firstValue: number, lastValue: number) {
+  const percent = ((lastValue - firstValue) / firstValue) * 100
+
+  if (!Number.isFinite(percent)) {
+    return ''
+  }
+
+  const sign = percent >= 0 ? '+' : ''
+
+  return sign + percent.toFixed(2) + '%'
 }

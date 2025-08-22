@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TBaseSchema, TTrendState } from '../schema.js'
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
   import type { Component } from 'svelte'
 
   import Button from '$ui/core/Button/index.js'
@@ -26,17 +26,16 @@
   const TABS = exactObjectKeys(TAB_MAP)
   type TabKey = TTrendState['target']['type']
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
-  const { target } = $derived(step.state.$$)
-
+  const { target } = $derived(state.$$)
   const selectedTab = $derived(target.type)
   const TabComponent = $derived(TAB_MAP[selectedTab].Component)
 
   function selectTab(tab: TabKey) {
-    step.state.$$.target = getInitTrendTarget(tab)
+    state.$$.target = getInitTrendTarget(tab)
   }
 </script>
 
@@ -49,7 +48,7 @@
         variant="plain"
         size="auto"
         class={cn(
-          '-m-px flex-1 justify-center rounded-md border border-transparent px-3 py-1.5 hover:text-green',
+          '-m-px flex-1 justify-center rounded-md border border-transparent bg-transparent px-3 py-1.5 hover:text-green',
           isActive && ' border-green bg-green-light-1 text-green',
         )}
         onclick={() => {
@@ -64,6 +63,6 @@
   </nav>
 
   {#if TabComponent}
-    <TabComponent stepState={step.state} />
+    <TabComponent stepState={state} />
   {/if}
 </section>

@@ -1,43 +1,32 @@
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { map, pipe, switchMap, tap } from 'rxjs'
 
-  import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
   import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
   import Input from '$ui/core/Input/Input.svelte'
 
-  import { queryUserWatchlists, type Watchlist } from '../../api.js'
+  import { type Watchlist } from '../../api.js'
+  import { useUserWatchlistsCtx } from '../../data.svelte.js'
 
   type TProps = {
-    selectedId: Watchlist['id'] | null
+    selectedId: string | null
     onSelect: (watchlist: Watchlist | null) => void
     loadScreeners?: boolean
   }
 
   const { selectedId, onSelect, loadScreeners = false }: TProps = $props()
 
+  const { watchlists } = useUserWatchlistsCtx({ loadScreeners })
+
   const { filter, clear, onInput, onKeyUp } = useSearchCtx<Watchlist>({
     getCompareValues: ({ title, description }) => [title, description ?? ''],
   })
 
-  let watchlists = $state<Watchlist[]>([])
-
-  const filteredWatchlists = $derived(filter(watchlists))
-
-  const loadWatchlists = useObserveFnCall(() =>
-    pipe(
-      switchMap(() => queryUserWatchlists()()),
-      map((watchlists) => watchlists.filter(({ isScreener }) => loadScreeners === isScreener)),
-      tap((_watchlists) => (watchlists = _watchlists)),
-    ),
-  )
+  const filteredWatchlists = $derived(filter(watchlists.$))
 
   onMount(() => {
-    loadWatchlists()
-
     return () => clear()
   })
 </script>
