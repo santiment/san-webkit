@@ -3,6 +3,8 @@ import { languages } from 'monaco-editor/esm/vs/editor/editor.api.js'
 import { LANGUAGE_ID } from './language.js'
 import { DEFINITIONS } from './definitions.js'
 
+//FIXME: @vanguard Maybe remove useless escape characters here? (remove eslint no-useless-escape disabling)
+
 // NOTE: https://microsoft.github.io/monaco-editor/monarch.html
 languages.setMonarchTokensProvider(LANGUAGE_ID, {
   //defaultToken: '',
@@ -12,6 +14,7 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
   operators: ['+', '-', '*', '/', '=', ','],
 
   // we include these common regular expressions
+  // eslint-disable-next-line no-useless-escape
   symbols: /[=><!~?:&|+\-*\/\^%]+/,
 
   // C# style strings
@@ -36,11 +39,13 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
       { include: '@whitespace' },
 
       // delimiters and operators
+      // eslint-disable-next-line no-useless-escape
       [/[{}()\[\]]/, '@brackets'],
       [/[<>](?!@symbols)/, '@brackets'],
       [/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
       // numbers
+      // eslint-disable-next-line no-useless-escape
       [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
       [/\d+/, 'number'],
 
