@@ -4,8 +4,8 @@
 
   import { cn } from '$ui/utils/index.js'
 
-  import { useAIChatbotCtx } from './ctx.svelte.js'
-  import { formatChatTime } from './utils.js'
+  import { useAIChatbotCtx } from '../../ctx.svelte.js'
+  import { formatChatTime } from '../../utils.js'
 
   const { aiChatbot } = useAIChatbotCtx()
 

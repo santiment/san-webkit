@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
 
-  import { useAIChatbotCtx } from './ctx.svelte.js'
+  import { useAIChatbotCtx } from '../../ctx.svelte.js'
 
   type TProps = {
     slug: string

@@ -24,3 +24,5 @@ export type TAiChatbotSession = {
   updatedAt: string
   user: any
 }
+
+export type TAiChatType = 'ACADEMY_QA' | 'DYOR_DASHBOARD'

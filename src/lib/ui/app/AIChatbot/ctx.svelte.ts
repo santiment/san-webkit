@@ -1,4 +1,4 @@
-import type { TAiChatbotContext, TAiChatbotSession } from './types.js'
+import type { TAiChatbotContext, TAiChatbotSession, TAiChatType } from './types.js'
 
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
@@ -6,6 +6,7 @@ import { createCtx } from '$lib/utils/index.js'
 import { mutateSendAiChatbotMessage } from './api.js'
 
 type TAIChatState = {
+  type?: TAiChatType
   message: string
   temporaryMessage: string
   opened: boolean
@@ -13,15 +14,21 @@ type TAIChatState = {
   context: TAiChatbotContext | undefined
 }
 
+type AiChatbotInitialValue = {
+  type: TAiChatType
+  context?: TAiChatbotContext
+}
+
 export const useAIChatbotCtx = createCtx(
   'webkit_useChatAICtx',
-  (initialContext: TAiChatbotContext | undefined = undefined) => {
+  (initialValue: AiChatbotInitialValue | undefined = undefined) => {
     let state = $state<TAIChatState>({
       message: '',
       temporaryMessage: '',
       opened: false,
       session: undefined,
-      context: initialContext,
+      type: initialValue?.type,
+      context: initialValue?.context,
     })
 
     let loading = $state(false)
@@ -52,6 +59,7 @@ export const useAIChatbotCtx = createCtx(
 
           await mutateSendAiChatbotMessage(Query)({
             chatId: state.session?.id,
+            type: state.type,
             content,
             context: state.context,
           })
