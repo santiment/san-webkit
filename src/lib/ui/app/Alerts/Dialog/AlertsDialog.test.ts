@@ -7,6 +7,7 @@ import { noop } from 'rxjs'
 import { CTX as DIALOG_CTX_KEY, type TDialogProps } from '$ui/core/Dialog/dialogs.js'
 
 import AlertsDialog from './AlertsDialog.svelte'
+import { assetAlert } from './testutils/alertMocks.js'
 
 describe('AlertsDialog', async () => {
   test('with no props', async () => {
@@ -17,6 +18,19 @@ describe('AlertsDialog', async () => {
 
     const categoriesHeader = res.getByText('Choose an alert category below:')
     expect(categoriesHeader).toBeInTheDocument()
+  })
+
+  test('prefilled asset alert', async () => {
+    const dialog = renderAlertDialog({ alert: assetAlert })
+
+    const submitBtn = dialog.getByRole('button', { name: 'Create alert' })
+
+    expect(submitBtn).toBeInTheDocument()
+    expect(submitBtn).not.toBeDisabled()
+
+    const selectedHeading = await dialog.findByText('Selected', {}, { timeout: 10_000 })
+
+    expect(selectedHeading).toBeInTheDocument()
   })
 })
 
