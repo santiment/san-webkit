@@ -106,6 +106,8 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   isSelectorLocked?: boolean
   isFilledGradient?: boolean
 
+  candleDownColor?: string
+
   meta?: Record<string, any>
 } & GData
 

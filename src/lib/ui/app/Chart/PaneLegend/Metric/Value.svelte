@@ -15,7 +15,11 @@
   const formatter = metric.ui.$$.tooltipFormatter
 
   const seriesPoint = $derived(hoverPoint.$?.seriesData.get(metric.chartSeriesApi!))
-  const hoverValue = $derived(seriesPoint && 'value' in seriesPoint ? seriesPoint.value : undefined)
+  const hoverValue = $derived.by(() => {
+    if (!seriesPoint) return
+    if ('close' in seriesPoint) return seriesPoint.close
+    if ('value' in seriesPoint) return seriesPoint.value
+  })
 
   const data = $derived(metric.data.$)
   const firstData = $derived(data.find((item) => item.value))

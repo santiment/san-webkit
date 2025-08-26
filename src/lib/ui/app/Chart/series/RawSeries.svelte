@@ -5,6 +5,7 @@
   import { onMount } from 'svelte'
   import {
     AreaSeries,
+    CandlestickSeries,
     HistogramSeries,
     LineSeries,
     type LineWidth,
@@ -67,6 +68,19 @@
         topColor: applyHexColorOpacity(color, opacity),
         bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
       })
+    } else if (style === MetricStyle.CANDLES) {
+      const downColor = applyHexColorOpacity(
+        ui.$$.candleDownColor || options.color,
+        isOtherHighlighted ? '15' : 'ff',
+      )
+
+      Object.assign(options, {
+        downColor,
+        wickDownColor: downColor,
+        upColor: options.color,
+        wickUpColor: options.color,
+        borderVisible: !isOtherHighlighted,
+      })
     }
 
     chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
@@ -103,6 +117,8 @@
         return chart.$!.addSeries(HistogramSeries, options, pane.$)
       case MetricStyle.AREA:
         return chart.$!.addSeries(AreaSeries, options, pane.$)
+      case MetricStyle.CANDLES:
+        return chart.$!.addSeries(CandlestickSeries, options, pane.$)
       default:
         return chart.$!.addSeries(LineSeries, options, pane.$)
     }
