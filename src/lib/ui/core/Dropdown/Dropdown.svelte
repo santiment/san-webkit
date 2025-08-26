@@ -23,7 +23,7 @@
     class: className,
     items,
     valueKey,
-    selected: propSelected,
+    selected,
     trigger,
     triggerClass,
     label = defaultLabel,
@@ -33,10 +33,8 @@
   }: TProps = $props()
 
   let isOpened = $state(false)
-  let selected = $derived(propSelected)
 
   function onclick(item: T, close: () => void) {
-    selected = item
     onSelect(item)
 
     setTimeout(() => {
