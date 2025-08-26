@@ -5,8 +5,6 @@
   import Popover from '$ui/core/Popover/Popover.svelte'
   import { cn } from '$ui/utils/index.js'
 
-  import Svg from '../Svg/Svg.svelte'
-
   type TProps = {
     class?: string
     items: T[]
@@ -59,12 +57,15 @@
 
 <Popover bind:isOpened align="start" class={cn('min-w-40', className)} {...rest}>
   {#snippet children({ props })}
-    <Button {...props} class={triggerClass} active={isOpened} variant="border" dropdown>
+    <Button
+      {...props}
+      class={triggerClass}
+      active={isOpened}
+      variant="border"
+      icon={selected && getItemIcon(selected)}
+      dropdown
+    >
       {#if selected}
-        {@const icon = getItemIcon(selected)}
-        {#if icon}
-          <Svg id={icon} />
-        {/if}
         {@render label(selected)}
       {:else if trigger}
         {@render trigger()}
