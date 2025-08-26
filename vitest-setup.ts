@@ -8,3 +8,13 @@ Element.prototype.animate ??= vi.fn().mockReturnValue({
   startTime: null,
   currentTime: null,
 })
+
+// Mock ResizeObserver used by VirtualList (and maybe somewhere else)
+vi.stubGlobal(
+  'ResizeObserver',
+  vi.fn(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })),
+)
