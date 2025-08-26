@@ -34,7 +34,7 @@
 
   let isOpened = $state(false)
 
-  function onclick(item: T, close: () => void) {
+  function onItemSelect(item: T, close: () => void) {
     onSelect(item)
 
     setTimeout(() => {
@@ -44,7 +44,7 @@
 
   const getItemIcon = (item: T | undefined) => (typeof item === 'string' ? undefined : item?.icon)
 
-  function isItemSelected(item: T) {
+  function checkIsItemSelected(item: T) {
     if (!selected) return false
 
     if (valueKey) {
@@ -75,13 +75,13 @@
   {#snippet content({ close })}
     <section class="flex w-full flex-col gap-0.5">
       {#each items as item}
-        {@const isSelected = isItemSelected(item)}
+        {@const isSelected = checkIsItemSelected(item)}
         {@const icon = getItemIcon(item)}
 
         <Button
           icon={isSelected && icon ? 'checkmark-circle-filled' : icon}
           class={cn(isSelected && 'bg-porcelain hover:bg-porcelain')}
-          onclick={() => onclick(item, close)}
+          onclick={() => onItemSelect(item, close)}
         >
           {@render label(item)}
         </Button>
