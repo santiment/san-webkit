@@ -2,8 +2,6 @@
   import type { Snippet } from 'svelte'
   import type { TMiniChartProps } from './types.js'
 
-  import { noop } from '@melt-ui/svelte/internal/helpers'
-
   import { cn } from '$ui/utils/index.js'
 
   import { getValue } from './utils.js'
