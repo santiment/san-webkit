@@ -31,7 +31,8 @@
   }: TProps = $props()
 
   let isOpened = $state(false)
-  let closeTimer = $state<NodeJS.Timeout>()
+
+  let closeTimer: NodeJS.Timeout | undefined
 
   function onItemSelect(item: T, close: () => void) {
     clearTimeout(closeTimer)
