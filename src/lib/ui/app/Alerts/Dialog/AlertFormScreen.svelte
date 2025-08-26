@@ -5,13 +5,10 @@
   import Button from '$ui/core/Button/index.js'
   import { Query } from '$lib/api/executor.js'
   import { notification } from '$ui/core/Notifications/index.js'
-  import { useMetricsRestrictionsCtx } from '$lib/ctx/metrics-registry/index.js'
 
   import { useAlertFormCtx } from '../ctx/index.svelte.js'
   import Steps from './Steps.svelte'
   import { mutateSaveAlert } from './api.js'
-
-  type TReducedAlert = Omit<TApiAlert<{ type: string; target: object }>, 'id'>
 
   type TProps = {
     schema: TAlertSchemaUnion
@@ -22,8 +19,10 @@
   }
   let { schema, alert, resetCategory, close, onCreate }: TProps = $props()
 
-  const { steps, selectedStep, nextStep, isAlertValid } = useAlertFormCtx({ schema, alert })
-  const { MetricsRestrictions } = useMetricsRestrictionsCtx()
+  const { steps, selectedStep, nextStep, isAlertValid, reduceStepsToAlert } = useAlertFormCtx({
+    schema,
+    alert,
+  })
 
   let loading = $state(false)
 
@@ -33,7 +32,7 @@
   async function onAlertCreate() {
     try {
       loading = true
-      const reducedAlert = { ...createApiAlert(), id: alert?.id ?? null }
+      const reducedAlert = { ...reduceStepsToAlert(), id: alert?.id ?? null }
 
       const { id } = await mutateSaveAlert(Query)(reducedAlert)
 
@@ -47,37 +46,6 @@
     } finally {
       loading = false
     }
-  }
-
-  function createApiAlert() {
-    const apiAlert = steps.reduce(
-      (acc, step) => {
-        const state = $state.snapshot(step.state.$$) as typeof step.state.$$
-        return step.reduceToApi(acc, state as UnionToIntersection<typeof state>)
-      },
-      {
-        settings: {},
-      },
-    ) as TReducedAlert
-
-    const changedType = getChangedType(apiAlert.settings)
-    if (changedType && apiAlert.settings) {
-      apiAlert.settings.type = changedType
-    }
-
-    return apiAlert
-  }
-
-  function getChangedType(settings: TReducedAlert['settings']) {
-    if (settings?.type !== 'metric_signal') return null
-    if (!('metric' in settings) || typeof settings.metric !== 'string') return null
-
-    const minInterval = MetricsRestrictions.$[settings.metric]?.minInterval
-    if (minInterval === '1d') {
-      return 'daily_metric_signal'
-    }
-
-    return null
   }
 </script>
 
@@ -120,7 +88,7 @@
 
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
     <div class="mb-4 flex justify-between">
-      <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
+      <h3 class="h-8 text-lg font-medium">{selectedStep.$.ui.label}</h3>
 
       {#if selectedStep.$.isValid.$ && nextStep.$}
         <Button

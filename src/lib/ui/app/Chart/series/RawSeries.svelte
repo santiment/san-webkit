@@ -1,23 +1,30 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
+  import type { MaybeCtx } from '$lib/utils/index.js'
 
   import { onMount } from 'svelte'
   import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
 
-  import { useChartCtx } from '../ctx/index.js'
+  import { applyHexColorOpacity } from '$ui/utils/index.js'
+
+  import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
-  const { type, data, color, scale, pane, scaleFormatter, visible } = series
+  const { data, scale, pane, visible, ui } = series
 
   const { chart } = useChartCtx()
+  const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
+    typeof useHighlightedMetricCtx
+  >
 
   const priceFormat =
-    scaleFormatter &&
+    ui.$$.scaleFormatter &&
     ({
       type: 'custom',
-      formatter: scaleFormatter,
+      minMove: 0.0001,
+      formatter: ui.$$.scaleFormatter,
     } as const)
 
   const chartSeries = createChartSeries()
@@ -28,7 +35,17 @@
   })
 
   $effect.pre(() => {
-    chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })
+    chartSeries.applyOptions(getSeriesTypeOptions())
+  })
+
+  $effect.pre(() => {
+    let _color = ui.$$.color
+
+    if (highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$) {
+      _color = applyHexColorOpacity(_color, '29')
+    }
+
+    chartSeries.applyOptions({ color: _color, priceScaleId: scale.$$.id })
   })
 
   $effect.pre(() => {
@@ -45,7 +62,7 @@
 
   $effect(() => {
     chartSeries.setData(data.$)
-    chart.$!.resetAllScales()
+    chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
@@ -54,17 +71,25 @@
   })
 
   function createChartSeries() {
-    const base = { color: color.$, priceScaleId: scale.$$.id, zOrder: 10, priceFormat }
+    const { style, color } = ui.$$
+    const options = { ...getSeriesTypeOptions(), color, priceScaleId: scale.$$.id }
 
-    switch (type.$) {
+    switch (style) {
       case 'histogram':
-        return chart.$!.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
+        return chart.$!.addSeries(HistogramSeries, options, pane.$)
       default:
-        return chart.$!.addSeries(
-          LineSeries,
-          Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth }),
-          pane.$,
-        )
+        return chart.$!.addSeries(LineSeries, options, pane.$)
+    }
+  }
+
+  function getSeriesTypeOptions() {
+    const base = { zOrder: 10, priceFormat }
+
+    switch (ui.$$.style) {
+      case 'histogram':
+        return Object.assign(base, { zOrder: 10 })
+      default:
+        return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
     }
   }
 </script>

@@ -4,50 +4,40 @@ import type { TBaseState } from './index.svelte.js'
 
 export type TStepBaseSchema<
   GName,
-  GProps extends {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => { [key: string]: unknown }
-  },
+  GAlert extends Partial<TApiAlert>,
+  GState extends { [key: string]: unknown },
 > = {
   name: GName
 
-  initState: GProps['initState']
+  initState: (apiAlert?: null | Partial<GAlert>) => GState
 
-  validate: (state: ReturnType<GProps['initState']>) => boolean
+  validate: (state: GState) => boolean
 
-  reduceToApi: (
-    apiAlert: { settings: object },
-    state: ReturnType<GProps['initState']>,
-  ) => { settings: object }
+  reduceToApi: (state: GState) => GAlert
 }
 
-export type TStepUI<GState extends Record<string, any>> = {
+export type TStepUI = {
   ui: {
     title: string
     label: string
     description: string
 
-    Form: Component<GState>
-    Legend?: Component<GState>
+    Form: Component<{ state: TBaseState<any> }>
+    Legend?: Component<{ state: TBaseState<any> }>
   }
 }
 
-export type TStepSchema = TStepBaseSchema<
-  string,
-  {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => any
-  }
-> &
-  TStepUI<any>
+export type TStepSchema = TStepBaseSchema<string, Partial<TApiAlert>, any> & TStepUI
 
-export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any> = any>(
-  base: GBaseSchema & TStepUI<{ state: TBaseState<GBaseSchema> }>,
+export function createStepSchema<GBaseSchema extends TStepBaseSchema<string, any, any> = any>(
+  base: GBaseSchema & TStepUI,
 ) {
   const schema = {
     name: base.name as GBaseSchema['name'],
     initState: base.initState as GBaseSchema['initState'],
     validate: base.validate as GBaseSchema['validate'],
 
-    ui: base.ui,
+    ui: base.ui as TStepUI['ui'],
 
     reduceToApi: base.reduceToApi as GBaseSchema['reduceToApi'],
   } as const

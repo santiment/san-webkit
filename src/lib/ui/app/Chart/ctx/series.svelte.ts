@@ -1,82 +1,78 @@
 import type { ISeriesApi } from '@santiment-network/chart-next'
-import type {
-  TMetricData,
-  TMetricTargetSelectorInputObject,
-  TTimeseriesMetricTransformInputObject,
-} from '../api/index.js'
-import type { TUUIDv4 } from '$lib/utils/uuid/index.js'
+import type { TMetricData } from '../api/index.js'
 
-import { ss, createCtx, type SS } from '$lib/utils/index.js'
+import { type TChartMetric, type TLabels } from '$lib/ctx/metrics-registry/types/index.js'
+import { ss, createCtx } from '$lib/utils/index.js'
 import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
+import { uuidv4 } from '$lib/utils/uuid/index.js'
 
-export type TMetricSelector = null | TMetricTargetSelectorInputObject
+const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
-export type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
-
-export type TMetric = {
-  name: string
-  label?: string
-
-  style: 'line' | 'histogram'
-  color?: string
-  visible?: boolean
-
-  selector?: TMetricSelector
-  transformData?: (data: TMetricData) => TMetricData
-  transform?: TTimeseriesMetricTransformInputObject
-
-  pane?: number
-
-  tooltipFormatter?: (value: any) => number | string
-
-  scaleId?: string
-  scaleInverted?: boolean
-  scaleMargins?: { top: number; bottom: number }
-  scaleFormatter?: (value: number) => string
-}
-
-let __METRIC_SERIES_ID = 0
 export function createSeries({
-  name,
-  label = name,
+  type,
+
+  apiMetricName = '',
+
+  label = apiMetricName,
+
+  getLabels$ = DEFAULT_LABELS_GETTER,
+  getSelectorLabels$ = DEFAULT_LABELS_GETTER,
+
   selector = null,
-  scaleId,
-  style = 'line',
-  color,
+  interval,
   pane,
+
+  style = 'line',
+  color = '#00ff00',
   visible = true,
+
+  scaleId,
   scaleMargins,
   scaleInverted = false,
-  transform,
+  scaleVisible = true,
+
+  isSelectorLocked = false,
   transformData,
 
   tooltipFormatter = DEFAULT_FORMATTER,
   scaleFormatter,
 
-  formula,
-}: TMetric & {
-  selector?: TMetricSelector | SS<TMetricSelector>
-  formula?: undefined | TMetricFormula | SS<undefined | TMetricFormula>
-}) {
+  meta,
+
+  ...rest
+}: TChartMetric) {
   const scale = $state({
-    id: scaleId || name,
-    visible: true,
+    id: scaleId || apiMetricName,
+    visible: scaleVisible,
     inverted: scaleInverted,
     scaleMargins,
   })
 
   let paneSignal = $state(pane)
 
+  const ui = $state({
+    color,
+    style,
+
+    isSelectorLocked,
+
+    tooltipFormatter,
+    scaleFormatter,
+  })
+
+  const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
+
   const metric = {
-    id: __METRIC_SERIES_ID++,
+    id: uuidv4(),
 
-    apiMetricName: name,
+    type,
+    apiMetricName,
+
     label,
+    getLabels$,
+    getSelectorLabels$,
 
-    type: ss<TMetric['style']>(style),
     data: ss<TMetricData>([]),
-    color: ss<string>(color || 'green'),
-
     visible: ss(visible),
     loading: ss(true),
     error: ss(null),
@@ -93,24 +89,27 @@ export function createSeries({
       },
     },
 
-    transform,
-
-    transformData,
-
-    tooltipFormatter,
-    scaleFormatter,
-
     scale: {
       get $$() {
         return scale
       },
     },
 
-    selector: ss<null | TMetricTargetSelectorInputObject>(selector),
+    interval: ss(interval),
+
+    selector: ss(selector),
+
+    formula,
+
+    ui: {
+      get $$() {
+        return ui
+      },
+    },
 
     chartSeriesApi: null as null | ISeriesApi<any>,
-
-    formula: ss<undefined | TMetricFormula>(formula),
+    transformData,
+    meta,
   }
 
   return metric
@@ -120,7 +119,7 @@ export type TSeries = ReturnType<typeof createSeries>
 
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
-  (defaultMetrics: TMetric[] = []) => {
+  (defaultMetrics: TChartMetric[] = []) => {
     let series = $state.raw(
       defaultMetrics.map((item) => {
         return createSeries(item)
@@ -131,7 +130,7 @@ export const useMetricSeriesCtx = createCtx(
       series.map((item) => ({
         name: item.apiMetricName,
         selector: $state.snapshot(item.selector.$),
-        formula: $state.snapshot(item.formula.$),
+        formula: $state.snapshot(item.formula?.$),
       })),
     )
 
@@ -145,16 +144,28 @@ export const useMetricSeriesCtx = createCtx(
           return asScope
         },
 
-        add(metric: TMetric) {
-          series.push(createSeries(metric))
+        add(metric: TChartMetric): TSeries {
+          const series = createSeries(metric)
+          this.addSeries(series)
+          return series
+        },
+
+        addSeries(metricSeries: TSeries): number {
+          const index = series.push(metricSeries)
+          series = series.slice()
+          return index
+        },
+
+        delete(index: number) {
+          series.splice(index, 1)
           series = series.slice()
         },
-        delete(metricSeries: TSeries) {
+
+        deleteSeries(metricSeries: TSeries) {
           const index = series.indexOf(metricSeries)
           if (index === -1) return
 
-          series.splice(index, 1)
-          series = series.slice()
+          this.delete(index)
         },
       },
     }

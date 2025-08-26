@@ -1,17 +1,20 @@
 import type { TWatchlistApiAlert } from '../schema.js'
-import type { TWatchlistState } from './state.js'
+
+import assert from 'assert'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-export type TBaseSchema = TStepBaseSchema<
-  'watchlist',
-  {
-    initState: (apiAlert?: null | Partial<TWatchlistApiAlert>) => TWatchlistState
+type TWatchlistState = {
+  watchlist: {
+    id: string | null
+    title: string
   }
->
+}
+
+export type TBaseSchema = TStepBaseSchema<'watchlist', TWatchlistApiAlert, TWatchlistState>
 
 export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'watchlist',
@@ -37,10 +40,16 @@ export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
     return !!state.watchlist.id
   },
 
-  reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert.settings, { type: 'metric_signal' })
-    Object.assign(apiAlert.settings, { target: { watchlist_id: state.watchlist.id } })
+  reduceToApi(state) {
+    assert(state.watchlist.id)
 
-    return apiAlert
+    return {
+      settings: {
+        type: 'metric_signal',
+        target: {
+          watchlist_id: +state.watchlist.id,
+        },
+      },
+    }
   },
 })

@@ -11,7 +11,7 @@ export const highlightSyntax = (code: string) =>
     // Comments
     .replace(createSyntaxRule('(#.+)\\n'), `<span class="mtk8">$1</span>\n`)
     // Strings
-    .replace(createSyntaxRule('(&quot;[\\ \\w\\d]+&quot;)'), `<span class="mtk20">$1</span>`)
+    .replace(createSyntaxRule('(&quot;[\\ \\w\\d-\\.]+&quot;)'), `<span class="mtk20">$1</span>`)
     // Numbers
     .replace(createSyntaxRule('(\\b\\d+\\b)'), `<span class="mtk7">$1</span>`)
     // Functions

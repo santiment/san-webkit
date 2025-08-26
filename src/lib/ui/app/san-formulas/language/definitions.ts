@@ -1,6 +1,5 @@
 // @RELEASE
 
-import type { TSeries } from '$ui/app/Chart/ctx/series.svelte.js'
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import { escapeTag } from '$lib/utils/escape.js'
@@ -67,7 +66,7 @@ export const createVariableDefinition = (
 export function createChartVariableDocumentation(
   metric: TDocMetric,
   varName: string,
-  formula: TSeries['formula']['$'],
+  formula?: TMetricFormula,
 ) {
   return addDocumentationSnippetSyntax(
     formula
@@ -178,6 +177,8 @@ x1 = asset_metric("price_usd", m1_selector)
 // @RELEASE:DELETE:START
 // eslint-disable-next-line import/order
 import { marked } from 'marked'
+// eslint-disable-next-line import/order
+import type { TMetricFormula } from '$lib/ctx/metrics-registry/types/index.js'
 DEFINITIONS.forEach((item) => {
   item.documentation = addDocumentationSnippetSyntax(marked.parse(item.documentation) as string)
 })

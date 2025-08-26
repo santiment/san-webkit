@@ -61,12 +61,21 @@ export function createWorkerRequester<GType extends TMessageTypeValues>(type: GT
   ) => {
     const msgId = generateMsgId()
 
-    postMessage(type, { id: msgId, payload } as TMessageRequestByType[GType])
-    ResponseHandler.set(msgId, { ondata })
+    // NOTE: Handling clone transfer error
+    try {
+      postMessage(type, { id: msgId, payload } as TMessageRequestByType[GType])
+      ResponseHandler.set(msgId, { ondata })
 
-    return {
-      id: msgId,
-      cancel: () => workerCancelRequest(msgId),
+      return {
+        id: msgId,
+        cancel: () => workerCancelRequest(msgId),
+      }
+    } catch (err) {
+      console.error(err)
+      return {
+        id: msgId,
+        cancel: () => {},
+      }
     }
   }
 }

@@ -66,7 +66,7 @@
     <Button
       icon="copy"
       explanation={copyLabel}
-      class="invisible !absolute right-1.5 top-1.5 hover:bg-mystic/50"
+      class="invisible !absolute right-1.5 top-1.5 bg-athens hover:bg-mystic/50"
       onclick={onCopy}
     ></Button>
   </div>
@@ -75,7 +75,7 @@
 <style lang="postcss">
   .docs :global {
     pre {
-      @apply relative rounded bg-athens p-3 text-black;
+      @apply relative whitespace-pre-wrap rounded bg-athens p-3 text-black;
     }
 
     p code {

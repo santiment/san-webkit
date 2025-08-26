@@ -71,7 +71,9 @@ export async function downloadChartAsJpeg(title: string, metrics: TSeries[], cha
       const label = m.label ?? m.apiMetricName
       const firstValue = m.data.$.find((item) => item.value)?.value
       const lastValue = m.data.$[m.data.$.length - 1].value
-      const formattedValue = m.tooltipFormatter ? m.tooltipFormatter(lastValue) : lastValue
+      const formattedValue = m.ui.$$.tooltipFormatter
+        ? m.ui.$$.tooltipFormatter(lastValue)
+        : lastValue
       const percentChange = firstValue
         ? ` (${calculatePercentageChange(firstValue, lastValue)})`
         : ''
@@ -99,7 +101,7 @@ export async function downloadChartAsJpeg(title: string, metrics: TSeries[], cha
       ctx.fillStyle = black
       ctx.fillText(labelText, x, y)
 
-      ctx.fillStyle = m.color?.$ || black
+      ctx.fillStyle = m.ui.$$.color || black
       ctx.fillText(valueText, x + labelWidth + gap, y)
 
       y += bh + pv

@@ -1,12 +1,9 @@
 //import 'monaco-editor/esm/vs/editor/browser/coreCommands.js'
 
-// eslint-disable-next-line import/order
 import { editor as monacoEditor } from 'monaco-editor/esm/vs/editor/editor.api.js'
 
 import 'monaco-editor/esm/vs/editor/contrib/parameterHints/browser/parameterHints.js'
 import 'monaco-editor/esm/vs/editor/contrib/inlineCompletions/browser/inlineCompletions.contribution.js'
-
-import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
 
 import { getModelMetadata, setModelMetadata, type TMetadata } from './metadata.js'
 import { LANGUAGE_ID } from './language.js'
@@ -14,8 +11,11 @@ import './tokens-provider.js'
 import './completion-provider.js'
 import './signature-help-provider.js'
 
-self.MonacoEnvironment = {
-  // @ts-ignore
+/*
+ * Should be defined by the library user
+import editorWorker from 'monaco-editor/esm/vs/editor/editor.worker?worker'
+
+self.MonacoEnvironment = self.MonacoEnvironment ?? {
   getWorkerUrl: function (_moduleId, _label) {
     // if (label === 'json') {
     // 	return './json.worker.bundle.js';
@@ -32,6 +32,7 @@ self.MonacoEnvironment = {
     return new editorWorker()
   },
 }
+*/
 
 const LINE_HEIGHT = 20
 
@@ -90,7 +91,6 @@ export function createEditor(domElement: HTMLElement, value: string) {
   updateHeight()
 
   const onDidChangeCursorPositionDisposable = editor.onDidChangeCursorPosition((event) => {
-    console.log(event)
     if (event.source === 'snippet' || event.source === 'mouse') {
       requestAnimationFrame(() => {
         editor.trigger('keyboard', 'editor.action.triggerParameterHints', {})

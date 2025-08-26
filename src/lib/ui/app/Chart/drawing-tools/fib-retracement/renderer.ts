@@ -69,7 +69,7 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
         ctx.textBaseline = 'middle'
         ctx.fillStyle = color
         ctx.textAlign = 'right'
-        ctx.fillText(label, x1 - 5, y)
+        ctx.fillText(label, pos(x1 - 5, horizontalPixelRatio), pos(y, verticalPixelRatio))
         ctx.restore()
       })
     })

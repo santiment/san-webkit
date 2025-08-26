@@ -1,7 +1,8 @@
-import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
 
-import { getTimeFromApi, type TAPITimeWindow, type TTimeWindow } from '../../time.js'
+import assert from 'assert'
+
+import { getTimeFromApi, type TApiTimeWindow, type TTimeWindow } from '../../time.js'
 import {
   getOperationFromApi,
   isComparisonOperation,
@@ -12,10 +13,12 @@ import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-type TAlertSettings = {
-  metric: string
-  time_window: TAPITimeWindow
-  operation: TApiOperation
+export type TMetricConditionsApiAlert = {
+  settings: {
+    metric: string
+    time_window?: TApiTimeWindow
+    operation: TApiOperation
+  }
 }
 
 export type TConditionsState = {
@@ -31,9 +34,8 @@ export type TMetricConditionsState = {
 
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
-  {
-    initState: (alert?: Partial<TApiAlert<TAlertSettings>> | null) => TMetricConditionsState
-  }
+  TMetricConditionsApiAlert,
+  TMetricConditionsState
 >
 
 export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
@@ -53,19 +55,18 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
 
   validate: ({ metric }) => !!metric,
 
-  reduceToApi: (apiAlert, { metric, conditions }) => {
-    Object.assign(apiAlert.settings, {
-      metric: metric,
-      operation: reduceOperationToApi(conditions.operation),
-    })
+  reduceToApi: ({ metric, conditions }) => {
+    assert(metric)
 
-    if (isComparisonOperation(conditions.operation.type)) {
-      Object.assign(apiAlert.settings, {
-        time_window: conditions.time,
-      })
+    return {
+      settings: {
+        metric,
+        operation: reduceOperationToApi(conditions.operation),
+        ...(isComparisonOperation(conditions.operation.type)
+          ? { time_window: conditions.time }
+          : {}),
+      },
     }
-
-    return apiAlert
   },
 
   ui: {

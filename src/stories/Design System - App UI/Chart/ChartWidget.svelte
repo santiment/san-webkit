@@ -4,7 +4,12 @@
   import { downloadCsv } from '$lib/utils/csv.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
-  import { useChartCtx, useMetricSeriesCtx, type TSeries } from '$ui/app/Chart/ctx/index.js'
+  import {
+    useChartCtx,
+    useHighlightedMetricCtx,
+    useMetricSeriesCtx,
+    type TSeries,
+  } from '$ui/app/Chart/ctx/index.js'
   import { showFormulaEditorDialog$ } from '$ui/app/Chart/FormulaEditorDialog/index.js'
 
   import BaseChart, {
@@ -26,6 +31,10 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+
+  const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
+
+  $inspect(highlighted.$)
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -81,7 +90,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+    //downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
@@ -101,13 +110,15 @@
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
         class="rounded border p-1"
-        style="border-color:{metric.color.$}"
+        style="border-color:{metric.ui.$$.color}"
+        onmouseenter={() => onMetricEnter(metric)}
+        onmouseleave={onMetricLeave}
         onclick={metric.formula
           ? () =>
-              showFormulaEditorDialog({ formula: metric.formula.$, index })
+              showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
                   console.log(data)
-                  metric.formula.$ = data.formula
+                  metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
           : null}

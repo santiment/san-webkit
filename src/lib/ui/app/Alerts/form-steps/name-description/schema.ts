@@ -1,5 +1,3 @@
-import type { TApiAlert } from '../../types.js'
-
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
@@ -9,12 +7,16 @@ export type TNameDescriptionState = {
   description: string
 }
 
+export type TNameDescriptionApiAlert = {
+  title: string
+  description: null | string
+}
+
 // Declaring a type so it can be later used in Component's props
 export type TBaseSchema = TStepBaseSchema<
   'name-description',
-  {
-    initState: (apiAlert?: null | Partial<TApiAlert>) => TNameDescriptionState
-  }
+  TNameDescriptionApiAlert,
+  TNameDescriptionState
 >
 
 export const STEP_NAME_DESCRIPTION_SCHEMA = createStepSchema<TBaseSchema>({
@@ -39,9 +41,5 @@ export const STEP_NAME_DESCRIPTION_SCHEMA = createStepSchema<TBaseSchema>({
     return !!state.title
   },
 
-  reduceToApi(apiAlert, state) {
-    Object.assign(apiAlert, state)
-
-    return apiAlert
-  },
+  reduceToApi: ({ title, description }) => ({ title, description }),
 })
