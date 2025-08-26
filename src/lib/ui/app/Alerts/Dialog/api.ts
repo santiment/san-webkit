@@ -2,7 +2,7 @@ import type { TApiAlert } from '../types.js'
 
 import { ApiMutation, ApiQuery } from '$lib/api/index.js'
 
-type TSaveAlertProps = {
+export type TSaveAlertProps = {
   id: number | null
   settings: TApiAlert['settings']
   isPublic: boolean
@@ -31,6 +31,19 @@ export const mutateSaveAlert = ApiMutation(
     variables: { ...variables, settings: JSON.stringify(settings) },
   }),
   (gql: { savedAlert: { trigger: { id: number } } }) => gql.savedAlert.trigger,
+)
+
+export const mutateDeleteAlert = ApiMutation(
+  (variables: { id: number }) => ({
+    schema: `mutation($id: Int!) {
+  removeTrigger(id: $id) {
+    trigger {
+      id
+    }
+  }}`,
+    variables,
+  }),
+  (gql: { removeTrigger: { trigger: { id: number } } }) => gql.removeTrigger.trigger,
 )
 
 export const queryUserAlertsCount = ApiQuery(
