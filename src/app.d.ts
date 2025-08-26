@@ -60,4 +60,8 @@ declare global {
       VITEST: boolean
     }
   }
+
+  interface ImportMetaEnv {
+    VITE_TEST_AUTH_TOKEN: string
+  }
 }

@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import '@testing-library/jest-dom/vitest'
 import { vi } from 'vitest'
 
@@ -18,3 +20,19 @@ vi.stubGlobal(
     disconnect: vi.fn(),
   })),
 )
+
+type TFetchParams = Parameters<(typeof globalThis)['fetch']>
+
+const browserFetch = fetch
+vi.stubGlobal('fetch', async (...args: TFetchParams) => {
+  const [req, init, ...rest] = args
+  const headers = new Headers(init?.headers)
+
+  const token = import.meta.env.VITE_TEST_AUTH_TOKEN
+
+  if (token) {
+    headers.set('Authorization', `Bearer ${token}`)
+  }
+
+  return browserFetch(req, { ...init, headers }, ...rest)
+})
