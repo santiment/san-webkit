@@ -17,11 +17,11 @@
     closeDelay?: number
   } & Omit<ComponentProps<typeof Popover>, 'content' | 'children'>
 
-  const {
+  let {
     class: className,
     items,
     valueKey,
-    selected,
+    selected = $bindable(),
     trigger,
     triggerClass,
     label = defaultLabel,
@@ -35,6 +35,7 @@
 
   function onItemSelect(item: T, close: () => void) {
     clearTimeout(closeTimer)
+    selected = item
     onSelect(item)
 
     closeTimer = setTimeout(() => {
