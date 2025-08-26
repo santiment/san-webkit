@@ -45,7 +45,7 @@
   })
 
   $effect.pre(() => {
-    const { color, style } = ui.$$
+    const { color, style, isFilledGradient = false } = ui.$$
     const options = { color }
 
     const isOtherHighlighted =
@@ -56,10 +56,16 @@
     }
 
     if (style === MetricStyle.AREA) {
+      let opacity = isFilledGradient ? '50' : '1c'
+
+      if (isOtherHighlighted) {
+        opacity = isFilledGradient ? '15' : '09'
+      }
+
       Object.assign(options, {
         lineColor: options.color,
-        topColor: applyHexColorOpacity(color, isOtherHighlighted ? '15' : '50'),
-        bottomColor: applyHexColorOpacity(color, '00'),
+        topColor: applyHexColorOpacity(color, opacity),
+        bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
       })
     }
 

@@ -104,6 +104,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   getSelectorLabels$?: (metricSeries: TLabelGetterMetricSeries) => TLabels
 
   isSelectorLocked?: boolean
+  isFilledGradient?: boolean
 
   meta?: Record<string, any>
 } & GData

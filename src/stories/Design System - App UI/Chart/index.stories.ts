@@ -36,14 +36,16 @@ export const PriceFormula: Story = {
       {
         apiMetricName: 'price_usd',
         label: 'Price USD',
-        style: 'line',
         scaleId: 'right-price_usd',
+
+        style: 'area',
+        isFilledGradient: true,
       },
 
       {
         apiMetricName: 'FORMULA_2',
         label: 'Derived formula - Price SMA(SMA(30), 5)',
-        style: 'line',
+
         scaleId: 'right-price_usd',
         formula: {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',

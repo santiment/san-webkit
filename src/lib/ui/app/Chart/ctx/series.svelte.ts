@@ -32,6 +32,7 @@ export function createSeries({
   scaleVisible = true,
 
   isSelectorLocked = false,
+  isFilledGradient = false,
   transformData,
 
   tooltipFormatter = DEFAULT_FORMATTER,
@@ -55,6 +56,7 @@ export function createSeries({
     style,
 
     isSelectorLocked,
+    isFilledGradient,
 
     tooltipFormatter,
     scaleFormatter,
