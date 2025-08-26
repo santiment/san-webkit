@@ -1,4 +1,4 @@
-import type { TWatchlistApiAlert } from '../schema.js'
+import type { TWatchlistApiAlertPart } from '../schema.js'
 
 import assert from 'assert'
 
@@ -14,7 +14,7 @@ type TWatchlistState = {
   }
 }
 
-export type TBaseSchema = TStepBaseSchema<'watchlist', TWatchlistApiAlert, TWatchlistState>
+export type TBaseSchema = TStepBaseSchema<'watchlist', TWatchlistApiAlertPart, TWatchlistState>
 
 export const STEP_SELECT_WATCHLIST_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'watchlist',

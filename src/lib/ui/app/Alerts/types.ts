@@ -1,3 +1,4 @@
+import type { TAlertBaseSchema } from './categories/types.js'
 import type { TApiChannel } from './channels.js'
 import type { TApiTimeWindow } from './time.js'
 
@@ -27,3 +28,6 @@ export type TApiAlert<GSettings extends Partial<TGenericSettings> = any> = {
     channel: TApiChannel[]
   } & GSettings
 }
+
+export type TApiAlertFromSchema<GSchema extends TAlertBaseSchema<string, any>> =
+  UnionToIntersection<ReturnType<GSchema['steps'][number]['reduceToApi']>>
