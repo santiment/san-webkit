@@ -25,6 +25,8 @@
       iconOnRight?: boolean
       explanation?: string
       loading?: boolean
+      dropdown?: boolean
+      active?: boolean
       target?: HTMLAnchorAttributes['target']
 
       action?: Action
@@ -44,6 +46,8 @@
     iconOnRight = false,
     rounded = false,
     circle = false,
+    dropdown = false,
+    active = false,
     loading = false,
 
     icon,
@@ -204,10 +208,23 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight}></Svg>
+    <Svg id={icon} w={iconSize} h={iconHeight} />
   {/if}
 
   {#if children}
     {@render children()}
+  {/if}
+
+  {#if dropdown}
+    <div class="ml-auto pl-0.5">
+      <div
+        class={cn(
+          'flex size-4 items-center justify-center rounded transition-colors',
+          active && !loading && 'bg-athens',
+        )}
+      >
+        <Svg id="arrow-down" w="8" class={cn('transition-transform', active && 'rotate-180')} />
+      </div>
+    </div>
   {/if}
 </svelte:element>

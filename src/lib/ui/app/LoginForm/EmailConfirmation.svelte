@@ -13,6 +13,7 @@
 <Section
   title="Email Confirmation"
   titleClass="mb-6"
+  class="items-center"
   bottomLabel="Back to"
   bottomAction="log in options"
   bottomHref={isSignUp ? '/sign-up' : '/login'}
