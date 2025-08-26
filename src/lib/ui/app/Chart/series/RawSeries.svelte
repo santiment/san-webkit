@@ -3,9 +3,15 @@
   import type { MaybeCtx } from '$lib/utils/index.js'
 
   import { onMount } from 'svelte'
-  import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
+  import {
+    AreaSeries,
+    HistogramSeries,
+    LineSeries,
+    type LineWidth,
+  } from '@santiment-network/chart-next'
 
   import { applyHexColorOpacity } from '$ui/utils/index.js'
+  import { MetricStyle } from '$lib/ctx/metrics-registry/types/index.js'
 
   import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
 
@@ -39,13 +45,25 @@
   })
 
   $effect.pre(() => {
-    let _color = ui.$$.color
+    const { color, style } = ui.$$
+    const options = { color }
 
-    if (highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$) {
-      _color = applyHexColorOpacity(_color, '29')
+    const isOtherHighlighted =
+      highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$
+
+    if (isOtherHighlighted) {
+      options.color = applyHexColorOpacity(color, '29')
     }
 
-    chartSeries.applyOptions({ color: _color, priceScaleId: scale.$$.id })
+    if (style === MetricStyle.AREA) {
+      Object.assign(options, {
+        lineColor: options.color,
+        topColor: applyHexColorOpacity(color, isOtherHighlighted ? '15' : '50'),
+        bottomColor: applyHexColorOpacity(color, '00'),
+      })
+    }
+
+    chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
   })
 
   $effect.pre(() => {
@@ -75,8 +93,10 @@
     const options = { ...getSeriesTypeOptions(), color, priceScaleId: scale.$$.id }
 
     switch (style) {
-      case 'histogram':
+      case MetricStyle.HISTOGRAM:
         return chart.$!.addSeries(HistogramSeries, options, pane.$)
+      case MetricStyle.AREA:
+        return chart.$!.addSeries(AreaSeries, options, pane.$)
       default:
         return chart.$!.addSeries(LineSeries, options, pane.$)
     }
@@ -86,8 +106,12 @@
     const base = { zOrder: 10, priceFormat }
 
     switch (ui.$$.style) {
-      case 'histogram':
+      case MetricStyle.HISTOGRAM:
         return Object.assign(base, { zOrder: 10 })
+      case MetricStyle.AREA:
+        return Object.assign(base, { zOrder: 20, lineWidth: 1.5 as LineWidth })
+      case MetricStyle.CANDLES:
+        return Object.assign(base, { zOrder: 30 })
       default:
         return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
     }
