@@ -109,6 +109,12 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   candleDownColor?: string
 
   meta?: Record<string, any>
+
+  baseline?: {
+    value: 0
+    topColor: string
+    bottomColor: string
+  }
 } & GData
 
 export type TChartAssetMetric = TChartMetricBase<TMetricType['ASSET']>

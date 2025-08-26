@@ -66,6 +66,7 @@ export function createSeries({
     scaleFormatter,
 
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
+    baseline: rest.baseline,
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined

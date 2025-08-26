@@ -5,6 +5,7 @@
   import { onMount } from 'svelte'
   import {
     AreaSeries,
+    BaselineSeries,
     CandlestickSeries,
     HistogramSeries,
     LineSeries,
@@ -63,11 +64,33 @@
         opacity = isFilledGradient ? '15' : '09'
       }
 
-      Object.assign(options, {
-        lineColor: options.color,
-        topColor: applyHexColorOpacity(color, opacity),
-        bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
-      })
+      const { baseline } = ui.$$
+
+      if (baseline) {
+        const lineOpacity = isOtherHighlighted ? '29' : 'ff'
+
+        const topLineColor = applyHexColorOpacity(baseline.topColor, lineOpacity)
+        const bottomLineColor = applyHexColorOpacity(baseline.bottomColor, lineOpacity)
+
+        Object.assign(options, {
+          baseValue: { type: 'price', price: baseline.value },
+          topLineColor,
+          bottomLineColor,
+          topFillColor1: applyHexColorOpacity(topLineColor, opacity),
+          topFillColor2: applyHexColorOpacity(topLineColor, isFilledGradient ? '09' : opacity),
+          bottomFillColor2: applyHexColorOpacity(bottomLineColor, opacity),
+          bottomFillColor1: applyHexColorOpacity(
+            bottomLineColor,
+            isFilledGradient ? '09' : opacity,
+          ),
+        })
+      } else {
+        Object.assign(options, {
+          lineColor: options.color,
+          topColor: applyHexColorOpacity(color, opacity),
+          bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
+        })
+      }
     } else if (style === MetricStyle.CANDLES) {
       const downColor = applyHexColorOpacity(
         ui.$$.candleDownColor || options.color,
@@ -116,7 +139,7 @@
       case MetricStyle.HISTOGRAM:
         return chart.$!.addSeries(HistogramSeries, options, pane.$)
       case MetricStyle.AREA:
-        return chart.$!.addSeries(AreaSeries, options, pane.$)
+        return chart.$!.addSeries(ui.$$.baseline ? BaselineSeries : AreaSeries, options, pane.$)
       case MetricStyle.CANDLES:
         return chart.$!.addSeries(CandlestickSeries, options, pane.$)
       default:
