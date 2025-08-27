@@ -62,3 +62,19 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
     },
   }
 })
+
+export const useShiftModeStartPoint = createCtx('charts_useShiftModeStartPoint', () => {
+  let startPointIndex = $state.raw<null | number>(null)
+
+  return {
+    startPointIndex: {
+      get $() {
+        return startPointIndex
+      },
+
+      set $(value: typeof startPointIndex) {
+        startPointIndex = value
+      },
+    },
+  }
+})

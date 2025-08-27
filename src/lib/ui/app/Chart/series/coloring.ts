@@ -6,7 +6,7 @@ import { applyHexColorOpacity } from '$ui/utils/index.js'
 export function applyHistogramBaselineColorData(series: TSeries): boolean {
   const { data, ui } = series
 
-  if (ui.$$.style !== MetricStyle.HISTOGRAM && !ui.$$.baseline) {
+  if (ui.$$.style !== MetricStyle.HISTOGRAM || !ui.$$.baseline) {
     return false
   }
 
