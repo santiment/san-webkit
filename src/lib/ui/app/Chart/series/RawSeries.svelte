@@ -12,10 +12,14 @@
     type LineWidth,
   } from '@santiment-network/chart-next'
 
-  import { applyHexColorOpacity } from '$ui/utils/index.js'
   import { MetricStyle } from '$lib/ctx/metrics-registry/types/index.js'
 
   import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
+  import {
+    getAreaSeriesColors,
+    applyHistogramBaselineColorData,
+    getCandlesSeriesColors,
+  } from './coloring.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
@@ -47,63 +51,22 @@
   })
 
   $effect.pre(() => {
-    const { color, style, isFilledGradient = false } = ui.$$
-    const options = { color }
-
     const isOtherHighlighted =
       highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$
 
-    if (isOtherHighlighted) {
-      options.color = applyHexColorOpacity(color, '29')
-    }
+    chartSeries.applyOptions({
+      opacity: isOtherHighlighted ? 0.13 : 1,
+    })
+  })
+
+  $effect.pre(() => {
+    const { color, style } = ui.$$
+    const options = { color }
 
     if (style === MetricStyle.AREA) {
-      let opacity = isFilledGradient ? '50' : '1c'
-
-      if (isOtherHighlighted) {
-        opacity = isFilledGradient ? '15' : '09'
-      }
-
-      const { baseline } = ui.$$
-
-      if (baseline) {
-        const lineOpacity = isOtherHighlighted ? '29' : 'ff'
-
-        const topLineColor = applyHexColorOpacity(baseline.topColor, lineOpacity)
-        const bottomLineColor = applyHexColorOpacity(baseline.bottomColor, lineOpacity)
-
-        Object.assign(options, {
-          baseValue: { type: 'price', price: baseline.value },
-          topLineColor,
-          bottomLineColor,
-          topFillColor1: applyHexColorOpacity(topLineColor, opacity),
-          topFillColor2: applyHexColorOpacity(topLineColor, isFilledGradient ? '09' : opacity),
-          bottomFillColor2: applyHexColorOpacity(bottomLineColor, opacity),
-          bottomFillColor1: applyHexColorOpacity(
-            bottomLineColor,
-            isFilledGradient ? '09' : opacity,
-          ),
-        })
-      } else {
-        Object.assign(options, {
-          lineColor: options.color,
-          topColor: applyHexColorOpacity(color, opacity),
-          bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
-        })
-      }
+      Object.assign(options, getAreaSeriesColors(series))
     } else if (style === MetricStyle.CANDLES) {
-      const downColor = applyHexColorOpacity(
-        ui.$$.candleDownColor || options.color,
-        isOtherHighlighted ? '15' : 'ff',
-      )
-
-      Object.assign(options, {
-        downColor,
-        wickDownColor: downColor,
-        upColor: options.color,
-        wickUpColor: options.color,
-        borderVisible: !isOtherHighlighted,
-      })
+      Object.assign(options, getCandlesSeriesColors(series))
     }
 
     chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
@@ -122,7 +85,13 @@
   })
 
   $effect(() => {
+    const isHistogramBaselineColorApplied = applyHistogramBaselineColorData(series)
+    if (isHistogramBaselineColorApplied) {
+      return
+    }
+
     chartSeries.setData(data.$)
+
     chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 

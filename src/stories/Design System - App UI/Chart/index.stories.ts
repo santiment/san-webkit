@@ -38,8 +38,7 @@ export const PriceFormula: Story = {
         label: 'Price USD',
         scaleId: 'right-price_usd',
 
-        style: 'area',
-        isFilledGradient: true,
+        style: 'line',
       },
 
       {
@@ -51,6 +50,20 @@ export const PriceFormula: Story = {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
           name: 'Derived formula - Price SMA(SMA(30), 5)',
           expr: 'btc="bitcoin"\nx1 = asset_metric("price_usd", btc) \nsma(x1, 30)',
+        },
+      },
+
+      {
+        apiMetricName: 'bitmex_perpetual_funding_rate',
+        label: 'BitMEX Funding Rate',
+        scaleId: 'right-bitmex_perpetual',
+
+        style: 'histogram',
+
+        baseline: {
+          value: 0,
+          topColor: '#00ff00',
+          bottomColor: '#ff0000',
         },
       },
 
