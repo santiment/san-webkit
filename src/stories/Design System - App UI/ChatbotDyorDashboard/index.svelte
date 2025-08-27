@@ -1,5 +1,6 @@
 <script>
-  import AIChatbot, { useAIChatbotCtx } from '$ui/app/AIChatbot/index.js'
+  import { useAIChatbotCtx } from '$ui/app/AIChatbot/index.js'
+  import ChatTrigger from '$ui/app/AIChatbot/variants/dyorDashboard/ChatTrigger.svelte'
   import Chart from '../Chart/index.svelte'
 
   useAIChatbotCtx.set({
@@ -29,4 +30,4 @@
   repudiandae reprehenderit excepturi illo.
 </p>
 <Chart />
-<AIChatbot />
+<ChatTrigger />

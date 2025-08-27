@@ -1,1 +1,1 @@
-export { default } from './Chatbot.svelte'
+export { default } from './ChatbotUI.svelte'

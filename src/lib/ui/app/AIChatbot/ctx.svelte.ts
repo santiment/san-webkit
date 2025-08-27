@@ -1,8 +1,11 @@
 import type { TAiChatbotContext, TAiChatbotSession, TAiChatType } from './types.js'
 
+import { dialogs$ } from '$ui/core/Dialog/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
+import AcademyQA from './variants/academyQA/index.js'
+import DyorDashboard from './variants/dyorDashboard/index.js'
 import { mutateSendAiChatbotMessage } from './api.js'
 
 type TAIChatState = {
@@ -32,6 +35,14 @@ export const useAIChatbotCtx = createCtx(
     })
 
     let loading = $state(false)
+
+    const variantMap: Record<TAiChatType, any> = {
+      ['ACADEMY_QA']: dialogs$.new(AcademyQA),
+      ['DYOR_DASHBOARD']: dialogs$.new(DyorDashboard),
+    }
+
+    // TODO: Improve that part in the future
+    const showChatUI = () => variantMap[state.type || 'DYOR_DASHBOARD']()
 
     return {
       aiChatbot: {
@@ -68,6 +79,16 @@ export const useAIChatbotCtx = createCtx(
               loading = false
               state.temporaryMessage = ''
             })
+        },
+
+        openWithPrompt(prompt?: string) {
+          if (!state.type) return
+
+          showChatUI()
+
+          if (prompt) {
+            this.sendMessage(prompt)
+          }
         },
       },
     }

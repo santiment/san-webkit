@@ -28,7 +28,7 @@ Please:
 <Button
   class="mt-2.5 rounded-full bg-white px-2.5 py-1.5 text-sm hover:border-green-hover"
   variant="border"
-  onclick={() => aiChatbot.sendMessage(prompt)}
+  onclick={() => aiChatbot.openWithPrompt(prompt)}
 >
   🤖 Ask AI for more insights
 </Button>
