@@ -26,7 +26,9 @@
 
   const { data, scale, pane, visible, ui } = series
 
-  const { chart } = useChartCtx()
+  const chartCtx = useChartCtx()
+  const chart = chartCtx.chart.$!
+
   const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
     typeof useHighlightedMetricCtx
   >
@@ -92,11 +94,11 @@
 
     chartSeries.setData(data.$)
 
-    chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
+    //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
-    chart.$!.removeSeries(chartSeries)
+    chart.removeSeries(chartSeries)
     series.chartSeriesApi = null
   })
 
@@ -106,13 +108,13 @@
 
     switch (style) {
       case MetricStyle.HISTOGRAM:
-        return chart.$!.addSeries(HistogramSeries, options, pane.$)
+        return chart.addSeries(HistogramSeries, options, pane.$)
       case MetricStyle.AREA:
-        return chart.$!.addSeries(ui.$$.baseline ? BaselineSeries : AreaSeries, options, pane.$)
+        return chart.addSeries(ui.$$.baseline ? BaselineSeries : AreaSeries, options, pane.$)
       case MetricStyle.CANDLES:
-        return chart.$!.addSeries(CandlestickSeries, options, pane.$)
+        return chart.addSeries(CandlestickSeries, options, pane.$)
       default:
-        return chart.$!.addSeries(LineSeries, options, pane.$)
+        return chart.addSeries(LineSeries, options, pane.$)
     }
   }
 

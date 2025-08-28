@@ -71,8 +71,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart-next':
-    specifier: npm:@santiment-network/chart@^1.0.14
-    version: /@santiment-network/chart@1.0.14
+    specifier: npm:@santiment-network/chart@^1.0.15
+    version: /@santiment-network/chart@1.0.15
   '@sentry/sveltekit':
     specifier: ^9.2.0
     version: 9.2.0(@sveltejs/kit@2.20.7)(svelte@5.35.4)(vite@6.2.5)
@@ -559,8 +559,8 @@ packages:
       - react
     dev: true
 
-  /@cloudflare/workers-types@4.20250826.0:
-    resolution: {integrity: sha512-nAbTVI81wFSxbESRbfGRlfL4WYNvq8T46yr1ukypHL8O2xnbZfQnQhC7ftSBmDqov8HqQSdqcz9jCgLjVh61SQ==}
+  /@cloudflare/workers-types@4.20250828.0:
+    resolution: {integrity: sha512-5sovAOf3H/ni9qCFd4iZK8k73rQJLtnDnnwvE9uS9aAfiqMiBPz2xOgtGhGEvkutmOVv5fA7STsPJ6TleRSwwQ==}
     requiresBuild: true
     dev: true
     optional: true
@@ -3043,8 +3043,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.14:
-    resolution: {integrity: sha512-k6THCO575LJwiBj68Wi34AWDPIlAMUtZryixm2GXI9rZwUKO+KhU5OwWzt6sWDFiSFNJVkMts+DxWXsmpufi1w==}
+  /@santiment-network/chart@1.0.15:
+    resolution: {integrity: sha512-S+r/xu5krKSsRDzWLMgF5Yx0l4oEaVO7Wq3FJLXdfQAqBQqFBxVwB39eBel8peLtAImxItX5Tbewos7OMr0uyw==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
@@ -3233,7 +3233,7 @@ packages:
     dependencies:
       '@sentry/core': 9.2.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250826.0
+      '@cloudflare/workers-types': 4.20250828.0
     dev: true
 
   /@sentry/core@9.2.0:

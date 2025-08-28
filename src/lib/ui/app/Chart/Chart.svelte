@@ -9,7 +9,7 @@
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { useKeyboardShortcut } from '$lib/utils/keyboard/index.js'
   import { setDayEnd, setDayStart } from '$lib/utils/dates/index.js'
-  import { cn } from '$ui/utils/index.js'
+  import { cn, getBrowserCssVariable } from '$ui/utils/index.js'
 
   import { getTheme } from './theme.js'
   import { useChartCtx, useChartGlobalParametersCtx } from './ctx/index.js'
@@ -71,12 +71,14 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    // TODO(vanguard): Draw selection on all panes
-    // TODO(vanguard): Draw datetime on X axis of selection start
-    createRangeSelection(firstPane, {
+    createRangeSelection(chart.$!, {
       color: '#9faac435',
       onRangeSelectChange: _onRangeSelectChange,
       onRangeSelectEnd: _onRangeSelectEnd,
+      axisLabels: {
+        textColor: getBrowserCssVariable('white'),
+        bg: getBrowserCssVariable('waterloo'),
+      },
     })
 
     const resetScalesOnDblClick = () => chart.$?.resetAllScales()
@@ -119,6 +121,25 @@
     }
 
     chart.$.applyOptions(options)
+  })
+
+  $effect(() => {
+    const chartCtx = chart.$
+    if (!chartCtx) return
+
+    const { toUtcDate: _, fromUtcDate: __ } = globalParameters.dates$
+    const timeScale = chartCtx.timeScale()
+
+    const fitTimeScaleContent = () => timeScale.fitContent()
+    const unsubscribe = () => timeScale.unsubscribeSizeChange(fitTimeScaleContent)
+    const timer = setTimeout(unsubscribe, 1500)
+
+    timeScale.subscribeSizeChange(fitTimeScaleContent)
+
+    return () => {
+      unsubscribe()
+      clearTimeout(timer)
+    }
   })
 
   onMount(() => {
