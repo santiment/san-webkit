@@ -14,32 +14,7 @@ import {
 } from '$ui/app/SubscriptionPlan/subscription.js'
 
 export type TCustomer = {
-  currentUser: null | {
-    id: string
-    email: null | string
-    name: null | string
-    username: null | string
-    avatarUrl: null | string
-    privacyPolicyAccepted: boolean
-    marketingAccepted: boolean
-    firstLogin: boolean
-    isModerator: boolean
-    featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
-
-    following?: {
-      users: { id: string | number }[]
-    }
-
-    settings: {
-      theme: null | 'nightmode'
-      isPromoter: boolean
-      sanbaseVersion: null | string
-      alertNotifyEmail: boolean
-      alertNotifyTelegram: boolean
-    }
-
-    ethAccounts: { address: string }[]
-  }
+  currentUser: null | TCurrentUser
 
   isLoggedIn: boolean
 
@@ -116,7 +91,40 @@ export const DEFAULT: TCustomer = {
   subscriptions: [],
 }
 
-export const queryCurrentUserSubscriptions = ApiQuery(
+export type TCurrentUser = {
+  id: string
+  email: null | string
+  name: null | string
+  username: null | string
+  avatarUrl: null | string
+  privacyPolicyAccepted: boolean
+  marketingAccepted: boolean
+  firstLogin: boolean
+  isModerator: boolean
+  featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
+
+  following?: {
+    users: { id: string }[]
+  }
+
+  settings: {
+    theme: null | 'nightmode'
+    isPromoter: boolean
+    sanbaseVersion: null | string
+    alertNotifyEmail: boolean
+    alertNotifyTelegram: boolean
+    hasTelegramConnected: boolean
+  }
+
+  ethAccounts: { address: string }[]
+  apikeys: string[]
+
+  isEligibleForSanbaseTrial: boolean
+  areUserAffiliateDatailsSubmitted: boolean
+  subscriptions: null | TSubscription[]
+}
+
+const queryCurrentUser = ApiQuery(
   () => `{
   currentUser {
     id
@@ -129,8 +137,10 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     firstLogin
     isModerator
     isEligibleForSanbaseTrial
+    areUserAffiliateDatailsSubmitted
     featureAccessLevel
     ethAccounts { address }
+    apikeys
     ${BROWSER ? 'following { users { id } }' : ''}
     settings {
       theme
@@ -138,6 +148,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
       sanbaseVersion
       alertNotifyEmail
       alertNotifyTelegram
+      hasTelegramConnected
     }
     subscriptions {
       id
@@ -155,37 +166,7 @@ export const queryCurrentUserSubscriptions = ApiQuery(
     }
   }
 }`,
-  (gql: {
-    currentUser: null | {
-      id: string
-      email: null | string
-      name: null | string
-      username: null | string
-      avatarUrl: null | string
-      privacyPolicyAccepted: boolean
-      marketingAccepted: boolean
-      firstLogin: boolean
-      isModerator: boolean
-      featureAccessLevel: string
-
-      following?: {
-        users: { id: string | number }[]
-      }
-
-      settings: {
-        theme: null | 'nightmode'
-        isPromoter: boolean
-        sanbaseVersion: null | string
-        alertNotifyEmail: boolean
-        alertNotifyTelegram: boolean
-      }
-
-      ethAccounts: { address: string }[]
-
-      isEligibleForSanbaseTrial: boolean
-      subscriptions: null | TSubscription[]
-    }
-  }) => gql.currentUser,
+  (gql: { currentUser: null | TCurrentUser }) => gql.currentUser,
   { cache: false },
 )
 
@@ -244,10 +225,10 @@ export function loadCustomerData(
   const executor = UniQuery(fetcher)
   const defaultValue = Object.assign({}, DEFAULT)
 
-  const subscriptionsPromise = queryCurrentUserSubscriptions(executor)()
+  const currentUserPromise = queryCurrentUser(executor)()
   const sanBalancePromise = BROWSER ? queryCurrentUserSanBalance(executor)() : Promise.resolve()
 
-  return subscriptionsPromise
+  return currentUserPromise
     .then((currentUser) => {
       if (!currentUser) return update(defaultValue)
 
@@ -258,23 +239,18 @@ export function loadCustomerData(
       const apiSubscription = getApiSubscription(subscriptions)
       const primarySubscription = getPrimarySubscription(subscriptions)
 
-      update(
-        Object.assign(
-          {},
-          defaultValue,
-          //currentUser,
-          { currentUser, isEligibleForSanbaseTrial },
-          getCustomerSubscriptionData(primarySubscription),
-          {
-            isLoggedIn: true,
-            isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
+      update({
+        ...defaultValue,
+        currentUser,
+        isEligibleForSanbaseTrial,
+        ...getCustomerSubscriptionData(primarySubscription),
+        isLoggedIn: true,
+        isEarlyAccessMember: checkIsEarlyAccessMember(currentUser),
 
-            primarySubscription,
-            sanbaseSubscription,
-            apiSubscription,
-          },
-        ),
-      )
+        primarySubscription,
+        sanbaseSubscription,
+        apiSubscription,
+      })
 
       sanBalancePromise
         .then((data) => update({ sanBalance: data?.sanBalance ?? 0 }))
@@ -287,7 +263,7 @@ export function loadCustomerData(
 }
 
 function checkIsEarlyAccessMember(
-  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUserSubscriptions>>,
+  currentUser: NonNullable<API.ExtractData<typeof queryCurrentUser>>,
 ): boolean {
   const { email, featureAccessLevel } = currentUser
   return (
