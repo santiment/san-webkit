@@ -52,7 +52,7 @@
 
         <section class="flex max-w-36 flex-col gap-2">
           <h4 class="font-semibold">Chart unavailable!</h4>
-          <p>Please select a single asset to view data</p>
+          <p class="font-normal">Please select a single asset to view data</p>
         </section>
       </section>
     {/if}
