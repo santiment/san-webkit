@@ -1,7 +1,11 @@
 import type { ISeriesApi } from '@santiment-network/chart-next'
-import type { TMetricData } from '../api/index.js'
+import type { TAggregation, TMetricData } from '../api/index.js'
 
-import { type TChartMetric, type TLabels } from '$lib/ctx/metrics-registry/types/index.js'
+import {
+  MetricStyle,
+  type TChartMetric,
+  type TLabels,
+} from '$lib/ctx/metrics-registry/types/index.js'
 import { ss, createCtx } from '$lib/utils/index.js'
 import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
 import { uuidv4 } from '$lib/utils/uuid/index.js'
@@ -32,6 +36,7 @@ export function createSeries({
   scaleVisible = true,
 
   isSelectorLocked = false,
+  isFilledGradient = false,
   transformData,
 
   tooltipFormatter = DEFAULT_FORMATTER,
@@ -55,9 +60,13 @@ export function createSeries({
     style,
 
     isSelectorLocked,
+    isFilledGradient,
 
     tooltipFormatter,
     scaleFormatter,
+
+    candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
+    baseline: rest.baseline,
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
@@ -76,6 +85,8 @@ export function createSeries({
     visible: ss(visible),
     loading: ss(true),
     error: ss(null),
+
+    aggregation: ss<TAggregation>(style === MetricStyle.CANDLES ? 'OHLC' : undefined),
 
     pane: {
       get $() {

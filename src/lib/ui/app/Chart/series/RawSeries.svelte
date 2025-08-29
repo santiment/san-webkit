@@ -3,18 +3,32 @@
   import type { MaybeCtx } from '$lib/utils/index.js'
 
   import { onMount } from 'svelte'
-  import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
+  import {
+    AreaSeries,
+    BaselineSeries,
+    CandlestickSeries,
+    HistogramSeries,
+    LineSeries,
+    type LineWidth,
+  } from '@santiment-network/chart-next'
 
-  import { applyHexColorOpacity } from '$ui/utils/index.js'
+  import { MetricStyle } from '$lib/ctx/metrics-registry/types/index.js'
 
   import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
+  import {
+    getAreaSeriesColors,
+    applyHistogramBaselineColorData,
+    getCandlesSeriesColors,
+  } from './coloring.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
   const { data, scale, pane, visible, ui } = series
 
-  const { chart } = useChartCtx()
+  const chartCtx = useChartCtx()
+  const chart = chartCtx.chart.$!
+
   const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
     typeof useHighlightedMetricCtx
   >
@@ -39,13 +53,25 @@
   })
 
   $effect.pre(() => {
-    let _color = ui.$$.color
+    const isOtherHighlighted =
+      highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$
 
-    if (highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$) {
-      _color = applyHexColorOpacity(_color, '29')
+    chartSeries.applyOptions({
+      opacity: isOtherHighlighted ? 0.13 : 1,
+    })
+  })
+
+  $effect.pre(() => {
+    const { color, style } = ui.$$
+    const options = { color }
+
+    if (style === MetricStyle.AREA) {
+      Object.assign(options, getAreaSeriesColors(series))
+    } else if (style === MetricStyle.CANDLES) {
+      Object.assign(options, getCandlesSeriesColors(series))
     }
 
-    chartSeries.applyOptions({ color: _color, priceScaleId: scale.$$.id })
+    chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
   })
 
   $effect.pre(() => {
@@ -61,12 +87,18 @@
   })
 
   $effect(() => {
+    const isHistogramBaselineColorApplied = applyHistogramBaselineColorData(series)
+    if (isHistogramBaselineColorApplied) {
+      return
+    }
+
     chartSeries.setData(data.$)
-    chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
+
+    //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
-    chart.$!.removeSeries(chartSeries)
+    chart.removeSeries(chartSeries)
     series.chartSeriesApi = null
   })
 
@@ -75,10 +107,14 @@
     const options = { ...getSeriesTypeOptions(), color, priceScaleId: scale.$$.id }
 
     switch (style) {
-      case 'histogram':
-        return chart.$!.addSeries(HistogramSeries, options, pane.$)
+      case MetricStyle.HISTOGRAM:
+        return chart.addSeries(HistogramSeries, options, pane.$)
+      case MetricStyle.AREA:
+        return chart.addSeries(ui.$$.baseline ? BaselineSeries : AreaSeries, options, pane.$)
+      case MetricStyle.CANDLES:
+        return chart.addSeries(CandlestickSeries, options, pane.$)
       default:
-        return chart.$!.addSeries(LineSeries, options, pane.$)
+        return chart.addSeries(LineSeries, options, pane.$)
     }
   }
 
@@ -86,8 +122,12 @@
     const base = { zOrder: 10, priceFormat }
 
     switch (ui.$$.style) {
-      case 'histogram':
+      case MetricStyle.HISTOGRAM:
         return Object.assign(base, { zOrder: 10 })
+      case MetricStyle.AREA:
+        return Object.assign(base, { zOrder: 20, lineWidth: 1.5 as LineWidth })
+      case MetricStyle.CANDLES:
+        return Object.assign(base, { zOrder: 30 })
       default:
         return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
     }

@@ -13,7 +13,7 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
 
   let hoverPoint = $state.raw<null | {
     datetime: number
-    seriesData: MouseEventParams['seriesData']
+    index: number
   }>(null)
 
   const paneIndexSeries = $derived(
@@ -41,7 +41,7 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
     if (param.time) {
       hoverPoint = {
         datetime: (param.time as number) * 1000,
-        seriesData: param.seriesData,
+        index: param.logical as number,
       }
     } else {
       hoverPoint = null
@@ -58,6 +58,22 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
     hoverPoint: {
       get $() {
         return hoverPoint
+      },
+    },
+  }
+})
+
+export const useShiftModeStartPoint = createCtx('charts_useShiftModeStartPoint', () => {
+  let startPointIndex = $state.raw<null | number>(null)
+
+  return {
+    startPointIndex: {
+      get $() {
+        return startPointIndex
+      },
+
+      set $(value: typeof startPointIndex) {
+        startPointIndex = value
       },
     },
   }
