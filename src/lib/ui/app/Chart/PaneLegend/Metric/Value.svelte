@@ -26,9 +26,13 @@
   })
 
   const data = $derived(metric.data.$)
-  const startData = $derived(
-    startPointIndex.$ !== null && metric.chartSeriesApi!.dataByIndex(startPointIndex.$),
-  )
+  const startData = $derived.by(() => {
+    if (startPointIndex.$ === null) return
+
+    const point = metric.chartSeriesApi!.dataByIndex(startPointIndex.$, -1)
+    return point || data.find((item) => item.value)
+  })
+
   const lastData = $derived(data[data.length - 1])
 </script>
 

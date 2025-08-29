@@ -16,7 +16,11 @@ export function DEFAULT_FORMATTER(value: number) {
     return +value.toFixed(10)
   }
 
-  if (absValue < 0.01) {
+  if (absValue < 10) {
+    return +value.toFixed(4)
+  }
+
+  if (absValue < 1) {
     return +value.toFixed(6)
   }
 
