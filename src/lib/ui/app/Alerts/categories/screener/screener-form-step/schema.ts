@@ -1,4 +1,4 @@
-import type { TScreenerApiAlert } from '../schema.js'
+import type { TScreenerApiAlertPart } from '../schema.js'
 
 import assert from 'assert'
 
@@ -8,14 +8,14 @@ import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
 export type TScreenerState = {
-  metric: NonNullable<TScreenerApiAlert['settings']>['metric']
+  metric: NonNullable<TScreenerApiAlertPart['settings']>['metric']
   screener: {
     id: string | null
     title: string
   }
 }
 
-export type TBaseSchema = TStepBaseSchema<'screener', TScreenerApiAlert, TScreenerState>
+export type TBaseSchema = TStepBaseSchema<'screener', TScreenerApiAlertPart, TScreenerState>
 
 export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'screener',
@@ -53,7 +53,7 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 })
 
-function getApiWatchlistId(settings: TScreenerApiAlert['settings'] | undefined): string | null {
+function getApiWatchlistId(settings: TScreenerApiAlertPart['settings'] | undefined): string | null {
   if (!settings) return null
   if (settings.target === 'default') {
     return settings.operation.selector.watchlist_id.toString()
