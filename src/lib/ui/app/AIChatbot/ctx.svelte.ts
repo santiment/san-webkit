@@ -1,11 +1,15 @@
-import type { TAiChatbotContext, TAiChatbotSession } from './types.js'
+import type { TAiChatbotContext, TAiChatbotSession, TAiChatType } from './types.js'
 
+import { dialogs$ } from '$ui/core/Dialog/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
+import AcademyQA from './variants/academyQA/index.js'
+import DyorDashboard from './variants/dyorDashboard/index.js'
 import { mutateSendAiChatbotMessage } from './api.js'
 
 type TAIChatState = {
+  type?: TAiChatType
   message: string
   temporaryMessage: string
   opened: boolean
@@ -13,18 +17,32 @@ type TAIChatState = {
   context: TAiChatbotContext | undefined
 }
 
+type AiChatbotInitialValue = {
+  type: TAiChatType
+  context?: TAiChatbotContext
+}
+
 export const useAIChatbotCtx = createCtx(
   'webkit_useChatAICtx',
-  (initialContext: TAiChatbotContext | undefined = undefined) => {
+  (initialValue: AiChatbotInitialValue | undefined = undefined) => {
     let state = $state<TAIChatState>({
       message: '',
       temporaryMessage: '',
       opened: false,
       session: undefined,
-      context: initialContext,
+      type: initialValue?.type,
+      context: initialValue?.context,
     })
 
     let loading = $state(false)
+
+    const variantMap: Record<TAiChatType, any> = {
+      ['ACADEMY_QA']: dialogs$.new(AcademyQA),
+      ['DYOR_DASHBOARD']: dialogs$.new(DyorDashboard),
+    }
+
+    // TODO: Improve that part in the future
+    const showChatUI = () => variantMap[state.type || 'DYOR_DASHBOARD']()
 
     return {
       aiChatbot: {
@@ -52,6 +70,7 @@ export const useAIChatbotCtx = createCtx(
 
           await mutateSendAiChatbotMessage(Query)({
             chatId: state.session?.id,
+            type: state.type,
             content,
             context: state.context,
           })
@@ -60,6 +79,16 @@ export const useAIChatbotCtx = createCtx(
               loading = false
               state.temporaryMessage = ''
             })
+        },
+
+        openWithPrompt(prompt?: string) {
+          if (!state.type) return
+
+          showChatUI()
+
+          if (prompt) {
+            this.sendMessage(prompt)
+          }
         },
       },
     }
