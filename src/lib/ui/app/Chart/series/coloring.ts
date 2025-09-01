@@ -10,8 +10,8 @@ export function applyHistogramBaselineColorData(series: TSeries): boolean {
     return false
   }
 
-  const baseline = $state.snapshot(ui.$$.baseline)
-  if (!baseline) {
+  const { baseline } = ui.$$
+  if (!baseline || baseline.topColor === baseline.bottomColor) {
     return false
   }
 
@@ -28,22 +28,17 @@ export function applyHistogramBaselineColorData(series: TSeries): boolean {
 }
 
 export function getAreaSeriesColors(series: TSeries) {
-  const { color, isFilledGradient = false } = series.ui.$$
-  const baseline = $state.snapshot(series.ui.$$.baseline)
+  const {
+    color,
+    isFilledGradient = false,
+    baseline = { value: 0, topColor: color, bottomColor: color },
+  } = series.ui.$$
 
   const opacity = isFilledGradient ? '50' : '1c'
-
-  if (!baseline) {
-    return {
-      lineColor: color,
-      topColor: applyHexColorOpacity(color, opacity),
-      bottomColor: applyHexColorOpacity(color, isFilledGradient ? '00' : opacity),
-    }
-  }
+  const gradientOpacity = isFilledGradient ? '09' : opacity
 
   const topLineColor = baseline.topColor
   const bottomLineColor = baseline.bottomColor
-  const gradientOpacity = isFilledGradient ? '09' : opacity
 
   return {
     baseValue: { type: 'price', price: baseline.value },

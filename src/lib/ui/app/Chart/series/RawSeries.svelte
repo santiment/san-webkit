@@ -4,7 +4,6 @@
 
   import { onMount } from 'svelte'
   import {
-    AreaSeries,
     BaselineSeries,
     CandlestickSeries,
     HistogramSeries,
@@ -19,7 +18,7 @@
     getAreaSeriesColors,
     applyHistogramBaselineColorData,
     getCandlesSeriesColors,
-  } from './coloring.svelte.js'
+  } from './coloring.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
@@ -110,7 +109,7 @@
       case MetricStyle.HISTOGRAM:
         return chart.addSeries(HistogramSeries, options, pane.$)
       case MetricStyle.AREA:
-        return chart.addSeries(ui.$$.baseline ? BaselineSeries : AreaSeries, options, pane.$)
+        return chart.addSeries(BaselineSeries, options, pane.$)
       case MetricStyle.CANDLES:
         return chart.addSeries(CandlestickSeries, options, pane.$)
       default:
