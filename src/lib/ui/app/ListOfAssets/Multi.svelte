@@ -101,7 +101,7 @@
         {#if type === 'item'}
           <AssetItem class="group" item={value} onclick={() => onSelect(value.slug)}>
             <Checkbox
-              class="group-hover:border-green"
+              class="group-hover:border-casper"
               isActive={isActive || selected.has(value.slug)}
             />
           </AssetItem>
