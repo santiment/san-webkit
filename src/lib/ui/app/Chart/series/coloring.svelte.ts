@@ -6,11 +6,16 @@ import { applyHexColorOpacity } from '$ui/utils/index.js'
 export function applyHistogramBaselineColorData(series: TSeries): boolean {
   const { data, ui } = series
 
-  if (ui.$$.style !== MetricStyle.HISTOGRAM || !ui.$$.baseline) {
+  if (ui.$$.style !== MetricStyle.HISTOGRAM) {
     return false
   }
 
-  const { value, topColor, bottomColor } = ui.$$.baseline!
+  const baseline = $state.snapshot(ui.$$.baseline)
+  if (!baseline) {
+    return false
+  }
+
+  const { value, topColor, bottomColor } = baseline
 
   series.chartSeriesApi?.setData(
     data.$.map((item) => {
@@ -23,7 +28,8 @@ export function applyHistogramBaselineColorData(series: TSeries): boolean {
 }
 
 export function getAreaSeriesColors(series: TSeries) {
-  const { color, baseline, isFilledGradient = false } = series.ui.$$
+  const { color, isFilledGradient = false } = series.ui.$$
+  const baseline = $state.snapshot(series.ui.$$.baseline)
 
   const opacity = isFilledGradient ? '50' : '1c'
 
@@ -37,15 +43,16 @@ export function getAreaSeriesColors(series: TSeries) {
 
   const topLineColor = baseline.topColor
   const bottomLineColor = baseline.bottomColor
+  const gradientOpacity = isFilledGradient ? '09' : opacity
 
   return {
     baseValue: { type: 'price', price: baseline.value },
     topLineColor,
     bottomLineColor,
     topFillColor1: applyHexColorOpacity(topLineColor, opacity),
-    topFillColor2: applyHexColorOpacity(topLineColor, isFilledGradient ? '09' : opacity),
+    topFillColor2: applyHexColorOpacity(topLineColor, gradientOpacity),
     bottomFillColor2: applyHexColorOpacity(bottomLineColor, opacity),
-    bottomFillColor1: applyHexColorOpacity(bottomLineColor, isFilledGradient ? '09' : opacity),
+    bottomFillColor1: applyHexColorOpacity(bottomLineColor, gradientOpacity),
   }
 }
 

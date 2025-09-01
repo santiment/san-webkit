@@ -19,7 +19,7 @@
     getAreaSeriesColors,
     applyHistogramBaselineColorData,
     getCandlesSeriesColors,
-  } from './coloring.js'
+  } from './coloring.svelte.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
