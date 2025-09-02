@@ -64,6 +64,7 @@
       overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
+      timeScale: { ...options?.timeScale, minBarSpacing: 0.0000000001 },
     })
     const firstPane = chart.$.panes()[0]
 
@@ -121,6 +122,22 @@
     }
 
     chart.$.applyOptions(options)
+  })
+
+  $effect(() => {
+    const chartCtx = chart.$
+    if (!chartCtx) return
+
+    // Reading interval change
+    globalParameters.$$.interval || globalParameters.autoInterval$
+
+    const timeScale = chartCtx.timeScale()
+    const visibleRange = timeScale.getVisibleRange()
+
+    if (!visibleRange) return
+
+    const timer = setTimeout(() => timeScale.setVisibleRange(visibleRange), 1500)
+    return () => clearTimeout(timer)
   })
 
   $effect(() => {
