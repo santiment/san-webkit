@@ -147,7 +147,7 @@
     const { toUtcDate: _, fromUtcDate: __ } = globalParameters.dates$
     const timeScale = chartCtx.timeScale()
 
-    const fitTimeScaleContent = () => timeScale.fitContent()
+    const fitTimeScaleContent = () => chartCtx.resetAllScales()
     const unsubscribe = () => timeScale.unsubscribeSizeChange(fitTimeScaleContent)
     const timer = setTimeout(unsubscribe, 1500)
 
