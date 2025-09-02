@@ -29,15 +29,10 @@
 
     <Dropdown
       {items}
-      valueKey="title"
       selected={selected1}
       onSelect={(item) => (selected1 = item)}
       closeDelay={1000}
-    >
-      {#snippet label(item)}
-        {item.title}
-      {/snippet}
-    </Dropdown>
+    />
   </div>
 
   <div>
@@ -45,7 +40,6 @@
 
     <Dropdown
       {items}
-      valueKey="title"
       selected={selected2}
       onSelect={(item) => (selected2 = item)}
       closeDelay={1000}
@@ -53,10 +47,6 @@
       {#snippet trigger()}
         <Svg id="cog" />
         Settings
-      {/snippet}
-
-      {#snippet label(item)}
-        {item.title}
       {/snippet}
     </Dropdown>
   </div>
