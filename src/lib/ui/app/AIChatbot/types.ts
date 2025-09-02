@@ -5,12 +5,23 @@ export type TAiChatbotContext = {
   [key: string]: any
 }
 
-type TAiChatbotMessage = {
+export type TSource = {
+  chunks_count: string
+  number: number
+  similarity: number
+  title: string
+  url: string
+}
+
+export type TAiChatbotMessage = {
   id: string
   content: string
   role: 'USER' | 'ASSISTANT'
   context?: TAiChatbotContext
   insertedAt: string
+  feedbackType: TChatMessageFeedback
+  sources?: TSource[]
+  suggestions?: string[]
 }
 
 export type TAiChatbotSession = {
@@ -26,3 +37,4 @@ export type TAiChatbotSession = {
 }
 
 export type TAiChatType = 'ACADEMY_QA' | 'DYOR_DASHBOARD'
+export type TChatMessageFeedback = 'THUMBS_DOWN' | 'THUMBS_UP' | null

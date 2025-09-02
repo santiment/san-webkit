@@ -1,4 +1,9 @@
-import type { TAiChatbotSession, TAiChatType } from './types.js'
+import type {
+  TAiChatbotMessage,
+  TAiChatbotSession,
+  TAiChatType,
+  TChatMessageFeedback,
+} from './types.js'
 
 import { ApiMutation } from '$lib/api/index.js'
 
@@ -25,6 +30,9 @@ export const mutateSendAiChatbotMessage = ApiMutation(
           id
           content
           context
+          sources
+          suggestions
+          feedbackType
           role
           insertedAt
       }
@@ -34,4 +42,19 @@ export const mutateSendAiChatbotMessage = ApiMutation(
     variables: { chatId, content, context, type },
   }),
   (gql: { sendChatMessage: TAiChatbotSession }) => gql.sendChatMessage,
+)
+
+export const mutateSubmitChatMessageFeedback = ApiMutation(
+  ({ messageId, feedbackType }: { messageId: string; feedbackType: TChatMessageFeedback }) => ({
+    schema: `
+    mutation($messageId: ID!, $feedbackType: ChatMessageFeedbackType!) {
+      submitChatMessageFeedback(messageId: $messageId, feedbackType: $feedbackType) {
+        id
+        feedbackType
+      }
+  }
+`,
+    variables: { messageId, feedbackType },
+  }),
+  (gql: { submitChatMessageFeedback: TAiChatbotMessage }) => gql.submitChatMessageFeedback,
 )

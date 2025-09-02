@@ -35,6 +35,9 @@ dependencies:
   fast-glob:
     specifier: ^3.3.2
     version: 3.3.2
+  lottie-web:
+    specifier: ^5.13.0
+    version: 5.13.0
   posthog-js:
     specifier: ^1.224.0
     version: 1.224.0
@@ -7903,6 +7906,10 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+
+  /lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
+    dev: false
 
   /loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}

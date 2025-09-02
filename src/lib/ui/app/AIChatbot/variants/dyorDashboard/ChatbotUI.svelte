@@ -1,13 +1,17 @@
 <script lang="ts">
   import { ss } from 'svelte-runes'
+  import { onMount } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import Textarea from '$ui/core/Input/Textarea.svelte'
-  import Dialog from '$ui/core/Dialog/index.js'
+  import Dialog, { type TDialogProps } from '$ui/core/Dialog/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
-  import ChatSuggestions from './ChatSuggestions.svelte'
   import ChatScreen from './ChatScreen.svelte'
+  import WelcomeScreen from './WelcomeScreen.svelte'
+
+  let { Controller }: TDialogProps = $props()
 
   const { aiChatbot } = useAIChatbotCtx()
 
@@ -19,22 +23,31 @@
       aiChatbot.sendMessage(aiChatbot.$$.message)
     }
   }
+
+  onMount(() => {
+    if (triggerRef.$) {
+      triggerRef.$.focus()
+    }
+  })
 </script>
 
 <Dialog
-  class="bottom-6 left-auto right-6 top-auto flex h-[600px] w-[600px] transform-none flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow"
+  class={cn(
+    'bottom-6 left-auto right-6 top-auto flex h-[600px] w-[600px]',
+    'transform-none flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow',
+  )}
 >
   <div class="flex h-6 items-center justify-end">
     <Button
       icon="close"
       class="size-3 hover:bg-white hover:fill-green-hover"
       iconSize={12}
-      onclick={() => (aiChatbot.$$.opened = false)}
+      onclick={() => Controller.close()}
     ></Button>
   </div>
 
   {#if !aiChatbot.$$.session && !aiChatbot.loading$}
-    <ChatSuggestions onSubmit={(suggestion) => aiChatbot.sendMessage(suggestion)} />
+    <WelcomeScreen onSubmit={(suggestion) => aiChatbot.sendMessage(suggestion)} />
   {:else}
     <ChatScreen />
   {/if}

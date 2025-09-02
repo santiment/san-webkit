@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { ss } from 'svelte-runes'
-
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
@@ -12,23 +10,12 @@
 
   let focused = $state(false)
 
-  let triggerRef = ss<null | HTMLTextAreaElement>(null)
-
   function onInputKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault()
+
       aiChatbot.openWithPrompt(aiChatbot.$$.message)
     }
-  }
-
-  function handleChatOpen() {
-    aiChatbot.openWithPrompt()
-
-    focusTriggerWithDelay(200)
-  }
-
-  function focusTriggerWithDelay(delay: number) {
-    setTimeout(() => triggerRef.$?.focus(), delay)
   }
 </script>
 
@@ -38,7 +25,7 @@
       <Button
         class="h-10 w-56 rounded-full border border-porcelain bg-white pl-8 text-base hover:border-green-hover"
         title={aiChatbot.$$.session.title}
-        onclick={handleChatOpen}
+        onclick={() => aiChatbot.openWithPrompt()}
       >
         <span class="block overflow-hidden text-ellipsis whitespace-nowrap">
           {aiChatbot.$$.session.title}
@@ -84,7 +71,7 @@
     <Button
       icon="social-trend"
       class="h-10 w-10 shrink-0 rounded-full bg-white shadow hover:fill-green"
-      onclick={handleChatOpen}
+      onclick={() => aiChatbot.openWithPrompt()}
     ></Button>
   {/if}
 </div>

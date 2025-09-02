@@ -1,35 +1,55 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
-
   import { cn } from '$ui/utils/index.js'
   import Dialog, { type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
 
+  import ChatScreen from './ChatScreen.svelte'
+  import { useAIChatbotCtx } from '../../ctx.svelte.js'
+  import WelcomeScreen from './WelcomeScreen.svelte'
+  import ChatInput from './ChatInput.svelte'
+
   type TProps = {
     class?: string
-    resetButton?: Snippet
-    children?: Snippet
   }
 
-  const {
-    class: className = '',
-    resetButton,
-    children,
-    Controller,
-  }: TProps & TDialogProps = $props()
+  const { aiChatbot } = useAIChatbotCtx()
+
+  const { class: className = '', Controller }: TProps & TDialogProps = $props()
 </script>
 
-<Dialog class={cn('h-auto', className)}>
-  <header class="flex items-end">
-    {@render resetButton?.()}
+<Dialog
+  class={cn(
+    'flex h-full w-[1024px]',
+    'flex-col rounded-lg border border-porcelain bg-white px-6 pb-4 pt-[14px] text-base shadow',
+    className,
+  )}
+>
+  <header class="mb-3 flex items-center justify-end gap-3">
+    {#if aiChatbot.$$.session}
+      <Button icon="refresh" onclick={() => aiChatbot.resetSession()}>Reset</Button>
+    {/if}
 
     <Button
       icon="close"
-      class="size-3 fill-waterloo"
+      class="size-8 fill-waterloo"
       iconSize={12}
-      onclick={() => Controller.close(true)}
+      onclick={() => Controller.close()}
     ></Button>
   </header>
 
-  {@render children?.()}
+  {#if !aiChatbot.$$.session && !aiChatbot.loading$}
+    <WelcomeScreen />
+  {:else}
+    <ChatScreen />
+  {/if}
+
+  <ChatInput
+    placeholder="Ask me..."
+    bind:value={aiChatbot.$$.message}
+    onSubmit={() => aiChatbot.sendMessage(aiChatbot.$$.message)}
+  />
+
+  <p class="mt-2 text-center text-sm text-casper">
+    Turtoshi surfs only through our Academy. Check important info for mistakes.
+  </p>
 </Dialog>

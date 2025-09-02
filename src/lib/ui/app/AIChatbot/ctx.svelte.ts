@@ -1,4 +1,9 @@
-import type { TAiChatbotContext, TAiChatbotSession, TAiChatType } from './types.js'
+import type {
+  TAiChatbotContext,
+  TAiChatbotSession,
+  TAiChatType,
+  TChatMessageFeedback,
+} from './types.js'
 
 import { dialogs$ } from '$ui/core/Dialog/index.js'
 import { Query } from '$lib/api/executor.js'
@@ -6,7 +11,7 @@ import { createCtx } from '$lib/utils/index.js'
 
 import AcademyQA from './variants/academyQA/index.js'
 import DyorDashboard from './variants/dyorDashboard/index.js'
-import { mutateSendAiChatbotMessage } from './api.js'
+import { mutateSendAiChatbotMessage, mutateSubmitChatMessageFeedback } from './api.js'
 
 type TAIChatState = {
   type?: TAiChatType
@@ -79,6 +84,26 @@ export const useAIChatbotCtx = createCtx(
               loading = false
               state.temporaryMessage = ''
             })
+        },
+
+        async sendFeedback(messageId: string, feedbackType: TChatMessageFeedback) {
+          const session = state.session
+          if (!session?.chatMessages) return
+
+          const idx = session.chatMessages.findIndex((m) => m.id === messageId)
+
+          if (idx === -1) return
+
+          await mutateSubmitChatMessageFeedback(Query)({
+            messageId,
+            feedbackType,
+          }).then((data) => {
+            session.chatMessages[idx].feedbackType = data.feedbackType ?? null
+          })
+        },
+
+        resetSession() {
+          state.session = undefined
         },
 
         openWithPrompt(prompt?: string) {
