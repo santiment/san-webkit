@@ -1,0 +1,66 @@
+import { BROWSER } from 'esm-env';
+import { getAllContexts, getContext, mount, unmount, untrack, } from 'svelte';
+import { controlledPromisePolyfill } from '../../../utils/index.js';
+var Locking;
+(function (Locking) {
+    Locking[Locking["FREE"] = 0] = "FREE";
+    Locking[Locking["LOCKED"] = 1] = "LOCKED";
+    Locking[Locking["LOCKED_WARN"] = 2] = "LOCKED_WARN";
+})(Locking || (Locking = {}));
+export const CTX = 'DialogController';
+export const getDialogControllerCtx = () => getContext(CTX);
+export const dialogs$ = {
+    new(component) {
+        const ALL_CTX = getAllContexts();
+        const showDialog = (props) => untrack(() => {
+            if (!BROWSER)
+                return Promise.reject();
+            const { promise, resolve, reject } = controlledPromisePolyfill();
+            let locking = Locking.FREE;
+            let lockMessage = 'Do you want to close the dialog?';
+            // const context = new Map(ALL_CTX)
+            const context = ALL_CTX;
+            const Controller = {
+                lock: () => (locking = Locking.LOCKED),
+                lockWarn: (msg) => {
+                    locking = Locking.LOCKED_WARN;
+                    if (msg)
+                        lockMessage = msg;
+                },
+                unlock: () => (locking = Locking.FREE),
+                checkIsLocked: (isForced) => {
+                    // NOTE: Enforcing boolean check
+                    if (isForced === true)
+                        return false;
+                    if (locking === Locking.LOCKED)
+                        return true;
+                    if (locking === Locking.LOCKED_WARN && confirm(lockMessage) === false) {
+                        return true;
+                    }
+                    return false;
+                },
+                close: () => { },
+                resolve,
+                reject,
+                _unmount: () => { },
+                _context: context,
+            };
+            context.set(CTX, { Controller });
+            const mounted = mount(component, {
+                target: document.body,
+                context,
+                props: { ...props, resolve, reject, Controller },
+            });
+            Controller._unmount = () => unmount(mounted);
+            if (process.env.NODE_ENV !== 'production' && BROWSER) {
+                // @ts-expect-error
+                if (!window.__STORYBOOK_DIALOGS__)
+                    window.__STORYBOOK_DIALOGS__ = new Set();
+                //@ts-expect-error
+                window.__STORYBOOK_DIALOGS__.add(() => unmount(mounted));
+            }
+            return promise;
+        });
+        return showDialog;
+    },
+};
