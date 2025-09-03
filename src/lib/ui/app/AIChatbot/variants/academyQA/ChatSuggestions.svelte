@@ -13,12 +13,12 @@
 <div class="py-4">
   <h4 class="mb-4 text-base font-semibold text-rhino">{title}</h4>
 
-  <ul class="[&>li]:mb-3 last:[&>li]:mb-0">
+  <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
     {#each suggestions as suggestion}
       <li>
         <Button
-          variant="plain"
-          class="h-6 text-green hover:text-green-hover"
+          variant="link"
+          class="inline-block h-auto p-0 text-left"
           onclick={() => onItemClick(suggestion)}
         >
           {suggestion}

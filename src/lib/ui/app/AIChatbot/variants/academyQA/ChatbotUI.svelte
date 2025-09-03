@@ -2,6 +2,7 @@
   import { cn } from '$ui/utils/index.js'
   import Dialog, { type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
   import ChatScreen from './ChatScreen.svelte'
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
@@ -15,12 +16,16 @@
   const { aiChatbot } = useAIChatbotCtx()
 
   const { class: className = '', Controller }: TProps & TDialogProps = $props()
+
+  const { device } = useDeviceCtx()
+  const isPhone = $derived(device.$.isPhone)
 </script>
 
 <Dialog
   class={cn(
-    'flex h-full w-[1024px]',
-    'flex-col rounded-lg border border-porcelain bg-white px-6 pb-4 pt-[14px] text-base shadow',
+    'flex h-full w-full max-w-[1024px]',
+    'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow',
+    'sm:px-5',
     className,
   )}
 >
@@ -49,7 +54,9 @@
     onSubmit={() => aiChatbot.sendMessage(aiChatbot.$$.message)}
   />
 
-  <p class="mt-2 text-center text-sm text-casper">
-    Turtoshi surfs only through our Academy. Check important info for mistakes.
+  <p class="mt-2 text-center text-sm text-casper sm:text-sm">
+    {isPhone
+      ? 'Check important info for mistakes'
+      : 'Turtoshi surfs only through our Academy. Check important info for mistakes.'}
   </p>
 </Dialog>

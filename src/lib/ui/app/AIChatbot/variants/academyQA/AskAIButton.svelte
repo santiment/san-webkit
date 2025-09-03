@@ -4,15 +4,15 @@
 
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
 
-  const { device } = useDeviceCtx()
   const { aiChatbot } = useAIChatbotCtx()
+  const { device } = useDeviceCtx()
 
   const isPhone = $derived(device.$.isPhone)
 </script>
 
 <Button
   variant="border"
-  class="ask-ai-button rounded-md px-6 transition-colors"
+  class="ask-ai-button rounded-md border-2 border-transparent px-6 transition-colors"
   onclick={() => aiChatbot.openWithPrompt()}
 >
   {isPhone ? 'AI Chat' : 'Chat with AI'}
@@ -23,8 +23,6 @@
     background:
       linear-gradient(#fff, #fff) padding-box,
       linear-gradient(90deg, #b0ebdb, #ffe7ca) border-box;
-    border: 2px solid transparent;
-    display: inline-block;
 
     &:hover {
       background:

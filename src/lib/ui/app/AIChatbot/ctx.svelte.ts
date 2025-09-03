@@ -46,7 +46,6 @@ export const useAIChatbotCtx = createCtx(
       ['DYOR_DASHBOARD']: dialogs$.new(DyorDashboard),
     }
 
-    // TODO: Improve that part in the future
     const showChatUI = () => variantMap[state.type || 'DYOR_DASHBOARD']()
 
     return {
