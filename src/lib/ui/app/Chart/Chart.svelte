@@ -61,7 +61,7 @@
     chart.$ = createChart(chartContainerNode, {
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
-      overlayPriceScales: { autoScale: false },
+      //overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
       timeScale: { ...options?.timeScale, minBarSpacing: 0.0000000001 },
