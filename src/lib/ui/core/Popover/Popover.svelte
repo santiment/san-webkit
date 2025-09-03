@@ -9,6 +9,7 @@
   } from 'bits-ui'
 
   import { cn } from '$ui/utils/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type TProps = {
     class?: string
@@ -41,11 +42,6 @@
   }: TProps = $props()
 
   const preventFocus = (e: Event) => e.preventDefault()
-
-  function transition(el: HTMLElement) {
-    el.dataset.state = 'closed'
-    return { duration: 200 }
-  }
 </script>
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
@@ -72,7 +68,7 @@
           <div
             {...props}
             class={cn('fly-and-scale-animation animated', props.class as string)}
-            out:transition
+            out:flyAndScaleOutTransition
           >
             {@render content({ close: () => (isOpened = false) })}
           </div>

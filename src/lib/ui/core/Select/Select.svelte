@@ -6,6 +6,7 @@
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type T = $$Generic
   type Props = {
@@ -58,11 +59,6 @@
     selected = item
     onSelect?.(item)
   }
-
-  function transition(el: HTMLElement) {
-    el.dataset.state = 'closed'
-    return { duration: 200 }
-  }
 </script>
 
 <Select.Root
@@ -107,7 +103,7 @@
             {...props}
             class={cn('fly-and-scale-animation animated', props.class as string)}
             bind:this={contentNode}
-            out:transition
+            out:flyAndScaleOutTransition
           >
             {#each items as item}
               <Select.Item
