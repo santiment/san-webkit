@@ -70,8 +70,10 @@
     {placeholder}
     {value}
     class={cn(
-      'flex-1 items-center overflow-hidden overscroll-auto rounded-lg py-5 pr-14',
-      'bg-transparent placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
+      'qa-academy-border-gradient',
+      'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
+      'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
+      'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
       'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
     )}
     inputClass={cn(
@@ -98,3 +100,11 @@
     />
   {/if}
 </label>
+
+<style lang="postcss">
+  :global(.qa-academy-border-gradient) {
+    background:
+      linear-gradient(white, white) padding-box,
+      linear-gradient(to right, #b0ebdb, #ffe7ca) border-box;
+  }
+</style>

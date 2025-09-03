@@ -12,14 +12,14 @@
 
 <Button
   variant="border"
-  class="ask-ai-button rounded-md border-2 border-transparent px-6 transition-colors"
+  class="ask-ai-academy-button rounded-md border-2 border-transparent px-6 transition-colors"
   onclick={() => aiChatbot.openWithPrompt()}
 >
   {isPhone ? 'AI Chat' : 'Chat with AI'}
 </Button>
 
 <style lang="postcss">
-  :global(.ask-ai-button) {
+  :global(.ask-ai-academy-button) {
     background:
       linear-gradient(#fff, #fff) padding-box,
       linear-gradient(90deg, #b0ebdb, #ffe7ca) border-box;
