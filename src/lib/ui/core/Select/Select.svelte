@@ -19,6 +19,8 @@
     contentClass?: string
 
     option?: Snippet<[Selected<T>]>
+
+    matchTriggerWidth?: boolean
   } & ComponentProps<typeof Button>
 
   let {
@@ -28,13 +30,16 @@
     selected = $bindable(),
     side = 'bottom',
     align = 'center',
+    matchTriggerWidth,
 
     onSelect,
     option,
+
     ...rest
   }: Props = $props()
 
   let contentNode: undefined | HTMLDivElement = $state.raw()
+  let isOpened = $state(false)
 
   $effect(() => {
     if (!contentNode) return
@@ -55,16 +60,19 @@
   }
 </script>
 
-<Select.Root value={selected?.value as string | undefined} type="single">
+<Select.Root
+  value={selected?.value as string | undefined}
+  type="single"
+  onOpenChange={(value) => (isOpened = value)}
+>
   <Select.Trigger>
     {#snippet child({ props })}
       <Button
         variant="border"
         {...props}
-        icon="arrow-down"
-        iconSize="12"
-        iconOnRight
-        class={triggerClass}
+        dropdown
+        active={isOpened}
+        class={cn('[&[data-state="open"]]:bg-athens', triggerClass)}
         {...rest}
       >
         {#if rest.children}
@@ -77,7 +85,10 @@
   </Select.Trigger>
 
   <Select.Content
-    class="z-20 overflow-auto rounded border bg-white p-2"
+    class={cn(
+      'z-20 overflow-auto rounded border bg-white p-2',
+      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+    )}
     sideOffset={8}
     collisionPadding={8}
     {side}
