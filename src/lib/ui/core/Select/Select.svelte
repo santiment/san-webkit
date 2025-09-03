@@ -4,8 +4,9 @@
 
   import { Select } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type T = $$Generic
   type Props = {
@@ -72,7 +73,7 @@
         {...props}
         dropdown
         active={isOpened}
-        class={cn('[&[data-state="open"]]:bg-athens', triggerClass)}
+        class={cn('data-[state="open"]:bg-athens', triggerClass)}
         {...rest}
       >
         {#if rest.children}
@@ -98,7 +99,12 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale bind:this={contentNode}>
+          <div
+            {...props}
+            class={cn('fly-and-scale-animation animated', props.class as string)}
+            bind:this={contentNode}
+            out:flyAndScaleOutTransition
+          >
             {#each items as item}
               <Select.Item
                 value={item.value as string}
