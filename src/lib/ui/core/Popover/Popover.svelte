@@ -73,7 +73,7 @@
           <!--<div {...props} transition:flyAndScale>-->
           <div
             {...props}
-            class={cn('fly-and-scale-animation', props.class as string)}
+            class={cn('fly-and-scale-animation animated', props.class as string)}
             out:transition
           >
             {@render content({ close: () => (isOpened = false) })}

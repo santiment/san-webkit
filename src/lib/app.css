@@ -186,5 +186,19 @@ skeleton,
 }
 
 .fly-and-scale-animation {
-  @apply fill-mode-both data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-out-to-right data-[side=top]:slide-out-to-bottom data-[side=right]:slide-out-to-left origin-[--bits-popover-content-transform-origin] !duration-200;
+  @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-out-to-right data-[side=top]:slide-out-to-bottom data-[side=right]:slide-out-to-left origin-[--bits-popover-content-transform-origin];
+}
+
+.dialog-animation {
+  @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-90 data-[state=open]:zoom-in-90;
+
+  --tw-enter-translate-x: -50% !important;
+  --tw-enter-translate-y: -50% !important;
+  --tw-exit-translate-x: -50% !important;
+  --tw-exit-translate-y: -50% !important;
+}
+
+.animated {
+  @apply fill-mode-both;
+  animation-duration: 0.2s !important;
 }
