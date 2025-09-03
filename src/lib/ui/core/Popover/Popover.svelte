@@ -8,7 +8,7 @@
     type PopoverTriggerProps,
   } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   type TProps = {
     class?: string
@@ -43,6 +43,10 @@
   const preventFocus = (e: Event) => e.preventDefault()
 
   // TODO: Migrate js transition:flyAndScale to css from bits-ui example
+  function transition(el: HTMLElement) {
+    el.dataset.state = 'closed'
+    return { duration: 200 }
+  }
 </script>
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
@@ -57,6 +61,7 @@
     {side}
     forceMount
     class={cn(
+      'bg-red',
       !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
       className,
@@ -65,7 +70,12 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale>
+          <!--<div {...props} transition:flyAndScale>-->
+          <div
+            {...props}
+            class={cn('fly-and-scale-animation', props.class as string)}
+            out:transition
+          >
             {@render content({ close: () => (isOpened = false) })}
           </div>
         </div>

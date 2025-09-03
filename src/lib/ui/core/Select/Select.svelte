@@ -72,7 +72,7 @@
         {...props}
         dropdown
         active={isOpened}
-        class={cn('[&[data-state="open"]]:bg-athens', triggerClass)}
+        class={cn('data-[state="open"]:bg-athens', triggerClass)}
         {...rest}
       >
         {#if rest.children}
