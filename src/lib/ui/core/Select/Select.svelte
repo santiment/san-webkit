@@ -4,7 +4,7 @@
 
   import { Select } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
 
   type T = $$Generic
@@ -58,6 +58,11 @@
     selected = item
     onSelect?.(item)
   }
+
+  function transition(el: HTMLElement) {
+    el.dataset.state = 'closed'
+    return { duration: 200 }
+  }
 </script>
 
 <Select.Root
@@ -98,7 +103,12 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale bind:this={contentNode}>
+          <div
+            {...props}
+            class={cn('fly-and-scale-animation animated', props.class as string)}
+            bind:this={contentNode}
+            out:transition
+          >
             {#each items as item}
               <Select.Item
                 value={item.value as string}

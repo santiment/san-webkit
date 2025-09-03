@@ -42,7 +42,6 @@
 
   const preventFocus = (e: Event) => e.preventDefault()
 
-  // TODO: Migrate js transition:flyAndScale to css from bits-ui example
   function transition(el: HTMLElement) {
     el.dataset.state = 'closed'
     return { duration: 200 }
@@ -70,7 +69,6 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <!--<div {...props} transition:flyAndScale>-->
           <div
             {...props}
             class={cn('fly-and-scale-animation animated', props.class as string)}
