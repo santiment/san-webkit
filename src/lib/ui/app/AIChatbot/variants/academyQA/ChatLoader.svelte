@@ -1,34 +1,52 @@
 <script lang="ts">
-  import lottie, { type AnimationItem } from 'lottie-web'
+  import type { AnimationItem } from 'lottie-web'
+
   import { onMount } from 'svelte'
 
-  let element: HTMLDivElement
-  let animation: AnimationItem | null = null
+  let element = $state<HTMLDivElement>()
+  let animation = $state<AnimationItem | null>(null)
+  let isInitialized = $state(false)
 
   onMount(() => {
-    let cancelled = false
+    let observer: IntersectionObserver
 
-    ;(async () => {
-      const mod = await import('./loading-animation.json')
+    if (!element) return
 
-      if (cancelled) return
+    const loadAnimation = async () => {
+      if (isInitialized) return
+      isInitialized = true
 
-      const animationData = mod.default
+      const lottie = (await import('lottie-web')).default
+      const animationData = (await import('./loading-animation.json')).default
 
-      if (element) {
-        // @ts-ignore
-        animation = lottie.loadAnimation({
-          container: element,
-          renderer: 'svg',
-          loop: true,
-          autoplay: true,
-          animationData,
-        })
-      }
-    })()
+      if (!element) return
+
+      // @ts-ignore
+      animation = lottie.loadAnimation({
+        container: element,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData,
+      })
+    }
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          loadAnimation()
+
+          if (!element) return
+
+          observer.unobserve(element)
+        }
+      })
+    })
+
+    observer.observe(element)
 
     return () => {
-      cancelled = true
+      observer.disconnect()
       animation?.destroy()
     }
   })
