@@ -26,7 +26,6 @@
       explanation?: string
       loading?: boolean
       dropdown?: boolean
-      active?: boolean
       target?: HTMLAnchorAttributes['target']
 
       action?: Action
@@ -47,7 +46,6 @@
     rounded = false,
     circle = false,
     dropdown = false,
-    active = false,
     loading = false,
 
     icon,
@@ -190,6 +188,7 @@
   {...rest}
   use:action={actionArgs}
   class={cn(
+    'group/button',
     button({
       variant,
       accent,
@@ -220,10 +219,14 @@
       <div
         class={cn(
           'flex size-4 items-center justify-center rounded transition-colors',
-          active && !loading && 'bg-athens',
+          !loading && 'group-data-[state="open"]/button:bg-athens',
         )}
       >
-        <Svg id="arrow-down" w="8" class={cn('transition-transform', active && 'rotate-180')} />
+        <Svg
+          id="arrow-down"
+          w="8"
+          class={cn('transition-transform', 'group-data-[state="open"]/button:rotate-180')}
+        />
       </div>
     </div>
   {/if}

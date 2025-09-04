@@ -30,8 +30,6 @@
     ...rest
   }: TProps = $props()
 
-  let isOpened = $state(false)
-
   let closeTimer: NodeJS.Timeout | undefined
 
   function onItemSelect(item: T, close: () => void) {
@@ -57,12 +55,11 @@
   }
 </script>
 
-<Popover bind:isOpened align="start" class={cn('min-w-40', className)} {...rest}>
+<Popover align="start" class={cn('min-w-40', className)} {...rest}>
   {#snippet children({ props })}
     <Button
       {...props}
       class={triggerClass}
-      active={isOpened}
       variant="border"
       icon={selected && getItemIcon(selected)}
       dropdown

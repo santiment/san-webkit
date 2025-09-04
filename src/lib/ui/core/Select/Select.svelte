@@ -40,7 +40,6 @@
   }: Props = $props()
 
   let contentNode: undefined | HTMLDivElement = $state.raw()
-  let isOpened = $state(false)
 
   $effect(() => {
     if (!contentNode) return
@@ -61,21 +60,10 @@
   }
 </script>
 
-<Select.Root
-  value={selected?.value as string | undefined}
-  type="single"
-  onOpenChange={(value) => (isOpened = value)}
->
+<Select.Root value={selected?.value as string | undefined} type="single">
   <Select.Trigger>
     {#snippet child({ props })}
-      <Button
-        variant="border"
-        {...props}
-        dropdown
-        active={isOpened}
-        class={cn('data-[state="open"]:bg-athens', triggerClass)}
-        {...rest}
-      >
+      <Button variant="border" {...props} dropdown class={triggerClass} {...rest}>
         {#if rest.children}
           {@render rest.children()}
         {:else}
@@ -87,7 +75,7 @@
 
   <Select.Content
     class={cn(
-      'z-20 overflow-auto rounded border bg-white p-2',
+      'z-20 overflow-auto rounded border bg-white p-2 shadow-dropdown',
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
     )}
     sideOffset={8}
