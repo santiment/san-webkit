@@ -85,7 +85,7 @@
     {@const _items = [
       ...selections,
       ...recentSection,
-      Item('title', 'Assets'),
+      Item('title', 'All projects'),
       ...filterSelections(assets),
     ]}
     {@const items = hasResetButton ? [Item('reset', ''), ..._items] : _items}
