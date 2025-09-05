@@ -39,7 +39,7 @@
     <div
       {...$overlay}
       use:overlay
-      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 animated fixed inset-0 z-10 bg-[#000000cf]"
+      class="animated fixed inset-0 z-10 bg-[#000000cf] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
       out:transition
       onclick={(e) => {
         const dialogElement = e.currentTarget.nextElementSibling as null | HTMLElement
