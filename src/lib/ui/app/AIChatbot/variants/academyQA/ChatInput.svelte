@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { ss } from 'svelte-runes'
-
+  import { ss } from '$lib/utils/index.js'
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
   import Textarea from '$ui/core/Input/Textarea.svelte'

@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ss } from 'svelte-runes'
   import { onMount, tick } from 'svelte'
+
+  import { ss } from '$lib/utils/index.js'
 
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
   import ChatMessage from './ChatMessage.svelte'

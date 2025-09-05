@@ -184,3 +184,35 @@ skeleton,
     background-position: 0 50%;
   }
 }
+
+.ai-chatbot-content ul {
+  @apply mb-2 list-disc pl-6;
+}
+
+.ai-chatbot-content ol {
+  @apply mb-2 list-decimal pl-6;
+}
+
+.ai-chatbot-content li {
+  @apply mb-1;
+}
+
+.ai-chatbot-content pre {
+  @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
+}
+
+.ai-chatbot-content code {
+  @apply whitespace-normal break-words;
+}
+
+.ai-chatbot-content p {
+  @apply mb-2;
+}
+
+.ai-chatbot-content p:last-child {
+  @apply mb-0;
+}
+
+.ai-chatbot-content a {
+  @apply link-pointer;
+}

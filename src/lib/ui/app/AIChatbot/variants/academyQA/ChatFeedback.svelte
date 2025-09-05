@@ -57,7 +57,11 @@
 
   {#if isThankOpen}
     <div
-      class="relative mt-5 flex items-center justify-center gap-[90px] rounded-md border border-porcelain bg-whale px-6 py-5"
+      class={cn(
+        'relative mt-5 flex items-center justify-center gap-[90px]',
+        'rounded-md border border-porcelain bg-whale px-6 py-5',
+        'sm:flex-col sm:gap-5 sm:text-center',
+      )}
     >
       <Button
         icon="close"

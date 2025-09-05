@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ss } from 'svelte-runes'
   import { onMount, tick } from 'svelte'
 
+  import { ss } from '$lib/utils/index.js'
   import { cn } from '$ui/utils/index.js'
 
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
@@ -52,7 +52,7 @@
       {#if msg.role === 'USER'}
         {@render userInput(msg.content)}
       {:else}
-        <div class="content w-fit break-words">
+        <div class="ai-chatbot-content w-fit break-words">
           {#await import('marked') then { marked }}
             {@html marked(msg.content)}
           {/await}
@@ -87,31 +87,3 @@
     )}
   ></div>
 {/snippet}
-
-<style lang="postcss">
-  :global(.content) {
-    & ul {
-      @apply mb-2 list-disc pl-6;
-    }
-
-    & ol {
-      @apply mb-2 list-decimal pl-6;
-    }
-
-    & li {
-      @apply mb-1;
-    }
-
-    & pre {
-      @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
-    }
-
-    & code {
-      @apply whitespace-normal break-words;
-    }
-
-    & a {
-      @apply link-pointer;
-    }
-  }
-</style>

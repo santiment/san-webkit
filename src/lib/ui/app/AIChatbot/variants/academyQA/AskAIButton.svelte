@@ -12,7 +12,7 @@
 
 <Button
   variant="border"
-  class="ask-ai-academy-button rounded-md border-2 border-transparent px-6 transition-colors"
+  class="ask-ai-academy-button rounded-md border-2 border-transparent px-6 transition-colors md:px-4 sm:px-6"
   onclick={() => aiChatbot.openWithPrompt()}
 >
   {isPhone ? 'AI Chat' : 'Chat with AI'}

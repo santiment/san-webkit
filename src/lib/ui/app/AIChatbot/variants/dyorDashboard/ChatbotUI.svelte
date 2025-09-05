@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ss } from 'svelte-runes'
   import { onMount } from 'svelte'
 
+  import { ss } from '$lib/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Textarea from '$ui/core/Input/Textarea.svelte'
   import Dialog, { type TDialogProps } from '$ui/core/Dialog/index.js'
