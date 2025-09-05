@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin'
+import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
 
@@ -55,6 +56,7 @@ export default {
     },
   },
   plugins: [
+    tailwindAnimate,
     createColors({
       colors: {
         white: {

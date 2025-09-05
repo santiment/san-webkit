@@ -54,9 +54,11 @@ function createBinaryMathOperator<GName extends string>(
     'number, Timeseries': (a: number, b: Timeseries) => timeseriesNumberOperation(b, a),
 
     'Timeseries, Timeseries': (a: Timeseries, b: Timeseries) => {
+      const [aAligned, bAligned] = alignTimeseries(a, b)
+
       return new Timeseries(
-        a.values.map((value, i) => operation(value, b.values[i])),
-        a.timestamps,
+        aAligned.values.map((value, i) => operation(value, bAligned.values[i])),
+        aAligned.timestamps,
       )
     },
   })
@@ -107,4 +109,59 @@ function createMathFunction<GName extends string>(
       return operation(x, base)
     },
   })
+}
+
+// TODO(vanguard): Write tests before release
+function alignTimeseries(a: Timeseries, b: Timeseries): [Timeseries, Timeseries] {
+  const isASmaller = a.timestamps.length < b.timestamps.length
+  const [base, target] = isASmaller ? [a, b] : [b, a]
+
+  const baseValues = new Array<number>(base.values.length)
+  const targetValues = new Array<number>(target.values.length)
+  const alignedTimestamps = base.timestamps.slice()
+
+  let targetIndex = 0
+  let alignedSize = 0
+
+  baseLoop: for (let baseIndex = 0; baseIndex < base.timestamps.length; baseIndex++) {
+    const baseTimestamp = base.timestamps[baseIndex]
+
+    while (true) {
+      const targetTimestamp = target.timestamps[targetIndex]
+
+      if (baseTimestamp > targetTimestamp) {
+        targetIndex += 1
+      } else if (baseTimestamp < targetTimestamp) {
+        break
+      } else {
+        // baseTimestamp === targetTimestamp
+
+        baseValues[alignedSize] = base.values[baseIndex]
+        targetValues[alignedSize] = target.values[targetIndex]
+        alignedTimestamps[alignedSize] = baseTimestamp
+
+        alignedSize += 1
+        targetIndex += 1
+
+        break
+      }
+
+      if (targetIndex >= target.timestamps.length) {
+        break baseLoop
+      }
+    }
+  }
+
+  baseValues.length = alignedSize
+  targetValues.length = alignedSize
+  alignedTimestamps.length = alignedSize
+
+  const [aAlignedValues, bAlignedValues] = isASmaller
+    ? [baseValues, targetValues]
+    : [targetValues, baseValues]
+
+  return [
+    new Timeseries(aAlignedValues, alignedTimestamps),
+    new Timeseries(bAlignedValues, alignedTimestamps),
+  ]
 }

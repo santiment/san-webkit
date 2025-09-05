@@ -61,9 +61,10 @@
     chart.$ = createChart(chartContainerNode, {
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
-      overlayPriceScales: { autoScale: false },
+      //overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
+      timeScale: { ...options?.timeScale, minBarSpacing: 0.0000000001 },
     })
     const firstPane = chart.$.panes()[0]
 
@@ -127,10 +128,26 @@
     const chartCtx = chart.$
     if (!chartCtx) return
 
+    // Reading interval change
+    globalParameters.$$.interval || globalParameters.autoInterval$
+
+    const timeScale = chartCtx.timeScale()
+    const visibleRange = timeScale.getVisibleRange()
+
+    if (!visibleRange) return
+
+    const timer = setTimeout(() => timeScale.setVisibleRange(visibleRange), 1500)
+    return () => clearTimeout(timer)
+  })
+
+  $effect(() => {
+    const chartCtx = chart.$
+    if (!chartCtx) return
+
     const { toUtcDate: _, fromUtcDate: __ } = globalParameters.dates$
     const timeScale = chartCtx.timeScale()
 
-    const fitTimeScaleContent = () => timeScale.fitContent()
+    const fitTimeScaleContent = () => chartCtx.resetAllScales()
     const unsubscribe = () => timeScale.unsubscribeSizeChange(fitTimeScaleContent)
     const timer = setTimeout(unsubscribe, 1500)
 
