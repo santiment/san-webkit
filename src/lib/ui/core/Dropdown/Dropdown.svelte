@@ -1,4 +1,4 @@
-<script lang="ts" generics="T extends {icon?: string} | string">
+<script lang="ts" generics="T extends {icon?: string, title: string} | string">
   import type { ComponentProps, Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
@@ -47,11 +47,15 @@
   function checkIsItemSelected(item: T) {
     if (!selected) return false
 
+    if (typeof item === 'string' || typeof selected === 'string') {
+      return selected === item
+    }
+
     if (valueKey) {
       return selected[valueKey] === item[valueKey]
     }
 
-    return selected === item
+    return selected.title === item.title
   }
 </script>
 
@@ -93,5 +97,5 @@
 </Popover>
 
 {#snippet defaultLabel(item: T)}
-  {item}
+  {typeof item === 'string' ? item : item.title}
 {/snippet}
