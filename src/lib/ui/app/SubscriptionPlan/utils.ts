@@ -3,6 +3,7 @@ import type { TSubscriptionPlan } from './types.js'
 import {
   Plan,
   checkIsBusinessPlan,
+  checkIsTrialEligiblePlan,
   getPlanDisplayName,
   planFromRaw,
 } from '$lib/utils/plans/index.js'
@@ -23,15 +24,18 @@ export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
 ) {
-  const plan = planFromRaw(monthlyPlan.name)
-  const name = getPlanDisplayName(monthlyPlan.name)
-  const details = SubscriptionPlanDetails[monthlyPlan.name]
+  const key = monthlyPlan.name
+  const plan = planFromRaw(key)
+  const name = getPlanDisplayName(key)
+  const details = SubscriptionPlanDetails[key]
 
   return {
     plan,
     isFree: plan === Plan.FREE,
     isCustom: plan === Plan.CUSTOM,
     isBusiness: checkIsBusinessPlan(monthlyPlan.name),
+
+    isTrialSupported: checkIsTrialEligiblePlan(key),
 
     name,
     details,

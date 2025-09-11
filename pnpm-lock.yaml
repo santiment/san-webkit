@@ -47,6 +47,9 @@ dependencies:
   tailwind-variants:
     specifier: ^0.3.0
     version: 0.3.0(tailwindcss@3.4.3)
+  tailwindcss-animate:
+    specifier: ^1.0.7
+    version: 1.0.7(tailwindcss@3.4.3)
   ua-parser-js:
     specifier: 1.0.39
     version: 1.0.39
@@ -71,8 +74,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart-next':
-    specifier: npm:@santiment-network/chart@^1.0.13
-    version: /@santiment-network/chart@1.0.13
+    specifier: npm:@santiment-network/chart@^1.0.16
+    version: /@santiment-network/chart@1.0.16
   '@sentry/sveltekit':
     specifier: ^9.2.0
     version: 9.2.0(@sveltejs/kit@2.20.7)(svelte@5.35.4)(vite@6.2.5)
@@ -175,6 +178,9 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.2
     version: 15.2.2
+  lottie-web:
+    specifier: ^5.13.0
+    version: 5.13.0
   magic-string:
     specifier: ^0.30.10
     version: 0.30.17
@@ -559,8 +565,8 @@ packages:
       - react
     dev: true
 
-  /@cloudflare/workers-types@4.20250810.0:
-    resolution: {integrity: sha512-GAJcKMrlWrrgfpFkYAc9AYiyPM1sMfY0gzrNA7T+J7kVh82hdIWXaz7bykc+B/kgDRteO7RBKfwVEU0rB/hk2Q==}
+  /@cloudflare/workers-types@4.20250903.0:
+    resolution: {integrity: sha512-F6G3MG7EZxsJ2Fgsy3eed+U2fU/XGfKqDlyY/vCL/zUqI8KuaNx8GVnxttqzktBY55HK3xe82Zpj8xujW6PfXw==}
     requiresBuild: true
     dev: true
     optional: true
@@ -575,7 +581,7 @@ packages:
       eth-json-rpc-filters: 6.0.1
       eventemitter3: 5.0.1
       keccak: 3.0.4
-      preact: 10.27.0
+      preact: 10.27.1
       sha.js: 2.4.12
     transitivePeerDependencies:
       - supports-color
@@ -609,25 +615,25 @@ packages:
     dependencies:
       '@noble/ciphers': 1.0.0
 
-  /@emnapi/core@1.4.5:
-    resolution: {integrity: sha512-XsLw1dEOpkSX/WucdqUhPWP7hDxSvZiY+fsUC14h+FtQ2Ifni4znbBt8punRX+Uj2JG/uDb8nEHVKvrVlvdZ5Q==}
+  /@emnapi/core@1.5.0:
+    resolution: {integrity: sha512-sbP8GzB1WDzacS8fgNPpHlp6C9VZe+SJP3F90W9rLemaQj2PzIuTEl1qDOYQf58YIpyjViI24y9aPWCjEzY2cg==}
     requiresBuild: true
     dependencies:
-      '@emnapi/wasi-threads': 1.0.4
+      '@emnapi/wasi-threads': 1.1.0
       tslib: 2.8.1
     dev: true
     optional: true
 
-  /@emnapi/runtime@1.4.5:
-    resolution: {integrity: sha512-++LApOtY0pEEz1zrd9vy1/zXVaVJJ/EbAF3u0fXIzPJEDtnITsBGbbK0EkM72amhl/R5b+5xx0Y/QhcVOpuulg==}
+  /@emnapi/runtime@1.5.0:
+    resolution: {integrity: sha512-97/BJ3iXHww3djw6hYIfErCZFee7qCtrneuLa20UXFCOTCfBM2cvQHjWJ2EG0s0MtdNwInarqCTz35i4wWXHsQ==}
     requiresBuild: true
     dependencies:
       tslib: 2.8.1
     dev: true
     optional: true
 
-  /@emnapi/wasi-threads@1.0.4:
-    resolution: {integrity: sha512-PJR+bOmMOPH8AtcTGAyYNiuJ3/Fcoj2XN/gBEWzDIKh254XO+mM9XoXHk5GNEhodxeMznbg7BlRojVbKN+gC6g==}
+  /@emnapi/wasi-threads@1.1.0:
+    resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
     requiresBuild: true
     dependencies:
       tslib: 2.8.1
@@ -1606,8 +1612,8 @@ packages:
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
     requiresBuild: true
     dependencies:
-      '@emnapi/core': 1.4.5
-      '@emnapi/runtime': 1.4.5
+      '@emnapi/core': 1.5.0
+      '@emnapi/runtime': 1.5.0
       '@tybys/wasm-util': 0.10.0
     dev: true
     optional: true
@@ -3043,8 +3049,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.13:
-    resolution: {integrity: sha512-gdjouXE93u5oVYDR+/YTzOYhHESg2/T/8M0OqibE4Svk8M3CPXTFqsMp1idgkhAU3wEABopeRQsI4j5OWwLc4g==}
+  /@santiment-network/chart@1.0.16:
+    resolution: {integrity: sha512-pffXbRXx92hxhP8hpY3Vgq9tGZaR+F8r6xcf8sXq/5QkFBb/NsdkIW1i6SjIUMSrcyQ6ZBNRi6n4q5kfUv/6XQ==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
@@ -3233,7 +3239,7 @@ packages:
     dependencies:
       '@sentry/core': 9.2.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20250810.0
+      '@cloudflare/workers-types': 4.20250903.0
     dev: true
 
   /@sentry/core@9.2.0:
@@ -7904,6 +7910,10 @@ packages:
     dependencies:
       js-tokens: 4.0.0
 
+  /lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
+    dev: true
+
   /loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
     dependencies:
@@ -8771,8 +8781,8 @@ packages:
   /preact@10.26.7:
     resolution: {integrity: sha512-43xS+QYc1X1IPbw03faSgY6I6OYWcLrJRv3hU0+qMOfh/XCHcP0MX2CVjNARYR2cC/guu975sta4OcjlczxD7g==}
 
-  /preact@10.27.0:
-    resolution: {integrity: sha512-/DTYoB6mwwgPytiqQTh/7SFRL98ZdiD8Sk8zIUVOxtwq4oWcwrcd1uno9fE/zZmUaUrFNYzbH14CPebOz9tZQw==}
+  /preact@10.27.1:
+    resolution: {integrity: sha512-V79raXEWch/rbqoNc7nT9E4ep7lu+mI3+sBmfRD4i1M73R3WLYcCtdI0ibxGVf4eQL8ZIz2nFacqEC+rmnOORQ==}
 
   /prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -9917,6 +9927,14 @@ packages:
       tailwindcss: '*'
     dependencies:
       tailwind-merge: 2.5.4
+      tailwindcss: 3.4.3
+    dev: false
+
+  /tailwindcss-animate@1.0.7(tailwindcss@3.4.3):
+    resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
       tailwindcss: 3.4.3
     dev: false
 

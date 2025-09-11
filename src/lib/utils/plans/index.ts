@@ -9,6 +9,7 @@ export {
   planFromRaw,
   isPlanEligibleFor,
   getPlanDisplayName,
+  checkIsTrialEligiblePlan,
 } from './plans.js'
 
 export { Product, checkIsSanbaseProduct, checkIsSanApiProduct } from './products.js'

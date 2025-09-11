@@ -1,5 +1,10 @@
 import type { TNominal } from '$lib/utils/index.js'
-import type { TInterval, TMetricData, TMetricTargetSelectorInputObject } from '../api/index.js'
+import type {
+  TAggregation,
+  TInterval,
+  TMetricData,
+  TMetricTargetSelectorInputObject,
+} from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
 
@@ -47,6 +52,7 @@ export type TMetricParameters = TLocalParameters & {
   interval: TInterval
   from: string
   to: string
+  aggregation?: TAggregation
 }
 export type TFetchMetricMessage = TMessageRequestResponse<
   TMessageType['FetchMetric'],

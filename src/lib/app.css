@@ -184,3 +184,53 @@ skeleton,
     background-position: 0 50%;
   }
 }
+
+.ai-chatbot-content ul {
+  @apply mb-2 list-disc pl-6;
+}
+
+.ai-chatbot-content ol {
+  @apply mb-2 list-decimal pl-6;
+}
+
+.ai-chatbot-content li {
+  @apply mb-1;
+}
+
+.ai-chatbot-content pre {
+  @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
+}
+
+.ai-chatbot-content code {
+  @apply whitespace-normal break-words;
+}
+
+.ai-chatbot-content p {
+  @apply mb-2;
+}
+
+.ai-chatbot-content p:last-child {
+  @apply mb-0;
+}
+
+.ai-chatbot-content a {
+  @apply link-pointer;
+}
+
+.fly-and-scale-animation {
+  @apply origin-[--bits-popover-content-transform-origin] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-in-from-right-2 data-[side=left]:slide-out-to-right-1 data-[side=right]:slide-in-from-left-2 data-[side=right]:slide-out-to-left-1 data-[side=top]:slide-in-from-bottom-2 data-[side=top]:slide-out-to-bottom-1;
+}
+
+.dialog-animation {
+  @apply data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-90 data-[state=open]:zoom-in-90;
+
+  --tw-enter-translate-x: -50% !important;
+  --tw-enter-translate-y: -50% !important;
+  --tw-exit-translate-x: -50% !important;
+  --tw-exit-translate-y: -50% !important;
+}
+
+.animated {
+  @apply fill-mode-both;
+  animation-duration: 0.2s !important;
+}

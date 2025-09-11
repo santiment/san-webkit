@@ -6,6 +6,8 @@ import { ApiQuery } from '$lib/api/index.js'
 
 export type TInterval = `${number}m` | `${number}h` | `${number}d` | `${number}y`
 
+export type TAggregation = undefined | 'OHLC'
+
 export type TTimeseriesMetricTransformInputObject = {
   type:
     | 'cumulative_sum'
@@ -62,10 +64,11 @@ export type TVariables = {
 
   transform?: TTimeseriesMetricTransformInputObject
   includeIncompleteData?: boolean
+  aggregation?: TAggregation
 }
 
 export const queryGetMetric = ApiQuery(
-  ({ metric, selector, from, to, interval, transform }: TVariables) => ({
+  ({ metric, selector, from, to, interval, transform, aggregation }: TVariables) => ({
     schema: `
   query getMetric(
     $metric: String!
@@ -86,19 +89,38 @@ export const queryGetMetric = ApiQuery(
         transform: $transform
         aggregation: $aggregation
         includeIncompleteData: $includeIncompleteData
-        fields: {datetime: "d" value: "v" }
+        fields: {datetime: "d" ${aggregation === 'OHLC' ? 'valueOhlc: "v" open:"o" high:"h" close:"c" low:"l"' : 'value: "v"'} }
       ) 
     }
   }
 `,
-    variables: { metric, selector, from, to, interval, transform },
+    variables: { metric, selector, from, to, interval, transform, aggregation },
   }),
-  (gql: { getMetric: { timeseriesDataJson: { d: string; v: number }[] } }): TMetricData =>
+  (gql: { getMetric: { timeseriesDataJson: { d: string; v: TRawPointData }[] } }): TMetricData =>
     gql.getMetric.timeseriesDataJson.map((item) => ({
       time: (Date.parse(item.d) / 1000) as UTCTimestamp,
-      value: item.v,
+      ...mapPointData(item.v),
     })),
   { cacheTime: undefined },
 )
 
-export type TMetricData = { time: UTCTimestamp; value: number }[]
+export type TMetricData = (
+  | { time: UTCTimestamp; value: number }
+  | { time: UTCTimestamp; value: number; open: number; high: number; low: number; close: number }
+)[]
+
+type TRawPointData = number | { o: number; h: number; c: number; l: number }
+function mapPointData(value: TRawPointData) {
+  if (typeof value === 'number') {
+    return { value }
+  }
+
+  return {
+    value: value.c, // NOTE: Making it compatible with formulas
+
+    open: value.o,
+    high: value.h,
+    low: value.l,
+    close: value.c,
+  }
+}

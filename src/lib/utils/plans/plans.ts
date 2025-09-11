@@ -41,38 +41,41 @@ export function getPlanData<T extends TPlan>(plan: T) {
   return PLAN_MAP[plan]
 }
 
-const checkIsCustomPlan = (planName: string | undefined) =>
-  planName?.startsWith(Plan.CUSTOM) ?? false
+const checkIsCustomPlan = (planKey: string | undefined) => planKey?.startsWith(Plan.CUSTOM) ?? false
 
-const checkIsPlan = (planName: string | undefined): planName is TPlan =>
-  planName ? PLANS.has(planName as TPlan) : false
+const checkIsPlan = (planKey: string | undefined): planKey is TPlan =>
+  planKey ? PLANS.has(planKey as TPlan) : false
 
-export function planFromRaw(planName: string | undefined): TPlan | null {
-  if (checkIsCustomPlan(planName)) return Plan.CUSTOM
-  if (checkIsPlan(planName)) return planName
+export function planFromRaw(planKey: string | undefined): TPlan | null {
+  if (checkIsCustomPlan(planKey)) return Plan.CUSTOM
+  if (checkIsPlan(planKey)) return planKey
 
   return null
 }
 
-export function checkIsBusinessPlan(planName: string | undefined) {
-  const plan = planFromRaw(planName)
+export function checkIsBusinessPlan(planKey: string | undefined) {
+  const plan = planFromRaw(planKey)
   return plan ? BUSINESS_PLANS.has(plan as TBusinessPlan) : false
 }
 
-export function checkIsConsumerPlan(planName: string | undefined) {
-  const plan = planFromRaw(planName)
+export function checkIsConsumerPlan(planKey: string | undefined) {
+  const plan = planFromRaw(planKey)
 
   return plan ? CONSUMER_PLANS.has(plan as TConsumerPlan) : false
 }
 
-export function isPlanEligibleFor(planName: string, target: TPlan) {
-  const plan = planFromRaw(planName)
+export function isPlanEligibleFor(planKey: string, target: TPlan) {
+  const plan = planFromRaw(planKey)
   if (!plan) return false
 
   return getPlanData(plan).level >= getPlanData(target).level
 }
 
-export const getPlanDisplayName = (planName: string) => {
-  const plan = planFromRaw(planName)
-  return plan ? getPlanData(plan).name : planName
+export const getPlanDisplayName = (planKey: string) => {
+  const plan = planFromRaw(planKey)
+  return plan ? getPlanData(plan).name : planKey
+}
+
+export function checkIsTrialEligiblePlan(planKey: string | undefined) {
+  return planKey === Plan.PRO
 }

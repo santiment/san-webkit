@@ -24,8 +24,8 @@
       Disabled active
     </label>
 
-    <label class="flex items-center gap-2">
-      <Checkbox error></Checkbox>
+    <label class="mb-5 flex items-center gap-2">
+      <Checkbox error="Some validation error"></Checkbox>
       Error
     </label>
 

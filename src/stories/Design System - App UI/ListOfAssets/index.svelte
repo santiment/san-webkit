@@ -41,32 +41,47 @@
       </div>
     </div>
 
-    {#if isMulti}
-      <ListOfAssetsMulti
-        selected={selectedMulti}
-        resetSelections={() => selectedMulti.clear()}
-        onSelect={(slug) => {
-          if (selectedMulti.has(slug)) {
-            selectedMulti.delete(slug)
-          } else {
-            selectedMulti.add(slug)
-          }
-        }}
-        {keepSelectedInList}
-        {hasSearch}
-        {hasResetButton}
-        {hasTabs}
-      />
-    {:else}
-      <ListOfAssets
-        selected={selectedSingle}
-        onSelect={(slug) => (selectedSingle = slug)}
-        {hasSearch}
-        {hasTabs}
-      />
-    {/if}
+    <section class="flex h-full gap-5">
+      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
+        <h4 class="p-2 text-lg">Regular</h4>
+        {@render list()}
+      </section>
+
+      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border dark:bg-athens">
+        <h4 class="p-2 text-lg">Tinted in Dark mode</h4>
+        {@render list({ itemClass: 'dark:hover:bg-porcelain' })}
+      </section>
+    </section>
   </section>
 </main>
+
+{#snippet list({ itemClass }: { itemClass?: string } = {})}
+  {#if isMulti}
+    <ListOfAssetsMulti
+      {itemClass}
+      selected={selectedMulti}
+      resetSelections={() => selectedMulti.clear()}
+      onSelect={(slug) => {
+        if (selectedMulti.has(slug)) {
+          selectedMulti.delete(slug)
+        } else {
+          selectedMulti.add(slug)
+        }
+      }}
+      {keepSelectedInList}
+      {hasSearch}
+      {hasResetButton}
+      {hasTabs}
+    />
+  {:else}
+    <ListOfAssets
+      selected={selectedSingle}
+      onSelect={(slug) => (selectedSingle = slug)}
+      {hasSearch}
+      {hasTabs}
+    />
+  {/if}
+{/snippet}
 
 {#snippet setting(title: string, state: boolean, onChange: (v: boolean) => void)}
   <label class="flex items-center">

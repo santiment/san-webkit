@@ -13,6 +13,7 @@
   import {
     checkIsBusinessPlan,
     checkIsConsumerPlan,
+    checkIsTrialEligiblePlan,
     getPlanDisplayName,
     Plan,
   } from '$lib/utils/plans/index.js'
@@ -142,7 +143,7 @@
   >
     Get {getPlanDisplayName(plan.name)}
   </Button>
-{:else if isConsumerPlan && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
+{:else if checkIsTrialEligiblePlan(plan.name) && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
   <Button
     variant="fill"
     size="lg"

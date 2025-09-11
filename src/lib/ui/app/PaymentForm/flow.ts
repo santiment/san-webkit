@@ -135,8 +135,8 @@ export function usePaymentFlow() {
     }
 
     const planDisplayName = getPlanDisplayName(plan.name)
-    const isConsumerPlan = !subscriptionPlan.$.formatted?.isBusiness
-    const isEligibleForSanbaseTrial = isConsumerPlan && customer.$.isEligibleForSanbaseTrial
+    const isEligibleForSanbaseTrial =
+      subscriptionPlan.$.formatted?.isTrialSupported && customer.$.isEligibleForSanbaseTrial
 
     const analytics = {
       action,
