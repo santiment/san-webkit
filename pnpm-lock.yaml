@@ -47,6 +47,9 @@ dependencies:
   tailwind-variants:
     specifier: ^0.3.0
     version: 0.3.0(tailwindcss@3.4.3)
+  tailwindcss-animate:
+    specifier: ^1.0.7
+    version: 1.0.7(tailwindcss@3.4.3)
   ua-parser-js:
     specifier: 1.0.39
     version: 1.0.39
@@ -71,8 +74,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart-next':
-    specifier: npm:@santiment-network/chart@^1.0.13
-    version: /@santiment-network/chart@1.0.13
+    specifier: npm:@santiment-network/chart@^1.0.16
+    version: /@santiment-network/chart@1.0.16
   '@sentry/sveltekit':
     specifier: ^9.2.0
     version: 9.2.0(@sveltejs/kit@2.20.7)(svelte@5.35.4)(vite@6.2.5)
@@ -187,6 +190,9 @@ devDependencies:
   lint-staged:
     specifier: ^15.2.2
     version: 15.2.2
+  lottie-web:
+    specifier: ^5.13.0
+    version: 5.13.0
   magic-string:
     specifier: ^0.30.10
     version: 0.30.17
@@ -2911,8 +2917,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.13:
-    resolution: {integrity: sha512-gdjouXE93u5oVYDR+/YTzOYhHESg2/T/8M0OqibE4Svk8M3CPXTFqsMp1idgkhAU3wEABopeRQsI4j5OWwLc4g==}
+  /@santiment-network/chart@1.0.16:
+    resolution: {integrity: sha512-pffXbRXx92hxhP8hpY3Vgq9tGZaR+F8r6xcf8sXq/5QkFBb/NsdkIW1i6SjIUMSrcyQ6ZBNRi6n4q5kfUv/6XQ==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
@@ -8097,6 +8103,10 @@ packages:
     dependencies:
       js-tokens: 4.0.0
 
+  /lottie-web@5.13.0:
+    resolution: {integrity: sha512-+gfBXl6sxXMPe8tKQm7qzLnUy5DUPJPKIyRHwtpCpyUEYjHYRJC/5gjUvdkuO2c3JllrPtHXH5UJJK8LRYl5yQ==}
+    dev: true
+
   /loupe@3.1.3:
     resolution: {integrity: sha512-kkIp7XSkP78ZxJEsSxW3712C6teJVoeHHwgo9zJ380de7IYyJ2ISlxojcH2pC5OFLewESmnRi/+XCDIEEVyoug==}
     dev: true
@@ -10258,6 +10268,14 @@ packages:
       tailwindcss: '*'
     dependencies:
       tailwind-merge: 2.5.4
+      tailwindcss: 3.4.3
+    dev: false
+
+  /tailwindcss-animate@1.0.7(tailwindcss@3.4.3):
+    resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
       tailwindcss: 3.4.3
     dev: false
 

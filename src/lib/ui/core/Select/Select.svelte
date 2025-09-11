@@ -4,8 +4,9 @@
 
   import { Select } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type T = $$Generic
   type Props = {
@@ -19,6 +20,8 @@
     contentClass?: string
 
     option?: Snippet<[Selected<T>]>
+
+    matchTriggerWidth?: boolean
   } & ComponentProps<typeof Button>
 
   let {
@@ -28,9 +31,11 @@
     selected = $bindable(),
     side = 'bottom',
     align = 'center',
+    matchTriggerWidth,
 
     onSelect,
     option,
+
     ...rest
   }: Props = $props()
 
@@ -58,15 +63,7 @@
 <Select.Root value={selected?.value as string | undefined} type="single">
   <Select.Trigger>
     {#snippet child({ props })}
-      <Button
-        variant="border"
-        {...props}
-        icon="arrow-down"
-        iconSize="12"
-        iconOnRight
-        class={triggerClass}
-        {...rest}
-      >
+      <Button variant="border" {...props} dropdown class={triggerClass} {...rest}>
         {#if rest.children}
           {@render rest.children()}
         {:else}
@@ -77,7 +74,10 @@
   </Select.Trigger>
 
   <Select.Content
-    class="z-20 overflow-auto rounded border bg-white p-2"
+    class={cn(
+      'z-20 overflow-auto rounded border bg-white p-2 shadow-dropdown',
+      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+    )}
     sideOffset={8}
     collisionPadding={8}
     {side}
@@ -87,7 +87,12 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale bind:this={contentNode}>
+          <div
+            {...props}
+            class={cn('fly-and-scale-animation animated', props.class as string)}
+            bind:this={contentNode}
+            out:flyAndScaleOutTransition
+          >
             {#each items as item}
               <Select.Item
                 value={item.value as string}

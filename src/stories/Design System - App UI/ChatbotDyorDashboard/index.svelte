@@ -1,17 +1,21 @@
 <script>
-  import AIChatbot, { useAIChatbotCtx } from '$ui/app/AIChatbot/index.js'
+  import { useAIChatbotCtx } from '$ui/app/AIChatbot/index.js'
+  import ChatTrigger from '$ui/app/AIChatbot/variants/dyorDashboard/ChatTrigger.svelte'
   import Chart from '../Chart/index.svelte'
 
   useAIChatbotCtx.set({
-    dashboardId: '1099',
-    asset: 'ethereum',
-    metrics: [
-      'price_usd',
-      'social_volume_total',
-      'social_dominance_total',
-      'sentiment_positive_total',
-      'sentiment_negative_total',
-    ],
+    type: 'DYOR_DASHBOARD',
+    context: {
+      dashboardId: '1099',
+      asset: 'ethereum',
+      metrics: [
+        'price_usd',
+        'social_volume_total',
+        'social_dominance_total',
+        'sentiment_positive_total',
+        'sentiment_negative_total',
+      ],
+    },
   })
 </script>
 
@@ -26,4 +30,4 @@
   repudiandae reprehenderit excepturi illo.
 </p>
 <Chart />
-<AIChatbot />
+<ChatTrigger />

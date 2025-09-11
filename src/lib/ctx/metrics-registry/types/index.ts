@@ -66,13 +66,23 @@ export type TLabelGetterMetricSeries = {
   formula?: SS<TMetricFormula>
 }
 
+export const MetricStyle = {
+  LINE: 'line',
+  HISTOGRAM: 'histogram',
+  AREA: 'area',
+  CANDLES: 'candles',
+} as const
+
+export type TMetricStyle = typeof MetricStyle
+export type TMetricStyles = TMetricStyle[keyof TMetricStyle]
+
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends object = {}> = {
   type: GMetricType
   apiMetricName: string
 
   label?: string
-  style?: 'line' | 'histogram'
+  style?: TMetricStyles
   color?: string
   visible?: boolean
   pane?: number
@@ -94,8 +104,17 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   getSelectorLabels$?: (metricSeries: TLabelGetterMetricSeries) => TLabels
 
   isSelectorLocked?: boolean
+  isFilledGradient?: boolean
+
+  candleDownColor?: string
 
   meta?: Record<string, any>
+
+  baseline?: {
+    value: number
+    topColor: string
+    bottomColor: string
+  }
 } & GData
 
 export type TChartAssetMetric = TChartMetricBase<TMetricType['ASSET']>

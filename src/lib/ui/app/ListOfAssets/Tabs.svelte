@@ -36,7 +36,7 @@
   const { selected, onSelect }: TProps = $props()
 </script>
 
-<nav class="flex gap-4 border-b bg-white text-waterloo">
+<nav class="bg-inherit flex gap-4 border-b text-waterloo">
   {#each tabKeys as tab}
     <Button
       variant="plain"
