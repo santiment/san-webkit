@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/svelte'
 import type { ComponentType } from 'svelte'
 
 import component from './index.svelte'
-import DataTableComponent from './DataTable/index.js'
+import SimpleDataTableComponent from './DataTable/SimpleDataTable.svelte'
+import PagedDataTableComponent from './DataTable/PagedDataTable.svelte'
+import PagedLoadDataTableComponent from './DataTable/PagedLoadDataTable.svelte'
 
 const meta = {
   component,
@@ -16,6 +18,14 @@ export default meta
 
 export const SimpleTable: Story = {}
 
-export const DataTable: StoryObj<typeof DataTableComponent> = {
-  render: () => ({ Component: DataTableComponent as unknown as ComponentType }),
+export const SimpleDataTable: StoryObj<typeof SimpleDataTableComponent> = {
+  render: () => ({ Component: SimpleDataTableComponent as unknown as ComponentType }),
+}
+
+export const PagedDataTable: StoryObj<typeof PagedDataTableComponent> = {
+  render: () => ({ Component: PagedDataTableComponent as unknown as ComponentType }),
+}
+
+export const PagedLoadDataTable: StoryObj<typeof PagedLoadDataTableComponent> = {
+  render: () => ({ Component: PagedLoadDataTableComponent as unknown as ComponentType }),
 }
