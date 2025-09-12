@@ -17,17 +17,22 @@
   import AlertFormScreen from './AlertFormScreen.svelte'
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
+  import RestrictionMessage from './RestrictionMessage.svelte'
 
-  type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
-  let { apiAlert, Controller, source = '' }: TProps = $props()
+  type TProps = TDialogProps & {
+    source?: string
+    alert?: null | Partial<TApiAlert>
+    onCreate?: (alert: TApiAlert) => void
+  }
+  let { alert, Controller, onCreate, source = '' }: TProps = $props()
 
-  let schema = $state.raw(deduceApiAlertSchema(apiAlert))
+  let schema = $state.raw(deduceApiAlertSchema(alert))
 
-  const isApiAlertDeduceFailed = $derived(apiAlert && !schema)
+  const isApiAlertDeduceFailed = $derived(alert && !schema)
 
   $effect(() => {
     if (isApiAlertDeduceFailed) {
-      apiAlert = null
+      alert = null
     }
   })
 
@@ -60,8 +65,10 @@
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />
   </h2>
 
+  <RestrictionMessage />
+
   {#if schema}
-    <AlertFormScreen {apiAlert} {schema} {resetCategory} {close}></AlertFormScreen>
+    <AlertFormScreen {alert} {schema} {resetCategory} {close} {onCreate}></AlertFormScreen>
   {:else}
     <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
   {/if}

@@ -12,37 +12,40 @@
 
   type TProps = {
     schema: TAlertSchemaUnion
-    apiAlert?: null | TApiAlert
+    alert?: null | Partial<TApiAlert>
     resetCategory: () => void
     close: () => void
+    onCreate?: (alert: TApiAlert) => void
   }
-  let { schema, apiAlert, resetCategory, close }: TProps = $props()
+  let { schema, alert, resetCategory, close, onCreate }: TProps = $props()
 
-  const { steps, selectedStep, isAlertValid } = useAlertFormCtx({ schema, apiAlert })
+  const { steps, selectedStep, nextStep, isAlertValid, reduceStepsToAlert } = useAlertFormCtx({
+    schema,
+    alert,
+  })
 
   let loading = $state(false)
+
+  const isEditing = $derived(!!alert?.id)
 
   // Reduce steps state.$$ to accumulated object
   async function onAlertCreate() {
     try {
       loading = true
-      const reducedAlert = createApiAlert() as TApiAlert
+      const reducedAlert = { ...reduceStepsToAlert(), id: alert?.id ?? null }
 
-      await mutateSaveAlert(Query)(reducedAlert)
+      const { id } = await mutateSaveAlert(Query)(reducedAlert)
 
+      onCreate?.({ ...reducedAlert, id })
+
+      notification.success(`Alert was succesfully ${isEditing ? 'updated' : 'created'}`)
       close()
     } catch (e) {
       console.error(e)
-      notification.error('Failed to create alert')
+      notification.error(`Failed to ${isEditing ? 'update' : 'create'} alert`)
     } finally {
       loading = false
     }
-  }
-
-  function createApiAlert() {
-    return steps.reduce((acc, step) => step.reduceToApi(acc, $state.snapshot(step.state.$$)), {
-      settings: {},
-    })
   }
 </script>
 
@@ -53,7 +56,7 @@
     <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
       <h2 class="text-xl">{schema.ui.label}</h2>
 
-      {#if !apiAlert}
+      {#if !alert}
         <Button
           variant="plain"
           icon="arrow"
@@ -79,15 +82,27 @@
       onclick={onAlertCreate}
       {loading}
     >
-      Create alert
+      {isEditing ? 'Update' : 'Create'} alert
     </Button>
   </aside>
 
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
     <div class="mb-4 flex justify-between">
-      <h3 class="text-lg font-medium">{selectedStep.$.ui.label}</h3>
+      <h3 class="h-8 text-lg font-medium">{selectedStep.$.ui.label}</h3>
+
+      {#if selectedStep.$.isValid.$ && nextStep.$}
+        <Button
+          variant="link"
+          onclick={() => (selectedStep.index$ += 1)}
+          icon="pointer"
+          iconSize="14"
+          iconOnRight
+        >
+          {nextStep.$.ui.label}
+        </Button>
+      {/if}
     </div>
 
-    <selectedStep.$.ui.Form step={selectedStep.$}></selectedStep.$.ui.Form>
+    <selectedStep.$.ui.Form state={selectedStep.$.state}></selectedStep.$.ui.Form>
   </main>
 </section>

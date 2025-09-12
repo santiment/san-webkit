@@ -69,10 +69,11 @@ export function useApiMetricDataFlow(
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
     const selector = $state.snapshot(globalParameters.$$.selector)
-    const interval = globalParameters.$$.interval || globalParameters.autoInterval$
+    const interval =
+      metric.interval.$ || globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
-    const { priority, minimalDelay } = untrack(() => settings) || {}
+    const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
     const parameters = {
       metric: metric.apiMetricName,
       selector: $state.snapshot(metric.selector.$) || selector,
@@ -80,6 +81,7 @@ export function useApiMetricDataFlow(
       to,
       interval,
       includeIncompleteData,
+      aggregation: metric.aggregation.$,
     }
 
     const payload = { priority, minimalDelay, parameters }
@@ -88,7 +90,7 @@ export function useApiMetricDataFlow(
           {
             ...payload,
             index,
-            formula: metric.formula,
+            formula: $state.snapshot(metric.formula.$),
             metrics: metricSeries.asScope$,
           },
           onWorkerData,

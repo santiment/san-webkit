@@ -1,5 +1,10 @@
 import type { TNominal } from '$lib/utils/index.js'
-import type { TInterval, TMetricData, TMetricTargetSelectorInputObject } from '../api/index.js'
+import type {
+  TAggregation,
+  TInterval,
+  TMetricData,
+  TMetricTargetSelectorInputObject,
+} from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
 
@@ -9,6 +14,7 @@ export const MESSAGE_TYPE = {
   CancelRequest: 0,
   FetchMetric: 1,
   FetchFormulaMetric: 2,
+  ValidateFormula: 3,
 } as const
 
 export type TMessageType = {
@@ -46,6 +52,7 @@ export type TMetricParameters = TLocalParameters & {
   interval: TInterval
   from: string
   to: string
+  aggregation?: TAggregation
 }
 export type TFetchMetricMessage = TMessageRequestResponse<
   TMessageType['FetchMetric'],
@@ -75,10 +82,23 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   },
   { timeseries: TMetricData } | { error: any }
 >
+export type TValidateFormulaMessage = TMessageRequestResponse<
+  TMessageType['ValidateFormula'],
+  {
+    formula: string
+    index: number
+    metrics: TFetchFormulaMetricMessage['request']['payload']['metrics']
+  },
+  { errors: string[] }
+>
 
 //
 
-export type TMessages = TCancelRequestMessage | TFetchMetricMessage | TFetchFormulaMetricMessage
+export type TMessages =
+  | TCancelRequestMessage
+  | TFetchMetricMessage
+  | TFetchFormulaMetricMessage
+  | TValidateFormulaMessage
 
 //
 

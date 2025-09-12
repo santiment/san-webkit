@@ -11,7 +11,7 @@
   import { useUserWatchlistsCtx } from '../../data.svelte.js'
 
   type TProps = {
-    selectedId: Watchlist['id'] | null
+    selectedId: string | null
     onSelect: (watchlist: Watchlist | null) => void
     loadScreeners?: boolean
   }

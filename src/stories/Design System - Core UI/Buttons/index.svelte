@@ -27,9 +27,11 @@
 
         <StatesGroup title="Default" variant="border" withIcons />
 
-        <StatesGroup title="Rounded" variant="border" withIcons rounded />
+        <StatesGroup title="Circle" variant="border" withIcons circle />
 
         <StatesGroup title="Icon" variant="border" buttons={iconButtons} />
+
+        <StatesGroup title="Icon Circle" variant="border" circle buttons={iconButtons} />
 
         <StatesGroup title="Icon Rounded" variant="border" rounded buttons={iconButtons} />
       </div>
@@ -39,9 +41,11 @@
 
         <StatesGroup title="Default" variant="ghost" withIcons />
 
-        <StatesGroup title="Rounded" variant="ghost" withIcons rounded />
+        <StatesGroup title="Circle" variant="ghost" withIcons circle />
 
         <StatesGroup title="Icon" variant="ghost" buttons={iconButtons} />
+
+        <StatesGroup title="Icon Circle" variant="ghost" circle buttons={iconButtons} />
 
         <StatesGroup title="Icon Rounded" variant="ghost" rounded buttons={iconButtons} />
       </div>
@@ -58,6 +62,22 @@
         <StatesGroup title="Plain (No styles)" variant="plain" />
 
         <StatesGroup title="Plain Icon (No styles)" variant="plain" buttons={iconButtons} />
+      </div>
+
+      <div class="flex flex-col gap-6">
+        <div>
+          <h2 class="text-lg-2 font-semibold">Dropdown / DD Button / Sec Icon + Arrow</h2>
+          <p class="text-waterloo">It's border button with dropdown icon</p>
+        </div>
+
+        <StatesGroup
+          title="Dropdown"
+          variant="border"
+          buttons={justButton}
+          icon="info"
+          withIcons
+          dropdown
+        />
       </div>
     </section>
   </section>
@@ -107,8 +127,12 @@
   </section>
 </main>
 
+{#snippet justButton(props: ComponentProps<typeof Button>)}
+  <Button {...props}>Button</Button>
+{/snippet}
+
 {#snippet iconButtons(props: ComponentProps<typeof Button>)}
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col items-start gap-2">
     <Button {...props} explanation="some info" icon="info" size="lg" />
     <Button {...props} explanation="some info" icon="info" />
     <Button {...props} explanation="some info" icon="info" size="sm" />

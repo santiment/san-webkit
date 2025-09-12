@@ -1,6 +1,6 @@
 import type { TApiAlert } from '../types.js'
 
-import { ApiMutation } from '$lib/api/index.js'
+import { ApiMutation, ApiQuery } from '$lib/api/index.js'
 
 type TSaveAlertProps = {
   id: number | null
@@ -31,4 +31,15 @@ export const mutateSaveAlert = ApiMutation(
     variables: { ...variables, settings: JSON.stringify(settings) },
   }),
   (gql: { savedAlert: { trigger: { id: number } } }) => gql.savedAlert.trigger,
+)
+
+export const queryUserAlertsCount = ApiQuery(
+  () => `{
+  currentUser {
+    triggers {
+      id
+    }
+  }
+}`,
+  (gql: { currentUser: { triggers: { id: number }[] } }) => gql.currentUser.triggers.length,
 )

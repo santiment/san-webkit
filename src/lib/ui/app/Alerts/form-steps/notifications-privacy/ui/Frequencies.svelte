@@ -7,7 +7,6 @@
   import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/index.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
-  import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
   import { cn } from '$ui/utils/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
 
@@ -38,55 +37,75 @@
     state.$$.cooldown = `${amount}${modifier}`
   }
 
-  const getModifierLabel = (modifier: TTimeModifier) => TimeModifiers[modifier].frequencyLabel
+  const getModifierLabel = (modifier: TTimeModifier) => TimeModifiers[modifier].label
+
+  const getRepeatingLabel = (isRepeating: boolean) => (isRepeating ? 'Once every' : 'Once')
 </script>
 
 <Section title="Frequency of notifications">
-  <div class="flex flex-col gap-3 px-4 py-3.5">
-    <div class="flex gap-2">
-      <Input
-        value={cooldownValue}
-        type="number"
-        min="0"
-        disabled={!isRepeating}
-        oninput={onInputChange}
-      />
+  <div class="flex gap-2 px-4 py-3.5">
+    <Popover>
+      {#snippet children({ props })}
+        <Button {...props} variant="border" icon="arrow-down" iconSize={8} iconOnRight>
+          {getRepeatingLabel(isRepeating)}
+        </Button>
+      {/snippet}
 
-      <Popover>
-        {#snippet children({ props })}
-          <Button
-            {...props}
-            variant="border"
-            disabled={!isRepeating}
-            icon="arrow-down"
-            iconSize={8}
-            iconOnRight
-          >
-            {getModifierLabel(cooldownModifier)}
-          </Button>
-        {/snippet}
+      {#snippet content({ close })}
+        <section class="flex flex-col">
+          {#each [false, true] as optionValue}
+            <Button
+              class={cn(isRepeating === optionValue && 'text-green')}
+              onclick={() => {
+                state.$$.isRepeating = optionValue
+                close()
+              }}
+            >
+              {getRepeatingLabel(optionValue)}
+            </Button>
+          {/each}
+        </section>
+      {/snippet}
+    </Popover>
 
-        {#snippet content({ close })}
-          <section class="flex flex-col">
-            {#each exactObjectKeys(TimeModifiers) as modifier}
-              <Button
-                class={cn(cooldownModifier === modifier && 'text-green')}
-                onclick={() => {
-                  setCooldown(cooldownValue, modifier)
-                  close()
-                }}
-              >
-                {getModifierLabel(modifier)}
-              </Button>
-            {/each}
-          </section>
-        {/snippet}
-      </Popover>
-    </div>
+    <Input
+      class="transition-colors focus-within:border-porcelain hover:border-porcelain hover:bg-athens"
+      value={cooldownValue}
+      type="number"
+      min="0"
+      disabled={!isRepeating}
+      oninput={onInputChange}
+    />
 
-    <label class="flex items-center gap-2">
-      <Checkbox isActive={!isRepeating} onCheckedChange={(v) => (state.$$.isRepeating = !v)} />
-      Disable after it triggers
-    </label>
+    <Popover>
+      {#snippet children({ props })}
+        <Button
+          {...props}
+          variant="border"
+          disabled={!isRepeating}
+          icon="arrow-down"
+          iconSize={8}
+          iconOnRight
+        >
+          {getModifierLabel(cooldownModifier)}
+        </Button>
+      {/snippet}
+
+      {#snippet content({ close })}
+        <section class="flex flex-col">
+          {#each exactObjectKeys(TimeModifiers) as modifier}
+            <Button
+              class={cn(cooldownModifier === modifier && 'text-green')}
+              onclick={() => {
+                setCooldown(cooldownValue, modifier)
+                close()
+              }}
+            >
+              {getModifierLabel(modifier)}
+            </Button>
+          {/each}
+        </section>
+      {/snippet}
+    </Popover>
   </div>
 </Section>

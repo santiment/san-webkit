@@ -33,8 +33,9 @@
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
 
-  let isConsumerPlan = $derived(!subscriptionPlan.$.formatted?.isBusiness)
-  let isEligibleForSanbaseTrial = $derived(isConsumerPlan && customer.$.isEligibleForSanbaseTrial)
+  let isEligibleForSanbaseTrial = $derived(
+    subscriptionPlan.$.formatted?.isTrialSupported && customer.$.isEligibleForSanbaseTrial,
+  )
 
   $effect(() => {
     const _stripe = stripe.$

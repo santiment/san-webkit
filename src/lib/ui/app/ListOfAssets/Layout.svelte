@@ -7,12 +7,14 @@
   import Input from '$ui/core/Input/Input.svelte'
   import { useSearchCtx } from '$lib/ctx/search/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { cn } from '$ui/utils/index.js'
 
   import Tabs, { tabKeys, TABS, type TabKey } from './Tabs.svelte'
 
   type T = $$Generic
 
   type TProps = {
+    class?: string
     mapItems: (assets: TAsset[]) => T[]
     onTabSelect?: (tab: TabKey) => void
     hasSearch: boolean
@@ -21,6 +23,7 @@
   }
 
   const {
+    class: className,
     mapItems = (assets) => assets as T[],
     onTabSelect = noop,
     hasSearch,
@@ -64,11 +67,11 @@
   })
 </script>
 
-<section class="flex h-full flex-1 flex-col">
+<section class={cn('flex h-full flex-1 flex-col', className)}>
   <header class="flex flex-col gap-3 px-2 md:p-0">
     {#if hasSearch}
       <Input
-        inputClass="md:py-2.5"
+        inputClass="md:py-2.5 bg-inherit"
         icon="search"
         placeholder="Search project"
         oninput={onInput}

@@ -1,20 +1,20 @@
 <script lang="ts">
-  import type { TAlertStep } from '$ui/app/Alerts/form-steps/index.svelte.js'
+  import type { TBaseState } from '$ui/app/Alerts/form-steps/index.svelte.js'
   import type { TBaseSchema } from '../schema.js'
 
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import StepValue from '$ui/app/Alerts/Dialog/StepValue.svelte'
   import AssetLogo from '$ui/app/AssetLogo/AssetLogo.svelte'
 
-  type TProps = { step: TAlertStep<TBaseSchema> }
+  type TProps = { state: TBaseState<TBaseSchema> }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
   const { getAssetBySlug } = useAssetsCtx()
 
   const MAX = 3
 
-  const slugs = $derived(step.state.$$.target.slugs)
+  const slugs = $derived(state.$$.target.slugs)
   const visible = $derived(slugs.slice(0, MAX))
 </script>
 

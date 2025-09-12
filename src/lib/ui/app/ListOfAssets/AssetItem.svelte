@@ -17,10 +17,15 @@
 
   const { class: className, item, isActive = false, onclick, children }: TProps = $props()
   const { slug, name, ticker } = $derived(item)
+
+  let textEl = $state<HTMLElement>()
+
+  const isOverflow = $derived(!!textEl && textEl.scrollWidth > textEl.offsetWidth)
 </script>
 
 <div class="pb-1">
   <Button
+    explanation={isOverflow ? `${name} (${ticker})` : undefined}
     variant="plain"
     size="auto"
     class={cn(
@@ -32,9 +37,9 @@
   >
     {@render children?.()}
 
-    <div class="flex items-center gap-1.5">
-      <AssetLogo {slug} class="size-4 md:size-5" />
-      <span class="single-line">
+    <div class="flex w-full items-center gap-1.5 overflow-hidden">
+      <AssetLogo {slug} class="size-4 shrink-0 md:size-5" />
+      <span bind:this={textEl} class="single-line">
         <span class="text-fiord">{name}</span>
         <span class="text-casper">{ticker}</span>
       </span>

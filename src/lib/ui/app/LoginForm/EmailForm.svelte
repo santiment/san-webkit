@@ -39,15 +39,15 @@
 <form {onsubmit}>
   <Input
     type="email"
-    placeholder="Your email"
+    placeholder="Enter email"
     icon="envelope"
     name="email"
-    class="text-base"
-    inputClass="py-2"
+    class="text-base font-normal text-black placeholder-casper [&>svg]:left-4"
+    inputClass="py-2 pl-10"
     iconSize="16"
   />
 
   <Button variant="fill" size="lg" class="mt-4 w-full justify-center row" type="submit" {loading}>
-    {isSignUp ? 'Sign up' : 'Log in'}
+    {isSignUp ? 'Create account' : 'Log in'}
   </Button>
 </form>
