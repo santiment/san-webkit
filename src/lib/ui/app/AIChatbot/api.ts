@@ -5,7 +5,7 @@ import type {
   TChatMessageFeedback,
 } from './types.js'
 
-import { ApiMutation } from '$lib/api/index.js'
+import { ApiMutation, ApiQuery } from '$lib/api/index.js'
 
 export const mutateSendAiChatbotMessage = ApiMutation(
   ({
@@ -57,4 +57,15 @@ export const mutateSubmitChatMessageFeedback = ApiMutation(
     variables: { messageId, feedbackType },
   }),
   (gql: { submitChatMessageFeedback: TAiChatbotMessage }) => gql.submitChatMessageFeedback,
+)
+
+export const queryAcademyAutocompleteQuestions = ApiQuery(
+  (query: string) => `{
+    academyAutocompleteQuestions(query: "${query}") {
+      title
+      question
+    }
+  }`,
+  (gql: { academyAutocompleteQuestions: { title: string; question: string }[] }) =>
+    gql.academyAutocompleteQuestions,
 )

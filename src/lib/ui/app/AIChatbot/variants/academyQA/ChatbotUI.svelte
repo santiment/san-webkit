@@ -48,11 +48,7 @@
     <ChatScreen />
   {/if}
 
-  <ChatInput
-    placeholder="Ask me..."
-    bind:value={aiChatbot.$$.message}
-    onSubmit={() => aiChatbot.sendMessage(aiChatbot.$$.message)}
-  />
+  <ChatInput placeholder="Ask me..." onSubmit={(query) => aiChatbot.sendMessage(query)} />
 
   <p class="mt-2 text-center text-sm text-casper sm:text-sm">
     {isPhone
