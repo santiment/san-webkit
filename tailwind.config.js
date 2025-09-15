@@ -67,8 +67,8 @@ export default {
         whale: { day: '#FCFDFE', night: '#1A1D2F' },
 
         athens: { day: '#F3F4FA', night: '#1E2234' },
-        porcelain: { day: '#ECEEF5', night: '#202436' },
-        mystic: { day: '#D2D6E7', night: '#222639' },
+        porcelain: { day: '#ECEEF5', night: '#262A3E' },
+        mystic: { day: '#D2D6E7', night: '#343A52' },
         casper: { day: '#9FAAC4', night: '#4E5472' },
         waterloo: { day: '#7A859E', night: '#7A809A' },
         fiord: { day: '#505573', night: '#A2A7BD' },
@@ -76,6 +76,8 @@ export default {
 
         mirage: { day: '#181b2b', night: '#F8F9FF' },
         black: { day: '#181b2b', night: '#F8F9FF' },
+
+        shark: '#15181F',
 
         green: '#14C393',
         'green-hover': '#24AC85',
