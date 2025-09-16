@@ -5,6 +5,7 @@ import component from './index.svelte'
 import SimpleDataTableComponent from './DataTable/SimpleDataTable.svelte'
 import PagedDataTableComponent from './DataTable/PagedDataTable.svelte'
 import PagedLoadDataTableComponent from './DataTable/PagedLoadDataTable.svelte'
+import ScreenerTableComponent from './ScreenerTable/ScreenerTable.svelte'
 
 const meta = {
   component,
@@ -28,4 +29,8 @@ export const PagedDataTable: StoryObj<typeof PagedDataTableComponent> = {
 
 export const PagedLoadDataTable: StoryObj<typeof PagedLoadDataTableComponent> = {
   render: () => ({ Component: PagedLoadDataTableComponent as unknown as ComponentType }),
+}
+
+export const ScreenerTable: StoryObj<typeof ScreenerTableComponent> = {
+  render: () => ({ Component: ScreenerTableComponent as unknown as ComponentType }),
 }
