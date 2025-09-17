@@ -28,6 +28,7 @@
   }: TProps = $props()
 
   const textareaRef = ss<null | HTMLTextAreaElement>(null)
+  const contentRef = ss<null | HTMLElement>(null)
   let textareaWrapperRef = ss<null | HTMLElement>(null)
 
   let value = $state('')
@@ -87,6 +88,12 @@
     }
   }
 
+  function handleBlur(e: any) {
+    if (!contentRef.$?.contains(e.relatedTarget)) {
+      isPopoverOpened = false
+    }
+  }
+
   function handleInput(e: Event) {
     const newValue = (e.currentTarget as HTMLTextAreaElement).value
 
@@ -97,84 +104,92 @@
   }
 </script>
 
-<Popover
-  bind:isOpened={isPopoverOpened}
-  align="start"
-  side="top"
-  noStyles
-  contentProps={{
-    customAnchor: textareaWrapperRef.$,
-    alignOffset: 0,
-    sideOffset: 8,
-    trapFocus: false,
-    onInteractOutside: () => (isPopoverOpened = false),
-  }}
->
-  {#snippet children()}
-    <label
-      bind:this={textareaWrapperRef.$}
-      class={cn('relative mt-3 flex items-center', className)}
-    >
-      <Textarea
-        ref={textareaRef}
-        icon={isPhone ? undefined : icon}
-        iconSize={24}
-        {placeholder}
-        {value}
-        class={cn(
-          'qa-academy-border-gradient',
-          'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
-          'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
-          'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
-          'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
-        )}
-        inputClass={cn(
-          'resize-none py-0 pr-0 pl-12 sm:pl-0 sm:h-full max-h-[72px] text-base',
-          !initialIcon && 'pl-4',
-        )}
-        rows={1}
-        onclick={() => textareaRef.$?.focus()}
-        oninput={handleInput}
-        onfocus={handleFocus}
-        onkeydown={handleKeydown}
-      />
-
-      {#if value.length || loading}
-        <Button
-          icon="back-to-top"
+<div class="relative">
+  <Popover
+    bind:isOpened={isPopoverOpened}
+    align="start"
+    side="top"
+    noStyles
+    contentProps={{
+      customAnchor: textareaWrapperRef.$,
+      alignOffset: 0,
+      sideOffset: 8,
+      trapFocus: false,
+      strategy: 'absolute',
+      onInteractOutside: () => (isPopoverOpened = false),
+    }}
+  >
+    {#snippet children()}
+      <label
+        bind:this={textareaWrapperRef.$}
+        class={cn('relative mt-3 flex items-center', className)}
+      >
+        <Textarea
+          ref={textareaRef}
+          icon={isPhone ? undefined : icon}
+          iconSize={24}
+          {placeholder}
+          {value}
           class={cn(
-            'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
-            'border border-green fill-green hover:bg-green hover:fill-white',
-            'active:border-green-hover active:bg-green-hover',
-            'sm:bottom-1.5 sm:right-1.5 sm:translate-y-0',
+            'qa-academy-border-gradient',
+            'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
+            'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
+            'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
+            'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
           )}
-          onclick={() => handleSubmit(value)}
+          inputClass={cn(
+            'resize-none py-0 pr-0 pl-12 sm:pl-0 sm:h-full max-h-[72px] text-base',
+            !initialIcon && 'pl-4',
+          )}
+          rows={1}
+          onclick={() => textareaRef.$?.focus()}
+          oninput={handleInput}
+          onfocus={handleFocus}
+          onblur={handleBlur}
+          onkeydown={handleKeydown}
           disabled={loading}
         />
-      {/if}
-    </label>
-  {/snippet}
 
-  {#snippet content()}
-    <div class="w-full rounded-md border border-porcelain bg-white px-6 py-4">
-      <h4 class="mb-3 text-sm font-semibold text-rhino">Suggested</h4>
+        {#if value.length || loading}
+          <Button
+            icon="back-to-top"
+            class={cn(
+              'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
+              'border border-green fill-green hover:bg-green hover:fill-white',
+              'active:border-green-hover active:bg-green-hover',
+              'sm:bottom-1.5 sm:right-1.5 sm:translate-y-0',
+            )}
+            onclick={() => handleSubmit(value)}
+            disabled={loading}
+          />
+        {/if}
+      </label>
+    {/snippet}
 
-      <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
-        {#each predictions as prediction}
-          <li>
-            <Button
-              variant="link"
-              class="inline-block h-auto p-0 text-left"
-              onclick={() => handleSubmit(prediction.question)}
-            >
-              {prediction.question}
-            </Button>
-          </li>
-        {/each}
-      </ul>
-    </div>
-  {/snippet}
-</Popover>
+    {#snippet content()}
+      <div
+        bind:this={contentRef.$}
+        class="w-full rounded-md border border-porcelain bg-white px-6 py-4"
+      >
+        <h4 class="mb-3 text-sm font-semibold text-rhino">Suggested</h4>
+
+        <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
+          {#each predictions as prediction}
+            <li>
+              <Button
+                variant="link"
+                class="inline-block h-auto p-0 text-left"
+                onclick={() => handleSubmit(prediction.question)}
+              >
+                {prediction.question}
+              </Button>
+            </li>
+          {/each}
+        </ul>
+      </div>
+    {/snippet}
+  </Popover>
+</div>
 
 <style lang="postcss">
   :global(.qa-academy-border-gradient) {
