@@ -75,7 +75,7 @@
 <style lang="postcss">
   .docs :global {
     pre {
-      @apply relative whitespace-pre-wrap rounded bg-athens p-3 text-black;
+      @apply relative whitespace-break-spaces break-all rounded bg-athens p-3 text-black;
     }
 
     p code {
