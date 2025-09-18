@@ -73,6 +73,19 @@
     })
   }
 
+  function nextFrame() {
+    return new Promise<void>((r) => requestAnimationFrame(() => r()))
+  }
+
+  async function waitTempGone(maxFrames = 4) {
+    let frames = 0
+
+    while (temporaryMessageRef.$ && frames < maxFrames) {
+      await nextFrame()
+      frames++
+    }
+  }
+
   function scrollToLastUserMessage(behavior: 'smooth' | 'auto') {
     tick().then(() => {
       requestAnimationFrame(() => {
@@ -128,8 +141,10 @@
 
   function setupObservers() {
     disposeObservers()
+
     const scrollbox = chatMessagesRef.$
     const lastEl = getLastUserTurnEl()
+
     if (!scrollbox || !lastEl) return
 
     const roBox = new ResizeObserver(() => recalcBottomSpacer())
@@ -151,15 +166,18 @@
 
     if (wasLoading && !nowLoading) {
       freezeAnchoringForAFewFrames()
-      requestAnimationFrame(() => {
+      ;(async () => {
+        await tick()
+        await waitTempGone()
         recalcBottomSpacer()
         scrollToLastUserTurn('auto')
-      })
+        setupObservers()
+      })()
     } else {
       scrollToLastUserTurn('smooth')
+      setupObservers()
     }
 
-    setupObservers()
     wasLoading = nowLoading
   })
 
