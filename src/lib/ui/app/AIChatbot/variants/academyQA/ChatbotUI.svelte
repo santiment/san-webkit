@@ -1,4 +1,7 @@
 <script lang="ts">
+  import type { Action } from 'svelte/action'
+  import type { TAiChatbotMessage } from '../../types.js'
+
   import { onMount, tick } from 'svelte'
 
   import { ss } from '$lib/utils/index.js'
@@ -20,50 +23,55 @@
     class?: string
   }
 
+  type TTurn = {
+    id: string
+    userMessage: TAiChatbotMessage
+    assistantMessage?: TAiChatbotMessage
+  }
+
   const { aiChatbot } = useAIChatbotCtx()
+  const { device } = useDeviceCtx()
 
   const { class: className = '', Controller }: TProps & TDialogProps = $props()
 
-  const { device } = useDeviceCtx()
   const isPhone = $derived(device.$.isPhone)
+  const messages = $derived(aiChatbot.$$.session?.chatMessages ?? [])
 
-  const chatContainerRef = ss<any>(null)
-  const temporaryMessageRef = ss<any>(null)
-  let lastMessageRef = ss<any>(null)
-  let lastUserMessageRef = ss<any>(null)
+  const turnRefs = new Map<string, HTMLElement>()
+  let wasLoading = $state(false)
 
-  const loadingDelta = $derived.by(() => {
-    if (chatContainerRef.$ && temporaryMessageRef.$) {
-      let extraPadding = aiChatbot?.$$?.session?.chatMessages.length ? 20 : 0
-      return `${chatContainerRef.$.offsetHeight - temporaryMessageRef.$.offsetHeight - temporaryMessageRef.$.offsetHeight - 32 + extraPadding}px`
+  const chatContainerRef = ss<null | HTMLElement>(null)
+  const chatMessagesRef = ss<null | HTMLElement>(null)
+  const temporaryMessageRef = ss<null | HTMLElement>(null)
+  const bottomSpacerPx = ss(0)
+
+  const conversationTurns = $derived.by<TTurn[]>(() => {
+    const turns: TTurn[] = []
+
+    for (let i = 0; i < messages.length; i++) {
+      if (messages[i].role === 'USER') {
+        turns.push({
+          id: messages[i].id,
+          userMessage: messages[i],
+          assistantMessage: messages[i + 1]?.role === 'ASSISTANT' ? messages[i + 1] : undefined,
+        })
+      }
     }
 
-    return undefined
+    return turns
   })
 
-  const lastMessageDelta = $derived.by(() => {
-    if (lastMessageRef.$ && lastMessageRef.$.offsetHeight < chatContainerRef.$.offsetHeight) {
-      const LAST_MESSAGE_PADDING = 32
-      return `${chatContainerRef.$.offsetHeight - (lastUserMessageRef.$.offsetHeight + lastMessageRef.$.offsetHeight) - LAST_MESSAGE_PADDING - lastUserMessageRef.$.offsetHeight - 20}px`
-    }
+  function freezeAnchoringForAFewFrames() {
+    const box = chatMessagesRef.$
+    if (!box) return
+    box.style.overflowAnchor = 'none'
 
-    return undefined
-  })
-
-  let chatMessagesRef = ss<null | HTMLElement>(null)
-
-  $effect(() => {
-    const shouldScroll = aiChatbot.loading$ || aiChatbot.$$.session?.chatMessages.length
-
-    if (aiChatbot.loading$) {
-      lastMessageRef.$ = null
-      lastUserMessageRef.$ = null
-    }
-
-    if (shouldScroll) {
-      scrollToLastUserMessage('smooth')
-    }
-  })
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        box.style.overflowAnchor = ''
+      })
+    })
+  }
 
   function scrollToLastUserMessage(behavior: 'smooth' | 'auto') {
     tick().then(() => {
@@ -71,36 +79,104 @@
         requestAnimationFrame(() => {
           if (!chatMessagesRef.$) return
 
-          if (aiChatbot.loading$) {
-            chatMessagesRef.$.scroll({
-              top: chatMessagesRef.$.scrollHeight,
-              behavior,
-            })
-          }
-
-          if (!aiChatbot.$$.session) return
-
-          const messages = aiChatbot.$$.session.chatMessages
-
-          const lastMsg = messages[messages.length - 1]
-
-          if (lastMsg.role === 'ASSISTANT' && lastUserMessageRef.$) {
-            lastUserMessageRef.$.scrollIntoView({ behavior, block: 'start' })
-          } else if (lastMsg.role === 'USER' && lastMessageRef.$) {
-            lastMessageRef.$.scrollIntoView({ behavior, block: 'end' })
-          } else if (chatMessagesRef.$) {
-            chatMessagesRef.$.scroll({
-              top: chatMessagesRef.$.scrollHeight,
-              behavior,
-            })
-          }
+          chatMessagesRef.$.scroll({
+            top: chatMessagesRef.$.scrollHeight,
+            behavior,
+          })
         })
       })
     })
   }
 
+  function getLastUserTurnEl() {
+    if (aiChatbot.loading$ && temporaryMessageRef.$) {
+      return temporaryMessageRef.$
+    }
+
+    const last = conversationTurns.at(-1)
+    return last ? turnRefs.get(last.id) : null
+  }
+
+  async function scrollToLastUserTurn(behavior: ScrollBehavior = 'auto') {
+    await tick()
+
+    requestAnimationFrame(() => {
+      const el = getLastUserTurnEl()
+      el?.scrollIntoView({ block: 'start', behavior })
+    })
+  }
+
+  function recalcBottomSpacer() {
+    const scrollbox = chatMessagesRef.$
+
+    if (!scrollbox || aiChatbot.loading$) {
+      bottomSpacerPx.$ = 0
+      return
+    }
+
+    const lastEl = getLastUserTurnEl()
+
+    if (!lastEl) {
+      bottomSpacerPx.$ = 0
+      return
+    }
+
+    bottomSpacerPx.$ = Math.max(0, scrollbox.clientHeight - lastEl.offsetHeight)
+  }
+
+  let disposeObservers = () => {}
+
+  function setupObservers() {
+    disposeObservers()
+    const scrollbox = chatMessagesRef.$
+    const lastEl = getLastUserTurnEl()
+    if (!scrollbox || !lastEl) return
+
+    const roBox = new ResizeObserver(() => recalcBottomSpacer())
+    const roLast = new ResizeObserver(() => recalcBottomSpacer())
+    roBox.observe(scrollbox)
+    roLast.observe(lastEl)
+
+    disposeObservers = () => {
+      roBox.disconnect()
+      roLast.disconnect()
+    }
+  }
+
+  $effect(() => {
+    conversationTurns.length
+    const nowLoading = aiChatbot.loading$
+
+    recalcBottomSpacer()
+
+    if (wasLoading && !nowLoading) {
+      freezeAnchoringForAFewFrames()
+      requestAnimationFrame(() => {
+        recalcBottomSpacer()
+        scrollToLastUserTurn('auto')
+      })
+    } else {
+      scrollToLastUserTurn('smooth')
+    }
+
+    setupObservers()
+    wasLoading = nowLoading
+  })
+
+  const registerTurn: Action<HTMLElement, string> = (node, id) => {
+    if (id) turnRefs.set(id, node)
+
+    $effect(() => {
+      return () => {
+        if (id) turnRefs.delete(id)
+      }
+    })
+  }
+
   onMount(() => {
     setTimeout(() => scrollToLastUserMessage('auto'), 0)
+
+    requestAnimationFrame(() => recalcBottomSpacer())
   })
 </script>
 
@@ -126,31 +202,27 @@
   </header>
 
   <div bind:this={chatContainerRef.$} class="flex h-full flex-col justify-between overflow-hidden">
-    <div class="flex h-full flex-1 flex-col overflow-y-auto" bind:this={chatMessagesRef.$}>
-      <div>
-        {#if !aiChatbot.$$.session && !aiChatbot.loading$}
-          <WelcomeScreen />
-        {:else}
-          <div
-            class="flex-1 overflow-y-auto pr-1 [&>div]:my-3 first:[&>div]:mt-0"
-            style:margin-bottom={lastMessageDelta}
-          >
-            {#if aiChatbot.$$.session}
-              {#each aiChatbot.$$.session.chatMessages as msg, index (msg.id)}
+    <div class="flex h-full flex-1 flex-col overflow-y-auto">
+      {#if !aiChatbot.$$.session && !aiChatbot.loading$}
+        <WelcomeScreen />
+      {:else}
+        <div class="relative flex-1 overflow-y-auto" bind:this={chatMessagesRef.$}>
+          {#each conversationTurns as turn (turn.id)}
+            {@const assistant = turn.assistantMessage}
+            {@const user = turn.userMessage}
+            <div class="flex flex-col gap-y-6" use:registerTurn={turn.id}>
+              <ChatMessage role="USER" content={user.content} insertedAt={user.insertedAt} />
+
+              {#if assistant}
                 <ChatMessage
-                  ref={index === aiChatbot.$$.session.chatMessages.length - 2
-                    ? lastUserMessageRef
-                    : index === aiChatbot.$$.session.chatMessages.length - 1
-                      ? lastMessageRef
-                      : { $: null }}
-                  role={msg.role}
-                  content={msg.content}
-                  insertedAt={msg.insertedAt}
+                  role="ASSISTANT"
+                  content={assistant.content}
+                  insertedAt={assistant.insertedAt}
                 >
                   {#snippet sources()}
-                    {#if msg.sources?.length}
+                    {#if assistant?.sources?.length}
                       <div class="mb-4 flex flex-wrap gap-x-3.5 gap-y-4">
-                        {#each msg.sources as source}
+                        {#each assistant.sources as source}
                           <ChatSource {...source}></ChatSource>
                         {/each}
                       </div>
@@ -158,42 +230,47 @@
                   {/snippet}
 
                   {#snippet feedback()}
-                    {#if msg.role === 'ASSISTANT'}
-                      <ChatFeedback
-                        class="mt-5"
-                        feedbackType={msg.feedbackType}
-                        onFeedbackSelect={(type) => aiChatbot.sendFeedback(msg.id, type)}
-                      ></ChatFeedback>
-                    {/if}
+                    <ChatFeedback
+                      class="mt-5"
+                      feedbackType={assistant.feedbackType}
+                      onFeedbackSelect={(type) => aiChatbot.sendFeedback(assistant.id, type)}
+                    ></ChatFeedback>
                   {/snippet}
 
                   {#snippet suggestions()}
-                    {#if msg.suggestions?.length}
+                    {#if assistant.suggestions?.length}
                       <ChatSuggestions
-                        suggestions={msg.suggestions}
+                        suggestions={assistant.suggestions}
                         onItemClick={(suggestion) => aiChatbot.sendMessage(suggestion)}
                       ></ChatSuggestions>
                     {/if}
                   {/snippet}
                 </ChatMessage>
-              {/each}
-            {/if}
-          </div>
-        {/if}
-      </div>
+              {/if}
+            </div>
+          {/each}
 
-      {#if aiChatbot.loading$}
-        <div class="h-full flex-1">
-          <ChatMessage
-            ref={temporaryMessageRef}
-            role="USER"
-            insertedAt={new Date().toISOString()}
-            content={aiChatbot.$$.temporaryMessage}
-          ></ChatMessage>
+          {#if !aiChatbot.loading$}
+            <div style={`height:${bottomSpacerPx.$}px`} aria-hidden="true"></div>
+          {/if}
 
-          <div class="flex flex-1 items-end justify-center" style:margin-top={loadingDelta}>
-            <ChatLoader />
-          </div>
+          {#if aiChatbot.loading$}
+            <div class="flex min-h-full flex-col gap-y-6" bind:this={temporaryMessageRef.$}>
+              <ChatMessage
+                role="USER"
+                insertedAt={new Date().toISOString()}
+                content={aiChatbot.$$.temporaryMessage}
+              />
+
+              <div class="flex-1" aria-hidden="true"></div>
+
+              <div class="sticky bottom-0 z-10 bg-gradient-to-t from-white/95 to-transparent pt-3">
+                <div class="flex items-end justify-center transition-opacity duration-75">
+                  <ChatLoader />
+                </div>
+              </div>
+            </div>
+          {/if}
         </div>
       {/if}
     </div>

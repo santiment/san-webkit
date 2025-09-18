@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { TAiChatbotMessage } from '../../types.js'
-  import type { SS } from 'svelte-runes'
 
   import Svg from '$ui/core/Svg/Svg.svelte'
   import Picture from '$ui/app/Picture/Picture.svelte'
@@ -13,22 +12,12 @@
     suggestions?: any
     feedback?: any
     sources?: any
-    ref?: SS<HTMLElement | null>
     [key: string]: any
   }
 
   const { device } = useDeviceCtx()
 
-  const {
-    ref = { $: null },
-    role,
-    content,
-    insertedAt,
-    sources,
-    suggestions,
-    feedback,
-    ...props
-  }: TProps = $props()
+  const { role, content, insertedAt, sources, suggestions, feedback, ...props }: TProps = $props()
 
   const isPhone = $derived(device.$.isPhone)
   const userIcon = $derived(isPhone ? 12 : 16)
@@ -37,11 +26,10 @@
 </script>
 
 <div
-  bind:this={ref.$}
   class={cn('rounded-md px-8 py-4', role === 'USER' ? 'bg-athens sm:px-3' : 'bg-white sm:px-0')}
   {...props}
 >
-  <header class="mb-3 flex items-start gap-4 sm:mb-1.5 sm:items-center sm:gap-2.5">
+  <header class="flex items-start gap-4 sm:mb-1.5 sm:items-center sm:gap-2.5">
     <Picture
       class="h-8 w-8 flex-shrink-0 border border-transparent bg-white fill-rhino sm:h-6 sm:w-6"
     >
