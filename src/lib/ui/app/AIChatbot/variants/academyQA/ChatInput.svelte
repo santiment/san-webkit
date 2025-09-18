@@ -28,6 +28,7 @@
   }: TProps = $props()
 
   const textareaRef = ss<null | HTMLTextAreaElement>(null)
+  const contentRef = ss<null | HTMLElement>(null)
   let textareaWrapperRef = ss<null | HTMLElement>(null)
 
   let value = $state('')
@@ -42,6 +43,7 @@
     if (!trimmedQuery || loading) return
 
     onSubmit(trimmedQuery)
+
     value = ''
     predictions = []
     isPopoverOpened = false
@@ -60,6 +62,7 @@
 
   function resizeTextarea() {
     if (!textareaRef.$ || isPhone) return
+
     textareaRef.$.style.height = 'auto'
     textareaRef.$.style.height = `${textareaRef.$.scrollHeight}px`
   }
@@ -72,6 +75,7 @@
         if (trimmedQuery.length < 3) {
           return of([])
         }
+
         return queryAcademyAutocompleteQuestions()(trimmedQuery)
       }),
       tap((rawQuestions) => {
@@ -84,6 +88,12 @@
   function handleFocus() {
     if (predictions.length > 0) {
       isPopoverOpened = true
+    }
+  }
+
+  function handleBlur(e: FocusEvent) {
+    if (!contentRef.$?.contains(e.relatedTarget as HTMLInputElement)) {
+      isPopoverOpened = false
     }
   }
 
@@ -107,6 +117,7 @@
     alignOffset: 0,
     sideOffset: 8,
     trapFocus: false,
+    avoidCollisions: true,
     onInteractOutside: () => (isPopoverOpened = false),
   }}
 >
@@ -125,7 +136,7 @@
           'qa-academy-border-gradient',
           'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
           'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
-          'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
+          'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5 [&>svg]:fill-rhino',
           'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
         )}
         inputClass={cn(
@@ -136,10 +147,12 @@
         onclick={() => textareaRef.$?.focus()}
         oninput={handleInput}
         onfocus={handleFocus}
+        onblur={handleBlur}
         onkeydown={handleKeydown}
+        disabled={loading}
       />
 
-      {#if value.length || loading}
+      {#if value.length}
         <Button
           icon="back-to-top"
           class={cn(
@@ -156,7 +169,10 @@
   {/snippet}
 
   {#snippet content()}
-    <div class="w-full rounded-md border border-porcelain bg-white px-6 py-4">
+    <div
+      bind:this={contentRef.$}
+      class="w-[var(--bits-popover-anchor-width)] rounded-md border border-porcelain bg-white px-6 py-4"
+    >
       <h4 class="mb-3 text-sm font-semibold text-rhino">Suggested</h4>
 
       <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">

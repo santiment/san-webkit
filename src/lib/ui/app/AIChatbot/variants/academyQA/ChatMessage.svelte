@@ -24,8 +24,8 @@
   const iconSize = $derived(role === 'USER' ? userIcon : assistantIcon)
 </script>
 
-<div class={cn('rounded-md px-8 py-4 sm:px-3', role === 'USER' ? 'bg-athens' : 'bg-white')}>
-  <header class="mb-1.5 flex items-center gap-4 sm:gap-2.5">
+<div class={cn('rounded-md px-8 py-4', role === 'USER' ? 'bg-athens sm:px-3' : 'bg-white sm:px-0')}>
+  <header class="flex items-start gap-4 sm:mb-1.5 sm:items-center sm:gap-2.5">
     <Picture
       class="h-8 w-8 flex-shrink-0 border border-transparent bg-white fill-rhino sm:h-6 sm:w-6"
     >
@@ -40,9 +40,9 @@
     </div>
   </header>
 
-  <div class="gap-8 pl-12 md:pl-9">
-    <div class="flex flex-col-reverse sm:flex-col">
-      <p class="ai-chatbot-content w-fit break-all text-base text-rhino">
+  <div class="gap-8 pl-12 md:pl-9 sm:pl-0">
+    <div class="flex flex-col-reverse gap-y-8 sm:flex-col">
+      <p class="ai-chatbot-content w-fit text-base text-rhino [word-break:break-word]">
         {#if role === 'USER'}
           {content}
         {:else}
