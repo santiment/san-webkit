@@ -38,12 +38,12 @@
   const messages = $derived(aiChatbot.$$.session?.chatMessages ?? [])
 
   const turnRefs = new Map<string, HTMLElement>()
-  let wasLoading = $state(false)
 
   const chatContainerRef = ss<null | HTMLElement>(null)
   const chatMessagesRef = ss<null | HTMLElement>(null)
   const temporaryMessageRef = ss<null | HTMLElement>(null)
   const bottomSpacerPx = ss(0)
+  const wasLoading = ss(false)
 
   const conversationTurns = $derived.by<TTurn[]>(() => {
     const turns: TTurn[] = []
@@ -60,18 +60,6 @@
 
     return turns
   })
-
-  function freezeAnchoringForAFewFrames() {
-    const box = chatMessagesRef.$
-    if (!box) return
-    box.style.overflowAnchor = 'none'
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        box.style.overflowAnchor = ''
-      })
-    })
-  }
 
   function nextFrame() {
     return new Promise<void>((r) => requestAnimationFrame(() => r()))
@@ -149,6 +137,7 @@
 
     const roBox = new ResizeObserver(() => recalcBottomSpacer())
     const roLast = new ResizeObserver(() => recalcBottomSpacer())
+
     roBox.observe(scrollbox)
     roLast.observe(lastEl)
 
@@ -164,8 +153,7 @@
 
     recalcBottomSpacer()
 
-    if (wasLoading && !nowLoading) {
-      freezeAnchoringForAFewFrames()
+    if (wasLoading.$ && !nowLoading) {
       ;(async () => {
         await tick()
         await waitTempGone()
@@ -178,7 +166,7 @@
       setupObservers()
     }
 
-    wasLoading = nowLoading
+    wasLoading.$ = nowLoading
   })
 
   const registerTurn: Action<HTMLElement, string> = (node, id) => {
@@ -269,7 +257,7 @@
           {/each}
 
           {#if !aiChatbot.loading$}
-            <div style={`height:${bottomSpacerPx.$}px`} aria-hidden="true"></div>
+            <div style:height={`${bottomSpacerPx.$}px`} aria-hidden="true"></div>
           {/if}
 
           {#if aiChatbot.loading$}
