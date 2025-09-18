@@ -34,17 +34,17 @@
 
   const { class: className = '', Controller }: TProps & TDialogProps = $props()
 
-  const isPhone = $derived(device.$.isPhone)
-  const messages = $derived(aiChatbot.$$.session?.chatMessages ?? [])
-
   const turnRefs = new Map<string, HTMLElement>()
 
   const chatContainerRef = ss<null | HTMLElement>(null)
   const chatMessagesRef = ss<null | HTMLElement>(null)
   const temporaryMessageRef = ss<null | HTMLElement>(null)
+
   const bottomSpacerPx = ss(0)
   const wasLoading = ss(false)
 
+  const isPhone = $derived(device.$.isPhone)
+  const messages = $derived(aiChatbot.$$.session?.chatMessages ?? [])
   const conversationTurns = $derived.by<TTurn[]>(() => {
     const turns: TTurn[] = []
 
@@ -103,6 +103,7 @@
 
     requestAnimationFrame(() => {
       const el = getLastUserTurnEl()
+
       el?.scrollIntoView({ block: 'start', behavior })
     })
   }
@@ -111,40 +112,16 @@
     const scrollbox = chatMessagesRef.$
 
     if (!scrollbox || aiChatbot.loading$) {
-      bottomSpacerPx.$ = 0
-      return
+      return (bottomSpacerPx.$ = 0)
     }
 
     const lastEl = getLastUserTurnEl()
 
     if (!lastEl) {
-      bottomSpacerPx.$ = 0
-      return
+      return (bottomSpacerPx.$ = 0)
     }
 
     bottomSpacerPx.$ = Math.max(0, scrollbox.clientHeight - lastEl.offsetHeight)
-  }
-
-  let disposeObservers = () => {}
-
-  function setupObservers() {
-    disposeObservers()
-
-    const scrollbox = chatMessagesRef.$
-    const lastEl = getLastUserTurnEl()
-
-    if (!scrollbox || !lastEl) return
-
-    const roBox = new ResizeObserver(() => recalcBottomSpacer())
-    const roLast = new ResizeObserver(() => recalcBottomSpacer())
-
-    roBox.observe(scrollbox)
-    roLast.observe(lastEl)
-
-    disposeObservers = () => {
-      roBox.disconnect()
-      roLast.disconnect()
-    }
   }
 
   $effect(() => {
@@ -153,17 +130,18 @@
 
     recalcBottomSpacer()
 
+    async function handlePostLoadTransition() {
+      await tick()
+      await waitTempGone()
+
+      recalcBottomSpacer()
+      scrollToLastUserTurn('auto')
+    }
+
     if (wasLoading.$ && !nowLoading) {
-      ;(async () => {
-        await tick()
-        await waitTempGone()
-        recalcBottomSpacer()
-        scrollToLastUserTurn('auto')
-        setupObservers()
-      })()
+      handlePostLoadTransition()
     } else {
       scrollToLastUserTurn('smooth')
-      setupObservers()
     }
 
     wasLoading.$ = nowLoading
@@ -216,6 +194,7 @@
           {#each conversationTurns as turn (turn.id)}
             {@const assistant = turn.assistantMessage}
             {@const user = turn.userMessage}
+
             <div class="flex flex-col gap-y-6" use:registerTurn={turn.id}>
               <ChatMessage role="USER" content={user.content} insertedAt={user.insertedAt} />
 
@@ -282,7 +261,7 @@
     </div>
 
     <ChatInput
-      placeholder="Ask me..."
+      placeholder={aiChatbot.loading$ ? 'The wisdom is coming… patience is powerful' : 'Ask me...'}
       bind:loading={aiChatbot.loading$}
       onSubmit={(query) => aiChatbot.sendMessage(query)}
     />

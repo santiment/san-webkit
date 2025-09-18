@@ -12,12 +12,11 @@
     suggestions?: any
     feedback?: any
     sources?: any
-    [key: string]: any
   }
 
   const { device } = useDeviceCtx()
 
-  const { role, content, insertedAt, sources, suggestions, feedback, ...props }: TProps = $props()
+  const { role, content, insertedAt, sources, suggestions, feedback }: TProps = $props()
 
   const isPhone = $derived(device.$.isPhone)
   const userIcon = $derived(isPhone ? 12 : 16)
@@ -25,10 +24,7 @@
   const iconSize = $derived(role === 'USER' ? userIcon : assistantIcon)
 </script>
 
-<div
-  class={cn('rounded-md px-8 py-4', role === 'USER' ? 'bg-athens sm:px-3' : 'bg-white sm:px-0')}
-  {...props}
->
+<div class={cn('rounded-md px-8 py-4', role === 'USER' ? 'bg-athens sm:px-3' : 'bg-white sm:px-0')}>
   <header class="flex items-start gap-4 sm:mb-1.5 sm:items-center sm:gap-2.5">
     <Picture
       class="h-8 w-8 flex-shrink-0 border border-transparent bg-white fill-rhino sm:h-6 sm:w-6"

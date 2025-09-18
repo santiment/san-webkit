@@ -25,6 +25,7 @@ Just type your question below — and **let’s dive into the data ocean togethe
     {#snippet suggestions()}
       <ChatSuggestions
         title="Popular searches to start:"
+        class="pt-10"
         suggestions={suggestionList}
         onItemClick={(suggestion) => aiChatbot.sendMessage(suggestion)}
       ></ChatSuggestions>

@@ -43,6 +43,7 @@
     if (!trimmedQuery || loading) return
 
     onSubmit(trimmedQuery)
+
     value = ''
     predictions = []
     isPopoverOpened = false
@@ -61,6 +62,7 @@
 
   function resizeTextarea() {
     if (!textareaRef.$ || isPhone) return
+
     textareaRef.$.style.height = 'auto'
     textareaRef.$.style.height = `${textareaRef.$.scrollHeight}px`
   }
@@ -73,6 +75,7 @@
         if (trimmedQuery.length < 3) {
           return of([])
         }
+
         return queryAcademyAutocompleteQuestions()(trimmedQuery)
       }),
       tap((rawQuestions) => {
@@ -88,8 +91,8 @@
     }
   }
 
-  function handleBlur(e: any) {
-    if (!contentRef.$?.contains(e.relatedTarget)) {
+  function handleBlur(e: FocusEvent) {
+    if (!contentRef.$?.contains(e.relatedTarget as HTMLInputElement)) {
       isPopoverOpened = false
     }
   }
@@ -104,92 +107,90 @@
   }
 </script>
 
-<div class="relative">
-  <Popover
-    bind:isOpened={isPopoverOpened}
-    align="start"
-    side="top"
-    noStyles
-    contentProps={{
-      customAnchor: textareaWrapperRef.$,
-      alignOffset: 0,
-      sideOffset: 8,
-      trapFocus: false,
-      strategy: 'absolute',
-      onInteractOutside: () => (isPopoverOpened = false),
-    }}
-  >
-    {#snippet children()}
-      <label
-        bind:this={textareaWrapperRef.$}
-        class={cn('relative mt-3 flex items-center', className)}
-      >
-        <Textarea
-          ref={textareaRef}
-          icon={isPhone ? undefined : icon}
-          iconSize={24}
-          {placeholder}
-          {value}
+<Popover
+  bind:isOpened={isPopoverOpened}
+  align="start"
+  side="top"
+  noStyles
+  contentProps={{
+    customAnchor: textareaWrapperRef.$,
+    alignOffset: 0,
+    sideOffset: 8,
+    trapFocus: false,
+    avoidCollisions: true,
+    onInteractOutside: () => (isPopoverOpened = false),
+  }}
+>
+  {#snippet children()}
+    <label
+      bind:this={textareaWrapperRef.$}
+      class={cn('relative mt-3 flex items-center', className)}
+    >
+      <Textarea
+        ref={textareaRef}
+        icon={isPhone ? undefined : icon}
+        iconSize={24}
+        {placeholder}
+        {value}
+        class={cn(
+          'qa-academy-border-gradient',
+          'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
+          'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
+          'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5 [&>svg]:fill-rhino',
+          'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
+        )}
+        inputClass={cn(
+          'resize-none py-0 pr-0 pl-12 sm:pl-0 sm:h-full max-h-[72px] text-base',
+          !initialIcon && 'pl-4',
+        )}
+        rows={1}
+        onclick={() => textareaRef.$?.focus()}
+        oninput={handleInput}
+        onfocus={handleFocus}
+        onblur={handleBlur}
+        onkeydown={handleKeydown}
+        disabled={loading}
+      />
+
+      {#if value.length}
+        <Button
+          icon="back-to-top"
           class={cn(
-            'qa-academy-border-gradient',
-            'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
-            'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
-            'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5',
-            'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
+            'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
+            'border border-green fill-green hover:bg-green hover:fill-white',
+            'active:border-green-hover active:bg-green-hover',
+            'sm:bottom-1.5 sm:right-1.5 sm:translate-y-0',
           )}
-          inputClass={cn(
-            'resize-none py-0 pr-0 pl-12 sm:pl-0 sm:h-full max-h-[72px] text-base',
-            !initialIcon && 'pl-4',
-          )}
-          rows={1}
-          onclick={() => textareaRef.$?.focus()}
-          oninput={handleInput}
-          onfocus={handleFocus}
-          onblur={handleBlur}
-          onkeydown={handleKeydown}
+          onclick={() => handleSubmit(value)}
           disabled={loading}
         />
+      {/if}
+    </label>
+  {/snippet}
 
-        {#if value.length || loading}
-          <Button
-            icon="back-to-top"
-            class={cn(
-              'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
-              'border border-green fill-green hover:bg-green hover:fill-white',
-              'active:border-green-hover active:bg-green-hover',
-              'sm:bottom-1.5 sm:right-1.5 sm:translate-y-0',
-            )}
-            onclick={() => handleSubmit(value)}
-            disabled={loading}
-          />
-        {/if}
-      </label>
-    {/snippet}
+  {#snippet content()}
+    <div
+      bind:this={contentRef.$}
+      class="w-[var(--bits-popover-anchor-width)] rounded-md border border-porcelain bg-white px-6 py-4"
+    >
+      <h4 class="mb-3 text-sm font-semibold text-rhino">Suggested</h4>
 
-    {#snippet content()}
-      <div
-        bind:this={contentRef.$}
-        class="w-full rounded-md border border-porcelain bg-white px-6 py-4"
-      >
-        <h4 class="mb-3 text-sm font-semibold text-rhino">Suggested</h4>
-
-        <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
-          {#each predictions as prediction}
-            <li>
-              <Button
-                variant="link"
-                class="inline-block h-auto p-0 text-left"
-                onclick={() => handleSubmit(prediction.question)}
-              >
-                {prediction.question}
-              </Button>
-            </li>
-          {/each}
-        </ul>
-      </div>
-    {/snippet}
-  </Popover>
-</div>
+      <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
+        {#each predictions as prediction}
+          <li>
+            <Button
+              variant="link"
+              class="inline-block h-auto p-0 text-left"
+              onclick={() => handleSubmit(prediction.question)}
+            >
+              {prediction.question}
+            </Button>
+          </li>
+        {/each}
+      </ul>
+    </div>
+  {/snippet}
+</Popover>
 
 <style lang="postcss">
   :global(.qa-academy-border-gradient) {

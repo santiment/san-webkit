@@ -17,7 +17,7 @@
     <div class="truncate">
       [{source.number}] {source.title}
     </div>
-    <div class="truncate text-green group-hover:text-green-hover">
+    <div class="truncate text-green group-hover:text-green-hover group-hover:underline">
       {source.url}
     </div>
   </div>
