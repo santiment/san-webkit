@@ -42,7 +42,12 @@
 
   <div class="gap-8 pl-12 md:pl-9 sm:pl-0">
     <div class="flex flex-col-reverse gap-y-8 sm:flex-col">
-      <p class="ai-chatbot-content w-fit text-base text-rhino [word-break:break-word]">
+      <p
+        class={cn(
+          'ai-chatbot-content w-fit text-base text-rhino [word-break:break-word]',
+          role === 'USER' && 'whitespace-pre-wrap',
+        )}
+      >
         {#if role === 'USER'}
           {content}
         {:else}
