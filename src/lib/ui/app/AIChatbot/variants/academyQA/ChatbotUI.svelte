@@ -168,7 +168,7 @@
   class={cn(
     'flex h-full w-full max-w-[1024px]',
     'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow',
-    'sm:px-5',
+    'sm:!px-5',
     className,
   )}
 >
@@ -267,7 +267,7 @@
     />
   </div>
 
-  <p class="mt-2 text-center text-sm text-casper sm:text-sm">
+  <p class="mt-2 text-center text-sm text-casper sm:!text-sm">
     {isPhone
       ? 'Check important info for mistakes'
       : 'Turtoshi surfs only through our Academy. Check important info for mistakes.'}

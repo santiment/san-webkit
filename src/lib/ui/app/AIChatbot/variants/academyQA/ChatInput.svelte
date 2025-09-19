@@ -137,10 +137,10 @@
           'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
           'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
           'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5 [&>svg]:fill-rhino',
-          'sm:h-[88px] sm:items-start sm:px-3 sm:py-2 sm:pr-[50px]',
+          'sm:!h-[88px] sm:!items-start sm:!px-3 sm:!py-2 sm:!pr-[50px]',
         )}
         inputClass={cn(
-          'resize-none py-0 pr-0 pl-12 sm:pl-0 sm:h-full max-h-[72px] text-base',
+          'resize-none py-0 pr-0 pl-12 sm:!pl-0 sm:!h-full max-h-[72px] text-base',
           !initialIcon && 'pl-4',
         )}
         rows={1}
@@ -159,7 +159,7 @@
             'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
             'border border-green fill-green hover:bg-green hover:fill-white',
             'active:border-green-hover active:bg-green-hover',
-            'sm:bottom-1.5 sm:right-1.5 sm:translate-y-0',
+            'sm:!bottom-1.5 sm:!right-1.5 sm:!translate-y-0',
           )}
           onclick={() => handleSubmit(value)}
           disabled={loading}
