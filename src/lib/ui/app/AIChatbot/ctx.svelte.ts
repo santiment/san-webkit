@@ -27,19 +27,37 @@ type AiChatbotInitialValue = {
   context?: TAiChatbotContext
 }
 
+const storageKey = 'webkit_ai_chatbot_session'
+
 export const useAIChatbotCtx = createCtx(
   'webkit_useChatAICtx',
   (initialValue: AiChatbotInitialValue | undefined = undefined) => {
-    let state = $state<TAIChatState>({
-      message: '',
-      temporaryMessage: '',
-      opened: false,
-      session: undefined,
-      type: initialValue?.type,
-      context: initialValue?.context,
-    })
+    const getInitialState = (): TAIChatState => {
+      const storedJson = window.sessionStorage.getItem(storageKey)
+      const storedState = storedJson ? JSON.parse(storedJson) : {}
 
+      return {
+        message: '',
+        temporaryMessage: '',
+        opened: false,
+        session: storedState.session || undefined,
+        type: initialValue?.type || storedState.type,
+        context: initialValue?.context || storedState.context,
+      }
+    }
+
+    let state = $state<TAIChatState>(getInitialState())
     let loading = $state(false)
+
+    $effect(() => {
+      const stateToStore = {
+        session: state.session,
+        type: state.type,
+        context: state.context,
+      }
+
+      window.sessionStorage.setItem(storageKey, JSON.stringify(stateToStore))
+    })
 
     const variantMap: Record<TAiChatType, any> = {
       ['ACADEMY_QA']: dialogs$.new(AcademyQA),

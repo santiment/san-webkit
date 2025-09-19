@@ -7,6 +7,17 @@ import type {
 
 import { ApiMutation, ApiQuery } from '$lib/api/index.js'
 
+export const MESSAGE_FRAGMENT = `
+  id
+  content
+  context
+  sources
+  suggestions
+  feedbackType
+  role
+  insertedAt
+`
+
 export const mutateSendAiChatbotMessage = ApiMutation(
   ({
     chatId,
@@ -27,15 +38,8 @@ export const mutateSendAiChatbotMessage = ApiMutation(
         type
         insertedAt
         chatMessages {
-          id
-          content
-          context
-          sources
-          suggestions
-          feedbackType
-          role
-          insertedAt
-      }
+          ${MESSAGE_FRAGMENT}
+        }
     }
   }
 `,
@@ -68,4 +72,13 @@ export const queryAcademyAutocompleteQuestions = ApiQuery(
   }`,
   (gql: { academyAutocompleteQuestions: { title: string; question: string }[] }) =>
     gql.academyAutocompleteQuestions,
+)
+
+export const queryChatMessages = ApiQuery(
+  (chatId: string, limit = 50, offset = 0) => `
+    chatMessages(chatId: ${chatId}, limit: ${limit}, offset: ${offset}) {
+      ${MESSAGE_FRAGMENT}
+    }
+`,
+  (gql: { chatMessages: TAiChatbotMessage[] }) => gql.chatMessages,
 )
