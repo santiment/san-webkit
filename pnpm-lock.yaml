@@ -169,6 +169,9 @@ devDependencies:
   graphql:
     specifier: ^16.8.2
     version: 16.8.2
+  highlight.js:
+    specifier: ^11.11.1
+    version: 11.11.1
   husky:
     specifier: ^9.0.11
     version: 9.0.11
@@ -187,6 +190,9 @@ devDependencies:
   marked:
     specifier: ^15.0.12
     version: 15.0.12
+  marked-highlight:
+    specifier: ^2.2.2
+    version: 2.2.2(marked@15.0.12)
   mathjs:
     specifier: ^14.5.2
     version: 14.5.2
@@ -7188,6 +7194,11 @@ packages:
   /hey-listen@1.0.8:
     resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
 
+  /highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
+    dev: true
+
   /hmac-drbg@1.0.1:
     resolution: {integrity: sha512-Tti3gMqLdZfhOQY1Mzf/AanLiqh1WTiJgEj26ZuYQ9fbkLomzGchCws4FyrSd4VkpBfiNhaE1On+lOz894jvXg==}
     dependencies:
@@ -7973,6 +7984,14 @@ packages:
 
   /map-or-similar@1.5.0:
     resolution: {integrity: sha512-0aF7ZmVon1igznGI4VS30yugpduQW3y3GkcgGJOp7d8x8QrizhigUxjI/m2UojsXXto+jLAH3KSz+xOJTiORjg==}
+    dev: true
+
+  /marked-highlight@2.2.2(marked@15.0.12):
+    resolution: {integrity: sha512-KlHOP31DatbtPPXPaI8nx1KTrG3EW0Z5zewCwpUj65swbtKOTStteK3sNAjBqV75Pgo3fNEVNHeptg18mDuWgw==}
+    peerDependencies:
+      marked: '>=4 <17'
+    dependencies:
+      marked: 15.0.12
     dev: true
 
   /marked@15.0.12:

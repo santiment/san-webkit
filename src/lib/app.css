@@ -216,11 +216,11 @@ skeleton,
 }
 
 .ai-chatbot-content pre {
-  @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
+  @apply mb-2 overflow-x-auto rounded-md;
 }
 
 .ai-chatbot-content code {
-  @apply whitespace-normal break-words;
+  @apply rounded-md bg-porcelain px-1 py-0.5;
 }
 
 .ai-chatbot-content p {

@@ -6,6 +6,7 @@
   import { cn } from '$ui/utils/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
+  import { getMarkdownParser } from './markdown.js'
   import { formatChatTime } from '../../utils.js'
 
   type TProps = Pick<TAiChatbotMessage, 'role' | 'content' | 'insertedAt'> & {
@@ -53,8 +54,8 @@
         {#if role === 'USER'}
           {content}
         {:else}
-          {#await import('marked') then { marked }}
-            {@html marked(content, { breaks: true })}
+          {#await getMarkdownParser() then marked}
+            {@html marked.parse(content, { breaks: true })}
           {/await}
         {/if}
       </p>

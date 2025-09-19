@@ -206,7 +206,7 @@
                 >
                   {#snippet sources()}
                     {#if assistant?.sources?.length}
-                      <div class="mb-4 flex flex-wrap gap-x-3.5 gap-y-4">
+                      <div class="flex flex-wrap gap-x-3.5 gap-y-4">
                         {#each assistant.sources as source}
                           <ChatSource {...source}></ChatSource>
                         {/each}
