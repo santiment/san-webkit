@@ -6,6 +6,7 @@
   import { cn } from '$ui/utils/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
+  import { getMarkdownParser } from './markdown.js'
   import { formatChatTime } from '../../utils.js'
 
   type TProps = Pick<TAiChatbotMessage, 'role' | 'content' | 'insertedAt'> & {
@@ -46,15 +47,15 @@
     <div class="flex flex-col-reverse gap-y-8 sm:!flex-col">
       <p
         class={cn(
-          'ai-chatbot-content w-fit text-base text-rhino [word-break:break-word]',
+          'ai-chatbot-content w-fit max-w-full text-base text-rhino [word-break:break-word]',
           role === 'USER' && 'whitespace-pre-wrap',
         )}
       >
         {#if role === 'USER'}
           {content}
         {:else}
-          {#await import('marked') then { marked }}
-            {@html marked(content, { breaks: true })}
+          {#await getMarkdownParser() then marked}
+            {@html marked.parse(content, { breaks: true })}
           {/await}
         {/if}
       </p>
