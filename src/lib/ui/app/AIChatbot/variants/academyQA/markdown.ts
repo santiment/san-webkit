@@ -15,21 +15,32 @@ function loadHljsTheme() {
 async function createParser() {
   loadHljsTheme()
 
-  const [{ Marked }, { markedHighlight }, hljsModule, python, javascript, graphql, sql, latex] =
-    await Promise.all([
-      import('marked'),
-      import('marked-highlight'),
-      import('highlight.js/lib/core'),
-      import('highlight.js/lib/languages/python'),
-      import('highlight.js/lib/languages/javascript'),
-      import('highlight.js/lib/languages/graphql'),
-      import('highlight.js/lib/languages/sql'),
-      import('highlight.js/lib/languages/latex'),
-    ])
+  const [
+    { Marked },
+    { markedHighlight },
+    hljsModule,
+    python,
+    plaintext,
+    javascript,
+    graphql,
+    sql,
+    latex,
+  ] = await Promise.all([
+    import('marked'),
+    import('marked-highlight'),
+    import('highlight.js/lib/core'),
+    import('highlight.js/lib/languages/python'),
+    import('highlight.js/lib/languages/javascript'),
+    import('highlight.js/lib/languages/graphql'),
+    import('highlight.js/lib/languages/sql'),
+    import('highlight.js/lib/languages/latex'),
+    import('highlight.js/lib/languages/plaintext'),
+  ])
 
   const hljs = hljsModule.default
 
   hljs.registerLanguage('python', python.default)
+  hljs.registerLanguage('plaintext', plaintext.default)
   hljs.registerLanguage('javascript', javascript.default)
   hljs.registerLanguage('graphql', graphql.default)
   hljs.registerLanguage('sql', sql.default)
