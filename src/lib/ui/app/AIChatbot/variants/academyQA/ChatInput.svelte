@@ -173,14 +173,14 @@
       bind:this={contentRef.$}
       class="w-[var(--bits-popover-anchor-width)] rounded-md border border-porcelain bg-white px-6 py-4"
     >
-      <h4 class="mb-3 text-base font-semibold text-rhino sm:text-sm">Suggested</h4>
+      <h4 class="mb-3 text-base font-semibold text-rhino sm:!text-sm">Suggested</h4>
 
       <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
         {#each predictions as prediction}
           <li>
             <Button
               variant="link"
-              class="inline-block h-auto p-0 text-left text-sm sm:text-base"
+              class="inline-block h-auto p-0 text-left text-sm sm:!text-base"
               onclick={() => handleSubmit(prediction.question)}
             >
               {prediction.question}
