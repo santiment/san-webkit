@@ -174,13 +174,18 @@
 >
   <header class="mb-3 flex items-center justify-end gap-3">
     {#if aiChatbot.$$.session}
-      <Button icon="refresh" onclick={() => aiChatbot.resetSession()}>Reset</Button>
+      <Button
+        icon="reset"
+        iconSize={isPhone ? 16 : 12}
+        class="hover:fill-rhino"
+        onclick={() => aiChatbot.resetSession()}>Reset</Button
+      >
     {/if}
 
     <Button
       icon="close"
-      class="size-8 fill-waterloo"
-      iconSize={12}
+      class="size-8 fill-waterloo hover:fill-rhino"
+      iconSize={isPhone ? 16 : 12}
       onclick={() => Controller.close()}
     ></Button>
   </header>
@@ -195,7 +200,7 @@
             {@const assistant = turn.assistantMessage}
             {@const user = turn.userMessage}
 
-            <div class="flex flex-col gap-y-6" use:registerTurn={turn.id}>
+            <div class="mb-6 flex flex-col gap-y-6" use:registerTurn={turn.id}>
               <ChatMessage role="USER" content={user.content} insertedAt={user.insertedAt} />
 
               {#if assistant}

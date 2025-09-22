@@ -44,11 +44,13 @@
     <div class="flex gap-2">
       <Button
         icon={isThumbUp ? 'thumb-up-filled' : 'thumb-up'}
+        class="hover:fill-rhino"
         explanation="Good answer"
         onclick={() => handleSelect('THUMBS_UP')}
       />
       <Button
         icon={isThumbDown ? 'thumb-down-filled' : 'thumb-down'}
+        class="hover:fill-rhino"
         explanation="Bad answer"
         onclick={() => handleSelect('THUMBS_DOWN')}
       />
@@ -66,7 +68,7 @@
       <Button
         icon="close"
         iconSize={12}
-        class="absolute right-[18px] top-[14px] h-6 w-6"
+        class="absolute right-[18px] top-[14px] h-6 w-6 hover:fill-rhino"
         onclick={() => (isThankOpen = false)}
       />
       <Svg illus id="turtle" w={116} h={136} />

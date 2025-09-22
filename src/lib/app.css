@@ -216,11 +216,12 @@ skeleton,
 }
 
 .ai-chatbot-content pre {
-  @apply mb-2 overflow-x-auto rounded-md;
+  @apply my-6 overflow-x-auto rounded-md;
+  font-size: 14px;
 }
 
 .ai-chatbot-content code {
-  @apply rounded-md bg-porcelain px-1 py-0.5;
+  @apply rounded-md bg-athens px-1 py-0.5;
 }
 
 .ai-chatbot-content p {
