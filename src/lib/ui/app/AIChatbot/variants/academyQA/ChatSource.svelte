@@ -10,7 +10,7 @@
 <Button
   target="_blank"
   href={source.url}
-  class="group grid h-auto w-full max-w-[calc(50%-14px)] grid-cols-[1fr_auto] items-start gap-x-3 bg-green-light-1 py-3 pl-5 pr-2 md:max-w-[364px]"
+  class="group grid h-auto w-full max-w-[calc(50%-14px)] grid-cols-[1fr_auto] items-start gap-x-3 bg-green-light-1 py-3 pl-5 pr-2 xs:max-w-[364px]"
   {onclick}
 >
   <div class="min-w-0 pt-1">

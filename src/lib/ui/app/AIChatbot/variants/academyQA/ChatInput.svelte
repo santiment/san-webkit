@@ -35,7 +35,7 @@
   let isPopoverOpened = $state(false)
   let predictions = $state<{ question: string; title: string }[]>([])
 
-  const isPhone = $derived(device.$.isPhone)
+  const isMobile = $derived(device.$.isMobile)
   const icon = $derived(initialIcon === null ? undefined : initialIcon)
 
   function handleSubmit(query: string) {
@@ -61,7 +61,7 @@
   }
 
   function resizeTextarea() {
-    if (!textareaRef.$ || isPhone) return
+    if (!textareaRef.$ || isMobile) return
 
     textareaRef.$.style.height = 'auto'
     textareaRef.$.style.height = `${textareaRef.$.scrollHeight}px`
@@ -128,7 +128,7 @@
     >
       <Textarea
         ref={textareaRef}
-        icon={isPhone ? undefined : icon}
+        icon={isMobile ? undefined : icon}
         iconSize={24}
         {placeholder}
         {value}

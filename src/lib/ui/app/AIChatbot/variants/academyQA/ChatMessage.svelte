@@ -19,9 +19,9 @@
 
   const { role, content, insertedAt, sources, suggestions, feedback }: TProps = $props()
 
-  const isPhone = $derived(device.$.isPhone)
-  const userIcon = $derived(isPhone ? 12 : 16)
-  const assistantIcon = $derived(isPhone ? 24 : 32)
+  const isMobile = $derived(device.$.isMobile)
+  const userIcon = $derived(isMobile ? 12 : 16)
+  const assistantIcon = $derived(isMobile ? 24 : 32)
   const iconSize = $derived(role === 'USER' ? userIcon : assistantIcon)
 </script>
 
