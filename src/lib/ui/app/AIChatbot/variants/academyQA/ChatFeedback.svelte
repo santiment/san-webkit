@@ -4,6 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
+  import Tooltip from '$ui/core/Tooltip/index.js'
 
   type TProps = {
     feedbackType?: TChatMessageFeedback | null
@@ -42,18 +43,45 @@
     <p class="text-sm text-waterloo">Did Turtoshi answer correctly?</p>
 
     <div class="flex gap-2">
-      <Button
-        icon={isThumbUp ? 'thumb-up-filled' : 'thumb-up'}
-        class="hover:fill-rhino"
-        explanation="Good answer"
-        onclick={() => handleSelect('THUMBS_UP')}
-      />
-      <Button
-        icon={isThumbDown ? 'thumb-down-filled' : 'thumb-down'}
-        class="hover:fill-rhino"
-        explanation="Bad answer"
-        onclick={() => handleSelect('THUMBS_DOWN')}
-      />
+      <Tooltip
+        position="top"
+        positionConfig={{ strategy: 'fixed' }}
+        class="z-[99999] rounded"
+        noStyles
+      >
+        {#snippet children({ ref })}
+          <Button
+            {ref}
+            icon={isThumbUp ? 'thumb-up-filled' : 'thumb-up'}
+            class="hover:fill-rhino"
+            onclick={() => handleSelect('THUMBS_UP')}
+          />
+        {/snippet}
+
+        {#snippet content()}
+          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
+        {/snippet}
+      </Tooltip>
+
+      <Tooltip
+        position="top"
+        positionConfig={{ strategy: 'fixed' }}
+        class="z-[99999] rounded"
+        noStyles
+      >
+        {#snippet children({ ref })}
+          <Button
+            {ref}
+            icon={isThumbDown ? 'thumb-down-filled' : 'thumb-down'}
+            class="hover:fill-rhino"
+            onclick={() => handleSelect('THUMBS_DOWN')}
+          />
+        {/snippet}
+
+        {#snippet content()}
+          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+        {/snippet}
+      </Tooltip>
     </div>
   </div>
 
