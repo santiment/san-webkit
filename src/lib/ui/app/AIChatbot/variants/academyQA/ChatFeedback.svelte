@@ -43,7 +43,7 @@
     <p class="text-sm text-waterloo">Did Turtoshi answer correctly?</p>
 
     <div class="flex gap-2">
-      <Tooltip position="top" class="!z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-[99999] rounded" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -58,7 +58,7 @@
         {/snippet}
       </Tooltip>
 
-      <Tooltip position="top" class="!z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-[99999] rounded" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}

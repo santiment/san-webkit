@@ -14,7 +14,7 @@
   {onclick}
 >
   <div class="min-w-0 pt-1">
-    <div class="truncate">
+    <div class="truncate group-hover:text-black">
       [{source.number}] {source.title}
     </div>
     <div class="truncate text-green group-hover:text-green-hover group-hover:underline">
