@@ -43,7 +43,7 @@
     </div>
   </header>
 
-  <div class="gap-8 pl-12 md:pl-9 sm:!pl-0">
+  <div class="gap-8 pl-12 md:!pl-9 sm:!pl-0">
     <div class="flex flex-col-reverse gap-y-8 sm:!flex-col">
       <p
         class={cn(

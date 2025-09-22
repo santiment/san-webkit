@@ -61,6 +61,29 @@
     return turns
   })
 
+  $effect(() => {
+    conversationTurns.length
+    const nowLoading = aiChatbot.loading$
+
+    recalcBottomSpacer()
+
+    async function handlePostLoadTransition() {
+      await tick()
+      await waitTempGone()
+
+      recalcBottomSpacer()
+      scrollToLastUserTurn('auto')
+    }
+
+    if (wasLoading.$ && !nowLoading) {
+      handlePostLoadTransition()
+    } else {
+      scrollToLastUserTurn('smooth')
+    }
+
+    wasLoading.$ = nowLoading
+  })
+
   function nextFrame() {
     return new Promise<void>((r) => requestAnimationFrame(() => r()))
   }
@@ -87,6 +110,20 @@
         })
       })
     })
+  }
+
+  function scrollContainerToBottom(behavior: ScrollBehavior = 'auto') {
+    const container = chatMessagesRef.$
+    if (!container) return
+
+    container.scrollTo({
+      top: container.scrollHeight,
+      behavior: behavior,
+    })
+  }
+
+  function handleResize() {
+    setTimeout(() => scrollContainerToBottom('auto'), 100)
   }
 
   function getLastUserTurnEl() {
@@ -124,29 +161,6 @@
     bottomSpacerPx.$ = Math.max(0, scrollbox.clientHeight - lastEl.offsetHeight)
   }
 
-  $effect(() => {
-    conversationTurns.length
-    const nowLoading = aiChatbot.loading$
-
-    recalcBottomSpacer()
-
-    async function handlePostLoadTransition() {
-      await tick()
-      await waitTempGone()
-
-      recalcBottomSpacer()
-      scrollToLastUserTurn('auto')
-    }
-
-    if (wasLoading.$ && !nowLoading) {
-      handlePostLoadTransition()
-    } else {
-      scrollToLastUserTurn('smooth')
-    }
-
-    wasLoading.$ = nowLoading
-  })
-
   const registerTurn: Action<HTMLElement, string> = (node, id) => {
     if (id) turnRefs.set(id, node)
 
@@ -161,6 +175,14 @@
     setTimeout(() => scrollToLastUserMessage('auto'), 0)
 
     requestAnimationFrame(() => recalcBottomSpacer())
+
+    if (isPhone) {
+      window.addEventListener('resize', handleResize)
+
+      return () => {
+        window.removeEventListener('resize', handleResize)
+      }
+    }
   })
 </script>
 
