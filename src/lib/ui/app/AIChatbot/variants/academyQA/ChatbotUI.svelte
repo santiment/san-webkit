@@ -308,7 +308,7 @@
         </div>
       {/if}
 
-      {#if showScrollToBottom && !isMobile}
+      {#if showScrollToBottom && !isMobile && !aiChatbot.loading$}
         <div
           class="absolute bottom-[10px] left-1/2 -translate-x-1/2"
           transition:fade={{ duration: 300 }}
