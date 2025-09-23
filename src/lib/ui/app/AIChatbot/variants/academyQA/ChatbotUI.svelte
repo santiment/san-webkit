@@ -200,6 +200,7 @@
         icon="reset"
         iconSize={isPhone ? 16 : 12}
         class="hover:fill-rhino"
+        disabled={aiChatbot.loading$}
         onclick={() => aiChatbot.resetSession()}>Reset</Button
       >
     {/if}
