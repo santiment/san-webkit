@@ -3,12 +3,14 @@
   import type { TAiChatbotMessage } from '../../types.js'
 
   import { onMount, tick } from 'svelte'
+  import { fade } from 'svelte/transition'
 
   import { ss } from '$lib/utils/index.js'
   import { cn } from '$ui/utils/index.js'
   import Dialog, { type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+  import Tooltip from '$ui/core/Tooltip/Tooltip.svelte'
 
   import { useAIChatbotCtx } from '../../ctx.svelte.js'
   import WelcomeScreen from './WelcomeScreen.svelte'
@@ -43,7 +45,10 @@
   const bottomSpacerPx = ss(0)
   const wasLoading = ss(false)
 
+  let showScrollToBottom = $state(false)
+
   const isPhone = $derived(device.$.isPhone)
+  const isMobile = $derived(device.$.isMobile)
   const messages = $derived(aiChatbot.$$.session?.chatMessages ?? [])
   const conversationTurns = $derived.by<TTurn[]>(() => {
     const turns: TTurn[] = []
@@ -122,7 +127,7 @@
     })
   }
 
-  function handleResize() {
+  function handleScrollToBottom() {
     setTimeout(() => scrollContainerToBottom('auto'), 100)
   }
 
@@ -177,13 +182,25 @@
     requestAnimationFrame(() => recalcBottomSpacer())
 
     if (isPhone) {
-      window.addEventListener('resize', handleResize)
+      window.addEventListener('resize', handleScrollToBottom)
 
       return () => {
-        window.removeEventListener('resize', handleResize)
+        window.removeEventListener('resize', handleScrollToBottom)
       }
     }
   })
+
+  function handleScroll() {
+    const container = chatMessagesRef.$
+    if (!container) return
+
+    const scrollThreshold = 50
+
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight < scrollThreshold
+
+    showScrollToBottom = !isAtBottom
+  }
 </script>
 
 <Dialog
@@ -214,11 +231,15 @@
   </header>
 
   <div bind:this={chatContainerRef.$} class="flex h-full flex-col justify-between overflow-hidden">
-    <div class="flex h-full flex-1 flex-col overflow-y-auto">
+    <div class="relative flex h-full flex-1 flex-col overflow-y-auto">
       {#if !aiChatbot.$$.session && !aiChatbot.loading$}
         <WelcomeScreen />
       {:else}
-        <div class="relative flex-1 overflow-y-auto" bind:this={chatMessagesRef.$}>
+        <div
+          class="relative flex-1 overflow-y-auto"
+          bind:this={chatMessagesRef.$}
+          onscroll={handleScroll}
+        >
           {#each conversationTurns as turn (turn.id)}
             {@const assistant = turn.assistantMessage}
             {@const user = turn.userMessage}
@@ -284,6 +305,28 @@
               </div>
             </div>
           {/if}
+        </div>
+      {/if}
+
+      {#if showScrollToBottom && !isMobile}
+        <div
+          class="absolute bottom-[10px] left-1/2 -translate-x-1/2"
+          transition:fade={{ duration: 300 }}
+        >
+          <Tooltip position="top" class="z-[99999] rounded" noStyles>
+            {#snippet children({ ref })}
+              <Button
+                {ref}
+                icon="back-to-top"
+                class="rotate-180 rounded-full border border-porcelain bg-white"
+                onclick={() => scrollContainerToBottom('smooth')}
+              ></Button>
+            {/snippet}
+
+            {#snippet content()}
+              <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+            {/snippet}
+          </Tooltip>
         </div>
       {/if}
     </div>
