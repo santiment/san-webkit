@@ -91,7 +91,7 @@ function applyTransactionCosts(
 
   // Transaction cost factor = (1 - cost)^|position_change|
   // This reduces returns when positions change (trades occur)
-  const costFactor = MathOperators.pow(MathOperators.subtract(1, transactionCost), positionChanges)
+  const costFactor = MathOperators.pow(1 - transactionCost, positionChanges)
 
   return MathOperators.multiply(strategyReturns, costFactor)
 }
