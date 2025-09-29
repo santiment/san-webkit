@@ -1,4 +1,9 @@
-import { sma as calculateSMA, ema as calculateEMA, rsi as calculateRSI } from 'indicatorts'
+import {
+  sma as calculateSMA,
+  ema as calculateEMA,
+  rsi as calculateRSI,
+  atr as calculateATR,
+} from 'indicatorts'
 
 import { math, Timeseries } from './core.js'
 
@@ -20,6 +25,19 @@ const rsi = math.typed('rsi', {
   },
 })
 
+const atr = math.typed('atr', {
+  'Timeseries, number': (timeseries: Timeseries, period: number) => {
+    const { high = [], low = [], close = [] } = timeseries.values
+    const { atrLine } = calculateATR(high, low, close, { period })
+
+    if (atrLine.length) {
+      return new Timeseries(atrLine, timeseries.timestamps)
+    } else {
+      return new Timeseries([], [])
+    }
+  },
+})
+
 const z_score = math.typed('z_score', {
   Timeseries: (timeseries: Timeseries) => {
     return new Timeseries(calculateZScore(timeseries.values), timeseries.timestamps)
@@ -34,6 +52,8 @@ export const MathIndicators = {
   sma,
   ema,
   rsi,
+
+  atr,
 
   z_score,
 }

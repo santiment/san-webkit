@@ -15,6 +15,7 @@
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
+    ApiSignalSeries,
     DatesRangeShortcuts,
     Minimap,
     TimeZoneSelector,
@@ -123,7 +124,7 @@
                 .catch((e) => console.error('In catch', e))
           : null}
       >
-        {metric.label}
+        {metric.formula?.$.name || metric.label}
       </div>
     {/each}
 
@@ -135,7 +136,7 @@
 
   <Chart
     watermark
-    class="h-[500px]"
+    class="h-[700px]"
     onRangeSelectChange={console.log}
     onRangeSelectEnd={console.log}
     options={{
@@ -143,7 +144,11 @@
     }}
   >
     {#each metricSeries.$ as item, index (item.id)}
-      <ApiMetricSeries {index} series={item}></ApiMetricSeries>
+      {#if item.ui.$$.style === 'signal'}
+        <ApiSignalSeries {index} series={item} priceSeries={metricSeries.$[0]}></ApiSignalSeries>
+      {:else}
+        <ApiMetricSeries {index} series={item}></ApiMetricSeries>
+      {/if}
     {/each}
 
     <SpikeExplanations>
@@ -155,7 +160,11 @@
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
-          <PaneMetric {metric} paneControls></PaneMetric>
+          <PaneMetric {metric} paneControls>
+            {#snippet label()}
+              {metric.formula?.$.name || metric.label}
+            {/snippet}
+          </PaneMetric>
         {/each}
       {/snippet}
     </PaneLegend>

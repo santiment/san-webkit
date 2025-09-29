@@ -78,8 +78,9 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
 
   ctxCreator.get = get
   ctxCreator.set = set
+  ctxCreator.__CTX = CTX
 
-  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set }
+  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set; __CTX: typeof CTX }
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {

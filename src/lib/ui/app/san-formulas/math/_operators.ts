@@ -1,4 +1,5 @@
 import { math, Timeseries } from './core.js'
+import { alignTimeseries } from './utils.js'
 
 const add = createBinaryMathOperator('add', (a, b) => a + b)
 const subtract = createBinaryMathOperator('subtract', (a, b) => a - b)
@@ -8,6 +9,9 @@ const pow = createBinaryMathOperator('pow', (a, b) => Math.pow(a, b))
 
 const unaryMinus = createUnaryMathOperator('unaryMinus', (a) => -a)
 const unaryPlus = createUnaryMathOperator('unaryPlus', (a) => +a)
+
+const absolute = createUnaryMathOperator('absolute', (a) => Math.abs(a))
+const exp = createUnaryMathOperator('exp', (a) => Math.exp(a))
 
 const log = createMathFunction('log', (a, base) => {
   if (!base) {
@@ -30,14 +34,18 @@ export const MathOperators = {
   subtract,
   multiply,
   divide,
+
   pow,
   log,
+  exp,
 
   unaryMinus,
   unaryPlus,
+
+  absolute,
 }
 
-function createBinaryMathOperator<GName extends string>(
+export function createBinaryMathOperator<GName extends string>(
   name: GName,
   operation: (a: number, b: number) => number,
 ) {
@@ -51,7 +59,12 @@ function createBinaryMathOperator<GName extends string>(
   return math.typed(name, {
     'number, number': operation,
     'Timeseries, number': timeseriesNumberOperation,
-    'number, Timeseries': (a: number, b: Timeseries) => timeseriesNumberOperation(b, a),
+    'number, Timeseries': (a: number, b: Timeseries) => {
+      return new Timeseries(
+        b.values.map((value) => operation(a, value)),
+        b.timestamps,
+      )
+    },
 
     'Timeseries, Timeseries': (a: Timeseries, b: Timeseries) => {
       const [aAligned, bAligned] = alignTimeseries(a, b)
@@ -61,7 +74,10 @@ function createBinaryMathOperator<GName extends string>(
         aAligned.timestamps,
       )
     },
-  })
+  }) as ((a: Timeseries, b: Timeseries) => Timeseries) &
+    ((a: Timeseries, b: number) => Timeseries) &
+    ((a: number, b: Timeseries) => Timeseries) &
+    ((a: number, b: number) => number)
 }
 
 function createUnaryMathOperator<GName extends string>(
@@ -78,7 +94,7 @@ function createUnaryMathOperator<GName extends string>(
   return math.typed(name, {
     number: operation,
     Timeseries: timeseriesNumberOperation,
-  })
+  }) as ((a: Timeseries) => Timeseries) & ((a: number) => number)
 }
 
 function createMathFunction<GName extends string>(
@@ -108,60 +124,8 @@ function createMathFunction<GName extends string>(
 
       return operation(x, base)
     },
-  })
-}
-
-// TODO(vanguard): Write tests before release
-function alignTimeseries(a: Timeseries, b: Timeseries): [Timeseries, Timeseries] {
-  const isASmaller = a.timestamps.length < b.timestamps.length
-  const [base, target] = isASmaller ? [a, b] : [b, a]
-
-  const baseValues = new Array<number>(base.values.length)
-  const targetValues = new Array<number>(target.values.length)
-  const alignedTimestamps = base.timestamps.slice()
-
-  let targetIndex = 0
-  let alignedSize = 0
-
-  baseLoop: for (let baseIndex = 0; baseIndex < base.timestamps.length; baseIndex++) {
-    const baseTimestamp = base.timestamps[baseIndex]
-
-    while (true) {
-      const targetTimestamp = target.timestamps[targetIndex]
-
-      if (baseTimestamp > targetTimestamp) {
-        targetIndex += 1
-      } else if (baseTimestamp < targetTimestamp) {
-        break
-      } else {
-        // baseTimestamp === targetTimestamp
-
-        baseValues[alignedSize] = base.values[baseIndex]
-        targetValues[alignedSize] = target.values[targetIndex]
-        alignedTimestamps[alignedSize] = baseTimestamp
-
-        alignedSize += 1
-        targetIndex += 1
-
-        break
-      }
-
-      if (targetIndex >= target.timestamps.length) {
-        break baseLoop
-      }
-    }
-  }
-
-  baseValues.length = alignedSize
-  targetValues.length = alignedSize
-  alignedTimestamps.length = alignedSize
-
-  const [aAlignedValues, bAlignedValues] = isASmaller
-    ? [baseValues, targetValues]
-    : [targetValues, baseValues]
-
-  return [
-    new Timeseries(aAlignedValues, alignedTimestamps),
-    new Timeseries(bAlignedValues, alignedTimestamps),
-  ]
+  }) as ((x: number) => number) &
+    ((x: Timeseries) => Timeseries) &
+    ((x: number, base: number) => number) &
+    ((x: Timeseries, base: number) => Timeseries)
 }
