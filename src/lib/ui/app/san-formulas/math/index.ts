@@ -4,11 +4,17 @@ import { math, Timeseries } from './core.js'
 import { MathOperators } from './_operators.js'
 import { MathIndicators } from './_indicators.js'
 import { MathChartMetrics } from './_chart-metrics.js'
+import { MathModifiers } from './_modifiers.js'
+import { MathConditions } from './_conditions.js'
+import { MathStrategies } from './_backtest/index.js'
 
 export const DEFINITIONS = {
+  ...MathConditions,
   ...MathOperators,
   ...MathIndicators,
   ...MathChartMetrics,
+  ...MathModifiers,
+  ...MathStrategies,
 }
 
 export const TRANSFORMABLE_FNS = new Map(

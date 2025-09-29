@@ -67,6 +67,7 @@ export function createSeries({
 
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
     baseline: rest.baseline,
+    signal: rest.signal,
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
@@ -140,6 +141,7 @@ export const useMetricSeriesCtx = createCtx(
     const asScope = $derived(
       series.map((item) => ({
         name: item.apiMetricName,
+        aggregation: $state.snapshot(item.aggregation.$),
         selector: $state.snapshot(item.selector.$),
         formula: $state.snapshot(item.formula?.$),
       })),

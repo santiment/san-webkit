@@ -4,7 +4,7 @@ export { downloadChartAsJpeg } from './screenshot.js'
 
 export { default as ViewportChart } from './ViewportChart.svelte'
 
-export { RawSeries, ApiMetricSeries } from './series/index.js'
+export { RawSeries, ApiMetricSeries, ApiSignalSeries } from './series/index.js'
 
 export { default as Tooltip } from './Tooltip/index.js'
 

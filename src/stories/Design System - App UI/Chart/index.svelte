@@ -41,7 +41,11 @@
   }
   const { metricSeries } = useMetricSeriesCtx(
     defaultMetrics.length
-      ? defaultMetrics.map((item) => ({ ...item, selector, color: colorGenerator.new() }))
+      ? defaultMetrics.map((item) => ({
+          ...item,
+          selector,
+          color: item.color || colorGenerator.new(),
+        }))
       : [
           {
             apiMetricName: 'price_usd',

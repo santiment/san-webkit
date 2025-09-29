@@ -71,6 +71,7 @@ export const MetricStyle = {
   HISTOGRAM: 'histogram',
   AREA: 'area',
   CANDLES: 'candles',
+  SIGNAL: 'signal',
 } as const
 
 export type TMetricStyle = typeof MetricStyle
@@ -114,6 +115,13 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
     value: number
     topColor: string
     bottomColor: string
+  }
+
+  signal?: {
+    shape: 'circle' | 'square' | 'arrowUp' | 'arrowDown'
+    text?: string
+    isZeroIncluded?: boolean
+    position: 'aboveBar' | 'belowBar' | 'atPriceTop' | 'atPriceBottom'
   }
 } & GData
 
