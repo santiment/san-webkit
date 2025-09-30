@@ -73,7 +73,7 @@ export function fetchFormulaMetric(
   const deleteCache = () => (cachePromiseController.reject(), ApiCache.delete(cacheKey))
 
   ApiCache.add(cacheKey, {
-    result: cachePromiseController.promise,
+    result: cachePromiseController.promise.catch(() => {}),
     executor: Query,
     options: { cache: BROWSER, cacheTime: 15 },
   })
