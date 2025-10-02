@@ -19,7 +19,8 @@ import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
 import { StaticAssetsListPlugin } from './src/lib/ctx/assets/vite.js'
 import { StaticMetricsRegistryPlugin } from './src/lib/ctx/metrics-registry/vite.js'
 
-export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
+export const IS_TEST_MODE = process.env.NODE_ENV === 'test'
+export const IS_DEV_MODE = IS_TEST_MODE || process.env.NODE_ENV === 'development'
 
 export const BACKEND_URL = process.env.BACKEND_URL || 'https://api-stage.santiment.net'
 export const GQL_SERVER_URL = process.env.GQL_SERVER_URL || BACKEND_URL + '/graphql'
@@ -91,7 +92,11 @@ export function createConfig({
     define: {
       __SENTRY_TRACING__: false,
 
-      'process.env.NODE_ENV': IS_DEV_MODE ? '"development"' : '"production"',
+      'process.env.NODE_ENV': IS_TEST_MODE
+        ? '"test"'
+        : IS_DEV_MODE
+          ? '"development"'
+          : '"production"',
       'process.env.IS_DEV_MODE': IS_DEV_MODE,
       'process.env.IS_PROD_MODE': !IS_DEV_MODE,
       'process.env.IS_LOGGING_ENABLED': IS_DEV_MODE || IS_STAGE_BACKEND,
