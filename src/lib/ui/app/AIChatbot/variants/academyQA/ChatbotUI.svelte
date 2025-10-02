@@ -324,7 +324,7 @@
             {/snippet}
 
             {#snippet content()}
-              <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+              <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Scroll to latest</p>
             {/snippet}
           </Tooltip>
         </div>
