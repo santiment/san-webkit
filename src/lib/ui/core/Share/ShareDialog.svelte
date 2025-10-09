@@ -81,14 +81,14 @@
 
   <div class="w-[600px] px-6 py-5 sm:w-auto sm:max-w-[600px]">
     {#if disabled}
-      <div class="mb-4 rounded bg-orange-light-1 px-4 py-2.5 font-medium text-orange">
+      <div class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino">
         Your {entity} is private. Please, switch it to "Public" first.
       </div>
     {/if}
 
     <div
       class={cn(
-        'link mb-6 flex h-[42px] items-center overflow-hidden rounded border',
+        'link mb-6 flex h-10 items-center overflow-hidden rounded border',
         disabled && 'pointer-events-none bg-athens',
       )}
     >
@@ -102,13 +102,7 @@
         bind:this={inputNode}
       />
       <Button
-        class={cn(
-          'h-full min-w-[84px] items-center justify-center',
-          'text-nowrap rounded-none border-l border-l-porcelain',
-          'px-3 py-2.5 text-center hover:text-green',
-          disabled ? 'text-mystic' : 'text-black',
-        )}
-        variant="plain"
+        class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l px-3')}
         onclick={onCopy}
         {disabled}
       >
@@ -116,19 +110,16 @@
       </Button>
     </div>
 
-    <p class="mb-3">Share on social media</p>
+    <p class="mb-4">Share on social media</p>
     <div class="flex items-center gap-3">
       {#each SOCIALS as { id, href }}
         <Button
           href={href({ link, title: encodedTitle, text: encodedText })}
-          class={cn(
-            'flex h-10 w-10 items-center justify-center rounded border border-porcelain fill-black hover:bg-transparent hover:fill-green',
-            disabled && 'pointer-events-none bg-athens fill-waterloo text-mystic',
-          )}
+          variant="border"
+          size="lg"
+          {disabled}
           target="_blank"
           icon={id}
-          iconSize={18}
-          iconHeight={20}
         />
       {/each}
 
@@ -139,6 +130,7 @@
 
           <Switch
             class="ml-3 cursor-pointer"
+            icon={{ active: { id: 'eye-filled', w: 10, h: 7 } }}
             checked={isPublic}
             onCheckedChange={() => {
               isPublic = !isPublic
