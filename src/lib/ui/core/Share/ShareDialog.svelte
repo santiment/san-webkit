@@ -102,7 +102,7 @@
         bind:this={inputNode}
       />
       <Button
-        class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l px-3')}
+        class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l border-solid px-3')}
         onclick={onCopy}
         {disabled}
       >
