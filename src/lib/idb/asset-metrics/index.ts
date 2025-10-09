@@ -1,5 +1,6 @@
 import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 import type { UTCTimestamp } from '@santiment-network/chart-next'
+import type { TMetricData } from '$ui/app/Chart/api/index.js'
 
 import { openDB, type DBSchema, type IDBPDatabase, type TypedDOMStringList } from 'idb'
 
@@ -14,10 +15,16 @@ import {
 import { queryAvailableMetrics } from './api.js'
 import { hash } from '../utils.js'
 
+export type TLocalMetricData = {
+  time: UTCTimestamp
+  value: number
+  args: string
+}
+
 interface TAssetMetricsDatabaseSchema extends DBSchema {
   [metric: string]: {
-    key: UTCTimestamp
-    value: number
+    key: ['string', UTCTimestamp]
+    value: TLocalMetricData
   }
 }
 
@@ -68,7 +75,10 @@ export async function getAssetMetricsDatabase(slug: TAssetSlug) {
     upgrade(db: TAssetMetricDatabase) {
       for (const metric of availableMetrics) {
         if (!db.objectStoreNames.contains(metric)) {
-          const store = db.createObjectStore(metric, { keyPath: 'time' })
+          const store = db.createObjectStore(metric, {
+            //keyPath: ['args', 'time'],
+            keyPath: ['args', 'time'],
+          })
           //store.createIndex('time', 'time')
         }
       }
