@@ -2,39 +2,11 @@
   import Component from './ShareDialog.svelte'
 
   export const showShareDialog$ = () => dialogs$.new(Component)
-
-  type Social = {
-    id: string
-    href: (p: { link: string; text: string; title: string }) => string
-  }
-
-  const SOCIALS = [
-    {
-      id: 'twitter',
-      href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
-    },
-    {
-      id: 'facebook',
-      href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
-    },
-    {
-      id: 'linked-in',
-      href: ({ link, text, title }) =>
-        `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
-    },
-    {
-      id: 'telegram',
-      href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
-    },
-    {
-      id: 'reddit',
-      href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
-    },
-  ] satisfies Social[]
 </script>
 
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { noop } from '@melt-ui/svelte/internal/helpers'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
@@ -42,6 +14,8 @@
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
+  import { SOCIALS } from './socials.js'
 
   type TProps = {
     title?: string
@@ -59,8 +33,8 @@
     entity = 'Watchlist',
     data = {},
     isAuthor = false,
-    isPublic = false,
-    onPublicityToggle = () => {},
+    isPublic: isPublicProp = false,
+    onPublicityToggle = noop,
     feature,
     source,
     Controller,
@@ -77,6 +51,8 @@
 
   let inputNode = $state<HTMLInputElement>()
   let label = $state('Copy link')
+
+  let isPublic = $state(isPublicProp)
 
   const disabled = $derived(isAuthor && !isPublic)
 
@@ -153,7 +129,7 @@
           icon={id}
           iconSize={18}
           iconHeight={20}
-        ></Button>
+        />
       {/each}
 
       {#if isAuthor}
@@ -161,8 +137,14 @@
           {isPublic ? 'Public' : 'Private'}
           {entity}
 
-          <Switch class="ml-3 cursor-pointer" checked={isPublic} onCheckedChange={onPublicityToggle}
-          ></Switch>
+          <Switch
+            class="ml-3 cursor-pointer"
+            checked={isPublic}
+            onCheckedChange={() => {
+              isPublic = !isPublic
+              onPublicityToggle()
+            }}
+          />
         </Button>
       {/if}
     </div>
