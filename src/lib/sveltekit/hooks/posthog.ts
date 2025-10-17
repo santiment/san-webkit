@@ -1,6 +1,7 @@
 import { error, json, text, type Handle } from '@sveltejs/kit'
 
 import { POSTHOG_URL, PROXY_ROUTE } from '$lib/analytics/posthog/index.js'
+import { logger } from '$lib/logger.js'
 
 const ensureSlash = (route: string) => (route[0] === '/' ? route : `/${route}`)
 
@@ -30,7 +31,8 @@ export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
 
     return (isJson ? json : text)(data, { status: response.status })
   } catch (e) {
-    console.error(e)
+    logger.info(e)
+
     return error(500, 'Internal server error')
   }
 }

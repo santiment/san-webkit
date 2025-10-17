@@ -1,8 +1,9 @@
-import { type Handle, type RequestEvent } from '@sveltejs/kit'
+import { error, type Handle, type RequestEvent } from '@sveltejs/kit'
 import UAParser from 'ua-parser-js'
 
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
 import { DeviceType } from '$lib/ctx/device/index.svelte.js'
+import { logger } from '$lib/logger.js'
 
 function normalizeDeviceType(type: string | undefined): DeviceType {
   switch (type) {
@@ -38,9 +39,16 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   event.locals.customer = customer
   event.locals.theme = theme
 
-  const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
-  })
+  let response: Response
+  try {
+    response = await resolve(event, {
+      transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
+    })
+  } catch (e) {
+    logger.info(e, event.url.pathname)
+
+    return error(500, 'Internal server error')
+  }
 
   Object.entries({
     'Content-Security-Policy': "frame-ancestors 'self'",

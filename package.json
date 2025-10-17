@@ -172,6 +172,7 @@
     "drawer-svelte": "^0.1.3",
     "esm-env": "^1.2.2",
     "fast-glob": "^3.3.2",
+    "pino": "^10.0.0",
     "posthog-js": "^1.224.0",
     "svelte-runes": "^0.0.7",
     "svelte-sonner": "^0.3.28",
