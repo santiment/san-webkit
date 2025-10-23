@@ -25,7 +25,6 @@
     rootProps?: PopoverRootProps
     contentProps?: PopoverContentProps
 
-    isPortalled?: boolean
     portalTo?: ComponentProps<typeof Popover.Portal>['to']
   }
 
@@ -37,7 +36,6 @@
     matchTriggerWidth = false,
     isOpened = $bindable(false),
 
-    isPortalled = false,
     portalTo,
 
     align,
@@ -53,7 +51,7 @@
 <Popover.Root {...rootProps} bind:open={isOpened}>
   <Popover.Trigger child={children}></Popover.Trigger>
 
-  <Popover.Portal disabled={isPortalled} to={portalTo}>
+  <Popover.Portal disabled={!portalTo} to={portalTo}>
     <Popover.Content
       sideOffset={8}
       onCloseAutoFocus={preventFocus}
