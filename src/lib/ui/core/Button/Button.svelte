@@ -18,11 +18,12 @@
       for?: string
       ref?: SS<undefined | null | HTMLElement>
       href?: string
-      icon?: TSvgId
       class?: string
+      icon?: TSvgId
       iconSize?: number | string
       iconHeight?: number | string
       iconOnRight?: boolean
+      iconIllus?: boolean
       explanation?: string
       loading?: boolean
       dropdown?: boolean
@@ -51,6 +52,7 @@
     icon,
     iconHeight,
     iconSize: initialIconSize,
+    iconIllus = false,
 
     explanation,
     children,
@@ -207,7 +209,7 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight} />
+    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
   {/if}
 
   {#if children}

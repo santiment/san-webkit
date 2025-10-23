@@ -5,17 +5,24 @@
 
   import Svg from '../Svg/index.js'
 
-  let {
-    icon = { active: { id: 'checkmark', w: 8, h: 6 }, inactive: { id: 'cross', w: 7 } },
+  type Icon = { id: string; w: number; h?: number }
+
+  const {
+    icon,
     class: className,
     ...rest
   }: SwitchRootProps & {
     class?: string
     icon?: {
-      active: { id: string; w: number; h?: number }
-      inactive: { id: string; w: number; h?: number }
+      active?: Icon
+      inactive?: Icon
     }
   } = $props()
+
+  const activeIcon = $derived(icon?.active ?? { id: 'checkmark', w: 8, h: 6 })
+  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: 7 })
+
+  const currentIcon = $derived(rest.checked ? activeIcon : inactiveIcon)
 </script>
 
 <Switch.Root
@@ -30,11 +37,9 @@
     class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px]"
   />
 
-  {#if icon}
-    <Svg
-      style={cn('margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
-      {...icon[rest.checked ? 'active' : 'inactive']}
-      class="absolute fill-white"
-    ></Svg>
-  {/if}
+  <Svg
+    {...currentIcon}
+    style={cn('margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
+    class="absolute fill-white"
+  />
 </Switch.Root>

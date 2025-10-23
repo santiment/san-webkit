@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import {
     Popover,
@@ -24,6 +24,8 @@
 
     rootProps?: PopoverRootProps
     contentProps?: PopoverContentProps
+
+    portalTo?: ComponentProps<typeof Popover.Portal>['to']
   }
 
   let {
@@ -33,6 +35,8 @@
     noStyles = false,
     matchTriggerWidth = false,
     isOpened = $bindable(false),
+
+    portalTo,
 
     align,
     side,
@@ -47,32 +51,34 @@
 <Popover.Root {...rootProps} bind:open={isOpened}>
   <Popover.Trigger child={children}></Popover.Trigger>
 
-  <Popover.Content
-    sideOffset={8}
-    onCloseAutoFocus={preventFocus}
-    onOpenAutoFocus={preventFocus}
-    {...contentProps}
-    {align}
-    {side}
-    forceMount
-    class={cn(
-      !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
-      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
-      className,
-    )}
-  >
-    {#snippet child({ wrapperProps, props, open })}
-      {#if open}
-        <div {...wrapperProps}>
-          <div
-            {...props}
-            class={cn('fly-and-scale-animation animated', props.class as string)}
-            out:flyAndScaleOutTransition
-          >
-            {@render content({ close: () => (isOpened = false) })}
+  <Popover.Portal disabled={!portalTo} to={portalTo}>
+    <Popover.Content
+      sideOffset={8}
+      onCloseAutoFocus={preventFocus}
+      onOpenAutoFocus={preventFocus}
+      {...contentProps}
+      {align}
+      {side}
+      forceMount
+      class={cn(
+        !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
+        matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+        className,
+      )}
+    >
+      {#snippet child({ wrapperProps, props, open })}
+        {#if open}
+          <div {...wrapperProps}>
+            <div
+              {...props}
+              class={cn('fly-and-scale-animation animated', props.class as string)}
+              out:flyAndScaleOutTransition
+            >
+              {@render content({ close: () => (isOpened = false) })}
+            </div>
           </div>
-        </div>
-      {/if}
-    {/snippet}
-  </Popover.Content>
+        {/if}
+      {/snippet}
+    </Popover.Content>
+  </Popover.Portal>
 </Popover.Root>

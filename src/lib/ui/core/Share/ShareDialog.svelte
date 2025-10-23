@@ -2,39 +2,11 @@
   import Component from './ShareDialog.svelte'
 
   export const showShareDialog$ = () => dialogs$.new(Component)
-
-  type Social = {
-    id: string
-    href: (p: { link: string; text: string; title: string }) => string
-  }
-
-  const SOCIALS = [
-    {
-      id: 'twitter',
-      href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
-    },
-    {
-      id: 'facebook',
-      href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
-    },
-    {
-      id: 'linked-in',
-      href: ({ link, text, title }) =>
-        `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
-    },
-    {
-      id: 'telegram',
-      href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
-    },
-    {
-      id: 'reddit',
-      href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
-    },
-  ] satisfies Social[]
 </script>
 
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { noop } from '@melt-ui/svelte/internal/helpers'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
@@ -42,6 +14,8 @@
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+
+  import { SOCIALS } from './socials.js'
 
   type TProps = {
     title?: string
@@ -59,8 +33,8 @@
     entity = 'Watchlist',
     data = {},
     isAuthor = false,
-    isPublic = false,
-    onPublicityToggle = () => {},
+    isPublic: isPublicProp = false,
+    onPublicityToggle = noop,
     feature,
     source,
     Controller,
@@ -77,6 +51,8 @@
 
   let inputNode = $state<HTMLInputElement>()
   let label = $state('Copy link')
+
+  let isPublic = $state(isPublicProp)
 
   const disabled = $derived(isAuthor && !isPublic)
 
@@ -105,14 +81,14 @@
 
   <div class="w-[600px] px-6 py-5 sm:w-auto sm:max-w-[600px]">
     {#if disabled}
-      <div class="mb-4 rounded bg-orange-light-1 px-4 py-2.5 font-medium text-orange">
+      <div class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino">
         Your {entity} is private. Please, switch it to "Public" first.
       </div>
     {/if}
 
     <div
       class={cn(
-        'link mb-6 flex h-[42px] items-center overflow-hidden rounded border',
+        'link mb-6 flex h-10 items-center overflow-hidden rounded border',
         disabled && 'pointer-events-none bg-athens',
       )}
     >
@@ -126,13 +102,7 @@
         bind:this={inputNode}
       />
       <Button
-        class={cn(
-          'h-full min-w-[84px] items-center justify-center',
-          'text-nowrap rounded-none border-l border-l-porcelain',
-          'px-3 py-2.5 text-center hover:text-green',
-          disabled ? 'text-mystic' : 'text-black',
-        )}
-        variant="plain"
+        class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l border-solid px-3')}
         onclick={onCopy}
         {disabled}
       >
@@ -140,20 +110,17 @@
       </Button>
     </div>
 
-    <p class="mb-3">Share on social media</p>
+    <p class="mb-4">Share on social media</p>
     <div class="flex items-center gap-3">
       {#each SOCIALS as { id, href }}
         <Button
           href={href({ link, title: encodedTitle, text: encodedText })}
-          class={cn(
-            'flex h-10 w-10 items-center justify-center rounded border border-porcelain fill-black hover:bg-transparent hover:fill-green',
-            disabled && 'pointer-events-none bg-athens fill-waterloo text-mystic',
-          )}
+          variant="border"
+          size="lg"
+          {disabled}
           target="_blank"
           icon={id}
-          iconSize={18}
-          iconHeight={20}
-        ></Button>
+        />
       {/each}
 
       {#if isAuthor}
@@ -161,8 +128,15 @@
           {isPublic ? 'Public' : 'Private'}
           {entity}
 
-          <Switch class="ml-3 cursor-pointer" checked={isPublic} onCheckedChange={onPublicityToggle}
-          ></Switch>
+          <Switch
+            class="ml-3 cursor-pointer"
+            icon={{ active: { id: 'eye-filled', w: 10, h: 7 } }}
+            checked={isPublic}
+            onCheckedChange={() => {
+              isPublic = !isPublic
+              onPublicityToggle()
+            }}
+          />
         </Button>
       {/if}
     </div>

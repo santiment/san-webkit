@@ -15,6 +15,8 @@ export { ss, type SS } from './state.svelte.js'
 
 export { getCookie, setCookie, deleteCookie } from './cookies.js'
 
+export { copy } from './clipboard.js'
+
 export { assertNever } from './assert.js'
 
 /**
