@@ -21,13 +21,9 @@ export const queryUserScreenerAlerts = ApiQuery(
         id: string
         settings: TGenericAlertSettings
       }[]
-    }
-  }) => {
-    const screenerAlerts = gql.currentUser.triggers.filter(
-      (alert): alert is TScreenerApiAlert & { id: string } =>
-        ALERT_SCREENER_SCHEMA.deduceApiAlert(alert as TScreenerApiAlert),
-    )
-
-    return screenerAlerts
-  },
+    } | null
+  }) =>
+    gql.currentUser?.triggers.filter((alert): alert is TScreenerApiAlert & { id: string } =>
+      ALERT_SCREENER_SCHEMA.deduceApiAlert(alert as TScreenerApiAlert),
+    ) ?? [],
 )
