@@ -4,6 +4,7 @@ import { ApiMutation } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+import { getSavedBoolean, saveBoolean } from '$lib/utils/localStorage/index.js'
 
 const mutateUpdateUserSettings = ApiMutation(
   (isNightMode: boolean) => `mutation {
@@ -13,12 +14,17 @@ const mutateUpdateUserSettings = ApiMutation(
   }`,
 )
 
+const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2023'
+
 export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
   const { currentUser } = useCustomerCtx.get()
 
+  const savedHalloweenNightMode = getSavedBoolean(HALLOWEEN_NIGHT_MODE) ?? true
+
   const isNightMode =
-    currentUser.$$?.settings.theme === 'nightmode' ||
-    (BROWSER && document.body.classList.contains('night-mode'))
+    savedHalloweenNightMode ??
+    (currentUser.$$?.settings.theme === 'nightmode' ||
+      (BROWSER && document.body.classList.contains('night-mode')))
 
   const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
 
@@ -36,6 +42,8 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
         if (currentUser.$$) {
           mutateUpdateUserSettings(Query)(isNightMode)
         }
+
+        saveBoolean(HALLOWEEN_NIGHT_MODE, isNightMode)
 
         ui.isNightMode = isNightMode
       },
