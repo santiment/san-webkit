@@ -14,7 +14,7 @@ const mutateUpdateUserSettings = ApiMutation(
   }`,
 )
 
-const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2023'
+const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2025'
 
 export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
   const { currentUser } = useCustomerCtx.get()
