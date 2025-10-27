@@ -19,12 +19,11 @@ const HALLOWEEN_NIGHT_MODE = 'HALLOWEEN_NIGHT_MODE_2025'
 export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
   const { currentUser } = useCustomerCtx.get()
 
-  const savedHalloweenNightMode = getSavedBoolean(HALLOWEEN_NIGHT_MODE) ?? true
+  const savedHalloweenNightMode = BROWSER ? (getSavedBoolean(HALLOWEEN_NIGHT_MODE) ?? true) : true
 
   const isNightMode =
-    savedHalloweenNightMode ??
-    (currentUser.$$?.settings.theme === 'nightmode' ||
-      (BROWSER && document.body.classList.contains('night-mode')))
+    currentUser.$$?.settings.theme === 'nightmode' ||
+    (BROWSER && (document.body.classList.contains('night-mode') || savedHalloweenNightMode))
 
   const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
 
