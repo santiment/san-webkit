@@ -31,6 +31,7 @@
     "test:unit": "vitest",
     "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
     "build-storybook": "storybook build",
+    "lib:build": "node scripts/build.js --run",
     "lib:release": "node scripts/release.js --run",
     "prepare": "husky"
   },
