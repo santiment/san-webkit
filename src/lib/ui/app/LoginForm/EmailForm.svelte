@@ -6,6 +6,8 @@
   import Input from '$ui/core/Input/index.js'
   import { notification } from '$ui/core/Notifications/index.js'
 
+  import Turnstile from './Turnstile.svelte'
+
   type TProps = {
     isSignUp?: boolean
     from?: string
@@ -14,10 +16,17 @@
 
   const { from, isSignUp = false, onSuccess }: TProps = $props()
 
+  let Turnstile$: Turnstile
   let loading = $state(false)
 
   function onsubmit(event: SubmitEvent) {
     event.preventDefault()
+
+    const turnstileToken = Turnstile$.getToken()
+
+    if (!turnstileToken) {
+      return notification.error('Invalid turnstile token')
+    }
 
     const target = event.currentTarget as HTMLFormElement
 
@@ -25,7 +34,7 @@
     const redirectUrl = new URL(from || '/', window.location.origin)
 
     loading = true
-    mutateEmailLogin(Query)({ email, successRedirectUrl: redirectUrl.href })
+    mutateEmailLogin(Query)({ email, token: turnstileToken, successRedirectUrl: redirectUrl.href })
       .then((success) => {
         if (success) onSuccess(email)
       })
@@ -35,6 +44,8 @@
     trackAuth('email', isSignUp)
   }
 </script>
+
+<Turnstile bind:this={Turnstile$}></Turnstile>
 
 <form {onsubmit}>
   <Input
