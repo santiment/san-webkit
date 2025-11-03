@@ -107,6 +107,7 @@
     "@sveltejs/kit": "^2.20.7",
     "@sveltejs/package": "^2.3.5",
     "@sveltejs/vite-plugin-svelte": "^5.0.3",
+    "@types/cloudflare-turnstile": "^0.2.2",
     "@types/eslint": "^9.6.1",
     "@types/gtag.js": "^0.0.20",
     "@types/ua-parser-js": "^0.7.39",
