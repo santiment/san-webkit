@@ -1,0 +1,50 @@
+import type { TMetricTargetSelectorInputObject } from '../../Chart/api/index.js';
+import { Timeseries } from './core.js';
+export declare const DEFINITIONS: {
+    backtest: (priceTimeseries: Timeseries, signalTimeseries: Timeseries, { capital: initialCapital, fee: transactionCost, stop_loss: stopLossPercentage, take_profit: takeProfitPercentage, }?: Partial<{
+        capital: number;
+        fee: number;
+        stop_loss: number;
+        take_profit: number;
+    }>) => Timeseries;
+    shift: (timeseries: Timeseries, period: number) => Timeseries;
+    diff: (timeseries: Timeseries, period: number) => Timeseries;
+    cumprod: (timeseries: Timeseries) => Timeseries;
+    cumsum: (timeseries: Timeseries) => Timeseries;
+    value_at: (timeseries: Timeseries, startTimestamp?: import("@santiment-network/chart-next").UTCTimestamp) => number;
+    selector_from: any;
+    asset_metric: {
+        (args: (import("mathjs").ConstantNode | import("mathjs").SymbolNode | import("mathjs").FunctionNode)[], _math: any, scope: Map<any, any>): unknown;
+        rawArgs: boolean;
+        tempId: "__asset_metric_id";
+        getTransformationVariableName(scope: Map<any, any>): string;
+    };
+    sma: any;
+    ema: any;
+    rsi: any;
+    atr: any;
+    z_score: any;
+    add: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    subtract: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    multiply: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    divide: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    pow: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    log: ((x: number) => number) & ((x: Timeseries) => Timeseries) & ((x: number, base: number) => number) & ((x: Timeseries, base: number) => Timeseries);
+    exp: ((a: Timeseries) => Timeseries) & ((a: number) => number);
+    unaryMinus: ((a: Timeseries) => Timeseries) & ((a: number) => number);
+    unaryPlus: ((a: Timeseries) => Timeseries) & ((a: number) => number);
+    absolute: ((a: Timeseries) => Timeseries) & ((a: number) => number);
+    larger: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    largerEq: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    smaller: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    smallerEq: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    equal: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    unequal: ((a: Timeseries, b: Timeseries) => Timeseries) & ((a: Timeseries, b: number) => Timeseries) & ((a: number, b: Timeseries) => Timeseries) & ((a: number, b: number) => number);
+    if: (condition: Timeseries, ifTrue: Timeseries | number, ifFalse: Timeseries | number) => Timeseries;
+};
+export declare const TRANSFORMABLE_FNS: Map<string, {
+    tempId: string;
+    getTransformationVariableName: (scope: Map<any, any>) => string;
+}>;
+export { math as SanFormulas, Timeseries } from './core.js';
+export declare function evaluateTransformationScope(formulaExpr: string, scopeSetup: [string, null | TMetricTargetSelectorInputObject][]): Map<string, any>;
