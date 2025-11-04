@@ -2,15 +2,13 @@
   import { onMount } from 'svelte'
 
   import { newHeadScript } from '$lib/analytics/intercom/utils.js'
-
-  type TProps = { onSuccess?: (token: string) => void; onError?: (error: string) => void }
-
-  let { onSuccess, onError }: TProps = $props()
+  import { controlledPromisePolyfill } from '$lib/utils/promise.js'
 
   let widgetId: ReturnType<(typeof turnstile)['render']>
+  let controller = controlledPromisePolyfill<string>()
 
   export function getToken() {
-    return widgetId && turnstile?.getResponse(widgetId)
+    return controller.promise
   }
 
   onMount(() => {
@@ -28,14 +26,24 @@
 
       widgetId = turnstile.render('#turnstile-container', {
         sitekey: process.env.TURNSTILE_SITEKEY as string,
-        callback: onSuccess,
-        'error-callback': onError,
+        callback: (token) => controller.resolve(token),
+        'error-callback': (error) => {
+          console.error(error)
+          controller.reject(error)
+        },
+        'expired-callback': () => {
+          controller.reject('expired-callback')
+          turnstile.reset()
+
+          controller = controlledPromisePolyfill<string>()
+        },
       })
     }
 
     return () => {
       isDestroyed = true
       headScript.remove()
+      controller.reject()
 
       if (widgetId) {
         turnstile?.remove(widgetId)

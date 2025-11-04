@@ -19,14 +19,8 @@
   let Turnstile$: Turnstile
   let loading = $state(false)
 
-  function onsubmit(event: SubmitEvent) {
+  async function onsubmit(event: SubmitEvent) {
     event.preventDefault()
-
-    const turnstileToken = Turnstile$.getToken()
-
-    if (!turnstileToken) {
-      return notification.error('Invalid turnstile token')
-    }
 
     const target = event.currentTarget as HTMLFormElement
 
@@ -34,6 +28,12 @@
     const redirectUrl = new URL(from || '/', window.location.origin)
 
     loading = true
+
+    const turnstileToken = await Turnstile$.getToken().catch(() => null)
+    if (!turnstileToken) {
+      return notification.error('Invalid turnstile token')
+    }
+
     mutateEmailLogin(Query)({ email, token: turnstileToken, successRedirectUrl: redirectUrl.href })
       .then((success) => {
         if (success) onSuccess(email)
