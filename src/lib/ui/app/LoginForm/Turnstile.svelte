@@ -11,6 +11,10 @@
     return controller.promise
   }
 
+  export function reset() {
+    if (widgetId) turnstile?.reset(widgetId)
+  }
+
   onMount(() => {
     let isDestroyed = false
 

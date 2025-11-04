@@ -38,7 +38,10 @@
       .then((success) => {
         if (success) onSuccess(email)
       })
-      .catch(() => notification.error("Can't login"))
+      .catch(() => {
+        notification.error('Cannot login. Try again later.')
+        Turnstile$.reset()
+      })
       .finally(() => (loading = false))
 
     trackAuth('email', isSignUp)
