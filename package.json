@@ -167,6 +167,7 @@
   "dependencies": {
     "@amplitude/analytics-browser": "^2.11.2",
     "@amplitude/plugin-session-replay-browser": "^1.6.24",
+    "@capacitor/core": "^7.4.4",
     "@internationalized/date": "^3.7.0",
     "@reown/appkit": "^1.2.0",
     "@reown/appkit-adapter-wagmi": "^1.2.0",

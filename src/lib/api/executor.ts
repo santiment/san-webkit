@@ -1,5 +1,6 @@
 import { BROWSER } from 'esm-env'
 import { from } from 'rxjs'
+import { Capacitor } from '@capacitor/core'
 
 const ENDPOINT = ((!BROWSER && process.env.NODE_GQL_SERVER_URL) ||
   process.env.GQL_SERVER_URL) as string
@@ -33,8 +34,21 @@ export function Query<T>(
   const { schema: query, variables } =
     typeof schema === 'object' ? schema : { schema, variables: null }
 
+  const headers = new Headers(DEFAULT_HEADERS)
+
+  console.log('QUERY HEADERS => ', headers)
+
+  if (BROWSER && Capacitor.isNativePlatform()) {
+    const token = localStorage.getItem('MOBILE_ACCESS_TOKEN')
+    console.log('QUERY TOKEN -> ', token)
+
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
   const request = fetcher(ENDPOINT, {
-    headers: { ...DEFAULT_HEADERS },
+    headers: headers,
     body: JSON.stringify({ query, variables }),
     method: 'post',
     credentials: 'include',
