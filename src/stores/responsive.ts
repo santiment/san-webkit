@@ -31,6 +31,7 @@ export function Device$$(device: DeviceInfoType) {
     /** Add as <svelte:window on:resize={device$.onResize} /> */
     onResize() {
       const deviceType = mapWidthToDevice()
+      console.log('ON RESIZE', { deviceType, device })
       if (deviceType === device.type) return
 
       document.body.classList.remove(device.type)

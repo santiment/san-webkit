@@ -1,5 +1,6 @@
 import { BROWSER } from 'esm-env'
 import { Cache, schemeCacheSetter, getCacheScheme, CachePolicy } from './cache'
+import { Capacitor } from '@capacitor/core'
 // eslint-disable-next-line no-undef
 const fetch: any = globalThis.fetch || process.env.SERVER_FETCH
 
@@ -13,7 +14,6 @@ export type Data<T extends SAN.API.QueryBase> = {
 
 export const HEADERS = {
   'Content-Type': 'application/json',
-  authorization: null,
   origin: process.env.API_FETCH_ORIGIN,
 }
 
@@ -64,8 +64,18 @@ export function query<T extends SAN.API.QueryBase, U extends Variables = Variabl
     if (inFlightQuery) return inFlightQuery
   }
 
+  const headers = new Headers(HEADERS)
+
+  if (BROWSER && Capacitor.isNativePlatform()) {
+    const token = localStorage.getItem('MOBILE_ACCESS_TOKEN')
+
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
   let request = fetch((!BROWSER && process.env.NODE_GQL_SERVER_URL) || process.env.GQL_SERVER_URL, {
-    headers: HEADERS,
+    headers,
     body:
       requestOptions?.body ||
       JSON.stringify({

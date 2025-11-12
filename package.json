@@ -35,6 +35,7 @@
     ]
   },
   "dependencies": {
+    "@capacitor/core": "^7.4.4",
     "@floating-ui/dom": "^1.2.7",
     "air-datepicker": "^3.3.5",
     "esm-env": "^1.0.0",
