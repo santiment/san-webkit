@@ -24,7 +24,7 @@ export type TAlertBaseSchema<
   GName,
   GProps extends {
     steps: TStepSchema[]
-    deduceApiAlert: (apiAlert: TApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TApiAlert>) => boolean
   },
 > = {
   name: GName

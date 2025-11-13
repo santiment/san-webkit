@@ -1,6 +1,6 @@
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
-import { percentFormatter, usdFormatter } from '../../ui/app/Chart/ctx/formatters.js'
+import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 

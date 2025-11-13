@@ -70,8 +70,8 @@
 ></canvas>
 
 {#if canvasNode}
-  {#each metricSeries.$.slice(0, 4) as item (item.id)}
-    <Metric series={item} {canvasNode} register={registerMetricPainter}></Metric>
+  {#each metricSeries.$.slice(0, 4) as item, index (item.id)}
+    <Metric {index} series={item} {canvasNode} register={registerMetricPainter}></Metric>
   {/each}
 {/if}
 
@@ -92,7 +92,10 @@
     left: var(--expl-left);
     bottom: var(--expl-bottom);
     top: var(--expl-position-y, -6px);
-    transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+    transform: translate(
+      calc(var(--expl-align-x) * min(1, var(--minimap-area-width) / 75)),
+      var(--expl-align-y, -100%)
+    );
     z-index: var(--expl-z-index, 30);
   }
 </style>

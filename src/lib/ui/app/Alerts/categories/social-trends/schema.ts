@@ -1,38 +1,35 @@
-import type { TApiAlert } from '../../types.js'
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
-import { type Watchlist } from '../watchlist/api.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 import { getAssetTargetTitle } from '../asset/utils.js'
 
-export type TSocialTrendsApiAlert = TApiAlert<
-  {
+export type TSocialTrendsApiAlert = {
+  settings: {
     type: 'trending_words'
-  } & (
-    | {
-        target: { slug: TAssetSlug[] }
-        operation: { trending_project: true }
-      }
-    | {
-        target: { word: string[] }
-        operation: { trending_word: true }
-      }
-    | {
-        target: { watchlist_id: Watchlist['id'] | null }
-        operation: { trending_project: true }
-      }
-  )
->
+  } & TSocialTrendsApiAlertTarget
+}
 
-export type TSocialTrendsApiAlertTarget = NonNullable<TSocialTrendsApiAlert['settings']>['target']
+export type TSocialTrendsApiAlertTarget =
+  | {
+      target: { slug: TAssetSlug[] }
+      operation: { trending_project: true }
+    }
+  | {
+      target: { word: string[] }
+      operation: { trending_word: true }
+    }
+  | {
+      target: { watchlist_id: number | null }
+      operation: { trending_project: true }
+    }
 
 export type TBaseSchema = TAlertBaseSchema<
   'social-trends',
   {
     steps: [typeof STEP_SELECT_TREND_SCHEMA]
 
-    deduceApiAlert: (apiAlert: TSocialTrendsApiAlert) => boolean
+    deduceApiAlert: (apiAlert: Partial<TSocialTrendsApiAlert>) => boolean
   }
 >
 

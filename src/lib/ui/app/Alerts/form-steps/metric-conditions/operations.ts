@@ -1,52 +1,53 @@
+import { assertNever } from '$lib/utils/assert.js'
 import { keyify } from '$lib/utils/object.js'
 
 import { isNumericOperation, type TApiOperation } from '../../operations.js'
 
 const SimpleOperations = keyify({
   above: {
-    label: 'More than',
-    describe: ([value]) => `above ${value}`,
-  },
-  above_or_equal: {
-    label: 'More than or equal',
-    describe: ([value]) => `above or equal ${value}`,
+    label: 'Above',
+    describe: ([value]) => `goes above ${value}`,
+    icon: 'condition/above',
   },
   below: {
-    label: 'Less than',
-    describe: ([value]) => `below ${value}`,
-  },
-  below_or_equal: {
-    label: 'Less than or equal',
-    describe: ([value]) => `below or equal ${value}`,
+    label: 'Below',
+    describe: ([value]) => `goes below ${value}`,
+    icon: 'condition/below',
   },
   inside_channel: {
-    label: 'Entering channel',
-    describe: ([left, right]) => `between ${left} and ${right}`,
+    label: 'In range',
+    describe: ([left, right]) => `goes above ${left} and below ${right}`,
+    icon: 'condition/in-range',
   },
   outside_channel: {
-    label: 'Outside channel',
-    describe: ([left, right]) => `outside ${left} and ${right}`,
+    label: 'Out of range',
+    describe: ([left, right]) => `goes below ${left} or above ${right}`,
+    icon: 'condition/out-of-range',
   },
   percent_up: {
-    label: 'Moving up %',
-    describe: ([value]) => `up ${value}`,
+    label: 'Increase %',
+    describe: ([value]) => `increased ${value} or more`,
+    icon: 'condition/percent-up',
   },
   percent_down: {
-    label: 'Moving down %',
-    describe: ([value]) => `down ${value}`,
+    label: 'Decrease %',
+    describe: ([value]) => `decreased ${value} or more`,
+    icon: 'condition/percent-down',
   },
 } as const satisfies Record<string, TOperationData>)
 
 const CombinedOperations = keyify({
   percent_up_or_down: {
-    label: 'Moving up or down %',
-    describe: ([left, right]) => `up ${left} or moving down ${right}`,
+    label: 'Change %',
+    describe: ([value]) => `changed ${value} or more`,
+    icon: 'condition/percent-change',
   },
 } as const satisfies Record<string, TOperationData>)
 
 type TOperationData = {
   label: string
   describe: (values: [string, string]) => string
+  icon: string
 }
 
 export const Operations = { ...SimpleOperations, ...CombinedOperations }
@@ -64,12 +65,13 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   if (!operation) return null
 
   const key = Object.keys(operation)[0]
+  const stateKey = compatLegacyOperations(key)
 
-  if (isSimpleOperationKey(key)) {
+  if (isSimpleOperationKey(stateKey)) {
     const value = operation[key]
     if (!isNumericOperation(value)) return null
 
-    return { type: key, values: Array.isArray(value) ? value : [value, value] }
+    return { type: stateKey, values: Array.isArray(value) ? value : [value, value] }
   }
 
   if (operation.some_of && Array.isArray(operation.some_of)) {
@@ -87,18 +89,31 @@ export function getOperationFromApi(operation: TApiOperation | undefined): TOper
   return null
 }
 
-const DUPLEX_OPERATIONS = new Set<TOperationType>([
-  'inside_channel',
-  'outside_channel',
-  'percent_up_or_down',
-])
+function compatLegacyOperations(key: string): TSimpleOperationType | (string & {}) {
+  switch (key) {
+    case 'above_or_equal':
+      return 'above'
+    case 'below_or_equal':
+      return 'below'
+    default:
+      return key
+  }
+}
+
+const DUPLEX_OPERATIONS = new Set<TOperationType>(['inside_channel', 'outside_channel'])
+
 export function isDuplexOperation(type: TOperationType) {
   return DUPLEX_OPERATIONS.has(type)
 }
 
-function assertNever(_: never): never {
-  throw new Error("Didn't expect to get here")
-}
+const COMPARISON_OPERATIONS = new Set<TOperationType>([
+  'percent_up',
+  'percent_down',
+  'percent_up_or_down',
+])
+
+export const isComparisonOperation = (operation: TOperationType) =>
+  COMPARISON_OPERATIONS.has(operation)
 
 export function reduceOperationToApi({ type, values }: TOperation): TApiOperation {
   if (isSimpleOperationKey(type)) {
@@ -106,7 +121,8 @@ export function reduceOperationToApi({ type, values }: TOperation): TApiOperatio
   }
 
   if (type === 'percent_up_or_down') {
-    return { some_of: [{ percent_up: values[0] }, { percent_down: values[1] }] }
+    const [upValue, downValue] = isDuplexOperation(type) ? values : [values[0], values[0]]
+    return { some_of: [{ percent_up: upValue }, { percent_down: downValue }] }
   }
 
   assertNever(type)

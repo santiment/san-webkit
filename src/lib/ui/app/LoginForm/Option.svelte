@@ -3,6 +3,7 @@
 
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
 
   type TProps = {
     class?: string
@@ -25,9 +26,9 @@
   }: TProps = $props()
 </script>
 
-<Button variant="border" size="lg" class={cn('px-12', className)} {loading} {href} {onclick}>
+<Button variant="border" size="lg" class={cn('gap-3 px-10', className)} {loading} {href} {onclick}>
   {#if icon}
-    <img src="/webkit/icons/{icon}.svg" alt={icon} class="size-4" />
+    <Svg illus id={`media/${icon}`} w={16} />
   {/if}
 
   {isSignUp ? 'Sign up' : 'Log in'} with {title}

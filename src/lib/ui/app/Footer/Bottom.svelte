@@ -26,6 +26,7 @@
       >
         Media Kit
       </a>
+      <a href="https://status.santiment.net" rel="noreferrer" target="_blank">Status</a>
     </div>
   </div>
 

@@ -1,6 +1,12 @@
 import type { TProduct, TSubscriptionPlan } from './types.js'
 
-import { BUSINESS_PLANS, Product, SubscriptionPlan, SubscriptionPlanDetails } from './plans.js'
+import {
+  BUSINESS_PLANS,
+  checkIsTrialEligiblePlan,
+  Product,
+  SubscriptionPlan,
+  SubscriptionPlanDetails,
+} from './plans.js'
 
 export const checkIsCustomPlan = (planName: string) =>
   planName.startsWith(SubscriptionPlan.CUSTOM.key)
@@ -40,13 +46,16 @@ export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
 ) {
-  const name = getPlanName(monthlyPlan.name)
-  const details = SubscriptionPlanDetails[monthlyPlan.name]
+  const key = monthlyPlan.name
+  const name = getPlanName(key)
+  const details = SubscriptionPlanDetails[key]
 
   return {
     isFree: monthlyPlan.name === SubscriptionPlan.FREE.key,
     isCustom: monthlyPlan.name === SubscriptionPlan.CUSTOM.key,
     isBusiness: BUSINESS_PLANS.has(monthlyPlan.name),
+
+    isTrialSupported: checkIsTrialEligiblePlan(key),
 
     name,
     details,

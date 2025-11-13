@@ -1,12 +1,22 @@
 import { onMount } from 'svelte'
+import { BROWSER } from 'esm-env'
 
 import { createCtx } from '$lib/utils/index.js'
 import { Query } from '$lib/api/executor.js'
 
 import { queryGetOrderedMetrics, type TMetricsRegistry } from './api.js'
 
-export const DEFAULT_METRIC_CATEGORIES: string[] = []
-export const DEFAULT_METRICS_REGISTRY: TMetricsRegistry = {}
+let DEFAULT_METRIC_CATEGORIES: string[] = []
+let DEFAULT_METRICS_REGISTRY: TMetricsRegistry = {}
+
+export const defaultOrderedMetricsPromise = BROWSER
+  ? queryGetOrderedMetrics(Query)().then((data) => {
+      DEFAULT_METRIC_CATEGORIES = data.categories
+      DEFAULT_METRICS_REGISTRY = data.MetricsRegistry
+
+      return data
+    })
+  : Promise.resolve()
 
 export const useMetricsRegistryCtx = createCtx('webkit_useMetricsRegistryCtx', () => {
   let metricCategories = $state.raw(DEFAULT_METRIC_CATEGORIES)

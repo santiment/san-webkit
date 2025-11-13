@@ -1,0 +1,65 @@
+import 'tsx/esm'
+
+import { readFile, writeFile } from 'node:fs/promises'
+
+const DEFINITIONS_MODULE_PATH = 'src/lib/ui/app/san-formulas/language/definitions.ts'
+
+const importedLanguageModulePromise = import('../' + DEFINITIONS_MODULE_PATH)
+
+Promise.all([
+  importedLanguageModulePromise,
+  import('../src/lib/ui/app/san-formulas/math/index.ts'),
+]).then(([language, spec]) => {
+  const languageDefinitions = new Set(language.DEFINITIONS.map((item) => item.label))
+  const skip = new Set([
+    'add',
+    'subtract',
+    'multiply',
+    'divide',
+    'pow',
+    'unaryMinus',
+    'unaryPlus',
+    'log',
+    'z_score',
+    'larger',
+    'largerEq',
+    'smaller',
+    'smallerEq',
+    'equal',
+    'unequal',
+    'value_at',
+  ])
+
+  for (const key in spec.DEFINITIONS) {
+    const isSupportedInLanguage = languageDefinitions.has(key)
+    if (isSupportedInLanguage) continue
+
+    if (skip.has(key)) continue
+
+    throw new Error(
+      `[san-formulas] Language definitions (/language/definitions.ts) is missing "${key}" defined in the spec (/math/index.ts)`,
+    )
+  }
+})
+
+export async function processFormulasModules() {
+  const language = await importedLanguageModulePromise
+
+  const definitionsFilePromise = readFile(DEFINITIONS_MODULE_PATH)
+    .then((file) => {
+      const source = file.toString()
+
+      let mdCompileIndex = 0
+
+      return source
+        .replace(/\/\/ @RELEASE:DELETE:START([\s\S]+?)\/\/ @RELEASE:DELETE:END/g, '')
+        .replace(
+          /\/\/ @RELEASE:MD-COMPILE:START([\s\S]+?)\/\/ @RELEASE:MD-COMPILE:END/g,
+          () =>
+            `documentation: ${JSON.stringify(language.DEFINITIONS[mdCompileIndex++].documentation)},`,
+        )
+    })
+    .then((source) => writeFile(DEFINITIONS_MODULE_PATH, source))
+
+  return definitionsFilePromise
+}

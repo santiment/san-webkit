@@ -13,6 +13,12 @@ export const getRandomKey = (): string => Math.floor(Math.random() * 0xffffffff)
 
 export { ss, type SS } from './state.svelte.js'
 
+export { getCookie, setCookie, deleteCookie } from './cookies.js'
+
+export { copy } from './clipboard.js'
+
+export { assertNever } from './assert.js'
+
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
  */
@@ -27,6 +33,8 @@ export const BootFlag = {
     if (BROWSER) window.__BOOT_FLAG__ = true
   },
 }
+
+export type MaybeCtx<GCtx> = GCtx extends { get: () => infer T } ? undefined | T : never
 
 export function createCtx<CtxName extends string, CtxCreator extends (...args: any[]) => any>(
   CTX: CtxName,
@@ -72,8 +80,9 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
 
   ctxCreator.get = get
   ctxCreator.set = set
+  ctxCreator.__CTX = CTX
 
-  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set }
+  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set; __CTX: typeof CTX }
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {
@@ -91,17 +100,6 @@ export const createValueMap = (inMin: number, inMax: number, outMin: number, out
   return (value: number) => (value - inMin) * factor + outMin
 }
 
-// NOTE: Promise.withResolvers() has a bug on iOS 17
-// const { promise, resolve, reject } = Promise.withResolvers()
-export function controlledPromisePolyfill() {
-  let resolve: (value?: unknown) => void = () => {}
-  let reject: (reason?: unknown) => void = () => {}
-  const promise = new Promise((pResolve, pReject) => {
-    resolve = pResolve
-    reject = pReject
-  })
-
-  return { promise, resolve: resolve!, reject: reject! }
-}
+export { controlledPromisePolyfill } from './promise.js'
 
 export { JobScheduler, type TJobScheduler, type TJob } from './job-scheduler.js'

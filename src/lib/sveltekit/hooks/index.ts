@@ -1,8 +1,9 @@
-import { type Handle, type RequestEvent } from '@sveltejs/kit'
+import { error, redirect, type Handle, type RequestEvent } from '@sveltejs/kit'
 import UAParser from 'ua-parser-js'
 
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
 import { DeviceType } from '$lib/ctx/device/index.svelte.js'
+import { logger } from '$lib/logger/index.js'
 
 function normalizeDeviceType(type: string | undefined): DeviceType {
   switch (type) {
@@ -38,9 +39,16 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   event.locals.customer = customer
   event.locals.theme = theme
 
-  const response = await resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
-  })
+  let response: Response
+  try {
+    response = await resolve(event, {
+      transformPageChunk: ({ html }) => html.replace('%body-class%', `${device} ${theme}`),
+    })
+  } catch (e) {
+    logger.info(e, event.url.pathname)
+
+    return error(500, 'Internal server error')
+  }
 
   Object.entries({
     'Content-Security-Policy': "frame-ancestors 'self'",
@@ -48,6 +56,18 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   }).forEach(([header, value]) => response.headers.set(header, value))
 
   return response
+}
+
+export const normalizePathHandle: Handle = async ({ event, resolve }) => {
+  const { pathname } = event.url
+
+  logger.info('normalizePathHandle: ' + pathname)
+
+  if (pathname.endsWith('//')) {
+    return redirect(308, pathname.replace(/\/+$/, '/') + event.url.search)
+  }
+
+  return resolve(event)
 }
 
 export { amplitudeTrackHandle } from './amplitude.js'

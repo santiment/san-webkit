@@ -22,25 +22,31 @@ export function WebkitSvg() {
   return {
     name: 'webkit-svg',
 
-    buildStart() {
+    async buildStart() {
       if (isLibPackage) {
         const root = path.resolve(base, '..')
-
         const copyTargets = ['icons', 'illus', 'sprites']
-        copyTargets.forEach((dir) => {
-          fs.cp(path.resolve(root, 'dist', dir), staticDir + dir, { recursive: true, force: true })
-        })
+
+        await Promise.all(
+          copyTargets.map((dir) => {
+            const sourcePath = path.resolve(root, 'dist', dir)
+            const destPath = staticDir + dir
+
+            return fs.cp(sourcePath, destPath, { recursive: true, force: true })
+          }),
+        )
 
         return
       }
 
-      forFile([ICONS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
-      })
-
-      forFile([ILLUS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
-      })
+      await Promise.all([
+        forFile([ICONS_PATH + '/**/*.svg'], (entry) => {
+          return processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
+        }),
+        forFile([ILLUS_PATH + '/**/*.svg'], (entry) => {
+          return processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
+        }),
+      ])
     },
 
     async handleHotUpdate({ file, server }) {

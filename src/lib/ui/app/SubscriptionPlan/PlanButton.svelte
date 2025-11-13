@@ -6,6 +6,7 @@
   import { onSupportClick } from '$lib/utils/support.js'
   import {
     BUSINESS_PLANS,
+    checkIsTrialEligiblePlan,
     CONSUMER_PLANS,
     SubscriptionPlan,
   } from '$ui/app/SubscriptionPlan/plans.js'
@@ -142,7 +143,7 @@
   >
     Get {getPlanName(plan.name)}
   </Button>
-{:else if isConsumerPlan && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
+{:else if checkIsTrialEligiblePlan(plan.name) && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
   <Button
     variant="fill"
     size="lg"

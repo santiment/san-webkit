@@ -42,7 +42,7 @@
       {/if}
     </h3>
 
-    <h4 class="align-bottom">
+    <h4 class="text-left align-bottom">
       ${formattedPlan?.price[isAnnualBilling ? 'year' : 'month'] || ''}
 
       <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>

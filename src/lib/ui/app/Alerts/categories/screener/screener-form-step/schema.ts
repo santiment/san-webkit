@@ -1,5 +1,6 @@
 import type { TScreenerApiAlert } from '../schema.js'
-import type { Watchlist } from '../../watchlist/api.js'
+
+import assert from 'assert'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
 
@@ -9,17 +10,12 @@ import Legend from './ui/Legend.svelte'
 export type TScreenerState = {
   metric: NonNullable<TScreenerApiAlert['settings']>['metric']
   screener: {
-    id: Watchlist['id'] | null
+    id: string | null
     title: string
   }
 }
 
-export type TBaseSchema = TStepBaseSchema<
-  'screener',
-  {
-    initState: (apiAlert?: null | TScreenerApiAlert) => TScreenerState
-  }
->
+export type TBaseSchema = TStepBaseSchema<'screener', TScreenerApiAlert, TScreenerState>
 
 export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'screener',
@@ -33,11 +29,9 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 
   initState(apiAlert) {
-    const watchlist_id = apiAlert?.settings?.target.watchlist_id || null
-
     return {
       metric: 'social_volume_total',
-      screener: { id: watchlist_id, title: '' },
+      screener: { id: getApiWatchlistId(apiAlert?.settings), title: '' },
     }
   },
 
@@ -45,16 +39,28 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
     return !!state.screener.id
   },
 
-  reduceToApi(apiAlert, { metric, screener }) {
-    Object.assign(apiAlert.settings, { type: 'screener_signal' })
-    Object.assign(apiAlert.settings, {
-      metric,
-      target: { watchlist_id: screener.id },
-    })
-    Object.assign(apiAlert.settings, {
-      operation: { selector: { watchlist_id: screener.id } },
-    })
+  reduceToApi({ metric, screener }) {
+    assert(screener.id, 'Screener is not selected')
 
-    return apiAlert
+    return {
+      settings: {
+        type: 'screener_signal',
+        metric,
+        target: { watchlist_id: screener.id },
+        operation: { selector: { watchlist_id: screener.id } },
+      },
+    }
   },
 })
+
+export function getApiWatchlistId(
+  settings: TScreenerApiAlert['settings'] | undefined,
+): string | null {
+  if (!settings) return null
+  if (settings.target === 'default') {
+    return settings.operation.selector.watchlist_id.toString()
+  }
+
+  const { watchlist_id } = settings.target
+  return watchlist_id !== null ? watchlist_id.toString() : null
+}

@@ -28,6 +28,8 @@ export const SchemaByType = SCHEMAS.reduce(
 
 export type TAlertSchemaUnion = (typeof SCHEMAS)[number]
 
-export function deduceApiAlertSchema(apiAlert?: null | TApiAlert): null | TAlertSchemaUnion {
+export function deduceApiAlertSchema(
+  apiAlert?: null | Partial<TApiAlert>,
+): null | TAlertSchemaUnion {
   return (apiAlert && SCHEMAS.find((schema) => schema.deduceApiAlert(apiAlert))) || null
 }
