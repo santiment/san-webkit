@@ -5,6 +5,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import { useDropdownCtx } from './ctx.svelte.js'
+  import { getItemTitle } from './utils.js'
 
   type TProps = {
     class?: string
@@ -46,5 +47,9 @@
     onclick()
   }}
 >
-  {@render label(item)}
+  {#if label}
+    {@render label(item)}
+  {:else}
+    {getItemTitle(item)}
+  {/if}
 </Button>

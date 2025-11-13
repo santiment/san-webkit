@@ -7,6 +7,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import { useDropdownCtx } from './ctx.svelte.js'
+  import { getItemTitle } from './utils.js'
 
   type TProps = {
     class?: string
@@ -50,7 +51,11 @@
       dropdown
     >
       {#if selected.$}
-        {@render label(selected.$)}
+        {#if label}
+          {@render label(selected.$)}
+        {:else}
+          {getItemTitle(selected.$)}
+        {/if}
       {:else if trigger}
         {@render trigger()}
       {:else}

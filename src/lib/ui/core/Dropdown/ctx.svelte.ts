@@ -1,6 +1,6 @@
 import type { TBasicItem } from './types.js'
 
-import { createRawSnippet, type Snippet } from 'svelte'
+import { type Snippet } from 'svelte'
 
 import { createCtx } from '$lib/utils/index.js'
 
@@ -19,13 +19,6 @@ export const useDropdownCtx = createCtx(
 
     let selected = $state(selectedProp)
     let isOpened = $state(false)
-
-    const defaultLabel = createRawSnippet<[T]>((params) => ({
-      render: () => {
-        const item = params()
-        return typeof item === 'string' ? item : item.title
-      },
-    }))
 
     const getItemIcon = (item: TBasicItem | undefined) =>
       typeof item === 'string' ? undefined : item?.icon
@@ -63,7 +56,7 @@ export const useDropdownCtx = createCtx(
         },
       },
 
-      label: label ?? defaultLabel,
+      label,
       getItemIcon,
       onItemSelect,
     }
