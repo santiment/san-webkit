@@ -7,7 +7,7 @@
   import { parseRangeString } from '$lib/utils/dates/index.js'
   import { exactObjectKeys } from '$lib/utils/object.js'
   import { cn } from '$ui/utils/index.js'
-  import Dropdown from '$ui/core/Dropdown/index.js'
+  import Dropdown, { DropdownItem } from '$ui/core/Dropdown/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
 
   import { describeConditions, getOperationSign } from '../utils.js'
@@ -42,14 +42,19 @@
       <section class="mb-4">
         <section class={cn('grid grid-cols-2 gap-x-2 gap-y-3', isDuplex && 'grid-cols-4')}>
           <Dropdown
-            items={exactObjectKeys(Operations)}
             class={cn(isDuplex && 'col-span-2  grid')}
             selected={operation.type}
-            onSelect={(selected) =>
-              updateConditions({ time, operation: { type: selected, values: operation.values } })}
             triggerClass={cn(isDuplex && 'col-span-2')}
             matchTriggerWidth
           >
+            {#each exactObjectKeys(Operations) as item}
+              <DropdownItem
+                {item}
+                onclick={() =>
+                  updateConditions({ time, operation: { type: item, values: operation.values } })}
+              />
+            {/each}
+
             {#snippet label(operation)}
               {@const { label, icon } = Operations[operation]}
 
@@ -92,16 +97,18 @@
                 }),
             })}
 
-            <Dropdown
-              items={exactObjectKeys(TimeModifiers)}
-              selected={timeModifier}
-              onSelect={(modifier) =>
-                updateConditions({
-                  time: `${timeAmount}${modifier}`,
-                  operation,
-                })}
-              matchTriggerWidth
-            >
+            <Dropdown selected={timeModifier} matchTriggerWidth>
+              {#each exactObjectKeys(TimeModifiers) as item}
+                <DropdownItem
+                  {item}
+                  onclick={() =>
+                    updateConditions({
+                      time: `${timeAmount}${item}`,
+                      operation,
+                    })}
+                />
+              {/each}
+
               {#snippet label(modifier)}
                 {TimeModifiers[modifier].label}
               {/snippet}

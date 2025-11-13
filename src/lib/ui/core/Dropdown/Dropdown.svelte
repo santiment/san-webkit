@@ -1,75 +1,56 @@
-<script lang="ts" generics="T extends {icon?: string, title: string} | string">
+<script lang="ts" generics="T extends TBasicItem">
   import type { ComponentProps, Snippet } from 'svelte'
+  import type { TBasicItem } from './types.js'
 
-  import Button from '$ui/core/Button/Button.svelte'
-  import Popover from '$ui/core/Popover/Popover.svelte'
+  import Button from '$ui/core/Button/index.js'
+  import Popover from '$ui/core/Popover/index.js'
   import { cn } from '$ui/utils/index.js'
+
+  import { useDropdownCtx } from './ctx.svelte.js'
 
   type TProps = {
     class?: string
-    items: T[]
-    valueKey?: keyof T
     selected?: T
-    label?: Snippet<[T]>
     trigger?: Snippet
+    label?: Snippet<[T]>
+    children: Snippet
     triggerClass?: string
-    onSelect: (item: T) => void
     closeDelay?: number
   } & Omit<ComponentProps<typeof Popover>, 'content' | 'children'>
 
   let {
     class: className,
-    items,
-    valueKey,
-    selected = $bindable(),
-    trigger,
+    selected: initialSelected,
     triggerClass,
-    label = defaultLabel,
-    onSelect,
     closeDelay = 0,
+    trigger,
+    children: dropdownContent,
+    label: initialLabel,
     ...rest
   }: TProps = $props()
 
-  let closeTimer: NodeJS.Timeout | undefined
+  const { selected, getItemIcon, isOpened, label } = useDropdownCtx({
+    closeDelay,
+    selected: initialSelected,
+    label: initialLabel,
+  })
 
-  function onItemSelect(item: T, close: () => void) {
-    clearTimeout(closeTimer)
-    selected = item
-    onSelect(item)
-
-    closeTimer = setTimeout(() => {
-      close()
-    }, closeDelay)
-  }
-
-  const getItemIcon = (item: T | undefined) => (typeof item === 'string' ? undefined : item?.icon)
-
-  function checkIsItemSelected(item: T) {
-    if (!selected) return false
-
-    if (typeof item === 'string' || typeof selected === 'string') {
-      return selected === item
-    }
-
-    if (valueKey) {
-      return selected[valueKey] === item[valueKey]
-    }
-
-    return selected.title === item.title
-  }
+  $effect(() => {
+    selected.$ = initialSelected
+  })
 </script>
 
-<Popover align="start" class={cn('min-w-40', className)} {...rest}>
+<Popover align="start" class={cn('min-w-40', className)} bind:isOpened={isOpened.$} {...rest}>
   {#snippet children({ props })}
     <Button
       {...props}
       class={triggerClass}
       variant="border"
-      icon={selected && getItemIcon(selected)}
+      icon={selected.$ && getItemIcon(selected.$)}
       dropdown
     >
-      {#if selected}
-        {@render label(selected)}
+      {#if selected.$}
+        {@render label(selected.$)}
       {:else if trigger}
         {@render trigger()}
       {:else}
@@ -78,24 +59,9 @@
     </Button>
   {/snippet}
 
-  {#snippet content({ close })}
+  {#snippet content()}
     <section class="flex w-full flex-col gap-0.5">
-      {#each items as item}
-        {@const isSelected = checkIsItemSelected(item)}
-        {@const icon = getItemIcon(item)}
-
-        <Button
-          icon={isSelected && icon ? 'checkmark-circle-filled' : icon}
-          class={cn(isSelected && 'bg-porcelain hover:bg-porcelain')}
-          onclick={() => onItemSelect(item, close)}
-        >
-          {@render label(item)}
-        </Button>
-      {/each}
+      {@render dropdownContent()}
     </section>
   {/snippet}
 </Popover>
-
-{#snippet defaultLabel(item: T)}
-  {typeof item === 'string' ? item : item.title}
-{/snippet}
