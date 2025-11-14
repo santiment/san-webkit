@@ -1,5 +1,6 @@
 <script lang="ts" generics="T extends TBasicItem">
   import type { TBasicItem } from './types.js'
+  import type { ComponentProps } from 'svelte'
 
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
@@ -12,9 +13,9 @@
     item: T
     valueKey?: keyof T
     onclick: () => void
-  }
+  } & Omit<ComponentProps<typeof Button>, 'class' | 'onclick'>
 
-  const { class: className, item, valueKey, onclick }: TProps = $props()
+  const { class: className, item, valueKey, onclick, ...rest }: TProps = $props()
 
   const { selected, label, getItemIcon, onItemSelect } = useDropdownCtx.get()
 
@@ -46,6 +47,7 @@
     onItemSelect()
     onclick()
   }}
+  {...rest}
 >
   {#if label}
     {@render label(item)}
