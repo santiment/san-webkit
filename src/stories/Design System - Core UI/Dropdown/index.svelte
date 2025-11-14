@@ -62,7 +62,8 @@
         <div class="h-px w-full bg-porcelain"></div>
 
         <DropdownItem
-          item={{ title: 'Reset', icon: 'cross' }}
+          item={{ title: 'Reset', icon: 'close' }}
+          iconSize={10}
           onclick={() => {
             selected2 = undefined
           }}

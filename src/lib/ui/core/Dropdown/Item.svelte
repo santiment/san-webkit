@@ -7,20 +7,24 @@
 
   import { useDropdownCtx } from './ctx.svelte.js'
   import { getItemTitle } from './utils.js'
+  import Svg from '../Svg/Svg.svelte'
 
   type TProps = {
     class?: string
     item: T
+    iconSize?: number
     valueKey?: keyof T
     onclick: () => void
-  } & Omit<ComponentProps<typeof Button>, 'class' | 'onclick'>
+  } & Omit<ComponentProps<typeof Button>, 'class' | 'onclick' | 'iconSize'>
 
-  const { class: className, item, valueKey, onclick, ...rest }: TProps = $props()
+  const { class: className, iconSize, item, valueKey, onclick, ...rest }: TProps = $props()
 
   const { selected, label, getItemIcon, onItemSelect } = useDropdownCtx.get()
 
   const icon = $derived(getItemIcon(item))
   const isSelected = $derived(checkIsItemSelected(item))
+
+  const iconMargin = $derived(iconSize ? (16 - iconSize) / 2 : 0)
 
   const checkSelectedIsItem = (sel: TBasicItem): sel is T =>
     !!valueKey && valueKey in (sel as object)
@@ -41,7 +45,6 @@
 </script>
 
 <Button
-  icon={isSelected && icon ? 'checkmark-circle-filled' : icon}
   class={cn(isSelected && 'bg-porcelain hover:bg-porcelain', className)}
   onclick={() => {
     onItemSelect()
@@ -49,6 +52,15 @@
   }}
   {...rest}
 >
+  {#if icon}
+    <Svg
+      --margin={`${iconMargin}px`}
+      class="mx-[var(--margin)]"
+      id={isSelected ? 'checkmark-circle-filled' : icon}
+      w={iconSize}
+    />
+  {/if}
+
   {#if label}
     {@render label(item)}
   {:else}
