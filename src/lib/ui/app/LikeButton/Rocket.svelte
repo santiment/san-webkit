@@ -17,27 +17,5 @@
     className,
   )}
 >
-  <Svg id="rocket" w="13.5" h="18" />
-
-  <div
-    class="absolute bottom-0 left-[6.5px] opacity-0 group-hover:animate-[fire_0.4s_infinite_alternate] group-disabled:animate-none"
-  >
-    <div class="absolute -bottom-[3px] h-[3px] w-[1px] -translate-x-[3.5px] rotate-[30deg]"></div>
-    <div class="absolute -bottom-[3px] h-[3px] w-[1px]"></div>
-    <div class="absolute -bottom-[3px] h-[3px] w-[1px] translate-x-[3.5px] -rotate-[30deg]"></div>
-  </div>
+  <Svg id="rocket-active" />
 </div>
-
-<style lang="postcss">
-  :global {
-    @keyframes fire {
-      from {
-        opacity: 1;
-      }
-
-      to {
-        opacity: 0;
-      }
-    }
-  }
-</style>
