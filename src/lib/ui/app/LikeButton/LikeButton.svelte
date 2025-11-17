@@ -3,7 +3,6 @@
   import Button from '$ui/core/Button/Button.svelte'
 
   import Rocket from './Rocket.svelte'
-  import Moon from './Moon.svelte'
 
   type TProps = {
     class?: string
@@ -28,10 +27,7 @@
   }: TProps = $props()
 
   let rocketNode: HTMLElement | undefined = $state()
-  let moonNode: HTMLElement | undefined = $state()
-  let mooned = $state(false)
 
-  let timer: number
   let votingInterval: number
 
   function startVote(e: any) {
@@ -43,7 +39,6 @@
       return
     }
 
-    clearTimeout(timer)
     clearInterval(votingInterval)
 
     vote()
@@ -69,15 +64,10 @@
         resetAnimation(child)
       }
     }
-
-    if (mooned && moonNode) resetAnimation(moonNode)
-
-    mooned = true
   }
 
   function stopVote() {
     clearInterval(votingInterval)
-    timer = window.setTimeout(() => (mooned = false), 1000)
   }
 
   function resetAnimation(node: HTMLElement) {
@@ -90,7 +80,6 @@
 
   $effect(() => {
     return () => {
-      clearTimeout(timer)
       clearInterval(votingInterval)
     }
   })
@@ -110,8 +99,6 @@
   ontouchstart={startVote}
   {disabled}
 >
-  <Moon bind:moonNode {mooned} votes={userVotes} />
-
   <Rocket
     bind:rocketNode
     class={userVotes > 0 ? 'group-hover:[&_div]:bg-green' : 'group-hover:[&_div]:bg-waterloo'}
