@@ -23,6 +23,26 @@ export default {
       dropShadow: {
         dropdown: '0 4px 8px rgba(24, 27, 43, 0.08)',
       },
+
+      animation: {
+        shake: 'shake 1s infinite',
+      },
+    },
+
+    keyframes: {
+      shake: {
+        '0%': { transform: 'translate(0, -2%)' },
+        '10%': { transform: 'translate(1%, -1%)' },
+        '20%': { transform: 'translate(2%, 0)' },
+        '30%': { transform: 'translate(-4%, 1%)' },
+        '40%': { transform: 'translate(4%, -1%)' },
+        '50%': { transform: 'translate(-4%, 0)' },
+        '60%': { transform: 'translate(4%, 0)' },
+        '70%': { transform: 'translate(-4%, 0)' },
+        '80%': { transform: 'translate(2%, -2%)' },
+        '90%': { transform: 'translate(-1%, -2%)' },
+        '100%': { transform: 'translate(0, -3%)' },
+      },
     },
 
     screens: {
