@@ -28,14 +28,16 @@
 
   let rocketNode: HTMLElement | undefined = $state()
 
+  const isActive = $derived(userVotes > 0)
+
   let votingInterval: number
 
-  function startVote(e: any) {
+  function startVote(e: MouseEvent | TouchEvent) {
     e.preventDefault()
 
     if (disabled) return
 
-    if (e.button === 2) {
+    if ('button' in e && e.button === 2) {
       return
     }
 
@@ -87,25 +89,24 @@
 
 <Button
   class={cn(
-    'btn v-center txt-m group relative rounded-full px-2.5 py-[5px] row',
-    'ease-vote transition-all disabled:cursor-not-allowed disabled:opacity-50',
-    userVotes > 0
-      ? 'border-green bg-green-light-1 fill-green text-green hover:border-green-hover hover:bg-green-light-1 hover:fill-green-hover hover:text-green-hover'
-      : 'fill-waterloo text-waterloo',
+    'group gap-1.5 px-[9px] text-fiord',
+    isActive && 'border-casper bg-athens text-rhino',
+    disabled && 'border-porcelain text-mystic',
     className,
   )}
   variant={hasBorder ? 'border' : undefined}
+  size="md"
   onmousedown={startVote}
   ontouchstart={startVote}
   {disabled}
+  circle
 >
-  <Rocket
-    bind:rocketNode
-    class={userVotes > 0 ? 'group-hover:[&_div]:bg-green' : 'group-hover:[&_div]:bg-waterloo'}
-  />
+  <Rocket bind:rocketNode />
 
   <span
     style="--digits:{totalVotes.toString().length}"
-    class="w-[calc(var(--digits)*1ch)] text-left">{totalVotes}</span
+    class="w-[calc(var(--digits)*1ch)] text-left"
   >
+    {totalVotes}
+  </span>
 </Button>

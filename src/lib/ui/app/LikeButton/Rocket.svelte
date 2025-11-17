@@ -3,19 +3,19 @@
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
+    class?: string
     rocketNode: HTMLElement | undefined
-    class: string
   }
 
-  let { rocketNode = $bindable(undefined), class: className = '' }: TProps = $props()
+  let { rocketNode = $bindable(undefined), class: className }: TProps = $props()
 </script>
 
 <div
   bind:this={rocketNode}
   class={cn(
-    'relative mr-[9px] flex justify-center group-hover:animate-shake group-disabled:animate-none',
+    'relative flex justify-center group-hover:animate-shake group-disabled:animate-none',
     className,
   )}
 >
-  <Svg id="rocket-active" />
+  <Svg id="rocket-active" h="20" />
 </div>
