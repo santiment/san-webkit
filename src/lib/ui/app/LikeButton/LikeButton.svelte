@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { on } from 'svelte/events'
+
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
 
@@ -26,8 +28,6 @@
     voteInterval = 370,
   }: TProps = $props()
 
-  let rocketNode: HTMLElement | undefined = $state()
-
   const isActive = $derived(userVotes > 0)
 
   let votingInterval: number
@@ -45,9 +45,13 @@
 
     vote()
     votingInterval = window.setInterval(vote, voteInterval)
-    window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
+    on(window, e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
       once: true,
     })
+  }
+
+  function stopVote() {
+    clearInterval(votingInterval)
   }
 
   function vote() {
@@ -56,34 +60,10 @@
       totalVotes += 1
       onVote()
     }
-
-    if (rocketNode) {
-      resetAnimation(rocketNode)
-
-      const child = rocketNode.lastChild
-
-      if (child instanceof HTMLElement) {
-        resetAnimation(child)
-      }
-    }
-  }
-
-  function stopVote() {
-    clearInterval(votingInterval)
-  }
-
-  function resetAnimation(node: HTMLElement) {
-    if (node) {
-      node.style.animation = 'none'
-      node.offsetWidth
-      node.style.animation = ''
-    }
   }
 
   $effect(() => {
-    return () => {
-      clearInterval(votingInterval)
-    }
+    return stopVote
   })
 </script>
 
@@ -101,7 +81,7 @@
   {disabled}
   circle
 >
-  <Rocket bind:rocketNode />
+  <Rocket />
 
   <span
     style="--digits:{totalVotes.toString().length}"

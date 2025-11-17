@@ -4,14 +4,12 @@
 
   type TProps = {
     class?: string
-    rocketNode: HTMLElement | undefined
   }
 
-  let { rocketNode = $bindable(undefined), class: className }: TProps = $props()
+  let { class: className }: TProps = $props()
 </script>
 
 <div
-  bind:this={rocketNode}
   class={cn(
     'relative flex justify-center group-hover:animate-shake group-disabled:animate-none',
     className,
