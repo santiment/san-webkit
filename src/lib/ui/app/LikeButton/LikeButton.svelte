@@ -2,14 +2,14 @@
   import { on } from 'svelte/events'
   import { noop } from '@melt-ui/svelte/internal/helpers'
 
+  import Button from '$ui/core/Button/index.js'
+  import { showLoginToUseFeatureDialog$ } from '$ui/app/LoginToUseFeatureDialog/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
   import { cn } from '$ui/utils/index.js'
-  import Button from '$ui/core/Button/Button.svelte'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
-  import Rocket from './Rocket.svelte'
-  import { showLoginToUseFeatureDialog$ } from '../LoginToUseFeatureDialog/index.svelte'
   import { mutateVote, normalizeFeatureType, type TVoteType } from './api.js'
 
   type TProps = {
@@ -112,7 +112,7 @@
   {disabled}
   circle
 >
-  <Rocket />
+  <Svg id="rocket-active" h="20" class="group-hover:animate-shake group-disabled:animate-none" />
 
   <span
     style="--digits:{totalVotes.toString().length}"
