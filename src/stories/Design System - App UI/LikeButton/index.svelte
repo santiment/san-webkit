@@ -3,8 +3,8 @@
 </script>
 
 <div class="flex h-screen items-center justify-center gap-2">
-  <LikeButton totalVotes={5} />
-  <LikeButton totalVotes={10} userVotes={3} />
-  <LikeButton totalVotes={1} disabled />
-  <LikeButton totalVotes={1} userVotes={1} disabled />
+  <LikeButton id={1} type="insight" source="storybook" totalVotes={5} />
+  <LikeButton id={1} type="insight" source="storybook" totalVotes={10} userVotes={3} />
+  <LikeButton id={1} type="insight" source="storybook" totalVotes={1} disabled />
+  <LikeButton id={1} type="insight" source="storybook" totalVotes={1} userVotes={1} disabled />
 </div>

@@ -11,4 +11,19 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const LikeButton: Story = {}
+export const Anon: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: null,
+    }),
+  },
+}
+
+export const LoggedIn: Story = {
+  parameters: {
+    mockApi: () => ({
+      currentUser: {},
+      'query vote': {},
+    }),
+  },
+}

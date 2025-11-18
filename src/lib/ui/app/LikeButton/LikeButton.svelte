@@ -1,32 +1,49 @@
 <script lang="ts">
   import { on } from 'svelte/events'
+  import { noop } from '@melt-ui/svelte/internal/helpers'
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { Query } from '$lib/api/executor.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   import Rocket from './Rocket.svelte'
+  import { showLoginToUseFeatureDialog$ } from '../LoginToUseFeatureDialog/index.svelte'
+  import { mutateVote, normalizeFeatureType, type TVoteType } from './api.js'
 
   type TProps = {
+    id: number | null | undefined
+    type: TVoteType
+    source: string
     class?: string
     totalVotes?: number
     userVotes?: number
     disabled?: boolean
     onVote?: () => void
+    onVoted?: () => void
     hasBorder?: boolean
     maxVotesPerUser?: number
     voteInterval?: number
   }
 
   let {
+    id,
+    type,
+    source,
     class: className = '',
     totalVotes = $bindable(0),
     userVotes = $bindable(0),
     disabled = false,
-    onVote = () => {},
+    onVote = noop,
+    onVoted = noop,
     hasBorder = true,
     maxVotesPerUser = 20,
     voteInterval = 370,
   }: TProps = $props()
+
+  const { currentUser } = useCustomerCtx()
+  const showLoginToUseFeatureDialog = showLoginToUseFeatureDialog$()
 
   const isActive = $derived(userVotes > 0)
 
@@ -55,11 +72,25 @@
   }
 
   function vote() {
-    if (userVotes < maxVotesPerUser) {
-      userVotes += 1
-      totalVotes += 1
-      onVote()
-    }
+    if (!currentUser.$$) return showLoginToUseFeatureDialog()
+    if (!id) return
+    if (userVotes >= maxVotesPerUser) return
+
+    userVotes += 1
+    totalVotes += 1
+    onVote()
+
+    trackEvent('vote', { id, feature: normalizeFeatureType(type), source })
+
+    mutateVote(Query)(id, type)
+      .then((res) => {
+        console.log({ res })
+        onVoted()
+      })
+      .catch(() => {
+        totalVotes -= 1
+        userVotes -= 1
+      })
   }
 
   $effect(() => {

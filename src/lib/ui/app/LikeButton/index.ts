@@ -1,2 +1,2 @@
-export { default } from './index.svelte'
-export { VoteType } from './api.js'
+export { default } from './LikeButton.svelte'
+export type { TVoteType } from './api.js'
