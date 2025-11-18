@@ -15,11 +15,20 @@
     iconSize?: number
     valueKey?: keyof T
     onclick: () => void
+    skipCloseDelay?: boolean
   } & Omit<ComponentProps<typeof Button>, 'class' | 'onclick' | 'iconSize'>
 
-  const { class: className, iconSize, item, valueKey, onclick, ...rest }: TProps = $props()
+  const {
+    class: className,
+    iconSize,
+    item,
+    valueKey,
+    onclick,
+    skipCloseDelay = false,
+    ...rest
+  }: TProps = $props()
 
-  const { selected, label, getItemIcon, onItemSelect } = useDropdownCtx.get()
+  const { selected, label, getItemIcon, closeDropdown } = useDropdownCtx.get()
 
   const icon = $derived(getItemIcon(item))
   const isSelected = $derived(checkIsItemSelected(item))
@@ -47,7 +56,7 @@
 <Button
   class={cn(isSelected && 'bg-porcelain hover:bg-porcelain', className)}
   onclick={() => {
-    onItemSelect()
+    closeDropdown({ skipDelay: skipCloseDelay })
     onclick()
   }}
   {...rest}

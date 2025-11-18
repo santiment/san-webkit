@@ -23,12 +23,16 @@ export const useDropdownCtx = createCtx(
     const getItemIcon = (item: TBasicItem | undefined) =>
       typeof item === 'string' ? undefined : item?.icon
 
-    function onItemSelect() {
+    function closeDropdown({ skipDelay }: { skipDelay?: boolean }) {
       clearTimeout(closeTimer)
 
-      closeTimer = setTimeout(() => {
+      if (skipDelay) {
         close()
-      }, closeDelay)
+      } else {
+        closeTimer = setTimeout(() => {
+          close()
+        }, closeDelay)
+      }
     }
 
     function close() {
@@ -58,7 +62,7 @@ export const useDropdownCtx = createCtx(
 
       label,
       getItemIcon,
-      onItemSelect,
+      closeDropdown,
     }
   },
 )

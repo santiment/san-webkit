@@ -67,6 +67,7 @@
           onclick={() => {
             selected2 = undefined
           }}
+          skipCloseDelay
         />
       {/if}
 
