@@ -1,7 +1,11 @@
 <script lang="ts">
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
-  import { downloadCsv } from '$lib/utils/csv.js'
+  import {
+    createMetricSeriesCsvHeaders,
+    downloadCsv,
+    mergeMetricSeriesData,
+  } from '$lib/utils/csv/index.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
   import {
@@ -47,41 +51,13 @@
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
   }
 
-  function mergeSeries(series: TSeries[]) {
-    const map = new Map<number, Record<string, any>>()
-
-    for (const s of series) {
-      const key = s.apiMetricName
-      for (const { time, value } of s.data.$) {
-        if (!map.has(time)) map.set(time, { time })
-        map.get(time)![key] = value
-      }
-    }
-
-    return Array.from(map.values()).sort((a, b) => a.time - b.time)
-  }
-
-  function buildHeaders(series: TSeries[]) {
-    const dateHeader = {
-      title: 'Date',
-      format: (row: any) => new Date(row.time * 1000).toISOString(),
-    }
-
-    const metricHeaders = series.map((metric) => ({
-      title: metric.label,
-      format: (row: any) => row[metric.apiMetricName] ?? '',
-    }))
-
-    return [dateHeader, ...metricHeaders]
-  }
-
   function exportCSV() {
-    const rows = mergeSeries(metricSeries.$)
-    const headers = buildHeaders(metricSeries.$)
+    const metrics = $state.snapshot(metricSeries.$) as TSeries[]
 
-    const filename = metricSeries.$.map((s) => s.apiMetricName)
-      .join(', ')
-      .replace(/[<>:"/\\|?*]+/g, '_')
+    const rows = mergeMetricSeriesData(metrics)
+    const headers = createMetricSeriesCsvHeaders(metrics)
+
+    const filename = metrics.map((item) => item.apiMetricName).join(', ')
 
     downloadCsv(filename, headers, rows)
   }
