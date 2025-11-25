@@ -2,6 +2,7 @@
   import { Switch, type SwitchRootProps } from 'bits-ui'
 
   import { cn } from '$ui/utils/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
   import Svg from '../Svg/index.js'
 
@@ -19,27 +20,30 @@
     }
   } = $props()
 
+  const { device } = useDeviceCtx()
+
+  const { isDesktop } = $derived(device.$)
   const activeIcon = $derived(icon?.active ?? { id: 'checkmark', w: 8, h: 6 })
-  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: 7 })
+  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: isDesktop ? 7 : 8 })
 
   const currentIcon = $derived(rest.checked ? activeIcon : inactiveIcon)
 </script>
 
 <Switch.Root
   {...rest}
-  style="--_margin:3px;padding: 0 var(--_margin);"
+  style="--_margin:{isDesktop ? 3 : 6}px;padding: 0 var(--_margin);"
   class={cn(
-    'relative flex h-5 w-9 min-w-9 items-center rounded-[10px] bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover',
+    'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover md:h-6 md:w-[42px]',
     className,
   )}
 >
   <Switch.Thumb
-    class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px]"
+    class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px] md:size-4"
   />
 
   <Svg
     {...currentIcon}
-    style={cn('margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
-    class="absolute fill-white"
+    style={cn(isDesktop && 'margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
+    class={cn('absolute fill-waterloo', rest.checked && 'fill-white')}
   />
 </Switch.Root>
