@@ -6,7 +6,7 @@
 
 <script lang="ts">
   import { onMount } from 'svelte'
-  import { noop } from '@melt-ui/svelte/internal/helpers'
+  import { noop } from 'rxjs'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'

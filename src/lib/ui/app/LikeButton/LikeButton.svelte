@@ -1,6 +1,6 @@
 <script lang="ts">
   import { on } from 'svelte/events'
-  import { noop } from '@melt-ui/svelte/internal/helpers'
+  import { noop } from 'rxjs'
 
   import Button from '$ui/core/Button/index.js'
   import { showLoginToUseFeatureDialog$ } from '$ui/app/LoginToUseFeatureDialog/index.js'
