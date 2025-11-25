@@ -1,28 +1,51 @@
+import { keyify } from '$lib/utils/object.js'
+
 type Social = {
   id: string
   href: (p: { link: string; text: string; title: string }) => string
+  color?: string
 }
 
+const ALL_SOCIALS = keyify(
+  {
+    twitter: {
+      href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
+      color: '#56A8DC',
+    },
+    facebook: {
+      href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
+    },
+    discord: {
+      href: () => `https://santiment.net/discord`,
+      color: '#5B65EA',
+    },
+    'linked-in': {
+      href: ({ link, text, title }) =>
+        `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
+    },
+    telegram: {
+      href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
+      color: '#5AAADB',
+    },
+    reddit: {
+      href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
+      color: '#EB5528',
+    },
+  } as const satisfies Record<string, Omit<Social, 'id'>>,
+  'id',
+)
+
 export const SOCIALS: Social[] = [
-  {
-    id: 'twitter',
-    href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
-  },
-  {
-    id: 'facebook',
-    href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
-  },
-  {
-    id: 'linked-in',
-    href: ({ link, text, title }) =>
-      `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
-  },
-  {
-    id: 'telegram',
-    href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
-  },
-  {
-    id: 'reddit',
-    href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
-  },
+  ALL_SOCIALS.twitter,
+  ALL_SOCIALS.facebook,
+  ALL_SOCIALS['linked-in'],
+  ALL_SOCIALS.telegram,
+  ALL_SOCIALS.reddit,
+]
+
+export const MOBILE_SOCIALS: Social[] = [
+  ALL_SOCIALS.twitter,
+  ALL_SOCIALS.discord,
+  ALL_SOCIALS.reddit,
+  ALL_SOCIALS.telegram,
 ]
