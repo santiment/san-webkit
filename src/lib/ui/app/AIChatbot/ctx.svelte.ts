@@ -33,13 +33,24 @@ export const useAIChatbotCtx = createCtx(
   'webkit_useChatAICtx',
   (initialValue: AiChatbotInitialValue | undefined = undefined) => {
     const getInitialState = (): TAIChatState => {
+      const defaults = {
+        message: '',
+        temporaryMessage: '',
+        opened: false,
+        session: undefined,
+        type: initialValue?.type,
+        context: initialValue?.context,
+      }
+
+      if (typeof window === 'undefined') {
+        return defaults
+      }
+
       const storedJson = window.sessionStorage.getItem(storageKey)
       const storedState = storedJson ? JSON.parse(storedJson) : {}
 
       return {
-        message: '',
-        temporaryMessage: '',
-        opened: false,
+        ...defaults,
         session: storedState.session || undefined,
         type: initialValue?.type || storedState.type,
         context: initialValue?.context || storedState.context,
