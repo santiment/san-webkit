@@ -1,124 +1,123 @@
 <script lang="ts">
-  import { cn } from '$ui/utils/index.js'
-  import Button from '$ui/core/Button/Button.svelte'
+  import { on } from 'svelte/events'
+  import { noop } from 'rxjs'
 
-  import Rocket from './Rocket.svelte'
-  import Moon from './Moon.svelte'
+  import Button from '$ui/core/Button/index.js'
+  import { showLoginToUseFeatureDialog$ } from '$ui/app/LoginToUseFeatureDialog/index.js'
+  import Svg from '$ui/core/Svg/Svg.svelte'
+  import { cn } from '$ui/utils/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
+  import { Query } from '$lib/api/executor.js'
+  import { trackEvent } from '$lib/analytics/index.js'
+
+  import { mutateVote, normalizeFeatureType, type TVoteType } from './api.js'
 
   type TProps = {
+    id: number | null | undefined
+    type: TVoteType
+    source: string
     class?: string
     totalVotes?: number
     userVotes?: number
     disabled?: boolean
     onVote?: () => void
+    onVoted?: () => void
     hasBorder?: boolean
     maxVotesPerUser?: number
     voteInterval?: number
   }
 
   let {
+    id,
+    type,
+    source,
     class: className = '',
     totalVotes = $bindable(0),
     userVotes = $bindable(0),
     disabled = false,
-    onVote = () => {},
+    onVote = noop,
+    onVoted = noop,
     hasBorder = true,
     maxVotesPerUser = 20,
     voteInterval = 370,
   }: TProps = $props()
 
-  let rocketNode: HTMLElement | undefined = $state()
-  let moonNode: HTMLElement | undefined = $state()
-  let mooned = $state(false)
+  const { currentUser } = useCustomerCtx()
+  const showLoginToUseFeatureDialog = showLoginToUseFeatureDialog$()
 
-  let timer: number
+  const isActive = $derived(userVotes > 0)
+
   let votingInterval: number
 
-  function startVote(e: any) {
+  function startVote(e: MouseEvent | TouchEvent) {
     e.preventDefault()
 
     if (disabled) return
 
-    if (e.button === 2) {
+    if ('button' in e && e.button === 2) {
       return
     }
 
-    clearTimeout(timer)
     clearInterval(votingInterval)
 
     vote()
     votingInterval = window.setInterval(vote, voteInterval)
-    window.addEventListener(e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
+    on(window, e.type === 'mousedown' ? 'mouseup' : 'touchend', stopVote, {
       once: true,
     })
   }
 
-  function vote() {
-    if (userVotes < maxVotesPerUser) {
-      userVotes += 1
-      totalVotes += 1
-      onVote()
-    }
-
-    if (rocketNode) {
-      resetAnimation(rocketNode)
-
-      const child = rocketNode.lastChild
-
-      if (child instanceof HTMLElement) {
-        resetAnimation(child)
-      }
-    }
-
-    if (mooned && moonNode) resetAnimation(moonNode)
-
-    mooned = true
-  }
-
   function stopVote() {
     clearInterval(votingInterval)
-    timer = window.setTimeout(() => (mooned = false), 1000)
   }
 
-  function resetAnimation(node: HTMLElement) {
-    if (node) {
-      node.style.animation = 'none'
-      node.offsetWidth
-      node.style.animation = ''
-    }
+  function vote() {
+    if (!currentUser.$$) return showLoginToUseFeatureDialog()
+    if (!id) return
+    if (userVotes >= maxVotesPerUser) return
+
+    userVotes += 1
+    totalVotes += 1
+    onVote()
+
+    trackEvent('vote', { id, feature: normalizeFeatureType(type), source })
+
+    mutateVote(Query)(id, type)
+      .then((res) => {
+        console.log({ res })
+        onVoted()
+      })
+      .catch(() => {
+        totalVotes -= 1
+        userVotes -= 1
+      })
   }
 
   $effect(() => {
-    return () => {
-      clearTimeout(timer)
-      clearInterval(votingInterval)
-    }
+    return stopVote
   })
 </script>
 
 <Button
   class={cn(
-    'btn v-center txt-m group relative rounded-full px-2.5 py-[5px] row',
-    'ease-vote transition-all disabled:cursor-not-allowed disabled:opacity-50',
-    userVotes > 0
-      ? 'border-green bg-green-light-1 fill-green text-green hover:border-green-hover hover:bg-green-light-1 hover:fill-green-hover hover:text-green-hover'
-      : 'fill-waterloo text-waterloo',
+    'group gap-1.5 px-[9px] text-fiord',
+    isActive && 'border-casper bg-athens text-rhino',
+    disabled && 'border-porcelain text-mystic',
     className,
   )}
   variant={hasBorder ? 'border' : undefined}
+  size="md"
   onmousedown={startVote}
   ontouchstart={startVote}
   {disabled}
+  circle
 >
-  <Moon bind:moonNode {mooned} votes={userVotes} />
-
-  <Rocket
-    bind:rocketNode
-    class={userVotes > 0 ? 'group-hover:[&_div]:bg-green' : 'group-hover:[&_div]:bg-waterloo'}
-  />
+  <Svg id="rocket-active" h="20" class="group-hover:animate-shake group-disabled:animate-none" />
 
   <span
     style="--digits:{totalVotes.toString().length}"
-    class="w-[calc(var(--digits)*1ch)] text-left">{totalVotes}</span
+    class="w-[calc(var(--digits)*1ch)] text-left"
   >
+    {totalVotes}
+  </span>
 </Button>
