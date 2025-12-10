@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
   import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements'
   import type { Action } from 'svelte/action'
   import type { SS } from 'svelte-runes'
@@ -9,6 +9,8 @@
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
+
+  import ExplanationTooltip from '../ExplanationTooltip/ExplanationTooltip.svelte'
 
   type TButtonVariants = VariantProps<typeof button>
 
@@ -25,6 +27,7 @@
       iconOnRight?: boolean
       iconIllus?: boolean
       explanation?: string
+      explanationProps?: Omit<ComponentProps<typeof ExplanationTooltip>, 'explanation' | 'trigger'>
       loading?: boolean
       dropdown?: boolean
       target?: HTMLAnchorAttributes['target']
@@ -55,6 +58,7 @@
     iconIllus = false,
 
     explanation,
+    explanationProps,
     children,
 
     action = () => {},
@@ -84,7 +88,6 @@
         plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
-      explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed' },
       rounded: { true: 'rounded-[14px]' },
       circle: { true: 'rounded-full' },
@@ -180,56 +183,59 @@
   }
 </script>
 
-<svelte:element
-  this={rest.href ? 'a' : as}
-  bind:this={ref.$}
-  aria-label={explanation}
-  style:--loading-color={getLoadingColor(variant)}
-  style:--loading-size="2px"
-  type="button"
-  {...rest}
-  use:action={actionArgs}
-  class={cn(
-    'group/button',
-    button({
-      variant,
-      accent,
-      iconOnRight,
-      size,
-      loading,
-      rounded,
-      circle,
-      explanation: !!explanation,
-      disabled: !!rest.disabled,
-      children: !!children,
-      icon: !!icon,
-    }),
+<ExplanationTooltip {explanation} {...explanationProps}>
+  {#snippet trigger({ ref: explRef = { $: null } })}
+    <svelte:element
+      this={rest.href ? 'a' : as}
+      bind:this={explRef.$}
+      bind:this={ref.$}
+      style:--loading-color={getLoadingColor(variant)}
+      style:--loading-size="2px"
+      type="button"
+      {...rest}
+      use:action={actionArgs}
+      class={cn(
+        'group/button',
+        button({
+          variant,
+          accent,
+          iconOnRight,
+          size,
+          loading,
+          rounded,
+          circle,
+          disabled: !!rest.disabled,
+          children: !!children,
+          icon: !!icon,
+        }),
 
-    className,
-  )}
->
-  {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
-  {/if}
+        className,
+      )}
+    >
+      {#if icon}
+        <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
+      {/if}
 
-  {#if children}
-    {@render children()}
-  {/if}
+      {#if children}
+        {@render children()}
+      {/if}
 
-  {#if dropdown}
-    <div class="ml-auto pl-0.5">
-      <div
-        class={cn(
-          'flex size-4 items-center justify-center rounded transition-colors',
-          !loading && 'group-data-[state="open"]/button:bg-athens',
-        )}
-      >
-        <Svg
-          id="arrow-down"
-          w="8"
-          class={cn('transition-transform', 'group-data-[state="open"]/button:rotate-180')}
-        />
-      </div>
-    </div>
-  {/if}
-</svelte:element>
+      {#if dropdown}
+        <div class="ml-auto pl-0.5">
+          <div
+            class={cn(
+              'flex size-4 items-center justify-center rounded transition-colors',
+              !loading && 'group-data-[state="open"]/button:bg-athens',
+            )}
+          >
+            <Svg
+              id="arrow-down"
+              w="8"
+              class={cn('transition-transform', 'group-data-[state="open"]/button:rotate-180')}
+            />
+          </div>
+        </div>
+      {/if}
+    </svelte:element>
+  {/snippet}
+</ExplanationTooltip>
