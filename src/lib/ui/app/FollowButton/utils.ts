@@ -3,7 +3,7 @@ import type { TCustomer } from '$lib/ctx/customer/api.js'
 import { mutateToggleUserFollow } from './api.js'
 
 export const checkIsFollowing = (currentUser: TCustomer['currentUser'], userId: number | string) =>
-  currentUser && currentUser.following?.users.some(({ id }) => +id === +userId)
+  currentUser?.following?.users.some(({ id }) => +id === +userId)
 
 export function startFollowFlow(currentUser: TCustomer['currentUser'], userId: number | string) {
   if (!currentUser?.following) return

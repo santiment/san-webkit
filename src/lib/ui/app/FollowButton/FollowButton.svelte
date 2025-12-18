@@ -21,23 +21,19 @@
   const postfix = $derived(isFollowing ? 'ing' : '')
 
   function onFollow() {
+    trackEvent('press', {
+      action: 'click',
+      type: isFollowing ? 'unfollow' : 'follow',
+      source,
+    })
+
     if (!currentUser) {
       // return window.dispatchEvent(new CustomEvent(ANON_EVENT))
-      return trackEvent('press', {
-        action: 'click',
-        type: 'anon_follow_click',
-        source,
-      })
+      return
     }
 
     isFollowing = !isFollowing
     startFollowFlow(currentUser, user.id)
-
-    trackEvent('press', {
-      action: 'click',
-      type: 'follow_click',
-      source,
-    })
   }
 </script>
 
