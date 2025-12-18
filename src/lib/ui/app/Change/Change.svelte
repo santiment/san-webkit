@@ -17,7 +17,7 @@
         'mr-1 flex size-3 items-center justify-center rounded-full',
         change < 0 ? 'bg-red-light-1 fill-red [&>svg]:rotate-180' : 'bg-lima-light-1 fill-lima',
       )}
-      title={change < 0 ? 'Decrease' : 'Increase'}
+      title={change === 0 ? 'Not changed' ? change > 0 ? 'Increased' : 'Decreased'}
     >
       <Svg id="triangle" w="6" h="4" />
     </span>
