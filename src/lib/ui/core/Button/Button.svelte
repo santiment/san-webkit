@@ -48,6 +48,7 @@
     circle = false,
     dropdown = false,
     loading = false,
+    disabled,
 
     icon,
     iconHeight,
@@ -186,7 +187,8 @@
   aria-label={explanation}
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
-  type="button"
+  type={rest.href ? undefined : 'button'}
+  disabled={disabled || undefined}
   {...rest}
   use:action={actionArgs}
   class={cn(
@@ -200,7 +202,7 @@
       rounded,
       circle,
       explanation: !!explanation,
-      disabled: !!rest.disabled,
+      disabled: !!disabled,
       children: !!children,
       icon: !!icon,
     }),
