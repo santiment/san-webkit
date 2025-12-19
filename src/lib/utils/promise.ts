@@ -10,3 +10,5 @@ export function controlledPromisePolyfill<T = unknown>() {
 
   return { promise: promise as Promise<T>, resolve: resolve!, reject: reject! }
 }
+
+export const sleep = (delay: number) => new Promise<void>((resolve) => setTimeout(resolve, delay))
