@@ -51,6 +51,10 @@
   background: var(--waterloo) !important;
 }
 
+* {
+  @apply transition-colors duration-500;
+}
+
 /* 
 * {
   text-align: left;
