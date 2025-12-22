@@ -12,6 +12,7 @@ export const useUserWatchlistsCtx = createCtx(
   'webkit_useUserWatchlistsCtx',
   ({ loadScreeners = false }: { loadScreeners?: boolean } = {}) => {
     let watchlists = $state<Watchlist[]>([])
+    let loaded = $state(false)
     let userScreenerAlerts = $state<TScreenerAlertMap>({})
 
     const watchlistsWithRelatedAlerts = $derived(
@@ -29,6 +30,7 @@ export const useUserWatchlistsCtx = createCtx(
         switchMap(() => queryUserWatchlists()()),
         map((watchlists) => watchlists.filter(({ isScreener }) => loadScreeners === isScreener)),
         tap((_watchlists) => (watchlists = _watchlists)),
+        tap(() => (loaded = true)),
       ),
     )
 
@@ -64,6 +66,10 @@ export const useUserWatchlistsCtx = createCtx(
       watchlists: {
         get $() {
           return watchlistsWithRelatedAlerts
+        },
+
+        get loaded$() {
+          return loaded
         },
       },
 
