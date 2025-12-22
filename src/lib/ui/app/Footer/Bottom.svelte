@@ -1,11 +1,21 @@
 <script lang="ts">
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
+  import { cn } from '$ui/utils/index.js'
 
   import Socials from './Socials.svelte'
+
+  type TProps = {
+    class?: string
+  }
+
+  const { class: className = '' }: TProps = $props()
 </script>
 
 <div
-  class="flex justify-between border-t py-6 text-casper md:flex-row-reverse sm:flex-col-reverse sm:border-none sm:py-0"
+  class={cn(
+    'flex justify-between border-t py-6 text-casper md:flex-row-reverse sm:flex-col-reverse sm:border-none sm:py-0',
+    className,
+  )}
 >
   <div
     class="flex flex-grow md:flex-col-reverse md:text-end sm:mt-10 sm:border-t sm:pt-10 sm:text-center"
