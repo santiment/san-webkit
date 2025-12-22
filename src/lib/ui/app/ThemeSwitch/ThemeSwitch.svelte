@@ -34,8 +34,9 @@
 <Switch.Root
   bind:checked
   class={cn(
-    'flex w-[72px] items-center justify-between rounded-full bg-athens-day px-2.5 py-1.5 transition-colors hover:bg-porcelain-day',
+    'flex w-[72px] select-none items-center justify-between rounded-full bg-athens-day px-2.5 py-1.5 transition-colors hover:bg-porcelain-day',
     internalNightMode && 'bg-porcelain-night hover:bg-mystic-night',
+    internalNightMode !== ui.$$.isNightMode && 'pointer-events-none',
     className,
   )}
   {onCheckedChange}
