@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Dropdown from '$ui/core/Dropdown/index.js'
+  import Dropdown, { DropdownItem } from '$ui/core/Dropdown/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
 
   const items: Item[] = [
@@ -18,45 +18,62 @@
   <div>
     <h2>Simple</h2>
 
-    <Dropdown
-      items={['item 1', 'item 2', 'item 3']}
-      onSelect={(item) => console.log(`${item} selected`)}
-    />
+    <Dropdown>
+      {#each ['item 1', 'item 2', 'item 3'] as item}
+        <DropdownItem {item} onclick={() => console.log(`${item} selected`)} />
+      {/each}
+    </Dropdown>
   </div>
 
   <div>
     <h2>With Icons</h2>
 
-    <Dropdown
-      {items}
-      valueKey="title"
-      selected={selected1}
-      onSelect={(item) => (selected1 = item)}
-      closeDelay={1000}
-    >
-      {#snippet label(item)}
-        {item.title}
-      {/snippet}
+    <Dropdown selected={selected1} closeDelay={1000}>
+      {#each items as item}
+        <DropdownItem {item} onclick={() => (selected1 = item)} />
+      {/each}
     </Dropdown>
   </div>
 
   <div>
     <h2>Custom Trigger Icons</h2>
 
-    <Dropdown
-      {items}
-      valueKey="title"
-      selected={selected2}
-      onSelect={(item) => (selected2 = item)}
-      closeDelay={1000}
-    >
+    <Dropdown selected={selected2} closeDelay={1000}>
+      {#each items as item}
+        <DropdownItem {item} onclick={() => (selected2 = item)} />
+      {/each}
+
       {#snippet trigger()}
         <Svg id="cog" />
         Settings
       {/snippet}
+    </Dropdown>
+  </div>
 
-      {#snippet label(item)}
-        {item.title}
+  <div>
+    <h2>Custom Content</h2>
+
+    <Dropdown selected={selected2} closeDelay={1000}>
+      {#each items as item}
+        <DropdownItem {item} onclick={() => (selected2 = item)} />
+      {/each}
+
+      {#if selected2}
+        <div class="h-px w-full bg-porcelain"></div>
+
+        <DropdownItem
+          item={{ title: 'Reset', icon: 'close' }}
+          iconSize={10}
+          onclick={() => {
+            selected2 = undefined
+          }}
+          skipCloseDelay
+        />
+      {/if}
+
+      {#snippet trigger()}
+        <Svg id="cog" />
+        Settings
       {/snippet}
     </Dropdown>
   </div>

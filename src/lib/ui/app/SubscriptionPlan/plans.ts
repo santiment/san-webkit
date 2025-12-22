@@ -1,3 +1,5 @@
+import type { TSubscriptionPlan } from './types.js'
+
 import { keyify } from '$lib/utils/object.js'
 
 export const Product = keyify(
@@ -130,3 +132,7 @@ export const BUSINESS_PLANS = new Set<string>([
   SubscriptionPlan.BUSINESS_PRO.key,
   SubscriptionPlan.CUSTOM.key,
 ])
+
+export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
+  return planKey === SubscriptionPlan.PRO.key
+}

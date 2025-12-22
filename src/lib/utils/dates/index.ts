@@ -230,13 +230,12 @@ export function suggestPeriodInterval(from: Date, to: Date) {
 
   if (diff < 7) return '15m'
   if (diff < 14) return '30m'
-  if (diff < 20) return '1h'
-  if (diff < 33) return '2h'
-  if (diff < 63) return '3h'
-  if (diff < 100) return '4h'
-  //if (diff < 185) return '6h'
+  if (diff < 33) return '1h'
+  if (diff < 63) return '2h'
+  if (diff < 100) return '3h'
+  if (diff < 185) return '4h'
   if (diff < 360) return '8h'
-  //if (diff < 520) return '12h'
+  if (diff < 600) return '12h'
   if (diff < 800) return '1d'
   if (diff < 1400) return '2d'
 

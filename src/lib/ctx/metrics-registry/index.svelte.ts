@@ -13,6 +13,8 @@ export const defaultOrderedMetricsPromise = BROWSER
   ? queryGetOrderedMetrics(Query)().then((data) => {
       DEFAULT_METRIC_CATEGORIES = data.categories
       DEFAULT_METRICS_REGISTRY = data.MetricsRegistry
+
+      return data
     })
   : Promise.resolve()
 

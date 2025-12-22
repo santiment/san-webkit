@@ -6,6 +6,8 @@
   import Input from '$ui/core/Input/index.js'
   import { notification } from '$ui/core/Notifications/index.js'
 
+  import Turnstile from './Turnstile.svelte'
+
   type TProps = {
     isSignUp?: boolean
     from?: string
@@ -14,9 +16,10 @@
 
   const { from, isSignUp = false, onSuccess }: TProps = $props()
 
+  let Turnstile$: Turnstile
   let loading = $state(false)
 
-  function onsubmit(event: SubmitEvent) {
+  async function onsubmit(event: SubmitEvent) {
     event.preventDefault()
 
     const target = event.currentTarget as HTMLFormElement
@@ -25,16 +28,27 @@
     const redirectUrl = new URL(from || '/', window.location.origin)
 
     loading = true
-    mutateEmailLogin(Query)({ email, successRedirectUrl: redirectUrl.href })
+
+    const turnstileToken = await Turnstile$.getToken().catch(() => null)
+    if (!turnstileToken) {
+      return notification.error('Invalid turnstile token')
+    }
+
+    mutateEmailLogin(Query)({ email, token: turnstileToken, successRedirectUrl: redirectUrl.href })
       .then((success) => {
         if (success) onSuccess(email)
       })
-      .catch(() => notification.error("Can't login"))
+      .catch(() => {
+        notification.error('Cannot login. Try again later.')
+        Turnstile$.reset()
+      })
       .finally(() => (loading = false))
 
     trackAuth('email', isSignUp)
   }
 </script>
+
+<Turnstile bind:this={Turnstile$}></Turnstile>
 
 <form {onsubmit}>
   <Input
@@ -42,7 +56,7 @@
     placeholder="Enter email"
     icon="envelope"
     name="email"
-    class="text-base font-normal text-casper [&>svg]:left-4"
+    class="text-base font-normal text-black placeholder-casper [&>svg]:left-4"
     inputClass="py-2 pl-10"
     iconSize="16"
   />

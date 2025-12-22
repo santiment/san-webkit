@@ -135,6 +135,136 @@ x1 = rsi(m2, 7)
   },
 
   {
+    ...FunctionSignature('atr', ['data: Timeseries', 'm1'], ['period: Number', '14']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+atr(m1, 14)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('z_score', ['data: Timeseries', 'm1'], ['period: Number', '14']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+z_score(m1, 14)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('pow', ['base: Number | Timeseries', 'm1'], ['power: Number', '10']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+pow(m1, 10)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('log', ['a: Number | Timeseries', 'm1'], ['base: Number', '10']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+log(m1, 10)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('exp', ['a: Number | Timeseries', 'm1'], ['power: Number', '10']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+exp(m1, 10)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('absolute', ['a: Number | Timeseries', 'm1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+absolute(m1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('shift', ['data: Timeseries', 'm1'], ['period: Number', '1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+shift(m1, 1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('diff', ['data: Timeseries', 'm1'], ['period: Number', '1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+diff(m1, 1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('cumprod', ['data: Timeseries', 'm1'], ['period: Number', '1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+cumprod(m1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('cumsum', ['data: Timeseries', 'm1'], ['period: Number', '1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+cumsum(m1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
     ...FunctionSignature(
       'asset_metric',
       ['api_metric: String', '"price_usd"'],
@@ -170,6 +300,44 @@ You can also save the result in a local variable for later use.
 m1_selector = selector_from(m1)
 x1 = asset_metric("price_usd", m1_selector)
 \`\`\``,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature(
+      'if',
+      ['condition: Boolean', 'm1 > m2'],
+      ['if_true: Number | Timeseries', '1'],
+      ['if_false: Number | Timeseries', '-1'],
+    ),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+# ==, !=, <, <=, >, >=
+if(m1 > m2, 1, 0)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature(
+      'backtest',
+      ['price_data: Timeseries', 'm1'],
+      ['signals: Timeseries', 'm1 / m1'],
+      ['options: Object', '{ capital: 1000, fee: 0.001, stop_loss: 0, take_profit: 0 }'],
+    ),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `
+\`\`\`
+# \`0\` means the option is disabled
+backtest(m1, m1 / m1, { capital: 1000, fee: 0.001, stop_loss: 0, take_profit: 0 })
+\`\`\`
+`,
     // @RELEASE:MD-COMPILE:END
   },
 ]

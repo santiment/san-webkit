@@ -64,6 +64,7 @@ export const useAlertFormCtx = createCtx(
         suggestTitle: (_steps: typeof steps) => Promise<string> | string
         suggestDescription: (_steps: typeof steps) => Promise<string> | string
       },
+      initialAlert: alert ?? null,
       reduceStepsToAlert,
       steps,
       selectedStep: {

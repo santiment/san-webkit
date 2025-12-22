@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import {
     Popover,
@@ -8,7 +8,8 @@
     type PopoverTriggerProps,
   } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type TProps = {
     class?: string
@@ -23,6 +24,8 @@
 
     rootProps?: PopoverRootProps
     contentProps?: PopoverContentProps
+
+    portalTo?: ComponentProps<typeof Popover.Portal>['to']
   }
 
   let {
@@ -33,6 +36,8 @@
     matchTriggerWidth = false,
     isOpened = $bindable(false),
 
+    portalTo,
+
     align,
     side,
 
@@ -41,35 +46,39 @@
   }: TProps = $props()
 
   const preventFocus = (e: Event) => e.preventDefault()
-
-  // TODO: Migrate js transition:flyAndScale to css from bits-ui example
 </script>
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
   <Popover.Trigger child={children}></Popover.Trigger>
 
-  <Popover.Content
-    sideOffset={8}
-    onCloseAutoFocus={preventFocus}
-    onOpenAutoFocus={preventFocus}
-    {...contentProps}
-    {align}
-    {side}
-    forceMount
-    class={cn(
-      !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
-      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
-      className,
-    )}
-  >
-    {#snippet child({ wrapperProps, props, open })}
-      {#if open}
-        <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale>
-            {@render content({ close: () => (isOpened = false) })}
+  <Popover.Portal disabled={!portalTo} to={portalTo}>
+    <Popover.Content
+      sideOffset={8}
+      onCloseAutoFocus={preventFocus}
+      onOpenAutoFocus={preventFocus}
+      {...contentProps}
+      {align}
+      {side}
+      forceMount
+      class={cn(
+        !noStyles && 'z-10 flex rounded border bg-white p-2 shadow-dropdown',
+        matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+        className,
+      )}
+    >
+      {#snippet child({ wrapperProps, props, open })}
+        {#if open}
+          <div {...wrapperProps}>
+            <div
+              {...props}
+              class={cn('fly-and-scale-animation animated', props.class as string)}
+              out:flyAndScaleOutTransition
+            >
+              {@render content({ close: () => (isOpened = false) })}
+            </div>
           </div>
-        </div>
-      {/if}
-    {/snippet}
-  </Popover.Content>
+        {/if}
+      {/snippet}
+    </Popover.Content>
+  </Popover.Portal>
 </Popover.Root>

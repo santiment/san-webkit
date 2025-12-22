@@ -66,11 +66,7 @@
     )}
     {style}
   >
-    <Svg
-      illus
-      id="cookies"
-      class="absolute left-6 inline-block !h-[88px] !w-[70px] md:static md:!h-[128px] md:!w-[102px] md:rotate-[270deg]"
-    />
+    <Svg illus id="cookies" class="absolute left-6 inline-block md:static" w={64} />
     <h2 class="mb-2 text-base font-medium md:mb-4 md:text-[20px] md:leading-[30px]">
       We are using cookies to improve your experience!
     </h2>

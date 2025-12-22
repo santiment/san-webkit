@@ -9,12 +9,13 @@
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { useKeyboardShortcut } from '$lib/utils/keyboard/index.js'
   import { setDayEnd, setDayStart } from '$lib/utils/dates/index.js'
-  import { cn } from '$ui/utils/index.js'
+  import { cn, getBrowserCssVariable } from '$ui/utils/index.js'
 
   import { getTheme } from './theme.js'
   import { useChartCtx, useChartGlobalParametersCtx } from './ctx/index.js'
   import { Mode, ModeOptions, type TMode } from './types.js'
   import { useChartPanesCtx } from './ctx/panes.svelte.js'
+  import { useShiftModeStartPoint } from './PaneLegend/ctx.svelte.js'
 
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
@@ -49,6 +50,7 @@
   const { chart } = useChartCtx()
   const { onPaneWidgetMount } = useChartPanesCtx()
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { startPointIndex } = useShiftModeStartPoint()
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
@@ -59,9 +61,10 @@
     chart.$ = createChart(chartContainerNode, {
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
-      overlayPriceScales: { autoScale: false },
+      //overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
+      timeScale: { ...options?.timeScale, minBarSpacing: 0.0000000001 },
     })
     const firstPane = chart.$.panes()[0]
 
@@ -69,10 +72,14 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    createRangeSelection(firstPane, {
+    createRangeSelection(chart.$!, {
       color: '#9faac435',
-      onRangeSelectChange,
+      onRangeSelectChange: _onRangeSelectChange,
       onRangeSelectEnd: _onRangeSelectEnd,
+      axisLabels: {
+        textColor: getBrowserCssVariable('white'),
+        bg: getBrowserCssVariable('waterloo'),
+      },
     })
 
     const resetScalesOnDblClick = () => chart.$?.resetAllScales()
@@ -117,10 +124,57 @@
     chart.$.applyOptions(options)
   })
 
+  $effect(() => {
+    const chartCtx = chart.$
+    if (!chartCtx) return
+
+    // Reading interval change
+    globalParameters.$$.interval || globalParameters.autoInterval$
+
+    const timeScale = chartCtx.timeScale()
+    const visibleRange = timeScale.getVisibleRange()
+
+    if (!visibleRange) return
+
+    const timer = setTimeout(() => timeScale.setVisibleRange(visibleRange), 1500)
+    return () => clearTimeout(timer)
+  })
+
+  $effect(() => {
+    const chartCtx = chart.$
+    if (!chartCtx) return
+
+    const { toUtcDate: _, fromUtcDate: __ } = globalParameters.dates$
+    const timeScale = chartCtx.timeScale()
+
+    const fitTimeScaleContent = () => chartCtx.resetAllScales()
+    const unsubscribe = () => timeScale.unsubscribeSizeChange(fitTimeScaleContent)
+    const timer = setTimeout(unsubscribe, 1500)
+
+    timeScale.subscribeSizeChange(fitTimeScaleContent)
+
+    return () => {
+      unsubscribe()
+      clearTimeout(timer)
+    }
+  })
+
   onMount(() => {
     window.addEventListener('blur', resetChartInteractionMode)
     return () => window.removeEventListener('blur', resetChartInteractionMode)
   })
+
+  function _onRangeSelectChange(
+    start: Parameters<TRangeSelectHandler>[0],
+    end: Parameters<TRangeSelectHandler>[1],
+  ) {
+    if (mode === Mode.SHIFT && start.logical) {
+      startPointIndex.$ = start.logical as number
+      return
+    }
+
+    onRangeSelectChange?.(start, end)
+  }
 
   function _onRangeSelectEnd(
     left: Parameters<TRangeSelectHandler>[0],
@@ -140,6 +194,11 @@
       return
     }
 
+    if (mode === Mode.SHIFT) {
+      startPointIndex.$ = 0
+      return
+    }
+
     onRangeSelectEnd?.(left, right)
   }
 
@@ -152,6 +211,10 @@
       isScrollEnabled = true
       mode = tempMode
 
+      if (tempMode === Mode.SHIFT) {
+        startPointIndex.$ = 0
+      }
+
       window.addEventListener('keyup', resetChartInteractionMode, { once: true })
     })
   }
@@ -159,6 +222,7 @@
   function resetChartInteractionMode() {
     isScrollEnabled = false
     mode = Mode.DRAG
+    startPointIndex.$ = null
   }
 </script>
 

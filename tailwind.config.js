@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin'
+import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
 
@@ -21,6 +22,26 @@ export default {
 
       dropShadow: {
         dropdown: '0 4px 8px rgba(24, 27, 43, 0.08)',
+      },
+
+      animation: {
+        shake: 'shake 1s infinite',
+      },
+    },
+
+    keyframes: {
+      shake: {
+        '0%': { transform: 'translate(0, -2%)' },
+        '10%': { transform: 'translate(1%, -1%)' },
+        '20%': { transform: 'translate(2%, 0)' },
+        '30%': { transform: 'translate(-4%, 1%)' },
+        '40%': { transform: 'translate(4%, -1%)' },
+        '50%': { transform: 'translate(-4%, 0)' },
+        '60%': { transform: 'translate(4%, 0)' },
+        '70%': { transform: 'translate(-4%, 0)' },
+        '80%': { transform: 'translate(2%, -2%)' },
+        '90%': { transform: 'translate(-1%, -2%)' },
+        '100%': { transform: 'translate(0, -3%)' },
       },
     },
 
@@ -55,6 +76,7 @@ export default {
     },
   },
   plugins: [
+    tailwindAnimate,
     createColors({
       colors: {
         white: {
@@ -65,8 +87,8 @@ export default {
         whale: { day: '#FCFDFE', night: '#1A1D2F' },
 
         athens: { day: '#F3F4FA', night: '#1E2234' },
-        porcelain: { day: '#ECEEF5', night: '#202436' },
-        mystic: { day: '#D2D6E7', night: '#222639' },
+        porcelain: { day: '#ECEEF5', night: '#262A3E' },
+        mystic: { day: '#D2D6E7', night: '#343A52' },
         casper: { day: '#9FAAC4', night: '#4E5472' },
         waterloo: { day: '#7A859E', night: '#7A809A' },
         fiord: { day: '#505573', night: '#A2A7BD' },
@@ -74,6 +96,8 @@ export default {
 
         mirage: { day: '#181b2b', night: '#F8F9FF' },
         black: { day: '#181b2b', night: '#F8F9FF' },
+
+        shark: '#15181F',
 
         green: '#14C393',
         'green-hover': '#24AC85',

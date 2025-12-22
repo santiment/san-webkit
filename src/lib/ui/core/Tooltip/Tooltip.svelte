@@ -3,8 +3,9 @@
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type FloatingConfig = NonNullable<CreateTooltipProps['positioning']>
 
@@ -70,8 +71,12 @@
   <div
     {...$content}
     use:content
-    transition:flyAndScale={{ y: -4 }}
-    class={cn(!noStyles && 'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown', className)}
+    out:flyAndScaleOutTransition
+    class={cn(
+      'fly-and-scale-animation animated',
+      !noStyles && 'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown',
+      className,
+    )}
   >
     {#if type === 'arrow'}
       <div {...$arrow} use:arrow></div>

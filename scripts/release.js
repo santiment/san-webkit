@@ -132,6 +132,16 @@ async function updateLibraryPackageJson() {
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
+  pkgJson.files = [
+    'tsconfig.*',
+    '*.config.*',
+    //'vite.config.*',
+    //'eslint.config.*',
+    //'tailwind.config.*',
+    //'svelte.config.*',
+    //'postcss.config.*',
+    ...pkgJson.files,
+  ]
   pkgJson.scripts = {}
   pkgJson['lint-staged'] = {}
 

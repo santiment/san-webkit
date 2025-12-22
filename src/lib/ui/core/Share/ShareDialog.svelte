@@ -2,39 +2,11 @@
   import Component from './ShareDialog.svelte'
 
   export const showShareDialog$ = () => dialogs$.new(Component)
-
-  type Social = {
-    id: string
-    href: (p: { link: string; text: string; title: string }) => string
-  }
-
-  const SOCIALS = [
-    {
-      id: 'twitter',
-      href: ({ link, text }) => `https://twitter.com/intent/tweet?title=${text}&url=${link}`,
-    },
-    {
-      id: 'facebook',
-      href: ({ link }) => `https://www.facebook.com/sharer/sharer.php?u=${link}`,
-    },
-    {
-      id: 'linked-in',
-      href: ({ link, text, title }) =>
-        `https://www.linkedin.com/shareArticle?mini=true&title=${title}&summary=${text}&source=santiment.net&url=${link}`,
-    },
-    {
-      id: 'telegram',
-      href: ({ link, text }) => `https://telegram.me/share/url?text=${text}&url=${link}`,
-    },
-    {
-      id: 'reddit',
-      href: ({ link, text }) => `https://reddit.com/submit?title=${text}&url=${link}`,
-    },
-  ] satisfies Social[]
 </script>
 
 <script lang="ts">
   import { onMount } from 'svelte'
+  import { noop } from 'rxjs'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
@@ -42,6 +14,10 @@
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
+
+  import { MOBILE_SOCIALS, SOCIALS } from './socials.js'
+  import Svg from '../Svg/Svg.svelte'
 
   type TProps = {
     title?: string
@@ -59,12 +35,14 @@
     entity = 'Watchlist',
     data = {},
     isAuthor = false,
-    isPublic = false,
-    onPublicityToggle = () => {},
+    isPublic: isPublicProp = false,
+    onPublicityToggle = noop,
     feature,
     source,
     Controller,
   }: TProps = $props()
+
+  const { device } = useDeviceCtx()
 
   const {
     title: shareTitle = 'Sanbase',
@@ -76,13 +54,25 @@
   const encodedText = encodeURIComponent(text)
 
   let inputNode = $state<HTMLInputElement>()
+  let copied = $state(false)
   let label = $state('Copy link')
+  let isPublic = $state(isPublicProp)
 
+  const { isDesktop } = $derived(device.$)
   const disabled = $derived(isAuthor && !isPublic)
 
   function onCopy() {
     label = 'Copied!'
-    copy(link, () => (label = 'Copy link'), 1000, inputNode)
+    copied = true
+    copy(
+      link,
+      () => {
+        label = 'Copy link'
+        copied = false
+      },
+      1000,
+      inputNode,
+    )
   }
 
   onMount(() => {
@@ -92,79 +82,139 @@
   })
 </script>
 
-<Dialog>
-  <header class="flex items-center justify-between border-b border-b-porcelain px-5 py-3">
-    <h2 class="text-base">{title}</h2>
+<Dialog class="md:h-auto md:max-h-max">
+  <header
+    class="flex items-center justify-between border-b border-b-porcelain px-5 py-3 md:bg-athens"
+  >
+    <h2 class="text-base md:text-fiord">{title}</h2>
     <Button
       icon="close"
-      class="size-3 fill-waterloo hover:bg-transparent hover:fill-green"
-      iconSize={10}
+      class="size-3 fill-waterloo md:size-4"
+      iconSize={isDesktop ? 10 : 12}
       onclick={() => Controller.close(true)}
     />
   </header>
 
-  <div class="w-[600px] px-6 py-5 sm:w-auto sm:max-w-[600px]">
+  <div class="w-[600px] px-6 py-5 md:w-full md:px-5 md:py-6 sm:w-auto">
     {#if disabled}
-      <div class="mb-4 rounded bg-orange-light-1 px-4 py-2.5 font-medium text-orange">
-        Your {entity} is private. Please, switch it to "Public" first.
+      <div
+        class={cn(
+          'mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino',
+          'md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2',
+        )}
+      >
+        {#if !isDesktop}
+          <Svg id="warning" w="16" h="20" class="py-[3px]" />
+        {/if}
+
+        Your {entity} is private. To be able to share, please, switch it to “Public” first
       </div>
     {/if}
 
-    <div
-      class={cn(
-        'link mb-6 flex h-[42px] items-center overflow-hidden rounded border',
-        disabled && 'pointer-events-none bg-athens',
-      )}
-    >
-      <input
-        readonly
-        value={link}
+    {#if isDesktop}
+      <div
         class={cn(
-          'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-none',
-          disabled ? 'text-mystic' : 'text-waterloo',
+          'link mb-6 flex h-10 items-center overflow-hidden rounded border',
+          disabled && 'pointer-events-none bg-athens',
         )}
-        bind:this={inputNode}
-      />
+      >
+        <input
+          readonly
+          value={link}
+          class={cn(
+            'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-none',
+            disabled ? 'text-mystic' : 'text-waterloo',
+          )}
+          bind:this={inputNode}
+        />
+        <Button
+          class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l border-solid px-3')}
+          onclick={onCopy}
+          {disabled}
+        >
+          {label}
+        </Button>
+      </div>
+
+      <p class="mb-4 md:text-base">Share on social media</p>
+    {:else}
+      {@render publicSwitch({ class: 'mb-5' })}
+
       <Button
-        class={cn(
-          'h-full min-w-[84px] items-center justify-center',
-          'text-nowrap rounded-none border-l border-l-porcelain',
-          'px-3 py-2.5 text-center hover:text-green',
-          disabled ? 'text-mystic' : 'text-black',
-        )}
-        variant="plain"
+        variant="border"
+        class="mb-5 w-full justify-center gap-3"
+        icon={copied ? undefined : 'link'}
         onclick={onCopy}
         {disabled}
       >
         {label}
       </Button>
-    </div>
+    {/if}
 
-    <p class="mb-3">Share on social media</p>
-    <div class="flex items-center gap-3">
-      {#each SOCIALS as { id, href }}
-        <Button
-          href={href({ link, title: encodedTitle, text: encodedText })}
-          class={cn(
-            'flex h-10 w-10 items-center justify-center rounded border border-porcelain fill-black hover:bg-transparent hover:fill-green',
-            disabled && 'pointer-events-none bg-athens fill-waterloo text-mystic',
-          )}
-          target="_blank"
-          icon={id}
-          iconSize={18}
-          iconHeight={20}
-        ></Button>
-      {/each}
+    {#if isDesktop}
+      <div class="flex items-center gap-3">
+        {#each SOCIALS as { id, href }}
+          <Button
+            href={href({ link, title: encodedTitle, text: encodedText })}
+            variant="border"
+            size="lg"
+            {disabled}
+            target="_blank"
+            icon={id}
+          />
+        {/each}
 
-      {#if isAuthor}
-        <Button as="label" class="ml-auto flex items-center">
-          {isPublic ? 'Public' : 'Private'}
-          {entity}
+        {@render publicSwitch({ class: 'ml-auto' })}
+      </div>
+    {:else}
+      <section class="grid grid-cols-2 gap-3">
+        {#each MOBILE_SOCIALS as { id, href, color }}
+          <Button
+            href={href({ link, title: encodedTitle, text: encodedText })}
+            target="_blank"
+            variant="plain"
+            size="auto"
+            class={cn(
+              'w-full gap-3 rounded-md bg-athens fill-white px-6 py-3 capitalize',
+              disabled && 'text-casper',
+            )}
+            {disabled}
+          >
+            <div
+              style:--bg={color}
+              class={cn(
+                'flex size-5 rounded-full bg-[var(--bg)] transition-colors center',
+                disabled && 'bg-mystic',
+              )}
+            >
+              <Svg {id} w="12" />
+            </div>
 
-          <Switch class="ml-3 cursor-pointer" checked={isPublic} onCheckedChange={onPublicityToggle}
-          ></Switch>
-        </Button>
-      {/if}
-    </div>
+            {id}
+          </Button>
+        {/each}
+      </section>
+    {/if}
   </div>
 </Dialog>
+
+{#snippet publicSwitch({ class: className }: { class?: string } = {})}
+  {#if isAuthor}
+    <label class={cn('flex items-center md:justify-between md:py-2', className)}>
+      <span class="md:text-base">
+        {isPublic ? 'Public' : 'Private'}
+        {entity}
+      </span>
+
+      <Switch
+        class="ml-3 cursor-pointer md:m-0"
+        icon={{ active: { id: 'eye-filled', w: 10, h: 7 } }}
+        checked={isPublic}
+        onCheckedChange={() => {
+          isPublic = !isPublic
+          onPublicityToggle()
+        }}
+      />
+    </label>
+  {/if}
+{/snippet}

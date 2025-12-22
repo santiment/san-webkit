@@ -47,7 +47,7 @@
   })
 </script>
 
-<section class="gap-3 overflow-auto p-4 column">
+<section class="flex-1 gap-3 overflow-auto p-4 column">
   <h2 class="flex items-center gap-2 fill-waterloo text-base font-medium text-rhino">
     {#if definition.metric}
       <span class="rounded-md bg-athens px-2.5 text-fiord">
@@ -75,7 +75,7 @@
 <style lang="postcss">
   .docs :global {
     pre {
-      @apply relative whitespace-pre-wrap rounded bg-athens p-3 text-black;
+      @apply relative whitespace-break-spaces break-all rounded bg-athens p-3 text-black;
     }
 
     p code {

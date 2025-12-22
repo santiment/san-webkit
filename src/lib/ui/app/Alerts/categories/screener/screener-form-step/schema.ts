@@ -53,7 +53,9 @@ export const STEP_SELECT_SCREENER_SCHEMA = createStepSchema<TBaseSchema>({
   },
 })
 
-function getApiWatchlistId(settings: TScreenerApiAlert['settings'] | undefined): string | null {
+export function getApiWatchlistId(
+  settings: TScreenerApiAlert['settings'] | undefined,
+): string | null {
   if (!settings) return null
   if (settings.target === 'default') {
     return settings.operation.selector.watchlist_id.toString()

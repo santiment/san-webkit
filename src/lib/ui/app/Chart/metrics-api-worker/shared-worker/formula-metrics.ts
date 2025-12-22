@@ -32,8 +32,8 @@ type TContext = {
 }
 
 function queryMetric(metric: string, parameters: TContext['parameters']) {
-  const { selector, interval, from, to } = parameters
-  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval })
+  const { selector, interval, from, to, aggregation } = parameters
+  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval, aggregation })
 }
 
 function getFormulaCacheKey(
@@ -73,7 +73,7 @@ export function fetchFormulaMetric(
   const deleteCache = () => (cachePromiseController.reject(), ApiCache.delete(cacheKey))
 
   ApiCache.add(cacheKey, {
-    result: cachePromiseController.promise,
+    result: cachePromiseController.promise.catch(() => {}),
     executor: Query,
     options: { cache: BROWSER, cacheTime: 15 },
   })
@@ -120,7 +120,11 @@ export function fetchFormulaMetric(
         const dataRequest = () =>
           (metric.formula
             ? fetchFormulaMetric(metric.formula, index, ctx)
-            : queryMetric(metric.name, { ...ctx.parameters, selector: selector! })
+            : queryMetric(metric.name, {
+                ...ctx.parameters,
+                aggregation: metric.aggregation,
+                selector: selector!,
+              })
           )
             .then((data) => resolve([variable.name, data, selector]))
             .catch(rejectAndCancel)
@@ -193,7 +197,7 @@ function processRecursiveFormula<GResult>(
     const index = variable.metricIndex
     const metric = ctx.metrics[index]
 
-    if (metric.formula && ctx.path.includes(index)) {
+    if (metric.formula && ctx.path.length > 30 && ctx.path.includes(index)) {
       throw new Error(
         'Recursive formula expression: ' +
           ctx.path

@@ -1,11 +1,20 @@
-import type { TAiChatbotContext, TAiChatbotSession } from './types.js'
+import type {
+  TAiChatbotContext,
+  TAiChatbotSession,
+  TAiChatType,
+  TChatMessageFeedback,
+} from './types.js'
 
+import { dialogs$ } from '$ui/core/Dialog/index.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
-import { mutateSendAiChatbotMessage } from './api.js'
+import AcademyQA from './variants/academyQA/index.js'
+import DyorDashboard from './variants/dyorDashboard/index.js'
+import { mutateSendAiChatbotMessage, mutateSubmitChatMessageFeedback } from './api.js'
 
 type TAIChatState = {
+  type?: TAiChatType
   message: string
   temporaryMessage: string
   opened: boolean
@@ -13,18 +22,60 @@ type TAIChatState = {
   context: TAiChatbotContext | undefined
 }
 
+type AiChatbotInitialValue = {
+  type: TAiChatType
+  context?: TAiChatbotContext
+}
+
+const storageKey = 'webkit_ai_chatbot_session'
+
 export const useAIChatbotCtx = createCtx(
   'webkit_useChatAICtx',
-  (initialContext: TAiChatbotContext | undefined = undefined) => {
-    let state = $state<TAIChatState>({
-      message: '',
-      temporaryMessage: '',
-      opened: false,
-      session: undefined,
-      context: initialContext,
+  (initialValue: AiChatbotInitialValue | undefined = undefined) => {
+    const getInitialState = (): TAIChatState => {
+      const defaults = {
+        message: '',
+        temporaryMessage: '',
+        opened: false,
+        session: undefined,
+        type: initialValue?.type,
+        context: initialValue?.context,
+      }
+
+      if (typeof window === 'undefined') {
+        return defaults
+      }
+
+      const storedJson = window.sessionStorage.getItem(storageKey)
+      const storedState = storedJson ? JSON.parse(storedJson) : {}
+
+      return {
+        ...defaults,
+        session: storedState.session || undefined,
+        type: initialValue?.type || storedState.type,
+        context: initialValue?.context || storedState.context,
+      }
+    }
+
+    let state = $state<TAIChatState>(getInitialState())
+    let loading = $state(false)
+
+    $effect(() => {
+      const stateToStore = {
+        session: state.session,
+        type: state.type,
+        context: state.context,
+      }
+
+      window.sessionStorage.setItem(storageKey, JSON.stringify(stateToStore))
     })
 
-    let loading = $state(false)
+    const variantMap: Record<TAiChatType, any> = {
+      ['ACADEMY_QA']: dialogs$.new(AcademyQA),
+      ['DYOR_DASHBOARD']: dialogs$.new(DyorDashboard),
+    }
+
+    const showChatUI = () => variantMap[state.type || 'DYOR_DASHBOARD']()
 
     return {
       aiChatbot: {
@@ -52,6 +103,7 @@ export const useAIChatbotCtx = createCtx(
 
           await mutateSendAiChatbotMessage(Query)({
             chatId: state.session?.id,
+            type: state.type,
             content,
             context: state.context,
           })
@@ -60,6 +112,36 @@ export const useAIChatbotCtx = createCtx(
               loading = false
               state.temporaryMessage = ''
             })
+        },
+
+        async sendFeedback(messageId: string, feedbackType: TChatMessageFeedback) {
+          const session = state.session
+          if (!session?.chatMessages) return
+
+          const idx = session.chatMessages.findIndex((m) => m.id === messageId)
+
+          if (idx === -1) return
+
+          await mutateSubmitChatMessageFeedback(Query)({
+            messageId,
+            feedbackType,
+          }).then((data) => {
+            session.chatMessages[idx].feedbackType = data.feedbackType ?? null
+          })
+        },
+
+        resetSession() {
+          state.session = undefined
+        },
+
+        openWithPrompt(prompt?: string) {
+          if (!state.type) return
+
+          showChatUI()
+
+          if (prompt) {
+            this.sendMessage(prompt)
+          }
         },
       },
     }

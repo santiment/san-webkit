@@ -18,15 +18,15 @@
       for?: string
       ref?: SS<undefined | null | HTMLElement>
       href?: string
-      icon?: TSvgId
       class?: string
+      icon?: TSvgId
       iconSize?: number | string
       iconHeight?: number | string
       iconOnRight?: boolean
+      iconIllus?: boolean
       explanation?: string
       loading?: boolean
       dropdown?: boolean
-      active?: boolean
       target?: HTMLAnchorAttributes['target']
 
       action?: Action
@@ -47,12 +47,13 @@
     rounded = false,
     circle = false,
     dropdown = false,
-    active = false,
     loading = false,
+    disabled,
 
     icon,
     iconHeight,
     iconSize: initialIconSize,
+    iconIllus = false,
 
     explanation,
     children,
@@ -186,10 +187,12 @@
   aria-label={explanation}
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
-  type="button"
+  type={rest.href ? undefined : 'button'}
+  disabled={disabled || undefined}
   {...rest}
   use:action={actionArgs}
   class={cn(
+    'group/button',
     button({
       variant,
       accent,
@@ -199,7 +202,7 @@
       rounded,
       circle,
       explanation: !!explanation,
-      disabled: !!rest.disabled,
+      disabled: !!disabled,
       children: !!children,
       icon: !!icon,
     }),
@@ -208,7 +211,7 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight} />
+    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
   {/if}
 
   {#if children}
@@ -220,10 +223,14 @@
       <div
         class={cn(
           'flex size-4 items-center justify-center rounded transition-colors',
-          active && !loading && 'bg-athens',
+          !loading && 'group-data-[state="open"]/button:bg-athens',
         )}
       >
-        <Svg id="arrow-down" w="8" class={cn('transition-transform', active && 'rotate-180')} />
+        <Svg
+          id="arrow-down"
+          w="8"
+          class={cn('transition-transform', 'group-data-[state="open"]/button:rotate-180')}
+        />
       </div>
     </div>
   {/if}
