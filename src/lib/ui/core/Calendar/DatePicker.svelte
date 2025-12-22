@@ -81,7 +81,7 @@
 {:else}
   <Popover
     noStyles
-    class="z-10 shadow-dropdown"
+    class="z-10 shadow-dropdown dark:shadow-none"
     rootProps={rest.popoverRootProps}
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}

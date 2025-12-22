@@ -78,8 +78,8 @@
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
-        ghost: 'px-2.5 fill-waterloo hover:bg-athens',
+        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
+        ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
         link: 'rounded-none text-green fill-green hover:underline',
         plain: 'rounded-none',
@@ -123,7 +123,8 @@
       {
         variant: ['fill', 'border'],
         disabled: true,
-        class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+        class:
+          'text-mystic fill-mystic bg-[var(--ghost-active-bg)] hover:bg-[var(--ghost-active-bg)]',
       },
       {
         variant: 'ghost',
@@ -185,6 +186,7 @@
   this={rest.href ? 'a' : as}
   bind:this={ref.$}
   aria-label={explanation}
+  style:--ghost-active-bg="var(--active-ghost-button-bg, var(--athens))"
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
   type={rest.href ? undefined : 'button'}
@@ -223,7 +225,7 @@
       <div
         class={cn(
           'flex size-4 items-center justify-center rounded transition-colors',
-          !loading && 'group-data-[state="open"]/button:bg-athens',
+          !loading && 'group-data-[state="open"]/button:bg-[var(--ghost-active-bg)]',
         )}
       >
         <Svg

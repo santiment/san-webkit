@@ -30,3 +30,12 @@
 {@render children()}
 
 <Notifications></Notifications>
+
+<style>
+  /* TODO: Remove after full migration from legacy webkit
+    This line emulates default styles applied by legacy webkit lib
+  */
+  :global(button) {
+    border: none;
+  }
+</style>

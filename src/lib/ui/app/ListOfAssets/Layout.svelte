@@ -71,7 +71,7 @@
   <header class="flex flex-col gap-3 px-2 md:p-0">
     {#if hasSearch}
       <Input
-        class="bg-inherit dark:border-mystic"
+        class="bg-inherit"
         inputClass="md:py-2.5"
         icon="search"
         placeholder="Search project"

@@ -19,6 +19,8 @@ export { copy } from './clipboard.js'
 
 export { assertNever } from './assert.js'
 
+export { sleep } from './promise.js'
+
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
  */
