@@ -15,7 +15,7 @@ export function startFollowFlow(currentUser: TCustomer['currentUser'], userId: n
   if (isFollowed) {
     followings.splice(userIndex, 1)
   } else {
-    followings.push({ id: userId as string })
+    followings.push({ id: userId.toString() })
   }
 
   return mutateToggleUserFollow(userId, !isFollowed)
