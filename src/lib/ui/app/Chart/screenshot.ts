@@ -92,7 +92,9 @@ function prepareLegendDataForMetric(metric: TSeries) {
 
   const lastValue = lastDataPoint?.value
   const firstValue = firstDataPoint?.value
-  const formattedValue = metric.tooltipFormatter ? metric.tooltipFormatter(lastValue) : lastValue
+  const formattedValue = metric.ui.$$.tooltipFormatter
+    ? metric.ui.$$.tooltipFormatter(lastValue)
+    : lastValue
 
   const percentChangeText =
     firstValue !== undefined && lastValue !== undefined
@@ -102,7 +104,7 @@ function prepareLegendDataForMetric(metric: TSeries) {
   return {
     labelText: `${label}: `,
     valueText: `${formattedValue}${percentChangeText}`,
-    color: metric.color?.$ || getBrowserCssVariable('black'),
+    color: metric.ui.$$.color || getBrowserCssVariable('black'),
   }
 }
 

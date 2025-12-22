@@ -68,7 +68,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    //downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
