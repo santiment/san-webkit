@@ -36,6 +36,7 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+  const { chart } = useChartCtx()
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
 
@@ -67,7 +68,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    //downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
