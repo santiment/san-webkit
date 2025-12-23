@@ -61,7 +61,7 @@
 
         {@render sanbaseLink('Write insight', '/insights/new', {
           variant: 'fill',
-          class: 'text-white-day hover:text-white-day ml-2.5 w-max px-5',
+          class: 'hover:text-white-day ml-2.5 w-max px-5',
         })}
       </section>
     {:else}
