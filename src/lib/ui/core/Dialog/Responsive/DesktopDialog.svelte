@@ -49,7 +49,7 @@
     ></div>
     <div
       class={cn(
-        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded bg-white shadow-lg',
+        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded bg-white shadow-lg dark:shadow-none',
         className,
       )}
       {...$content}

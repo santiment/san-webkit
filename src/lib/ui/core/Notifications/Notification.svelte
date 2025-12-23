@@ -39,7 +39,7 @@
 <section
   role="alert"
   class={cn(
-    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow',
+    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow dark:shadow-none',
     content && !action ? 'pb-6' : 'pb-5',
     className,
   )}
