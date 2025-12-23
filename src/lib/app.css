@@ -51,8 +51,11 @@
   background: var(--waterloo) !important;
 }
 
-* {
-  @apply transition-colors duration-500;
+body.theme-transition {
+  &,
+  & * {
+    @apply transition-colors duration-300;
+  }
 }
 
 /* 

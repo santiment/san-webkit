@@ -26,7 +26,7 @@
     internalNightMode = value
     await opacity.set(1)
 
-    await sleep(200)
+    await sleep(100)
     ui.toggleNightMode()
   }
 </script>

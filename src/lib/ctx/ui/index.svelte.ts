@@ -31,7 +31,13 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
       },
 
       toggleNightMode() {
+        document.body.classList.toggle('theme-transition', true)
+
         const isNightMode = document.body.classList.toggle('night-mode')
+
+        // NOTE: Awaiting sync DOM styles update
+        void document.body.offsetWidth
+        document.body.classList.toggle('theme-transition', false)
 
         if (currentUser.$$) {
           mutateUpdateUserSettings(Query)(isNightMode)
