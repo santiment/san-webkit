@@ -17,11 +17,11 @@ export default {
       },
 
       boxShadow: {
-        dropdown: '0 4px 8px 0 rgba(24, 27, 43, 0.08)',
+        dropdown: '0 4px 16px 0 rgba(24, 27, 43, 0.13), 0 6px 8px 0 rgba(24, 27, 43, 0.05)',
       },
 
       dropShadow: {
-        dropdown: '0 4px 8px rgba(24, 27, 43, 0.08)',
+        dropdown: '0 4px 16px rgba(24, 27, 43, 0.13), 0 6px 8px rgba(24, 27, 43, 0.05)',
       },
 
       animation: {
