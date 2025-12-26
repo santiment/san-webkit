@@ -6,7 +6,7 @@
 
   import Svg from '../Svg/index.js'
 
-  type Icon = { id: string; w: number; h?: number }
+  type Icon = { id: string; w?: number; h?: number }
 
   let {
     icon,
@@ -25,8 +25,8 @@
   const { device } = useDeviceCtx()
 
   const { isDesktop } = $derived(device.$)
-  const activeIcon = $derived(icon?.active ?? { id: 'checkmark', w: 8, h: 6 })
-  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: isDesktop ? 7 : 8 })
+  const activeIcon = $derived(icon?.active ?? { id: 'checkmark' })
+  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross' })
 
   const currentIcon = $derived(checked ? activeIcon : inactiveIcon)
 </script>
@@ -54,6 +54,7 @@
   />
 
   <Svg
+    w={12}
     {...currentIcon}
     style={cn(isDesktop && 'margin: 0 var(--_margin);', !checked && 'right: var(--_margin)')}
     class={cn(

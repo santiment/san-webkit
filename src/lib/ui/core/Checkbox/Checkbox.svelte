@@ -52,7 +52,7 @@
     {#if indeterminate}
       <Svg id="minus" />
     {:else if checked}
-      <Svg id="checkmark" w="8" />
+      <Svg id="checkmark" w="12" />
     {/if}
 
     {#if error}

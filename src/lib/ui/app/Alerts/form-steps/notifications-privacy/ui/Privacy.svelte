@@ -18,7 +18,7 @@
 
     <Switch
       bind:checked={state.$$.isPublic}
-      icon={{ active: { id: 'checkmark', w: 8 }, inactive: { id: 'eye-crossed', w: 10 } }}
+      icon={{ active: { id: 'checkmark', w: 12 }, inactive: { id: 'eye-crossed', w: 10 } }}
     />
   </label>
 </Section>
