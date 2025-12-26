@@ -12,6 +12,7 @@
     icon,
     checked = $bindable(false),
     class: className,
+    disabled,
     ...rest
   }: SwitchRootProps & {
     class?: string
@@ -34,18 +35,31 @@
   bind:checked
   style="--_margin:{isDesktop ? 3 : 6}px;padding: 0 var(--_margin);"
   class={cn(
-    'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover md:h-6 md:w-[42px]',
+    'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo md:h-6 md:w-[42px]',
+    checked && 'bg-green hover:bg-green-hover',
+    disabled && 'bg-porcelain hover:bg-porcelain',
     className,
   )}
+  {disabled}
   {...rest}
 >
   <Switch.Thumb
-    class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px] md:size-4"
+    class={cn(
+      'flex size-[14px] rounded-full bg-porcelain transition-transform will-change-transform md:size-4',
+      !checked && !disabled && 'dark:bg-mystic',
+      checked && 'translate-x-4 bg-green-light-2-day',
+      disabled && 'bg-whale',
+      disabled && checked && 'bg-whale',
+    )}
   />
 
   <Svg
     {...currentIcon}
     style={cn(isDesktop && 'margin: 0 var(--_margin);', !checked && 'right: var(--_margin)')}
-    class={cn('absolute fill-waterloo', checked && 'fill-white')}
+    class={cn(
+      'absolute fill-waterloo-day',
+      checked && 'fill-white-day hover:fill-athens-day',
+      disabled && checked && 'fill-white hover:fill-white',
+    )}
   />
 </Switch.Root>
