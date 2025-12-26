@@ -17,8 +17,7 @@
     <span>Public</span>
 
     <Switch
-      checked={state.$$.isPublic}
-      onCheckedChange={(v) => (state.$$.isPublic = v)}
+      bind:checked={state.$$.isPublic}
       icon={{ active: { id: 'checkmark', w: 8 }, inactive: { id: 'eye-crossed', w: 10 } }}
     />
   </label>

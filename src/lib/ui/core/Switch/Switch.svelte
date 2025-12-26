@@ -8,8 +8,9 @@
 
   type Icon = { id: string; w: number; h?: number }
 
-  const {
+  let {
     icon,
+    checked = $bindable(false),
     class: className,
     ...rest
   }: SwitchRootProps & {
@@ -26,16 +27,17 @@
   const activeIcon = $derived(icon?.active ?? { id: 'checkmark', w: 8, h: 6 })
   const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: isDesktop ? 7 : 8 })
 
-  const currentIcon = $derived(rest.checked ? activeIcon : inactiveIcon)
+  const currentIcon = $derived(checked ? activeIcon : inactiveIcon)
 </script>
 
 <Switch.Root
-  {...rest}
+  bind:checked
   style="--_margin:{isDesktop ? 3 : 6}px;padding: 0 var(--_margin);"
   class={cn(
     'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover md:h-6 md:w-[42px]',
     className,
   )}
+  {...rest}
 >
   <Switch.Thumb
     class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px] md:size-4"
@@ -43,7 +45,7 @@
 
   <Svg
     {...currentIcon}
-    style={cn(isDesktop && 'margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
-    class={cn('absolute fill-waterloo', rest.checked && 'fill-white')}
+    style={cn(isDesktop && 'margin: 0 var(--_margin);', !checked && 'right: var(--_margin)')}
+    class={cn('absolute fill-waterloo', checked && 'fill-white')}
   />
 </Switch.Root>
