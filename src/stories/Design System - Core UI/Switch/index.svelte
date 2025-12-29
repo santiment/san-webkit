@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Switch from '$ui/core/Switch/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
+  import Switch, { PrivacySwitch } from '$ui/core/Switch/index.js'
 </script>
 
-<main class="flex flex-col gap-6 px-6 py-10">
+<main class="flex flex-col items-start gap-6 px-6 py-10">
   <section>
     <h3>Off - Normal</h3>
     <Switch />
@@ -21,5 +22,10 @@
   <section>
     <h3>On - Disabled</h3>
     <Switch checked disabled />
+  </section>
+
+  <section>
+    <h3>Privacy Switch</h3>
+    <PrivacySwitch />
   </section>
 </main>
