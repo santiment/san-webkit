@@ -5,6 +5,8 @@ import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
+import { getSavedNightMode, saveNightMode } from './storage.js'
+
 const mutateUpdateUserSettings = ApiMutation(
   (isNightMode: boolean) => `mutation {
     updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
@@ -18,7 +20,7 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
 
   const isNightMode =
     currentUser.$$?.settings.theme === 'nightmode' ||
-    (BROWSER && document.body.classList.contains('night-mode'))
+    (BROWSER && (getSavedNightMode() ?? document.body.classList.contains('night-mode')))
 
   const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
 
@@ -43,6 +45,7 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
           mutateUpdateUserSettings(Query)(isNightMode)
         }
 
+        saveNightMode(isNightMode)
         ui.isNightMode = isNightMode
       },
     },
