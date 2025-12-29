@@ -29,13 +29,20 @@
   const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross' })
 
   const currentIcon = $derived(checked ? activeIcon : inactiveIcon)
+
+  const switchWidth = $derived(isDesktop ? 36 : 42)
+  const thumbPadding = $derived(isDesktop ? 3 : 6)
+  const thumbSize = $derived(isDesktop ? 14 : 16)
+
+  const thumbX = $derived(checked ? switchWidth - thumbPadding - thumbSize : thumbPadding)
 </script>
 
 <Switch.Root
   bind:checked
-  style="--_margin:{isDesktop ? 3 : 6}px;padding: 0 var(--_margin);"
+  --width="{switchWidth}px"
   class={cn(
-    'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo md:h-6 md:w-[42px]',
+    'relative flex items-center rounded-full bg-casper hover:bg-waterloo',
+    'h-5 w-[var(--width)] min-w-[var(--width)] md:h-6',
     checked && 'bg-green hover:bg-green-hover',
     disabled && 'bg-porcelain hover:bg-porcelain',
     className,
@@ -44,10 +51,13 @@
   {...rest}
 >
   <Switch.Thumb
+    --size="{thumbSize}px"
+    --translate-x="{thumbX}px"
     class={cn(
-      'flex size-[14px] rounded-full bg-porcelain transition-transform will-change-transform md:size-4',
+      'absolute left-0 z-10 flex rounded-full bg-porcelain transition-transform will-change-transform',
+      'size-[var(--size)] translate-x-[var(--translate-x)]',
       !checked && !disabled && 'dark:bg-mystic',
-      checked && 'translate-x-4 bg-green-light-2-day',
+      checked ? 'bg-green-light-2-day' : '',
       disabled && 'bg-whale',
       disabled && checked && 'bg-whale',
     )}
@@ -56,10 +66,10 @@
   <Svg
     w={12}
     {...currentIcon}
-    style={cn(isDesktop && 'margin: 0 var(--_margin);', !checked && 'right: var(--_margin)')}
     class={cn(
-      'absolute fill-waterloo-day',
+      'absolute z-0 fill-waterloo-day',
       checked && 'fill-white-day hover:fill-athens-day',
+      checked ? 'left-[5px]' : 'right-[5px]',
       disabled && checked && 'fill-white hover:fill-white',
     )}
   />
