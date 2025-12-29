@@ -25,6 +25,20 @@
   </section>
 
   <section>
+    <h3>Switch Button</h3>
+
+    <Button as="label">
+      Text sample
+      <Switch />
+    </Button>
+
+    <Button as="label">
+      <Switch />
+      Text sample
+    </Button>
+  </section>
+
+  <section>
     <h3>Privacy Switch</h3>
     <PrivacySwitch />
   </section>
