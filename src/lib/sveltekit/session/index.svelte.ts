@@ -15,7 +15,7 @@ export function useAppSessionFlow(data: {
 }) {
   const { customer } = useCustomerCtx(data.session.customer)
   const { ui } = useUiCtx({ isLiteVersion: data.session.isLiteVersion })
-  const { device } = useDeviceCtx(data.session.device)
+  const { device } = useDeviceCtx(data.session.device.type)
 
   if (!BROWSER) return
 
