@@ -4,6 +4,7 @@ import UAParser from 'ua-parser-js'
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
 import { normalizeDeviceType, getDeviceInfo } from '$lib/ctx/device/index.js'
 import { logger } from '$lib/logger/index.js'
+import { getNightModePreference } from '$lib/ctx/ui/index.js'
 
 export const checkIsSanbaseCookiePresent = (event: RequestEvent) =>
   event.cookies.get('_sanbase_sid') || event.cookies.get('_sanbase_stage_sid')
@@ -20,13 +21,16 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
     })
   }
 
-  const theme = customer?.currentUser?.settings.theme === 'nightmode' ? 'night-mode' : ''
+  const isNightMode = getNightModePreference({ currentUser: customer?.currentUser, event })
+
+  const theme = isNightMode ? 'night-mode' : ''
   const userAgent = UAParser(event.request.headers.get('user-agent') as any)
   const device = normalizeDeviceType(userAgent.device.type)
 
   event.locals.device = getDeviceInfo(device)
   event.locals.customer = customer
   event.locals.theme = theme
+  event.locals.isNightMode = isNightMode ?? false
 
   let response: Response
   try {
