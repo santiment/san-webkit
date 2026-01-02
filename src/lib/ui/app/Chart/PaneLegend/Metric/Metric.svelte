@@ -12,13 +12,15 @@
     metric: TSeries
     label?: Snippet<[TSeries]>
     paneControls?: boolean
+    onmouseenter?: () => void
+    onmouseleave?: () => void
   }
-  let { metric, label, paneControls }: TProps = $props()
+  let { metric, label, paneControls, ...rest }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
 </script>
 
-<div class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
+<div {...rest} class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
   <div
     style:---metric-color={metric.ui.$$.color}
     class={cn(

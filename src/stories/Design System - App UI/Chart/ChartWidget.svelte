@@ -137,7 +137,12 @@
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
-          <PaneMetric {metric} paneControls>
+          <PaneMetric
+            {metric}
+            paneControls
+            onmouseenter={() => onMetricEnter(metric)}
+            onmouseleave={onMetricLeave}
+          >
             {#snippet label()}
               {metric.formula?.$.name || metric.label}
             {/snippet}
