@@ -229,6 +229,6 @@ function validateRecursiveFormula(
 
 function throwImplicitOperationError(node: MathNode) {
   if (node instanceof SanFormulas.OperatorNode && node.implicit) {
-    throw new Error(`Invalid syntax: Implicit operation (trying "${node.fn}") is now allowed`)
+    throw new Error(`Invalid syntax: Implicit operation (trying "${node.fn}") is not allowed`)
   }
 }
