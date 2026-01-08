@@ -70,22 +70,26 @@ const getQueryWatchlistProjects = (slug: string) =>
 export const queryStablecoinProjects = getQueryWatchlistProjects('stablecoins')
 export const queryDeFiProjects = getQueryWatchlistProjects('defi')
 
+// NOTE: Sorting by marketcap - swissborg.com/crypto-market/categories/blockchain
 export const Blockchain = keyify(
   {
     BTC: { slug: 'bitcoin', name: 'Bitcoin', ticker: 'BTC' },
     ETH: { slug: 'ethereum', name: 'Ethereum', ticker: 'ETH' },
-    BEP20: { slug: 'binance-coin', name: 'BNB Chain', ticker: 'BSC' }, // BSC = BNB Smart Chain
     XRP: { slug: 'xrp', name: 'XRPL', ticker: 'XRP' },
-    Cardano: { slug: 'cardano', name: 'Cardano', ticker: 'ADA' },
-    //DOGE: { slug: 'dogecoin', name: 'Dogecoin', ticker: 'DOGE' },
-    Polygon: { slug: 'matic-network', name: 'Polygon', ticker: 'POL' },
-    Avalanche: { slug: 'avalanche', name: 'Avalanche', ticker: 'AVAX' },
-    Arbitrum: { slug: 'arbitrum', name: 'Arbitrum', ticker: 'ARB' },
-    LTC: { slug: 'litecoin', name: 'Litecoin', ticker: 'LTC' },
-    BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash', ticker: 'BCH' },
-    Optimism: { slug: 'optimism-ethereum', name: 'Optimism', ticker: 'OP' },
-    ICP: { slug: 'internet-computer', name: 'ICP', ticker: 'ICP' },
+    BEP20: { slug: 'binance-coin', name: 'BNB Chain', ticker: 'BSC' }, // BSC = BNB Smart Chain
     Solana: { slug: 'solana', name: 'Solana', ticker: 'SOL' },
+
+    Cardano: { slug: 'cardano', name: 'Cardano', ticker: 'ADA' },
+    BCH: { slug: 'bitcoin-cash', name: 'Bitcoin Cash', ticker: 'BCH' },
+    Avalanche: { slug: 'avalanche', name: 'Avalanche', ticker: 'AVAX' },
+
+    ICP: { slug: 'internet-computer', name: 'ICP', ticker: 'ICP' },
+    Polygon: { slug: 'matic-network', name: 'Polygon', ticker: 'POL' },
+
+    //DOGE: { slug: 'dogecoin', name: 'Dogecoin', ticker: 'DOGE' },
+    Arbitrum: { slug: 'arbitrum', name: 'Arbitrum', ticker: 'ARB' },
+    Optimism: { slug: 'optimism-ethereum', name: 'Optimism', ticker: 'OP' },
+    LTC: { slug: 'litecoin', name: 'Litecoin', ticker: 'LTC' },
   },
   'infrastructure',
 )
