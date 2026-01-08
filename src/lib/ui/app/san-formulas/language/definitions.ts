@@ -77,7 +77,7 @@ export function createChartVariableDocumentation(
       : escapeTag`<p>The "${metric.label}" is an asset metric with a selector <code>${metric.fullSelector}</code>. This metric was added to the current chart and is available as <code>${varName}</code> variable in formula.</p>
 <pre><code>sma(${varName}, 30)</code></pre>
 <p>You can also define this metric as a local variable.</p>
-<pre><code>x1 = asset_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector}&quot;)
+<pre><code>x1 = api_metric(&quot;${metric.apiMetricName}&quot;, &quot;${metric.selector}&quot;)
 </code></pre>`,
   )
 }
@@ -93,7 +93,7 @@ export const DEFINITIONS = [
 sma(m1, 30)
 \`\`\`
 
-You can also save the result in a local variable for later use.  
+You can also save the result in a local variable for later use.
 \`\`\`
 x1 = sma(m2, 7)
 \`\`\``,
@@ -110,7 +110,7 @@ x1 = sma(m2, 7)
 ema(m1, 30)
 \`\`\`
 
-You can also save the result in a local variable for later use.  
+You can also save the result in a local variable for later use.
 \`\`\`
 x1 = ema(m2, 7)
 \`\`\``,
@@ -122,12 +122,12 @@ x1 = ema(m2, 7)
     icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of price movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.  
+    documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of price movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.
 \`\`\`
 rsi(m1, 30)
 \`\`\`
 
-You can also save the result in a local variable for later use.  
+You can also save the result in a local variable for later use.
 \`\`\`
 x1 = rsi(m2, 7)
 \`\`\``,
@@ -266,21 +266,21 @@ cumsum(m1)
 
   {
     ...FunctionSignature(
-      'asset_metric',
+      'api_metric',
       ['api_metric: String', '"price_usd"'],
-      ['asset_slug: String', '"bitcoin"'],
+      ['selector: Selector', '{slug: "bitcoin"}'],
     ),
     icon: 'asset-small',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `Fetches a timeseries metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API. 
+    documentation: `Fetches a timeseries metric (e.g., price, volume) for a given cryptocurrency (like Bitcoin) from Sanbase API.
 \`\`\`
-asset_metric("price_usd", "bitcoin")
+api_metric("price_usd", {slug: "bitcoin"})
 \`\`\`
 
-You can also save the result in a local variable for later use.  
+You can also save the result in a local variable for later use.
 \`\`\`
-x1 = asset_metric("price_usd", "bitcoin")
+x1 = api_metric("price_usd", {slug: "bitcoin"})
 \`\`\``,
     // @RELEASE:MD-COMPILE:END
   },
@@ -290,15 +290,15 @@ x1 = asset_metric("price_usd", "bitcoin")
     icon: 'alert',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `Extracts the selector (e.g., "Bitcoin") from an existing chart metric. Useful for reusing the dynamic selector in other functions. 
+    documentation: `Extracts the selector (e.g., "Bitcoin") from an existing chart metric. Useful for reusing the dynamic selector in other functions.
 \`\`\`
 selector_from(m1)
 \`\`\`
 
-You can also save the result in a local variable for later use.  
+You can also save the result in a local variable for later use.
 \`\`\`
 m1_selector = selector_from(m1)
-x1 = asset_metric("price_usd", m1_selector)
+x1 = api_metric("price_usd", m1_selector)
 \`\`\``,
     // @RELEASE:MD-COMPILE:END
   },

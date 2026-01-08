@@ -49,9 +49,9 @@ export const PriceFormula: Story = {
         formula: {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
           name: 'Derived formula - Price SMA(SMA(30), 5)',
-          //expr: 'btc="bitcoin"\nx1 = asset_metric("price_usd", btc) \nsma(x1, 30)',
-          expr: `x1 = asset_metric("makerdao_dsr_total_supplied", "multi-collateral-dai")
-x2 = asset_metric("sky_savings_total_supplied", "usds")
+          //expr: 'btc="bitcoin"\nx1 = api_metric("price_usd", btc) \nsma(x1, 30)',
+          expr: `x1 = api_metric("makerdao_dsr_total_supplied", {slug: "multi-collateral-dai"})
+x2 = api_metric("sky_savings_total_supplied", {slug: "usds"})
 x1 + x2`,
         },
       },

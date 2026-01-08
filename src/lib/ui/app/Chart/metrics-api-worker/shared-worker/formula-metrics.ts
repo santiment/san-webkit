@@ -91,7 +91,7 @@ export function fetchFormulaMetric(
   const transformedExpression = parsedExpression.transform((node) => {
     throwImplicitOperationError(node)
 
-    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'asset_metric') {
+    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'api_metric') {
       const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
 
       const variableName = controller.getTransformationVariableName(transformationScope)
