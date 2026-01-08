@@ -54,7 +54,7 @@ export function useApiMetricDataFlow(
       return
     }
 
-    const data = msg.payload.timeseries
+    const data = msg.payload.timeseries ?? [] // NOTE: Ensuring the data is not undefined
     const formattedData = metric.transformData?.(data) || data
     metric.data.$ = formattedData
     metric.error.$ = null
