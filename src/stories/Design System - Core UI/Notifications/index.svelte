@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Button from '$ui/core/Button'
-  import { notification } from '$ui/core/Notifications'
+  import Button from '$ui/core/Button/index.js'
+  import { notification } from '$ui/core/Notifications/index.js'
   import Notification from '$ui/core/Notifications/Notification.svelte'
 </script>
 
@@ -15,11 +15,33 @@
   </a>
 {/snippet}
 
-<div class="gap-4 p-3 column">
+<div class="flex flex-wrap items-start gap-4 p-3">
   <Notification icon="info" message="Info notification"></Notification>
   <Notification icon="checkmark-circle" message="Success notification"></Notification>
   <Notification icon="warning" message="Warning notification"></Notification>
   <Notification icon="error" message="Error notification"></Notification>
+  <Notification icon="error" message="Error notification"></Notification>
+
+  <Notification
+    icon="info"
+    message="With content"
+    content="We will check your insight and publish it very soon"
+  />
+
+  <Notification icon="info" message="With snippet content" {content} />
+
+  <Notification
+    icon="info"
+    message="With content and button"
+    content="“Title of the creation” has been created successfully"
+    action={{ label: 'Open [Entity Name]', onClick: (close) => close() }}
+  />
+
+  <Notification
+    icon="info"
+    message="Long content"
+    content="There is no SanR NFT in your connected wallet. Please check that you have connected the same wallet as the one on the SanR side. If you need any help, please contact us! There is no SanR NFT in your connected wallet. Please check that you have connected the same wallet as the one on the SanR side. If you need any help, please contact us!"
+  />
 
   <Notification
     icon="checkmark-circle"
