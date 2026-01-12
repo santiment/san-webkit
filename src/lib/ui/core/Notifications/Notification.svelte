@@ -9,13 +9,15 @@
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
     message: string
     content?: string | Snippet<[{ close: () => void }]>
-    action?: { label: string; onClick: (close: () => void) => void }
+    action?: { label: string; onClick?: (close: () => void) => void; href?: string }
     class?: string
   }
 
   const { icon, message, content, action, class: className }: Props = $props()
 
   const dispatch = createEventDispatcher()
+
+  const close = () => dispatch('closeToast')
 
   const ICONS = {
     info: { class: 'fill-waterloo' },
@@ -54,7 +56,7 @@
     {#if content}
       <p class="text-base text-fiord">
         {#if typeof content === 'function'}
-          {@render content({ close: () => dispatch('closeToast') })}
+          {@render content({ close: close })}
         {:else}
           {content}
         {/if}
@@ -65,7 +67,8 @@
       <Button
         variant="fill"
         class="mt-1"
-        onclick={() => action.onClick(() => dispatch('closeToast'))}
+        href={action.href}
+        onclick={() => (action.onClick ? action.onClick(close) : close())}
       >
         {action.label}
       </Button>
@@ -77,6 +80,6 @@
     icon="close"
     iconSize={10}
     class="-ml-2 -mt-2.5 flex size-5 rounded !fill-waterloo center hover:bg-porcelain xs:size-8"
-    onclick={() => dispatch('closeToast')}
+    onclick={close}
   />
 </section>
