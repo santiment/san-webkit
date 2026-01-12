@@ -4,6 +4,7 @@
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
   type Props = {
     icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
@@ -14,6 +15,8 @@
   }
 
   const { icon, message, content, action, class: className }: Props = $props()
+
+  const { ui } = useUiCtx()
 
   const dispatch = createEventDispatcher()
 
@@ -40,8 +43,9 @@
 
 <section
   role="alert"
+  style:--active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
   class={cn(
-    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow dark:shadow-none',
+    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow-modal dark:bg-athens dark:shadow-none',
     content && !action ? 'pb-6' : 'pb-5',
     className,
   )}
@@ -51,7 +55,7 @@
   </figure>
 
   <div class="flex-1 items-start gap-2 column">
-    <h4 class="text-base font-medium text-rhino">{message}</h4>
+    <h4 class="line-clamp-2 text-base font-medium text-rhino">{message}</h4>
 
     {#if content}
       <p class="text-base text-fiord">
