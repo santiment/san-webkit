@@ -51,7 +51,7 @@ function getFormulaCacheKey(
   })
 }
 
-export function fetchFormulaMetric(
+export async function fetchFormulaMetric(
   formula: TFetchFormulaMetricMessage['request']['payload']['formula'],
   index: TFetchFormulaMetricMessage['request']['payload']['index'],
   ctx: TContext,

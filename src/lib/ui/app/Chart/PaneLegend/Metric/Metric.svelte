@@ -3,6 +3,8 @@
   import type { TSeries } from '../../ctx/series.svelte.js'
 
   import { cn } from '$ui/utils/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
+  import Tooltip from '$ui/core/Tooltip/Tooltip.svelte'
 
   import Value from './Value.svelte'
   import Controls from './Controls.svelte'
@@ -40,6 +42,24 @@
   </div>
 
   {#if metric.visible.$}
-    <Value {metric}></Value>
+    {#if metric.error.$}
+      <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
+        {#snippet children({ ref, isOpened })}
+          <Button
+            {ref}
+            variant="fill"
+            icon="error"
+            class={cn('bg-red-light-1 fill-red hover:bg-red-light-2', isOpened && 'bg-red-light-2')}
+            size="sm"
+          ></Button>
+        {/snippet}
+
+        {#snippet content()}
+          {metric.error.$}
+        {/snippet}
+      </Tooltip>
+    {:else}
+      <Value {metric}></Value>
+    {/if}
   {/if}
 </div>
