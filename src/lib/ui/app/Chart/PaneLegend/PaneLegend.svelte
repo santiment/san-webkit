@@ -39,7 +39,7 @@
               variant="border"
               icon="crown"
               iconSize="12"
-              class="border-orange fill-orange"
+              class="mt-1.5 border-orange bg-white fill-orange"
               onclick={() =>
                 chartPlanRestrictions.showDialog({ source: 'chart_pane_legend_upgrade_btn' })}
             >
