@@ -1,3 +1,10 @@
 *:not(pre *, [role='code'] *) {
   font-family: 'Proxima Nova';
 }
+
+/* TODO(vlad.k): Remove after full migration from legacy webkit
+    This line emulates default styles applied by legacy webkit lib
+  */
+:global(button) {
+  border: none;
+}
