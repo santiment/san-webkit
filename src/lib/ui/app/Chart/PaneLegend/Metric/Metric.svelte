@@ -43,6 +43,8 @@
 
   {#if metric.visible.$}
     {#if metric.error.$}
+      {@const error = metric.error.$}
+
       <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
         {#snippet children({ ref, isOpened })}
           <Button
@@ -55,7 +57,13 @@
         {/snippet}
 
         {#snippet content()}
-          {metric.error.$}
+          {#if Array.isArray(error)}
+            {#each error as item}
+              {@render errorSnippet(item)}
+            {/each}
+          {:else}
+            {@render errorSnippet(error)}
+          {/if}
         {/snippet}
       </Tooltip>
     {:else}
@@ -63,3 +71,9 @@
     {/if}
   {/if}
 </div>
+
+{#snippet errorSnippet(error: Error | string)}
+  <div>
+    {typeof error === 'string' ? error : error.message}
+  </div>
+{/snippet}

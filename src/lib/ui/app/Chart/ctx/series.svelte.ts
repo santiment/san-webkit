@@ -85,7 +85,7 @@ export function createSeries({
     data: ss<TMetricData>([]),
     visible: ss(visible),
     loading: ss(true),
-    error: ss(null),
+    error: ss<null | string | string[] | Error | Error[]>(null),
 
     aggregation: ss<TAggregation>(style === MetricStyle.CANDLES ? 'OHLC' : undefined),
 
