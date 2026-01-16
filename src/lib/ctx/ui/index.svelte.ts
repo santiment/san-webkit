@@ -16,10 +16,11 @@ const mutateUpdateUserSettings = ApiMutation(
 )
 
 export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
-  const { currentUser } = useCustomerCtx.get()
+  const customerCtx = useCustomerCtx.get()
+  const currentUser = customerCtx?.currentUser
 
   const isNightMode =
-    currentUser.$$?.settings.theme === 'nightmode' ||
+    currentUser?.$$?.settings.theme === 'nightmode' ||
     (BROWSER && (getSavedNightMode() ?? document.body.classList.contains('night-mode')))
 
   const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
@@ -41,7 +42,7 @@ export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) =
         void document.body.offsetWidth
         document.body.classList.toggle('theme-transition', false)
 
-        if (currentUser.$$) {
+        if (currentUser?.$$) {
           mutateUpdateUserSettings(Query)(isNightMode)
         }
 
