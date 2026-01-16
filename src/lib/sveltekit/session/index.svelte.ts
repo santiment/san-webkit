@@ -28,7 +28,7 @@ export function useAppSessionFlow(data: {
   })
 
   $effect(() => {
-    Object.assign(__SESSION__, { device: device.$.type })
+    Object.assign(__SESSION__, { device: device.$ })
   })
 }
 
