@@ -15,7 +15,7 @@
 
   const { ui } = useUiCtx()
 
-  const ANIMATION_DURATION = 200
+  const ANIMATION_DURATION = 500
   const opacity = new Tween(1, { duration: ANIMATION_DURATION / 2 })
 
   let checked = $derived(ui.$$.isNightMode)
