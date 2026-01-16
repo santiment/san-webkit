@@ -15,7 +15,7 @@
       class="flex justify-between pb-[53px] pt-[63px] text-base text-waterloo md:flex-wrap md:pb-10 md:pt-14 sm:flex-col"
     >
       <div class="max-w-[124px] column md:max-w-full">
-        <a href="https://santiment.net/" class="mb-4">
+        <a href="https://santiment.net/" class="mb-4" aria-label="Santiment Home">
           <Svg id="santiment" illus w={113} h={22} />
         </a>
         Behavioral analytics for the crypto market
