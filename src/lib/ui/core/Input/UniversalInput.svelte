@@ -45,7 +45,7 @@
     as,
     placeholder = '',
     icon,
-    iconSize = 12,
+    iconSize,
     disabled,
     left,
     right,
