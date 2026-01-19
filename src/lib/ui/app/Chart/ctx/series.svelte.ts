@@ -93,9 +93,12 @@ export function createSeries({
       get $() {
         // Reading signal
         paneSignal
+
         return metric.chartSeriesApi?.getPane().paneIndex() ?? pane
       },
       update$() {
+        pane = metric.chartSeriesApi?.getPane().paneIndex() ?? pane
+
         // Triggering signal update
         paneSignal = NaN
       },

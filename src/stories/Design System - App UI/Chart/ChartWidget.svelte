@@ -40,8 +40,6 @@
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
 
-  $inspect(highlighted.$)
-
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
   const Chart = viewportPriority ? ViewportChart : BaseChart
@@ -95,11 +93,13 @@
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
-                  console.log(data)
+                  // console.log(data)
                   metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
-          : null}
+          : () => {
+              metric.ui.$$.style = metric.ui.$$.style === 'line' ? 'histogram' : 'line'
+            }}
       >
         {metric.formula?.$.name || metric.label}
       </div>

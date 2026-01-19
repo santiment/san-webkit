@@ -17,6 +17,4 @@
   useApiMetricDataFlow(series, index, settings)
 </script>
 
-{#key series.ui.$$.style}
-  <RawSeries {series}></RawSeries>
-{/key}
+<RawSeries {series}></RawSeries>

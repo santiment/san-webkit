@@ -20,14 +20,30 @@
 
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx()
   const { paneIndexSeries } = usePanesTooltip()
+
+  let paneMetrics: { paneData: undefined | [number, ...TSeries[]]; element: HTMLElement }[] =
+    $state.raw([])
+
+  $effect(() => {
+    panes.$
+    paneIndexSeries.$
+
+    // Accumulate multiple pane changes
+    const timer = setTimeout(() => {
+      paneMetrics = Array.from(panes.$).map(([pane, element]) => {
+        return { paneData: paneIndexSeries.$.get(pane), element }
+      })
+    }, 30)
+
+    return () => {
+      clearTimeout(timer)
+    }
+  })
 </script>
 
-<!-- TODO: Optimize rendering for unchanged elements by keying -->
 <MetricInfoPopover>
-  {#key panes.$}
-    {#each panes.$ as [pane, element]}
-      {@const paneData = paneIndexSeries.$.get(pane)}
-
+  {#key paneMetrics}
+    {#each paneMetrics as { paneData, element }}
       {#if paneData}
         {@const [index, ...metrics] = paneData}
 

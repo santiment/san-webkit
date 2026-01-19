@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
   import type { TSeries } from '../../ctx/series.svelte.js'
+
+  import { onMount, type Snippet } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -20,6 +21,8 @@
   let { metric, label, paneControls, ...rest }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
+
+  onMount(() => () => rest.onmouseleave?.())
 </script>
 
 <div {...rest} class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">

@@ -2,7 +2,7 @@
   import type { TSeries } from '../ctx/series.svelte.js'
   import type { MaybeCtx } from '$lib/utils/index.js'
 
-  import { onMount } from 'svelte'
+  import { onMount, untrack } from 'svelte'
   import {
     BaselineSeries,
     CandlestickSeries,
@@ -40,16 +40,28 @@
       formatter: ui.$$.scaleFormatter,
     } as const)
 
-  const chartSeries = createChartSeries()
-  series.chartSeriesApi = chartSeries
+  let chartSeries = $state.raw() as ReturnType<typeof createChartSeries>
+
+  $effect.pre(() => {
+    // Listening for style change that requires series recreation
+    series.ui.$$.style
+
+    const oldSeries = untrack(() => chartSeries)
+
+    chartSeries = series.chartSeriesApi = untrack(createChartSeries)
+
+    if (oldSeries) {
+      chart.removeSeries(oldSeries)
+    }
+  })
 
   $effect.pre(() => {
     chartSeries.applyOptions({ visible: visible.$ })
   })
 
-  $effect.pre(() => {
-    chartSeries.applyOptions(getSeriesTypeOptions())
-  })
+  // $effect.pre(() => {
+  //   chartSeries.applyOptions(getSeriesTypeOptions())
+  // })
 
   $effect.pre(() => {
     const isOtherHighlighted =
@@ -91,14 +103,17 @@
       return
     }
 
-    chartSeries.setData(data.$)
+    untrack(() => chartSeries).setData(data.$)
 
     //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
-    chart.removeSeries(chartSeries)
     series.chartSeriesApi = null
+
+    highlightedMetricCtx?.onMetricLeave()
+
+    chart.removeSeries(chartSeries)
   })
 
   function createChartSeries() {
