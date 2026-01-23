@@ -55,11 +55,12 @@
       <SvgTooltip>
         {#snippet value()}
           <div class="flex flex-col">
-            {#each areas as { title, data, formatter = defaultFormatter }}
+            {#each areas as { title, data, color, formatter = defaultFormatter }}
               {@const currentValue = getValueAt(data, offset, width)}
               {@const valueFormatted = formatter(currentValue)}
 
-              <div class="flex gap-1">
+              <div style:--color="var(--{color})" class="flex items-center gap-1">
+                <div class="h-4 w-0.5 rounded bg-[var(--color)]"></div>
                 <span>{valueFormatted}</span>
                 <span class="text-waterloo">{title}</span>
               </div>
