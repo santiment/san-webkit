@@ -133,6 +133,7 @@ const TradFinanceItem = (slug: string, name: string, ticker: string) =>
 export const FIATS = [
   TradFinanceItem('s-and-p-500', 'S&P 500', 'SPX'),
   TradFinanceItem('gold', 'Gold', 'Gold'),
+  TradFinanceItem('silver', 'Silver', 'Silver'),
   TradFinanceItem('crude-oil', 'Crude Oil', 'CrudeOil'),
 ]
 
