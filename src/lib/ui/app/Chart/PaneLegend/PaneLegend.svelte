@@ -3,8 +3,9 @@
   import type { TSeries } from '../ctx/series.svelte.js'
 
   import Button from '$ui/core/Button/index.js'
+  import { cn } from '$ui/utils/index.js'
 
-  import { usePanesTooltip } from './ctx.svelte'
+  import { usePaneLegendCompactCtx, usePanesTooltip } from './ctx.svelte'
   import MetricInfoPopover from './Metric/InfoPopover.svelte'
   import { useChartPlanRestrictionsCtx } from '../RestrictedDataDialog/index.js'
   import Pane from './Pane.svelte'
@@ -23,6 +24,8 @@
 
   let paneMetrics: { paneData: undefined | [number, ...TSeries[]]; element: HTMLElement }[] =
     $state.raw([])
+
+  const { isHiddenMetricsDisplayed } = usePaneLegendCompactCtx()
 
   $effect(() => {
     panes.$
@@ -48,7 +51,11 @@
         {@const [index, ...metrics] = paneData}
 
         <Pane class={className} {element}>
-          {@render children({ metrics, index })}
+          {@const legendMetrics = isHiddenMetricsDisplayed.$
+            ? metrics
+            : metrics.filter((metric) => metric.visible.$)}
+
+          {@render children({ metrics: legendMetrics, index })}
 
           {#if index === 0 && Object.keys(chartPlanRestrictions.$).length}
             <Button
@@ -62,6 +69,19 @@
               Upgrade to see all Data!
             </Button>
           {/if}
+
+          <Button
+            variant="border"
+            icon="arrow-down"
+            size="sm"
+            class={cn('bg-white', isHiddenMetricsDisplayed.$ && '[&_svg]:rotate-180')}
+            iconSize="10"
+            style="--expl-left:0"
+            explanation="{isHiddenMetricsDisplayed.$
+              ? 'Hide'
+              : `Show ${metrics.length - legendMetrics.length}`} hidden metrics"
+            onclick={() => (isHiddenMetricsDisplayed.$ = !isHiddenMetricsDisplayed.$)}
+          ></Button>
         </Pane>
       {/if}
     {/each}
