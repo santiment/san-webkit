@@ -1,5 +1,7 @@
 // NOTE: This is .js file since it will be used during build process, which doesn't support TS
 
+import { TODO_DELETE_LEGACY_DESCRIPTION } from './TODO_DELETE_LEGACY_DESCRIPTION.js'
+
 /**
  * @typedef {{
   name: string
@@ -38,6 +40,9 @@ export function mapAccessRestrictionsData(gql) {
         restrictedFrom: item.rf,
         restrictedTo: item.rt,
         docs: {
+          // TODO: Remove after moving to Metrics Registry description
+          // @ts-ignore
+          description: TODO_DELETE_LEGACY_DESCRIPTION[item.n],
           academyLinks:
             item.d?.map((item) => item.l.replace('https://academy.santiment.net', '')) || [],
         },
