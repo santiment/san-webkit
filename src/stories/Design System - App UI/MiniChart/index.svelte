@@ -16,7 +16,7 @@
       data={volumes}
       {height}
       {width}
-      style="--color: var(--cyan)"
+      style="--line-color: var(--cyan)"
       tooltipSyncKey="sync-key-1"
       tooltipVisible
     />
@@ -25,7 +25,7 @@
       data={prices}
       {height}
       {width}
-      style="--color: var(--red)"
+      style="--line-color: var(--red)"
       tooltipSyncKey="sync-key-1"
       formatTooltipValue={usdFormatter}
       tooltipVisible
@@ -37,7 +37,7 @@
       data={volumes}
       {height}
       {width}
-      style="--color: var(--cyan)"
+      style="--line-color: var(--cyan)"
       tooltipSyncKey="sync-key-2"
       tooltipVisible
     />
@@ -46,7 +46,7 @@
       data={prices}
       {height}
       {width}
-      style="--color: var(--red)"
+      style="--line-color: var(--red)"
       tooltipSyncKey="sync-key-2"
       tooltipVisible
       formatTooltipValue={usdFormatter}
@@ -54,8 +54,20 @@
   </div>
 
   <div class="flex gap-8">
-    <InteractiveArea data={volumes} {height} {width} style="--color: var(--green)" tooltipVisible />
-    <InteractiveArea data={volumes} {height} {width} style="--color: var(--green)" tooltipVisible />
+    <InteractiveArea
+      data={volumes}
+      {height}
+      {width}
+      style="--line-color: var(--green)"
+      tooltipVisible
+    />
+    <InteractiveArea
+      data={volumes}
+      {height}
+      {width}
+      style="--line-color: var(--green)"
+      tooltipVisible
+    />
   </div>
 
   <div class="flex gap-8">

@@ -55,7 +55,7 @@
 
     <defs>
       <linearGradient id="{id}-area" x1="0" x2="0" y1="0" y2="2">
-        <stop offset="0%" stop-color="var(--color)" stop-opacity="0.3" />
+        <stop offset="0%" stop-color="var(--line-color)" stop-opacity="0.3" />
         <stop offset="60%" stop-color="var(--white)" stop-opacity="0" />
       </linearGradient>
     </defs>

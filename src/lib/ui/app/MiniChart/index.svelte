@@ -74,7 +74,7 @@
     {onmouseleave}
   >
     <g width={graphWidth} height={graphHeight} transform="translate({margin}, {margin})">
-      <polyline class="fill-none stroke-[var(--color)] stroke-2" points={linePoints} />
+      <polyline class="fill-none stroke-[var(--line-color)] stroke-2" points={linePoints} />
       {@render children?.({ points, linePoints })}
     </g>
   </svg>
