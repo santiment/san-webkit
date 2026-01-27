@@ -34,8 +34,8 @@
         <SvgTooltip {valueFormatted}>
           {#snippet value()}
             <div class="flex items-center gap-1">
-              <div class="h-4 w-0.5 rounded bg-[var(--color)]"></div>
-              <span>{valueFormatted}</span>
+              <div class="h-4 w-0.5 rounded bg-[var(--line-color)]"></div>
+              <span class="text-fiord">{valueFormatted}</span>
             </div>
           {/snippet}
         </SvgTooltip>

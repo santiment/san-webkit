@@ -36,7 +36,13 @@
   {#snippet children({ offset })}
     {#each areas as { data, color }, i}
       <div class="absolute">
-        <Area {data} {height} {width} style="--color: var(--{color}); opacity: 0.9" id="{id}-{i}" />
+        <Area
+          {data}
+          {height}
+          {width}
+          style="--line-color: var(--{color}); opacity: 0.9"
+          id="{id}-{i}"
+        />
       </div>
     {/each}
 
@@ -59,9 +65,9 @@
               {@const currentValue = getValueAt(data, offset, width)}
               {@const valueFormatted = formatter(currentValue)}
 
-              <div style:--color="var(--{color})" class="flex items-center gap-1">
-                <div class="h-4 w-0.5 rounded bg-[var(--color)]"></div>
-                <span>{valueFormatted}</span>
+              <div style:--line-color="var(--{color})" class="flex items-center gap-1">
+                <div class="h-4 w-0.5 rounded bg-[var(--line-color)]"></div>
+                <span class="text-fiord">{valueFormatted}</span>
                 <span class="text-waterloo">{title}</span>
               </div>
             {/each}
