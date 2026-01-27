@@ -100,7 +100,7 @@
 
 <Button
   class={cn(
-    'group gap-1.5 px-[9px] text-fiord',
+    'gap-1.5 px-[9px] text-fiord',
     isActive && 'border-casper bg-athens text-rhino',
     disabled && 'border-porcelain text-mystic',
     className,
@@ -112,7 +112,11 @@
   {disabled}
   circle
 >
-  <Svg id="rocket-active" h="20" class="group-hover:animate-shake group-disabled:animate-none" />
+  <Svg
+    id="rocket-active"
+    h="20"
+    class="group-hover/button:animate-shake group-disabled/button:animate-none"
+  />
 
   <span
     style="--digits:{totalVotes.toString().length}"
