@@ -87,7 +87,7 @@ function applyTransactionCosts(
   transactionCost: number,
 ): Timeseries {
   // Calculate position changes (absolute difference between consecutive signals)
-  const positionChanges = MathOperators.absolute(MathModifiers.diff(signalSeries, 1))
+  const positionChanges = MathOperators.absolute(MathModifiers.diff(signalSeries, -1))
 
   // Transaction cost factor = (1 - cost)^|position_change|
   // This reduces returns when positions change (trades occur)

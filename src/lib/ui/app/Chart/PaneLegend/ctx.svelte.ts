@@ -38,6 +38,8 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
   })
 
   function handleCrosshairMove(param: MouseEventParams) {
+    // param.logical < 0 ? 'left' : 'right'
+
     if (param.time) {
       hoverPoint = {
         datetime: (param.time as number) * 1000,

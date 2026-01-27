@@ -28,6 +28,9 @@ const diff = math.typed('diff', {
       return timeseries
     }
 
+    // NOTE: minus => left diff (prev point), plus => right diff (next point)
+    period = -period
+
     const diffedValues = values.map((value, i) => {
       const target = values[i - period]
       return Number.isFinite(target) ? value - target : undefined
