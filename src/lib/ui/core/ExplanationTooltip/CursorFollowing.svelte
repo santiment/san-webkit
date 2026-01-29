@@ -1,94 +1,110 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
+  import type { Action } from 'svelte/action'
+
+  import { fade } from 'svelte/transition'
+  import { computePosition, offset as offsetMiddleware, flip, shift } from '@floating-ui/dom'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
-  import { cn, flyAndScaleOutTransition } from '$ui/utils/index.js'
-
-  import Content from './Content.svelte'
+  import { cn } from '$ui/utils/index.js'
 
   type Props = {
-    children: Snippet
+    children: Snippet<[{ tooltipAction: Action }]>
     explanation: string
     class?: string
     offset?: number
   }
 
-  const { device } = useDeviceCtx()
-
   let { children, explanation, class: className, offset = 15 }: Props = $props()
 
-  let cursorX = $state(0)
-  let cursorY = $state(0)
-  let isHovered = $state(false)
-
-  let windowWidth = $state(0)
-  let windowHeight = $state(0)
-
-  let tooltipWidth = $state(0)
-  let tooltipHeight = $state(0)
-
+  const { device } = useDeviceCtx()
   const isDesktop = $derived(device.$.isDesktop)
-  const tooltipPosition = $derived.by(() => {
-    let targetX = cursorX + offset
-    let targetY = cursorY + offset
 
-    const isOverflowingRight = targetX + tooltipWidth > windowWidth
-    if (isOverflowingRight) {
-      targetX = cursorX - tooltipWidth - offset
-    }
+  let x = $state(0)
+  let y = $state(0)
+  let isHovered = $state(false)
+  let tooltipElement = $state<HTMLElement | null>(null)
 
-    const isOverflowingBottom = targetY + tooltipHeight > windowHeight
-    if (isOverflowingBottom) {
-      targetY = cursorY - tooltipHeight - offset
-    }
+  const mouse = { x: 0, y: 0 }
 
-    return {
-      x: Math.max(0, targetX),
-      y: Math.max(0, targetY),
-    }
-  })
-
-  function handleMouseEnter(e: MouseEvent) {
-    isHovered = true
-    cursorX = e.clientX
-    cursorY = e.clientY
+  const virtualElement = {
+    getBoundingClientRect: () => ({
+      width: 0,
+      height: 0,
+      x: mouse.x,
+      y: mouse.y,
+      top: mouse.y,
+      left: mouse.x,
+      right: mouse.x,
+      bottom: mouse.y,
+    }),
   }
 
-  function handleMouseMove(e: MouseEvent) {
-    cursorX = e.clientX
-    cursorY = e.clientY
+  async function update() {
+    if (!tooltipElement || !isHovered) return
+
+    const position = await computePosition(virtualElement, tooltipElement, {
+      placement: 'bottom-start',
+      middleware: [
+        offsetMiddleware({ mainAxis: offset, crossAxis: offset }),
+        flip(),
+        shift({ padding: 10 }),
+      ],
+    })
+
+    if (isHovered) {
+      x = position.x
+      y = position.y
+    }
+  }
+
+  const tooltipAction: Action = (node) => {
+    $effect(() => {
+      node.setAttribute('aria-label', explanation)
+    })
+
+    const onMove = (e: MouseEvent) => {
+      mouse.x = e.clientX
+      mouse.y = e.clientY
+
+      if (e.type === 'mouseenter') {
+        x = mouse.x + offset
+        y = mouse.y + offset
+
+        isHovered = true
+      }
+
+      update()
+    }
+
+    const onLeave = () => (isHovered = false)
+
+    node.addEventListener('mouseenter', onMove)
+    node.addEventListener('mousemove', onMove)
+    node.addEventListener('mouseleave', onLeave)
+
+    return {
+      destroy() {
+        node.removeEventListener('mouseenter', onMove)
+        node.removeEventListener('mousemove', onMove)
+        node.removeEventListener('mouseleave', onLeave)
+      },
+    }
   }
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
+{@render children({ tooltipAction })}
 
-<div
-  role="group"
-  class={cn('inline-block cursor-default', className)}
-  onmousemove={handleMouseMove}
-  onmouseenter={handleMouseEnter}
-  onmouseleave={() => (isHovered = false)}
->
-  {@render children()}
-
-  <div class="sr-only">{explanation}</div>
-
-  {#if isHovered && isDesktop}
-    <div
-      bind:clientWidth={tooltipWidth}
-      bind:clientHeight={tooltipHeight}
-      out:flyAndScaleOutTransition
-      data-state="open"
-      data-side="bottom"
-      class={cn(
-        'pointer-events-none fixed z-[9999] will-change-contents',
-        'fly-and-scale-animation animated drop-shadow-dropdown',
-      )}
-      style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px"
-    >
-      <Content aria-hidden="true">
-        {explanation}
-      </Content>
-    </div>
-  {/if}
-</div>
+{#if isHovered && isDesktop}
+  <div
+    bind:this={tooltipElement}
+    transition:fade={{ duration: 200 }}
+    aria-hidden="true"
+    class={cn('pointer-events-none fixed left-0 top-0 z-10 will-change-transform')}
+    style:transform="translate3d({Math.round(x)}px, {Math.round(y)}px, 0)"
+  >
+    <article class={cn('rounded bg-fiord px-3 py-1.5 text-xs text-white', className)}>
+      {explanation}
+    </article>
+  </div>
+{/if}

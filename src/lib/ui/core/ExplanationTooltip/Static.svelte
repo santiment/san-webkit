@@ -3,8 +3,7 @@
   import type { ComponentProps, Snippet } from 'svelte'
 
   import Tooltip from '$lib/ui/core/Tooltip/index.js'
-
-  import Content from './Content.svelte'
+  import { cn } from '$ui/utils/index.js'
 
   type TProps = {
     contentClass?: string
@@ -18,9 +17,9 @@
 {#if explanation}
   <Tooltip position="top" children={trigger} noStyles disableHoverableContent {...rest}>
     {#snippet content()}
-      <Content class={contentClass}>
+      <article class={cn('rounded bg-fiord px-3 py-1.5 text-xs text-white', contentClass)}>
         {explanation}
-      </Content>
+      </article>
     {/snippet}
   </Tooltip>
 {:else}
