@@ -130,7 +130,7 @@ export default {
 
         blue: '#5275FF',
         'blue-hover': '#375BE9',
-        'blue-light-1': { day: '#ecf0fe', night: '#1d223e' },
+        'blue-light-1': { day: '#ecf0fe', night: '#21284b' },
         'blue-light-2': { day: '#dae0fd', night: '#273160' },
         'blue-light-3': { day: '#a9baff', night: '#354895' },
 
