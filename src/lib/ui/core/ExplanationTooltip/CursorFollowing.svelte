@@ -41,7 +41,7 @@
   }
 
   async function update() {
-    if (!tooltipElement || !isHovered) return
+    if (!tooltipElement) return
 
     const position = await computePosition(virtualElement, tooltipElement, {
       placement: 'bottom-start',
@@ -63,31 +63,44 @@
       node.setAttribute('aria-label', explanation)
     })
 
-    const onMove = (e: MouseEvent) => {
+    const updateMouse = (e: MouseEvent) => {
       mouse.x = e.clientX
       mouse.y = e.clientY
+    }
 
-      if (e.type === 'mouseenter') {
-        x = mouse.x + offset
-        y = mouse.y + offset
+    const onMouseMove = (e: MouseEvent) => {
+      updateMouse(e)
+      update()
+    }
 
-        isHovered = true
-      }
+    const onMouseLeave = () => {
+      isHovered = false
+      node.removeEventListener('mousemove', onMouseMove)
+    }
+
+    const onMouseEnter = (e: MouseEvent) => {
+      if (!isDesktop) return
+
+      updateMouse(e)
+
+      x = mouse.x + offset
+      y = mouse.y + offset
+
+      isHovered = true
+
+      node.addEventListener('mousemove', onMouseMove)
+      node.addEventListener('mouseleave', onMouseLeave, { once: true })
 
       update()
     }
 
-    const onLeave = () => (isHovered = false)
-
-    node.addEventListener('mouseenter', onMove)
-    node.addEventListener('mousemove', onMove)
-    node.addEventListener('mouseleave', onLeave)
+    node.addEventListener('mouseenter', onMouseEnter)
 
     return {
       destroy() {
-        node.removeEventListener('mouseenter', onMove)
-        node.removeEventListener('mousemove', onMove)
-        node.removeEventListener('mouseleave', onLeave)
+        node.removeEventListener('mouseenter', onMouseEnter)
+        node.removeEventListener('mousemove', onMouseMove)
+        node.removeEventListener('mouseleave', onMouseLeave)
       },
     }
   }
