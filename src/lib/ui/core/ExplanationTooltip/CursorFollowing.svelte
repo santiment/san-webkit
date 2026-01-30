@@ -63,22 +63,22 @@
       node.setAttribute('aria-label', explanation)
     })
 
-    const updateMouse = (e: MouseEvent) => {
+    function updateMouse(e: MouseEvent) {
       mouse.x = e.clientX
       mouse.y = e.clientY
     }
 
-    const onMouseMove = (e: MouseEvent) => {
+    function onMouseMove(e: MouseEvent) {
       updateMouse(e)
       update()
     }
 
-    const onMouseLeave = () => {
+    function onMouseLeave() {
       isHovered = false
       node.removeEventListener('mousemove', onMouseMove)
     }
 
-    const onMouseEnter = (e: MouseEvent) => {
+    function onMouseEnter(e: MouseEvent) {
       if (!isDesktop) return
 
       updateMouse(e)
