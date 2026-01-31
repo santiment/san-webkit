@@ -6,5 +6,5 @@ export declare const queryCurrentUser: () => Promise<CurrentUser>;
 type EventData = {
     [key: string]: string | number;
 };
-export declare const trackSanEvent: (event_name: string, created_at: Date, metadata: EventData) => Promise<SAN.API.QueryBase>;
+export declare const trackSanEvent: (event_name: string, created_at: Date, metadata: EventData) => Promise<void | SAN.API.QueryBase | null>;
 export {};

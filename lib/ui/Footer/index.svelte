@@ -27,7 +27,7 @@
       <div class="forms">
         <div class="digest">
           <h4 class="txt-m mrg-m mrg--b">Subscribe to the weekly Digest!</h4>
-          <DigestForm class="mrg-xl mrg--b s-bdkxwl" label="Subscribe" />
+          <DigestForm class="mrg-xl mrg--b s-1cotb04" label="Subscribe" />
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@ footer {
   --max-width: 100%;
 }
 
-:global(.s-bdkxwl) {
+:global(.s-1cotb04) {
   width: 386px;
 }
 
@@ -97,7 +97,7 @@ footer {
 :global(body.phone) .top, :global(body.phone-xs) .top {
   flex-direction: column;
 }
-:global(body.phone) :global(.s-bdkxwl), :global(body.phone-xs) :global(.s-bdkxwl) {
+:global(body.phone) :global(.s-1cotb04), :global(body.phone-xs) :global(.s-1cotb04) {
   margin-bottom: 40px;
 }
 
@@ -121,10 +121,10 @@ footer {
   grid-template-rows: repeat(5, 1fr);
   margin: 0;
 }
-:global(body.desktop) :global(.s-bdkxwl) {
+:global(body.desktop) :global(.s-1cotb04) {
   font: var(--body-3);
 }
 
-:global(body:not(.desktop)) :global(.s-bdkxwl) {
+:global(body:not(.desktop)) :global(.s-1cotb04) {
   width: auto;
 }</style>

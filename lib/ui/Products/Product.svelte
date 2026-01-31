@@ -25,7 +25,7 @@ const large = !isCompact;
       <Svg illus id="products/{id}" {w} {h} />
     </div>
   {:else}
-    <Svg id="pointer" w="14" h="9" class="pointer-anKqdv" />
+    <Svg id="pointer" w="14" h="9" class="pointer-1tn64J" />
   {/if}
 
   <div>
@@ -87,11 +87,11 @@ const large = !isCompact;
   --black: var(--accent);
   fill: var(--accent);
 }
-.compact:hover :global(.pointer-anKqdv) {
+.compact:hover :global(.pointer-1tn64J) {
   display: block;
 }
 
-:global(.pointer-anKqdv) {
+:global(.pointer-1tn64J) {
   position: absolute;
   top: 9px;
   right: 0;

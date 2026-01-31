@@ -1,6 +1,6 @@
 <script context="module">export const CookiesStyle = {
-    API: 'api-zFN3bX',
-    SHEETS: 'sheets-zWcPi3',
+    API: 'api-Rd_YId',
+    SHEETS: 'sheets-mHRNeo',
 };
 </script>
 
@@ -37,7 +37,7 @@ onMount(() => {
 
 {#if isVisible}
   <div class="cookies border box {className} {style}">
-    <Svg illus id="cookies" class="pic-111qqB" />
+    <Svg illus id="cookies" class="pic-NQxnzk" />
     <h2 class="body-2 mrg-s txt-m mrg--b">We are using cookies to improve your experience!</h2>
     <p class="mrg-xl mrg--b c-waterloo">
       By clicking “Allow all”, you agree to use of all cookies. Visit our
@@ -74,12 +74,12 @@ onMount(() => {
   text-align: center;
 }
 
-:global(.api-zFN3bX) {
+:global(.api-Rd_YId) {
   --fill: #dae0fd;
   --shadow: #5275ff;
 }
 
-:global(.sheets-zWcPi3) {
+:global(.sheets-mHRNeo) {
   --fill: #b0ebdb;
   --shadow: #21b074;
 }
@@ -88,7 +88,7 @@ a:hover {
   color: var(--accent-hover, var(--green-hover));
 }
 
-:global(.pic-111qqB) {
+:global(.pic-NQxnzk) {
   width: 102px;
   height: 128px;
   transform: rotate(270deg);
@@ -102,7 +102,7 @@ a:hover {
   bottom: 20px;
   text-align: left;
 }
-:global(.desktop) :global(.pic-111qqB) {
+:global(.desktop) :global(.pic-NQxnzk) {
   transform: initial;
   position: absolute;
   left: 24px;

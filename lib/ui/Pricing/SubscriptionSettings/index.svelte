@@ -74,7 +74,7 @@ function onCheckNftClick() {
 <section id="subscription" class="border {className}">
   <h4 class="caption txt-b c-waterloo">Subscription</h4>
 
-  <Setting class="column subscriptions-bO7rd8">
+  <Setting class="column subscriptions-Bpi7F6">
     <plans-section>
       <UserPlanCard
         {plan}
@@ -95,7 +95,7 @@ function onCheckNftClick() {
   </Setting>
 
   {#if subscription && !isCanceled && !isFree}
-    <Setting class="setting-rMlnqS justify">
+    <Setting class="setting-GaFRwY justify">
       <div>
         Cancel subscription
         <div class="description c-waterloo">
@@ -111,7 +111,7 @@ function onCheckNftClick() {
     </Setting>
   {/if}
 
-  <Setting class="setting-rMlnqS justify">
+  <Setting class="setting-GaFRwY justify">
     <div>
       SanR NFT
       <div class="description c-waterloo sanr-description">
@@ -131,7 +131,7 @@ function onCheckNftClick() {
     </button>
   </Setting>
 
-  <Setting class="setting-rMlnqS justify">
+  <Setting class="setting-GaFRwY justify">
     <div>
       Payment method
 
@@ -160,7 +160,7 @@ function onCheckNftClick() {
     </div>
   </Setting>
 
-  <Setting class="setting-rMlnqS justify">
+  <Setting class="setting-GaFRwY justify">
     <div>
       Billing history
 
@@ -223,7 +223,7 @@ h4 {
   fill: var(--waterloo);
 }
 
-:global(.subscriptions-bO7rd8) {
+:global(.subscriptions-Bpi7F6) {
   gap: 28px;
 }
 
@@ -249,8 +249,8 @@ plans-section {
 :global(.phone-xs) .btn-2 {
   --v-padding: 7px;
 }
-:global(.phone) :global(.setting-rMlnqS),
-:global(.phone-xs) :global(.setting-rMlnqS) {
+:global(.phone) :global(.setting-GaFRwY),
+:global(.phone-xs) :global(.setting-GaFRwY) {
   flex-direction: column;
   align-items: flex-start;
 }
@@ -271,9 +271,9 @@ plans-section {
   color: var(--fiord);
 }
 
-:global(.phone) :global(.subscriptions-bO7rd8),
-:global(.tablet) :global(.subscriptions-bO7rd8),
-:global(.phone-xs) :global(.subscriptions-bO7rd8) {
+:global(.phone) :global(.subscriptions-Bpi7F6),
+:global(.tablet) :global(.subscriptions-Bpi7F6),
+:global(.phone-xs) :global(.subscriptions-Bpi7F6) {
   flex-direction: column;
 }
 :global(.phone) plans-section,

@@ -75,8 +75,8 @@ function mount(parent) {
   style="flex-direction: row-reverse;"
   {onTriggerClick}
 >
-  {@const classes = `btn-2 row v-center trigger-M8pd6W ${
-    tooltip ? 'active-j76EiB' : ''
+  {@const classes = `btn-2 row v-center trigger-T1x6ht ${
+    tooltip ? 'active-NFysDq' : ''
   } ${className}`}
 
   <slot {trigger} isOpened={!!tooltip} {classes}>
@@ -104,7 +104,7 @@ function mount(parent) {
   }
 }
 */
-:global(.trigger-M8pd6W) {
+:global(.trigger-T1x6ht) {
   color: var(--black) !important;
   --fill: var(--waterloo);
   --bg: var(--white);
@@ -112,7 +112,7 @@ function mount(parent) {
   --fill-hover: var(--green);
 }
 
-:global(.active-j76EiB) {
+:global(.active-NFysDq) {
   --border: var(--green);
   --fill: var(--green);
 }

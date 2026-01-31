@@ -11,7 +11,7 @@
 <Tooltip
   isOpened={!!text}
   isEnabled={false}
-  class="caption c-black tooltip-hPZqLC"
+  class="caption c-black tooltip-b8DEvX"
   {offsetY}
   {activeClass}
 >
@@ -24,7 +24,7 @@
 </Tooltip>
 
 <style>
-  :global(.tooltip-hPZqLC) {
+  :global(.tooltip-b8DEvX) {
     padding: 6px 8px;
     fill: var(--red);
   }

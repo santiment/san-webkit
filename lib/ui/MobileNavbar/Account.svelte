@@ -20,7 +20,7 @@ function getFullLink(link, slug = '') {
 
     <Profile
       {user}
-      class="txt-m relative s-hekjz0"
+      class="txt-m relative s-qfn0jb"
       feature="profile"
       source="mobile-nav-menu"
       placeholderSize={24}
@@ -53,7 +53,7 @@ function getFullLink(link, slug = '') {
 </section>
 
 <style>
-  :global(.s-hekjz0) {
+  :global(.s-qfn0jb) {
     --img-size: 48px;
   }
 

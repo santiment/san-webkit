@@ -10,7 +10,7 @@
   on:click={() => (isShowingMore = !isShowingMore)}
 >
   Show {isShowingMore ? 'less' : 'more'} features
-  <Svg id="arrow-down" w="10" h="5.5" class="arrow-bg2YzT mrg-m mrg--l" />
+  <Svg id="arrow-down" w="10" h="5.5" class="arrow-IL10Oa mrg-m mrg--l" />
 </button>
 
 <style >/**
@@ -39,6 +39,6 @@ button {
   --rotate: rotate(180deg);
 }
 
-:global(.arrow-bg2YzT) {
+:global(.arrow-IL10Oa) {
   transform: var(--rotate, rotate(0deg));
 }</style>

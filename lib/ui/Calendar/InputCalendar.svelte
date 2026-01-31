@@ -183,7 +183,7 @@ function formatValue(dates) {
 
 <PresetCalendar {...$$restProps} {date} {onDateSelect} bind:calendar let:trigger let:classes>
   <label use:trigger class="relative {classes}">
-    <Svg class="s-xgxo4k" id="calendar" w="16" />
+    <Svg class="s-9q9m4v" id="calendar" w="16" />
 
     <input
       bind:this={inputNode}
@@ -211,7 +211,7 @@ function formatValue(dates) {
     padding-left: 34px;
   }
 
-  :global(.s-xgxo4k) {
+  :global(.s-9q9m4v) {
     position: absolute;
     pointer-events: none;
     left: 11px;
