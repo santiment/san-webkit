@@ -74,7 +74,7 @@ export const track: { event: TTrackEventFn } = {
         action,
         new Date(date),
         normalizeData({ event_category: category, event_label: label, ...rest }),
-      )
+      ).catch(() => {})
     }
   },
 }
