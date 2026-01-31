@@ -1,6 +1,6 @@
 declare namespace SAN {
   type Author = {
-    id: number
+    id: string
     username?: string | null
     email?: string | null
     avatarUrl?: string | null

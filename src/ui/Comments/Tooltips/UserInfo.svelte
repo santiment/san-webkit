@@ -16,9 +16,10 @@
 <script lang="ts">
   import type { CreationType } from '@/ui/Profile/types'
   import Info from '@/ui/Profile/Info.svelte'
+  import { ComponentProps } from 'svelte'
 
   export let id: number
-  export let currentUser
+  export let currentUser: ComponentProps<Info>['currentUser']
   export let type: CreationType
 
   let user = null
