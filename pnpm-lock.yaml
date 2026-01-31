@@ -67,6 +67,9 @@ devDependencies:
   '@eslint/js':
     specifier: ^9.25.1
     version: 9.27.0
+  '@floating-ui/dom':
+    specifier: ^1.5.1
+    version: 1.6.12
   '@melt-ui/svelte':
     specifier: ^0.86.0
     version: 0.86.0(svelte@5.35.4)
