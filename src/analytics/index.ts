@@ -70,7 +70,7 @@ const event: SendEvent = isTrackingEnabled
             event_label: label,
             ...rest,
           }),
-        )
+        ).catch(() => {})
       }
 
       if (BROWSER) {
