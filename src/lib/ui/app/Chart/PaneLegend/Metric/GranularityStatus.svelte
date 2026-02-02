@@ -7,9 +7,7 @@
   let { metric }: TProps = $props()
 </script>
 
-{#if metric.loading.$}
-  <div class="loader ml-2"></div>
-{:else}
+{#if !metric.loading.$}
   {@const interval = calculateDataInterval(metric.data.$)}
 
   {#if interval}
@@ -22,25 +20,3 @@
     </span>
   {/if}
 {/if}
-
-<style>
-  .loader {
-    width: 18px;
-    padding: 4px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--mystic);
-    --_mask: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
-    -webkit-mask: var(--_mask);
-    mask: var(--_mask);
-    -webkit-mask-composite: source-out;
-    mask-composite: subtract;
-    animation: spin 1s infinite linear;
-  }
-
-  @keyframes spin {
-    to {
-      transform: rotate(1turn);
-    }
-  }
-</style>

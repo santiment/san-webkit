@@ -45,8 +45,10 @@
   </div>
 
   {#if metric.visible.$}
-    {#if metric.error.$}
-      {@const error = metric.error.$}
+    {#if metric.loading.$}
+      <div class="loader"></div>
+    {:else if metric.error.$ || metric.data.$.length === 0}
+      {@const error = metric.error.$ || 'Data is not available'}
 
       <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
         {#snippet children({ ref, isOpened })}
@@ -80,3 +82,25 @@
     {typeof error === 'string' ? error : error.message}
   </div>
 {/snippet}
+
+<style>
+  .loader {
+    width: 18px;
+    padding: 4px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--mystic);
+    --_mask: conic-gradient(#0000 10%, #000), linear-gradient(#000 0 0) content-box;
+    -webkit-mask: var(--_mask);
+    mask: var(--_mask);
+    -webkit-mask-composite: source-out;
+    mask-composite: subtract;
+    animation: spin 1s infinite linear;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+</style>
