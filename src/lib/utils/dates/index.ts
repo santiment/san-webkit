@@ -222,6 +222,32 @@ export function parseDate(date: string, options?: { utc?: boolean }) {
   return new Date(date)
 }
 
+export function formatTimestampToRangeString(
+  timestamp: number,
+): `${number}${'m' | 'h' | 'd' | 'y'}` | undefined {
+  let range = timestamp / ONE_MINUTE_IN_MS
+
+  if (!range || !Number.isFinite(range)) {
+    return undefined
+  }
+
+  if (range < 60) {
+    return `${range}m`
+  }
+
+  range /= 60
+  if (range < 24) {
+    return `${range}h`
+  }
+
+  range /= 24
+  if (range < 365) {
+    return `${range}d`
+  }
+
+  return '1y'
+}
+
 export const parseAsStartEndDate = (date: string, options: { dayStart: boolean; utc?: boolean }) =>
   (options.dayStart ? setDayStart : setDayEnd)(parseDate(date), options)
 

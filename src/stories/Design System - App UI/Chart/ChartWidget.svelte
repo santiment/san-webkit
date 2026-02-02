@@ -25,7 +25,10 @@
     TimeZoneSelector,
     downloadChartAsJpeg,
   } from '$ui/app/Chart/index.js'
-  import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
+  import PaneLegend, {
+    PaneMetric,
+    PaneMetricGranularityStatus,
+  } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import DrawingTools from './DrawingTools.svelte'
@@ -145,6 +148,8 @@
           >
             {#snippet label()}
               {metric.formula?.$.name || metric.label}
+
+              <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
             {/snippet}
           </PaneMetric>
         {/each}

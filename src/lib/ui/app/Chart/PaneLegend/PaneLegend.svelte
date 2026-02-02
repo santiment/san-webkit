@@ -74,7 +74,7 @@
             variant="border"
             icon="arrow-down"
             size="sm"
-            class={cn('bg-white', isHiddenMetricsDisplayed.$ && '[&_svg]:rotate-180')}
+            class={cn('ml-1.5 bg-white', isHiddenMetricsDisplayed.$ && '[&_svg]:rotate-180')}
             iconSize="10"
             style="--expl-left:0"
             explanation="{isHiddenMetricsDisplayed.$
