@@ -21,7 +21,7 @@ import { TODO_DELETE_LEGACY_DESCRIPTION } from './TODO_DELETE_LEGACY_DESCRIPTION
  * rf: null | string
  * rt: null | string
  * d: { l: string }[]
- * av: { v: string }[]
+ * av?: { v: string }[]
  * }[]}} gql - GQL data response
  *
  * @returns {Record<string, undefined | {
@@ -42,7 +42,7 @@ export function mapAccessRestrictionsData(gql) {
         minInterval: item.mi,
         restrictedFrom: item.rf,
         restrictedTo: item.rt,
-        availableVersions: item.av.map((item) => item.v),
+        availableVersions: item.av?.map((item) => item.v) || [],
         docs: {
           // TODO: Remove after moving to Metrics Registry description
           // @ts-ignore
