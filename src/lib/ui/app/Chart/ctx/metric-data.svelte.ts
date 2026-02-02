@@ -82,6 +82,7 @@ export function useApiMetricDataFlow(
       interval,
       includeIncompleteData,
       aggregation: metric.aggregation.$,
+      version: metric.version.$,
     }
 
     const payload = { priority, minimalDelay, parameters }

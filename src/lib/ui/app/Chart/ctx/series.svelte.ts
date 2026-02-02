@@ -82,6 +82,7 @@ export function createSeries({
     getLabels$,
     getSelectorLabels$,
 
+    version: ss<undefined | string>(rest.version),
     data: ss<TMetricData>([]),
     visible: ss(visible),
     loading: ss(true),

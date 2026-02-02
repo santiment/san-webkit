@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
 
+  import Chip from './Chip.svelte'
   import { calculateDataInterval } from '../../series/index.js'
 
   type TProps = { metric: TSeries }
@@ -11,12 +12,8 @@
   {@const interval = calculateDataInterval(metric.data.$)}
 
   {#if interval}
-    <span
-      aria-label="Data granularity"
-      class="expl-tooltip ml-1 rounded-md bg-athens px-1.5 py-0.5 text-xs text-waterloo"
-      style="--expl-align-x:-50%"
-    >
+    <Chip explanation="Data granularity">
       {interval}
-    </span>
+    </Chip>
   {/if}
 {/if}

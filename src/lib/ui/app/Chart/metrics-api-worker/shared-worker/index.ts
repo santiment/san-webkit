@@ -66,6 +66,7 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
       to: parameters.to,
       interval: parameters.interval,
       aggregation: parameters.aggregation,
+      version: parameters.version,
     })
       .then((timeseries) => {
         if (isCancelled) {

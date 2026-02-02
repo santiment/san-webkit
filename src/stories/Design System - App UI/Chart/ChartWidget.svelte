@@ -28,6 +28,7 @@
   import PaneLegend, {
     PaneMetric,
     PaneMetricGranularityStatus,
+    PaneMetricVersionStatus,
   } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -149,6 +150,7 @@
             {#snippet label()}
               {metric.formula?.$.name || metric.label}
 
+              <PaneMetricVersionStatus {metric}></PaneMetricVersionStatus>
               <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
             {/snippet}
           </PaneMetric>

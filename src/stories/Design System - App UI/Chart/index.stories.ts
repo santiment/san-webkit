@@ -39,6 +39,8 @@ export const PriceFormula: Story = {
         scaleId: 'right-price_usd',
 
         style: 'line',
+
+        version: '1.0',
       },
 
       {

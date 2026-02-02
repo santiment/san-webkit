@@ -111,6 +111,8 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
 
   meta?: Record<string, any>
 
+  version?: string
+
   baseline?: {
     value: number
     topColor: string
