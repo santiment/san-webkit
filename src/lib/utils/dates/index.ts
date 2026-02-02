@@ -268,4 +268,31 @@ export function suggestPeriodInterval(from: Date, to: Date) {
   return '7d'
 }
 
+export function normalizeRangeIntervals<GRanges extends { id: string }>(
+  ranges: GRanges[],
+  minInterval?: string,
+): GRanges[] {
+  if (!minInterval) {
+    return ranges
+  }
+
+  const index = ranges.findIndex((range) => range.id === minInterval)
+  return index === -1 ? ranges : ranges.slice(index)
+}
+
+const RangeFormatToTimestamp = {
+  s: ONE_SECOND_IN_MS,
+  m: ONE_MINUTE_IN_MS,
+  h: ONE_HOUR_IN_MS,
+  d: ONE_DAY_IN_MS,
+}
+export function getRangeMilliseconds(range: string) {
+  const { amount, modifier } = parseRangeString(range as `${number}${'s' | 'm' | 'h' | 'd'}`)
+  return amount * RangeFormatToTimestamp[modifier]
+}
+
+export function normalizeRangeInterval(range: string, minInterval: string) {
+  return getRangeMilliseconds(range) > getRangeMilliseconds(minInterval) ? range : minInterval
+}
+
 export { TimeZones, type TTimeZone } from './timezone.js'
