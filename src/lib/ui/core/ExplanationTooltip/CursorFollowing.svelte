@@ -45,6 +45,7 @@
 
     const position = await computePosition(virtualElement, tooltipElement, {
       placement: 'bottom-start',
+      strategy: 'fixed',
       middleware: [
         offsetMiddleware({ mainAxis: offset, crossAxis: offset }),
         flip(),
