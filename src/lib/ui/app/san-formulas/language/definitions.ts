@@ -105,7 +105,7 @@ x1 = sma(m2, 7)
     icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `The Exponential Moving Average (EMA) indicator gives more weight to recent prices in a timeseries over a specified period, reacting faster to price changes than a Simple Moving Average. It's commonly used to spot trends early and filter out minor price fluctuations.
+    documentation: `The Exponential Moving Average (EMA) indicator gives more weight to recent values in a timeseries over a specified period, reacting faster to value changes than a Simple Moving Average. It's commonly used to spot trends early and filter out minor price fluctuations.
 \`\`\`
 ema(m1, 30)
 \`\`\`
@@ -122,7 +122,7 @@ x1 = ema(m2, 7)
     icon: 'stack',
 
     // @RELEASE:MD-COMPILE:START
-    documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of price movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.
+    documentation: `The Relative Strength Index (RSI) measures the speed and magnitude of value movements in a timeseries over a specified period, indicating whether an asset is overbought (high RSI) or oversold (low RSI). It helps traders identify potential reversals or trend strength.
 \`\`\`
 rsi(m1, 30)
 \`\`\`
