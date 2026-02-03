@@ -31,9 +31,17 @@ type TContext = {
   cancelJobs: () => void
 }
 
-function queryMetric(metric: string, parameters: TContext['parameters']) {
-  const { selector, interval, from, to, aggregation } = parameters
-  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval, aggregation })
+function queryMetric(metric: string, parameters: TContext['parameters'] & { version?: string }) {
+  const { selector, interval, from, to, aggregation, version } = parameters
+  return queryGetMetric({ executor: Query })({
+    metric,
+    selector,
+    from,
+    to,
+    interval,
+    aggregation,
+    version,
+  })
 }
 
 function getFormulaCacheKey(
@@ -116,12 +124,14 @@ export async function fetchFormulaMetric(
         )
 
         const selector = metric.formula ? null : metric.selector || ctx.parameters.selector
+        const version = metric.version //  || ctx.parameters.version
 
         const dataRequest = () =>
           (metric.formula
             ? fetchFormulaMetric(metric.formula, index, ctx)
             : queryMetric(metric.name, {
                 ...ctx.parameters,
+                version,
                 aggregation: metric.aggregation,
                 selector: selector!,
               })

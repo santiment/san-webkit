@@ -147,6 +147,7 @@ export const useMetricSeriesCtx = createCtx(
         name: item.apiMetricName,
         aggregation: $state.snapshot(item.aggregation.$),
         selector: $state.snapshot(item.selector.$),
+        version: $state.snapshot(item.version.$),
         formula: $state.snapshot(item.formula?.$),
       })),
     )
