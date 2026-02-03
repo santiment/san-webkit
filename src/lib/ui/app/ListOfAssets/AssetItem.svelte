@@ -8,7 +8,7 @@
 
   type TProps = {
     class?: string
-    item: TAsset
+    item: Pick<TAsset, 'slug' | 'name' | 'ticker'>
     isActive?: boolean
   } & Omit<ComponentProps<typeof Button>, 'class'>
 
