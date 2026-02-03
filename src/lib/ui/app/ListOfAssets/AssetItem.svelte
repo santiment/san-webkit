@@ -12,7 +12,7 @@
     isActive?: boolean
   } & Omit<ComponentProps<typeof Button>, 'class'>
 
-  const { class: className, item, isActive = false, onclick, children }: TProps = $props()
+  const { class: className, item, isActive = false, children, ...rest }: TProps = $props()
   const { slug, name, ticker } = $derived(item)
 
   let textEl = $state<HTMLElement>()
@@ -29,7 +29,7 @@
       isActive && 'text-green',
       className,
     )}
-    {onclick}
+    {...rest}
   >
     {@render children?.()}
 
