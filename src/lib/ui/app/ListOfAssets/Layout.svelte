@@ -71,7 +71,8 @@
   <header class="flex flex-col gap-3 px-2 md:p-0">
     {#if hasSearch}
       <Input
-        inputClass="md:py-2.5 bg-inherit"
+        class="bg-inherit"
+        inputClass="md:py-2.5"
         icon="search"
         placeholder="Search project"
         oninput={onInput}

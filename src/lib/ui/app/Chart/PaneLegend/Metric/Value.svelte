@@ -16,7 +16,7 @@
   const formatter = metric.ui.$$.tooltipFormatter
 
   const seriesPoint = $derived(
-    hoverPoint.$ ? metric.chartSeriesApi!.dataByIndex(hoverPoint.$.index, -1) : null,
+    hoverPoint.$ ? metric.chartSeriesApi?.dataByIndex(hoverPoint.$.index, -1) : null,
   )
 
   const hoverValue = $derived.by(() => {
@@ -29,7 +29,7 @@
   const startData = $derived.by(() => {
     if (startPointIndex.$ === null) return
 
-    const point = metric.chartSeriesApi!.dataByIndex(startPointIndex.$, -1)
+    const point = metric.chartSeriesApi?.dataByIndex(startPointIndex.$, -1)
     return point || data.find((item) => item.value)
   })
 
@@ -37,7 +37,7 @@
 </script>
 
 {#if lastData || hoverValue}
-  {@const value = hoverValue || lastData.value}
+  {@const value = hoverValue ?? lastData.value}
 
   <span style:color={metric.ui.$$.color} class="pr-1.5">
     {formatter(value)}

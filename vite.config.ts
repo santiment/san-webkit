@@ -117,6 +117,8 @@ export function createConfig({
       'process.env.GIT_HEAD': JSON.stringify(GIT_HEAD),
       'process.env.GIT_HEAD_DATETIME': JSON.stringify(GIT_HEAD_DATETIME),
       'process.env.GIT_CHANGES_COUNT': GIT_CHANGES_COUNT,
+
+      'process.env.TURNSTILE_SITEKEY': JSON.stringify(process.env.TURNSTILE_SITEKEY ?? ''),
     },
   })
 }

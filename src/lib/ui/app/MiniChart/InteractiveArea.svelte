@@ -31,7 +31,14 @@
       <line x1={offset} x2={offset} y1="0" y2={height} class="stroke-waterloo" stroke-width="2" />
 
       <foreignObject {width} {height}>
-        <SvgTooltip {valueFormatted} />
+        <SvgTooltip {valueFormatted}>
+          {#snippet value()}
+            <div class="flex items-center gap-1">
+              <div class="h-4 w-0.5 rounded bg-[var(--line-color)]"></div>
+              <span class="text-fiord">{valueFormatted}</span>
+            </div>
+          {/snippet}
+        </SvgTooltip>
       </foreignObject>
     {/if}
   {/snippet}

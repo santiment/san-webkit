@@ -1,7 +1,11 @@
 <script lang="ts">
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
-  import { downloadCsv } from '$lib/utils/csv.js'
+  import {
+    createMetricSeriesCsvHeaders,
+    downloadCsv,
+    mergeMetricSeriesData,
+  } from '$lib/utils/csv/index.js'
   import { getFormattedDetailedTimestamp } from '$lib/utils/dates/index.js'
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
   import {
@@ -15,12 +19,17 @@
   import BaseChart, {
     ViewportChart,
     ApiMetricSeries,
+    ApiSignalSeries,
     DatesRangeShortcuts,
     Minimap,
     TimeZoneSelector,
     downloadChartAsJpeg,
   } from '$ui/app/Chart/index.js'
-  import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
+  import PaneLegend, {
+    PaneMetric,
+    PaneMetricGranularityStatus,
+    PaneMetricVersionStatus,
+  } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import DrawingTools from './DrawingTools.svelte'
@@ -31,10 +40,9 @@
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
 
   const { metricSeries } = useMetricSeriesCtx.get()
+  const { chart } = useChartCtx()
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
-
-  $inspect(highlighted.$)
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -46,41 +54,13 @@
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
   }
 
-  function mergeSeries(series: TSeries[]) {
-    const map = new Map<number, Record<string, any>>()
-
-    for (const s of series) {
-      const key = s.apiMetricName
-      for (const { time, value } of s.data.$) {
-        if (!map.has(time)) map.set(time, { time })
-        map.get(time)![key] = value
-      }
-    }
-
-    return Array.from(map.values()).sort((a, b) => a.time - b.time)
-  }
-
-  function buildHeaders(series: TSeries[]) {
-    const dateHeader = {
-      title: 'Date',
-      format: (row: any) => new Date(row.time * 1000).toISOString(),
-    }
-
-    const metricHeaders = series.map((metric) => ({
-      title: metric.label,
-      format: (row: any) => row[metric.apiMetricName] ?? '',
-    }))
-
-    return [dateHeader, ...metricHeaders]
-  }
-
   function exportCSV() {
-    const rows = mergeSeries(metricSeries.$)
-    const headers = buildHeaders(metricSeries.$)
+    const metrics = $state.snapshot(metricSeries.$) as TSeries[]
 
-    const filename = metricSeries.$.map((s) => s.apiMetricName)
-      .join(', ')
-      .replace(/[<>:"/\\|?*]+/g, '_')
+    const rows = mergeMetricSeriesData(metrics)
+    const headers = createMetricSeriesCsvHeaders(metrics)
+
+    const filename = metrics.map((item) => item.apiMetricName).join(', ')
 
     downloadCsv(filename, headers, rows)
   }
@@ -90,7 +70,7 @@
       .join(', ')
       .replace(/[<>:"/\\|?*]+/g, '_')
 
-    //downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+    downloadChartAsJpeg(filename, metricSeries.$, chart.$)
   }
 </script>
 
@@ -117,13 +97,15 @@
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
-                  console.log(data)
+                  // console.log(data)
                   metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
-          : null}
+          : () => {
+              metric.ui.$$.style = metric.ui.$$.style === 'line' ? 'histogram' : 'line'
+            }}
       >
-        {metric.label}
+        {metric.formula?.$.name || metric.label}
       </div>
     {/each}
 
@@ -135,7 +117,7 @@
 
   <Chart
     watermark
-    class="h-[500px]"
+    class="h-[700px]"
     onRangeSelectChange={console.log}
     onRangeSelectEnd={console.log}
     options={{
@@ -143,7 +125,11 @@
     }}
   >
     {#each metricSeries.$ as item, index (item.id)}
-      <ApiMetricSeries {index} series={item}></ApiMetricSeries>
+      {#if item.ui.$$.style === 'signal'}
+        <ApiSignalSeries {index} series={item} priceSeries={metricSeries.$[0]}></ApiSignalSeries>
+      {:else}
+        <ApiMetricSeries {index} series={item}></ApiMetricSeries>
+      {/if}
     {/each}
 
     <SpikeExplanations>
@@ -155,7 +141,19 @@
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
-          <PaneMetric {metric} paneControls></PaneMetric>
+          <PaneMetric
+            {metric}
+            paneControls
+            onmouseenter={() => onMetricEnter(metric)}
+            onmouseleave={onMetricLeave}
+          >
+            {#snippet label()}
+              {metric.formula?.$.name || metric.label}
+
+              <PaneMetricVersionStatus {metric}></PaneMetricVersionStatus>
+              <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
+            {/snippet}
+          </PaneMetric>
         {/each}
       {/snippet}
     </PaneLegend>

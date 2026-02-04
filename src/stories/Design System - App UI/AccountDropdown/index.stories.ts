@@ -130,6 +130,22 @@ export const BusinessMax: Story = {
   },
 }
 
+export const BusinessMaxTrialBypass: Story = {
+  name: 'Business Max (Trial Bypass by hand)',
+
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        isEligibleForSanbaseTrial: true,
+        plan: {
+          businessMax: true,
+          monthly: true,
+        },
+      },
+    }),
+  },
+}
+
 export const Enterprise: Story = {
   name: 'Enterprise',
 

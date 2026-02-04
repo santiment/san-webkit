@@ -1,3 +1,5 @@
+import type { TMetricSelector } from './types/index.js'
+
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
 import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
@@ -5,6 +7,11 @@ import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
 export type TMetricUnit = '' | 'usd' | 'percent'
+
+type TMetricArgs = Partial<{
+  selector: TMetricSelector
+  [x: string]: unknown
+}>
 
 export type TRegistryMetric = {
   key: string
@@ -22,7 +29,7 @@ export type TRegistryMetric = {
   formatter: undefined | ((value: number) => string)
 
   meta: {
-    args: object
+    args: TMetricArgs
     isNew: boolean
     displayOrder: number
   }

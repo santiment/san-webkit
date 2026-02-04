@@ -1,7 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 
 import type { TCustomer } from '$lib/ctx/customer/api.ts'
-import type { DeviceType } from '$lib/ctx/device/index.ts'
+import type { DeviceInfo } from '$lib/ctx/device/index.svelte.ts'
 
 // for information about these interfaces
 declare global {
@@ -15,7 +15,7 @@ declare global {
     interface Locals {
       customer: TCustomer | undefined
       theme: 'night-mode' | ''
-      device: DeviceType
+      device: DeviceInfo
       isCookiesVisible: boolean
       isLiteVersion: boolean
     }

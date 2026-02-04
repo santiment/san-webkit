@@ -8,6 +8,7 @@ export const queryGetAccessRestrictions = ApiQuery(
   rf:restrictedFrom
   rt:restrictedTo
   d:docs { l:link }
+  av: availableVersions { v:version }
 }}`,
   mapAccessRestrictionsData,
   { cache: false },

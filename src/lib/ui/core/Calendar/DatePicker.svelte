@@ -15,7 +15,9 @@
 
   type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
-    class?: string
+    buttonClass?: string
+    rootClass?: string
+    calendarClass?: string
     minDate?: Date
     maxDate?: Date
     timeZone?: string
@@ -41,7 +43,9 @@
 
   let {
     as,
-    class: className,
+    buttonClass,
+    rootClass,
+    calendarClass,
     maxDate,
     children: _children,
     minDate = new Date(2009, 0, 1),
@@ -70,18 +74,20 @@
         timeZone,
         minValue,
         maxValue,
+        class: rootClass,
+        calendarClass,
         onChange: rest.onChange,
       })}
     variant="border"
     icon="calendar"
-    class="whitespace-nowrap"
+    class={cn('whitespace-nowrap', buttonClass)}
   >
     {@render label()}
   </Button>
 {:else}
   <Popover
     noStyles
-    class="z-10 shadow-dropdown"
+    class={cn('z-10 shadow-dropdown dark:shadow-none', rootClass)}
     rootProps={rest.popoverRootProps}
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
@@ -92,7 +98,7 @@
         {as}
         variant="border"
         icon="calendar"
-        class={cn('whitespace-nowrap', className)}
+        class={cn('whitespace-nowrap', buttonClass)}
       >
         {@render label()}
       </Button>
@@ -102,11 +108,19 @@
       {#if isRangeProps(rest)}
         {@const { date, withPresets, onChange } = rest}
 
-        <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
+        <RangeCalendar
+          class={calendarClass}
+          {date}
+          {withPresets}
+          {timeZone}
+          {minValue}
+          {maxValue}
+          {onChange}
+        />
       {:else}
         {@const { date, onChange } = rest}
 
-        <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
+        <Calendar class={calendarClass} {date} {timeZone} {minValue} {maxValue} {onChange} />
       {/if}
     {/snippet}
   </Popover>

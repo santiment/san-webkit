@@ -59,7 +59,7 @@ export type TFetchMetricMessage = TMessageRequestResponse<
   {
     minimalDelay?: number
     priority?: number
-    parameters: TMetricParameters
+    parameters: TMetricParameters & { version?: string }
   },
   { timeseries: TMetricData } | { error: any }
 >
@@ -77,6 +77,8 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
     metrics: {
       name: string
       selector: null | TMetricTargetSelectorInputObject
+      version?: string
+      aggregation?: TAggregation
       formula?: TMetricFormula
     }[]
   },

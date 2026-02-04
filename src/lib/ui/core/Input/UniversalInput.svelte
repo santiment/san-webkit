@@ -66,7 +66,7 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} class="absolute left-3"></Svg>
+    <Svg id={icon} w={iconSize} class="pointer-events-none absolute left-3"></Svg>
   {/if}
 
   {@render left?.()}

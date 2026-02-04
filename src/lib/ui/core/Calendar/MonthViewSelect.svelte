@@ -38,7 +38,7 @@
     label: formatMonth(placeholder.month),
   })
 
-  function getYearItems(minYear: number = 2009, maxYear: number = 2025) {
+  function getYearItems(minYear: number = 2009, maxYear: number = 2026) {
     return Array.from({ length: maxYear - minYear + 1 }, (_, i) => {
       const year = minYear + i
 

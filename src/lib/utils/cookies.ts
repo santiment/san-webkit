@@ -8,8 +8,12 @@ export function getCookie(name: string, predicate?: (keyValue: string) => boolea
   return keyValue && keyValue.split('=')[1]
 }
 
-export function setCookie(key: string, value: number | boolean | string) {
+export function setCookie<GValue extends number | boolean | string>(
+  key: string,
+  value: GValue,
+): GValue {
   document.cookie = `${key}=${value}; path=/; max-age=31536000`
+  return value
 }
 
 export function deleteCookie(key: string) {

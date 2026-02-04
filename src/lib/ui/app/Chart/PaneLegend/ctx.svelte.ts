@@ -38,6 +38,8 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
   })
 
   function handleCrosshairMove(param: MouseEventParams) {
+    // param.logical < 0 ? 'left' : 'right'
+
     if (param.time) {
       hoverPoint = {
         datetime: (param.time as number) * 1000,
@@ -78,3 +80,22 @@ export const useShiftModeStartPoint = createCtx('charts_useShiftModeStartPoint',
     },
   }
 })
+
+export const usePaneLegendCompactCtx = createCtx(
+  'charts_usePaneLegendCompactToggleCtx',
+  (defaultValue: { isHiddenMetricsDisplayed: boolean } = { isHiddenMetricsDisplayed: true }) => {
+    let isHiddenMetricsDisplayed = $state(defaultValue.isHiddenMetricsDisplayed)
+
+    return {
+      isHiddenMetricsDisplayed: {
+        get $() {
+          return isHiddenMetricsDisplayed
+        },
+
+        set $(value: boolean) {
+          isHiddenMetricsDisplayed = value
+        },
+      },
+    }
+  },
+)

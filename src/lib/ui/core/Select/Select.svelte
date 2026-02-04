@@ -75,7 +75,7 @@
 
   <Select.Content
     class={cn(
-      'z-20 overflow-auto rounded border bg-white p-2 shadow-dropdown',
+      'z-20 overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
     )}
     sideOffset={8}
@@ -99,7 +99,7 @@
                 label={item.label}
                 onclick={() => onItemSelect(item)}
                 class={cn(
-                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens [&[data-selected]]:text-green',
+                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain [&[data-selected]]:text-green',
                   contentClass,
                 )}
               >
