@@ -64,7 +64,7 @@
   {#if icon}
     <Svg
       --margin={`${iconMargin}px`}
-      class="mx-[var(--margin)]"
+      class="mx-[var(--margin)] text-white-day"
       id={isSelected ? 'checkmark-circle-filled' : icon}
       w={iconSize}
     />

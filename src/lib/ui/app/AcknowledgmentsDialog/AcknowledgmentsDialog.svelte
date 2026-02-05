@@ -27,7 +27,7 @@
   <div class="gap-8 p-5 column">
     <p class="rounded bg-athens p-4 text-fiord">
       TradingView Lightweight Charts™ <br />
-      Copyright (с) 2025 TradingView, Inc. https://www.tradingview.com/
+      Copyright (с) 2026 TradingView, Inc. https://www.tradingview.com/
     </p>
   </div>
 </Dialog>

@@ -23,7 +23,7 @@
       Plan: {planName || 'Free'}{isTrialSubscription ? ', Free Trial' : ''}
     </p>
 
-    {#if isEligibleForSanbaseTrial}
+    {#if isFree && isEligibleForSanbaseTrial}
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"

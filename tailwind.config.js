@@ -18,10 +18,12 @@ export default {
 
       boxShadow: {
         dropdown: '0 4px 16px 0 rgba(24, 27, 43, 0.13), 0 6px 8px 0 rgba(24, 27, 43, 0.05)',
+        modal: '0 2px 24px 0 rgba(24, 27, 43, 0.04), 1px 3px 7px 0 rgba(47, 53, 77, 0.05)',
       },
 
       dropShadow: {
         dropdown: '0 4px 16px rgba(24, 27, 43, 0.13), 0 6px 8px rgba(24, 27, 43, 0.05)',
+        modal: '0 2px 24px 0 rgba(24, 27, 43, 0.04), 1px 3px 7px 0 rgba(47, 53, 77, 0.05)',
       },
 
       animation: {
@@ -86,8 +88,8 @@ export default {
 
         whale: { day: '#FCFDFE', night: '#1A1D2F' },
 
-        athens: { day: '#F3F4FA', night: '#1E2234' },
-        porcelain: { day: '#ECEEF5', night: '#262A3E' },
+        athens: { day: '#F3F4FA', night: '#222639' },
+        porcelain: { day: '#ECEEF5', night: '#2A2F44' },
         mystic: { day: '#D2D6E7', night: '#343A52' },
         casper: { day: '#9FAAC4', night: '#4E5472' },
         waterloo: { day: '#7A859E', night: '#7A809A' },
@@ -130,7 +132,7 @@ export default {
 
         blue: '#5275FF',
         'blue-hover': '#375BE9',
-        'blue-light-1': { day: '#ecf0fe', night: '#1d223e' },
+        'blue-light-1': { day: '#ecf0fe', night: '#21284b' },
         'blue-light-2': { day: '#dae0fd', night: '#273160' },
         'blue-light-3': { day: '#a9baff', night: '#354895' },
 

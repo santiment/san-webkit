@@ -16,7 +16,7 @@
     noStyles?: boolean
     isOpened?: boolean
     type?: TooltipType
-    children: Snippet<[{ ref: typeof triggerRef }]>
+    children: Snippet<[{ ref: typeof triggerRef; isOpened: boolean }]>
     content: Snippet<[{ close: () => void }]>
     position?: FloatingConfig['placement']
     offset?: number
@@ -68,7 +68,7 @@
   })
 </script>
 
-{@render children({ ref: triggerRef })}
+{@render children({ ref: triggerRef, isOpened: $open })}
 
 {#if $open}
   <div

@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { TAsset } from '$lib/ctx/assets/api.js'
-  import type { Snippet } from 'svelte'
-  import type { HTMLAttributes } from 'svelte/elements'
+  import type { ComponentProps } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
@@ -11,9 +10,7 @@
     class?: string
     item: TAsset
     isActive?: boolean
-    children?: Snippet
-    onclick?: HTMLAttributes<HTMLButtonElement>['onclick']
-  }
+  } & Omit<ComponentProps<typeof Button>, 'class'>
 
   const { class: className, item, isActive = false, onclick, children }: TProps = $props()
   const { slug, name, ticker } = $derived(item)

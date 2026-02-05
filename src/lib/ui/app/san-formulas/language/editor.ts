@@ -43,9 +43,10 @@ export type TSanFormulasEditor = ReturnType<typeof createEditor>
 export function createEditor(domElement: HTMLElement, value: string) {
   const model = monacoEditor.createModel(value, LANGUAGE_ID)
 
+  model.pushEOL(monacoEditor.EndOfLineSequence.LF)
+
   const editor = monacoEditor.create(domElement, {
     model,
-
     fontFamily: 'Menlo',
     fontSize: 14,
     lineHeight: LINE_HEIGHT,

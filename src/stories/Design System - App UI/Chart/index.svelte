@@ -91,7 +91,7 @@
         ],
   )
 
-  $inspect(metricSeries.$)
+  // $inspect(metricSeries.$)
 
   useChartPlanRestrictionsCtx.set()
 

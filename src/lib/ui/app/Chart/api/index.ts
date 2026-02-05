@@ -65,10 +65,11 @@ export type TVariables = {
   transform?: TTimeseriesMetricTransformInputObject
   includeIncompleteData?: boolean
   aggregation?: TAggregation
+  version?: string
 }
 
 export const queryGetMetric = ApiQuery(
-  ({ metric, selector, from, to, interval, transform, aggregation }: TVariables) => ({
+  ({ metric, selector, from, to, interval, transform, aggregation, version }: TVariables) => ({
     schema: `
   query getMetric(
     $metric: String!
@@ -79,8 +80,9 @@ export const queryGetMetric = ApiQuery(
     $aggregation: Aggregation
     $includeIncompleteData: Boolean = true
     $selector: MetricTargetSelectorInputObject
+    $version: String
   ) {
-    getMetric(metric: $metric) {
+    getMetric(metric: $metric, version: $version) {
       timeseriesDataJson(
         selector: $selector
         from: $from
@@ -90,11 +92,11 @@ export const queryGetMetric = ApiQuery(
         aggregation: $aggregation
         includeIncompleteData: $includeIncompleteData
         fields: {datetime: "d" ${aggregation === 'OHLC' ? 'valueOhlc: "v" open:"o" high:"h" close:"c" low:"l"' : 'value: "v"'} }
-      ) 
+      )
     }
   }
 `,
-    variables: { metric, selector, from, to, interval, transform, aggregation },
+    variables: { metric, selector, from, to, interval, transform, aggregation, version },
   }),
   (gql: { getMetric: { timeseriesDataJson: { d: string; v: TRawPointData }[] } }): TMetricData =>
     gql.getMetric.timeseriesDataJson.map((item) => ({

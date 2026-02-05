@@ -193,7 +193,7 @@
 
     <div class="flex justify-start gap-2 p-4">
       <Button variant="fill" type="submit">Save</Button>
-      <Button variant="border" onclick={() => Controller.close()}>Cancel</Button>
+      <Button variant="border" onclick={() => Controller.close()}>Close</Button>
     </div>
   </form>
 </Dialog>

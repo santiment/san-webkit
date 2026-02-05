@@ -31,9 +31,17 @@ type TContext = {
   cancelJobs: () => void
 }
 
-function queryMetric(metric: string, parameters: TContext['parameters']) {
-  const { selector, interval, from, to, aggregation } = parameters
-  return queryGetMetric({ executor: Query })({ metric, selector, from, to, interval, aggregation })
+function queryMetric(metric: string, parameters: TContext['parameters'] & { version?: string }) {
+  const { selector, interval, from, to, aggregation, version } = parameters
+  return queryGetMetric({ executor: Query })({
+    metric,
+    selector,
+    from,
+    to,
+    interval,
+    aggregation,
+    version,
+  })
 }
 
 function getFormulaCacheKey(
@@ -51,7 +59,7 @@ function getFormulaCacheKey(
   })
 }
 
-export function fetchFormulaMetric(
+export async function fetchFormulaMetric(
   formula: TFetchFormulaMetricMessage['request']['payload']['formula'],
   index: TFetchFormulaMetricMessage['request']['payload']['index'],
   ctx: TContext,
@@ -91,7 +99,7 @@ export function fetchFormulaMetric(
   const transformedExpression = parsedExpression.transform((node) => {
     throwImplicitOperationError(node)
 
-    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'asset_metric') {
+    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'api_metric') {
       const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
 
       const variableName = controller.getTransformationVariableName(transformationScope)
@@ -116,12 +124,14 @@ export function fetchFormulaMetric(
         )
 
         const selector = metric.formula ? null : metric.selector || ctx.parameters.selector
+        const version = metric.version //  || ctx.parameters.version
 
         const dataRequest = () =>
           (metric.formula
             ? fetchFormulaMetric(metric.formula, index, ctx)
             : queryMetric(metric.name, {
                 ...ctx.parameters,
+                version,
                 aggregation: metric.aggregation,
                 selector: selector!,
               })
@@ -229,6 +239,6 @@ function validateRecursiveFormula(
 
 function throwImplicitOperationError(node: MathNode) {
   if (node instanceof SanFormulas.OperatorNode && node.implicit) {
-    throw new Error(`Invalid syntax: Implicit operation (trying "${node.fn}") is now allowed`)
+    throw new Error(`Invalid syntax: Implicit operation (trying "${node.fn}") is not allowed`)
   }
 }

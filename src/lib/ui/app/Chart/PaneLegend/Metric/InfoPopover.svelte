@@ -31,6 +31,10 @@
       return
     }
 
+    if (openedMetric) {
+      return
+    }
+
     anchorNode = anchor
     openedMetric = item
     openedInfo = MetricsRestrictions.$[item.apiMetricName]?.docs || null
@@ -39,7 +43,9 @@
   function onOpenChange(value: boolean) {
     if (value) return
 
-    openedMetric = anchorNode = openedInfo = null
+    setTimeout(() => {
+      openedMetric = anchorNode = openedInfo = null
+    }, 200)
   }
 
   const TICKER_REGEX = /\[Project Ticker\]/g

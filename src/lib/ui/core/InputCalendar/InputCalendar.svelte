@@ -1,14 +1,19 @@
 <script lang="ts">
   import DatePicker from '$ui/core/Calendar/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   import { formatValue, useInputCalendar } from './flow.svelte.js'
 
   type TProps = {
     date: [Date, Date]
+    rootClass?: string
+    buttonClass?: string
+    calendarClass?: string
+    inputClass?: string
     onChange: (date: [Date, Date], timeRange?: string) => void
   }
 
-  const { date, onChange }: TProps = $props()
+  const { rootClass, buttonClass, calendarClass, inputClass, date, onChange }: TProps = $props()
 
   let isOpened = $state(false)
 
@@ -23,7 +28,9 @@
 <DatePicker
   {date}
   {onChange}
-  class="relative w-[180px]"
+  buttonClass={cn("relative w-[180px]",buttonClass)}
+  {rootClass}
+  {calendarClass}
   popoverContentProps={{
     trapFocus: false,
     onInteractOutside: (e) => {
@@ -40,7 +47,7 @@
 >
   <!-- prettier-ignore-end -->
   <input
-    class="cursor-pointer select-none bg-transparent outline-none"
+    class={cn("cursor-pointer select-none bg-transparent outline-none", inputClass)}
     bind:this={inputNode.$}
     type="text"
     value={formatValue(date)}

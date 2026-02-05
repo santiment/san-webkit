@@ -1,7 +1,7 @@
-import { usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
 import type { BaseTableColumn } from '$ui/core/Table/DataTable/types.js'
 import CustomCell from './CustomCell.svelte'
 import type { Item } from '../utils.js'
+import { usdFormatter } from '$lib/utils/formatters/index.js'
 
 export const columns: BaseTableColumn<Item>[] = [
   {

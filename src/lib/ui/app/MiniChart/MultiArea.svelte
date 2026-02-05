@@ -36,7 +36,13 @@
   {#snippet children({ offset })}
     {#each areas as { data, color }, i}
       <div class="absolute">
-        <Area {data} {height} {width} style="--color: var(--{color}); opacity: 0.9" id="{id}-{i}" />
+        <Area
+          {data}
+          {height}
+          {width}
+          style="--line-color: var(--{color}); opacity: 0.9"
+          id="{id}-{i}"
+        />
       </div>
     {/each}
 
@@ -55,12 +61,13 @@
       <SvgTooltip>
         {#snippet value()}
           <div class="flex flex-col">
-            {#each areas as { title, data, formatter = defaultFormatter }}
+            {#each areas as { title, data, color, formatter = defaultFormatter }}
               {@const currentValue = getValueAt(data, offset, width)}
               {@const valueFormatted = formatter(currentValue)}
 
-              <div class="flex gap-1">
-                <span>{valueFormatted}</span>
+              <div style:--line-color="var(--{color})" class="flex items-center gap-1">
+                <div class="h-4 w-0.5 rounded bg-[var(--line-color)]"></div>
+                <span class="text-fiord">{valueFormatted}</span>
                 <span class="text-waterloo">{title}</span>
               </div>
             {/each}

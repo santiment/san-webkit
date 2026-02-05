@@ -2,19 +2,8 @@ import { error, redirect, type Handle, type RequestEvent } from '@sveltejs/kit'
 import UAParser from 'ua-parser-js'
 
 import { loadCustomerData, type TCustomer } from '$lib/ctx/customer/api.js'
-import { DeviceType } from '$lib/ctx/device/index.svelte.js'
+import { normalizeDeviceType, getDeviceInfo } from '$lib/ctx/device/index.js'
 import { logger } from '$lib/logger/index.js'
-
-function normalizeDeviceType(type: string | undefined): DeviceType {
-  switch (type) {
-    case 'mobile':
-      return DeviceType.Phone
-    case 'tablet':
-      return DeviceType.Tablet
-    default:
-      return DeviceType.Desktop
-  }
-}
 
 export const checkIsSanbaseCookiePresent = (event: RequestEvent) =>
   event.cookies.get('_sanbase_sid') || event.cookies.get('_sanbase_stage_sid')
@@ -35,7 +24,7 @@ export const appSessionHandle: Handle = async ({ event, resolve }) => {
   const userAgent = UAParser(event.request.headers.get('user-agent') as any)
   const device = normalizeDeviceType(userAgent.device.type)
 
-  event.locals.device = device
+  event.locals.device = getDeviceInfo(device)
   event.locals.customer = customer
   event.locals.theme = theme
 

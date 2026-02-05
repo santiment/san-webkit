@@ -25,7 +25,11 @@
     TimeZoneSelector,
     downloadChartAsJpeg,
   } from '$ui/app/Chart/index.js'
-  import PaneLegend, { PaneMetric } from '$ui/app/Chart/PaneLegend/index.js'
+  import PaneLegend, {
+    PaneMetric,
+    PaneMetricGranularityStatus,
+    PaneMetricVersionStatus,
+  } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import DrawingTools from './DrawingTools.svelte'
@@ -39,8 +43,6 @@
   const { chart } = useChartCtx()
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
-
-  $inspect(highlighted.$)
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -95,11 +97,13 @@
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
-                  console.log(data)
+                  // console.log(data)
                   metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
-          : null}
+          : () => {
+              metric.ui.$$.style = metric.ui.$$.style === 'line' ? 'histogram' : 'line'
+            }}
       >
         {metric.formula?.$.name || metric.label}
       </div>
@@ -137,9 +141,17 @@
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
-          <PaneMetric {metric} paneControls>
+          <PaneMetric
+            {metric}
+            paneControls
+            onmouseenter={() => onMetricEnter(metric)}
+            onmouseleave={onMetricLeave}
+          >
             {#snippet label()}
               {metric.formula?.$.name || metric.label}
+
+              <PaneMetricVersionStatus {metric}></PaneMetricVersionStatus>
+              <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
             {/snippet}
           </PaneMetric>
         {/each}
