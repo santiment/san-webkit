@@ -41,10 +41,11 @@
   bind:checked
   --width="{switchWidth}px"
   class={cn(
-    'relative flex items-center rounded-full bg-casper hover:bg-waterloo',
+    'group/switch relative flex items-center rounded-full bg-casper hover:bg-waterloo',
+    'fill-porcelain-day hover:fill-white-day',
     'h-5 w-[var(--width)] min-w-[var(--width)] md:h-6',
-    checked && 'bg-green hover:bg-green-hover',
-    disabled && 'bg-porcelain hover:bg-porcelain',
+    checked && 'bg-green fill-athens-day hover:bg-green-hover hover:fill-white-day',
+    disabled && 'bg-porcelain fill-white hover:bg-porcelain hover:fill-white',
     className,
   )}
   {disabled}
@@ -56,21 +57,12 @@
     class={cn(
       'absolute left-0 z-10 flex rounded-full bg-porcelain transition-transform will-change-transform',
       'size-[var(--size)] translate-x-[var(--translate-x)]',
-      !checked && !disabled && 'dark:bg-mystic',
+      !checked && !disabled && 'dark:bg-mystic-day',
       checked ? 'bg-green-light-2-day' : '',
       disabled && 'bg-whale',
       disabled && checked && 'bg-whale',
     )}
   />
 
-  <Svg
-    w={12}
-    {...currentIcon}
-    class={cn(
-      'absolute z-0 fill-waterloo-day',
-      checked && 'fill-white-day hover:fill-athens-day',
-      checked ? 'left-[5px]' : 'right-[5px]',
-      disabled && checked && 'fill-white hover:fill-white',
-    )}
-  />
+  <Svg w={12} {...currentIcon} class={cn('absolute z-0', checked ? 'left-[5px]' : 'right-[5px]')} />
 </Switch.Root>
