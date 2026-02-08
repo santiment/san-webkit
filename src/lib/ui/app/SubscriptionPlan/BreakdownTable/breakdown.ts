@@ -15,8 +15,8 @@ export const CONSUMER_PLANS_BREAKDOWN = [
     features: [
       // { name: 'Browser tabs', isLimit: true },
       {
-        name: 'Bi-weekly report',
-        description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a biweekly basis`,
+        name: 'Monthly report',
+        description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a monthly basis`,
         isCheck: true,
       },
       { name: 'Pro Insights', isAccess: true },
@@ -209,7 +209,7 @@ export const SubscriptionPlanBreakdown: Record<
 > = {
   [SubscriptionPlan.FREE.key]: {
     'Browser tabs': 'Up to 4',
-    'Bi-weekly report': false,
+    'Monthly report': false,
     'Pro Insights': false,
 
     "Chart's data period": false,
