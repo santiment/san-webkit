@@ -67,6 +67,7 @@ export function createSeries({
 
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
     baseline: rest.baseline,
+    signal: rest.signal,
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
@@ -81,10 +82,11 @@ export function createSeries({
     getLabels$,
     getSelectorLabels$,
 
+    version: ss<undefined | string>(rest.version),
     data: ss<TMetricData>([]),
     visible: ss(visible),
     loading: ss(true),
-    error: ss(null),
+    error: ss<null | string | string[] | Error | Error[]>(null),
 
     aggregation: ss<TAggregation>(style === MetricStyle.CANDLES ? 'OHLC' : undefined),
 
@@ -92,9 +94,12 @@ export function createSeries({
       get $() {
         // Reading signal
         paneSignal
+
         return metric.chartSeriesApi?.getPane().paneIndex() ?? pane
       },
       update$() {
+        pane = metric.chartSeriesApi?.getPane().paneIndex() ?? pane
+
         // Triggering signal update
         paneSignal = NaN
       },
@@ -140,7 +145,9 @@ export const useMetricSeriesCtx = createCtx(
     const asScope = $derived(
       series.map((item) => ({
         name: item.apiMetricName,
+        aggregation: $state.snapshot(item.aggregation.$),
         selector: $state.snapshot(item.selector.$),
+        version: $state.snapshot(item.version.$),
         formula: $state.snapshot(item.formula?.$),
       })),
     )

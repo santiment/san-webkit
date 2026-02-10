@@ -29,8 +29,7 @@
     class="mb-3"
     placeholder="Ask AI..."
     icon={null}
-    bind:value={aiChatbot.$$.message}
-    onSubmit={() => aiChatbot.openWithPrompt(aiChatbot.$$.message)}
+    onSubmit={(query) => aiChatbot.openWithPrompt(query)}
   />
 
   <div class="flex flex-wrap items-center justify-center gap-3">

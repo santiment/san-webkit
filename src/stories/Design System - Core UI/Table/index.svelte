@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
+  import { usdFormatter } from '$lib/utils/formatters/index.js'
   import { Table, TableBody, TableCell, TableHeader, TableRow } from '$ui/core/Table/index.js'
   import TableHead from '$ui/core/Table/TableHead.svelte'
   import { generateItems, type Item } from './utils.js'

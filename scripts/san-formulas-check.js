@@ -21,6 +21,13 @@ Promise.all([
     'unaryPlus',
     'log',
     'z_score',
+    'larger',
+    'largerEq',
+    'smaller',
+    'smallerEq',
+    'equal',
+    'unequal',
+    'value_at',
   ])
 
   for (const key in spec.DEFINITIONS) {

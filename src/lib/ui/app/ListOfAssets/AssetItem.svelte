@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { TAsset } from '$lib/ctx/assets/api.js'
-  import type { Snippet } from 'svelte'
-  import type { HTMLAttributes } from 'svelte/elements'
+  import type { ComponentProps } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
@@ -11,9 +10,7 @@
     class?: string
     item: TAsset
     isActive?: boolean
-    children?: Snippet
-    onclick?: HTMLAttributes<HTMLButtonElement>['onclick']
-  }
+  } & Omit<ComponentProps<typeof Button>, 'class'>
 
   const { class: className, item, isActive = false, onclick, children }: TProps = $props()
   const { slug, name, ticker } = $derived(item)
@@ -26,10 +23,9 @@
 <div class="pb-1">
   <Button
     explanation={isOverflow ? `${name} (${ticker})` : undefined}
-    variant="plain"
     size="auto"
     class={cn(
-      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 hover:bg-athens md:px-3 md:py-2 md:text-base',
+      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 md:px-3 md:py-2 md:text-base',
       isActive && 'text-green',
       className,
     )}

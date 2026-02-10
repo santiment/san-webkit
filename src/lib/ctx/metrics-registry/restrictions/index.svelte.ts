@@ -19,11 +19,12 @@ export const useMetricsRestrictionsCtx = createCtx('webkit_useMetricsRestriction
   )
 
   $effect(() => {
-    // NOTE: Refetching restrictions info when customer plan changed
-    if (!planName || planName.toLowerCase() === 'free') {
-      MetricsRestrictions = DEFAULT_METRICS_RESTRICTIONS
-      return
-    }
+    // // NOTE: Refetching restrictions info when customer plan changed
+    // if (!planName || planName.toLowerCase() === 'free') {
+    //   MetricsRestrictions = DEFAULT_METRICS_RESTRICTIONS
+    //   return
+    // }
+    planName
 
     let race = false
     queryGetAccessRestrictions(Query)().then((data) => {

@@ -18,11 +18,12 @@
       for?: string
       ref?: SS<undefined | null | HTMLElement>
       href?: string
-      icon?: TSvgId
       class?: string
+      icon?: TSvgId
       iconSize?: number | string
       iconHeight?: number | string
       iconOnRight?: boolean
+      iconIllus?: boolean
       explanation?: string
       loading?: boolean
       dropdown?: boolean
@@ -47,10 +48,12 @@
     circle = false,
     dropdown = false,
     loading = false,
+    disabled,
 
     icon,
     iconHeight,
     iconSize: initialIconSize,
+    iconIllus = false,
 
     explanation,
     children,
@@ -68,15 +71,15 @@
   const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
 
   const button = tv({
-    base: 'flex transition-colors items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md',
     variants: {
       children: { false: '' },
       icon: { false: '' },
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
-        ghost: 'px-2.5 fill-waterloo hover:bg-athens',
+        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
+        ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
         link: 'rounded-none text-green fill-green hover:underline',
         plain: 'rounded-none',
@@ -120,7 +123,8 @@
       {
         variant: ['fill', 'border'],
         disabled: true,
-        class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+        class:
+          'text-mystic fill-mystic bg-[var(--ghost-active-bg)] hover:bg-[var(--ghost-active-bg)]',
       },
       {
         variant: 'ghost',
@@ -182,9 +186,11 @@
   this={rest.href ? 'a' : as}
   bind:this={ref.$}
   aria-label={explanation}
+  style:--ghost-active-bg="var(--active-ghost-button-bg, var(--athens))"
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
-  type="button"
+  type={rest.href ? undefined : 'button'}
+  disabled={disabled || undefined}
   {...rest}
   use:action={actionArgs}
   class={cn(
@@ -198,7 +204,7 @@
       rounded,
       circle,
       explanation: !!explanation,
-      disabled: !!rest.disabled,
+      disabled: !!disabled,
       children: !!children,
       icon: !!icon,
     }),
@@ -207,7 +213,7 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight} />
+    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
   {/if}
 
   {#if children}
@@ -219,7 +225,7 @@
       <div
         class={cn(
           'flex size-4 items-center justify-center rounded transition-colors',
-          !loading && 'group-data-[state="open"]/button:bg-athens',
+          !loading && 'group-data-[state="open"]/button:bg-[var(--ghost-active-bg)]',
         )}
       >
         <Svg

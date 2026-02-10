@@ -59,6 +59,7 @@
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
+      uniformedGranularity: true,
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
       //overlayPriceScales: { autoScale: false },

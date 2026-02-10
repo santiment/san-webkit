@@ -2,7 +2,9 @@
   import type { TAssetSlug } from '$lib/ctx/assets/api.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { ListOfAssets, ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
+  import Popover from '$ui/core/Popover/Popover.svelte'
   import { SvelteSet } from 'svelte/reactivity'
 
   type TProps = {
@@ -47,9 +49,20 @@
         {@render list()}
       </section>
 
-      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border dark:bg-athens">
-        <h4 class="p-2 text-lg">Tinted in Dark mode</h4>
-        {@render list({ itemClass: 'dark:hover:bg-porcelain' })}
+      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
+        <h4 class="p-2 text-lg">In Popover</h4>
+
+        <Popover>
+          {#snippet children({ props })}
+            <Button {...props}>Open</Button>
+          {/snippet}
+
+          {#snippet content()}
+            <section class="h-96 w-72">
+              {@render list()}
+            </section>
+          {/snippet}
+        </Popover>
       </section>
     </section>
   </section>

@@ -11,10 +11,10 @@ const selector_from = math.typed('selector_from', {
   },
 })
 
-const asset_metric = createTransformableMathFunction('asset_metric', {
+const api_metric = createTransformableMathFunction('api_metric', {
   processArgs(args, scope) {
     if (args.length > 2) {
-      throw new Error('Function "asset_metric" accepts only two arguments')
+      throw new Error('Function "api_metric" accepts only two arguments')
     }
 
     // eslint-disable-next-line prefer-const
@@ -22,10 +22,10 @@ const asset_metric = createTransformableMathFunction('asset_metric', {
 
     if (typeof selector === 'string') {
       selector = { slug: selector }
-    } else if (selector?.slug) {
+    } else if (selector?.slug || selector?.text) {
       // All good
     } else {
-      throw new Error('Invalid asset selector was passed to "asset_metric" function')
+      throw new Error('Invalid asset selector was passed to "api_metric" function')
     }
 
     return [apiMetricName, selector] as [string, { slug: string }]
@@ -38,5 +38,5 @@ const asset_metric = createTransformableMathFunction('asset_metric', {
 
 export const MathChartMetrics = {
   selector_from,
-  asset_metric,
+  api_metric,
 }

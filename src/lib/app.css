@@ -51,6 +51,14 @@
   background: var(--waterloo) !important;
 }
 
+body.theme-transition {
+
+  &,
+  & * {
+    @apply transition-colors duration-500;
+  }
+}
+
 /* 
 * {
   text-align: left;
@@ -185,38 +193,6 @@ skeleton,
   }
 }
 
-.ai-chatbot-content ul {
-  @apply mb-2 list-disc pl-6;
-}
-
-.ai-chatbot-content ol {
-  @apply mb-2 list-decimal pl-6;
-}
-
-.ai-chatbot-content li {
-  @apply mb-1;
-}
-
-.ai-chatbot-content pre {
-  @apply overflow-x-auto rounded-md bg-porcelain p-3 text-rhino;
-}
-
-.ai-chatbot-content code {
-  @apply whitespace-normal break-words;
-}
-
-.ai-chatbot-content p {
-  @apply mb-2;
-}
-
-.ai-chatbot-content p:last-child {
-  @apply mb-0;
-}
-
-.ai-chatbot-content a {
-  @apply link-pointer;
-}
-
 .fly-and-scale-animation {
   @apply origin-[--bits-popover-content-transform-origin] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-in-from-right-2 data-[side=left]:slide-out-to-right-1 data-[side=right]:slide-in-from-left-2 data-[side=right]:slide-out-to-left-1 data-[side=top]:slide-in-from-bottom-2 data-[side=top]:slide-out-to-bottom-1;
 }
@@ -233,4 +209,45 @@ skeleton,
 .animated {
   @apply fill-mode-both;
   animation-duration: 0.2s !important;
+}
+
+.ai-chatbot-content ul {
+  @apply pl-6 mb-2 list-disc;
+}
+
+.ai-chatbot-content ol {
+  @apply pl-6 mb-2 list-decimal;
+}
+
+.ai-chatbot-content li {
+  @apply mb-1;
+}
+
+.ai-chatbot-content pre {
+  @apply my-6 overflow-x-auto rounded-md;
+  font-size: 14px;
+}
+
+.ai-chatbot-content code {
+  @apply rounded-md bg-athens px-1 py-0.5;
+}
+
+.ai-chatbot-content p {
+  @apply mb-2;
+}
+
+.ai-chatbot-content p:last-child {
+  @apply mb-0;
+}
+
+.ai-chatbot-content a {
+  @apply link-pointer;
+}
+
+.ai-chatbot-content h2 {
+  @apply mb-2 text-lg font-semibold;
+}
+
+.ai-chatbot-content h3 {
+  @apply mb-1.5 text-base font-semibold;
 }

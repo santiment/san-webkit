@@ -7,6 +7,7 @@
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
   import { createPlaceholder } from './utils.svelte.js'
   import { getPresets } from './presets.js'
@@ -31,6 +32,8 @@
     onChange?: (dates: [Date, Date], timeRange?: string) => void
   } = $props()
 
+  const { ui } = useUiCtx()
+
   const value = $derived(getValue(date, timeZone))
   const presets = $derived(withPresets ? getPresets(timeZone) : [])
 
@@ -51,7 +54,8 @@
 </script>
 
 <RangeCalendar.Root
-  class={cn('h-full max-w-max rounded border bg-white', className)}
+  --active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
+  class={cn('h-full max-w-max rounded border bg-white dark:bg-athens', className)}
   weekdayFormat="short"
   fixedWeeks
   {value}

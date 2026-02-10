@@ -45,7 +45,7 @@
 
     {#if isCheckmark}
       {#if value !== false}
-        <Svg id="checkmark-circle-filled" w="24" />
+        <Svg id="checkmark-circle-filled" class="text-white-day" w="24" />
       {/if}
     {:else if value}
       {value}{postfix}

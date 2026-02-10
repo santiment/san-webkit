@@ -66,14 +66,17 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
       to: parameters.to,
       interval: parameters.interval,
       aggregation: parameters.aggregation,
+      version: parameters.version,
     })
       .then((timeseries) => {
         if (isCancelled) {
           return
         }
 
+        // TODO: Is there a case when the errored promise is incorrectly cached and the returned as resolved Promise????
+        // This caused `timeseries` being `undefined`
         respond(MESSAGE_TYPE.FetchMetric, {
-          payload: { timeseries },
+          payload: { timeseries: timeseries ?? [] },
         })
       })
       .catch((err) => {

@@ -15,7 +15,11 @@ export { ss, type SS } from './state.svelte.js'
 
 export { getCookie, setCookie, deleteCookie } from './cookies.js'
 
+export { copy } from './clipboard.js'
+
 export { assertNever } from './assert.js'
+
+export { sleep } from './promise.js'
 
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
@@ -78,8 +82,9 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
 
   ctxCreator.get = get
   ctxCreator.set = set
+  ctxCreator.__CTX = CTX
 
-  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set }
+  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set; __CTX: typeof CTX }
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {

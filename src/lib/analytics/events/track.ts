@@ -1,5 +1,5 @@
 import { BROWSER } from 'esm-env'
-import { track as amplitudeTrack } from '@amplitude/analytics-browser'
+//import { track as amplitudeTrack } from '@amplitude/analytics-browser'
 import { posthog } from 'posthog-js'
 
 import { Query } from '$lib/api/executor.js'
@@ -10,7 +10,7 @@ export enum Tracker {
   GA = 'ga',
   SAN = 'san',
   TWQ = 'twq',
-  AMPLITUDE = 'AMPLITUDE',
+  //AMPLITUDE = 'AMPLITUDE',
   POSTHOG = 'POSTHOG',
 }
 
@@ -21,7 +21,7 @@ function canTrackBrowser(): boolean {
   return dnt !== '1' && dnt !== 'yes'
 }
 
-const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.AMPLITUDE, Tracker.POSTHOG]
+const DEFAULT_TRACKERS = [Tracker.GA, Tracker.SAN, Tracker.POSTHOG]
 
 export type TEventData = {
   [key: string]: undefined | string | number | string[] | number[] | boolean | boolean[]
@@ -47,12 +47,12 @@ export const track: { event: TTrackEventFn } = {
 
     const date = Date.now()
 
-    if (trackers.includes(Tracker.AMPLITUDE)) {
-      amplitudeTrack(
-        action,
-        normalizeData({ event_category: category, event_label: label, ...rest }),
-      )
-    }
+    //if (trackers.includes(Tracker.AMPLITUDE)) {
+    //  amplitudeTrack(
+    //    action,
+    //    normalizeData({ event_category: category, event_label: label, ...rest }),
+    //  )
+    //}
 
     if (trackers.includes(Tracker.POSTHOG)) {
       posthog.capture(
@@ -74,7 +74,7 @@ export const track: { event: TTrackEventFn } = {
         action,
         new Date(date),
         normalizeData({ event_category: category, event_label: label, ...rest }),
-      )
+      ).catch(() => {})
     }
   },
 }

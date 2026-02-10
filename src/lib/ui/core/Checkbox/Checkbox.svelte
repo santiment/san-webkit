@@ -35,8 +35,8 @@
   bind:checked={isActive}
   bind:indeterminate
   class={cn(
-    'bg-inherit flex size-4 min-w-4 items-center justify-center rounded border border-mystic fill-athens-day transition-colors',
-    'group-hover/label:bg-inherit hover:border-casper hover:bg-athens group-hover/label:border-casper',
+    'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-[inherit] fill-athens-day transition-colors',
+    'hover:border-casper hover:bg-athens group-hover/label:border-casper group-hover/label:bg-[inherit]',
     error && 'relative border-red hover:border-red-hover group-hover/label:border-red-hover',
     selected &&
       'border-green bg-green bg-center bg-no-repeat hover:border-green-hover hover:bg-green-hover group-hover/label:border-green-hover group-hover/label:bg-green-hover',

@@ -61,7 +61,7 @@
 
         {@render sanbaseLink('Write insight', '/insights/new', {
           variant: 'fill',
-          class: 'ml-2.5 w-max px-5',
+          class: 'hover:text-white-day ml-2.5 w-max px-5',
         })}
       </section>
     {:else}
@@ -74,13 +74,15 @@
     {/if}
 
     <section class="flex flex-col gap-1 px-3 py-2.5">
-      <Button as="label" variant="ghost" class="justify-between">
+      <Button as="label" variant="ghost" class="justify-between hover:text-rhino">
         Night mode
         <Switch checked={ui.$$.isNightMode} onCheckedChange={ui.toggleNightMode}></Switch>
       </Button>
 
       {#if onAcknowledgmentsClick}
-        <Button variant="ghost" onclick={onAcknowledgmentsClick}>Acknowledgments</Button>
+        <Button class="hover:text-rhino" variant="ghost" onclick={onAcknowledgmentsClick}>
+          Acknowledgments
+        </Button>
       {/if}
 
       {#if currentUser.$$}
@@ -104,7 +106,7 @@
 )}
   <Button
     variant="ghost"
-    class={cn('px-2', className)}
+    class={cn('px-2 hover:text-rhino', className)}
     {...props}
     href={SANBASE_ORIGIN + href}
     data-source="account_dropdown"

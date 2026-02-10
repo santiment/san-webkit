@@ -45,7 +45,7 @@
                 <Base.Day
                   class={cn(
                     'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded',
-                    'hover:bg-athens hover:text-green',
+                    'hover:bg-athens hover:text-green dark:hover:bg-porcelain',
                     'data-[unavailable]:text-mystic data-[unavailable]:line-through',
                     'data-[disabled]:pointer-events-none data-[disabled]:text-mystic',
                     'data-[outside-month]:pointer-events-none',
