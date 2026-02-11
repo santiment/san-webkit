@@ -7,14 +7,15 @@
   type TProps = {
     class?: string
     children: Snippet
+    noStyles?: boolean
   } & HTMLTdAttributes
 
-  const { class: className, children, ...props }: TProps = $props()
+  const { class: className, children, noStyles = false, ...props }: TProps = $props()
 </script>
 
 <td
   class={cn(
-    'overflow-hidden text-ellipsis whitespace-nowrap px-2 group-hover:bg-athens',
+    !noStyles && 'overflow-hidden text-ellipsis whitespace-nowrap px-4 group-hover/row:bg-athens',
     className,
   )}
   {...props}

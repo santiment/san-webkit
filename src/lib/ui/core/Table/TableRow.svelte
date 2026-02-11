@@ -12,6 +12,6 @@
   const { class: className, children, ...props }: TProps = $props()
 </script>
 
-<tr class={cn('group', className)} {...props}>
+<tr class={cn('group/row', className)} {...props}>
   {@render children()}
 </tr>

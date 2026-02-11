@@ -1,9 +1,8 @@
-<script
-  lang="ts"
-  generics="GItem extends Record<string, unknown>, GColumn extends BaseTableColumn<GItem>"
->
+<script lang="ts" generics="GItem extends any, GColumn extends BaseTableColumn<GItem>">
   import type { ComponentProps } from 'svelte'
   import type { BaseTableColumn } from './types.js'
+
+  import { cn } from '$ui/utils/index.js'
 
   import Table from '../Table.svelte'
   import TableBody from '../TableBody.svelte'
@@ -17,11 +16,13 @@
     items: GItem[]
     columns: GColumn[]
 
+    wrapperClass?: string
     class?: string
     headerClass?: string
     bodyClass?: string
     headerRowClass?: string
     bodyRowClass?: string
+    paginationClass?: string
 
     paged?: boolean
   }
@@ -29,11 +30,13 @@
   const {
     items,
     columns,
+    wrapperClass,
     class: className,
     headerClass,
     bodyClass,
     headerRowClass,
     bodyRowClass,
+    paginationClass,
     totalItems,
     page = 1,
     pageSize = items.length,
@@ -48,7 +51,6 @@
   const pageEndOffset = $derived(pageOffset + pageSize)
 
   const pagedItems = $derived.by(() => {
-    console.log({ paged, hasMoreItems, pageOffset, pageEndOffset })
     if (!paged) return items
     if (hasMoreItems) return items.slice(0, pageSize)
 
@@ -56,7 +58,7 @@
   })
 </script>
 
-<article class="flex w-full flex-col gap-4">
+<article class={cn('flex w-full flex-col gap-4', wrapperClass)}>
   <Table class={className}>
     <TableHeader class={headerClass}>
       <TableRow class={headerRowClass}>
@@ -87,6 +89,13 @@
   </Table>
 
   {#if paged}
-    <Pagination {page} {pageSize} {rows} {onPageChange} totalItems={itemsCount} />
+    <Pagination
+      class={paginationClass}
+      {page}
+      {pageSize}
+      {rows}
+      {onPageChange}
+      totalItems={itemsCount}
+    />
   {/if}
 </article>

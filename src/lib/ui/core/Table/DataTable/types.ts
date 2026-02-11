@@ -1,7 +1,7 @@
 import type { Component } from 'svelte'
 
 // TODO: Maybe it's not worth it to use union for format/Cell and title/Head options
-export type BaseTableColumn<GItem extends Record<string, unknown>> = {
+export type BaseTableColumn<GItem> = {
   class?: string
 } & (
   | {
