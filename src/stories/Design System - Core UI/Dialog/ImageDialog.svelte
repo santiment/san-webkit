@@ -15,6 +15,6 @@
     showDialog({
       children: imageViewer,
       class:
-        'bg-transparent shadow-none rounded-none overflow-visible max-w-none max-h-none border-none',
+        'bg-transparent shadow-none rounded-none overflow-visible max-w-full max-h-none border-none',
     })}>Show Dialog</button
 >
