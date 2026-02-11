@@ -103,12 +103,11 @@
     >
       {#snippet children({ type, value, isActive }, i)}
         {#if type === 'item'}
-          <AssetItem
-            class={cn('group/label', itemClass)}
-            item={value}
-            onclick={() => onSelect(value.slug)}
-          >
-            <Checkbox isActive={isActive || selected.has(value.slug)} />
+          <AssetItem as="label" class={cn('group/label', itemClass)} item={value}>
+            <Checkbox
+              isActive={isActive || selected.has(value.slug)}
+              onCheckedChange={() => onSelect(value.slug)}
+            />
           </AssetItem>
         {:else if type === 'title'}
           <h4
