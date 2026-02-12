@@ -49,7 +49,7 @@
     <div
       {...$overlay}
       use:overlay
-      class="fixed inset-0 z-[10000] bg-[#000000cf] dark:bg-[#00000067]"
+      class="fixed inset-0 z-[10000] bg-shark/60 dark:bg-[#00000067]"
       onclick={() => Controller.close()}
     ></div>
 
