@@ -3,8 +3,8 @@
 
   import { cn } from '$ui/utils/index.js'
 
-  import Svg from '../Svg/Svg.svelte'
-  import ValidationError from '../ValidationError/ValidationError.svelte'
+  import Svg from '../Svg/index.js'
+  import ValidationError from '../ValidationError/index.js'
 
   type TProps = CheckboxRootProps & {
     isActive?: boolean
