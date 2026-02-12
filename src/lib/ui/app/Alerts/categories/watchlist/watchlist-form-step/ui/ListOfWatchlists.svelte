@@ -68,7 +68,7 @@
         <div class="flex w-full items-center justify-between">
           {title}
           {#if isActive}
-            <Svg id="checkmark" w="8" />
+            <Svg id="checkmark" w="12" />
           {/if}
         </div>
 

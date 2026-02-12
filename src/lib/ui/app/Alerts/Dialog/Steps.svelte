@@ -42,7 +42,7 @@
         )}
       >
         {#if valid}
-          <Svg id="checkmark" w="8" />
+          <Svg id="checkmark" w="12" />
         {:else}
           {i + 1}
         {/if}

@@ -6,11 +6,13 @@
 
   import Svg from '../Svg/index.js'
 
-  type Icon = { id: string; w: number; h?: number }
+  type Icon = { id: string; w?: number; h?: number }
 
-  const {
+  let {
     icon,
+    checked = $bindable(false),
     class: className,
+    disabled,
     ...rest
   }: SwitchRootProps & {
     class?: string
@@ -23,27 +25,44 @@
   const { device } = useDeviceCtx()
 
   const { isDesktop } = $derived(device.$)
-  const activeIcon = $derived(icon?.active ?? { id: 'checkmark', w: 8, h: 6 })
-  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross', w: isDesktop ? 7 : 8 })
+  const activeIcon = $derived(icon?.active ?? { id: 'checkmark' })
+  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross' })
 
-  const currentIcon = $derived(rest.checked ? activeIcon : inactiveIcon)
+  const currentIcon = $derived(checked ? activeIcon : inactiveIcon)
+
+  const switchWidth = $derived(isDesktop ? 36 : 42)
+  const thumbPadding = $derived(isDesktop ? 3 : 6)
+  const thumbSize = $derived(isDesktop ? 14 : 16)
+
+  const thumbX = $derived(checked ? switchWidth - thumbPadding - thumbSize : thumbPadding)
 </script>
 
 <Switch.Root
-  {...rest}
-  style="--_margin:{isDesktop ? 3 : 6}px;padding: 0 var(--_margin);"
+  bind:checked
+  --width="{switchWidth}px"
   class={cn(
-    'relative flex h-5 w-9 min-w-9 items-center rounded-full bg-casper hover:bg-waterloo data-[state=checked]:bg-green data-[state=checked]:hover:bg-green-hover md:h-6 md:w-[42px]',
+    'group/switch relative flex items-center rounded-full bg-casper hover:bg-waterloo',
+    'fill-porcelain-day hover:fill-white-day',
+    'h-5 w-[var(--width)] min-w-[var(--width)] md:h-6',
+    checked && 'bg-green fill-athens-day hover:bg-green-hover hover:fill-white-day',
+    disabled && 'bg-porcelain fill-white hover:bg-porcelain hover:fill-white',
     className,
   )}
+  {disabled}
+  {...rest}
 >
   <Switch.Thumb
-    class="flex size-[14px] rounded-full bg-white transition-transform will-change-transform backface-hidden data-[state=checked]:translate-x-[15.5px] md:size-4"
+    --size="{thumbSize}px"
+    --translate-x="{thumbX}px"
+    class={cn(
+      'absolute left-0 z-10 flex rounded-full bg-porcelain transition-transform will-change-transform',
+      'size-[var(--size)] translate-x-[var(--translate-x)]',
+      !checked && !disabled && 'dark:bg-mystic-day',
+      checked ? 'bg-green-light-2-day' : '',
+      disabled && 'bg-whale',
+      disabled && checked && 'bg-whale',
+    )}
   />
 
-  <Svg
-    {...currentIcon}
-    style={cn(isDesktop && 'margin: 0 var(--_margin);', !rest.checked && 'right: var(--_margin)')}
-    class={cn('absolute fill-waterloo', rest.checked && 'fill-white')}
-  />
+  <Svg w={12} {...currentIcon} class={cn('absolute z-0', checked ? 'left-[5px]' : 'right-[5px]')} />
 </Switch.Root>
