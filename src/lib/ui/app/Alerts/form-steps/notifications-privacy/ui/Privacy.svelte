@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { TNotificationsState } from '../schema.js'
 
-  import Switch from '$ui/core/Switch/Switch.svelte'
+  import { PrivacySwitch } from '$ui/core/Switch/index.js'
 
   import Section from './Section.svelte'
 
@@ -13,12 +13,9 @@
 </script>
 
 <Section title="Privacy settings">
-  <label class="flex gap-2 px-4 py-3.5">
+  <label class="flex w-min gap-2 px-4 py-3.5">
     <span>Public</span>
 
-    <Switch
-      bind:checked={state.$$.isPublic}
-      icon={{ active: { id: 'checkmark', w: 12 }, inactive: { id: 'eye-crossed', w: 10 } }}
-    />
+    <PrivacySwitch bind:checked={state.$$.isPublic} />
   </label>
 </Section>

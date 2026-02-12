@@ -5,10 +5,11 @@
 
   type TProps = Omit<ComponentProps<typeof Switch>, 'icon'>
 
-  const props: TProps = $props()
+  let { checked = $bindable(false), ...rest }: TProps = $props()
 </script>
 
 <Switch
+  bind:checked
   icon={{ active: { id: 'eye-filled' }, inactive: { id: 'eye-crossed-filled' } }}
-  {...props}
+  {...rest}
 />
