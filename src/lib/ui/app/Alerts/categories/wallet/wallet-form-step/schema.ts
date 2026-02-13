@@ -1,4 +1,4 @@
-import type { TWalletApiAlert } from '../schema.js'
+import type { TWalletApiAlertPart } from '../schema.js'
 import type { TMetricConditionsState } from '$ui/app/Alerts/form-steps/metric-conditions/schema.js'
 
 import assert from 'assert'
@@ -12,7 +12,7 @@ import { getAddressInfrastructure, Infrastructure } from '$lib/utils/address.js'
 
 import Form from './ui/index.svelte'
 
-type TWalletSettings = NonNullable<TWalletApiAlert['settings']>
+type TWalletSettings = NonNullable<TWalletApiAlertPart['settings']>
 
 export type TWalletState = {
   target: {
@@ -24,7 +24,7 @@ export type TWalletState = {
   conditions: TMetricConditionsState['conditions'] | null
 }
 
-export type TBaseSchema = TStepBaseSchema<'wallet', TWalletApiAlert, TWalletState>
+export type TBaseSchema = TStepBaseSchema<'wallet', TWalletApiAlertPart, TWalletState>
 
 export const STEP_SELECT_WALLET_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'wallet',

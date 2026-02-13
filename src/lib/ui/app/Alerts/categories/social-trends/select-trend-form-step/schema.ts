@@ -1,4 +1,4 @@
-import type { TSocialTrendsApiAlert } from '../schema.js'
+import type { TSocialTrendsApiAlertPart } from '../schema.js'
 import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 
 import { createStepSchema, type TStepBaseSchema } from '$ui/app/Alerts/form-steps/types.js'
@@ -28,7 +28,7 @@ export type TTrendState = {
 }
 
 // Declaring a type so it can be later used in Component's props
-export type TBaseSchema = TStepBaseSchema<'select-trend', TSocialTrendsApiAlert, TTrendState>
+export type TBaseSchema = TStepBaseSchema<'select-trend', TSocialTrendsApiAlertPart, TTrendState>
 
 export const STEP_SELECT_TREND_SCHEMA = createStepSchema<TBaseSchema>({
   name: 'select-trend',
