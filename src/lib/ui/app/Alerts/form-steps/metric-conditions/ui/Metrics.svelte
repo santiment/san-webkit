@@ -31,7 +31,7 @@
 
 <section class="flex flex-col gap-3">
   <Input
-    icon="search"
+    icon="search-12"
     placeholder="Search for metric"
     oninput={onSearchInput}
     onkeyup={onSearchKeyUp}

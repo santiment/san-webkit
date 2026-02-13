@@ -1,7 +1,13 @@
 import path from 'path'
 import fs from 'fs/promises'
 
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput } from '../scripts/svg.js'
+import {
+  ILLUS_OPTIONS,
+  SPRITES_OPTIONS,
+  getSvgIds,
+  processSvgWithOutput,
+  replaceAvailableSvgs,
+} from '../scripts/svg.js'
 import { forFile, __dirname } from '../scripts/utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from '../scripts/asset-logos.js'
 import {
@@ -9,7 +15,7 @@ import {
   replaceDefaultMetricsRestrictionsSource,
 } from '../scripts/metrics-restrictions/index.js'
 
-export function WebkitSvg() {
+export async function WebkitSvg() {
   const base = __dirname()
   const isLibPackage = base.includes('node_modules')
 
@@ -19,8 +25,19 @@ export function WebkitSvg() {
   const staticDir = './static/webkit/'
   const spritesStaticDir = './static/webkit/sprites/'
 
+  const svgIds = await getSvgIds()
+
   return {
     name: 'webkit-svg',
+
+    transform(src: string, id: string) {
+      if (id.includes('/core/Svg/ids.ts')) {
+        return {
+          code: replaceAvailableSvgs(src, svgIds),
+          map: null,
+        }
+      }
+    },
 
     async buildStart() {
       if (isLibPackage) {

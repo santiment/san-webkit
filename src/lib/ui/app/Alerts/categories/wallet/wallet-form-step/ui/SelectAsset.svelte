@@ -55,7 +55,7 @@
   {#snippet content({ close })}
     <section class="flex flex-col gap-2">
       <Input
-        icon="search"
+        icon="search-12"
         oninput={onInput}
         onkeyup={onKeyUp}
         placeholder="Search assets"

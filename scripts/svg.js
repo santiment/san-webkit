@@ -1,6 +1,8 @@
 import path from 'path'
 import fs from 'fs'
 
+import { forFile } from './utils.js'
+
 /**
  *
  * @param {string} path
@@ -110,3 +112,51 @@ export const replaceSvgIdsType = (src, ids) =>
     'type TSvgId = string',
     `type TSvgId = ${ids.map((id) => `"${id}"`).join(' | ')} | (string & {})`,
   )
+
+export async function combineSvgsToSprite() {
+  /**
+   *
+   * @param {string[]} path
+   * @param {any} options
+   */
+  async function process(path, options) {
+    await forFile(path, async (entry) => {
+      processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
+    })
+  }
+
+  await process(['./dist/icons/**/*.svg'], SPRITES_OPTIONS)
+  await process(['./dist/illus/**/*.svg'], ILLUS_OPTIONS)
+}
+
+export async function getSvgIds() {
+  /**
+   * @type {string[]}
+   */
+  const ids = []
+
+  /**
+   *
+   * @param {string[]} path
+   */
+  async function process(path) {
+    await forFile(path, async (entry) => {
+      const id = entry.replace('./dist/icons/', '').replace('./dist/illus/', '').replace('.svg', '')
+      ids.push(id)
+    })
+  }
+
+  await process(['./dist/icons/**/*.svg'])
+  await process(['./dist/illus/**/*.svg'])
+
+  return ids
+}
+
+/**
+ *
+ * @param {string} src - Source code
+ * @param {Array<string>} svgs - Stringified JSON array
+ * @returns {string}
+ */
+export const replaceAvailableSvgs = (src, svgs) =>
+  src.replace('AVAILABLE_IDS = []', `AVAILABLE_IDS = ${JSON.stringify(svgs)}`)

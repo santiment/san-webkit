@@ -73,7 +73,7 @@
       <Input
         class="bg-inherit"
         inputClass="md:py-2.5"
-        icon="search"
+        icon="search-12"
         placeholder="Search project"
         oninput={onInput}
         onkeyup={onKeyUp}

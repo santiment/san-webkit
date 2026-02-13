@@ -8,7 +8,7 @@ import {
   fetchMetricsRestrictions,
   replaceDefaultMetricsRestrictionsSource,
 } from './metrics-restrictions/index.js'
-import { ILLUS_OPTIONS, SPRITES_OPTIONS, processSvgWithOutput, replaceSvgIdsType } from './svg.js'
+import { combineSvgsToSprite, getSvgIds, replaceAvailableSvgs, replaceSvgIdsType } from './svg.js'
 
 const MAIN_BRANCH = 'next'
 const RELEASE_BRANCH = 'lib-release'
@@ -204,18 +204,13 @@ async function replaceSrcImports() {
 }
 
 async function processSvg() {
-  const ids = []
-  async function process(path, options) {
-    await forFile(path, async (entry) => {
-      const id = entry.replace('./dist/icons/', '').replace('./dist/illus/', '').replace('.svg', '')
-      ids.push(id)
+  const [ids] = await Promise.all([getSvgIds(), combineSvgsToSprite()])
 
-      processSvgWithOutput(entry, './dist/', './dist/sprites/', options, './dist/')
-    })
-  }
+  await forFile(['./dist/**/core/Svg/ids.js'], (entry) => {
+    const file = fs.readFileSync(entry)
 
-  await process(['./dist/icons/**/*.svg'], SPRITES_OPTIONS)
-  await process(['./dist/illus/**/*.svg'], ILLUS_OPTIONS)
+    fs.writeFileSync(entry, replaceAvailableSvgs(file.toString(), ids))
+  })
 
   await forFile(['./dist/**/core/Svg/types.d.ts'], (entry) => {
     const file = fs.readFileSync(entry)
