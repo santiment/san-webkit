@@ -18,6 +18,7 @@ declare global {
       device: DeviceInfo
       isCookiesVisible: boolean
       isLiteVersion: boolean
+      isNightMode: boolean
     }
   }
 

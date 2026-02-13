@@ -1,1 +1,1 @@
-export { useUiCtx } from './index.svelte.js'
+export { useUiCtx, getNightModePreference } from './index.svelte.js'
