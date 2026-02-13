@@ -1,16 +1,14 @@
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
-
-import { checkIsCustomPlan } from './utils.js'
-
-import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,
   checkIsSanbaseProduct,
-  getPlanName,
-} from '$ui/app/SubscriptionPlan/utils.js'
+  getPlanDisplayName,
+  isPlanEligibleFor,
+  Plan,
+} from '$lib/utils/plans/index.js'
 
 export enum Status {
   ACTIVE = 'ACTIVE',
@@ -104,19 +102,20 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     } = subscription
 
     const isBusiness = checkIsBusinessPlan(plan.name)
+    const planName = plan.name
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
-    const isCustom = checkIsCustomPlan(plan.name)
-    const isBusinessMax = isBusiness && plan.name === SubscriptionPlan.BUSINESS_MAX.key
-    const isBusinessPro = isBusinessMax || plan.name === SubscriptionPlan.BUSINESS_PRO.key
-    const isMax = isBusiness || plan.name === SubscriptionPlan.MAX.key
-    const isProPlus = isBusiness || plan.name === SubscriptionPlan.PRO_PLUS.key
-    const isPro = isProPlus || isMax || plan.name === SubscriptionPlan.PRO.key
-    const isFree = !isPro && !isMax && !isBusinessPro && !isBusinessMax && !isCustom
+    const isCustom = isPlanEligibleFor(planName, Plan.CUSTOM)
+    const isBusinessMax = isPlanEligibleFor(planName, Plan.BUSINESS_MAX)
+    const isBusinessPro = isPlanEligibleFor(planName, Plan.BUSINESS_PRO)
+    const isMax = isPlanEligibleFor(planName, Plan.MAX)
+    const isProPlus = isPlanEligibleFor(planName, Plan.PRO_PLUS)
+    const isPro = isPlanEligibleFor(planName, Plan.PRO)
+    const isFree = !isPro
 
     return {
       plan,
-      planName: getPlanName(plan.name),
+      planName: getPlanDisplayName(plan.name),
 
       isBusinessMax,
       isBusinessPro,

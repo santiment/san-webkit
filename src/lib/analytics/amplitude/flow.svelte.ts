@@ -3,7 +3,7 @@ import * as amplitude from '@amplitude/analytics-browser'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
-import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import { Plan } from '$lib/utils/plans/index.js'
 
 import { useABTestCtx } from '../ab.js'
 
@@ -53,7 +53,7 @@ export function useAmplitudeFlow() {
   )
 
   const updateUserSanbasePlan = useDebouncedFn(1000, (sanbase_plan?: string) =>
-    setAmplitudeUserProperties({ sanbase_plan: sanbase_plan || SubscriptionPlan.FREE.key }),
+    setAmplitudeUserProperties({ sanbase_plan: sanbase_plan || Plan.FREE }),
   )
 
   $effect(() => {
