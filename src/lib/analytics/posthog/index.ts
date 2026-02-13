@@ -2,7 +2,7 @@ import { posthog } from 'posthog-js'
 import { BROWSER } from 'esm-env'
 
 export const POSTHOG_URL = 'https://eu.i.posthog.com'
-export const PROXY_ROUTE = '/api/track/posthog'
+export const PROXY_ROUTE = '/api/gateway'
 
 export function initPosthog(id = 'phc_uehdF88phYxAqgTbYH5GHjM2dy2Us8AcI5r1zoIRLw9') {
   if (!BROWSER) return
