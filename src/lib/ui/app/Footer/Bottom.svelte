@@ -25,7 +25,7 @@
     </div>
 
     <div
-      class="ml-[72px] flex flex-grow gap-9 md:ml-0 md:justify-end sm:justify-center hover:[&>a]:text-green"
+      class="ml-[72px] flex flex-grow gap-9 md:ml-0 md:justify-end sm:justify-center hover:[&>a]:text-[var(--accent)]"
     >
       <a href="https://santiment.net/terms/" target="_blank">Terms</a>
       <a href={`${SANBASE_ORIGIN}/privacy-policy`} target="_blank">Privacy</a>
