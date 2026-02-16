@@ -4,6 +4,7 @@
 
   import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import { cn } from '$ui/utils/index.js'
 
   import Products from './Products.svelte'
 
@@ -15,6 +16,7 @@
     isColumn?: boolean
     isOpened?: any
     active?: any
+    variant?: 'green' | 'blue'
     closeTimeout?: number
     children?: Snippet<[{ ref: SS<HTMLElement | null> }]>
   }
@@ -26,12 +28,18 @@
     isCompact = false,
     isOpened = undefined,
     active = undefined,
+    variant = 'green',
     closeTimeout,
     children: outerChildren,
   }: TProps = $props()
 </script>
 
-<Tooltip {isOpened} position="bottom-end" class={className} closeDelay={closeTimeout}>
+<Tooltip
+  {isOpened}
+  position="bottom-end"
+  class={cn('dark:bg-white', className)}
+  closeDelay={closeTimeout}
+>
   {#snippet children({ ref })}
     {#if outerChildren}
       {@render outerChildren({ ref })}
@@ -41,12 +49,15 @@
         size="auto"
         icon="products-toggle"
         iconSize={16}
-        class="mr-10 fill-waterloo hover:bg-transparent hover:fill-green"
+        class={cn(
+          'mr-10 fill-waterloo hover:bg-transparent',
+          variant === 'green' ? 'hover:fill-green' : 'hover:fill-blue',
+        )}
       ></Button>
     {/if}
   {/snippet}
 
   {#snippet content()}
-    <Products {active} {isColumn} {isCompact} class={dropdownClassName} />
+    <Products {active} {variant} {isColumn} {isCompact} class={dropdownClassName} />
   {/snippet}
 </Tooltip>
