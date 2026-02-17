@@ -9,4 +9,4 @@ export { default as DataTable } from './DataTable/DataTable.svelte'
 
 export { default as Pagination } from './Pagination.svelte'
 
-export type { BaseTableColumn } from './DataTable/types.js'
+export type { ColumnDef } from './DataTable/types.js'

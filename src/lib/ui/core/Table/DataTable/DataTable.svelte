@@ -1,6 +1,6 @@
-<script lang="ts" generics="GItem extends any, GColumn extends BaseTableColumn<GItem>">
+<script lang="ts" generics="GItem extends any, GColumn extends ColumnDef<any, any, any>">
   import type { ComponentProps } from 'svelte'
-  import type { BaseTableColumn } from './types.js'
+  import type { ColumnDef } from './types.js'
 
   import { cn } from '$ui/utils/index.js'
 
@@ -62,11 +62,13 @@
   <Table class={className}>
     <TableHeader class={headerClass}>
       <TableRow class={headerRowClass}>
-        {#each columns as { title, Head, class: className }}
+        {#each columns as column}
+          {@const { id, title, Head, class: className } = column}
+
           {#if Head}
-            <Head />
+            <Head {column} />
           {:else}
-            <TableHead class={className}>{title}</TableHead>
+            <TableHead class={className}>{title || id}</TableHead>
           {/if}
         {/each}
       </TableRow>
@@ -75,11 +77,18 @@
       {#each pagedItems as item, i}
         <TableRow class={bodyRowClass}>
           {#each columns as column}
-            {#if column.Cell}
-              <column.Cell {item} />
+            {@const { id, Cell, format, class: className } = column}
+
+            {#if Cell}
+              <Cell {item} {column} />
+            {:else if format}
+              <TableCell class={className}>
+                {format(item, i, column)}
+              </TableCell>
             {:else}
-              <TableCell class={column.class}>
-                {column.format(item, i)}
+              <TableCell>
+                <pre>Declare <code>Cell</code> or <code>format</code> for column <code>{id}</code
+                  ></pre>
               </TableCell>
             {/if}
           {/each}
