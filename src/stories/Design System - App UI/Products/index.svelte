@@ -7,7 +7,7 @@
 <main class="items-start gap-6 px-5 py-10 column">
   <div>
     <h2 class="text-xl">Button</h2>
-    <ProductsButton />
+    <ProductsButton variant="blue" />
   </div>
 
   <div>
@@ -22,7 +22,7 @@
   <div>
     <h2 class="text-xl">Regular</h2>
     <div class="rounded border">
-      <Products />
+      <Products active="sanapi" variant="blue" />
     </div>
   </div>
 
