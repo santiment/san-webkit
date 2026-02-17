@@ -5,16 +5,16 @@
 
   type TProps = {
     item: Item
+    checkSelected: (item: Item) => boolean
     onSelect: (item: Item) => void
   }
 
-  const { item, onSelect }: TProps = $props()
+  const { item, checkSelected, onSelect }: TProps = $props()
+  let isSelected = $derived(checkSelected(item))
 </script>
 
-<!-- <td class="pl-2 w-min"> -->
 <TableCell class="w-px p-0 pl-2" noStyles>
   <div class="w-full rounded-l-lg p-2 group-hover/row:bg-athens">
-    <Checkbox isActive={false} onclick={() => onSelect(item)} />
+    <Checkbox isActive={isSelected} onCheckedChange={() => onSelect(item)} />
   </div>
 </TableCell>
-<!-- </td> -->

@@ -1,19 +1,36 @@
 import type { Item } from '../utils.js'
 import { usdFormatter } from '$lib/utils/formatters/index.js'
 
-import { defineColumn } from '$ui/core/Table/DataTable/types.js'
+import { defineColumn, type ComponentExtraProps } from '$ui/core/Table/DataTable/types.js'
 import CustomCell from './cells/CustomCell.svelte'
 import Checkbox from './cells/Checkbox.svelte'
 import CheckboxHead from './cells/CheckboxHead.svelte'
 
-export const columns = [
-  defineColumn<Item, { onSelect: () => void }, { onSelect: () => void }>({
+export type ColumnDeps = {
+  selected: Set<number>
+  checkAllSelected: () => boolean
+  checkSelected: (item: Item) => boolean
+  onSelect: (item: Item) => void
+  onSelectAll: () => void
+}
+
+export const createColumns = (deps: ColumnDeps) => [
+  defineColumn<
+    Item,
+    ComponentExtraProps<typeof Checkbox>,
+    ComponentExtraProps<typeof CheckboxHead>
+  >({
     id: 'checkbox',
     title: 'checkbox',
     Cell: Checkbox,
     Head: CheckboxHead,
-    getCellProps: () => ({
-      onSelect: () => {},
+    getCellProps: (item) => ({
+      onSelect: deps.onSelect,
+      checkSelected: deps.checkSelected,
+    }),
+    getHeadProps: () => ({
+      onSelectAll: deps.onSelectAll,
+      checkAllSelected: deps.checkAllSelected,
     }),
   }),
   defineColumn<Item>({

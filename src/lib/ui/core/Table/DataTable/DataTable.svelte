@@ -60,10 +60,10 @@
     <TableHeader class={headerClass}>
       <TableRow class={headerRowClass}>
         {#each columns as column}
-          {@const { id, title, Head, class: className } = column}
+          {@const { id, title, Head, class: className, getHeadProps } = column}
 
           {#if Head}
-            <Head {column} />
+            <Head {column} {...getHeadProps?.()} />
           {:else}
             <TableHead class={className}>{title || id}</TableHead>
           {/if}
@@ -74,10 +74,10 @@
       {#each pagedItems as item, i}
         <TableRow class={bodyRowClass}>
           {#each columns as column}
-            {@const { id, Cell, format, class: className } = column}
+            {@const { id, Cell, format, class: className, getCellProps } = column}
 
             {#if Cell}
-              <Cell {item} {column} />
+              <Cell {item} {column} {...getCellProps?.(item)} />
             {:else if format}
               <TableCell class={className}>
                 {format(item, i, column)}

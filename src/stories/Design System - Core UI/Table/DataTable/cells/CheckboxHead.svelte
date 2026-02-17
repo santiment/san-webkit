@@ -3,14 +3,13 @@
   import TableHead from '$ui/core/Table/TableHead.svelte'
 
   type TProps = {
-    onSelect: () => void
+    checkAllSelected: () => boolean
+    onSelectAll: () => void
   }
 
-  const { onSelect }: TProps = $props()
+  const { checkAllSelected, onSelectAll }: TProps = $props()
 </script>
 
-<!-- <td class="pl-2 w-min"> -->
 <TableHead class="w-px">
-  <Checkbox isActive={false} onclick={() => onSelect()} />
+  <Checkbox isActive={checkAllSelected()} onCheckedChange={() => onSelectAll()} />
 </TableHead>
-<!-- </td> -->
