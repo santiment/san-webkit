@@ -14,13 +14,14 @@
   <DataTable
     {items}
     {columns}
-    {page}
-    {pageSize}
-    totalItems={TOTAL_ITEMS}
-    onPageChange={(p, size) => {
-      page = p
-      pageSize = size
+    pagination={{
+      page,
+      pageSize,
+      totalItems: TOTAL_ITEMS,
+      onPageChange: (p, size) => {
+        page = p
+        pageSize = size
+      },
     }}
-    paged
   />
 </main>

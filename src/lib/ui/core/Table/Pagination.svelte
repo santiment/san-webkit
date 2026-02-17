@@ -10,8 +10,8 @@
 
   type TProps = {
     class?: string
-    page?: number
-    pageSize?: number
+    page: number
+    pageSize: number
     rows?: number[]
     onPageChange?: (page: number, pageSize: number) => void
     totalItems: number
@@ -19,8 +19,8 @@
 
   const {
     class: className,
-    page = 1,
-    pageSize = 25,
+    page,
+    pageSize,
     rows = [10, 25, 50],
     onPageChange = noop,
     totalItems,

@@ -12,7 +12,7 @@
   import TableRow from '../TableRow.svelte'
   import Pagination from '../Pagination.svelte'
 
-  type TProps = Partial<ComponentProps<typeof Pagination>> & {
+  type TProps = {
     items: GItem[]
     columns: GColumn[]
 
@@ -22,9 +22,8 @@
     bodyClass?: string
     headerRowClass?: string
     bodyRowClass?: string
-    paginationClass?: string
 
-    paged?: boolean
+    pagination?: ComponentProps<typeof Pagination>
   }
 
   const {
@@ -36,22 +35,20 @@
     bodyClass,
     headerRowClass,
     bodyRowClass,
-    paginationClass,
-    totalItems,
-    page = 1,
-    pageSize = items.length,
-    rows,
-    onPageChange,
-    paged,
+    pagination,
   }: TProps = $props()
 
-  const hasMoreItems = $derived(items.length !== totalItems)
-  const itemsCount = $derived(totalItems ?? items.length)
-  const pageOffset = $derived((page - 1) * pageSize)
-  const pageEndOffset = $derived(pageOffset + pageSize)
+  const itemsCount = $derived(pagination?.totalItems ?? items.length)
 
   const pagedItems = $derived.by(() => {
-    if (!paged) return items
+    if (!pagination) return items
+
+    const { totalItems, page, pageSize } = pagination
+
+    const hasMoreItems = items.length !== totalItems
+    const pageOffset = (page - 1) * pageSize
+    const pageEndOffset = pageOffset + pageSize
+
     if (hasMoreItems) return items.slice(0, pageSize)
 
     return items.slice(pageOffset, pageEndOffset)
@@ -97,9 +94,11 @@
     </TableBody>
   </Table>
 
-  {#if paged}
+  {#if pagination}
+    {@const { page, pageSize, rows, onPageChange } = pagination}
+
     <Pagination
-      class={paginationClass}
+      class={pagination.class}
       {page}
       {pageSize}
       {rows}
