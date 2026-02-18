@@ -7,11 +7,11 @@
   import { resourcesLinks } from './links.js'
 
   type TProps = {
-    class: string
+    class?: string
     accent?: 'green' | 'blue'
   }
 
-  const { class: className, accent = 'green' }: TProps = $props()
+  const { class: className = '', accent = 'green' }: TProps = $props()
 </script>
 
 <footer class={cn('bg-athens px-6', className)} style="--accent: var(--{accent})">
