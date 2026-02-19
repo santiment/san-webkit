@@ -2,7 +2,7 @@
   import type { TBreakdownFeature } from './breakdown.js'
 
   import Svg from '$ui/core/Svg/index.js'
-  import Popover from '$ui/core/Popover/index.js'
+  import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/index.js'
 
   let {
@@ -22,15 +22,15 @@
 <div class="td-h txt-left flex items-center gap-1 text-rhino">
   {name}
   {#if description}
-    <Popover side="bottom" align="center" contentProps={{ alignOffset: 8 }}>
-      {#snippet children({ props })}
-        <Button {...props} icon="info" size="sm" />
+    <Tooltip position="bottom">
+      {#snippet children({ ref })}
+        <Button {ref} icon="info" size="sm" />
       {/snippet}
 
       {#snippet content()}
         <div class="description body-3">{@html description}</div>
       {/snippet}
-    </Popover>
+    </Tooltip>
   {/if}
 </div>
 
