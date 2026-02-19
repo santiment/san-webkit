@@ -1,18 +1,7 @@
-import type { TSubscriptionPlan } from './types.js'
+import { exactObjectKeys } from '$lib/utils/object.js'
+import { Plan } from '$lib/utils/plans/index.js'
 
-import { keyify } from '$lib/utils/object.js'
-
-export const Product = keyify(
-  {
-    SanAPI: { id: '1' },
-    Sanbase: { id: '2' },
-  },
-  'name',
-)
-
-export type PlanType = 'business' | 'consumer'
-
-export const PlanTypeDisplayInfo: Record<PlanType, { name: string; className: string }> = {
+export const PlanTypeDisplayInfo = {
   consumer: {
     name: '👨‍🦱 For Individuals',
     className: 'outline-green bg-green-light-1',
@@ -21,21 +10,11 @@ export const PlanTypeDisplayInfo: Record<PlanType, { name: string; className: st
     name: '💼 For Business',
     className: 'outline-blue bg-blue-light-1',
   },
-}
+} satisfies Record<string, { name: string; className: string }>
 
-export const planTypes = Object.keys(PlanTypeDisplayInfo) as PlanType[]
+export const planTypes = exactObjectKeys(PlanTypeDisplayInfo)
 
-export const SubscriptionPlan = keyify({
-  PRO_PLUS: { name: 'Sanbase Pro+' }, // Deprecated
-
-  FREE: { name: 'Free' },
-  PRO: { name: 'Sanbase Pro' },
-  MAX: { name: 'Sanbase Max' },
-
-  BUSINESS_PRO: { name: 'Business Pro' },
-  BUSINESS_MAX: { name: 'Business Max' },
-  CUSTOM: { name: 'Enterprise' },
-})
+export type PlanType = (typeof planTypes)[number]
 
 export const SubscriptionPlanDetails: Record<
   string,
@@ -45,7 +24,7 @@ export const SubscriptionPlanDetails: Record<
       features: string[]
     }
 > = {
-  [SubscriptionPlan.FREE.key]: {
+  [Plan.FREE]: {
     description: 'Ideal for new traders and investors to kickstart crypto analysis',
     features: [
       '30-day lag in Sanbase',
@@ -58,7 +37,7 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
-  [SubscriptionPlan.PRO.key]: {
+  [Plan.PRO]: {
     description: 'Ideal for advanced traders and analysts to power decisions with real-time data',
     features: [
       'Present-day and full historical data in Sanbase',
@@ -72,7 +51,7 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
-  [SubscriptionPlan.MAX.key]: {
+  [Plan.MAX]: {
     description: 'Ideal for advanced investment strategies with full API access to real-time data',
     features: [
       'Present-day and full historical data in Sanbase, Trending Coins & Stories',
@@ -86,7 +65,7 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
-  [SubscriptionPlan.BUSINESS_PRO.key]: {
+  [Plan.BUSINESS_PRO]: {
     description: 'Designed for algorithmic trading and investment strategies',
     features: [
       '2 years of historical data through API',
@@ -97,7 +76,7 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
-  [SubscriptionPlan.BUSINESS_MAX.key]: {
+  [Plan.BUSINESS_MAX]: {
     description: 'Designed for deep market analysis and large-scale data integration',
     features: [
       'Full historical data and metrics',
@@ -109,7 +88,7 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
-  [SubscriptionPlan.CUSTOM.key]: {
+  [Plan.CUSTOM]: {
     description: 'Designed for high-demand professional trading and financial platforms',
     features: [
       'Custom development of data solutions',
@@ -120,20 +99,4 @@ export const SubscriptionPlanDetails: Record<
       'Technical support included',
     ],
   },
-}
-
-export const CONSUMER_PLANS = new Set<string>([
-  SubscriptionPlan.FREE.key,
-  SubscriptionPlan.PRO.key,
-  SubscriptionPlan.MAX.key,
-])
-
-export const BUSINESS_PLANS = new Set<string>([
-  SubscriptionPlan.BUSINESS_MAX.key,
-  SubscriptionPlan.BUSINESS_PRO.key,
-  SubscriptionPlan.CUSTOM.key,
-])
-
-export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
-  return planKey === SubscriptionPlan.PRO.key
 }

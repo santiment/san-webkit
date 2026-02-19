@@ -16,6 +16,10 @@ export function exactObjectKeys<T extends object>(obj: T) {
   return Object.keys(obj) as (keyof typeof obj)[]
 }
 
+export function createEnumMap<T extends string[]>(keys: T) {
+  return keys.reduce((res, key) => ({ ...res, [key]: key }), {} as { [K in T[number]]: K })
+}
+
 export function mergeDeep<T1, T2, T3, T4>(obj1: T1, obj2: T2, obj3: T3, obj4: T4): T1 & T2 & T3 & T4
 export function mergeDeep<T1, T2, T3>(obj1: T1, obj2: T2, obj3: T3): T1 & T2 & T3
 export function mergeDeep<T1, T2>(obj1: T1, obj2: T2): T1 & T2

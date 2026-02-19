@@ -2,7 +2,7 @@ import { posthog } from 'posthog-js'
 import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import { Plan } from '$lib/utils/plans/index.js'
 
 import { useDebouncedFn } from '../amplitude/flow.svelte.js'
 import { useABTestCtx } from '../ab.js'
@@ -29,7 +29,7 @@ export function usePosthogFlow() {
     (sanbase_plan?: string, featureAccessLevel?: string) =>
       posthog.capture('$set', {
         $set: {
-          sanbase_plan: sanbase_plan || SubscriptionPlan.FREE.key,
+          sanbase_plan: sanbase_plan || Plan.FREE,
           feature_access_level: featureAccessLevel,
         },
       }),
