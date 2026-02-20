@@ -56,6 +56,12 @@ declare global {
       IS_PROD_BACKEND: boolean
 
       BULLETSHELL: boolean
+
+      VITEST: boolean
     }
+  }
+
+  interface ImportMetaEnv {
+    VITE_TEST_AUTH_TOKEN: string
   }
 }

@@ -16,7 +16,7 @@ export type TNotificationsState = {
   cooldown: TTimeWindow
 }
 
-export type TNotificationsApiAlert = {
+export type TNotificationsApiAlertPart = {
   cooldown: TApiTimeWindow
   isPublic: boolean
   isRepeating: boolean
@@ -27,7 +27,7 @@ export type TNotificationsApiAlert = {
 
 export type TBaseSchema = TStepBaseSchema<
   'notifications-privacy',
-  TNotificationsApiAlert,
+  TNotificationsApiAlertPart,
   TNotificationsState
 >
 

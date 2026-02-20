@@ -1,5 +1,6 @@
 import type { TApiOperation } from '../../operations.js'
 import type { TTimeWindow } from '../../time.js'
+import type { TApiAlertFromSchema } from '../../types.js'
 
 import { describeConditions } from '../../form-steps/metric-conditions/utils.js'
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
@@ -13,7 +14,7 @@ export const WalletAlertTypes = [
 
 export type TWalletAlertType = (typeof WalletAlertTypes)[number]
 
-export type TWalletApiAlert = {
+export type TWalletApiAlertPart = {
   settings: {
     target: { address: string | string[] }
     type: TWalletAlertType
@@ -28,9 +29,11 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_WALLET_SCHEMA]
 
-    deduceApiAlert: (apiAlert: Partial<TWalletApiAlert>) => boolean
+    deduceApiAlert: (apiAlert: Partial<TWalletApiAlertPart>) => boolean
   }
 >
+
+export type TWalletApiAlert = TApiAlertFromSchema<typeof ALERT_WALLET_SCHEMA>
 
 export const ALERT_WALLET_SCHEMA = createAlertSchema<TBaseSchema>({
   name: 'wallet',
