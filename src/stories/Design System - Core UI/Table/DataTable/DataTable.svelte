@@ -8,9 +8,9 @@
   type TProps = {
     items: Item[]
     pagination?: ComponentProps<typeof DataTable>['pagination']
-  }
+  } & Pick<ComponentProps<typeof DataTable>, 'onSort' | 'sortColumn' | 'sortDirection'>
 
-  const { items, pagination }: TProps = $props()
+  const { items, pagination, ...rest }: TProps = $props()
 
   let selectedRows = $state(new SvelteSet<number>())
   const isAllSelected = $derived(selectedRows.size === items.length)
@@ -43,5 +43,5 @@
 </script>
 
 <main class="flex h-screen items-start justify-center px-10 py-5">
-  <DataTable {items} {columns} {pagination} />
+  <DataTable {items} {columns} {pagination} {...rest} />
 </main>

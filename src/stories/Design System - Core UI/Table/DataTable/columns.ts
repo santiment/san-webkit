@@ -34,7 +34,7 @@ export const createColumns = (deps: ColumnDeps) => [
     }),
   }),
   defineColumn<Item>({
-    id: 'count',
+    id: 'index',
     title: '#',
     format: (_, index) => index + 1,
     class: 'w-px',
@@ -48,11 +48,15 @@ export const createColumns = (deps: ColumnDeps) => [
     id: 'price',
     title: 'Price',
     format: ({ price }) => usdFormatter(price),
+    isSortable: true,
+    sortAccessor: ({ price }) => price,
   }),
   defineColumn<Item>({
     id: 'volume',
     title: 'Volume',
     format: (item) => item.volume,
+    isSortable: true,
+    sortAccessor: ({ volume }) => volume,
   }),
   defineColumn<Item>({
     id: 'tokens',

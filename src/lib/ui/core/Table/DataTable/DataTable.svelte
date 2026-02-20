@@ -1,6 +1,6 @@
 <script lang="ts" generics="GItem extends any, GColumn extends ColumnDef<any, any, any>">
   import type { ComponentProps } from 'svelte'
-  import type { ColumnDef } from './types.js'
+  import type { ColumnDef, SortDirection } from './types.js'
 
   import { cn } from '$ui/utils/index.js'
 
@@ -24,6 +24,11 @@
     bodyRowClass?: string
 
     pagination?: ComponentProps<typeof Pagination>
+
+    sortColumn?: GColumn
+    sortDirection?: SortDirection
+    preValidateSort?: (column: GColumn) => boolean
+    onSort?: (column: GColumn, direction: SortDirection) => void
   }
 
   const {
@@ -36,12 +41,29 @@
     headerRowClass,
     bodyRowClass,
     pagination,
+    preValidateSort,
+    onSort,
   }: TProps = $props()
+
+  let sortColumn = $state<GColumn | null>(null)
+  let sortDirection = $state<SortDirection>('DESC')
+
+  const sortedItems = $derived.by(() => {
+    if (!sortColumn) return items
+    const { sortAccessor } = sortColumn
+    if (!sortAccessor) return items
+
+    return items.toSorted((a, b) =>
+      sortDirection === 'ASC'
+        ? sortAccessor(a) - sortAccessor(b)
+        : sortAccessor(b) - sortAccessor(a),
+    )
+  })
 
   const itemsCount = $derived(pagination?.totalItems ?? items.length)
 
   const pagedItems = $derived.by(() => {
-    if (!pagination) return items
+    if (!pagination) return sortedItems
 
     const { totalItems, page, pageSize } = pagination
 
@@ -49,10 +71,28 @@
     const pageOffset = (page - 1) * pageSize
     const pageEndOffset = pageOffset + pageSize
 
-    if (hasMoreItems) return items.slice(0, pageSize)
+    if (hasMoreItems) return sortedItems.slice(0, pageSize)
 
-    return items.slice(pageOffset, pageEndOffset)
+    return sortedItems.slice(pageOffset, pageEndOffset)
   })
+
+  function setSort(column: GColumn) {
+    if (!column.isSortable) return
+    applySort(column)
+    onSort?.(column, sortDirection)
+  }
+
+  function applySort(column: GColumn) {
+    const isValid = preValidateSort?.(column) ?? true
+    if (!isValid) return
+
+    if (column.id !== sortColumn?.id) {
+      sortDirection = 'DESC'
+      sortColumn = column
+    } else {
+      sortDirection = sortDirection === 'DESC' ? 'ASC' : 'DESC'
+    }
+  }
 </script>
 
 <article class={cn('flex w-full flex-col gap-4', wrapperClass)}>
@@ -60,12 +100,20 @@
     <TableHeader class={headerClass}>
       <TableRow class={headerRowClass}>
         {#each columns as column}
-          {@const { id, title, Head, class: className, getHeadProps } = column}
+          {@const { id, title, Head, class: className, getHeadProps, isSortable } = column}
+          {@const isSorted = sortColumn?.id === column.id}
 
           {#if Head}
             <Head {column} {...getHeadProps?.()} />
           {:else}
-            <TableHead class={className}>{title || id}</TableHead>
+            <TableHead
+              class={className}
+              onclick={() => setSort(column)}
+              sortDirection={isSorted ? sortDirection : undefined}
+              {isSortable}
+            >
+              {title || id}
+            </TableHead>
           {/if}
         {/each}
       </TableRow>

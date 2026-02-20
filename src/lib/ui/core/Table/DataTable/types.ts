@@ -29,8 +29,13 @@ export type ColumnDef<GItem, GCellExtra = object, GHeaderExtra = object> = {
   ) => string | number
   Cell?: Component<BaseCellProps<GItem, GCellExtra, GHeaderExtra> & GCellExtra>
   getCellProps?: (item: GItem) => GCellExtra
+
+  isSortable?: boolean
+  sortAccessor?: (item: GItem) => number
 }
 
 export const defineColumn = <GItem, GCellExtra = object, GHeaderExtra = object>(
   col: ColumnDef<GItem, GCellExtra, GHeaderExtra>,
 ) => col
+
+export type SortDirection = 'DESC' | 'ASC'
