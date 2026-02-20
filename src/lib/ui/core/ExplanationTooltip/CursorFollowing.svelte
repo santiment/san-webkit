@@ -117,7 +117,7 @@
     class={cn('pointer-events-none fixed left-0 top-0 z-10 will-change-transform')}
     style:transform="translate3d({Math.round(x)}px, {Math.round(y)}px, 0)"
   >
-    <article class={cn('rounded bg-fiord px-3 py-1.5 text-xs text-white', className)}>
+    <article class={cn('rounded bg-fiord-day px-3 py-1.5 text-xs text-white-day', className)}>
       {explanation}
     </article>
   </div>
