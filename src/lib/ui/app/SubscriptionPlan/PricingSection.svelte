@@ -60,7 +60,11 @@
   </h1>
 
   <div
-    class="mb-8 inline-flex rounded-md border text-base font-medium text-waterloo sm:mb-10 sm:text-lg"
+    class={cn(
+      'mb-8 inline-flex rounded-md border text-base',
+      'font-medium text-waterloo sm:mb-10 sm:text-lg',
+      '[&:has(button:not(.outline):hover)]:bg-athens',
+    )}
   >
     {#each planTypes as item (item)}
       {@const info = PlanTypeDisplayInfo[item]}
@@ -68,7 +72,7 @@
 
       <Button
         class={cn(
-          'h-[38px] px-4 py-[8px] sm:py-3.5',
+          'h-[38px] px-4 py-[8px] hover:bg-athens sm:py-3.5',
           isActive && cn('z-10 rounded-md text-rhino outline outline-1', info.className),
         )}
         onclick={() => handlePlanClick(item)}

@@ -135,5 +135,5 @@ export const BUSINESS_PLANS = new Set<string>([
 ])
 
 export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
-  return planKey === SubscriptionPlan.PRO.key
+  return planKey === SubscriptionPlan.PRO.key || planKey === SubscriptionPlan.MAX.key
 }
