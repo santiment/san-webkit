@@ -11,10 +11,13 @@ if (BROWSER) {
 let __SESSION__ = (BROWSER ? window.__SESSION__ : {}) as object
 
 export function useAppSessionFlow(data: {
-  session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion'>
+  session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion' | 'isNightMode'>
 }) {
   const { customer } = useCustomerCtx(data.session.customer)
-  const { ui } = useUiCtx({ isLiteVersion: data.session.isLiteVersion })
+  const { ui } = useUiCtx({
+    isLiteVersion: data.session.isLiteVersion,
+    isNightMode: data.session.isNightMode,
+  })
   const { device } = useDeviceCtx(data.session.device.type)
 
   if (!BROWSER) return
