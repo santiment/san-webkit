@@ -16,6 +16,8 @@
     items: GItem[]
     columns: GColumn[]
 
+    minRows?: number
+
     wrapperClass?: string
     class?: string
     headerClass?: string
@@ -41,12 +43,15 @@
     headerRowClass,
     bodyRowClass,
     pagination,
+    minRows = pagination?.pageSize,
     preValidateSort,
     onSort,
   }: TProps = $props()
 
   let sortColumn = $state<GColumn | null>(null)
   let sortDirection = $state<SortDirection>('DESC')
+
+  let rowHeight = $state(0)
 
   const sortedItems = $derived.by(() => {
     if (!sortColumn) return items
@@ -75,6 +80,8 @@
 
     return sortedItems.slice(pageOffset, pageEndOffset)
   })
+
+  const padRowsAmount = $derived(minRows ? minRows - pagedItems.length : 0)
 
   function setSort(column: GColumn) {
     if (!column.isSortable) return
@@ -120,7 +127,7 @@
     </TableHeader>
     <TableBody class={bodyClass}>
       {#each pagedItems as item, i}
-        <TableRow class={bodyRowClass}>
+        <TableRow bind:height={rowHeight} class={bodyRowClass}>
           {#each columns as column}
             {@const { id, Cell, format, class: className, getCellProps } = column}
 
@@ -136,6 +143,14 @@
                   ></pre>
               </TableCell>
             {/if}
+          {/each}
+        </TableRow>
+      {/each}
+
+      {#each { length: padRowsAmount } as _}
+        <TableRow style="height: {rowHeight}px;">
+          {#each columns as _}
+            <TableCell noStyles />
           {/each}
         </TableRow>
       {/each}

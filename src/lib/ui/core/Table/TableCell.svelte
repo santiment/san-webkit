@@ -6,7 +6,7 @@
 
   type TProps = {
     class?: string
-    children: Snippet
+    children?: Snippet
     noStyles?: boolean
   } & HTMLTdAttributes
 
@@ -20,5 +20,5 @@
   )}
   {...props}
 >
-  {@render children()}
+  {@render children?.()}
 </td>
