@@ -18,6 +18,7 @@
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
   import RestrictionMessage from './RestrictionMessage.svelte'
+  import { beforeNavigate } from '$app/navigation'
 
   type TProps = TDialogProps & {
     source?: string
@@ -46,6 +47,10 @@
   }
 
   const close = () => Controller.close()
+
+  beforeNavigate(() => {
+    close()
+  })
 
   onMount(() => {
     const analytics = { source }
