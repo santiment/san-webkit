@@ -23,8 +23,9 @@
     source?: string
     alert?: null | Partial<TApiAlert>
     onCreate?: (alert: TApiAlert) => void
+    onClose?: () => void
   }
-  let { alert, Controller, onCreate, source = '' }: TProps = $props()
+  let { alert, Controller, onCreate, onClose, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(alert))
 
@@ -52,6 +53,7 @@
     trackEvent('dialog', { ...analytics, action: 'open', type: '' })
 
     return () => {
+      onClose?.()
       trackEvent('dialog', { ...analytics, action: 'close', type: '' })
     }
   })
