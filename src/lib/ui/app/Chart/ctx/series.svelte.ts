@@ -8,7 +8,7 @@ import {
 } from '$lib/ctx/metrics-registry/types/index.js'
 import { ss, createCtx } from '$lib/utils/index.js'
 import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
-import { uuidv4 } from '$lib/utils/uuid/index.js'
+import { uuidv7 } from '$lib/utils/uuid/index.js'
 
 const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
@@ -73,7 +73,7 @@ export function createSeries({
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
 
   const metric = {
-    id: uuidv4(),
+    id: uuidv7(),
 
     type,
     apiMetricName,
@@ -126,6 +126,30 @@ export function createSeries({
     chartSeriesApi: null as null | ISeriesApi<any>,
     transformData,
     meta,
+
+    toApiSchema$() {
+      return {
+        type,
+        apiMetricName,
+        id: metric.id,
+        formula: metric.formula?.$,
+        version: metric.version.$,
+
+        interval: metric.interval.$,
+        selector: metric.selector.$,
+        pane: metric.pane.$,
+
+        visible: metric.visible.$,
+        color: metric.ui.$$.color,
+        style: metric.ui.$$.style,
+
+        scaleId: metric.scale.$$.id,
+        scaleVisible: metric.scale.$$.visible,
+
+        isSelectorLocked: metric.ui.$$.isSelectorLocked,
+        isFilledGradient: metric.ui.$$.isFilledGradient,
+      }
+    },
   }
 
   return metric
