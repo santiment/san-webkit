@@ -3,7 +3,7 @@
 
   import { trackEvent } from '$lib/analytics/index.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.js'
-  import { useUiCtx } from '$lib/ctx/ui/index.js'
+  import { useUiCtx, useCustomerNightModeToggleFlow } from '$lib/ctx/ui/index.js'
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
@@ -25,6 +25,7 @@
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
+  const { toggleNightMode } = useCustomerNightModeToggleFlow()
   const { startLogout } = useLogoutFlow()
 
   function onLogoutClick() {
@@ -76,7 +77,7 @@
     <section class="flex flex-col gap-1 px-3 py-2.5">
       <Button as="label" variant="ghost" class="justify-between hover:text-rhino">
         Night mode
-        <Switch checked={ui.$$.isNightMode} onCheckedChange={ui.toggleNightMode}></Switch>
+        <Switch checked={ui.$$.isNightMode} onCheckedChange={toggleNightMode}></Switch>
       </Button>
 
       {#if onAcknowledgmentsClick}
