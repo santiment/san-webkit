@@ -6,7 +6,6 @@
   import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
   import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
-  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
   type FloatingConfig = NonNullable<CreateTooltipProps['positioning']>
 
@@ -35,8 +34,6 @@
     offset,
     ...options
   }: Props = $props()
-
-  const { ui } = useUiCtx()
 
   const {
     elements: { trigger, content, arrow },
@@ -75,7 +72,6 @@
     {...$content}
     use:content
     out:flyAndScaleOutTransition
-    style:--active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
     class={cn(
       'fly-and-scale-animation animated',
       !noStyles &&
@@ -90,3 +86,9 @@
     {@render contentSnippet({ close: () => open.set(false) })}
   </div>
 {/if}
+
+<style>
+  :global(.night-mode) div {
+    --active-ghost-button-bg: var(--porcelain);
+  }
+</style>
