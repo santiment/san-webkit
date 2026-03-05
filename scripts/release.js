@@ -122,7 +122,7 @@ async function updateLibraryPackageJson() {
 
       exports['.' + rawPath] = {
         types: './dist' + rawPath + '/index.d.ts',
-        svelte: './dist' + rawPath + '/index.js',
+        default: './dist' + rawPath + '/index.js',
       }
     },
   )
