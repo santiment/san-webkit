@@ -55,7 +55,6 @@
 
       <Button
         variant="plain"
-        size="auto"
         {disabled}
         explanation={disabled ? 'Alert for this screener already created' : undefined}
         class={cn(

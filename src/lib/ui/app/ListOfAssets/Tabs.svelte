@@ -40,7 +40,6 @@
   {#each tabKeys as tab}
     <Button
       variant="plain"
-      size="auto"
       class={cn(
         '-mb-[1px] border-b-2 border-b-transparent px-0.5 pb-2.5 pt-3 hover:text-green',
         selected === tab && 'border-b-green text-green',

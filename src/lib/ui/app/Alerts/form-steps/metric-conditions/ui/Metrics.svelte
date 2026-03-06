@@ -48,7 +48,6 @@
 
       <Button
         variant="plain"
-        size="auto"
         class={cn(
           'rounded bg-athens px-4 py-2.5 font-semibold hover:text-green',
           isOpened && 'bg-green-light-1',

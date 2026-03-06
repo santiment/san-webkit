@@ -14,7 +14,6 @@
     <div class="flex min-w-0 flex-col single-line md:gap-0.5">
       <Button
         variant="plain"
-        size="auto"
         href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
         class="font-medium link-as-bg md:text-base"
       >

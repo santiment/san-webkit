@@ -112,7 +112,6 @@
 })}
   <Button
     variant="plain"
-    size="auto"
     icon="triangle"
     iconSize="6"
     iconHeight="4"

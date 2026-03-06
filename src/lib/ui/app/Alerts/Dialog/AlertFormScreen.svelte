@@ -61,7 +61,7 @@
           variant="plain"
           icon="arrow"
           iconSize="8"
-          class="back fill-waterloo text-waterloo hover:fill-green hover:text-green [&>svg]:-rotate-90"
+          class="back h-8 fill-waterloo text-waterloo hover:fill-green hover:text-green [&>svg]:-rotate-90"
           onclick={resetCategory}
         >
           Categories
