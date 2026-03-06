@@ -86,9 +86,9 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   {
     category: 'Social Trends',
     features: [
-      { name: 'Trending Coins', isAccess: true },
       { name: 'Trending Words', isAccess: true },
-      { name: 'Trending Topics', isAccess: true },
+      { name: 'Trending Stories', isAccess: true },
+      { name: 'Trending Coins', isAccess: true },
       { name: 'Social Context', isAccess: true },
     ],
   },
@@ -229,7 +229,7 @@ export const SubscriptionPlanBreakdown: Record<
 
     'Trending Coins': 'No access to Top 3 tokens',
     'Trending Words': 'No access to Top 3 words',
-    //   'Trending Topics': '',
+    'Trending Stories': 'Limited data',
     'Social Context': 'Limited data',
 
     'Historical data restriction': '1 year',
