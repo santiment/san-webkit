@@ -54,7 +54,6 @@
     </Button>
     <Button
       variant="plain"
-      size="auto"
       class="ml-auto fill-waterloo hover:fill-black"
       icon="close"
       iconSize="8"

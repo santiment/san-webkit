@@ -46,11 +46,11 @@
     {:else}
       <Button
         {ref}
-        size="auto"
+        variant="plain"
         icon="products-toggle"
         iconSize={16}
         class={cn(
-          'mr-10 fill-waterloo hover:bg-transparent',
+          'mr-10 fill-waterloo',
           variant === 'green' ? 'hover:fill-green' : 'hover:fill-blue',
         )}
       ></Button>
