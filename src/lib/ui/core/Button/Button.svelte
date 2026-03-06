@@ -6,7 +6,6 @@
 
   import { tv, type VariantProps } from 'tailwind-variants'
 
-  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
 
@@ -42,7 +41,7 @@
     as = 'button',
     variant = 'ghost',
     accent = 'green',
-    size: initialSize,
+    size = 'auto',
     iconOnRight = false,
     rounded = false,
     circle = false,
@@ -64,11 +63,9 @@
     ...rest
   }: TProps = $props()
 
-  const { device } = useDeviceCtx()
-
-  const isPhone = $derived(device.$.isPhone)
-  const size = $derived(initialSize ?? (isPhone ? 'lg' : 'md'))
-  const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
+  const iconSize = $derived(
+    initialIconSize ?? (size === 'auto' || size === 'md' || size === 'lg' ? 16 : 12),
+  )
 
   const button = tv({
     base: 'flex items-center cursor-pointer gap-2 rounded-md',
@@ -90,7 +87,7 @@
       rounded: { true: 'rounded-[14px]' },
       circle: { true: 'rounded-full' },
       size: {
-        auto: 'p-0',
+        auto: 'h-8 py-[5px] md:h-10 md:py-1.5 md:text-base',
         md: 'h-8 py-[5px]',
         lg: 'h-10 py-1.5 text-base',
         sm: 'p-0',
@@ -135,6 +132,17 @@
         variant: ['title', 'link'],
         disabled: true,
         class: 'text-mystic fill-mystic hover:no-underline',
+      },
+      {
+        variant: 'plain',
+        size: 'auto',
+        class: 'p-0 h-auto text-sm',
+      },
+      {
+        children: false,
+        icon: true,
+        size: ['auto'],
+        class: 'justify-center px-0 size-8 md:size-10',
       },
       {
         children: false,
