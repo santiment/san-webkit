@@ -88,9 +88,7 @@
           Academy
           <Button
             variant="link"
-            size="auto"
             target="_blank"
-            class="inline-flex"
             href="https://academy.santiment.net{openedInfo.academyLinks[0]}"
             data-source="chart_pane_legend_metric_info"
             data-type="metric_academy_article"

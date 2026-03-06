@@ -78,7 +78,7 @@
         border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
-        link: 'rounded-none text-green fill-green hover:underline',
+        link: 'rounded-none inline-flex text-green fill-green hover:underline',
         plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
@@ -134,7 +134,7 @@
         class: 'text-mystic fill-mystic hover:no-underline',
       },
       {
-        variant: 'plain',
+        variant: ['plain', 'link'],
         size: 'auto',
         class: 'p-0 h-auto text-sm',
       },

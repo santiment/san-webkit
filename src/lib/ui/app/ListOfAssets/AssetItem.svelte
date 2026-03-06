@@ -23,7 +23,6 @@
 <div class="pb-1">
   <Button
     explanation={isOverflow ? `${name} (${ticker})` : undefined}
-    size="auto"
     class={cn(
       'flex w-full items-center gap-3 rounded-md px-2 py-1.5 md:px-3 md:py-2 md:text-base',
       isActive && 'text-green',
