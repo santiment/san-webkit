@@ -87,7 +87,7 @@
       rounded: { true: 'rounded-[14px]' },
       circle: { true: 'rounded-full' },
       size: {
-        auto: 'h-8 py-[5px] md:h-10 md:py-1.5 md:text-base',
+        auto: 'h-8 py-[5px] sm:h-10 sm:py-1.5 sm:text-base',
         md: 'h-8 py-[5px]',
         lg: 'h-10 py-1.5 text-base',
         sm: 'p-0',
@@ -142,7 +142,7 @@
         children: false,
         icon: true,
         size: ['auto'],
-        class: 'justify-center px-0 size-8 md:size-10',
+        class: 'justify-center px-0 size-8 sm:size-10',
       },
       {
         children: false,
