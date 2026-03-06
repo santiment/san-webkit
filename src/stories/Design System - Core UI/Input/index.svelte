@@ -8,9 +8,9 @@
 
     <Input placeholder="Placeholder"></Input>
 
-    <Input icon="search"></Input>
+    <Input icon="search-12"></Input>
 
-    <Input icon="search">
+    <Input icon="search-12">
       {#snippet left()}
         left
       {/snippet}
@@ -26,7 +26,7 @@
       {/snippet}
     </Input>
 
-    <Input icon="search" disabled>
+    <Input icon="search-12" disabled>
       {#snippet left()}
         left
       {/snippet}

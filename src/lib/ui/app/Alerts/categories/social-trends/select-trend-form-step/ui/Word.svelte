@@ -85,7 +85,7 @@
 
 <section class="flex flex-1 flex-col gap-3">
   <Input
-    icon="search"
+    icon="search-12"
     placeholder="Search for trending words"
     oninput={onInput}
     onkeyup={onKeyUp}

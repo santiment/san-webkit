@@ -43,7 +43,7 @@
 </script>
 
 <section class="flex flex-col gap-3">
-  <Input icon="search" placeholder="Search for watchlist" oninput={onInput} onkeyup={onKeyUp} />
+  <Input icon="search-12" placeholder="Search for watchlist" oninput={onInput} onkeyup={onKeyUp} />
 
   <section class="flex flex-col gap-3">
     {#each filteredWatchlists as watchlist}

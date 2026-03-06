@@ -3,11 +3,21 @@
 
   import { cn } from '$ui/utils/index.js'
 
-  let { id, class: className = '', w = 16, h = w, illus = false, style = '' }: TProps = $props()
+  const { id, class: className = '', w, h, illus = false, style = '' }: TProps = $props()
+
+  const defaultWidth = getSizeFromId()
+
+  const width = $derived(w ?? defaultWidth)
+  const height = $derived(h ?? width)
+
+  function getSizeFromId() {
+    const size = Number(id.split('-').at(-1))
+    return Number.isFinite(size) ? size : 16
+  }
 </script>
 
 <svg
-  style="width:{w}px;height:{h}px;min-width:{w}px;{style}"
+  style="width:{width}px;height:{height}px;min-width:{width}px;{style}"
   style:--svg-stroke="currentColor"
   class={cn(className)}
 >

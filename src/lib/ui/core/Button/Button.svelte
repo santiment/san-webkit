@@ -8,7 +8,7 @@
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
-  import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
+  import Svg, { type TSvgId, checkSvgIdAvailable } from '$ui/core/Svg/index.js'
 
   type TButtonVariants = VariantProps<typeof button>
 
@@ -68,7 +68,22 @@
 
   const isPhone = $derived(device.$.isPhone)
   const size = $derived(initialSize ?? (isPhone ? 'lg' : 'md'))
-  const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
+
+  const { icon: sizedIcon, size: autoIconSize } = $derived.by(() => {
+    if (!icon) return {}
+    if (size === 'md' || size === 'lg') return { icon, size: undefined }
+
+    const smallId = `${icon}-12`
+    const isSmallIconAvailable = checkSvgIdAvailable(`${icon}-12`)
+
+    if (isSmallIconAvailable) return { icon: smallId, size: undefined }
+
+    return { icon, size: 12 }
+  })
+
+  const iconSize = $derived(
+    initialIconSize === 'auto' || !initialIconSize ? autoIconSize : initialIconSize,
+  )
 
   const button = tv({
     base: 'flex items-center cursor-pointer gap-2 rounded-md',
@@ -212,8 +227,8 @@
     className,
   )}
 >
-  {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
+  {#if sizedIcon}
+    <Svg id={sizedIcon} w={iconSize} h={iconHeight} illus={iconIllus} />
   {/if}
 
   {#if children}
