@@ -25,6 +25,7 @@
     popoverRootProps?: ComponentProps<typeof Popover>['rootProps']
     popoverContentProps?: ComponentProps<typeof Popover>['contentProps']
     popoverIsOpened?: boolean
+    withTrigger?: boolean
   }
 
   type TSingleProps = {
@@ -47,6 +48,7 @@
     rootClass,
     calendarClass,
     maxDate,
+    withTrigger = true,
     children: _children,
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
@@ -91,19 +93,8 @@
     rootProps={rest.popoverRootProps}
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
+    children={withTrigger ? triggerSnippet : undefined}
   >
-    {#snippet children({ props })}
-      <Button
-        {...props}
-        {as}
-        variant="border"
-        icon="calendar"
-        class={cn('whitespace-nowrap', buttonClass)}
-      >
-        {@render label()}
-      </Button>
-    {/snippet}
-
     {#snippet content()}
       {#if isRangeProps(rest)}
         {@const { date, withPresets, onChange } = rest}
@@ -124,6 +115,18 @@
       {/if}
     {/snippet}
   </Popover>
+
+  {#snippet triggerSnippet({ props }: { props: Record<string, any> })}
+    <Button
+      {...props}
+      {as}
+      variant="border"
+      icon="calendar"
+      class={cn('whitespace-nowrap', buttonClass)}
+    >
+      {@render label()}
+    </Button>
+  {/snippet}
 {/if}
 
 {#snippet label()}
