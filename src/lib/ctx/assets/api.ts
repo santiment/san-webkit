@@ -130,6 +130,22 @@ const TradFinanceItem = (slug: string, name: string, ticker: string) =>
     group: undefined,
   }) satisfies TAsset
 
+const TotalMarketItem = (slug: string, name: string, ticker: string) =>
+  ({
+    slug: slug as TAssetSlug,
+    name,
+    ticker,
+    priceUsd: 0,
+    rank: null,
+    infrastructure: null,
+  }) satisfies TAsset
+
+export const TOTAL_MARKET_INDEX = [
+  TotalMarketItem('total_market', 'Total Market', 'TOTAL'),
+  TotalMarketItem('total_market2', 'Total Market (2)', 'TOTAL2'),
+  TotalMarketItem('total_market3', 'Total Market (3)', 'TOTAL3'),
+]
+
 export const FIATS = [
   TradFinanceItem('s-and-p-500', 'S&P 500', 'SPX'),
   TradFinanceItem('gold', 'Gold', 'Gold'),
