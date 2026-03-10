@@ -77,6 +77,7 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
     metrics: {
       name: string
       selector: null | TMetricTargetSelectorInputObject
+      version?: string
       aggregation?: TAggregation
       formula?: TMetricFormula
     }[]

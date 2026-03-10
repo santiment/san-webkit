@@ -10,7 +10,6 @@
 
   import { cn } from '$ui/utils/index.js'
   import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
-  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
   type TProps = {
     class?: string
@@ -28,8 +27,6 @@
 
     portalTo?: ComponentProps<typeof Popover.Portal>['to']
   }
-
-  const { ui } = useUiCtx()
 
   let {
     class: className,
@@ -56,7 +53,6 @@
 
   <Popover.Portal disabled={!portalTo} to={portalTo}>
     <Popover.Content
-      --active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
       sideOffset={8}
       onCloseAutoFocus={preventFocus}
       onOpenAutoFocus={preventFocus}
@@ -65,6 +61,7 @@
       {side}
       forceMount
       class={cn(
+        'popover-content-ui',
         !noStyles &&
           'z-10 flex rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
         matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
@@ -87,3 +84,9 @@
     </Popover.Content>
   </Popover.Portal>
 </Popover.Root>
+
+<style>
+  :global(.night-mode .popover-content-ui) {
+    --active-ghost-button-bg: var(--porcelain);
+  }
+</style>

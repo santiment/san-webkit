@@ -18,13 +18,15 @@
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
   import RestrictionMessage from './RestrictionMessage.svelte'
+  import { beforeNavigate } from '$app/navigation'
 
   type TProps = TDialogProps & {
     source?: string
     alert?: null | Partial<TApiAlert>
     onCreate?: (alert: TApiAlert) => void
+    onClose?: () => void
   }
-  let { alert, Controller, onCreate, source = '' }: TProps = $props()
+  let { alert, Controller, onCreate, onClose, source = '' }: TProps = $props()
 
   let schema = $state.raw(deduceApiAlertSchema(alert))
 
@@ -46,12 +48,17 @@
 
   const close = () => Controller.close()
 
+  beforeNavigate(() => {
+    close()
+  })
+
   onMount(() => {
     const analytics = { source }
 
     trackEvent('dialog', { ...analytics, action: 'open', type: '' })
 
     return () => {
+      onClose?.()
       trackEvent('dialog', { ...analytics, action: 'close', type: '' })
     }
   })

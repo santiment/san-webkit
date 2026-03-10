@@ -173,7 +173,6 @@
             href={href({ link, title: encodedTitle, text: encodedText })}
             target="_blank"
             variant="plain"
-            size="auto"
             class={cn(
               'w-full gap-3 rounded-md bg-athens fill-white px-6 py-3 capitalize',
               disabled && 'text-casper',

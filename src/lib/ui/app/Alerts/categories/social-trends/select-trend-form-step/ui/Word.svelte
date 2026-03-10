@@ -97,12 +97,7 @@
         {#if type === 'title'}
           <h4 class="mb-4 text-xs font-medium text-waterloo">{value}</h4>
         {:else}
-          <Button
-            variant="plain"
-            size="auto"
-            class="pb-3 hover:text-green"
-            onclick={() => onClick(value)}
-          >
+          <Button variant="plain" class="pb-3 hover:text-green" onclick={() => onClick(value)}>
             <Checkbox {isActive} />
             {value}
           </Button>

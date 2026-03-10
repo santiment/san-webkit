@@ -17,7 +17,7 @@
 {#if explanation}
   <Tooltip position="top" children={trigger} noStyles disableHoverableContent {...rest}>
     {#snippet content()}
-      <article class={cn('rounded bg-fiord px-3 py-1.5 text-xs text-white', contentClass)}>
+      <article class={cn('rounded bg-fiord-day px-3 py-1.5 text-xs text-white-day', contentClass)}>
         {explanation}
       </article>
     {/snippet}

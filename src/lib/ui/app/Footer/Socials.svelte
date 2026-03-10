@@ -22,7 +22,7 @@
       rel="noreferrer"
       aria-label={`Santiment on ${label}`}
     >
-      <Svg {id} w={width} h={height} class="group-hover:fill-green" />
+      <Svg {id} w={width} h={height} class="group-hover:fill-[var(--accent)]" />
     </a>
   {/each}
 </div>

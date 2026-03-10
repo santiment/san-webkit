@@ -8,11 +8,11 @@
 
   type TProps = {
     class?: string
-    item: TAsset
+    item: Pick<TAsset, 'slug' | 'name' | 'ticker'>
     isActive?: boolean
   } & Omit<ComponentProps<typeof Button>, 'class'>
 
-  const { class: className, item, isActive = false, onclick, children }: TProps = $props()
+  const { class: className, item, isActive = false, children, ...rest }: TProps = $props()
   const { slug, name, ticker } = $derived(item)
 
   let textEl = $state<HTMLElement>()
@@ -23,13 +23,12 @@
 <div class="pb-1">
   <Button
     explanation={isOverflow ? `${name} (${ticker})` : undefined}
-    size="auto"
     class={cn(
       'flex w-full items-center gap-3 rounded-md px-2 py-1.5 md:px-3 md:py-2 md:text-base',
       isActive && 'text-green',
       className,
     )}
-    {onclick}
+    {...rest}
   >
     {@render children?.()}
 

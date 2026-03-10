@@ -1,5 +1,5 @@
 <script>
-  import ValidationError from '$ui/core/ValidationError/ValidationError.svelte'
+  import ValidationError from '$ui/core/ValidationError/index.js'
 </script>
 
 <div class="flex items-start justify-center gap-3 p-6">

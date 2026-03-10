@@ -1,13 +1,12 @@
 import { BROWSER } from 'esm-env'
 
 import { ApiMutation } from '$lib/api/index.js'
-import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
-import { useCustomerCtx } from '$lib/ctx/customer/index.js'
+import { Query } from '$lib/api/executor.js'
 
-import { getSavedNightMode, saveNightMode } from './storage.js'
+import { useCustomerCtx } from '../customer/index.svelte.js'
 
-const mutateUpdateUserSettings = ApiMutation(
+export const mutateUpdateUserSettings = ApiMutation(
   (isNightMode: boolean) => `mutation {
     updateUserSettings(settings: { theme: "${isNightMode ? 'nightmode' : ''}" }) {
       theme
@@ -15,39 +14,48 @@ const mutateUpdateUserSettings = ApiMutation(
   }`,
 )
 
-export const useUiCtx = createCtx('useUiCtx', ({ isLiteVersion = false } = {}) => {
+export const useUiCtx = createCtx(
+  'useUiCtx',
+  ({ isLiteVersion = false, isNightMode = false, timeZone = 'UTC' } = {}) => {
+    const ui = $state({ isNightMode, isLiteVersion, timeZone })
+
+    if (BROWSER) {
+      document.body.classList.toggle('night-mode', isNightMode || false)
+    }
+
+    return {
+      ui: {
+        get $$() {
+          return ui
+        },
+
+        toggleNightMode(): boolean {
+          document.body.classList.toggle('theme-transition', true)
+
+          const isNightMode = document.body.classList.toggle('night-mode')
+
+          // NOTE: Awaiting sync DOM styles update
+          void document.body.offsetWidth
+          document.body.classList.toggle('theme-transition', false)
+
+          return (ui.isNightMode = isNightMode)
+        },
+      },
+    }
+  },
+)
+
+export function useCustomerNightModeToggleFlow() {
+  const { ui } = useUiCtx.get()
   const { currentUser } = useCustomerCtx.get()
 
-  const isNightMode =
-    currentUser.$$?.settings.theme === 'nightmode' ||
-    (BROWSER && (getSavedNightMode() ?? document.body.classList.contains('night-mode')))
-
-  const ui = $state({ isNightMode, isLiteVersion, timeZone: 'UTC' })
-
-  if (BROWSER) document.body.classList.toggle('night-mode', isNightMode || false)
-
   return {
-    ui: {
-      get $$() {
-        return ui
-      },
+    toggleNightMode() {
+      const isNightMode = ui.toggleNightMode()
 
-      toggleNightMode() {
-        document.body.classList.toggle('theme-transition', true)
-
-        const isNightMode = document.body.classList.toggle('night-mode')
-
-        // NOTE: Awaiting sync DOM styles update
-        void document.body.offsetWidth
-        document.body.classList.toggle('theme-transition', false)
-
-        if (currentUser.$$) {
-          mutateUpdateUserSettings(Query)(isNightMode)
-        }
-
-        saveNightMode(isNightMode)
-        ui.isNightMode = isNightMode
-      },
+      if (currentUser.$$) {
+        mutateUpdateUserSettings(Query)(isNightMode)
+      }
     },
   }
-})
+}

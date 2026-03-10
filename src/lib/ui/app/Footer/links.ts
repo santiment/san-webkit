@@ -13,9 +13,9 @@ export const resourcesLinks = [
 
   { href: 'https://academy.santiment.net/', title: 'Academy' },
   { href: 'https://insights.santiment.net/', title: 'Insights' },
-  { href: SANBASE_ORIGIN + '/labs/trends', title: 'Social trends' },
+  { href: SANBASE_ORIGIN + '/social-trends/', title: 'Social trends' },
   {
-    href: SANBASE_ORIGIN + '/labs/balance',
+    href: SANBASE_ORIGIN + '/labs/balance/',
     title: 'Historical balance',
   },
   {
@@ -23,13 +23,9 @@ export const resourcesLinks = [
     title: 'Buy SAN',
   },
 
-  { href: SANBASE_ORIGIN, title: 'Sanbase' },
+  { href: SANBASE_ORIGIN + '/', title: 'Sanbase' },
   { href: 'https://api.santiment.net/', title: 'SanAPI' },
   { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
-  {
-    href: 'https://graphs.santiment.net/',
-    title: 'Graphs',
-  },
 ]
 
 export const socialMediaLinks = [

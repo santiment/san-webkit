@@ -25,18 +25,20 @@
     </div>
 
     <div
-      class="ml-[72px] flex flex-grow gap-9 md:ml-0 md:justify-end sm:justify-center hover:[&>a]:text-green"
+      class="ml-[72px] flex flex-grow flex-wrap gap-9 !gap-y-1 md:ml-0 md:justify-end sm:justify-center xs:gap-4 hover:[&>a]:text-[var(--accent)]"
     >
       <a href="https://santiment.net/terms/" target="_blank">Terms</a>
-      <a href={`${SANBASE_ORIGIN}/privacy-policy`} target="_blank">Privacy</a>
+      <a href={`${SANBASE_ORIGIN}/privacy-policy/`} target="_blank">Privacy</a>
       <a
+        class="text-nowrap"
         href="https://www.notion.so/santiment/Santiment-Media-ff72838a16164db4b7e90478e18c3776"
         rel="noreferrer"
         target="_blank"
       >
         Media Kit
       </a>
-      <a href="https://status.santiment.net" rel="noreferrer" target="_blank">Status</a>
+      <a href="https://status.santiment.net/" target="_blank">Status</a>
+      <a href="https://academy.santiment.net/changelog/" target="_blank">Changelog</a>
     </div>
   </div>
 

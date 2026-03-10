@@ -268,7 +268,7 @@ export function suggestPeriodInterval(from: Date, to: Date) {
   return '7d'
 }
 
-export function normalizeRangeIntervals<GRanges extends { id: string }>(
+export function normalizeRangeIntervals<GRanges extends { value: string }>(
   ranges: GRanges[],
   minInterval?: string,
 ): GRanges[] {
@@ -276,7 +276,7 @@ export function normalizeRangeIntervals<GRanges extends { id: string }>(
     return ranges
   }
 
-  const index = ranges.findIndex((range) => range.id === minInterval)
+  const index = ranges.findIndex((range) => range.value === minInterval)
   return index === -1 ? ranges : ranges.slice(index)
 }
 

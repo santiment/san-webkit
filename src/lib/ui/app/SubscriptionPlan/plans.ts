@@ -50,6 +50,7 @@ export const SubscriptionPlanDetails: Record<
     features: [
       '30-day lag in Sanbase',
       'Hidden top 3 tokens in Trending Coins',
+      'Limited access to Trending Stories',
       'Real-time API data with 30-day lag',
       '1K API calls / mo, 1 year historical data',
       'No filters and sorting for Screener',
@@ -61,7 +62,7 @@ export const SubscriptionPlanDetails: Record<
     description: 'Ideal for advanced traders and analysts to power decisions with real-time data',
     features: [
       'Present-day and full historical data in Sanbase',
-      'Full access to Trending Coins',
+      'Full access to Trending Coins and Stories',
       'Real-time API data with 30-day lag',
       '5K API calls / mo, 1 year historical data',
       'Full access to Screener',
@@ -74,7 +75,7 @@ export const SubscriptionPlanDetails: Record<
   [SubscriptionPlan.MAX.key]: {
     description: 'Ideal for advanced investment strategies with full API access to real-time data',
     features: [
-      'Present-day and full historical data in Sanbase and Trending Coins',
+      'Present-day and full historical data in Sanbase, Trending Coins & Stories',
       'Technical support included',
       'Real-time API data without restrictions',
       '80K API calls / mo, 2 years historical data',

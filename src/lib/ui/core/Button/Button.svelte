@@ -6,7 +6,6 @@
 
   import { tv, type VariantProps } from 'tailwind-variants'
 
-  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
 
@@ -42,7 +41,7 @@
     as = 'button',
     variant = 'ghost',
     accent = 'green',
-    size: initialSize,
+    size = 'auto',
     iconOnRight = false,
     rounded = false,
     circle = false,
@@ -64,11 +63,9 @@
     ...rest
   }: TProps = $props()
 
-  const { device } = useDeviceCtx()
-
-  const isPhone = $derived(device.$.isPhone)
-  const size = $derived(initialSize ?? (isPhone ? 'lg' : 'md'))
-  const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
+  const iconSize = $derived(
+    initialIconSize ?? (size === 'auto' || size === 'md' || size === 'lg' ? 16 : 12),
+  )
 
   const button = tv({
     base: 'flex items-center cursor-pointer gap-2 rounded-md',
@@ -81,7 +78,7 @@
         border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
-        link: 'rounded-none text-green fill-green hover:underline',
+        link: 'rounded-none inline-flex text-green fill-green hover:underline',
         plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
@@ -90,7 +87,7 @@
       rounded: { true: 'rounded-[14px]' },
       circle: { true: 'rounded-full' },
       size: {
-        auto: 'p-0',
+        auto: 'h-8 py-[5px] sm:h-10 sm:py-1.5 sm:text-base',
         md: 'h-8 py-[5px]',
         lg: 'h-10 py-1.5 text-base',
         sm: 'p-0',
@@ -135,6 +132,17 @@
         variant: ['title', 'link'],
         disabled: true,
         class: 'text-mystic fill-mystic hover:no-underline',
+      },
+      {
+        variant: ['plain', 'link'],
+        size: 'auto',
+        class: 'p-0 h-auto text-sm',
+      },
+      {
+        children: false,
+        icon: true,
+        size: ['auto'],
+        class: 'justify-center px-0 size-8 sm:size-10',
       },
       {
         children: false,
