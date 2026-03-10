@@ -142,12 +142,16 @@ export function createSeries({
         visible: metric.visible.$,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
+        // unit: metric.ui.$$.unit,
 
         scaleId: metric.scale.$$.id,
         scaleVisible: metric.scale.$$.visible,
 
         isSelectorLocked: metric.ui.$$.isSelectorLocked,
         isFilledGradient: metric.ui.$$.isFilledGradient,
+
+        candleDownColor: metric.ui.$$.candleDownColor,
+        baseline: $state.snapshot(metric.ui.$$.baseline),
       }
     },
   }
