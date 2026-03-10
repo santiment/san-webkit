@@ -1,0 +1,35 @@
+import type { DataChangedScope, IChartApi, ISeriesApi, ISeriesPrimitive, SeriesAttachedParameter, SeriesOptionsMap, Time } from '@santiment-network/chart-next';
+import { type DrawingAxisView } from './axis-view.js';
+import { type TOptions, type TPoint } from './types.js';
+import { DrawingPaneView, type DrawingAxisPaneView } from './pane-view.js';
+export declare abstract class DrawingPrimitive<GDrawingType extends string> implements ISeriesPrimitive<Time> {
+    abstract readonly __type: GDrawingType;
+    protected abstract readonly _paneViews: DrawingPaneView[];
+    protected _chart: IChartApi | undefined;
+    protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined;
+    protected _points: TPoint[];
+    protected _options: TOptions;
+    protected _timeAxisViews: DrawingAxisView[];
+    protected _priceAxisViews: DrawingAxisView[];
+    protected _priceAxisPaneViews: DrawingAxisPaneView[];
+    protected _timeAxisPaneViews: DrawingAxisPaneView[];
+    protected dataUpdated?(scope: DataChangedScope): void;
+    protected requestUpdate(): void;
+    private _requestUpdate?;
+    constructor(points: TPoint[], options?: Partial<TOptions>);
+    attached({ chart, series, requestUpdate }: SeriesAttachedParameter<Time>): void;
+    detached(): void;
+    get points(): TPoint[];
+    get chart(): IChartApi;
+    get series(): ISeriesApi<keyof SeriesOptionsMap>;
+    get options(): TOptions;
+    updateAllViews(): void;
+    priceAxisViews(): DrawingAxisView[];
+    timeAxisViews(): DrawingAxisView[];
+    paneViews(): DrawingPaneView[];
+    priceAxisPaneViews(): DrawingAxisPaneView[];
+    timeAxisPaneViews(): DrawingAxisPaneView[];
+    applyOptions(options: Partial<TOptions>): void;
+    private _fireDataUpdated;
+    abstract updateEndPoint(p: TPoint): void;
+}
