@@ -142,8 +142,8 @@ const TotalMarketItem = (slug: string, name: string, ticker: string) =>
 
 export const TOTAL_MARKET_INDEX = [
   TotalMarketItem('total_market', 'Total Market', 'TOTAL'),
-  TotalMarketItem('total_market2', 'Total Market (2)', 'TOTAL2'),
-  TotalMarketItem('total_market3', 'Total Market (3)', 'TOTAL3'),
+  TotalMarketItem('total_market_2', 'Total Market (2)', 'TOTAL2'),
+  TotalMarketItem('total_market_3', 'Total Market (3)', 'TOTAL3'),
 ]
 
 export const FIATS = [
