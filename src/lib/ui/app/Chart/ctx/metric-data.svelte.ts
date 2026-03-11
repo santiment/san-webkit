@@ -8,6 +8,7 @@ import { untrack } from 'svelte'
 
 import { type TExecutorOptions } from '$lib/api/index.js'
 import { createCtx } from '$lib/utils/index.js'
+import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
 import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
@@ -65,6 +66,10 @@ export function useApiMetricDataFlow(
     //if (meric.formula?.valid === false) {
     //  return
     //}
+
+    if (metric.type === MetricType.DATA_STORE) {
+      return
+    }
 
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to

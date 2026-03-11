@@ -18,6 +18,7 @@ export function createSeries({
   apiMetricName = '',
 
   label = apiMetricName,
+  data = [],
 
   getLabels$ = DEFAULT_LABELS_GETTER,
   getSelectorLabels$ = DEFAULT_LABELS_GETTER,
@@ -83,7 +84,7 @@ export function createSeries({
     getSelectorLabels$,
 
     version: ss<undefined | string>(rest.version),
-    data: ss<TMetricData>([]),
+    data: ss<TMetricData>(data),
     visible: ss(visible),
     loading: ss(true),
     error: ss<null | string | string[] | Error | Error[]>(null),
