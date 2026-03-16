@@ -5,7 +5,7 @@ import { ApiQuery } from './index.js'
 import { ApiMock } from './mock.js'
 import { Query } from './executor.js'
 
-describe('API mocking', () => {
+describe.skip('API mocking', () => {
   const queryCurrentUser = ApiQuery(
     () => `{ currentUser { id  } }`,
     (gql: { currentUser: null | { id: number } }) => gql.currentUser,

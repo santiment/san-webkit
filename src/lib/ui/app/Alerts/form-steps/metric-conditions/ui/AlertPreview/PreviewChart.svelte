@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { TAssetApiAlert } from '$ui/app/Alerts/categories/asset/schema.js'
-  import type { TNotificationsApiAlert } from '../../../notifications-privacy/schema.js'
-  import type { TMetricConditionsApiAlert } from '../../schema.js'
+  import type { TAssetApiAlertPart } from '$ui/app/Alerts/categories/asset/schema.js'
+  import type { TNotificationsApiAlertPart } from '../../../notifications-privacy/schema.js'
+  import type { TMetricConditionsApiAlertPart } from '../../schema.js'
   import type { TApiTimeWindow } from '$ui/app/Alerts/time.js'
 
   import { debounceTime, map, mergeMap, pipe, tap } from 'rxjs'
@@ -14,9 +14,9 @@
   import { queryHistoricalTriggerPoints } from './api.js'
 
   type TProps = {
-    asset: TAssetApiAlert
-    conditions: TMetricConditionsApiAlert
-    notifications: TNotificationsApiAlert
+    asset: TAssetApiAlertPart
+    conditions: TMetricConditionsApiAlertPart
+    notifications: TNotificationsApiAlertPart
   }
 
   const { asset, conditions, notifications }: TProps = $props()

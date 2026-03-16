@@ -1,10 +1,11 @@
 import type { TAssetSlug } from '$lib/ctx/assets/index.js'
+import type { TApiAlertFromSchema } from '../../types.js'
 
 import { createAlertSchema, type TAlertBaseSchema } from '../types.js'
 import { STEP_SELECT_TREND_SCHEMA } from './select-trend-form-step/schema.js'
 import { getAssetTargetTitle } from '../asset/utils.js'
 
-export type TSocialTrendsApiAlert = {
+export type TSocialTrendsApiAlertPart = {
   settings: {
     type: 'trending_words'
   } & TSocialTrendsApiAlertTarget
@@ -29,9 +30,11 @@ export type TBaseSchema = TAlertBaseSchema<
   {
     steps: [typeof STEP_SELECT_TREND_SCHEMA]
 
-    deduceApiAlert: (apiAlert: Partial<TSocialTrendsApiAlert>) => boolean
+    deduceApiAlert: (apiAlert: Partial<TSocialTrendsApiAlertPart>) => boolean
   }
 >
+
+export type TSocialTrendsApiAlert = TApiAlertFromSchema<typeof ALERT_SOCIAL_TRENDS_SCHEMA>
 
 export const ALERT_SOCIAL_TRENDS_SCHEMA = createAlertSchema<TBaseSchema>({
   name: 'social-trends',
