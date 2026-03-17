@@ -40,6 +40,7 @@ export function useApiMetricDataFlow(
   metric: TSeries,
   index: number,
   settings?: { priority?: number; minimalDelay?: number },
+  onData?: () => void,
 ) {
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { metricSeries } = useMetricSeriesCtx.get()
@@ -60,6 +61,8 @@ export function useApiMetricDataFlow(
     metric.data.$ = formattedData
     metric.error.$ = null
     metric.loading.$ = false
+
+    onData?.()
   }
 
   $effect(() => {
