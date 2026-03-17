@@ -9,9 +9,11 @@
   let {
     children,
     class: className,
+    overlayClass,
     onOpenChange,
   }: {
     class?: string
+    overlayClass?: string
     children: Snippet<[{ close: typeof close }]>
     onOpenChange: CreateDialogProps['onOpenChange']
   } = $props()
@@ -39,7 +41,10 @@
     <div
       {...$overlay}
       use:overlay
-      class="animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+      class={cn(
+        'animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        overlayClass,
+      )}
       out:transition
       onclick={(e) => {
         const dialogElement = e.currentTarget.nextElementSibling as null | HTMLElement
