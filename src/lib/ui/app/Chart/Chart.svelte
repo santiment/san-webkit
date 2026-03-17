@@ -65,7 +65,11 @@
       //overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
-      timeScale: { ...options?.timeScale, minBarSpacing: 0.0000000001 },
+      timeScale: {
+        shiftVisibleRangeOnNewBar: false,
+        ...options?.timeScale,
+        minBarSpacing: 0.0000000001,
+      },
     })
     const firstPane = chart.$.panes()[0]
 
