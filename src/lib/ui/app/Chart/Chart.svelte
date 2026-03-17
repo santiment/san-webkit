@@ -129,22 +129,6 @@
     chart.$.applyOptions(options)
   })
 
-  $effect(() => {
-    const chartCtx = chart.$
-    if (!chartCtx) return
-
-    // Reading interval change
-    globalParameters.$$.interval || globalParameters.autoInterval$
-
-    const timeScale = chartCtx.timeScale()
-    const visibleRange = timeScale.getVisibleRange()
-
-    if (!visibleRange) return
-
-    const timer = setTimeout(() => timeScale.setVisibleRange(visibleRange), 1500)
-    return () => clearTimeout(timer)
-  })
-
   onMount(() => {
     window.addEventListener('blur', resetChartInteractionMode)
     return () => window.removeEventListener('blur', resetChartInteractionMode)
