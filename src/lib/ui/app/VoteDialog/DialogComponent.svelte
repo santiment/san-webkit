@@ -6,6 +6,7 @@
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   import hedgeweekLogo from './assets/hedgeweekLogo.svg'
   import trophy from './assets/trophy.svg'
@@ -19,7 +20,13 @@
   onMount(() => {
     Controller.lock()
 
-    return () => onClose()
+    return () => {
+      trackEvent('press', {
+        action: 'close',
+        source: SOURCE,
+      })
+      onClose()
+    }
   })
 </script>
 
