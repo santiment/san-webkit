@@ -19,8 +19,9 @@
   }
 
   onMount(() => {
-    clearTimeout(openTimer)
     openTimer = setTimeout(() => openDialog(), OPEN_TIMEOUT)
+
+    return () => clearTimeout(openTimer)
   })
 </script>
 
