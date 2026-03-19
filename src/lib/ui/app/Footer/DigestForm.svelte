@@ -53,20 +53,26 @@
 
 <form
   class={cn(
-    'flex rounded border bg-white px-[5px] py-[3px] text-sm text-black md:text-base',
+    'flex rounded-lg border bg-white py-[3px] pl-[6px] pr-[4px] text-base text-black md:text-base',
     className,
   )}
   onsubmit={handleSubmit}
 >
   <Input
-    class="flex-1 border-none"
-    inputClass="px-[5px] py-[6px]"
+    class="flex-1 rounded-md border-none"
+    inputClass="px-[6px] py-[6px]"
     name="email"
     type="email"
     value=""
     placeholder="Enter your email"
   />
-  <Button type="submit" variant="fill" {accent} class="fill-white" --loading-color="white" {loading}
-    >{label}</Button
+
+  <Button
+    type="submit"
+    variant="fill"
+    {accent}
+    class="h-9 fill-white"
+    --loading-color="white"
+    {loading}>{label}</Button
   >
 </form>

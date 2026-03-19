@@ -5,4 +5,4 @@
   useMetricsRegistryCtx.set()
 </script>
 
-<Footer />
+<Footer appVersion="2.5-3038b5d" />
