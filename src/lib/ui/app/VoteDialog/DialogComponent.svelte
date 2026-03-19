@@ -49,7 +49,7 @@
     </p>
 
     <ul class="mb-10 flex flex-col gap-4 rounded-2xl border border-green px-8 py-5 sm:px-6 sm:py-4">
-      {@render stepItem('Find Santiment (Ctrl-F or Cmd-F)')}
+      {@render stepItem('Find Santiment (Ctrl+F or Cmd+F)')}
       {@render stepItem('Enter your name/company to vote')}
     </ul>
 
