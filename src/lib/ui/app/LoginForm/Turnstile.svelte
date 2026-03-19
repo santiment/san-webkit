@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
-  import { newHeadScript } from '$lib/analytics/intercom/utils.js'
+  import { newHeadScript } from '$lib/analytics/utils.js'
   import { controlledPromisePolyfill } from '$lib/utils/promise.js'
 
   let widgetId: ReturnType<(typeof turnstile)['render']>
