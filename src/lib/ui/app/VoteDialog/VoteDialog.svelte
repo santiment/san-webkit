@@ -13,14 +13,14 @@
   let openTimer: NodeJS.Timeout | undefined
 
   function openDialog() {
-    clearTimeout(openTimer)
-    openTimer = setTimeout(() => showDialog({ onClose: saveDialogClosed }), OPEN_TIMEOUT)
+    if (getSavedDialogClosed()) return
+
+    showDialog({ onClose: saveDialogClosed })
   }
 
   onMount(() => {
-    if (getSavedDialogClosed()) return
-
-    openDialog()
+    clearTimeout(openTimer)
+    openTimer = setTimeout(() => openDialog(), OPEN_TIMEOUT)
   })
 </script>
 
