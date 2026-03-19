@@ -26,7 +26,7 @@
 <Dialog
   class={cn(
     'bg-[linear-gradient(112deg,#666B84_-16.09%,#3F4357_12.67%,#181B2B_55.99%)] sm:bg-[linear-gradient(141deg,#666B84_2.57%,#3F4357_23.84%,#181B2B_55.88%)]',
-    'w-full max-w-5xl rounded-[34px] bg-mirage text-white md:max-w-[calc(100%-32px)] md:rounded-[10px] md:border md:border-fiord',
+    'w-full max-w-5xl rounded-[34px] bg-mirage-day text-white-day md:max-w-[calc(100%-32px)] md:rounded-[10px] md:border md:border-fiord',
   )}
   overlayClass="bg-transparent"
   forceDesktop
@@ -35,7 +35,7 @@
     style="--bg-image: url({trophy});"
     class="flex flex-col items-start bg-[image:var(--bg-image)] px-14 py-10 md:bg-none md:px-5 md:py-8"
   >
-    <section style:--black="var(--whale)" class="mb-8 flex gap-6 fill-whale">
+    <section style:--black="currentColor" class="mb-8 flex gap-6 fill-whale-day text-whale-day">
       <Svg id="santiment" illus w="104" h="20" />
 
       <img src={hedgeweekLogo} alt="hedgeweek logo" />
@@ -43,18 +43,20 @@
 
     <h2 class="mb-5 text-4xl font-semibold sm:text-2xl sm:font-medium">Vote for Santiment!</h2>
 
-    <p class="mb-6 text-lg text-mystic sm:text-base">
+    <p class="mb-6 text-lg text-mystic-day sm:text-base">
       We got 6 nominations in Hedgeweek®<br />
       Global Digital Assets & EU Awards 2026!
     </p>
 
-    <ul class="mb-10 flex flex-col gap-4 rounded-2xl border border-green px-8 py-5 sm:px-6 sm:py-4">
+    <ul
+      class="mb-10 flex flex-col gap-4 rounded-2xl border border-green bg-transparent px-8 py-5 sm:px-6 sm:py-4"
+    >
       {@render stepItem('Find Santiment (Ctrl+F or Cmd+F)')}
       {@render stepItem('Enter your name/company to vote')}
     </ul>
 
     {#snippet stepItem(title: string)}
-      <li class="flex gap-3 fill-green text-lg text-athens sm:text-base sm:font-medium">
+      <li class="flex gap-3 fill-green-day text-lg text-athens-day sm:text-base sm:font-medium">
         <div class="py-1">
           <Svg id="checkmark-circle-filled" w="20" />
         </div>
@@ -85,13 +87,13 @@
       </Button>
     </section>
 
-    <p class="text-base text-mystic sm:text-sm">Thanks for your support! 🥰</p>
+    <p class="text-base text-mystic-day sm:text-sm">Thanks for your support! 🥰</p>
   </section>
 
   <Button
     variant="plain"
     icon="close"
-    class="absolute right-8 top-8 fill-mystic sm:right-1 sm:top-1 sm:fill-waterloo"
+    class="absolute right-8 top-8 fill-mystic-day sm:right-1 sm:top-1 sm:fill-waterloo-day"
     iconSize={device.$.isDesktop ? 16 : 12}
     onclick={() => Controller.close(true)}
   />
