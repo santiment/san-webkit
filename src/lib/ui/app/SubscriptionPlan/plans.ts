@@ -4,8 +4,8 @@ import { keyify } from '$lib/utils/object.js'
 
 export const Product = keyify(
   {
-    SanAPI: { id: '1' },
-    Sanbase: { id: '2' },
+    SanAPI: { id: '1', productName: 'SANAPI' },
+    Sanbase: { id: '2', productName: 'SANBASE' },
   },
   'name',
 )
@@ -36,6 +36,22 @@ export const SubscriptionPlan = keyify({
   BUSINESS_MAX: { name: 'Business Max' },
   CUSTOM: { name: 'Enterprise' },
 })
+
+export type TPlan = keyof typeof SubscriptionPlan
+
+export const getSubscriptionPlanKey = (planName: string): string =>
+  checkIsCustomPlan(planName) ? SubscriptionPlan.CUSTOM.key : planName
+
+export function convertSubscriptionPlan(planName: string): TPlan | null {
+  const key = getSubscriptionPlanKey(planName)
+
+  if (key in SubscriptionPlan) return key as TPlan
+
+  return null
+}
+
+export const checkIsCustomPlan = (planName: string) =>
+  planName.startsWith(SubscriptionPlan.CUSTOM.key)
 
 export const SubscriptionPlanDetails: Record<
   string,

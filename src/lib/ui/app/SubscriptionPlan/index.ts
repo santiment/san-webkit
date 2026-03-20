@@ -6,11 +6,14 @@ export {
 } from './api.js'
 
 export {
+  type TPlan,
   Product,
   SubscriptionPlan,
   SubscriptionPlanDetails,
   BUSINESS_PLANS,
   CONSUMER_PLANS,
+  getSubscriptionPlanKey,
+  convertSubscriptionPlan,
 } from './plans.js'
 export {
   checkIsSanbaseProduct,
@@ -21,6 +24,7 @@ export {
   getPlanName,
   getFormattedPlan,
 } from './utils.js'
+export { type TPublicSubscription, getPrimarySubscription } from './subscription.js'
 
 export { default as PlanButton } from './PlanButton.svelte'
 export { default as PlanCard } from './PlanCard.svelte'
