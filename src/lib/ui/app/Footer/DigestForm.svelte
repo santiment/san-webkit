@@ -12,10 +12,9 @@
   type TProps = {
     class?: string
     label?: string
-    accent?: 'green' | 'blue'
   }
 
-  const { class: className = '', label = 'Leave request', accent = 'green' }: TProps = $props()
+  const { class: className = '', label = 'Leave request' }: TProps = $props()
 
   let loading = $state(false)
 
@@ -69,8 +68,8 @@
 
   <Button
     type="submit"
+    accent="custom"
     variant="fill"
-    {accent}
     class="h-9 fill-white"
     --loading-color="white"
     {loading}>{label}</Button

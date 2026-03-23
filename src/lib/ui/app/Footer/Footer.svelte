@@ -9,16 +9,16 @@
 
   type TProps = {
     class?: string
-    accent?: 'green' | 'blue'
+    style?: string
     appVersion?: string
   }
 
-  const { class: className = '', accent = 'green', appVersion }: TProps = $props()
+  const { class: className = '', style = '', appVersion }: TProps = $props()
 </script>
 
 <footer
   class={cn('bg-athens px-10 sm:bg-white sm:px-6', className)}
-  style="--accent: var(--{accent});"
+  style="--accent: var(--green); --accent-hover: var(--green-hover);{style}"
 >
   <div class="mx-auto max-w-[1140px]">
     <div
@@ -45,11 +45,7 @@
           <div class="mb-6 flex-1 md:mb-0 sm:w-full">
             <h4 class="mb-4 font-medium">Subscribe to the weekly Digest!</h4>
 
-            <DigestForm
-              class="max-w-[372px] sm:mb-12 sm:w-full sm:max-w-full"
-              label="Subscribe"
-              {accent}
-            />
+            <DigestForm class="max-w-[372px] sm:mb-12 sm:w-full sm:max-w-full" label="Subscribe" />
           </div>
 
           <HoldTokensBanner />
