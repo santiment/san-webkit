@@ -18,12 +18,12 @@ export default {
 
       boxShadow: {
         dropdown: ['0 4px 16px 0 rgba(24, 27, 43, 0.13)', '0 6px 8px 0 rgba(24, 27, 43, 0.05)'],
-        modal: ['0 2px 24px 0 rgba(24, 27, 43, 0.04)', '1px 3px 7px 0 rgba(47, 53, 77, 0.05)'],
+        modal: ['0 2px 24px 3px rgba(24, 27, 43, 0.08)', '1px 3px 7px 2px rgba(47, 53, 77, 0.08)'],
       },
 
       dropShadow: {
         dropdown: ['0 4px 16px rgba(24, 27, 43, 0.13)', '0 6px 8px rgba(24, 27, 43, 0.05)'],
-        modal: ['0 2px 24px rgba(24, 27, 43, 0.04)', '1px 3px 7px rgba(47, 53, 77, 0.05)'],
+        modal: ['0 2px 24px rgba(24, 27, 43, 0.08)', '1px 3px 7px rgba(47, 53, 77, 0.08)'],
       },
 
       animation: {
