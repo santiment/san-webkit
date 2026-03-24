@@ -1,7 +1,6 @@
 <script lang="ts">
+  import Svg from '$ui/core/Svg/Svg.svelte'
   import { cn } from '$ui/utils/index.js'
-
-  import TokensIllus from './TokensIllus.svelte'
 </script>
 
 <article
@@ -18,5 +17,5 @@
     >
   </p>
 
-  <TokensIllus class="absolute bottom-0 right-[-10px] size-[98px] xs:hidden" />
+  <Svg illus id="hold-tokens" w={98} class="absolute bottom-0 right-[-10px] xs:hidden" />
 </article>
