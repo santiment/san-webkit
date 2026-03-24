@@ -52,14 +52,14 @@
 
 <form
   class={cn(
-    'flex rounded-lg border bg-white py-[3px] pl-[6px] pr-[4px] text-base text-black md:text-base',
+    'flex rounded-lg border bg-white py-[3px] pl-1.5 pr-1 text-base text-black md:text-base',
     className,
   )}
   onsubmit={handleSubmit}
 >
   <Input
     class="flex-1 rounded-md border-none"
-    inputClass="px-[6px] py-[6px]"
+    inputClass="p-1.5"
     name="email"
     type="email"
     value=""

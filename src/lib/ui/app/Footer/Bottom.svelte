@@ -27,7 +27,7 @@
       </div>
 
       {#if appVersion}
-        <div class="h-3 w-[1px] border border-l-waterloo lg:hidden md:block xs:hidden"></div>
+        <div class="h-3 w-px border border-l-waterloo lg:hidden md:block xs:hidden"></div>
 
         <div>
           Ver. {appVersion}
