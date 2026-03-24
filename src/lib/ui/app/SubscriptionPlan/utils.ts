@@ -1,33 +1,35 @@
-import type { TProduct, TSubscriptionPlan } from './types.js'
+import type { TSubscriptionPlan } from './types.js'
 
 import {
   BUSINESS_PLANS,
   checkIsTrialEligiblePlan,
+  getSubscriptionPlanKey,
   Product,
   SubscriptionPlan,
   SubscriptionPlanDetails,
 } from './plans.js'
 
-export const checkIsCustomPlan = (planName: string) =>
-  planName.startsWith(SubscriptionPlan.CUSTOM.key)
+export type TLooseProduct = {
+  id?: string
+  name?: string
+}
 
-export const checkIsSanbaseProduct = (product: Pick<TProduct, 'id'>) =>
-  product.id === Product.Sanbase.id
+export const checkIsSanbaseProduct = (product: TLooseProduct) =>
+  product.id === Product.Sanbase.id || product.name === Product.Sanbase.productName
 
-export const checkIsSanApiProduct = (product: Pick<TProduct, 'id'>) =>
-  product.id === Product.SanAPI.id
+export const checkIsSanApiProduct = (product: TLooseProduct) =>
+  product.id === Product.SanAPI.id || product.name === Product.SanAPI.productName
 
 export const checkIsBusinessPlan = (planName: string | undefined) => {
   if (!planName) return false
 
-  const plan = checkIsCustomPlan(planName) ? SubscriptionPlan.CUSTOM.key : planName
-  return BUSINESS_PLANS.has(plan)
+  return BUSINESS_PLANS.has(getSubscriptionPlanKey(planName))
 }
 
 type TLooseRecord<T extends Record<string, unknown>> = T & Record<string, undefined | T[keyof T]>
 export const getPlanName = (planName: string): string => {
   const subs: TLooseRecord<typeof SubscriptionPlan> = SubscriptionPlan
-  const plan = checkIsCustomPlan(planName) ? SubscriptionPlan.CUSTOM.key : planName
+  const plan = getSubscriptionPlanKey(planName)
 
   return subs[plan]?.name || planName
 }
@@ -46,14 +48,14 @@ export function getFormattedPlan(
   monthlyPlan: TSubscriptionPlan,
   annualPlan?: null | TSubscriptionPlan,
 ) {
-  const key = monthlyPlan.name
+  const key = getSubscriptionPlanKey(monthlyPlan.name)
   const name = getPlanName(key)
   const details = SubscriptionPlanDetails[key]
 
   return {
-    isFree: monthlyPlan.name === SubscriptionPlan.FREE.key,
-    isCustom: monthlyPlan.name === SubscriptionPlan.CUSTOM.key,
-    isBusiness: BUSINESS_PLANS.has(monthlyPlan.name),
+    isFree: key === SubscriptionPlan.FREE.key,
+    isCustom: key === SubscriptionPlan.CUSTOM.key,
+    isBusiness: BUSINESS_PLANS.has(key),
 
     isTrialSupported: checkIsTrialEligiblePlan(key),
 
