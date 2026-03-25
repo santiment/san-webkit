@@ -88,6 +88,7 @@ export function createSeries({
     visible: ss(visible),
     loading: ss(!data.length),
     error: ss<null | string | string[] | Error | Error[]>(null),
+    warnings: ss<null | string[]>(null),
 
     aggregation: ss<TAggregation>(style === MetricStyle.CANDLES ? 'OHLC' : undefined),
 

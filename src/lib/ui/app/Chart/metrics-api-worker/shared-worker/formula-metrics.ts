@@ -1,4 +1,3 @@
-import type { TFetchFormulaMetricMessage } from '../types.js'
 import type { MathNode } from 'mathjs'
 
 import { BROWSER } from 'esm-env'
@@ -13,6 +12,11 @@ import {
   TRANSFORMABLE_FNS,
 } from '$ui/app/san-formulas/math/index.js'
 
+import {
+  FORMULA_WARNING,
+  type TFetchFormulaMetricMessage,
+  type TFormulaMetricData,
+} from '../types.js'
 import {
   queryGetMetric,
   type TMetricData,
@@ -63,7 +67,7 @@ export async function fetchFormulaMetric(
   formula: TFetchFormulaMetricMessage['request']['payload']['formula'],
   index: TFetchFormulaMetricMessage['request']['payload']['index'],
   ctx: TContext,
-): Promise<TMetricData> {
+): Promise<TFormulaMetricData> {
   if (ctx.isCancelled) {
     return Promise.reject(new Error('Request cancelled'))
   }
@@ -176,8 +180,9 @@ export async function fetchFormulaMetric(
   })
 }
 
-function normalizeTimeseries(timeseries: TMetricData) {
+function normalizeTimeseries(timeseries: TFormulaMetricData) {
   let isValidValue = false
+
   for (let i = 0; i < timeseries.length; i++) {
     const datapoint = timeseries[i]
 
@@ -191,6 +196,7 @@ function normalizeTimeseries(timeseries: TMetricData) {
     }
 
     datapoint.value = undefined
+    timeseries.warning ??= FORMULA_WARNING.NonFiniteData
 
     isValidValue = false
   }

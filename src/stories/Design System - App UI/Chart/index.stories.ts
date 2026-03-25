@@ -358,7 +358,7 @@ export const ZeroDivisionFormula: Story = {
         formula: {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
           name: 'm1 / 0',
-          expr: `m1 / if(m1 > 120000, 0, 1)`,
+          expr: `m1 / if(m1 > 115000, 0, 1)`,
         },
       },
     ],

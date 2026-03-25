@@ -51,12 +51,14 @@
       {@const error = metric.error.$ || 'Data is not available'}
 
       <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
-        {#snippet children({ ref, isOpened })}
+        {#snippet children({ ref })}
           <Button
             {ref}
             variant="fill"
             icon="error"
-            class={cn('bg-red-light-1 fill-red hover:bg-red-light-2', isOpened && 'bg-red-light-2')}
+            class={cn(
+              'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2',
+            )}
             size="sm"
           ></Button>
         {/snippet}
@@ -75,6 +77,26 @@
       <Value {metric}></Value>
     {/if}
   {/if}
+
+  {#if metric.warnings.$}
+    <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
+      {#snippet children({ ref })}
+        <Button
+          {ref}
+          variant="fill"
+          icon="warning"
+          class={cn(
+            'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2',
+          )}
+          size="sm"
+        ></Button>
+      {/snippet}
+
+      {#snippet content()}
+        <div class="warnings whitespace-pre-line">{@html metric.warnings.$![0]}</div>
+      {/snippet}
+    </Tooltip>
+  {/if}
 </div>
 
 {#snippet errorSnippet(error: Error | string)}
@@ -83,7 +105,11 @@
   </div>
 {/snippet}
 
-<style>
+<style lang="postcss">
+  .warnings :global(code) {
+    @apply rounded bg-athens px-1.5 py-0.5 text-xs font-medium text-fiord text-mono;
+  }
+
   .loader {
     width: 18px;
     padding: 4px;
