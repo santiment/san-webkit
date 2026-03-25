@@ -11,30 +11,25 @@ export const resourcesLinks = [
   { href: 'https://santiment.net/jobs/', title: 'Jobs' },
   { href: 'mailto:support@santiment.net', title: 'Contact us' },
 
-  { href: 'https://academy.santiment.net/', title: 'Academy' },
-  { href: 'https://insights.santiment.net/', title: 'Insights' },
+  { href: SANBASE_ORIGIN + '/charts/', title: 'Charts' },
+  { href: SANBASE_ORIGIN + '/screener/', title: 'Screener' },
+  { href: SANBASE_ORIGIN + '/insights/', title: 'Insights' },
   { href: SANBASE_ORIGIN + '/social-trends/', title: 'Social trends' },
-  {
-    href: SANBASE_ORIGIN + '/labs/balance/',
-    title: 'Historical balance',
-  },
-  {
-    href: 'https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/',
-    title: 'Buy SAN',
-  },
+  { href: 'https://academy.santiment.net/', title: 'Academy' },
 
   { href: SANBASE_ORIGIN + '/', title: 'Sanbase' },
   { href: 'https://api.santiment.net/', title: 'SanAPI' },
   { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
+  { href: 'https://sanr.app/', title: 'SanR' },
 ]
 
 export const socialMediaLinks = [
   {
     href: 'https://twitter.com/santimentfeed',
-    id: 'twitter',
+    id: 'twitter-x',
     width: 20,
     height: 16,
-    label: 'Twitter',
+    label: 'X (Twitter)',
   },
   { href: 'https://github.com/santiment', id: 'github', width: 20, height: 20, label: 'GitHub' },
   { href: 'https://santiment.net/discord', id: 'discord', width: 20, height: 14, label: 'Discord' },
