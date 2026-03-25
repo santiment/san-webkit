@@ -56,9 +56,7 @@
             {ref}
             variant="fill"
             icon="error"
-            class={cn(
-              'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2',
-            )}
+            class={'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2'}
             size="sm"
           ></Button>
         {/snippet}
@@ -85,9 +83,7 @@
           {ref}
           variant="fill"
           icon="warning"
-          class={cn(
-            'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2',
-          )}
+          class={'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2'}
           size="sm"
         ></Button>
       {/snippet}
