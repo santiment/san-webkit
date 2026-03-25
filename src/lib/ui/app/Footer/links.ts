@@ -26,7 +26,7 @@ export const resourcesLinks = [
 export const socialMediaLinks = [
   {
     href: 'https://twitter.com/santimentfeed',
-    id: 'twitter-x-filled',
+    id: 'twitter-x',
     width: 20,
     height: 16,
     label: 'X (Twitter)',
