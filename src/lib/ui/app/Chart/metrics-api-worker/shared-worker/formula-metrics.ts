@@ -164,6 +164,9 @@ export async function fetchFormulaMetric(
       timeseries = []
     }
 
+    // NOTE: Mutating normalization
+    normalizeTimeseries(timeseries)
+
     cachePromiseController.resolve(timeseries)
 
     //const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
@@ -171,6 +174,26 @@ export async function fetchFormulaMetric(
 
     return timeseries
   })
+}
+
+function normalizeTimeseries(timeseries: TMetricData) {
+  let isValidValue = false
+  for (let i = 0; i < timeseries.length; i++) {
+    const datapoint = timeseries[i]
+
+    if (Number.isFinite(datapoint.value)) {
+      isValidValue = true
+      continue
+    }
+
+    if (isValidValue) {
+      timeseries[i - 1].color = 'transparent'
+    }
+
+    datapoint.value = undefined
+
+    isValidValue = false
+  }
 }
 
 export function validateFormula(expr: string, index: number, chartMetrics: TContext['metrics']) {

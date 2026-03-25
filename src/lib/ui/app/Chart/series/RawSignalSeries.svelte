@@ -57,7 +57,7 @@
 
     let lastValue = 0
     for (const { value, time } of data) {
-      if (value === lastValue) {
+      if (value === lastValue || value === undefined) {
         continue
       }
 

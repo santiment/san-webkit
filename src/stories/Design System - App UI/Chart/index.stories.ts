@@ -339,3 +339,29 @@ export const ComplexSignalFormula: Story = {
   },
   parameters: {},
 }
+
+export const ZeroDivisionFormula: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price USD',
+        scaleId: 'right-price_usd',
+      },
+
+      {
+        apiMetricName: 'FORMULA_1',
+        label: 'SMA(10)',
+        // style: 'area',
+
+        scaleId: 'right-price_usd',
+        formula: {
+          id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
+          name: 'm1 / 0',
+          expr: `m1 / if(m1 > 120000, 0, 1)`,
+        },
+      },
+    ],
+  },
+  parameters: {},
+}

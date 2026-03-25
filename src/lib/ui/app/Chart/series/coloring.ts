@@ -19,7 +19,7 @@ export function applyHistogramBaselineColorData(series: TSeries): boolean {
 
   series.chartSeriesApi?.setData(
     data.$.map((item) => {
-      const color = item.value > value ? topColor : bottomColor
+      const color = item.value ? (item.value > value ? topColor : bottomColor) : 'transparent'
       return { ...item, color }
     }),
   )
