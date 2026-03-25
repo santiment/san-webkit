@@ -59,10 +59,10 @@
     ctx.lineWidth = 1
     ctx.strokeStyle = color
     ctx.beginPath()
-    ctx.moveTo(mapIndexToX(0), mapValueToY(data[0].value))
+    ctx.moveTo(mapIndexToX(0), mapValueToY(data[0].value ?? 0))
 
     for (let i = 1; i < data.length; i++) {
-      ctx.lineTo(mapIndexToX(i), mapValueToY(data[i].value))
+      ctx.lineTo(mapIndexToX(i), mapValueToY(data[i].value ?? 0))
     }
 
     ctx.stroke()
@@ -88,7 +88,7 @@
     const minMax = [Infinity, -Infinity]
 
     for (let i = 0; i < data.length; i++) {
-      const { value } = data[i]
+      const { value = 0 } = data[i]
 
       if (value < minMax[0]) {
         minMax[0] = value

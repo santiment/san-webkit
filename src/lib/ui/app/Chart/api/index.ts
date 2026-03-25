@@ -107,8 +107,16 @@ export const queryGetMetric = ApiQuery(
 )
 
 export type TMetricData = (
-  | { time: UTCTimestamp; value: number }
-  | { time: UTCTimestamp; value: number; open: number; high: number; low: number; close: number }
+  | { time: UTCTimestamp; value: undefined | number; color?: string }
+  | {
+      time: UTCTimestamp
+      value: undefined | number
+      color?: string
+      open: number
+      high: number
+      low: number
+      close: number
+    }
 )[]
 
 type TRawPointData = number | { o: number; h: number; c: number; l: number }

@@ -121,7 +121,10 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
       if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
-        payload: { timeseries },
+        payload: {
+          timeseries,
+          warning: timeseries.warning,
+        },
       })
     })
     .catch((error) => {

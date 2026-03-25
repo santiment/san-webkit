@@ -1,8 +1,4 @@
 import type { TJobScheduler } from '$lib/utils/job-scheduler.js'
-import type {
-  TFetchFormulaMetricMessage,
-  TFetchMetricMessage,
-} from '../metrics-api-worker/types.js'
 
 import { untrack } from 'svelte'
 
@@ -10,6 +6,11 @@ import { type TExecutorOptions } from '$lib/api/index.js'
 import { createCtx } from '$lib/utils/index.js'
 import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
+import {
+  FORMULA_WARNING,
+  type TFetchFormulaMetricMessage,
+  type TFetchMetricMessage,
+} from '../metrics-api-worker/types.js'
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
 import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
@@ -54,6 +55,22 @@ export function useApiMetricDataFlow(
       metric.error.$ = msg.payload.error
 
       return
+    }
+
+    if ('warning' in msg.payload) {
+      const warnings: string[] = []
+
+      if (msg.payload.warning === FORMULA_WARNING.NonFiniteData) {
+        warnings.push(`<span class="font-bold">Non-finite data detected in formula result.</span>
+
+This might be caused by an incorrect math operation, e.g., division by zero. Potential solution:
+
+<ul class="list-disc ml-4 column">
+  <li>Handle the division programmatically: <code>if(m2 == 0, 0, m1 / m2)</code></li>
+</ul>`)
+      }
+
+      metric.warnings.$ = warnings
     }
 
     const data = msg.payload.timeseries ?? [] // NOTE: Ensuring the data is not undefined
@@ -108,6 +125,7 @@ export function useApiMetricDataFlow(
 
     untrack(() => {
       metric.loading.$ = true
+      metric.warnings.$ = null
       metric.data.$ = []
     })
 
