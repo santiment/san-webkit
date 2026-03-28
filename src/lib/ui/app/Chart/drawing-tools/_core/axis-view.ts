@@ -1,5 +1,5 @@
 import type { Coordinate, ISeriesPrimitiveAxisView } from '@santiment-network/chart-next'
-import type { TPoint } from './types.js'
+import type { TPoint } from '../types.js'
 import type { DrawingPrimitive } from './primitive.js'
 
 export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {

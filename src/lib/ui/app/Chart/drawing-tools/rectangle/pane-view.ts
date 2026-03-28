@@ -2,7 +2,7 @@ import type { TViewPoint } from '../types.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
-import { DrawingPaneView } from '../pane-view.js'
+import { DrawingPaneView } from '../_core/pane-view.js'
 import { RectanglePaneRenderer } from './renderer.js'
 
 export class RectanglePaneView extends DrawingPaneView {

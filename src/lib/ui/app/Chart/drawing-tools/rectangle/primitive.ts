@@ -1,6 +1,6 @@
 import type { TPoint } from '../types.js'
 
-import { DrawingPrimitive } from '../primitive.js'
+import { DrawingPrimitive } from '../_core/primitive.js'
 import { RectanglePaneView } from './pane-view.js'
 
 export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {

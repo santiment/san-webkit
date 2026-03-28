@@ -13,7 +13,7 @@ import type {
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
 import { DrawingPriceAxisView, DrawingTimeAxisView, type DrawingAxisView } from './axis-view.js'
-import { type TOptions, type TPoint } from './types.js'
+import { type TOptions, type TPoint } from '../types.js'
 import {
   DrawingPaneView,
   DrawingPriceAxisPaneView,
