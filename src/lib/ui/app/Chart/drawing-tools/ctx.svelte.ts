@@ -8,6 +8,7 @@ import { createCtx } from '$lib/utils/index.js'
 import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
 
 type TDrawingPrimitives = typeof RectanglePrimitive | typeof FibRetracementPrimitive
+type TDrawingPrimitive = TDrawingPrimitives['prototype']
 
 export type TTypeToDrawingPrimitive = {
   [K in TDrawingPrimitives as K['prototype']['__type']]: K['prototype']
@@ -25,7 +26,7 @@ type TStates =
       {
         type: TDrawingTypes
         points: TPoint[]
-        drawing: null | TDrawingPrimitives['prototype']
+        drawing: null | TDrawingPrimitive
         Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
       }
     >
@@ -74,10 +75,12 @@ export const useDrawingToolsCtx = createCtx(
       if (!params.point || !params.time) return
 
       const series = targetMetric.chartSeriesApi!
-      const price = series.coordinateToPrice(params.point.y)
-      if (!price) return
+      const value = series.coordinateToPrice(params.point.y)
+      if (value === null || !Number.isFinite(value)) {
+        return
+      }
 
-      return { time: params.time, price }
+      return { time: params.time, price: value }
     }
 
     function onChartClick(params: MouseEventParams) {
@@ -121,14 +124,19 @@ export const useDrawingToolsCtx = createCtx(
       const chart = chartCtx.chart.$
       if (!chart) return
 
-      if (state.name !== 'drawing') return
-
       chart.subscribeClick(onChartClick)
-      chart.subscribeCrosshairMove(onChartCrosshairMove)
+
+      $effect(() => {
+        if (state.name !== 'drawing') return
+
+        chart.subscribeCrosshairMove(onChartCrosshairMove)
+        return () => {
+          chart.unsubscribeCrosshairMove(onChartCrosshairMove)
+        }
+      })
 
       return () => {
         chart.unsubscribeClick(onChartClick)
-        chart.unsubscribeCrosshairMove(onChartCrosshairMove)
       }
     })
 
