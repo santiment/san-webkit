@@ -1,97 +1,50 @@
 <script lang="ts">
-  import Button from '$ui/core/Button/index.js'
+  import { onMount } from 'svelte'
 
-  import { useImageViewer } from './flow.svelte.js'
+  import { idleImport } from './utils.js'
+  import PswpViewer from './PswpViewer.svelte'
 
-  type TProps = {
-    close: () => void
+  let el: HTMLElement
+  let imgProps = $state<{
     src: string
-    alt?: string
-  }
+    alt: string
+    width: number
+    height: number
+    el: HTMLImageElement
+  } | null>(null)
 
-  const { close, src, alt }: TProps = $props()
-  const { viewer } = useImageViewer()
+  let pswp$ = $state<Promise<typeof import('photoswipe')> | undefined>(undefined)
 
-  export async function handleDownload() {
-    try {
-      const response = await fetch(src)
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement('a')
+  onMount(() => {
+    pswp$ = idleImport(() => import('photoswipe'))
+    idleImport(() => import('photoswipe/style.css'))
 
-      link.href = url
-      link.download = alt || 'download'
-      link.click()
+    const parent = el.parentElement
 
-      URL.revokeObjectURL(url)
-    } catch (e) {
-      console.error(e)
+    function onclick(e: MouseEvent) {
+      const target = e.target as HTMLElement
+
+      if (target.tagName !== 'IMG') return
+
+      const img = target as HTMLImageElement
+
+      imgProps = {
+        src: img.src,
+        alt: img.alt,
+        width: img.naturalWidth,
+        height: img.naturalHeight,
+        el: img,
+      }
     }
-  }
+
+    parent?.addEventListener('click', onclick)
+
+    return () => parent?.removeEventListener('click', onclick)
+  })
 </script>
 
-<svelte:window
-  bind:innerWidth={viewer.$.windowWidth}
-  bind:innerHeight={viewer.$.windowHeight}
-  onpointermove={viewer.handlePointerMove}
-  onpointerup={viewer.handlePointerUp}
-  onpointercancel={viewer.handlePointerUp}
-  onresize={viewer.handleResize}
-/>
+{#if imgProps && pswp$}
+  <PswpViewer {...imgProps} photoswipe$={pswp$} ondestroy={() => (imgProps = null)} />
+{/if}
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_static_element_interactions -->
-<div
-  onclick={(e) => e.target === e.currentTarget && close()}
-  class="relative flex h-screen touch-none select-none center"
->
-  <div
-    class="overflow-hidden rounded transition-transform duration-200 ease-out"
-    style:transform={`translate(${viewer.$.position.x}px, ${viewer.$.position.y}px) scale(${viewer.$.scale})`}
-    style:cursor={viewer.cursorStyle$}
-    onpointerdown={viewer.handlePointerDown}
-  >
-    <img bind:this={viewer.$.imageElement} {src} {alt} class="pointer-events-none" />
-  </div>
-
-  <div
-    class="absolute bottom-10 left-1/2 z-50 block -translate-x-1/2 md:hidden [&_button]:fill-mystic hover:[&_button]:fill-white"
-  >
-    <div class="flex gap-2" onclick={(e) => e.stopPropagation()}>
-      <div class="flex items-center justify-between rounded bg-rhino text-mystic">
-        <Button
-          class="h-8 w-8 center disabled:fill-waterloo"
-          icon="minus"
-          variant="plain"
-          onclick={() => viewer.zoom(-0.25)}
-          explanation="Zoom out"
-        ></Button>
-
-        <div class="px-2">{Math.round(viewer.$.scale * 100)}%</div>
-
-        <Button
-          class="h-8 w-8 center disabled:fill-waterloo"
-          icon="plus"
-          variant="plain"
-          onclick={() => viewer.zoom(0.25)}
-          explanation="Zoom in"
-        ></Button>
-      </div>
-
-      <Button
-        class="h-8 w-8 rounded bg-rhino center"
-        icon="download"
-        variant="plain"
-        onclick={handleDownload}
-        explanation="Download"
-      ></Button>
-      <Button
-        class="h-8 w-8 rounded bg-rhino center"
-        icon="shrink"
-        onclick={close}
-        variant="plain"
-        explanation="Close"
-      ></Button>
-    </div>
-  </div>
-</div>
+<span bind:this={el} class="hidden"></span>

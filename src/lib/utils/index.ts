@@ -17,6 +17,8 @@ export { getCookie, setCookie, deleteCookie } from './cookies.js'
 
 export { copy } from './clipboard.js'
 
+export { downloadFile } from './download.js'
+
 export { assertNever } from './assert.js'
 
 export { sleep } from './promise.js'
