@@ -1,10 +1,12 @@
 // https://github.com/tradingview/lightweight-charts/blob/master/plugin-examples/src/plugins/rectangle-drawing-tool/rectangle-drawing-tool.ts#L267
 
 import type {
+  Coordinate,
   DataChangedScope,
   IChartApi,
   ISeriesApi,
   ISeriesPrimitive,
+  PrimitiveHoveredItem,
   SeriesAttachedParameter,
   SeriesOptionsMap,
   Time,
@@ -143,4 +145,9 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
 
   public abstract updateEndPoint(p: TPoint): void
+
+  public hitTest?(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+    const [paneView] = this._paneViews
+    return paneView.hitTest(x, y)
+  }
 }

@@ -84,6 +84,7 @@ export const useDrawingToolsCtx = createCtx(
     }
 
     function onChartClick(params: MouseEventParams) {
+      console.log(params)
       if (state.name !== 'drawing') return
 
       const point = getMouseDrawingPoint(params)
