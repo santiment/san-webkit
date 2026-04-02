@@ -7,6 +7,7 @@ import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { TViewPoint } from '../types.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
+import type { DrawingPaneView } from './pane-view.js'
 
 export const RenderHitTest = {
   PRIMITIVE: 1,
@@ -45,17 +46,27 @@ export class DrawingCompositePaneRenderer implements TPaneRenderer {
   }
 }
 
-export class HandleRenderer<GPoints> {
-  protected _points: GPoints
-  private _config: { position: (points: GPoints) => any }
+export class HandleRenderer<GPaneView extends DrawingPaneView> {
+  protected _paneView: GPaneView
+  protected _points: GPaneView['points']
+
+  private _config: { position: (points: GPaneView['points']) => any }
   private _size = 8 / 2
 
-  constructor(points: GPoints, config: { position: (points: GPoints) => TViewPoint }) {
-    this._points = points
+  constructor(
+    paneView: GPaneView,
+    config: { position: (points: GPaneView['points']) => TViewPoint },
+  ) {
+    this._paneView = paneView
+    this._points = paneView.points
     this._config = config
   }
 
   draw(target: CanvasRenderingTarget2D) {
+    if (!this._paneView.isSelected && !this._paneView.isHovered) {
+      return
+    }
+
     target.useBitmapCoordinateSpace((scope) => {
       const { x, y } = this._config.position(this._points)
 

@@ -8,10 +8,15 @@ import type {
 import type { DrawingPrimitive } from './primitive.js'
 
 import { DrawingAxisPaneRenderer, type TPaneRenderer } from './renderer.js'
+import type { TViewPoint } from '../types.js'
 
 export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
   protected _renderer!: TPaneRenderer
+
+  public points!: TViewPoint[]
+  public isHovered = false
+  public isSelected = false
 
   constructor(source: DrawingPrimitive<any>) {
     this._source = source
@@ -21,15 +26,22 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     const result = this._renderer.hitTest(x, y)
 
     if (!result) {
+      this.isHovered = false
       return null
     }
+
+    this.isHovered = true
 
     return {
       // @ts-expect-error
       externalId: this._source,
       cursorStyle: 'pointer',
-      zOrder: 'top',
+      zOrder: 'normal',
     }
+  }
+
+  public zOrder(): PrimitivePaneViewZOrder {
+    return this.isSelected ? 'top' : 'normal'
   }
 
   abstract update(): void
@@ -53,11 +65,13 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
   }
 
   renderer() {
-    return new DrawingAxisPaneRenderer(
-      this._points,
-      this._source.options.axisLabels.bg,
-      this._vertical,
-    )
+    return this._source.isSelected()
+      ? new DrawingAxisPaneRenderer(
+          this._points,
+          this._source.options.axisLabels.bg,
+          this._vertical,
+        )
+      : null
   }
   zOrder(): PrimitivePaneViewZOrder {
     return 'bottom'

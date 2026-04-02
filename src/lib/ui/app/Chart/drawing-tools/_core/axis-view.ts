@@ -18,9 +18,9 @@ export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
     return this._pos ?? -1
   }
 
-  //visible(): boolean {
-  //  return this._source._options.showLabels
-  //}
+  visible(): boolean {
+    return this._source.isSelected()
+  }
   //
   //tickVisible(): boolean {
   //  return this._source._options.showLabels
