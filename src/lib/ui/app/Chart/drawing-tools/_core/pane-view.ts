@@ -18,7 +18,18 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
   }
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
-    return this._renderer.hitTest(x, y)
+    const result = this._renderer.hitTest(x, y)
+
+    if (!result) {
+      return null
+    }
+
+    return {
+      // @ts-expect-error
+      externalId: this._source,
+      cursorStyle: 'pointer',
+      zOrder: 'top',
+    }
   }
 
   abstract update(): void

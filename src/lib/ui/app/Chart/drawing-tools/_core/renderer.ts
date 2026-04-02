@@ -4,9 +4,110 @@ import type {
   PrimitiveHoveredItem,
 } from '@santiment-network/chart-next'
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
+import type { TViewPoint } from '../types.js'
+
+import { getBrowserCssVariable } from '$ui/utils/index.js'
+
+export const RenderHitTest = {
+  PRIMITIVE: 1,
+  HANDLE: 2,
+} as const
+
+export type TRenderHitTestValue = (typeof RenderHitTest)[keyof typeof RenderHitTest]
 
 export interface TPaneRenderer extends IPrimitivePaneRenderer {
-  hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null
+}
+
+export class DrawingCompositePaneRenderer implements TPaneRenderer {
+  _renderers: TPaneRenderer[]
+
+  constructor(renderers: TPaneRenderer[]) {
+    this._renderers = renderers
+  }
+
+  draw(target: CanvasRenderingTarget2D) {
+    for (const renderer of this._renderers) {
+      renderer.draw(target)
+    }
+  }
+
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
+    for (const renderer of this._renderers) {
+      const result = renderer.hitTest?.(x, y)
+
+      if (result !== null) {
+        return result
+      }
+    }
+
+    return null
+  }
+}
+
+export class HandleRenderer<GPoints> {
+  protected _points: GPoints
+  private _config: { position: (points: GPoints) => any }
+  private _size = 8 / 2
+
+  constructor(points: GPoints, config: { position: (points: GPoints) => TViewPoint }) {
+    this._points = points
+    this._config = config
+  }
+
+  draw(target: CanvasRenderingTarget2D) {
+    target.useBitmapCoordinateSpace((scope) => {
+      const { x, y } = this._config.position(this._points)
+
+      const ctx = scope.context
+      const horizontalPositions = positionsBox(
+        x - this._size,
+        x + this._size,
+        scope.horizontalPixelRatio,
+      )
+      const verticalPositions = positionsBox(
+        y - this._size,
+        y + this._size,
+        scope.verticalPixelRatio,
+      )
+
+      ctx.fillStyle = getBrowserCssVariable('white')
+      ctx.fillRect(
+        horizontalPositions.position,
+        verticalPositions.position,
+        horizontalPositions.length,
+        verticalPositions.length,
+      )
+
+      ctx.strokeStyle = getBrowserCssVariable('waterloo')
+      ctx.lineWidth = 3
+      ctx.strokeRect(
+        horizontalPositions.position,
+        verticalPositions.position,
+        horizontalPositions.length,
+        verticalPositions.length,
+      )
+    })
+  }
+
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
+    const point = this._config.position(this._points)
+
+    if (
+      checkIsOutsideRect(
+        x,
+        y,
+        point.x - this._size,
+        point.x + this._size,
+        point.y - this._size,
+        point.y + this._size,
+      )
+    ) {
+      return null
+    }
+
+    return RenderHitTest.HANDLE
+  }
 }
 
 export class DrawingAxisPaneRenderer implements IPrimitivePaneRenderer {
@@ -68,4 +169,25 @@ export interface BitmapPositionLength {
   position: number
   /** length for use with a bitmap rendering scope */
   length: number
+}
+
+/**
+ *
+ * @param x - x coordinate of the point to check
+ * @param y - y coordinate of the point to check
+ * @param px1 - x coordinate of the left of the rectangle
+ * @param px2 - x coordinate of the right of the rectangle
+ * @param py1 - y coordinate of the top of the rectangle
+ * @param py2 - y coordinate of the bottom of the rectangle
+ * @returns {boolean} - true if the point is outside the rectangle, false otherwise
+ */
+export function checkIsOutsideRect(
+  x: Coordinate,
+  y: Coordinate,
+  px1: null | number,
+  px2: null | number,
+  py1: null | number,
+  py2: null | number,
+): boolean {
+  return x < px1! || x > px2! || y < py1! || y > py2!
 }

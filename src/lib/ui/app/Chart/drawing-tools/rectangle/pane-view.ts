@@ -4,6 +4,7 @@ import { getBrowserCssVariable } from '$ui/utils/index.js'
 
 import { DrawingPaneView } from '../_core/pane-view.js'
 import { RectanglePaneRenderer } from './renderer.js'
+import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js'
 
 export class RectanglePaneView extends DrawingPaneView {
   protected _points: [TViewPoint, TViewPoint] = [
@@ -11,7 +12,37 @@ export class RectanglePaneView extends DrawingPaneView {
     { x: null, y: null },
   ]
 
-  protected _renderer = new RectanglePaneRenderer(this._points, getBrowserCssVariable('red') + '50')
+  protected _renderer = new DrawingCompositePaneRenderer([
+    new RectanglePaneRenderer(this._points, getBrowserCssVariable('red') + '50'),
+
+    // top left
+    new HandleRenderer(this._points, {
+      position(points) {
+        return { x: points[0].x, y: points[0].y }
+      },
+    }),
+
+    // top right
+    new HandleRenderer(this._points, {
+      position(points) {
+        return { x: points[1].x, y: points[0].y }
+      },
+    }),
+
+    // bottom right
+    new HandleRenderer(this._points, {
+      position(points) {
+        return { x: points[1].x, y: points[1].y }
+      },
+    }),
+
+    // bottom left
+    new HandleRenderer(this._points, {
+      position(points) {
+        return { x: points[0].x, y: points[1].y }
+      },
+    }),
+  ])
 
   update() {
     const series = this._source.series
@@ -25,11 +56,11 @@ export class RectanglePaneView extends DrawingPaneView {
     const x1 = timeScale.timeToCoordinate(p1.time)
     const x2 = timeScale.timeToCoordinate(p2.time)
 
-    const left = { x: x1, y: y1 }
-    const right = { x: x2, y: y2 }
+    const [top, bottom] = y1! < y2! ? [y1, y2] : [y2, y1]
+    const [left, right] = x1! < x2! ? [x1, x2] : [x2, x1]
 
-    this._points[0] = x1! < x2! ? left : right
-    this._points[1] = x1! < x2! ? right : left
+    this._points[0] = { x: left, y: top }
+    this._points[1] = { x: right, y: bottom }
   }
 
   renderer() {
