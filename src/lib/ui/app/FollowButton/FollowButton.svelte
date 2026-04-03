@@ -9,7 +9,7 @@
 
   type TProps = {
     class?: string
-    user: any
+    user: { id: string | number }
     currentUser: TCustomer['currentUser']
     source?: string
   }
