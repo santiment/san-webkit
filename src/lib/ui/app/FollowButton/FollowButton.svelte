@@ -43,8 +43,8 @@
   iconHeight={16}
   variant="fill"
   class={cn(
-    'inline-flex items-center gap-1 whitespace-nowrap rounded px-3 py-1.5 transition-colors hover:fill-white hover:text-white',
-    isFollowing ? 'bg-porcelain fill-black text-black hover:bg-mystic' : 'fill-white text-white',
+    'inline-flex whitespace-nowrap px-3',
+    isFollowing && 'bg-athens fill-waterloo text-rhino hover:bg-porcelain',
     className,
   )}
   onclick={onFollow}
