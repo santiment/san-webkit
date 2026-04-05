@@ -92,10 +92,29 @@ export const useDrawingToolsCtx = createCtx(
       return { time: params.time, price: value }
     }
 
-    function onChartClick(params: MouseEventParams) {
+    function onChartPointerDown(params: MouseEventParams) {
+      const chart = chartCtx.chart.$
+      if (!chart) {
+        return
+      }
+
       const hoveredPrimitive = params.hoveredObjectId as null | TDrawingPrimitive
 
       selectPrimitive(hoveredPrimitive)
+
+      // NOTE: Preventing mouse drag-scroll when drawing or hovering over a primitive and then pressing the mouse button
+      if (hoveredPrimitive || state.name === 'drawing') {
+        const { handleScroll } = chart.options()
+        const oldHandleScroll =
+          typeof handleScroll === 'object' ? { ...handleScroll } : handleScroll
+        chart.applyOptions({ handleScroll: { pressedMouseMove: false } })
+
+        window.addEventListener(
+          'pointerup',
+          () => chart.applyOptions({ handleScroll: oldHandleScroll }),
+          { once: true },
+        )
+      }
 
       if (state.name !== 'drawing') return
 
@@ -140,7 +159,7 @@ export const useDrawingToolsCtx = createCtx(
       const chart = chartCtx.chart.$
       if (!chart) return
 
-      chart.subscribeClick(onChartClick)
+      chart.subscribePointerDown(onChartPointerDown)
 
       $effect(() => {
         if (state.name !== 'drawing') return
@@ -152,7 +171,7 @@ export const useDrawingToolsCtx = createCtx(
       })
 
       return () => {
-        chart.unsubscribeClick(onChartClick)
+        chart.unsubscribePointerDown(onChartPointerDown)
       }
     })
 
