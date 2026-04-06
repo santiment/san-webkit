@@ -17,6 +17,7 @@ export class Socket {
   #socket: PhoenixSocket
   #channels = new Map<string, Channel>()
   #joiningChannels = new Map<string, Promise<Channel>>()
+  #subscriptionRefs = new Map<string, Set<number> | undefined>()
 
   constructor(params: SocketParams = {}) {
     this.#socket = new PhoenixSocket(getSocketUrl(), { params })
@@ -40,6 +41,10 @@ export class Socket {
 
         channel = chan
         listenerRef = chan.on(event, clb)
+
+        const topicRefs = this.#subscriptionRefs.get(topic) ?? new Set<number>()
+        topicRefs.add(listenerRef)
+        this.#subscriptionRefs.set(topic, topicRefs)
       })
       .catch((err) => {
         if (isCancelled) return
@@ -50,16 +55,24 @@ export class Socket {
     return () => {
       isCancelled = true
 
+      const topicRefs = this.#subscriptionRefs.get(topic)
+
       if (channel && listenerRef !== undefined) {
         channel.off(event, listenerRef)
+        topicRefs?.delete(listenerRef)
       }
 
-      this.#leave(topic)
+      if (!topicRefs?.size) {
+        this.#leave(topic)
+      }
     }
   }
 
   disconnect() {
     this.#socket.disconnect()
+    this.#channels.clear()
+    this.#joiningChannels.clear()
+    this.#subscriptionRefs.clear()
   }
 
   #send(chan: Channel, event: string, payload: object) {
