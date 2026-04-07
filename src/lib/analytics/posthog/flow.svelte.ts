@@ -3,8 +3,8 @@ import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import { useDebouncedFn } from '$lib/utils/index.js'
 
-import { useDebouncedFn } from '../amplitude/flow.svelte.js'
 import { useABTestCtx } from '../ab.js'
 
 export function usePosthogFlow() {
