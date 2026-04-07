@@ -183,7 +183,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
   public abstract updateEndPoint(p: TViewPoint): void
 
-  protected abstract sortViewPoints?(): void
+  protected sortViewPoints?(): void {}
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const [paneView] = this._paneViews

@@ -1,57 +1,53 @@
+import type { TViewPoint } from '../types.js'
+
 import { DrawingPaneView } from '../_core/pane-view.js'
 import { FibRetracementPaneRenderer, type TRenderData } from './renderer.js'
 import { FIBONACCI_LEVELS } from './defaults.js'
+import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js'
 
 export class FibRetracementPaneView extends DrawingPaneView {
-  private _data: TRenderData | { x1: null; x2: null; y1: null; y2: null; levels: [] } = {
-    x1: null,
-    x2: null,
-    y1: null,
-    y2: null,
-    levels: [],
+  public get viewPoints(): [TViewPoint, TViewPoint] {
+    return this._source.viewPoints as [TViewPoint, TViewPoint]
   }
+
+  public data = {
+    levels: [] as TRenderData['levels'],
+  }
+
+  protected _renderer: DrawingCompositePaneRenderer = new DrawingCompositePaneRenderer([
+    new FibRetracementPaneRenderer(this),
+
+    new HandleRenderer(this, { pointIndices: [0, 0] }),
+
+    new HandleRenderer(this, { pointIndices: [1, 1] }),
+  ])
 
   update() {
     const series = this._source.series
-    const timeScale = this._source.chart.timeScale()
 
-    const [p1, p2] = this._source.points
+    const [vp1, vp2] = this._source.viewPoints
 
-    const x1 = timeScale.timeToCoordinate(p1.time)
-    const x2 = timeScale.timeToCoordinate(p2.time)
-    const y1 = series.priceToCoordinate(p1.price)
-    const y2 = series.priceToCoordinate(p2.price)
-
-    if (!x1 || !x2 || !y1 || !y2) {
-      this._data = { x1: null, x2: null, y1: null, y2: null, levels: [] }
+    if (!vp1.x || !vp2.x || !vp1.y || !vp2.y) {
+      this.data.levels = []
       return
     }
 
     const formatter = series.priceFormatter()
 
+    const firstPrice = series.coordinateToPrice(vp1.y)!
+    const lastPrice = series.coordinateToPrice(vp2.y)!
+
     // Calculate price difference
-    const priceDiff = p1.price - p2.price
+    const priceDiff = firstPrice - lastPrice
 
     // Calculate all Fibonacci levels
-    this._data = {
-      x1,
-      x2,
-      y1,
-      y2,
-      levels: FIBONACCI_LEVELS.map((item) => {
-        const price = p2.price + priceDiff * item.level
-        return { ...item, value: formatter.format(price), y: series.priceToCoordinate(price)! }
-      }),
-    }
+    this.data.levels = FIBONACCI_LEVELS.map((item) => {
+      const price = lastPrice + priceDiff * item.level
+      return { ...item, value: formatter.format(price), y: series.priceToCoordinate(price)! }
+    })
   }
 
   renderer() {
-    const { x1, x2, y1, y2 } = this._data
-
-    if (x1 !== null && x2 !== null && y1 !== null && y2 !== null) {
-      return new FibRetracementPaneRenderer(this._data)
-    }
-
-    return null
+    return this._renderer
   }
 }
