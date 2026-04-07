@@ -135,6 +135,7 @@ export default {
         'blue-light-1': { day: '#ecf0fe', night: '#21284b' },
         'blue-light-2': { day: '#dae0fd', night: '#273160' },
         'blue-light-3': { day: '#a9baff', night: '#354895' },
+        'blue-light-4': { day: '#8099FF', night: '#415ABF' },
 
         cyan: '#68dbf4',
         'cyan-hover': { day: '#18c0e4', night: '#5bcde5' },
