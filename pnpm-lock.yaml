@@ -32,9 +32,6 @@ dependencies:
   fast-glob:
     specifier: ^3.3.2
     version: 3.3.2
-  phoenix:
-    specifier: ^1.8.5
-    version: 1.8.5
   pino:
     specifier: ^10.0.0
     version: 10.0.0
@@ -214,6 +211,9 @@ devDependencies:
   monaco-editor:
     specifier: ^0.52.2
     version: 0.52.2
+  phoenix:
+    specifier: ^1.8.5
+    version: 1.8.5
   postcss:
     specifier: ^8.4.38
     version: 8.5.3
@@ -8659,7 +8659,7 @@ packages:
 
   /phoenix@1.8.5:
     resolution: {integrity: sha512-Oj5nlRV/NKXkjBx8uMgCMmgMf1twd/B2qOcO30cHLH1PCGR8149o4T1lRIaqN4nq2KQJAeMqPiLdh1Asd0wQFg==}
-    dev: false
+    dev: true
 
   /picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
