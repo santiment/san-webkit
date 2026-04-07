@@ -1,21 +1,21 @@
 import type { Coordinate, ISeriesPrimitiveAxisView } from '@santiment-network/chart-next'
-import type { TPoint } from '../types.js'
+
 import type { DrawingPrimitive } from './primitive.js'
 
 export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
   protected _source: DrawingPrimitive<any>
-  protected _point: TPoint
-  protected _pos: Coordinate | null = null
+  protected _index: number
 
-  constructor(source: DrawingPrimitive<any>, point: TPoint) {
+  constructor(source: DrawingPrimitive<any>, index: number) {
     this._source = source
-    this._point = point
+    this._index = index
   }
-  abstract update(): void
+
+  abstract position: 'x' | 'y'
   abstract text(): string
 
   coordinate() {
-    return this._pos ?? -1
+    return this._source.viewPoints[this._index][this.position] ?? -1
   }
 
   visible(): boolean {
@@ -32,32 +32,24 @@ export abstract class DrawingAxisView implements ISeriesPrimitiveAxisView {
   backColor() {
     return this._source.options.axisLabels.bg
   }
-  movePoint(p: TPoint) {
-    this._point = p
-    this.update()
-  }
 }
 
 export class DrawingTimeAxisView extends DrawingAxisView {
-  update() {
-    const timeScale = this._source.chart.timeScale()
-    this._pos = timeScale.timeToCoordinate(this._point.time)
-  }
+  position = 'x' as const
+
   text() {
     const chart = this._source.chart
-    return (
-      chart.options().localization.timeFormatter?.(this._point.time) || this._point.time.toString()
-    )
+    const point = this._source.points[this._index]
+
+    return chart.options().localization.timeFormatter?.(point.time) || point.time.toString()
   }
 }
 
 export class DrawingPriceAxisView extends DrawingAxisView {
-  update() {
-    const series = this._source.series
-    this._pos = series.priceToCoordinate(this._point.price)
-  }
+  position = 'y' as const
+
   text() {
     const series = this._source.series
-    return series.priceFormatter().format(this._point.price)
+    return series.priceFormatter().format(this._source.points[this._index].price)
   }
 }

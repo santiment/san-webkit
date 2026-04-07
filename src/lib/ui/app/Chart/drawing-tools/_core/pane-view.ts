@@ -44,6 +44,24 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     return this.isSelected ? 'top' : 'normal'
   }
 
+  public move(diffXY: [number, number], handleId?: number) {
+    if (handleId !== undefined) {
+      return
+    }
+
+    const [diffX, diffY] = diffXY
+
+    const { viewPoints, finalizedViewPoints } = this._source
+
+    for (let i = 0; i < this.points.length; i++) {
+      const viewPoint = viewPoints[i]
+      const finalizedViewPoint = finalizedViewPoints[i]
+
+      viewPoint.x = (finalizedViewPoint.x! + diffX) as Coordinate
+      viewPoint.y = (finalizedViewPoint.y! + diffY) as Coordinate
+    }
+  }
+
   abstract update(): void
 
   abstract renderer(): IPrimitivePaneRenderer | null
@@ -58,10 +76,10 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
     this._source = source
   }
 
-  abstract getPoints(): (Coordinate | null)[]
-
   update() {
-    this._points = this.getPoints()
+    this._points = this._source.viewPoints.map((coordinate) =>
+      this._vertical ? coordinate.y! : coordinate.x!,
+    )
   }
 
   renderer() {
@@ -80,16 +98,6 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
 
 export class DrawingPriceAxisPaneView extends DrawingAxisPaneView {
   _vertical: boolean = true
-
-  getPoints(): (Coordinate | null)[] {
-    const series = this._source.series
-    return this._source.points.map((point) => series.priceToCoordinate(point.price))
-  }
 }
 
-export class DrawingTimeAxisPaneView extends DrawingAxisPaneView {
-  getPoints(): (Coordinate | null)[] {
-    const timeScale = this._source.chart.timeScale()
-    return this._source.points.map((point) => timeScale.timeToCoordinate(point.time))
-  }
-}
+export class DrawingTimeAxisPaneView extends DrawingAxisPaneView {}
