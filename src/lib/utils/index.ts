@@ -21,6 +21,8 @@ export { assertNever } from './assert.js'
 
 export { sleep } from './promise.js'
 
+export { useDebouncedFn } from './debounce.svelte.js'
+
 /**
  * Designed for cases when universal page load function should have a conditional query, which runs only on app boot
  */

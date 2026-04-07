@@ -4,23 +4,9 @@ import * as amplitude from '@amplitude/analytics-browser'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import { useDebouncedFn } from '$lib/utils/index.js'
 
 import { useABTestCtx } from '../ab.js'
-
-export function useDebouncedFn<GFunction extends (...args: any[]) => void>(
-  time: number,
-  fn: GFunction,
-) {
-  let timer: NodeJS.Timeout
-
-  const clear = () => clearTimeout(timer)
-  $effect(() => clear)
-
-  return ((...args) => {
-    clear()
-    timer = setTimeout(() => fn(...args), time)
-  }) as GFunction
-}
 
 export function useAmplitudeFlow() {
   if (!BROWSER) return
