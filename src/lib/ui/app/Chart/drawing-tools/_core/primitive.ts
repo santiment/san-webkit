@@ -183,6 +183,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
   public abstract updateEndPoint(p: TViewPoint): void
 
+  protected abstract sortViewPoints?(): void
+
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const [paneView] = this._paneViews
     return paneView.hitTest(x, y)
@@ -201,8 +203,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     this.requestUpdate()
   }
 
-  public move(diffXY: [number, number]) {
-    this._paneViews.forEach((pw) => pw.move(diffXY))
+  public move(diffXY: [number, number], handleIndices?: [number, number]) {
+    this._paneViews.forEach((pw) => pw.move(diffXY, handleIndices))
     this.requestUpdate()
   }
 
@@ -225,6 +227,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     const series = this._series
 
     if (!series) return
+
+    this.sortViewPoints?.()
 
     this._dataPoints = this._viewPoints.map((point) => ({
       time: timeScale.coordinateToTime(point.x!)!,

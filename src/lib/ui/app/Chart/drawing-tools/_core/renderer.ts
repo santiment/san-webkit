@@ -1,10 +1,5 @@
-import type {
-  Coordinate,
-  IPrimitivePaneRenderer,
-  PrimitiveHoveredItem,
-} from '@santiment-network/chart-next'
+import type { Coordinate, IPrimitivePaneRenderer } from '@santiment-network/chart-next'
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
-import type { TViewPoint } from '../types.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 import type { DrawingPaneView } from './pane-view.js'
@@ -16,8 +11,17 @@ export const RenderHitTest = {
 
 export type TRenderHitTestValue = (typeof RenderHitTest)[keyof typeof RenderHitTest]
 
+export type TRenderHitTestData =
+  | {
+      type: (typeof RenderHitTest)['PRIMITIVE']
+    }
+  | {
+      type: (typeof RenderHitTest)['HANDLE']
+      indices: [number, number]
+    }
+
 export interface TPaneRenderer extends IPrimitivePaneRenderer {
-  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null
 }
 
 export class DrawingCompositePaneRenderer implements TPaneRenderer {
@@ -33,9 +37,9 @@ export class DrawingCompositePaneRenderer implements TPaneRenderer {
     }
   }
 
-  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
-    for (const renderer of this._renderers) {
-      const result = renderer.hitTest?.(x, y)
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
+    for (let i = this._renderers.length - 1; i > -1; i--) {
+      const result = this._renderers[i].hitTest?.(x, y)
 
       if (result !== null) {
         return result
@@ -48,17 +52,19 @@ export class DrawingCompositePaneRenderer implements TPaneRenderer {
 
 export class HandleRenderer<GPaneView extends DrawingPaneView> {
   protected _paneView: GPaneView
-  protected _points: GPaneView['points']
 
-  private _config: { position: (points: GPaneView['points']) => any }
+  private _config: {
+    pointIndices: [number, number]
+  }
   private _size = 8 / 2
 
   constructor(
     paneView: GPaneView,
-    config: { position: (points: GPaneView['points']) => TViewPoint },
+    config: {
+      pointIndices: [number, number]
+    },
   ) {
     this._paneView = paneView
-    this._points = paneView.points
     this._config = config
   }
 
@@ -68,7 +74,12 @@ export class HandleRenderer<GPaneView extends DrawingPaneView> {
     }
 
     target.useBitmapCoordinateSpace((scope) => {
-      const { x, y } = this._config.position(this._points)
+      const x = this._paneView.viewPoints[this._config.pointIndices[0]].x
+      const y = this._paneView.viewPoints[this._config.pointIndices[1]].y
+
+      if (x === null || y === null) {
+        return
+      }
 
       const ctx = scope.context
       const horizontalPositions = positionsBox(
@@ -101,23 +112,17 @@ export class HandleRenderer<GPaneView extends DrawingPaneView> {
     })
   }
 
-  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
-    const point = this._config.position(this._points)
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
+    const px = this._paneView.viewPoints[this._config.pointIndices[0]].x!
+    const py = this._paneView.viewPoints[this._config.pointIndices[1]].y!
 
     if (
-      checkIsOutsideRect(
-        x,
-        y,
-        point.x - this._size,
-        point.x + this._size,
-        point.y - this._size,
-        point.y + this._size,
-      )
+      checkIsOutsideRect(x, y, px - this._size, px + this._size, py - this._size, py + this._size)
     ) {
       return null
     }
 
-    return RenderHitTest.HANDLE
+    return { type: RenderHitTest.HANDLE, indices: this._config.pointIndices }
   }
 }
 

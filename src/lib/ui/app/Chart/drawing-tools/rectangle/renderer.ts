@@ -1,5 +1,4 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
-import type { TViewPoint } from '../types.js'
 import type { Coordinate, PrimitiveHoveredItem } from '@santiment-network/chart-next'
 
 import {
@@ -7,21 +6,22 @@ import {
   positionsBox,
   RenderHitTest,
   type TPaneRenderer,
-  type TRenderHitTestValue,
+  type TRenderHitTestData,
 } from '../_core/renderer.js'
+import type { RectanglePaneView } from './pane-view.js'
 
 export class RectanglePaneRenderer implements TPaneRenderer {
-  private _data: [TViewPoint, TViewPoint]
+  private _paneView: RectanglePaneView
   private _fillColor: string
 
-  constructor(data: [TViewPoint, TViewPoint], fillColor: string) {
-    this._data = data
+  constructor(paneView: RectanglePaneView, fillColor: string) {
+    this._paneView = paneView
     this._fillColor = fillColor
   }
 
   draw(target: CanvasRenderingTarget2D) {
     target.useBitmapCoordinateSpace((scope) => {
-      const [p1, p2] = this._data
+      const [p1, p2] = this._paneView.viewPoints
 
       if (p1.x === null || p1.y === null || p2.x === null || p2.y === null) {
         return
@@ -40,13 +40,13 @@ export class RectanglePaneRenderer implements TPaneRenderer {
     })
   }
 
-  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
-    const [p1, p2] = this._data
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
+    const [p1, p2] = this._paneView.viewPoints
 
     if (checkIsOutsideRect(x, y, p1.x, p2.x, p1.y, p2.y)) {
       return null
     }
 
-    return RenderHitTest.PRIMITIVE
+    return { type: RenderHitTest.PRIMITIVE }
   }
 }

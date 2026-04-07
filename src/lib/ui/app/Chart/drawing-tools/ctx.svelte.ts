@@ -6,6 +6,7 @@ import type { default as RectanglePrimitive } from './rectangle/primitive.js'
 import { createCtx } from '$lib/utils/index.js'
 
 import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
+import { RenderHitTest, type TRenderHitTestData } from './_core/renderer.js'
 
 type TDrawingPrimitives = typeof RectanglePrimitive | typeof FibRetracementPrimitive
 type TDrawingPrimitive = TDrawingPrimitives['prototype']
@@ -35,8 +36,14 @@ type TStates =
       {
         drawing: TDrawingPrimitive
         startPoint: NonNullable<MouseEventParams['point']>
+        handleIndices?: [number, number]
       }
     >
+
+type THoveredPrimitive = {
+  primitive: TDrawingPrimitive
+  hit: TRenderHitTestData
+}
 
 export function importPrimitive(type: TDrawingTypes) {
   switch (type) {
@@ -105,7 +112,8 @@ export const useDrawingToolsCtx = createCtx(
         return
       }
 
-      const hoveredPrimitive = params.hoveredObjectId as null | TDrawingPrimitive
+      const hoveredObject = params.hoveredObjectId as null | THoveredPrimitive
+      const hoveredPrimitive = hoveredObject?.primitive ?? null
 
       selectPrimitive(hoveredPrimitive)
 
@@ -136,6 +144,10 @@ export const useDrawingToolsCtx = createCtx(
           payload: {
             drawing: hoveredPrimitive,
             startPoint: params.point!,
+            handleIndices:
+              hoveredObject?.hit.type === RenderHitTest.HANDLE
+                ? hoveredObject.hit.indices
+                : undefined,
           },
         }
       }
@@ -179,7 +191,7 @@ export const useDrawingToolsCtx = createCtx(
         const dy = y - startPoint.y
 
         // console.log({ dx, dy })
-        state.payload.drawing.move([dx, dy])
+        state.payload.drawing.move([dx, dy], state.payload.handleIndices)
       }
 
       if (state.name !== 'drawing') return
@@ -188,8 +200,9 @@ export const useDrawingToolsCtx = createCtx(
       // if (!point) return
 
       if (!state.payload.drawing) return
+      if (!params.point) return
 
-      state.payload.drawing.updateEndPoint(params.point!)
+      state.payload.drawing.updateEndPoint(params.point)
     }
 
     $effect(() => {

@@ -14,13 +14,18 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
   protected _renderer!: TPaneRenderer
 
-  public points!: TViewPoint[]
+  public abstract get viewPoints(): TViewPoint[]
+
   public isHovered = false
   public isSelected = false
 
   constructor(source: DrawingPrimitive<any>) {
     this._source = source
   }
+
+  abstract update(): void
+
+  abstract renderer(): IPrimitivePaneRenderer | null
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const result = this._renderer.hitTest(x, y)
@@ -34,7 +39,10 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
 
     return {
       // @ts-expect-error
-      externalId: this._source,
+      externalId: {
+        primitive: this._source,
+        hit: result,
+      },
       cursorStyle: 'pointer',
       zOrder: 'normal',
     }
@@ -44,27 +52,25 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     return this.isSelected ? 'top' : 'normal'
   }
 
-  public move(diffXY: [number, number], handleId?: number) {
-    if (handleId !== undefined) {
+  public move(diffXY: [number, number], handleIndices?: [number, number]) {
+    const [diffX, diffY] = diffXY
+
+    if (handleIndices !== undefined) {
+      this.movePoint(handleIndices[0], handleIndices[1], diffX, diffY)
       return
     }
 
-    const [diffX, diffY] = diffXY
-
-    const { viewPoints, finalizedViewPoints } = this._source
-
-    for (let i = 0; i < this.points.length; i++) {
-      const viewPoint = viewPoints[i]
-      const finalizedViewPoint = finalizedViewPoints[i]
-
-      viewPoint.x = (finalizedViewPoint.x! + diffX) as Coordinate
-      viewPoint.y = (finalizedViewPoint.y! + diffY) as Coordinate
+    for (let i = 0; i < this.viewPoints.length; i++) {
+      this.movePoint(i, i, diffX, diffY)
     }
   }
 
-  abstract update(): void
+  private movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
+    const { viewPoints, finalizedViewPoints } = this._source
 
-  abstract renderer(): IPrimitivePaneRenderer | null
+    viewPoints[xIndex].x = (finalizedViewPoints[xIndex].x! + diffX) as Coordinate
+    viewPoints[yIndex].y = (finalizedViewPoints[yIndex].y! + diffY) as Coordinate
+  }
 }
 
 export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
