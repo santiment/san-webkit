@@ -1,22 +1,20 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { Coordinate } from '@santiment-network/chart-next'
-import type { RectanglePaneView } from './pane-view.js'
+import type { TrendlinePaneView } from './pane-view.js'
 
 import {
-  checkIsOutsideRect,
-  positionsBox,
+  checkIsOutsideLine,
+  positionPoint,
   RenderHitTest,
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
 
-export class RectanglePaneRenderer implements TPaneRenderer {
-  private _paneView: RectanglePaneView
-  private _fillColor: string
+export class TrendlinePaneRenderer implements TPaneRenderer {
+  private _paneView: TrendlinePaneView
 
-  constructor(paneView: RectanglePaneView, fillColor: string) {
+  constructor(paneView: TrendlinePaneView) {
     this._paneView = paneView
-    this._fillColor = fillColor
   }
 
   draw(target: CanvasRenderingTarget2D) {
@@ -28,22 +26,30 @@ export class RectanglePaneRenderer implements TPaneRenderer {
       }
 
       const ctx = scope.context
-      const horizontalPositions = positionsBox(p1.x, p2.x, scope.horizontalPixelRatio)
-      const verticalPositions = positionsBox(p1.y, p2.y, scope.verticalPixelRatio)
-      ctx.fillStyle = this._fillColor
-      ctx.fillRect(
-        horizontalPositions.position,
-        verticalPositions.position,
-        horizontalPositions.length,
-        verticalPositions.length,
+
+      ctx.save()
+
+      ctx.beginPath()
+      ctx.moveTo(
+        positionPoint(p1.x, scope.horizontalPixelRatio),
+        positionPoint(p1.y, scope.verticalPixelRatio),
       )
+      ctx.lineTo(
+        positionPoint(p2.x, scope.horizontalPixelRatio),
+        positionPoint(p2.y, scope.verticalPixelRatio),
+      )
+      ctx.lineWidth = 2 * scope.verticalPixelRatio
+      ctx.strokeStyle = this._paneView.strokeColor
+
+      ctx.stroke()
+      ctx.restore()
     })
   }
 
   hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
     const [p1, p2] = this._paneView.viewPoints
 
-    if (checkIsOutsideRect(x, y, p1.x, p2.x, p1.y, p2.y)) {
+    if (checkIsOutsideLine(x, y, p1, p2)) {
       return null
     }
 

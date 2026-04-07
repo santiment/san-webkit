@@ -1,12 +1,13 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { Coordinate } from '@santiment-network/chart-next'
+import type { FibRetracementPaneView } from './pane-view.js'
+
 import {
   checkIsOutsideLine,
   RenderHitTest,
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
-import type { FibRetracementPaneView } from './pane-view.js'
 
 export type TRenderData = {
   levels: { color: string; level: number; value: string; y: Coordinate }[]

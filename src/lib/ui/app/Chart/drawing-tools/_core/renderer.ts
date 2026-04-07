@@ -1,8 +1,8 @@
 import type { Coordinate, IPrimitivePaneRenderer } from '@santiment-network/chart-next'
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
+import type { DrawingPaneView } from './pane-view.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
-import type { DrawingPaneView } from './pane-view.js'
 
 export const RenderHitTest = {
   PRIMITIVE: 1,
@@ -178,6 +178,10 @@ export function positionsBox(
     position: Math.min(scaledPosition1, scaledPosition2),
     length: Math.abs(scaledPosition2 - scaledPosition1) + 1,
   }
+}
+
+export function positionPoint(coor: number, pixelRatio: number) {
+  return Math.round(coor * pixelRatio)
 }
 
 export interface BitmapPositionLength {
