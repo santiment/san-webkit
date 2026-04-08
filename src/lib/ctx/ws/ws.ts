@@ -1,4 +1,4 @@
-import { Channel, Socket as PhoenixSocket } from 'phoenix'
+import type { Channel, Socket as PhoenixSocket } from 'phoenix'
 
 export type SocketParams = {
   jti?: string
@@ -19,8 +19,8 @@ export class Socket {
   #joiningChannels = new Map<string, Promise<Channel>>()
   #subscriptionRefs = new Map<string, Set<number> | undefined>()
 
-  constructor(params: SocketParams = {}) {
-    this.#socket = new PhoenixSocket(getSocketUrl(), { params })
+  constructor(phoenixLib: typeof import('phoenix'), params: SocketParams = {}) {
+    this.#socket = new phoenixLib.Socket(getSocketUrl(), { params })
     this.#socket.connect()
   }
 

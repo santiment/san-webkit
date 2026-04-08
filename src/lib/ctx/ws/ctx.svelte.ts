@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 import { Query } from '$lib/api/executor.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { createCtx } from '$lib/utils/index.js'
@@ -22,65 +24,101 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
   let currentUserJti = $state<string | null>(null)
   let initStatus = $state<TSocketInitStatus>('loading')
   let initError = $state<Error | null>(null)
+  let socketError = $state<Error | null>(null)
 
   const userId = $derived(currentUser.$$?.id)
 
   let authRequestId = 0
   let authTask: Promise<void> | null = null
-  let socketReadyResolve: ((socket: Socket) => void) | null = null
-  const socketReadyPromise = new Promise<Socket>((resolve) => {
-    socketReadyResolve = resolve
-  })
+  let socketDeferred: TDeferred<Socket> | null = null
   let authSocketDeferred: TDeferred<Socket> | null = null
 
-  function getAuthSocketDeferred() {
-    if (authSocketDeferred) return authSocketDeferred
-
-    let resolve!: (socket: Socket) => void
+  function createDeferred<T>() {
+    let resolve!: (value: T) => void
     let reject!: (error: Error) => void
 
-    const promise = new Promise<Socket>((res, rej) => {
+    const promise = new Promise<T>((res, rej) => {
       resolve = res
       reject = rej
     })
 
-    authSocketDeferred = { promise, resolve, reject }
-    return authSocketDeferred
+    return { promise, resolve, reject }
   }
 
-  function clearAuthSocketDeferred() {
+  function ensureSocketDeferred() {
+    return (socketDeferred ??= createDeferred<Socket>())
+  }
+
+  function ensureAuthSocketDeferred() {
+    return (authSocketDeferred ??= createDeferred<Socket>())
+  }
+
+  function resolveSocket(value: Socket) {
+    socketDeferred?.resolve(value)
+    socketDeferred = null
+  }
+
+  function rejectSocket(error: Error) {
+    socketDeferred?.reject(error)
+    socketDeferred = null
+  }
+
+  function resolveAuthSocket(value: Socket) {
+    authSocketDeferred?.resolve(value)
     authSocketDeferred = null
   }
 
-  function settleAuthSocket(type: 'resolve', socket: Socket): void
-  function settleAuthSocket(type: 'reject', error: Error): void
-  function settleAuthSocket(type: 'resolve' | 'reject', value: Socket | Error) {
-    if (type === 'resolve') {
-      authSocketDeferred?.resolve(value as Socket)
-    } else {
-      authSocketDeferred?.reject(value as Error)
-    }
-
-    clearAuthSocketDeferred()
+  function rejectAuthSocket(error: Error) {
+    authSocketDeferred?.reject(error)
+    authSocketDeferred = null
   }
 
   $effect(() => {
-    const nextSocket = new Socket(currentUserJti ? { jti: currentUserJti } : {})
+    if (!BROWSER) return
 
-    socket = nextSocket
-    socketReadyResolve?.(nextSocket)
-    socketReadyResolve = null
+    let isCancelled = false
+    let nextSocket: Socket | undefined
 
-    if (currentUserJti && initStatus === 'ready') {
-      settleAuthSocket('resolve', nextSocket)
-    }
+    socket = undefined
+    socketError = null
+
+    import('phoenix')
+      .then((phoenixLib) => {
+        if (isCancelled) return
+
+        nextSocket = new Socket(phoenixLib, currentUserJti ? { jti: currentUserJti } : {})
+
+        if (isCancelled) {
+          nextSocket.disconnect()
+          return
+        }
+
+        socket = nextSocket
+        resolveSocket(nextSocket)
+
+        if (currentUserJti && initStatus === 'ready') {
+          resolveAuthSocket(nextSocket)
+        }
+      })
+      .catch((err: unknown) => {
+        if (isCancelled) return
+
+        socket = undefined
+        socketError = err instanceof Error ? err : new Error('Failed to initialize websocket')
+        rejectSocket(socketError)
+        rejectAuthSocket(socketError)
+
+        console.error('Failed to initialize websocket', err)
+      })
 
     return () => {
+      isCancelled = true
+
       if (socket === nextSocket) {
         socket = undefined
       }
 
-      nextSocket.disconnect()
+      nextSocket?.disconnect()
     }
   })
 
@@ -94,10 +132,7 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
       currentUserJti = null
       initStatus = 'ready'
       authTask = null
-      settleAuthSocket(
-        'reject',
-        new Error('Authenticated socket is unavailable without a logged in user'),
-      )
+      rejectAuthSocket(new Error('Authenticated socket is unavailable without a logged in user'))
       return
     }
 
@@ -116,38 +151,41 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
         currentUserJti = null
         initError = err instanceof Error ? err : new Error('Failed to load websocket auth token')
         initStatus = 'error'
-        settleAuthSocket('reject', initError)
+        rejectAuthSocket(initError)
 
         console.error('Failed to initialize websocket auth', err)
       })
   })
 
   function waitForSocket() {
+    if (!BROWSER) return Promise.reject(new Error('Socket is unavailable during SSR'))
+
     if (socket) return Promise.resolve(socket)
 
-    return socketReadyPromise
+    if (socketError) return Promise.reject(socketError)
+
+    return ensureSocketDeferred().promise
   }
 
   function waitForAuthenticatedSocket() {
+    if (!BROWSER) return Promise.reject(new Error('Authenticated socket is unavailable during SSR'))
+
     if (!userId) {
       return Promise.reject(
         new Error('Authenticated socket is unavailable without a logged in user'),
       )
     }
 
-    if (socket && currentUserJti && initStatus === 'ready') {
-      return Promise.resolve(socket)
-    }
+    if (socket && currentUserJti && initStatus === 'ready') return Promise.resolve(socket)
 
-    if (initStatus === 'error') {
+    if (initStatus === 'error')
       return Promise.reject(initError ?? new Error('Failed to initialize authenticated socket'))
-    }
 
-    if (!authTask) {
-      return Promise.reject(new Error('Authenticated websocket token is unavailable'))
-    }
+    if (socketError) return Promise.reject(socketError)
 
-    return getAuthSocketDeferred().promise
+    if (!authTask) return Promise.reject(new Error('Authenticated websocket token is unavailable'))
+
+    return ensureAuthSocketDeferred().promise
   }
 
   return createSocketApi({
