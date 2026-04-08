@@ -2,18 +2,18 @@ import type { TOptions, TPoint, TViewPoint } from '../types.js'
 import type { Coordinate } from '@santiment-network/chart-next'
 
 import { DrawingPrimitive } from '../_core/primitive.js'
-import { HorizontalLinePaneView } from './pane-view.js'
+import { VerticalLinePaneView } from './pane-view.js'
 
-export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizontal-line'> {
-  public __type = 'horizontal-line' as const
+export default class VerticalLinePrimitive extends DrawingPrimitive<'vertical-line'> {
+  public __type = 'vertical-line' as const
 
-  protected _paneViews: HorizontalLinePaneView[] = [new HorizontalLinePaneView(this)]
+  protected _paneViews: VerticalLinePaneView[] = [new VerticalLinePaneView(this)]
 
   public constructor(dataPoints: TPoint[], options: Partial<TOptions> = {}) {
     super(dataPoints.slice(0, 1), options)
 
-    this._timeAxisViews.length = 0
-    this._timeAxisPaneViews.length = 0
+    this._priceAxisViews.length = 0
+    this._priceAxisPaneViews.length = 0
   }
 
   public updateEndPoint(point: TViewPoint) {
@@ -23,25 +23,23 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizonta
   }
 
   protected mapDataPointsToViewPoints(): undefined | TViewPoint[] {
-    const series = this._series
-    if (!series) return
+    const timeScale = this.chart.timeScale()
 
     // @ts-expect-error
-    const x = (this.series.getPane()._pane._width / 2) as Coordinate
+    const y = (this.series.getPane()._pane._height / 2) as Coordinate
 
     return this._dataPoints.map((point) => ({
-      x,
-      y: series.priceToCoordinate(point.price),
+      x: timeScale.timeToCoordinate(point.time),
+      y,
     }))
   }
 
   protected mapViewPointsToDataPoints(): undefined | TPoint[] {
-    const series = this._series
-    if (!series) return
+    const timeScale = this.chart.timeScale()
 
     return this._viewPoints.map((point) => ({
-      time: 0 as TPoint['time'],
-      price: series.coordinateToPrice(point.y!)!,
+      time: timeScale.coordinateToTime(point.x!)!,
+      price: 0,
     }))
   }
 

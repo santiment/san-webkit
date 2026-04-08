@@ -1,9 +1,9 @@
 import type { Coordinate, IPrimitivePaneRenderer } from '@santiment-network/chart-next'
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { DrawingPaneView } from './pane-view.js'
+import type { TViewPoint } from '../types.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
-import type { TViewPoint } from '../types.js'
 
 export const RenderHitTest = {
   PRIMITIVE: 1,

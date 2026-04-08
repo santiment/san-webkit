@@ -9,6 +9,7 @@
 <div class="flex gap-2">
   {@render button(['trendline', 'T.Line'])}
   {@render button(['horizontal-line', 'H.Line'])}
+  {@render button(['vertical-line', 'V.Line'])}
   {@render button(['rectangle', 'Rect'])}
   {@render button(['fib_retracement', 'Fib'])}
 </div>
