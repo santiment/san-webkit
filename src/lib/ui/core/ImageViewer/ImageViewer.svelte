@@ -17,15 +17,13 @@
     el: HTMLImageElement
   } | null>(null)
 
-  let pswp = $state<Promise<typeof import('photoswipe')> | undefined>(undefined)
+  let pswp = $state<typeof import('photoswipe') | undefined>(undefined)
 
   function mountAction(node: HTMLElement) {
-    pswp = new Promise((resolve) =>
-      requestIdleCallback(() => {
-        import('photoswipe/style.css')
-        import('photoswipe').then(resolve)
-      }),
-    )
+    requestIdleCallback(() => {
+      import('photoswipe/style.css')
+      import('photoswipe').then((lib) => (pswp = lib))
+    })
 
     function onclick(e: MouseEvent) {
       const target = e.target as HTMLElement
@@ -51,5 +49,5 @@
 {@render children({ mountAction })}
 
 {#if imgProps && pswp}
-  <PswpViewer {...imgProps} photoswipe$={pswp} ondestroy={() => (imgProps = null)} />
+  <PswpViewer {...imgProps} {pswp} ondestroy={() => (imgProps = null)} />
 {/if}
