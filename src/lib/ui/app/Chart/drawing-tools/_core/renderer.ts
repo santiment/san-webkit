@@ -207,3 +207,43 @@ export function checkIsOutsideRect(
 ): boolean {
   return x < px1! || x > px2! || y < py1! || y > py2!
 }
+
+const TOLERANCE = 6
+
+/**
+ *
+ * @param x - x coordinate of the point to check
+ * @param y - y coordinate of the point to check
+ * @param p1 - first point of the line
+ * @param p2 - second point of the line
+ * @returns {boolean} - true if the point is outside the line, false otherwise
+ */
+export function checkIsOutsideLine(
+  x: Coordinate,
+  y: Coordinate,
+  p1: { x: null | Coordinate; y: null | Coordinate },
+  p2: { x: null | Coordinate; y: null | Coordinate },
+  tolerance: number = TOLERANCE,
+): boolean {
+  const [top, bottom] = p1.y! < p2.y! ? [p1, p2] : [p2, p1]
+
+  if (y < top.y! || y > bottom.y!) {
+    return true
+  }
+
+  // Calculate the progress between bottom and top (0 at bottom, 1 at top)
+  const t = (y - bottom.y!) / (top.y! - bottom.y!)
+
+  // Calculate left boundary at this Y (interpolate between leftBottom and leftTop)
+  const leftX = bottom.x! + t * (top.x! - bottom.x!)
+
+  // Calculate right boundary at this Y (interpolate between rightBottom and rightTop)
+  const rightX = bottom.x! + t * (top.x! - bottom.x!)
+
+  // Check if X is outside the horizontal bounds at this Y
+  if (x < leftX - tolerance || x > rightX + tolerance) {
+    return true
+  }
+
+  return false
+}

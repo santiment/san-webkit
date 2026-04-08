@@ -9,11 +9,9 @@ export default class FibRetracementPrimitive extends DrawingPrimitive<'fib_retra
   protected _paneViews: FibRetracementPaneView[] = [new FibRetracementPaneView(this)]
 
   public updateEndPoint(point: TViewPoint) {
-    this._dataPoints[1] = point
+    this.viewPoints[this.viewPoints.length - 1] = point
 
     this._paneViews[0].update()
-    // this._timeAxisViews[1].movePoint(point)
-    // this._priceAxisViews[1].movePoint(point)
 
     this.requestUpdate()
   }

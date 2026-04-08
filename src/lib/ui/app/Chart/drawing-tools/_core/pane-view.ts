@@ -12,7 +12,7 @@ import type { TViewPoint } from '../types.js'
 
 export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
-  protected _renderer!: TPaneRenderer
+  protected abstract _renderer: TPaneRenderer
 
   public abstract get viewPoints(): TViewPoint[]
 
