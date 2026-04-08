@@ -1,10 +1,14 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
+  import type { Snippet } from 'svelte'
 
-  import { idleImport } from './utils.js'
   import PswpViewer from './PswpViewer.svelte'
 
-  let el: HTMLElement
+  type TProps = {
+    children: Snippet<[{ mountAction: (node: HTMLElement) => { destroy: () => void } }]>
+  }
+
+  const { children }: TProps = $props()
+
   let imgProps = $state<{
     src: string
     alt: string
@@ -13,13 +17,15 @@
     el: HTMLImageElement
   } | null>(null)
 
-  let pswp$ = $state<Promise<typeof import('photoswipe')> | undefined>(undefined)
+  let pswp = $state<Promise<typeof import('photoswipe')> | undefined>(undefined)
 
-  onMount(() => {
-    pswp$ = idleImport(() => import('photoswipe'))
-    idleImport(() => import('photoswipe/style.css'))
-
-    const parent = el.parentElement
+  function mountAction(node: HTMLElement) {
+    pswp = new Promise((resolve) =>
+      requestIdleCallback(() => {
+        import('photoswipe/style.css')
+        import('photoswipe').then(resolve)
+      }),
+    )
 
     function onclick(e: MouseEvent) {
       const target = e.target as HTMLElement
@@ -37,14 +43,13 @@
       }
     }
 
-    parent?.addEventListener('click', onclick)
-
-    return () => parent?.removeEventListener('click', onclick)
-  })
+    node.addEventListener('click', onclick)
+    return { destroy: () => node.removeEventListener('click', onclick) }
+  }
 </script>
 
-{#if imgProps && pswp$}
-  <PswpViewer {...imgProps} photoswipe$={pswp$} ondestroy={() => (imgProps = null)} />
-{/if}
+{@render children({ mountAction })}
 
-<span bind:this={el} class="hidden"></span>
+{#if imgProps && pswp}
+  <PswpViewer {...imgProps} photoswipe$={pswp} ondestroy={() => (imgProps = null)} />
+{/if}
