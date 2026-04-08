@@ -9,6 +9,7 @@ import {
   FUNDS,
   INDICES_AND_SUPPLY,
   queryAllProjects,
+  TOTAL_MARKET_INDEX,
   type TAsset,
   type TAssetSlug,
 } from './api.js'
@@ -17,7 +18,7 @@ import {
 let DEFAULT_ASSETS: TAsset[] = []
 
 export const defaultAssetsPromise = BROWSER
-  ? queryAllProjects(Query)().then((items) => (DEFAULT_ASSETS = items))
+  ? queryAllProjects(Query)().then((items) => (DEFAULT_ASSETS = items.concat(TOTAL_MARKET_INDEX)))
   : Promise.resolve()
 
 export const useAssetsCtx = createCtx('webkit_useAssetsCtx', () => {
@@ -33,7 +34,7 @@ export const useAssetsCtx = createCtx('webkit_useAssetsCtx', () => {
   const assetByTickerMap = $derived(createAssetTickerMap(assets))
 
   onMount(() => {
-    queryAllProjects(Query)().then((items) => (assets = items))
+    queryAllProjects(Query)().then((items) => (assets = items.concat(TOTAL_MARKET_INDEX)))
   })
 
   return {

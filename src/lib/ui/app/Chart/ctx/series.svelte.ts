@@ -18,6 +18,7 @@ export function createSeries({
   apiMetricName = '',
 
   label = apiMetricName,
+  data = [],
 
   getLabels$ = DEFAULT_LABELS_GETTER,
   getSelectorLabels$ = DEFAULT_LABELS_GETTER,
@@ -83,10 +84,11 @@ export function createSeries({
     getSelectorLabels$,
 
     version: ss<undefined | string>(rest.version),
-    data: ss<TMetricData>([]),
+    data: ss<TMetricData>(data),
     visible: ss(visible),
-    loading: ss(true),
+    loading: ss(!data.length),
     error: ss<null | string | string[] | Error | Error[]>(null),
+    warnings: ss<null | string[]>(null),
 
     aggregation: ss<TAggregation>(style === MetricStyle.CANDLES ? 'OHLC' : undefined),
 
@@ -142,12 +144,16 @@ export function createSeries({
         visible: metric.visible.$,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
+        // unit: metric.ui.$$.unit,
 
         scaleId: metric.scale.$$.id,
         scaleVisible: metric.scale.$$.visible,
 
         isSelectorLocked: metric.ui.$$.isSelectorLocked,
         isFilledGradient: metric.ui.$$.isFilledGradient,
+
+        candleDownColor: metric.ui.$$.candleDownColor,
+        baseline: $state.snapshot(metric.ui.$$.baseline),
       }
     },
   }

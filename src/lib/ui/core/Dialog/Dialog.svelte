@@ -12,11 +12,15 @@
 
   let {
     children,
-    forceMobileLandscape = false,
     class: className,
+    overlayClass,
+    forceMobileLandscape = false,
+    forceDesktop = false,
   }: {
     class?: string
+    overlayClass?: string
     forceMobileLandscape?: boolean
+    forceDesktop?: boolean
     children: Snippet<[{ close: () => void }]>
   } = $props()
 
@@ -49,11 +53,11 @@
 </script>
 
 {#if BROWSER && isOpened}
-  {#if device.$.isDesktop}
-    <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+  {#if forceDesktop || device.$.isDesktop}
+    <DesktopDialog class={className} {overlayClass} {children} {onOpenChange} />
   {:else if forceMobileLandscape}
     <MobileLandscapeModal class={className} {children} {onOpenChange} />
   {:else}
-    <MobileDialog class={className} {children} {onClosed}></MobileDialog>
+    <MobileDialog class={className} {overlayClass} {children} {onClosed} />
   {/if}
 {/if}

@@ -15,6 +15,7 @@ export const MetricType = {
   SOCIAL_QUERY: 'social_query_metric',
   WALLET: 'wallet_metric',
   FORMULAS: 'formulas_metric',
+  DATA_STORE: 'data_store_metric',
 } as const
 
 export type TMetricType = typeof MetricType
@@ -82,6 +83,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   type: GMetricType
   apiMetricName: string
 
+  data?: TMetricData
   label?: string
   style?: TMetricStyles
   color?: string
@@ -135,8 +137,13 @@ export type TChartFormulasMetric = TChartMetricBase<
   TMetricType['FORMULAS'],
   { formula: MaybeSS<TMetricFormula> }
 >
+export type TChartDataStoreMetric = TChartMetricBase<TMetricType['DATA_STORE']>
 
-export type TChartMetric = TChartAssetMetric | TChartTraditionalFinanceMetric | TChartFormulasMetric
+export type TChartMetric =
+  | TChartAssetMetric
+  | TChartTraditionalFinanceMetric
+  | TChartFormulasMetric
+  | TChartDataStoreMetric
 
 // -----------------
 

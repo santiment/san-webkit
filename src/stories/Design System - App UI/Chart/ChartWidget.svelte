@@ -10,6 +10,7 @@
   import { AskForInsightButton } from '$ui/app/AIChatbot/index.js'
   import {
     useChartCtx,
+    useChartGlobalParametersCtx,
     useHighlightedMetricCtx,
     useMetricSeriesCtx,
     type TSeries,
@@ -43,6 +44,7 @@
   const { chart } = useChartCtx()
 
   const { highlighted, onMetricEnter, onMetricLeave } = useHighlightedMetricCtx()
+  const { globalParameters } = useChartGlobalParametersCtx.get()
 
   // NOTE: viewportPriority is story arg
   const { viewportObserverAction } = viewportPriority ? useItemViewportPriorityFlow() : {}
@@ -71,6 +73,33 @@
       .replace(/[<>:"/\\|?*]+/g, '_')
 
     downloadChartAsJpeg(filename, metricSeries.$, chart.$)
+  }
+
+  const metricUpdates = new Map<string, [number, number]>()
+  function onData() {
+    const { from, to } = globalParameters.dates$
+    const key = from + to
+
+    let updates = metricUpdates.get(key)
+
+    if (!updates) {
+      metricUpdates.clear()
+      metricUpdates.set(key, (updates = [Date.now(), 0]))
+    }
+
+    if (updates[1] > 2) return
+
+    updates[1]++
+
+    // NOTE: Ignoring updates that came after 5 seconds
+    if (Date.now() > updates[0] + 5000) {
+      return
+    }
+
+    const chartWidget = chart.$
+    if (!chartWidget) return
+
+    chartWidget.resetAllScales()
   }
 </script>
 
@@ -128,7 +157,7 @@
       {#if item.ui.$$.style === 'signal'}
         <ApiSignalSeries {index} series={item} priceSeries={metricSeries.$[0]}></ApiSignalSeries>
       {:else}
-        <ApiMetricSeries {index} series={item}></ApiMetricSeries>
+        <ApiMetricSeries {index} series={item} {onData}></ApiMetricSeries>
       {/if}
     {/each}
 

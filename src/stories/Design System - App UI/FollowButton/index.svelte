@@ -5,5 +5,5 @@
 </script>
 
 <div class="flex h-screen center">
-  <FollowButton {currentUser} {user} class="ml-1" />
+  <FollowButton {currentUser} {user} />
 </div>

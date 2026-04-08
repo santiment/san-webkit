@@ -48,7 +48,7 @@ export class Timeseries {
         // @ts-expect-error
         const { value, time, open, high, low, close } = (data as TMetricData)[i]
 
-        values[i] = value
+        values[i] = value!
         timestamps[i] = time
 
         if (isOHLC) {

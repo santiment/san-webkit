@@ -18,12 +18,12 @@ export default {
 
       boxShadow: {
         dropdown: ['0 4px 16px 0 rgba(24, 27, 43, 0.13)', '0 6px 8px 0 rgba(24, 27, 43, 0.05)'],
-        modal: ['0 2px 24px 0 rgba(24, 27, 43, 0.04)', '1px 3px 7px 0 rgba(47, 53, 77, 0.05)'],
+        modal: ['0 2px 24px 3px rgba(24, 27, 43, 0.08)', '1px 3px 7px 2px rgba(47, 53, 77, 0.08)'],
       },
 
       dropShadow: {
         dropdown: ['0 4px 16px rgba(24, 27, 43, 0.13)', '0 6px 8px rgba(24, 27, 43, 0.05)'],
-        modal: ['0 2px 24px rgba(24, 27, 43, 0.04)', '1px 3px 7px rgba(47, 53, 77, 0.05)'],
+        modal: ['0 2px 24px rgba(24, 27, 43, 0.08)', '1px 3px 7px rgba(47, 53, 77, 0.08)'],
       },
 
       animation: {
@@ -135,6 +135,7 @@ export default {
         'blue-light-1': { day: '#ecf0fe', night: '#21284b' },
         'blue-light-2': { day: '#dae0fd', night: '#273160' },
         'blue-light-3': { day: '#a9baff', night: '#354895' },
+        'blue-light-4': { day: '#8099FF', night: '#415ABF' },
 
         cyan: '#68dbf4',
         'cyan-hover': { day: '#18c0e4', night: '#5bcde5' },

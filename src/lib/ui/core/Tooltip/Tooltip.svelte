@@ -80,7 +80,7 @@
     )}
   >
     {#if type === 'arrow'}
-      <div {...$arrow} use:arrow></div>
+      <div class="border-l border-t" {...$arrow} use:arrow></div>
     {/if}
 
     {@render contentSnippet({ close: () => open.set(false) })}

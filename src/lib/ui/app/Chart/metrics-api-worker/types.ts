@@ -66,6 +66,17 @@ export type TFetchMetricMessage = TMessageRequestResponse<
 
 export type TMetricFormula = { expr: string }
 
+export const FORMULA_WARNING = {
+  NonFiniteData: 0,
+} as const
+
+export type TFormulaWarning = {
+  [K in keyof typeof FORMULA_WARNING]: (typeof FORMULA_WARNING)[K]
+}
+export type TFormulaWarningValues = (typeof FORMULA_WARNING)[keyof typeof FORMULA_WARNING]
+
+export type TFormulaMetricData = TMetricData & { warning?: TFormulaWarningValues }
+
 export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   TMessageType['FetchFormulaMetric'],
   {
@@ -82,7 +93,11 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
       formula?: TMetricFormula
     }[]
   },
-  { timeseries: TMetricData } | { error: any }
+  | {
+      timeseries: TMetricData
+      warning?: TFormulaWarningValues
+    }
+  | { error: any }
 >
 export type TValidateFormulaMessage = TMessageRequestResponse<
   TMessageType['ValidateFormula'],

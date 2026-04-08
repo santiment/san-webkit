@@ -136,7 +136,7 @@
       {
         variant: ['plain', 'link'],
         size: 'auto',
-        class: 'p-0 h-auto text-sm',
+        class: 'p-0 h-auto text-sm sm:h-auto sm:text-sm sm:p-0',
       },
       {
         children: false,
