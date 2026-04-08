@@ -70,16 +70,23 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     }
   }
 
-  public convertDataToViewPoints() {
+  protected mapDataPointsToViewPoints(): undefined | TViewPoint[] {
     const timeScale = this._chart!.timeScale()
     const series = this._series
 
     if (!series) return
 
-    this._viewPoints = this._dataPoints.map((point) => ({
+    return this._dataPoints.map((point) => ({
       x: timeScale.timeToCoordinate(point.time),
       y: series.priceToCoordinate(point.price),
     }))
+  }
+
+  public convertDataToViewPoints() {
+    const viewPoints = this.mapDataPointsToViewPoints()
+    if (!viewPoints) return
+
+    this._viewPoints = viewPoints
     this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
   }
 
@@ -216,6 +223,18 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     return this._finalizedViewPoints
   }
 
+  protected mapViewPointsToDataPoints(): undefined | TPoint[] {
+    const timeScale = this._chart!.timeScale()
+    const series = this._series
+
+    if (!series) return
+
+    return this._viewPoints.map((point) => ({
+      time: timeScale.coordinateToTime(point.x!)!,
+      price: series.coordinateToPrice(point.y!)!,
+    }))
+  }
+
   /**
    * Convert view points to data points
    * @returns
@@ -223,20 +242,12 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   public finalize(): void {
     if (!this._chart) return
 
-    const timeScale = this._chart.timeScale()
-    const series = this._series
-
-    if (!series) return
-
     this.sortViewPoints?.()
 
-    this._dataPoints = this._viewPoints.map((point) => ({
-      time: timeScale.coordinateToTime(point.x!)!,
-      price: series.coordinateToPrice(point.y!)!,
-    }))
+    const dataPoints = this.mapViewPointsToDataPoints()
+    if (!dataPoints) return
 
-    this._finalizedViewPoints = this._viewPoints.map((point) => ({
-      ...point,
-    }))
+    this._dataPoints = dataPoints
+    this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
   }
 }

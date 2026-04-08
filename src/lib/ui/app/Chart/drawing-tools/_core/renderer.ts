@@ -3,6 +3,7 @@ import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { DrawingPaneView } from './pane-view.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
+import type { TViewPoint } from '../types.js'
 
 export const RenderHitTest = {
   PRIMITIVE: 1,
@@ -50,22 +51,26 @@ export class DrawingCompositePaneRenderer implements TPaneRenderer {
   }
 }
 
+type THandleConfig = {
+  pointIndices: [number, number]
+}
+
 export class HandleRenderer<GPaneView extends DrawingPaneView> {
   protected _paneView: GPaneView
 
-  private _config: {
-    pointIndices: [number, number]
-  }
+  private _config: THandleConfig
   private _size = 8 / 2
 
-  constructor(
-    paneView: GPaneView,
-    config: {
-      pointIndices: [number, number]
-    },
-  ) {
+  constructor(paneView: GPaneView, config: THandleConfig) {
     this._paneView = paneView
     this._config = config
+  }
+
+  get viewPoint(): TViewPoint {
+    const x = this._paneView.viewPoints[this._config.pointIndices[0]].x
+    const y = this._paneView.viewPoints[this._config.pointIndices[1]].y
+
+    return { x, y }
   }
 
   draw(target: CanvasRenderingTarget2D) {
@@ -74,8 +79,7 @@ export class HandleRenderer<GPaneView extends DrawingPaneView> {
     }
 
     target.useBitmapCoordinateSpace((scope) => {
-      const x = this._paneView.viewPoints[this._config.pointIndices[0]].x
-      const y = this._paneView.viewPoints[this._config.pointIndices[1]].y
+      const { x, y } = this.viewPoint
 
       if (x === null || y === null) {
         return
@@ -113,11 +117,17 @@ export class HandleRenderer<GPaneView extends DrawingPaneView> {
   }
 
   hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
-    const px = this._paneView.viewPoints[this._config.pointIndices[0]].x!
-    const py = this._paneView.viewPoints[this._config.pointIndices[1]].y!
+    const { x: px, y: py } = this.viewPoint
 
     if (
-      checkIsOutsideRect(x, y, px - this._size, px + this._size, py - this._size, py + this._size)
+      checkIsOutsideRect(
+        x,
+        y,
+        px! - this._size,
+        px! + this._size,
+        py! - this._size,
+        py! + this._size,
+      )
     ) {
       return null
     }
@@ -212,7 +222,7 @@ export function checkIsOutsideRect(
   return x < px1! || x > px2! || y < py1! || y > py2!
 }
 
-const TOLERANCE = 6
+const TOLERANCE = 7
 
 /**
  *

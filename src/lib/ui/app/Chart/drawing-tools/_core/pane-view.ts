@@ -65,7 +65,7 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     }
   }
 
-  private movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
+  protected movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
     const { viewPoints, finalizedViewPoints } = this._source
 
     viewPoints[xIndex].x = (finalizedViewPoints[xIndex].x! + diffX) as Coordinate

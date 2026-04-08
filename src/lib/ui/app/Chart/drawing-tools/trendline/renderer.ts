@@ -29,19 +29,16 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
 
       ctx.save()
 
-      ctx.beginPath()
-      ctx.moveTo(
+      drawLine(
+        ctx,
         positionPoint(p1.x, scope.horizontalPixelRatio),
         positionPoint(p1.y, scope.verticalPixelRatio),
-      )
-      ctx.lineTo(
         positionPoint(p2.x, scope.horizontalPixelRatio),
         positionPoint(p2.y, scope.verticalPixelRatio),
+        2 * scope.verticalPixelRatio,
+        this._paneView.strokeColor,
       )
-      ctx.lineWidth = 2 * scope.verticalPixelRatio
-      ctx.strokeStyle = this._paneView.strokeColor
 
-      ctx.stroke()
       ctx.restore()
     })
   }
@@ -55,4 +52,22 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
 
     return { type: RenderHitTest.PRIMITIVE }
   }
+}
+
+export function drawLine(
+  ctx: CanvasRenderingContext2D,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  width: number,
+  color: string,
+) {
+  ctx.beginPath()
+  ctx.moveTo(x1, y1)
+  ctx.lineTo(x2, y2)
+  ctx.lineWidth = width
+  ctx.strokeStyle = color
+
+  ctx.stroke()
 }

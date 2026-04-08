@@ -3,6 +3,7 @@ import type { TPoint } from './types.js'
 import type { default as FibRetracementPrimitive } from './fib-retracement/primitive.js'
 import type { default as RectanglePrimitive } from './rectangle/primitive.js'
 import type { default as TrendlinePrimitive } from './trendline/primitive.js'
+import type { default as HorizontalLinePrimitive } from './horizontal-line/primitive.js'
 
 import { createCtx } from '$lib/utils/index.js'
 
@@ -13,6 +14,7 @@ type TDrawingPrimitives =
   | typeof RectanglePrimitive
   | typeof FibRetracementPrimitive
   | typeof TrendlinePrimitive
+  | typeof HorizontalLinePrimitive
 type TDrawingPrimitive = TDrawingPrimitives['prototype']
 
 export type TTypeToDrawingPrimitive = {
@@ -53,6 +55,8 @@ export function importPrimitive(type: TDrawingTypes) {
   switch (type) {
     case 'trendline':
       return import('./trendline/primitive.js')
+    case 'horizontal-line':
+      return import('./horizontal-line/primitive.js')
     case 'rectangle':
       return import('./rectangle/primitive.js')
     case 'fib_retracement':
