@@ -1,8 +1,14 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { TViewPoint } from '../types.js'
-
-import { positionsBox, type TPaneRenderer } from '../_core/renderer.js'
 import type { Coordinate, PrimitiveHoveredItem } from '@santiment-network/chart-next'
+
+import {
+  checkIsOutsideRect,
+  positionsBox,
+  RenderHitTest,
+  type TPaneRenderer,
+  type TRenderHitTestValue,
+} from '../_core/renderer.js'
 
 export class RectanglePaneRenderer implements TPaneRenderer {
   private _data: [TViewPoint, TViewPoint]
@@ -34,42 +40,13 @@ export class RectanglePaneRenderer implements TPaneRenderer {
     })
   }
 
-  hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestValue | null {
     const [p1, p2] = this._data
 
-    if (x < p1.x! || x > p2.x!) {
+    if (checkIsOutsideRect(x, y, p1.x, p2.x, p1.y, p2.y)) {
       return null
     }
 
-    const [top, bottom] = p1.y! < p2.y! ? [p1, p2] : [p2, p1]
-    if (y < top.y! || y > bottom.y!) {
-      return null
-    }
-
-    return {
-      cursorStyle: 'pointer',
-      externalId: 'rect',
-      zOrder: 'top',
-    }
+    return RenderHitTest.PRIMITIVE
   }
-
-  // hitTest(x: Coordinate, y: Coordinate): TDrawingHitTestResult | null {
-  //   const hitSize = this._data.size + ANCHOR_HIT_PADDING * 2
-
-  //   for (let i = 0; i < this._data.points.length; i++) {
-  //     const point = this._data.points[i]
-  //     if (point.x === null || point.y === null) continue
-
-  //     const left = point.x - hitSize / 2
-  //     const right = point.x + hitSize / 2
-  //     const top = point.y - hitSize / 2
-  //     const bottom = point.y + hitSize / 2
-
-  //     if (x >= left && x <= right && y >= top && y <= bottom) {
-  //       return { pointIndex: i, cursorStyle: PaneCursorType.Pointer }
-  //     }
-  //   }
-
-  //   return null
-  // }
 }

@@ -146,8 +146,21 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
   public abstract updateEndPoint(p: TPoint): void
 
-  public hitTest?(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+  public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const [paneView] = this._paneViews
     return paneView.hitTest(x, y)
+  }
+
+  public isHovered() {
+    return this._paneViews[0].isHovered
+  }
+
+  public isSelected() {
+    return this._paneViews[0].isSelected
+  }
+
+  public select(value: boolean) {
+    this._paneViews[0].isSelected = value
+    this.requestUpdate()
   }
 }

@@ -55,6 +55,15 @@ export const useDrawingToolsCtx = createCtx(
 
     const targetMetric = $derived(metricSeries.$[0])
 
+    let selectedPrimitive: TDrawingPrimitive | null = null
+    function selectPrimitive(primitive: TDrawingPrimitive | null) {
+      if (primitive === selectedPrimitive) return
+
+      selectedPrimitive?.select(false)
+      primitive?.select(true)
+      selectedPrimitive = primitive
+    }
+
     function onDrawingToolSelect(type: TDrawingTypes) {
       // Same tool pressed === cancel drawing
       if (state.name === 'drawing' && state.payload.type === type) {
@@ -84,7 +93,10 @@ export const useDrawingToolsCtx = createCtx(
     }
 
     function onChartClick(params: MouseEventParams) {
-      console.log(params)
+      const hoveredPrimitive = params.hoveredObjectId as null | TDrawingPrimitive
+
+      selectPrimitive(hoveredPrimitive)
+
       if (state.name !== 'drawing') return
 
       const point = getMouseDrawingPoint(params)
@@ -98,7 +110,10 @@ export const useDrawingToolsCtx = createCtx(
         if (!state.payload.drawing) {
           const points = [point, point]
           const primitive = new Primitive(points)
+
           series.attachPrimitive(primitive)
+
+          selectPrimitive(primitive)
 
           state.payload.drawing = primitive
           state.payload.points = points
