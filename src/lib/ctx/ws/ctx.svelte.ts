@@ -6,7 +6,7 @@ import { createCtx } from '$lib/utils/index.js'
 
 import { queryCurrentJti } from './api.js'
 import { createSocketApi } from './service.js'
-import { Socket } from './ws.js'
+import { Socket, type TChannelTopic } from './ws.js'
 
 const KEY = 'useWebsocketApiCtx'
 
@@ -188,8 +188,12 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
     return ensureAuthSocketDeferred().promise
   }
 
-  return createSocketApi({
-    waitForSocket,
-    waitForAuthenticatedSocket,
-  })
+  return {
+    ...createSocketApi({
+      waitForSocket,
+      waitForAuthenticatedSocket,
+    }),
+
+    leaveChannel: (topic: TChannelTopic) => socket?.leave(topic),
+  }
 })

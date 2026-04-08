@@ -1,4 +1,4 @@
-import type { Channel, Socket as PhoenixSocket } from 'phoenix'
+import { Socket as PhoenixSocket, type Channel } from 'phoenix'
 
 export type SocketParams = {
   jti?: string
@@ -13,24 +13,29 @@ function getSocketUrl() {
   return socketUrl.toString()
 }
 
+export type TChannelTopic = 'users:common' | `notifications:${string}`
+
 export class Socket {
   #socket: PhoenixSocket
-  #channels = new Map<string, Channel>()
-  #joiningChannels = new Map<string, Promise<Channel>>()
-  #subscriptionRefs = new Map<string, Set<number> | undefined>()
+  #channels = new Map<TChannelTopic, Channel>()
+  #joiningChannels = new Map<TChannelTopic, Promise<Channel>>()
+  #subscriptionRefs = new Map<TChannelTopic, Set<number> | undefined>()
 
   constructor(phoenixLib: typeof import('phoenix'), params: SocketParams = {}) {
     this.#socket = new phoenixLib.Socket(getSocketUrl(), { params })
     this.#socket.connect()
   }
 
-  async query(topic: string, event: string, payload: object) {
+  async query(topic: TChannelTopic, event: string, payload: object) {
     const chan = await this.#join(topic)
 
-    return await this.#send(chan, event, payload)
+    return {
+      result: await this.#send(chan, event, payload),
+      leave: () => this.#leave(chan),
+    }
   }
 
-  subscribe(topic: string, event: string, clb: (response?: unknown) => void) {
+  subscribe(topic: TChannelTopic, event: string, clb: (response?: unknown) => void) {
     let isCancelled = false
     let channel: Channel | undefined
     let listenerRef: number | undefined
@@ -75,6 +80,10 @@ export class Socket {
     this.#subscriptionRefs.clear()
   }
 
+  leave(topic: TChannelTopic) {
+    this.#leave(topic)
+  }
+
   #send(chan: Channel, event: string, payload: object) {
     return new Promise((resolve, reject) => {
       chan
@@ -85,7 +94,7 @@ export class Socket {
     })
   }
 
-  async #join(topic: string) {
+  async #join(topic: TChannelTopic) {
     const savedChan = this.#channels.get(topic)
     if (savedChan) return savedChan
 
@@ -117,8 +126,8 @@ export class Socket {
     return joinPromise
   }
 
-  #leave(chan: Channel | string) {
-    const topic = typeof chan === 'string' ? chan : chan.topic
+  #leave(chan: Channel | TChannelTopic) {
+    const topic = typeof chan === 'string' ? chan : (chan.topic as TChannelTopic)
     const savedChan = this.#channels.get(topic)
     if (savedChan) {
       this.#channels.delete(topic)

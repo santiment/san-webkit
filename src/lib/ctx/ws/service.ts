@@ -30,19 +30,19 @@ export const createSocketApi = ({
 }: TCreateSocketApiParams) => ({
   async searchUserByUsername(username: string) {
     const socket = await waitForSocket()
-    const res = await socket.query('users:common', 'users_by_username_pattern', {
+    const { result, leave } = await socket.query('users:common', 'users_by_username_pattern', {
       username_pattern: username,
       size: 5,
     })
 
-    const parsed = userSchema.safeParse(res)
+    const parsed = userSchema.safeParse(result)
 
     if (parsed.success) {
-      return parsed.data.users
+      return { users: parsed.data.users, leave }
     }
 
-    console.error(`Failed to parse users data`, res, parsed.error)
-    return []
+    console.error(`Failed to parse users data`, result, parsed.error)
+    return { users: [], leave }
   },
 
   subscribeToNotifications(userId: string, onNotification: (notificationId: number) => void) {
