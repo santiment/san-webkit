@@ -76,6 +76,9 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
   $effect(() => {
     if (!BROWSER) return
 
+    const nextJti = currentUserJti
+    const isAuthReady = !!nextJti && initStatus === 'ready'
+
     let isCancelled = false
     let nextSocket: Socket | undefined
 
@@ -86,7 +89,7 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
       .then((phoenixLib) => {
         if (isCancelled) return
 
-        nextSocket = new Socket(phoenixLib, currentUserJti ? { jti: currentUserJti } : {})
+        nextSocket = new Socket(phoenixLib, nextJti ? { jti: nextJti } : {})
 
         if (isCancelled) {
           nextSocket.disconnect()
@@ -96,7 +99,7 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
         socket = nextSocket
         resolveSocket(nextSocket)
 
-        if (currentUserJti && initStatus === 'ready') {
+        if (isAuthReady) {
           resolveAuthSocket(nextSocket)
         }
       })
