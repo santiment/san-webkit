@@ -2,17 +2,23 @@ import type {
   Coordinate,
   IPrimitivePaneRenderer,
   IPrimitivePaneView,
+  PrimitiveHoveredItem,
   PrimitivePaneViewZOrder,
 } from '@santiment-network/chart-next'
 import type { DrawingPrimitive } from './primitive.js'
 
-import { DrawingAxisPaneRenderer } from './renderer.js'
+import { DrawingAxisPaneRenderer, type TPaneRenderer } from './renderer.js'
 
 export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
+  protected _renderer!: TPaneRenderer
 
   constructor(source: DrawingPrimitive<any>) {
     this._source = source
+  }
+
+  public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+    return this._renderer.hitTest(x, y)
   }
 
   abstract update(): void

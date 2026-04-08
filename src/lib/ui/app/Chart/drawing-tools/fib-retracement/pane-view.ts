@@ -1,4 +1,4 @@
-import { DrawingPaneView } from '../pane-view.js'
+import { DrawingPaneView } from '../_core/pane-view.js'
 import { FibRetracementPaneRenderer, type TRenderData } from './renderer.js'
 import { FIBONACCI_LEVELS } from './defaults.js'
 

@@ -1,5 +1,13 @@
-import type { IPrimitivePaneRenderer } from '@santiment-network/chart-next'
+import type {
+  Coordinate,
+  IPrimitivePaneRenderer,
+  PrimitiveHoveredItem,
+} from '@santiment-network/chart-next'
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
+
+export interface TPaneRenderer extends IPrimitivePaneRenderer {
+  hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null
+}
 
 export class DrawingAxisPaneRenderer implements IPrimitivePaneRenderer {
   _points: (number | null)[]
