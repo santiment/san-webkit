@@ -1,4 +1,4 @@
-import type { TPoint, TViewPoint } from '../types.js'
+import type { TViewPoint } from '../types.js'
 
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { FibRetracementPaneView } from './pane-view.js'

@@ -6,9 +6,9 @@ import type {
   PrimitivePaneViewZOrder,
 } from '@santiment-network/chart-next'
 import type { DrawingPrimitive } from './primitive.js'
+import type { TViewPoint } from '../types.js'
 
 import { DrawingAxisPaneRenderer, type TPaneRenderer } from './renderer.js'
-import type { TViewPoint } from '../types.js'
 
 export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
@@ -65,7 +65,7 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     }
   }
 
-  private movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
+  protected movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
     const { viewPoints, finalizedViewPoints } = this._source
 
     viewPoints[xIndex].x = (finalizedViewPoints[xIndex].x! + diffX) as Coordinate

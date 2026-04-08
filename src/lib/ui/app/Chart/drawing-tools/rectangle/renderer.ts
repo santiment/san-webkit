@@ -1,5 +1,6 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
-import type { Coordinate, PrimitiveHoveredItem } from '@santiment-network/chart-next'
+import type { Coordinate } from '@santiment-network/chart-next'
+import type { RectanglePaneView } from './pane-view.js'
 
 import {
   checkIsOutsideRect,
@@ -8,7 +9,6 @@ import {
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
-import type { RectanglePaneView } from './pane-view.js'
 
 export class RectanglePaneRenderer implements TPaneRenderer {
   private _paneView: RectanglePaneView
