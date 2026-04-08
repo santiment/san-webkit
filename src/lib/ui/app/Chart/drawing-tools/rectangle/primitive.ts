@@ -1,20 +1,26 @@
-import type { TPoint } from '../types.js'
+import type { TViewPoint } from '../types.js'
 
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { RectanglePaneView } from './pane-view.js'
 
 export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
   public __type = 'rectangle' as const
+
   protected _paneViews: RectanglePaneView[] = [new RectanglePaneView(this)]
 
-  public updateEndPoint(point: TPoint) {
-    this._points[1] = point
-    //this._p2 = point
-
-    this._paneViews[0].update()
-    this._timeAxisViews[1].movePoint(point)
-    this._priceAxisViews[1].movePoint(point)
+  public updateEndPoint(point: TViewPoint) {
+    this.viewPoints[this.viewPoints.length - 1] = point
 
     this.requestUpdate()
+  }
+
+  protected sortViewPoints(): void {
+    const [p1, p2] = this.viewPoints
+
+    const [top, bottom] = p1.y! < p2.y! ? [p1.y, p2.y] : [p2.y, p1.y]
+    const [left, right] = p1.x! < p2.x! ? [p1.x, p2.x] : [p2.x, p1.x]
+
+    Object.assign(p1, { x: left, y: top })
+    Object.assign(p2, { x: right, y: bottom })
   }
 }

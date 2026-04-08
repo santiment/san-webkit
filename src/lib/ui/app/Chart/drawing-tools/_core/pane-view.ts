@@ -14,13 +14,18 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
   protected _source: DrawingPrimitive<any>
   protected _renderer!: TPaneRenderer
 
-  public points!: TViewPoint[]
+  public abstract get viewPoints(): TViewPoint[]
+
   public isHovered = false
   public isSelected = false
 
   constructor(source: DrawingPrimitive<any>) {
     this._source = source
   }
+
+  abstract update(): void
+
+  abstract renderer(): IPrimitivePaneRenderer | null
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const result = this._renderer.hitTest(x, y)
@@ -34,7 +39,10 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
 
     return {
       // @ts-expect-error
-      externalId: this._source,
+      externalId: {
+        primitive: this._source,
+        hit: result,
+      },
       cursorStyle: 'pointer',
       zOrder: 'normal',
     }
@@ -44,9 +52,25 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
     return this.isSelected ? 'top' : 'normal'
   }
 
-  abstract update(): void
+  public move(diffXY: [number, number], handleIndices?: [number, number]) {
+    const [diffX, diffY] = diffXY
 
-  abstract renderer(): IPrimitivePaneRenderer | null
+    if (handleIndices !== undefined) {
+      this.movePoint(handleIndices[0], handleIndices[1], diffX, diffY)
+      return
+    }
+
+    for (let i = 0; i < this.viewPoints.length; i++) {
+      this.movePoint(i, i, diffX, diffY)
+    }
+  }
+
+  private movePoint(xIndex: number, yIndex: number, diffX: number, diffY: number) {
+    const { viewPoints, finalizedViewPoints } = this._source
+
+    viewPoints[xIndex].x = (finalizedViewPoints[xIndex].x! + diffX) as Coordinate
+    viewPoints[yIndex].y = (finalizedViewPoints[yIndex].y! + diffY) as Coordinate
+  }
 }
 
 export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
@@ -58,10 +82,10 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
     this._source = source
   }
 
-  abstract getPoints(): (Coordinate | null)[]
-
   update() {
-    this._points = this.getPoints()
+    this._points = this._source.viewPoints.map((coordinate) =>
+      this._vertical ? coordinate.y! : coordinate.x!,
+    )
   }
 
   renderer() {
@@ -80,16 +104,6 @@ export abstract class DrawingAxisPaneView implements IPrimitivePaneView {
 
 export class DrawingPriceAxisPaneView extends DrawingAxisPaneView {
   _vertical: boolean = true
-
-  getPoints(): (Coordinate | null)[] {
-    const series = this._source.series
-    return this._source.points.map((point) => series.priceToCoordinate(point.price))
-  }
 }
 
-export class DrawingTimeAxisPaneView extends DrawingAxisPaneView {
-  getPoints(): (Coordinate | null)[] {
-    const timeScale = this._source.chart.timeScale()
-    return this._source.points.map((point) => timeScale.timeToCoordinate(point.time))
-  }
-}
+export class DrawingTimeAxisPaneView extends DrawingAxisPaneView {}
