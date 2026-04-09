@@ -174,6 +174,8 @@
 
   function useChartModeShortcut(key: 'SHIFT' | 'CMD', tempMode: 1 | 2) {
     useKeyboardShortcut(key, () => {
+      if (chart.$.__isDrawing) return
+
       if (chartContainerNode.matches(':hover') !== true) {
         return
       }

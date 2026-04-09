@@ -137,10 +137,13 @@ export const useDrawingToolsCtx = createCtx(
         const oldHandleScroll =
           typeof handleScroll === 'object' ? { ...handleScroll } : handleScroll
         chart.applyOptions({ handleScroll: false })
+        chart.__isDrawing = true
 
         window.addEventListener(
           'pointerup',
           () => {
+            chart.__isDrawing = false
+
             if (state.name !== 'drawing') {
               state.payload?.drawing?.finalize()
               state = { name: 'idle', payload: null }
