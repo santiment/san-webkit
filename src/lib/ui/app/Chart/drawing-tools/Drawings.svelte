@@ -2,17 +2,19 @@
   import { useMetricSeriesCtx } from '../ctx/series.svelte.js'
   import { useDrawingToolsCtx } from './ctx.svelte.js'
 
-  const { metricSeries } = useMetricSeriesCtx.get()
   const { drawingTools } = useDrawingToolsCtx.get()
+  const { metricSeries } = useMetricSeriesCtx.get()
 
-  const targetMetric = metricSeries.$[0]
+  const targetMetric = $derived(metricSeries.$[0])
 
   for (const drawingTool of drawingTools.drawings.$) {
     drawingTool.Primitive?.then(({ default: Primitive }) => {
-      const primitive = new Primitive(drawingTool.data)
+      const metric = metricSeries.findById(drawingTool.data.seriesId) || targetMetric
 
-      targetMetric.chartSeriesApi?.attachPrimitive(primitive)
-      drawingTool.drawing = primitive
+      drawingTool.data.seriesId ??= metric.id
+      drawingTool.drawing = new Primitive(drawingTool.data)
+
+      drawingTool.drawing.attachTo(metric.chartSeriesApi, metric.id)
     })
   }
 
@@ -20,4 +22,6 @@
     // metricSeries.delete(0)
     console.log(drawingTools.drawings.export())
   }, 3000)
+
+  // TODO: Support undo/redo
 </script>

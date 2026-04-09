@@ -1,4 +1,4 @@
-import type { MouseEventParams } from '@santiment-network/chart-next'
+import type { ISeriesApi, MouseEventParams } from '@santiment-network/chart-next'
 import type { TData, TPoint } from './types.js'
 import type { default as FibRetracementPrimitive } from './fib-retracement/primitive.js'
 import type { default as RectanglePrimitive } from './rectangle/primitive.js'
@@ -92,8 +92,6 @@ export const useDrawingToolsCtx = createCtx(
       }),
     )
 
-    const targetMetric = $derived(metricSeries.$[0])
-
     let selectedPrimitive: TDrawingPrimitive | null = null
     function selectPrimitive(primitive: TDrawingPrimitive | null) {
       if (primitive === selectedPrimitive) return
@@ -119,11 +117,17 @@ export const useDrawingToolsCtx = createCtx(
       }
     }
 
-    function getMouseDrawingPoint(params: MouseEventParams): undefined | TPoint {
+    function findFirstMetricSeries(paneIndex: number) {
+      return metricSeries.$.find((series) => series.pane.$ === paneIndex)
+    }
+
+    function getMouseDrawingPoint(
+      params: MouseEventParams,
+      series: ISeriesApi<any> | null,
+    ): undefined | TPoint {
       if (!params.point || !params.time) return
 
-      const series = targetMetric.chartSeriesApi!
-      const value = series.coordinateToPrice(params.point.y)
+      const value = series?.coordinateToPrice(params.point.y) ?? null
       if (value === null || !Number.isFinite(value)) {
         return
       }
@@ -179,19 +183,20 @@ export const useDrawingToolsCtx = createCtx(
 
       if (state.name !== 'drawing') return
 
-      const point = getMouseDrawingPoint(params)
+      const metric = findFirstMetricSeries(params.paneIndex ?? 0)
+      const series = metric?.chartSeriesApi
+
+      const point = getMouseDrawingPoint(params, series)
       if (!point) return
 
       state.payload.Primitive?.then(({ default: Primitive }) => {
         if (state.name !== 'drawing') return
 
-        const series = targetMetric.chartSeriesApi!
-
         if (!state.payload.drawing) {
           const points = [point, point]
           const primitive = new Primitive({ points })
 
-          series.attachPrimitive(primitive)
+          primitive.attachTo(series, metric?.id)
 
           selectPrimitive(primitive)
 

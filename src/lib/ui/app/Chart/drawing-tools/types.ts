@@ -1,3 +1,4 @@
+import type { TUUIDv7 } from '$lib/utils/uuid/index.js'
 import type { Coordinate, Time } from '@santiment-network/chart-next'
 
 export interface TViewPoint {
@@ -18,5 +19,6 @@ export type TOptions = {
 }
 
 export type TData = {
+  seriesId?: TUUIDv7
   points: TPoint[]
 }
