@@ -2,30 +2,42 @@ import type { TViewPoint } from '../types.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
-import { DrawingPaneView } from '../pane-view.js'
+import { DrawingPaneView } from '../_core/pane-view.js'
+import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js'
 import { RectanglePaneRenderer } from './renderer.js'
 
 export class RectanglePaneView extends DrawingPaneView {
-  private _p1: TViewPoint = { x: null, y: null }
-  private _p2: TViewPoint = { x: null, y: null }
-
-  update() {
-    const series = this._source.series
-    const timeScale = this._source.chart.timeScale()
-
-    const [p1, p2] = this._source.points
-
-    const y1 = series.priceToCoordinate(p1.price)
-    const y2 = series.priceToCoordinate(p2.price)
-
-    const x1 = timeScale.timeToCoordinate(p1.time)
-    const x2 = timeScale.timeToCoordinate(p2.time)
-
-    this._p1 = { x: x1, y: y1 }
-    this._p2 = { x: x2, y: y2 }
+  public get viewPoints(): [TViewPoint, TViewPoint] {
+    return this._source.viewPoints as [TViewPoint, TViewPoint]
   }
 
+  protected _renderer: DrawingCompositePaneRenderer = new DrawingCompositePaneRenderer([
+    new RectanglePaneRenderer(this, getBrowserCssVariable('red') + '50'),
+
+    // top left
+    new HandleRenderer(this, {
+      pointIndices: [0, 0],
+    }),
+
+    // top right
+    new HandleRenderer(this, {
+      pointIndices: [1, 0],
+    }),
+
+    // bottom right
+    new HandleRenderer(this, {
+      pointIndices: [1, 1],
+    }),
+
+    // bottom left
+    new HandleRenderer(this, {
+      pointIndices: [0, 1],
+    }),
+  ])
+
+  update() {}
+
   renderer() {
-    return new RectanglePaneRenderer(this._p1, this._p2, getBrowserCssVariable('red') + '50')
+    return this._renderer
   }
 }

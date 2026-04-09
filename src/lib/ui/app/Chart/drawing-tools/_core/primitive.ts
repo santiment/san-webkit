@@ -1,10 +1,12 @@
 // https://github.com/tradingview/lightweight-charts/blob/master/plugin-examples/src/plugins/rectangle-drawing-tool/rectangle-drawing-tool.ts#L267
 
 import type {
+  Coordinate,
   DataChangedScope,
   IChartApi,
   ISeriesApi,
   ISeriesPrimitive,
+  PrimitiveHoveredItem,
   SeriesAttachedParameter,
   SeriesOptionsMap,
   Time,
@@ -13,7 +15,7 @@ import type {
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
 import { DrawingPriceAxisView, DrawingTimeAxisView, type DrawingAxisView } from './axis-view.js'
-import { type TOptions, type TPoint } from './types.js'
+import { type TOptions, type TPoint, type TViewPoint } from '../types.js'
 import {
   DrawingPaneView,
   DrawingPriceAxisPaneView,
@@ -30,7 +32,9 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected _chart: IChartApi | undefined = undefined
   protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
 
-  protected _points: TPoint[]
+  protected _dataPoints: TPoint[]
+  protected _viewPoints: TViewPoint[] = []
+  protected _finalizedViewPoints: TViewPoint[] = []
   protected _options: TOptions
 
   protected _timeAxisViews: DrawingAxisView[] = []
@@ -44,8 +48,9 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
   private _requestUpdate?: () => void
 
-  public constructor(points: TPoint[], options: Partial<TOptions> = {}) {
-    this._points = points
+  public constructor(dataPoints: TPoint[], options: Partial<TOptions> = {}) {
+    this._dataPoints = dataPoints
+
     this._options = {
       axisLabels: {
         bg: getBrowserCssVariable('casper'),
@@ -54,20 +59,43 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
       ...options,
     }
 
-    for (let i = 0; i < points.length; i++) {
-      this._priceAxisViews.push(new DrawingPriceAxisView(this, points[i]))
-      this._timeAxisViews.push(new DrawingTimeAxisView(this, points[i]))
+    for (let i = 0; i < dataPoints.length; i++) {
+      this._priceAxisViews.push(new DrawingPriceAxisView(this, i))
+      this._timeAxisViews.push(new DrawingTimeAxisView(this, i))
     }
 
-    if (points.length > 1) {
+    if (dataPoints.length > 1) {
       this._priceAxisPaneViews.push(new DrawingPriceAxisPaneView(this))
       this._timeAxisPaneViews.push(new DrawingTimeAxisPaneView(this))
     }
   }
 
+  protected mapDataPointsToViewPoints(): undefined | TViewPoint[] {
+    const timeScale = this._chart!.timeScale()
+    const series = this._series
+
+    if (!series) return
+
+    return this._dataPoints.map((point) => ({
+      x: timeScale.timeToCoordinate(point.time),
+      y: series.priceToCoordinate(point.price),
+    }))
+  }
+
+  public convertDataToViewPoints() {
+    const viewPoints = this.mapDataPointsToViewPoints()
+    if (!viewPoints) return
+
+    this._viewPoints = viewPoints
+    this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
+  }
+
   public attached({ chart, series, requestUpdate }: SeriesAttachedParameter<Time>) {
     this._chart = chart
     this._series = series
+
+    this.convertDataToViewPoints()
+
     this._series.subscribeDataChanged(this._fireDataUpdated)
     this._requestUpdate = requestUpdate
     this.requestUpdate()
@@ -81,7 +109,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
 
   public get points(): TPoint[] {
-    return this._points
+    return this._dataPoints
   }
 
   public get chart(): IChartApi {
@@ -96,14 +124,32 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     return this._options
   }
 
+  private _oldPriceRange: undefined | Record<string, number>
+  private _oldTimeOffset: undefined | number
+  public validatePoints(): void {
+    // @ts-expect-error Getting ref to a internal cached property
+    const currentPriceRange = this._series?.priceScale()._priceScale()._priceRange
+    // @ts-expect-error Getting value of a internal cached property
+    const currentTimeOffset = this._chart?.timeScale()._timeScale._rightOffset
+
+    if (currentPriceRange === this._oldPriceRange && currentTimeOffset === this._oldTimeOffset) {
+      return
+    }
+
+    this._oldPriceRange = currentPriceRange
+    this._oldTimeOffset = currentTimeOffset
+
+    this.convertDataToViewPoints()
+  }
+
   public updateAllViews(): void {
     //if (!this._options.visible) {
     //  return
     //}
 
+    this.validatePoints()
+
     this._paneViews.forEach((pw) => pw.update())
-    this._timeAxisViews.forEach((pw) => pw.update())
-    this._priceAxisViews.forEach((pw) => pw.update())
     this._priceAxisPaneViews.forEach((pw) => pw.update())
     this._timeAxisPaneViews.forEach((pw) => pw.update())
   }
@@ -142,5 +188,66 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     }
   }
 
-  public abstract updateEndPoint(p: TPoint): void
+  public abstract updateEndPoint(p: TViewPoint): void
+
+  protected sortViewPoints?(): void {}
+
+  public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+    const [paneView] = this._paneViews
+    return paneView.hitTest(x, y)
+  }
+
+  public isHovered() {
+    return this._paneViews[0].isHovered
+  }
+
+  public isSelected() {
+    return this._paneViews[0].isSelected
+  }
+
+  public select(value: boolean) {
+    this._paneViews[0].isSelected = value
+    this.requestUpdate()
+  }
+
+  public move(diffXY: [number, number], handleIndices?: [number, number]) {
+    this._paneViews.forEach((pw) => pw.move(diffXY, handleIndices))
+    this.requestUpdate()
+  }
+
+  public get viewPoints(): TViewPoint[] {
+    return this._viewPoints
+  }
+
+  public get finalizedViewPoints(): TViewPoint[] {
+    return this._finalizedViewPoints
+  }
+
+  protected mapViewPointsToDataPoints(): undefined | TPoint[] {
+    const timeScale = this._chart!.timeScale()
+    const series = this._series
+
+    if (!series) return
+
+    return this._viewPoints.map((point) => ({
+      time: timeScale.coordinateToTime(point.x!)!,
+      price: series.coordinateToPrice(point.y!)!,
+    }))
+  }
+
+  /**
+   * Convert view points to data points
+   * @returns
+   */
+  public finalize(): void {
+    if (!this._chart) return
+
+    this.sortViewPoints?.()
+
+    const dataPoints = this.mapViewPointsToDataPoints()
+    if (!dataPoints) return
+
+    this._dataPoints = dataPoints
+    this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
+  }
 }

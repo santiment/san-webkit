@@ -133,6 +133,9 @@ devDependencies:
   '@types/gtag.js':
     specifier: ^0.0.20
     version: 0.0.20
+  '@types/phoenix':
+    specifier: ^1.6.7
+    version: 1.6.7
   '@types/ua-parser-js':
     specifier: ^0.7.39
     version: 0.7.39
@@ -211,6 +214,9 @@ devDependencies:
   photoswipe:
     specifier: ^5.4.4
     version: 5.4.4
+  phoenix:
+    specifier: ^1.8.5
+    version: 1.8.5
   postcss:
     specifier: ^8.4.38
     version: 8.5.3
@@ -4147,6 +4153,10 @@ packages:
       '@types/node': 22.15.21
       pg-protocol: 1.6.1
       pg-types: 2.2.0
+    dev: true
+
+  /@types/phoenix@1.6.7:
+    resolution: {integrity: sha512-oN9ive//QSBkf19rfDv45M7eZPi0eEXylht2OLEXicu5b4KoQ1OzXIw+xDSGWxSxe1JmepRR/ZH283vsu518/Q==}
     dev: true
 
   /@types/pug@2.0.10:
@@ -8653,6 +8663,9 @@ packages:
   /photoswipe@5.4.4:
     resolution: {integrity: sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==}
     engines: {node: '>= 0.12.0'}
+
+  /phoenix@1.8.5:
+    resolution: {integrity: sha512-Oj5nlRV/NKXkjBx8uMgCMmgMf1twd/B2qOcO30cHLH1PCGR8149o4T1lRIaqN4nq2KQJAeMqPiLdh1Asd0wQFg==}
     dev: true
 
   /picocolors@1.1.1:

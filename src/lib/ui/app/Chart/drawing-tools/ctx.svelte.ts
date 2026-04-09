@@ -2,12 +2,22 @@ import type { MouseEventParams } from '@santiment-network/chart-next'
 import type { TPoint } from './types.js'
 import type { default as FibRetracementPrimitive } from './fib-retracement/primitive.js'
 import type { default as RectanglePrimitive } from './rectangle/primitive.js'
+import type { default as TrendlinePrimitive } from './trendline/primitive.js'
+import type { default as HorizontalLinePrimitive } from './horizontal-line/primitive.js'
+import type { default as VerticalLinePrimitive } from './vertical-line/primitive.js'
 
 import { createCtx } from '$lib/utils/index.js'
 
 import { useChartCtx, useMetricSeriesCtx } from '../ctx/index.js'
+import { RenderHitTest, type TRenderHitTestData } from './_core/renderer.js'
 
-type TDrawingPrimitives = typeof RectanglePrimitive | typeof FibRetracementPrimitive
+type TDrawingPrimitives =
+  | typeof RectanglePrimitive
+  | typeof FibRetracementPrimitive
+  | typeof TrendlinePrimitive
+  | typeof HorizontalLinePrimitive
+  | typeof VerticalLinePrimitive
+type TDrawingPrimitive = TDrawingPrimitives['prototype']
 
 export type TTypeToDrawingPrimitive = {
   [K in TDrawingPrimitives as K['prototype']['__type']]: K['prototype']
@@ -25,13 +35,32 @@ type TStates =
       {
         type: TDrawingTypes
         points: TPoint[]
-        drawing: null | TDrawingPrimitives['prototype']
+        drawing: null | TDrawingPrimitive
         Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
       }
     >
+  | TState<
+      'moving',
+      {
+        drawing: TDrawingPrimitive
+        startPoint: NonNullable<MouseEventParams['point']>
+        handleIndices?: [number, number]
+      }
+    >
+
+type THoveredPrimitive = {
+  primitive: TDrawingPrimitive
+  hit: TRenderHitTestData
+}
 
 export function importPrimitive(type: TDrawingTypes) {
   switch (type) {
+    case 'trendline':
+      return import('./trendline/primitive.js')
+    case 'horizontal-line':
+      return import('./horizontal-line/primitive.js')
+    case 'vertical-line':
+      return import('./vertical-line/primitive.js')
     case 'rectangle':
       return import('./rectangle/primitive.js')
     case 'fib_retracement':
@@ -54,6 +83,15 @@ export const useDrawingToolsCtx = createCtx(
 
     const targetMetric = $derived(metricSeries.$[0])
 
+    let selectedPrimitive: TDrawingPrimitive | null = null
+    function selectPrimitive(primitive: TDrawingPrimitive | null) {
+      if (primitive === selectedPrimitive) return
+
+      selectedPrimitive?.select(false)
+      primitive?.select(true)
+      selectedPrimitive = primitive
+    }
+
     function onDrawingToolSelect(type: TDrawingTypes) {
       // Same tool pressed === cancel drawing
       if (state.name === 'drawing' && state.payload.type === type) {
@@ -74,13 +112,60 @@ export const useDrawingToolsCtx = createCtx(
       if (!params.point || !params.time) return
 
       const series = targetMetric.chartSeriesApi!
-      const price = series.coordinateToPrice(params.point.y)
-      if (!price) return
+      const value = series.coordinateToPrice(params.point.y)
+      if (value === null || !Number.isFinite(value)) {
+        return
+      }
 
-      return { time: params.time, price }
+      return { time: params.time, price: value }
     }
 
-    function onChartClick(params: MouseEventParams) {
+    function onChartPointerDown(params: MouseEventParams) {
+      const chart = chartCtx.chart.$
+      if (!chart) {
+        return
+      }
+
+      const hoveredObject = params.hoveredObjectId as null | THoveredPrimitive
+      const hoveredPrimitive = hoveredObject?.primitive ?? null
+
+      selectPrimitive(hoveredPrimitive)
+
+      // NOTE: Preventing mouse drag-scroll when drawing or hovering over a primitive and then pressing the mouse button
+      if (hoveredPrimitive || state.name === 'drawing') {
+        const { handleScroll } = chart.options()
+        const oldHandleScroll =
+          typeof handleScroll === 'object' ? { ...handleScroll } : handleScroll
+        chart.applyOptions({ handleScroll: false })
+
+        window.addEventListener(
+          'pointerup',
+          () => {
+            if (state.name !== 'drawing') {
+              state.payload?.drawing?.finalize()
+              state = { name: 'idle', payload: null }
+            }
+
+            chart.applyOptions({ handleScroll: oldHandleScroll })
+          },
+          { once: true },
+        )
+      }
+
+      if (hoveredPrimitive && state.name === 'idle') {
+        state = {
+          name: 'moving',
+          payload: {
+            drawing: hoveredPrimitive,
+            startPoint: params.point!,
+            handleIndices:
+              hoveredObject?.hit.type === RenderHitTest.HANDLE
+                ? hoveredObject.hit.indices
+                : undefined,
+          },
+        }
+      }
+
       if (state.name !== 'drawing') return
 
       const point = getMouseDrawingPoint(params)
@@ -94,12 +179,16 @@ export const useDrawingToolsCtx = createCtx(
         if (!state.payload.drawing) {
           const points = [point, point]
           const primitive = new Primitive(points)
+
           series.attachPrimitive(primitive)
+
+          selectPrimitive(primitive)
 
           state.payload.drawing = primitive
           state.payload.points = points
         } else {
-          state.payload.drawing.updateEndPoint(point)
+          state.payload.drawing.updateEndPoint(params.point!)
+          state.payload.drawing.finalize()
 
           state = { name: 'idle', payload: null }
         }
@@ -107,28 +196,46 @@ export const useDrawingToolsCtx = createCtx(
     }
 
     function onChartCrosshairMove(params: MouseEventParams) {
+      if (state.name === 'moving') {
+        const { startPoint } = state.payload
+        if (!params.point) return
+
+        const { x, y } = params.point
+        const dx = x - startPoint.x
+        const dy = y - startPoint.y
+
+        // console.log({ dx, dy })
+        state.payload.drawing.move([dx, dy], state.payload.handleIndices)
+      }
+
       if (state.name !== 'drawing') return
 
-      const point = getMouseDrawingPoint(params)
-      if (!point) return
+      // const point = getMouseDrawingPoint(params)
+      // if (!point) return
 
       if (!state.payload.drawing) return
+      if (!params.point) return
 
-      state.payload.drawing.updateEndPoint(point)
+      state.payload.drawing.updateEndPoint(params.point)
     }
 
     $effect(() => {
       const chart = chartCtx.chart.$
       if (!chart) return
 
-      if (state.name !== 'drawing') return
+      chart.subscribePointerDown(onChartPointerDown)
 
-      chart.subscribeClick(onChartClick)
-      chart.subscribeCrosshairMove(onChartCrosshairMove)
+      $effect(() => {
+        if (state.name !== 'drawing' && state.name !== 'moving') return
+
+        chart.subscribeCrosshairMove(onChartCrosshairMove)
+        return () => {
+          chart.unsubscribeCrosshairMove(onChartCrosshairMove)
+        }
+      })
 
       return () => {
-        chart.unsubscribeClick(onChartClick)
-        chart.unsubscribeCrosshairMove(onChartCrosshairMove)
+        chart.unsubscribePointerDown(onChartPointerDown)
       }
     })
 

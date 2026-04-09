@@ -1,19 +1,33 @@
 import type { CanvasRenderingTarget2D } from 'fancy-canvas'
-import type { IPrimitivePaneRenderer, Coordinate } from '@santiment-network/chart-next'
+import type { Coordinate } from '@santiment-network/chart-next'
+import type { FibRetracementPaneView } from './pane-view.js'
+
+import {
+  checkIsOutsideLine,
+  RenderHitTest,
+  type TPaneRenderer,
+  type TRenderHitTestData,
+} from '../_core/renderer.js'
 
 export type TRenderData = {
-  x1: Coordinate
-  x2: Coordinate
-  y1: Coordinate
-  y2: Coordinate
   levels: { color: string; level: number; value: string; y: Coordinate }[]
 }
 
-export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
-  private _data: TRenderData
+export class FibRetracementPaneRenderer implements TPaneRenderer {
+  private _paneView: FibRetracementPaneView
 
-  constructor(data: TRenderData) {
-    this._data = data
+  constructor(paneView: FibRetracementPaneView) {
+    this._paneView = paneView
+  }
+
+  hitTest(x: Coordinate, y: Coordinate): TRenderHitTestData | null {
+    const [p1, p2] = this._paneView.viewPoints
+
+    if (checkIsOutsideLine(x, y, p1, p2)) {
+      return null
+    }
+
+    return { type: RenderHitTest.PRIMITIVE }
   }
 
   draw(target: CanvasRenderingTarget2D) {
@@ -21,13 +35,14 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
       const ctx = scope.context
       const { verticalPixelRatio, horizontalPixelRatio } = scope
 
-      const { x1, x2, y1, y2, levels } = this._data
+      const [p1, p2] = this._paneView.viewPoints
+      const { levels } = this._paneView.data
 
       // Draw the main trend line (from x1 to x2 at level 0% and 100%)
       ctx.save()
       ctx.beginPath()
-      ctx.moveTo(pos(x1, horizontalPixelRatio), pos(y1, verticalPixelRatio))
-      ctx.lineTo(pos(x2, horizontalPixelRatio), pos(y2, verticalPixelRatio))
+      ctx.moveTo(pos(p1.x!, horizontalPixelRatio), pos(p1.y!, verticalPixelRatio))
+      ctx.lineTo(pos(p2.x!, horizontalPixelRatio), pos(p2.y!, verticalPixelRatio))
       ctx.setLineDash([3 * scope.horizontalPixelRatio, 3 * scope.horizontalPixelRatio])
       ctx.strokeStyle = '#2962FF'
       ctx.lineWidth = scope.verticalPixelRatio
@@ -40,8 +55,8 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
         // Drawing level lines
         ctx.save()
         ctx.beginPath()
-        ctx.moveTo(pos(x1, horizontalPixelRatio), pos(y, verticalPixelRatio))
-        ctx.lineTo(pos(x2, horizontalPixelRatio), pos(y, verticalPixelRatio))
+        ctx.moveTo(pos(p1.x!, horizontalPixelRatio), pos(y, verticalPixelRatio))
+        ctx.lineTo(pos(p2.x!, horizontalPixelRatio), pos(y, verticalPixelRatio))
         ctx.strokeStyle = color
         ctx.lineWidth = scope.verticalPixelRatio
         ctx.stroke()
@@ -53,9 +68,9 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
           ctx.save()
           ctx.fillStyle = color + '25'
           ctx.fillRect(
-            pos(x1, horizontalPixelRatio),
+            pos(p1.x!, horizontalPixelRatio),
             pos(y, verticalPixelRatio),
-            pos(x2, horizontalPixelRatio) - pos(x1, horizontalPixelRatio),
+            pos(p2.x!, horizontalPixelRatio) - pos(p1.x!, horizontalPixelRatio),
             pos(prevLevel.y, verticalPixelRatio) - pos(y, verticalPixelRatio),
           )
           ctx.restore()
@@ -69,7 +84,7 @@ export class FibRetracementPaneRenderer implements IPrimitivePaneRenderer {
         ctx.textBaseline = 'middle'
         ctx.fillStyle = color
         ctx.textAlign = 'right'
-        ctx.fillText(label, pos(x1 - 5, horizontalPixelRatio), pos(y, verticalPixelRatio))
+        ctx.fillText(label, pos(p1.x! - 5, horizontalPixelRatio), pos(y, verticalPixelRatio))
         ctx.restore()
       })
     })
