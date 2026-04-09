@@ -4,6 +4,10 @@
   import { cn } from '$ui/utils/index.js'
 
   const { drawingTools } = useDrawingToolsCtx()
+
+  function onDeleteClick() {
+    drawingTools.drawings.delete(drawingTools.selected.$)
+  }
 </script>
 
 <div class="flex gap-2">
@@ -12,6 +16,10 @@
   {@render button(['vertical-line', 'V.Line'])}
   {@render button(['rectangle', 'Rect'])}
   {@render button(['fib_retracement', 'Fib'])}
+
+  {#if drawingTools.selected.$}
+    <Button icon="delete" explanation="Delete selected drawing" onclick={onDeleteClick}></Button>
+  {/if}
 </div>
 
 {#snippet button([type, label]: any)}

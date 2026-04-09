@@ -110,6 +110,13 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     this._requestUpdate = undefined
   }
 
+  /**
+   * Completely removing primitive from a series
+   */
+  public delete() {
+    this._series?.detachPrimitive(this)
+  }
+
   public attachTo(series?: SeriesAttachedParameter<Time>['series'] | null, id?: string) {
     if (!series || this._series === series) {
       return
