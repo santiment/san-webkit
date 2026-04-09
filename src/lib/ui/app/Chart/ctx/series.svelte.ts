@@ -9,6 +9,7 @@ import {
 import { ss, createCtx } from '$lib/utils/index.js'
 import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
 import { uuidv7 } from '$lib/utils/uuid/index.js'
+import { onMount } from 'svelte'
 
 const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
@@ -205,8 +206,10 @@ export const useMetricSeriesCtx = createCtx(
         },
 
         delete(index: number) {
-          series.splice(index, 1)
+          const deleted = series.splice(index, 1)
           series = series.slice()
+
+          fireSeriesDeleteEvent(deleted[0], series)
         },
 
         deleteSeries(metricSeries: TSeries) {
@@ -223,3 +226,24 @@ export const useMetricSeriesCtx = createCtx(
     }
   },
 )
+
+const deleteEventSubscribers = new Set<(metric: TSeries, metrics: TSeries[]) => void>()
+function fireSeriesDeleteEvent(metric: TSeries, metrics: TSeries[]) {
+  deleteEventSubscribers.forEach((fn) => fn(metric, metrics))
+}
+
+export function useMetricSeriesDeleteListener(fn: (metric: TSeries) => void) {
+  const { metricSeries } = useMetricSeriesCtx.get()
+
+  onMount(() => {
+    function onDelete(metric: TSeries, metrics: TSeries[]) {
+      if (metricSeries.$ === metrics) fn(metric)
+    }
+
+    deleteEventSubscribers.add(onDelete)
+
+    return () => {
+      deleteEventSubscribers.delete(onDelete)
+    }
+  })
+}
