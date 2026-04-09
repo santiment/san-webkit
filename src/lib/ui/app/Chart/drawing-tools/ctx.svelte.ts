@@ -254,6 +254,26 @@ export const useDrawingToolsCtx = createCtx(
 
     return {
       drawingTools: {
+        drawings: {
+          get $() {
+            return drawings
+          },
+
+          export() {
+            return drawings
+              .map((drawingTool) => {
+                const data = drawingTool.drawing?.export() || drawingTool.data
+
+                if (!data?.points?.length) {
+                  return
+                }
+
+                return { type: drawingTool.type, data }
+              })
+              .filter(Boolean)
+          },
+        },
+
         get drawing$() {
           return state.name === 'drawing' ? state.payload.type : ''
         },

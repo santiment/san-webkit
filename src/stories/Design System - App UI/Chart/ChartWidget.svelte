@@ -15,6 +15,8 @@
     useMetricSeriesCtx,
     type TSeries,
   } from '$ui/app/Chart/ctx/index.js'
+  import { useDrawingToolsCtx } from '$ui/app/Chart/drawing-tools/ctx.svelte.js'
+  import Drawings from '$ui/app/Chart/drawing-tools/Drawings.svelte'
   import { showFormulaEditorDialog$ } from '$ui/app/Chart/FormulaEditorDialog/index.js'
 
   import BaseChart, {
@@ -35,7 +37,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import DrawingTools from './DrawingTools.svelte'
 
-  let { viewportPriority = false } = $props()
+  let { viewportPriority = false, drawings = [] } = $props()
 
   useChartCtx()
   const { applyTimeZoneOffset } = useTimeZoneCtx.set()
@@ -51,6 +53,10 @@
   const Chart = viewportPriority ? ViewportChart : BaseChart
 
   const showFormulaEditorDialog = showFormulaEditorDialog$()
+
+  useDrawingToolsCtx.set({
+    drawings,
+  })
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
@@ -186,6 +192,8 @@
         {/each}
       {/snippet}
     </PaneLegend>
+
+    <Drawings></Drawings>
   </Chart>
 
   <div class="mt-3 column">

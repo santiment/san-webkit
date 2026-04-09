@@ -250,4 +250,15 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     this._dataPoints = dataPoints
     this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
   }
+
+  public export() {
+    this.finalize()
+
+    console.log(this._series)
+
+    return {
+      // series: this._series?.priceScale(),
+      points: this.points,
+    }
+  }
 }
