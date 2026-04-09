@@ -116,6 +116,9 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     }
 
     if (this._series) {
+      // NOTE: Converting view points from old series to data points for new series to keep the drawings on same positions
+      this._series = series
+      this.finalize()
       this.detached()
     }
 
@@ -140,19 +143,25 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
 
   private _oldPriceRange: undefined | Record<string, number>
-  private _oldTimeOffset: undefined | number
+  private _oldTimeCache: null | any[] = null
   public validatePoints(): void {
     // @ts-expect-error Getting ref to a internal cached property
-    const currentPriceRange = this._series?.priceScale()._priceScale()._priceRange
-    // @ts-expect-error Getting value of a internal cached property
-    const currentTimeOffset = this._chart?.timeScale()._timeScale._rightOffset
+    const currentTimeCache = this._chart?.timeScale()._timeScale._timeMarksCache
 
-    if (currentPriceRange === this._oldPriceRange && currentTimeOffset === this._oldTimeOffset) {
+    if (!currentTimeCache) {
+      this._oldTimeCache = null
+      return
+    }
+
+    // @ts-expect-error Getting ref to a internal cached property
+    const currentPriceRange = this._series?.priceScale()._priceScale()._priceRange
+
+    if (this._oldTimeCache && currentPriceRange === this._oldPriceRange) {
       return
     }
 
     this._oldPriceRange = currentPriceRange
-    this._oldTimeOffset = currentTimeOffset
+    this._oldTimeCache = currentTimeCache
 
     this.convertDataToViewPoints()
   }
@@ -162,8 +171,6 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     //  return
     //}
 
-    // TODO: When chart width changes - coordinates are not updated (since priceRange and timeOffset are cached)
-    // Or when timeScale is changed by holding mouse
     this.validatePoints()
 
     this._paneViews.forEach((pw) => pw.update())
@@ -266,6 +273,10 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
     this._dataPoints = dataPoints
     this._finalizedViewPoints = this._viewPoints.map((point) => ({ ...point }))
+  }
+
+  public get seriesId(): string | undefined {
+    return this._seriesId
   }
 
   public export() {
