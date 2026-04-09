@@ -17,7 +17,7 @@
   import { useViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
   import ChartWidget from './ChartWidget.svelte'
 
-  let { viewportPriority = false, defaultMetrics = [] } = $props()
+  let { viewportPriority = false, defaultMetrics = [], defaultDrawings = [] } = $props()
 
   useAssetsCtx.set()
   useMetricsRestrictionsCtx.set()
@@ -123,7 +123,7 @@
     {/each}
   </div>
 
-  <ChartWidget {viewportPriority}></ChartWidget>
+  <ChartWidget {viewportPriority} drawings={defaultDrawings}></ChartWidget>
 
   <button onclick={toggle}> Toggle axis </button>
 </main>

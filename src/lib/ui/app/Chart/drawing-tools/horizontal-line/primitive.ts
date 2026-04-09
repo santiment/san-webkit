@@ -1,4 +1,4 @@
-import type { TOptions, TPoint, TViewPoint } from '../types.js'
+import type { TData, TOptions, TPoint, TViewPoint } from '../types.js'
 import type { Coordinate } from '@santiment-network/chart-next'
 
 import { DrawingPrimitive } from '../_core/primitive.js'

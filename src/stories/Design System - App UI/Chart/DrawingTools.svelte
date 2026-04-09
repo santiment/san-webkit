@@ -3,7 +3,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
 
-  const { drawingTools } = useDrawingToolsCtx({})
+  const { drawingTools } = useDrawingToolsCtx()
 </script>
 
 <div class="flex gap-2">
