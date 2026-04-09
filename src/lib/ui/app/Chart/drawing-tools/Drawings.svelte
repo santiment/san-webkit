@@ -1,9 +1,14 @@
 <script lang="ts">
-  import { useMetricSeriesCtx } from '../ctx/series.svelte.js'
+  import {
+    useMetricSeriesCtx,
+    useMetricSeriesDeleteListener,
+    type TSeries,
+  } from '../ctx/series.svelte.js'
   import { useDrawingToolsCtx } from './ctx.svelte.js'
 
   const { drawingTools } = useDrawingToolsCtx.get()
   const { metricSeries } = useMetricSeriesCtx.get()
+  useMetricSeriesDeleteListener(onMetricDelete)
 
   const targetMetric = $derived(metricSeries.$[0])
 
@@ -18,10 +23,21 @@
     })
   }
 
-  setTimeout(() => {
-    // metricSeries.delete(0)
-    console.log(drawingTools.drawings.export())
-  }, 3000)
+  function onMetricDelete(metric: TSeries) {
+    const drawings = drawingTools.drawings.$
+
+    if (!metricSeries.$.length) {
+      // No metrics left
+      return
+    }
+
+    for (const drawingTool of drawings) {
+      if (drawingTool.drawing?.seriesId !== metric.id) continue
+
+      const newMetric = metricSeries.$[0]
+      drawingTool.drawing?.attachTo(newMetric.chartSeriesApi, newMetric.id)
+    }
+  }
 
   // TODO: Support undo/redo
 </script>
