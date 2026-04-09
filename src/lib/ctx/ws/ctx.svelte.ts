@@ -62,8 +62,6 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
   }
 
   $effect(() => {
-    if (!BROWSER) return
-
     const nextJti = currentUserJti
     const isAuthReady = !!nextJti && initStatus === 'ready'
 
