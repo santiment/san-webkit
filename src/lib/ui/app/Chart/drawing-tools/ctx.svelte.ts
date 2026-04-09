@@ -92,13 +92,13 @@ export const useDrawingToolsCtx = createCtx(
       }),
     )
 
-    let selectedPrimitive: TDrawingPrimitive | null = null
+    let selectedTool = $state.raw<TDrawingTool | null>(null)
     function selectPrimitive(primitive: TDrawingPrimitive | null) {
-      if (primitive === selectedPrimitive) return
+      if (primitive === selectedTool?.drawing) return
 
-      selectedPrimitive?.select(false)
+      selectedTool?.drawing?.select(false)
       primitive?.select(true)
-      selectedPrimitive = primitive
+      selectedTool = drawings.find((drawing) => drawing.drawing === primitive) ?? null
     }
 
     function onDrawingToolSelect(type: TDrawingTypes) {
@@ -186,7 +186,7 @@ export const useDrawingToolsCtx = createCtx(
       const metric = findFirstMetricSeries(params.paneIndex ?? 0)
       const series = metric?.chartSeriesApi
 
-      const point = getMouseDrawingPoint(params, series)
+      const point = getMouseDrawingPoint(params, series ?? null)
       if (!point) return
 
       state.payload.Primitive?.then(({ default: Primitive }) => {
@@ -198,8 +198,6 @@ export const useDrawingToolsCtx = createCtx(
 
           primitive.attachTo(series, metric?.id)
 
-          selectPrimitive(primitive)
-
           state.payload.drawing = primitive
           state.payload.data.points = points
         } else {
@@ -207,6 +205,9 @@ export const useDrawingToolsCtx = createCtx(
           state.payload.drawing.finalize()
 
           drawings = [...drawings, state.payload]
+
+          // NOTE: Selecting only when finished drawing
+          selectPrimitive(state.payload.drawing)
 
           state = { name: 'idle', payload: null }
         }
@@ -259,9 +260,25 @@ export const useDrawingToolsCtx = createCtx(
 
     return {
       drawingTools: {
+        selected: {
+          get $() {
+            return selectedTool
+          },
+        },
         drawings: {
           get $() {
             return drawings
+          },
+
+          delete(drawingTool: null | TDrawingTool) {
+            if (!drawingTool) return
+
+            if (selectedTool === drawingTool) {
+              selectedTool = null
+            }
+
+            drawingTool.drawing?.delete()
+            drawings = drawings.filter((item) => item !== drawingTool)
           },
 
           export() {

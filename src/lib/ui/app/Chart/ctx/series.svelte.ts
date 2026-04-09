@@ -1,6 +1,8 @@
 import type { ISeriesApi } from '@santiment-network/chart-next'
 import type { TAggregation, TMetricData } from '../api/index.js'
 
+import { onMount } from 'svelte'
+
 import {
   MetricStyle,
   type TChartMetric,
@@ -9,7 +11,6 @@ import {
 import { ss, createCtx } from '$lib/utils/index.js'
 import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
 import { uuidv7 } from '$lib/utils/uuid/index.js'
-import { onMount } from 'svelte'
 
 const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
