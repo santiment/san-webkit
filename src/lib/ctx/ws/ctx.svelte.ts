@@ -2,7 +2,7 @@ import { BROWSER } from 'esm-env'
 
 import { Query } from '$lib/api/executor.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-import { createCtx } from '$lib/utils/index.js'
+import { controlledPromisePolyfill, createCtx } from '$lib/utils/index.js'
 
 import { queryCurrentJti } from './api.js'
 import { createSocketApi } from './service.js'
@@ -33,24 +33,12 @@ export const useWebsocketApiCtx = createCtx(KEY, () => {
   let socketDeferred: TDeferred<Socket> | null = null
   let authSocketDeferred: TDeferred<Socket> | null = null
 
-  function createDeferred<T>() {
-    let resolve!: (value: T) => void
-    let reject!: (error: Error) => void
-
-    const promise = new Promise<T>((res, rej) => {
-      resolve = res
-      reject = rej
-    })
-
-    return { promise, resolve, reject }
-  }
-
   function ensureSocketDeferred() {
-    return (socketDeferred ??= createDeferred<Socket>())
+    return (socketDeferred ??= controlledPromisePolyfill<Socket>())
   }
 
   function ensureAuthSocketDeferred() {
-    return (authSocketDeferred ??= createDeferred<Socket>())
+    return (authSocketDeferred ??= controlledPromisePolyfill<Socket>())
   }
 
   function resolveSocket(value: Socket) {
