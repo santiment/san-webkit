@@ -16,3 +16,7 @@ export type TOptions = {
     textColor: string
   }
 }
+
+export type TData = {
+  points: TPoint[]
+}

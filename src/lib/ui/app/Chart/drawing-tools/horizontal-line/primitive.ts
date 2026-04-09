@@ -9,8 +9,10 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizonta
 
   protected _paneViews: HorizontalLinePaneView[] = [new HorizontalLinePaneView(this)]
 
-  public constructor(dataPoints: TPoint[], options: Partial<TOptions> = {}) {
-    super(dataPoints.slice(0, 1), options)
+  public constructor(data: TData, options: Partial<TOptions> = {}) {
+    data.points = data.points.slice(0, 1)
+
+    super(data, options)
 
     this._timeAxisViews.length = 0
     this._timeAxisPaneViews.length = 0

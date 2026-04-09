@@ -15,7 +15,7 @@ import type {
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
 import { DrawingPriceAxisView, DrawingTimeAxisView, type DrawingAxisView } from './axis-view.js'
-import { type TOptions, type TPoint, type TViewPoint } from '../types.js'
+import { type TData, type TOptions, type TPoint, type TViewPoint } from '../types.js'
 import {
   DrawingPaneView,
   DrawingPriceAxisPaneView,
@@ -48,8 +48,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
   private _requestUpdate?: () => void
 
-  public constructor(dataPoints: TPoint[], options: Partial<TOptions> = {}) {
-    this._dataPoints = dataPoints
+  public constructor(data: TData, options: Partial<TOptions> = {}) {
+    this._dataPoints = data.points
 
     this._options = {
       axisLabels: {
@@ -59,12 +59,12 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
       ...options,
     }
 
-    for (let i = 0; i < dataPoints.length; i++) {
+    for (let i = 0; i < data.points.length; i++) {
       this._priceAxisViews.push(new DrawingPriceAxisView(this, i))
       this._timeAxisViews.push(new DrawingTimeAxisView(this, i))
     }
 
-    if (dataPoints.length > 1) {
+    if (data.points.length > 1) {
       this._priceAxisPaneViews.push(new DrawingPriceAxisPaneView(this))
       this._timeAxisPaneViews.push(new DrawingTimeAxisPaneView(this))
     }
