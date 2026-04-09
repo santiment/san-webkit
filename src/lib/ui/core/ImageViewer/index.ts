@@ -1,1 +1,1 @@
-export { default } from './ImageViewer.svelte'
+export { default as ImageViewer } from './ImageViewer.svelte'

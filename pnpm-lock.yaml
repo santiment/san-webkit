@@ -211,6 +211,9 @@ devDependencies:
   monaco-editor:
     specifier: ^0.52.2
     version: 0.52.2
+  photoswipe:
+    specifier: ^5.4.4
+    version: 5.4.4
   phoenix:
     specifier: ^1.8.5
     version: 1.8.5
@@ -8656,6 +8659,10 @@ packages:
       postgres-date: 1.0.7
       postgres-interval: 1.2.0
     dev: true
+
+  /photoswipe@5.4.4:
+    resolution: {integrity: sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==}
+    engines: {node: '>= 0.12.0'}
 
   /phoenix@1.8.5:
     resolution: {integrity: sha512-Oj5nlRV/NKXkjBx8uMgCMmgMf1twd/B2qOcO30cHLH1PCGR8149o4T1lRIaqN4nq2KQJAeMqPiLdh1Asd0wQFg==}
