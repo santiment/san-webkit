@@ -1,4 +1,4 @@
-import { Socket as PhoenixSocket, type Channel } from 'phoenix'
+import type { Socket as PhoenixSocket, Channel } from 'phoenix'
 
 export type SocketParams = {
   jti?: string
