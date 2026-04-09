@@ -9,8 +9,10 @@ export default class VerticalLinePrimitive extends DrawingPrimitive<'vertical-li
 
   protected _paneViews: VerticalLinePaneView[] = [new VerticalLinePaneView(this)]
 
-  public constructor(dataPoints: TPoint[], options: Partial<TOptions> = {}) {
-    super(dataPoints.slice(0, 1), options)
+  public constructor(data: TData, options: Partial<TOptions> = {}) {
+    data.points = data.points.slice(0, 1)
+
+    super(data, options)
 
     this._priceAxisViews.length = 0
     this._priceAxisPaneViews.length = 0

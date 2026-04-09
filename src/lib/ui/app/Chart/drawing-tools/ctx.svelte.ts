@@ -1,5 +1,5 @@
 import type { MouseEventParams } from '@santiment-network/chart-next'
-import type { TPoint } from './types.js'
+import type { TData, TPoint } from './types.js'
 import type { default as FibRetracementPrimitive } from './fib-retracement/primitive.js'
 import type { default as RectanglePrimitive } from './rectangle/primitive.js'
 import type { default as TrendlinePrimitive } from './trendline/primitive.js'
@@ -24,21 +24,23 @@ export type TTypeToDrawingPrimitive = {
 }
 export type TDrawingTypes = keyof TTypeToDrawingPrimitive
 
-type TDrawing = { __: any }
+type TApiDrawing = {
+  type: TDrawingTypes
+  data: TData
+}
+
+type TDrawingTool = {
+  type: TDrawingTypes
+  data: TData
+  drawing: null | TDrawingPrimitive
+  Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
+}
 
 type TState<GName extends string, GPayload = null> = { name: GName; payload: GPayload }
 
 type TStates =
   | TState<'idle'>
-  | TState<
-      'drawing',
-      {
-        type: TDrawingTypes
-        points: TPoint[]
-        drawing: null | TDrawingPrimitive
-        Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
-      }
-    >
+  | TState<'drawing', TDrawingTool>
   | TState<
       'moving',
       {
@@ -70,7 +72,7 @@ export function importPrimitive(type: TDrawingTypes) {
 
 export const useDrawingToolsCtx = createCtx(
   'webkit_useDrawingToolsCtx',
-  ({ drawings: defaultDrawings = [] }: { drawings?: TDrawing[] } = {}) => {
+  ({ drawings: defaultDrawings = [] }: { drawings?: TApiDrawing[] } = {}) => {
     const chartCtx = useChartCtx.get()
     const { metricSeries } = useMetricSeriesCtx.get()
 
@@ -79,7 +81,16 @@ export const useDrawingToolsCtx = createCtx(
       payload: null,
     })
 
-    const _drawings = $state.raw(defaultDrawings)
+    let drawings: TDrawingTool[] = $state.raw(
+      defaultDrawings.map((drawing) => {
+        return {
+          type: drawing.type,
+          data: drawing.data,
+          drawing: null,
+          Primitive: importPrimitive(drawing.type),
+        }
+      }),
+    )
 
     const targetMetric = $derived(metricSeries.$[0])
 
@@ -104,7 +115,7 @@ export const useDrawingToolsCtx = createCtx(
 
       state = {
         name: 'drawing',
-        payload: { type, points: [], drawing: null, Primitive: importPrimitive(type) },
+        payload: { type, data: { points: [] }, drawing: null, Primitive: importPrimitive(type) },
       }
     }
 
@@ -178,17 +189,19 @@ export const useDrawingToolsCtx = createCtx(
 
         if (!state.payload.drawing) {
           const points = [point, point]
-          const primitive = new Primitive(points)
+          const primitive = new Primitive({ points })
 
           series.attachPrimitive(primitive)
 
           selectPrimitive(primitive)
 
           state.payload.drawing = primitive
-          state.payload.points = points
+          state.payload.data.points = points
         } else {
           state.payload.drawing.updateEndPoint(params.point!)
           state.payload.drawing.finalize()
+
+          drawings = [...drawings, state.payload]
 
           state = { name: 'idle', payload: null }
         }
