@@ -74,7 +74,7 @@ export function createSeries({
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
 
   const metric = {
-    id: uuidv7(),
+    id: rest.id ?? uuidv7(),
 
     type,
     apiMetricName,
@@ -214,6 +214,10 @@ export const useMetricSeriesCtx = createCtx(
           if (index === -1) return
 
           this.delete(index)
+        },
+
+        findById(id?: string) {
+          return id && series.find((item) => item.id === id)
         },
       },
     }

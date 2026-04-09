@@ -31,6 +31,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
   protected _chart: IChartApi | undefined = undefined
   protected _series: ISeriesApi<keyof SeriesOptionsMap> | undefined = undefined
+  protected _seriesId: string | undefined = undefined
 
   protected _dataPoints: TPoint[]
   protected _viewPoints: TViewPoint[] = []
@@ -105,7 +106,21 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     this._series?.unsubscribeDataChanged(this._fireDataUpdated)
     this._chart = undefined
     this._series = undefined
+    this._seriesId = undefined
     this._requestUpdate = undefined
+  }
+
+  public attachTo(series?: SeriesAttachedParameter<Time>['series'] | null, id?: string) {
+    if (!series || this._series === series) {
+      return
+    }
+
+    if (this._series) {
+      this.detached()
+    }
+
+    this._seriesId = id
+    series.attachPrimitive(this)
   }
 
   public get points(): TPoint[] {
@@ -147,6 +162,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     //  return
     //}
 
+    // TODO: When chart width changes - coordinates are not updated (since priceRange and timeOffset are cached)
+    // Or when timeScale is changed by holding mouse
     this.validatePoints()
 
     this._paneViews.forEach((pw) => pw.update())
@@ -254,10 +271,8 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   public export() {
     this.finalize()
 
-    console.log(this._series)
-
     return {
-      // series: this._series?.priceScale(),
+      series: this._seriesId,
       points: this.points,
     }
   }
