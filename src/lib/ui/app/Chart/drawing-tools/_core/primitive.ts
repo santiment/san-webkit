@@ -124,9 +124,12 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
     if (this._series) {
       // NOTE: Converting view points from old series to data points for new series to keep the drawings on same positions
+      const oldSeries = this._series
       this._series = series
       this.finalize()
-      this.detached()
+
+      this._series = oldSeries
+      this._series.detachPrimitive(this)
     }
 
     this._seriesId = id

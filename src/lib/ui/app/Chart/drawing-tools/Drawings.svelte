@@ -39,5 +39,16 @@
     }
   }
 
+  // setTimeout(() => {
+  //   drawingTools.drawings.$[0].drawing?.attachTo(
+  //     metricSeries.$[1].chartSeriesApi,
+  //     metricSeries.$[1].id,
+  //   )
+
+  //   setTimeout(() => {
+  //     metricSeries.deleteSeries(metricSeries.$[1])
+  //   }, 2000)
+  // }, 2000)
+
   // TODO: Support undo/redo
 </script>

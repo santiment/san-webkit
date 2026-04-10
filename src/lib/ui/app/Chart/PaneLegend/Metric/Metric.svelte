@@ -76,7 +76,7 @@
     {/if}
   {/if}
 
-  {#if metric.warnings.$}
+  {#if !!metric.warnings.$?.length}
     <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
       {#snippet children({ ref })}
         <Button
