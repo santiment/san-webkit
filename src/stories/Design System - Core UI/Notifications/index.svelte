@@ -21,6 +21,7 @@
   <Notification icon="warning" message="Warning notification"></Notification>
   <Notification icon="error" message="Error notification"></Notification>
   <Notification icon="error" message="Error notification"></Notification>
+  <Notification icon="star" message="Custom notification" class="fill-yellow"></Notification>
 
   <Notification
     icon="info"
@@ -112,5 +113,12 @@
     <Button variant="border" onclick={() => notification.error('Event has been created')}
       >Error</Button
     >
+
+    <Button
+      variant="border"
+      onclick={() => notification.custom('fire', 'Event has been created', { class: 'fill-red' })}
+    >
+      Custom Fire
+    </Button>
   </div>
 </div>

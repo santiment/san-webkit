@@ -21,14 +21,13 @@ const createNotificationType =
   (...rest: [message: string, options?: TOptions]) =>
     createToast(icon, ...rest)
 
-const notification: Record<
-  'info' | 'error' | 'warning' | 'success',
-  (message: string, options?: TOptions) => string | number
-> = {
+const notification = {
   info: createNotificationType('info'),
   error: createNotificationType('error'),
   warning: createNotificationType('warning'),
   success: createNotificationType('checkmark-circle'),
+  custom: (icon: TIcon, message: string, options?: TOptions) =>
+    createNotificationType(icon)(message, options),
 }
 
 export { notification }
