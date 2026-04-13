@@ -23,7 +23,7 @@
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
-  const { data, scale, pane, visible, ui } = series
+  const { data, scale, pane, visible, ui, formatters } = series
 
   const chartCtx = useChartCtx()
   const chart = chartCtx.chart.$!
@@ -33,11 +33,11 @@
   >
 
   const priceFormat =
-    ui.$$.scaleFormatter &&
+    formatters.$.scaleFormatter &&
     ({
       type: 'custom',
       minMove: 0.0001,
-      formatter: ui.$$.scaleFormatter,
+      formatter: formatters.$.scaleFormatter,
     } as const)
 
   let chartSeries = $state.raw() as ReturnType<typeof createChartSeries>

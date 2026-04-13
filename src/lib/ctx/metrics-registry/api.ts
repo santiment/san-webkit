@@ -114,7 +114,7 @@ export const queryGetOrderedMetrics = ApiQuery(
             chartStyle: enforceCorrectChartStyle(item.cs),
             node: enforceCorrectChartStyle(item.cs), // LEGACY
 
-            unit: item.un,
+            unit: item.un || undefined,
             formatter: getTooltipFormatterByUnit(item.un), // LEGACY
 
             meta: {

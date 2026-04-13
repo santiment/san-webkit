@@ -55,7 +55,7 @@
           {@const data = metric.chartSeriesApi && seriesData.get(metric.chartSeriesApi)}
           {#if data && 'value' in data}
             <div class="color items-center gap-2 row" style:--color={metric.ui.$$.color}>
-              {metric.ui.$$.tooltipFormatter(data.value)}
+              {metric.formatters.$.tooltipFormatter(data.value)}
               <span class="text-waterloo">{metric.label}</span>
             </div>
           {/if}

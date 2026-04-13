@@ -4,9 +4,10 @@ export { millify } from './millify.js'
 
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
-export function DEFAULT_FORMATTER(value: number) {
+export function DEFAULT_FORMATTER(value: number | undefined | null) {
   if (value === undefined || value === null) {
-    return 'Invalid data'
+    // Invalid data
+    return 'N/A'
   }
 
   const absValue = Math.abs(value)
@@ -28,6 +29,32 @@ export function DEFAULT_FORMATTER(value: number) {
   }
 
   return +value.toFixed(2)
+}
+
+export function DEFAULT_Y_FORMATTER(value: number) {
+  const absValue = Math.abs(value)
+
+  if (absValue < 0.000001) {
+    return +value.toFixed(10)
+  }
+
+  if (absValue < 0.001) {
+    return +value.toFixed(6)
+  }
+
+  if (absValue < 10) {
+    return +value.toFixed(4)
+  }
+
+  if (absValue > 999999) {
+    return millify(value, 2)
+  }
+
+  if (absValue > 99999) {
+    return millify(value, 2)
+  }
+
+  return millify(value, 2)
 }
 
 const decimalFormatter = new Intl.NumberFormat('en', {
@@ -55,12 +82,13 @@ function getDecimalFormatter(value: number) {
 }
 
 export function createDecimalFormatter(unit: string) {
-  return (value: number) => {
-    if (!Number.isFinite(+value)) {
-      return 'Invalid data'
+  return (value: number | undefined | null) => {
+    if (!Number.isFinite(+(value as number))) {
+      // Invalid data
+      return 'N/A'
     }
 
-    const absValue = Math.abs(value)
+    const absValue = Math.abs(value as number)
     const formatted = getDecimalFormatter(absValue).format(absValue)
     const sign = absValue !== value ? '-' : ''
 
@@ -70,9 +98,10 @@ export function createDecimalFormatter(unit: string) {
 
 export const usdFormatter = createDecimalFormatter('$')
 
-export function percentFormatter(value: number) {
+export function percentFormatter(value: number | undefined | null) {
   if (value === undefined || value === null) {
-    return 'Invalid data'
+    // 'Invalid data'
+    return 'N/A'
   }
 
   const absValue = Math.abs(+value)

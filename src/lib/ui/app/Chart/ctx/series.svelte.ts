@@ -9,7 +9,12 @@ import {
   type TLabels,
 } from '$lib/ctx/metrics-registry/types/index.js'
 import { ss, createCtx } from '$lib/utils/index.js'
-import { DEFAULT_FORMATTER } from '$lib/utils/formatters/index.js'
+import {
+  DEFAULT_FORMATTER,
+  DEFAULT_Y_FORMATTER,
+  percentFormatter,
+  usdFormatter,
+} from '$lib/utils/formatters/index.js'
 import { uuidv7 } from '$lib/utils/uuid/index.js'
 
 const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
@@ -28,6 +33,7 @@ export function createSeries({
   selector = null,
   interval,
   pane,
+  unit,
 
   style = 'line',
   color = '#00ff00',
@@ -41,9 +47,6 @@ export function createSeries({
   isSelectorLocked = false,
   isFilledGradient = false,
   transformData,
-
-  tooltipFormatter = DEFAULT_FORMATTER,
-  scaleFormatter,
 
   meta,
 
@@ -61,12 +64,10 @@ export function createSeries({
   const ui = $state({
     color,
     style,
+    unit,
 
     isSelectorLocked,
     isFilledGradient,
-
-    tooltipFormatter,
-    scaleFormatter,
 
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
     baseline: rest.baseline,
@@ -74,6 +75,19 @@ export function createSeries({
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
+
+  const formatters = $derived.by(() => {
+    const { unit } = ui
+    const result = { tooltipFormatter: DEFAULT_FORMATTER, scaleFormatter: DEFAULT_Y_FORMATTER }
+
+    if (unit === 'usd') {
+      result.tooltipFormatter = usdFormatter
+    } else if (unit === 'percent') {
+      result.tooltipFormatter = percentFormatter
+    }
+
+    return result
+  })
 
   const metric = {
     id: rest.id ?? uuidv7(),
@@ -106,6 +120,12 @@ export function createSeries({
 
         // Triggering signal update
         paneSignal = NaN
+      },
+    },
+
+    formatters: {
+      get $() {
+        return formatters
       },
     },
 
@@ -146,7 +166,7 @@ export function createSeries({
         visible: metric.visible.$,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
-        // unit: metric.ui.$$.unit,
+        unit: metric.ui.$$.unit,
 
         scaleId: metric.scale.$$.id,
         scaleVisible: metric.scale.$$.visible,

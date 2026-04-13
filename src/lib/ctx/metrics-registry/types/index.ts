@@ -8,7 +8,7 @@ import type {
   TTimeseriesMetricTransformInputObject,
 } from '$ui/app/Chart/api/index.js'
 import type { TNominal } from '$lib/utils/index.js'
-import type { TRegistryMetric } from '../api.js'
+import type { TMetricUnit, TRegistryMetric } from '../api.js'
 
 export const MetricType = {
   ASSET: 'asset_metric',
@@ -91,14 +91,12 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   color?: string
   visible?: boolean
   pane?: number
+  unit?: TMetricUnit
 
   scaleId?: string
   scaleVisible?: boolean
   scaleInverted?: boolean
   scaleMargins?: { top: number; bottom: number }
-  scaleFormatter?: (value: number) => string
-
-  tooltipFormatter?: (value: any) => number | string
 
   transformData?: (data: TMetricData) => TMetricData
 

@@ -92,9 +92,7 @@ function prepareLegendDataForMetric(metric: TSeries) {
 
   const lastValue = lastDataPoint?.value
   const firstValue = firstDataPoint?.value
-  const formattedValue = metric.ui.$$.tooltipFormatter
-    ? metric.ui.$$.tooltipFormatter(lastValue)
-    : lastValue
+  const formattedValue = metric.formatters.$.tooltipFormatter?.(lastValue) ?? lastValue
 
   const percentChangeText =
     firstValue !== undefined && lastValue !== undefined
