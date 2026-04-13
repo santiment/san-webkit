@@ -1,13 +1,15 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount, type Snippet } from 'svelte'
+  import { createEventDispatcher, onMount, type ComponentProps, type Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/index.js'
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
+  type SvgProps = ComponentProps<typeof Svg>
+
   type Props = {
-    icon: 'info' | 'checkmark-circle' | 'warning' | 'error'
+    icon: SvgProps['id']
     message: string
     content?: string | Snippet<[{ close: () => void }]>
     action?: { label: string; onClick?: (close: () => void) => void; href?: string }
@@ -22,7 +24,7 @@
 
   const close = () => dispatch('closeToast')
 
-  const ICONS = {
+  const ICONS: Record<string, Partial<SvgProps>> = {
     info: { class: 'fill-waterloo' },
     'checkmark-circle': { class: 'fill-green' },
     warning: { class: 'fill-orange', h: 14 },
