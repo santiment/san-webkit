@@ -5,19 +5,103 @@ import { onMount } from 'svelte'
 
 import {
   MetricStyle,
+  MetricType,
   type TChartMetric,
+  type TChartMetricBase,
   type TLabels,
+  type TMetricFormula,
+  type TMetricSelector,
+  type TMetricType,
+  type TMetricTypes,
 } from '$lib/ctx/metrics-registry/types/index.js'
-import { ss, createCtx } from '$lib/utils/index.js'
+import { ss, createCtx, type SS } from '$lib/utils/index.js'
 import {
   DEFAULT_FORMATTER,
   DEFAULT_Y_FORMATTER,
   percentFormatter,
   usdFormatter,
 } from '$lib/utils/formatters/index.js'
-import { uuidv7 } from '$lib/utils/uuid/index.js'
+import { uuidv7, type TUUIDv7 } from '$lib/utils/uuid/index.js'
 
 const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
+
+type TBaseSeries<GType extends TMetricTypes> = {
+  id: TUUIDv7
+  type: GType
+  chartSeriesApi: null | ISeriesApi<any>
+  transformData?: TChartMetric['transformData']
+
+  version: SS<undefined | string>
+  data: SS<TMetricData>
+  visible: SS<boolean>
+  loading: SS<boolean>
+  error: SS<null | string | string[] | Error | Error[]>
+  warnings: SS<null | string[]>
+
+  aggregation: SS<TAggregation>
+  interval: SS<TChartMetric['interval']>
+
+  pane: {
+    get $(): number
+    update$(): void
+  }
+
+  formatters: {
+    get $(): {
+      tooltipFormatter: typeof DEFAULT_FORMATTER
+      scaleFormatter: typeof DEFAULT_Y_FORMATTER
+    }
+  }
+
+  scale: {
+    get $$(): {
+      id: string
+      visible: boolean
+      inverted: boolean
+      scaleMargins?: { top: number; bottom: number }
+    }
+  }
+
+  ui: {
+    get $$(): {
+      color: string
+      style: NonNullable<TChartMetric['style']>
+      unit: TChartMetric['unit']
+
+      isSelectorLocked: boolean
+      isFilledGradient: boolean
+
+      candleDownColor?: string
+      baseline: TChartMetricBase<any>['baseline']
+      signal: TChartMetricBase<any>['signal']
+    }
+  }
+
+  meta: TChartMetric['meta']
+
+  toApiSchema$: () => Record<string, unknown>
+}
+
+export type TAssetSeries = TBaseSeries<TMetricType['ASSET']> & {
+  apiMetricName: string
+  label: string
+  selector: SS<TMetricSelector>
+}
+
+export type TFormulaSeries = TBaseSeries<TMetricType['FORMULAS']> & {
+  formula: SS<TMetricFormula>
+}
+
+export type TTraditionalFinanceSeries = TBaseSeries<TMetricType['TRADITIONAL_FINANCE']> & {
+  apiMetricName: string
+  label: string
+  // NOTE: Traditional Finance metrics have fixed selectors
+  selector: SS<TMetricSelector>
+}
+
+export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {}
+
+export type TSeries = TAssetSeries | TFormulaSeries | TTraditionalFinanceSeries | TDataStoreSeries
 
 export function createSeries({
   type,
@@ -32,7 +116,7 @@ export function createSeries({
 
   selector = null,
   interval,
-  pane,
+  pane = 0,
   unit,
 
   style = 'line',
@@ -89,15 +173,15 @@ export function createSeries({
     return result
   })
 
-  const metric = {
+  const metric: TSeries = {
     id: rest.id ?? uuidv7(),
 
-    type,
+    type: type as any,
     apiMetricName,
 
     label,
-    getLabels$,
-    getSelectorLabels$,
+    // getLabels$,
+    // getSelectorLabels$,
 
     version: ss<undefined | string>(rest.version),
     data: ss<TMetricData>(data),
@@ -154,14 +238,14 @@ export function createSeries({
     toApiSchema$() {
       return {
         type,
-        apiMetricName,
+        apiMetricName: apiMetricName || undefined,
         id: metric.id,
-        formula: metric.formula?.$,
+        formula: metric.type === MetricType.FORMULAS ? metric.formula.$ : undefined,
         version: metric.version.$,
 
         interval: metric.interval.$,
-        selector: metric.selector.$,
-        pane: metric.pane.$,
+        selector: 'selector' in metric ? metric.selector.$ : undefined,
+        pane: metric.pane.$ || undefined,
 
         visible: metric.visible.$,
         color: metric.ui.$$.color,
@@ -183,7 +267,7 @@ export function createSeries({
   return metric
 }
 
-export type TSeries = ReturnType<typeof createSeries>
+// export type TSeries = ReturnType<typeof createSeries>
 
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
@@ -196,11 +280,11 @@ export const useMetricSeriesCtx = createCtx(
 
     const asScope = $derived(
       series.map((item) => ({
-        name: item.apiMetricName,
+        name: (item as { apiMetricName?: string }).apiMetricName,
         aggregation: $state.snapshot(item.aggregation.$),
-        selector: $state.snapshot(item.selector.$),
+        selector: 'selector' in item ? $state.snapshot(item.selector.$) : undefined,
         version: $state.snapshot(item.version.$),
-        formula: $state.snapshot(item.formula?.$),
+        formula: 'formula' in item ? $state.snapshot(item.formula.$) : undefined,
       })),
     )
 
