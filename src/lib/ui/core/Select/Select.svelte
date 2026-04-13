@@ -22,6 +22,7 @@
     option?: Snippet<[Selected<T>]>
 
     matchTriggerWidth?: boolean
+    beforeOptionChildren?: Snippet
   } & ComponentProps<typeof Button>
 
   let {
@@ -32,6 +33,7 @@
     side = 'bottom',
     align = 'center',
     matchTriggerWidth,
+    beforeOptionChildren,
 
     onSelect,
     option,
@@ -93,6 +95,8 @@
             bind:this={contentNode}
             out:flyAndScaleOutTransition
           >
+            {@render beforeOptionChildren?.()}
+
             {#each items as item}
               <Select.Item
                 value={item.value as string}

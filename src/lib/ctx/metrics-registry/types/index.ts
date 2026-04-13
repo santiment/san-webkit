@@ -8,6 +8,7 @@ import type {
   TTimeseriesMetricTransformInputObject,
 } from '$ui/app/Chart/api/index.js'
 import type { TNominal } from '$lib/utils/index.js'
+import type { TRegistryMetric } from '../api.js'
 
 export const MetricType = {
   ASSET: 'asset_metric',
@@ -112,7 +113,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
 
   candleDownColor?: string
 
-  meta?: Record<string, any>
+  meta?: Partial<TRegistryMetric['meta']>
 
   version?: string
 

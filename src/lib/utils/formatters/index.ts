@@ -2,6 +2,8 @@ import { millify } from './millify.js'
 
 export { millify } from './millify.js'
 
+export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+
 export function DEFAULT_FORMATTER(value: number) {
   if (value === undefined || value === null) {
     return 'Invalid data'
