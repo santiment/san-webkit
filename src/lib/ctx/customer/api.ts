@@ -116,6 +116,11 @@ export type TCurrentUser = {
     hasTelegramConnected: boolean
   }
 
+  notificationTypeSettings: {
+    isEnabled: boolean
+    type: string
+  }[]
+
   ethAccounts: { address: string }[]
   apikeys: string[]
 
@@ -149,6 +154,10 @@ const queryCurrentUser = ApiQuery(
       alertNotifyEmail
       alertNotifyTelegram
       hasTelegramConnected
+    }
+    notificationTypeSettings {
+      isEnabled
+      type
     }
     subscriptions {
       id
