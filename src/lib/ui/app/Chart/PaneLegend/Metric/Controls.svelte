@@ -40,7 +40,7 @@
     onclick={(e) => onMetricInfoClick(metric, e.currentTarget!)}
   ></Button>
 
-  {#if chartPlanRestrictions.has$(metric.apiMetricName)}
+  {#if 'apiMetricName' in metric && chartPlanRestrictions.has$(metric.apiMetricName)}
     <Button
       icon="crown"
       iconSize="12"

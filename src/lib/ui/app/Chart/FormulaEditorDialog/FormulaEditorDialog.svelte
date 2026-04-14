@@ -8,10 +8,9 @@
 </script>
 
 <script lang="ts">
-  import type { TMetricFormula } from '$lib/ctx/metrics-registry/types/index.js'
-
   import { tick } from 'svelte'
 
+  import { MetricType, type TMetricFormula } from '$lib/ctx/metrics-registry/types/index.js'
   import Input from '$ui/core/Input/Input.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import {
@@ -51,16 +50,21 @@
 
     const [selector, fullSelector, shortSelector] = formatMetricSelector(item)
     const metric = {
-      apiMetricName: item.apiMetricName,
+      apiMetricName: (item as { apiMetricName?: string }).apiMetricName ?? '',
       label: item.label,
-      fullLabel: item.formula ? item.label : `${shortSelector} - ${item.label}`,
+      fullLabel:
+        item.type === MetricType.FORMULAS ? item.label : `${shortSelector} - ${item.label}`,
       selector,
       fullSelector,
     }
 
     return createVariableDefinition(name, {
       detail: 'Chart metric',
-      documentation: createChartVariableDocumentation(metric, name, item.formula?.$),
+      documentation: createChartVariableDocumentation(
+        metric,
+        name,
+        item.type === MetricType.FORMULAS ? item.formula.$ : undefined,
+      ),
       metric,
     })
   }).filter(Boolean) as ReturnType<typeof createVariableDefinition>[]
@@ -81,7 +85,7 @@
   })
 
   function formatMetricSelector(metric: TSeries): [string, string, string] {
-    const selector = metric.selector.$
+    const selector = 'selector' in metric && metric.selector.$
 
     let result = ['bitcoin', 'Bitcoin (BTC)', 'BTC'] as [string, string, string]
 

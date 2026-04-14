@@ -86,7 +86,7 @@ function drawMetricsOnCanvas(ctx: CanvasRenderingContext2D, chart: IChartApi, me
 }
 
 function prepareLegendDataForMetric(metric: TSeries) {
-  const label = metric.label ?? metric.apiMetricName
+  const label = metric.label
   const lastDataPoint = metric.data.$[metric.data.$.length - 1]
   const firstDataPoint = metric.data.$.find((item) => item.value !== undefined)
 

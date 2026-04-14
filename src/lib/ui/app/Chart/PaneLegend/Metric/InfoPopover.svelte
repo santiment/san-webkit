@@ -37,7 +37,8 @@
 
     anchorNode = anchor
     openedMetric = item
-    openedInfo = MetricsRestrictions.$[item.apiMetricName]?.docs || null
+    openedInfo =
+      ('apiMetricName' in item && MetricsRestrictions.$[item.apiMetricName]?.docs) || null
   }
 
   function onOpenChange(value: boolean) {

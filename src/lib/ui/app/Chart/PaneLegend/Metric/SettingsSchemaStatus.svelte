@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
 
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
+
   import Chip from './Chip.svelte'
 
   type TProps = { metric: TSeries }
@@ -9,11 +11,11 @@
   const propertiesSchema = metric.meta?.settingsSchema?.properties
 </script>
 
-{#if metric.selector.$ && propertiesSchema}
+{#if metric.type === MetricType.ASSET && propertiesSchema}
   {@const properties = Object.keys(propertiesSchema)}
 
   {#each properties as property}
-    {@const value = metric.selector.$[property as keyof typeof metric.selector.$]}
+    {@const value = metric.selector.$?.[property as keyof typeof metric.selector.$]}
 
     {#if value !== undefined}
       {@const schema = propertiesSchema[property]}

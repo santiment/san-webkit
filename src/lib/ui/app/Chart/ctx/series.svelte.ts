@@ -8,7 +8,7 @@ import {
   MetricType,
   type TChartMetric,
   type TChartMetricBase,
-  type TLabels,
+  // type TLabels,
   type TMetricFormula,
   type TMetricSelector,
   type TMetricType,
@@ -23,7 +23,7 @@ import {
 } from '$lib/utils/formatters/index.js'
 import { uuidv7, type TUUIDv7 } from '$lib/utils/uuid/index.js'
 
-const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
+// const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
 type TBaseSeries<GType extends TMetricTypes> = {
   id: TUUIDv7
@@ -84,22 +84,25 @@ type TBaseSeries<GType extends TMetricTypes> = {
 
 export type TAssetSeries = TBaseSeries<TMetricType['ASSET']> & {
   apiMetricName: string
-  label: string
+  get label(): string
   selector: SS<TMetricSelector>
 }
 
 export type TFormulaSeries = TBaseSeries<TMetricType['FORMULAS']> & {
   formula: SS<TMetricFormula>
+  get label(): string
 }
 
 export type TTraditionalFinanceSeries = TBaseSeries<TMetricType['TRADITIONAL_FINANCE']> & {
   apiMetricName: string
-  label: string
+  get label(): string
   // NOTE: Traditional Finance metrics have fixed selectors
   selector: SS<TMetricSelector>
 }
 
-export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {}
+export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {
+  get label(): string
+}
 
 export type TSeries = TAssetSeries | TFormulaSeries | TTraditionalFinanceSeries | TDataStoreSeries
 
@@ -111,8 +114,8 @@ export function createSeries({
   label = apiMetricName,
   data = [],
 
-  getLabels$ = DEFAULT_LABELS_GETTER,
-  getSelectorLabels$ = DEFAULT_LABELS_GETTER,
+  // getLabels$ = DEFAULT_LABELS_GETTER,
+  // getSelectorLabels$ = DEFAULT_LABELS_GETTER,
 
   selector = null,
   interval,
@@ -264,6 +267,12 @@ export function createSeries({
     },
   }
 
+  if (metric.type === MetricType.FORMULAS) {
+    Object.defineProperty(metric, 'label', {
+      get: () => metric.formula.$.name,
+    })
+  }
+
   return metric
 }
 
@@ -280,9 +289,9 @@ export const useMetricSeriesCtx = createCtx(
 
     const asScope = $derived(
       series.map((item) => ({
-        name: (item as { apiMetricName?: string }).apiMetricName,
+        name: (item as { apiMetricName?: string }).apiMetricName ?? '',
         aggregation: $state.snapshot(item.aggregation.$),
-        selector: 'selector' in item ? $state.snapshot(item.selector.$) : undefined,
+        selector: 'selector' in item ? $state.snapshot(item.selector.$) : null,
         version: $state.snapshot(item.version.$),
         formula: 'formula' in item ? $state.snapshot(item.formula.$) : undefined,
       })),

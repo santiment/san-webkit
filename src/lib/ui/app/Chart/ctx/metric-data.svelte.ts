@@ -100,8 +100,8 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
 
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
     const parameters = {
-      metric: metric.apiMetricName,
-      selector: $state.snapshot(metric.selector.$) || selector,
+      metric: (metric as { apiMetricName?: string }).apiMetricName ?? '',
+      selector: ('selector' in metric && $state.snapshot(metric.selector.$)) || selector,
       from,
       to,
       interval,
@@ -111,17 +111,18 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     }
 
     const payload = { priority, minimalDelay, parameters }
-    const workerRequest = metric.formula
-      ? workerFetchFormulaMetric(
-          {
-            ...payload,
-            index,
-            formula: $state.snapshot(metric.formula.$),
-            metrics: metricSeries.asScope$,
-          },
-          onWorkerData,
-        )
-      : workerFetchMetric(payload, onWorkerData)
+    const workerRequest =
+      metric.type === MetricType.FORMULAS
+        ? workerFetchFormulaMetric(
+            {
+              ...payload,
+              index,
+              formula: $state.snapshot(metric.formula.$),
+              metrics: metricSeries.asScope$,
+            },
+            onWorkerData,
+          )
+        : workerFetchMetric(payload, onWorkerData)
 
     untrack(() => {
       metric.loading.$ = true
