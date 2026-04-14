@@ -13,12 +13,13 @@
 
   type TProps = {
     metric: TSeries
+    isFocused?: boolean
     label?: Snippet<[TSeries]>
     paneControls?: boolean
     onmouseenter?: () => void
     onmouseleave?: () => void
   }
-  let { metric, label, paneControls, ...rest }: TProps = $props()
+  let { metric, label, paneControls, isFocused = false, ...rest }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
 
@@ -30,7 +31,7 @@
     style:---metric-color={metric.ui.$$.color}
     class={cn(
       'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-[var(---metric-color)] hover:bg-white hover:shadow [&+span]:hover:hidden',
-      openedMetric.$ === metric &&
+      (isFocused || openedMetric.$ === metric) &&
         'metric-opened border-[var(---metric-color)] bg-white shadow [&+span]:hidden',
       !metric.visible.$ && 'text-casper',
     )}

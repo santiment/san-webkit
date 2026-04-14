@@ -23,6 +23,11 @@
 
     matchTriggerWidth?: boolean
     beforeOptionChildren?: Snippet
+
+    open?: boolean
+    customAnchor?: HTMLElement
+    withDefaultTrigger?: boolean
+    onOpenChange?: (open: boolean) => void
   } & ComponentProps<typeof Button>
 
   let {
@@ -37,6 +42,11 @@
 
     onSelect,
     option,
+
+    open,
+    customAnchor,
+    withDefaultTrigger = true,
+    onOpenChange,
 
     ...rest
   }: Props = $props()
@@ -62,20 +72,23 @@
   }
 </script>
 
-<Select.Root value={selected?.value as string | undefined} type="single">
-  <Select.Trigger>
-    {#snippet child({ props })}
-      <Button variant="border" {...props} dropdown class={triggerClass} {...rest}>
-        {#if rest.children}
-          {@render rest.children()}
-        {:else}
-          {selected?.label}
-        {/if}
-      </Button>
-    {/snippet}
-  </Select.Trigger>
+<Select.Root {open} value={selected?.value as string | undefined} type="single" {onOpenChange}>
+  {#if withDefaultTrigger}
+    <Select.Trigger>
+      {#snippet child({ props })}
+        <Button variant="border" {...props} dropdown class={triggerClass} {...rest}>
+          {#if rest.children}
+            {@render rest.children()}
+          {:else}
+            {selected?.label}
+          {/if}
+        </Button>
+      {/snippet}
+    </Select.Trigger>
+  {/if}
 
   <Select.Content
+    {customAnchor}
     class={cn(
       'z-20 overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',

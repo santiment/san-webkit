@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
   import {
@@ -35,6 +36,7 @@
   } from '$ui/app/Chart/PaneLegend/index.js'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import Select from '$ui/core/Select/Select.svelte'
   import DrawingTools from './DrawingTools.svelte'
 
   let { viewportPriority = false, drawings = [] } = $props()
@@ -107,6 +109,12 @@
 
     chartWidget.resetAllScales()
   }
+
+  let granularityShortcut = $state.raw<null | {
+    metric: TSeries
+    customAnchor: HTMLElement
+    onSelect: (item: any) => void
+  }>(null)
 </script>
 
 <div class="relative column">
@@ -128,7 +136,7 @@
         style="border-color:{metric.ui.$$.color}"
         onmouseenter={() => onMetricEnter(metric)}
         onmouseleave={onMetricLeave}
-        onclick={metric.formula
+        onclick={metric.type === MetricType.FORMULAS
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
@@ -140,7 +148,7 @@
               metric.ui.$$.style = metric.ui.$$.style === 'line' ? 'histogram' : 'line'
             }}
       >
-        {metric.formula?.$.name || metric.label}
+        {metric.label}
       </div>
     {/each}
 
@@ -178,15 +186,29 @@
         {#each metrics as metric (metric.id)}
           <PaneMetric
             {metric}
+            isFocused={metric === granularityShortcut?.metric}
             paneControls
             onmouseenter={() => onMetricEnter(metric)}
             onmouseleave={onMetricLeave}
           >
             {#snippet label()}
-              {metric.formula?.$.name || metric.label}
+              {metric.label}
 
               <PaneMetricVersionStatus {metric}></PaneMetricVersionStatus>
-              <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
+              <PaneMetricGranularityStatus
+                {metric}
+                onclick={(e) => {
+                  const customAnchor = e.currentTarget
+
+                  granularityShortcut = {
+                    metric,
+                    customAnchor,
+                    onSelect(item) {
+                      console.log(item, metric)
+                    },
+                  }
+                }}
+              ></PaneMetricGranularityStatus>
             {/snippet}
           </PaneMetric>
         {/each}
@@ -204,3 +226,13 @@
     </div>
   </div>
 </div>
+
+{#if granularityShortcut}
+  <Select
+    open={true}
+    withDefaultTrigger={false}
+    items={[{ value: 1, label: '1' }]}
+    {...granularityShortcut}
+    onOpenChange={() => setTimeout(() => (granularityShortcut = null), 100)}
+  ></Select>
+{/if}
