@@ -268,9 +268,12 @@ export function createSeries({
   }
 
   if (metric.type === MetricType.FORMULAS) {
+    delete (metric as any).selector
     Object.defineProperty(metric, 'label', {
       get: () => metric.formula.$.name,
     })
+  } else {
+    delete (metric as any).formula
   }
 
   return metric
@@ -293,7 +296,7 @@ export const useMetricSeriesCtx = createCtx(
         aggregation: $state.snapshot(item.aggregation.$),
         selector: 'selector' in item ? $state.snapshot(item.selector.$) : null,
         version: $state.snapshot(item.version.$),
-        formula: 'formula' in item ? $state.snapshot(item.formula.$) : undefined,
+        formula: item.type === MetricType.FORMULAS ? $state.snapshot(item.formula.$) : undefined,
       })),
     )
 
