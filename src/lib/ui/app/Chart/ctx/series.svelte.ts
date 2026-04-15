@@ -1,5 +1,11 @@
 import type { ISeriesApi } from '@santiment-network/chart-next'
-import type { TAggregation, TMetricData } from '../api/index.js'
+import type {
+  TAggregation,
+  TInterval,
+  TMetricData,
+  TMetricTargetSelectorInputObject,
+} from '../api/index.js'
+import type { TMetricUnit } from '$lib/ctx/metrics-registry/api.js'
 
 import { onMount } from 'svelte'
 
@@ -11,6 +17,7 @@ import {
   // type TLabels,
   type TMetricFormula,
   type TMetricSelector,
+  type TMetricStyles,
   type TMetricType,
   type TMetricTypes,
 } from '$lib/ctx/metrics-registry/types/index.js'
@@ -79,7 +86,31 @@ type TBaseSeries<GType extends TMetricTypes> = {
 
   meta: TChartMetric['meta']
 
-  toApiSchema$: () => Record<string, unknown>
+  toApiSchema$: () => {
+    type: TMetricTypes
+    apiMetricName?: string
+    id: TUUIDv7
+    formula?: TMetricFormula
+    version?: string
+
+    interval?: TInterval
+    selector?: null | TMetricTargetSelectorInputObject
+    pane?: number
+
+    visible?: boolean
+    color: string
+    style: TMetricStyles
+    unit?: TMetricUnit
+
+    scaleId?: string
+    scaleVisible?: boolean
+
+    isSelectorLocked?: boolean
+    isFilledGradient?: boolean
+
+    candleDownColor?: string
+    baseline?: TChartMetric['baseline']
+  }
 }
 
 export type TAssetSeries = TBaseSeries<TMetricType['ASSET']> & {
