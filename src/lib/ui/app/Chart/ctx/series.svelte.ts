@@ -239,27 +239,36 @@ export function createSeries({
     meta,
 
     toApiSchema$() {
+      const scaleVisible = metric.scale.$$.visible
+
       return {
         type,
         apiMetricName: apiMetricName || undefined,
         id: metric.id,
-        formula: metric.type === MetricType.FORMULAS ? metric.formula.$ : undefined,
+        formula:
+          metric.type === MetricType.FORMULAS ? $state.snapshot(metric.formula.$) : undefined,
         version: metric.version.$,
 
         interval: metric.interval.$,
-        selector: 'selector' in metric ? metric.selector.$ : undefined,
+        selector: 'selector' in metric ? $state.snapshot(metric.selector.$) : undefined,
+        // default 0 -> undefined (omit from API)
         pane: metric.pane.$ || undefined,
 
-        visible: metric.visible.$,
+        // default true -> undefined (omit from API)
+        visible: metric.visible.$ && undefined,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
         unit: metric.ui.$$.unit,
 
-        scaleId: metric.scale.$$.id,
-        scaleVisible: metric.scale.$$.visible,
+        // default random id -> undefined (omit from API)
+        scaleId: scaleVisible ? metric.scale.$$.id : undefined,
+        // default true -> undefined (omit from API)
+        scaleVisible: scaleVisible && undefined,
 
-        isSelectorLocked: metric.ui.$$.isSelectorLocked,
-        isFilledGradient: metric.ui.$$.isFilledGradient,
+        // default false -> undefined (omit from API)
+        isSelectorLocked: metric.ui.$$.isSelectorLocked || undefined,
+        // default false -> undefined (omit from API)
+        isFilledGradient: metric.ui.$$.isFilledGradient || undefined,
 
         candleDownColor: metric.ui.$$.candleDownColor,
         baseline: $state.snapshot(metric.ui.$$.baseline),
@@ -308,6 +317,10 @@ export const useMetricSeriesCtx = createCtx(
 
         get asScope$() {
           return asScope
+        },
+
+        export() {
+          return series.map((item) => item.toApiSchema$())
         },
 
         add(metric: TChartMetric): TSeries {
