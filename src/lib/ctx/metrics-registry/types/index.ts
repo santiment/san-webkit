@@ -16,6 +16,7 @@ export const MetricType = {
   SOCIAL_QUERY: 'social_query_metric',
   WALLET: 'wallet_metric',
   FORMULAS: 'formulas_metric',
+  COMBINED_DISTRIBUTION: 'combined_distribution',
   DATA_STORE: 'data_store_metric',
 } as const
 
@@ -139,11 +140,45 @@ export type TChartFormulasMetric = TChartMetricBase<
 >
 export type TChartDataStoreMetric = TChartMetricBase<TMetricType['DATA_STORE']>
 
+export type TChartCombinedDistributionMetric = TChartMetricBase<
+  TMetricType['COMBINED_DISTRIBUTION'],
+  {
+    distribution: {
+      base:
+        | 'holders_distribution'
+        | 'holders_distribution_combined_balance'
+        | 'percent_of_holders_distribution_combined_balance'
+        | 'holders_labeled_distribution'
+
+      /**
+       * Unique set of items
+       */
+      ranges: Array<
+        | '0_to_0.001'
+        | '0.001_to_0.01'
+        | '0.01_to_0.1'
+        | '0.1_to_1'
+        | '1_to_10'
+        | '10_to_100'
+        | '100_to_1k'
+        | '1k_to_10k'
+        | '10k_to_100k'
+        | '100k_to_1M'
+        | '1M_to_10M'
+        | '10M_to_100M'
+        | '100M_to_1B'
+        | '1B_to_inf'
+      >
+    }
+  }
+>
+
 export type TChartMetric =
   | TChartAssetMetric
   | TChartTraditionalFinanceMetric
   | TChartFormulasMetric
   | TChartDataStoreMetric
+  | TChartCombinedDistributionMetric
 
 // -----------------
 
@@ -190,3 +225,35 @@ export type TFormulasApiMetric = TApiMetricBase<
     formula: TMetricFormula
   }
 >
+
+export function suggestCombinedDistributionLabel(
+  distribution: TChartCombinedDistributionMetric['distribution'],
+): string {
+  const { base, ranges } = distribution
+  const isPercent = base === 'percent_of_holders_distribution_combined_balance'
+
+  let [label, prevEnd] = ranges[0].split('_to_')
+  label = `[${label}`
+
+  for (let i = 1; i < ranges.length; i++) {
+    const [start, end] = ranges[i].split('_to_')
+
+    if (prevEnd !== start) {
+      label += ` - ${prevEnd}), [${start}`
+    }
+
+    prevEnd = end
+  }
+
+  label += ` - ${prevEnd})`
+  // label = label.replace(/0(\d*)1/g, '0.$11') + ` coins` + (isPercent ? ' %' : '')
+  label = label + ` coins` + (isPercent ? ' %' : '')
+
+  return (
+    (base === 'holders_distribution'
+      ? 'Addresses Distribution '
+      : base === 'holders_labeled_distribution'
+        ? 'Labeled Distribution '
+        : 'Balance Distribution ') + label
+  )
+}

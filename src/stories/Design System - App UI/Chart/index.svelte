@@ -16,6 +16,7 @@
   import { useClockCtx, useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
   import ChartWidget from './ChartWidget.svelte'
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
   let { viewportPriority = false, defaultMetrics = [], defaultDrawings = [] } = $props()
 
@@ -42,8 +43,9 @@
   const { metricSeries } = useMetricSeriesCtx(
     defaultMetrics.length
       ? defaultMetrics.map((item) => ({
+          type: 'formula' in item ? MetricType.FORMULAS : MetricType.ASSET,
           ...item,
-          selector,
+          selector: item.selector ?? selector,
           color: item.color || colorGenerator.new(),
         }))
       : [

@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 import component from './index.svelte'
+import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
 const meta = {
   component,
@@ -386,6 +387,36 @@ export const ZeroDivisionFormula: Story = {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
           name: 'm1 / 0',
           expr: `m1 / if(m1 > 115000, 0, 1)`,
+        },
+      },
+    ],
+  },
+  parameters: {},
+}
+
+export const CombinedDistributionMetric: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price USD',
+        scaleId: 'right-price_usd',
+      },
+
+      {
+        type: MetricType.COMBINED_DISTRIBUTION,
+        // apiMetricName: 'FORMULA_1',
+        // style: 'area',
+
+        selector: {
+          slug: 'ethereum',
+          labels: ['exchange', 'infrastructure'],
+        },
+
+        scaleId: 'right-123123123',
+        distribution: {
+          base: 'holders_labeled_distribution',
+          combined: ['0_to_0.001', '0.001_to_0.01'],
         },
       },
     ],

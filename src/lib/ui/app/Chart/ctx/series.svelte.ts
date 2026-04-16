@@ -12,6 +12,8 @@ import { onMount } from 'svelte'
 import {
   MetricStyle,
   MetricType,
+  suggestCombinedDistributionLabel,
+  type TChartCombinedDistributionMetric,
   type TChartMetric,
   type TChartMetricBase,
   // type TLabels,
@@ -91,6 +93,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
     apiMetricName?: string
     id: TUUIDv7
     formula?: TMetricFormula
+    distribution?: TCombinedDistributionSeries['distribution']
     version?: string
 
     interval?: TInterval
@@ -135,7 +138,20 @@ export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {
   get label(): string
 }
 
-export type TSeries = TAssetSeries | TFormulaSeries | TTraditionalFinanceSeries | TDataStoreSeries
+export type TCombinedDistributionSeries = TBaseSeries<TMetricType['COMBINED_DISTRIBUTION']> & {
+  label: string
+  apiMetricName: string
+  selector: SS<TMetricSelector>
+  formula: { $: TMetricFormula }
+  distribution: TChartCombinedDistributionMetric['distribution']
+}
+
+export type TSeries =
+  | TAssetSeries
+  | TFormulaSeries
+  | TTraditionalFinanceSeries
+  | TDataStoreSeries
+  | TCombinedDistributionSeries
 
 export function createSeries({
   type,
@@ -278,6 +294,8 @@ export function createSeries({
         id: metric.id,
         formula:
           metric.type === MetricType.FORMULAS ? $state.snapshot(metric.formula.$) : undefined,
+        distribution:
+          metric.type === MetricType.COMBINED_DISTRIBUTION ? metric.distribution : undefined,
         version: metric.version.$,
 
         interval: metric.interval.$,
@@ -312,6 +330,35 @@ export function createSeries({
     Object.defineProperty(metric, 'label', {
       get: () => metric.formula.$.name,
     })
+  } else if (metric.type === MetricType.COMBINED_DISTRIBUTION) {
+    const distribution: Partial<TCombinedDistributionSeries['distribution']> =
+      ('distribution' in rest && rest.distribution) || {}
+
+    if (!distribution.ranges?.length) {
+      distribution.ranges = ['0_to_0.001']
+    }
+
+    const { base = 'holders_distribution', ranges } = distribution
+
+    const SELECTOR_VAR = 'sel'
+    const combinedExpression = ranges
+      .map((range) => `api_metric("${base}_${range}",${SELECTOR_VAR})`)
+      .join('+')
+
+    metric.apiMetricName = `${base}_0_to_0.001`
+    metric.distribution = { base, ranges }
+    metric.label = suggestCombinedDistributionLabel(metric.distribution)
+
+    metric.formula = {
+      $: {
+        id: metric.id,
+        name: metric.label,
+        get expr() {
+          return `${SELECTOR_VAR}=${JSON.stringify(metric.selector.$)}\n` + combinedExpression
+        },
+      },
+    }
+    // delete (metric as any).formula
   } else {
     delete (metric as any).formula
   }

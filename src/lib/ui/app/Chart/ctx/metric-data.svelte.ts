@@ -93,7 +93,7 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
 
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
-    const selector = $state.snapshot(globalParameters.$$.selector)
+
     const interval =
       metric.interval.$ || globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
@@ -101,7 +101,9 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
     const parameters = {
       metric: (metric as { apiMetricName?: string }).apiMetricName ?? '',
-      selector: ('selector' in metric && $state.snapshot(metric.selector.$)) || selector,
+      selector:
+        ('selector' in metric && $state.snapshot(metric.selector.$)) ||
+        $state.snapshot(globalParameters.$$.selector),
       from,
       to,
       interval,
@@ -112,7 +114,7 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
 
     const payload = { priority, minimalDelay, parameters }
     const workerRequest =
-      metric.type === MetricType.FORMULAS
+      'formula' in metric && metric.formula
         ? workerFetchFormulaMetric(
             {
               ...payload,
