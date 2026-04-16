@@ -19,7 +19,7 @@
     DEFINITIONS,
   } from '$ui/app/san-formulas/language/definitions.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
-  import { uuidv4 } from '$lib/utils/uuid/index.js'
+  import { uuidv7 } from '$lib/utils/uuid/index.js'
 
   import TextEditor from './TextEditor.svelte'
   import Validity from './Validity.svelte'
@@ -123,7 +123,7 @@
     if (!currentFormula.expr) {
       return
     }
-    const { id, name, expr } = { ...currentFormula, id: formula?.id ?? uuidv4() }
+    const { id, name, expr } = { ...currentFormula, id: formula?.id ?? uuidv7() }
 
     Controller.unlock()
     Controller.resolve({

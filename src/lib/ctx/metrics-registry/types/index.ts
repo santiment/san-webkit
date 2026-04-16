@@ -1,5 +1,5 @@
 import type { MaybeSS, SS } from '$lib/utils/state.svelte.js'
-import type { TUUIDv4, TUUIDv7 } from '$lib/utils/uuid/index.js'
+import type { TUUIDv7 } from '$lib/utils/uuid/index.js'
 import type { FIATS, FUNDS, INDICES_AND_SUPPLY, TAssetSlug } from '$lib/ctx/assets/api.js'
 import type {
   TInterval,
@@ -24,7 +24,7 @@ export type TMetricTypes = TMetricType[keyof TMetricType]
 
 export type TMetricSelector = null | TMetricTargetSelectorInputObject
 
-export type TMetricFormula = { expr: string; name: string; id: TUUIDv4 }
+export type TMetricFormula = { expr: string; name: string; id: TUUIDv7 }
 
 export type TMetric = {
   type: TMetricTypes
@@ -148,7 +148,7 @@ export type TChartMetric =
 // -----------------
 
 export type TApiMetricBase<GType extends TMetricTypes, GData extends object> = {
-  id: TUUIDv4
+  id: TUUIDv7
   name: string
   type: GType
 } & GData

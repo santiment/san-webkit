@@ -274,7 +274,7 @@ export function createSeries({
 
       return {
         type,
-        apiMetricName: apiMetricName || undefined,
+        apiMetricName: (metric.type !== MetricType.FORMULAS && apiMetricName) || undefined,
         id: metric.id,
         formula:
           metric.type === MetricType.FORMULAS ? $state.snapshot(metric.formula.$) : undefined,
