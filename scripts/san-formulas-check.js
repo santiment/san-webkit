@@ -28,6 +28,7 @@ Promise.all([
     'equal',
     'unequal',
     'value_at',
+    'backtest', // TODO: Remove
   ])
 
   for (const key in spec.DEFINITIONS) {
