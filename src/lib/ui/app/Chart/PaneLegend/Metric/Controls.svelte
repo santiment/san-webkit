@@ -2,6 +2,7 @@
   import type { TSeries } from '../../ctx/series.svelte.js'
 
   import Button from '$ui/core/Button/index.js'
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
   import PaneControls from './PaneControls.svelte'
   import { useMetricInfoCtx } from './ctx.svelte.js'
@@ -19,11 +20,20 @@
   function onHideClick() {
     metric.visible.$ = !metric.visible.$
   }
+
+  function onReloadClick() {
+    metric.recache.schedule()
+  }
 </script>
 
 <div
   class="left-full hidden gap-1.5 bg-white px-2 pr-0 center group-hover/pane-metric:flex [.metric-opened>&]:flex"
 >
+  {#if metric.type !== MetricType.DATA_STORE}
+    <Button icon="reset" iconSize="10" class="size-5" explanation="Reload" onclick={onReloadClick}
+    ></Button>
+  {/if}
+
   <Button
     icon={metric.visible.$ ? 'eye' : 'eye-crossed'}
     iconSize="14"
