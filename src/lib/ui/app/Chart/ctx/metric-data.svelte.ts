@@ -112,7 +112,8 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       version: metric.version.$,
     }
 
-    const payload = { priority, minimalDelay, parameters }
+    const recache = metric.recache.wasScheduled$()
+    const payload = { priority, minimalDelay, parameters, recache }
     const workerRequest =
       'formula' in metric && metric.formula
         ? workerFetchFormulaMetric(

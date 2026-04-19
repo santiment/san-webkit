@@ -88,6 +88,11 @@ type TBaseSeries<GType extends TMetricTypes> = {
 
   meta: TChartMetric['meta']
 
+  recache: {
+    schedule: () => void
+    wasScheduled$: () => boolean
+  }
+
   toApiSchema$: () => {
     type: TMetricTypes
     apiMetricName?: string
@@ -223,6 +228,9 @@ export function createSeries({
     return result
   })
 
+  let processedRecacheRef = 0
+  let recacheRef = $state.raw(0)
+
   const metric: TSeries = {
     id: rest.id ?? uuidv7(),
 
@@ -232,6 +240,16 @@ export function createSeries({
     label,
     // getLabels$,
     // getSelectorLabels$,
+
+    recache: {
+      schedule: () => recacheRef++,
+      wasScheduled$() {
+        const wasScheduled = recacheRef !== processedRecacheRef
+        processedRecacheRef = recacheRef
+
+        return wasScheduled
+      },
+    },
 
     version: ss<undefined | string>(rest.version),
     data: ss<TMetricData>(data),
