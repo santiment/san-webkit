@@ -103,7 +103,7 @@ export const queryGetMetric = ApiQuery(
       time: (Date.parse(item.d) / 1000) as UTCTimestamp,
       ...mapPointData(item.v),
     })),
-  { cacheTime: undefined },
+  { cacheTime: 1800 }, // NOTE: 30 minutes cache time
 )
 
 export type TMetricData = (

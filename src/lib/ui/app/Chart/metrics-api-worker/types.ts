@@ -59,6 +59,7 @@ export type TFetchMetricMessage = TMessageRequestResponse<
   {
     minimalDelay?: number
     priority?: number
+    recache?: boolean
     parameters: TMetricParameters & { version?: string }
   },
   { timeseries: TMetricData } | { error: any }
@@ -82,6 +83,7 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   {
     minimalDelay?: number
     priority?: number
+    recache?: boolean
     parameters: TMetricParameters
     index: number
     formula: TMetricFormula
