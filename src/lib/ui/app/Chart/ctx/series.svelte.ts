@@ -192,7 +192,7 @@ export function createSeries({
   ...rest
 }: TChartMetric) {
   const scale = $state({
-    id: scaleId || apiMetricName,
+    id: scaleId || apiMetricName || Math.random().toString(),
     visible: scaleVisible,
     inverted: scaleInverted,
     scaleMargins,
