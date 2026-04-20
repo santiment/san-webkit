@@ -1,33 +1,32 @@
-import { newHeadScript } from '../utils.js'
+export const AFFILIATLY_PROXY_ROUTE = '/api/track/affiliatly'
 
-const DEFAULT_ID = 'AF-1074422'
+type TConversionOptions = {
+  couponCode?: string
+  clientEmail?: string
+}
 
-function loadAffiliatlyScript(params: string, id = DEFAULT_ID) {
-  newHeadScript(undefined, {
-    src: `https://static.affiliatly.com/v3/affiliatly.js?affiliatly_code=${id}${params}`,
+async function reportConversion(
+  order: string | number,
+  price: number,
+  options?: TConversionOptions,
+) {
+  const payload = new URLSearchParams({
+    order: String(order),
+    price: String(price),
   })
+
+  if (options?.couponCode) payload.append('coupon_code', options.couponCode)
+  if (options?.clientEmail) payload.append('client_email', options.clientEmail)
+
+  await fetch(AFFILIATLY_PROXY_ROUTE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: payload,
+    credentials: 'same-origin',
+  }).catch((error) => console.error(error))
 }
 
-function trackConversion(orderPrice: number) {
-  loadAffiliatlyScript(`&conversion=1&id_order=${Date.now()}&order_price=${orderPrice}`)
-}
+export const trackAffiliatlySignup = () => reportConversion(crypto.randomUUID(), 0)
 
-export function trackAffiliatlySignup() {
-  trackConversion(0)
-}
-
-export function trackAffiliatlyPayment(price: number) {
-  trackConversion(price)
-}
-
-export function initAffiliatly(id?: string) {
-  if (process.env.IS_LOGGING_ENABLED) return
-
-  const load = () => loadAffiliatlyScript('', id)
-
-  if (document.readyState === 'complete') {
-    load()
-  } else {
-    window.addEventListener('load', load)
-  }
-}
+export const trackAffiliatlyPayment = (amount: number, options?: TConversionOptions) =>
+  reportConversion(crypto.randomUUID(), amount, options)
