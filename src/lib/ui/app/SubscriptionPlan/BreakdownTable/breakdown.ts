@@ -277,7 +277,7 @@ export const SubscriptionPlanBreakdown: Record<
   [SubscriptionPlan.MAX.key]: {
     'Custom Alerts': 20,
 
-    'Historical data restriction': '1 year',
+    'Historical data restriction': '2 years',
     'Realtime restriction for restricted metrics': 'No restriction',
     'API calls / minute': '100 API calls / min',
     'API calls / hour': '4K API calls / hour',
