@@ -107,6 +107,11 @@
     @apply rounded bg-athens px-1.5 py-0.5 text-xs font-medium text-fiord text-mono;
   }
 
+  :global(.group\/pane-metric.relative) {
+    --expl-left: 50%;
+    --expl-align-x: -50%;
+  }
+
   .loader {
     width: 18px;
     padding: 4px;
