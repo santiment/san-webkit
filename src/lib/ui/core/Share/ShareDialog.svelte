@@ -98,10 +98,7 @@
   <div class="w-[600px] px-6 py-5 md:w-full md:px-5 md:py-6 sm:w-auto">
     {#if disabled}
       <div
-        class={cn(
-          'mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino',
-          'md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2',
-        )}
+        class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
       >
         {#if !isDesktop}
           <Svg id="warning" w="16" h="20" class="py-[3px]" />
@@ -129,9 +126,7 @@
           bind:this={inputNode}
         />
         <Button
-          class={cn(
-            'border-l-solid h-10 min-w-[84px] text-nowrap rounded-none border-l border-porcelain px-3',
-          )}
+          class="share-copy-btn h-10 min-w-[84px] text-nowrap rounded-none border-l border-porcelain px-3"
           onclick={onCopy}
           {disabled}
         >
@@ -221,7 +216,7 @@
 {/snippet}
 
 <style>
-  .border-l-solid {
+  :global(.share-copy-btn) {
     border-left-style: solid;
   }
 </style>
