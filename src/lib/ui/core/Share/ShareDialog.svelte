@@ -10,12 +10,12 @@
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Switch from '$ui/core/Switch/index.js'
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
+  import PrivacySwitch from '../Switch/PrivacySwitch.svelte'
   import { MOBILE_SOCIALS, SOCIALS } from './socials.js'
   import Svg from '../Svg/Svg.svelte'
 
@@ -120,6 +120,7 @@
       >
         <input
           readonly
+          type="text"
           value={link}
           class={cn(
             'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-none',
@@ -128,7 +129,9 @@
           bind:this={inputNode}
         />
         <Button
-          class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l border-solid px-3')}
+          class={cn(
+            'border-l-solid h-10 min-w-[84px] text-nowrap rounded-none border-l border-porcelain px-3',
+          )}
           onclick={onCopy}
           {disabled}
         >
@@ -205,15 +208,20 @@
         {entity}
       </span>
 
-      <Switch
+      <PrivacySwitch
         class="ml-3 cursor-pointer md:m-0"
-        icon={{ active: { id: 'eye-filled', w: 10, h: 7 } }}
         checked={isPublic}
-        onCheckedChange={() => {
-          isPublic = !isPublic
+        onCheckedChange={(checked) => {
+          isPublic = checked
           onPublicityToggle()
         }}
-      />
+      ></PrivacySwitch>
     </label>
   {/if}
 {/snippet}
+
+<style>
+  .border-l-solid {
+    border-left-style: solid;
+  }
+</style>
