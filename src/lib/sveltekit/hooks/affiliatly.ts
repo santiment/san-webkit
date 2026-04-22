@@ -22,6 +22,10 @@ const TRACKING_QUERY_KEYS = [
 
 const UTM_KEYS = ['utm_campaign', 'utm_content', 'utm_medium', 'utm_source', 'utm_term'] as const
 
+const LEGACY_AFFILIATE_MAP: Record<string, string> = {
+  twitter: '2',
+}
+
 function extractParams(url: URL, keys: readonly string[], prefix = '') {
   const result: Record<string, string> = {}
 
@@ -79,6 +83,12 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   const { url, cookies, request } = event
 
   const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
+
+  const fpr = url.searchParams.get('fpr')
+
+  if (fpr && LEGACY_AFFILIATE_MAP[fpr] && !affiliateParams.aff) {
+    affiliateParams.aff = LEGACY_AFFILIATE_MAP[fpr]
+  }
 
   if (affiliateParams['coupon-code']) {
     affiliateParams.couponcode = affiliateParams['coupon-code']
