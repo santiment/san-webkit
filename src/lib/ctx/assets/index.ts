@@ -8,6 +8,7 @@ export {
   FIATS,
   INDICES_AND_SUPPLY,
   FUNDS,
+  TOTAL_MARKET_INDEX,
   Blockchain,
   type TAssetSlug,
   type TAsset,

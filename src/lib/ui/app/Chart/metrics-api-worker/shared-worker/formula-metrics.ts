@@ -25,6 +25,7 @@ import {
 import { parseFormulaChartVariables } from '../utils.js'
 
 type TContext = {
+  recache?: boolean
   isCancelled: boolean
 
   parameters: TFetchFormulaMetricMessage['request']['payload']['parameters']
@@ -35,9 +36,13 @@ type TContext = {
   cancelJobs: () => void
 }
 
-function queryMetric(metric: string, parameters: TContext['parameters'] & { version?: string }) {
+function queryMetric(
+  metric: string,
+  parameters: TContext['parameters'] & { version?: string },
+  recache?: boolean,
+) {
   const { selector, interval, from, to, aggregation, version } = parameters
-  return queryGetMetric({ executor: Query })({
+  return queryGetMetric({ executor: Query, recache })({
     metric,
     selector,
     from,
@@ -133,12 +138,16 @@ export async function fetchFormulaMetric(
         const dataRequest = () =>
           (metric.formula
             ? fetchFormulaMetric(metric.formula, index, ctx)
-            : queryMetric(metric.name, {
-                ...ctx.parameters,
-                version,
-                aggregation: metric.aggregation,
-                selector: selector!,
-              })
+            : queryMetric(
+                metric.name,
+                {
+                  ...ctx.parameters,
+                  version,
+                  aggregation: metric.aggregation,
+                  selector: selector!,
+                },
+                ctx.recache,
+              )
           )
             .then((data) => resolve([variable.name, data, selector]))
             .catch(rejectAndCancel)
