@@ -14,7 +14,7 @@
 </script>
 
 <RadioGroup.Item
-  class={cn('group flex w-full items-center gap-4 text-left text-lg text-rhino', className)}
+  class={cn('group flex w-full items-center gap-4 text-base text-rhino', className)}
   {...rest}
 >
   {#snippet children({ checked })}
@@ -29,6 +29,7 @@
         <span class="h-2 w-2 rounded-full bg-white"></span>
       {/if}
     </span>
+
     {@render label()}
   {/snippet}
 </RadioGroup.Item>

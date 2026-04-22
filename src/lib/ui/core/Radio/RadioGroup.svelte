@@ -8,4 +8,4 @@
   let { class: className, ...rest }: TProps = $props()
 </script>
 
-<RadioGroup.Root class={cn('flex flex-col gap-5', className)} {...rest} />
+<RadioGroup.Root class={cn('flex flex-col gap-3', className)} {...rest} />

@@ -12,10 +12,10 @@
 >
   <img src={chest} alt="chest illustration" class="mb-4 h-[177px] w-[194px]" />
 
-  <div class="mb-6 text-rhino">
-    <h1 class="mb-3 text-[22px] font-semibold">Take survey, get a free call 🎯</h1>
+  <div class="mb-8 text-rhino">
+    <h1 class="mb-3 text-lg-3 font-medium">Take survey, get a free call 🎯</h1>
 
-    <p class="max-w-[312px]">
+    <p class="max-w-[312px] text-base">
       Help us understand your needs for a more tailored experience later, and get a free call with a
       Santiment expert.
     </p>

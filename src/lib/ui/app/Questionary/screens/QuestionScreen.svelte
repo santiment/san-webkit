@@ -15,19 +15,19 @@
 
 <div class="w-full max-w-[480px]">
   <div class="mb-4 rounded-xl bg-athens px-16 py-12">
-    <h1 class="mb-8 text-xl font-semibold text-rhino">{step.title}</h1>
+    <h1 class="text-lg-3 font-medium text-rhino">{step.title}</h1>
 
     {#if step.description}
-      <p class="mb-6 text-sm text-waterloo">{step.description}</p>
+      <p class="mt-2 text-base text-fiord">{step.description}</p>
     {/if}
 
     {#if isMulti}
-      <ul class="flex flex-col gap-5">
+      <ul class="mt-6 flex flex-col gap-3">
         {#each step.options as option (option)}
           <li>
             <Button
               variant="plain"
-              class="flex w-full items-center gap-4 text-lg text-rhino"
+              class="flex w-full items-center gap-2 text-base text-rhino"
               onclick={() => questionary.toggleMulti(option)}
             >
               <Checkbox
@@ -39,11 +39,13 @@
           </li>
         {/each}
       </ul>
-      <p class="mt-6 text-sm text-waterloo">* Select multiple answers</p>
+
+      <p class="mt-8 text-sm text-fiord">* Select multiple answers</p>
     {:else}
       <RadioGroup
         value={(questionary.currentAnswer$ as string) ?? ''}
         onValueChange={questionary.selectRadio}
+        class="mt-6"
       >
         {#each step.options as option (option)}
           <RadioItem value={option}>{option}</RadioItem>
@@ -53,15 +55,15 @@
   </div>
 
   <footer class="flex items-center justify-between">
-    <div class="flex items-center gap-3 text-sm text-waterloo">
-      <span>
-        <span class="font-medium text-rhino">{questionary.$$.stepIndex + 1}</span>
-        /{questionary.totalSteps}
+    <div class="flex items-center gap-4 text-sm text-waterloo">
+      <span class="text-rhino">
+        <span class="font-medium">{questionary.$$.stepIndex + 1}</span>
+        /<span class="text-waterloo">{questionary.totalSteps}</span>
       </span>
 
       <span>•</span>
 
-      <Button variant="ghost" onclick={questionary.cancel}>Cancel survey</Button>
+      <Button variant="link" class="text-rhino" onclick={questionary.cancel}>Cancel survey</Button>
     </div>
 
     <div class="flex items-center gap-2">
@@ -71,8 +73,10 @@
           iconSize={11}
           icon="right-arrow"
           class="[&>svg]:rotate-180"
-          onclick={questionary.goPrev}>Previous</Button
+          onclick={questionary.goPrev}
         >
+          Previous
+        </Button>
       {/if}
 
       <Button
