@@ -1,7 +1,11 @@
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
-import { checkIsCustomPlan, SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import {
+  checkIsCustomPlan,
+  convertSubscriptionPlan,
+  SubscriptionPlan,
+} from '$ui/app/SubscriptionPlan/plans.js'
 import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,
@@ -100,6 +104,18 @@ export function getPrimarySubscription<GSub extends TSubscriptionLike>(
   }
 
   return getSanbaseSubscription(subscriptions)
+}
+
+export function extractPlanFromSubscriptions<GSub extends TSubscriptionLike>(
+  subscriptions: GSub[] | null,
+) {
+  const DEFAULT_PLAN = SubscriptionPlan.FREE.key
+  const primeSub = getPrimarySubscription(subscriptions)
+  if (!primeSub) return DEFAULT_PLAN
+
+  const planName = 'plan' in primeSub ? primeSub.plan.name : primeSub.planName
+
+  return convertSubscriptionPlan(planName) ?? DEFAULT_PLAN
 }
 
 export function getCustomerSubscriptionData(subscription: null | TSubscription) {
