@@ -30,7 +30,9 @@ enum Locking {
 
 type TRequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K }[keyof T]
 
-export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
+export type TDialogResolve<T = undefined> = T extends undefined
+  ? () => void
+  : (value: T | undefined) => void
 export type TDialogReject<T = undefined> = T extends undefined ? () => void : (value: T) => void
 
 export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
@@ -101,7 +103,10 @@ export const dialogs$ = {
           context,
           props: { ...props, resolve, reject, Controller },
         })
-        Controller._unmount = () => unmount(mounted)
+        Controller._unmount = () => {
+          unmount(mounted)
+          resolve(undefined)
+        }
 
         if (process.env.NODE_ENV !== 'production' && BROWSER) {
           // @ts-expect-error

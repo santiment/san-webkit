@@ -140,7 +140,8 @@
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
-                  // console.log(data)
+                  console.log(data)
+                  if (!data) return
                   metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
