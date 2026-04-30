@@ -191,6 +191,7 @@ export async function fetchFormulaMetric(
 
 function normalizeTimeseries(timeseries: TFormulaMetricData) {
   let isValidValue = false
+  let nonFiniteCount = 0
 
   for (let i = 0; i < timeseries.length; i++) {
     const datapoint = timeseries[i]
@@ -204,10 +205,19 @@ function normalizeTimeseries(timeseries: TFormulaMetricData) {
       timeseries[i - 1].color = 'transparent'
     }
 
+    nonFiniteCount++
+
     datapoint.value = undefined
-    timeseries.warning ??= FORMULA_WARNING.NonFiniteData
 
     isValidValue = false
+  }
+
+  if (nonFiniteCount > 0) {
+    timeseries.warning ??= FORMULA_WARNING.NonFiniteData
+  }
+
+  if (nonFiniteCount === timeseries.length) {
+    timeseries.length = 0
   }
 }
 
