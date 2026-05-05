@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
@@ -44,10 +44,14 @@
     return next
   }
 
-  const close = () => (isOpened = false)
+  const close = () => {
+    isOpened = false
+    // @ts-expect-error Resolve on close as undefined promise otherwise it is a stale promise
+    Controller.resolve(undefined)
+  }
   Controller.close = close
 
-  $effect(() => {
+  onMount(() => {
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
 </script>

@@ -419,7 +419,7 @@ export const useMetricSeriesCtx = createCtx(
           return asScope
         },
 
-        export() {
+        export$() {
           return series.map((item) => item.toApiSchema$())
         },
 

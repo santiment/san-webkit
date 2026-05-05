@@ -65,8 +65,8 @@ export function useApiMetricDataFlow(
 
 This might be caused by an incorrect math operation, e.g., division by zero. Potential solution:
 
-<ul class="list-disc ml-4 column">
-  <li>Handle the division programmatically: <code>if(m2 == 0, 0, m1 / m2)</code></li>
+<ul class="ml-4 column">
+  <li class="list-disc">Handle the division programmatically: <code>if(m2 == 0, 0, m1 / m2)</code></li>
 </ul>`)
       }
 
