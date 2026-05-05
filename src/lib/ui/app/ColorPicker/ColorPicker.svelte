@@ -27,15 +27,15 @@
 
   const uppercaseColor = $derived(color.toUpperCase())
 
-  let [hue, saturation, brightness] = $derived(hexToHsv(color))
+  let [hue, saturation, lightness, alpha = 100] = $derived(hexToHsv(color))
 
   $effect(() => {
-    parseHSV(hue, saturation, brightness)
+    parseHSV(hue, saturation, lightness, alpha)
   })
 
-  function parseHSV(hue: number, saturation: number, brightness: number) {
+  function parseHSV(hue: number, saturation: number, lightness: number, alpha = 100) {
     try {
-      const newColor = hsvToHex(hue / 360, saturation / 100, brightness / 100)
+      const newColor = hsvToHex(hue / 360, saturation / 100, lightness / 100)
       if (uppercaseColor !== newColor.toUpperCase()) onChange(newColor)
     } catch (e) {
       console.error(e)
@@ -65,9 +65,9 @@
     else if (clientX > right) saturation = 100
     else saturation = ((clientX - left) / width) * 100
 
-    if (clientY < top) brightness = 100
-    else if (clientY > bottom) brightness = 0
-    else brightness = 100 - ((clientY - top) / height) * 100
+    if (clientY < top) lightness = 100
+    else if (clientY > bottom) lightness = 0
+    else lightness = 100 - ((clientY - top) / height) * 100
   })
 
   const onHueMouseDown = newMouseHandler(({ clientX }, clientRect) => {
@@ -77,13 +77,21 @@
     else if (clientX > right) hue = 360
     else hue = ((clientX - left) / width) * 360
   })
+
+  const onAlphaMouseDown = newMouseHandler(({ clientX }, clientRect) => {
+    const { left, right, width } = clientRect
+
+    if (clientX < left) alpha = 0
+    else if (clientX > right) alpha = 100
+    else alpha = ((clientX - left) / width) * 100
+  })
 </script>
 
-<div class="picker border">
+<div class="picker border" style="--saturation:{saturation};--lightness:{lightness};--hue:{hue}">
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="wbc" onmousedown={onSaturationMouseDown}>
-    <div class="wbc-cursor" style="--saturation:{saturation};--brightness:{brightness}"></div>
-    <div class="wbc-color" style="--hue:{hue}">
+    <div class="wbc-cursor"></div>
+    <div class="wbc-color">
       <div class="wbc-white">
         <div class="wbc-black"></div>
       </div>
@@ -93,6 +101,11 @@
   <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div style="--hue:{hue}" class="hue" onmousedown={onHueMouseDown}>
     <div class="hue-cursor"></div>
+  </div>
+
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <div style="--alpha:{alpha}" class="alpha shadow-[0_0_1px_#777]" onmousedown={onAlphaMouseDown}>
+    <div class="hue-cursor alpha-cursor"></div>
   </div>
 
   <HexInput color={uppercaseColor} {onChange} />
@@ -137,7 +150,7 @@
       #00000055 0px 0px 1px 0px inset;
 
     left: calc(var(--saturation) * 1%);
-    bottom: calc(var(--brightness) * 1%);
+    bottom: calc(var(--lightness) * 1%);
     transform: translate(-50%, 50%);
   }
 
@@ -188,6 +201,25 @@
     border-radius: 1px;
     left: calc(var(--hue) * 0.277%);
     transform: translateX(-50%);
+  }
+
+  .alpha-cursor {
+    left: calc(var(--alpha) * 1%);
+  }
+
+  .alpha {
+    cursor: pointer;
+    position: relative;
+    margin: 10px 0;
+    height: 10px;
+    background:
+      linear-gradient(
+        to right,
+        hsl(var(--hue) var(--saturation) var(--lightness) / 0),
+        hsl(var(--hue) calc(var(--saturation) * 1%) calc(var(--lightness) * 1%))
+      ),
+      repeating-conic-gradient(rgb(204, 204, 204) 0%, rgb(204, 204, 204) 25%, white 0%, white 50%)
+        0% center / 10px 10px;
   }
 
   .suggestions {
