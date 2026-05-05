@@ -2,7 +2,7 @@ const toHex = (value: number) => Math.round(value).toString(16).padStart(2, '0')
 const rgbToHex = (r: number, g: number, b: number) => '#' + toHex(r) + toHex(g) + toHex(b)
 
 // NOTE: https://gist.github.com/mjackson/5311256 [@vanguard | Jun 16, 2021]
-export function hsvToHex(h: number, s: number, v: number) {
+export function hsvToHex(h: number, s: number, v: number, a = 1) {
   let r = 0
   let g = 0
   let b = 0
@@ -23,13 +23,25 @@ export function hsvToHex(h: number, s: number, v: number) {
         case 5: r = v, g = p, b = q; break;
     }
 
-  return rgbToHex(r * 255, g * 255, b * 255)
+  const rgbHex = rgbToHex(r * 255, g * 255, b * 255)
+
+  if (a < 0.99) {
+    return rgbHex + toHex(a * 255)
+  }
+
+  return rgbHex
 }
 
 const parseHex = (hex: any) => parseInt(hex, 16)
 
 function hexToRgb(hex: string) {
-  return [parseHex(hex.slice(1, 3)), parseHex(hex.slice(3, 5)), parseHex(hex.slice(5, 7))]
+  const alpha = hex.slice(7, 9)
+  return [
+    parseHex(hex.slice(1, 3)),
+    parseHex(hex.slice(3, 5)),
+    parseHex(hex.slice(5, 7)),
+    alpha ? parseHex(alpha) : 1,
+  ]
 }
 
 export function hexToHsv(hex: string) {

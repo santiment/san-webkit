@@ -25,18 +25,29 @@
     onChange,
   }: TProps = $props()
 
-  const uppercaseColor = $derived(color.toUpperCase())
+  let uppercaseColor = $derived(color.toUpperCase())
 
-  let [hue, saturation, lightness, alpha = 100] = $derived(hexToHsv(color))
+  let [hue, saturation, lightness, alpha = 1] = $derived(hexToHsv(color))
 
   $effect(() => {
-    parseHSV(hue, saturation, lightness, alpha)
+    hue
+    saturation
+    lightness
+    alpha
+
+    const debounce = setTimeout(() => {
+      parseHSV(hue, saturation, lightness, alpha)
+    }, 60)
+    return () => clearTimeout(debounce)
   })
 
-  function parseHSV(hue: number, saturation: number, lightness: number, alpha = 100) {
+  function parseHSV(hue: number, saturation: number, lightness: number, alpha = 1) {
     try {
-      const newColor = hsvToHex(hue / 360, saturation / 100, lightness / 100)
-      if (uppercaseColor !== newColor.toUpperCase()) onChange(newColor)
+      const newColor = hsvToHex(hue / 360, saturation / 100, lightness / 100, alpha).toUpperCase()
+
+      if (uppercaseColor === newColor) return
+
+      onChange((uppercaseColor = newColor))
     } catch (e) {
       console.error(e)
     }
@@ -82,8 +93,8 @@
     const { left, right, width } = clientRect
 
     if (clientX < left) alpha = 0
-    else if (clientX > right) alpha = 100
-    else alpha = ((clientX - left) / width) * 100
+    else if (clientX > right) alpha = 1
+    else alpha = (clientX - left) / width
   })
 </script>
 
@@ -117,7 +128,7 @@
       <div
         class="suggestion"
         class:active={suggestion === uppercaseColor}
-        onclick={() => onChange(suggestion)}
+        onclick={() => onChange((uppercaseColor = suggestion))}
         style="--color:{suggestion}"
       ></div>
     {/each}
@@ -204,7 +215,7 @@
   }
 
   .alpha-cursor {
-    left: calc(var(--alpha) * 1%);
+    left: calc(var(--alpha) * 100%);
   }
 
   .alpha {

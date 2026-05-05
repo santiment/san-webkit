@@ -1,12 +1,11 @@
 <script lang="ts">
+  import Input from '$ui/core/Input/Input.svelte'
+  import { cn } from '$ui/utils/index.js'
+
   type TProps = { color: string; onChange: (color: string) => void }
   let { color, onChange }: TProps = $props()
 
-  let value = $derived(color)
   let error = $state(false)
-  // let wasChanged = false
-
-  // $: if (!wasChanged) value = color
 
   const checkIsInvalidHex = (char: string) => Number.isNaN(parseInt(char, 16))
 
@@ -31,18 +30,26 @@
     return false
   }
 
-  function onBlur() {
-    value = color
-    error = false
-    // wasChanged = false
+  function onBlur(e: FocusEvent) {
+    const values = getValues((e.currentTarget as HTMLInputElement).value)
+
+    if (checkIsInvalidColorInput(values)) return
+
+    onChange(normalizeHexValues(values))
   }
 
-  function onInput() {
-    const values = getValues(value)
+  function checkIsInvalidColorInput(values: string) {
     const { length } = values
 
-    if ((length !== 3 && length !== 6) || checkIsInvalidHexValues(values)) {
-      return (error = true)
+    return (length !== 3 && length !== 6 && length !== 8) || checkIsInvalidHexValues(values)
+  }
+
+  function onInput(e: Event & { currentTarget: HTMLInputElement }): void {
+    const values = getValues((e.currentTarget as HTMLInputElement).value)
+
+    if (checkIsInvalidColorInput(values)) {
+      error = true
+      return
     }
 
     // wasChanged = true
@@ -56,28 +63,15 @@
     if (key === 'v' && (ctrlKey || metaKey)) return
     if (checkIsInvalidHex(key)) return e.preventDefault()
   }
+
+  $inspect(error)
 </script>
 
-<input
-  class="fluid mrg-s mrg--b border"
+<Input
+  class={cn('mb-2', error && '!border-red')}
   type="text"
-  bind:value
-  class:error
+  defaultValue={color}
   onblur={onBlur}
   oninput={onInput}
   onkeydown={onKeyDown}
-/>
-
-<style>
-  input {
-    padding: 5px 8px;
-    color: var(--black);
-  }
-  input:focus {
-    border-color: var(--green);
-  }
-
-  .error {
-    border-color: var(--red) !important;
-  }
-</style>
+></Input>
