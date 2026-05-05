@@ -68,7 +68,7 @@
   )
 
   const button = tv({
-    base: 'flex items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md select-none',
     variants: {
       children: { false: '' },
       icon: { false: '' },
@@ -78,7 +78,7 @@
         border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
-        link: 'rounded-none inline-flex text-green fill-green hover:underline',
+        link: 'rounded-none inline-flex text-green fill-green hover:underline select-text',
         plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
