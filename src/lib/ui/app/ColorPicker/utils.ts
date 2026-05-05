@@ -40,13 +40,13 @@ function hexToRgb(hex: string) {
     parseHex(hex.slice(1, 3)),
     parseHex(hex.slice(3, 5)),
     parseHex(hex.slice(5, 7)),
-    alpha ? parseHex(alpha) : 1,
+    alpha ? parseHex(alpha) : 255,
   ]
 }
 
 export function hexToHsv(hex: string) {
-  let [r, g, b] = hexToRgb(hex)
-  ;(r /= 255), (g /= 255), (b /= 255)
+  let [r, g, b, a] = hexToRgb(hex)
+  ;(r /= 255), (g /= 255), (b /= 255), (a /= 255)
 
   const max = Math.max(r, g, b)
   const min = Math.min(r, g, b)
@@ -70,5 +70,5 @@ export function hexToHsv(hex: string) {
     h /= 6
   }
 
-  return [h * 360, s * 100, v * 100]
+  return [h * 360, s * 100, v * 100, +a.toFixed(2)]
 }
