@@ -1,30 +1,69 @@
+import type { TOnboardingInput } from './types.js'
+
+import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 
+import { mutateUserOnboarding } from './api.js'
 import { STEPS } from './steps.js'
 
 type TScreen = 'intro' | 'question' | 'final'
-type TAnswer = string | string[]
+type TAnswers = Partial<Record<keyof TOnboardingInput, string | string[]>>
 
-type TQuestionaryState = {
-  screen: TScreen
-  stepIndex: number
-  answers: (TAnswer | null)[]
+const initialState = {
+  screen: 'intro' as TScreen,
+  stepIndex: 0,
+  isSubmitting: false,
+  isVisible: false,
 }
 
 export const useQuestionaryCtx = createCtx('questionary_useQuestionaryCtx', () => {
-  const state = $state<TQuestionaryState>({
-    screen: 'intro',
-    stepIndex: 0,
-    answers: new Array(STEPS.length).fill(null),
-  })
+  let state = $state({ ...initialState })
+  let answers = $state<TAnswers>({})
 
-  function goNext() {
-    if (state.stepIndex === STEPS.length - 1) {
-      state.screen = 'final'
-      return
+  const currentStep = $derived(STEPS[state.stepIndex])
+  const currentAnswer = $derived(answers[currentStep.field])
+  const isAnswered = $derived(
+    Array.isArray(currentAnswer) ? currentAnswer.length > 0 : !!currentAnswer,
+  )
+
+  async function goNext() {
+    const isLast = state.stepIndex === STEPS.length - 1
+
+    if (isLast) {
+      state.isSubmitting = true
+
+      try {
+        await mutateUserOnboarding(Query)(answers as TOnboardingInput)
+        state.screen = 'final'
+      } catch (error) {
+        console.error(error)
+      } finally {
+        state.isSubmitting = false
+      }
+    } else {
+      state.stepIndex += 1
     }
+  }
 
-    state.stepIndex++
+  function toggleMultiOption(option: string) {
+    const { field, options } = currentStep
+    const current = (answers[field] as string[]) ?? []
+    const isExclusive = options.find((o) => o.value === option)?.isExclusive
+
+    if (isExclusive) {
+      answers[field] = current.includes(option) ? [] : [option]
+    } else {
+      const exclusiveValues = options.filter((o) => o.isExclusive).map((o) => o.value)
+      let next = current.filter((v) => !exclusiveValues.includes(v))
+
+      if (next.includes(option)) {
+        next = next.filter((v) => v !== option)
+      } else {
+        next.push(option)
+      }
+
+      answers[field] = next
+    }
   }
 
   return {
@@ -32,53 +71,30 @@ export const useQuestionaryCtx = createCtx('questionary_useQuestionaryCtx', () =
       get $$() {
         return state
       },
-
-      get currentStep$() {
-        return STEPS[state.stepIndex]
+      set $$(value) {
+        state = value
       },
       get currentAnswer$() {
-        return state.answers[state.stepIndex]
+        return currentAnswer
       },
-      get isFirst$() {
-        return state.stepIndex === 0
-      },
-      get isLast$() {
-        return state.stepIndex === STEPS.length - 1
+      get currentStep$() {
+        return currentStep
       },
       get isAnswered$() {
-        const answer = state.answers[state.stepIndex]
-        return answer !== null && (Array.isArray(answer) ? answer.length > 0 : true)
+        return isAnswered
       },
 
       totalSteps: STEPS.length,
 
-      start() {
-        state.screen = 'question'
-      },
       cancel() {
-        state.screen = 'intro'
-        state.stepIndex = 0
-        state.answers = new Array(STEPS.length).fill(null)
+        state = { ...initialState }
+        answers = {}
+      },
+      setRadioAnswer(value: string) {
+        answers[currentStep.field] = value
       },
       goNext,
-      goPrev() {
-        if (state.stepIndex === 0) {
-          state.screen = 'intro'
-          return
-        }
-        state.stepIndex--
-      },
-      selectRadio(option: string) {
-        state.answers[state.stepIndex] = option
-      },
-      toggleMulti(option: string) {
-        const current = (state.answers[state.stepIndex] as string[] | null) ?? []
-        const isRemoving = current.includes(option)
-
-        state.answers[state.stepIndex] = isRemoving
-          ? current.filter((o) => o !== option)
-          : [...current, option]
-      },
+      toggleMultiOption,
     },
   }
 })

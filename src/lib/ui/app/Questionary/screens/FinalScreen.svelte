@@ -1,10 +1,18 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition'
+
   import Button from '$ui/core/Button/Button.svelte'
 
+  import { useQuestionaryCtx } from '../ctx.svelte.js'
   import confetti from '../assets/confetti.svg'
+
+  const { questionary } = useQuestionaryCtx.get()
 </script>
 
-<section class="flex flex-col items-center justify-center gap-6 text-center">
+<section
+  in:fade={{ duration: 200 }}
+  class="flex flex-col items-center justify-center gap-6 text-center"
+>
   <img src={confetti} alt="" class="h-32 w-32" />
 
   <div class="flex flex-col gap-4">
@@ -17,7 +25,11 @@
   </div>
 
   <footer>
-    <Button variant="fill" href="https://calendly.com/santiment-team/santiment-walkthrough?back=1">
+    <Button
+      variant="fill"
+      href="https://calendly.com/santiment-team/santiment-walkthrough?back=1"
+      onclick={() => (questionary.$$.isVisible = false)}
+    >
       Go to calendar
     </Button>
   </footer>

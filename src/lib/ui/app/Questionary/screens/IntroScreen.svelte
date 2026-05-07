@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition'
+
   import Button from '$ui/core/Button/Button.svelte'
 
   import { useQuestionaryCtx } from '../ctx.svelte.js'
@@ -8,7 +10,8 @@
 </script>
 
 <section
-  class="flex w-full max-w-[480px] flex-col items-center justify-center rounded-lg bg-athens py-12 text-center"
+  in:fade={{ duration: 200 }}
+  class="flex w-full max-w-[480px] flex-col items-center justify-center rounded-lg bg-athens px-8 py-12 text-center sm:px-4"
 >
   <img src={chest} alt="chest illustration" class="mb-4 h-[177px] w-[194px]" />
 
@@ -21,9 +24,12 @@
     </p>
   </div>
 
-  <footer class="flex items-center gap-3">
-    <Button variant="fill" onclick={questionary.start}>Start survey</Button>
+  <footer class="flex items-center gap-3 md:flex-col">
+    <Button variant="fill" onclick={() => (questionary.$$.screen = 'question')}>Start survey</Button
+    >
 
-    <Button variant="border" class="bg-white px-5 hover:bg-mystic">Maybe later</Button>
+    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={questionary.cancel}
+      >Maybe later</Button
+    >
   </footer>
 </section>
