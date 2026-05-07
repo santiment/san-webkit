@@ -26,7 +26,10 @@ async function reportConversion(
   }).catch((error) => console.error(error))
 }
 
-export const trackAffiliatlySignup = () => reportConversion(crypto.randomUUID(), 0)
+export const trackAffiliatlySignup = (userId: string | number) => reportConversion(userId, 0)
 
-export const trackAffiliatlyPayment = (amount: number, options?: TConversionOptions) =>
-  reportConversion(crypto.randomUUID(), amount, options)
+export const trackAffiliatlyPayment = (
+  orderId: string | number,
+  amount: number,
+  options?: TConversionOptions,
+) => reportConversion(orderId, amount, options)

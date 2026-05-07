@@ -210,7 +210,13 @@ export function usePaymentFlow() {
         notification.success(`You have successfully upgraded to the "${planDisplayName}" plan!`)
 
         trackEvent('payment_success', analytics)
-        trackAffiliatlyPayment(Math.ceil(plan.amount / 100))
+
+        if (subscription?.paymentIntent?.id) {
+          trackAffiliatlyPayment(
+            subscription.paymentIntent.id,
+            Math.ceil((subscription.plan?.amount ?? plan.amount) / 100),
+          )
+        }
 
         return subscription
       })
