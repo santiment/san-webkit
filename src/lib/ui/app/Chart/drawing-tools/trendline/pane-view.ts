@@ -22,8 +22,4 @@ export class TrendlinePaneView extends DrawingPaneView {
   ])
 
   update() {}
-
-  renderer() {
-    return this._renderer
-  }
 }

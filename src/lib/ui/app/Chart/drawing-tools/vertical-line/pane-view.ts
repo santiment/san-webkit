@@ -25,8 +25,4 @@ export class VerticalLinePaneView extends DrawingPaneView {
   public move(diffXY: [number, number]): void {
     this.movePoint(0, 0, diffXY[0], 0)
   }
-
-  public renderer() {
-    return this._renderer
-  }
 }

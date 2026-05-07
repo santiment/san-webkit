@@ -46,8 +46,4 @@ export class FibRetracementPaneView extends DrawingPaneView {
       return { ...item, value: formatter.format(price), y: series.priceToCoordinate(price)! }
     })
   }
-
-  renderer() {
-    return this._renderer
-  }
 }

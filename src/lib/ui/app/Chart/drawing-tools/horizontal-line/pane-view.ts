@@ -25,8 +25,4 @@ export class HorizontalLinePaneView extends DrawingPaneView {
   public move(diffXY: [number, number]): void {
     this.movePoint(0, 0, 0, diffXY[1])
   }
-
-  public renderer() {
-    return this._renderer
-  }
 }

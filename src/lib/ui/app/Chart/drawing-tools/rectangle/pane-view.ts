@@ -36,8 +36,4 @@ export class RectanglePaneView extends DrawingPaneView {
   ])
 
   update() {}
-
-  renderer() {
-    return this._renderer
-  }
 }

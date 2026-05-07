@@ -37,6 +37,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected _viewPoints: TViewPoint[] = []
   protected _finalizedViewPoints: TViewPoint[] = []
   protected _options: TOptions
+  protected _isVisible = true
 
   protected _timeAxisViews: DrawingAxisView[] = []
   protected _priceAxisViews: DrawingAxisView[] = []
@@ -177,9 +178,9 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
 
   public updateAllViews(): void {
-    //if (!this._options.visible) {
-    //  return
-    //}
+    if (!this.isVisible()) {
+      return
+    }
 
     this.validatePoints()
 
@@ -227,6 +228,10 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected sortViewPoints?(): void {}
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
+    if (!this.isVisible()) {
+      return null
+    }
+
     const [paneView] = this._paneViews
     return paneView.hitTest(x, y)
   }
@@ -241,6 +246,15 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
 
   public select(value: boolean) {
     this._paneViews[0].isSelected = value
+    this.requestUpdate()
+  }
+
+  public isVisible() {
+    return this._isVisible
+  }
+
+  public setVisibility(value: boolean) {
+    this._isVisible = value
     this.requestUpdate()
   }
 

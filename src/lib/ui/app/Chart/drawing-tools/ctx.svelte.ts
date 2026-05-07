@@ -284,6 +284,12 @@ export const useDrawingToolsCtx = createCtx(
             drawings = drawings.filter((item) => item !== drawingTool)
           },
 
+          toggleVisibility() {
+            for (const drawingTool of drawings) {
+              drawingTool.drawing?.setVisibility(!drawingTool.drawing.isVisible())
+            }
+          },
+
           export() {
             return drawings
               .map((drawingTool) => {
