@@ -92,6 +92,8 @@ export const useDrawingToolsCtx = createCtx(
       }),
     )
 
+    let areVisible = $state(true)
+
     let selectedTool = $state.raw<TDrawingTool | null>(null)
     function selectPrimitive(primitive: TDrawingPrimitive | null) {
       if (primitive === selectedTool?.drawing) return
@@ -273,6 +275,10 @@ export const useDrawingToolsCtx = createCtx(
             return drawings
           },
 
+          get areVisible$() {
+            return areVisible
+          },
+
           delete(drawingTool: null | TDrawingTool) {
             if (!drawingTool) return
 
@@ -285,8 +291,10 @@ export const useDrawingToolsCtx = createCtx(
           },
 
           toggleVisibility() {
+            areVisible = !areVisible
+
             for (const drawingTool of drawings) {
-              drawingTool.drawing?.setVisibility(!drawingTool.drawing.isVisible())
+              drawingTool.drawing?.setVisibility(areVisible)
             }
           },
 
