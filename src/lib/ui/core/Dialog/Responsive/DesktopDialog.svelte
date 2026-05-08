@@ -42,7 +42,7 @@
       {...$overlay}
       use:overlay
       class={cn(
-        'animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-[#000000c0]',
         overlayClass,
       )}
       out:transition
