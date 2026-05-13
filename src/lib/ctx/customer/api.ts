@@ -97,6 +97,9 @@ export type TCurrentUser = {
   name: null | string
   username: null | string
   avatarUrl: null | string
+  description: null | string
+  twitterHandle: null | string
+  websiteUrl: null | string
   privacyPolicyAccepted: boolean
   marketingAccepted: boolean
   firstLogin: boolean
@@ -132,6 +135,9 @@ const queryCurrentUser = ApiQuery(
     name
     username
     avatarUrl
+    description
+    twitterHandle
+    websiteUrl
     privacyPolicyAccepted
     marketingAccepted
     firstLogin
