@@ -14,8 +14,8 @@ type AddUserEthAddressMutation = SAN.API.Query<
   'addUserEthAddress',
   {
     ethAccounts: {
-      address: string[]
-    }
+      address: string
+    }[]
   }
 >
 
