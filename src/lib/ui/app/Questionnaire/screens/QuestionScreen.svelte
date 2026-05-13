@@ -5,12 +5,12 @@
   import Checkbox from '$ui/core/Checkbox/index.js'
   import { RadioGroup, RadioItem } from '$ui/core/Radio/index.js'
 
-  import { useQuestionaryCtx } from '../ctx.svelte.js'
+  import { useQuestionnaireCtx } from '../ctx.svelte.js'
 
-  const { questionary } = useQuestionaryCtx.get()
+  const { questionnaire } = useQuestionnaireCtx.get()
 
-  const step = $derived(questionary.currentStep$)
-  const answer = $derived(questionary.currentAnswer$)
+  const step = $derived(questionnaire.currentStep$)
+  const answer = $derived(questionnaire.currentAnswer$)
   const radioAnswer = $derived((answer as string | undefined) ?? '')
   const multiAnswer = $derived((answer as string[] | undefined) ?? [])
 </script>
@@ -33,23 +33,24 @@
   <footer class="flex items-center justify-between gap-y-5 xs:flex-col-reverse">
     <div class="flex items-center gap-4 text-sm text-waterloo">
       <span class="text-rhino">
-        <span class="font-medium">{questionary.$$.stepIndex + 1}</span>
-        /<span class="text-waterloo">{questionary.totalSteps}</span>
+        <span class="font-medium">{questionnaire.$$.stepIndex + 1}</span>
+        /<span class="text-waterloo">{questionnaire.totalSteps}</span>
       </span>
 
       <span aria-hidden="true">&bull;</span>
 
-      <Button variant="link" class="text-rhino" onclick={questionary.cancel}>Cancel survey</Button>
+      <Button variant="link" class="text-rhino" onclick={questionnaire.cancel}>Cancel survey</Button
+      >
     </div>
 
     <div class="flex items-center gap-2">
-      {#if questionary.$$.stepIndex !== 0}
+      {#if questionnaire.$$.stepIndex !== 0}
         <Button
           variant="border"
           iconSize={11}
           icon="right-arrow"
           class="[&>svg]:rotate-180"
-          onclick={() => (questionary.$$.stepIndex -= 1)}
+          onclick={() => (questionnaire.$$.stepIndex -= 1)}
         >
           Previous
         </Button>
@@ -60,8 +61,8 @@
         icon="right-arrow"
         iconSize={11}
         iconOnRight
-        disabled={!questionary.isAnswered$ || questionary.$$.isSubmitting}
-        onclick={questionary.goNext}
+        disabled={!questionnaire.isAnswered$ || questionnaire.$$.isSubmitting}
+        onclick={questionnaire.goNext}
       >
         Next
       </Button>
@@ -70,7 +71,7 @@
 </div>
 
 {#snippet singleChoice()}
-  <RadioGroup value={radioAnswer} onValueChange={questionary.setRadioAnswer} class="mt-6">
+  <RadioGroup value={radioAnswer} onValueChange={questionnaire.setRadioAnswer} class="mt-6">
     {#each step.options as option (option.value)}
       <RadioItem class="text-left" value={option.value}>{option.label}</RadioItem>
     {/each}
@@ -84,7 +85,7 @@
         <label class="group/label flex cursor-pointer items-center gap-2">
           <Checkbox
             isActive={multiAnswer.includes(option.value)}
-            onCheckedChange={() => questionary.toggleMultiOption(option.value)}
+            onCheckedChange={() => questionnaire.toggleMultiOption(option.value)}
           />
           <span class="text-base text-rhino">{option.label}</span>
         </label>
