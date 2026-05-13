@@ -15,7 +15,7 @@
   export let id = null as null | number
   export let title = null as null | string
   export let user = null as null | SAN.Author
-  export let currentUser: SAN.CurrentUser | null
+  export let currentUser: { id: string; following?: { users: { id: string }[] } } | null
   export let onEditClick: () => any
   export let type: CreationType
   export let fallback = 'Unsaved layout'
@@ -23,7 +23,7 @@
   export let comments: {
     count: number
     active?: boolean
-    onClick: () => any
+    onClick: (e?: any) => any
   }
   export let votes = null as null | Votes
   export let onVote
@@ -41,7 +41,7 @@
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
-          <Info {user} {type} feature={type} {currentUser} />
+          <Info {user} {type} {currentUser} />
         </svelte:fragment>
       </Tooltip>
 
@@ -51,7 +51,7 @@
     {#if title}
       <HoverEdit
         class="$style.title body-2"
-        {currentUser}
+        isLoggedIn={!!currentUser}
         {editLabel}
         {onEditClick}
         {titleHoverTooltipClass}>{title}</HoverEdit
@@ -95,7 +95,7 @@
 
   <HoverEdit
     class="$style.title body-2"
-    {currentUser}
+    isLoggedIn={!!currentUser}
     editLabel="Save as"
     {onEditClick}
     {titleHoverTooltipClass}

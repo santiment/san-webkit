@@ -52,7 +52,7 @@ export const trackProfileClick = ({
   feature,
   source,
 }: {
-  id: number
+  id: number | string
   feature?: string
   username?: string
   source: string
