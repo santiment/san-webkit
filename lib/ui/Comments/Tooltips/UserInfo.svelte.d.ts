@@ -1,10 +1,12 @@
 import { SvelteComponentTyped } from "svelte";
 export declare const queryUser: (id: number) => Promise<any>;
 import type { CreationType } from './../../../ui/Profile/types';
+import Info from './../../../ui/Profile/Info.svelte';
+import { ComponentProps } from 'svelte';
 declare const __propDef: {
     props: {
         id: number;
-        currentUser: any;
+        currentUser: ComponentProps<Info>['currentUser'];
         type: CreationType;
     };
     events: {

@@ -38,7 +38,7 @@ export declare const trackFollowUser: ({ id, username, source }: {
     source: any;
 }) => number;
 export declare const trackProfileClick: ({ id, username, feature, source, }: {
-    id: number;
+    id: number | string;
     feature?: string | undefined;
     username?: string | undefined;
     source: string;

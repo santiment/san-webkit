@@ -1,12 +1,20 @@
 import { SvelteComponentTyped } from "svelte";
-import type { CurrentUser } from './../../ui/FollowButton/flow';
 import { CreationType } from './types';
 declare const __propDef: {
     props: {
         user: SAN.Author & {
-            name?: string;
+            followers?: {
+                count: number;
+            };
         };
-        currentUser: SAN.CurrentUser & CurrentUser;
+        currentUser: {
+            id: string;
+            following?: {
+                users: {
+                    id: string;
+                }[];
+            };
+        } | null;
         type: CreationType;
     };
     events: {

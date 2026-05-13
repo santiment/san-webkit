@@ -5,7 +5,7 @@ export let user;
 export let followers = undefined;
 export let feature;
 $: ({ username, email } = user);
-$: subtitle = followers >= 0 ? `${followers} Followers` : email;
+$: subtitle = followers ? `${followers} Followers` : email;
 </script>
 
 <Profile {user} {feature} source="profile_info_tooltip" class="txt-m {className}">

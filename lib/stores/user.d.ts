@@ -31,7 +31,7 @@ export type PromoCode = {
     maxRedemptions: number;
 };
 export type CurrentUserType = {
-    id: number;
+    id: string | number;
     email: string | null;
     username: string | null;
     name: string | null;

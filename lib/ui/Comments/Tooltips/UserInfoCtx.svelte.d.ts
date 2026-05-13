@@ -1,14 +1,16 @@
 import { SvelteComponentTyped } from "svelte";
+import { ComponentProps } from 'svelte';
 export declare const getUserInfoTooltip: () => unknown;
 export declare const getProfileLinks: (node: HTMLElement) => Element[];
 export declare const getUserInfoTooltipHook: () => (node: Element) => any;
+import UserInfo from './UserInfo.svelte';
 import { CommentsType } from './../../../api/comments';
 declare const __propDef: {
     props: {
         comments: any[];
         commentsNode: HTMLElement;
         type: CommentsType;
-        currentUser: any;
+        currentUser: ComponentProps<UserInfo>['currentUser'];
     };
     events: {
         [evt: string]: CustomEvent<any>;

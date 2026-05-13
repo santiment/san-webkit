@@ -21,16 +21,16 @@ if (type)
 
 <div class="info">
   <div class="row v-center justify">
-    <ProfileNames
-      {user}
-      feature={type}
-      followers={user && user.followers ? user.followers.count : undefined}
-    />
+    <ProfileNames {user} feature={type} followers={user.followers?.count} />
 
     {#if currentUser && +currentUser.id === +user.id}
-      <a href="{SANBASE_ORIGIN}/account" class="btn-1 mrg-xl mrg--l" on:click={window.__onLinkClick}
-        >Account settings</a
+      <a
+        href="{SANBASE_ORIGIN}/account"
+        class="btn-1 mrg-xl mrg--l"
+        on:click={window.__onLinkClick}
       >
+        Account settings
+      </a>
     {:else}
       <FollowButton {user} {currentUser} class="mrg-xl mrg--l" />
     {/if}

@@ -2,9 +2,7 @@ import { SvelteComponentTyped } from "svelte";
 declare const __propDef: {
     props: {
         class?: string | undefined;
-        user: SAN.Author & {
-            name?: string;
-        };
+        user: SAN.Author;
         followers?: number | undefined;
         feature: string;
     };

@@ -32,7 +32,7 @@ export let source;
         </svelte:fragment>
 
         <svelte:fragment slot="tooltip">
-          <Info {user} {type} feature={type} {currentUser} />
+          <Info {user} {type} {currentUser} />
         </svelte:fragment>
       </Tooltip>
 
@@ -42,7 +42,7 @@ export let source;
     {#if title}
       <HoverEdit
         class="title-pmkMTG body-2"
-        {currentUser}
+        isLoggedIn={!!currentUser}
         {editLabel}
         {onEditClick}
         {titleHoverTooltipClass}>{title}</HoverEdit
@@ -86,7 +86,7 @@ export let source;
 
   <HoverEdit
     class="title-pmkMTG body-2"
-    {currentUser}
+    isLoggedIn={!!currentUser}
     editLabel="Save as"
     {onEditClick}
     {titleHoverTooltipClass}

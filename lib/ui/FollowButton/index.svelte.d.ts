@@ -5,7 +5,7 @@ declare const __propDef: {
         class?: string | undefined;
         user: Pick<SAN.Author, 'id'>;
         currentUser: null | CurrentUser;
-        isFollowing?: boolean | null | undefined;
+        isFollowing?: boolean | undefined;
     };
     events: {
         [evt: string]: CustomEvent<any>;

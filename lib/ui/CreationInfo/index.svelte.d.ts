@@ -6,15 +6,22 @@ declare const __propDef: {
         id?: number | null | undefined;
         title?: string | null | undefined;
         user?: SAN.Author | null | undefined;
-        currentUser: SAN.CurrentUser | null;
+        currentUser: {
+            id: string;
+            following?: {
+                users: {
+                    id: string;
+                }[];
+            } | undefined;
+        } | null;
         onEditClick: () => any;
         type: CreationType;
         fallback?: string | undefined;
         editLabel?: string | undefined;
         comments: {
             count: number;
-            active?: boolean;
-            onClick: () => any;
+            active?: boolean | undefined;
+            onClick: (e?: any) => any;
         };
         votes?: Votes | null | undefined;
         onVote: any;

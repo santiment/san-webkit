@@ -6,6 +6,6 @@ export declare function signMessage(message: any): Promise<{
 export declare function getAccount(): Promise<[string | null, undefined | Error]>;
 export declare function connectWallet(msgPrefix?: string): Promise<{
     ethAccounts: {
-        address: string[];
-    };
+        address: string;
+    }[];
 }>;

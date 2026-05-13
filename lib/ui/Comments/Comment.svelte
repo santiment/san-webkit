@@ -54,6 +54,7 @@ Edited: ${getDatetime(editedAt)}`
     </div>
   </div>
 
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   <div class="content mrg-s mrg--t">{@html html}</div>
 
   {#if currentUser}
@@ -62,7 +63,7 @@ Edited: ${getDatetime(editedAt)}`
         <button class="reply btn" on:click={onReply}>Reply</button>
       {/if}
 
-      {#if currentUser.id === user.id}
+      {#if +currentUser.id === +user.id}
         <Menu bind:comment {commentsNode} />
       {/if}
     </div>
