@@ -16,7 +16,7 @@ const initialState = {
   isVisible: false,
 }
 
-export const useQuestionaryCtx = createCtx('questionary_useQuestionaryCtx', () => {
+export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx', () => {
   let state = $state({ ...initialState })
   let answers = $state<TAnswers>({})
 
@@ -67,7 +67,7 @@ export const useQuestionaryCtx = createCtx('questionary_useQuestionaryCtx', () =
   }
 
   return {
-    questionary: {
+    questionnaire: {
       get $$() {
         return state
       },

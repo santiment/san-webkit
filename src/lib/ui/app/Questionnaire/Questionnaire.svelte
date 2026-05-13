@@ -6,7 +6,7 @@
   import FinalScreen from './screens/FinalScreen.svelte'
   import IntroScreen from './screens/IntroScreen.svelte'
   import QuestionScreen from './screens/QuestionScreen.svelte'
-  import { useQuestionaryCtx } from './ctx.svelte.js'
+  import { useQuestionnaireCtx } from './ctx.svelte.js'
 
   type TProps = {
     children: Snippet
@@ -15,15 +15,15 @@
   const { children }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
-  const { questionary } = useQuestionaryCtx.get()
+  const { questionnaire } = useQuestionnaireCtx.get()
 </script>
 
-{#if currentUser.$$ && currentUser.$$?.privacyPolicyAccepted && questionary.$$.isVisible}
+{#if currentUser.$$ && currentUser.$$?.privacyPolicyAccepted && questionnaire.$$.isVisible}
   <div class="flex flex-1 p-8 center">
-    {#key questionary.$$.screen + questionary.$$.stepIndex}
-      {#if questionary.$$.screen === 'intro'}
+    {#key questionnaire.$$.screen + questionnaire.$$.stepIndex}
+      {#if questionnaire.$$.screen === 'intro'}
         <IntroScreen />
-      {:else if questionary.$$.screen === 'question'}
+      {:else if questionnaire.$$.screen === 'question'}
         <QuestionScreen />
       {:else}
         <FinalScreen />

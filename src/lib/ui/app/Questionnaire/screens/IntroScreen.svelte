@@ -3,10 +3,10 @@
 
   import Button from '$ui/core/Button/Button.svelte'
 
-  import { useQuestionaryCtx } from '../ctx.svelte.js'
+  import { useQuestionnaireCtx } from '../ctx.svelte.js'
   import chest from '../assets/chest.svg'
 
-  const { questionary } = useQuestionaryCtx.get()
+  const { questionnaire } = useQuestionnaireCtx.get()
 </script>
 
 <section
@@ -25,10 +25,11 @@
   </div>
 
   <footer class="flex items-center gap-3 md:flex-col">
-    <Button variant="fill" onclick={() => (questionary.$$.screen = 'question')}>Start survey</Button
+    <Button variant="fill" onclick={() => (questionnaire.$$.screen = 'question')}
+      >Start survey</Button
     >
 
-    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={questionary.cancel}
+    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={questionnaire.cancel}
       >Maybe later</Button
     >
   </footer>

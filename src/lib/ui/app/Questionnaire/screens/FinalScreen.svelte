@@ -3,10 +3,10 @@
 
   import Button from '$ui/core/Button/Button.svelte'
 
-  import { useQuestionaryCtx } from '../ctx.svelte.js'
+  import { useQuestionnaireCtx } from '../ctx.svelte.js'
   import confetti from '../assets/confetti.svg'
 
-  const { questionary } = useQuestionaryCtx.get()
+  const { questionnaire } = useQuestionnaireCtx.get()
 </script>
 
 <section
@@ -28,7 +28,7 @@
     <Button
       variant="fill"
       href="https://calendly.com/santiment-team/santiment-walkthrough?back=1"
-      onclick={() => (questionary.$$.isVisible = false)}
+      onclick={() => (questionnaire.$$.isVisible = false)}
     >
       Go to calendar
     </Button>
