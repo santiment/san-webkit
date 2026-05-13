@@ -44,7 +44,7 @@ function billingFilter({ interval, name }) {
 
   <PromoSanTokenBanner />
 
-  <Comparison class="comparison-hAwyZz" plans={billingPlans} />
+  <Comparison class="comparison-56v0Jw" plans={billingPlans} />
 
   <section id="referenced-by">
     <h2>You are in good company</h2>
@@ -89,7 +89,7 @@ main :global(section h2) {
   padding: 0 46px;
 }
 
-:global(.comparison-hAwyZz) {
+:global(.comparison-56v0Jw) {
   margin: 0 auto 80px;
   max-width: var(--page-width, 1140px);
 }
