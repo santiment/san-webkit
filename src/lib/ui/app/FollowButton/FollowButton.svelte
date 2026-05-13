@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { TCustomer } from '$lib/ctx/customer/api.js'
+  import type { ComponentProps } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -12,9 +13,8 @@
     user: { id: string | number }
     currentUser: TCustomer['currentUser']
     source?: string
-  }
-
-  let { class: className = '', user, currentUser, source }: TProps = $props()
+  } & Omit<ComponentProps<typeof Button>, 'class'>
+  let { class: className = '', user, currentUser, source, ...rest }: TProps = $props()
 
   let isFollowing = $state(checkIsFollowing(currentUser, user.id))
 
@@ -28,7 +28,6 @@
     })
 
     if (!currentUser) {
-      // return window.dispatchEvent(new CustomEvent(ANON_EVENT))
       return
     }
 
@@ -48,6 +47,7 @@
     className,
   )}
   onclick={onFollow}
+  {...rest}
 >
   Follow{postfix}
 </Button>
