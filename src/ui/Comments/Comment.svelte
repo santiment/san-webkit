@@ -14,7 +14,7 @@
   export let commentsFor: SAN.CommentsFor
   export let comment: SAN.Comment
   export let authorId: number
-  export let currentUser: null | { id: string } = null
+  export let currentUser: null | { id: string | number } = null
   export let updateComments: any
   export let scrollToNewComment: () => void
   export let commentsNode: HTMLDivElement
@@ -70,7 +70,7 @@ Edited: ${getDatetime(editedAt)}`
         <button class="reply btn" on:click={onReply}>Reply</button>
       {/if}
 
-      {#if currentUser.id === user.id}
+      {#if +currentUser.id === +user.id}
         <Menu bind:comment {commentsNode} />
       {/if}
     </div>

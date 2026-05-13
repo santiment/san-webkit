@@ -86,7 +86,7 @@ export type PromoCode = {
 }
 
 export type CurrentUserType = {
-  id: string
+  id: string | number
   email: string | null
   username: string | null
   name: string | null

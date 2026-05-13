@@ -3,14 +3,14 @@
 
   let className = ''
   export { className as class }
-  export let currentUser: object | null
+  export let isLoggedIn: boolean
   export let editLabel = 'Edit'
   export let titleHoverTooltipClass = ''
   export let onEditClick
 </script>
 
 <Tooltip
-  isEnabled={!!currentUser}
+  isEnabled={isLoggedIn}
   openDelay={110}
   duration={65}
   dark
@@ -18,11 +18,13 @@
   align="center"
   class="caption {titleHoverTooltipClass}"
 >
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <span
     slot="trigger"
     class="btn {className}"
-    class:enabled={currentUser}
-    on:click={currentUser ? onEditClick : null}
+    class:enabled={isLoggedIn}
+    on:click={isLoggedIn ? onEditClick : null}
   >
     <slot />
   </span>
