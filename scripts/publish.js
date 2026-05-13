@@ -41,7 +41,7 @@ export async function publish() {
   }
 
   const [mergeMsg] = await exec(
-    'git merge master -X theirs -m "Merge branch \'master\' into lib"',
+    'git merge master-legacy -X theirs -m "Merge branch \'master-legacy\' into lib"',
     false,
   )
 
