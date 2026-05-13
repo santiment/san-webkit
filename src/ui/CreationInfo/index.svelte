@@ -51,7 +51,7 @@
     {#if title}
       <HoverEdit
         class="$style.title body-2"
-        {currentUser}
+        isLoggedIn={!!currentUser}
         {editLabel}
         {onEditClick}
         {titleHoverTooltipClass}>{title}</HoverEdit
@@ -95,7 +95,7 @@
 
   <HoverEdit
     class="$style.title body-2"
-    {currentUser}
+    isLoggedIn={!!currentUser}
     editLabel="Save as"
     {onEditClick}
     {titleHoverTooltipClass}
