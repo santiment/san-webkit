@@ -5,7 +5,7 @@ export function getCookie(name: string, predicate?: (keyValue: string) => boolea
     predicate ? predicate(keyValue) : keyValue.startsWith(name),
   )
 
-  return keyValue && keyValue.split('=')[1]
+  return keyValue && keyValue.slice(keyValue.indexOf('=') + 1)
 }
 
 export function setCookie<GValue extends number | boolean | string>(
