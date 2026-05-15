@@ -61,6 +61,7 @@ export default {
       base: ['16px', '24px'],
       lg: ['18px', '26px'],
       'lg-2': ['20px', '28px'],
+      'lg-3': ['22px', '28px'],
       xl: ['24px', '32px'],
       '2xl': ['26px', '32px'],
       '3xl': ['32px', '40px'],
