@@ -1,6 +1,5 @@
 import type { TViewPoint } from '../types.js'
-
-import { getBrowserCssVariable } from '$ui/utils/index.js'
+import type { TOptions } from './primitive.js'
 
 import { DrawingPaneView } from '../_core/pane-view.js'
 import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js'
@@ -11,7 +10,9 @@ export class TrendlinePaneView extends DrawingPaneView {
     return this._source.viewPoints as [TViewPoint, TViewPoint]
   }
 
-  public strokeColor: string = getBrowserCssVariable('waterloo')
+  public get options() {
+    return this._source.options as any as TOptions
+  }
 
   protected _renderer: DrawingCompositePaneRenderer = new DrawingCompositePaneRenderer([
     new TrendlinePaneRenderer(this),

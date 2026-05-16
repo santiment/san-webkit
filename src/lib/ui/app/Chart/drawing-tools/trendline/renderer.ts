@@ -9,6 +9,7 @@ import {
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
+import { LineStyle } from '../types.js'
 
 export class TrendlinePaneRenderer implements TPaneRenderer {
   private _paneView: TrendlinePaneView
@@ -26,8 +27,22 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
       }
 
       const ctx = scope.context
+      const { lineWidth, strokeColor, lineStyle } = this._paneView.options
 
       ctx.save()
+
+      const segments = lineStyle
+        ? lineStyle === LineStyle.DOTTED
+          ? [Math.max(lineWidth, 2), 5]
+          : [8, 8]
+        : undefined
+
+      const lineDash =
+        segments &&
+        ([
+          positionPoint(segments[0], scope.horizontalPixelRatio),
+          positionPoint(segments[1], scope.horizontalPixelRatio),
+        ] as const)
 
       drawLine(
         ctx,
@@ -35,8 +50,9 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
         positionPoint(p1.y, scope.verticalPixelRatio),
         positionPoint(p2.x, scope.horizontalPixelRatio),
         positionPoint(p2.y, scope.verticalPixelRatio),
-        2 * scope.verticalPixelRatio,
-        this._paneView.strokeColor,
+        lineWidth * scope.verticalPixelRatio,
+        strokeColor,
+        lineDash,
       )
 
       ctx.restore()
@@ -62,8 +78,14 @@ export function drawLine(
   y2: number,
   width: number,
   color: string,
+  lineDash?: readonly [number, number],
 ) {
   ctx.beginPath()
+
+  if (lineDash) {
+    ctx.setLineDash(lineDash)
+  }
+
   ctx.moveTo(x1, y1)
   ctx.lineTo(x2, y2)
   ctx.lineWidth = width

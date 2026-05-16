@@ -23,8 +23,10 @@ import {
   type DrawingAxisPaneView,
 } from './pane-view.js'
 
-export abstract class DrawingPrimitive<GDrawingType extends string>
-  implements ISeriesPrimitive<Time>
+export abstract class DrawingPrimitive<
+  GDrawingType extends string,
+  GOptions extends object = object,
+> implements ISeriesPrimitive<Time>
 {
   public abstract readonly __type: GDrawingType
   protected abstract readonly _paneViews: DrawingPaneView[]
@@ -36,7 +38,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   protected _dataPoints: TPoint[]
   protected _viewPoints: TViewPoint[] = []
   protected _finalizedViewPoints: TViewPoint[] = []
-  protected _options: TOptions
+  protected _options: GOptions & TOptions
   protected _isVisible = true
 
   protected _timeAxisViews: DrawingAxisView[] = []
@@ -50,7 +52,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
   }
   private _requestUpdate?: () => void
 
-  public constructor(data: TData, options: Partial<TOptions> = {}) {
+  public constructor(data: TData, options: Partial<GOptions> = {}) {
     this._dataPoints = data.points
 
     this._options = {
@@ -58,7 +60,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
         bg: getBrowserCssVariable('casper'),
         textColor: getBrowserCssVariable('black'),
       },
-      ...options,
+      ...(this.constructOptions(options) as GOptions),
     }
 
     for (let i = 0; i < data.points.length; i++) {
@@ -70,6 +72,10 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
       this._priceAxisPaneViews.push(new DrawingPriceAxisPaneView(this))
       this._timeAxisPaneViews.push(new DrawingTimeAxisPaneView(this))
     }
+  }
+
+  protected constructOptions(options: Partial<GOptions>) {
+    return options
   }
 
   protected mapDataPointsToViewPoints(): undefined | TViewPoint[] {
@@ -209,7 +215,7 @@ export abstract class DrawingPrimitive<GDrawingType extends string>
     return this._timeAxisPaneViews
   }
 
-  public applyOptions(options: Partial<TOptions>) {
+  public applyOptions(options: Partial<TOptions & GOptions>) {
     this._options = { ...this._options, ...options }
     this.requestUpdate()
   }
