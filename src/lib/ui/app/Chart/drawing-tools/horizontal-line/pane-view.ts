@@ -1,4 +1,5 @@
 import type { TViewPoint } from '../types.js'
+import type { TLineOptions } from '../trendline/primitive.js'
 
 import { getBrowserCssVariable } from '$ui/utils/index.js'
 
@@ -9,6 +10,10 @@ import { HorizontalLinePaneRenderer } from './renderer.js'
 export class HorizontalLinePaneView extends DrawingPaneView {
   public get viewPoints(): [TViewPoint] {
     return this._source.viewPoints as [TViewPoint]
+  }
+
+  public get options() {
+    return this._source.options as any as TLineOptions
   }
 
   public strokeColor: string = getBrowserCssVariable('waterloo')

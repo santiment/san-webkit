@@ -4,13 +4,19 @@ import { LineStyle, type TLineStyles, type TViewPoint } from '../types.js'
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { TrendlinePaneView } from './pane-view.js'
 
-export type TOptions = {
+export type TLineOptions = {
   lineWidth: number
   strokeColor: string
   lineStyle: TLineStyles
 }
 
-export default class TrendlinePrimitive extends DrawingPrimitive<'trendline', TOptions> {
+export const LineOptionsDefaults = {
+  strokeColor: getBrowserCssVariable('waterloo'),
+  lineWidth: 2,
+  lineStyle: LineStyle.SOLID,
+} as const satisfies TLineOptions
+
+export default class TrendlinePrimitive extends DrawingPrimitive<'trendline', TLineOptions> {
   public __type = 'trendline' as const
 
   protected _paneViews: TrendlinePaneView[] = [new TrendlinePaneView(this)]
@@ -21,12 +27,9 @@ export default class TrendlinePrimitive extends DrawingPrimitive<'trendline', TO
     this.requestUpdate()
   }
 
-  protected constructOptions(options: Partial<TOptions>) {
+  protected constructOptions(options: Partial<TLineOptions>) {
     return {
-      strokeColor: getBrowserCssVariable('waterloo'),
-      lineWidth: 2,
-      lineStyle: LineStyle.SOLID,
-
+      ...LineOptionsDefaults,
       ...options,
     }
   }

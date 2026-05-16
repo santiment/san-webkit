@@ -1,4 +1,4 @@
-import type { CanvasRenderingTarget2D } from 'fancy-canvas'
+import type { BitmapCoordinatesRenderingScope, CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { Coordinate } from '@santiment-network/chart-next'
 import type { TrendlinePaneView } from './pane-view.js'
 
@@ -9,7 +9,7 @@ import {
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
-import { LineStyle } from '../types.js'
+import { LineStyle, type TLineStyles } from '../types.js'
 
 export class TrendlinePaneRenderer implements TPaneRenderer {
   private _paneView: TrendlinePaneView
@@ -31,19 +31,6 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
 
       ctx.save()
 
-      const segments = lineStyle
-        ? lineStyle === LineStyle.DOTTED
-          ? [Math.max(lineWidth, 2), 5]
-          : [8, 8]
-        : undefined
-
-      const lineDash =
-        segments &&
-        ([
-          positionPoint(segments[0], scope.horizontalPixelRatio),
-          positionPoint(segments[1], scope.horizontalPixelRatio),
-        ] as const)
-
       drawLine(
         ctx,
         positionPoint(p1.x, scope.horizontalPixelRatio),
@@ -52,7 +39,7 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
         positionPoint(p2.y, scope.verticalPixelRatio),
         lineWidth * scope.verticalPixelRatio,
         strokeColor,
-        lineDash,
+        createLineSegments(lineStyle, lineWidth, scope),
       )
 
       ctx.restore()
@@ -68,6 +55,26 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
 
     return { type: RenderHitTest.PRIMITIVE }
   }
+}
+
+export function createLineSegments(
+  lineStyle: TLineStyles,
+  lineWidth: number,
+  scope: BitmapCoordinatesRenderingScope,
+) {
+  const segments = lineStyle
+    ? lineStyle === LineStyle.DOTTED
+      ? [Math.max(lineWidth, 2), 5]
+      : [8, 8]
+    : undefined
+
+  return (
+    segments &&
+    ([
+      positionPoint(segments[0], scope.horizontalPixelRatio),
+      positionPoint(segments[1], scope.horizontalPixelRatio),
+    ] as const)
+  )
 }
 
 export function drawLine(
