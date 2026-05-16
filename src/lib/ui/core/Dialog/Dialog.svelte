@@ -14,6 +14,7 @@
     children,
     class: className,
     overlayClass,
+    onBeforeClose,
     forceMobileLandscape = false,
     forceDesktop = false,
   }: {
@@ -22,6 +23,7 @@
     forceMobileLandscape?: boolean
     forceDesktop?: boolean
     children: Snippet<[{ close: () => void }]>
+    onBeforeClose?: () => void
   } = $props()
 
   const { Controller } = getDialogControllerCtx()
@@ -36,6 +38,8 @@
   function onOpenChange({ next }: { next: boolean }) {
     if (next === false) {
       if (isMounted === false) return true
+
+      onBeforeClose?.()
 
       // Forcing memory clean
       setTimeout(onClosed, TRANSITION_MS + 50)
