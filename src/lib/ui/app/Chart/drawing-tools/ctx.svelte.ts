@@ -278,6 +278,10 @@ export const useDrawingToolsCtx = createCtx(
             return drawings
           },
 
+          set $(value) {
+            drawings = value
+          },
+
           get areVisible$() {
             return areVisible
           },
