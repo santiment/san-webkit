@@ -17,7 +17,7 @@
       const metric = metricSeries.findById(drawingTool.data.seriesId) || targetMetric
 
       drawingTool.data.seriesId ??= metric.id
-      drawingTool.drawing = new Primitive(drawingTool.data)
+      drawingTool.drawing = new Primitive(drawingTool.data, drawingTool.options)
 
       drawingTool.drawing.attachTo(metric.chartSeriesApi, metric.id)
     })

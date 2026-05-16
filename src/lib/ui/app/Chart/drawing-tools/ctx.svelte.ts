@@ -27,12 +27,14 @@ export type TDrawingTypes = keyof TTypeToDrawingPrimitive
 type TApiDrawing = {
   type: TDrawingTypes
   data: TData
+  options?: Record<string, unknown>
 }
 
 type TDrawingTool = {
   type: TDrawingTypes
   data: TData
   drawing: null | TDrawingPrimitive
+  options?: Record<string, unknown>
   Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
 }
 
@@ -86,6 +88,7 @@ export const useDrawingToolsCtx = createCtx(
         return {
           type: drawing.type,
           data: drawing.data,
+          options: drawing.options,
           drawing: null,
           Primitive: importPrimitive(drawing.type),
         }
@@ -307,7 +310,9 @@ export const useDrawingToolsCtx = createCtx(
                   return
                 }
 
-                return { type: drawingTool.type, data }
+                const { axisLabels: _, ...options } = drawingTool.drawing?.options || {}
+
+                return { type: drawingTool.type, data, options }
               })
               .filter(Boolean)
           },

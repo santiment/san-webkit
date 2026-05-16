@@ -36,6 +36,7 @@ export const Drawings: Story = {
     defaultDrawings: [
       {
         type: 'trendline',
+        options: { lineStyle: 1 },
         data: {
           points: [
             {
