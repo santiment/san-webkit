@@ -77,8 +77,8 @@ devDependencies:
     specifier: ^1.28.1
     version: 1.44.0
   '@santiment-network/chart-next':
-    specifier: npm:@santiment-network/chart@^1.0.21
-    version: /@santiment-network/chart@1.0.21
+    specifier: npm:@santiment-network/chart@^1.0.22
+    version: /@santiment-network/chart@1.0.22
   '@sentry/sveltekit':
     specifier: ^9.2.0
     version: 9.2.0(@sveltejs/kit@2.20.7)(svelte@5.35.4)(vite@6.2.5)
@@ -589,8 +589,8 @@ packages:
       - react
     dev: true
 
-  /@cloudflare/workers-types@4.20260507.1:
-    resolution: {integrity: sha512-QChtMFu8EeVKaL4dW5r5wfZzlbH5CUnZU5Ef6E1cPjXzqryQuCwmEDNr+Oj2obbKR9jsVIUHPF/pkFaKWdYl2g==}
+  /@cloudflare/workers-types@4.20260516.1:
+    resolution: {integrity: sha512-aPckyZSPQXhOo+nSIvGLtXVl9M2qmf2GwFZYmvut9z47F1XTjHYcaYpI9/BvxrI+Q5l99UtXZU4bmQtX10JG+w==}
     requiresBuild: true
     dev: true
     optional: true
@@ -1555,7 +1555,7 @@ packages:
       '@ethereumjs/tx': 4.2.0
       '@types/debug': 4.1.13
       debug: 4.4.3
-      semver: 7.7.4
+      semver: 7.8.0
       superstruct: 1.0.4
     transitivePeerDependencies:
       - supports-color
@@ -3087,8 +3087,8 @@ packages:
     resolution: {integrity: sha512-Y0yAxRaB98LFp2Dm+ACZqBSdAmI3FlpH/LjxOZ94g/ouuDJecSq0iR26XZ5QDuEL8Rf+L4jBJaoDC08CD0KkJw==}
     engines: {node: '>=16'}
 
-  /@santiment-network/chart@1.0.21:
-    resolution: {integrity: sha512-nn8UyAfpFV/0ZE8xKeJeR8QY1IfnkmuL7dIv4zAOxgdIz/eyO09xYJg23/tYVcvR32byJW/PLDpmGl4ygZ9l0w==}
+  /@santiment-network/chart@1.0.22:
+    resolution: {integrity: sha512-Fb2t5y5mAytjgtBX3tiTuDvRgijVRdPwjyZp0IVXiMrjPgwXX3fGsiO0QDW9Y1dICJqb73yjghRXX95IhTPJmw==}
     dependencies:
       fancy-canvas: 2.1.0
     dev: true
@@ -3277,7 +3277,7 @@ packages:
     dependencies:
       '@sentry/core': 9.2.0
     optionalDependencies:
-      '@cloudflare/workers-types': 4.20260507.1
+      '@cloudflare/workers-types': 4.20260516.1
     dev: true
 
   /@sentry/core@9.2.0:
@@ -5365,6 +5365,15 @@ packages:
 
   /call-bind@1.0.8:
     resolution: {integrity: sha512-oKlSFMcMwpUg2ednkhQ454wfWiU/ul3CkJe/PEHcTKuiX6RpbehUiFMXu13HalGZxfUwCQzZG747YXBn1im9ww==}
+    engines: {node: '>= 0.4'}
+    dependencies:
+      call-bind-apply-helpers: 1.0.2
+      es-define-property: 1.0.1
+      get-intrinsic: 1.3.0
+      set-function-length: 1.2.2
+
+  /call-bind@1.0.9:
+    resolution: {integrity: sha512-a/hy+pNsFUTR+Iz8TCJvXudKVLAnz/DyeSUo10I5yvFDQJBFU2s9uqQpoSrJlroHUKoKqzg+epxyP9lqFdzfBQ==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -9482,8 +9491,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  /semver@7.7.4:
-    resolution: {integrity: sha512-vFKC2IEtQnVhpT78h1Yp8wzwrf8CM+MzKMHGJZfBtzhZNycRFnXsHk6E5TxIkkMsgNS7mdX3AGB7x2QM2di4lA==}
+  /semver@7.8.0:
+    resolution: {integrity: sha512-AcM7dV/5ul4EekoQ29Agm5vri8JNqRyj39o0qpX6vDF2GZrtutZl5RwgD1XnZjiTAfncsJhMI48QQH3sN87YNA==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -11050,7 +11059,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       available-typed-arrays: 1.0.7
-      call-bind: 1.0.8
+      call-bind: 1.0.9
       call-bound: 1.0.4
       for-each: 0.3.5
       get-proto: 1.0.1
