@@ -21,3 +21,5 @@ export { useColorGenerator } from './colors.js'
 export { useChartPanesCtx } from './panes.svelte.js'
 
 export { useHighlightedMetricCtx } from './highlighted-metric.svelte.js'
+
+export { useMetricsAIExplanationCtx } from './ai-explanation.svelte.js'

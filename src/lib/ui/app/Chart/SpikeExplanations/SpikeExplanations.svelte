@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { IEventMarker, IRenderItem } from '@santiment-network/chart-next'
+  import type { TAssetSlug } from '$lib/ctx/assets/api.js'
 
-  import { untrack, type Snippet } from 'svelte'
+  import { type Snippet } from 'svelte'
   import { tap, switchMap, pipe } from 'rxjs'
   import { createEventMarkers } from '@santiment-network/chart-next'
   import { applyStyles } from 'drawer-svelte'
@@ -13,24 +14,26 @@
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
 
   import { queryGetMetricSpikeExplanations, type TData, type TVariables } from './api.js'
-  import { useChartCtx, useMetricSeriesCtx, type TSeries } from '../ctx/index.js'
+  import { useChartCtx, type TSeries } from '../ctx/index.js'
   import { useChartGlobalParametersCtx } from '../ctx/global-parameters.svelte.js'
   import { drawSpikeExplanation } from './flow.svelte.js'
 
   type TProps = {
+    metric: TSeries
+    slug?: TAssetSlug
     children?: Snippet<[{ slug: string; explanation: string }]>
   }
 
   const { chart } = useChartCtx()
-  const { metricSeries } = useMetricSeriesCtx.get()
   const { globalParameters } = useChartGlobalParametersCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
   const { applyTimeZoneOffset } = useTimeZoneCtx.get()
 
-  const { children }: TProps = $props()
+  const { children, metric, slug: _slug }: TProps = $props()
 
-  let attachedMetric = $state.raw<null | TSeries>(null)
   let openedExplanation = $state.raw<null | TData[number]>(null)
+
+  const slug = $derived(_slug || globalParameters.$$.selector.slug)
 
   let explanations = $state.raw<TData>([])
   let markers = $derived<IEventMarker[]>(
@@ -55,7 +58,6 @@
   )
 
   $effect(() => {
-    const { slug } = globalParameters.$$.selector
     const { from, to } = globalParameters.dates$
     if (slug) {
       getMetricSpikeExplanations({ slug, from, to })
@@ -64,18 +66,14 @@
 
   $effect(() => {
     eventMarkers.setData(markers)
+  })
 
-    const firstMetric = metricSeries.$[0]
-    if (firstMetric && firstMetric === untrack(() => attachedMetric)) return
-
-    eventMarkers.detach()
-
+  $effect(() => {
     requestAnimationFrame(() => {
-      attachedMetric = firstMetric
-      const series = firstMetric.chartSeriesApi
-
-      series!.attachPrimitive(eventMarkers)
+      metric.chartSeriesApi?.attachPrimitive(eventMarkers)
     })
+
+    return () => eventMarkers.detach()
   })
 
   let anchorNode = $state.raw<null | HTMLElement>(null)
@@ -88,7 +86,7 @@
       return
     }
 
-    const paneElement = attachedMetric?.chartSeriesApi?.getPane()?.getHTMLElement()?.children[1]
+    const paneElement = metric?.chartSeriesApi?.getPane()?.getHTMLElement()?.children[1]
     if (!paneElement) return
 
     paneElement.appendChild(anchorNode)
@@ -113,7 +111,6 @@
 >
   {#snippet content()}
     {#if openedExplanation}
-      {@const slug = globalParameters.$$.selector.slug!}
       {@const asset = getAssetBySlug(slug)}
       <div>
         <header class="mb-2.5 flex items-center justify-between">
@@ -132,8 +129,9 @@
         </header>
 
         {openedExplanation.explanation}
+
         {@render children?.({
-          slug: asset?.name || slug,
+          slug: asset?.name || slug || '',
           explanation: openedExplanation.explanation,
         })}
       </div>
