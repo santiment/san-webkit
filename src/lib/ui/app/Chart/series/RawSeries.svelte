@@ -40,6 +40,8 @@
       formatter: formatters.$.scaleFormatter,
     } as const)
 
+  const _oldChartSeriesApi = series.chartSeriesApi ?? null // NOTE: Used inside fullscreen dialog when reusing metricSeries ctx
+
   let chartSeries = $state.raw() as ReturnType<typeof createChartSeries>
 
   $effect.pre(() => {
@@ -109,7 +111,7 @@
   })
 
   onMount(() => () => {
-    series.chartSeriesApi = null
+    series.chartSeriesApi = _oldChartSeriesApi
 
     highlightedMetricCtx?.onMetricLeave()
 

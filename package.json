@@ -61,7 +61,7 @@
   "peerDependencies": {
     "@floating-ui/dom": "^1.5.1",
     "@melt-ui/svelte": "^0.85.0",
-    "@santiment-network/chart-next": "npm:@santiment-network/chart@^1.0.21",
+    "@santiment-network/chart-next": "npm:@santiment-network/chart@^1.0.22",
     "@sveltejs/adapter-auto": "^3.2.4",
     "@sveltejs/adapter-node": "^5.2.2",
     "@sveltejs/kit": "^2.5.27",
