@@ -1,6 +1,5 @@
 import type { TViewPoint } from '../types.js'
-
-import { getBrowserCssVariable } from '$ui/utils/index.js'
+import type { TRectangleOptions } from './primitive.js'
 
 import { DrawingPaneView } from '../_core/pane-view.js'
 import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js'
@@ -11,8 +10,12 @@ export class RectanglePaneView extends DrawingPaneView {
     return this._source.viewPoints as [TViewPoint, TViewPoint]
   }
 
+  public get options() {
+    return this._source.options as any as TRectangleOptions
+  }
+
   protected _renderer: DrawingCompositePaneRenderer = new DrawingCompositePaneRenderer([
-    new RectanglePaneRenderer(this, getBrowserCssVariable('red') + '50'),
+    new RectanglePaneRenderer(this),
 
     // top left
     new HandleRenderer(this, {
