@@ -51,7 +51,10 @@
     {:else if metric.error.$ || metric.data.$.length === 0}
       {@const error = metric.error.$ || 'Data is not available'}
 
-      <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
+      <Tooltip
+        position="bottom"
+        class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
+      >
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -78,7 +81,10 @@
   {/if}
 
   {#if !!metric.warnings.$?.length}
-    <Tooltip position="bottom" class="w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
+    <Tooltip
+      position="bottom"
+      class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
+    >
       {#snippet children({ ref })}
         <Button
           {ref}
