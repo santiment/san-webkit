@@ -1,4 +1,5 @@
 import type { TViewPoint } from '../types.js'
+import type { TFibRetracementOptions } from './primitive.js'
 
 import { DrawingPaneView } from '../_core/pane-view.js'
 import { FibRetracementPaneRenderer, type TRenderData } from './renderer.js'
@@ -8,6 +9,10 @@ import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.
 export class FibRetracementPaneView extends DrawingPaneView {
   public get viewPoints(): [TViewPoint, TViewPoint] {
     return this._source.viewPoints as [TViewPoint, TViewPoint]
+  }
+
+  public get options() {
+    return this._source.options as any as TFibRetracementOptions
   }
 
   public data = {

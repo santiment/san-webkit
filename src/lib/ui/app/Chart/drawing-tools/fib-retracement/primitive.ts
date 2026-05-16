@@ -3,7 +3,14 @@ import type { TViewPoint } from '../types.js'
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { FibRetracementPaneView } from './pane-view.js'
 
-export default class FibRetracementPrimitive extends DrawingPrimitive<'fib_retracement'> {
+export type TFibRetracementOptions = {
+  lineWidth: number
+}
+
+export default class FibRetracementPrimitive extends DrawingPrimitive<
+  'fib_retracement',
+  TFibRetracementOptions
+> {
   public __type = 'fib_retracement' as const
 
   protected _paneViews: FibRetracementPaneView[] = [new FibRetracementPaneView(this)]
@@ -14,5 +21,9 @@ export default class FibRetracementPrimitive extends DrawingPrimitive<'fib_retra
     this._paneViews[0].update()
 
     this.requestUpdate()
+  }
+
+  protected constructOptions(options: Partial<TFibRetracementOptions>) {
+    return { lineWidth: 2, ...options }
   }
 }
