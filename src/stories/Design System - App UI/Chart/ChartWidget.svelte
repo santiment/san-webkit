@@ -34,6 +34,7 @@
     PaneMetricGranularityStatus,
     PaneMetricVersionStatus,
   } from '$ui/app/Chart/PaneLegend/index.js'
+  import AIExplanationStatus from '$ui/app/Chart/PaneLegend/Metric/AIExplanationStatus.svelte'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Select from '$ui/core/Select/Select.svelte'
@@ -210,6 +211,10 @@
                   }
                 }}
               ></PaneMetricGranularityStatus>
+
+              {#if 'apiMetricName' in metric && metric.apiMetricName === 'price_usd'}
+                <AIExplanationStatus {metric}></AIExplanationStatus>
+              {/if}
             {/snippet}
           </PaneMetric>
         {/each}
