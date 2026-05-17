@@ -86,7 +86,7 @@ export abstract class DrawingPrimitive<
 
     return this._dataPoints.map((point) => ({
       x: timeScale.timeToCoordinate(point.time),
-      y: series.priceToCoordinate(point.price),
+      y: series.priceToCoordinate(point.value),
     }))
   }
 
@@ -155,7 +155,7 @@ export abstract class DrawingPrimitive<
     return this._series!
   }
 
-  public get options(): TOptions {
+  public get options(): TOptions & GOptions {
     return this._options
   }
 
@@ -285,7 +285,7 @@ export abstract class DrawingPrimitive<
 
     return this._viewPoints.map((point) => ({
       time: timeScale.coordinateToTime(point.x!)!,
-      price: series.coordinateToPrice(point.y!)!,
+      value: series.coordinateToPrice(point.y!)!,
     }))
   }
 

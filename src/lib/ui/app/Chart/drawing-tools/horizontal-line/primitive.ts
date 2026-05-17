@@ -40,7 +40,7 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<
 
     return this._dataPoints.map((point) => ({
       x,
-      y: series.priceToCoordinate(point.price),
+      y: series.priceToCoordinate(point.value),
     }))
   }
 
@@ -50,7 +50,7 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<
 
     return this._viewPoints.map((point) => ({
       time: 0 as TPoint['time'],
-      price: series.coordinateToPrice(point.y!)!,
+      value: series.coordinateToPrice(point.y!)!,
     }))
   }
 

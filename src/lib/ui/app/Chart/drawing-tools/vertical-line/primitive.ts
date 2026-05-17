@@ -45,7 +45,7 @@ export default class VerticalLinePrimitive extends DrawingPrimitive<'vertical-li
 
     return this._viewPoints.map((point) => ({
       time: timeScale.coordinateToTime(point.x!)!,
-      price: 0,
+      value: 0,
     }))
   }
 

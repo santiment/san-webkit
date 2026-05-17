@@ -8,7 +8,7 @@ export interface TViewPoint {
 
 export interface TPoint {
   time: Time
-  price: number
+  value: number
 }
 
 export type TOptions = {

@@ -9,7 +9,7 @@ export type TRectangleOptions = {
   fillStyle: string
 }
 
-export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
+export default class RectanglePrimitive extends DrawingPrimitive<'rectangle', TRectangleOptions> {
   public __type = 'rectangle' as const
 
   protected _paneViews: RectanglePaneView[] = [new RectanglePaneView(this)]

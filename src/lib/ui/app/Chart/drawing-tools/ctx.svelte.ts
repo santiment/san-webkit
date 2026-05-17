@@ -18,13 +18,14 @@ type TDrawingPrimitives =
   | typeof HorizontalLinePrimitive
   | typeof VerticalLinePrimitive
 type TDrawingPrimitive = TDrawingPrimitives['prototype']
+export type TDrawingPrimitiveOptions = TDrawingPrimitive['options']
 
 export type TTypeToDrawingPrimitive = {
   [K in TDrawingPrimitives as K['prototype']['__type']]: K['prototype']
 }
 export type TDrawingTypes = keyof TTypeToDrawingPrimitive
 
-type TApiDrawing = {
+export type TApiDrawing = {
   type: TDrawingTypes
   data: TData
   options?: Record<string, unknown>
@@ -103,7 +104,8 @@ export const useDrawingToolsCtx = createCtx(
 
       selectedTool?.drawing?.select(false)
       primitive?.select(true)
-      selectedTool = drawings.find((drawing) => drawing.drawing === primitive) ?? null
+      selectedTool =
+        (primitive && drawings.find((drawing) => drawing.drawing === primitive)) ?? null
     }
 
     function onDrawingToolSelect(type: TDrawingTypes) {
@@ -137,7 +139,7 @@ export const useDrawingToolsCtx = createCtx(
         return
       }
 
-      return { time: params.time, price: value }
+      return { time: params.time, value }
     }
 
     function onChartPointerDown(params: MouseEventParams) {
