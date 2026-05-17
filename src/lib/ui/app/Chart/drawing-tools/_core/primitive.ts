@@ -85,7 +85,7 @@ export abstract class DrawingPrimitive<
     if (!series) return
 
     return this._dataPoints.map((point) => ({
-      x: timeScale.timeToCoordinate(point.time),
+      x: timeScale.timeToCoordinate(point.time, true),
       y: series.priceToCoordinate(point.value),
     }))
   }

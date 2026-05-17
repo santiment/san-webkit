@@ -35,7 +35,7 @@ export default class VerticalLinePrimitive extends DrawingPrimitive<'vertical-li
     const y = (this.series.getPane()._pane._height / 2) as Coordinate
 
     return this._dataPoints.map((point) => ({
-      x: timeScale.timeToCoordinate(point.time),
+      x: timeScale.timeToCoordinate(point.time, true),
       y,
     }))
   }
