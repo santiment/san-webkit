@@ -313,7 +313,7 @@ export abstract class DrawingPrimitive<
     this.finalize()
 
     return {
-      series: this._seriesId,
+      seriesId: this._seriesId,
       points: this.points,
     }
   }

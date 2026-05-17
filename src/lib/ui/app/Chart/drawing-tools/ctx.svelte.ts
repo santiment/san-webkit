@@ -310,17 +310,18 @@ export const useDrawingToolsCtx = createCtx(
           export() {
             return drawings
               .map((drawingTool) => {
-                const data = drawingTool.drawing?.export() || drawingTool.data
+                const data = (drawingTool.drawing?.export() || drawingTool.data) as TData
 
                 if (!data?.points?.length) {
                   return
                 }
 
-                const { axisLabels: _, ...options } = drawingTool.drawing?.options || {}
+                const { axisLabels: _, ...options } = (drawingTool.drawing?.options ||
+                  {}) as TDrawingPrimitiveOptions
 
                 return { type: drawingTool.type, data, options }
               })
-              .filter(Boolean)
+              .filter((item) => !!item)
           },
         },
 
