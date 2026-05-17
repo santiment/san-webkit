@@ -68,7 +68,7 @@ export function importPrimitive(type: TDrawingTypes) {
       return import('./vertical-line/primitive.js')
     case 'rectangle':
       return import('./rectangle/primitive.js')
-    case 'fib_retracement':
+    case 'fib-retracement':
       return import('./fib-retracement/primitive.js')
   }
 }
@@ -307,7 +307,7 @@ export const useDrawingToolsCtx = createCtx(
             }
           },
 
-          export() {
+          export$() {
             return drawings
               .map((drawingTool) => {
                 const data = (drawingTool.drawing?.export() || drawingTool.data) as TData

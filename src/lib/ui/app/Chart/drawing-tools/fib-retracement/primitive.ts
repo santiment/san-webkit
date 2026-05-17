@@ -8,10 +8,10 @@ export type TFibRetracementOptions = {
 }
 
 export default class FibRetracementPrimitive extends DrawingPrimitive<
-  'fib_retracement',
+  'fib-retracement',
   TFibRetracementOptions
 > {
-  public __type = 'fib_retracement' as const
+  public __type = 'fib-retracement' as const
 
   protected _paneViews: FibRetracementPaneView[] = [new FibRetracementPaneView(this)]
 
