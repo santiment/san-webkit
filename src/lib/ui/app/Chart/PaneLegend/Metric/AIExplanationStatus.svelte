@@ -20,7 +20,10 @@
 </script>
 
 <Chip
-  class={cn('cursor-pointer', active && 'bg-purple-light-2 text-purple-hover')}
+  class={cn(
+    'cursor-pointer',
+    active && 'bg-purple-light-2 text-purple-hover dark:bg-purple-hover dark:text-white-day',
+  )}
   explanation="{active ? 'Hide' : 'Show'} AI Explanation"
   onclick={onToggle}
 >
