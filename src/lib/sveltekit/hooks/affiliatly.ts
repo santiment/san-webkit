@@ -26,6 +26,27 @@ const LEGACY_AFFILIATE_MAP: Record<string, string> = {
   twitter: '2',
 }
 
+const STATIC_EXTENSIONS = new Set([
+  '.js',
+  '.css',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.gif',
+  '.svg',
+  '.ico',
+  '.json',
+  '.map',
+  '.webp',
+])
+
+function isStaticAsset(pathname: string): boolean {
+  const lastDotIndex = pathname.lastIndexOf('.')
+  if (lastDotIndex === -1) return false
+
+  return STATIC_EXTENSIONS.has(pathname.slice(lastDotIndex))
+}
+
 function extractParams(url: URL, keys: readonly string[], prefix = '') {
   const result: Record<string, string> = {}
 
@@ -81,6 +102,14 @@ async function saveAffiliateCookie(response: Response | void, cookies: RequestEv
 
 export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   const { url, cookies, request } = event
+
+  if (
+    url.pathname.startsWith('/api') ||
+    isStaticAsset(url.pathname) ||
+    cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
+  ) {
+    return resolve(event)
+  }
 
   const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
 
