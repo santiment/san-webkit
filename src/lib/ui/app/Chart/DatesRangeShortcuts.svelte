@@ -3,7 +3,7 @@
 
   const YTD_ISO = getYearToDateIso()
 
-  const SHORTCUTS = [
+  export const SHORTCUTS = [
     ['1D', '1d'],
     ['7D', '7d'],
     ['1M', '30d'],
@@ -13,7 +13,15 @@
     ['1Y', '1y'],
     ['5Y', '5y'],
     ['ALL', CRYPTO_ERA_START_ISO],
-  ]
+  ] as const
+
+  export const MOBILE_SHORTCUTS = [
+    ['1D', '1d'],
+    ['7D', '7d'],
+    ['1M', '30d'],
+    ['3M', '90d'],
+    ['6M', '180d'],
+  ] as const
 
   function getYearToDateIso() {
     const date = setDayStart(new Date(), { utc: true })
@@ -32,6 +40,12 @@
   import { cn } from '$ui/utils/index.js'
 
   import { useChartGlobalParametersCtx } from './ctx/global-parameters.svelte.js'
+
+  type TProps = {
+    shortcuts?: readonly (readonly [string, string])[]
+  }
+
+  const { shortcuts = SHORTCUTS }: TProps = $props()
 
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
@@ -54,7 +68,7 @@
   }
 </script>
 
-{#each SHORTCUTS as [label, value]}
+{#each shortcuts as [label, value]}
   <Button
     onclick={() => onDateRangeShortcutClick(value)}
     class={cn(activeDateRange === value && 'bg-athens text-black')}
