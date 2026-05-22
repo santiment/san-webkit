@@ -105,7 +105,10 @@
       return
     }
 
-    untrack(() => chartSeries).setData(data.$)
+    //FIXME: hotfix for chart crashes with sparse gaps in formula resulted graph (check SparseGapsInFormula storybook entry)
+    const chartData = data.$.filter((item) => item.value !== undefined)
+
+    untrack(() => chartSeries).setData(chartData)
 
     //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
