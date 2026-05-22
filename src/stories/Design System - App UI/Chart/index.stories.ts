@@ -424,3 +424,62 @@ export const CombinedDistributionMetric: Story = {
   },
   parameters: {},
 }
+
+export const SparseGapsInFormula: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        label: 'Positive Sentiment vs. Negative Sentiment Ratio',
+        scaleId: 'right-0.702362761389925',
+        formula: {
+          expr: '(m4 / m5 - 1) * m6',
+          id: '019e027a-d694-776d-831a-8264461c821d',
+          name: 'Positive Sentiment vs. Negative Sentiment Ratio',
+        },
+      },
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price',
+        scaleId: 'right-price_usd0.4735169585340905',
+        visible: false,
+      },
+      {
+        apiMetricName: 'funding_rates_aggregated_by_exchange',
+        label: 'Funding Rates Aggregated by Exchange',
+        scaleId: 'right-funding_rates_aggregated_by_exchange0.5737146641511001',
+        visible: false,
+      },
+      {
+        apiMetricName: 'sentiment_positive_total',
+        label: 'Positive sentiment (Total)',
+        scaleId: 'right-sentiment_positive_total0.2276557543070883',
+        selector: {
+          slug: 'hyperliquid',
+        },
+        visible: false,
+        version: '2.0',
+      },
+      {
+        apiMetricName: 'sentiment_negative_total',
+        label: 'Negative sentiment (Total)',
+        scaleId: 'right-sentiment_negative_total0.21020496250093323',
+        visible: false,
+        selector: {
+          slug: 'hyperliquid',
+        },
+        version: '2.0',
+      },
+      {
+        apiMetricName: 'social_dominance_total',
+        label: 'Social Dominance',
+        scaleId: 'right-social_dominance_total0.2563513938628289',
+        visible: false,
+        selector: {
+          slug: 'hyperliquid',
+        },
+        version: '2.0',
+      },
+    ],
+  },
+  parameters: {},
+}
