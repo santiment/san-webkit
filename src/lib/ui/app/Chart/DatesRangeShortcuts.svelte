@@ -42,10 +42,11 @@
   import { useChartGlobalParametersCtx } from './ctx/global-parameters.svelte.js'
 
   type TProps = {
+    class?: string
     shortcuts?: readonly (readonly [string, string])[]
   }
 
-  const { shortcuts = SHORTCUTS }: TProps = $props()
+  const { class: className, shortcuts = SHORTCUTS }: TProps = $props()
 
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
@@ -71,7 +72,7 @@
 {#each shortcuts as [label, value]}
   <Button
     onclick={() => onDateRangeShortcutClick(value)}
-    class={cn(activeDateRange === value && 'bg-athens text-black')}
+    class={cn(className, activeDateRange === value && 'bg-athens text-black')}
   >
     {label}
   </Button>
