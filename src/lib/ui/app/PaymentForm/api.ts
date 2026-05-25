@@ -14,7 +14,7 @@ export const mutateSubscribe = ApiMutation(
       id
       trialEnd
       status
-      paymentIntent { status clientSecret }
+      paymentIntent { id status clientSecret }
       plan {
         id
         name
@@ -34,6 +34,7 @@ export const mutateSubscribe = ApiMutation(
       trialEnd: null | string
       status: string
       paymentIntent: null | {
+        id: string
         status: string
         clientSecret: string
       }

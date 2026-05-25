@@ -97,6 +97,9 @@ export type TCurrentUser = {
   name: null | string
   username: null | string
   avatarUrl: null | string
+  description: null | string
+  twitterHandle: null | string
+  websiteUrl: null | string
   privacyPolicyAccepted: boolean
   marketingAccepted: boolean
   firstLogin: boolean
@@ -116,6 +119,11 @@ export type TCurrentUser = {
     hasTelegramConnected: boolean
   }
 
+  notificationTypeSettings: {
+    isEnabled: boolean
+    type: string
+  }[]
+
   ethAccounts: { address: string }[]
   apikeys: string[]
 
@@ -132,6 +140,9 @@ const queryCurrentUser = ApiQuery(
     name
     username
     avatarUrl
+    description
+    twitterHandle
+    websiteUrl
     privacyPolicyAccepted
     marketingAccepted
     firstLogin
@@ -149,6 +160,10 @@ const queryCurrentUser = ApiQuery(
       alertNotifyEmail
       alertNotifyTelegram
       hasTelegramConnected
+    }
+    notificationTypeSettings {
+      isEnabled
+      type
     }
     subscriptions {
       id

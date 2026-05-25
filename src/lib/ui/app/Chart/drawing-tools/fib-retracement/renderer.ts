@@ -36,6 +36,7 @@ export class FibRetracementPaneRenderer implements TPaneRenderer {
       const { verticalPixelRatio, horizontalPixelRatio } = scope
 
       const [p1, p2] = this._paneView.viewPoints
+      const { lineWidth } = this._paneView.options
       const { levels } = this._paneView.data
 
       // Draw the main trend line (from x1 to x2 at level 0% and 100%)
@@ -44,8 +45,8 @@ export class FibRetracementPaneRenderer implements TPaneRenderer {
       ctx.moveTo(pos(p1.x!, horizontalPixelRatio), pos(p1.y!, verticalPixelRatio))
       ctx.lineTo(pos(p2.x!, horizontalPixelRatio), pos(p2.y!, verticalPixelRatio))
       ctx.setLineDash([3 * scope.horizontalPixelRatio, 3 * scope.horizontalPixelRatio])
-      ctx.strokeStyle = '#2962FF'
-      ctx.lineWidth = scope.verticalPixelRatio
+      ctx.strokeStyle = '#7A859E' // waterloo
+      ctx.lineWidth = lineWidth * scope.verticalPixelRatio
       ctx.stroke()
       ctx.setLineDash([])
       ctx.restore()
@@ -58,7 +59,7 @@ export class FibRetracementPaneRenderer implements TPaneRenderer {
         ctx.moveTo(pos(p1.x!, horizontalPixelRatio), pos(y, verticalPixelRatio))
         ctx.lineTo(pos(p2.x!, horizontalPixelRatio), pos(y, verticalPixelRatio))
         ctx.strokeStyle = color
-        ctx.lineWidth = scope.verticalPixelRatio
+        ctx.lineWidth = lineWidth * scope.verticalPixelRatio
         ctx.stroke()
         ctx.restore()
 

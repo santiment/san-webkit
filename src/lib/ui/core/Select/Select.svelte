@@ -18,6 +18,7 @@
     align?: SelectContentProps['align']
     triggerClass?: string
     contentClass?: string
+    zIndexClass?: string
 
     option?: Snippet<[Selected<T>]>
 
@@ -37,6 +38,7 @@
     selected = $bindable(),
     side = 'bottom',
     align = 'center',
+    zIndexClass = 'z-[100]',
     matchTriggerWidth,
     beforeOptionChildren,
 
@@ -90,7 +92,8 @@
   <Select.Content
     {customAnchor}
     class={cn(
-      'z-[100] overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+      'overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+      zIndexClass,
       matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
     )}
     sideOffset={8}

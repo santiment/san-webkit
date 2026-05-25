@@ -35,8 +35,8 @@
       <div
         class="grid grid-flow-col grid-rows-5 gap-x-[70px] gap-y-4 sm:my-10 sm:grid-rows-7 hover:[&>a]:text-mirage hover:[&>a]:underline"
       >
-        {#each resourcesLinks as { href, title }}
-          <a {href} target="_blank">{title}</a>
+        {#each resourcesLinks as { href, title, onclick }}
+          <a {href} {onclick} target="_blank">{title}</a>
         {/each}
       </div>
 

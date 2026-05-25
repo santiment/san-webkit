@@ -1,4 +1,4 @@
-import type { CanvasRenderingTarget2D } from 'fancy-canvas'
+import type { BitmapCoordinatesRenderingScope, CanvasRenderingTarget2D } from 'fancy-canvas'
 import type { Coordinate } from '@santiment-network/chart-next'
 import type { TrendlinePaneView } from './pane-view.js'
 
@@ -9,6 +9,7 @@ import {
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
+import { LineStyle, type TLineStyles } from '../types.js'
 
 export class TrendlinePaneRenderer implements TPaneRenderer {
   private _paneView: TrendlinePaneView
@@ -26,6 +27,7 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
       }
 
       const ctx = scope.context
+      const { lineWidth, strokeColor, lineStyle } = this._paneView.options
 
       ctx.save()
 
@@ -35,8 +37,9 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
         positionPoint(p1.y, scope.verticalPixelRatio),
         positionPoint(p2.x, scope.horizontalPixelRatio),
         positionPoint(p2.y, scope.verticalPixelRatio),
-        2 * scope.verticalPixelRatio,
-        this._paneView.strokeColor,
+        lineWidth * scope.verticalPixelRatio,
+        strokeColor,
+        createLineSegments(lineStyle, lineWidth, scope),
       )
 
       ctx.restore()
@@ -54,6 +57,26 @@ export class TrendlinePaneRenderer implements TPaneRenderer {
   }
 }
 
+export function createLineSegments(
+  lineStyle: TLineStyles,
+  lineWidth: number,
+  scope: BitmapCoordinatesRenderingScope,
+) {
+  const segments = lineStyle
+    ? lineStyle === LineStyle.DOTTED
+      ? [Math.max(lineWidth, 2), 5]
+      : [8, 8]
+    : undefined
+
+  return (
+    segments &&
+    ([
+      positionPoint(segments[0], scope.horizontalPixelRatio),
+      positionPoint(segments[1], scope.horizontalPixelRatio),
+    ] as const)
+  )
+}
+
 export function drawLine(
   ctx: CanvasRenderingContext2D,
   x1: number,
@@ -62,8 +85,14 @@ export function drawLine(
   y2: number,
   width: number,
   color: string,
+  lineDash?: readonly [number, number],
 ) {
   ctx.beginPath()
+
+  if (lineDash) {
+    ctx.setLineDash(lineDash)
+  }
+
   ctx.moveTo(x1, y1)
   ctx.lineTo(x2, y2)
   ctx.lineWidth = width

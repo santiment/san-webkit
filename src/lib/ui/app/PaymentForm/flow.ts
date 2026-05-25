@@ -6,6 +6,7 @@ import { useStripeCtx } from '$lib/ctx/stripe/index.js'
 import { notification } from '$ui/core/Notifications/index.js'
 import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 import { trackEvent } from '$lib/analytics/index.js'
+import { trackAffiliatlyPayment } from '$lib/analytics/affiliatly/index.js'
 
 import { mutateSubscribe } from './api.js'
 import { usePaymentFormCtx } from './state.js'
@@ -209,6 +210,13 @@ export function usePaymentFlow() {
         notification.success(`You have successfully upgraded to the "${planDisplayName}" plan!`)
 
         trackEvent('payment_success', analytics)
+
+        if (subscription?.paymentIntent?.id) {
+          trackAffiliatlyPayment(
+            subscription.paymentIntent.id,
+            Math.ceil((subscription.plan?.amount ?? plan.amount) / 100),
+          )
+        }
 
         return subscription
       })

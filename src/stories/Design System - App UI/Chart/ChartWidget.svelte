@@ -13,6 +13,7 @@
     useChartCtx,
     useChartGlobalParametersCtx,
     useHighlightedMetricCtx,
+    useMetricsAIExplanationCtx,
     useMetricSeriesCtx,
     type TSeries,
   } from '$ui/app/Chart/ctx/index.js'
@@ -34,6 +35,7 @@
     PaneMetricGranularityStatus,
     PaneMetricVersionStatus,
   } from '$ui/app/Chart/PaneLegend/index.js'
+  import AIExplanationStatus from '$ui/app/Chart/PaneLegend/Metric/AIExplanationStatus.svelte'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Select from '$ui/core/Select/Select.svelte'
@@ -59,6 +61,8 @@
   useDrawingToolsCtx.set({
     drawings,
   })
+
+  const { checkIsActiveAssetMetric$ } = useMetricsAIExplanationCtx.set()
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
@@ -174,13 +178,11 @@
       {:else}
         <ApiMetricSeries {index} series={item} {onData}></ApiMetricSeries>
       {/if}
-    {/each}
 
-    <SpikeExplanations>
-      {#snippet children({ slug, explanation })}
-        <AskForInsightButton {slug} {explanation}></AskForInsightButton>
-      {/snippet}
-    </SpikeExplanations>
+      {#if checkIsActiveAssetMetric$(item)}
+        <SpikeExplanations metric={item} slug={item.selector.$?.slug}></SpikeExplanations>
+      {/if}
+    {/each}
 
     <PaneLegend>
       {#snippet children({ metrics })}
@@ -210,6 +212,10 @@
                   }
                 }}
               ></PaneMetricGranularityStatus>
+
+              {#if 'apiMetricName' in metric && metric.apiMetricName === 'price_usd'}
+                <AIExplanationStatus {metric}></AIExplanationStatus>
+              {/if}
             {/snippet}
           </PaneMetric>
         {/each}

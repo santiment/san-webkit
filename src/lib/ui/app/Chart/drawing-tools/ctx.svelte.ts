@@ -18,21 +18,24 @@ type TDrawingPrimitives =
   | typeof HorizontalLinePrimitive
   | typeof VerticalLinePrimitive
 type TDrawingPrimitive = TDrawingPrimitives['prototype']
+export type TDrawingPrimitiveOptions = TDrawingPrimitive['options']
 
 export type TTypeToDrawingPrimitive = {
   [K in TDrawingPrimitives as K['prototype']['__type']]: K['prototype']
 }
 export type TDrawingTypes = keyof TTypeToDrawingPrimitive
 
-type TApiDrawing = {
+export type TApiDrawing = {
   type: TDrawingTypes
   data: TData
+  options?: Record<string, unknown>
 }
 
 type TDrawingTool = {
   type: TDrawingTypes
   data: TData
   drawing: null | TDrawingPrimitive
+  options?: Record<string, unknown>
   Primitive: undefined | Promise<{ default: TDrawingPrimitives }>
 }
 
@@ -65,7 +68,7 @@ export function importPrimitive(type: TDrawingTypes) {
       return import('./vertical-line/primitive.js')
     case 'rectangle':
       return import('./rectangle/primitive.js')
-    case 'fib_retracement':
+    case 'fib-retracement':
       return import('./fib-retracement/primitive.js')
   }
 }
@@ -86,11 +89,14 @@ export const useDrawingToolsCtx = createCtx(
         return {
           type: drawing.type,
           data: drawing.data,
+          options: drawing.options,
           drawing: null,
           Primitive: importPrimitive(drawing.type),
         }
       }),
     )
+
+    let areVisible = $state(true)
 
     let selectedTool = $state.raw<TDrawingTool | null>(null)
     function selectPrimitive(primitive: TDrawingPrimitive | null) {
@@ -98,7 +104,8 @@ export const useDrawingToolsCtx = createCtx(
 
       selectedTool?.drawing?.select(false)
       primitive?.select(true)
-      selectedTool = drawings.find((drawing) => drawing.drawing === primitive) ?? null
+      selectedTool =
+        (primitive && drawings.find((drawing) => drawing.drawing === primitive)) ?? null
     }
 
     function onDrawingToolSelect(type: TDrawingTypes) {
@@ -132,7 +139,7 @@ export const useDrawingToolsCtx = createCtx(
         return
       }
 
-      return { time: params.time, price: value }
+      return { time: params.time, value }
     }
 
     function onChartPointerDown(params: MouseEventParams) {
@@ -273,6 +280,14 @@ export const useDrawingToolsCtx = createCtx(
             return drawings
           },
 
+          set $(value) {
+            drawings = value
+          },
+
+          get areVisible$() {
+            return areVisible
+          },
+
           delete(drawingTool: null | TDrawingTool) {
             if (!drawingTool) return
 
@@ -284,18 +299,29 @@ export const useDrawingToolsCtx = createCtx(
             drawings = drawings.filter((item) => item !== drawingTool)
           },
 
-          export() {
+          toggleVisibility() {
+            areVisible = !areVisible
+
+            for (const drawingTool of drawings) {
+              drawingTool.drawing?.setVisibility(areVisible)
+            }
+          },
+
+          export$() {
             return drawings
               .map((drawingTool) => {
-                const data = drawingTool.drawing?.export() || drawingTool.data
+                const data = (drawingTool.drawing?.export() || drawingTool.data) as TData
 
                 if (!data?.points?.length) {
                   return
                 }
 
-                return { type: drawingTool.type, data }
+                const { axisLabels: _, ...options } = (drawingTool.drawing?.options ||
+                  {}) as TDrawingPrimitiveOptions
+
+                return { type: drawingTool.type, data, options }
               })
-              .filter(Boolean)
+              .filter((item) => !!item)
           },
         },
 

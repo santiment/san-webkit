@@ -8,7 +8,7 @@ export interface TViewPoint {
 
 export interface TPoint {
   time: Time
-  price: number
+  value: number
 }
 
 export type TOptions = {
@@ -22,3 +22,12 @@ export type TData = {
   seriesId?: TUUIDv7
   points: TPoint[]
 }
+
+export const LineStyle = {
+  SOLID: 0,
+  DASHED: 1,
+  DOTTED: 2,
+} as const
+
+export type TLineStyle = typeof LineStyle
+export type TLineStyles = TLineStyle[keyof TLineStyle]

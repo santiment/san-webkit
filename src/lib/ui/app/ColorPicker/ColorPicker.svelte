@@ -37,7 +37,7 @@
 
     const debounce = setTimeout(() => {
       parseHSV(hue, saturation, lightness, alpha)
-    }, 60)
+    }, 70)
     return () => clearTimeout(debounce)
   })
 
@@ -47,7 +47,7 @@
 
       if (uppercaseColor === newColor) return
 
-      onChange((uppercaseColor = newColor))
+      onChange(newColor)
     } catch (e) {
       console.error(e)
     }
@@ -94,7 +94,7 @@
 
     if (clientX < left) alpha = 0
     else if (clientX > right) alpha = 1
-    else alpha = (clientX - left) / width
+    else alpha = +((clientX - left) / width).toFixed(2)
   })
 </script>
 

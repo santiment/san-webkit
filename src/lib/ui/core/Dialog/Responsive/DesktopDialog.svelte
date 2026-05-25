@@ -42,7 +42,7 @@
       {...$overlay}
       use:overlay
       class={cn(
-        'animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+        'animated fixed inset-0 z-10 bg-shark/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 dark:bg-[#000000c0]',
         overlayClass,
       )}
       out:transition
@@ -54,7 +54,7 @@
     ></div>
     <div
       class={cn(
-        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded bg-white shadow-lg dark:shadow-none',
+        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center translate-x-[round(-50%,1px)] translate-y-[round(-50%,1px)] overflow-hidden rounded bg-white shadow-lg dark:shadow-none',
         className,
       )}
       {...$content}
