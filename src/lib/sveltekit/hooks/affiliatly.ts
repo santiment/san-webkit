@@ -40,7 +40,10 @@ const STATIC_EXTENSIONS = new Set([
   '.webp',
 ])
 
-function isStaticAsset(pathname: string): boolean {
+const BOT_USER_AGENT_REGEX =
+  /bot|crawler|spider|crawling|google|bing|yandex|yahoo|duckduckgo|telegram|twitter|facebook/i
+
+function isStaticAsset(pathname: string) {
   const lastDotIndex = pathname.lastIndexOf('.')
   if (lastDotIndex === -1) return false
 
@@ -56,6 +59,12 @@ function extractParams(url: URL, keys: readonly string[], prefix = '') {
   }
 
   return result
+}
+
+function isBotRequest(userAgent: string | null) {
+  if (!userAgent) return false
+
+  return BOT_USER_AGENT_REGEX.test(userAgent)
 }
 
 export async function callAffiliatly(payload: URLSearchParams) {
@@ -106,13 +115,13 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   if (
     url.pathname.startsWith('/api') ||
     isStaticAsset(url.pathname) ||
+    isBotRequest(request.headers.get('user-agent')) ||
     cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
   ) {
     return resolve(event)
   }
 
   const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
-
   const fpr = url.searchParams.get('fpr')
 
   if (fpr && LEGACY_AFFILIATE_MAP[fpr] && !affiliateParams.aff) {
@@ -124,10 +133,9 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
     delete affiliateParams['coupon-code']
   }
 
-  const hasParams = Object.keys(affiliateParams).length > 0
-  const hasCookie = cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
-
-  if (hasCookie || !hasParams) return resolve(event)
+  if (Object.keys(affiliateParams).length === 0) {
+    return resolve(event)
+  }
 
   const payload = new URLSearchParams({
     mode: 'track-v3',
