@@ -4,6 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import Checkbox from '$ui/core/Checkbox/index.js'
   import { RadioGroup, RadioItem } from '$ui/core/Radio/index.js'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
 
@@ -13,6 +14,11 @@
   const answer = $derived(questionnaire.currentAnswer$)
   const radioAnswer = $derived((answer as string | undefined) ?? '')
   const multiAnswer = $derived((answer as string[] | undefined) ?? [])
+
+  function cancel() {
+    trackEvent('press', { action: 'cancel', type: 'walkthrough' })
+    questionnaire.cancel()
+  }
 </script>
 
 <div in:fade={{ duration: 200 }} class="w-full max-w-[480px]">
@@ -39,8 +45,7 @@
 
       <span aria-hidden="true">&bull;</span>
 
-      <Button variant="link" class="text-rhino" onclick={questionnaire.cancel}>Cancel survey</Button
-      >
+      <Button variant="link" class="text-rhino" onclick={cancel}>Cancel survey</Button>
     </div>
 
     <div class="flex items-center gap-2">

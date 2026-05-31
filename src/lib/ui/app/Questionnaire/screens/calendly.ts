@@ -5,11 +5,10 @@ const WIDGET_CSS = 'https://assets.calendly.com/assets/external/widget.css'
 
 let widgetPromise: Promise<void> | null = null
 
-function ensureWidget(): Promise<void> {
+function ensureWidget() {
   if (widgetPromise) return widgetPromise
 
   widgetPromise = new Promise((resolve) => {
-    // @ts-expect-error
     if (window.Calendly) {
       resolve()
       return
@@ -36,7 +35,6 @@ export async function openCalendly(url: string) {
   u.searchParams.set('embed_type', 'Inline')
   u.searchParams.set('embed_domain', globalThis.location?.hostname ?? '1')
 
-  // @ts-expect-error
   window.Calendly?.initPopupWidget({
     url: u.toString(),
     pageSettings: {
