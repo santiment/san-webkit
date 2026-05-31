@@ -3,6 +3,7 @@
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
   import confetti from '../assets/confetti.svg'
@@ -15,7 +16,8 @@
     function onMessage(e: MessageEvent) {
       if (e.data?.event !== 'calendly.event_scheduled') return
 
-      // @ts-expect-error
+      trackEvent('walkthrough', { action: 'scheduled' })
+
       window.Calendly?.closePopupWidget?.()
       questionnaire.$$.isVisible = false
     }
@@ -25,8 +27,15 @@
   })
 
   async function openCalendly() {
+    trackEvent('press', { action: 'schedule_call', type: 'walkthrough' })
+
     const { openCalendly: open } = await import('./calendly.js')
     open(CALENDLY_URL)
+  }
+
+  function skip() {
+    trackEvent('press', { action: 'skip', type: 'walkthrough' })
+    questionnaire.cancel()
   }
 </script>
 
@@ -45,7 +54,9 @@
     </p>
   </div>
 
-  <footer>
+  <footer class="flex items-center gap-3 md:flex-col">
     <Button variant="fill" onclick={openCalendly}>Schedule a call</Button>
+
+    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={skip}>Skip</Button>
   </footer>
 </section>
