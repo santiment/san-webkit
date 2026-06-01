@@ -65,8 +65,8 @@ export function useApiMetricDataFlow(
 
 This might be caused by an incorrect math operation, e.g., division by zero. Potential solution:
 
-<ul class="list-disc ml-4 column">
-  <li>Handle the division programmatically: <code>if(m2 == 0, 0, m1 / m2)</code></li>
+<ul class="ml-4 column">
+  <li class="list-disc">Handle the division programmatically: <code>if(m2 == 0, 0, m1 / m2)</code></li>
 </ul>`)
       }
 
@@ -93,15 +93,17 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
 
     const from = globalParameters.$$.from
     const to = globalParameters.$$.to
-    const selector = $state.snapshot(globalParameters.$$.selector)
+
     const interval =
       metric.interval.$ || globalParameters.$$.interval || globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
     const parameters = {
-      metric: metric.apiMetricName,
-      selector: $state.snapshot(metric.selector.$) || selector,
+      metric: (metric as { apiMetricName?: string }).apiMetricName ?? '',
+      selector:
+        ('selector' in metric && $state.snapshot(metric.selector.$)) ||
+        $state.snapshot(globalParameters.$$.selector),
       from,
       to,
       interval,
@@ -110,18 +112,20 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       version: metric.version.$,
     }
 
-    const payload = { priority, minimalDelay, parameters }
-    const workerRequest = metric.formula
-      ? workerFetchFormulaMetric(
-          {
-            ...payload,
-            index,
-            formula: $state.snapshot(metric.formula.$),
-            metrics: metricSeries.asScope$,
-          },
-          onWorkerData,
-        )
-      : workerFetchMetric(payload, onWorkerData)
+    const recache = metric.recache.wasScheduled$()
+    const payload = { priority, minimalDelay, parameters, recache }
+    const workerRequest =
+      'formula' in metric && metric.formula
+        ? workerFetchFormulaMetric(
+            {
+              ...payload,
+              index,
+              formula: $state.snapshot(metric.formula.$),
+              metrics: metricSeries.asScope$,
+            },
+            onWorkerData,
+          )
+        : workerFetchMetric(payload, onWorkerData)
 
     untrack(() => {
       metric.loading.$ = true

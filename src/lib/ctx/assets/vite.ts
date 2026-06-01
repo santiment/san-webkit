@@ -22,7 +22,8 @@ export async function StaticAssetsListPlugin() {
         return {
           code: src.replace(
             'DEFAULT_ASSETS = []',
-            `DEFAULT_ASSETS = ${JSON.stringify(env.ssr ? assets : assets.slice(0, 20))}`,
+            `DEFAULT_ASSETS = ${JSON.stringify(env.ssr ? assets : assets.slice(0, 20))}` +
+              (env.ssr ? '.concat(TOTAL_MARKET_INDEX)' : ''),
           ),
           map: null,
         }

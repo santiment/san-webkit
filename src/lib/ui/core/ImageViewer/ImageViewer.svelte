@@ -35,8 +35,8 @@
       imgProps = {
         src: img.src,
         alt: img.alt,
-        width: img.naturalWidth,
-        height: img.naturalHeight,
+        width: img.offsetWidth,
+        height: img.offsetHeight,
         el: img,
       }
     }

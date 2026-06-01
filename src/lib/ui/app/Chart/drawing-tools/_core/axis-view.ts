@@ -49,6 +49,6 @@ export class DrawingPriceAxisView extends DrawingAxisView {
 
   text() {
     const series = this._source.series
-    return series.priceFormatter().format(this._source.points[this._index].price)
+    return series.priceFormatter().format(this._source.points[this._index].value)
   }
 }

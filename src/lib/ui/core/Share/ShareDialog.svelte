@@ -10,12 +10,12 @@
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Switch from '$ui/core/Switch/index.js'
   import { copy } from '$lib/utils/clipboard.js'
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
 
+  import PrivacySwitch from '../Switch/PrivacySwitch.svelte'
   import { MOBILE_SOCIALS, SOCIALS } from './socials.js'
   import Svg from '../Svg/Svg.svelte'
 
@@ -98,10 +98,7 @@
   <div class="w-[600px] px-6 py-5 md:w-full md:px-5 md:py-6 sm:w-auto">
     {#if disabled}
       <div
-        class={cn(
-          'mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino',
-          'md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2',
-        )}
+        class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
       >
         {#if !isDesktop}
           <Svg id="warning" w="16" h="20" class="py-[3px]" />
@@ -120,6 +117,7 @@
       >
         <input
           readonly
+          type="text"
           value={link}
           class={cn(
             'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-none',
@@ -128,7 +126,7 @@
           bind:this={inputNode}
         />
         <Button
-          class={cn('h-10 min-w-[84px] text-nowrap rounded-none border-l border-solid px-3')}
+          class="share-copy-btn h-10 min-w-[84px] text-nowrap rounded-none border-l border-porcelain px-3"
           onclick={onCopy}
           {disabled}
         >
@@ -205,15 +203,20 @@
         {entity}
       </span>
 
-      <Switch
+      <PrivacySwitch
         class="ml-3 cursor-pointer md:m-0"
-        icon={{ active: { id: 'eye-filled', w: 10, h: 7 } }}
         checked={isPublic}
-        onCheckedChange={() => {
-          isPublic = !isPublic
+        onCheckedChange={(checked) => {
+          isPublic = checked
           onPublicityToggle()
         }}
-      />
+      ></PrivacySwitch>
     </label>
   {/if}
 {/snippet}
+
+<style>
+  :global(.share-copy-btn) {
+    border-left-style: solid;
+  }
+</style>

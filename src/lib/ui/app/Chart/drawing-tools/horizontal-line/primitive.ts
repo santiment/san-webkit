@@ -1,18 +1,25 @@
-import type { TData, TOptions, TPoint, TViewPoint } from '../types.js'
+import type { TData, TPoint, TViewPoint } from '../types.js'
 import type { Coordinate } from '@santiment-network/chart-next'
 
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { HorizontalLinePaneView } from './pane-view.js'
+import { LineOptionsDefaults, type TLineOptions } from '../trendline/primitive.js'
 
-export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizontal-line'> {
+export default class HorizontalLinePrimitive extends DrawingPrimitive<
+  'horizontal-line',
+  TLineOptions
+> {
   public __type = 'horizontal-line' as const
 
   protected _paneViews: HorizontalLinePaneView[] = [new HorizontalLinePaneView(this)]
 
-  public constructor(data: TData, options: Partial<TOptions> = {}) {
+  public constructor(data: TData, options: Partial<TLineOptions> = {}) {
     data.points = data.points.slice(0, 1)
 
-    super(data, options)
+    super(data, {
+      ...LineOptionsDefaults,
+      ...options,
+    })
 
     this._timeAxisViews.length = 0
     this._timeAxisPaneViews.length = 0
@@ -33,7 +40,7 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizonta
 
     return this._dataPoints.map((point) => ({
       x,
-      y: series.priceToCoordinate(point.price),
+      y: series.priceToCoordinate(point.value),
     }))
   }
 
@@ -43,7 +50,7 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<'horizonta
 
     return this._viewPoints.map((point) => ({
       time: 0 as TPoint['time'],
-      price: series.coordinateToPrice(point.y!)!,
+      value: series.coordinateToPrice(point.y!)!,
     }))
   }
 

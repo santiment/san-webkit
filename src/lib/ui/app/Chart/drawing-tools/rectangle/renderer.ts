@@ -12,11 +12,9 @@ import {
 
 export class RectanglePaneRenderer implements TPaneRenderer {
   private _paneView: RectanglePaneView
-  private _fillColor: string
 
-  constructor(paneView: RectanglePaneView, fillColor: string) {
+  constructor(paneView: RectanglePaneView) {
     this._paneView = paneView
-    this._fillColor = fillColor
   }
 
   draw(target: CanvasRenderingTarget2D) {
@@ -28,9 +26,12 @@ export class RectanglePaneRenderer implements TPaneRenderer {
       }
 
       const ctx = scope.context
+      const { fillStyle } = this._paneView.options
+
       const horizontalPositions = positionsBox(p1.x, p2.x, scope.horizontalPixelRatio)
       const verticalPositions = positionsBox(p1.y, p2.y, scope.verticalPixelRatio)
-      ctx.fillStyle = this._fillColor
+
+      ctx.fillStyle = fillStyle
       ctx.fillRect(
         horizontalPositions.position,
         verticalPositions.position,

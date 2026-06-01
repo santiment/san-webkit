@@ -37,6 +37,12 @@ function extractParams(url: URL, keys: readonly string[], prefix = '') {
   return result
 }
 
+function isBotRequest(userAgent: string | null) {
+  if (!userAgent) return false
+
+  return BOT_USER_AGENT_REGEX.test(userAgent)
+}
+
 export async function callAffiliatly(payload: URLSearchParams) {
   const query = new URLSearchParams({ aid: AFFILIATLY_PROGRAM_ID, t: Date.now().toString() })
   const controller = new AbortController()
@@ -94,7 +100,6 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   }
 
   const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
-
   const fpr = url.searchParams.get('fpr')
 
   if (fpr && LEGACY_AFFILIATE_MAP[fpr] && !affiliateParams.aff) {

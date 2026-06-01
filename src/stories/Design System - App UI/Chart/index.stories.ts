@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 import component from './index.svelte'
+import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
 const meta = {
   component,
@@ -35,15 +36,16 @@ export const Drawings: Story = {
     defaultDrawings: [
       {
         type: 'trendline',
+        options: { lineStyle: 1 },
         data: {
           points: [
             {
               time: 1727740800,
-              price: 56287.24502956653,
+              value: 56287.24502956653,
             },
             {
               time: 1739059200,
-              price: 105093.45311719566,
+              value: 105093.45311719566,
             },
           ],
         },
@@ -387,6 +389,95 @@ export const ZeroDivisionFormula: Story = {
           name: 'm1 / 0',
           expr: `m1 / if(m1 > 115000, 0, 1)`,
         },
+      },
+    ],
+  },
+  parameters: {},
+}
+
+export const CombinedDistributionMetric: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price USD',
+        scaleId: 'right-price_usd',
+      },
+
+      {
+        type: MetricType.COMBINED_DISTRIBUTION,
+        // apiMetricName: 'FORMULA_1',
+        // style: 'area',
+
+        selector: {
+          slug: 'ethereum',
+          labels: ['exchange', 'infrastructure'],
+        },
+
+        scaleId: 'right-123123123',
+        distribution: {
+          base: 'holders_labeled_distribution',
+          combined: ['0_to_0.001', '0.001_to_0.01'],
+        },
+      },
+    ],
+  },
+  parameters: {},
+}
+
+export const SparseGapsInFormula: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        label: 'Positive Sentiment vs. Negative Sentiment Ratio',
+        scaleId: 'right-0.702362761389925',
+        formula: {
+          expr: '(m4 / m5 - 1) * m6',
+          id: '019e027a-d694-776d-831a-8264461c821d',
+          name: 'Positive Sentiment vs. Negative Sentiment Ratio',
+        },
+      },
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price',
+        scaleId: 'right-price_usd0.4735169585340905',
+        visible: false,
+      },
+      {
+        apiMetricName: 'funding_rates_aggregated_by_exchange',
+        label: 'Funding Rates Aggregated by Exchange',
+        scaleId: 'right-funding_rates_aggregated_by_exchange0.5737146641511001',
+        visible: false,
+      },
+      {
+        apiMetricName: 'sentiment_positive_total',
+        label: 'Positive sentiment (Total)',
+        scaleId: 'right-sentiment_positive_total0.2276557543070883',
+        selector: {
+          slug: 'hyperliquid',
+        },
+        visible: false,
+        version: '2.0',
+      },
+      {
+        apiMetricName: 'sentiment_negative_total',
+        label: 'Negative sentiment (Total)',
+        scaleId: 'right-sentiment_negative_total0.21020496250093323',
+        visible: false,
+        selector: {
+          slug: 'hyperliquid',
+        },
+        version: '2.0',
+      },
+      {
+        apiMetricName: 'social_dominance_total',
+        label: 'Social Dominance',
+        scaleId: 'right-social_dominance_total0.2563513938628289',
+        visible: false,
+        selector: {
+          slug: 'hyperliquid',
+        },
+        version: '2.0',
       },
     ],
   },

@@ -44,7 +44,7 @@ export function createMetricSeriesCsvHeaders(series: TSeries[]) {
   ].concat(
     series.map((metric) => ({
       title: metric.label,
-      format: (row: any) => row[metric.formula?.$.name || metric.apiMetricName] ?? '',
+      format: (row: any) => row[metric.label] ?? '',
     })),
   )
 }
@@ -53,7 +53,7 @@ export function mergeMetricSeriesData(series: TSeries[]) {
   const data: Record<number, Record<string, any>> = {}
 
   for (const metric of series) {
-    const key = metric.formula?.$.name || metric.apiMetricName
+    const key = metric.label
     for (const { time, value } of metric.data.$) {
       const datePoint = (data[time] ??= { time })
       datePoint[key] = value

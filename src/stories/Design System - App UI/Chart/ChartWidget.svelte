@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
   import { useTimeZoneCtx } from '$lib/ctx/time/index.js'
   import { useItemViewportPriorityFlow } from '$lib/ctx/viewport-priority/index.js'
   import {
@@ -12,6 +13,7 @@
     useChartCtx,
     useChartGlobalParametersCtx,
     useHighlightedMetricCtx,
+    useMetricsAIExplanationCtx,
     useMetricSeriesCtx,
     type TSeries,
   } from '$ui/app/Chart/ctx/index.js'
@@ -33,8 +35,10 @@
     PaneMetricGranularityStatus,
     PaneMetricVersionStatus,
   } from '$ui/app/Chart/PaneLegend/index.js'
+  import AIExplanationStatus from '$ui/app/Chart/PaneLegend/Metric/AIExplanationStatus.svelte'
   import SpikeExplanations from '$ui/app/Chart/SpikeExplanations/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import Select from '$ui/core/Select/Select.svelte'
   import DrawingTools from './DrawingTools.svelte'
 
   let { viewportPriority = false, drawings = [] } = $props()
@@ -57,6 +61,8 @@
   useDrawingToolsCtx.set({
     drawings,
   })
+
+  const { checkIsActiveAssetMetric$ } = useMetricsAIExplanationCtx.set()
 
   function timeFormatter(time: number) {
     return getFormattedDetailedTimestamp(applyTimeZoneOffset(new Date(time * 1000)), { utc: true })
@@ -107,6 +113,12 @@
 
     chartWidget.resetAllScales()
   }
+
+  let granularityShortcut = $state.raw<null | {
+    metric: TSeries
+    customAnchor: HTMLElement
+    onSelect: (item: any) => void
+  }>(null)
 </script>
 
 <div class="relative column">
@@ -128,11 +140,12 @@
         style="border-color:{metric.ui.$$.color}"
         onmouseenter={() => onMetricEnter(metric)}
         onmouseleave={onMetricLeave}
-        onclick={metric.formula
+        onclick={metric.type === MetricType.FORMULAS
           ? () =>
               showFormulaEditorDialog({ formula: metric.formula!.$, index })
                 .then((data) => {
-                  // console.log(data)
+                  console.log(data)
+                  if (!data) return
                   metric.formula!.$ = data.formula
                 })
                 .catch((e) => console.error('In catch', e))
@@ -140,7 +153,7 @@
               metric.ui.$$.style = metric.ui.$$.style === 'line' ? 'histogram' : 'line'
             }}
       >
-        {metric.formula?.$.name || metric.label}
+        {metric.label}
       </div>
     {/each}
 
@@ -165,28 +178,44 @@
       {:else}
         <ApiMetricSeries {index} series={item} {onData}></ApiMetricSeries>
       {/if}
-    {/each}
 
-    <SpikeExplanations>
-      {#snippet children({ slug, explanation })}
-        <AskForInsightButton {slug} {explanation}></AskForInsightButton>
-      {/snippet}
-    </SpikeExplanations>
+      {#if checkIsActiveAssetMetric$(item)}
+        <SpikeExplanations metric={item} slug={item.selector.$?.slug}></SpikeExplanations>
+      {/if}
+    {/each}
 
     <PaneLegend>
       {#snippet children({ metrics })}
         {#each metrics as metric (metric.id)}
           <PaneMetric
             {metric}
+            isFocused={metric === granularityShortcut?.metric}
             paneControls
             onmouseenter={() => onMetricEnter(metric)}
             onmouseleave={onMetricLeave}
           >
             {#snippet label()}
-              {metric.formula?.$.name || metric.label}
+              {metric.label}
 
               <PaneMetricVersionStatus {metric}></PaneMetricVersionStatus>
-              <PaneMetricGranularityStatus {metric}></PaneMetricGranularityStatus>
+              <PaneMetricGranularityStatus
+                {metric}
+                onclick={(e) => {
+                  const customAnchor = e.currentTarget
+
+                  granularityShortcut = {
+                    metric,
+                    customAnchor,
+                    onSelect(item) {
+                      console.log(item, metric)
+                    },
+                  }
+                }}
+              ></PaneMetricGranularityStatus>
+
+              {#if 'apiMetricName' in metric && metric.apiMetricName === 'price_usd'}
+                <AIExplanationStatus {metric}></AIExplanationStatus>
+              {/if}
             {/snippet}
           </PaneMetric>
         {/each}
@@ -204,3 +233,13 @@
     </div>
   </div>
 </div>
+
+{#if granularityShortcut}
+  <Select
+    open={true}
+    withDefaultTrigger={false}
+    items={[{ value: 1, label: '1' }]}
+    {...granularityShortcut}
+    onOpenChange={() => setTimeout(() => (granularityShortcut = null), 100)}
+  ></Select>
+{/if}

@@ -15,7 +15,7 @@
   {@render button(['horizontal-line', 'H.Line'])}
   {@render button(['vertical-line', 'V.Line'])}
   {@render button(['rectangle', 'Rect'])}
-  {@render button(['fib_retracement', 'Fib'])}
+  {@render button(['fib-retracement', 'Fib'])}
 
   {#if drawingTools.selected.$}
     <Button icon="delete" explanation="Delete selected drawing" onclick={onDeleteClick}></Button>

@@ -54,12 +54,12 @@ const handleCancelRequest: TRequestHandler<TCancelRequestMessage> = (_, msg) => 
 }
 
 const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) => {
-  const { priority, minimalDelay, parameters } = msg.payload
+  const { priority, minimalDelay, parameters, recache } = msg.payload
 
   let isCancelled = false
 
   const queryData = () =>
-    queryGetMetric({ executor: Query })({
+    queryGetMetric({ executor: Query, recache })({
       metric: parameters.metric,
       selector: parameters.selector,
       from: parameters.from,
@@ -102,7 +102,7 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
 }
 
 const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (respond, msg) => {
-  const { minimalDelay, parameters, formula, index, metrics } = msg.payload
+  const { minimalDelay, parameters, formula, index, metrics, recache } = msg.payload
 
   // NOTE: Decreasing priority of the formula metric
   const jobSettings = { minimalDelay, priority: (msg.payload.priority || 1) * 10 }
@@ -114,7 +114,7 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
     if (job) jobs.push(job)
   }
 
-  const ctx = { metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
+  const ctx = { recache, metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
 
   fetchFormulaMetric(formula, index, ctx)
     .then((timeseries) => {

@@ -40,6 +40,8 @@
       formatter: formatters.$.scaleFormatter,
     } as const)
 
+  const _oldChartSeriesApi = series.chartSeriesApi ?? null // NOTE: Used inside fullscreen dialog when reusing metricSeries ctx
+
   let chartSeries = $state.raw() as ReturnType<typeof createChartSeries>
 
   $effect.pre(() => {
@@ -103,13 +105,16 @@
       return
     }
 
-    untrack(() => chartSeries).setData(data.$)
+    //FIXME: hotfix for chart crashes with sparse gaps in formula resulted graph (check SparseGapsInFormula storybook entry)
+    const chartData = data.$.filter((item) => item.value !== undefined)
+
+    untrack(() => chartSeries).setData(chartData)
 
     //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
-    series.chartSeriesApi = null
+    series.chartSeriesApi = _oldChartSeriesApi
 
     highlightedMetricCtx?.onMetricLeave()
 

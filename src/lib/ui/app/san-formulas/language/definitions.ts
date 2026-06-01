@@ -370,6 +370,7 @@ if(m1 > m2, 1, 0)
     // @RELEASE:MD-COMPILE:END
   },
 
+  /*
   {
     ...FunctionSignature(
       'backtest',
@@ -379,15 +380,16 @@ if(m1 > m2, 1, 0)
     ),
     icon: 'stack',
 
-    // @RELEASE:MD-COMPILE:START
+    // @_RELEASE:MD-COMPILE:START
     documentation: `
 \`\`\`
 # \`0\` means the option is disabled
 backtest(m1, m1 / m1, { capital: 1000, fee: 0.001, stop_loss: 0, take_profit: 0 })
 \`\`\`
 `,
-    // @RELEASE:MD-COMPILE:END
+    // @_RELEASE:MD-COMPILE:END
   },
+   */
 ]
 
 // @RELEASE:DELETE:START

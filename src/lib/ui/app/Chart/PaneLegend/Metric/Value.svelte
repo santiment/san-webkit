@@ -13,7 +13,7 @@
   const { hoverPoint } = usePanesTooltip.get()
   const { startPointIndex } = useShiftModeStartPoint.get()
 
-  const formatter = metric.formatters.$.tooltipFormatter
+  const formatter = $derived(metric.formatters.$.tooltipFormatter)
 
   const seriesPoint = $derived(
     hoverPoint.$ ? metric.chartSeriesApi?.dataByIndex(hoverPoint.$.index, -1) : null,

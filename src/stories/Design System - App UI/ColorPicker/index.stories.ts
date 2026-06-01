@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
-
 import component from './index.svelte'
 
 const meta = {
@@ -12,4 +11,4 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const VoteDialog: Story = {}
+export const ColorPicker: Story = {}

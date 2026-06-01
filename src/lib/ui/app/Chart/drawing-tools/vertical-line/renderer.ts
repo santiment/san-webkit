@@ -8,7 +8,7 @@ import {
   type TPaneRenderer,
   type TRenderHitTestData,
 } from '../_core/renderer.js'
-import { drawLine } from '../trendline/renderer.js'
+import { createLineSegments, drawLine } from '../trendline/renderer.js'
 
 export class VerticalLinePaneRenderer implements TPaneRenderer {
   private _paneView: VerticalLinePaneView
@@ -26,6 +26,7 @@ export class VerticalLinePaneRenderer implements TPaneRenderer {
       }
 
       const ctx = scope.context
+      const { lineWidth, strokeColor, lineStyle } = this._paneView.options
 
       ctx.save()
 
@@ -35,8 +36,9 @@ export class VerticalLinePaneRenderer implements TPaneRenderer {
         positionPoint(0, scope.verticalPixelRatio),
         positionPoint(p1.x!, scope.horizontalPixelRatio),
         positionPoint(scope.mediaSize.height, scope.verticalPixelRatio),
-        2 * scope.verticalPixelRatio,
-        this._paneView.strokeColor,
+        lineWidth * scope.verticalPixelRatio,
+        strokeColor,
+        createLineSegments(lineStyle, lineWidth, scope),
       )
 
       ctx.restore()

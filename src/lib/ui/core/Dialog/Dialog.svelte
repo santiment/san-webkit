@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
@@ -14,6 +14,7 @@
     children,
     class: className,
     overlayClass,
+    onBeforeClose,
     forceMobileLandscape = false,
     forceDesktop = false,
   }: {
@@ -22,6 +23,7 @@
     forceMobileLandscape?: boolean
     forceDesktop?: boolean
     children: Snippet<[{ close: () => void }]>
+    onBeforeClose?: () => void
   } = $props()
 
   const { Controller } = getDialogControllerCtx()
@@ -37,6 +39,8 @@
     if (next === false) {
       if (isMounted === false) return true
 
+      onBeforeClose?.()
+
       // Forcing memory clean
       setTimeout(onClosed, TRANSITION_MS + 50)
     }
@@ -44,10 +48,14 @@
     return next
   }
 
-  const close = () => (isOpened = false)
+  const close = () => {
+    isOpened = false
+    // @ts-expect-error Resolve on close as undefined promise otherwise it is a stale promise
+    Controller.resolve(undefined)
+  }
   Controller.close = close
 
-  $effect(() => {
+  onMount(() => {
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
 </script>

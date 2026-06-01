@@ -61,6 +61,7 @@ export default {
       base: ['16px', '24px'],
       lg: ['18px', '26px'],
       'lg-2': ['20px', '28px'],
+      'lg-3': ['22px', '28px'],
       xl: ['24px', '32px'],
       '2xl': ['26px', '32px'],
       '3xl': ['32px', '40px'],
@@ -81,6 +82,7 @@ export default {
     tailwindAnimate,
     createColors({
       colors: {
+        // Grayscale
         white: {
           day: '#ffffff',
           night: '#181B2B',
@@ -101,6 +103,7 @@ export default {
 
         shark: '#15181F',
 
+        // Accent Colors
         green: '#14C393',
         'green-hover': '#24AC85',
         'green-light-1': { day: '#EDF8F5', night: '#182833' },
@@ -137,9 +140,11 @@ export default {
         'blue-light-3': { day: '#a9baff', night: '#354895' },
         'blue-light-4': { day: '#8099FF', night: '#415ABF' },
 
-        cyan: '#68dbf4',
-        'cyan-hover': { day: '#18c0e4', night: '#5bcde5' },
-        'cyan-light-1': { day: '#d7f6fc', night: '#253a4b' },
+        cyan: '#68DBF4',
+        'cyan-hover': '#18C0E4',
+        'cyan-light-1': { day: '#EBFAFD', night: '#1F2B3B' },
+        'cyan-light-2': { day: '#D7F6FC', night: '#253A4B' },
+        'cyan-accent': '#72FFFF',
 
         purple: '#8358FF',
         'purple-hover': '#6339DD',

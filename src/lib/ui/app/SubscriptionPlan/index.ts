@@ -24,7 +24,11 @@ export {
   getPlanName,
   getFormattedPlan,
 } from './utils.js'
-export { type TPublicSubscription, getPrimarySubscription } from './subscription.js'
+export {
+  type TPublicSubscription,
+  getPrimarySubscription,
+  extractPlanFromSubscriptions,
+} from './subscription.js'
 
 export { default as PlanButton } from './PlanButton.svelte'
 export { default as PlanCard } from './PlanCard.svelte'

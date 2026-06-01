@@ -25,7 +25,13 @@ export abstract class DrawingPaneView implements IPrimitivePaneView {
 
   abstract update(): void
 
-  abstract renderer(): IPrimitivePaneRenderer | null
+  public renderer(): IPrimitivePaneRenderer | null {
+    if (!this._source.isVisible()) {
+      return null
+    }
+
+    return this._renderer
+  }
 
   public hitTest(x: Coordinate, y: Coordinate): PrimitiveHoveredItem | null {
     const result = this._renderer.hitTest(x, y)

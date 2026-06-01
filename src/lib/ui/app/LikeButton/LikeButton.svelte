@@ -83,10 +83,7 @@
     trackEvent('vote', { id, feature: normalizeFeatureType(type), source })
 
     mutateVote(Query)(id, type)
-      .then((res) => {
-        console.log({ res })
-        onVoted()
-      })
+      .then(() => onVoted())
       .catch(() => {
         totalVotes -= 1
         userVotes -= 1

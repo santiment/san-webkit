@@ -1,9 +1,15 @@
 import type { TViewPoint } from '../types.js'
 
+import { getBrowserCssVariable } from '$ui/utils/index.js'
+
 import { DrawingPrimitive } from '../_core/primitive.js'
 import { RectanglePaneView } from './pane-view.js'
 
-export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
+export type TRectangleOptions = {
+  fillStyle: string
+}
+
+export default class RectanglePrimitive extends DrawingPrimitive<'rectangle', TRectangleOptions> {
   public __type = 'rectangle' as const
 
   protected _paneViews: RectanglePaneView[] = [new RectanglePaneView(this)]
@@ -12,6 +18,10 @@ export default class RectanglePrimitive extends DrawingPrimitive<'rectangle'> {
     this.viewPoints[this.viewPoints.length - 1] = point
 
     this.requestUpdate()
+  }
+
+  protected constructOptions(options: Partial<TRectangleOptions>) {
+    return { fillStyle: getBrowserCssVariable('blue') + '50', ...options }
   }
 
   protected sortViewPoints(): void {
