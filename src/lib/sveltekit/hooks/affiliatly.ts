@@ -26,6 +26,9 @@ const LEGACY_AFFILIATE_MAP: Record<string, string> = {
   twitter: '2',
 }
 
+const BOT_USER_AGENT_REGEX =
+  /bot|crawler|spider|crawling|google|bing|yandex|yahoo|duckduckgo|telegram|twitter|facebook/i
+
 function extractParams(url: URL, keys: readonly string[], prefix = '') {
   const result: Record<string, string> = {}
 
@@ -95,7 +98,11 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
     !!route.id &&
     (request.headers.get('accept') ?? '').includes('text/html')
 
-  if (!isHtmlDocumentRequest || cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
+  if (
+    !isHtmlDocumentRequest ||
+    isBotRequest(request.headers.get('user-agent')) ||
+    cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
+  ) {
     return resolve(event)
   }
 
