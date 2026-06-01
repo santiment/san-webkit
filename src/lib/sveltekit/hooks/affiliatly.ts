@@ -26,27 +26,6 @@ const LEGACY_AFFILIATE_MAP: Record<string, string> = {
   twitter: '2',
 }
 
-const STATIC_EXTENSIONS = new Set([
-  '.js',
-  '.css',
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.gif',
-  '.svg',
-  '.ico',
-  '.json',
-  '.map',
-  '.webp',
-])
-
-function isStaticAsset(pathname: string): boolean {
-  const lastDotIndex = pathname.lastIndexOf('.')
-  if (lastDotIndex === -1) return false
-
-  return STATIC_EXTENSIONS.has(pathname.slice(lastDotIndex))
-}
-
 function extractParams(url: URL, keys: readonly string[], prefix = '') {
   const result: Record<string, string> = {}
 
@@ -101,13 +80,16 @@ async function saveAffiliateCookie(response: Response | void, cookies: RequestEv
 }
 
 export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
-  const { url, cookies, request } = event
+  const { url, cookies, request, isSubRequest, isDataRequest, route } = event
 
-  if (
-    url.pathname.startsWith('/api') ||
-    isStaticAsset(url.pathname) ||
-    cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
-  ) {
+  const isHtmlDocumentRequest =
+    request.method === 'GET' &&
+    !isSubRequest &&
+    !isDataRequest &&
+    !!route.id &&
+    (request.headers.get('accept') ?? '').includes('text/html')
+
+  if (!isHtmlDocumentRequest || cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
     return resolve(event)
   }
 
@@ -124,10 +106,7 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
     delete affiliateParams['coupon-code']
   }
 
-  const hasParams = Object.keys(affiliateParams).length > 0
-  const hasCookie = cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
-
-  if (hasCookie || !hasParams) return resolve(event)
+  if (Object.keys(affiliateParams).length === 0) return resolve(event)
 
   const payload = new URLSearchParams({
     mode: 'track-v3',
