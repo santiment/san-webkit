@@ -31,6 +31,7 @@ import {
   usdFormatter,
 } from '$lib/utils/formatters/index.js'
 import { uuidv7, type TUUIDv7 } from '$lib/utils/uuid/index.js'
+import { ONE_DAY_IN_MS } from '$lib/utils/dates/index.js'
 
 // const DEFAULT_LABELS_GETTER = () => ['' as TLabels[0], '' as TLabels[1]] as TLabels
 
@@ -49,6 +50,8 @@ type TBaseSeries<GType extends TMetricTypes> = {
 
   aggregation: SS<TAggregation>
   interval: SS<TChartMetric['interval']>
+
+  getAutoInterval: ReturnType<typeof createAutoIntervalGetter>
 
   pane: {
     get $(): number
@@ -288,6 +291,7 @@ export function createSeries({
     },
 
     interval: ss(interval),
+    getAutoInterval: createAutoIntervalGetter(meta?.granularityRules),
 
     selector: ss(selector),
 
@@ -476,4 +480,22 @@ export function useMetricSeriesDeleteListener(fn: (metric: TSeries) => void) {
       deleteEventSubscribers.delete(onDelete)
     }
   })
+}
+
+function createAutoIntervalGetter(
+  granularityRules: NonNullable<TChartMetric['meta']>['granularityRules'],
+) {
+  if (!granularityRules) {
+    return
+  }
+
+  const rules = granularityRules.map(
+    ({ maxTimeRangeDays, value }) =>
+      [maxTimeRangeDays * ONE_DAY_IN_MS, value as TInterval] as const,
+  )
+
+  return (from: Date, to: Date) => {
+    const diff = +to - +from
+    return rules.find((rule) => diff < rule[0])?.[1]
+  }
 }

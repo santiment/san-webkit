@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 import component from './index.svelte'
 import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
+import { zodGranularityRulesSchema } from '$lib/ctx/metrics-registry/settings-schema.js'
 
 const meta = {
   component,
@@ -482,4 +483,27 @@ export const SparseGapsInFormula: Story = {
     ],
   },
   parameters: {},
+}
+
+export const MetricsRegistryCustomGranularityRules: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Price',
+        scaleId: 'right-price_usd0.4735169585340905',
+      },
+      {
+        apiMetricName: 'sentiment_volume_consumed_total',
+        label: 'Weighted sentiment total',
+        scaleId: 'right-0.702362761389925',
+        meta: {
+          granularityRules: zodGranularityRulesSchema.safeParse([
+            { maxTimeRangeDays: 33, value: '1h' },
+            { maxTimeRangeDays: 800, value: '1d' },
+          ]).data,
+        },
+      },
+    ],
+  },
 }

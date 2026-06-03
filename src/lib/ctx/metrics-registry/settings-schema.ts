@@ -31,3 +31,18 @@ export const zodSettingsSchema = z.object({
 })
 
 export type TSettingsSchema = z.infer<typeof zodSettingsSchema>
+
+export const zodGranularityRulesSchema = z
+  .array(
+    z.object({
+      maxTimeRangeDays: z
+        .number()
+        .nullish()
+        .transform((value) => value ?? Infinity),
+      value: z.string(),
+    }),
+  )
+  .min(1)
+  .transform((val) => val.sort((a, b) => a.maxTimeRangeDays - b.maxTimeRangeDays))
+
+export type TGranularityRulesSchema = z.infer<typeof zodGranularityRulesSchema>

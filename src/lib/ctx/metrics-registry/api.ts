@@ -3,7 +3,12 @@ import type { TMetricSelector } from './types/index.js'
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
 import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
-import { zodSettingsSchema, type TSettingsSchema } from './settings-schema.js'
+import {
+  zodGranularityRulesSchema,
+  zodSettingsSchema,
+  type TGranularityRulesSchema,
+  type TSettingsSchema,
+} from './settings-schema.js'
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
@@ -34,6 +39,7 @@ export type TRegistryMetric = {
     isNew: boolean
     displayOrder: number
     settingsSchema?: TSettingsSchema
+    granularityRules?: TGranularityRulesSchema
   }
 
   reqMeta: object
@@ -98,7 +104,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       })
       .reduce((acc, item) => {
         const key = item.k ?? item.m
-        const { settingsSchema, ...args } = item.a ?? {}
+        const { settingsSchema, granularityRules, ...args } = item.a ?? {}
 
         return Object.assign(acc, {
           [key]: {
@@ -120,6 +126,7 @@ export const queryGetOrderedMetrics = ApiQuery(
             meta: {
               args,
               settingsSchema: zodSettingsSchema.safeParse(settingsSchema).data,
+              granularityRules: zodGranularityRulesSchema.safeParse(granularityRules).data,
               //type: item.t,
               isNew: item.in,
               displayOrder: item.do,
