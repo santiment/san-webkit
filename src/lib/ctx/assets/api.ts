@@ -1,6 +1,9 @@
 import type { TNominal } from '../../utils/types/index.js'
 
+import { BROWSER } from 'esm-env'
+
 import { ApiQuery } from '../../api/index.js'
+import { Query } from '../../api/executor.js'
 import { keyify } from '../../utils/object.js'
 
 export type TAssetSlug = TNominal<string, 'TAssetSlug'>
@@ -158,11 +161,14 @@ export const INDICES_AND_SUPPLY = [
   TradFinanceItem('m2-money', 'M2 Money', 'M2M'),
 ]
 
-export const FUNDS = [
-  TradFinanceItem('gbtc', 'GBTC', 'GBTC'),
-  TradFinanceItem('ibit', 'IBIT', 'IBIT'),
-  TradFinanceItem('fbtc', 'FBTC', 'FBTC'),
-  TradFinanceItem('arkb', 'ARKB', 'ARKB'),
-  TradFinanceItem('btco', 'BTCO', 'BTCO'),
-  TradFinanceItem('bitb', 'BITB', 'BITB'),
-]
+// NOTE: Default values will be populated at build time
+export const FUNDS = []
+if (BROWSER) {
+  queryAllProjects(Query)().then(replaceFundsByAllAssetsFiltering)
+}
+
+export function replaceFundsByAllAssetsFiltering(assets: TAsset[]) {
+  const funds = assets.filter((item) => item.marketSegments?.includes('Funds'))
+  FUNDS.splice(0, FUNDS.length, ...(funds as typeof FUNDS))
+  return FUNDS
+}
