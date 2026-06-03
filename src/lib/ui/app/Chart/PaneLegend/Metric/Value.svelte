@@ -21,6 +21,10 @@
 
   const hoverValue = $derived.by(() => {
     if (!seriesPoint) return
+
+    // Special case non-finite data
+    if (seriesPoint.value === 0 && seriesPoint.color === 'transparent') return NaN
+
     if ('close' in seriesPoint) return seriesPoint.close
     if ('value' in seriesPoint) return seriesPoint.value
   })
