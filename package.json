@@ -189,5 +189,10 @@
     "ua-parser-js": "1.0.39",
     "virtua": "0.41.5",
     "zod": "^3.23.8"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "tailwind-variants@0.3.0": "patches/tailwind-variants@0.3.0.patch"
+    }
   }
 }

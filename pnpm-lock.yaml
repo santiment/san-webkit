@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  tailwind-variants@0.3.0:
+    hash: 277oyanjyyxcufsnp2uhvrjhjy
+    path: patches/tailwind-variants@0.3.0.patch
+
 dependencies:
   '@amplitude/analytics-browser':
     specifier: ^2.11.2
@@ -46,7 +51,7 @@ dependencies:
     version: 0.3.28(svelte@5.35.4)
   tailwind-variants:
     specifier: ^0.3.0
-    version: 0.3.0(tailwindcss@3.4.3)
+    version: 0.3.0(patch_hash=277oyanjyyxcufsnp2uhvrjhjy)(tailwindcss@3.4.3)
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.4.3)
@@ -10127,7 +10132,7 @@ packages:
   /tailwind-merge@2.5.4:
     resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
 
-  /tailwind-variants@0.3.0(tailwindcss@3.4.3):
+  /tailwind-variants@0.3.0(patch_hash=277oyanjyyxcufsnp2uhvrjhjy)(tailwindcss@3.4.3):
     resolution: {integrity: sha512-ho2k5kn+LB1fT5XdNS3Clb96zieWxbStE9wNLK7D0AV64kdZMaYzAKo0fWl6fXLPY99ffF9oBJnIj5escEl/8A==}
     engines: {node: '>=16.x', pnpm: '>=7.x'}
     peerDependencies:
@@ -10136,6 +10141,7 @@ packages:
       tailwind-merge: 2.5.4
       tailwindcss: 3.4.3
     dev: false
+    patched: true
 
   /tailwindcss-animate@1.0.7(tailwindcss@3.4.3):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
