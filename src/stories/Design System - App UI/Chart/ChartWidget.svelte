@@ -122,10 +122,7 @@
 </script>
 
 <div class="relative column">
-  <div
-    class="viewport-anchor"
-    use:viewportObserverAction={{ top: '-150px', bottom: '-150px' }}
-  ></div>
+  <div class="viewport-anchor" use:viewportObserverAction={{ top: '-80px', bottom: '-80px' }}></div>
 
   <div class="flex center">
     <TimeZoneSelector></TimeZoneSelector>

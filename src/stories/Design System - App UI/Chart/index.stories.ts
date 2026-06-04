@@ -24,6 +24,24 @@ export const Anonymous: Story = {
 export const ViewportPriority: Story = {
   args: {
     viewportPriority: true,
+    defaultDrawings: [
+      {
+        type: 'fib-retracement',
+        options: { lineStyle: 1 },
+        data: {
+          points: [
+            {
+              time: 1727740800,
+              value: 56287.24502956653,
+            },
+            {
+              time: 1739059200,
+              value: 105093.45311719566,
+            },
+          ],
+        },
+      },
+    ],
   },
   parameters: {
     mockApi: () => ({
