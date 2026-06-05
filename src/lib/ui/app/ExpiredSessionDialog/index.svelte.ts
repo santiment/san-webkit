@@ -1,4 +1,3 @@
-import { onMount } from 'svelte'
 import { BROWSER } from 'esm-env'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'

@@ -7,11 +7,12 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte'
 
+  import { cn } from '$ui/utils/index.js'
+
   import Dialog from '../Dialog/Dialog.svelte'
   import { dialogs$, type TDialogProps } from '../Dialog/dialogs.js'
   import Calendar from './Calendar.svelte'
   import Button from '../Button/Button.svelte'
-  import { cn } from '$ui/utils/index.js'
 
   type TProps = TDialogProps &
     Omit<ComponentProps<typeof Calendar>, 'class'> & {
