@@ -1,36 +1,29 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
+  import { dialogs$ } from '$ui/core/Dialog/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
   import confetti from '../assets/confetti.svg'
+  import CalendlyDialog from './CalendlyDialog.svelte'
 
   const CALENDLY_URL = 'https://calendly.com/santiment-team/santiment-walkthrough'
 
   const { questionnaire } = useQuestionnaireCtx.get()
 
-  onMount(() => {
-    function onMessage(e: MessageEvent) {
-      if (e.data?.event !== 'calendly.event_scheduled') return
+  const showCalendlyDialog = dialogs$.new(CalendlyDialog)
 
-      trackEvent('walkthrough', { action: 'scheduled' })
-
-      window.Calendly?.closePopupWidget?.()
-      questionnaire.$$.isVisible = false
-    }
-
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  })
-
-  async function openCalendly() {
+  function openScheduleDialog() {
     trackEvent('press', { action: 'schedule_call', type: 'walkthrough' })
 
-    const { openCalendly: open } = await import('./calendly.js')
-    open(CALENDLY_URL)
+    showCalendlyDialog({
+      url: CALENDLY_URL,
+      onScheduled: () => {
+        questionnaire.$$.isVisible = false
+      },
+    })
   }
 
   function skip() {
@@ -55,7 +48,7 @@
   </div>
 
   <footer class="flex items-center gap-3 md:flex-col">
-    <Button variant="fill" onclick={openCalendly}>Schedule a call</Button>
+    <Button variant="fill" onclick={openScheduleDialog}>Schedule a call</Button>
 
     <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={skip}>Skip</Button>
   </footer>

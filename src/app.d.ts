@@ -46,11 +46,6 @@ declare global {
     onGdprAccept?: () => void
 
     __SESSION__?: object
-
-    Calendly?: {
-      initPopupWidget: (...args: any[]) => void
-      closePopupWidget: (...args: any[]) => void
-    }
   }
 
   namespace NodeJS {
