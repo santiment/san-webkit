@@ -26,7 +26,7 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.check.json --fail-on-warnings",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.check.json --watch",
     "lint": "prettier --check . && eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --write . && eslint . --fix",
     "test:integration": "playwright test",
     "test:unit": "vitest",
     "storybook": "storybook dev -p 4000 --ci --disable-telemetry",
