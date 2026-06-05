@@ -54,7 +54,7 @@
     <div class="mb-10 flex flex-wrap gap-4 text-xs">
       {#each colors as color}
         <div class="color gap-1 column text-mono">
-          <div class="h-[100px] w-[160px] rounded border" style="background:var(--{color})"></div>
+          <div class="h-[100px] w-[160px] rounded-sm border" style="background:var(--{color})"></div>
           <div>
             var(--{color})
           </div>

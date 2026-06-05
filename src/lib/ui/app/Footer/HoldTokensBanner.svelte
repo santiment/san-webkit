@@ -12,7 +12,7 @@
 
   <p class="max-w-[250px]">
     Discover all the benefits of holding SAN tokens <a
-      class="text-[var(--accent)] hover:text-[var(--accent)] hover:underline"
+      class="text-(--accent) hover:text-(--accent) hover:underline"
       href="https://academy.santiment.net/san-tokens/#how-to-buy-san-tokens">on Academy.</a
     >
   </p>

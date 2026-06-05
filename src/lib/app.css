@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--porcelain);
+  }
+}
 
 @font-face {
   font-family: 'Proxima Nova';
@@ -193,7 +211,7 @@ skeleton,
 }
 
 .fly-and-scale-animation {
-  @apply origin-[--bits-popover-content-transform-origin] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-in-from-right-2 data-[side=left]:slide-out-to-right-1 data-[side=right]:slide-in-from-left-2 data-[side=right]:slide-out-to-left-1 data-[side=top]:slide-in-from-bottom-2 data-[side=top]:slide-out-to-bottom-1;
+  @apply origin-(--bits-popover-content-transform-origin) data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=bottom]:slide-out-to-top-1 data-[side=left]:slide-in-from-right-2 data-[side=left]:slide-out-to-right-1 data-[side=right]:slide-in-from-left-2 data-[side=right]:slide-out-to-left-1 data-[side=top]:slide-in-from-bottom-2 data-[side=top]:slide-out-to-bottom-1;
 }
 
 .dialog-animation {

@@ -51,7 +51,7 @@
         iconSize="14"
         class={cn(
           'scroll-m-4 px-2 hover:bg-white',
-          hoveredDefinitionIndex.$ === index && 'active-definition !bg-athens',
+          hoveredDefinitionIndex.$ === index && 'active-definition bg-athens!',
         )}
         onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
         onclick={() => onItemClick(item)}

@@ -63,8 +63,8 @@
       class={cn(
         'popover-content-ui',
         !noStyles &&
-          'z-10 flex rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
-        matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+          'z-10 flex rounded-sm border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+        matchTriggerWidth && 'w-(--bits-floating-anchor-width)',
         className,
       )}
     >

@@ -73,7 +73,7 @@
       <Button
         class={cn(
           'h-[38px] px-4 py-[8px] hover:bg-athens sm:py-3.5',
-          isActive && cn('z-10 rounded-md text-rhino outline outline-1', info.className),
+          isActive && cn('z-10 rounded-md text-rhino outline-solid outline-1', info.className),
         )}
         onclick={() => handlePlanClick(item)}
       >

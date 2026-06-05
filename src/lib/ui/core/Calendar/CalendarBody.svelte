@@ -44,14 +44,14 @@
               >
                 <Base.Day
                   class={cn(
-                    'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded',
+                    'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded-sm',
                     'hover:bg-athens hover:text-green dark:hover:bg-porcelain',
-                    'data-[unavailable]:text-mystic data-[unavailable]:line-through',
-                    'data-[disabled]:pointer-events-none data-[disabled]:text-mystic',
-                    'data-[outside-month]:pointer-events-none',
-                    'data-[highlighted]:rounded-none data-[highlighted]:bg-green-light-1',
+                    'data-unavailable:text-mystic data-unavailable:line-through',
+                    'data-disabled:pointer-events-none data-disabled:text-mystic',
+                    'data-outside-month:pointer-events-none',
+                    'data-highlighted:rounded-none data-highlighted:bg-green-light-1',
                     range &&
-                      'data-[selected]:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
+                      'data-selected:[&:not([data-selection-start])]:[&:not([data-selection-end])]:rounded-none',
                   )}
                 />
               </Base.Cell>

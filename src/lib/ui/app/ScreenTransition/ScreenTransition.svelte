@@ -138,7 +138,7 @@
 </script>
 
 {#key screen.index$}
-  <div out:out in:flyIn class="max-h-full min-h-0 flex-grow column" {style}>
+  <div out:out in:flyIn class="max-h-full min-h-0 grow column" {style}>
     <OnlyOnDevice tablet phone>
       {#if backScreen}
         <div class="sticky top-0 flex items-center bg-white px-2 py-3">

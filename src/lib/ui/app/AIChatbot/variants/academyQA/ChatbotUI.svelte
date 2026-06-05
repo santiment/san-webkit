@@ -206,8 +206,8 @@
 <Dialog
   class={cn(
     'flex h-full w-full max-w-[1024px]',
-    'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow',
-    'sm:!px-5',
+    'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow-sm',
+    'sm:px-5!',
     className,
   )}
 >
@@ -298,7 +298,7 @@
 
               <div class="flex-1" aria-hidden="true"></div>
 
-              <div class="sticky bottom-0 z-10 bg-gradient-to-t from-white/95 to-transparent pt-3">
+              <div class="sticky bottom-0 z-10 bg-linear-to-t from-white/95 to-transparent pt-3">
                 <div class="flex items-end justify-center transition-opacity duration-75">
                   <ChatLoader />
                 </div>
@@ -313,7 +313,7 @@
           class="absolute bottom-[10px] left-1/2 -translate-x-1/2"
           transition:fade={{ duration: 300 }}
         >
-          <Tooltip position="top" class="z-[99999] rounded" noStyles>
+          <Tooltip position="top" class="z-99999 rounded-sm" noStyles>
             {#snippet children({ ref })}
               <Button
                 {ref}
@@ -324,7 +324,7 @@
             {/snippet}
 
             {#snippet content()}
-              <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Scroll to latest</p>
+              <p class="rounded-sm bg-fiord px-3 py-[5px] text-xs text-white">Scroll to latest</p>
             {/snippet}
           </Tooltip>
         </div>
@@ -338,7 +338,7 @@
     />
   </div>
 
-  <p class="mt-2 text-center text-sm text-casper sm:!text-sm">
+  <p class="mt-2 text-center text-sm text-casper sm:text-sm!">
     {isPhone
       ? 'Check important info for mistakes'
       : 'Turtoshi surfs only through our Academy. Check important info for mistakes.'}

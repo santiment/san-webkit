@@ -136,11 +136,11 @@
           'qa-academy-border-gradient',
           'flex-1 items-center overflow-hidden overscroll-auto rounded-lg pr-14',
           'border-2 border-transparent py-5 focus-within:border-transparent hover:border-transparent',
-          'bg-white placeholder-casper outline-none focus-within:fill-waterloo [&>svg]:bottom-5 [&>svg]:fill-rhino',
-          'sm:!h-[88px] sm:!items-start sm:!px-3 sm:!py-2 sm:!pr-[50px]',
+          'bg-white placeholder-casper outline-hidden focus-within:fill-waterloo [&>svg]:bottom-5 [&>svg]:fill-rhino',
+          'sm:h-[88px]! sm:items-start! sm:px-3! sm:py-2! sm:pr-[50px]!',
         )}
         inputClass={cn(
-          'resize-none py-0 pr-0 pl-12 sm:!pl-0 sm:!h-full max-h-[72px] text-base',
+          'resize-none py-0 pr-0 pl-12 sm:pl-0! sm:h-full! max-h-[72px] text-base',
           !initialIcon && 'pl-4',
         )}
         rows={1}
@@ -159,7 +159,7 @@
             'absolute right-4 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full',
             'border border-green fill-green hover:bg-green hover:fill-white',
             'active:border-green-hover active:bg-green-hover',
-            'sm:!bottom-1.5 sm:!right-1.5 sm:!translate-y-0',
+            'sm:bottom-1.5! sm:right-1.5! sm:translate-y-0!',
           )}
           onclick={() => handleSubmit(value)}
           disabled={loading}
@@ -171,16 +171,16 @@
   {#snippet content()}
     <div
       bind:this={contentRef.$}
-      class="w-[var(--bits-popover-anchor-width)] rounded-md border border-porcelain bg-white px-6 py-4"
+      class="w-(--bits-popover-anchor-width) rounded-md border border-porcelain bg-white px-6 py-4"
     >
-      <h4 class="mb-3 text-base font-semibold text-rhino sm:!text-sm">Suggested</h4>
+      <h4 class="mb-3 text-base font-semibold text-rhino sm:text-sm!">Suggested</h4>
 
-      <ul class="[&>li]:mb-3 last:[&>li]:mb-0 sm:[&>li]:mb-2.5">
+      <ul class="[&>li]:mb-3 [&>li]:last:mb-0 sm:[&>li]:mb-2.5">
         {#each predictions as prediction}
           <li>
             <Button
               variant="link"
-              class="inline-block h-auto p-0 text-left text-sm sm:!text-base"
+              class="inline-block h-auto p-0 text-left text-sm sm:text-base!"
               onclick={() => handleSubmit(prediction.question)}
             >
               {prediction.question}

@@ -38,7 +38,7 @@
     selected = $bindable(),
     side = 'bottom',
     align = 'center',
-    zIndexClass = 'z-[100]',
+    zIndexClass = 'z-100',
     matchTriggerWidth,
     beforeOptionChildren,
 
@@ -92,9 +92,9 @@
   <Select.Content
     {customAnchor}
     class={cn(
-      'overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+      'overflow-auto rounded-sm border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
       zIndexClass,
-      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+      matchTriggerWidth && 'w-(--bits-floating-anchor-width)',
     )}
     sideOffset={8}
     collisionPadding={8}
@@ -119,7 +119,7 @@
                 label={item.label}
                 onclick={() => onItemSelect(item)}
                 class={cn(
-                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain [&[data-selected]]:text-green',
+                  'z-50 cursor-pointer rounded-sm px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain data-selected:text-green',
                   contentClass,
                 )}
               >

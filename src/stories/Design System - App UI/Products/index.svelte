@@ -21,28 +21,28 @@
 
   <div>
     <h2 class="text-xl">Regular</h2>
-    <div class="rounded border">
+    <div class="rounded-sm border">
       <Products active="sanapi" variant="blue" />
     </div>
   </div>
 
   <div>
     <h2 class="text-xl">Column</h2>
-    <div class="rounded border">
+    <div class="rounded-sm border">
       <Products isColumn />
     </div>
   </div>
 
   <div>
     <h2 class="text-xl">Compact</h2>
-    <div class="rounded border">
+    <div class="rounded-sm border">
       <Products isCompact />
     </div>
   </div>
 
   <div>
     <h2 class="text-xl">Column + Compact</h2>
-    <div class="rounded border">
+    <div class="rounded-sm border">
       <Products isCompact isColumn />
     </div>
   </div>

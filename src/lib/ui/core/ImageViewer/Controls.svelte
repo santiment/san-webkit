@@ -18,13 +18,13 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-  class="fixed bottom-4 left-1/2 z-[100001] -translate-x-1/2"
+  class="fixed bottom-4 left-1/2 z-100001 -translate-x-1/2"
   onclick={(e) => e.stopPropagation()}
 >
   <div
-    class="flex gap-2 duration-200 animate-in fade-in slide-in-from-bottom-2 hover:[&_button:not(:disabled)]:fill-white [&_button]:fill-mystic"
+    class="flex gap-2 duration-200 animate-in fade-in slide-in-from-bottom-2 [&_button:not(:disabled)]:hover:fill-white [&_button]:fill-mystic"
   >
-    <div class="flex items-center justify-between rounded bg-rhino text-mystic">
+    <div class="flex items-center justify-between rounded-sm bg-rhino text-mystic">
       <Button
         class="size-8 center disabled:fill-waterloo"
         icon="minus"
@@ -47,7 +47,7 @@
     </div>
 
     <Button
-      class="size-8 rounded bg-rhino center"
+      class="size-8 rounded-sm bg-rhino center"
       icon="download"
       variant="plain"
       onclick={() => downloadFile(src, alt ?? 'download')}
@@ -55,7 +55,7 @@
     />
 
     <Button
-      class="size-8 rounded bg-rhino center"
+      class="size-8 rounded-sm bg-rhino center"
       icon="shrink"
       variant="plain"
       onclick={onclose}

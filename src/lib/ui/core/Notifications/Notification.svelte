@@ -85,7 +85,7 @@
     aria-label="Close notification"
     icon="close"
     iconSize={10}
-    class="-ml-2 -mt-2.5 flex size-5 rounded !fill-waterloo center hover:bg-porcelain xs:size-8"
+    class="-ml-2 -mt-2.5 flex size-5 rounded-sm fill-waterloo! center hover:bg-porcelain xs:size-8"
     onclick={close}
   />
 </section>

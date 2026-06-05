@@ -37,7 +37,7 @@
 </script>
 
 {#if $open}
-  <div class="relative z-[10000]" {...$portalled} use:portalled>
+  <div class="relative z-10000" {...$portalled} use:portalled>
     <div
       {...$overlay}
       use:overlay
@@ -54,7 +54,7 @@
     ></div>
     <div
       class={cn(
-        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center translate-x-[round(-50%,1px)] translate-y-[round(-50%,1px)] overflow-hidden rounded bg-white shadow-lg dark:shadow-none',
+        'animated dialog-animation fixed left-1/2 top-1/2 z-50 max-h-[92vh] max-w-[92vw] origin-center translate-x-[round(-50%,1px)] translate-y-[round(-50%,1px)] overflow-hidden rounded-sm bg-white shadow-lg dark:shadow-none',
         className,
       )}
       {...$content}

@@ -33,13 +33,13 @@
   onMount(() => () => rest.onmouseleave?.())
 </script>
 
-<div {...rest} class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
+<div {...rest} class="inline-flex gap-1.5 whitespace-nowrap rounded-sm bg-white/70 center">
   <div
     style:---metric-color={metric.ui.$$.color}
     class={cn(
-      'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-[var(---metric-color)] hover:bg-white hover:shadow [&+span]:hover:hidden',
+      'group/pane-metric relative flex whitespace-nowrap rounded-sm border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-(---metric-color) hover:bg-white hover:shadow-sm hover:[&+span]:hidden',
       (isFocused || openedMetric.$ === metric) &&
-        'metric-opened border-[var(---metric-color)] bg-white shadow [&+span]:hidden',
+        'metric-opened border-(---metric-color) bg-white shadow-sm [&+span]:hidden',
       !metric.visible.$ && 'text-casper',
     )}
   >
@@ -60,7 +60,7 @@
 
       <Tooltip
         position="bottom"
-        class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
+        class="z-10000 w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
       >
         {#snippet children({ ref })}
           <Button
@@ -90,7 +90,7 @@
   {#if !!metric.warnings.$?.length}
     <Tooltip
       position="bottom"
-      class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
+      class="z-10000 w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
     >
       {#snippet children({ ref })}
         <Button

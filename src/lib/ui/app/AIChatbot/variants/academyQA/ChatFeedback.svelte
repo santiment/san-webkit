@@ -43,7 +43,7 @@
     <p class="text-sm text-waterloo">Did Turtoshi answer correctly?</p>
 
     <div class="flex gap-2">
-      <Tooltip position="top" class="z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-99999 rounded-sm" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -54,11 +54,11 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
+          <p class="rounded-sm bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
         {/snippet}
       </Tooltip>
 
-      <Tooltip position="top" class="z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-99999 rounded-sm" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -69,7 +69,7 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+          <p class="rounded-sm bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
         {/snippet}
       </Tooltip>
     </div>
@@ -80,7 +80,7 @@
       class={cn(
         'relative mt-5 flex items-center justify-center gap-[90px]',
         'rounded-md border border-porcelain bg-whale px-6 py-5',
-        'sm:!gap-8 xs:!flex-col xs:!text-center',
+        'sm:gap-8! xs:flex-col! xs:text-center!',
       )}
     >
       <Button

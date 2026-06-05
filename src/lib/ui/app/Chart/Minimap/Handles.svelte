@@ -40,7 +40,7 @@
     style: '--expl-align-x:34px;--expl-right:0',
   })}
 
-  <div class="absolute inset-0 z-[0] bg-athens"></div>
+  <div class="absolute inset-0 z-0 bg-athens"></div>
 
   {@render handle({
     date: rightHandleDate,
@@ -53,7 +53,7 @@
   <Button
     variant="plain"
     explanation={formatDate(date)}
-    class={cn('chart-minimap-handle z-[2] rounded-sm text-center', className)}
+    class={cn('chart-minimap-handle z-2 rounded-xs text-center', className)}
     {style}
     {onpointerdown}
   ></Button>

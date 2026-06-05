@@ -161,6 +161,6 @@
 
 <style lang="postcss">
   :global(.chart-minimap-handle) {
-    @apply absolute z-[2] h-5 w-2 cursor-grab bg-waterloo;
+    @apply absolute z-2 h-5 w-2 cursor-grab bg-waterloo;
   }
 </style>

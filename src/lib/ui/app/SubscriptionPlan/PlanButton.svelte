@@ -87,7 +87,7 @@
       Sign up
     </Button>
   {:else}
-    <Button variant="fill" size="lg" disabled class={cn('!text-fiord center', className)}>
+    <Button variant="fill" size="lg" disabled class={cn('text-fiord! center', className)}>
       Your current plan
     </Button>
   {/if}

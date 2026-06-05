@@ -119,7 +119,7 @@
         Write Insight
       </Button>
 
-      <div class="flex gap-[1px]">
+      <div class="flex gap-px">
         <Button variant="fill" class="rounded-r-none px-3">Share</Button>
         <Button variant="fill" class="rounded-l-none" icon="link" />
       </div>

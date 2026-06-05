@@ -36,7 +36,7 @@
     </div>
 
     <div
-      class="ml-[72px] flex flex-wrap items-center gap-x-9 gap-y-1 md:ml-0 md:justify-end sm:justify-center xs:gap-4 hover:[&>a]:text-mirage hover:[&>a]:underline"
+      class="ml-[72px] flex flex-wrap items-center gap-x-9 gap-y-1 md:ml-0 md:justify-end sm:justify-center xs:gap-4 [&>a]:hover:text-mirage [&>a]:hover:underline"
     >
       <a href="https://santiment.net/terms/" target="_blank">Terms</a>
       <a href={`${SANBASE_ORIGIN}/privacy-policy/`} target="_blank">Privacy</a>
