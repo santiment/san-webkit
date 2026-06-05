@@ -1,0 +1,24 @@
+import adapter from '@sveltejs/adapter-auto'
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte'
+
+import { componentStyleSelector } from './plugins/svelte.js'
+
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  preprocess: [vitePreprocess(), componentStyleSelector()],
+
+  kit: {
+    adapter: adapter(),
+    alias: {
+      $ui: './src/lib/ui/',
+      '$ui/*': './src/lib/ui/*',
+      '$routes/*': './src/routes/*',
+      '$scripts/*': './scripts/*',
+      '$static/*': './static/*',
+    },
+  },
+}
+
+export default config
+
+export { componentStyleSelector }
