@@ -1,3 +1,0 @@
-ancestorEntries = ["src/lib/ui/app/Chart/PaneLegend/Pane.svelte", "src/lib/ui/app/Products/Products.svelte", "src/stories/Design System - App UI/Products/index.svelte"]
-ourEntries = ["src/lib/ui/app/Chart/PaneLegend/Pane.svelte", "src/lib/ui/app/Products/Products.svelte", "src/stories/Design System - App UI/Products/index.svelte"]
-theirEntries = ["src/lib/ui/app/Chart/PaneLegend/Pane.svelte", "src/lib/ui/app/Products/Products.svelte", "src/stories/Design System - App UI/Products/index.svelte"]
