@@ -3,9 +3,9 @@
 
   import Button from '$ui/core/Button/Button.svelte'
   import { trackEvent } from '$lib/analytics/index.js'
+  import Svg from '$ui/core/Svg/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
-  import chest from '../assets/chest.svg'
 
   const { questionnaire } = useQuestionnaireCtx.get()
 
@@ -24,7 +24,7 @@
   in:fade={{ duration: 200 }}
   class="flex w-full max-w-[480px] flex-col items-center justify-center rounded-lg bg-athens px-8 py-12 text-center sm:px-4"
 >
-  <img src={chest} alt="chest illustration" class="mb-4 h-[177px] w-[194px]" />
+  <Svg illus id="chest" w={194} h={177} class="mb-4" />
 
   <div class="mb-8 text-rhino">
     <h1 class="mb-3 text-lg-3 font-medium">Take survey, get a free call 🎯</h1>

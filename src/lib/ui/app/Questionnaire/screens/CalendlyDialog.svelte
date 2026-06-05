@@ -7,12 +7,16 @@
 
   import { buildCalendlyInlineUrl } from './calendly.js'
 
-  const { url, Controller, onScheduled }: TDialogProps & { url: string; onScheduled?: () => void } =
-    $props()
+  type TProps = {
+    url: string
+    onScheduled?: () => void
+  }
 
-  const iframeSrc = buildCalendlyInlineUrl(url)
+  const { url, Controller, onScheduled }: TDialogProps & TProps = $props()
 
   let isReady = $state(false)
+
+  const iframeSrc = buildCalendlyInlineUrl(url)
 
   function onMessage(e: MessageEvent) {
     if (e.origin !== 'https://calendly.com') return

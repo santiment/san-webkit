@@ -5,7 +5,7 @@ export { millify } from './millify.js'
 export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export function DEFAULT_FORMATTER(value: number | undefined | null) {
-  if (value === undefined || value === null) {
+  if (value === undefined || value === null || !Number.isFinite(value)) {
     // Invalid data
     return 'N/A'
   }
@@ -16,16 +16,20 @@ export function DEFAULT_FORMATTER(value: number | undefined | null) {
     return millify(value, 2)
   }
 
-  if (absValue < 0.000001) {
-    return +value.toFixed(10)
+  if (absValue < 0.00009) {
+    return +value.toFixed(9)
   }
 
-  if (absValue < 10) {
-    return +value.toFixed(4)
+  if (absValue < 0.0009) {
+    return +value.toFixed(7)
   }
 
   if (absValue < 1) {
     return +value.toFixed(6)
+  }
+
+  if (absValue < 10) {
+    return +value.toFixed(4)
   }
 
   return +value.toFixed(2)

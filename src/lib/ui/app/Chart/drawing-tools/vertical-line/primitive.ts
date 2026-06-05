@@ -43,6 +43,10 @@ export default class VerticalLinePrimitive extends DrawingPrimitive<'vertical-li
   protected mapViewPointsToDataPoints(): undefined | TPoint[] {
     const timeScale = this.chart.timeScale()
 
+    if (!(timeScale as any)._timeScale._points.length) {
+      return
+    }
+
     return this._viewPoints.map((point) => ({
       time: timeScale.coordinateToTime(point.x!)!,
       value: 0,

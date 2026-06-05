@@ -1,7 +1,8 @@
-import { createCtx } from '$lib/utils/index.js'
+import type { TSeries } from './series.svelte.js'
+
 import { SvelteSet } from 'svelte/reactivity'
 
-import type { TSeries } from './series.svelte.js'
+import { createCtx } from '$lib/utils/index.js'
 
 export type TApiMetricSeries = Extract<TSeries, { apiMetricName: string; selector: any }>
 

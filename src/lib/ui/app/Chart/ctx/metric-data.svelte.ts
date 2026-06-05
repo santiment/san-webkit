@@ -95,7 +95,10 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     const to = globalParameters.$$.to
 
     const interval =
-      metric.interval.$ || globalParameters.$$.interval || globalParameters.autoInterval$
+      metric.interval.$ ||
+      getMetricAutoGranularity() ||
+      globalParameters.$$.interval ||
+      globalParameters.autoInterval$
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
@@ -132,6 +135,13 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       metric.warnings.$ = null
       metric.data.$ = []
     })
+
+    function getMetricAutoGranularity() {
+      if (!metric.getAutoInterval) return
+
+      const { fromUtcDate, toUtcDate } = globalParameters.dates$
+      return metric.getAutoInterval(fromUtcDate, toUtcDate)
+    }
 
     return () => {
       workerRequest.cancel()

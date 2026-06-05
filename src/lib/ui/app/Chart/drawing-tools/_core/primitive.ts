@@ -281,7 +281,7 @@ export abstract class DrawingPrimitive<
     const timeScale = this._chart!.timeScale()
     const series = this._series
 
-    if (!series) return
+    if (!series || !series.data().length) return
 
     return this._viewPoints.map((point) => ({
       time: timeScale.coordinateToTime(point.x!)!,

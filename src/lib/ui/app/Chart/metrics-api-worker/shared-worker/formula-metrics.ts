@@ -203,11 +203,12 @@ function normalizeTimeseries(timeseries: TFormulaMetricData) {
 
     if (isValidValue) {
       timeseries[i - 1].color = 'transparent'
+      timeseries[i].color = 'transparent'
     }
 
     nonFiniteCount++
 
-    datapoint.value = undefined
+    datapoint.value = 0
 
     isValidValue = false
   }

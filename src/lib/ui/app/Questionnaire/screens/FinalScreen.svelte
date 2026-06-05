@@ -2,11 +2,11 @@
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
+  import Svg from '$ui/core/Svg/Svg.svelte'
   import { dialogs$ } from '$ui/core/Dialog/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
-  import confetti from '../assets/confetti.svg'
   import CalendlyDialog from './CalendlyDialog.svelte'
 
   const CALENDLY_URL = 'https://calendly.com/santiment-team/santiment-walkthrough'
@@ -36,7 +36,7 @@
   in:fade={{ duration: 200 }}
   class="flex flex-col items-center justify-center gap-6 text-center"
 >
-  <img src={confetti} alt="" class="h-32 w-32" />
+  <Svg illus id="confetti" w={128} />
 
   <div class="flex flex-col gap-4">
     <h1 class="text-lg-3 font-medium text-rhino">Thanks for your help!</h1>

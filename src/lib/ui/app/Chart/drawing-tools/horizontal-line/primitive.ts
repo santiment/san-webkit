@@ -46,7 +46,7 @@ export default class HorizontalLinePrimitive extends DrawingPrimitive<
 
   protected mapViewPointsToDataPoints(): undefined | TPoint[] {
     const series = this._series
-    if (!series) return
+    if (!series || !series.data().length) return
 
     return this._viewPoints.map((point) => ({
       time: 0 as TPoint['time'],
