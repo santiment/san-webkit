@@ -18,7 +18,7 @@ async function reportConversion(
   if (options?.couponCode) payload.append('coupon_code', options.couponCode)
   if (options?.clientEmail) payload.append('client_email', options.clientEmail)
 
-  await fetch(AFFILIATLY_PROXY_ROUTE, {
+  await fetch(`${AFFILIATLY_PROXY_ROUTE}/conversion`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: payload,
@@ -33,3 +33,12 @@ export const trackAffiliatlyPayment = (
   amount: number,
   options?: TConversionOptions,
 ) => reportConversion(orderId, amount, options)
+
+export async function trackAffiliatlyVisit(searchString: string) {
+  if (!searchString) return
+
+  await fetch(`${AFFILIATLY_PROXY_ROUTE}/user${searchString}`, {
+    method: 'POST',
+    credentials: 'same-origin',
+  }).catch((error) => console.error(error))
+}
