@@ -20,11 +20,7 @@ type TConversionOptions = {
   clientEmail?: string
 }
 
-async function reportConversion(
-  order: string | number,
-  price: number,
-  options?: TConversionOptions,
-) {
+function reportConversion(order: string | number, price: number, options?: TConversionOptions) {
   const payload = new URLSearchParams({
     order: String(order),
     price: String(price),
@@ -33,7 +29,7 @@ async function reportConversion(
   if (options?.couponCode) payload.append('coupon_code', options.couponCode)
   if (options?.clientEmail) payload.append('client_email', options.clientEmail)
 
-  await fetch(`${AFFILIATLY_PROXY_ROUTE}/conversion`, {
+  fetch(`${AFFILIATLY_PROXY_ROUTE}/conversion`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: payload,
@@ -49,15 +45,13 @@ export const trackAffiliatlyPayment = (
   options?: TConversionOptions,
 ) => reportConversion(orderId, amount, options)
 
-export async function trackAffiliatlyVisit(searchParams: URLSearchParams) {
+export function trackAffiliatlyVisit(searchParams: URLSearchParams) {
   if (!CLEANUP_KEYS.some((key) => searchParams.has(key))) return
 
-  const response = await fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
+  fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
     method: 'POST',
     credentials: 'same-origin',
   }).catch((error) => console.error(error))
-
-  if (!response?.ok) return
 
   const url = new URL(location.href)
   for (const key of CLEANUP_KEYS) url.searchParams.delete(key)

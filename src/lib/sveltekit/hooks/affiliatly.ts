@@ -51,16 +51,19 @@ export function parseAffiliateCookie(cookieValue: string) {
   return idToken && userId ? { idToken, userId, affiliateUserId } : null
 }
 
-async function saveAffiliateCookie(response: Response | void, cookies: RequestEvent['cookies']) {
-  if (!response?.ok) return
+async function serializeAffiliateCookie(
+  response: Response | void,
+  cookies: RequestEvent['cookies'],
+) {
+  if (!response?.ok) return null
 
   const rawData = await response.text()
-  if (!rawData) return
+  if (!rawData) return null
 
   const durationStr = new URLSearchParams(rawData).get('duration')
   const maxAge = parseInt(durationStr ?? String(DEFAULT_COOKIE_MAX_AGE), 10)
 
-  cookies.set(AFFILIATLY_COOKIE_NAME, rawData, {
+  return cookies.serialize(AFFILIATLY_COOKIE_NAME, rawData, {
     path: '/',
     maxAge,
     sameSite: 'lax',
@@ -103,9 +106,12 @@ async function handleUserTracking({ url, cookies, request }: RequestEvent) {
   if (url.searchParams.has('qr')) payload.append('qr', '1')
 
   const response = await callAffiliatly(payload)
-  await saveAffiliateCookie(response, cookies)
+  const setCookie = await serializeAffiliateCookie(response, cookies)
 
-  return new Response('ok', { status: 200 })
+  return new Response('ok', {
+    status: 200,
+    headers: setCookie ? { 'Set-Cookie': setCookie } : {},
+  })
 }
 
 async function handleConversionTracking({ url, cookies, request }: RequestEvent) {
