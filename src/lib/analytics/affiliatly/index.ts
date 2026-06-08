@@ -1,5 +1,20 @@
 export const AFFILIATLY_PROXY_ROUTE = '/api/track/affiliatly'
 
+export const TRACKING_QUERY_KEYS = [
+  'aff',
+  'fid',
+  'ref',
+  'air',
+  'rfsn',
+  'aa',
+  'tr',
+  'abc',
+  'coupon-code',
+  'hair',
+] as const
+
+const CLEANUP_KEYS = [...TRACKING_QUERY_KEYS, 'fpr', 'qr']
+
 type TConversionOptions = {
   couponCode?: string
   clientEmail?: string
@@ -37,8 +52,14 @@ export const trackAffiliatlyPayment = (
 export async function trackAffiliatlyVisit(searchParams: URLSearchParams) {
   if (!searchParams.size) return
 
-  await fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
+  const response = await fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
     method: 'POST',
     credentials: 'same-origin',
   }).catch((error) => console.error(error))
+
+  if (!response?.ok) return
+
+  const url = new URL(location.href)
+  for (const key of CLEANUP_KEYS) url.searchParams.delete(key)
+  history.replaceState(history.state, '', url)
 }

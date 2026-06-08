@@ -1,6 +1,6 @@
 import { type Handle, type RequestEvent } from '@sveltejs/kit'
 
-import { AFFILIATLY_PROXY_ROUTE } from '$lib/analytics/affiliatly/index.js'
+import { AFFILIATLY_PROXY_ROUTE, TRACKING_QUERY_KEYS } from '$lib/analytics/affiliatly/index.js'
 
 const API_ENDPOINT = 'https://www.affiliatly.com/api_request.php'
 
@@ -8,19 +8,6 @@ export const AFFILIATLY_COOKIE_NAME = 'affiliatly_v3'
 export const AFFILIATLY_PROGRAM_ID = 'AF-1074422'
 
 const DEFAULT_COOKIE_MAX_AGE = 60 * 60 * 24 * 30
-
-const TRACKING_QUERY_KEYS = [
-  'aff',
-  'fid',
-  'ref',
-  'air',
-  'rfsn',
-  'aa',
-  'tr',
-  'abc',
-  'coupon-code',
-  'hair',
-] as const
 
 const UTM_KEYS = ['utm_campaign', 'utm_content', 'utm_medium', 'utm_source', 'utm_term'] as const
 
