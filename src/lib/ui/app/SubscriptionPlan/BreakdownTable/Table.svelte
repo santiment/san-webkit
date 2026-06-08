@@ -79,24 +79,26 @@
 <style lang="postcss">
   @reference '#app.css';
 
-  .table :global {
-    .tr {
-      @apply flex w-full divide-x text-center sm:divide-x-0;
-    }
+  .table :global(.tr) {
+    @apply flex w-full text-center;
+  }
 
-    .td,
-    .td-h {
-      fill: var(--accent);
+  .table :global(.tr > :not(:last-child)) {
+    @apply border-r sm:border-r-0;
+  }
 
-      @apply flex items-center px-6 py-4 sm:px-5;
-    }
+  .table :global(.td),
+  .table :global(.td-h) {
+    fill: var(--accent);
 
-    .td {
-      @apply flex-1;
-    }
+    @apply flex items-center px-6 py-4 sm:px-5;
+  }
 
-    .td-h {
-      @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
-    }
+  .table :global(.td) {
+    @apply flex-1;
+  }
+
+  .table :global(.td-h) {
+    @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
   }
 </style>
