@@ -28,7 +28,7 @@
   {#each breakdown as { category, features, link } (category)}
     <section
       class={cn(
-        'category-section pt-10 sm:border-none sm:pt-0 not-last:border-b sm:[&>.tr:last-child>*]:pb-10!',
+        'category-section pt-10 not-last:border-b sm:border-none sm:pt-0 sm:[&>.tr:last-child>*]:pb-10!',
         features.length === 0 && 'border-none',
       )}
     >
@@ -77,6 +77,8 @@
 </div>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .table :global {
     .tr {
       @apply flex w-full divide-x text-center sm:divide-x-0;

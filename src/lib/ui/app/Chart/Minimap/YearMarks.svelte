@@ -13,6 +13,8 @@
 </div>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .mark {
     @apply relative;
   }

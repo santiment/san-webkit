@@ -35,6 +35,9 @@
     "lib:build": "node scripts/build.js --run",
     "prepare": "husky"
   },
+  "imports": {
+    "#app.css": "./src/lib/app.css"
+  },
   "exports": {
     "./app.css": "./dist/app.css",
     "./ui/*": {

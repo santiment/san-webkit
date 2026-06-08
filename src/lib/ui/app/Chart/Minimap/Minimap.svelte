@@ -140,7 +140,7 @@
 </script>
 
 <section
-  class={cn('relative flex h-[40px] select-none bg-white center', className)}
+  class={cn('relative flex h-[40px] center bg-white select-none', className)}
   bind:clientWidth={minimapWidth}
 >
   {#if minimapWidth && (viewportPriorityCtx?.checkIsInViewport$() ?? true)}
@@ -160,6 +160,8 @@
 </section>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   :global(.chart-minimap-handle) {
     @apply absolute z-2 h-5 w-2 cursor-grab bg-waterloo;
   }

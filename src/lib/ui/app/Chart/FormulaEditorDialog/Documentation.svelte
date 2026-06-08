@@ -47,7 +47,7 @@
   })
 </script>
 
-<section class="flex-1 gap-3 overflow-auto p-4 column">
+<section class="column flex-1 gap-3 overflow-auto p-4">
   <h2 class="flex items-center gap-2 fill-waterloo text-base font-medium text-rhino">
     {#if definition.metric}
       <span class="rounded-md bg-athens px-2.5 text-fiord">
@@ -60,22 +60,24 @@
     {/if}
   </h2>
 
-  <div bind:this={docsElement} class="docs relative gap-2 text-fiord column">
+  <div bind:this={docsElement} class="docs relative column gap-2 text-fiord">
     {@html definition.documentation || ''}
 
     <Button
       icon="copy"
       explanation={copyLabel}
-      class="invisible absolute! right-1.5 top-1.5 bg-athens hover:bg-mystic/50"
+      class="invisible absolute! top-1.5 right-1.5 bg-athens hover:bg-mystic/50"
       onclick={onCopy}
     ></Button>
   </div>
 </section>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .docs :global {
     pre {
-      @apply relative whitespace-break-spaces break-all rounded bg-athens p-3 text-black;
+      @apply relative rounded bg-athens p-3 break-all whitespace-break-spaces text-black;
     }
 
     p code {

@@ -18,15 +18,15 @@
 </script>
 
 <div
-  class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 sm:px-5 sm:pb-0 sm:pt-6 sm:text-base xs:flex-col xs:space-y-4"
+  class="month flex space-y-0 space-x-4 px-3 pt-4 pb-3 sm:px-5 sm:pt-6 sm:pb-0 sm:text-base xs:flex-col xs:space-y-4"
 >
   {#each months as month}
-    <Base.Grid class="w-full border-collapse select-none space-y-1">
+    <Base.Grid class="w-full border-collapse space-y-1 select-none">
       <Base.GridHead>
         <Base.GridRow class="mb-1 flex justify-between">
           {#each weekdays as day}
             <Base.HeadCell
-              class="w-8 rounded-md text-xs font-normal uppercase text-waterloo sm:text-sm"
+              class="w-8 rounded-md text-xs font-normal text-waterloo uppercase sm:text-sm"
             >
               {day.slice(0, 2)}
             </Base.HeadCell>
@@ -44,7 +44,7 @@
               >
                 <Base.Day
                   class={cn(
-                    'relative inline-flex size-full items-center justify-center whitespace-nowrap rounded-sm',
+                    'relative inline-flex size-full items-center justify-center rounded-sm whitespace-nowrap',
                     'hover:bg-athens hover:text-green dark:hover:bg-porcelain',
                     'data-unavailable:text-mystic data-unavailable:line-through',
                     'data-disabled:pointer-events-none data-disabled:text-mystic',
@@ -64,6 +64,8 @@
 </div>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .month {
     & :global([data-today]:not([data-highlighted]):not([data-selected]):not(:hover)) {
       @apply text-blue;
@@ -74,11 +76,11 @@
     }
 
     & :global([data-selection-start]) {
-      @apply rounded-e-none rounded-s;
+      @apply rounded-s rounded-e-none;
     }
 
     & :global([data-selection-end]) {
-      @apply rounded-e rounded-s-none;
+      @apply rounded-s-none rounded-e;
     }
   }
 </style>
