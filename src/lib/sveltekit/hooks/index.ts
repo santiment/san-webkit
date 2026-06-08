@@ -67,4 +67,4 @@ export { cookiePolicyHandle } from './cookie.js'
 
 export { posthogTrackHandle } from './posthog.js'
 
-export { affiliatlyTrackHandle, createAffiliatlyConversionHandler } from './affiliatly.js'
+export { affiliatlyTrackHandle } from './affiliatly.js'

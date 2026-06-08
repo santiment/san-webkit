@@ -1,4 +1,6 @@
-import { type Handle, type RequestEvent, type RequestHandler } from '@sveltejs/kit'
+import { type Handle, type RequestEvent } from '@sveltejs/kit'
+
+import { AFFILIATLY_PROXY_ROUTE, TRACKING_QUERY_KEYS } from '$lib/analytics/affiliatly/index.js'
 
 const API_ENDPOINT = 'https://www.affiliatly.com/api_request.php'
 
@@ -7,47 +9,10 @@ export const AFFILIATLY_PROGRAM_ID = 'AF-1074422'
 
 const DEFAULT_COOKIE_MAX_AGE = 60 * 60 * 24 * 30
 
-const TRACKING_QUERY_KEYS = [
-  'aff',
-  'fid',
-  'ref',
-  'air',
-  'rfsn',
-  'aa',
-  'tr',
-  'abc',
-  'coupon-code',
-  'hair',
-] as const
-
 const UTM_KEYS = ['utm_campaign', 'utm_content', 'utm_medium', 'utm_source', 'utm_term'] as const
 
 const LEGACY_AFFILIATE_MAP: Record<string, string> = {
   twitter: '2',
-}
-
-const STATIC_EXTENSIONS = new Set([
-  '.js',
-  '.css',
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.gif',
-  '.svg',
-  '.ico',
-  '.json',
-  '.map',
-  '.webp',
-])
-
-const BOT_USER_AGENT_REGEX =
-  /bot|crawler|spider|crawling|google|bing|yandex|yahoo|duckduckgo|telegram|twitter|facebook/i
-
-function isStaticAsset(pathname: string) {
-  const lastDotIndex = pathname.lastIndexOf('.')
-  if (lastDotIndex === -1) return false
-
-  return STATIC_EXTENSIONS.has(pathname.slice(lastDotIndex))
 }
 
 function extractParams(url: URL, keys: readonly string[], prefix = '') {
@@ -59,12 +24,6 @@ function extractParams(url: URL, keys: readonly string[], prefix = '') {
   }
 
   return result
-}
-
-function isBotRequest(userAgent: string | null) {
-  if (!userAgent) return false
-
-  return BOT_USER_AGENT_REGEX.test(userAgent)
 }
 
 export async function callAffiliatly(payload: URLSearchParams) {
@@ -92,16 +51,19 @@ export function parseAffiliateCookie(cookieValue: string) {
   return idToken && userId ? { idToken, userId, affiliateUserId } : null
 }
 
-async function saveAffiliateCookie(response: Response | void, cookies: RequestEvent['cookies']) {
-  if (!response?.ok) return
+async function serializeAffiliateCookie(
+  response: Response | void,
+  cookies: RequestEvent['cookies'],
+) {
+  if (!response?.ok) return null
 
   const rawData = await response.text()
-  if (!rawData) return
+  if (!rawData) return null
 
   const durationStr = new URLSearchParams(rawData).get('duration')
   const maxAge = parseInt(durationStr ?? String(DEFAULT_COOKIE_MAX_AGE), 10)
 
-  cookies.set(AFFILIATLY_COOKIE_NAME, rawData, {
+  return cookies.serialize(AFFILIATLY_COOKIE_NAME, rawData, {
     path: '/',
     maxAge,
     sameSite: 'lax',
@@ -109,16 +71,12 @@ async function saveAffiliateCookie(response: Response | void, cookies: RequestEv
   })
 }
 
-export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
-  const { url, cookies, request } = event
+async function handleUserTracking({ url, cookies, request }: RequestEvent) {
+  if (request.method !== 'POST') return new Response(null, { status: 405 })
+  if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
 
-  if (
-    url.pathname.startsWith('/api') ||
-    isStaticAsset(url.pathname) ||
-    isBotRequest(request.headers.get('user-agent')) ||
-    cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined
-  ) {
-    return resolve(event)
+  if (cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
+    return new Response(null, { status: 204 })
   }
 
   const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
@@ -134,7 +92,7 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   }
 
   if (Object.keys(affiliateParams).length === 0) {
-    return resolve(event)
+    return new Response(null, { status: 204 })
   }
 
   const payload = new URLSearchParams({
@@ -148,34 +106,49 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
   if (url.searchParams.has('qr')) payload.append('qr', '1')
 
   const response = await callAffiliatly(payload)
-  await saveAffiliateCookie(response, cookies)
+  const setCookie = await serializeAffiliateCookie(response, cookies)
 
-  return resolve(event)
+  return new Response('ok', {
+    status: 200,
+    headers: setCookie ? { 'Set-Cookie': setCookie } : {},
+  })
 }
 
-export function createAffiliatlyConversionHandler(): RequestHandler {
-  return async ({ request, cookies }) => {
-    const cookieValue = cookies.get(AFFILIATLY_COOKIE_NAME)
-    const session = cookieValue ? parseAffiliateCookie(cookieValue) : null
+async function handleConversionTracking({ url, cookies, request }: RequestEvent) {
+  if (request.method !== 'POST') return new Response(null, { status: 405 })
+  if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
 
-    if (!session) return new Response(null, { status: 204 })
+  const cookieValue = cookies.get(AFFILIATLY_COOKIE_NAME)
+  const session = cookieValue ? parseAffiliateCookie(cookieValue) : null
 
-    const formData = new URLSearchParams(await request.text())
+  if (!session) return new Response(null, { status: 204 })
 
-    await callAffiliatly(
-      new URLSearchParams({
-        mode: 'mark',
-        id_affiliatly: AFFILIATLY_PROGRAM_ID,
-        id_user: session.userId,
-        id_hash: session.idToken,
-        aff_uid: session.affiliateUserId,
-        order: formData.get('order') ?? '',
-        price: formData.get('price') ?? '',
-        coupon_code: formData.get('coupon_code') ?? '',
-        client_email: formData.get('client_email') ?? '',
-      }),
-    )
+  const formData = new URLSearchParams(await request.text())
 
-    return new Response(null, { status: 204 })
+  await callAffiliatly(
+    new URLSearchParams({
+      mode: 'mark',
+      id_affiliatly: AFFILIATLY_PROGRAM_ID,
+      id_user: session.userId,
+      id_hash: session.idToken,
+      aff_uid: session.affiliateUserId,
+      order: formData.get('order') ?? '',
+      price: formData.get('price') ?? '',
+      coupon_code: formData.get('coupon_code') ?? '',
+      client_email: formData.get('client_email') ?? '',
+    }),
+  )
+
+  return new Response('ok', { status: 200 })
+}
+
+export const affiliatlyTrackHandle: Handle = ({ event, resolve }) => {
+  switch (event.url.pathname) {
+    case `${AFFILIATLY_PROXY_ROUTE}/user`:
+      return handleUserTracking(event)
+    case `${AFFILIATLY_PROXY_ROUTE}/conversion`:
+      return handleConversionTracking(event)
+    default:
+      return resolve(event)
   }
 }
