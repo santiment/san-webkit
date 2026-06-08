@@ -2,11 +2,22 @@
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
+  import { trackEvent } from '$lib/analytics/index.js'
   import Svg from '$ui/core/Svg/index.js'
 
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
 
   const { questionnaire } = useQuestionnaireCtx.get()
+
+  function start() {
+    trackEvent('press', { action: 'start', type: 'questionnaire' })
+    questionnaire.$$.screen = 'question'
+  }
+
+  function maybeLater() {
+    trackEvent('press', { action: 'maybe_later', type: 'questionnaire' })
+    questionnaire.cancel()
+  }
 </script>
 
 <section
@@ -25,12 +36,10 @@
   </div>
 
   <footer class="flex items-center gap-3 md:flex-col">
-    <Button variant="fill" onclick={() => (questionnaire.$$.screen = 'question')}
-      >Start survey</Button
-    >
+    <Button variant="fill" onclick={start}>Start survey</Button>
 
-    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={questionnaire.cancel}
-      >Maybe later</Button
-    >
+    <Button variant="border" class="bg-white px-5 hover:bg-mystic" onclick={maybeLater}>
+      Maybe later
+    </Button>
   </footer>
 </section>
