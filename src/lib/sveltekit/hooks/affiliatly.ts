@@ -68,80 +68,81 @@ async function saveAffiliateCookie(response: Response | void, cookies: RequestEv
   })
 }
 
-export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
-  const { url, cookies, request } = event
+async function handleUserTracking({ url, cookies, request }: RequestEvent) {
+  if (request.method !== 'POST') return new Response(null, { status: 405 })
+  if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
 
-  if (!url.pathname.startsWith(AFFILIATLY_PROXY_ROUTE)) {
-    return resolve(event)
+  if (cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
+    return new Response(null, { status: 204 })
   }
 
-  if (url.pathname === `${AFFILIATLY_PROXY_ROUTE}/user`) {
-    if (request.method !== 'POST') return new Response(null, { status: 405 })
-    if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
+  const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
+  const fpr = url.searchParams.get('fpr')
 
-    if (cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
-      return new Response(null, { status: 204 })
-    }
+  if (fpr && LEGACY_AFFILIATE_MAP[fpr] && !affiliateParams.aff) {
+    affiliateParams.aff = LEGACY_AFFILIATE_MAP[fpr]
+  }
 
-    const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
-    const fpr = url.searchParams.get('fpr')
+  if (affiliateParams['coupon-code']) {
+    affiliateParams.couponcode = affiliateParams['coupon-code']
+    delete affiliateParams['coupon-code']
+  }
 
-    if (fpr && LEGACY_AFFILIATE_MAP[fpr] && !affiliateParams.aff) {
-      affiliateParams.aff = LEGACY_AFFILIATE_MAP[fpr]
-    }
+  if (Object.keys(affiliateParams).length === 0) {
+    return new Response(null, { status: 204 })
+  }
 
-    if (affiliateParams['coupon-code']) {
-      affiliateParams.couponcode = affiliateParams['coupon-code']
-      delete affiliateParams['coupon-code']
-    }
+  const payload = new URLSearchParams({
+    mode: 'track-v3',
+    id_affiliatly: AFFILIATLY_PROGRAM_ID,
+    referer: request.headers.get('referer') ?? '',
+    tracking_parameter: JSON.stringify({ get: affiliateParams, hash: {} }),
+    utm_parameters: JSON.stringify(extractParams(url, UTM_KEYS, 'utm_')),
+  })
 
-    if (Object.keys(affiliateParams).length === 0) {
-      return new Response(null, { status: 204 })
-    }
+  if (url.searchParams.has('qr')) payload.append('qr', '1')
 
-    const payload = new URLSearchParams({
-      mode: 'track-v3',
+  const response = await callAffiliatly(payload)
+  await saveAffiliateCookie(response, cookies)
+
+  return new Response('ok', { status: 200 })
+}
+
+async function handleConversionTracking({ url, cookies, request }: RequestEvent) {
+  if (request.method !== 'POST') return new Response(null, { status: 405 })
+  if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
+
+  const cookieValue = cookies.get(AFFILIATLY_COOKIE_NAME)
+  const session = cookieValue ? parseAffiliateCookie(cookieValue) : null
+
+  if (!session) return new Response(null, { status: 204 })
+
+  const formData = new URLSearchParams(await request.text())
+
+  await callAffiliatly(
+    new URLSearchParams({
+      mode: 'mark',
       id_affiliatly: AFFILIATLY_PROGRAM_ID,
-      referer: request.headers.get('referer') ?? '',
-      tracking_parameter: JSON.stringify({ get: affiliateParams, hash: {} }),
-      utm_parameters: JSON.stringify(extractParams(url, UTM_KEYS, 'utm_')),
-    })
+      id_user: session.userId,
+      id_hash: session.idToken,
+      aff_uid: session.affiliateUserId,
+      order: formData.get('order') ?? '',
+      price: formData.get('price') ?? '',
+      coupon_code: formData.get('coupon_code') ?? '',
+      client_email: formData.get('client_email') ?? '',
+    }),
+  )
 
-    if (url.searchParams.has('qr')) payload.append('qr', '1')
+  return new Response('ok', { status: 200 })
+}
 
-    const response = await callAffiliatly(payload)
-    await saveAffiliateCookie(response, cookies)
-
-    return new Response('ok', { status: 200 })
+export const affiliatlyTrackHandle: Handle = ({ event, resolve }) => {
+  switch (event.url.pathname) {
+    case `${AFFILIATLY_PROXY_ROUTE}/user`:
+      return handleUserTracking(event)
+    case `${AFFILIATLY_PROXY_ROUTE}/conversion`:
+      return handleConversionTracking(event)
+    default:
+      return resolve(event)
   }
-
-  if (url.pathname === `${AFFILIATLY_PROXY_ROUTE}/conversion`) {
-    if (request.method !== 'POST') return new Response(null, { status: 405 })
-    if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
-
-    const cookieValue = cookies.get(AFFILIATLY_COOKIE_NAME)
-    const session = cookieValue ? parseAffiliateCookie(cookieValue) : null
-
-    if (!session) return new Response(null, { status: 204 })
-
-    const formData = new URLSearchParams(await request.text())
-
-    await callAffiliatly(
-      new URLSearchParams({
-        mode: 'mark',
-        id_affiliatly: AFFILIATLY_PROGRAM_ID,
-        id_user: session.userId,
-        id_hash: session.idToken,
-        aff_uid: session.affiliateUserId,
-        order: formData.get('order') ?? '',
-        price: formData.get('price') ?? '',
-        coupon_code: formData.get('coupon_code') ?? '',
-        client_email: formData.get('client_email') ?? '',
-      }),
-    )
-
-    return new Response('ok', { status: 200 })
-  }
-
-  return resolve(event)
 }

@@ -50,7 +50,7 @@ export const trackAffiliatlyPayment = (
 ) => reportConversion(orderId, amount, options)
 
 export async function trackAffiliatlyVisit(searchParams: URLSearchParams) {
-  if (!searchParams.size) return
+  if (!CLEANUP_KEYS.some((key) => searchParams.has(key))) return
 
   const response = await fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
     method: 'POST',
