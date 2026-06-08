@@ -34,10 +34,10 @@ export const trackAffiliatlyPayment = (
   options?: TConversionOptions,
 ) => reportConversion(orderId, amount, options)
 
-export async function trackAffiliatlyVisit(searchString: string) {
-  if (!searchString) return
+export async function trackAffiliatlyVisit(searchParams: URLSearchParams) {
+  if (!searchParams.size) return
 
-  await fetch(`${AFFILIATLY_PROXY_ROUTE}/user${searchString}`, {
+  await fetch(`${AFFILIATLY_PROXY_ROUTE}/user?${searchParams}`, {
     method: 'POST',
     credentials: 'same-origin',
   }).catch((error) => console.error(error))

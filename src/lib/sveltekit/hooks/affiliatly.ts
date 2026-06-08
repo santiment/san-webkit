@@ -90,6 +90,11 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
 
   if (url.pathname === `${AFFILIATLY_PROXY_ROUTE}/user`) {
     if (request.method !== 'POST') return new Response(null, { status: 405 })
+    if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
+
+    if (cookies.get(AFFILIATLY_COOKIE_NAME) !== undefined) {
+      return new Response(null, { status: 204 })
+    }
 
     const affiliateParams = extractParams(url, TRACKING_QUERY_KEYS)
     const fpr = url.searchParams.get('fpr')
@@ -125,6 +130,7 @@ export const affiliatlyTrackHandle: Handle = async ({ event, resolve }) => {
 
   if (url.pathname === `${AFFILIATLY_PROXY_ROUTE}/conversion`) {
     if (request.method !== 'POST') return new Response(null, { status: 405 })
+    if (request.headers.get('origin') !== url.origin) return new Response(null, { status: 403 })
 
     const cookieValue = cookies.get(AFFILIATLY_COOKIE_NAME)
     const session = cookieValue ? parseAffiliateCookie(cookieValue) : null
