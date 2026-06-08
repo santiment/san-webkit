@@ -1,0 +1,14 @@
+diff --git a/package.json b/package.json
+index 5d39c67..2c83279 100644
+--- a/package.json
++++ b/package.json
+@@ -87,6 +87,9 @@
+       "import": "./dist/index.js",
+       "types": "./dist/index.d.ts"
+     },
++    "./dist/config": {
++      "types": "./dist/config.d.ts"
++    },
+     "./dist/*": "./dist/*",
+     "./transformer": {
+       "require": "./dist/transformer.cjs",
