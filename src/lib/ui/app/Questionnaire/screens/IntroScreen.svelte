@@ -10,12 +10,12 @@
   const { questionnaire } = useQuestionnaireCtx.get()
 
   function start() {
-    trackEvent('press', { action: 'start', type: 'walkthrough' })
+    trackEvent('press', { action: 'start', type: 'questionnaire' })
     questionnaire.$$.screen = 'question'
   }
 
   function maybeLater() {
-    trackEvent('press', { action: 'maybe_later', type: 'walkthrough' })
+    trackEvent('press', { action: 'maybe_later', type: 'questionnaire' })
     questionnaire.cancel()
   }
 </script>

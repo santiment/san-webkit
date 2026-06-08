@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
@@ -15,8 +16,12 @@
 
   const showCalendlyDialog = dialogs$.new(CalendlyDialog)
 
+  onMount(() => {
+    trackEvent('form', { action: 'submitted', type: 'questionnaire' })
+  })
+
   function openScheduleDialog() {
-    trackEvent('press', { action: 'schedule_call', type: 'walkthrough' })
+    trackEvent('press', { action: 'schedule_call', type: 'questionnaire' })
 
     showCalendlyDialog({
       url: CALENDLY_URL,
@@ -27,7 +32,7 @@
   }
 
   function skip() {
-    trackEvent('press', { action: 'skip', type: 'walkthrough' })
+    trackEvent('press', { action: 'skip', type: 'questionnaire' })
     questionnaire.cancel()
   }
 </script>

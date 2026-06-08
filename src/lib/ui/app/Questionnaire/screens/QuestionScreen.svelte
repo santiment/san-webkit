@@ -16,8 +16,21 @@
   const multiAnswer = $derived((answer as string[] | undefined) ?? [])
 
   function cancel() {
-    trackEvent('press', { action: 'cancel', type: 'walkthrough' })
+    trackEvent('press', {
+      action: 'cancel',
+      type: 'questionnaire',
+      step: questionnaire.$$.stepIndex + 1,
+    })
     questionnaire.cancel()
+  }
+
+  function next() {
+    trackEvent('press', {
+      action: 'next',
+      type: 'questionnaire',
+      step: questionnaire.$$.stepIndex + 1,
+    })
+    questionnaire.goNext()
   }
 </script>
 
@@ -67,7 +80,7 @@
         iconSize={11}
         iconOnRight
         disabled={!questionnaire.isAnswered$ || questionnaire.$$.isSubmitting}
-        onclick={questionnaire.goNext}
+        onclick={next}
       >
         Next
       </Button>

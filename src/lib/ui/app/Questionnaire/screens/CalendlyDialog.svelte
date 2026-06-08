@@ -26,7 +26,7 @@
     if (event === 'calendly.event_type_viewed' || event === 'calendly.profile_page_viewed') {
       isReady = true
     } else if (event === 'calendly.event_scheduled') {
-      trackEvent('walkthrough', { action: 'scheduled' })
+      trackEvent('walkthrough', { action: 'scheduled', type: 'questionnaire' })
       onScheduled?.()
       Controller.close(true)
     }
