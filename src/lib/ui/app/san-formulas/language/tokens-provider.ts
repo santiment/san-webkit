@@ -12,6 +12,7 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
   operators: ['+', '-', '*', '/', '=', ','],
 
   // we include these common regular expressions
+  // eslint-disable-next-line no-useless-escape
   symbols: /[=><!~?:&|+\-*\/\^%]+/,
 
   // C# style strings
@@ -36,11 +37,13 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
       { include: '@whitespace' },
 
       // delimiters and operators
+      // eslint-disable-next-line no-useless-escape
       [/[{}()\[\]]/, '@brackets'],
       [/[<>](?!@symbols)/, '@brackets'],
       [/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
 
       // numbers
+      // eslint-disable-next-line no-useless-escape
       [/\d*\.\d+([eE][\-+]?\d+)?/, 'number.float'],
       [/\d+/, 'number'],
 

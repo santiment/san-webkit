@@ -9,6 +9,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
+  import { beforeNavigate } from '$app/navigation'
+
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -18,7 +20,6 @@
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
   import RestrictionMessage from './RestrictionMessage.svelte'
-  import { beforeNavigate } from '$app/navigation'
 
   type TProps = TDialogProps & {
     source?: string

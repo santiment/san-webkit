@@ -52,7 +52,6 @@
 }
 
 body.theme-transition {
-
   &,
   & * {
     @apply transition-colors duration-500;
@@ -212,11 +211,11 @@ skeleton,
 }
 
 .ai-chatbot-content ul {
-  @apply pl-6 mb-2 list-disc;
+  @apply mb-2 list-disc pl-6;
 }
 
 .ai-chatbot-content ol {
-  @apply pl-6 mb-2 list-decimal;
+  @apply mb-2 list-decimal pl-6;
 }
 
 .ai-chatbot-content li {
