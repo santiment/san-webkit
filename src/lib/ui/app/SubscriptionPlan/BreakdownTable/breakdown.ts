@@ -38,7 +38,7 @@ export const CONSUMER_PLANS_BREAKDOWN = [
         isAccess: true,
       },
       { name: 'Hide watermark on charts', isCheck: true },
-      { name: 'Download chart as CSV', isCheck: true },
+      { name: 'Download chart as CSV', isAccess: true },
       { name: 'Embed charts', isAccess: true },
     ],
   },
@@ -155,7 +155,7 @@ export const BUSINESS_PLANS_BREAKDOWN = [
         description: `<b>Limited data!</b> For users on the Free plan, some data has time range limitations`,
         isAccess: true,
       },
-      { name: 'Download chart data as CSV', isCheck: true },
+      { name: 'Download chart data as CSV', isAccess: true },
       { name: 'Embed charts', isAccess: true },
     ],
   },
@@ -254,6 +254,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Custom onboarding & education': false,
 
     'Hide watermark on charts': false,
+    'Download chart as CSV': 'Limited to 2 years',
     'Embed charts': 'Part access',
 
     'Custom Alerts': 20,
