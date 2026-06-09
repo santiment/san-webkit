@@ -1,3 +1,5 @@
+import type { RequestEvent } from '@sveltejs/kit'
+
 import { BROWSER } from 'esm-env'
 import {
   init,
@@ -20,31 +22,38 @@ setTags({
   git_commit: process.env.GIT_HEAD,
 })
 
-export const handleErrorWithSentry = (handler?: Parameters<typeof _handleErrorWithSentry>[0]) => {
-  const handleError = _handleErrorWithSentry(handler)
+type TErrorHandler = NonNullable<Parameters<typeof _handleErrorWithSentry>[0]>
+type TErrorHandlerInput = Parameters<TErrorHandler>[0]
 
-  return async (input: any) => {
+export const handleErrorWithSentry = (
+  handleIgnores?: (input: TErrorHandlerInput) => void | App.Error,
+  sentryHandler?: TErrorHandler,
+) => {
+  const handleError = _handleErrorWithSentry(sentryHandler)
+
+  return async (input: TErrorHandlerInput) => {
+    const ignored = handleIgnores?.(input)
+    if (ignored) return ignored
+
     setExtra('event', normalizeEventError(input.event || {}))
 
     if (!BROWSER) {
-      let ip_address = null as null | string
+      const event = input.event as RequestEvent
 
       try {
-        ip_address = input.event.getClientAddress()
+        setUser({ ip_address: event.getClientAddress() })
       } catch (e) {
         console.error(e)
       }
 
-      if (ip_address) setUser({ ip_address })
-
-      const { currentUser } = input.event?.locals?.customer || {}
+      const { currentUser } = event?.locals?.customer || {}
       if (currentUser) {
         const { id, username } = currentUser
         setUser({ id, username: username || '' })
       }
     }
 
-    return handleError(input)
+    return handleError(input as any)
   }
 }
 
