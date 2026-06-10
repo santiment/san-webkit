@@ -34,7 +34,7 @@
     position = 'bottom-end',
     positionConfig,
     offset,
-    closeOnOutsideClick = true,
+    closeOnOutsideClick = false,
     ...options
   }: Props = $props()
 
@@ -65,17 +65,17 @@
 
   let contentEl = $state<HTMLElement>()
 
-  $effect(() => {
-    if (!closeOnOutsideClick || !$open) return
-
-    const removeListener = on(window, 'pointerdown', (e) => {
-      if (contentEl && e.composedPath().includes(contentEl)) return
-
-      open.set(false)
+  if (closeOnOutsideClick) {
+    $effect(() => {
+      if (!$open) return
+  
+      return on(window, 'pointerdown', (e) => {
+        if (contentEl && e.composedPath().includes(contentEl)) return
+  
+        open.set(false)
+      })
     })
-
-    return () => removeListener()
-  })
+  }
 
   $effect(() => {
     open.set(isOpened)
