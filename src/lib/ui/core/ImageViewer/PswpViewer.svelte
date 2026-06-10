@@ -76,8 +76,10 @@
   />
 {/if}
 
-<style>
+<style lang="postcss">
+  @reference '#app.css';
+
   :global(.pswp) {
-    --pswp-bg: theme('colors.shark.DEFAULT');
+    --pswp-bg: var(--color-shark);
   }
 </style>
