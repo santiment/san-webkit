@@ -19,7 +19,7 @@
 
   <Button variant="fill">Some Button</Button>
 
-  <Tooltip position="bottom-end">
+  <Tooltip position="bottom-end" closeOnOutsideClick={true}>
     {#snippet children({ ref })}
       <Button variant="border" {ref}>Open Tooltip</Button>
     {/snippet}
