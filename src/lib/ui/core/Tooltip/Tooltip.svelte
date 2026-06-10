@@ -2,6 +2,7 @@
   import { type Snippet } from 'svelte'
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
+  import { on } from 'svelte/events'
 
   import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
@@ -20,6 +21,7 @@
     position?: FloatingConfig['placement']
     offset?: number
     positionConfig?: FloatingConfig
+    closeOnOutsideClick?: boolean
   } & Omit<CreateTooltipProps, 'positioning'>
 
   let {
@@ -32,6 +34,7 @@
     position = 'bottom-end',
     positionConfig,
     offset,
+    closeOnOutsideClick = false,
     ...options
   }: Props = $props()
 
@@ -60,6 +63,20 @@
 
   useMelt(triggerRef, trigger)
 
+  let contentEl = $state<HTMLElement>()
+
+  if (closeOnOutsideClick) {
+    $effect(() => {
+      if (!$open) return
+  
+      return on(window, 'pointerdown', (e) => {
+        if (contentEl && e.composedPath().includes(contentEl)) return
+  
+        open.set(false)
+      })
+    })
+  }
+
   $effect(() => {
     open.set(isOpened)
   })
@@ -70,6 +87,7 @@
 {#if $open}
   <div
     {...$content}
+    bind:this={contentEl}
     use:content
     out:flyAndScaleOutTransition
     class={cn(

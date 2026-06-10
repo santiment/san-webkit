@@ -3,6 +3,7 @@ import type { Component, ComponentProps } from 'svelte'
 
 import component from './index.svelte'
 import PositionedTooltip from './PositionedTooltip.svelte'
+import TooltipWithButtonComponent from './TooltipWithButton.svelte'
 
 const meta = {
   component,
@@ -19,5 +20,11 @@ export const Tooltip: Story = {}
 export const TooltipWithPostitionConfig: StoryObj<typeof PositionedTooltip> = {
   render: () => ({
     Component: PositionedTooltip,
+  }),
+}
+
+export const TooltipWithButton: StoryObj<typeof TooltipWithButtonComponent> = {
+  render: () => ({
+    Component: TooltipWithButtonComponent,
   }),
 }
