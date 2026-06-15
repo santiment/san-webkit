@@ -10,17 +10,17 @@ export function applyHistogramBaselineColorData(series: TSeries): boolean {
     return false
   }
 
-  const { baseline } = ui.$$
-  if (!baseline || baseline.topColor === baseline.bottomColor) {
+  const { color, baseline } = ui.$$
+  if (!baseline || color === baseline.bottomColor) {
     return false
   }
 
-  const { value, topColor, bottomColor } = baseline
+  const { value, bottomColor } = baseline
 
   series.chartSeriesApi?.setData(
     data.$.map((item) => {
-      const color = item.value ? (item.value > value ? topColor : bottomColor) : 'transparent'
-      return { ...item, color }
+      const valueColor = item.value ? (item.value > value ? color : bottomColor) : 'transparent'
+      return { ...item, color: valueColor }
     }),
   )
 
@@ -31,13 +31,13 @@ export function getAreaSeriesColors(series: TSeries) {
   const {
     color,
     isFilledGradient = false,
-    baseline = { value: 0, topColor: color, bottomColor: color },
+    baseline = { value: 0, bottomColor: color },
   } = series.ui.$$
 
   const opacity = isFilledGradient ? '50' : '1c'
   const gradientOpacity = isFilledGradient ? '09' : opacity
 
-  const topLineColor = baseline.topColor
+  const topLineColor = color
   const bottomLineColor = baseline.bottomColor
 
   return {

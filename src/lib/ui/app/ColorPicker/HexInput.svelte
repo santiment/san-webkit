@@ -63,8 +63,6 @@
     if (key === 'v' && (ctrlKey || metaKey)) return
     if (checkIsInvalidHex(key)) return e.preventDefault()
   }
-
-  $inspect(error)
 </script>
 
 <Input

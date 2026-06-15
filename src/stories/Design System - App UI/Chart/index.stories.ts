@@ -115,7 +115,7 @@ x1 + x2`,
 
         baseline: {
           value: 0,
-          topColor: '#00ff00',
+          // topColor: '#00ff00',
           bottomColor: '#ff0000',
         },
       },

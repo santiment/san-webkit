@@ -118,7 +118,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
 
   baseline?: {
     value: number
-    topColor: string
+    // topColor: string
     bottomColor: string
   }
 
