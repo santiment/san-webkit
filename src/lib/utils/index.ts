@@ -40,8 +40,6 @@ export const BootFlag = {
   },
 }
 
-export type MaybeCtx<GCtx> = GCtx extends { get: () => infer T } ? undefined | T : never
-
 export function createCtx<CtxName extends string, CtxCreator extends (...args: any[]) => any>(
   CTX: CtxName,
   creator: CtxCreator,
@@ -84,11 +82,22 @@ export function createCtx<CtxName extends string, CtxCreator extends (...args: a
     return setContext(CTX, creator(...args))
   }) as CtxCreator
 
+  ctxCreator.maybeGet = get
   ctxCreator.get = get
   ctxCreator.set = set
   ctxCreator.__CTX = CTX
 
-  return ctxCreator as CtxCreator & { get: typeof get; set: typeof set; __CTX: typeof CTX }
+  return ctxCreator as CtxCreator & {
+    maybeGet<T, A extends any[], R>(
+      this: (this: T, ...args: A) => R,
+      allCtxs?: Map<string, any>,
+    ): undefined | R
+
+    get<T, A extends any[], R>(this: (this: T, ...args: A) => R, allCtxs?: Map<string, any>): R
+
+    set: typeof set
+    __CTX: typeof CTX
+  }
 }
 
 export function Emitter<T extends Record<string, number | string>>(emit: any, events: T) {

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
-  import type { MaybeCtx } from '$lib/utils/index.js'
 
   import { onMount, untrack } from 'svelte'
   import {
@@ -28,9 +27,7 @@
   const chartCtx = useChartCtx()
   const chart = chartCtx.chart.$!
 
-  const highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
-    typeof useHighlightedMetricCtx
-  >
+  const highlightedMetricCtx = useHighlightedMetricCtx.maybeGet()
 
   const priceFormat =
     formatters.$.scaleFormatter &&

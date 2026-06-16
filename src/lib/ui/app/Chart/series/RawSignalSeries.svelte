@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
-  import type { MaybeCtx } from '$lib/utils/index.js'
   import type { TMetricData } from '../api/index.js'
 
   import { onMount } from 'svelte'
@@ -16,9 +15,7 @@
   const chartCtx = useChartCtx()
   const chart = chartCtx.chart.$!
 
-  const _highlightedMetricCtx = useHighlightedMetricCtx.get() as MaybeCtx<
-    typeof useHighlightedMetricCtx
-  >
+  const _highlightedMetricCtx = useHighlightedMetricCtx.maybeGet()
 
   const chartSeries = createChartSeries()
   series.chartSeriesApi = chartSeries
