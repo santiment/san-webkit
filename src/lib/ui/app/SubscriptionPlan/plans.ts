@@ -1,9 +1,11 @@
+import type { TSubscriptionPlan } from './types.js'
+
 import { keyify } from '$lib/utils/object.js'
 
 export const Product = keyify(
   {
-    SanAPI: { id: '1' },
-    Sanbase: { id: '2' },
+    SanAPI: { id: '1', productName: 'SANAPI' },
+    Sanbase: { id: '2', productName: 'SANBASE' },
   },
   'name',
 )
@@ -35,6 +37,22 @@ export const SubscriptionPlan = keyify({
   CUSTOM: { name: 'Enterprise' },
 })
 
+export type TPlan = keyof typeof SubscriptionPlan
+
+export const getSubscriptionPlanKey = (planName: string): string =>
+  checkIsCustomPlan(planName) ? SubscriptionPlan.CUSTOM.key : planName
+
+export function convertSubscriptionPlan(planName: string): TPlan | null {
+  const key = getSubscriptionPlanKey(planName)
+
+  if (key in SubscriptionPlan) return key as TPlan
+
+  return null
+}
+
+export const checkIsCustomPlan = (planName: string) =>
+  planName.startsWith(SubscriptionPlan.CUSTOM.key)
+
 export const SubscriptionPlanDetails: Record<
   string,
   | undefined
@@ -48,7 +66,9 @@ export const SubscriptionPlanDetails: Record<
     features: [
       '30-day lag in Sanbase',
       'Hidden top 3 tokens in Trending Coins',
-      '30-day lag for API with basic access',
+      'Limited access to Trending Stories',
+      'Real-time API data with 30-day lag',
+      '1K API calls / mo, 1 year historical data',
       'No filters and sorting for Screener',
       'Up to 3 simultaneous alerts',
     ],
@@ -58,9 +78,11 @@ export const SubscriptionPlanDetails: Record<
     description: 'Ideal for advanced traders and analysts to power decisions with real-time data',
     features: [
       'Present-day and full historical data in Sanbase',
-      'Full access to Trending Coins',
-      '30-day lag for API with basic access',
-      'Full access to screener, 20 alerts',
+      'Full access to Trending Coins and Stories',
+      'Real-time API data with 30-day lag',
+      '5K API calls / mo, 1 year historical data',
+      'Full access to Screener',
+      '20 active alerts',
       'Access to Google Sheets plugin',
       'Exclusive reports and market insights',
     ],
@@ -69,10 +91,12 @@ export const SubscriptionPlanDetails: Record<
   [SubscriptionPlan.MAX.key]: {
     description: 'Ideal for advanced investment strategies with full API access to real-time data',
     features: [
-      'Present-day and full historical data in Sanbase and Trending Coins',
+      'Present-day and full historical data in Sanbase, Trending Coins & Stories',
       'Technical support included',
-      'Full API access, 14-day lag for some metrics',
-      'Full access to screener, 20 alerts',
+      'Real-time API data without restrictions',
+      '80K API calls / mo, 2 years historical data',
+      'Full access to Screener',
+      '50 active alerts',
       'Access to Google Sheets plugin',
       'Exclusive reports and market insights',
     ],
@@ -125,3 +149,7 @@ export const BUSINESS_PLANS = new Set<string>([
   SubscriptionPlan.BUSINESS_PRO.key,
   SubscriptionPlan.CUSTOM.key,
 ])
+
+export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
+  return planKey === SubscriptionPlan.PRO.key
+}

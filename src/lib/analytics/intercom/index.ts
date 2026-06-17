@@ -1,6 +1,6 @@
 import { BROWSER } from 'esm-env'
 
-import { newHeadScript } from './utils.js'
+import { newHeadScript } from '../utils.js'
 
 export function bootIntercom(
   app_id: string,
@@ -43,4 +43,3 @@ export function updateIntercom(
 
   window.Intercom?.('update', window.intercomSettings)
 }
-

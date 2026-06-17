@@ -9,6 +9,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
 
+  import { beforeNavigate } from '$app/navigation'
+
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -17,17 +19,23 @@
   import AlertFormScreen from './AlertFormScreen.svelte'
   import { type TApiAlert } from '../types.js'
   import { deduceApiAlertSchema, type TAlertSchemaUnion } from '../categories/index.js'
+  import RestrictionMessage from './RestrictionMessage.svelte'
 
-  type TProps = TDialogProps & { source?: string; apiAlert?: null | TApiAlert }
-  let { apiAlert, Controller, source = '' }: TProps = $props()
+  type TProps = TDialogProps & {
+    source?: string
+    alert?: null | Partial<TApiAlert>
+    onCreate?: (alert: TApiAlert) => void
+    onClose?: () => void
+  }
+  let { alert, Controller, onCreate, onClose, source = '' }: TProps = $props()
 
-  let schema = $state.raw(deduceApiAlertSchema(apiAlert))
+  let schema = $state.raw(deduceApiAlertSchema(alert))
 
-  const isApiAlertDeduceFailed = $derived(apiAlert && !schema)
+  const isApiAlertDeduceFailed = $derived(alert && !schema)
 
   $effect(() => {
     if (isApiAlertDeduceFailed) {
-      apiAlert = null
+      alert = null
     }
   })
 
@@ -41,12 +49,17 @@
 
   const close = () => Controller.close()
 
+  beforeNavigate(() => {
+    close()
+  })
+
   onMount(() => {
     const analytics = { source }
 
     trackEvent('dialog', { ...analytics, action: 'open', type: '' })
 
     return () => {
+      onClose?.()
       trackEvent('dialog', { ...analytics, action: 'close', type: '' })
     }
   })
@@ -60,8 +73,10 @@
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />
   </h2>
 
+  <RestrictionMessage />
+
   {#if schema}
-    <AlertFormScreen {apiAlert} {schema} {resetCategory} {close}></AlertFormScreen>
+    <AlertFormScreen {alert} {schema} {resetCategory} {close} {onCreate}></AlertFormScreen>
   {:else}
     <CategoriesScreen onSelect={onCategorySelect}></CategoriesScreen>
   {/if}

@@ -36,6 +36,8 @@
       {/snippet}
     </Input>
 
+    <Input placeholder="Number input" type="number"></Input>
+
     <Input placeholder="Disabled input" disabled></Input>
   </div>
 </div>

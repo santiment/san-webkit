@@ -6,7 +6,6 @@
 
   import { tv, type VariantProps } from 'tailwind-variants'
 
-  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Svg, { type TSvgId } from '$ui/core/Svg/index.js'
 
@@ -15,15 +14,18 @@
   type TProps = HTMLButtonAttributes &
     Omit<TButtonVariants, 'icon' | 'explanation' | 'children'> & {
       as?: 'button' | 'label' | 'div'
+      for?: string
       ref?: SS<undefined | null | HTMLElement>
       href?: string
-      icon?: TSvgId
       class?: string
+      icon?: TSvgId
       iconSize?: number | string
       iconHeight?: number | string
       iconOnRight?: boolean
+      iconIllus?: boolean
       explanation?: string
       loading?: boolean
+      dropdown?: boolean
       target?: HTMLAnchorAttributes['target']
 
       action?: Action
@@ -39,14 +41,18 @@
     as = 'button',
     variant = 'ghost',
     accent = 'green',
-    size: initialSize,
+    size = 'auto',
     iconOnRight = false,
     rounded = false,
+    circle = false,
+    dropdown = false,
     loading = false,
+    disabled,
 
     icon,
     iconHeight,
     iconSize: initialIconSize,
+    iconIllus = false,
 
     explanation,
     children,
@@ -57,32 +63,31 @@
     ...rest
   }: TProps = $props()
 
-  const { device } = useDeviceCtx()
-
-  const isPhone = $derived(device.$.isPhone)
-  const size = $derived(initialSize ?? (isPhone ? 'lg' : 'md'))
-  const iconSize = $derived(initialIconSize ?? (size === 'md' || size === 'lg' ? 16 : 12))
+  const iconSize = $derived(
+    initialIconSize ?? (size === 'auto' || size === 'md' || size === 'lg' ? 16 : 12),
+  )
 
   const button = tv({
-    base: 'flex items-center cursor-pointer gap-2 rounded-md',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md select-none',
     variants: {
       children: { false: '' },
       icon: { false: '' },
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-white px-2.5 fill-waterloo hover:bg-athens',
-        ghost: 'px-2.5 fill-waterloo hover:bg-athens',
+        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
+        ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
-        link: 'rounded-none text-green fill-green hover:underline',
+        link: 'rounded-none inline-flex text-green fill-green hover:underline select-text',
         plain: 'rounded-none',
       },
       iconOnRight: { true: 'flex-row-reverse justify-end' },
       explanation: { true: 'expl-tooltip' },
       disabled: { true: 'cursor-not-allowed' },
-      rounded: { true: 'rounded-full' },
+      rounded: { true: 'rounded-[14px]' },
+      circle: { true: 'rounded-full' },
       size: {
-        auto: 'p-0',
+        auto: 'h-8 py-[5px] sm:h-10 sm:py-1.5 sm:text-base',
         md: 'h-8 py-[5px]',
         lg: 'h-10 py-1.5 text-base',
         sm: 'p-0',
@@ -115,7 +120,8 @@
       {
         variant: ['fill', 'border'],
         disabled: true,
-        class: 'text-mystic fill-mystic bg-athens hover:bg-athens',
+        class:
+          'text-mystic fill-mystic bg-[var(--ghost-active-bg)] hover:bg-[var(--ghost-active-bg)]',
       },
       {
         variant: 'ghost',
@@ -128,6 +134,17 @@
         class: 'text-mystic fill-mystic hover:no-underline',
       },
       {
+        variant: ['plain', 'link'],
+        size: 'auto',
+        class: 'p-0 h-auto text-sm sm:h-auto sm:text-sm sm:p-0',
+      },
+      {
+        children: false,
+        icon: true,
+        size: ['auto'],
+        class: 'justify-center px-0 size-8 sm:size-10',
+      },
+      {
         children: false,
         icon: true,
         size: ['lg'],
@@ -136,8 +153,15 @@
       {
         children: false,
         icon: true,
+        rounded: false,
         size: ['md'],
         class: 'justify-center size-8 px-0',
+      },
+      {
+        children: false,
+        icon: true,
+        rounded: true,
+        class: 'justify-center h-8 w-auto px-[9px]',
       },
       {
         children: false,
@@ -170,11 +194,15 @@
   this={rest.href ? 'a' : as}
   bind:this={ref.$}
   aria-label={explanation}
+  style:--ghost-active-bg="var(--active-ghost-button-bg, var(--athens))"
   style:--loading-color={getLoadingColor(variant)}
   style:--loading-size="2px"
+  type={rest.href ? undefined : 'button'}
+  disabled={disabled || undefined}
   {...rest}
   use:action={actionArgs}
   class={cn(
+    'group/button',
     button({
       variant,
       accent,
@@ -182,8 +210,9 @@
       size,
       loading,
       rounded,
+      circle,
       explanation: !!explanation,
-      disabled: !!rest.disabled,
+      disabled: !!disabled,
       children: !!children,
       icon: !!icon,
     }),
@@ -192,10 +221,27 @@
   )}
 >
   {#if icon}
-    <Svg id={icon} w={iconSize} h={iconHeight}></Svg>
+    <Svg id={icon} w={iconSize} h={iconHeight} illus={iconIllus} />
   {/if}
 
   {#if children}
     {@render children()}
+  {/if}
+
+  {#if dropdown}
+    <div class="ml-auto pl-0.5">
+      <div
+        class={cn(
+          'flex size-4 items-center justify-center rounded transition-colors',
+          !loading && 'group-data-[state="open"]/button:bg-[var(--ghost-active-bg)]',
+        )}
+      >
+        <Svg
+          id="arrow-down"
+          w="8"
+          class={cn('transition-transform', 'group-data-[state="open"]/button:rotate-180')}
+        />
+      </div>
+    </div>
   {/if}
 </svelte:element>

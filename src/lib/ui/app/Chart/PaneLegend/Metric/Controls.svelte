@@ -1,27 +1,47 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
+  import type { ComponentProps } from 'svelte'
 
   import Button from '$ui/core/Button/index.js'
+  import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 
+  import PaneControls from './PaneControls.svelte'
   import { useMetricInfoCtx } from './ctx.svelte.js'
   import { useChartPlanRestrictionsCtx } from '../../RestrictedDataDialog/index.js'
 
   type TProps = {
     metric: TSeries
+    paneControls?: boolean
+    onVisibilityChange?: (newValue: boolean, oldValue: boolean) => void
+    onPaneChange?: ComponentProps<typeof PaneControls>['onPaneChange']
   }
-  let { metric }: TProps = $props()
+  let { metric, paneControls, onVisibilityChange, onPaneChange }: TProps = $props()
 
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
   const { onMetricInfoClick } = useMetricInfoCtx.get()
 
   function onHideClick() {
-    metric.visible.$ = !metric.visible.$
+    const oldValue = metric.visible.$
+    const newValue = !oldValue
+
+    metric.visible.$ = newValue
+
+    onVisibilityChange?.(newValue, oldValue)
+  }
+
+  function onReloadClick() {
+    metric.recache.schedule()
   }
 </script>
 
 <div
   class="left-full hidden gap-1.5 bg-white px-2 pr-0 center group-hover/pane-metric:flex [.metric-opened>&]:flex"
 >
+  {#if metric.type !== MetricType.DATA_STORE}
+    <Button icon="reset" iconSize="10" class="size-5" explanation="Reload" onclick={onReloadClick}
+    ></Button>
+  {/if}
+
   <Button
     icon={metric.visible.$ ? 'eye' : 'eye-crossed'}
     iconSize="14"
@@ -38,7 +58,7 @@
     onclick={(e) => onMetricInfoClick(metric, e.currentTarget!)}
   ></Button>
 
-  {#if chartPlanRestrictions.has$(metric.apiMetricName)}
+  {#if 'apiMetricName' in metric && chartPlanRestrictions.has$(metric.apiMetricName)}
     <Button
       icon="crown"
       iconSize="12"
@@ -48,22 +68,11 @@
     ></Button>
   {/if}
 
+  {#if paneControls}
+    <PaneControls {metric} {onPaneChange}></PaneControls>
+  {/if}
+
   <!--
   <Button icon="cog" iconSize="11" class="size-5" explanation="Settings"></Button>
-
-      <Button
-        icon="arrow-down"
-        iconSize="10"
-        class="size-5 [&>svg]:rotate-180"
-        explanation="Move to pane above"
-        onclick={onMoveAbovePane}
-      ></Button>
-      <Button
-        icon="arrow-down"
-        iconSize="10"
-        class="size-5"
-        explanation="Move to pane below"
-        onclick={onMoveBelowPane}
-      ></Button>
   -->
 </div>

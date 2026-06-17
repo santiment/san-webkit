@@ -1,6 +1,13 @@
 import { SANBASE_ORIGIN } from '$lib/utils/links.js'
+import { onSupportClick } from '$lib/utils/support.js'
 
-export const resourcesLinks = [
+type TLink = {
+  href: string
+  title: string
+  onclick?: (e: MouseEvent) => void
+}
+
+export const resourcesLinks: TLink[] = [
   {
     href: 'https://santiment.net/about/',
     title: 'About us',
@@ -9,36 +16,27 @@ export const resourcesLinks = [
   { href: 'https://santiment.net/pricing/', title: 'Pricing' },
   { href: 'https://santiment.net/team/', title: 'Team' },
   { href: 'https://santiment.net/jobs/', title: 'Jobs' },
-  { href: 'mailto:support@santiment.net', title: 'Contact us' },
+  { href: 'mailto:support@santiment.net', title: 'Contact us', onclick: onSupportClick },
 
+  { href: SANBASE_ORIGIN + '/charts/', title: 'Charts' },
+  { href: SANBASE_ORIGIN + '/screener/', title: 'Screener' },
+  { href: SANBASE_ORIGIN + '/insights/', title: 'Insights' },
+  { href: SANBASE_ORIGIN + '/social-trends/', title: 'Social trends' },
   { href: 'https://academy.santiment.net/', title: 'Academy' },
-  { href: 'https://insights.santiment.net/', title: 'Insights' },
-  { href: SANBASE_ORIGIN + '/labs/trends', title: 'Social trends' },
-  {
-    href: SANBASE_ORIGIN + '/labs/balance',
-    title: 'Historical balance',
-  },
-  {
-    href: 'https://academy.santiment.net/san-tokens/how-to-buy-san-tokens/',
-    title: 'Buy SAN',
-  },
 
-  { href: SANBASE_ORIGIN, title: 'Sanbase' },
+  { href: SANBASE_ORIGIN + '/', title: 'Sanbase' },
   { href: 'https://api.santiment.net/', title: 'SanAPI' },
   { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
-  {
-    href: 'https://graphs.santiment.net/',
-    title: 'Graphs',
-  },
+  { href: 'https://sanr.app/', title: 'SanR' },
 ]
 
 export const socialMediaLinks = [
   {
-    href: 'https://twitter.com/santimentfeed',
-    id: 'twitter',
+    href: 'https://twitter.com/SantimentData',
+    id: 'twitter-x',
     width: 20,
     height: 16,
-    label: 'Twitter',
+    label: 'X (Twitter)',
   },
   { href: 'https://github.com/santiment', id: 'github', width: 20, height: 20, label: 'GitHub' },
   { href: 'https://santiment.net/discord', id: 'discord', width: 20, height: 14, label: 'Discord' },

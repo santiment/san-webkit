@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { TBaseSchema, TState } from '../schema.js'
-  import type { TAlertStep } from '../../index.svelte.js'
+  import type { TBaseSchema, TNameDescriptionState } from '../schema.js'
+  import type { TBaseState } from '../../index.svelte.js'
 
   import { onMount } from 'svelte'
 
@@ -8,20 +8,20 @@
   import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
 
   type TProps = {
-    step: TAlertStep<TBaseSchema>
+    state: TBaseState<TBaseSchema>
   }
 
-  let { step }: TProps = $props()
+  const { state }: TProps = $props()
 
   const { schema, steps } = useAlertFormCtx.get()
 
   async function suggestTitleAndDesc() {
-    if (!step.state.$$.title) {
-      step.state.$$.title = await schema.suggestTitle(steps)
+    if (!state.$$.title) {
+      state.$$.title = await schema.suggestTitle(steps)
     }
 
-    if (!step.state.$$.description) {
-      step.state.$$.description = await schema.suggestDescription(steps)
+    if (!state.$$.description) {
+      state.$$.description = await schema.suggestDescription(steps)
     }
   }
 
@@ -35,15 +35,15 @@
   {@render textarea('Description', 'description', 4)}
 </section>
 
-{#snippet textarea(title: string, name: keyof TState, rows: number)}
+{#snippet textarea(title: string, name: keyof TNameDescriptionState, rows: number)}
   <label class="title flex flex-col rounded border px-4 py-3">
     <p class="text-xs text-waterloo">{title}</p>
     <Textarea
-      class="border-none px-0"
-      inputClass="pb-0 resize-none"
+      class="border-none"
+      inputClass="pb-0 px-0 resize-none"
       {rows}
-      value={step.state.$$[name]}
-      oninput={(e) => (step.state.$$[name] = e.currentTarget.value)}
+      value={state.$$[name]}
+      oninput={(e) => (state.$$[name] = e.currentTarget.value)}
     />
   </label>
 {/snippet}

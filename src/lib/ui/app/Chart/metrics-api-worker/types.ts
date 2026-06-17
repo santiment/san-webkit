@@ -1,5 +1,10 @@
 import type { TNominal } from '$lib/utils/index.js'
-import type { TInterval, TMetricData, TMetricTargetSelectorInputObject } from '../api/index.js'
+import type {
+  TAggregation,
+  TInterval,
+  TMetricData,
+  TMetricTargetSelectorInputObject,
+} from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
 
@@ -9,6 +14,7 @@ export const MESSAGE_TYPE = {
   CancelRequest: 0,
   FetchMetric: 1,
   FetchFormulaMetric: 2,
+  ValidateFormula: 3,
 } as const
 
 export type TMessageType = {
@@ -46,39 +52,72 @@ export type TMetricParameters = TLocalParameters & {
   interval: TInterval
   from: string
   to: string
+  aggregation?: TAggregation
 }
 export type TFetchMetricMessage = TMessageRequestResponse<
   TMessageType['FetchMetric'],
   {
     minimalDelay?: number
     priority?: number
-    parameters: TMetricParameters
+    recache?: boolean
+    parameters: TMetricParameters & { version?: string }
   },
   { timeseries: TMetricData } | { error: any }
 >
 
 export type TMetricFormula = { expr: string }
 
+export const FORMULA_WARNING = {
+  NonFiniteData: 0,
+} as const
+
+export type TFormulaWarning = {
+  [K in keyof typeof FORMULA_WARNING]: (typeof FORMULA_WARNING)[K]
+}
+export type TFormulaWarningValues = (typeof FORMULA_WARNING)[keyof typeof FORMULA_WARNING]
+
+export type TFormulaMetricData = TMetricData & { warning?: TFormulaWarningValues }
+
 export type TFetchFormulaMetricMessage = TMessageRequestResponse<
   TMessageType['FetchFormulaMetric'],
   {
     minimalDelay?: number
     priority?: number
+    recache?: boolean
     parameters: TMetricParameters
     index: number
     formula: TMetricFormula
     metrics: {
       name: string
       selector: null | TMetricTargetSelectorInputObject
+      version?: string
+      aggregation?: TAggregation
       formula?: TMetricFormula
     }[]
   },
-  { timeseries: TMetricData } | { error: any }
+  | {
+      timeseries: TMetricData
+      warning?: TFormulaWarningValues
+    }
+  | { error: any }
+>
+export type TValidateFormulaMessage = TMessageRequestResponse<
+  TMessageType['ValidateFormula'],
+  {
+    formula: string
+    index: number
+    metrics: TFetchFormulaMetricMessage['request']['payload']['metrics']
+  },
+  { errors: string[] }
 >
 
 //
 
-export type TMessages = TCancelRequestMessage | TFetchMetricMessage | TFetchFormulaMetricMessage
+export type TMessages =
+  | TCancelRequestMessage
+  | TFetchMetricMessage
+  | TFetchFormulaMetricMessage
+  | TValidateFormulaMessage
 
 //
 

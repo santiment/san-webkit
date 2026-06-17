@@ -4,19 +4,19 @@
   import { useItemViewportPriorityCtx } from '$lib/ctx/viewport-priority/index.js'
 
   import RawSeries from './RawSeries.svelte'
-  import { useApiMetricDataFlow } from '../ctx/index.js'
+  import { useApiMetricDataFlow, useChartCtx } from '../ctx/index.js'
 
   type TProps = {
     series: TSeries
     index: number
+    onData?: () => void
   }
 
-  let { series, index }: TProps = $props()
+  let { series, index, onData }: TProps = $props()
 
+  useChartCtx.get()
   const { settings = { priority: 0 } } = useItemViewportPriorityCtx.get() || {}
-  useApiMetricDataFlow(series, index, settings)
+  useApiMetricDataFlow(series, index, settings, onData)
 </script>
 
-{#key series.type.$}
-  <RawSeries {series}></RawSeries>
-{/key}
+<RawSeries {series}></RawSeries>

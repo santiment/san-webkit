@@ -1,7 +1,6 @@
 import type { ChangeEventHandler, KeyboardEventHandler } from 'svelte/elements'
 
-import { useDebouncedFn } from '$lib/analytics/amplitude/flow.svelte.js'
-import { createCtx } from '$lib/utils/index.js'
+import { createCtx, useDebouncedFn } from '$lib/utils/index.js'
 
 type TSearchProps<T> = {
   getCompareValues: (item: T) => string | string[]

@@ -31,15 +31,22 @@
       return
     }
 
+    if (openedMetric) {
+      return
+    }
+
     anchorNode = anchor
     openedMetric = item
-    openedInfo = MetricsRestrictions.$[item.apiMetricName]?.docs || null
+    openedInfo =
+      ('apiMetricName' in item && MetricsRestrictions.$[item.apiMetricName]?.docs) || null
   }
 
   function onOpenChange(value: boolean) {
     if (value) return
 
-    openedMetric = anchorNode = openedInfo = null
+    setTimeout(() => {
+      openedMetric = anchorNode = openedInfo = null
+    }, 200)
   }
 
   const TICKER_REGEX = /\[Project Ticker\]/g
@@ -82,9 +89,7 @@
           Academy
           <Button
             variant="link"
-            size="auto"
             target="_blank"
-            class="inline-flex"
             href="https://academy.santiment.net{openedInfo.academyLinks[0]}"
             data-source="chart_pane_legend_metric_info"
             data-type="metric_academy_article"

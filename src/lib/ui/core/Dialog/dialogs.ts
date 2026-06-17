@@ -13,7 +13,7 @@ import { controlledPromisePolyfill } from '$lib/utils/index.js'
 
 type TController<GResolved, GRejected> = {
   lock: () => void
-  lockWarn: () => void
+  lockWarn: (msg?: string) => void
   unlock: () => void
   checkIsLocked: (isForced?: boolean) => boolean
 
@@ -30,7 +30,9 @@ enum Locking {
 
 type TRequiredKeys<T> = { [K in keyof T]-?: object extends Pick<T, K> ? never : K }[keyof T]
 
-export type TDialogResolve<T = undefined> = T extends undefined ? () => void : (value: T) => void
+export type TDialogResolve<T = undefined> = T extends undefined
+  ? () => void
+  : (value: T | undefined) => void
 export type TDialogReject<T = undefined> = T extends undefined ? () => void : (value: T) => void
 
 export type TDialogProps<GResolved = undefined, GRejected = undefined> = {
@@ -61,23 +63,25 @@ export const dialogs$ = {
         const { promise, resolve, reject } = controlledPromisePolyfill()
 
         let locking = Locking.FREE
+        let lockMessage = 'Do you want to close the dialog?'
 
         // const context = new Map(ALL_CTX)
         const context = ALL_CTX
         const Controller = {
           lock: (): any => (locking = Locking.LOCKED),
-          lockWarn: (): any => (locking = Locking.LOCKED_WARN),
+          lockWarn: (msg?: string): any => {
+            locking = Locking.LOCKED_WARN
+            if (msg) lockMessage = msg
+          },
           unlock: (): any => (locking = Locking.FREE),
+
           checkIsLocked: (isForced?: boolean) => {
             // NOTE: Enforcing boolean check
             if (isForced === true) return false
 
             if (locking === Locking.LOCKED) return true
 
-            if (
-              locking === Locking.LOCKED_WARN &&
-              confirm('Do you want to close the dialog?') === false
-            ) {
+            if (locking === Locking.LOCKED_WARN && confirm(lockMessage) === false) {
               return true
             }
 
@@ -99,7 +103,10 @@ export const dialogs$ = {
           context,
           props: { ...props, resolve, reject, Controller },
         })
-        Controller._unmount = () => unmount(mounted)
+        Controller._unmount = () => {
+          unmount(mounted)
+          resolve(undefined)
+        }
 
         if (process.env.NODE_ENV !== 'production' && BROWSER) {
           // @ts-expect-error

@@ -7,20 +7,34 @@
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
+    class?: string
+    itemClass?: string
     selected: TAssetSlug | undefined
     onSelect: (slug: TAssetSlug) => void
     hasSearch?: boolean
     hasTabs?: boolean
   }
 
-  const { selected, onSelect, hasSearch = false, hasTabs = false }: TProps = $props()
+  const {
+    class: className,
+    itemClass,
+    selected,
+    onSelect,
+    hasSearch = false,
+    hasTabs = false,
+  }: TProps = $props()
 </script>
 
-<Layout mapItems={(assets) => assets} {hasSearch} {hasTabs}>
+<Layout class={className} mapItems={(assets) => assets} {hasSearch} {hasTabs}>
   {#snippet children({ assets })}
     <VirtualList class="pt-4 md:pt-6" itemHeight={36} data={assets} getKey={({ slug }) => slug}>
       {#snippet children(item)}
-        <AssetItem {item} isActive={selected === item.slug} onclick={() => onSelect(item.slug)} />
+        <AssetItem
+          class={itemClass}
+          {item}
+          isActive={selected === item.slug}
+          onclick={() => onSelect(item.slug)}
+        />
       {/snippet}
     </VirtualList>
   {/snippet}

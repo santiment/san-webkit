@@ -108,8 +108,13 @@
 
     return () => {
       Object.assign(paymentForm.$, { cardElement: null, addressElement: null })
-      cardElement.destroy()
-      addressElement.destroy()
+
+      try {
+        cardElement.destroy()
+        addressElement.destroy()
+      } catch (e) {
+        console.error('Failed to destroy stripe elements - ', e)
+      }
 
       // NOTE: Cleaning up Stripe memory leak
       try {

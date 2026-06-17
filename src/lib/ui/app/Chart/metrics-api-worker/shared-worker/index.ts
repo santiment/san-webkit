@@ -11,8 +11,9 @@ import {
   type TMessages,
   type TRequestHandler,
   type TRespondFn,
+  type TValidateFormulaMessage,
 } from '../types.js'
-import { fetchFormulaMetric } from './formula-metrics.js'
+import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
@@ -34,6 +35,9 @@ onconnect = function (event: MessageEvent<unknown>) {
       case MESSAGE_TYPE.FetchFormulaMetric:
         return WORK_CANCEL_MAP.set(msg.id, handleFetchFormulaMetric(respond, msg))
 
+      case MESSAGE_TYPE.ValidateFormula:
+        return WORK_CANCEL_MAP.set(msg.id, handleValidateFormula(respond, msg))
+
       case MESSAGE_TYPE.CancelRequest:
         return handleCancelRequest(respond, msg)
 
@@ -50,25 +54,29 @@ const handleCancelRequest: TRequestHandler<TCancelRequestMessage> = (_, msg) => 
 }
 
 const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) => {
-  const { priority, minimalDelay, parameters } = msg.payload
+  const { priority, minimalDelay, parameters, recache } = msg.payload
 
   let isCancelled = false
 
   const queryData = () =>
-    queryGetMetric({ executor: Query })({
+    queryGetMetric({ executor: Query, recache })({
       metric: parameters.metric,
       selector: parameters.selector,
       from: parameters.from,
       to: parameters.to,
       interval: parameters.interval,
+      aggregation: parameters.aggregation,
+      version: parameters.version,
     })
       .then((timeseries) => {
         if (isCancelled) {
           return
         }
 
+        // TODO: Is there a case when the errored promise is incorrectly cached and the returned as resolved Promise????
+        // This caused `timeseries` being `undefined`
         respond(MESSAGE_TYPE.FetchMetric, {
-          payload: { timeseries },
+          payload: { timeseries: timeseries ?? [] },
         })
       })
       .catch((err) => {
@@ -94,7 +102,7 @@ const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) =
 }
 
 const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (respond, msg) => {
-  const { minimalDelay, parameters, formula, index, metrics } = msg.payload
+  const { minimalDelay, parameters, formula, index, metrics, recache } = msg.payload
 
   // NOTE: Decreasing priority of the formula metric
   const jobSettings = { minimalDelay, priority: (msg.payload.priority || 1) * 10 }
@@ -106,17 +114,21 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
     if (job) jobs.push(job)
   }
 
-  const ctx = { metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
+  const ctx = { recache, metrics, parameters, cancelJobs, addJob, path: [], isCancelled: false }
 
   fetchFormulaMetric(formula, index, ctx)
     .then((timeseries) => {
       if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
-        payload: { timeseries },
+        payload: {
+          timeseries,
+          warning: timeseries.warning,
+        },
       })
     })
     .catch((error) => {
+      console.warn(error)
       if (ctx.isCancelled) return
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
@@ -131,5 +143,39 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
     ctx.isCancelled = true
 
     cancelJobs()
+  }
+}
+
+const handleValidateFormula: TRequestHandler<TValidateFormulaMessage> = (respond, msg) => {
+  let isCancelled = false
+
+  const job = jobScheduler.schedule(formulaValidationJob, undefined, {
+    priority: 10000,
+    minimalDelay: 5000,
+  })
+
+  function formulaValidationJob() {
+    const { formula, index, metrics } = msg.payload
+    return Promise.resolve()
+      .then(() => validateFormula(formula, index, metrics))
+      .then(() => {
+        if (isCancelled) return
+
+        respond(MESSAGE_TYPE.ValidateFormula, { payload: { errors: [] } })
+      })
+      .catch((err) => {
+        if (isCancelled) return
+
+        respond(MESSAGE_TYPE.ValidateFormula, { payload: { errors: [err] } })
+      })
+      .finally(() => {
+        WORK_CANCEL_MAP.delete(msg.id)
+      })
+  }
+
+  return () => {
+    isCancelled = true
+
+    if (job) jobScheduler.cancelJob(job)
   }
 }

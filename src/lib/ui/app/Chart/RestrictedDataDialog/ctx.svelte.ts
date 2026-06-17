@@ -21,10 +21,12 @@ export const useChartPlanRestrictionsCtx = createCtx('webkit_useChartPlanRestric
   $effect(() => {
     chartPlanRestrictions = metricSeries.$.reduce(
       (acc, item) => {
-        const restrictions = MetricsRestrictions.$[item.apiMetricName]
+        if ('apiMetricName' in item) {
+          const restrictions = MetricsRestrictions.$[item.apiMetricName]
 
-        if (restrictions && (restrictions.restrictedFrom || restrictions.restrictedTo)) {
-          acc[item.apiMetricName] = Object.assign({ label: item.label }, restrictions)
+          if (restrictions && (restrictions.restrictedFrom || restrictions.restrictedTo)) {
+            acc[item.apiMetricName] = Object.assign({ label: item.label }, restrictions)
+          }
         }
 
         return acc

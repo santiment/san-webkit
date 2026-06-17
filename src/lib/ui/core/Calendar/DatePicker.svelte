@@ -15,7 +15,9 @@
 
   type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
-    class?: string
+    buttonClass?: string
+    rootClass?: string
+    calendarClass?: string
     minDate?: Date
     maxDate?: Date
     timeZone?: string
@@ -23,6 +25,7 @@
     popoverRootProps?: ComponentProps<typeof Popover>['rootProps']
     popoverContentProps?: ComponentProps<typeof Popover>['contentProps']
     popoverIsOpened?: boolean
+    withTrigger?: boolean
   }
 
   type TSingleProps = {
@@ -41,8 +44,11 @@
 
   let {
     as,
-    class: className,
+    buttonClass,
+    rootClass,
+    calendarClass,
     maxDate,
+    withTrigger = true,
     children: _children,
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
@@ -70,46 +76,57 @@
         timeZone,
         minValue,
         maxValue,
+        class: rootClass,
+        calendarClass,
         onChange: rest.onChange,
       })}
     variant="border"
     icon="calendar"
-    class="whitespace-nowrap"
+    class={cn('whitespace-nowrap', buttonClass)}
   >
     {@render label()}
   </Button>
 {:else}
   <Popover
     noStyles
-    class="z-10"
+    class={cn('z-10 shadow-dropdown dark:shadow-none', rootClass)}
     rootProps={rest.popoverRootProps}
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
+    children={withTrigger ? triggerSnippet : undefined}
   >
-    {#snippet children({ props })}
-      <Button
-        {...props}
-        {as}
-        variant="border"
-        icon="calendar"
-        class={cn('whitespace-nowrap', className)}
-      >
-        {@render label()}
-      </Button>
-    {/snippet}
-
     {#snippet content()}
       {#if isRangeProps(rest)}
         {@const { date, withPresets, onChange } = rest}
 
-        <RangeCalendar {date} {withPresets} {timeZone} {minValue} {maxValue} {onChange} />
+        <RangeCalendar
+          class={calendarClass}
+          {date}
+          {withPresets}
+          {timeZone}
+          {minValue}
+          {maxValue}
+          {onChange}
+        />
       {:else}
         {@const { date, onChange } = rest}
 
-        <Calendar {date} {timeZone} {minValue} {maxValue} {onChange} />
+        <Calendar class={calendarClass} {date} {timeZone} {minValue} {maxValue} {onChange} />
       {/if}
     {/snippet}
   </Popover>
+
+  {#snippet triggerSnippet({ props }: { props: Record<string, any> })}
+    <Button
+      {...props}
+      {as}
+      variant="border"
+      icon="calendar"
+      class={cn('whitespace-nowrap', buttonClass)}
+    >
+      {@render label()}
+    </Button>
+  {/snippet}
 {/if}
 
 {#snippet label()}

@@ -12,6 +12,8 @@
   import AssetItem from './AssetItem.svelte'
 
   type TProps = {
+    class?: string
+    itemClass?: string
     selected: Set<TAssetSlug>
     onSelect: (slug: TAssetSlug) => void
     resetSelections: () => void
@@ -23,6 +25,8 @@
   }
 
   const {
+    class: className,
+    itemClass,
     selected,
     onSelect,
     resetSelections,
@@ -80,12 +84,12 @@
   }
 </script>
 
-<Layout mapItems={mapAssets} {hasSearch} {hasTabs} {onTabSelect}>
+<Layout class={className} mapItems={mapAssets} {hasSearch} {hasTabs} {onTabSelect}>
   {#snippet children({ assets })}
     {@const _items = [
       ...selections,
       ...recentSection,
-      Item('title', 'Assets'),
+      Item('title', 'All projects'),
       ...filterSelections(assets),
     ]}
     {@const items = hasResetButton ? [Item('reset', ''), ..._items] : _items}
@@ -99,10 +103,10 @@
     >
       {#snippet children({ type, value, isActive }, i)}
         {#if type === 'item'}
-          <AssetItem class="group" item={value} onclick={() => onSelect(value.slug)}>
+          <AssetItem as="label" class={cn('group/label', itemClass)} item={value}>
             <Checkbox
-              class="group-hover:border-green"
               isActive={isActive || selected.has(value.slug)}
+              onCheckedChange={() => onSelect(value.slug)}
             />
           </AssetItem>
         {:else if type === 'title'}

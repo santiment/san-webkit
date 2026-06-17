@@ -1,4 +1,5 @@
 import type { MouseEventParams } from '@santiment-network/chart-next'
+import type { TPane } from '../ctx/panes.svelte.js'
 
 import { onMount } from 'svelte'
 
@@ -12,25 +13,22 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
 
   let hoverPoint = $state.raw<null | {
     datetime: number
-    seriesData: MouseEventParams['seriesData']
+    index: number
   }>(null)
 
-  const paneSet = $derived(
-    metricSeries.$.reduce(
-      (acc, metric) => {
-        const pane = metric.pane.$ || 0
-        const set = acc[pane] || new Set()
+  const paneIndexSeries = $derived(
+    metricSeries.$.reduce((acc, metric) => {
+      const index = metric.pane.$ ?? 0
 
-        set.add(metric)
-        acc[pane] = set
+      // @ts-ignore
+      const pane = metric.chartSeriesApi?.getPane()._pane as TPane
+      const series = acc.get(pane) || [index]
 
-        return acc
-      },
-      {} as Record<number, Set<TSeries>>,
-    ),
+      series.push(metric)
+
+      return acc.set(pane, series)
+    }, new Map<TPane, [number, ...TSeries[]]>()),
   )
-
-  const panes = $derived(paneSet && chart.$!.panes())
 
   onMount(() => {
     chart.$!.subscribeCrosshairMove(handleCrosshairMove)
@@ -40,10 +38,12 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
   })
 
   function handleCrosshairMove(param: MouseEventParams) {
+    // param.logical < 0 ? 'left' : 'right'
+
     if (param.time) {
       hoverPoint = {
         datetime: (param.time as number) * 1000,
-        seriesData: param.seriesData,
+        index: param.logical as number,
       }
     } else {
       hoverPoint = null
@@ -51,15 +51,9 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
   }
 
   return {
-    paneSet: {
+    paneIndexSeries: {
       get $() {
-        return paneSet
-      },
-    },
-
-    panes: {
-      get $() {
-        return panes
+        return paneIndexSeries
       },
     },
 
@@ -70,3 +64,38 @@ export const usePanesTooltip = createCtx('charts_usePanesTooltip', () => {
     },
   }
 })
+
+export const useShiftModeStartPoint = createCtx('charts_useShiftModeStartPoint', () => {
+  let startPointIndex = $state.raw<null | number>(null)
+
+  return {
+    startPointIndex: {
+      get $() {
+        return startPointIndex
+      },
+
+      set $(value: typeof startPointIndex) {
+        startPointIndex = value
+      },
+    },
+  }
+})
+
+export const usePaneLegendCompactCtx = createCtx(
+  'charts_usePaneLegendCompactToggleCtx',
+  (defaultValue: { isHiddenMetricsDisplayed: boolean } = { isHiddenMetricsDisplayed: true }) => {
+    let isHiddenMetricsDisplayed = $state(defaultValue.isHiddenMetricsDisplayed)
+
+    return {
+      isHiddenMetricsDisplayed: {
+        get $() {
+          return isHiddenMetricsDisplayed
+        },
+
+        set $(value: boolean) {
+          isHiddenMetricsDisplayed = value
+        },
+      },
+    }
+  },
+)

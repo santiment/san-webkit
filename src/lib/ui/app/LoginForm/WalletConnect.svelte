@@ -4,15 +4,13 @@
   import { onMount } from 'svelte'
   import { filter, from, merge, Subject, switchMap, takeUntil, tap } from 'rxjs'
 
-  import Button from '$ui/core/Button/index.js'
   import { appKitEvents$, disconnectAccount, watchAccount$ } from '$lib/flow/web3/core/index.js'
   import { useWalletConnectLoginFlow } from '$lib/flow/web3/wallet.js'
   import { getAppKit } from '$lib/flow/web3/core/config.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
-  import { cn } from '$ui/utils/index.js'
   import { trackAuth } from '$lib/analytics/events/auth.js'
 
-  import walletConnectSvg from './wallet-connect.svg'
+  import Option from './Option.svelte'
 
   let {
     class: className,
@@ -73,13 +71,11 @@
   })
 </script>
 
-<Button
-  variant="border"
-  size="lg"
-  onclick={startWalletConnectLoginFlow}
+<Option
+  class={className}
   {loading}
-  class={cn('w-full !border-porcelain center hover:text-green', className)}
->
-  <img src={walletConnectSvg} alt="WC" class="w-[25px]" />
-  {isSignUp ? 'Sign up' : 'Log in'} with WalletConnect
-</Button>
+  {isSignUp}
+  title="WalletConnect"
+  icon="wallet-connect"
+  onclick={startWalletConnectLoginFlow}
+/>

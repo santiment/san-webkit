@@ -3,7 +3,7 @@
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
   import Button from '$ui/core/Button/index.js'
 
-  import ProfilePicture from './ProfilePicture.svelte'
+  import ProfileLink from '../ProfileLink/ProfileLink.svelte'
 
   const { customer, currentUser } = useCustomerCtx()
 </script>
@@ -12,35 +12,18 @@
   {@const { planName, isEligibleForSanbaseTrial, trialDaysLeft, isTrialSubscription } = customer.$}
   {@const { isFree, isCustom, isBusinessSubscription } = customer.$}
   <section
-    class="gap-2 px-[22px] pb-[14px] pt-4 column"
+    class="gap-2 px-5 pb-[14px] pt-4 column"
     style={isBusinessSubscription
       ? '--c-orange:var(--c-blue);--c-orange-hover:var(--c-blue-hover)'
       : ''}
   >
-    <div class="relative flex items-center gap-2">
-      <ProfilePicture as="div" class="min-w-8"></ProfilePicture>
-
-      <div class="min-w-0 single-line">
-        <a
-          href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
-          class="font-medium text-rhino link-as-bg"
-        >
-          @{currentUser.$$.username}
-        </a>
-
-        {#if currentUser.$$.email}
-          <p class="text-xs text-waterloo single-line">
-            {currentUser.$$.email}
-          </p>
-        {/if}
-      </div>
-    </div>
+    <ProfileLink />
 
     <p class="text-xs font-medium text-waterloo">
       Plan: {planName || 'Free'}{isTrialSubscription ? ', Free Trial' : ''}
     </p>
 
-    {#if isEligibleForSanbaseTrial}
+    {#if isFree && isEligibleForSanbaseTrial}
       <Button
         variant="fill"
         class="w-max bg-orange hover:bg-orange-hover"

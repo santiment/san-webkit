@@ -7,12 +7,20 @@
     title,
     withIcons = false,
     buttons = defaultButtons,
-    ...buttonProps
+    ...rest
   }: ComponentProps<typeof Button> & {
     title: string
     withIcons?: boolean
     buttons?: Snippet<[ComponentProps<typeof Button>]>
   } = $props()
+
+  let active = $state(false)
+
+  const buttonProps = $derived({ active, onclick, ...rest })
+
+  function onclick() {
+    active = !active
+  }
 </script>
 
 {#snippet defaultButtons(props: ComponentProps<typeof Button>)}

@@ -23,8 +23,8 @@
 <Option
   {...rest}
   {isSignUp}
-  title="Twitter"
+  title="X"
   href={getOAuthLink('twitter', origin, from)}
-  icon="twitter"
+  icon="twitter-x"
   onclick={() => trackAuth('twitter')}
 />

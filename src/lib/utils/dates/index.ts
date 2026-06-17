@@ -167,7 +167,7 @@ type TFormattedTime = {
   m: number
   mm: number | string
   s: number
-  ss: string | number
+  ss: number | string
 }
 export function getTimeFormats(date: Date, { utc = false } = {}): TFormattedTime {
   const UTC = utc ? 'UTC' : ''
@@ -222,6 +222,32 @@ export function parseDate(date: string, options?: { utc?: boolean }) {
   return new Date(date)
 }
 
+export function formatTimestampToRangeString(
+  timestamp: number,
+): `${number}${'m' | 'h' | 'd' | 'y'}` | undefined {
+  let range = timestamp / ONE_MINUTE_IN_MS
+
+  if (!range || !Number.isFinite(range)) {
+    return undefined
+  }
+
+  if (range < 60) {
+    return `${range}m`
+  }
+
+  range /= 60
+  if (range < 24) {
+    return `${range}h`
+  }
+
+  range /= 24
+  if (range < 365) {
+    return `${range}d`
+  }
+
+  return '1y'
+}
+
 export const parseAsStartEndDate = (date: string, options: { dayStart: boolean; utc?: boolean }) =>
   (options.dayStart ? setDayStart : setDayEnd)(parseDate(date), options)
 
@@ -230,17 +256,43 @@ export function suggestPeriodInterval(from: Date, to: Date) {
 
   if (diff < 7) return '15m'
   if (diff < 14) return '30m'
-  if (diff < 20) return '1h'
-  if (diff < 33) return '2h'
-  if (diff < 63) return '3h'
-  if (diff < 100) return '4h'
-  //if (diff < 185) return '6h'
+  if (diff < 33) return '1h'
+  if (diff < 63) return '2h'
+  if (diff < 100) return '3h'
+  if (diff < 185) return '4h'
   if (diff < 360) return '8h'
-  //if (diff < 520) return '12h'
+  if (diff < 600) return '12h'
   if (diff < 800) return '1d'
   if (diff < 1400) return '2d'
 
   return '7d'
+}
+
+export function normalizeRangeIntervals<GRanges extends { value: string }>(
+  ranges: GRanges[],
+  minInterval?: string,
+): GRanges[] {
+  if (!minInterval) {
+    return ranges
+  }
+
+  const index = ranges.findIndex((range) => range.value === minInterval)
+  return index === -1 ? ranges : ranges.slice(index)
+}
+
+const RangeFormatToTimestamp = {
+  s: ONE_SECOND_IN_MS,
+  m: ONE_MINUTE_IN_MS,
+  h: ONE_HOUR_IN_MS,
+  d: ONE_DAY_IN_MS,
+}
+export function getRangeMilliseconds(range: string) {
+  const { amount, modifier } = parseRangeString(range as `${number}${'s' | 'm' | 'h' | 'd'}`)
+  return amount * RangeFormatToTimestamp[modifier]
+}
+
+export function normalizeRangeInterval(range: string, minInterval: string) {
+  return getRangeMilliseconds(range) > getRangeMilliseconds(minInterval) ? range : minInterval
 }
 
 export { TimeZones, type TTimeZone } from './timezone.js'

@@ -31,4 +31,4 @@ export function applyBuilder(node: HTMLElement, builder: Builder) {
   return handler
 }
 
-export { styleToString, flyAndScale } from './transitions.js'
+export { styleToString, flyAndScale, flyAndScaleOutTransition } from './transitions.js'

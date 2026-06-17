@@ -11,11 +11,14 @@ if (BROWSER) {
 let __SESSION__ = (BROWSER ? window.__SESSION__ : {}) as object
 
 export function useAppSessionFlow(data: {
-  session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion'>
+  session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion' | 'theme'>
 }) {
   const { customer } = useCustomerCtx(data.session.customer)
-  const { ui } = useUiCtx({ isLiteVersion: data.session.isLiteVersion })
-  const { device } = useDeviceCtx(data.session.device)
+  const { ui } = useUiCtx({
+    isLiteVersion: data.session.isLiteVersion,
+    isNightMode: data.session.theme === 'night-mode',
+  })
+  const { device } = useDeviceCtx(data.session.device.type)
 
   if (!BROWSER) return
 
@@ -28,7 +31,7 @@ export function useAppSessionFlow(data: {
   })
 
   $effect(() => {
-    Object.assign(__SESSION__, { device: device.$.type })
+    Object.assign(__SESSION__, { device: device.$ })
   })
 }
 

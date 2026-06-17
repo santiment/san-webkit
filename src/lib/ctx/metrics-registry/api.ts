@@ -1,10 +1,23 @@
+import type { TMetricSelector } from './types/index.js'
+
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
-import { percentFormatter, usdFormatter } from '../../ui/app/Chart/ctx/formatters.js'
+import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
+import {
+  zodGranularityRulesSchema,
+  zodSettingsSchema,
+  type TGranularityRulesSchema,
+  type TSettingsSchema,
+} from './settings-schema.js'
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
 export type TMetricUnit = '' | 'usd' | 'percent'
+
+type TMetricArgs = Partial<{
+  selector: TMetricSelector
+  [x: string]: unknown
+}>
 
 export type TRegistryMetric = {
   key: string
@@ -22,9 +35,11 @@ export type TRegistryMetric = {
   formatter: undefined | ((value: number) => string)
 
   meta: {
-    args: object
+    args: TMetricArgs
     isNew: boolean
     displayOrder: number
+    settingsSchema?: TSettingsSchema
+    granularityRules?: TGranularityRulesSchema
   }
 
   reqMeta: object
@@ -64,7 +79,10 @@ export const queryGetOrderedMetrics = ApiQuery(
         cs: string
         un: TMetricUnit
         d: string
-        a: object
+        a: {
+          settingsSchema: TSettingsSchema
+          [x: string]: any
+        }
         in: boolean
         do: number
       }[]
@@ -86,6 +104,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       })
       .reduce((acc, item) => {
         const key = item.k ?? item.m
+        const { settingsSchema, granularityRules, ...args } = item.a ?? {}
 
         return Object.assign(acc, {
           [key]: {
@@ -101,13 +120,15 @@ export const queryGetOrderedMetrics = ApiQuery(
             chartStyle: enforceCorrectChartStyle(item.cs),
             node: enforceCorrectChartStyle(item.cs), // LEGACY
 
-            unit: item.un,
+            unit: item.un || undefined,
             formatter: getTooltipFormatterByUnit(item.un), // LEGACY
 
             meta: {
-              args: item.a,
-              isNew: item.in,
+              args,
+              settingsSchema: zodSettingsSchema.safeParse(settingsSchema).data,
+              granularityRules: zodGranularityRulesSchema.safeParse(granularityRules).data,
               //type: item.t,
+              isNew: item.in,
               displayOrder: item.do,
             },
 

@@ -1,34 +1,87 @@
 <script lang="ts">
   import type { TSeries } from '../ctx/series.svelte.js'
 
-  import { onMount } from 'svelte'
-  import { HistogramSeries, LineSeries, type LineWidth } from '@santiment-network/chart-next'
+  import { onMount, untrack } from 'svelte'
+  import {
+    BaselineSeries,
+    CandlestickSeries,
+    HistogramSeries,
+    LineSeries,
+    type LineWidth,
+  } from '@santiment-network/chart-next'
 
-  import { useChartCtx } from '../ctx/index.js'
+  import { MetricStyle } from '$lib/ctx/metrics-registry/types/index.js'
+
+  import { useChartCtx, useHighlightedMetricCtx } from '../ctx/index.js'
+  import {
+    getAreaSeriesColors,
+    applyHistogramBaselineColorData,
+    getCandlesSeriesColors,
+  } from './coloring.js'
 
   type TProps = { series: TSeries }
   let { series }: TProps = $props()
 
-  const { type, data, color, scale, pane, scaleFormatter, visible } = series
+  const { data, scale, pane, visible, ui, formatters } = series
 
-  const { chart } = useChartCtx()
+  const chartCtx = useChartCtx()
+  const chart = chartCtx.chart.$!
+
+  const highlightedMetricCtx = useHighlightedMetricCtx.maybeGet()
 
   const priceFormat =
-    scaleFormatter &&
+    formatters.$.scaleFormatter &&
     ({
       type: 'custom',
-      formatter: scaleFormatter,
+      minMove: 0.0001,
+      formatter: formatters.$.scaleFormatter,
     } as const)
 
-  const chartSeries = createChartSeries()
-  series.chartSeriesApi = chartSeries
+  const _oldChartSeriesApi = series.chartSeriesApi ?? null // NOTE: Used inside fullscreen dialog when reusing metricSeries ctx
+
+  let chartSeries = $state.raw() as ReturnType<typeof createChartSeries>
+
+  $effect.pre(() => {
+    // Listening for style change that requires series recreation
+    series.ui.$$.style
+
+    const oldSeries = untrack(() => chartSeries)
+
+    chartSeries = series.chartSeriesApi = untrack(createChartSeries)
+
+    if (oldSeries) {
+      chart.removeSeries(oldSeries)
+    }
+  })
 
   $effect.pre(() => {
     chartSeries.applyOptions({ visible: visible.$ })
   })
 
+  // $effect.pre(() => {
+  //   chartSeries.applyOptions(getSeriesTypeOptions())
+  // })
+
   $effect.pre(() => {
-    chartSeries.applyOptions({ color: color.$, priceScaleId: scale.$$.id })
+    const isOtherHighlighted =
+      highlightedMetricCtx?.highlighted.$ && series !== highlightedMetricCtx.highlighted.$
+
+    chartSeries.applyOptions({
+      opacity: isOtherHighlighted ? 0.13 : 1,
+    })
+  })
+
+  $effect.pre(() => {
+    const { color, style } = ui.$$
+    const options = { color }
+
+    if (style === MetricStyle.AREA) {
+      Object.assign(options, getAreaSeriesColors(series))
+    } else if (style === MetricStyle.CANDLES) {
+      Object.assign(options, getCandlesSeriesColors(series))
+    }
+
+    chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
   })
 
   $effect.pre(() => {
@@ -44,26 +97,52 @@
   })
 
   $effect(() => {
-    chartSeries.setData(data.$)
-    chart.$!.resetAllScales()
+    const isHistogramBaselineColorApplied = applyHistogramBaselineColorData(series)
+    if (isHistogramBaselineColorApplied) {
+      return
+    }
+
+    untrack(() => chartSeries).setData(data.$)
+
+    //chart.$!.resetAllScales() // TODO: Any alternative? For example, allStrictRange in _recalculatePriceScaleImpl
   })
 
   onMount(() => () => {
-    chart.$!.removeSeries(chartSeries)
+    series.chartSeriesApi = _oldChartSeriesApi
+
+    highlightedMetricCtx?.onMetricLeave()
+
+    chart.removeSeries(chartSeries)
   })
 
   function createChartSeries() {
-    const base = { color: color.$, priceScaleId: scale.$$.id, zOrder: 10, priceFormat }
+    const { style, color } = ui.$$
+    const options = { ...getSeriesTypeOptions(), color, priceScaleId: scale.$$.id }
 
-    switch (type.$) {
-      case 'histogram':
-        return chart.$!.addSeries(HistogramSeries, Object.assign(base, { zOrder: 10 }), pane.$)
+    switch (style) {
+      case MetricStyle.HISTOGRAM:
+        return chart.addSeries(HistogramSeries, options, pane.$)
+      case MetricStyle.AREA:
+        return chart.addSeries(BaselineSeries, options, pane.$)
+      case MetricStyle.CANDLES:
+        return chart.addSeries(CandlestickSeries, options, pane.$)
       default:
-        return chart.$!.addSeries(
-          LineSeries,
-          Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth }),
-          pane.$,
-        )
+        return chart.addSeries(LineSeries, options, pane.$)
+    }
+  }
+
+  function getSeriesTypeOptions() {
+    const base = { zOrder: 10, priceFormat }
+
+    switch (ui.$$.style) {
+      case MetricStyle.HISTOGRAM:
+        return Object.assign(base, { zOrder: 10 })
+      case MetricStyle.AREA:
+        return Object.assign(base, { zOrder: 20, lineWidth: 1.5 as LineWidth })
+      case MetricStyle.CANDLES:
+        return Object.assign(base, { zOrder: 30 })
+      default:
+        return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
     }
   }
 </script>

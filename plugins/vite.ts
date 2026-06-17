@@ -22,25 +22,31 @@ export function WebkitSvg() {
   return {
     name: 'webkit-svg',
 
-    buildStart() {
+    async buildStart() {
       if (isLibPackage) {
         const root = path.resolve(base, '..')
-
         const copyTargets = ['icons', 'illus', 'sprites']
-        copyTargets.forEach((dir) => {
-          fs.cp(path.resolve(root, 'dist', dir), staticDir + dir, { recursive: true, force: true })
-        })
+
+        await Promise.all(
+          copyTargets.map((dir) => {
+            const sourcePath = path.resolve(root, 'dist', dir)
+            const destPath = staticDir + dir
+
+            return fs.cp(sourcePath, destPath, { recursive: true, force: true })
+          }),
+        )
 
         return
       }
 
-      forFile([ICONS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
-      })
-
-      forFile([ILLUS_PATH + '/**/*.svg'], async (entry) => {
-        processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
-      })
+      await Promise.all([
+        forFile([ICONS_PATH + '/**/*.svg'], (entry) => {
+          return processSvgWithOutput(entry, staticDir, spritesStaticDir, SPRITES_OPTIONS)
+        }),
+        forFile([ILLUS_PATH + '/**/*.svg'], (entry) => {
+          return processSvgWithOutput(entry, staticDir, spritesStaticDir, ILLUS_OPTIONS)
+        }),
+      ])
     },
 
     async handleHotUpdate({ file, server }) {
@@ -116,6 +122,59 @@ if (isCss) {`,
           ),
           map: null,
         }
+      }
+    },
+  }
+}
+
+// TODO: Support server side page context
+export async function AstroSvelteCtxPlugin(svelteCtxPath: string) {
+  return {
+    name: 'astro-svelte-ctx',
+    enforce: 'pre',
+
+    transform(src: string, id: string) {
+      if (id.includes(svelteCtxPath)) {
+        const code =
+          src.replace(
+            /(import .*\n)+/g,
+            `import { component_root, pop, push } from 'svelte';
+            $&
+            push({}, true, () => {});
+            component_root(() => {
+                     `,
+          ) + '});'
+
+        return { code, map: null }
+      }
+
+      if (
+        id.includes('transitions/router.js') || // Used in build mode
+        id.includes('@astrojs_svelte_client') // Used in dev mode
+        // id.includes('@astrojs/svelte/dist/client.svelte.js')
+        // id.includes('transitions-router.js')
+      ) {
+        return {
+          code: `import "${svelteCtxPath}" \n` + src,
+          map: null,
+        }
+      }
+
+      const isSvelteClientImport = id.includes('svelte/src/index-client')
+      const isSvelteIndexImport = isSvelteClientImport || id.includes('svelte/src/index-server')
+
+      if (isSvelteIndexImport) {
+        const effect_export = isSvelteClientImport
+          ? "{ component_root } from './internal/client/reactivity/effects.js'"
+          : 'const component_root = null'
+        const code = src.replace(
+          /(export {\s*createContext)/g,
+          `
+  export ${effect_export};
+  $1, pop,push`,
+        )
+
+        return { code, map: null }
       }
     },
   }

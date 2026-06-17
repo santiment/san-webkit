@@ -15,8 +15,8 @@ export const CONSUMER_PLANS_BREAKDOWN = [
     features: [
       // { name: 'Browser tabs', isLimit: true },
       {
-        name: 'Bi-weekly report',
-        description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a biweekly basis`,
+        name: 'Monthly report',
+        description: `<b>Exclusive Pro reports</b> to update on Santiment's top indicators on a monthly basis`,
         isCheck: true,
       },
       { name: 'Pro Insights', isAccess: true },
@@ -38,7 +38,7 @@ export const CONSUMER_PLANS_BREAKDOWN = [
         isAccess: true,
       },
       { name: 'Hide watermark on charts', isCheck: true },
-      { name: 'Download chart as CSV', isCheck: true },
+      { name: 'Download chart as CSV', isAccess: true },
       { name: 'Embed charts', isAccess: true },
     ],
   },
@@ -86,9 +86,9 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   {
     category: 'Social Trends',
     features: [
-      { name: 'Trending Coins', isAccess: true },
       { name: 'Trending Words', isAccess: true },
-      { name: 'Trending Topics', isAccess: true },
+      { name: 'Trending Stories', isAccess: true },
+      { name: 'Trending Coins', isAccess: true },
       { name: 'Social Context', isAccess: true },
     ],
   },
@@ -155,7 +155,7 @@ export const BUSINESS_PLANS_BREAKDOWN = [
         description: `<b>Limited data!</b> For users on the Free plan, some data has time range limitations`,
         isAccess: true,
       },
-      { name: 'Download chart data as CSV', isCheck: true },
+      { name: 'Download chart data as CSV', isAccess: true },
       { name: 'Embed charts', isAccess: true },
     ],
   },
@@ -209,7 +209,7 @@ export const SubscriptionPlanBreakdown: Record<
 > = {
   [SubscriptionPlan.FREE.key]: {
     'Browser tabs': 'Up to 4',
-    'Bi-weekly report': false,
+    'Monthly report': false,
     'Pro Insights': false,
 
     "Chart's data period": false,
@@ -229,7 +229,7 @@ export const SubscriptionPlanBreakdown: Record<
 
     'Trending Coins': 'No access to Top 3 tokens',
     'Trending Words': 'No access to Top 3 words',
-    //   'Trending Topics': '',
+    'Trending Stories': 'Limited data',
     'Social Context': 'Limited data',
 
     'Historical data restriction': '1 year',
@@ -254,6 +254,7 @@ export const SubscriptionPlanBreakdown: Record<
     'Custom onboarding & education': false,
 
     'Hide watermark on charts': false,
+    'Download chart as CSV': 'Limited to 2 years',
     'Embed charts': 'Part access',
 
     'Custom Alerts': 20,
@@ -277,7 +278,7 @@ export const SubscriptionPlanBreakdown: Record<
   [SubscriptionPlan.MAX.key]: {
     'Custom Alerts': 20,
 
-    'Historical data restriction': '1 year',
+    'Historical data restriction': '2 years',
     'Realtime restriction for restricted metrics': 'No restriction',
     'API calls / minute': '100 API calls / min',
     'API calls / hour': '4K API calls / hour',

@@ -65,7 +65,7 @@
 
 <canvas
   bind:this={canvasNode}
-  class="z-[1] h-[40px] flex-1 cursor-ew-resize bg-transparent"
+  class="z-[1] h-[40px] min-w-0 flex-1 cursor-ew-resize bg-transparent"
   {onpointerdown}
 ></canvas>
 
@@ -92,7 +92,10 @@
     left: var(--expl-left);
     bottom: var(--expl-bottom);
     top: var(--expl-position-y, -6px);
-    transform: translate(var(--expl-align-x, 0), var(--expl-align-y, -100%));
+    transform: translate(
+      calc(var(--expl-align-x) * min(1, var(--minimap-area-width) / 75)),
+      var(--expl-align-y, -100%)
+    );
     z-index: var(--expl-z-index, 30);
   }
 </style>

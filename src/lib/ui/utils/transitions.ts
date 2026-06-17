@@ -49,3 +49,8 @@ export function flyAndScale(
     easing: cubicOut,
   }
 }
+
+export function flyAndScaleOutTransition(el: HTMLElement) {
+  el.dataset.state = 'closed'
+  return { duration: 200 }
+}

@@ -1,5 +1,7 @@
 import { onMount } from 'svelte'
 
+import { CMD_EVENT_KEY } from '../platform/index.js'
+
 const EDITABLE_TAGS = new Set(['INPUT', 'TEXTAREA'])
 
 const options = { capture: true }
@@ -10,7 +12,6 @@ export function useKeyboardShortcut(shortcut: string, clb: () => any, disableInp
     let isCmdKey = false
     let isAltKey = false
     let isShiftKey = false
-    let isSingleModKey = false
     let targetKey: undefined | string
 
     for (let i = 0, len = keys.length; i < len; i++) {
@@ -23,10 +24,20 @@ export function useKeyboardShortcut(shortcut: string, clb: () => any, disableInp
     }
 
     if (keys.length === 1) {
-      isSingleModKey = isCmdKey || isAltKey || isShiftKey
+      targetKey = isAltKey
+        ? 'ALT'
+        : isShiftKey
+          ? 'SHIFT'
+          : isCmdKey
+            ? CMD_EVENT_KEY.toUpperCase()
+            : ''
     }
 
     function onKeyPress(e: KeyboardEvent) {
+      if (e.repeat) {
+        return
+      }
+
       const { key, target, metaKey, ctrlKey, shiftKey, altKey } = e
 
       if (disableInputs && target) {
@@ -39,7 +50,7 @@ export function useKeyboardShortcut(shortcut: string, clb: () => any, disableInp
         isCmdKey === (metaKey || ctrlKey) &&
         isAltKey === altKey &&
         isShiftKey === shiftKey &&
-        (isSingleModKey || targetKey === key.toUpperCase())
+        targetKey === key.toUpperCase()
       ) {
         e.preventDefault()
         e.stopPropagation()

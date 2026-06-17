@@ -34,7 +34,9 @@
   let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
   let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
-  let isEligibleForSanbaseTrial = $derived(customer.$.isEligibleForSanbaseTrial && isConsumerPlan)
+  let isEligibleForSanbaseTrial = $derived(
+    formattedPlan?.isTrialSupported && customer.$.isEligibleForSanbaseTrial,
+  )
   let trialDaysLeft = $derived(customer.$.trialDaysLeft)
   let isCardPayment = $derived(paymentForm.$.isCardPayment)
 

@@ -11,8 +11,10 @@
     children,
     onClosed,
     class: className,
+    overlayClass,
   }: {
     class?: string
+    overlayClass?: string
     onClosed: () => void
     children: Snippet<[{ close: typeof close }]>
   } = $props()
@@ -49,7 +51,7 @@
     <div
       {...$overlay}
       use:overlay
-      class="fixed inset-0 z-[10000] bg-[#000000cf] dark:bg-[#00000067]"
+      class={cn('fixed inset-0 z-[10000] bg-shark/60 dark:bg-[#00000067]', overlayClass)}
       onclick={() => Controller.close()}
     ></div>
 

@@ -3,6 +3,8 @@ import type { TEventData } from './track.js'
 import { BROWSER } from 'esm-env'
 
 import { ApiMutation } from '$lib/api/index.js'
+import { getCookie, setCookie } from '$lib/utils/cookies.js'
+import { uuidv7 } from '$lib/utils/uuid/index.js'
 
 export const trackSanEvent = ApiMutation(
   (event_name: string, created_at: Date, metadata: TEventData) => ({
@@ -24,15 +26,15 @@ export const trackSanEvent = ApiMutation(
   }),
 )
 
+const SAN_COOKIE = 'san-track-id'
 function getDeviceId(): string | undefined {
   if (!BROWSER) return
 
-  const cookies = document.cookie.split('; ')
-
   // NOTE: Searching for intercom's cookie with generated device id [@vanguard | 26 Jan, 2023]
-  const cookie = cookies.find((cookie) => cookie.includes('device-id'))
+  const intercomDeviceId = getCookie('device-id', (cookie: string) => cookie.includes('device-id'))
+  if (intercomDeviceId) {
+    return intercomDeviceId
+  }
 
-  if (!cookie) return
-
-  return cookie.split('=')[1]
+  return getCookie(SAN_COOKIE) || setCookie(SAN_COOKIE, uuidv7())
 }

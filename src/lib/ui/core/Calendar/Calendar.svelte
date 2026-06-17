@@ -5,6 +5,7 @@
   import { fromDate } from '@internationalized/date'
 
   import { cn } from '$ui/utils/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
   import { createPlaceholder } from './utils.svelte.js'
   import CalendarBody from './CalendarBody.svelte'
@@ -20,6 +21,8 @@
   }
   const { class: className, date, minValue, maxValue, timeZone, onChange }: TProps = $props()
 
+  const { ui } = useUiCtx()
+
   const value = $derived(fromDate(date, timeZone))
 
   const placeholder = createPlaceholder(() => value)
@@ -32,8 +35,9 @@
 </script>
 
 <Calendar.Root
+  --active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
   type="single"
-  class={cn('max-w-max rounded border bg-white sm:border-0', className)}
+  class={cn('max-w-max rounded border bg-white sm:border-0 dark:bg-athens', className)}
   weekdayFormat="short"
   fixedWeeks
   {value}

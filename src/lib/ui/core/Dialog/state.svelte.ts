@@ -1,4 +1,5 @@
 import { createDialog, type CreateDialogProps } from '@melt-ui/svelte'
+import { onMount } from 'svelte'
 
 import { getDialogControllerCtx } from './dialogs.js'
 
@@ -10,7 +11,12 @@ export function useCreateDialog(onOpenChange: CreateDialogProps['onOpenChange'])
   const {
     elements,
     states: { open },
-  } = createDialog({ forceVisible: true, closeOnOutsideClick: false, onOpenChange })
+  } = createDialog({
+    forceVisible: true,
+    closeOnOutsideClick: false,
+    escapeBehavior: 'defer-otherwise-ignore',
+    onOpenChange,
+  })
 
   function close(isForced?: boolean) {
     if (Controller.checkIsLocked(isForced)) return false
@@ -18,7 +24,7 @@ export function useCreateDialog(onOpenChange: CreateDialogProps['onOpenChange'])
     open.set(false)
   }
 
-  $effect(() => {
+  onMount(() => {
     open.set(true)
     Controller.close = close
   })

@@ -1,5 +1,5 @@
 <script module lang="ts">
-  const CHAIN_REGEX = /^((a|o|p|arb|bnb)-)/
+  const CHAIN_REGEX = /^((a|o|p|arb|bnb|sol)-)/
   const STATIC_ASSET_LOGO = {} as Record<string, undefined | string> // NOTE: Appending list during build
 </script>
 

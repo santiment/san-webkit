@@ -7,9 +7,9 @@
 
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { usdFormatter } from '$lib/utils/formatters/index.js'
   import Conditions from '$ui/app/Alerts/form-steps/metric-conditions/ui/Conditions.svelte'
   import { describeConditions } from '$ui/app/Alerts/form-steps/metric-conditions/utils.js'
-  import { usdFormatter } from '$ui/app/Chart/ctx/formatters.js'
 
   import { queryAddressAssets, type TWalletAsset } from '../api.js'
   import Info from './Info.svelte'

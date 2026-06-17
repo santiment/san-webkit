@@ -4,8 +4,9 @@
 
   import { Select } from 'bits-ui'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/index.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
   type T = $$Generic
   type Props = {
@@ -17,8 +18,17 @@
     align?: SelectContentProps['align']
     triggerClass?: string
     contentClass?: string
+    zIndexClass?: string
 
     option?: Snippet<[Selected<T>]>
+
+    matchTriggerWidth?: boolean
+    beforeOptionChildren?: Snippet
+
+    open?: boolean
+    customAnchor?: HTMLElement
+    withDefaultTrigger?: boolean
+    onOpenChange?: (open: boolean) => void
   } & ComponentProps<typeof Button>
 
   let {
@@ -28,9 +38,18 @@
     selected = $bindable(),
     side = 'bottom',
     align = 'center',
+    zIndexClass = 'z-[100]',
+    matchTriggerWidth,
+    beforeOptionChildren,
 
     onSelect,
     option,
+
+    open,
+    customAnchor,
+    withDefaultTrigger = true,
+    onOpenChange,
+
     ...rest
   }: Props = $props()
 
@@ -55,29 +74,28 @@
   }
 </script>
 
-<Select.Root value={selected?.value as string | undefined} type="single">
-  <Select.Trigger>
-    {#snippet child({ props })}
-      <Button
-        variant="border"
-        {...props}
-        icon="arrow-down"
-        iconSize="12"
-        iconOnRight
-        class={triggerClass}
-        {...rest}
-      >
-        {#if rest.children}
-          {@render rest.children()}
-        {:else}
-          {selected?.label}
-        {/if}
-      </Button>
-    {/snippet}
-  </Select.Trigger>
+<Select.Root {open} value={selected?.value as string | undefined} type="single" {onOpenChange}>
+  {#if withDefaultTrigger}
+    <Select.Trigger>
+      {#snippet child({ props })}
+        <Button variant="border" {...props} dropdown class={triggerClass} {...rest}>
+          {#if rest.children}
+            {@render rest.children()}
+          {:else}
+            {selected?.label}
+          {/if}
+        </Button>
+      {/snippet}
+    </Select.Trigger>
+  {/if}
 
   <Select.Content
-    class="z-20 overflow-auto rounded border bg-white p-2"
+    {customAnchor}
+    class={cn(
+      'overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+      zIndexClass,
+      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+    )}
     sideOffset={8}
     collisionPadding={8}
     {side}
@@ -87,14 +105,21 @@
     {#snippet child({ wrapperProps, props, open })}
       {#if open}
         <div {...wrapperProps}>
-          <div {...props} transition:flyAndScale bind:this={contentNode}>
+          <div
+            {...props}
+            class={cn('fly-and-scale-animation animated', props.class as string)}
+            bind:this={contentNode}
+            out:flyAndScaleOutTransition
+          >
+            {@render beforeOptionChildren?.()}
+
             {#each items as item}
               <Select.Item
                 value={item.value as string}
                 label={item.label}
                 onclick={() => onItemSelect(item)}
                 class={cn(
-                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens [&[data-selected]]:text-green',
+                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain [&[data-selected]]:text-green',
                   contentClass,
                 )}
               >

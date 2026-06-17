@@ -32,10 +32,10 @@
 
 <Select
   items={[{ value: 'UTC', label: 'UTC' }].concat(items)}
-  icon={undefined}
+  dropdown={false}
   variant="ghost"
   explanation="Time zone selector"
-  class={cn('min-w-[108px] text-waterloo', className)}
+  triggerClass={cn('min-w-[108px] text-waterloo', className)}
   side="top"
   align="end"
   style="--expl-align-x:50%;--expl-right:50%"

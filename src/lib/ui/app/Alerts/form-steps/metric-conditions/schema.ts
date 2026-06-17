@@ -1,16 +1,24 @@
-import type { TApiAlert } from '../../types.js'
 import type { TApiOperation } from '../../operations.js'
-import type { TTimeWindow } from '../../time.js'
 
-import { getOperationFromApi, reduceOperationToApi, type TOperation } from './operations.js'
+import assert from 'assert'
+
+import { getTimeFromApi, type TApiTimeWindow, type TTimeWindow } from '../../time.js'
+import {
+  getOperationFromApi,
+  isComparisonOperation,
+  reduceOperationToApi,
+  type TOperation,
+} from './operations.js'
 import { createStepSchema, type TStepBaseSchema } from '../types.js'
 import Form from './ui/index.svelte'
 import Legend from './ui/Legend.svelte'
 
-type TAlertSettings = {
-  metric: string
-  time_window: TTimeWindow
-  operation: TApiOperation
+export type TMetricConditionsApiAlert = {
+  settings: {
+    metric: string
+    time_window?: TApiTimeWindow
+    operation: TApiOperation
+  }
 }
 
 export type TConditionsState = {
@@ -26,9 +34,8 @@ export type TMetricConditionsState = {
 
 export type TBaseSchema = TStepBaseSchema<
   'metric-conditions',
-  {
-    initState: (alert?: TApiAlert<TAlertSettings> | null) => TMetricConditionsState
-  }
+  TMetricConditionsApiAlert,
+  TMetricConditionsState
 >
 
 export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
@@ -42,20 +49,24 @@ export const STEP_METRIC_CONDITIONS_SCHEMA = createStepSchema<TBaseSchema>({
         type: 'above',
         values: [1, 1],
       },
-      time: alert?.settings?.time_window ?? '1d',
+      time: alert?.settings?.time_window ? getTimeFromApi(alert.settings.time_window) : '1d',
     },
   }),
 
   validate: ({ metric }) => !!metric,
 
-  reduceToApi: (apiAlert, state) => {
-    Object.assign(apiAlert.settings, {
-      metric: state.metric,
-      operation: reduceOperationToApi(state.conditions.operation),
-      time_window: state.conditions.time,
-    })
+  reduceToApi: ({ metric, conditions }) => {
+    assert(metric)
 
-    return apiAlert
+    return {
+      settings: {
+        metric,
+        operation: reduceOperationToApi(conditions.operation),
+        ...(isComparisonOperation(conditions.operation.type)
+          ? { time_window: conditions.time }
+          : {}),
+      },
+    }
   },
 
   ui: {

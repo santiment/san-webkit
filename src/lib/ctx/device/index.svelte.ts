@@ -1,8 +1,7 @@
 import { BROWSER } from 'esm-env'
 import { untrack } from 'svelte'
-import { ss } from 'svelte-runes'
 
-import { createCtx } from '$lib/utils/index.js'
+import { createCtx, ss } from '$lib/utils/index.js'
 
 export enum DeviceType {
   Desktop = 'desktop',
@@ -11,11 +10,24 @@ export enum DeviceType {
   PhoneXs = 'phone-xs',
 }
 
-function getDeviceInfo(type: DeviceType) {
+export type DeviceInfo = ReturnType<typeof getDeviceInfo>
+
+export function getDeviceInfo(type: DeviceType) {
   const isPhone = type.includes(DeviceType.Phone)
   const isMobile = isPhone || type === DeviceType.Tablet
 
   return { type, isMobile, isPhone, isDesktop: !isMobile }
+}
+
+export function normalizeDeviceType(type: string | undefined): DeviceType {
+  switch (type) {
+    case 'mobile':
+      return DeviceType.Phone
+    case 'tablet':
+      return DeviceType.Tablet
+    default:
+      return DeviceType.Desktop
+  }
 }
 
 const device = ss(getDeviceInfo(DeviceType.Desktop))

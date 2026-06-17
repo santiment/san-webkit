@@ -5,6 +5,7 @@
   import Input from '$ui/core/Input/index.js'
   import { cn } from '$ui/utils/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import { notification } from '$ui/core/Notifications/index.js'
 
   import { mutateEmailLoginNewsletter } from './api.js'
 
@@ -27,6 +28,11 @@
           return of(null)
         }),
         tap(() => (loading = false)),
+        tap((result) => {
+          if (result) {
+            notification.success('Verification email was sent to the provided email!')
+          }
+        }),
       )
     }),
   )
@@ -46,20 +52,26 @@
 
 <form
   class={cn(
-    'flex rounded border bg-white px-[5px] py-[3px] text-sm text-black md:text-base',
+    'flex rounded-lg border bg-white py-[3px] pl-1.5 pr-1 text-base text-black md:text-base',
     className,
   )}
   onsubmit={handleSubmit}
 >
   <Input
-    class="flex-1 border-none"
-    inputClass="px-[5px] py-[6px]"
+    class="flex-1 rounded-md border-none"
+    inputClass="p-1.5"
     name="email"
     type="email"
     value=""
     placeholder="Enter your email"
   />
-  <Button type="submit" variant="fill" class="fill-white" --loading-color="white" {loading}
-    >{label}</Button
+
+  <Button
+    type="submit"
+    accent="custom"
+    variant="fill"
+    class="h-9 fill-white"
+    --loading-color="white"
+    {loading}>{label}</Button
   >
 </form>

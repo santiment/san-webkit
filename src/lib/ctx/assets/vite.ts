@@ -1,4 +1,4 @@
-import { queryAllProjects } from './api.js'
+import { queryAllProjects, replaceFundsByAllAssetsFiltering } from './api.js'
 import { Query } from '../../api/executor.js'
 
 export const fetchAllProjects = () =>
@@ -22,8 +22,19 @@ export async function StaticAssetsListPlugin() {
         return {
           code: src.replace(
             'DEFAULT_ASSETS = []',
-            `DEFAULT_ASSETS = ${JSON.stringify(env.ssr ? assets : assets.slice(0, 20))}`,
+            `DEFAULT_ASSETS = ${JSON.stringify(env.ssr ? assets : assets.slice(0, 20))}` +
+              (env.ssr ? '.concat(TOTAL_MARKET_INDEX)' : ''),
           ),
+          map: null,
+        }
+      }
+
+      if (id.includes('/ctx/assets/api.')) {
+        const assets = await fetchAllProjects()
+        const funds = replaceFundsByAllAssetsFiltering(assets)
+
+        return {
+          code: src.replace('const FUNDS = []', `const FUNDS = ${JSON.stringify(funds)}`),
           map: null,
         }
       }

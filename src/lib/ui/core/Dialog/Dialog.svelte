@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type Snippet } from 'svelte'
+  import { onMount, type Snippet } from 'svelte'
   import { BROWSER } from 'esm-env'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.js'
@@ -12,12 +12,18 @@
 
   let {
     children,
-    forceMobileLandscape = false,
     class: className,
+    overlayClass,
+    onBeforeClose,
+    forceMobileLandscape = false,
+    forceDesktop = false,
   }: {
     class?: string
+    overlayClass?: string
     forceMobileLandscape?: boolean
+    forceDesktop?: boolean
     children: Snippet<[{ close: () => void }]>
+    onBeforeClose?: () => void
   } = $props()
 
   const { Controller } = getDialogControllerCtx()
@@ -33,6 +39,8 @@
     if (next === false) {
       if (isMounted === false) return true
 
+      onBeforeClose?.()
+
       // Forcing memory clean
       setTimeout(onClosed, TRANSITION_MS + 50)
     }
@@ -40,20 +48,24 @@
     return next
   }
 
-  const close = () => (isOpened = false)
+  const close = () => {
+    isOpened = false
+    // @ts-expect-error Resolve on close as undefined promise otherwise it is a stale promise
+    Controller.resolve(undefined)
+  }
   Controller.close = close
 
-  $effect(() => {
+  onMount(() => {
     setTimeout(() => (isMounted = true), TRANSITION_MS + 50)
   })
 </script>
 
 {#if BROWSER && isOpened}
-  {#if device.$.isDesktop}
-    <DesktopDialog class={className} {children} {onOpenChange}></DesktopDialog>
+  {#if forceDesktop || device.$.isDesktop}
+    <DesktopDialog class={className} {overlayClass} {children} {onOpenChange} />
   {:else if forceMobileLandscape}
     <MobileLandscapeModal class={className} {children} {onOpenChange} />
   {:else}
-    <MobileDialog class={className} {children} {onClosed}></MobileDialog>
+    <MobileDialog class={className} {overlayClass} {children} {onClosed} />
   {/if}
 {/if}

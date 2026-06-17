@@ -1,7 +1,7 @@
 import { ApiQuery } from '$lib/api/index.js'
 
 export type Watchlist = {
-  id: string | number
+  id: string
   title: string
   description: string | null
   isScreener: boolean

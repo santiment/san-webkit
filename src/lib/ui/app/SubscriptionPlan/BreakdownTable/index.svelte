@@ -27,9 +27,8 @@
     isConsumerPlans?: boolean
   } = $props()
 
-  const { device } = useDeviceCtx()
-
   const activePlan = ssd(() => plans[0])
+  const { device } = useDeviceCtx()
   const isPhone = $derived(device.$.isPhone)
   const plansFeatures = $derived(getPlanFeatures(plans, activePlan.$, isPhone))
 

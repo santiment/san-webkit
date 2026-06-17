@@ -1,3 +1,5 @@
+import { BROWSER } from 'esm-env'
+
 import {
   MESSAGE_TYPE,
   type TMessageId,
@@ -14,10 +16,11 @@ type TRequestFn = <GType extends TMessageTypeValues>(
   data: Omit<TMessageRequestByType[GType], 'type'>,
 ) => void
 
-export const metricsApiSharedWorker = new SharedWorker(
-  new URL('./shared-worker/index.js', import.meta.url),
-  { type: 'module' },
-)
+export const metricsApiSharedWorker = BROWSER
+  ? globalThis.DEV_SHAREDWORKER_SUBSTITUTE ||
+    new SharedWorker(new URL('./shared-worker/index.js', import.meta.url), { type: 'module' })
+  : { port: { onmessage: null, postMessage: () => {} } }
+
 // metricsApiSharedWorker.port.start() // IS REQUIRED WHEN USING addEventListener
 
 const ResponseHandler = new Map<number, { ondata: (data: any) => void }>()
@@ -58,11 +61,26 @@ export function createWorkerRequester<GType extends TMessageTypeValues>(type: GT
   ) => {
     const msgId = generateMsgId()
 
-    postMessage(type, { id: msgId, payload } as TMessageRequestByType[GType])
-    ResponseHandler.set(msgId, { ondata })
+    // NOTE: Handling clone transfer error
+    try {
+      postMessage(type, { id: msgId, payload } as TMessageRequestByType[GType])
+      ResponseHandler.set(msgId, { ondata })
 
-    return {
-      cancel: () => workerCancelRequest(msgId),
+      return {
+        id: msgId,
+        cancel: () => workerCancelRequest(msgId),
+      }
+    } catch (err) {
+      console.error(err)
+      return {
+        id: msgId,
+        cancel: () => {},
+      }
     }
   }
+}
+
+declare global {
+  // eslint-disable-next-line no-var
+  var DEV_SHAREDWORKER_SUBSTITUTE: SharedWorker
 }

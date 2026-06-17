@@ -2,9 +2,13 @@
   import { type Snippet } from 'svelte'
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
+  import { on } from 'svelte/events'
 
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
+  import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
+
+  type FloatingConfig = NonNullable<CreateTooltipProps['positioning']>
 
   type TooltipType = 'plain' | 'arrow'
   type Props = {
@@ -12,9 +16,12 @@
     noStyles?: boolean
     isOpened?: boolean
     type?: TooltipType
-    children: Snippet<[{ ref: typeof triggerRef }]>
+    children: Snippet<[{ ref: typeof triggerRef; isOpened: boolean }]>
     content: Snippet<[{ close: () => void }]>
-    position?: NonNullable<CreateTooltipProps['positioning']>['placement']
+    position?: FloatingConfig['placement']
+    offset?: number
+    positionConfig?: FloatingConfig
+    closeOnOutsideClick?: boolean
   } & Omit<CreateTooltipProps, 'positioning'>
 
   let {
@@ -25,6 +32,9 @@
     type = 'plain',
     isOpened = false,
     position = 'bottom-end',
+    positionConfig,
+    offset,
+    closeOnOutsideClick = false,
     ...options
   }: Props = $props()
 
@@ -41,6 +51,11 @@
     positioning: {
       placement: position,
       fitViewport: true,
+      // NOTE: [gutter] must be set to 0 in order to offset to work
+      gutter: offset ? 0 : 5,
+      // NOTE: [mainAxis] is here to compensate zero gutter. 5 is the default [gutter] value
+      offset: offset ? { mainAxis: 5, crossAxis: offset } : undefined,
+      ...positionConfig,
     },
   })
 
@@ -48,30 +63,50 @@
 
   useMelt(triggerRef, trigger)
 
+  let contentEl = $state<HTMLElement>()
+
+  if (closeOnOutsideClick) {
+    $effect(() => {
+      if (!$open) return
+
+      return on(window, 'pointerdown', (e) => {
+        if (contentEl && e.composedPath().includes(contentEl)) return
+
+        open.set(false)
+      })
+    })
+  }
+
   $effect(() => {
     open.set(isOpened)
   })
 </script>
 
-{@render children({ ref: triggerRef })}
+{@render children({ ref: triggerRef, isOpened: $open })}
 
 {#if $open}
   <div
     {...$content}
+    bind:this={contentEl}
     use:content
-    transition:flyAndScale={{ y: -4 }}
-    class={cn(!noStyles && 'tooltip-drop-shadow z-10 flex rounded border bg-white p-2', className)}
+    out:flyAndScaleOutTransition
+    class={cn(
+      'fly-and-scale-animation animated',
+      !noStyles &&
+        'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
+      className,
+    )}
   >
     {#if type === 'arrow'}
-      <div {...$arrow} use:arrow></div>
+      <div class="border-l border-t" {...$arrow} use:arrow></div>
     {/if}
 
     {@render contentSnippet({ close: () => open.set(false) })}
   </div>
 {/if}
 
-<style lang="postcss">
-  .tooltip-drop-shadow {
-    filter: drop-shadow(0 1px 3px rgb(0 0 0 / 0.1)) drop-shadow(0 1px 2px rgb(0 0 0 / 0.1));
+<style>
+  :global(.night-mode) div {
+    --active-ghost-button-bg: var(--porcelain);
   }
 </style>

@@ -32,20 +32,29 @@
   class="area absolute flex h-full center"
   style:--minimap-left={leftHandleCoordinates}
   style:--minimap-right={minimapWidth - rightHandleCoordinates}
+  style:--minimap-area-width={rightHandleCoordinates - leftHandleCoordinates}
 >
-  {@render handle({ date: leftHandleDate, class: 'left-0 -translate-x-1' })}
+  {@render handle({
+    date: leftHandleDate,
+    class: 'left-0 -translate-x-1',
+    style: '--expl-align-x:34px;--expl-right:0',
+  })}
 
   <div class="absolute inset-0 z-[0] bg-athens"></div>
 
-  {@render handle({ date: rightHandleDate, class: 'right-0 translate-x-1' })}
+  {@render handle({
+    date: rightHandleDate,
+    class: 'right-0 translate-x-1',
+    style: '--expl-align-x:-34px',
+  })}
 </div>
 
-{#snippet handle({ date, class: className }: { date: Date; class: string })}
+{#snippet handle({ date, class: className, style }: { date: Date; class: string; style: string })}
   <Button
     variant="plain"
     explanation={formatDate(date)}
     class={cn('chart-minimap-handle z-[2] rounded-sm text-center', className)}
-    style="--expl-align-x:-48%"
+    {style}
     {onpointerdown}
   ></Button>
 {/snippet}

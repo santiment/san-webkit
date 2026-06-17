@@ -53,7 +53,7 @@
   {/snippet}
 
   {#snippet content({ close })}
-    <section class="flex h-96 flex-col gap-2">
+    <section class="flex flex-col gap-2">
       <Input
         icon="search"
         oninput={onInput}
@@ -63,7 +63,7 @@
       />
 
       <section class="flex-1">
-        <VirtualList itemHeight={32} data={filtered} getKey={(slug) => slug}>
+        <VirtualList itemHeight={30} maxHeight={335} data={filtered} getKey={(slug) => slug}>
           {#snippet children(slug)}
             {@const item = getAssetBySlug(slug)}
 

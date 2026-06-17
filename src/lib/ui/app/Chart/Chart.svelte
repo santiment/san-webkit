@@ -9,11 +9,13 @@
   import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
   import { useKeyboardShortcut } from '$lib/utils/keyboard/index.js'
   import { setDayEnd, setDayStart } from '$lib/utils/dates/index.js'
-  import { cn } from '$ui/utils/index.js'
+  import { cn, getBrowserCssVariable } from '$ui/utils/index.js'
 
   import { getTheme } from './theme.js'
   import { useChartCtx, useChartGlobalParametersCtx } from './ctx/index.js'
   import { Mode, ModeOptions, type TMode } from './types.js'
+  import { useChartPanesCtx } from './ctx/panes.svelte.js'
+  import { useShiftModeStartPoint } from './PaneLegend/ctx.svelte.js'
 
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
@@ -46,7 +48,9 @@
 
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
+  const { onPaneWidgetMount } = useChartPanesCtx()
   const { globalParameters } = useChartGlobalParametersCtx.get()
+  const { startPointIndex } = useShiftModeStartPoint()
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
@@ -55,10 +59,17 @@
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
+      uniformedGranularity: true,
       crosshair: { mode: 0 },
       rightPriceScale: { visible: false },
-      overlayPriceScales: { autoScale: false },
+      //overlayPriceScales: { autoScale: false },
+      onPaneWidgetMount,
       ...options,
+      timeScale: {
+        shiftVisibleRangeOnNewBar: false,
+        ...options?.timeScale,
+        minBarSpacing: 0.0000000001,
+      },
     })
     const firstPane = chart.$.panes()[0]
 
@@ -66,10 +77,14 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    createRangeSelection(firstPane, {
+    createRangeSelection(chart.$!, {
       color: '#9faac435',
-      onRangeSelectChange,
+      onRangeSelectChange: _onRangeSelectChange,
       onRangeSelectEnd: _onRangeSelectEnd,
+      axisLabels: {
+        textColor: getBrowserCssVariable('white'),
+        bg: getBrowserCssVariable('waterloo'),
+      },
     })
 
     const resetScalesOnDblClick = () => chart.$?.resetAllScales()
@@ -81,6 +96,12 @@
       chart.$.unsubscribeDblClick(resetScalesOnDblClick)
       chart.$.remove()
       chart.$ = undefined
+    }
+  })
+
+  $effect(() => {
+    if (mode === Mode.DRAG) {
+      isScrollEnabled = false
     }
   })
 
@@ -108,6 +129,23 @@
     chart.$.applyOptions(options)
   })
 
+  onMount(() => {
+    window.addEventListener('blur', resetChartInteractionMode)
+    return () => window.removeEventListener('blur', resetChartInteractionMode)
+  })
+
+  function _onRangeSelectChange(
+    start: Parameters<TRangeSelectHandler>[0],
+    end: Parameters<TRangeSelectHandler>[1],
+  ) {
+    if (mode === Mode.SHIFT && start.logical) {
+      startPointIndex.$ = start.logical as number
+      return
+    }
+
+    onRangeSelectChange?.(start, end)
+  }
+
   function _onRangeSelectEnd(
     left: Parameters<TRangeSelectHandler>[0],
     right: Parameters<TRangeSelectHandler>[1],
@@ -126,17 +164,28 @@
       return
     }
 
+    if (mode === Mode.SHIFT) {
+      startPointIndex.$ = 0
+      return
+    }
+
     onRangeSelectEnd?.(left, right)
   }
 
   function useChartModeShortcut(key: 'SHIFT' | 'CMD', tempMode: 1 | 2) {
     useKeyboardShortcut(key, () => {
+      if (chart.$?.__isDrawing) return
+
       if (chartContainerNode.matches(':hover') !== true) {
         return
       }
 
       isScrollEnabled = true
       mode = tempMode
+
+      if (tempMode === Mode.SHIFT) {
+        startPointIndex.$ = 0
+      }
 
       window.addEventListener('keyup', resetChartInteractionMode, { once: true })
     })
@@ -145,6 +194,7 @@
   function resetChartInteractionMode() {
     isScrollEnabled = false
     mode = Mode.DRAG
+    startPointIndex.$ = null
   }
 </script>
 

@@ -2,7 +2,9 @@
   import type { TAssetSlug } from '$lib/ctx/assets/api.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import { ListOfAssets, ListOfAssetsMulti } from '$ui/app/ListOfAssets/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
+  import Popover from '$ui/core/Popover/Popover.svelte'
   import { SvelteSet } from 'svelte/reactivity'
 
   type TProps = {
@@ -41,32 +43,58 @@
       </div>
     </div>
 
-    {#if isMulti}
-      <ListOfAssetsMulti
-        selected={selectedMulti}
-        resetSelections={() => selectedMulti.clear()}
-        onSelect={(slug) => {
-          if (selectedMulti.has(slug)) {
-            selectedMulti.delete(slug)
-          } else {
-            selectedMulti.add(slug)
-          }
-        }}
-        {keepSelectedInList}
-        {hasSearch}
-        {hasResetButton}
-        {hasTabs}
-      />
-    {:else}
-      <ListOfAssets
-        selected={selectedSingle}
-        onSelect={(slug) => (selectedSingle = slug)}
-        {hasSearch}
-        {hasTabs}
-      />
-    {/if}
+    <section class="flex h-full gap-5">
+      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
+        <h4 class="p-2 text-lg">Regular</h4>
+        {@render list()}
+      </section>
+
+      <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
+        <h4 class="p-2 text-lg">In Popover</h4>
+
+        <Popover>
+          {#snippet children({ props })}
+            <Button {...props}>Open</Button>
+          {/snippet}
+
+          {#snippet content()}
+            <section class="h-96 w-72">
+              {@render list()}
+            </section>
+          {/snippet}
+        </Popover>
+      </section>
+    </section>
   </section>
 </main>
+
+{#snippet list({ itemClass }: { itemClass?: string } = {})}
+  {#if isMulti}
+    <ListOfAssetsMulti
+      {itemClass}
+      selected={selectedMulti}
+      resetSelections={() => selectedMulti.clear()}
+      onSelect={(slug) => {
+        if (selectedMulti.has(slug)) {
+          selectedMulti.delete(slug)
+        } else {
+          selectedMulti.add(slug)
+        }
+      }}
+      {keepSelectedInList}
+      {hasSearch}
+      {hasResetButton}
+      {hasTabs}
+    />
+  {:else}
+    <ListOfAssets
+      selected={selectedSingle}
+      onSelect={(slug) => (selectedSingle = slug)}
+      {hasSearch}
+      {hasTabs}
+    />
+  {/if}
+{/snippet}
 
 {#snippet setting(title: string, state: boolean, onChange: (v: boolean) => void)}
   <label class="flex items-center">

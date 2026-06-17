@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin'
+import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
 
@@ -13,6 +14,36 @@ export default {
     extend: {
       borderColor: {
         DEFAULT: 'var(--porcelain)',
+      },
+
+      boxShadow: {
+        dropdown: ['0 4px 16px 0 rgba(24, 27, 43, 0.13)', '0 6px 8px 0 rgba(24, 27, 43, 0.05)'],
+        modal: ['0 2px 24px 3px rgba(24, 27, 43, 0.08)', '1px 3px 7px 2px rgba(47, 53, 77, 0.08)'],
+      },
+
+      dropShadow: {
+        dropdown: ['0 4px 16px rgba(24, 27, 43, 0.13)', '0 6px 8px rgba(24, 27, 43, 0.05)'],
+        modal: ['0 2px 24px rgba(24, 27, 43, 0.08)', '1px 3px 7px rgba(47, 53, 77, 0.08)'],
+      },
+
+      animation: {
+        shake: 'shake 1s infinite',
+      },
+    },
+
+    keyframes: {
+      shake: {
+        '0%': { transform: 'translate(0, -2%)' },
+        '10%': { transform: 'translate(1%, -1%)' },
+        '20%': { transform: 'translate(2%, 0)' },
+        '30%': { transform: 'translate(-4%, 1%)' },
+        '40%': { transform: 'translate(4%, -1%)' },
+        '50%': { transform: 'translate(-4%, 0)' },
+        '60%': { transform: 'translate(4%, 0)' },
+        '70%': { transform: 'translate(-4%, 0)' },
+        '80%': { transform: 'translate(2%, -2%)' },
+        '90%': { transform: 'translate(-1%, -2%)' },
+        '100%': { transform: 'translate(0, -3%)' },
       },
     },
 
@@ -30,6 +61,7 @@ export default {
       base: ['16px', '24px'],
       lg: ['18px', '26px'],
       'lg-2': ['20px', '28px'],
+      'lg-3': ['22px', '28px'],
       xl: ['24px', '32px'],
       '2xl': ['26px', '32px'],
       '3xl': ['32px', '40px'],
@@ -47,8 +79,10 @@ export default {
     },
   },
   plugins: [
+    tailwindAnimate,
     createColors({
       colors: {
+        // Grayscale
         white: {
           day: '#ffffff',
           night: '#181B2B',
@@ -56,9 +90,9 @@ export default {
 
         whale: { day: '#FCFDFE', night: '#1A1D2F' },
 
-        athens: { day: '#F3F4FA', night: '#1E2234' },
-        porcelain: { day: '#ECEEF5', night: '#202436' },
-        mystic: { day: '#D2D6E7', night: '#222639' },
+        athens: { day: '#F3F4FA', night: '#222639' },
+        porcelain: { day: '#ECEEF5', night: '#2A2F44' },
+        mystic: { day: '#D2D6E7', night: '#343A52' },
         casper: { day: '#9FAAC4', night: '#4E5472' },
         waterloo: { day: '#7A859E', night: '#7A809A' },
         fiord: { day: '#505573', night: '#A2A7BD' },
@@ -67,6 +101,9 @@ export default {
         mirage: { day: '#181b2b', night: '#F8F9FF' },
         black: { day: '#181b2b', night: '#F8F9FF' },
 
+        shark: '#15181F',
+
+        // Accent Colors
         green: '#14C393',
         'green-hover': '#24AC85',
         'green-light-1': { day: '#EDF8F5', night: '#182833' },
@@ -98,13 +135,16 @@ export default {
 
         blue: '#5275FF',
         'blue-hover': '#375BE9',
-        'blue-light-1': { day: '#ecf0fe', night: '#1d223e' },
+        'blue-light-1': { day: '#ecf0fe', night: '#21284b' },
         'blue-light-2': { day: '#dae0fd', night: '#273160' },
         'blue-light-3': { day: '#a9baff', night: '#354895' },
+        'blue-light-4': { day: '#8099FF', night: '#415ABF' },
 
-        cyan: '#68dbf4',
-        'cyan-hover': { day: '#18c0e4', night: '#5bcde5' },
-        'cyan-light-1': { day: '#d7f6fc', night: '#253a4b' },
+        cyan: '#68DBF4',
+        'cyan-hover': '#18C0E4',
+        'cyan-light-1': { day: '#EBFAFD', night: '#1F2B3B' },
+        'cyan-light-2': { day: '#D7F6FC', night: '#253A4B' },
+        'cyan-accent': '#72FFFF',
 
         purple: '#8358FF',
         'purple-hover': '#6339DD',

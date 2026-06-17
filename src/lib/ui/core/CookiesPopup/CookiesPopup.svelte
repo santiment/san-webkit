@@ -61,16 +61,14 @@
 {#if isVisible}
   <div
     class={cn(
-      'fixed bottom-5 left-5 right-0 z-[101] max-w-[450px] rounded border bg-white pb-5 pl-[110px] pr-[43px] pt-5 shadow md:bottom-0 md:left-0 md:max-w-full md:rounded-b-none md:rounded-t-[10px] md:px-5 md:py-6 md:text-center md:text-base',
+      'fixed bottom-5 left-5 right-0 z-[101] max-w-[450px] pb-5 pl-[110px] pr-[43px] pt-5',
+      'rounded-lg border bg-white shadow-modal dark:bg-athens',
+      'md:bottom-0 md:left-0 md:max-w-full md:rounded-b-none md:rounded-t-[10px] md:px-5 md:py-6 md:text-center md:text-base',
       className,
     )}
     {style}
   >
-    <Svg
-      illus
-      id="cookies"
-      class="absolute left-6 inline-block !h-[88px] !w-[70px] md:static md:!h-[128px] md:!w-[102px] md:rotate-[270deg]"
-    />
+    <Svg illus id="cookies" class="absolute left-6 inline-block md:static" w={64} />
     <h2 class="mb-2 text-base font-medium md:mb-4 md:text-[20px] md:leading-[30px]">
       We are using cookies to improve your experience!
     </h2>
@@ -86,9 +84,11 @@
       <Button variant="fill" onclick={onAllowAllClick}>Allow all</Button>
       <Button
         variant="border"
+        class="bg-white"
         onclick={() => showManageCookiesDialog({}).then(() => (isVisible = false))}
-        >Manage cookies</Button
       >
+        Manage cookies
+      </Button>
     </footer>
   </div>
 {/if}

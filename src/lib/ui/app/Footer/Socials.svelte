@@ -7,22 +7,24 @@
   const { device } = useDeviceCtx()
 </script>
 
-{#if device.$.isMobile}
-  <h4 class="mb-3 text-base font-medium text-waterloo">Santiment on social media</h4>
-{/if}
+<div class="flex flex-col gap-y-4">
+  {#if device.$.isPhone}
+    <h4 class="text-base text-fiord">Santiment on social media</h4>
+  {/if}
 
-<div
-  class="ml-auto flex max-w-[265px] items-center justify-between md:ml-0 md:max-w-[292px] sm:max-w-none"
->
-  {#each socialMediaLinks as { href, id, width, height, label }}
-    <a
-      {href}
-      target="_blank"
-      class="group sm:flex sm:h-10 sm:w-[46px] sm:items-center sm:justify-center sm:rounded sm:border"
-      rel="noreferrer"
-      aria-label={`Santiment on ${label}`}
-    >
-      <Svg {id} w={width} h={height} class="group-hover:fill-green" />
-    </a>
-  {/each}
+  <div
+    class="flex max-w-[265px] flex-1 items-center gap-x-4 md:ml-0 md:max-w-[292px] sm:max-w-none"
+  >
+    {#each socialMediaLinks as { href, id, width, height, label }}
+      <a
+        {href}
+        target="_blank"
+        class="group flex size-10 center sm:w-[46px] sm:rounded-md sm:border"
+        rel="noreferrer"
+        aria-label={`Santiment on ${label}`}
+      >
+        <Svg {id} w={width} h={height} class="fill-rhino group-hover:fill-waterloo" />
+      </a>
+    {/each}
+  </div>
 </div>

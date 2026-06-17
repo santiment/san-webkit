@@ -1,15 +1,17 @@
 import type { TSubscriptionPlan } from '$ui/app/SubscriptionPlan/types.js'
 
 import { calculateDaysTo } from '$lib/utils/dates/index.js'
-
-import { checkIsCustomPlan } from './utils.js'
-
-import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
+import {
+  checkIsCustomPlan,
+  convertSubscriptionPlan,
+  SubscriptionPlan,
+} from '$ui/app/SubscriptionPlan/plans.js'
 import {
   checkIsBusinessPlan,
   checkIsSanApiProduct,
   checkIsSanbaseProduct,
   getPlanName,
+  type TLooseProduct,
 } from '$ui/app/SubscriptionPlan/utils.js'
 
 export enum Status {
@@ -33,19 +35,50 @@ export const checkIsTrialSubscription = ({ status } = {} as Pick<TSubscription, 
 export const checkIsIncompleteSubscription = ({ status } = {} as Pick<TSubscription, 'status'>) =>
   status === Status.INCOMPLETE
 
-export const checkIsActiveSubscription = (
-  { status } = {} as Pick<TSubscription, 'status'>,
-): boolean => status === Status.ACTIVE || status === Status.TRIALING || status === Status.INCOMPLETE
+const checkActiveStatus = (status: TSubscription['status']): boolean =>
+  status === Status.ACTIVE || status === Status.TRIALING || status === Status.INCOMPLETE
 
-function getSubscription(
-  subscriptions: null | TSubscription[],
-  productChecker: (product: { id: string }) => boolean,
+export type TPublicSubscription = {
+  productName: string
+  planName: string
+}
+
+type TSubscriptionLike = TSubscription | TPublicSubscription
+
+const checkIsPublicSubscription = (
+  subscription: TSubscriptionLike,
+): subscription is TPublicSubscription => 'productName' in subscription
+
+function checkIsActiveSubscription(subscription: TSubscriptionLike) {
+  if (checkIsPublicSubscription(subscription)) return true
+
+  return checkActiveStatus(subscription.status)
+}
+
+function getSubscriptionProduct(subscription: TSubscriptionLike): TLooseProduct {
+  if (checkIsPublicSubscription(subscription)) {
+    return { name: subscription.productName }
+  }
+
+  return subscription.plan.product
+}
+
+function getSubscriptionPlanName(subscription: TSubscriptionLike) {
+  if (checkIsPublicSubscription(subscription)) return subscription.planName
+
+  return subscription.plan.name
+}
+
+function getSubscription<GSub extends TSubscriptionLike>(
+  subscriptions: null | GSub[],
+  productChecker: (product: TLooseProduct) => boolean,
 ) {
   try {
     return (
       subscriptions?.find(
         (subscription) =>
-          checkIsActiveSubscription(subscription) && productChecker(subscription.plan.product),
+          checkIsActiveSubscription(subscription) &&
+          productChecker(getSubscriptionProduct(subscription)),
       ) ?? null
     )
   } catch (e) {
@@ -54,20 +87,35 @@ function getSubscription(
   }
 }
 
-export const getSanbaseSubscription = (subscriptions: null | TSubscription[]) =>
-  getSubscription(subscriptions, checkIsSanbaseProduct)
+export const getSanbaseSubscription = <GSub extends TSubscriptionLike>(
+  subscriptions: null | GSub[],
+) => getSubscription(subscriptions, checkIsSanbaseProduct)
 
-export const getApiSubscription = (subscriptions: null | TSubscription[]) =>
+export const getApiSubscription = <GSub extends TSubscriptionLike>(subscriptions: null | GSub[]) =>
   getSubscription(subscriptions, checkIsSanApiProduct)
 
-export function getPrimarySubscription(subscriptions: null | TSubscription[]) {
+export function getPrimarySubscription<GSub extends TSubscriptionLike>(
+  subscriptions: null | GSub[],
+) {
   const apiSubscription = getApiSubscription(subscriptions)
 
-  if (apiSubscription && checkIsBusinessPlan(apiSubscription.plan.name)) {
+  if (apiSubscription && checkIsBusinessPlan(getSubscriptionPlanName(apiSubscription))) {
     return apiSubscription
   }
 
   return getSanbaseSubscription(subscriptions)
+}
+
+export function extractPlanFromSubscriptions<GSub extends TSubscriptionLike>(
+  subscriptions: GSub[] | null,
+) {
+  const DEFAULT_PLAN = SubscriptionPlan.FREE.key
+  const primeSub = getPrimarySubscription(subscriptions)
+  if (!primeSub) return DEFAULT_PLAN
+
+  const planName = 'plan' in primeSub ? primeSub.plan.name : primeSub.planName
+
+  return convertSubscriptionPlan(planName) ?? DEFAULT_PLAN
 }
 
 export function getCustomerSubscriptionData(subscription: null | TSubscription) {
@@ -131,7 +179,7 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
 
       isCanceledSubscription: !!cancelAtPeriodEnd,
       isIncompleteSubscription: checkIsIncompleteSubscription(subscription),
-      isTrialSubscription: trialDaysLeft && trialDaysLeft > 0 && status === Status.TRIALING,
+      isTrialSubscription: !!trialDaysLeft && trialDaysLeft > 0 && status === Status.TRIALING,
       trialDaysLeft,
 
       currentPeriodEnd,

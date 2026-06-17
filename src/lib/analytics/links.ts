@@ -27,8 +27,9 @@ export function startLinksListener(trackers?: Tracker[]) {
       const isExternal = href.startsWith('http')
       const { type, source } = anchor.dataset
 
-      if (isExternal) {
+      if (isExternal && anchor.getAttribute('target') !== '_blank') {
         e.preventDefault()
+
         window.open(href, '_blank')?.focus()
       }
 

@@ -5,11 +5,15 @@ export function getCookie(name: string, predicate?: (keyValue: string) => boolea
     predicate ? predicate(keyValue) : keyValue.startsWith(name),
   )
 
-  return keyValue && keyValue.split('=')[1]
+  return keyValue && keyValue.slice(keyValue.indexOf('=') + 1)
 }
 
-export function setCookie(key: string, value: number | boolean | string) {
+export function setCookie<GValue extends number | boolean | string>(
+  key: string,
+  value: GValue,
+): GValue {
   document.cookie = `${key}=${value}; path=/; max-age=31536000`
+  return value
 }
 
 export function deleteCookie(key: string) {
