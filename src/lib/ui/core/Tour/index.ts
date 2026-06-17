@@ -1,42 +1,52 @@
-import type { Config } from 'driver.js'
+import type { Driver } from 'driver.js'
 
 import { mount, unmount } from 'svelte'
 
 import Step from './Step.svelte'
 
-export async function createTour(initialConfig: Config) {
-  await import('driver.js/dist/driver.css')
+export type TTourStep = {
+  element: string | Element
+  title?: string
+  description?: string
+  side?: 'top' | 'right' | 'bottom' | 'left' | 'over'
+}
 
-  const { driver: driverInstance } = await import('driver.js')
+let activeDriver: Driver | undefined
+
+export const runTour = (steps: TTourStep[]) => {
+  void startTour(steps)
+}
+
+async function startTour(steps: TTourStep[]) {
+  activeDriver?.destroy()
+
+  await import('driver.js/dist/driver.css')
+  const { driver } = await import('driver.js')
 
   let stepInstance: ReturnType<typeof mount> | undefined
 
-  const cleanupStep = () => {
-    if (!stepInstance) return
-
-    unmount(stepInstance)
-    stepInstance = undefined
-  }
-
-  return driverInstance({
-    ...initialConfig,
+  activeDriver = driver({
+    steps: steps.map(({ element, title, description, side }) => ({
+      element,
+      popover: { title, description, side },
+    })),
 
     onPopoverRender: (popover, { driver }) => {
-      cleanupStep()
+      if (stepInstance) unmount(stepInstance)
 
       popover.wrapper.innerHTML = ''
 
       stepInstance = mount(Step, {
         target: popover.wrapper,
-        props: {
-          driver,
-        },
+        props: { driver },
       })
     },
 
-    onDestroyed: (...args) => {
-      cleanupStep()
-      initialConfig.onDestroyed?.(...args)
+    onDestroyed: () => {
+      if (stepInstance) unmount(stepInstance)
+      activeDriver = undefined
     },
   })
+
+  activeDriver.drive()
 }

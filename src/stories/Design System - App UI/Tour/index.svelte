@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
-  import { createTour } from '$ui/core/Tour/index.js'
+  import { runTour } from '$ui/core/Tour/index.js'
 
   const ids = {
     start: 'test-start',
@@ -9,47 +9,33 @@
     feature3: 'test-feature3',
   } as const
 
-  async function start() {
-    const selector = (id: string) => `#${id}`
-
-    const tour = await createTour({
-      steps: [
-        {
-          element: selector(ids.start),
-          popover: {
-            title: 'New master select',
-            side: 'bottom',
-            description: `<p class="mrg-l mrg--b">Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
-          },
-        },
-        {
-          element: selector(ids.feature1),
-          popover: {
-            title: 'First Feature',
-            side: 'bottom',
-            description: `<p class="mrg-l mrg--b">2) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
-          },
-        },
-        {
-          element: selector(ids.feature2),
-          popover: {
-            title: 'Second Feature',
-            side: 'bottom',
-            description: `<p class="mrg-l mrg--b">3) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
-          },
-        },
-        {
-          element: selector(ids.feature3),
-          popover: {
-            title: 'Third Feature',
-            side: 'bottom',
-            description: `<p class="mrg-l mrg--b">4) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
-          },
-        },
-      ],
-    })
-
-    tour.drive()
+  function start() {
+    runTour([
+      {
+        element: `#${ids.start}`,
+        title: 'New master select',
+        side: 'bottom',
+        description: `<p class="mrg-l mrg--b">Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
+      },
+      {
+        element: `#${ids.feature1}`,
+        title: 'First Feature',
+        side: 'bottom',
+        description: `<p class="mrg-l mrg--b">2) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
+      },
+      {
+        element: `#${ids.feature2}`,
+        title: 'Second Feature',
+        side: 'bottom',
+        description: `<p class="mrg-l mrg--b">3) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
+      },
+      {
+        element: `#${ids.feature3}`,
+        title: 'Third Feature',
+        side: 'bottom',
+        description: `<p class="mrg-l mrg--b">4) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
+      },
+    ])
   }
 </script>
 

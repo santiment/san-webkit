@@ -1,117 +1,96 @@
 <script lang="ts">
   import type { Driver } from 'driver.js'
 
-  import { onMount } from 'svelte'
-
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
   import Button from '../Button/Button.svelte'
 
-  type TProps = {
-    driver: Driver
-  }
-
-  const { driver }: TProps = $props()
+  const { driver }: { driver: Driver } = $props()
 
   const steps = driver.getConfig().steps || []
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
 
-  function trackTour(event: string, idx?: number) {
-    const index = idx ?? state.activeIndex
-    const step = steps[index]
+  type TTourAction = 'start' | 'next_step' | 'prev_step' | 'set_step' | 'close'
 
-    const stepId =
-      typeof step?.element === 'string'
-        ? step.element
-        : step?.element instanceof Element
-          ? step.element.id || undefined
-          : undefined
+  function trackTour(action: TTourAction) {
+    const step = steps[state.activeIndex]
 
-    trackEvent(`tour_${event}`, {
-      category: 'Tour',
-      current_step: index + 1,
+    trackEvent('walkthrough', {
+      action,
+      type: 'tour',
+      current_step: state.activeIndex + 1,
       total_steps: steps.length,
       source_url: window.location.href,
-      step_id: stepId,
+      step_id: typeof step?.element === 'string' ? step.element : undefined,
     })
   }
 
   function handleMoveTo(index: number) {
     driver.moveTo(index)
-
     trackTour('set_step')
   }
 
   function handleClose() {
     driver.destroy()
-
     trackTour('close')
   }
 
   function handleMovePrev() {
     driver.movePrevious()
-
     trackTour('prev_step')
   }
 
   function handleMoveNext() {
     driver.moveNext()
-
     trackTour('next_step')
   }
 
-  onMount(() => {
-    if (!state.previousStep) {
-      trackTour('start')
-    }
-  })
+  if (!state.previousStep) trackTour('start')
 </script>
 
-<div>
-  <header class="flex max-w-[400px]">
-    {#if popover.title}
-      <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
-    {/if}
-
-    <Button iconSize="12" size="sm" icon="close" class="ml-auto" onclick={handleClose}></Button>
-  </header>
-
-  {#if popover.description}
-    <div class="mb-6">{@html popover.description}</div>
+<header class="flex">
+  {#if popover.title}
+    <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
   {/if}
 
-  <footer class="flex items-center justify-between">
-    <div class="flex gap-2">
-      {#if steps.length > 1}
-        {#each steps as _, i}
-          <Button
-            aria-label="Go to step {i + 1}"
-            variant="plain"
-            onclick={() => handleMoveTo(i)}
-            class={cn(
-              'h-1.5 w-1.5 rounded-full bg-green-light-3 p-0',
-              state.activeIndex === i && 'bg-green',
-            )}
-          ></Button>
-        {/each}
-      {/if}
-    </div>
+  <Button iconSize="12" size="sm" icon="close" class="ml-auto" onclick={handleClose}></Button>
+</header>
 
-    <div class="flex gap-2">
-      {#if !driver.isFirstStep()}
-        <Button variant="border" class="px-4" onclick={handleMovePrev}>Previous</Button>
-      {/if}
+{#if popover.description}
+  <div class="mb-6">{@html popover.description}</div>
+{/if}
 
-      {#if driver.isLastStep()}
-        <Button variant="fill" onclick={handleClose}>Close</Button>
-      {:else}
-        <Button variant="fill" onclick={handleMoveNext}>Next</Button>
-      {/if}
-    </div>
-  </footer>
-</div>
+<footer class="flex items-center justify-between">
+  <div class="flex gap-2">
+    {#if steps.length > 1}
+      {#each steps as _, i}
+        <Button
+          aria-label="Go to step {i + 1}"
+          variant="plain"
+          onclick={() => handleMoveTo(i)}
+          class={cn(
+            'h-1.5 w-1.5 rounded-full bg-green-light-3 p-0',
+            state.activeIndex === i && 'bg-green',
+          )}
+        ></Button>
+      {/each}
+    {/if}
+  </div>
+
+  <div class="flex gap-2">
+    {#if !driver.isFirstStep()}
+      <Button variant="border" class="px-4" onclick={handleMovePrev}>Previous</Button>
+    {/if}
+
+    {#if driver.isLastStep()}
+      <Button variant="fill" onclick={handleClose}>Close</Button>
+    {:else}
+      <Button variant="fill" onclick={handleMoveNext}>Next</Button>
+    {/if}
+  </div>
+</footer>
 
 <style lang="postcss">
   :global(.driver-popover) {
