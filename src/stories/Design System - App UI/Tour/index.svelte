@@ -10,12 +10,12 @@
   } as const
 
   async function start() {
-    const id = (id: string) => `#${id}`
+    const selector = (id: string) => `#${id}`
 
     const tour = await createTour({
       steps: [
         {
-          element: id(ids.start),
+          element: selector(ids.start),
           popover: {
             title: 'New master select',
             side: 'bottom',
@@ -23,7 +23,7 @@
           },
         },
         {
-          element: id(ids.feature1),
+          element: selector(ids.feature1),
           popover: {
             title: 'First Feature',
             side: 'bottom',
@@ -31,7 +31,7 @@
           },
         },
         {
-          element: id(ids.feature2),
+          element: selector(ids.feature2),
           popover: {
             title: 'Second Feature',
             side: 'bottom',
@@ -39,7 +39,7 @@
           },
         },
         {
-          element: id(ids.feature3),
+          element: selector(ids.feature3),
           popover: {
             title: 'Third Feature',
             side: 'bottom',

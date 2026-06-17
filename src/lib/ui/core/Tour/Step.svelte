@@ -70,13 +70,17 @@
 </script>
 
 <div>
-  <header class="flex max-w-[400px] justify-between">
-    <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
+  <header class="flex max-w-[400px]">
+    {#if popover.title}
+      <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
+    {/if}
 
-    <Button iconSize="12" size="sm" icon="close" onclick={handleClose}></Button>
+    <Button iconSize="12" size="sm" icon="close" class="ml-auto" onclick={handleClose}></Button>
   </header>
 
-  <div class="mb-6">{@html popover.description}</div>
+  {#if popover.description}
+    <div class="mb-6">{@html popover.description}</div>
+  {/if}
 
   <footer class="flex items-center justify-between">
     <div class="flex gap-2">
