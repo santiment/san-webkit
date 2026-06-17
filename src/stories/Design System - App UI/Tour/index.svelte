@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
-  import { interactiveTour } from '$ui/core/InteractiveTour/index.js'
+  import { createTour } from '$ui/core/Tour/index.js'
 
   const ids = {
     start: 'test-start',
@@ -12,7 +12,7 @@
   async function start() {
     const id = (id: string) => `#${id}`
 
-    const tour = await interactiveTour({
+    const tour = await createTour({
       steps: [
         {
           element: id(ids.start),

@@ -2,9 +2,9 @@ import type { Config } from 'driver.js'
 
 import { mount } from 'svelte'
 
-import CustomPopover from './CustomPopover.svelte'
+import Step from './Step.svelte'
 
-export async function interactiveTour(initialConfig: Config) {
+export async function createTour(initialConfig: Config) {
   await import('driver.js/dist/driver.css')
 
   const { driver: driverInstance } = await import('driver.js')
@@ -12,10 +12,10 @@ export async function interactiveTour(initialConfig: Config) {
   return driverInstance({
     ...initialConfig,
 
-    onPopoverRender: (popover, { config: _, state: _s, driver }) => {
+    onPopoverRender: (popover, { driver }) => {
       popover.wrapper.innerHTML = ''
 
-      mount(CustomPopover, {
+      mount(Step, {
         target: popover.wrapper,
         props: {
           driver,

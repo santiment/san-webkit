@@ -12,4 +12,4 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const InteractiveTour: Story = {}
+export const Tour: Story = {}

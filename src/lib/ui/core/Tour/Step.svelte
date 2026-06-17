@@ -18,7 +18,7 @@
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
 
-  function trackWalkthrough(event: string, idx?: number) {
+  function trackTour(event: string, idx?: number) {
     const index = idx ?? state.activeIndex
     const step = steps[index]
 
@@ -29,8 +29,8 @@
           ? step.element.id || undefined
           : undefined
 
-    trackEvent(`walkthrough_${event}`, {
-      category: 'Walkthrough',
+    trackEvent(`tour_${event}`, {
+      category: 'Tour',
       current_step: index + 1,
       total_steps: steps.length,
       source_url: window.location.href,
@@ -41,30 +41,30 @@
   function handleMoveTo(index: number) {
     driver.moveTo(index)
 
-    trackWalkthrough('set_step')
+    trackTour('set_step')
   }
 
   function handleClose() {
     driver.destroy()
 
-    trackWalkthrough('close')
+    trackTour('close')
   }
 
   function handleMovePrev() {
     driver.movePrevious()
 
-    trackWalkthrough('prev_step')
+    trackTour('prev_step')
   }
 
   function handleMoveNext() {
     driver.moveNext()
 
-    trackWalkthrough('next_step')
+    trackTour('next_step')
   }
 
   onMount(() => {
     if (!state.previousStep) {
-      trackWalkthrough('start')
+      trackTour('start')
     }
   })
 </script>
