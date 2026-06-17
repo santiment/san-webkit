@@ -5,6 +5,7 @@ import type { default as RectanglePrimitive } from './rectangle/primitive.js'
 import type { default as TrendlinePrimitive } from './trendline/primitive.js'
 import type { default as HorizontalLinePrimitive } from './horizontal-line/primitive.js'
 import type { default as VerticalLinePrimitive } from './vertical-line/primitive.js'
+import type { TSeries } from '../ctx/series.svelte.js'
 
 import { createCtx } from '$lib/utils/index.js'
 
@@ -31,7 +32,7 @@ export type TApiDrawing = {
   options?: Record<string, unknown>
 }
 
-type TDrawingTool = {
+export type TDrawingTool = {
   type: TDrawingTypes
   data: TData
   drawing: null | TDrawingPrimitive
@@ -73,6 +74,14 @@ export function importPrimitive(type: TDrawingTypes) {
   }
 }
 
+const createDrawingTool = (apiDrawing: TApiDrawing): TDrawingTool => ({
+  type: apiDrawing.type,
+  data: apiDrawing.data,
+  options: apiDrawing.options,
+  drawing: null,
+  Primitive: importPrimitive(apiDrawing.type),
+})
+
 export const useDrawingToolsCtx = createCtx(
   'webkit_useDrawingToolsCtx',
   ({
@@ -87,7 +96,7 @@ export const useDrawingToolsCtx = createCtx(
       newPoints: TPoint[],
     ) => void
 
-    onNewDrawing?: (type: TDrawingTypes, points: TPoint[], index: number) => void
+    onNewDrawing?: (drawingTool: TDrawingTool, index: number) => void
   } = {}) => {
     const chartCtx = useChartCtx.get()
     const { metricSeries } = useMetricSeriesCtx.get()
@@ -97,17 +106,7 @@ export const useDrawingToolsCtx = createCtx(
       payload: null,
     })
 
-    let drawings: TDrawingTool[] = $state.raw(
-      defaultDrawings.map((drawing) => {
-        return {
-          type: drawing.type,
-          data: drawing.data,
-          options: drawing.options,
-          drawing: null,
-          Primitive: importPrimitive(drawing.type),
-        }
-      }),
-    )
+    let drawings: TDrawingTool[] = $state.raw(defaultDrawings.map(createDrawingTool))
 
     let areVisible = $state(true)
 
@@ -214,33 +213,35 @@ export const useDrawingToolsCtx = createCtx(
 
       if (state.name !== 'drawing') return
 
+      const drawingTool = state.payload
+
       const metric = findFirstMetricSeries(params.paneIndex ?? 0)
       const series = metric?.chartSeriesApi
 
       const point = getMouseDrawingPoint(params, series ?? null)
       if (!point) return
 
-      state.payload.Primitive?.then(({ default: Primitive }) => {
+      drawingTool.Primitive?.then(({ default: Primitive }) => {
         if (state.name !== 'drawing') return
 
-        if (!state.payload.drawing) {
+        if (!drawingTool.drawing) {
           const points = [point, point]
           const primitive = new Primitive({ points })
 
           primitive.attachTo(series, metric?.id)
 
-          state.payload.drawing = primitive
-          state.payload.data.points = points
+          drawingTool.drawing = primitive
+          drawingTool.data.points = points
         } else {
-          state.payload.drawing.updateEndPoint(params.point!)
-          state.payload.drawing.finalize()
+          drawingTool.drawing.updateEndPoint(params.point!)
+          drawingTool.drawing.finalize()
 
-          onNewDrawing?.(state.payload.type, state.payload.drawing.points, drawings.length)
+          onNewDrawing?.(drawingTool, drawings.length)
 
-          drawings = [...drawings, state.payload]
+          drawings = [...drawings, drawingTool]
 
           // NOTE: Selecting only when finished drawing
-          selectPrimitive(state.payload.drawing)
+          selectPrimitive(drawingTool.drawing)
 
           state = { name: 'idle', payload: null }
         }
@@ -309,6 +310,17 @@ export const useDrawingToolsCtx = createCtx(
 
           get areVisible$() {
             return areVisible
+          },
+
+          add(apiDrawing: TApiDrawing, metric: TSeries) {
+            const drawingTool = createDrawingTool(apiDrawing)
+
+            drawingTool.Primitive?.then(({ default: Primitive }) => {
+              drawingTool.drawing ??= new Primitive(drawingTool.data, drawingTool.options)
+              drawingTool.drawing.attachTo(metric.chartSeriesApi, metric.id)
+
+              drawings = [...drawings, drawingTool]
+            })
           },
 
           delete(drawingTool: null | TDrawingTool) {
