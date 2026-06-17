@@ -75,7 +75,20 @@ export function importPrimitive(type: TDrawingTypes) {
 
 export const useDrawingToolsCtx = createCtx(
   'webkit_useDrawingToolsCtx',
-  ({ drawings: defaultDrawings = [] }: { drawings?: TApiDrawing[] } = {}) => {
+  ({
+    drawings: defaultDrawings = [],
+    onDrawingChange,
+    onNewDrawing,
+  }: {
+    drawings?: TApiDrawing[]
+    onDrawingChange?: (
+      drawing: TDrawingTool['drawing'],
+      oldPoints: TPoint[],
+      newPoints: TPoint[],
+    ) => void
+
+    onNewDrawing?: (type: TDrawingTypes, points: TPoint[], index: number) => void
+  } = {}) => {
     const chartCtx = useChartCtx.get()
     const { metricSeries } = useMetricSeriesCtx.get()
 
@@ -167,7 +180,15 @@ export const useDrawingToolsCtx = createCtx(
             chart.__isDrawing = false
 
             if (state.name !== 'drawing') {
-              state.payload?.drawing?.finalize()
+              const drawing = state.payload?.drawing
+
+              if (drawing) {
+                const oldPoints = drawing.points
+
+                drawing.finalize()
+                onDrawingChange?.(drawing, oldPoints, drawing.points)
+              }
+
               state = { name: 'idle', payload: null }
             }
 
@@ -213,6 +234,8 @@ export const useDrawingToolsCtx = createCtx(
         } else {
           state.payload.drawing.updateEndPoint(params.point!)
           state.payload.drawing.finalize()
+
+          onNewDrawing?.(state.payload.type, state.payload.drawing.points, drawings.length)
 
           drawings = [...drawings, state.payload]
 

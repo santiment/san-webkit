@@ -117,6 +117,12 @@ export abstract class DrawingPrimitive<
     this._requestUpdate = undefined
   }
 
+  public updatePoints(points: TPoint[]) {
+    this._dataPoints = points
+    this.convertDataToViewPoints()
+    this.requestUpdate()
+  }
+
   /**
    * Completely removing primitive from a series
    */
