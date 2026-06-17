@@ -1,6 +1,6 @@
 import type { Config } from 'driver.js'
 
-import { mount } from 'svelte'
+import { mount, unmount } from 'svelte'
 
 import Step from './Step.svelte'
 
@@ -9,18 +9,34 @@ export async function createTour(initialConfig: Config) {
 
   const { driver: driverInstance } = await import('driver.js')
 
+  let stepInstance: ReturnType<typeof mount> | undefined
+
+  const cleanupStep = () => {
+    if (!stepInstance) return
+
+    unmount(stepInstance)
+    stepInstance = undefined
+  }
+
   return driverInstance({
     ...initialConfig,
 
     onPopoverRender: (popover, { driver }) => {
+      cleanupStep()
+
       popover.wrapper.innerHTML = ''
 
-      mount(Step, {
+      stepInstance = mount(Step, {
         target: popover.wrapper,
         props: {
           driver,
         },
       })
+    },
+
+    onDestroyed: (...args) => {
+      cleanupStep()
+      initialConfig.onDestroyed?.(...args)
     },
   })
 }

@@ -72,6 +72,7 @@
 <div>
   <header class="flex max-w-[400px] justify-between">
     <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
+
     <Button iconSize="12" size="sm" icon="close" onclick={handleClose}></Button>
   </header>
 
