@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
 
-  import { onMount, type Snippet } from 'svelte'
+  import { onMount, type ComponentProps, type Snippet } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -15,11 +15,18 @@
     metric: TSeries
     isFocused?: boolean
     label?: Snippet<[TSeries]>
-    paneControls?: boolean
     onmouseenter?: () => void
     onmouseleave?: () => void
-  }
-  let { metric, label, paneControls, isFocused = false, ...rest }: TProps = $props()
+  } & ComponentProps<typeof Controls>
+  let {
+    metric,
+    label,
+    paneControls,
+    isFocused = false,
+    onPaneChange,
+    onVisibilityChange,
+    ...rest
+  }: TProps = $props()
 
   const { openedMetric } = useMetricInfoCtx.get()
 
@@ -42,7 +49,7 @@
       {metric.label}
     {/if}
 
-    <Controls {metric} {paneControls}></Controls>
+    <Controls {metric} {paneControls} {onPaneChange} {onVisibilityChange}></Controls>
   </div>
 
   {#if metric.visible.$}

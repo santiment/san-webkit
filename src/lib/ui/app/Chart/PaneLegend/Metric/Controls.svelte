@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { TSeries } from '../../ctx/series.svelte.js'
+  import type { ComponentProps } from 'svelte'
 
   import Button from '$ui/core/Button/index.js'
   import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
@@ -11,14 +12,21 @@
   type TProps = {
     metric: TSeries
     paneControls?: boolean
+    onVisibilityChange?: (newValue: boolean, oldValue: boolean) => void
+    onPaneChange?: ComponentProps<typeof PaneControls>['onPaneChange']
   }
-  let { metric, paneControls }: TProps = $props()
+  let { metric, paneControls, onVisibilityChange, onPaneChange }: TProps = $props()
 
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
   const { onMetricInfoClick } = useMetricInfoCtx.get()
 
   function onHideClick() {
-    metric.visible.$ = !metric.visible.$
+    const oldValue = metric.visible.$
+    const newValue = !oldValue
+
+    metric.visible.$ = newValue
+
+    onVisibilityChange?.(newValue, oldValue)
   }
 
   function onReloadClick() {
@@ -61,7 +69,7 @@
   {/if}
 
   {#if paneControls}
-    <PaneControls {metric}></PaneControls>
+    <PaneControls {metric} {onPaneChange}></PaneControls>
   {/if}
 
   <!--
