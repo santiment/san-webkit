@@ -68,10 +68,10 @@
   if (closeOnOutsideClick) {
     $effect(() => {
       if (!$open) return
-  
+
       return on(window, 'pointerdown', (e) => {
         if (contentEl && e.composedPath().includes(contentEl)) return
-  
+
         open.set(false)
       })
     })
