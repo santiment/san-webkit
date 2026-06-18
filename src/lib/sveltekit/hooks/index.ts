@@ -52,8 +52,8 @@ export const normalizePathHandle: Handle = async ({ event, resolve }) => {
 
   logger.info('normalizePathHandle: ' + pathname)
 
-  if (pathname.endsWith('//')) {
-    return redirect(308, pathname.replace(/\/+$/, '/') + event.url.search)
+  if (pathname.includes('//')) {
+    return redirect(308, pathname.replace(/\/+/g, '/') + event.url.search)
   }
 
   return resolve(event)
