@@ -8,7 +8,7 @@
 
   type TProps = {
     metric: TSeries
-    onPaneChange?: (newIndex: number, oldIndex: number) => void
+    onPaneChange?: (newIndex: number, oldIndex: number, metric: TSeries) => void
   }
 
   const { metric, onPaneChange }: TProps = $props()
@@ -56,7 +56,7 @@
       metric.chartSeriesApi.moveToPane(newIndex)
       metric.pane.update$()
 
-      onPaneChange?.(newIndex, index)
+      onPaneChange?.(newIndex, index, metric)
     }
   }
 </script>

@@ -12,7 +12,7 @@
   type TProps = {
     metric: TSeries
     paneControls?: boolean
-    onVisibilityChange?: (newValue: boolean, oldValue: boolean) => void
+    onVisibilityChange?: (newValue: boolean, oldValue: boolean, metric: TSeries) => void
     onPaneChange?: ComponentProps<typeof PaneControls>['onPaneChange']
   }
   let { metric, paneControls, onVisibilityChange, onPaneChange }: TProps = $props()
@@ -26,7 +26,7 @@
 
     metric.visible.$ = newValue
 
-    onVisibilityChange?.(newValue, oldValue)
+    onVisibilityChange?.(newValue, oldValue, metric)
   }
 
   function onReloadClick() {
