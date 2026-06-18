@@ -312,14 +312,19 @@ export const useDrawingToolsCtx = createCtx(
             return areVisible
           },
 
-          add(apiDrawing: TApiDrawing, metric: TSeries) {
+          add(apiDrawing: TApiDrawing, metric: TSeries, insertAtIndex?: number) {
             const drawingTool = createDrawingTool(apiDrawing)
 
             drawingTool.Primitive?.then(({ default: Primitive }) => {
               drawingTool.drawing ??= new Primitive(drawingTool.data, drawingTool.options)
               drawingTool.drawing.attachTo(metric.chartSeriesApi, metric.id)
 
-              drawings = [...drawings, drawingTool]
+              if (insertAtIndex !== undefined) {
+                drawings.splice(insertAtIndex, 0, drawingTool)
+                drawings = drawings.slice()
+              } else {
+                drawings = [...drawings, drawingTool]
+              }
             })
           },
 
