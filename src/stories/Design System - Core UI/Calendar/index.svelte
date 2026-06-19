@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DatePicker from '$ui/core/Calendar/index.js'
+  import DatePicker, { DoubleDatePicker } from '$ui/core/Calendar/index.js'
   import InputCalendar from '$ui/core/InputCalendar/index.js'
 
   let date = new Date()
@@ -42,5 +42,10 @@
   <div class="flex flex-row items-center gap-2">
     With Presets:
     <DatePicker date={dates} onChange={onChangeDates} withPresets />
+  </div>
+
+  <div class="flex flex-row items-center gap-2">
+    Double Date Picker:
+    <DoubleDatePicker date={dates} onChange={onChangeDates} />
   </div>
 </div>
