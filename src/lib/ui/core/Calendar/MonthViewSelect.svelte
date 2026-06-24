@@ -70,7 +70,7 @@
 </script>
 
 <div class="flex gap-2">
-  <Select items={monthItems} selected={selectedMonth} onSelect={onMonthChange} />
+  <Select class="w-[72px]" items={monthItems} selected={selectedMonth} onSelect={onMonthChange} />
 
-  <Select items={yearItems} selected={selectedYear} onSelect={onYearChange} />
+  <Select class="w-20" items={yearItems} selected={selectedYear} onSelect={onYearChange} />
 </div>
