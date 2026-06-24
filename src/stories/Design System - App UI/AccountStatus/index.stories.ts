@@ -52,6 +52,17 @@ export const SanbasePro: Story = {
   },
 }
 
+export const SanbaseProIncomplete: Story = {
+  name: 'Sanbase Pro - Incomplete',
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        plan: { pro: true, yearly: true, incomplete: true },
+      },
+    }),
+  },
+}
+
 export const ProPlus: Story = {
   name: 'Sanbase Pro+ (Deprecated)',
   parameters: {

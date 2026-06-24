@@ -62,6 +62,9 @@ export type CurrentUser = null | {
     /** @default false */
     trial?: boolean
 
+    /** @default false */
+    incomplete?: boolean
+
     /** @default undefined */
     name?: string
 
@@ -110,6 +113,7 @@ export function mockUser(currentUser: CurrentUser) {
       monthly = false,
       yearly = false,
       trial = false,
+      incomplete = false,
       trialDaysLeft,
       cancelledInDays,
       name: planName,
@@ -157,7 +161,7 @@ export function mockUser(currentUser: CurrentUser) {
       const id = name && checkIsBusinessPlan(name) ? Product.SanAPI.id : Product.Sanbase.id
 
       subscriptions[0] = {
-        status: trial ? 'TRIALING' : 'ACTIVE',
+        status: incomplete ? 'INCOMPLETE' : trial ? 'TRIALING' : 'ACTIVE',
         trialEnd,
         cancelAtPeriodEnd: cancelledInDays !== undefined,
         currentPeriodEnd: currentPeriodEndDate.toISOString(),

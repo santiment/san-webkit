@@ -10,7 +10,7 @@
   {#if customer.$.plan}
     <div
       class={cn(
-        'rounded-md px-3 py-1.5 uppercase',
+        'relative rounded-md px-3 py-1.5 uppercase',
         customer.$.isBusinessSubscription
           ? 'bg-blue-light-1 text-blue'
           : 'bg-orange-light-1 text-orange',
@@ -18,7 +18,14 @@
     >
       {customer.$.planName}
       {#if customer.$.isIncompleteSubscription}
-        (Incomplete)
+        <a
+          href="/account#subscription"
+          class="link-as-bg"
+          data-type="update_billing"
+          data-source="account_status"
+        >
+          (Incomplete)
+        </a>
       {/if}
     </div>
   {:else}
