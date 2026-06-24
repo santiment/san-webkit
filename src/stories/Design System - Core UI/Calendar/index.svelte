@@ -46,6 +46,6 @@
 
   <div class="flex flex-row items-center gap-2">
     Double Date Picker:
-    <DoubleDatePicker date={dates} onChange={onChangeDates} />
+    <DoubleDatePicker {dates} onChange={onChangeDates} />
   </div>
 </div>
