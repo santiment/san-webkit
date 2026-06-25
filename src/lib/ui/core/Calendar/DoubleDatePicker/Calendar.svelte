@@ -34,9 +34,13 @@
         return { selected: false, cursor: 1, sameDayRange: true }
       }
 
-      if (isBefore(range[0], month.dates[0])) {
-        return { selected: true, cursor: 1 }
+      if (isBefore(range[1], month.dates[0])) {
+        return { selected: false, cursor: 2 }
       }
+    }
+
+    if (isBefore(range[0], month.dates[0])) {
+      return { selected: true, cursor: targetCursor }
     }
 
     return { selected: false, cursor: 0 }
