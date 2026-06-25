@@ -29,18 +29,18 @@
   let placeholder = $state.raw(range[targetCursor])
 
   function createCalendarState(month: Month<DateValue>) {
-    if (targetCursor === 1) {
-      if (isSameDay(range[0], range[1])) {
-        return { selected: false, cursor: 1, sameDayRange: true }
-      }
+    if (isSameDay(range[0], range[1])) {
+      return { selected: false, cursor: 1, sameDayRange: true }
+    }
 
+    if (targetCursor === 1) {
       if (isBefore(range[1], month.dates[0])) {
         return { selected: false, cursor: 2 }
       }
     }
 
     if (isBefore(range[0], month.dates[0])) {
-      return { selected: true, cursor: targetCursor }
+      return { selected: true, cursor: 1 }
     }
 
     return { selected: false, cursor: 0 }
@@ -81,14 +81,14 @@
 
         if (isSameDay(date, target)) {
           let className =
-            state.cursor === targetCursor
+            state.cursor === targetCursor || state.sameDayRange
               ? 'bg-green hover:bg-green-hover !text-white'
               : `bg-green-light-2 outline-green outline outline-1 -outline-offset-1 calendar-restrict-${targetCursor ? 'before' : 'after'}`
           state.selected = true
           state.cursor++
 
           if (state.sameDayRange)
-            className += targetCursor ? ' calendar-restrict-before' : 'calendar-restrict-after'
+            className += targetCursor ? ' calendar-restrict-before' : ' calendar-restrict-after'
 
           return className
         }
