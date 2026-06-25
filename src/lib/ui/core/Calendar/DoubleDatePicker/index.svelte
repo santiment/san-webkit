@@ -33,7 +33,10 @@
 
 <Popover
   noStyles
-  class={cn('z-10 shadow-dropdown dark:shadow-none', rootClass)}
+  class={cn(
+    'z-10 rounded border bg-white shadow-dropdown dark:bg-athens dark:shadow-none',
+    rootClass,
+  )}
   bind:isOpened={() => isOpened, () => {}}
   contentProps={{
     trapFocus: false,
@@ -47,7 +50,7 @@
   }}
 >
   {#snippet content()}
-    <div class="flex divide-x">
+    <div class="calendars flex divide-x">
       <Calendar
         {range}
         targetCursor={0}
@@ -88,3 +91,11 @@
     </Button>
   {/snippet}
 </Popover>
+
+<style>
+  :global(.night-mode) .calendars :global(button),
+  :global(.night-mode) .calendars :global(span) {
+    --athens: var(--porcelain);
+    --c-athens: var(--c-porcelain);
+  }
+</style>

@@ -83,7 +83,7 @@
           let className =
             state.cursor === targetCursor
               ? 'bg-green hover:bg-green-hover !text-white'
-              : `bg-green-light-1 outline-green outline outline-1 -outline-offset-1 calendar-restrict-${targetCursor ? 'before' : 'after'}`
+              : `bg-green-light-2 outline-green outline outline-1 -outline-offset-1 calendar-restrict-${targetCursor ? 'before' : 'after'}`
           state.selected = true
           state.cursor++
 
@@ -93,7 +93,7 @@
           return className
         }
 
-        return state.selected ? 'bg-green-light-1 rounded-none' : ''
+        return state.selected ? 'bg-green-light-2 rounded-none' : ''
       }}
 
       <section class="mx-auto w-56 select-none py-3 text-center">
