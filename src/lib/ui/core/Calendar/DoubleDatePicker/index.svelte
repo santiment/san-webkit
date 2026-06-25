@@ -88,12 +88,3 @@
     </Button>
   {/snippet}
 </Popover>
-
-<style>
-  :global(.calendar-restrict-after ~ span),
-  :global(span:has(~ .calendar-restrict-before)) {
-    cursor: not-allowed;
-    color: var(--mystic);
-    background: none !important;
-  }
-</style>
