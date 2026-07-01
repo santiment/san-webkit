@@ -43,10 +43,11 @@
 
   type TProps = {
     class?: string
+    activeClass?: string
     shortcuts?: readonly (readonly [string, string])[]
   }
 
-  const { class: className, shortcuts = SHORTCUTS }: TProps = $props()
+  const { class: className, activeClass, shortcuts = SHORTCUTS }: TProps = $props()
 
   const { globalParameters } = useChartGlobalParametersCtx.get()
 
@@ -72,7 +73,7 @@
 {#each shortcuts as [label, value]}
   <Button
     onclick={() => onDateRangeShortcutClick(value)}
-    class={cn(className, activeDateRange === value && 'bg-athens text-black')}
+    class={cn(className, activeDateRange === value && ['bg-athens text-black', activeClass])}
   >
     {label}
   </Button>
