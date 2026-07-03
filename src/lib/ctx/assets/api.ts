@@ -14,17 +14,19 @@ export type TAsset = {
   rank: null | number
   priceUsd: null | number
   infrastructure: null | string
+  logoUrl: string | null
   marketSegments?: string[]
   chain?: (typeof Blockchain)[keyof typeof Blockchain]
 }
 
 export const PROJECT_FRAGMENT = `slug
-      ticker
       name
+      ticker
+      rank
       priceUsd
       infrastructure
-      marketSegments
-      rank`
+      logoUrl
+      marketSegments`
 
 function assetAccessor(gql: { projects: TAsset[] }) {
   const assets = gql.projects.sort((a, b) => (a.rank ?? 9999) - (b.rank ?? 9999))
@@ -128,6 +130,7 @@ const TradFinanceItem = (slug: string, name: string, ticker: string) =>
     priceUsd: null,
     rank: null,
     infrastructure: null,
+    logoUrl: null,
 
     // @ts-ignore
     group: undefined,
@@ -141,6 +144,7 @@ const TotalMarketItem = (slug: string, name: string, ticker: string) =>
     priceUsd: 0,
     rank: null,
     infrastructure: null,
+    logoUrl: null,
   }) satisfies TAsset
 
 export const TOTAL_MARKET_INDEX = [
