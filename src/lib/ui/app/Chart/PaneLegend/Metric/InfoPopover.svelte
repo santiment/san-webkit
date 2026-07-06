@@ -6,18 +6,15 @@
     useMetricsRestrictionsCtx,
     type TMetricRestrictions,
   } from '$lib/ctx/metrics-registry/index.js'
-  import Button from '$ui/core/Button/index.js'
-  import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
 
-  import { useChartGlobalParametersCtx, type TSeries } from '../../ctx/index.js'
+  import { type TSeries } from '../../ctx/index.js'
   import { useMetricInfoCtx } from './ctx.svelte.js'
+  import InfoContent from './InfoContent.svelte'
 
   type TProps = { children: Snippet }
   let { children }: TProps = $props()
 
   const { MetricsRestrictions } = useMetricsRestrictionsCtx.get()
-  const { globalParameters } = useChartGlobalParametersCtx.get()
-  const { getAssetBySlug } = useAssetsCtx.get()
 
   let openedMetric = $state.raw<null | TSeries>(null)
   let openedInfo = $state.raw<null | TMetricRestrictions['docs']>(null)
@@ -48,11 +45,6 @@
       openedMetric = anchorNode = openedInfo = null
     }, 200)
   }
-
-  const TICKER_REGEX = /\[Project Ticker\]/g
-  export function replaceDescriptionMeta(description: string, ticker: string): string {
-    return description.replace(TICKER_REGEX, ticker)
-  }
 </script>
 
 {@render children()}
@@ -68,38 +60,6 @@
   class="w-[360px] px-6 py-5 pt-4 text-rhino column"
 >
   {#snippet content()}
-    {#if openedInfo && openedMetric}
-      <h3 class="mb-2.5 font-medium text-rhino">
-        {openedMetric?.label}
-      </h3>
-
-      <p>
-        {#if openedInfo.description}
-          {@const slug = globalParameters.$$.selector.slug!}
-          {@const ticker = getAssetBySlug(slug)?.ticker || 'BTC'}
-
-          {@html replaceDescriptionMeta(openedInfo.description, ticker)}
-        {/if}
-
-        {#if openedInfo.academyLinks.length}
-          {#if openedInfo.description}
-            <br />
-          {/if}
-
-          Academy
-          <Button
-            variant="link"
-            target="_blank"
-            href="https://academy.santiment.net{openedInfo.academyLinks[0]}"
-            data-source="chart_pane_legend_metric_info"
-            data-type="metric_academy_article"
-          >
-            article
-          </Button>.
-        {/if}
-      </p>
-    {:else}
-      No information available
-    {/if}
+    <InfoContent metric={openedMetric} info={openedInfo} />
   {/snippet}
 </Popover>
