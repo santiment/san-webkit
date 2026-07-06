@@ -30,7 +30,7 @@
 </script>
 
 <section
-  class={cn('absolute left-1 top-1 z-[3] hidden items-start gap-0.5 column', className)}
+  class={cn('absolute left-1 top-1 z-3 hidden items-start gap-0.5 column', className)}
   use:mountToPane
 >
   {#if mounted}

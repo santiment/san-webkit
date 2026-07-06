@@ -34,7 +34,7 @@
   </h2>
 
   <section class="min-h-0 gap-4 px-6 py-5 column">
-    <article class="overflow-auto rounded border column">
+    <article class="overflow-auto rounded-sm border column">
       <div class="flex bg-athens text-fiord">
         <section class="cell">Metric</section>
         <section class="cell">Period of restricted data</section>

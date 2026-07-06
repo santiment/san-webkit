@@ -58,7 +58,7 @@
   {#if isColumn}
     <section class="max-w-[260px] border-t border-porcelain pt-6 text-base text-waterloo">
       To learn more about Santiment's products, team, or available jobs, visit
-      <a class="hover:text-[var(--accent-hover)]" target="_blank" href="https://santiment.net/"
+      <a class="hover:text-(--accent-hover)" target="_blank" href="https://santiment.net/"
         >santiment.net</a
       >
     </section>

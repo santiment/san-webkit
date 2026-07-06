@@ -5,7 +5,7 @@
 </script>
 
 <div
-  class="marks pointer-events-none absolute inset-0 z-[1] flex items-end justify-around border bg-transparent text-2xs text-waterloo"
+  class="marks pointer-events-none absolute inset-0 z-1 flex items-end justify-around border bg-transparent text-2xs text-waterloo"
 >
   {#each MARKS as mark}
     <span class="mark">{mark}</span>
@@ -13,6 +13,8 @@
 </div>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .mark {
     @apply relative;
   }

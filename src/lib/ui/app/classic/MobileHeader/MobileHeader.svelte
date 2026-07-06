@@ -20,7 +20,7 @@
 </script>
 
 <header
-  class="sticky left-0 top-0 z-[98] flex w-full items-center justify-between border-b border-b-athens bg-white px-4 py-5"
+  class="sticky left-0 top-0 z-98 flex w-full items-center justify-between border-b border-b-athens bg-white px-4 py-5"
   id="mobile-header"
 >
   <section class="min-w-0 items-center row">

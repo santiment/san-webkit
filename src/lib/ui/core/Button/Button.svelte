@@ -75,8 +75,8 @@
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
-        ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
+        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-(--ghost-active-bg)',
+        ghost: 'px-2.5 fill-waterloo hover:bg-(--ghost-active-bg)',
         title: 'rounded-none hover:underline',
         link: 'rounded-none inline-flex text-green fill-green hover:underline select-text',
         plain: 'rounded-none',
@@ -115,13 +115,13 @@
       {
         variant: 'fill',
         accent: 'custom',
-        class: 'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))]',
+        class: 'bg-(--accent,var(--green)) hover:bg-(--accent-hover,var(--green-hover))',
       },
       {
         variant: ['fill', 'border'],
         disabled: true,
         class:
-          'text-mystic fill-mystic bg-[var(--ghost-active-bg)] hover:bg-[var(--ghost-active-bg)]',
+          'text-mystic fill-mystic bg-(--ghost-active-bg) hover:bg-(--ghost-active-bg)',
       },
       {
         variant: 'ghost',
@@ -232,8 +232,8 @@
     <div class="ml-auto pl-0.5">
       <div
         class={cn(
-          'flex size-4 items-center justify-center rounded transition-colors',
-          !loading && 'group-data-[state="open"]/button:bg-[var(--ghost-active-bg)]',
+          'flex size-4 items-center justify-center rounded-sm transition-colors',
+          !loading && 'group-data-[state="open"]/button:bg-(--ghost-active-bg)',
         )}
       >
         <Svg

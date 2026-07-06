@@ -78,7 +78,7 @@
 </script>
 
 <div
-  class="min-w-[400px] max-w-[480px] gap-4 self-start column md:mt-10 md:min-w-0 md:max-w-full md:gap-2 md:[&>*]:-mx-5 md:[&>*]:rounded-none"
+  class="min-w-[400px] max-w-[480px] gap-4 self-start column md:mt-10 md:min-w-0 md:max-w-full md:gap-2 md:*:-mx-5 md:*:rounded-none"
 >
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
     <h2 class="text-lg font-semibold text-rhino">

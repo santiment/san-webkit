@@ -66,7 +66,7 @@
               {@const valueFormatted = formatter(currentValue)}
 
               <div style:--line-color="var(--{color})" class="flex items-center gap-1">
-                <div class="h-4 w-0.5 rounded bg-[var(--line-color)]"></div>
+                <div class="h-4 w-0.5 rounded-sm bg-(--line-color)"></div>
                 <span class="text-fiord">{valueFormatted}</span>
                 <span class="text-waterloo">{title}</span>
               </div>

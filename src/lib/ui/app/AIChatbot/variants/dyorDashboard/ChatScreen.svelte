@@ -44,7 +44,7 @@
 </div>
 
 <div
-  class="flex-1 overflow-y-auto pr-1 [&>div]:my-8 first:[&>div]:mt-0"
+  class="flex-1 overflow-y-auto pr-1 [&>div]:my-8 [&>div]:first:mt-0"
   bind:this={chatMessagesRef.$}
 >
   {#if aiChatbot.$$.session}
@@ -52,7 +52,7 @@
       {#if msg.role === 'USER'}
         {@render userInput(msg.content)}
       {:else}
-        <div class="ai-chatbot-content w-fit break-words">
+        <div class="ai-chatbot-content w-fit wrap-break-word">
           {#await import('marked') then { marked }}
             {@html marked(msg.content)}
           {/await}
@@ -72,7 +72,7 @@
 
 {#snippet userInput(message: string)}
   <div
-    class="m-0 ml-auto w-fit self-end whitespace-pre-wrap break-words rounded-lg bg-porcelain px-2.5 py-2"
+    class="m-0 ml-auto w-fit self-end whitespace-pre-wrap wrap-break-word rounded-lg bg-porcelain px-2.5 py-2"
   >
     {message}
   </div>
@@ -82,7 +82,7 @@
   <div
     class={cn(
       'h-[2.4px] w-[2.4px] rounded-full',
-      'shadow-[9.6px_0_0_2.4px_#14c393,_-9.6px_0_0_2.4px_#14c393]',
+      'shadow-[9.6px_0_0_2.4px_#14c393,-9.6px_0_0_2.4px_#14c393]',
       'animate-[spin_1.2s_linear_infinite]',
     )}
   ></div>

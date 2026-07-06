@@ -66,7 +66,7 @@
         cols="30"
         rows="3"
         placeholder="Tell us how we can make Santiment better for you in the future"
-        class="min-h-[72px] w-full rounded border bg-white px-2 py-1.5 outline-none hover:border-green focus:border-green"
+        class="min-h-[72px] w-full rounded-sm border bg-white px-2 py-1.5 outline-hidden hover:border-green focus:border-green"
       ></textarea>
     </section>
   </Layout>

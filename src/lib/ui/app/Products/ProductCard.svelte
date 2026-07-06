@@ -38,8 +38,8 @@
   class={cn(
     'pointer group relative flex',
     isCompact
-      ? 'bg-orage-light-1 mb-3 inline-block w-[260px] rounded text-orange last:m-0'
-      : 'w-[292px] rounded px-4 py-3 hover:bg-athens',
+      ? 'bg-orage-light-1 mb-3 inline-block w-[260px] rounded-sm text-orange last:m-0'
+      : 'w-[292px] rounded-sm px-4 py-3 hover:bg-athens',
   )}
   target="_blank"
   data-type={`open_${id}`}
@@ -48,10 +48,10 @@
   {#if isLarge}
     <div
       class={cn(
-        'mr-3 flex h-10 w-10 min-w-10 rounded center group-hover:bg-white',
+        'mr-3 flex h-10 w-10 min-w-10 rounded-sm center group-hover:bg-white',
         active
           ? [
-              'bg-[var(--accent-light-1)]',
+              'bg-(--accent-light-1)',
               '[--product-color-1:var(--accent)]',
               '[--product-color-2:var(--accent-light-3)]',
               '[--product-color-3:var(--accent)',
@@ -76,7 +76,7 @@
       id="pointer"
       w="14"
       h="9"
-      class="absolute right-0 top-[9px] hidden group-hover:block group-hover:fill-[var(--accent-hover)]"
+      class="absolute right-0 top-[9px] hidden group-hover:block group-hover:fill-(--accent-hover)"
     />
   {/if}
 
@@ -84,7 +84,7 @@
     <h2
       class={cn(
         'text-base font-semibold text-black',
-        isCompact && 'group-hover:text-[var(--accent-hover)]',
+        isCompact && 'group-hover:text-(--accent-hover)',
       )}
     >
       {title}
@@ -93,7 +93,7 @@
     <p class="text-waterloo">{desc}</p>
 
     {#if note}
-      <span class="mt-1 inline-block rounded bg-orange-light-1 px-2 py-1 text-xs text-orange">
+      <span class="mt-1 inline-block rounded-sm bg-orange-light-1 px-2 py-1 text-xs text-orange">
         {note}
       </span>
     {/if}

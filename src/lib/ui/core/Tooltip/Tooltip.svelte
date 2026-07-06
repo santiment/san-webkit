@@ -93,7 +93,7 @@
     class={cn(
       'fly-and-scale-animation animated',
       !noStyles &&
-        'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
+        'z-10 flex rounded-sm border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
       className,
     )}
   >

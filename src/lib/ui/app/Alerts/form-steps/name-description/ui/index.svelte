@@ -36,7 +36,7 @@
 </section>
 
 {#snippet textarea(title: string, name: keyof TNameDescriptionState, rows: number)}
-  <label class="title flex flex-col rounded border px-4 py-3">
+  <label class="title flex flex-col rounded-sm border px-4 py-3">
     <p class="text-xs text-waterloo">{title}</p>
     <Textarea
       class="border-none"
