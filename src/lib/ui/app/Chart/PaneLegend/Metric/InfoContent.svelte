@@ -4,8 +4,6 @@
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
   import Button from '$ui/core/Button/Button.svelte'
 
-  import { useChartGlobalParametersCtx } from '../../ctx/global-parameters.svelte.js'
-
   type TProps = {
     info: {
       description?: string
@@ -16,8 +14,9 @@
 
   const { info, metric }: TProps = $props()
 
-  const { globalParameters } = useChartGlobalParametersCtx.get()
   const { getAssetBySlug } = useAssetsCtx.get()
+
+  const metricSlug = $derived(metric?.type === 'asset_metric' ? metric.selector.$?.slug : undefined)
 
   const TICKER_REGEX = /\[Project Ticker\]/g
   export function replaceDescriptionMeta(description: string, ticker: string): string {
@@ -32,8 +31,7 @@
 
   <p>
     {#if info.description}
-      {@const slug = globalParameters.$$.selector.slug!}
-      {@const ticker = getAssetBySlug(slug)?.ticker || 'BTC'}
+      {@const ticker = (metricSlug && getAssetBySlug(metricSlug)?.ticker) ?? 'BTC'}
 
       {@html replaceDescriptionMeta(info.description, ticker)}
     {/if}
