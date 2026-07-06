@@ -1,4 +1,5 @@
 import fs from 'fs'
+import url from 'url'
 
 import { processFormulasModules } from './san-formulas-check.js'
 import { exec } from './utils.js'
@@ -83,7 +84,7 @@ vite.config.ts
   await exec(`npm run prepare`, false)
 }
 
-if (process.argv[2] === '--run') release()
+if (process.argv[2] === '--run' && process.argv[1] === url.fileURLToPath(import.meta.url)) release()
 
 async function getReleaseTag() {
   let [gitHash] = await exec('git rev-parse --short HEAD', false)
