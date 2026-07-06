@@ -2,13 +2,15 @@
   import type { TSeries } from '../../ctx/series.svelte.js'
 
   import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   import { usePanesTooltip, useShiftModeStartPoint } from '../ctx.svelte.js'
 
   type TProps = {
     metric: TSeries
+    class?: string
   }
-  let { metric }: TProps = $props()
+  let { metric, class: className }: TProps = $props()
 
   const { hoverPoint } = usePanesTooltip.get()
   const { startPointIndex } = useShiftModeStartPoint.get()
@@ -43,7 +45,7 @@
 {#if lastData || hoverValue}
   {@const value = hoverValue ?? lastData.value}
 
-  <span style:color={metric.ui.$$.color} class="pr-1.5">
+  <span style:color={metric.ui.$$.color} class={cn('pr-1.5', className)}>
     {formatter(value)}
 
     {#if startData}
