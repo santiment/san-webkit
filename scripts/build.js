@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import url from 'url'
 
 import { exec, forFile } from './utils.js'
 import { fetchStatusAssetLogos, replaceAssetLogosSource } from './asset-logos.js'
@@ -21,7 +22,7 @@ export async function build() {
   await replaceSrcImports()
 }
 
-if (process.argv[2] === '--run') build()
+if (process.argv[2] === '--run' && process.argv[1] === url.fileURLToPath(import.meta.url)) build()
 
 async function updateLibraryPackageJson() {
   const exports = {}
