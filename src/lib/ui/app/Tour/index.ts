@@ -1,4 +1,4 @@
-import type { Driver, driver as TDriverCreator } from 'driver.js'
+import type { Driver, driver as TDriverCreator, DriverHook } from 'driver.js'
 
 import { mount, unmount, type Snippet } from 'svelte'
 
@@ -13,14 +13,20 @@ export type TTourStep = {
 
   content?: Snippet
   side?: 'top' | 'right' | 'bottom' | 'left' | 'over'
+  onDeselected?: DriverHook
 }
+
+export type TTourConfig = Partial<{
+  initialStep: number
+  onDestroy: () => void
+}>
 
 let activeDriver: Driver | undefined
 
 export const Tour = {
   activeId: undefined as undefined | string,
 
-  async start(id: string, steps: TTourStep[], initialStep = 0) {
+  async start(id: string, steps: TTourStep[], config: TTourConfig = {}) {
     if (Tour.activeId === id) return
 
     Tour.stop()
@@ -34,9 +40,10 @@ export const Tour = {
       allowClose: false,
       smoothScroll: true,
 
-      steps: steps.map(({ element, id, content, ...popover }) => ({
+      steps: steps.map(({ element, id, content, onDeselected, ...popover }) => ({
         element,
         popover,
+        onDeselected,
         data: { id, content },
       })),
 
@@ -53,13 +60,15 @@ export const Tour = {
 
       onDestroyed() {
         if (stepInstance) unmount(stepInstance)
+
         saveTourState(tourState)
+        config.onDestroy?.()
 
         Tour.activeId = undefined
       },
     })
 
-    activeDriver.drive(initialStep)
+    activeDriver.drive(config.initialStep)
 
     Tour.activeId = id
   },
