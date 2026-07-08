@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from '$ui/core/Button/Button.svelte'
-  import { runTour } from '$ui/core/Tour/index.js'
+  import { Tour } from '$ui/app/Tour/index.js'
 
   const ids = {
     start: 'test-start',
@@ -10,27 +10,31 @@
   } as const
 
   function start() {
-    runTour([
+    Tour.start('storybook_tour', [
       {
         element: `#${ids.start}`,
+        id: 'new_master_select',
         title: 'New master select',
         side: 'bottom',
         description: `<p class="mrg-l mrg--b">Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
       },
       {
         element: `#${ids.feature1}`,
+        id: 'first_feature',
         title: 'First Feature',
         side: 'bottom',
         description: `<p class="mrg-l mrg--b">2) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
       },
       {
         element: `#${ids.feature2}`,
+        id: 'second_feature',
         title: 'Second Feature',
         side: 'bottom',
         description: `<p class="mrg-l mrg--b">3) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,
       },
       {
         element: `#${ids.feature3}`,
+        id: 'third_feature',
         title: 'Third Feature',
         side: 'bottom',
         description: `<p class="mrg-l mrg--b">4) Paste the concrete smart contract address for fetching relevant metrics for it</p>`,

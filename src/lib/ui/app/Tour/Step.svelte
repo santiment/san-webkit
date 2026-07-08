@@ -1,16 +1,19 @@
 <script lang="ts">
   import type { Driver } from 'driver.js'
+  import type { TTourState } from './storage.js'
+  import type { Snippet } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
-  import Button from '../Button/Button.svelte'
-
-  const { driver }: { driver: Driver } = $props()
+  type TProps = { driver: Driver; type: string; tourState: TTourState }
+  const { driver, type, tourState }: TProps = $props()
 
   const steps = driver.getConfig().steps || []
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
+  const { id, content }: { id?: string; content?: Snippet } = state.activeStep?.data || {}
 
   function handleMoveTo(index: number) {
     driver.moveTo(index)
@@ -18,43 +21,60 @@
   }
 
   function handleClose() {
+    saveCurrentStep()
     driver.destroy()
     trackTour('close')
   }
 
   function handleMovePrev() {
+    saveCurrentStep()
     driver.movePrevious()
     trackTour('prev_step')
   }
 
   function handleMoveNext() {
+    saveCurrentStep()
     driver.moveNext()
     trackTour('next_step')
+  }
+
+  function saveCurrentStep() {
+    if (!id) return
+
+    tourState.recent = id
+    tourState.completed.add(id)
   }
 
   if (!state.previousStep) trackTour('start')
 
   type TTourAction = 'start' | 'next_step' | 'prev_step' | 'set_step' | 'close'
   function trackTour(action: TTourAction) {
-    trackEvent('walkthrough', {
+    trackEvent('interactive_tour', {
       action,
-      type: 'tour',
+      type,
+      current_step_id: id,
       current_step: state.activeIndex + 1,
       total_steps: steps.length,
     })
   }
 </script>
 
-<header class="flex">
+<header class="flex justify-between gap-8">
   {#if popover.title}
-    <h3 class="mb-3 text-lg font-medium">{@html popover.title}</h3>
+    <h3 class="mb-3 text-lg font-medium">{popover.title}</h3>
   {/if}
 
-  <Button iconSize="12" size="sm" icon="close" class="ml-auto" onclick={handleClose}></Button>
+  <Button iconSize="12" size="sm" icon="close" onclick={handleClose}></Button>
 </header>
 
-{#if popover.description}
-  <div class="mb-6">{@html popover.description}</div>
+{#if content || popover.description}
+  <div class="mb-6">
+    {#if content}
+      {@render content()}
+    {:else}
+      {@html popover.description}
+    {/if}
+  </div>
 {/if}
 
 <footer class="flex items-center justify-between">
