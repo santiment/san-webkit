@@ -12,21 +12,6 @@
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
 
-  type TTourAction = 'start' | 'next_step' | 'prev_step' | 'set_step' | 'close'
-
-  function trackTour(action: TTourAction) {
-    const step = steps[state.activeIndex]
-
-    trackEvent('walkthrough', {
-      action,
-      type: 'tour',
-      current_step: state.activeIndex + 1,
-      total_steps: steps.length,
-      source_url: window.location.href,
-      step_id: typeof step?.element === 'string' ? step.element : undefined,
-    })
-  }
-
   function handleMoveTo(index: number) {
     driver.moveTo(index)
     trackTour('set_step')
@@ -48,6 +33,16 @@
   }
 
   if (!state.previousStep) trackTour('start')
+
+  type TTourAction = 'start' | 'next_step' | 'prev_step' | 'set_step' | 'close'
+  function trackTour(action: TTourAction) {
+    trackEvent('walkthrough', {
+      action,
+      type: 'tour',
+      current_step: state.activeIndex + 1,
+      total_steps: steps.length,
+    })
+  }
 </script>
 
 <header class="flex">
@@ -63,21 +58,21 @@
 {/if}
 
 <footer class="flex items-center justify-between">
-  <div class="flex gap-2">
-    {#if steps.length > 1}
+  {#if steps.length > 1}
+    <div class="flex gap-2">
       {#each steps as _, i}
         <Button
           aria-label="Go to step {i + 1}"
           variant="plain"
-          onclick={() => handleMoveTo(i)}
+          onclick={handleMoveTo.bind(null, i)}
           class={cn(
             'h-1.5 w-1.5 rounded-full bg-green-light-3 p-0',
             state.activeIndex === i && 'bg-green',
           )}
         ></Button>
       {/each}
-    {/if}
-  </div>
+    </div>
+  {/if}
 
   <div class="flex gap-2">
     {#if !driver.isFirstStep()}

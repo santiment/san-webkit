@@ -20,12 +20,13 @@ export const runTour = (steps: TTourStep[]) => {
 async function startTour(steps: TTourStep[]) {
   activeDriver?.destroy()
 
-  await import('driver.js/dist/driver.css')
-  const { driver } = await import('driver.js')
+  const [{ driver }] = await Promise.all([import('driver.js'), import('driver.js/dist/driver.css')])
 
   let stepInstance: ReturnType<typeof mount> | undefined
 
   activeDriver = driver({
+    allowClose: false,
+
     steps: steps.map(({ element, title, description, side }) => ({
       element,
       popover: { title, description, side },
