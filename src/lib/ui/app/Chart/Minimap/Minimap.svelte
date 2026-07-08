@@ -140,7 +140,7 @@
 </script>
 
 <section
-  data-type="minimap"
+  data-type="chart_minimap"
   class={cn('relative flex h-[40px] select-none bg-white center', className)}
   bind:clientWidth={minimapWidth}
 >

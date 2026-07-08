@@ -39,6 +39,7 @@
   side="top"
   align="end"
   style="--expl-align-x:50%;--expl-right:50%"
+  data-type="timezone_selector"
   {onSelect}
 >
   {time.$}

@@ -72,6 +72,7 @@
 
 {#each shortcuts as [label, value]}
   <Button
+    data-type="charts_global_daterange"
     onclick={() => onDateRangeShortcutClick(value)}
     class={cn(className, activeDateRange === value && ['bg-athens text-black', activeClass])}
   >
