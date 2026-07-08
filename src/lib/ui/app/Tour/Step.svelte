@@ -2,13 +2,14 @@
   import type { Driver } from 'driver.js'
   import type { TTourState } from './storage.js'
   import type { Snippet } from 'svelte'
+  import type { TTourConfig } from './index.js'
 
   import { cn } from '$ui/utils/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import Button from '$ui/core/Button/Button.svelte'
 
-  type TProps = { driver: Driver; type: string; tourState: TTourState }
-  const { driver, type, tourState }: TProps = $props()
+  type TProps = { driver: Driver; type: string; tourState: TTourState; config: TTourConfig }
+  const { driver, type, tourState, config }: TProps = $props()
 
   const steps = driver.getConfig().steps || []
   const state = driver.getState()
@@ -26,13 +27,22 @@
     trackTour('close')
   }
 
+  const handleConfigCallback = (dir: -1 | 1) =>
+    (dir === -1 ? config?.onPrevStep : config?.onNextStep)?.(
+      // @ts-expect-error
+      steps[state.activeIndex + dir]?.data?.id,
+      { id: id!, element: state.activeElement },
+    )
+
   function handleMovePrev() {
+    handleConfigCallback(-1)
     saveCurrentStep()
     driver.movePrevious()
     trackTour('prev_step')
   }
 
   function handleMoveNext() {
+    handleConfigCallback(+1)
     saveCurrentStep()
     driver.moveNext()
     trackTour('next_step')
