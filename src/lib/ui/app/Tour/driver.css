@@ -32,7 +32,8 @@
   top: 0;
   right: 0;
 
-  @apply max-w-[400px] rounded border bg-white px-6 pb-8 pt-5;
+  border: 1px solid var(--porcelain);
+  @apply max-w-[400px] rounded bg-white px-6 pb-8 pt-5 shadow-dropdown;
 }
 
 /*:not(body):has(> .driver-active-element) {
