@@ -2,7 +2,7 @@
   import { onMount } from 'svelte'
 
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
-  import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+  import { useSearchFlow } from '$lib/ctx/search/index.svelte.js'
   import Popover from '$ui/core/Popover/Popover.svelte'
   import Input from '$ui/core/Input/Input.svelte'
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
@@ -17,7 +17,7 @@
   const { selected, slugs, onSelect }: TProps = $props()
 
   const { getAssetBySlug } = useAssetsCtx()
-  const { filter, clear, onInput, onKeyUp } = useSearchCtx<string>({
+  const { filter, clear, oninput, onkeyup } = useSearchFlow<string>({
     getCompareValues: (slug) => {
       const asset = getAssetBySlug(slug)
       if (!asset) return slug
@@ -54,13 +54,7 @@
 
   {#snippet content({ close })}
     <section class="flex flex-col gap-2">
-      <Input
-        icon="search"
-        oninput={onInput}
-        onkeyup={onKeyUp}
-        placeholder="Search assets"
-        autofocus
-      />
+      <Input icon="search" {oninput} {onkeyup} placeholder="Search assets" autofocus />
 
       <section class="flex-1">
         <VirtualList itemHeight={30} maxHeight={335} data={filtered} getKey={(slug) => slug}>

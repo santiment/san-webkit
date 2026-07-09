@@ -4,7 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/Svg.svelte'
-  import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+  import { useSearchFlow } from '$lib/ctx/search/index.svelte.js'
   import Input from '$ui/core/Input/Input.svelte'
   import { useAlertFormCtx } from '$ui/app/Alerts/ctx/index.svelte.js'
 
@@ -22,7 +22,7 @@
   const { watchlists, checkWatchlistHasAnotherAlert } = useUserWatchlistsCtx({ loadScreeners })
   const { initialAlert } = useAlertFormCtx.get()
 
-  const { filter, clear, onInput, onKeyUp } = useSearchCtx<Watchlist>({
+  const { filter, clear, oninput, onkeyup } = useSearchFlow<Watchlist>({
     getCompareValues: ({ title, description }) => [title, description ?? ''],
   })
 
@@ -43,7 +43,7 @@
 </script>
 
 <section class="flex flex-col gap-3">
-  <Input icon="search" placeholder="Search for watchlist" oninput={onInput} onkeyup={onKeyUp} />
+  <Input icon="search" placeholder="Search for watchlist" {oninput} {onkeyup} />
 
   <section class="flex flex-col gap-3">
     {#each filteredWatchlists as watchlist}

@@ -5,7 +5,7 @@ import {
   type TMetricsRegistry,
   type TRegistryMetric,
 } from '$lib/ctx/metrics-registry/index.js'
-import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+import { useSearchFlow } from '$lib/ctx/search/index.svelte.js'
 import { useAlertFormCtx, type TAnyStep } from '$ui/app/Alerts/ctx/index.svelte.js'
 
 import { queryAvailableMetrics } from '../api.js'
@@ -15,7 +15,7 @@ export const useMetricGraph = () => {
   const { steps } = useAlertFormCtx.get()
 
   const { MetricsRegistry } = useMetricsRegistryCtx()
-  const { filter, searchTerm, onInput, onKeyUp } = useSearchCtx<TRegistryMetric>({
+  const { filter, searchTerm, oninput, onkeyup } = useSearchFlow<TRegistryMetric>({
     getCompareValues: ({ label }) => [label],
   })
 
@@ -33,8 +33,8 @@ export const useMetricGraph = () => {
   const metricGraph = $derived(getMetricsCategoryGroupGraph(filteredMetrics))
 
   return {
-    onSearchInput: onInput,
-    onSearchKeyUp: onKeyUp,
+    onSearchInput: oninput,
+    onSearchKeyUp: onkeyup,
     searchTerm,
     graph: {
       get $() {

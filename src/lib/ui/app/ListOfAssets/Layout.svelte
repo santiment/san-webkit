@@ -5,7 +5,7 @@
   import { map, noop, pipe, switchMap, tap } from 'rxjs'
 
   import Input from '$ui/core/Input/Input.svelte'
-  import { useSearchCtx } from '$lib/ctx/search/index.js'
+  import { useSearchFlow } from '$lib/ctx/search/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { cn } from '$ui/utils/index.js'
 
@@ -31,7 +31,7 @@
     children,
   }: TProps = $props()
 
-  const { filter, onInput, onKeyUp, clear } = useSearchCtx<TAsset>({
+  const { filter, onKeyUp, oninput, onkeyup, clear } = useSearchFlow<TAsset>({
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
@@ -75,8 +75,8 @@
         inputClass="md:py-2.5"
         icon="search"
         placeholder="Search project"
-        oninput={onInput}
-        onkeyup={onKeyUp}
+        {oninput}
+        {onkeyup}
       />
     {/if}
 
