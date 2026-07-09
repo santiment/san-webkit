@@ -21,10 +21,14 @@
     trackTour('set_step')
   }
 
-  function handleClose() {
+  function handleClose(isTourDone = false) {
     saveCurrentStep()
     driver.destroy()
     trackTour('close')
+
+    if (isTourDone) {
+      config?.onCompleted?.(type)
+    }
   }
 
   const handleConfigCallback = (dir: -1 | 1) =>
@@ -74,7 +78,7 @@
     <h3 class="mb-3 text-lg font-medium">{popover.title}</h3>
   {/if}
 
-  <Button iconSize="12" size="sm" icon="close" onclick={handleClose}></Button>
+  <Button iconSize="12" size="sm" icon="close" onclick={handleClose.bind(null, false)}></Button>
 </header>
 
 {#if content || popover.description}
@@ -110,7 +114,7 @@
     {/if}
 
     {#if driver.isLastStep()}
-      <Button variant="fill" onclick={handleClose}>Close</Button>
+      <Button variant="fill" onclick={handleClose.bind(null, true)}>Done</Button>
     {:else}
       <Button variant="fill" onclick={handleMoveNext}>Next</Button>
     {/if}

@@ -6,7 +6,7 @@ import Step from './Step.svelte'
 import { checkWasTourViewed, getSavedTourState, saveTourState } from './storage.js'
 
 export type TTourStep = {
-  element: string | Element
+  element?: string | Element
   id: string
   title: string
   description: string
@@ -21,6 +21,7 @@ export type TTourConfig = Partial<{
   onNextStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => void
   onPrevStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => void
 
+  onCompleted: (tourId: string) => void
   onDestroy: () => void
 }>
 

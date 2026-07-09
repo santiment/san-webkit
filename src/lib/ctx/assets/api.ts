@@ -162,7 +162,7 @@ export const INDICES_AND_SUPPLY = [
 ]
 
 // NOTE: Default values will be populated at build time
-export const FUNDS = []
+export const FUNDS = [] as TAsset[]
 if (BROWSER) {
   queryAllProjects(Query)().then(replaceFundsByAllAssetsFiltering)
 }
