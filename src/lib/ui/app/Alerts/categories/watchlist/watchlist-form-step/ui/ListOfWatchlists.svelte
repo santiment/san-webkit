@@ -22,7 +22,7 @@
   const { watchlists, checkWatchlistHasAnotherAlert } = useUserWatchlistsCtx({ loadScreeners })
   const { initialAlert } = useAlertFormCtx.get()
 
-  const { filter, clear, onInput, onKeyUp } = useSearchCtx<Watchlist>({
+  const { filter, clear, oninput, onkeyup } = useSearchCtx<Watchlist>({
     getCompareValues: ({ title, description }) => [title, description ?? ''],
   })
 
@@ -43,7 +43,7 @@
 </script>
 
 <section class="flex flex-col gap-3">
-  <Input icon="search" placeholder="Search for watchlist" oninput={onInput} onkeyup={onKeyUp} />
+  <Input icon="search" placeholder="Search for watchlist" {oninput} {onkeyup} />
 
   <section class="flex flex-col gap-3">
     {#each filteredWatchlists as watchlist}

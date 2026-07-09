@@ -15,7 +15,7 @@ export const useMetricGraph = () => {
   const { steps } = useAlertFormCtx.get()
 
   const { MetricsRegistry } = useMetricsRegistryCtx()
-  const { filter, searchTerm, onInput, onKeyUp } = useSearchCtx<TRegistryMetric>({
+  const { filter, searchTerm, oninput, onkeyup } = useSearchCtx<TRegistryMetric>({
     getCompareValues: ({ label }) => [label],
   })
 
@@ -33,8 +33,8 @@ export const useMetricGraph = () => {
   const metricGraph = $derived(getMetricsCategoryGroupGraph(filteredMetrics))
 
   return {
-    onSearchInput: onInput,
-    onSearchKeyUp: onKeyUp,
+    onSearchInput: oninput,
+    onSearchKeyUp: onkeyup,
     searchTerm,
     graph: {
       get $() {

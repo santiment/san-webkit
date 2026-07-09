@@ -8,7 +8,7 @@
 
   const { assets } = useAssetsCtx()
 
-  const { filter, onInput, onKeyUp } = useSearchCtx<TAsset>({
+  const { filter, oninput, onkeyup } = useSearchCtx<TAsset>({
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
@@ -16,7 +16,7 @@
 </script>
 
 <main class="flex h-96 flex-col p-5">
-  <Input icon="search" placeholder="Search for asset" oninput={onInput} onkeyup={onKeyUp} />
+  <Input icon="search" placeholder="Search for asset" {oninput} {onkeyup} />
 
   <section class="flex-1">
     <VirtualList data={filtered} itemHeight={40} getKey={(item) => item.slug} class="p-6">

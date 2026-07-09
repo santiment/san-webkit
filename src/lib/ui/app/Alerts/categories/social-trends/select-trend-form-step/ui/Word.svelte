@@ -33,7 +33,7 @@
 
   const { stepState }: TProps = $props()
 
-  const { filter, onInput, onKeyUp, clear } = useSearchCtx<Item>({
+  const { filter, oninput, onkeyup, clear } = useSearchCtx<Item>({
     getCompareValues: ({ value }) => value,
   })
 
@@ -84,12 +84,7 @@
 </script>
 
 <section class="flex flex-1 flex-col gap-3">
-  <Input
-    icon="search"
-    placeholder="Search for trending words"
-    oninput={onInput}
-    onkeyup={onKeyUp}
-  />
+  <Input icon="search" placeholder="Search for trending words" {oninput} {onkeyup} />
 
   <section class="flex-1">
     <VirtualList itemHeight={36} data={allItems} getKey={({ key }) => key}>

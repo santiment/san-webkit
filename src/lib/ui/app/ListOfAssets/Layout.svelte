@@ -31,7 +31,7 @@
     children,
   }: TProps = $props()
 
-  const { filter, onInput, onKeyUp, clear } = useSearchCtx<TAsset>({
+  const { filter, oninput, onkeyup, clear } = useSearchCtx<TAsset>({
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
@@ -75,8 +75,8 @@
         inputClass="md:py-2.5"
         icon="search"
         placeholder="Search project"
-        oninput={onInput}
-        onkeyup={onKeyUp}
+        {oninput}
+        {onkeyup}
       />
     {/if}
 

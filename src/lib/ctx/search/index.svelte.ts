@@ -17,7 +17,7 @@ export const useSearchCtx = createCtx(
       searchTerm = value ? value.split(' ') : []
     })
 
-    const onInput: ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) =>
+    const oninput: ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) =>
       onSearch(currentTarget.value.trim().toLowerCase())
 
     const match = (value: string, target: string) => target.toLowerCase().includes(value)
@@ -35,7 +35,7 @@ export const useSearchCtx = createCtx(
         ? items.filter((item) => searchTerm.every((value) => matchItem(value, item)))
         : items
 
-    const onKeyUp: KeyboardEventHandler<HTMLInputElement> = ({ currentTarget, code }) => {
+    const onkeyup: KeyboardEventHandler<HTMLInputElement> = ({ currentTarget, code }) => {
       if (!currentTarget) return
 
       if (code === 'Escape') {
@@ -58,8 +58,12 @@ export const useSearchCtx = createCtx(
         },
       },
       filter,
-      onKeyUp,
-      onInput,
+      /** @deprecated use [onkeyup] instead */
+      onKeyUp: onkeyup,
+      /** @deprecated use [oninput] instead */
+      onInput: oninput,
+      onkeyup,
+      oninput,
       clear() {
         searchTerm = []
       },
