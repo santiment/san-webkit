@@ -90,7 +90,7 @@ let createDriver: typeof TDriverCreator
 async function importDriver() {
   return createDriver
     ? Promise.resolve(createDriver)
-    : Promise.all([import('driver.js'), import('driver.js/dist/driver.css')]).then(
+    : Promise.all([import('driver.js'), import('./driver.css')]).then(
         ([{ driver }]) => (createDriver = driver),
       )
 }

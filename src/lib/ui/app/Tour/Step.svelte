@@ -120,9 +120,3 @@
     {/if}
   </div>
 </footer>
-
-<style lang="postcss">
-  :global(.driver-popover) {
-    @apply !max-w-[400px] !px-6 !pb-8 !pt-5;
-  }
-</style>
