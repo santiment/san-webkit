@@ -10,7 +10,7 @@
   import Checkbox from '$ui/core/Checkbox/Checkbox.svelte'
   import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/Input.svelte'
-  import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+  import { useSearchFlow } from '$lib/ctx/search/index.svelte.js'
 
   import { queryTrendingWords } from './api.js'
 
@@ -33,7 +33,7 @@
 
   const { stepState }: TProps = $props()
 
-  const { filter, oninput, onkeyup, clear } = useSearchCtx<Item>({
+  const { filter, oninput, onkeyup, clear } = useSearchFlow<Item>({
     getCompareValues: ({ value }) => value,
   })
 

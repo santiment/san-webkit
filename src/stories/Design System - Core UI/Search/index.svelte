@@ -1,14 +1,14 @@
 <script lang="ts">
   import type { TAsset } from '$lib/ctx/assets/api.js'
   import { useAssetsCtx } from '$lib/ctx/assets/index.svelte.js'
-  import { useSearchCtx } from '$lib/ctx/search/index.svelte.js'
+  import { useSearchFlow } from '$lib/ctx/search/index.svelte.js'
   import AssetLogo from '$ui/app/AssetLogo/AssetLogo.svelte'
   import VirtualList from '$ui/app/VirtualList/VirtualList.svelte'
   import Input from '$ui/core/Input/Input.svelte'
 
   const { assets } = useAssetsCtx()
 
-  const { filter, oninput, onkeyup } = useSearchCtx<TAsset>({
+  const { filter, oninput, onkeyup } = useSearchFlow<TAsset>({
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
