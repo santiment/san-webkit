@@ -9,14 +9,16 @@ type TSearchProps<T> = {
 export const useSearchCtx = createCtx(
   'webkit_useSearchCtx',
   <GItem>({ getCompareValues }: TSearchProps<GItem>) => {
-    let searchTerm = $state('')
+    let searchTerm = $state.raw<string[]>([])
+
+    const isSearching = $derived(searchTerm.length > 0)
 
     const onSearch = useDebouncedFn(250, (value: string) => {
-      searchTerm = value
+      searchTerm = value ? value.split(' ') : []
     })
 
     const onInput: ChangeEventHandler<HTMLInputElement> = ({ currentTarget }) =>
-      onSearch(currentTarget.value)
+      onSearch(currentTarget.value.trim().toLowerCase())
 
     const match = (value: string, target: string) => target.toLowerCase().includes(value)
 
@@ -28,19 +30,18 @@ export const useSearchCtx = createCtx(
         : match(value, compareValues)
     }
 
-    const filter = <T extends GItem>(items: T[]) => {
-      const value = searchTerm.toLocaleLowerCase()
-      if (!value) return items
-
-      return items.filter((item) => matchItem(value, item))
-    }
+    const filter = <T extends GItem>(items: T[]) =>
+      isSearching
+        ? items.filter((item) => searchTerm.every((value) => matchItem(value, item)))
+        : items
 
     const onKeyUp: KeyboardEventHandler<HTMLInputElement> = ({ currentTarget, code }) => {
       if (!currentTarget) return
 
       if (code === 'Escape') {
         if (searchTerm) {
-          currentTarget.value = searchTerm = ''
+          searchTerm = []
+          currentTarget.value = ''
         }
       }
     }
@@ -51,11 +52,16 @@ export const useSearchCtx = createCtx(
           return searchTerm
         },
       },
+      isSearching: {
+        get $() {
+          return isSearching
+        },
+      },
       filter,
       onKeyUp,
       onInput,
       clear() {
-        searchTerm = ''
+        searchTerm = []
       },
     }
   },
