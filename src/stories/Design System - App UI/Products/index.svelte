@@ -27,23 +27,9 @@
   </div>
 
   <div>
-    <h2 class="text-xl">Column</h2>
-    <div class="rounded border">
-      <Products isColumn />
-    </div>
-  </div>
-
-  <div>
     <h2 class="text-xl">Compact</h2>
     <div class="rounded border">
       <Products isCompact />
-    </div>
-  </div>
-
-  <div>
-    <h2 class="text-xl">Column + Compact</h2>
-    <div class="rounded border">
-      <Products isCompact isColumn />
     </div>
   </div>
 </main>

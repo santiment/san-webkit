@@ -13,7 +13,6 @@
     dropdownClassName?: string
     tooltipClass?: string
     isCompact?: boolean
-    isColumn?: boolean
     isOpened?: any
     active?: any
     variant?: 'green' | 'blue'
@@ -24,7 +23,6 @@
   const {
     class: className,
     dropdownClassName,
-    isColumn = false,
     isCompact = false,
     isOpened = undefined,
     active = undefined,
@@ -58,6 +56,6 @@
   {/snippet}
 
   {#snippet content()}
-    <Products {active} {variant} {isColumn} {isCompact} class={dropdownClassName} />
+    <Products {active} {variant} {isCompact} class={dropdownClassName} />
   {/snippet}
 </Tooltip>
