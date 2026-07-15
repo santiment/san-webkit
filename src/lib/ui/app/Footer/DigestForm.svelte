@@ -17,7 +17,7 @@
 
   const { class: className = '', label = 'Leave request' }: TProps = $props()
 
-  let Turnstile$: Turnstile
+  let turnstileRef: Turnstile
   let loading = $state(false)
 
   const submitEmail = useObserveFnCall<{ email: string; token: string }>(() =>
@@ -27,7 +27,7 @@
       return mutateEmailLoginNewsletter()({ email, token }).pipe(
         catchError((error) => {
           console.error(error)
-          Turnstile$.reset()
+          turnstileRef.reset()
           return of(null)
         }),
         tap(() => (loading = false)),
@@ -49,7 +49,7 @@
 
     if (!email || typeof email !== 'string') return
 
-    const token = await Turnstile$.getToken().catch(() => null)
+    const token = await turnstileRef.getToken().catch(() => null)
     if (!token) {
       notification.error('Invalid turnstile token')
       return
@@ -59,7 +59,7 @@
   }
 </script>
 
-<Turnstile bind:this={Turnstile$}></Turnstile>
+<Turnstile bind:this={turnstileRef}></Turnstile>
 
 <form
   class={cn(
