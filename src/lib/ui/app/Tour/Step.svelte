@@ -14,11 +14,7 @@
   const steps = driver.getConfig().steps || []
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
-  const {
-    id,
-    content,
-    completeLabel = 'Done',
-  }: { id?: string; content?: Snippet; completeLabel?: string } = state.activeStep?.data || {}
+  const { id, content }: { id?: string; content?: Snippet } = state.activeStep?.data || {}
 
   function handleMoveTo(index: number) {
     driver.moveTo(index)
@@ -118,7 +114,9 @@
     {/if}
 
     {#if driver.isLastStep()}
-      <Button variant="fill" onclick={handleClose.bind(null, true)}>{completeLabel}</Button>
+      <Button variant="fill" onclick={handleClose.bind(null, true)}>
+        {config.completeLabel || 'Done'}
+      </Button>
     {:else}
       <Button variant="fill" onclick={handleMoveNext}>Next</Button>
     {/if}

@@ -14,12 +14,12 @@ export type TTourStep = {
   content?: Snippet
   side?: 'top' | 'right' | 'bottom' | 'left' | 'over'
 
-  completeLabel?: string
   onPopoverRender?: (element: undefined | Element) => void
 }
 
 export type TTourConfig = Partial<{
   initialStep: number
+  completeLabel: string
 
   onNextStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
   onPrevStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
@@ -48,13 +48,11 @@ export const Tour = {
       allowClose: false,
       smoothScroll: true,
 
-      steps: steps.map(
-        ({ element, id, content, completeLabel, onPopoverRender: _, ...popover }, i) => ({
-          element,
-          popover,
-          data: { id, content, completeLabel, index: i },
-        }),
-      ),
+      steps: steps.map(({ element, id, content, onPopoverRender: _, ...popover }, i) => ({
+        element,
+        popover,
+        data: { id, content, index: i },
+      })),
 
       onPopoverRender(popover, { driver, state }) {
         if (stepInstance) unmount(stepInstance)
