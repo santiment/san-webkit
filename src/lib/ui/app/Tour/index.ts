@@ -13,13 +13,16 @@ export type TTourStep = {
 
   content?: Snippet
   side?: 'top' | 'right' | 'bottom' | 'left' | 'over'
+
+  completeLabel?: string
+  onPopoverRender?: (element: undefined | Element) => void
 }
 
 export type TTourConfig = Partial<{
   initialStep: number
 
-  onNextStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => void
-  onPrevStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => void
+  onNextStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
+  onPrevStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
 
   onCompleted: (tourId: string) => void
   onDestroy: () => void
@@ -45,16 +48,23 @@ export const Tour = {
       allowClose: false,
       smoothScroll: true,
 
-      steps: steps.map(({ element, id, content, ...popover }) => ({
-        element,
-        popover,
-        data: { id, content },
-      })),
+      steps: steps.map(
+        ({ element, id, content, completeLabel, onPopoverRender: _, ...popover }, i) => ({
+          element,
+          popover,
+          data: { id, content, completeLabel, index: i },
+        }),
+      ),
 
-      onPopoverRender(popover, { driver }) {
+      onPopoverRender(popover, { driver, state }) {
         if (stepInstance) unmount(stepInstance)
 
         popover.wrapper.innerHTML = ''
+
+        const index: undefined | number = (state.activeStep as any)?.data?.index
+        if (typeof index === 'number') {
+          steps[index]?.onPopoverRender?.(state.activeElement)
+        }
 
         stepInstance = mount(Step, {
           target: popover.wrapper,
@@ -74,7 +84,7 @@ export const Tour = {
 
     Tour.activeId = id
 
-    onNextStep?.(steps[initialStep].id)
+    await onNextStep?.(steps[initialStep].id)
 
     activeDriver.drive(initialStep)
   },

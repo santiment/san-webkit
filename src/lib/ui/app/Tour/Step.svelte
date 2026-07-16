@@ -14,7 +14,11 @@
   const steps = driver.getConfig().steps || []
   const state = driver.getState()
   const popover = state.activeStep?.popover || {}
-  const { id, content }: { id?: string; content?: Snippet } = state.activeStep?.data || {}
+  const {
+    id,
+    content,
+    completeLabel = 'Done',
+  }: { id?: string; content?: Snippet; completeLabel?: string } = state.activeStep?.data || {}
 
   function handleMoveTo(index: number) {
     driver.moveTo(index)
@@ -38,15 +42,15 @@
       { id: id!, element: state.activeElement },
     )
 
-  function handleMovePrev() {
-    handleConfigCallback(-1)
+  async function handleMovePrev() {
+    await handleConfigCallback(-1)
     saveCurrentStep()
     driver.movePrevious()
     trackTour('prev_step')
   }
 
-  function handleMoveNext() {
-    handleConfigCallback(+1)
+  async function handleMoveNext() {
+    await handleConfigCallback(+1)
     saveCurrentStep()
     driver.moveNext()
     trackTour('next_step')
@@ -114,7 +118,7 @@
     {/if}
 
     {#if driver.isLastStep()}
-      <Button variant="fill" onclick={handleClose.bind(null, true)}>Done</Button>
+      <Button variant="fill" onclick={handleClose.bind(null, true)}>{completeLabel}</Button>
     {:else}
       <Button variant="fill" onclick={handleMoveNext}>Next</Button>
     {/if}
