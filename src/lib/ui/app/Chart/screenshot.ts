@@ -155,13 +155,30 @@ export async function downloadChartAsJpeg(title: string, metrics: TSeries[], cha
 
   drawMetricsOnCanvas(ctx, chart, metrics)
 
-  const url = finalCanvas.toDataURL('image/jpeg', 0.9)
-  const now = new Date()
-  const { DD, MMM, YYYY } = getDateFormats(now)
-  const { HH, mm, ss } = getTimeFormats(now)
+  finalCanvas.toBlob(
+    (blob) => {
+      if (!blob) {
+        console.error('Failed to create blob from canvas')
+        return
+      }
 
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
-  a.click()
+      const now = new Date()
+      const { DD, MMM, YYYY } = getDateFormats(now)
+      const { HH, mm, ss } = getTimeFormats(now)
+
+      const url = URL.createObjectURL(blob)
+
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
+      a.click()
+      a.remove()
+
+      setTimeout(() => {
+        URL.revokeObjectURL(url)
+      }, 30_000)
+    },
+    'image/jpeg',
+    0.9,
+  )
 }

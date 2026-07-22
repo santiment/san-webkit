@@ -22,17 +22,32 @@ export function downloadCsv<T>(title: string, headers: Header<T>[], data: T[]) {
     ),
   ]
 
-  const csvContent = 'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n')
+  const csvContent = rows.map((e) => e.join(',')).join('\n')
 
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
 
+  const blob = new Blob(
+    [
+      //NOTE: This UTF‑8 BOM is needed for Excel to open the csv as UTF-8
+      '\uFEFF',
+      csvContent,
+    ],
+    { type: 'text/csv;charset=utf-8' },
+  )
+
   const a = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+
   a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
-  a.href = encodeURI(csvContent)
+  a.href = url
   a.click()
   a.remove()
+
+  setTimeout(() => {
+    URL.revokeObjectURL(url)
+  }, 30_000)
 }
 
 export function createMetricSeriesCsvHeaders(series: TSeries[]) {
