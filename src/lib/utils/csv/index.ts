@@ -44,7 +44,10 @@ export function downloadCsv<T>(title: string, headers: Header<T>[], data: T[]) {
   a.href = url
   a.click()
   a.remove()
-  URL.revokeObjectURL(url)
+
+  setTimeout(() => {
+    URL.revokeObjectURL(url)
+  }, 30_000)
 }
 
 export function createMetricSeriesCsvHeaders(series: TSeries[]) {
