@@ -1,6 +1,7 @@
 import type { TSeries } from '$ui/app/Chart/ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '../dates/index.js'
+import { downloadBlob } from '../download/index.js'
 
 type Header<T> = {
   title: string
@@ -37,17 +38,7 @@ export function downloadCsv<T>(title: string, headers: Header<T>[], data: T[]) {
     { type: 'text/csv;charset=utf-8' },
   )
 
-  const a = document.createElement('a')
-  const url = URL.createObjectURL(blob)
-
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
-  a.href = url
-  a.click()
-  a.remove()
-
-  setTimeout(() => {
-    URL.revokeObjectURL(url)
-  }, 30_000)
+  downloadBlob(blob, `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`)
 }
 
 export function createMetricSeriesCsvHeaders(series: TSeries[]) {

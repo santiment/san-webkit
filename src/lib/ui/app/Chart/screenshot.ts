@@ -4,6 +4,7 @@ import type { TSeries } from './ctx/series.svelte.js'
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
 import { applyHexColorOpacity, getBrowserCssVariable } from '$ui/utils/index.js'
 import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
+import { downloadBlob } from '$lib/utils/download/index.js'
 
 const LEGEND_CONFIG = {
   font: '12px "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -166,17 +167,7 @@ export async function downloadChartAsJpeg(title: string, metrics: TSeries[], cha
       const { DD, MMM, YYYY } = getDateFormats(now)
       const { HH, mm, ss } = getTimeFormats(now)
 
-      const url = URL.createObjectURL(blob)
-
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
-      a.click()
-      a.remove()
-
-      setTimeout(() => {
-        URL.revokeObjectURL(url)
-      }, 30_000)
+      downloadBlob(blob, `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`)
     },
     'image/jpeg',
     0.9,
