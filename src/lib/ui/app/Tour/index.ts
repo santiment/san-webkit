@@ -5,6 +5,8 @@ import { mount, unmount, type Snippet } from 'svelte'
 import Step from './Step.svelte'
 import { checkWasTourViewed, getSavedTourState, saveTourState } from './storage.js'
 
+export { getSavedTourState } from './storage.js'
+
 export type TTourStep = {
   element?: string | Element
   id: string
