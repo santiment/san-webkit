@@ -26,7 +26,7 @@
   })
 </script>
 
-<Dialog class="max-w-[480px] column md:mx-auto md:h-max sm:max-w-full">
+<Dialog class="mx-auto w-[calc(100%-40px)] max-w-[480px] column" forceDesktop>
   <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
     Restricted data
 
