@@ -27,57 +27,49 @@
 </script>
 
 <Dialog class="mx-auto w-[calc(100%-40px)] max-w-[480px] column" forceDesktop>
-  <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
-    Restricted data
+  <h2 class="flex items-center justify-between border-b bg-whale px-5 py-3 text-base font-medium">
+    Why is some data hidden?
 
-    <Button iconSize="12" size="sm" icon="close" onclick={close}></Button>
+    <Button iconSize="12" size="md" icon="close" onclick={close}></Button>
   </h2>
 
-  <section class="min-h-0 gap-4 px-6 py-5 column">
-    <article class="overflow-auto rounded border column">
-      <div class="flex bg-athens text-fiord">
-        <section class="cell">Metric</section>
-        <section class="cell">Period of restricted data</section>
-      </div>
+  <section class="min-h-0 gap-6 overflow-auto px-6 pb-5 pt-6 column md:text-base">
+    <section class="gap-3 column">
+      <h3 class="font-semibold">Your plan has limited data period for:</h3>
 
-      {#each Object.values(chartPlanRestrictions.$) as restriction}
-        {@const { label, restrictedTo, restrictedFrom } = restriction!}
-        <div class="flex border-t">
-          <section class="cell flex items-center">{label}</section>
+      <ul class="pl-4">
+        {#each Object.values(chartPlanRestrictions.$) as restriction}
+          {@const { label, restrictedTo, restrictedFrom } = restriction!}
+          <li class="list-outside list-disc">
+            <span>{label}</span>
 
-          <section class="cell">
-            {#if restrictedFrom}
-              Before: {getFormattedMonthDayYear(new Date(restrictedFrom))}
+            {#if restrictedFrom && restrictedTo}
+              <span>
+                ({getFormattedMonthDayYear(new Date(restrictedFrom))} - {getFormattedMonthDayYear(
+                  new Date(restrictedTo),
+                )})
+              </span>
             {/if}
-            <br />
-            {#if restrictedTo}
-              After: {getFormattedMonthDayYear(new Date(restrictedTo))}
-            {/if}
-          </section>
-        </div>
-      {/each}
-    </article>
+          </li>
+        {/each}
+      </ul>
 
-    <p class="text-fiord">
-      Your plan currently is restricted to limited data for this metric. To unlock the full range of
-      Santiment metrics, click the button below to Upgrade your account to PRO
-    </p>
+      <p>
+        To unlock the full potential of Santiment metrics you need to upgrade your account to PRO
+      </p>
+    </section>
 
     <Button
-      class="self-start"
+      class="self-start sm:w-full sm:justify-center"
       variant="fill"
       accent="orange"
       href="/pricing"
+      icon="crown"
       data-source={source}
       data-type="metrics_paywall"
-      onclick={close}>Upgrade</Button
+      onclick={close}
     >
+      Upgrade
+    </Button>
   </section>
 </Dialog>
-
-<style>
-  .cell {
-    flex: 1;
-    padding: 6px 16px;
-  }
-</style>
