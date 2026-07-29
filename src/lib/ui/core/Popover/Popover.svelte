@@ -26,6 +26,10 @@
     contentProps?: PopoverContentProps
 
     portalTo?: ComponentProps<typeof Popover.Portal>['to']
+
+    openDelay?: number
+    closeDelay?: number
+    openOnHover?: boolean
   }
 
   let {
@@ -34,7 +38,11 @@
     children,
     noStyles = false,
     matchTriggerWidth = false,
+    openOnHover = false,
     isOpened = $bindable(false),
+
+    openDelay = 0,
+    closeDelay = 0,
 
     portalTo,
 
@@ -49,7 +57,7 @@
 </script>
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
-  <Popover.Trigger child={children}></Popover.Trigger>
+  <Popover.Trigger child={children} {openDelay} {closeDelay} {openOnHover} />
 
   <Popover.Portal disabled={!portalTo} to={portalTo}>
     <Popover.Content
