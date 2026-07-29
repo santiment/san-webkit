@@ -1,10 +1,9 @@
 <script lang="ts">
-  import type { SS } from 'svelte-runes'
   import type { Snippet } from 'svelte'
 
-  import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
+  import Popover from '$ui/core/Popover/Popover.svelte'
 
   import Products from './Products.svelte'
 
@@ -17,7 +16,7 @@
     active?: any
     variant?: 'green' | 'blue'
     closeTimeout?: number
-    children?: Snippet<[{ ref: SS<HTMLElement | null> }]>
+    children?: Snippet<[{ props: Record<string, unknown> }]>
   }
 
   const {
@@ -32,18 +31,19 @@
   }: TProps = $props()
 </script>
 
-<Tooltip
+<Popover
   {isOpened}
-  position="bottom-end"
+  side="bottom"
+  align="end"
   class={cn('dark:bg-white', className)}
   closeDelay={closeTimeout}
+  openOnHover
 >
-  {#snippet children({ ref })}
+  {#snippet children({ props })}
     {#if outerChildren}
-      {@render outerChildren({ ref })}
+      {@render outerChildren({ props })}
     {:else}
       <Button
-        {ref}
         variant="plain"
         icon="products-toggle"
         iconSize={16}
@@ -51,11 +51,12 @@
           'mr-10 fill-waterloo',
           variant === 'green' ? 'hover:fill-green' : 'hover:fill-blue',
         )}
-      ></Button>
+        {...props}
+      />
     {/if}
   {/snippet}
 
   {#snippet content()}
     <Products {active} {variant} {isCompact} class={dropdownClassName} />
   {/snippet}
-</Tooltip>
+</Popover>

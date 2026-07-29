@@ -7,11 +7,7 @@
   import { cn } from '$ui/utils/index.js'
   import Picture from '$ui/app/Picture/index.js'
 
-  let {
-    class: className,
-    as,
-    ref,
-  }: Partial<Pick<ComponentProps<typeof Button>, 'as' | 'ref' | 'class'>> = $props()
+  const { class: className, ...rest }: ComponentProps<typeof Button> = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -20,8 +16,6 @@
 </script>
 
 <Button
-  {ref}
-  {as}
   variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   class={cn(
@@ -31,6 +25,7 @@
       : 'bg-athens hover:bg-porcelain data-[state=open]:bg-porcelain',
     className,
   )}
+  {...rest}
 >
   {#if currentUser.$$}
     <Picture class="size-6 text-base md:size-10" src={currentUser.$$.avatarUrl}>
