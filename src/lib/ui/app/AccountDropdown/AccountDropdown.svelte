@@ -6,10 +6,10 @@
   import { useUiCtx, useCustomerNightModeToggleFlow } from '$lib/ctx/ui/index.js'
   import Button from '$ui/core/Button/index.js'
   import Switch from '$ui/core/Switch/index.js'
-  import Tooltip from '$ui/core/Tooltip/index.js'
   import { useLogoutFlow } from '$lib/flow/logout/index.js'
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
   import { cn } from '$ui/utils/index.js'
+  import Popover from '$ui/core/Popover/Popover.svelte'
 
   import ProfilePicture from './ProfilePicture.svelte'
   import AccountInfo from './AccountInfo.svelte'
@@ -34,9 +34,9 @@
   }
 </script>
 
-<Tooltip class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column">
-  {#snippet children({ ref })}
-    <ProfilePicture class={className} {ref}></ProfilePicture>
+<Popover class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column" openOnHover>
+  {#snippet children({ props })}
+    <ProfilePicture class={className} {...props}></ProfilePicture>
   {/snippet}
 
   {#snippet content({ close })}
@@ -98,7 +98,7 @@
       {/if}
     </section>
   {/snippet}
-</Tooltip>
+</Popover>
 
 {#snippet sanbaseLink(
   text: string,
