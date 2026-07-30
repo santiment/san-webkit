@@ -49,7 +49,7 @@
     <div
       class={cn(
         'fixed inset-0 z-50 overflow-hidden bg-white',
-        !isLandscape && 'top-full h-[100vw] w-[100vh] origin-top-left -rotate-90',
+        !isLandscape && 'top-full h-[100dvw] w-[100dvh] origin-top-left -rotate-90',
         className,
       )}
       transition:flyAndScale
