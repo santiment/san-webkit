@@ -155,6 +155,12 @@ export default {
       },
     }),
 
+    // FIXME: Remove after tailwind upgrate to v4
+    // NOTE: Disable hover for devices that don't support it (touch)
+    plugin(function ({ addVariant }) {
+      addVariant('hover', '@media (hover: hover) { &:hover }')
+    }),
+
     plugin(function ({ addUtilities }) {
       addUtilities({
         '.row': {
