@@ -6,6 +6,7 @@
   import { cn } from '$ui/utils/index.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
   import { notification } from '$ui/core/Notifications/index.js'
+  import Turnstile from '$ui/app/LoginForm/Turnstile.svelte'
 
   import { mutateEmailLoginNewsletter } from './api.js'
 
@@ -16,15 +17,17 @@
 
   const { class: className = '', label = 'Leave request' }: TProps = $props()
 
+  let turnstileRef: Turnstile
   let loading = $state(false)
 
-  const submitEmail = useObserveFnCall<string>(() =>
-    exhaustMap((email) => {
+  const submitEmail = useObserveFnCall<{ email: string; token: string }>(() =>
+    exhaustMap(({ email, token }) => {
       loading = true
 
-      return mutateEmailLoginNewsletter()(email).pipe(
+      return mutateEmailLoginNewsletter()({ email, token }).pipe(
         catchError((error) => {
           console.error(error)
+          turnstileRef.reset()
           return of(null)
         }),
         tap(() => (loading = false)),
@@ -37,7 +40,7 @@
     }),
   )
 
-  function handleSubmit(event: SubmitEvent) {
+  async function handleSubmit(event: SubmitEvent) {
     event.preventDefault()
 
     const form = event.currentTarget as HTMLFormElement
@@ -46,9 +49,17 @@
 
     if (!email || typeof email !== 'string') return
 
-    submitEmail(email)
+    const token = await turnstileRef.getToken().catch(() => null)
+    if (!token) {
+      notification.error('Invalid turnstile token')
+      return
+    }
+
+    submitEmail({ email, token })
   }
 </script>
+
+<Turnstile bind:this={turnstileRef}></Turnstile>
 
 <form
   class={cn(
