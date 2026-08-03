@@ -525,3 +525,18 @@ export const MetricsRegistryCustomGranularityRules: Story = {
     ],
   },
 }
+
+export const UnderMaintenanceMetric: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'dev_activity',
+        label: 'Dev. Activity',
+        scaleId: 'right-price_usd0.4735169585340905',
+        meta: {
+          status: 'UNDER_MAINTENANCE',
+        },
+      },
+    ],
+  },
+}

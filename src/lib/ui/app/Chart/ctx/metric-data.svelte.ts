@@ -5,6 +5,7 @@ import { untrack } from 'svelte'
 import { type TExecutorOptions } from '$lib/api/index.js'
 import { createCtx } from '$lib/utils/index.js'
 import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
+import { MetricStatus } from '$lib/ctx/metrics-registry/api.js'
 
 import {
   FORMULA_WARNING,
@@ -71,6 +72,12 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       }
 
       metric.warnings.$ = warnings
+    } else if (metric.meta?.status === MetricStatus.UNDER_MAINTENANCE) {
+      metric.warnings.$ = [
+        `<span class="font-bold">Maintenance in progress.</span>
+
+        The metric is currently undergoing maintenance. During this period, query results for any requested time range may be delayed or inaccurate.`,
+      ]
     }
 
     const data = msg.payload.timeseries ?? [] // NOTE: Ensuring the data is not undefined
