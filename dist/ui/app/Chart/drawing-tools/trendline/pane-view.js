@@ -1,0 +1,17 @@
+import { DrawingPaneView } from '../_core/pane-view.js';
+import { DrawingCompositePaneRenderer, HandleRenderer } from '../_core/renderer.js';
+import { TrendlinePaneRenderer } from './renderer.js';
+export class TrendlinePaneView extends DrawingPaneView {
+    get viewPoints() {
+        return this._source.viewPoints;
+    }
+    get options() {
+        return this._source.options;
+    }
+    _renderer = new DrawingCompositePaneRenderer([
+        new TrendlinePaneRenderer(this),
+        new HandleRenderer(this, { pointIndices: [0, 0] }),
+        new HandleRenderer(this, { pointIndices: [1, 1] }),
+    ]);
+    update() { }
+}
