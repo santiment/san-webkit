@@ -19,6 +19,13 @@ type TMetricArgs = Partial<{
   [x: string]: unknown
 }>
 
+export const MetricStatus = {
+  LIVE: 'LIVE',
+  HIDDEN: 'HIDDEN',
+  UNDER_MAINTENANCE: 'UNDER_MAINTENANCE',
+} as const
+export type TMetricStatus = (typeof MetricStatus)[keyof typeof MetricStatus]
+
 export type TRegistryMetric = {
   key: string
   queryKey: undefined | string
@@ -30,6 +37,7 @@ export type TRegistryMetric = {
 
   chartStyle: string
   node: string
+  status: TMetricStatus
 
   unit: string
   formatter: undefined | ((value: number) => string)
@@ -38,6 +46,7 @@ export type TRegistryMetric = {
     args: TMetricArgs
     isNew: boolean
     displayOrder: number
+    status: TMetricStatus
     settingsSchema?: TSettingsSchema
     granularityRules?: TGranularityRulesSchema
   }
@@ -63,6 +72,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       a:args
       in:isNew
       do:displayOrder
+      st:status
     }
   }
 }`,
@@ -85,6 +95,7 @@ export const queryGetOrderedMetrics = ApiQuery(
         }
         in: boolean
         do: number
+        st: TMetricStatus
       }[]
     }
   }) => {
@@ -130,6 +141,7 @@ export const queryGetOrderedMetrics = ApiQuery(
               //type: item.t,
               isNew: item.in,
               displayOrder: item.do,
+              status: item.st || MetricStatus.LIVE,
             },
 
             reqMeta: item.a, // LEGACY
