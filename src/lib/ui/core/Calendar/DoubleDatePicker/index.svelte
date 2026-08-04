@@ -38,6 +38,7 @@
     rootClass,
   )}
   bind:isOpened={() => isOpened, () => {}}
+  portalTo="body"
   contentProps={{
     trapFocus: false,
     onInteractOutside: (e) => {

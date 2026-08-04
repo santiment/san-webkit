@@ -94,6 +94,7 @@
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
     children={withTrigger ? triggerSnippet : undefined}
+    portalTo="body"
   >
     {#snippet content()}
       {#if isRangeProps(rest)}
