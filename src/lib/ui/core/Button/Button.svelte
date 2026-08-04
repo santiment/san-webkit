@@ -68,7 +68,7 @@
   )
 
   const button = tv({
-    base: 'flex items-center cursor-pointer gap-2 rounded-md select-none',
+    base: 'flex items-center cursor-pointer gap-2 rounded-md select-none whitespace-nowrap',
     variants: {
       children: { false: '' },
       icon: { false: '' },
