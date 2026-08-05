@@ -2,8 +2,7 @@
   import type { TBreakdownFeature } from './breakdown.js'
 
   import Svg from '$ui/core/Svg/index.js'
-  import Tooltip from '$ui/core/Tooltip/index.js'
-  import Button from '$ui/core/Button/index.js'
+  import InfoButton from '$ui/app/InfoButton/index.js'
 
   let {
     plans = [],
@@ -22,15 +21,7 @@
 <div class="td-h txt-left flex items-center gap-1 text-rhino">
   {name}
   {#if description}
-    <Tooltip position="bottom">
-      {#snippet children({ ref })}
-        <Button {ref} icon="info" size="sm" />
-      {/snippet}
-
-      {#snippet content()}
-        <div class="description body-3">{@html description}</div>
-      {/snippet}
-    </Tooltip>
+    <InfoButton>{@html description}</InfoButton>
   {/if}
 </div>
 
@@ -52,16 +43,3 @@
     {/if}
   </div>
 {/each}
-
-<style>
-  .description {
-    padding: 14px 20px;
-    max-width: 252px;
-    color: var(--rhino);
-
-    :global(b) {
-      font-weight: 600;
-      color: var(--black);
-    }
-  }
-</style>
