@@ -11,21 +11,24 @@
   type TBtnProps = ComponentProps<typeof Button>
 
   type TProps = {
-    class?: string
-    title?: string
+    dialogTitle?: string
     contentClass?: string
-    triggerProps?: Omit<TBtnProps, 'onclick' | 'class'>
+    dialogClass?: string
+    popoverClass?: string
+
     children: Snippet
     trigger?: Snippet<[{ isOpened: boolean; props: TBtnProps }]>
-  }
+  } & Omit<TBtnProps, 'children' | 'onclick'>
 
   const {
     class: className,
     contentClass,
-    title = 'Info',
-    triggerProps,
+    dialogClass,
+    dialogTitle = 'Info',
+    popoverClass,
     children: infoContent,
     trigger: propTrigger,
+    ...triggerProps
   }: TProps = $props()
 
   const { device } = useDeviceCtx.get()
@@ -36,11 +39,17 @@
 
 {#if device.$.isPhone}
   {@render trigger({
-    onclick: () => showInfoDialog({ title, class: contentClass, children: infoContent }),
+    onclick: () =>
+      showInfoDialog({
+        title: dialogTitle,
+        class: dialogClass,
+        contentClass,
+        children: infoContent,
+      }),
     ...triggerProps,
   })}
 {:else}
-  <Popover bind:isOpened={isPopoverOpened} class="p-0" openOnHover>
+  <Popover bind:isOpened={isPopoverOpened} class={cn('p-0', popoverClass)} openOnHover>
     {#snippet children({ props })}
       {@render trigger({ ...props, ...triggerProps })}
     {/snippet}
