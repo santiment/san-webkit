@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import Button from '$ui/core/Button/Button.svelte'
   import { cn } from '$ui/utils/index.js'
@@ -10,11 +10,11 @@
   type TProps = {
     class?: string
     dropdownClassName?: string
-    tooltipClass?: string
     isCompact?: boolean
-    isOpened?: any
-    active?: any
+    isOpened?: boolean
+    active?: string
     variant?: 'green' | 'blue'
+    align?: ComponentProps<typeof Popover>['align']
     closeTimeout?: number
     children?: Snippet<[{ props: Record<string, unknown> }]>
   }
@@ -26,6 +26,7 @@
     isOpened = undefined,
     active = undefined,
     variant = 'green',
+    align = 'end',
     closeTimeout,
     children: outerChildren,
   }: TProps = $props()
@@ -34,8 +35,8 @@
 <Popover
   {isOpened}
   side="bottom"
-  align="end"
-  class={cn('dark:bg-white', className)}
+  {align}
+  class={cn('rounded-md p-0 dark:bg-white', className)}
   closeDelay={closeTimeout}
   openOnHover
 >

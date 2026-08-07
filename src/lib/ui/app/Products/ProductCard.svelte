@@ -13,7 +13,6 @@
     desc: string
     dimensions: [number, number]
     active?: boolean
-    accent?: string
     note?: string | undefined
     isCompact?: boolean
   }
@@ -30,22 +29,20 @@
   }: TProps = $props()
 
   const [w, h] = dimensions
-  const isLarge = !isCompact
 </script>
 
 <a
   {href}
   class={cn(
-    'pointer group relative flex',
-    isCompact
-      ? 'bg-orage-light-1 mb-3 inline-block w-[260px] rounded text-orange last:m-0'
-      : 'w-[292px] rounded px-4 py-3 hover:bg-athens',
+    'group relative flex rounded px-3 py-2 hover:bg-athens',
+    isCompact ? 'w-[272px]' : 'w-[292px]',
   )}
   target="_blank"
+  rel="noreferrer"
   data-type={`open_${id}`}
   data-source="products_dialog"
 >
-  {#if isLarge}
+  {#if !isCompact}
     <div
       class={cn(
         'mr-3 flex h-10 w-10 min-w-10 rounded center group-hover:bg-white',
@@ -54,7 +51,7 @@
               'bg-[var(--accent-light-1)]',
               '[--product-color-1:var(--accent)]',
               '[--product-color-2:var(--accent-light-3)]',
-              '[--product-color-3:var(--accent)',
+              '[--product-color-3:var(--accent)]',
             ]
           : 'bg-athens',
       )}
@@ -71,26 +68,14 @@
         )}
       />
     </div>
-  {:else}
-    <Svg
-      id="pointer"
-      w="14"
-      h="9"
-      class="absolute right-0 top-[9px] hidden group-hover:block group-hover:fill-[var(--accent-hover)]"
-    />
   {/if}
 
   <div>
-    <h2
-      class={cn(
-        'text-base font-semibold text-black',
-        isCompact && 'group-hover:text-[var(--accent-hover)]',
-      )}
-    >
+    <span class="text-base font-medium text-rhino">
       {title}
-    </h2>
+    </span>
 
-    <p class="text-waterloo">{desc}</p>
+    <p class="mt-1 text-fiord">{desc}</p>
 
     {#if note}
       <span class="mt-1 inline-block rounded bg-orange-light-1 px-2 py-1 text-xs text-orange">
