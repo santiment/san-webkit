@@ -63,7 +63,7 @@ if (BROWSER) {
 }
 
 export const useDeviceCtx = createCtx('useDeviceCtx', (deviceType?: DeviceType) => {
-  if (deviceType) onDeviceTypeChange(deviceType)
+  if (deviceType && !BROWSER) onDeviceTypeChange(deviceType)
 
   return { device }
 })
