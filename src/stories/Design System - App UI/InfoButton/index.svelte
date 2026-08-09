@@ -12,7 +12,7 @@
       Some <b>entity</b> info
     </InfoButton>
 
-    <InfoButton title="Custom title">
+    <InfoButton dialogTitle="Custom title">
       Some <b>entity</b> info
 
       {#snippet trigger({ isOpened, props })}
