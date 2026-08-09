@@ -23,7 +23,7 @@
   const { class: className, contentClass, title, children, Controller }: TProps = $props()
 </script>
 
-<Dialog class={cn('h-auto', className)}>
+<Dialog class={cn('h-auto max-h-[calc(100%_-_16px)]', className)}>
   <h2
     class="flex items-center justify-between border-b bg-athens px-5 py-2 pr-3 text-base text-fiord"
   >

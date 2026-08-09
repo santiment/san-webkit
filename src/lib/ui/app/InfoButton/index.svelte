@@ -49,7 +49,12 @@
     ...triggerProps,
   })}
 {:else}
-  <Popover bind:isOpened={isPopoverOpened} class={cn('p-0', popoverClass)} openOnHover>
+  <Popover
+    bind:isOpened={isPopoverOpened}
+    class={cn('p-0', popoverClass)}
+    portalTo="body"
+    openOnHover
+  >
     {#snippet children({ props })}
       {@render trigger({ ...props, ...triggerProps })}
     {/snippet}
