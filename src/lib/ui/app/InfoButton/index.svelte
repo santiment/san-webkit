@@ -8,12 +8,15 @@
 
   import { showInfoDialog$ } from './InfoDialog.svelte'
 
+  type TBtnProps = ComponentProps<typeof Button>
+
   type TProps = {
     class?: string
     title?: string
     contentClass?: string
-    triggerProps?: Omit<ComponentProps<typeof Button>, 'onclick' | 'class'>
+    triggerProps?: Omit<TBtnProps, 'onclick' | 'class'>
     children: Snippet
+    trigger?: Snippet<[{ isOpened: boolean; props: TBtnProps }]>
   }
 
   const {
@@ -22,6 +25,7 @@
     title = 'Info',
     triggerProps,
     children: infoContent,
+    trigger: propTrigger,
   }: TProps = $props()
 
   const { device } = useDeviceCtx.get()
@@ -49,12 +53,16 @@
   </Popover>
 {/if}
 
-{#snippet trigger(props: ComponentProps<typeof Button>)}
-  <Button
-    size="sm"
-    icon="info"
-    iconSize="12"
-    class={cn(isPopoverOpened && 'bg-[var(--ghost-active-bg)', className)}
-    {...props}
-  />
+{#snippet trigger(props: TBtnProps)}
+  {#if propTrigger}
+    {@render propTrigger({ isOpened: isPopoverOpened, props })}
+  {:else}
+    <Button
+      size="sm"
+      icon="info"
+      iconSize="12"
+      class={cn(isPopoverOpened && 'bg-[var(--ghost-active-bg)', className)}
+      {...props}
+    />
+  {/if}
 {/snippet}
