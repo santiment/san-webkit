@@ -4,10 +4,13 @@ export function downloadBlob(blob: Blob, filename: string) {
   const a = document.createElement('a')
   a.href = url
   a.download = filename
+  a.style.position = 'absolute'
+  a.style.visibility = 'hidden'
+  document.body.appendChild(a)
   a.click()
-  a.remove()
 
   setTimeout(() => {
+    a.remove()
     URL.revokeObjectURL(url)
   }, 30_000)
 }
