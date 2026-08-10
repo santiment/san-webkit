@@ -19,12 +19,21 @@ export type TTourStep = {
   onPopoverRender?: (element: undefined | Element) => void
 }
 
+type TTourCtx = Record<string, unknown>
+type TTourStepHandler = <GCtx extends TTourCtx = TTourCtx>(
+  id: string,
+  lastStep?: { id: string; element: undefined | Element },
+  ctx?: GCtx,
+) => Promise<void>
+
 export type TTourConfig = Partial<{
   initialStep: number
   completeLabel: string
+  ctx?: TTourCtx
 
-  onNextStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
-  onPrevStep: (id: string, lastStep?: { id: string; element: undefined | Element }) => Promise<void>
+  setup: <GCtx extends TTourCtx>(id: string, ctx?: Partial<GCtx>) => Promise<void>
+  onNextStep: TTourStepHandler
+  onPrevStep: TTourStepHandler
 
   onCompleted: (tourId: string) => void
   onDestroy: () => void
@@ -42,7 +51,7 @@ export const Tour = {
 
     const driver = await importDriver()
     const tourState = getSavedTourState(id)
-    const { initialStep = 0, onDestroy, onNextStep } = config
+    const { initialStep = 0, setup, onDestroy, onNextStep } = config
 
     let stepInstance: ReturnType<typeof mount> | undefined
 
@@ -84,7 +93,8 @@ export const Tour = {
 
     Tour.activeId = id
 
-    await onNextStep?.(steps[initialStep].id)
+    await setup?.(steps[initialStep].id, config.ctx)
+    await onNextStep?.(steps[initialStep].id, undefined, config.ctx)
 
     activeDriver.drive(initialStep)
   },

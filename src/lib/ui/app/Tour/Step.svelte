@@ -36,6 +36,7 @@
       // @ts-expect-error
       steps[state.activeIndex + dir]?.data?.id,
       { id: id!, element: state.activeElement },
+      config.ctx,
     )
 
   async function handleMovePrev() {
