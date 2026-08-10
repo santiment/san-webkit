@@ -8,6 +8,8 @@ export enum DeviceType {
   Desktop = 'desktop',
   Tablet = 'tablet',
   Phone = 'phone',
+
+  /** @deprecated use [DeviceType.Phone] instead */
   PhoneXs = 'phone-xs',
 }
 
@@ -16,10 +18,12 @@ const deviceValues = Object.values(DeviceType)
 export type DeviceInfo = ReturnType<typeof getDeviceInfo>
 
 export function getDeviceInfo(type: DeviceType) {
-  const isPhone = type.includes(DeviceType.Phone)
-  const isMobile = isPhone || type === DeviceType.Tablet
+  const isPhone = type === DeviceType.Phone || type === DeviceType.PhoneXs
+  const isTablet = type === DeviceType.Tablet
+  const isDesktop = type === DeviceType.Desktop
+  const isMobile = isPhone || isTablet
 
-  return { type, isMobile, isPhone, isDesktop: !isMobile }
+  return { type, isPhone, isTablet, isMobile, isDesktop }
 }
 
 export function normalizeDeviceType(type: string | undefined): DeviceType {
