@@ -1,7 +1,6 @@
-import { BROWSER } from 'esm-env'
-import { untrack } from 'svelte'
+import { onMount } from 'svelte'
 
-import { createCtx, ss } from '$lib/utils/index.js'
+import { createCtx } from '$lib/utils/index.js'
 
 export enum DeviceType {
   Desktop = 'desktop',
@@ -9,6 +8,8 @@ export enum DeviceType {
   Phone = 'phone',
   PhoneXs = 'phone-xs',
 }
+
+const deviceValues = Object.values(DeviceType)
 
 export type DeviceInfo = ReturnType<typeof getDeviceInfo>
 
@@ -30,40 +31,41 @@ export function normalizeDeviceType(type: string | undefined): DeviceType {
   }
 }
 
-const device = ss(getDeviceInfo(DeviceType.Desktop))
+function mapWindowToDevice(): DeviceType {
+  const { innerWidth } = window
 
-function onDeviceTypeChange(deviceType: DeviceType) {
-  untrack(() => {
-    if (device.$.type === deviceType) return
+  if (innerWidth < 480) return DeviceType.PhoneXs
+  if (innerWidth < 768) return DeviceType.Phone
+  if (innerWidth < 992) return DeviceType.Tablet
 
-    if (BROWSER) {
-      document.body.classList.remove(device.$.type)
-      document.body.classList.add(deviceType)
-    }
+  return DeviceType.Desktop
+}
 
-    device.$ = getDeviceInfo(deviceType)
+export const useDeviceCtx = createCtx('useDeviceCtx', (initialDeviceType?: DeviceType) => {
+  let deviceType = $state(initialDeviceType ?? DeviceType.Desktop)
+
+  const device = $derived(getDeviceInfo(deviceType))
+
+  $effect(() => {
+    document.body.classList.add(deviceType)
+
+    return () => document.body.classList.remove(...deviceValues)
   })
-}
 
-if (BROWSER) {
-  function mapWindowToDevice(): DeviceType {
-    const { innerWidth } = window
+  const onResize = () => (deviceType = mapWindowToDevice())
 
-    if (innerWidth < 480) return DeviceType.PhoneXs
-    if (innerWidth < 768) return DeviceType.Phone
-    if (innerWidth < 992) return DeviceType.Tablet
+  onMount(() => {
+    onResize()
+    window.addEventListener('resize', onResize, { passive: true })
 
-    return DeviceType.Desktop
+    return () => window.removeEventListener('resize', onResize)
+  })
+
+  return {
+    device: {
+      get $() {
+        return device
+      },
+    },
   }
-
-  const onResize = () => onDeviceTypeChange(mapWindowToDevice())
-
-  onResize()
-  window.addEventListener('resize', onResize, { passive: true })
-}
-
-export const useDeviceCtx = createCtx('useDeviceCtx', (deviceType?: DeviceType) => {
-  if (deviceType && !BROWSER) onDeviceTypeChange(deviceType)
-
-  return { device }
 })
