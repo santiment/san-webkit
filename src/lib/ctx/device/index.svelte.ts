@@ -2,6 +2,13 @@ import { onMount } from 'svelte'
 
 import { createCtx } from '$lib/utils/index.js'
 
+const BREAKPOINTS = Object.freeze({
+  lg: '1279px',
+  md: '992px',
+  sm: '768px',
+  xs: '480px',
+})
+
 export enum DeviceType {
   Desktop = 'desktop',
   Tablet = 'tablet',
@@ -31,15 +38,24 @@ export function normalizeDeviceType(type: string | undefined): DeviceType {
   }
 }
 
-function mapWindowToDevice(): DeviceType {
-  const { innerWidth } = window
-
-  if (innerWidth < 480) return DeviceType.PhoneXs
-  if (innerWidth < 768) return DeviceType.Phone
-  if (innerWidth < 992) return DeviceType.Tablet
-
-  return DeviceType.Desktop
+type DeviceMediaQuery = {
+  device: DeviceType
+  media: Pick<MediaQueryList, 'matches'>
 }
+
+type DeviceBreakpoint = {
+  breakpoint: keyof typeof BREAKPOINTS
+  device: DeviceType
+}
+
+const DEVICE_BREAKPOINTS: DeviceBreakpoint[] = [
+  { breakpoint: 'xs', device: DeviceType.PhoneXs },
+  { breakpoint: 'sm', device: DeviceType.Phone },
+  { breakpoint: 'md', device: DeviceType.Tablet },
+]
+
+const getViewportDeviceType = (queries: DeviceMediaQuery[]) =>
+  queries.find(({ media }) => media.matches)?.device ?? DeviceType.Desktop
 
 export const useDeviceCtx = createCtx('useDeviceCtx', (initialDeviceType?: DeviceType) => {
   let deviceType = $state(initialDeviceType ?? DeviceType.Desktop)
@@ -52,13 +68,20 @@ export const useDeviceCtx = createCtx('useDeviceCtx', (initialDeviceType?: Devic
     return () => document.body.classList.remove(...deviceValues)
   })
 
-  const onResize = () => (deviceType = mapWindowToDevice())
-
   onMount(() => {
-    onResize()
-    window.addEventListener('resize', onResize, { passive: true })
+    const queries = DEVICE_BREAKPOINTS.map(({ breakpoint, device }) => ({
+      device,
+      media: window.matchMedia(`(max-width: ${BREAKPOINTS[breakpoint]})`),
+    }))
 
-    return () => window.removeEventListener('resize', onResize)
+    const onBreakpointChange = () => (deviceType = getViewportDeviceType(queries))
+
+    onBreakpointChange()
+    queries.forEach(({ media }) => media.addEventListener('change', onBreakpointChange))
+
+    return () => {
+      queries.forEach(({ media }) => media.removeEventListener('change', onBreakpointChange))
+    }
   })
 
   return {
