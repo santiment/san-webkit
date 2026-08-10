@@ -58,6 +58,8 @@ type TBaseSeries<GType extends TMetricTypes> = {
     update$(): void
   }
 
+  selectorLabel$?: string
+
   formatters: {
     get $(): {
       tooltipFormatter: typeof DEFAULT_FORMATTER
@@ -161,39 +163,46 @@ export type TSeries =
   | TDataStoreSeries
   | TCombinedDistributionSeries
 
-export function createSeries({
-  type,
+export type THelpers = {
+  getAssetSelectorLabel: (metric: Extract<TSeries, { selector: any }>) => string | undefined
+}
 
-  apiMetricName = '',
+export function createSeries(
+  {
+    type,
 
-  label = apiMetricName,
-  data = [],
+    apiMetricName = '',
 
-  // getLabels$ = DEFAULT_LABELS_GETTER,
-  // getSelectorLabels$ = DEFAULT_LABELS_GETTER,
+    label = apiMetricName,
+    data = [],
 
-  selector = null,
-  interval,
-  pane = 0,
-  unit,
+    // getLabels$ = DEFAULT_LABELS_GETTER,
+    // getSelectorLabels$ = DEFAULT_LABELS_GETTER,
 
-  style = 'line',
-  color = '#00ff00',
-  visible = true,
+    selector = null,
+    interval,
+    pane = 0,
+    unit,
 
-  scaleId,
-  scaleMargins,
-  scaleInverted = false,
-  scaleVisible = true,
+    style = 'line',
+    color = '#00ff00',
+    visible = true,
 
-  isSelectorLocked = false,
-  isFilledGradient = false,
-  transformData,
+    scaleId,
+    scaleMargins,
+    scaleInverted = false,
+    scaleVisible = true,
 
-  meta,
+    isSelectorLocked = false,
+    isFilledGradient = false,
+    transformData,
 
-  ...rest
-}: TChartMetric) {
+    meta,
+
+    ...rest
+  }: TChartMetric,
+  helpers?: Partial<THelpers>,
+) {
   const scale = $state({
     id: scaleId || apiMetricName || Math.random().toString(),
     visible: scaleVisible,
@@ -387,6 +396,17 @@ export function createSeries({
     // delete (metric as any).formula
   } else {
     delete (metric as any).formula
+  }
+
+  if (
+    helpers?.getAssetSelectorLabel &&
+    (metric.type === MetricType.ASSET ||
+      metric.type === MetricType.COMBINED_DISTRIBUTION ||
+      metric.type === MetricType.TRADITIONAL_FINANCE)
+  ) {
+    Object.defineProperty(metric, 'selectorLabel$', {
+      get: helpers?.getAssetSelectorLabel?.bind(null, metric),
+    })
   }
 
   return metric

@@ -48,10 +48,12 @@ export function createMetricSeriesCsvHeaders(series: TSeries[]) {
       format: (row: any) => new Date(row.time * 1000).toISOString(),
     },
   ].concat(
-    series.map((metric) => ({
-      title: metric.label,
-      format: (row: any) => row[metric.label] ?? '',
-    })),
+    series.map((metric) => {
+      const key = metric.id
+      const prefix = metric.selectorLabel$ ? `${metric.selectorLabel$} - ` : ''
+
+      return { title: prefix + metric.label, format: (row: any) => row[key] ?? '' }
+    }),
   )
 }
 
@@ -59,7 +61,7 @@ export function mergeMetricSeriesData(series: TSeries[]) {
   const data: Record<number, Record<string, any>> = {}
 
   for (const metric of series) {
-    const key = metric.label
+    const key = metric.id
     for (const { time, value } of metric.data.$) {
       const datePoint = (data[time] ??= { time })
       datePoint[key] = value
