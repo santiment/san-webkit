@@ -416,10 +416,10 @@ export function createSeries(
 
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
-  (defaultMetrics: TChartMetric[] = []) => {
+  (defaultMetrics: TChartMetric[] = [], helpers?: Partial<THelpers>) => {
     let series = $state.raw(
       defaultMetrics.map((item) => {
-        return createSeries(item)
+        return createSeries(item, helpers)
       }),
     )
 
@@ -448,7 +448,7 @@ export const useMetricSeriesCtx = createCtx(
         },
 
         add(metric: TChartMetric): TSeries {
-          const series = createSeries(metric)
+          const series = createSeries(metric, helpers)
           this.addSeries(series)
           return series
         },
