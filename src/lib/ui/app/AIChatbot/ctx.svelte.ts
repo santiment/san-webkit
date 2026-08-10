@@ -91,7 +91,7 @@ export const useAIChatbotCtx = createCtx(
           return loading
         },
 
-        async sendMessage(value: string) {
+        sendMessage(value: string) {
           const content = value.trim()
 
           if (!state.opened) state.opened = true
@@ -101,16 +101,22 @@ export const useAIChatbotCtx = createCtx(
           loading = true
           state.message = ''
 
-          await mutateSendAiChatbotMessage(Query)({
+          return mutateSendAiChatbotMessage(Query)({
             chatId: state.session?.id,
             type: state.type,
             content,
             context: state.context,
           })
-            .then((data) => (state.session = data))
-            .then(() => {
-              loading = false
+            .then((data) => {
+              state.session = data
               state.temporaryMessage = ''
+            })
+            .catch(() => {
+              state.message = content
+              state.temporaryMessage = ''
+            })
+            .finally(() => {
+              loading = false
             })
         },
 
