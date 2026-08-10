@@ -87,6 +87,8 @@ function drawMetricsOnCanvas(ctx: CanvasRenderingContext2D, chart: IChartApi, me
 }
 
 function prepareLegendDataForMetric(metric: TSeries) {
+  const slug = 'selector' in metric ? metric.selector.$?.slug : undefined
+  const slugText = slug ? `${slug} - ` : ''
   const label = metric.label
   const lastDataPoint = metric.data.$[metric.data.$.length - 1]
   const firstDataPoint = metric.data.$.find((item) => item.value !== undefined)
@@ -101,7 +103,7 @@ function prepareLegendDataForMetric(metric: TSeries) {
       : ''
 
   return {
-    labelText: `${label}: `,
+    labelText: `${slugText}${label}: `,
     valueText: `${formattedValue}${percentChangeText}`,
     color: metric.ui.$$.color || getBrowserCssVariable('black'),
   }
