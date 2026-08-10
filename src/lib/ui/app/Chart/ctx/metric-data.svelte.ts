@@ -109,11 +109,17 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     const includeIncompleteData = globalParameters.$$.includeIncompleteData
 
     const { priority, minimalDelay } = untrack(() => $state.snapshot(settings)) || {}
+    const selector =
+      ('selector' in metric && $state.snapshot(metric.selector.$)) ||
+      $state.snapshot(globalParameters.$$.selector)
+
+    if (selector && metric.meta?.args?.selector) {
+      Object.assign(selector, metric.meta.args.selector)
+    }
+
     const parameters = {
       metric: (metric as { apiMetricName?: string }).apiMetricName ?? '',
-      selector:
-        ('selector' in metric && $state.snapshot(metric.selector.$)) ||
-        $state.snapshot(globalParameters.$$.selector),
+      selector,
       from,
       to,
       interval,
