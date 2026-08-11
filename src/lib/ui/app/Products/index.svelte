@@ -36,6 +36,7 @@
   {isOpened}
   side="bottom"
   {align}
+  contentProps={{ alignOffset: -24 }}
   class={cn('rounded-md p-0 dark:bg-white', className)}
   closeDelay={closeTimeout}
   openOnHover

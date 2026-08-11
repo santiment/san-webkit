@@ -45,7 +45,7 @@
     {/each}
   </section>
 
-  <section class="border-t border-porcelain px-4 pt-6 text-waterloo">
+  <section class="border-t border-porcelain px-4 pt-6 text-fiord">
     <div class="max-w-[248px]">
       To learn more about Santiment's products, team, or available jobs, visit
       <a
