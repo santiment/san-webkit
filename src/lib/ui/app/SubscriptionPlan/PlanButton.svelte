@@ -30,8 +30,8 @@
     source?: string
   } = $props()
 
-  const { onPlanButtonClick, onPlanChangeClick, onBillingPeriodChangeClick } =
-    useSubscriptionPlanButtonCtx.get()
+  const { onPlanButtonClick, onPlanChangeClick, onBillingPeriodChangeClick, getPlanHref } =
+    useSubscriptionPlanButtonCtx.get() ?? {}
   const { customer } = useCustomerCtx()
 
   let source = $derived(_source + '_plan_button')
@@ -75,7 +75,18 @@
   }
 </script>
 
-{#if isCurrentPlan}
+{#if getPlanHref && plan.name !== SubscriptionPlan.FREE.key && plan.name !== SubscriptionPlan.CUSTOM.key}
+  <Button
+    variant="fill"
+    size="lg"
+    {...classes}
+    href={getPlanHref(plan)}
+    data-type="get_plan"
+    data-source={source}
+  >
+    Get {getPlanName(plan.name)}
+  </Button>
+{:else if isCurrentPlan}
   {#if isAnonymous}
     <Button
       variant="fill"
