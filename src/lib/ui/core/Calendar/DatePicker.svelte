@@ -26,6 +26,7 @@
     popoverContentProps?: ComponentProps<typeof Popover>['contentProps']
     popoverIsOpened?: boolean
     withTrigger?: boolean
+    portalTo?: ComponentProps<typeof Popover>['portalTo']
   }
 
   type TSingleProps = {
@@ -53,6 +54,7 @@
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
     popoverIsOpened = $bindable(false),
+    portalTo,
     ...rest
   }: TProps = $props()
 
@@ -94,7 +96,7 @@
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
     children={withTrigger ? triggerSnippet : undefined}
-    portalTo="body"
+    {portalTo}
   >
     {#snippet content()}
       {#if isRangeProps(rest)}
