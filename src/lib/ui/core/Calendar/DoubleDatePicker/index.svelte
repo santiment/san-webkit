@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { ComponentProps } from 'svelte'
+
   import { CalendarDate, getLocalTimeZone } from '@internationalized/date'
 
   import Popover from '$ui/core/Popover/index.js'
@@ -13,8 +15,9 @@
     buttonClass?: string
     rootClass?: string
     onChange: (dates: [Date, Date]) => void
+    portalTo?: ComponentProps<typeof Popover>['portalTo']
   }
-  let { dates, buttonClass, rootClass, onChange }: TProps = $props()
+  let { dates, buttonClass, rootClass, portalTo, onChange }: TProps = $props()
 
   let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(() => dates, onChange)
 
@@ -38,7 +41,7 @@
     rootClass,
   )}
   bind:isOpened={() => isOpened, () => {}}
-  portalTo="body"
+  {portalTo}
   contentProps={{
     trapFocus: false,
     onInteractOutside: (e) => {
