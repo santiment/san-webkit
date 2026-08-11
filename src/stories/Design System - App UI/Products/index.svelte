@@ -26,6 +26,27 @@
     </ProductsButton>
   </div>
 
+  <div class="self-stretch">
+    <h2 class="text-xl">Align end (default, header placement)</h2>
+    <div class="flex justify-end rounded-md border py-3 pr-6">
+      <ProductsButton variant="green" />
+    </div>
+  </div>
+
+  <div class="self-stretch">
+    <h2 class="text-xl">Align start</h2>
+    <div class="flex rounded-md border py-3 pl-6">
+      <ProductsButton variant="green" align="start" />
+    </div>
+  </div>
+
+  <div class="self-stretch">
+    <h2 class="text-xl">Align center</h2>
+    <div class="flex justify-center rounded-md border py-3">
+      <ProductsButton variant="green" align="center" />
+    </div>
+  </div>
+
   <div>
     <h2 class="text-xl">Regular</h2>
     <div class="rounded-md border">

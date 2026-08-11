@@ -34,7 +34,7 @@
 <a
   {href}
   class={cn(
-    'group relative flex rounded px-3 py-2 hover:bg-athens',
+    'group relative flex rounded-md px-3 py-2 hover:bg-athens',
     isCompact ? 'w-[272px]' : 'w-[292px]',
   )}
   target="_blank"
