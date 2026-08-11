@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { SelectContentProps, Selected } from 'bits-ui'
+  import type { SelectContentProps, Selected, SelectPortalProps } from 'bits-ui'
   import type { ComponentProps, Snippet } from 'svelte'
 
   import { Select } from 'bits-ui'
@@ -29,6 +29,8 @@
     customAnchor?: HTMLElement
     withDefaultTrigger?: boolean
     onOpenChange?: (open: boolean) => void
+
+    portalTo?: SelectPortalProps['to']
   } & ComponentProps<typeof Button>
 
   let {
@@ -50,6 +52,7 @@
     withDefaultTrigger = true,
     onOpenChange,
 
+    portalTo,
     ...rest
   }: Props = $props()
 
@@ -89,7 +92,7 @@
     </Select.Trigger>
   {/if}
 
-  <Select.Portal>
+  <Select.Portal disabled={!portalTo} to={portalTo}>
     <Select.Content
       {customAnchor}
       class={cn(
