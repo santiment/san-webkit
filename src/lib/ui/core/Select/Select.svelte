@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { SelectContentProps, Selected } from 'bits-ui'
+  import type { SelectContentProps, Selected, SelectPortalProps } from 'bits-ui'
   import type { ComponentProps, Snippet } from 'svelte'
 
   import { Select } from 'bits-ui'
@@ -29,6 +29,8 @@
     customAnchor?: HTMLElement
     withDefaultTrigger?: boolean
     onOpenChange?: (open: boolean) => void
+
+    portalTo?: SelectPortalProps['to']
   } & ComponentProps<typeof Button>
 
   let {
@@ -50,6 +52,7 @@
     withDefaultTrigger = true,
     onOpenChange,
 
+    portalTo,
     ...rest
   }: Props = $props()
 
@@ -89,50 +92,52 @@
     </Select.Trigger>
   {/if}
 
-  <Select.Content
-    {customAnchor}
-    class={cn(
-      'overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
-      zIndexClass,
-      matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
-    )}
-    sideOffset={8}
-    collisionPadding={8}
-    {side}
-    {align}
-    forceMount
-  >
-    {#snippet child({ wrapperProps, props, open })}
-      {#if open}
-        <div {...wrapperProps}>
-          <div
-            {...props}
-            class={cn('fly-and-scale-animation animated', props.class as string)}
-            bind:this={contentNode}
-            out:flyAndScaleOutTransition
-          >
-            {@render beforeOptionChildren?.()}
+  <Select.Portal disabled={!portalTo} to={portalTo}>
+    <Select.Content
+      {customAnchor}
+      class={cn(
+        'overflow-auto rounded border bg-white p-2 shadow-dropdown dark:bg-athens dark:shadow-none',
+        zIndexClass,
+        matchTriggerWidth && 'w-[--bits-floating-anchor-width]',
+      )}
+      sideOffset={8}
+      collisionPadding={8}
+      {side}
+      {align}
+      forceMount
+    >
+      {#snippet child({ wrapperProps, props, open })}
+        {#if open}
+          <div {...wrapperProps}>
+            <div
+              {...props}
+              class={cn('fly-and-scale-animation animated', props.class as string)}
+              bind:this={contentNode}
+              out:flyAndScaleOutTransition
+            >
+              {@render beforeOptionChildren?.()}
 
-            {#each items as item}
-              <Select.Item
-                value={item.value as string}
-                label={item.label}
-                onclick={() => onItemSelect(item)}
-                class={cn(
-                  'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain [&[data-selected]]:text-green',
-                  contentClass,
-                )}
-              >
-                {#if option}
-                  {@render option(item)}
-                {:else}
-                  {item.label}
-                {/if}
-              </Select.Item>
-            {/each}
+              {#each items as item}
+                <Select.Item
+                  value={item.value as string}
+                  label={item.label}
+                  onclick={() => onItemSelect(item)}
+                  class={cn(
+                    'z-50 cursor-pointer rounded px-3 py-2 text-black hover:bg-athens dark:hover:bg-porcelain [&[data-selected]]:text-green',
+                    contentClass,
+                  )}
+                >
+                  {#if option}
+                    {@render option(item)}
+                  {:else}
+                    {item.label}
+                  {/if}
+                </Select.Item>
+              {/each}
+            </div>
           </div>
-        </div>
-      {/if}
-    {/snippet}
-  </Select.Content>
+        {/if}
+      {/snippet}
+    </Select.Content>
+  </Select.Portal>
 </Select.Root>
