@@ -20,14 +20,14 @@
 >
   <div class="flex md:flex-col-reverse md:text-end sm:mt-10 sm:border-t sm:pt-10 sm:text-center">
     <div
-      class="my-auto flex items-center gap-x-3 lg:flex-col lg:items-start md:mt-4 md:flex-row md:items-center md:justify-end sm:mb-14 sm:justify-center xs:flex-col xs:gap-y-3"
+      class="my-auto flex items-center gap-x-3 lg:flex-col lg:items-start md:mt-4 md:flex-row md:items-center md:justify-end sm:mb-14 sm:flex-col sm:justify-center sm:gap-y-3"
     >
       <div>
         © 2016—{new Date().getFullYear()} Santiment
       </div>
 
       {#if appVersion}
-        <div class="h-3 w-px border border-l-waterloo lg:hidden md:block xs:hidden"></div>
+        <div class="h-3 w-px border border-l-waterloo lg:hidden md:block sm:hidden"></div>
 
         <div>
           Ver. {appVersion}
@@ -36,7 +36,7 @@
     </div>
 
     <div
-      class="ml-[72px] flex flex-wrap items-center gap-x-9 gap-y-1 md:ml-0 md:justify-end sm:justify-center xs:gap-4 hover:[&>a]:text-mirage hover:[&>a]:underline"
+      class="ml-[72px] flex flex-wrap items-center gap-x-9 gap-y-1 md:ml-0 md:justify-end sm:justify-center sm:gap-4 hover:[&>a]:text-mirage hover:[&>a]:underline"
     >
       <a href="https://santiment.net/terms/" target="_blank">Terms</a>
       <a href={`${SANBASE_ORIGIN}/privacy-policy/`} target="_blank">Privacy</a>

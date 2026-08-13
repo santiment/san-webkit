@@ -5,7 +5,7 @@
 
 <article
   class={cn(
-    'relative min-w-[352px] overflow-hidden rounded-lg bg-white px-6 py-4 text-base sm:w-full sm:bg-athens xs:min-w-full',
+    'relative min-w-[352px] overflow-hidden rounded-lg bg-white px-6 py-4 text-base sm:w-full sm:min-w-full sm:bg-athens',
   )}
 >
   <h4 class="font-medium">Hold SAN Tokens — Get 20% Off</h4>
@@ -17,5 +17,5 @@
     >
   </p>
 
-  <Svg illus id="hold-tokens" w={98} class="absolute bottom-0 right-[-10px] xs:hidden" />
+  <Svg illus id="hold-tokens" w={98} class="absolute bottom-0 right-[-10px] sm:hidden" />
 </article>
