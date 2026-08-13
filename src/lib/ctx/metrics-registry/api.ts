@@ -26,6 +26,11 @@ export const MetricStatus = {
 } as const
 export type TMetricStatus = (typeof MetricStatus)[keyof typeof MetricStatus]
 
+export type TStyleOptions = Partial<{
+  baseline: { value: number; bottomColor: string }
+  isFilledGradient: boolean
+}>
+
 export type TRegistryMetric = {
   key: string
   queryKey: undefined | string
@@ -47,6 +52,7 @@ export type TRegistryMetric = {
     isNew: boolean
     displayOrder: number
     status: TMetricStatus
+    styleOptions: TStyleOptions
     settingsSchema?: TSettingsSchema
     granularityRules?: TGranularityRulesSchema
   }
@@ -90,7 +96,8 @@ export const queryGetOrderedMetrics = ApiQuery(
         un: TMetricUnit
         d: string
         a: {
-          settingsSchema: TSettingsSchema
+          settingsSchema?: TSettingsSchema
+          styleOptions?: TStyleOptions
           [x: string]: any
         }
         in: boolean
@@ -115,7 +122,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       })
       .reduce((acc, item) => {
         const key = item.k ?? item.m
-        const { settingsSchema, granularityRules, ...args } = item.a ?? {}
+        const { settingsSchema, granularityRules, styleOptions, ...args } = item.a ?? {}
 
         return Object.assign(acc, {
           [key]: {
@@ -136,6 +143,7 @@ export const queryGetOrderedMetrics = ApiQuery(
 
             meta: {
               args,
+              styleOptions,
               settingsSchema: zodSettingsSchema.safeParse(settingsSchema).data,
               granularityRules: zodGranularityRulesSchema.safeParse(granularityRules).data,
               //type: item.t,

@@ -195,8 +195,10 @@ export function createSeries(
     scaleVisible = true,
 
     isSelectorLocked = false,
-    isFilledGradient = false,
+    isFilledGradient,
     transformData,
+
+    baseline,
 
     meta,
 
@@ -213,6 +215,14 @@ export function createSeries(
 
   let paneSignal = $state(pane)
 
+  if (isFilledGradient === undefined) {
+    isFilledGradient = meta?.styleOptions?.isFilledGradient ?? false
+  }
+
+  if (meta?.styleOptions?.baseline) {
+    baseline = { ...meta.styleOptions.baseline, ...baseline }
+  }
+
   const ui = $state({
     color,
     style,
@@ -221,8 +231,8 @@ export function createSeries(
     isSelectorLocked,
     isFilledGradient,
 
+    baseline,
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
-    baseline: rest.baseline,
     signal: rest.signal,
   })
 
