@@ -5,7 +5,8 @@ import { createCtx } from '$lib/utils/index.js'
 import { BREAKPOINTS } from './breakpoints.js'
 
 export enum DeviceType {
-  Desktop = 'desktop',
+  LargeDesktop = 'largeDesktop',
+  RegularDesktop = 'regularDesktop',
   Tablet = 'tablet',
   Phone = 'phone',
 
@@ -20,10 +21,11 @@ export type DeviceInfo = ReturnType<typeof getDeviceInfo>
 export function getDeviceInfo(type: DeviceType) {
   const isPhone = type === DeviceType.Phone || type === DeviceType.PhoneXs
   const isTablet = type === DeviceType.Tablet
-  const isDesktop = type === DeviceType.Desktop
+  const isLargeDesktop = type === DeviceType.LargeDesktop
+  const isDesktop = type === DeviceType.RegularDesktop || isLargeDesktop
   const isMobile = isPhone || isTablet
 
-  return { type, isPhone, isTablet, isMobile, isDesktop }
+  return { type, isPhone, isTablet, isMobile, isDesktop, isLargeDesktop }
 }
 
 export function normalizeDeviceType(type: string | undefined): DeviceType {
@@ -33,7 +35,7 @@ export function normalizeDeviceType(type: string | undefined): DeviceType {
     case 'tablet':
       return DeviceType.Tablet
     default:
-      return DeviceType.Desktop
+      return DeviceType.RegularDesktop
   }
 }
 
@@ -51,13 +53,14 @@ const DEVICE_BREAKPOINTS: DeviceBreakpoint[] = [
   { breakpoint: 'xs', device: DeviceType.PhoneXs },
   { breakpoint: 'sm', device: DeviceType.Phone },
   { breakpoint: 'md', device: DeviceType.Tablet },
+  { breakpoint: 'lg', device: DeviceType.RegularDesktop },
 ]
 
 const getViewportDeviceType = (queries: DeviceMediaQuery[]) =>
-  queries.find(({ media }) => media.matches)?.device ?? DeviceType.Desktop
+  queries.find(({ media }) => media.matches)?.device ?? DeviceType.LargeDesktop
 
 export const useDeviceCtx = createCtx('useDeviceCtx', (initialDeviceType?: DeviceType) => {
-  let deviceType = $state(initialDeviceType ?? DeviceType.Desktop)
+  let deviceType = $state(initialDeviceType ?? DeviceType.RegularDesktop)
 
   const device = $derived(getDeviceInfo(deviceType))
 
