@@ -57,6 +57,14 @@
             scaleId: 'right-price_usd',
           },
           {
+            apiMetricName: 'mvrv_usd',
+            label: 'MVRV',
+            style: 'line',
+            unit: 'mvrv_percent',
+            color: colorGenerator.new(),
+            scaleId: 'right-mvrv_usd',
+          },
+          {
             apiMetricName: 'social_dominance_total',
             style: 'line',
             color: colorGenerator.new(),

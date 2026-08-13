@@ -27,6 +27,7 @@ import { ss, createCtx, type SS } from '$lib/utils/index.js'
 import {
   DEFAULT_FORMATTER,
   DEFAULT_Y_FORMATTER,
+  mvrvRatioFormatter,
   percentFormatter,
   usdFormatter,
 } from '$lib/utils/formatters/index.js'
@@ -235,6 +236,10 @@ export function createSeries(
       result.tooltipFormatter = usdFormatter
     } else if (unit === 'percent') {
       result.tooltipFormatter = percentFormatter
+      result.scaleFormatter = percentFormatter
+    } else if (unit === 'mvrv_percent') {
+      result.tooltipFormatter = mvrvRatioFormatter
+      result.scaleFormatter = mvrvRatioFormatter
     }
 
     return result

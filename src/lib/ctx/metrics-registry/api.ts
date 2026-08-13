@@ -2,7 +2,7 @@ import type { TMetricSelector } from './types/index.js'
 
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
-import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
+import { mvrvRatioFormatter, percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
 import {
   zodGranularityRulesSchema,
   zodSettingsSchema,
@@ -12,7 +12,7 @@ import {
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
-export type TMetricUnit = '' | 'usd' | 'percent'
+export type TMetricUnit = '' | 'usd' | 'percent' | 'mvrv_percent'
 
 type TMetricArgs = Partial<{
   selector: TMetricSelector
@@ -162,6 +162,8 @@ function getTooltipFormatterByUnit(unit: TMetricUnit) {
       return usdFormatter
     case 'percent':
       return percentFormatter
+    case 'mvrv_percent':
+      return mvrvRatioFormatter
   }
 }
 

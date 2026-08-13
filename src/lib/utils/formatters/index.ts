@@ -128,3 +128,6 @@ export function calculatePercentageChange(firstValue: number, lastValue: number)
 
   return sign + percent.toFixed(2) + '%'
 }
+
+export const mvrvRatioFormatter = (value: number | undefined | null) =>
+  percentFormatter((value! - 1) * 100)
