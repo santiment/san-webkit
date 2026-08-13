@@ -19,16 +19,16 @@
   variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   class={cn(
-    'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center md:size-12',
+    'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center sm:size-12',
     currentUser.$$
-      ? 'ring-[1.5px] ring-inset hover:ring-[2.5px] data-[state=open]:ring-[2.5px] md:ring-2'
-      : 'bg-athens hover:bg-porcelain data-[state=open]:bg-porcelain',
+      ? 'ring-[1.5px] ring-inset data-[state=open]:ring-[2.5px] hover:ring-[2.5px] sm:ring-2'
+      : 'bg-athens data-[state=open]:bg-porcelain hover:bg-porcelain',
     className,
   )}
   {...rest}
 >
   {#if currentUser.$$}
-    <Picture class="size-6 text-base md:size-10" src={currentUser.$$.avatarUrl}>
+    <Picture class="size-6 text-base sm:size-10" src={currentUser.$$.avatarUrl}>
       {(currentUser.$$.username || '').slice(0, 1).toUpperCase()}
     </Picture>
   {:else}
