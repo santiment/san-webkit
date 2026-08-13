@@ -220,7 +220,7 @@ export function createSeries(
   }
 
   if (meta?.styleOptions?.baseline) {
-    baseline = { ...meta.styleOptions.baseline, ...baseline }
+    baseline = { ...meta.styleOptions.baseline, bottomColor: color, ...baseline }
   }
 
   const ui = $state({
