@@ -33,10 +33,7 @@
 
 <a
   {href}
-  class={cn(
-    'group relative flex rounded-md px-3 py-2 hover:bg-athens',
-    isCompact ? 'w-[272px]' : 'w-[292px]',
-  )}
+  class="group relative flex w-[var(--card-width)] rounded-md px-3 py-2 hover:bg-athens"
   target="_blank"
   rel="noreferrer"
   data-type={`open_${id}`}
