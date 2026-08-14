@@ -1,4 +1,7 @@
 <script lang="ts" module>
+  import { page } from '$app/state'
+
+  import { getUrlPath, getFromSearch } from '$lib/utils/url/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
 
@@ -8,7 +11,14 @@
 </script>
 
 <script lang="ts">
-  const { Controller }: TDialogProps = $props()
+  type TProps = {
+    from?: string
+  } & TDialogProps
+
+  const { from, Controller }: TProps = $props()
+
+  const fromPath = $derived(from || getUrlPath(page.url))
+  const search = $derived(getFromSearch(fromPath))
 
   const close = () => Controller.close()
 </script>
@@ -30,7 +40,7 @@
           variant="fill"
           size="lg"
           class="flex-1 justify-center"
-          href="/login"
+          href="/login{search}"
           onclick={close}
         >
           Log in
@@ -39,7 +49,7 @@
           variant="border"
           size="lg"
           class="flex-1 justify-center"
-          href="/sign-up"
+          href="/sign-up{search}"
           onclick={close}
         >
           Create an account
