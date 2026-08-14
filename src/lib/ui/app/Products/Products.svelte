@@ -36,24 +36,25 @@
 </script>
 
 <div
-  class={cn('gap-6 rounded-md px-6 pb-6 pt-8 text-sm column', isCompact && 'w-[320px]', className)}
+  style:--card-width={isCompact ? '272px' : '292px'}
+  class={cn('gap-6 rounded-md px-6 pb-6 pt-8 text-sm column', className)}
   style={THEME_MAP[variant]}
 >
-  <section class="gap-1 column">
+  <section class="grid grid-cols-1 gap-1 [@media(max-height:660px)]:grid-cols-2">
     {#each products as product}
       <ProductCard {...product} active={active === product.id} {isCompact} />
     {/each}
   </section>
 
-  <section class="border-t border-porcelain px-4 pt-6 text-fiord">
-    <div class="max-w-[248px]">
-      To learn more about Santiment's products, team, or available jobs, visit
-      <a
-        class="text-[var(--accent)] hover:text-[var(--accent-hover)] hover:underline"
-        target="_blank"
-        rel="noreferrer"
-        href="https://santiment.net/">santiment.net</a
-      >
-    </div>
+  <section
+    class="w-[var(--card-width)] border-t border-porcelain px-3 pt-6 text-fiord [@media(max-height:660px)]:w-auto"
+  >
+    To learn more about Santiment's products, team, or available jobs, visit
+    <a
+      class="text-[var(--accent)] hover:text-[var(--accent-hover)] hover:underline"
+      target="_blank"
+      rel="noreferrer"
+      href="https://santiment.net/">santiment.net</a
+    >
   </section>
 </div>
