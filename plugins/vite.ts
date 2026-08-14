@@ -127,6 +127,9 @@ if (isCss) {`,
   }
 }
 
+/* NOTE: Shares svelte contexts between isolated Astro islands. Wraps the svelteCtxPath module
+   into a fake component scope (push without pop, like mount() does), so its setContext
+   calls become visible to every island mounted after it. */
 // TODO: Support server side page context
 export async function AstroSvelteCtxPlugin(svelteCtxPath: string) {
   return {
@@ -138,10 +141,10 @@ export async function AstroSvelteCtxPlugin(svelteCtxPath: string) {
         const code =
           src.replace(
             /(import .*\n)+/g,
-            `import { component_root, pop, push } from 'svelte';
+            `import { effect_root, push } from 'svelte/internal/client';
             $&
             push({}, true, () => {});
-            component_root(() => {
+            effect_root(() => {
                      `,
           ) + '});'
 
@@ -158,23 +161,6 @@ export async function AstroSvelteCtxPlugin(svelteCtxPath: string) {
           code: `import "${svelteCtxPath}" \n` + src,
           map: null,
         }
-      }
-
-      const isSvelteClientImport = id.includes('svelte/src/index-client')
-      const isSvelteIndexImport = isSvelteClientImport || id.includes('svelte/src/index-server')
-
-      if (isSvelteIndexImport) {
-        const effect_export = isSvelteClientImport
-          ? "{ component_root } from './internal/client/reactivity/effects.js'"
-          : 'const component_root = null'
-        const code = src.replace(
-          /(export {\s*createContext)/g,
-          `
-  export ${effect_export};
-  $1, pop,push`,
-        )
-
-        return { code, map: null }
       }
     },
   }
