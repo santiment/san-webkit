@@ -341,6 +341,6 @@
   <p class="mt-2 text-center text-sm text-casper sm:!text-sm">
     {isPhone
       ? 'Check important info for mistakes'
-      : 'Turtoshi surfs only through our Academy. Check important info for mistakes.'}
+      : 'Limited to Santiment Academy, check important info for mistakes.'}
   </p>
 </Dialog>
