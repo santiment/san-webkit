@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { SANBASE_ORIGIN } from '$lib/utils/links.js'
   import ProfilePicture from '$ui/app/AccountDropdown/ProfilePicture.svelte'
