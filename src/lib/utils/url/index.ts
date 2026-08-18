@@ -12,5 +12,5 @@ export const getSEOLinkFromIdAndTitle = (id: number | string, title?: string): s
 export const getIdFromSEOLink = (link: string): number =>
   (link || '') === '' ? NaN : +link.slice(link.lastIndexOf('-') + 1)
 
-export { useFromPath, getUrlPath } from './from.svelte.js'
+export { getFromSearch, getUrlPath } from './from.js'
 export { mutateCreateShortUrl } from './short.js'

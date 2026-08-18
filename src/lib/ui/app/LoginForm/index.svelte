@@ -2,6 +2,7 @@
   import type { Snippet } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
+  import { getFromSearch } from '$lib/utils/url/from.js'
 
   import Section from './Section.svelte'
   import Metamask from './Metamask.svelte'
@@ -37,7 +38,7 @@
 
   let verifiedEmail = $state<string>()
 
-  const bottomHref = $derived(bottomPath + `?from=${encodeURIComponent(from)}`)
+  const bottomHref = $derived(bottomPath + getFromSearch(from))
 </script>
 
 {#if verifiedEmail}
