@@ -21,81 +21,104 @@
     onLogout?: () => void
   }
 
-  let { class: className, version = '1.0.0', onAcknowledgmentsClick, onLogout }: TProps = $props()
+  const { class: className, version = '1.0.0', onAcknowledgmentsClick, onLogout }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
   const { ui } = useUiCtx()
   const { toggleNightMode } = useCustomerNightModeToggleFlow()
   const { startLogout } = useLogoutFlow()
 
+  let isOpened = $state(false)
+
   function onLogoutClick() {
     trackEvent('logout', { timestamp: Date.now() })
     startLogout().then(onLogout)
   }
+
+  const close = () => (isOpened = false)
+
+  function onContentClick({ target }: MouseEvent) {
+    if (target instanceof Element && target.closest('button, a')) {
+      close()
+    }
+  }
 </script>
 
-<Popover class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column" openOnHover>
+<Popover
+  bind:isOpened
+  class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column"
+  openOnHover
+>
   {#snippet children({ props })}
     <ProfilePicture class={className} {...props}></ProfilePicture>
   {/snippet}
 
-  {#snippet content({ close })}
-    {#if currentUser.$$}
-      <AccountInfo></AccountInfo>
-
-      <section class="px-5 py-2.5">
-        Version: <span class="text-waterloo">{version}</span>
-      </section>
-
-      <section class="flex flex-col gap-1 px-3 py-1">
-        {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
-
-        {@render sanbaseLink('Account settings', '/account')}
-      </section>
-
-      <section class="flex flex-col gap-1 px-3 pb-2.5 pt-2">
-        {@render sanbaseLink('My alerts', '/alerts')}
-
-        {@render sanbaseLink('My watchlists', '/watchlists')}
-
-        {@render sanbaseLink('My insights', '/insights/my')}
-
-        {@render sanbaseLink('Write insight', '/insights/new', {
-          variant: 'fill',
-          class: 'hover:text-white-day ml-2.5 w-max px-5',
-        })}
-      </section>
-    {:else}
-      <section class="flex flex-col px-3 py-2.5">
-        {@render sanbaseLink('Sign up', '/sign-up', {
-          icon: 'user',
-          class: 'fill-green text-green',
-        })}
-      </section>
-    {/if}
-
-    <section class="flex flex-col gap-1 px-3 py-2.5">
-      <Button as="label" variant="ghost" class="justify-between hover:text-rhino">
-        Night mode
-        <Switch checked={ui.$$.isNightMode} onCheckedChange={toggleNightMode}></Switch>
-      </Button>
-
-      {#if onAcknowledgmentsClick}
-        <Button class="hover:text-rhino" variant="ghost" onclick={onAcknowledgmentsClick}>
-          Acknowledgments
-        </Button>
-      {/if}
-
+  {#snippet content()}
+    <!-- svelte-ignore a11y_click_events_have_key_events -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
+    <section class="flex flex-col" onclick={onContentClick}>
       {#if currentUser.$$}
-        <Button
-          variant="ghost"
-          icon="logout"
-          class="fill-waterloo hover:fill-red hover:text-red"
-          onclick={() => (close(), onLogoutClick())}
-        >
-          Log out
-        </Button>
+        <AccountInfo></AccountInfo>
+
+        <section class="px-5 py-2.5">
+          Version: <span class="text-waterloo">{version}</span>
+        </section>
+
+        <section class="flex flex-col gap-1 px-3 py-1">
+          {@render sanbaseLink('My profile', `/profile/${currentUser.$$.id}`)}
+
+          {@render sanbaseLink('Account settings', '/account')}
+        </section>
+
+        <section class="flex flex-col gap-1 px-3 pb-2.5 pt-2">
+          {@render sanbaseLink('My alerts', '/alerts')}
+
+          {@render sanbaseLink('My watchlists', '/watchlists')}
+
+          {@render sanbaseLink('My insights', '/insights/my')}
+
+          {@render sanbaseLink('Write insight', '/insights/new', {
+            variant: 'fill',
+            class: 'hover:text-white-day ml-2.5 w-max px-5',
+          })}
+        </section>
+      {:else}
+        <section class="flex flex-col px-3 py-2.5">
+          {@render sanbaseLink('Sign up', '/sign-up', {
+            icon: 'user',
+            class: 'fill-green text-green',
+          })}
+        </section>
       {/if}
+
+      <section class="flex flex-col gap-1 px-3 py-2.5">
+        <Button
+          as="label"
+          variant="ghost"
+          class="justify-between hover:text-rhino"
+          onclick={(e) => e.stopPropagation()}
+        >
+          Night mode
+          <Switch checked={ui.$$.isNightMode} onCheckedChange={toggleNightMode} />
+        </Button>
+
+        {#if onAcknowledgmentsClick}
+          <Button class="hover:text-rhino" variant="ghost" onclick={() => onAcknowledgmentsClick()}>
+            Acknowledgments
+          </Button>
+        {/if}
+
+        {#if currentUser.$$}
+          <Button
+            variant="ghost"
+            icon="logout"
+            class="fill-waterloo hover:fill-red hover:text-red"
+            onclick={() => onLogoutClick()}
+          >
+            Log out
+          </Button>
+        {/if}
+      </section>
     </section>
   {/snippet}
 </Popover>

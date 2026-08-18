@@ -57,13 +57,14 @@
         Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
       </p>
     {:else if planName.includes('Pro')}
-      <a
+      <Button
+        variant="plain"
         href={SANBASE_ORIGIN + '/pricing'}
         class="-mt-1 text-orange"
         data-source="account_dropdown"
       >
         Learn about {planName}
-      </a>
+      </Button>
     {/if}
   </section>
 {/if}
