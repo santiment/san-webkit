@@ -94,18 +94,6 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   },
 
   {
-    category: 'API',
-    features: [
-      { name: 'Historical data restriction', isLimit: true },
-
-      { name: 'Realtime restriction for restricted metrics', isLimit: true },
-      { name: 'API calls / minute', isLimit: true },
-      { name: 'API calls / hour', isLimit: true },
-      { name: 'API calls / month', isLimit: true },
-    ],
-  },
-
-  {
     category: 'Support',
     features: [
       { name: 'Support through Intercom/Discord', isCheck: true },
