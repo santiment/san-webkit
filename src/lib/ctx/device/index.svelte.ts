@@ -72,10 +72,17 @@ function onDeviceTypeChange(deviceType: DeviceType) {
 }
 
 if (BROWSER) {
-  const queries = DEVICE_BREAKPOINTS.map(({ breakpoint, device }) => ({
-    device,
-    media: window.matchMedia(`(max-width: ${BREAKPOINTS[breakpoint]})`),
-  }))
+  const queries = DEVICE_BREAKPOINTS.map(({ breakpoint, device }, i, deviceBreakpoints) => {
+    const prevDevice = i > 0 ? deviceBreakpoints.at(i - 1) : undefined
+    const prevBreakpoint = prevDevice ? BREAKPOINTS[prevDevice.breakpoint] : '0px'
+
+    return {
+      device,
+      media: window.matchMedia(
+        `(min-width: calc(${prevBreakpoint} + 1px)) and (max-width: ${BREAKPOINTS[breakpoint]})`,
+      ),
+    }
+  })
 
   const onBreakpointChange = () => onDeviceTypeChange(getViewportDeviceType(queries))
 
