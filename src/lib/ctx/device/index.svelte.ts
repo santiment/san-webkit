@@ -3,20 +3,26 @@ import { untrack } from 'svelte'
 
 import { createCtx, ss } from '$lib/utils/index.js'
 
+import { BREAKPOINTS } from './breakpoints.js'
+
 export enum DeviceType {
   Desktop = 'desktop',
   Tablet = 'tablet',
   Phone = 'phone',
+
+  /** @deprecated use [DeviceType.Phone] instead */
   PhoneXs = 'phone-xs',
 }
 
 export type DeviceInfo = ReturnType<typeof getDeviceInfo>
 
 export function getDeviceInfo(type: DeviceType) {
-  const isPhone = type.includes(DeviceType.Phone)
-  const isMobile = isPhone || type === DeviceType.Tablet
+  const isPhone = type === DeviceType.Phone || type === DeviceType.PhoneXs
+  const isTablet = type === DeviceType.Tablet
+  const isDesktop = type === DeviceType.Desktop
+  const isMobile = isPhone || isTablet
 
-  return { type, isMobile, isPhone, isDesktop: !isMobile }
+  return { type, isPhone, isTablet, isMobile, isDesktop }
 }
 
 export function normalizeDeviceType(type: string | undefined): DeviceType {
@@ -30,7 +36,26 @@ export function normalizeDeviceType(type: string | undefined): DeviceType {
   }
 }
 
+type DeviceMediaQuery = {
+  device: DeviceType
+  media: Pick<MediaQueryList, 'matches'>
+}
+
+type DeviceBreakpoint = {
+  breakpoint: keyof typeof BREAKPOINTS
+  device: DeviceType
+}
+
+const DEVICE_BREAKPOINTS: DeviceBreakpoint[] = [
+  { breakpoint: 'xs', device: DeviceType.PhoneXs },
+  { breakpoint: 'sm', device: DeviceType.Phone },
+  { breakpoint: 'md', device: DeviceType.Tablet },
+]
+
 const device = ss(getDeviceInfo(DeviceType.Desktop))
+
+const getViewportDeviceType = (queries: DeviceMediaQuery[]) =>
+  queries.find(({ media }) => media.matches)?.device ?? DeviceType.Desktop
 
 function onDeviceTypeChange(deviceType: DeviceType) {
   untrack(() => {
@@ -46,20 +71,23 @@ function onDeviceTypeChange(deviceType: DeviceType) {
 }
 
 if (BROWSER) {
-  function mapWindowToDevice(): DeviceType {
-    const { innerWidth } = window
+  const queries = DEVICE_BREAKPOINTS.map(({ breakpoint, device }, i, deviceBreakpoints) => {
+    const prevDevice = i > 0 ? deviceBreakpoints.at(i - 1) : undefined
+    const prevBreakpoint = prevDevice ? BREAKPOINTS[prevDevice.breakpoint] : '0px'
 
-    if (innerWidth < 480) return DeviceType.PhoneXs
-    if (innerWidth < 768) return DeviceType.Phone
-    if (innerWidth < 992) return DeviceType.Tablet
+    return {
+      device,
+      media: window.matchMedia(
+        `(min-width: calc(${prevBreakpoint} + 1px)) and (max-width: ${BREAKPOINTS[breakpoint]})`,
+      ),
+    }
+  })
 
-    return DeviceType.Desktop
-  }
+  const onBreakpointChange = () => onDeviceTypeChange(getViewportDeviceType(queries))
 
-  const onResize = () => onDeviceTypeChange(mapWindowToDevice())
+  onBreakpointChange()
 
-  onResize()
-  window.addEventListener('resize', onResize, { passive: true })
+  queries.forEach(({ media }) => media.addEventListener('change', onBreakpointChange))
 }
 
 export const useDeviceCtx = createCtx('useDeviceCtx', (deviceType?: DeviceType) => {
