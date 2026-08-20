@@ -1,6 +1,8 @@
 export const BREAKPOINTS = Object.freeze({
-  lg: '1279px',
-  md: '992px',
-  sm: '768px',
+  lg: '1535px',
+  md: '1200px',
+  sm: '767px',
+
+  /** @deprecated */
   xs: '480px',
 })

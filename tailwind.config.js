@@ -49,10 +49,13 @@ export default {
     },
 
     screens: {
-      lg: { max: BREAKPOINTS.lg }, //Laptop
-      md: { max: BREAKPOINTS.md }, //Tablet
-      sm: { max: BREAKPOINTS.sm }, //Phone
-      xs: { max: BREAKPOINTS.xs }, //Phone XS
+      // Default styles are for desktop and large desktop if lg: styles are present
+      lg: { max: BREAKPOINTS.lg }, // Regular Desktop
+      md: { max: BREAKPOINTS.md }, // Tablet / small laptop
+      sm: { max: BREAKPOINTS.sm }, // Phone
+
+      // Do not use. Left only for compatibility
+      xs: { max: BREAKPOINTS.xs }, // Phone XS
     },
 
     fontSize: {
