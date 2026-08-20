@@ -80,7 +80,7 @@
       class={cn(
         'relative mt-5 flex items-center justify-center gap-[90px]',
         'rounded-md border border-porcelain bg-whale px-6 py-5',
-        'sm:!gap-8 xs:!flex-col xs:!text-center',
+        'sm:!flex-col sm:!gap-8 sm:!text-center',
       )}
     >
       <Button
