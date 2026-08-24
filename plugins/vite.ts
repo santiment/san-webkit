@@ -13,8 +13,8 @@ export function WebkitSvg() {
   const base = __dirname()
   const isLibPackage = base.includes('node_modules')
 
-  const ICONS_PATH = './src/lib/icons'
-  const ILLUS_PATH = './src/lib/illus'
+  const ICONS_PATH = './dist/icons'
+  const ILLUS_PATH = './dist/illus'
 
   const staticDir = './static/webkit/'
   const spritesStaticDir = './static/webkit/sprites/'
