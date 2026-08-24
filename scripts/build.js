@@ -101,7 +101,7 @@ async function replaceStaticMetricsRestrictions() {
 }
 
 async function replaceSrcImports() {
-  await forFile(['./vite.config.*', './plugins/vite.*'], (entry) => {
+  await forFile(['./vite.config.*', './plugins/vite.*', './tailwind.config.*'], (entry) => {
     const file = fs.readFileSync(entry)
     fs.writeFileSync(entry, file.toString().replaceAll('/src/lib/', '/dist/'))
   })
