@@ -2,6 +2,7 @@
   import type { Selected } from '$ui/core/Select/index.js'
 
   import Select from '$ui/core/Select/index.js'
+  import ExplanationTooltip from '$ui/core/ExplanationTooltip/index.js'
 
   const items: Selected<string>[] = [
     { value: 'apples', label: 'Apples' },
@@ -20,5 +21,15 @@
   <div class="sticky bottom-0 flex flex-col items-start overflow-hidden border p-2">
     overflow select
     <Select {items} bind:selected />
+  </div>
+
+  <div class="sticky bottom-0 flex flex-col items-start overflow-hidden border p-2">
+    select with explanation
+
+    <ExplanationTooltip explanation="select explanation">
+      {#snippet trigger({ ref })}
+        <Select {ref} {items} bind:selected />
+      {/snippet}
+    </ExplanationTooltip>
   </div>
 </div>
