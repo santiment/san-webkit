@@ -18,6 +18,12 @@
   import { useShiftModeStartPoint } from './PaneLegend/ctx.svelte.js'
 
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
+  type TInteractionFeatures = {
+    modeShortcuts?: boolean
+    rangeSelection?: boolean
+    doubleClickReset?: boolean
+  }
+
   type TProps = {
     /**
      * DRAG, SHIFT, ZOOM
@@ -27,8 +33,9 @@
     watermark?: boolean
     watermarkOpacity?: string
     options?: Parameters<typeof createChart>[1]
-    onRangeSelectChange: TRangeSelectHandler
-    onRangeSelectEnd: TRangeSelectHandler
+    interactionFeatures?: false | TInteractionFeatures
+    onRangeSelectChange?: TRangeSelectHandler
+    onRangeSelectEnd?: TRangeSelectHandler
     children: Snippet
   }
   let {
@@ -37,6 +44,7 @@
     watermark = true,
     watermarkOpacity,
     options,
+    interactionFeatures = {},
     onRangeSelectChange,
     onRangeSelectEnd,
     children,
@@ -54,8 +62,13 @@
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
-  useChartModeShortcut('SHIFT', Mode.SHIFT)
-  useChartModeShortcut('CMD', Mode.ZOOM)
+  if (
+    isInteractionFeatureEnabled('modeShortcuts') &&
+    isInteractionFeatureEnabled('rangeSelection')
+  ) {
+    useChartModeShortcut('SHIFT', Mode.SHIFT)
+    useChartModeShortcut('CMD', Mode.ZOOM)
+  }
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
@@ -77,23 +90,31 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    createRangeSelection(chart.$!, {
-      color: '#9faac435',
-      onRangeSelectChange: _onRangeSelectChange,
-      onRangeSelectEnd: _onRangeSelectEnd,
-      axisLabels: {
-        textColor: getBrowserCssVariable('white'),
-        bg: getBrowserCssVariable('waterloo'),
-      },
-    })
+    const rangeSelection = isInteractionFeatureEnabled('rangeSelection')
+      ? createRangeSelection(chart.$!, {
+          color: '#9faac435',
+          onRangeSelectChange: _onRangeSelectChange,
+          onRangeSelectEnd: _onRangeSelectEnd,
+          axisLabels: {
+            textColor: getBrowserCssVariable('white'),
+            bg: getBrowserCssVariable('waterloo'),
+          },
+        })
+      : null
 
     const resetScalesOnDblClick = () => chart.$?.resetAllScales()
-    chart.$.subscribeDblClick(resetScalesOnDblClick)
+    const isDoubleClickResetEnabled = isInteractionFeatureEnabled('doubleClickReset')
+    if (isDoubleClickResetEnabled) {
+      chart.$.subscribeDblClick(resetScalesOnDblClick)
+    }
 
     return () => {
       if (!chart.$) return
 
-      chart.$.unsubscribeDblClick(resetScalesOnDblClick)
+      rangeSelection?.detach()
+      if (isDoubleClickResetEnabled) {
+        chart.$.unsubscribeDblClick(resetScalesOnDblClick)
+      }
       chart.$.remove()
       chart.$ = undefined
     }
@@ -130,6 +151,8 @@
   })
 
   onMount(() => {
+    if (!isInteractionFeatureEnabled('modeShortcuts')) return
+
     window.addEventListener('blur', resetChartInteractionMode)
     return () => window.removeEventListener('blur', resetChartInteractionMode)
   })
@@ -195,6 +218,10 @@
     isScrollEnabled = false
     mode = Mode.DRAG
     startPointIndex.$ = null
+  }
+
+  function isInteractionFeatureEnabled(feature: keyof TInteractionFeatures) {
+    return interactionFeatures !== false && interactionFeatures[feature] !== false
   }
 </script>
 
