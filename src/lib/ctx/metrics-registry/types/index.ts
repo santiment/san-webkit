@@ -93,6 +93,8 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   lineStyle?: LineStyle
   color?: string
   visible?: boolean
+  lastValueVisible?: boolean
+  priceLineVisible?: boolean
   pane?: number
   unit?: TMetricUnit
 
