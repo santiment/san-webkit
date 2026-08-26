@@ -593,3 +593,30 @@ export const LineStyleMetrics: Story = {
     ],
   },
 }
+
+export const FixedLineWithText: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Default Line (btc)',
+        style: 'line',
+      },
+      {
+        type: MetricType.DATA_STORE,
+        title: 'Label text',
+        color: '#5275FF',
+        style: 'line',
+        lineStyle: LineStyle.Dashed,
+        lastValueVisible: false,
+        priceLineVisible: false,
+        scaleId: 'right',
+        scaleMargins: { top: 0.1, bottom: 0 },
+        data: [
+          { time: 0, value: 20_000 },
+          { time: Date.now() / 1000, value: 20_000 },
+        ],
+      },
+    ],
+  },
+}
