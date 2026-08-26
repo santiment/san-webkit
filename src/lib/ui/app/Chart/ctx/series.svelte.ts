@@ -82,6 +82,8 @@ type TBaseSeries<GType extends TMetricTypes> = {
       color: string
       style: NonNullable<TChartMetric['style']>
       lineStyle: LineStyle
+      lastValueVisible: boolean
+      priceLineVisible: boolean
       unit: TChartMetric['unit']
 
       isSelectorLocked: boolean
@@ -116,6 +118,8 @@ type TBaseSeries<GType extends TMetricTypes> = {
     color: string
     style: TMetricStyles
     lineStyle: LineStyle
+    lastValueVisible?: boolean
+    priceLineVisible?: boolean
     unit?: TMetricUnit
 
     scaleId?: string
@@ -191,6 +195,8 @@ export function createSeries(
     lineStyle = LineStyle.Solid,
     color = '#00ff00',
     visible = true,
+    lastValueVisible = true,
+    priceLineVisible = true,
 
     scaleId,
     scaleMargins,
@@ -230,6 +236,8 @@ export function createSeries(
     color,
     style,
     lineStyle,
+    lastValueVisible,
+    priceLineVisible,
     unit,
 
     isSelectorLocked,
@@ -359,6 +367,10 @@ export function createSeries(
 
         // default true -> undefined (omit from API)
         visible: metric.visible.$ && undefined,
+        // default true -> undefined (omit from API)
+        lastValueVisible: metric.ui.$$.lastValueVisible && undefined,
+        // default true -> undefined (omit from API)
+        priceLineVisible: metric.ui.$$.priceLineVisible && undefined,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
         lineStyle: metric.ui.$$.lineStyle,
