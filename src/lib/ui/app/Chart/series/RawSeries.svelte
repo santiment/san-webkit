@@ -77,13 +77,15 @@
   })
 
   $effect.pre(() => {
-    const { color, style } = ui.$$
+    const { color, style, lineStyle } = ui.$$
     const options = { color }
 
     if (style === MetricStyle.AREA) {
-      Object.assign(options, getAreaSeriesColors(series))
+      Object.assign(options, getAreaSeriesColors(series), { lineStyle })
     } else if (style === MetricStyle.CANDLES) {
       Object.assign(options, getCandlesSeriesColors(series))
+    } else if (style !== MetricStyle.HISTOGRAM) {
+      Object.assign(options, { lineStyle })
     }
 
     chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
@@ -143,11 +145,19 @@
       case MetricStyle.HISTOGRAM:
         return Object.assign(base, { zOrder: 10 })
       case MetricStyle.AREA:
-        return Object.assign(base, { zOrder: 20, lineWidth: 1.5 as LineWidth })
+        return Object.assign(base, {
+          zOrder: 20,
+          lineWidth: 1.5 as LineWidth,
+          lineStyle: ui.$$.lineStyle,
+        })
       case MetricStyle.CANDLES:
         return Object.assign(base, { zOrder: 30 })
       default:
-        return Object.assign(base, { zOrder: 60, lineWidth: 2 as LineWidth })
+        return Object.assign(base, {
+          zOrder: 60,
+          lineWidth: 2 as LineWidth,
+          lineStyle: ui.$$.lineStyle,
+        })
     }
   }
 </script>
