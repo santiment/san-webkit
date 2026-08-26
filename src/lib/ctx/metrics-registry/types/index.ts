@@ -89,6 +89,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
 
   data?: TMetricData
   label?: string
+  title?: string
   style?: TMetricStyles
   lineStyle?: LineStyle
   color?: string
