@@ -24,6 +24,7 @@ export {
   checkIsCurrentPlan,
   getPlanName,
   getFormattedPlan,
+  getPlansApiLimitsMap,
 } from './utils.js'
 export {
   type TPublicSubscription,
