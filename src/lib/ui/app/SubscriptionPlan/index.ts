@@ -14,6 +14,7 @@ export {
   CONSUMER_PLANS,
   getSubscriptionPlanKey,
   convertSubscriptionPlan,
+  getNextUpgradePlan,
 } from './plans.js'
 export {
   checkIsSanbaseProduct,
