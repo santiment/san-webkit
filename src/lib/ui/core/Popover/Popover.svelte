@@ -11,6 +11,8 @@
   import { cn } from '$ui/utils/index.js'
   import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
 
+  import { useCloseOnOutsideClick } from './closeOutside.svelte.js'
+
   type TProps = {
     class?: string
     children?: PopoverTriggerProps['child']
@@ -30,6 +32,7 @@
     openDelay?: number
     closeDelay?: number
     openOnHover?: boolean
+    closeOnOutsideClick?: boolean
   }
 
   let {
@@ -39,6 +42,7 @@
     noStyles = false,
     matchTriggerWidth = false,
     openOnHover = false,
+    closeOnOutsideClick = false,
     isOpened = $bindable(false),
 
     openDelay = 0,
@@ -54,10 +58,16 @@
   }: TProps = $props()
 
   const preventFocus = (e: Event) => e.preventDefault()
+
+  const { triggerEl, contentEl } = useCloseOnOutsideClick({
+    enabled: closeOnOutsideClick,
+    getIsOpened: () => isOpened,
+    close: () => (isOpened = false),
+  })
 </script>
 
 <Popover.Root {...rootProps} bind:open={isOpened}>
-  <Popover.Trigger child={children} {openDelay} {closeDelay} {openOnHover} />
+  <Popover.Trigger bind:ref={triggerEl.$} child={children} {openDelay} {closeDelay} {openOnHover} />
 
   <Popover.Portal disabled={!portalTo} to={portalTo}>
     <Popover.Content
@@ -65,6 +75,7 @@
       onCloseAutoFocus={preventFocus}
       onOpenAutoFocus={preventFocus}
       {...contentProps}
+      bind:ref={contentEl.$}
       {align}
       {side}
       forceMount
