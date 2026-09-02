@@ -118,6 +118,9 @@ export type TCurrentUser = {
     alertNotifyTelegram: boolean
     hasTelegramConnected: boolean
     isSubscribedDevActivityUpdates: boolean
+    isSubscribedWeeklyNewsletter: boolean
+    isSubscribedCommentsEmails: boolean
+    isSubscribedLikesEmails: boolean
   }
 
   notificationTypeSettings: {
@@ -162,6 +165,9 @@ const queryCurrentUser = ApiQuery(
       alertNotifyTelegram
       hasTelegramConnected
       isSubscribedDevActivityUpdates
+      isSubscribedWeeklyNewsletter
+      isSubscribedCommentsEmails
+      isSubscribedLikesEmails
     }
     notificationTypeSettings {
       isEnabled
