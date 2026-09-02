@@ -78,7 +78,7 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
     priority: VIEWPORT_PRIORITY.NOT_VISIBLE as number,
   })
 
-  const action: Action<HTMLElement, { top: string; bottom: string } | undefined> = (
+  const action: Action<HTMLElement, TViewportMargins | undefined> = (
     node,
     margins: TViewportMargins = { top: '0px', bottom: '0px' },
   ) => {
