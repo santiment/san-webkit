@@ -6,7 +6,9 @@
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
+  import Button from '$ui/core/Button/Button.svelte'
 
+  import orientationSvg from './orientation.svg'
   import { useCreateDialog } from '../state.svelte.js'
 
   type TProps = {
@@ -56,7 +58,26 @@
       {...$content}
       use:content
     >
-      {@render children({ close })}
+      {#if isLandscape}
+        {@render children({ close })}
+      {:else}
+        <section
+          class="flex h-screen flex-col items-center justify-center gap-8 bg-casper-night text-white-day"
+        >
+          <img src={orientationSvg} alt="phone orientation" />
+
+          <p class="max-w-64 text-center text-lg">
+            Please, move your phone into a horizontal position to see fullscreen chart
+          </p>
+
+          <Button
+            icon="close"
+            iconSize={16}
+            onclick={close.bind(null, true)}
+            class="absolute right-4 top-4 fill-white-day"
+          />
+        </section>
+      {/if}
     </div>
   </div>
 {/if}
