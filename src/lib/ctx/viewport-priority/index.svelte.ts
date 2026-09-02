@@ -66,6 +66,8 @@ export function useItemViewportPriorityFlow() {
   )
 }
 
+type TViewportMargins = { top: string; bottom: string } | { left: string; right: string }
+
 export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPriorityCtx', () => {
   const rootCtx = useViewportPriorityCtx.get()
 
@@ -78,7 +80,7 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
 
   const action: Action<HTMLElement, { top: string; bottom: string } | undefined> = (
     node,
-    margins = { top: '0px', bottom: '0px' },
+    margins: TViewportMargins = { top: '0px', bottom: '0px' },
   ) => {
     const viewportAnchor = createViewportAnchor(node, margins)
 
@@ -86,7 +88,11 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
     ObservedSettings.set(viewportAnchor, observedData)
     observer.observe(viewportAnchor)
 
-    settings.priority = getNodeClientRectViewportPriority(viewportAnchor)
+    settings.priority = (
+      'top' in margins
+        ? getNodeClientRectVerticalViewportPriority
+        : getNodeClientRectHorizontalViewportPriority
+    )(viewportAnchor)
 
     return {
       destroy() {
@@ -109,30 +115,35 @@ export const useItemViewportPriorityCtx = createCtx('webkit_useItemViewportPrior
 /**
  * Viewport anchor allows to have rootMargins without providing custom `root` scroll element
  */
-function createViewportAnchor(node: HTMLElement, margins: { top: string; bottom: string }) {
+function createViewportAnchor(node: HTMLElement, margins: TViewportMargins) {
   const div = document.createElement('div')
-  applyStyles(div, {
-    position: 'absolute',
-    left: '0',
-    right: '0',
-    zIndex: '-1',
-    top: margins.top,
-    bottom: margins.bottom,
-  })
+
+  const {
+    top = '0',
+    bottom = '0',
+    left = '0',
+    right = '0',
+  } = margins as { left: string; right: string; top: string; bottom: string }
+
+  applyStyles(div, { position: 'absolute', zIndex: '-1', left, right, top, bottom })
+
   div.classList.add('viewport-anchor')
   node.appendChild(div)
   return div
 }
 
-function getNodeClientRectViewportPriority(node: Element) {
+// NOTE: This is initial strict viewport check. After mount, intersection observer will be used to update priority based on provided margins.
+function getNodeClientRectVerticalViewportPriority(node: Element) {
   const viewportHeight = window.innerHeight
 
   const { top, bottom } = node.getBoundingClientRect()
 
-  if (viewportHeight < top) {
+  // NOTE: Target's top is outside the viewport's bottom
+  if (top > viewportHeight) {
     return VIEWPORT_PRIORITY.NOT_VISIBLE
   }
 
+  // NOTE: Target's bottom is outside the viewport's top
   if (bottom < 0) {
     return VIEWPORT_PRIORITY.NOT_VISIBLE
   }
@@ -142,6 +153,32 @@ function getNodeClientRectViewportPriority(node: Element) {
   }
 
   if (top + 200 > 0 && bottom - 200 < viewportHeight) {
+    return VIEWPORT_PRIORITY.VISIBLE
+  }
+
+  return VIEWPORT_PRIORITY.HALF_VISIBLE
+}
+
+function getNodeClientRectHorizontalViewportPriority(node: Element) {
+  const viewportWidth = window.innerWidth
+
+  const { left, right } = node.getBoundingClientRect()
+
+  // NOTE: Target's left is outside the viewport's right
+  if (left > viewportWidth) {
+    return VIEWPORT_PRIORITY.NOT_VISIBLE
+  }
+
+  // NOTE: Target's right is outside the viewport's left
+  if (right < 0) {
+    return VIEWPORT_PRIORITY.NOT_VISIBLE
+  }
+
+  if (left <= 0 && right >= viewportWidth) {
+    return VIEWPORT_PRIORITY.VISIBLE
+  }
+
+  if (left + 200 > 0 && right - 200 < viewportWidth) {
     return VIEWPORT_PRIORITY.VISIBLE
   }
 
