@@ -5,7 +5,7 @@
   import { onMount, type Snippet } from 'svelte'
 
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
-  import { cn, flyAndScale } from '$ui/utils/index.js'
+  import { cn } from '$ui/utils/index.js'
 
   import { useCreateDialog } from '../state.svelte.js'
 
@@ -49,10 +49,10 @@
     <div
       class={cn(
         'fixed inset-0 z-50 overflow-hidden bg-white',
-        !isLandscape && 'top-full h-[100dvw] w-[100dvh] origin-top-left -rotate-90',
+        // Keeping animation classes separate
+        'animated origin-center data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-90',
         className,
       )}
-      transition:flyAndScale
       {...$content}
       use:content
     >
