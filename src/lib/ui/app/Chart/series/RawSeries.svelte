@@ -77,8 +77,8 @@
   })
 
   $effect.pre(() => {
-    const { color, style, lineStyle } = ui.$$
-    const options = { color }
+    const { color, style, lineStyle, lastValueVisible, priceLineVisible } = ui.$$
+    const options = { color, lastValueVisible, priceLineVisible }
 
     if (style === MetricStyle.AREA) {
       Object.assign(options, getAreaSeriesColors(series), { lineStyle })
@@ -139,7 +139,12 @@
   }
 
   function getSeriesTypeOptions() {
-    const base = { zOrder: 10, priceFormat: untrack(() => priceFormat) }
+    const base = {
+      zOrder: 10,
+      priceFormat: untrack(() => priceFormat),
+      lastValueVisible: ui.$$.lastValueVisible,
+      priceLineVisible: ui.$$.priceLineVisible,
+    }
 
     switch (ui.$$.style) {
       case MetricStyle.HISTOGRAM:
