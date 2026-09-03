@@ -26,7 +26,7 @@
   })
 </script>
 
-<Dialog class="max-w-[480px] column md:mx-auto md:h-max sm:max-w-full">
+<Dialog class="max-w-[480px] column sm:h-auto sm:max-w-full">
   <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
     Restricted data
 
