@@ -11,6 +11,9 @@ export type TProductsWithPlans = readonly {
     amount: number
     isDeprecated: boolean
     product: { id: string }
+    apiCallLimits: {
+      month: number
+    } | null
   }[]
 }[]
 
@@ -28,6 +31,9 @@ export const queryProductsWithPlans = ApiQuery(
       interval
       amount
       isDeprecated
+      apiCallLimits {
+        month
+      }
     }
   }
 }`,
