@@ -27,10 +27,12 @@
       return mutateEmailLoginNewsletter()({ email, token }).pipe(
         catchError((error) => {
           console.error(error)
-          turnstileRef.reset()
           return of(null)
         }),
-        tap(() => (loading = false)),
+        tap(() => {
+          loading = false
+          turnstileRef.reset()
+        }),
         tap((result) => {
           if (result) {
             notification.success('Verification email was sent to the provided email!')
