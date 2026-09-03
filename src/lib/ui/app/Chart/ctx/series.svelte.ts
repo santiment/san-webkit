@@ -80,6 +80,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
   ui: {
     get $$(): {
       color: string
+      title: string
       style: NonNullable<TChartMetric['style']>
       lineStyle: LineStyle
       lastValueVisible: boolean
@@ -116,6 +117,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
 
     visible?: boolean
     color: string
+    title?: string
     style: TMetricStyles
     lineStyle: LineStyle
     lastValueVisible?: boolean
@@ -181,6 +183,7 @@ export function createSeries(
     apiMetricName = '',
 
     label = apiMetricName,
+    title = '',
     data = [],
 
     // getLabels$ = DEFAULT_LABELS_GETTER,
@@ -234,6 +237,7 @@ export function createSeries(
 
   const ui = $state({
     color,
+    title,
     style,
     lineStyle,
     lastValueVisible,
@@ -372,6 +376,7 @@ export function createSeries(
         // default true -> undefined (omit from API)
         priceLineVisible: metric.ui.$$.priceLineVisible && undefined,
         color: metric.ui.$$.color,
+        title: metric.ui.$$.title || undefined,
         style: metric.ui.$$.style,
         lineStyle: metric.ui.$$.lineStyle,
         unit: metric.ui.$$.unit,
