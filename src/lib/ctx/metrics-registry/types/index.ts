@@ -96,6 +96,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   visible?: boolean
   lastValueVisible?: boolean
   priceLineVisible?: boolean
+  crosshairMarkerVisible?: boolean
   pane?: number
   unit?: TMetricUnit
 

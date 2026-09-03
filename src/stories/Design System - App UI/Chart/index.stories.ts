@@ -555,6 +555,34 @@ export const LineValueIndicators: Story = {
   },
 }
 
+export const CrosshairMarkerVisibility: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Marker visible (default)',
+        style: 'line',
+        scaleId: 'right-price-usd',
+      },
+      {
+        apiMetricName: 'price_eth',
+        label: 'Marker hidden',
+        style: 'line',
+        scaleId: 'right-price-eth',
+        crosshairMarkerVisible: false,
+      },
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Hover the chart to compare the default line marker with a line configured using `crosshairMarkerVisible: false`.',
+      },
+    },
+  },
+}
+
 export const UnderMaintenanceMetric: Story = {
   args: {
     defaultMetrics: [
