@@ -117,16 +117,22 @@
     if (!chart.$) return
 
     const scrollOptions = ModeOptions[mode].handleScroll
+    const configuredScroll = typeof options?.handleScroll === 'object' ? options.handleScroll : null
+    const configuredScale = typeof options?.handleScale === 'object' ? options.handleScale : null
 
-    const options = {
+    const interactionOptions = {
       handleScroll: {
-        pressedMouseMove: scrollOptions.pressedMouseMove,
-        mouseWheel: scrollOptions.mouseWheel && isScrollEnabled,
+        pressedMouseMove:
+          scrollOptions.pressedMouseMove && configuredScroll?.pressedMouseMove !== false,
+        mouseWheel:
+          scrollOptions.mouseWheel && isScrollEnabled && configuredScroll?.mouseWheel !== false,
       },
-      handleScale: { mouseWheel: isScrollEnabled },
+      handleScale: {
+        mouseWheel: isScrollEnabled && configuredScale?.mouseWheel !== false,
+      },
     }
 
-    chart.$.applyOptions(options)
+    chart.$.applyOptions(interactionOptions)
   })
 
   onMount(() => {
