@@ -11,7 +11,7 @@
   <Table>
     <TableHeader sticky>
       <TableRow>
-        <TableHead>#</TableHead>
+        <TableHead class="w-px">#</TableHead>
         <TableHead>Name</TableHead>
         <TableHead>Price</TableHead>
         <TableHead>Count</TableHead>
@@ -20,7 +20,7 @@
     <TableBody>
       {#each DATA as { id, title, price, volume }, i}
         <TableRow>
-          <TableCell>{id + 1}</TableCell>
+          <TableCell class="w-px">{id + 1}</TableCell>
           <TableCell>{title}</TableCell>
           <TableCell>{usdFormatter(price)}</TableCell>
           <TableCell>{volume}</TableCell>

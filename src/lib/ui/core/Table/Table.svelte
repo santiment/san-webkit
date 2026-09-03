@@ -12,6 +12,9 @@
   const { class: className, children, ...props }: TProps = $props()
 </script>
 
-<table class={cn('relative w-full border-spacing-0 text-left', className)} {...props}>
+<table
+  class={cn('relative w-full border-collapse border-spacing-0 text-left indent-0', className)}
+  {...props}
+>
   {@render children()}
 </table>
