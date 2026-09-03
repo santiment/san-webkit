@@ -7,7 +7,9 @@
     CandlestickSeries,
     HistogramSeries,
     LineSeries,
+    type AutoscaleInfoProvider,
     type LineWidth,
+    type PriceRange,
   } from '@santiment-network/chart-next'
 
   import { MetricStyle } from '$lib/ctx/metrics-registry/types/index.js'
@@ -105,6 +107,13 @@
   })
 
   $effect.pre(() => {
+    const autoscalePriceRange = scale.$$.autoscalePriceRange
+    const autoscaleInfoProvider = autoscalePriceRange
+      ? createAutoscaleInfoProvider(autoscalePriceRange)
+      : undefined
+
+    chartSeries.applyOptions({ autoscaleInfoProvider })
+
     chartSeries
       .priceScale()
       .applyOptions({ invertScale: scale.$$.inverted, scaleMargins: scale.$$.scaleMargins })
@@ -148,6 +157,21 @@
         return chart.addSeries(CandlestickSeries, options, pane.$)
       default:
         return chart.addSeries(LineSeries, options, pane.$)
+    }
+  }
+
+  function createAutoscaleInfoProvider(priceRange: PriceRange): AutoscaleInfoProvider {
+    return (baseImplementation) => {
+      const autoscaleInfo = baseImplementation()
+      const basePriceRange = autoscaleInfo?.priceRange
+
+      return {
+        ...autoscaleInfo,
+        priceRange: {
+          minValue: Math.min(basePriceRange?.minValue ?? priceRange.minValue, priceRange.minValue),
+          maxValue: Math.max(basePriceRange?.maxValue ?? priceRange.maxValue, priceRange.maxValue),
+        },
+      }
     }
   }
 

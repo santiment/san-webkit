@@ -6,7 +6,7 @@ import type {
 } from '../api/index.js'
 import type { TMetricUnit } from '$lib/ctx/metrics-registry/api.js'
 
-import { LineStyle, type ISeriesApi } from '@santiment-network/chart-next'
+import { LineStyle, type ISeriesApi, type PriceRange } from '@santiment-network/chart-next'
 import { onMount } from 'svelte'
 
 import {
@@ -74,6 +74,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
       visible: boolean
       inverted: boolean
       scaleMargins?: { top: number; bottom: number }
+      autoscalePriceRange?: PriceRange
     }
   }
 
@@ -206,6 +207,7 @@ export function createSeries(
 
     scaleId,
     scaleMargins,
+    autoscalePriceRange,
     scaleInverted = false,
     scaleVisible = true,
 
@@ -226,6 +228,7 @@ export function createSeries(
     visible: scaleVisible,
     inverted: scaleInverted,
     scaleMargins,
+    autoscalePriceRange,
   })
 
   let paneSignal = $state(pane)
