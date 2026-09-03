@@ -1,4 +1,3 @@
-import type { ISeriesApi } from '@santiment-network/chart-next'
 import type {
   TAggregation,
   TInterval,
@@ -7,6 +6,7 @@ import type {
 } from '../api/index.js'
 import type { TMetricUnit } from '$lib/ctx/metrics-registry/api.js'
 
+import { LineStyle, type ISeriesApi } from '@santiment-network/chart-next'
 import { onMount } from 'svelte'
 
 import {
@@ -81,6 +81,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
     get $$(): {
       color: string
       style: NonNullable<TChartMetric['style']>
+      lineStyle: LineStyle
       unit: TChartMetric['unit']
 
       isSelectorLocked: boolean
@@ -114,6 +115,7 @@ type TBaseSeries<GType extends TMetricTypes> = {
     visible?: boolean
     color: string
     style: TMetricStyles
+    lineStyle: LineStyle
     unit?: TMetricUnit
 
     scaleId?: string
@@ -186,6 +188,7 @@ export function createSeries(
     unit,
 
     style = 'line',
+    lineStyle = LineStyle.Solid,
     color = '#00ff00',
     visible = true,
 
@@ -226,6 +229,7 @@ export function createSeries(
   const ui = $state({
     color,
     style,
+    lineStyle,
     unit,
 
     isSelectorLocked,
@@ -357,6 +361,7 @@ export function createSeries(
         visible: metric.visible.$ && undefined,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
+        lineStyle: metric.ui.$$.lineStyle,
         unit: metric.ui.$$.unit,
 
         // default random id -> undefined (omit from API)
