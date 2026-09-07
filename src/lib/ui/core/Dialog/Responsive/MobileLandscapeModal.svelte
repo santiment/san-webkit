@@ -1,12 +1,10 @@
 <script lang="ts">
   import type { CreateDialogProps } from '@melt-ui/svelte'
+  import type { Snippet } from 'svelte'
 
-  import { BROWSER } from 'esm-env'
-  import { onMount, type Snippet } from 'svelte'
-
-  import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
+  import { useIsLandscape } from '$lib/utils/platform/index.js'
 
   import orientationSvg from './orientation.svg'
   import { useCreateDialog } from '../state.svelte.js'
@@ -25,25 +23,7 @@
     close,
   } = useCreateDialog(onOpenChange)
 
-  const { device } = useDeviceCtx()
-
-  const { orientation } = BROWSER ? window.screen : {}
-
-  let isLandscape = $state(orientation?.type.includes('landscape'))
-
-  const isDesktop = $derived(device.$.isDesktop)
-
-  function onOrientationChange(e: Event) {
-    const target = e.target as ScreenOrientation
-    isLandscape = target.type.includes('landscape')
-  }
-
-  onMount(() => {
-    if (isDesktop) return
-
-    orientation?.addEventListener('change', onOrientationChange)
-    return () => orientation?.removeEventListener('change', onOrientationChange)
-  })
+  const landscape = useIsLandscape()
 </script>
 
 {#if $open}
@@ -58,7 +38,7 @@
       {...$content}
       use:content
     >
-      {#if isLandscape}
+      {#if landscape.current}
         {@render children({ close })}
       {:else}
         <section
