@@ -33,14 +33,17 @@ export const useSearchFlow = <GItem>({ getCompareValues }: TSearchProps<GItem>) 
       ? items.filter((item) => searchTerm.every((value) => matchItem(value, item)))
       : items
 
+  function clear() {
+    onSearch.cancel()
+    searchTerm = []
+  }
+
   const onkeyup: KeyboardEventHandler<HTMLInputElement> = ({ currentTarget, code }) => {
     if (!currentTarget) return
 
     if (code === 'Escape') {
-      if (searchTerm) {
-        searchTerm = []
-        currentTarget.value = ''
-      }
+      clear()
+      currentTarget.value = ''
     }
   }
 
@@ -62,9 +65,7 @@ export const useSearchFlow = <GItem>({ getCompareValues }: TSearchProps<GItem>) 
     onInput: oninput,
     onkeyup,
     oninput,
-    clear() {
-      searchTerm = []
-    },
+    clear,
   }
 }
 
