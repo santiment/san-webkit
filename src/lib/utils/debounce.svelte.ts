@@ -7,8 +7,10 @@ export function useDebouncedFn<GFunction extends (...args: any[]) => void>(
   const clear = () => clearTimeout(timer)
   $effect(() => clear)
 
-  return ((...args) => {
+  const debounced = ((...args) => {
     clear()
     timer = setTimeout(() => fn(...args), time)
   }) as GFunction
+
+  return Object.assign(debounced, { cancel: clear })
 }
