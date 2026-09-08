@@ -75,8 +75,10 @@
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
-        ghost: 'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)]',
+        border:
+          'border bg-transparent px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)] active:bg-[var(--ghost-active-bg)]',
+        ghost:
+          'px-2.5 fill-waterloo hover:bg-[var(--ghost-active-bg)] active:bg-[var(--ghost-active-bg)]',
         title: 'rounded-none hover:underline',
         link: 'rounded-none inline-flex text-green fill-green hover:underline select-text',
         plain: 'rounded-none',
@@ -98,24 +100,36 @@
 
     compoundVariants: [
       {
+        variant: ['fill', 'border', 'ghost'],
+        disabled: false,
+        loading: false,
+        class:
+          '[@media(hover:none)]:transition-[background-color] [@media(hover:none)]:duration-200 [@media(hover:none)]:active:duration-0',
+      },
+      {
         variant: 'fill',
         accent: 'green',
-        class: 'bg-green hover:bg-green-hover',
+        disabled: false,
+        class: 'bg-green hover:bg-green-hover active:bg-green-hover',
       },
       {
         variant: 'fill',
         accent: 'blue',
-        class: 'bg-blue hover:bg-blue-hover',
+        disabled: false,
+        class: 'bg-blue hover:bg-blue-hover active:bg-blue-hover',
       },
       {
         variant: 'fill',
         accent: 'orange',
-        class: 'bg-orange hover:bg-orange-hover',
+        disabled: false,
+        class: 'bg-orange hover:bg-orange-hover active:bg-orange-hover',
       },
       {
         variant: 'fill',
         accent: 'custom',
-        class: 'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))]',
+        disabled: false,
+        class:
+          'bg-[var(--accent,var(--green))] hover:bg-[var(--accent-hover,var(--green-hover))] active:bg-[var(--accent-hover,var(--green-hover))]',
       },
       {
         variant: ['fill', 'border'],
