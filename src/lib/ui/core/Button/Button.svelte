@@ -150,13 +150,19 @@
       {
         variant: ['plain', 'link'],
         size: 'auto',
-        class: 'p-0 h-auto text-sm sm:h-auto sm:text-sm sm:p-0',
+        class:
+          'p-0 h-auto sm:h-auto sm:p-0 [font-size:unset] [line-height:unset] sm:[font-size:unset] sm:[line-height:unset]',
       },
       {
         children: false,
         icon: true,
         size: ['auto'],
         class: 'justify-center px-0 size-8 sm:size-10',
+      },
+      {
+        variant: 'link',
+        icon: false,
+        class: 'inline',
       },
       {
         children: false,

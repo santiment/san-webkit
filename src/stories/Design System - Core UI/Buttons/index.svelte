@@ -57,6 +57,14 @@
 
         <StatesGroup title="Link" variant="link" />
 
+        <StatesGroup title="Link with text" variant="link">
+          {#snippet buttons(props)}
+            <section class="text-base">
+              Some text <Button {...props}>with link</Button>
+            </section>
+          {/snippet}
+        </StatesGroup>
+
         <StatesGroup title="Link Pointer" variant="link" icon="pointer" iconSize="10" iconOnRight />
 
         <StatesGroup title="Plain (No styles)" variant="plain" />
