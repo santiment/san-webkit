@@ -14,3 +14,5 @@ export const CMD = isMac ? '⌘' : 'Ctrl'
 export const CMD_EVENT_KEY = isMac ? 'Meta' : 'Control'
 
 export const useHoverAvailable = () => new MediaQuery('(hover: hover)')
+
+export const useIsLandscape = () => new MediaQuery('(orientation: landscape)')
