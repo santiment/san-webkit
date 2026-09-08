@@ -100,6 +100,13 @@
 
     compoundVariants: [
       {
+        variant: ['fill', 'border', 'ghost'],
+        disabled: false,
+        loading: false,
+        class:
+          '[@media(hover:none)]:transition-[background-color] [@media(hover:none)]:duration-200 [@media(hover:none)]:active:duration-0',
+      },
+      {
         variant: 'fill',
         accent: 'green',
         disabled: false,
