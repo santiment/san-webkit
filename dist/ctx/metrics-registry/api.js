@@ -1,0 +1,86 @@
+import {} from '../../utils/types/index.js';
+import { ApiQuery } from '../../api/index.js';
+import { mvrvRatioFormatter, percentFormatter, usdFormatter } from '../../utils/formatters/index.js';
+import { zodGranularityRulesSchema, zodSettingsSchema, } from './settings-schema.js';
+export const MetricStatus = {
+    LIVE: 'LIVE',
+    HIDDEN: 'HIDDEN',
+    UNDER_MAINTENANCE: 'UNDER_MAINTENANCE',
+};
+export const queryGetOrderedMetrics = ApiQuery(() => `{
+  getOrderedMetrics {
+    categories
+    metrics {
+      k:uiKey
+      m:metric
+      t:type
+      ui:uiHumanReadableName
+      c:categoryName
+      g:groupName
+      cs:chartStyle
+      un:unit
+      d:description
+      a:args
+      in:isNew
+      do:displayOrder
+      st:status
+    }
+  }
+}`, (gql) => {
+    const { categories, metrics } = gql.getOrderedMetrics;
+    const CategoryIndex = categories.reduce((acc, item, i) => Object.assign(acc, { [item]: i + 1 }), {});
+    const MetricsRegistry = metrics
+        .sort((a, b) => {
+        const categoryDiff = CategoryIndex[a.c] - CategoryIndex[b.c];
+        if (categoryDiff)
+            return categoryDiff;
+        else
+            return a.do - b.do;
+    })
+        .reduce((acc, item) => {
+        const key = item.k ?? item.m;
+        const { settingsSchema, granularityRules, styleOptions, ...args } = item.a ?? {};
+        return Object.assign(acc, {
+            [key]: {
+                key,
+                queryKey: item.k ? item.m : undefined,
+                label: item.ui || '',
+                category: item.c || '',
+                group: item.g || undefined,
+                // enforce style check
+                chartStyle: enforceCorrectChartStyle(item.cs),
+                node: enforceCorrectChartStyle(item.cs), // LEGACY
+                unit: item.un || undefined,
+                formatter: getTooltipFormatterByUnit(item.un), // LEGACY
+                meta: {
+                    args,
+                    styleOptions,
+                    settingsSchema: zodSettingsSchema.safeParse(settingsSchema).data,
+                    granularityRules: zodGranularityRulesSchema.safeParse(granularityRules).data,
+                    //type: item.t,
+                    isNew: item.in,
+                    displayOrder: item.do,
+                    status: item.st || MetricStatus.LIVE,
+                },
+                reqMeta: item.a, // LEGACY
+            },
+        });
+    }, {});
+    return { categories, MetricsRegistry };
+}, {
+    cacheTime: undefined,
+});
+function getTooltipFormatterByUnit(unit) {
+    switch (unit) {
+        case 'usd':
+            return usdFormatter;
+        case 'percent':
+            return percentFormatter;
+        case 'mvrv_percent':
+            return mvrvRatioFormatter;
+    }
+}
+const ALLOWED_STYLES = new Set(['line', 'bar', 'greenRedBar', 'filledLine', 'gradientLine', 'area']);
+function enforceCorrectChartStyle(chartStyle) {
+    return ALLOWED_STYLES.has(chartStyle) ? chartStyle : 'line';
+}

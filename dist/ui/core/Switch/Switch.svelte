@@ -1,0 +1,68 @@
+<script lang="ts">
+  import { Switch, type SwitchRootProps } from 'bits-ui'
+
+  import { cn } from '../../utils/index.js'
+  import { useDeviceCtx } from '../../../ctx/device/index.svelte.js'
+
+  import Svg from '../Svg/index.js'
+
+  type Icon = { id: string; w?: number; h?: number }
+
+  let {
+    icon,
+    checked = $bindable(false),
+    class: className,
+    disabled,
+    ...rest
+  }: SwitchRootProps & {
+    class?: string
+    icon?: {
+      active?: Icon
+      inactive?: Icon
+    }
+  } = $props()
+
+  const { device } = useDeviceCtx()
+
+  const { isDesktop } = $derived(device.$)
+  const activeIcon = $derived(icon?.active ?? { id: 'checkmark' })
+  const inactiveIcon = $derived(icon?.inactive ?? { id: 'cross' })
+
+  const currentIcon = $derived(checked ? activeIcon : inactiveIcon)
+
+  const switchWidth = $derived(isDesktop ? 36 : 42)
+  const thumbPadding = $derived(isDesktop ? 3 : 6)
+  const thumbSize = $derived(isDesktop ? 14 : 16)
+
+  const thumbX = $derived(checked ? switchWidth - thumbPadding - thumbSize : thumbPadding)
+</script>
+
+<Switch.Root
+  bind:checked
+  --width="{switchWidth}px"
+  class={cn(
+    'group/switch relative flex items-center rounded-full bg-casper hover:bg-waterloo',
+    'fill-porcelain-day hover:fill-white-day',
+    'h-5 w-[var(--width)] min-w-[var(--width)] md:h-6',
+    checked && 'bg-green fill-athens-day hover:bg-green-hover hover:fill-white-day',
+    disabled && 'bg-porcelain fill-white hover:bg-porcelain hover:fill-white',
+    className,
+  )}
+  {disabled}
+  {...rest}
+>
+  <Switch.Thumb
+    --size="{thumbSize}px"
+    --translate-x="{thumbX}px"
+    class={cn(
+      'absolute left-0 z-10 flex rounded-full bg-porcelain transition-transform will-change-transform',
+      'size-[var(--size)] translate-x-[var(--translate-x)]',
+      !checked && !disabled && 'dark:bg-mystic-day',
+      checked ? 'bg-green-light-2-day' : '',
+      disabled && 'bg-whale',
+      disabled && checked && 'bg-whale',
+    )}
+  />
+
+  <Svg w={12} {...currentIcon} class={cn('absolute z-0', checked ? 'left-[5px]' : 'right-[5px]')} />
+</Switch.Root>
