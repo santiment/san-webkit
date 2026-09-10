@@ -10,7 +10,6 @@
   import { onMount, type ComponentProps } from 'svelte'
 
   import Dialog, { dialogs$, type TDialogProps } from '$ui/core/Dialog/index.js'
-  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
   import ScreenTransition, { useScreenTransitionCtx } from '$ui/app/ScreenTransition/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
@@ -20,6 +19,7 @@
   import BillingPeriodSelector from './PaymentScreen/BillingPeriodSelector/index.svelte'
   import PaymentMethodSelector from './PaymentScreen/PaymentMethodSelector/index.svelte'
   import OrderSummary from './PaymentScreen/OrderSummary/index.svelte'
+  import { useSanbasePaymentFlow } from './flow.js'
 
   type Props = TDialogProps &
     ComponentProps<typeof OrderSummary> & {
@@ -34,8 +34,9 @@
   let { source = '', triggeredBy, defaultPlan = null, onSuccess, onError }: Props = $props()
 
   const { subscriptionPlan, productsWithPlans } = usePaymentFormCtx({ defaultPlan })
-  useCustomerCtx()
   const { screen } = useScreenTransitionCtx(SCREENS, SCREENS[defaultPlan ? 1 : 0])
+
+  useSanbasePaymentFlow()
 
   const trigger_type = triggeredBy?.dataset.type
   const trigger_source = triggeredBy?.dataset.source

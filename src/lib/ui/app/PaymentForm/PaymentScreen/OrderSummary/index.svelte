@@ -10,7 +10,7 @@
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
+  import { usePaymentFlowCtx, type TPaymentFlowResult } from '../../flow.js'
   import ConnectMetamask from './ConnectMetamask.svelte'
 
   let {
@@ -25,7 +25,7 @@
   const { customer, currentUser } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan, discount, resultPayment } =
     usePaymentFormCtx()
-  const { startCardPaymentFlow } = usePaymentFlow()
+  const { startCardPaymentFlow } = usePaymentFlowCtx.get()
 
   const delayStripe = useDelayFlow(400)
   let isPaymentInProcess = $state(false)
