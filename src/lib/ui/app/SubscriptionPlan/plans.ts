@@ -128,18 +128,30 @@ export const SubscriptionPlanDetails: Record<
   },
 }
 
-export const CONSUMER_PLANS = new Set<string>([
+const CONSUMER_PLANS_ORDER: readonly TPlan[] = [
   SubscriptionPlan.FREE.key,
   SubscriptionPlan.PRO.key,
   SubscriptionPlan.MAX.key,
-])
+]
 
-export const BUSINESS_PLANS = new Set<string>([
-  SubscriptionPlan.BUSINESS_MAX.key,
+const BUSINESS_PLANS_ORDER: readonly TPlan[] = [
   SubscriptionPlan.BUSINESS_PRO.key,
+  SubscriptionPlan.BUSINESS_MAX.key,
   SubscriptionPlan.CUSTOM.key,
-])
+]
+
+const PLANS_UPGRADE_ORDER = [...CONSUMER_PLANS_ORDER, ...BUSINESS_PLANS_ORDER]
+
+export const CONSUMER_PLANS = new Set<string>(CONSUMER_PLANS_ORDER)
+export const BUSINESS_PLANS = new Set<string>(BUSINESS_PLANS_ORDER)
 
 export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
   return planKey === SubscriptionPlan.PRO.key
+}
+
+export function getNextUpgradePlan(plan: TPlan): TPlan | undefined {
+  const index = PLANS_UPGRADE_ORDER.indexOf(plan)
+  if (index === -1) return undefined
+
+  return PLANS_UPGRADE_ORDER.at(index + 1)
 }

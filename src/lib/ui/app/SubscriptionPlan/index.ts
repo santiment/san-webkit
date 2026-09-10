@@ -14,6 +14,7 @@ export {
   CONSUMER_PLANS,
   getSubscriptionPlanKey,
   convertSubscriptionPlan,
+  getNextUpgradePlan,
 } from './plans.js'
 export {
   checkIsSanbaseProduct,
@@ -23,6 +24,7 @@ export {
   checkIsCurrentPlan,
   getPlanName,
   getFormattedPlan,
+  getPlansApiLimitsMap,
 } from './utils.js'
 export {
   type TPublicSubscription,
