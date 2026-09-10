@@ -12,7 +12,7 @@
   {@const { planName, isEligibleForSanbaseTrial, trialDaysLeft, isTrialSubscription } = customer.$}
   {@const { isFree, isCustom, isBusinessSubscription } = customer.$}
   <section
-    class="gap-2 px-5 pb-[14px] pt-4 column"
+    class="column gap-2 px-5 pt-4 pb-[14px]"
     style={isBusinessSubscription
       ? '--c-orange:var(--c-blue);--c-orange-hover:var(--c-blue-hover)'
       : ''}
@@ -57,13 +57,14 @@
         Free trial ends in: {trialDaysLeft} day{trialDaysLeft > 1 ? 's' : ''}
       </p>
     {:else if planName.includes('Pro')}
-      <a
+      <Button
+        variant="plain"
         href={SANBASE_ORIGIN + '/pricing'}
         class="-mt-1 text-orange"
         data-source="account_dropdown"
       >
         Learn about {planName}
-      </a>
+      </Button>
     {/if}
   </section>
 {/if}

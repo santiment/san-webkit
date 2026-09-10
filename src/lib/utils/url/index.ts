@@ -11,3 +11,6 @@ export const getSEOLinkFromIdAndTitle = (id: number | string, title?: string): s
 
 export const getIdFromSEOLink = (link: string): number =>
   (link || '') === '' ? NaN : +link.slice(link.lastIndexOf('-') + 1)
+
+export { getFromSearch, getUrlPath } from './from.js'
+export { mutateCreateShortUrl } from './short.js'

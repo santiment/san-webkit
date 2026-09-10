@@ -4,6 +4,7 @@ import type { TSeries } from './ctx/series.svelte.js'
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
 import { applyHexColorOpacity, getBrowserCssVariable } from '$ui/utils/index.js'
 import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
+import { downloadBlob } from '$lib/utils/download/index.js'
 
 const LEGEND_CONFIG = {
   font: '12px "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
@@ -86,7 +87,9 @@ function drawMetricsOnCanvas(ctx: CanvasRenderingContext2D, chart: IChartApi, me
 }
 
 function prepareLegendDataForMetric(metric: TSeries) {
-  const label = metric.label
+  const labelPrefix = metric.selectorLabel$ ? `${metric.selectorLabel$} - ` : ''
+  const label = labelPrefix + metric.label
+
   const lastDataPoint = metric.data.$[metric.data.$.length - 1]
   const firstDataPoint = metric.data.$.find((item) => item.value !== undefined)
 
@@ -155,13 +158,20 @@ export async function downloadChartAsJpeg(title: string, metrics: TSeries[], cha
 
   drawMetricsOnCanvas(ctx, chart, metrics)
 
-  const url = finalCanvas.toDataURL('image/jpeg', 0.9)
-  const now = new Date()
-  const { DD, MMM, YYYY } = getDateFormats(now)
-  const { HH, mm, ss } = getTimeFormats(now)
+  finalCanvas.toBlob(
+    (blob) => {
+      if (!blob) {
+        console.error('Failed to create blob from canvas')
+        return
+      }
 
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`
-  a.click()
+      const now = new Date()
+      const { DD, MMM, YYYY } = getDateFormats(now)
+      const { HH, mm, ss } = getTimeFormats(now)
+
+      downloadBlob(blob, `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].jpeg`)
+    },
+    'image/jpeg',
+    0.9,
+  )
 }

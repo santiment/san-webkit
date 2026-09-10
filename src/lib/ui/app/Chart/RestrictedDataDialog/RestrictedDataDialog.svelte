@@ -26,15 +26,15 @@
   })
 </script>
 
-<Dialog class="max-w-[480px] column md:mx-auto md:h-max sm:max-w-full">
+<Dialog class="column max-w-[480px] sm:h-auto sm:max-w-full">
   <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
     Restricted data
 
     <Button iconSize="12" size="sm" icon="close" onclick={close}></Button>
   </h2>
 
-  <section class="min-h-0 gap-4 px-6 py-5 column">
-    <article class="overflow-auto rounded-sm border column">
+  <section class="column min-h-0 gap-4 px-6 py-5">
+    <article class="column overflow-auto rounded-sm border">
       <div class="flex bg-athens text-fiord">
         <section class="cell">Metric</section>
         <section class="cell">Period of restricted data</section>

@@ -18,7 +18,7 @@
 </script>
 
 <div
-  class="month flex space-y-0 space-x-4 px-3 pt-4 pb-3 sm:px-5 sm:pt-6 sm:pb-0 sm:text-base xs:flex-col xs:space-y-4"
+  class="month flex space-y-0 space-x-4 px-3 pt-4 pb-3 sm:flex-col sm:space-y-4 sm:px-5 sm:pt-6 sm:pb-0 sm:text-base"
 >
   {#each months as month}
     <Base.Grid class="w-full border-collapse space-y-1 select-none">

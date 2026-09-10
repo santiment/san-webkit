@@ -27,6 +27,7 @@ import { ss, createCtx, type SS } from '$lib/utils/index.js'
 import {
   DEFAULT_FORMATTER,
   DEFAULT_Y_FORMATTER,
+  mvrvRatioFormatter,
   percentFormatter,
   usdFormatter,
 } from '$lib/utils/formatters/index.js'
@@ -57,6 +58,8 @@ type TBaseSeries<GType extends TMetricTypes> = {
     get $(): number
     update$(): void
   }
+
+  selectorLabel$?: string
 
   formatters: {
     get $(): {
@@ -161,39 +164,48 @@ export type TSeries =
   | TDataStoreSeries
   | TCombinedDistributionSeries
 
-export function createSeries({
-  type,
+export type THelpers = {
+  getAssetSelectorLabel: (metric: Extract<TSeries, { selector: any }>) => string | undefined
+}
 
-  apiMetricName = '',
+export function createSeries(
+  {
+    type,
 
-  label = apiMetricName,
-  data = [],
+    apiMetricName = '',
 
-  // getLabels$ = DEFAULT_LABELS_GETTER,
-  // getSelectorLabels$ = DEFAULT_LABELS_GETTER,
+    label = apiMetricName,
+    data = [],
 
-  selector = null,
-  interval,
-  pane = 0,
-  unit,
+    // getLabels$ = DEFAULT_LABELS_GETTER,
+    // getSelectorLabels$ = DEFAULT_LABELS_GETTER,
 
-  style = 'line',
-  color = '#00ff00',
-  visible = true,
+    selector = null,
+    interval,
+    pane = 0,
+    unit,
 
-  scaleId,
-  scaleMargins,
-  scaleInverted = false,
-  scaleVisible = true,
+    style = 'line',
+    color = '#00ff00',
+    visible = true,
 
-  isSelectorLocked = false,
-  isFilledGradient = false,
-  transformData,
+    scaleId,
+    scaleMargins,
+    scaleInverted = false,
+    scaleVisible = true,
 
-  meta,
+    isSelectorLocked = false,
+    isFilledGradient,
+    transformData,
 
-  ...rest
-}: TChartMetric) {
+    baseline,
+
+    meta,
+
+    ...rest
+  }: TChartMetric,
+  helpers?: Partial<THelpers>,
+) {
   const scale = $state({
     id: scaleId || apiMetricName || Math.random().toString(),
     visible: scaleVisible,
@@ -203,6 +215,14 @@ export function createSeries({
 
   let paneSignal = $state(pane)
 
+  if (isFilledGradient === undefined) {
+    isFilledGradient = meta?.styleOptions?.isFilledGradient ?? false
+  }
+
+  if (meta?.styleOptions?.baseline) {
+    baseline = { ...meta.styleOptions.baseline, bottomColor: color, ...baseline }
+  }
+
   const ui = $state({
     color,
     style,
@@ -211,8 +231,8 @@ export function createSeries({
     isSelectorLocked,
     isFilledGradient,
 
+    baseline,
     candleDownColor: style === MetricStyle.CANDLES ? rest.candleDownColor : undefined,
-    baseline: rest.baseline,
     signal: rest.signal,
   })
 
@@ -226,6 +246,10 @@ export function createSeries({
       result.tooltipFormatter = usdFormatter
     } else if (unit === 'percent') {
       result.tooltipFormatter = percentFormatter
+      result.scaleFormatter = percentFormatter
+    } else if (unit === 'mvrv_percent') {
+      result.tooltipFormatter = mvrvRatioFormatter
+      result.scaleFormatter = mvrvRatioFormatter
     }
 
     return result
@@ -389,6 +413,17 @@ export function createSeries({
     delete (metric as any).formula
   }
 
+  if (
+    helpers?.getAssetSelectorLabel &&
+    (metric.type === MetricType.ASSET ||
+      metric.type === MetricType.COMBINED_DISTRIBUTION ||
+      metric.type === MetricType.TRADITIONAL_FINANCE)
+  ) {
+    Object.defineProperty(metric, 'selectorLabel$', {
+      get: helpers?.getAssetSelectorLabel?.bind(null, metric),
+    })
+  }
+
   return metric
 }
 
@@ -396,10 +431,10 @@ export function createSeries({
 
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
-  (defaultMetrics: TChartMetric[] = []) => {
+  (defaultMetrics: TChartMetric[] = [], helpers?: Partial<THelpers>) => {
     let series = $state.raw(
       defaultMetrics.map((item) => {
-        return createSeries(item)
+        return createSeries(item, helpers)
       }),
     )
 
@@ -428,7 +463,7 @@ export const useMetricSeriesCtx = createCtx(
         },
 
         add(metric: TChartMetric): TSeries {
-          const series = createSeries(metric)
+          const series = createSeries(metric, helpers)
           this.addSeries(series)
           return series
         },

@@ -2,6 +2,7 @@ import plugin from 'tailwindcss/plugin'
 import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
+import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
@@ -48,10 +49,13 @@ export default {
     },
 
     screens: {
-      lg: { max: '1279px' }, //Laptop
-      md: { max: '992px' }, //Tablet
-      sm: { max: '768px' }, //Phone
-      xs: { max: '480px' }, //Phone XS
+      // Default styles are for desktop and large desktop if lg: styles are present
+      lg: { max: BREAKPOINTS.lg }, // Regular Desktop
+      md: { max: BREAKPOINTS.md }, // Tablet / small laptop
+      sm: { max: BREAKPOINTS.sm }, // Phone
+
+      // Do not use. Left only for compatibility
+      xs: { max: BREAKPOINTS.xs }, // Phone XS
     },
 
     fontSize: {

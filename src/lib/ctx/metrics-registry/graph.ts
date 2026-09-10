@@ -1,4 +1,4 @@
-import type { TRegistryMetric } from './api.js'
+import { MetricStatus, type TRegistryMetric } from './api.js'
 
 export function getMetricsCategoryGroupGraph(metrics: TRegistryMetric[]): TRegistryMetric[][][] {
   const result = [] as TRegistryMetric[][][]
@@ -6,6 +6,9 @@ export function getMetricsCategoryGroupGraph(metrics: TRegistryMetric[]): TRegis
   if (!metrics.length) {
     return result
   }
+
+  // NOTE: Intentionally overwriting the metrics array to filter out non-live/under maintenance metrics
+  metrics = metrics.filter((metric) => metric.meta.status === MetricStatus.LIVE)
 
   let lastCategory = metrics[0]?.category
   let lastGroup = metrics[0]?.group

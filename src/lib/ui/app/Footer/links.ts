@@ -1,6 +1,8 @@
 import { SANBASE_ORIGIN } from '$lib/utils/links.js'
 import { onSupportClick } from '$lib/utils/support.js'
 
+import { products } from '../Products/products.js'
+
 type TLink = {
   href: string
   title: string
@@ -24,10 +26,7 @@ export const resourcesLinks: TLink[] = [
   { href: SANBASE_ORIGIN + '/social-trends/', title: 'Social trends' },
   { href: 'https://academy.santiment.net/', title: 'Academy' },
 
-  { href: SANBASE_ORIGIN + '/', title: 'Sanbase' },
-  { href: 'https://api.santiment.net/', title: 'SanAPI' },
-  { href: 'https://sheets.santiment.net/', title: 'Sansheets' },
-  { href: 'https://sanr.app/', title: 'SanR' },
+  ...products.map(({ href, title }) => ({ href, title })),
 ]
 
 export const socialMediaLinks = [

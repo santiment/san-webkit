@@ -4,6 +4,17 @@ export const zodSettingsSchema = z.object({
   version: z.number(),
   type: z.literal('object'),
   required: z.array(z.string()),
+  order: z.optional(
+    z.array(z.string()).transform((array) =>
+      array.reduce(
+        (acc, key, index) => {
+          acc[key] = index
+          return acc
+        },
+        {} as Record<string, number>,
+      ),
+    ),
+  ),
   properties: z.record(
     z.string(),
     z.union([

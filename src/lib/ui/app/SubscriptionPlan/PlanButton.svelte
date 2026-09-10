@@ -17,6 +17,7 @@
   } from '$ui/app/SubscriptionPlan/utils.js'
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
+  import { getFromSearch } from '$lib/utils/url/from.js'
 
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
@@ -49,7 +50,7 @@
     isAnonymous
       ? {
           onclick: null,
-          href: `/sign-up?from=${encodeURIComponent('/pricing')}`,
+          href: '/sign-up' + getFromSearch('/pricing'),
           'data-source': source,
         }
       : {},
@@ -87,7 +88,7 @@
       Sign up
     </Button>
   {:else}
-    <Button variant="fill" size="lg" disabled class={cn('text-fiord! center', className)}>
+    <Button variant="fill" size="lg" disabled class={cn('center text-fiord!', className)}>
       Your current plan
     </Button>
   {/if}

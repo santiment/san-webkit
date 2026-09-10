@@ -75,8 +75,9 @@
       accent: { green: '', blue: '', orange: '', custom: '' },
       variant: {
         fill: 'px-5 fill-white-day text-white-day',
-        border: 'border bg-transparent px-2.5 fill-waterloo hover:bg-(--ghost-active-bg)',
-        ghost: 'px-2.5 fill-waterloo hover:bg-(--ghost-active-bg)',
+        border:
+          'border bg-transparent px-2.5 fill-waterloo hover:bg-(--ghost-active-bg) active:bg-(--ghost-active-bg)',
+        ghost: 'px-2.5 fill-waterloo hover:bg-(--ghost-active-bg) active:bg-(--ghost-active-bg)',
         title: 'rounded-none hover:underline',
         link: 'rounded-none inline-flex text-green fill-green hover:underline select-text',
         plain: 'rounded-none',
@@ -98,30 +99,41 @@
 
     compoundVariants: [
       {
+        variant: ['fill', 'border', 'ghost'],
+        disabled: false,
+        loading: false,
+        class:
+          '[@media(hover:none)]:transition-[background-color] [@media(hover:none)]:duration-200 [@media(hover:none)]:active:duration-0',
+      },
+      {
         variant: 'fill',
         accent: 'green',
-        class: 'bg-green hover:bg-green-hover',
+        disabled: false,
+        class: 'bg-green hover:bg-green-hover active:bg-green-hover',
       },
       {
         variant: 'fill',
         accent: 'blue',
-        class: 'bg-blue hover:bg-blue-hover',
+        disabled: false,
+        class: 'bg-blue hover:bg-blue-hover active:bg-blue-hover',
       },
       {
         variant: 'fill',
         accent: 'orange',
-        class: 'bg-orange hover:bg-orange-hover',
+        disabled: false,
+        class: 'bg-orange hover:bg-orange-hover active:bg-orange-hover',
       },
       {
         variant: 'fill',
         accent: 'custom',
-        class: 'bg-(--accent,var(--green)) hover:bg-(--accent-hover,var(--green-hover))',
+        disabled: false,
+        class:
+          'bg-(--accent,var(--green)) hover:bg-(--accent-hover,var(--green-hover)) active:bg-(--accent-hover,var(--green-hover))',
       },
       {
         variant: ['fill', 'border'],
         disabled: true,
-        class:
-          'text-mystic fill-mystic bg-(--ghost-active-bg) hover:bg-(--ghost-active-bg)',
+        class: 'text-mystic fill-mystic bg-(--ghost-active-bg) hover:bg-(--ghost-active-bg)',
       },
       {
         variant: 'ghost',
@@ -136,13 +148,19 @@
       {
         variant: ['plain', 'link'],
         size: 'auto',
-        class: 'p-0 h-auto text-sm sm:h-auto sm:text-sm sm:p-0',
+        class:
+          'p-0 h-auto sm:h-auto sm:p-0 [font-size:unset] [line-height:unset] sm:[font-size:unset] sm:[line-height:unset]',
       },
       {
         children: false,
         icon: true,
         size: ['auto'],
         class: 'justify-center px-0 size-8 sm:size-10',
+      },
+      {
+        variant: 'link',
+        icon: false,
+        class: 'inline',
       },
       {
         children: false,

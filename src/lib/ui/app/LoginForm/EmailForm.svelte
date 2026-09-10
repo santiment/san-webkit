@@ -16,7 +16,7 @@
 
   const { from, isSignUp = false, onSuccess }: TProps = $props()
 
-  let Turnstile$: Turnstile
+  let turnstileRef: Turnstile
   let loading = $state(false)
 
   async function onsubmit(event: SubmitEvent) {
@@ -29,7 +29,7 @@
 
     loading = true
 
-    const turnstileToken = await Turnstile$.getToken().catch(() => null)
+    const turnstileToken = await turnstileRef.getToken().catch(() => null)
     if (!turnstileToken) {
       return notification.error('Invalid turnstile token')
     }
@@ -40,7 +40,7 @@
       })
       .catch(() => {
         notification.error('Cannot login. Try again later.')
-        Turnstile$.reset()
+        turnstileRef.reset()
       })
       .finally(() => (loading = false))
 
@@ -48,7 +48,7 @@
   }
 </script>
 
-<Turnstile bind:this={Turnstile$}></Turnstile>
+<Turnstile bind:this={turnstileRef}></Turnstile>
 
 <form {onsubmit}>
   <Input
@@ -61,7 +61,7 @@
     iconSize="16"
   />
 
-  <Button variant="fill" size="lg" class="mt-4 w-full justify-center row" type="submit" {loading}>
+  <Button variant="fill" size="lg" class="mt-4 row w-full justify-center" type="submit" {loading}>
     {isSignUp ? 'Create account' : 'Log in'}
   </Button>
 </form>

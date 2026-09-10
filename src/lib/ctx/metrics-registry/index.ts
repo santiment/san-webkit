@@ -1,4 +1,9 @@
-export { queryGetOrderedMetrics, type TMetricsRegistry, type TRegistryMetric } from './api.js'
+export {
+  queryGetOrderedMetrics,
+  type TMetricsRegistry,
+  type TRegistryMetric,
+  type TMetricStatus,
+} from './api.js'
 
 export { useMetricsRegistryCtx, defaultOrderedMetricsPromise } from './index.svelte.js'
 

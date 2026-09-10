@@ -206,7 +206,7 @@
 <Dialog
   class={cn(
     'flex h-full w-full max-w-[1024px]',
-    'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow-sm',
+    'flex-col rounded-lg border border-porcelain bg-white px-8 pt-[14px] pb-4 text-base shadow-sm',
     'sm:px-5!',
     className,
   )}
@@ -341,6 +341,6 @@
   <p class="mt-2 text-center text-sm text-casper sm:text-sm!">
     {isPhone
       ? 'Check important info for mistakes'
-      : 'Turtoshi surfs only through our Academy. Check important info for mistakes.'}
+      : 'Limited to Santiment Academy, check important info for mistakes.'}
   </p>
 </Dialog>

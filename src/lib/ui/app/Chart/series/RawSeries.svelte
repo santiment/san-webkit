@@ -29,13 +29,14 @@
 
   const highlightedMetricCtx = useHighlightedMetricCtx.maybeGet()
 
-  const priceFormat =
+  const priceFormat = $derived(
     formatters.$.scaleFormatter &&
-    ({
-      type: 'custom',
-      minMove: 0.0001,
-      formatter: formatters.$.scaleFormatter,
-    } as const)
+      ({
+        type: 'custom',
+        minMove: 0.0001,
+        formatter: formatters.$.scaleFormatter,
+      } as const),
+  )
 
   const _oldChartSeriesApi = series.chartSeriesApi ?? null // NOTE: Used inside fullscreen dialog when reusing metricSeries ctx
 
@@ -56,6 +57,10 @@
 
   $effect.pre(() => {
     chartSeries.applyOptions({ visible: visible.$ })
+  })
+
+  $effect.pre(() => {
+    chartSeries.applyOptions({ priceFormat })
   })
 
   // $effect.pre(() => {
@@ -132,7 +137,7 @@
   }
 
   function getSeriesTypeOptions() {
-    const base = { zOrder: 10, priceFormat }
+    const base = { zOrder: 10, priceFormat: untrack(() => priceFormat) }
 
     switch (ui.$$.style) {
       case MetricStyle.HISTOGRAM:

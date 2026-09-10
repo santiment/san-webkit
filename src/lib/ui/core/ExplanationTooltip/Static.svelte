@@ -3,6 +3,7 @@
   import type { ComponentProps, Snippet } from 'svelte'
 
   import Tooltip from '$lib/ui/core/Tooltip/index.js'
+  import { useHoverAvailable } from '$lib/utils/platform/index.js'
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
@@ -12,12 +13,22 @@
   } & Omit<ComponentProps<typeof Tooltip>, 'children' | 'content'>
 
   const { contentClass, explanation, trigger, ...rest }: TProps = $props()
+  const hoverAvailable = useHoverAvailable()
 </script>
 
-{#if explanation}
-  <Tooltip position="top" children={trigger} noStyles disableHoverableContent {...rest}>
+{#if explanation && hoverAvailable.current}
+  <Tooltip
+    position="top"
+    children={trigger}
+    noStyles
+    closeOnPointerDown
+    disableHoverableContent
+    {...rest}
+  >
     {#snippet content()}
-      <article class={cn('rounded-sm bg-fiord-day px-3 py-1.5 text-xs text-white-day', contentClass)}>
+      <article
+        class={cn('rounded-sm bg-fiord-day px-3 py-1.5 text-xs text-white-day', contentClass)}
+      >
         {explanation}
       </article>
     {/snippet}

@@ -53,7 +53,7 @@
   }
 </script>
 
-<section class={cn('sm:px-5', className)}>
+<section class={cn('lg:px-5', className)}>
   <h1 class="mb-14 max-w-4xl text-start text-3xl font-medium sm:text-center">
     Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
     and Researchers
@@ -73,7 +73,7 @@
       <Button
         class={cn(
           'h-[38px] px-4 py-[8px] hover:bg-athens sm:py-3.5',
-          isActive && cn('z-10 rounded-md text-rhino outline-solid outline-1', info.className),
+          isActive && cn('z-10 rounded-md text-rhino outline-1 outline-solid', info.className),
         )}
         onclick={() => handlePlanClick(item)}
       >

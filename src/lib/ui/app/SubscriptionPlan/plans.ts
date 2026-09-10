@@ -18,7 +18,7 @@ export const PlanTypeDisplayInfo: Record<PlanType, { name: string; className: st
     className: 'outline-green bg-green-light-1',
   },
   business: {
-    name: '💼 For Business',
+    name: '💼 For Business (API)',
     className: 'outline-blue bg-blue-light-1',
   },
 }
@@ -66,9 +66,6 @@ export const SubscriptionPlanDetails: Record<
     features: [
       '30-day lag in Sanbase',
       'Hidden top 3 tokens in Trending Coins',
-      'Limited access to Trending Stories',
-      'Real-time API data with 30-day lag',
-      '1K API calls / mo, 1 year historical data',
       'No filters and sorting for Screener',
       'Up to 3 simultaneous alerts',
     ],
@@ -78,11 +75,7 @@ export const SubscriptionPlanDetails: Record<
     description: 'Ideal for advanced traders and analysts to power decisions with real-time data',
     features: [
       'Present-day and full historical data in Sanbase',
-      'Full access to Trending Coins and Stories',
-      'Real-time API data with 30-day lag',
-      '5K API calls / mo, 1 year historical data',
-      'Full access to Screener',
-      '20 active alerts',
+      'Full access to Trending Coins',
       'Access to Google Sheets plugin',
       'Exclusive reports and market insights',
     ],
@@ -91,12 +84,9 @@ export const SubscriptionPlanDetails: Record<
   [SubscriptionPlan.MAX.key]: {
     description: 'Ideal for advanced investment strategies with full API access to real-time data',
     features: [
-      'Present-day and full historical data in Sanbase, Trending Coins & Stories',
+      'Present-day and full historical data in Sanbase and Trending Coins',
       'Technical support included',
-      'Real-time API data without restrictions',
-      '80K API calls / mo, 2 years historical data',
-      'Full access to Screener',
-      '50 active alerts',
+      'Full access to screener, 20 alerts',
       'Access to Google Sheets plugin',
       'Exclusive reports and market insights',
     ],

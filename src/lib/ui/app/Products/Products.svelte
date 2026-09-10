@@ -36,20 +36,25 @@
 </script>
 
 <div
-  class={cn('gap-6 px-8 py-8 pb-6 text-sm column', isCompact && 'px-8 py-6', className)}
+  style:--card-width={isCompact ? '272px' : '292px'}
+  class={cn('column gap-6 rounded-md px-6 pt-8 pb-6 text-sm', className)}
   style={THEME_MAP[variant]}
 >
-  <section class="column">
+  <section class="grid grid-cols-1 gap-1 [@media(max-height:660px)]:grid-cols-2">
     {#each products as product}
       <ProductCard {...product} active={active === product.id} {isCompact} />
     {/each}
   </section>
 
-  <section class="max-w-[260px] border-t border-porcelain pt-6 text-sm text-waterloo">
-    Visit
-    <a class="hover:text-[var(--accent-hover)]" target="_blank" href="https://santiment.net/"
-      >santiment.net</a
+  <section
+    class="w-[var(--card-width)] border-t border-porcelain px-3 pt-6 text-fiord [@media(max-height:660px)]:w-auto"
+  >
+    To learn more about Santiment's products, team, or available jobs, visit
+    <a
+      class="text-[var(--accent)] hover:text-[var(--accent-hover)] hover:underline"
+      target="_blank"
+      rel="noreferrer"
+      href="https://santiment.net/">santiment.net</a
     >
-    for more
   </section>
 </div>

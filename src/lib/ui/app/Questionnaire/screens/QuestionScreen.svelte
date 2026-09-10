@@ -49,7 +49,7 @@
     {/if}
   </div>
 
-  <footer class="flex items-center justify-between gap-y-5 xs:flex-col-reverse">
+  <footer class="flex items-center justify-between gap-y-5 sm:flex-col-reverse">
     <div class="flex items-center gap-4 text-sm text-waterloo">
       <span class="text-rhino">
         <span class="font-medium">{questionnaire.$$.stepIndex + 1}</span>

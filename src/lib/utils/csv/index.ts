@@ -1,6 +1,7 @@
 import type { TSeries } from '$ui/app/Chart/ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '../dates/index.js'
+import { downloadBlob } from '../download/index.js'
 
 type Header<T> = {
   title: string
@@ -22,17 +23,22 @@ export function downloadCsv<T>(title: string, headers: Header<T>[], data: T[]) {
     ),
   ]
 
-  const csvContent = 'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n')
+  const csvContent = rows.map((e) => e.join(',')).join('\n')
 
   const date = new Date()
   const { DD, MMM, YYYY } = getDateFormats(date)
   const { HH, mm, ss } = getTimeFormats(date)
 
-  const a = document.createElement('a')
-  a.download = `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`
-  a.href = encodeURI(csvContent)
-  a.click()
-  a.remove()
+  const blob = new Blob(
+    [
+      //NOTE: This UTF‑8 BOM is needed for Excel to open the csv as UTF-8
+      '\uFEFF',
+      csvContent,
+    ],
+    { type: 'text/csv;charset=utf-8' },
+  )
+
+  downloadBlob(blob, `${title} [${HH}.${mm}.${ss}, ${DD} ${MMM}, ${YYYY}].csv`)
 }
 
 export function createMetricSeriesCsvHeaders(series: TSeries[]) {
@@ -42,10 +48,12 @@ export function createMetricSeriesCsvHeaders(series: TSeries[]) {
       format: (row: any) => new Date(row.time * 1000).toISOString(),
     },
   ].concat(
-    series.map((metric) => ({
-      title: metric.label,
-      format: (row: any) => row[metric.label] ?? '',
-    })),
+    series.map((metric) => {
+      const key = metric.id
+      const prefix = metric.selectorLabel$ ? `${metric.selectorLabel$} - ` : ''
+
+      return { title: prefix + metric.label, format: (row: any) => row[key] ?? '' }
+    }),
   )
 }
 
@@ -53,7 +61,7 @@ export function mergeMetricSeriesData(series: TSeries[]) {
   const data: Record<number, Record<string, any>> = {}
 
   for (const metric of series) {
-    const key = metric.label
+    const key = metric.id
     for (const { time, value } of metric.data.$) {
       const datePoint = (data[time] ??= { time })
       datePoint[key] = value

@@ -32,6 +32,8 @@
   let isMounted = $state(false)
   let isOpened = $state(true)
 
+  const { isDesktop, isTablet } = $derived(device.$)
+
   // @ts-expect-error
   const onClosed = () => Controller._unmount()
 
@@ -61,10 +63,10 @@
 </script>
 
 {#if BROWSER && isOpened}
-  {#if forceDesktop || device.$.isDesktop}
-    <DesktopDialog class={className} {overlayClass} {children} {onOpenChange} />
-  {:else if forceMobileLandscape}
+  {#if forceMobileLandscape}
     <MobileLandscapeModal class={className} {children} {onOpenChange} />
+  {:else if forceDesktop || isDesktop || isTablet}
+    <DesktopDialog class={className} {overlayClass} {children} {onOpenChange} />
   {:else}
     <MobileDialog class={className} {overlayClass} {children} {onClosed} />
   {/if}

@@ -2,7 +2,7 @@ import type { TMetricSelector } from './types/index.js'
 
 import { type TNominal } from '../../utils/types/index.js'
 import { ApiQuery } from '../../api/index.js'
-import { percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
+import { mvrvRatioFormatter, percentFormatter, usdFormatter } from '../../utils/formatters/index.js'
 import {
   zodGranularityRulesSchema,
   zodSettingsSchema,
@@ -12,11 +12,23 @@ import {
 
 export type TMetricKey = TNominal<string, 'TMetricKey'>
 
-export type TMetricUnit = '' | 'usd' | 'percent'
+export type TMetricUnit = '' | 'usd' | 'percent' | 'mvrv_percent'
 
 type TMetricArgs = Partial<{
   selector: TMetricSelector
   [x: string]: unknown
+}>
+
+export const MetricStatus = {
+  LIVE: 'LIVE',
+  HIDDEN: 'HIDDEN',
+  UNDER_MAINTENANCE: 'UNDER_MAINTENANCE',
+} as const
+export type TMetricStatus = (typeof MetricStatus)[keyof typeof MetricStatus]
+
+export type TStyleOptions = Partial<{
+  baseline: { value: number; bottomColor: string }
+  isFilledGradient: boolean
 }>
 
 export type TRegistryMetric = {
@@ -30,6 +42,7 @@ export type TRegistryMetric = {
 
   chartStyle: string
   node: string
+  status: TMetricStatus
 
   unit: string
   formatter: undefined | ((value: number) => string)
@@ -38,6 +51,8 @@ export type TRegistryMetric = {
     args: TMetricArgs
     isNew: boolean
     displayOrder: number
+    status: TMetricStatus
+    styleOptions: TStyleOptions
     settingsSchema?: TSettingsSchema
     granularityRules?: TGranularityRulesSchema
   }
@@ -63,6 +78,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       a:args
       in:isNew
       do:displayOrder
+      st:status
     }
   }
 }`,
@@ -80,11 +96,13 @@ export const queryGetOrderedMetrics = ApiQuery(
         un: TMetricUnit
         d: string
         a: {
-          settingsSchema: TSettingsSchema
+          settingsSchema?: TSettingsSchema
+          styleOptions?: TStyleOptions
           [x: string]: any
         }
         in: boolean
         do: number
+        st: TMetricStatus
       }[]
     }
   }) => {
@@ -104,7 +122,7 @@ export const queryGetOrderedMetrics = ApiQuery(
       })
       .reduce((acc, item) => {
         const key = item.k ?? item.m
-        const { settingsSchema, granularityRules, ...args } = item.a ?? {}
+        const { settingsSchema, granularityRules, styleOptions, ...args } = item.a ?? {}
 
         return Object.assign(acc, {
           [key]: {
@@ -125,11 +143,13 @@ export const queryGetOrderedMetrics = ApiQuery(
 
             meta: {
               args,
+              styleOptions,
               settingsSchema: zodSettingsSchema.safeParse(settingsSchema).data,
               granularityRules: zodGranularityRulesSchema.safeParse(granularityRules).data,
               //type: item.t,
               isNew: item.in,
               displayOrder: item.do,
+              status: item.st || MetricStatus.LIVE,
             },
 
             reqMeta: item.a, // LEGACY
@@ -150,6 +170,8 @@ function getTooltipFormatterByUnit(unit: TMetricUnit) {
       return usdFormatter
     case 'percent':
       return percentFormatter
+    case 'mvrv_percent':
+      return mvrvRatioFormatter
   }
 }
 

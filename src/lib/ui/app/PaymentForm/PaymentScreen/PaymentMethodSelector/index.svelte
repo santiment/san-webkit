@@ -38,10 +38,10 @@
   active={selectedPaymentMethod}
   {options}
   {onSelect}
-  class="no-scrollbar xs:-mx-5 xs:flex-nowrap xs:overflow-auto xs:px-5"
+  class="ms:-mx-5 ms:flex-nowrap ms:overflow-auto ms:px-5 no-scrollbar"
 >
   {#snippet children(option)}
-    <h3 class="flex gap-2 center">
+    <h3 class="flex center gap-2">
       <img src={option.img} alt="{option.name} image" class="h-6 max-h-6" />
       {option.name}
     </h3>

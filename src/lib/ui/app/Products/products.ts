@@ -26,14 +26,14 @@ export const products: TProductCard[] = [
     id: 'play',
     title: 'Play',
     desc: 'Fun, risk-free crypto predictions to learn market behavior',
-    href: 'https://play.santiment.net',
+    href: 'https://play.santiment.net/',
     dimensions: [40, 40],
   },
   {
     id: 'score',
     title: 'Score',
     desc: 'Predictions & strategies, funding competitions, trader backing',
-    href: 'https://score.santiment.net',
+    href: 'https://scorearena.ai/',
     dimensions: [40, 40],
   },
 ]
