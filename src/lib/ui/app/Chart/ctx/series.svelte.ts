@@ -491,6 +491,12 @@ export const useMetricSeriesCtx = createCtx(
         findById(id: string | undefined) {
           return id ? series.find((item) => item.id === id) : undefined
         },
+
+        findByName(name: string | undefined) {
+          return name
+            ? series.find((item) => 'apiMetricName' in item && item.apiMetricName === name)
+            : undefined
+        },
       },
     }
   },
