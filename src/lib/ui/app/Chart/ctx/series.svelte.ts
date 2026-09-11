@@ -488,8 +488,8 @@ export const useMetricSeriesCtx = createCtx(
           this.delete(index)
         },
 
-        findById(id?: string) {
-          return id && series.find((item) => item.id === id)
+        findById(id: string | undefined) {
+          return id ? series.find((item) => item.id === id) : undefined
         },
       },
     }
