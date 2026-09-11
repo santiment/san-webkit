@@ -12,9 +12,12 @@ export const createColors = plugin.withOptions(
     for (const key in colors) {
       const color = colors[key]
       const { day, night } = typeof color === 'object' ? color : { day: color, night: undefined }
+      const nightColor = night ?? day
 
       dayVariables[`--c-${key}`] = hexToRgb(day).join(' ')
       dayVariables[`--${key}`] = day
+      dayVariables[`--${key}-day`] = day
+      dayVariables[`--${key}-night`] = nightColor
 
       if (night) {
         nightVariables[`--c-${key}`] = hexToRgb(night).join(' ')
