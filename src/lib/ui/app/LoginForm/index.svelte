@@ -46,7 +46,7 @@
 {:else}
   <Section
     {title}
-    class={cn('text-nowrap text-base', className)}
+    class={cn('text-base text-nowrap', className)}
     titleClass="mb-8"
     {bottomLabel}
     {bottomAction}

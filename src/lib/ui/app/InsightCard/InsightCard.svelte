@@ -30,7 +30,7 @@
   )
 </script>
 
-<article class="rounded border border-porcelain p-6">
+<article class="rounded-sm border border-porcelain p-6">
   <header>
     <a
       {href}

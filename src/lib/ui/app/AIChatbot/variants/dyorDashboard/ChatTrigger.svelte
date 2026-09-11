@@ -36,7 +36,7 @@
         placeholder="Ask AI for insights"
         value={aiChatbot.$$.message}
         type="text"
-        class="pr-13 h-10 w-56 rounded-full shadow"
+        class="pr-13 h-10 w-56 rounded-full shadow-sm"
         inputClass={cn(
           'text-base placeholder-casper pr-4 transition-all',
           focused ? 'pl-4' : 'pl-8',
@@ -70,7 +70,7 @@
   {#if !aiChatbot.$$.session}
     <Button
       icon="social-trend"
-      class="h-10 w-10 shrink-0 rounded-full bg-white shadow hover:fill-green"
+      class="h-10 w-10 shrink-0 rounded-full bg-white shadow-sm hover:fill-green"
       onclick={() => aiChatbot.openWithPrompt()}
     ></Button>
   {/if}

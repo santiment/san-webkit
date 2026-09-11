@@ -61,7 +61,7 @@
     iconSize="16"
   />
 
-  <Button variant="fill" size="lg" class="mt-4 w-full justify-center row" type="submit" {loading}>
+  <Button variant="fill" size="lg" class="mt-4 row w-full justify-center" type="submit" {loading}>
     {isSignUp ? 'Create account' : 'Log in'}
   </Button>
 </form>

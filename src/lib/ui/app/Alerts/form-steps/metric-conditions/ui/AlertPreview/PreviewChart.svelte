@@ -78,7 +78,7 @@
 
 <article
   bind:clientWidth={containerWidth}
-  class="relative flex h-44 w-full flex-col rounded border pb-9 pt-3"
+  class="relative flex h-44 w-full flex-col rounded-sm border pb-9 pt-3"
 >
   {#if loading}
     <div class="skeleton absolute inset-0"></div>

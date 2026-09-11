@@ -12,7 +12,7 @@
   {@const { planName, isEligibleForSanbaseTrial, trialDaysLeft, isTrialSubscription } = customer.$}
   {@const { isFree, isCustom, isBusinessSubscription } = customer.$}
   <section
-    class="gap-2 px-5 pb-[14px] pt-4 column"
+    class="column gap-2 px-5 pt-4 pb-[14px]"
     style={isBusinessSubscription
       ? '--c-orange:var(--c-blue);--c-orange-hover:var(--c-blue-hover)'
       : ''}

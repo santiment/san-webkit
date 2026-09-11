@@ -47,7 +47,7 @@
 >
   <!-- prettier-ignore-end -->
   <input
-    class={cn("cursor-pointer select-none bg-transparent outline-none", inputClass)}
+    class={cn("cursor-pointer select-none bg-transparent outline-hidden", inputClass)}
     bind:this={inputNode.$}
     type="text"
     value={formatValue(date)}

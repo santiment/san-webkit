@@ -10,14 +10,14 @@
 <Button
   target="_blank"
   href={source.url}
-  class="group grid h-auto w-full max-w-[calc(50%-14px)] grid-cols-[1fr_auto] items-start gap-x-3 bg-green-light-1 py-3 pl-5 pr-2 sm:!max-w-[364px]"
+  class="group grid h-auto w-full max-w-[calc(50%-14px)] grid-cols-[1fr_auto] items-start gap-x-3 bg-green-light-1 py-3 pr-2 pl-5 sm:max-w-[364px]!"
   {onclick}
 >
   <div class="min-w-0 pt-1">
-    <div class="truncate group-hover:text-black">
+    <div class="group-hover:text-black truncate">
       [{source.number}] {source.title}
     </div>
-    <div class="truncate text-green group-hover:text-green-hover group-hover:underline">
+    <div class="group-hover:text-green-hover group-hover:underline truncate text-green">
       {source.url}
     </div>
   </div>

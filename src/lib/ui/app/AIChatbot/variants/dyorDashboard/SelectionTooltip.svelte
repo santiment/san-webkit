@@ -139,7 +139,7 @@
 
   {#snippet content()}
     <Button
-      class="w-full select-none rounded-full border border-porcelain bg-white px-2.5 py-1.5 text-sm shadow transition-opacity hover:border-green-hover"
+      class="w-full select-none rounded-full border border-porcelain bg-white px-2.5 py-1.5 text-sm shadow-sm transition-opacity hover:border-green-hover"
       onclick={clickTooltip}
     >
       🤖 Ask&nbsp;AI

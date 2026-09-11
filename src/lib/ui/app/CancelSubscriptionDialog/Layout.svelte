@@ -14,7 +14,7 @@
 <section class="flex-1 text-center">
   <h2 class="mb-6 text-2xl font-medium">{title}</h2>
 
-  <section class="mb-8 rounded bg-athens px-8 py-6">
+  <section class="mb-8 rounded-sm bg-athens px-8 py-6">
     {@render children()}
   </section>
 

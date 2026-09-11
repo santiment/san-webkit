@@ -15,7 +15,7 @@
     {#each SCHEMAS as schema (schema.name)}
       <Button
         variant="plain"
-        class="h-auto flex-col items-start rounded border px-8 pb-8 pt-5 text-start text-fiord hover:border-green"
+        class="h-auto flex-col items-start rounded-sm border px-8 pb-8 pt-5 text-start text-fiord hover:border-green"
         onclick={() => onSelect(schema)}
       >
         <h3 class="mb-3 flex items-center gap-3 text-lg text-black">

@@ -66,7 +66,7 @@
 </script>
 
 <Input
-  class={cn('mb-2', error && '!border-red')}
+  class={cn('mb-2', error && 'border-red!')}
   type="text"
   defaultValue={color}
   onblur={onBlur}
