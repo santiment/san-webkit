@@ -2,7 +2,7 @@ import plugin from 'tailwindcss/plugin'
 import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
-import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
+import { BREAKPOINTS } from './dist/ctx/device/breakpoints.js'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
