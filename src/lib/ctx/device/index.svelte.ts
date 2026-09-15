@@ -52,6 +52,10 @@ const DEVICE_BREAKPOINTS: DeviceBreakpoint[] = [
   { breakpoint: 'md', device: DeviceType.Tablet },
 ]
 
+/**
+ * Runtime flag to keep the phone devices (determined by viewport width on app boot) from switching to `DeviceType.Tablet` in landscape orientation.
+ */
+let bootLockPhoneDevice: DeviceType | false
 const device = ss(getDeviceInfo(DeviceType.Desktop))
 
 const getViewportDeviceType = (queries: DeviceMediaQuery[]) =>
@@ -59,6 +63,9 @@ const getViewportDeviceType = (queries: DeviceMediaQuery[]) =>
 
 function onDeviceTypeChange(deviceType: DeviceType) {
   untrack(() => {
+    bootLockPhoneDevice ??= deviceType.includes(DeviceType.Phone) && deviceType
+    if (bootLockPhoneDevice) deviceType = bootLockPhoneDevice
+
     if (device.$.type === deviceType) return
 
     if (BROWSER) {
