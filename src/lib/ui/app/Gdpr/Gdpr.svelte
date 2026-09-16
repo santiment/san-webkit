@@ -27,11 +27,12 @@
   const defaultUsername = currentUser.$$?.username ?? ''
 
   let error = $state('')
-  let isActive = $state(false)
+  let isPrivacyAccepted = $state(false)
+  let isMarketingAccepted = $state(false)
   let loading = $state(false)
   let username = $state(defaultUsername)
 
-  const isDisabled = $derived(!isActive || (!defaultUsername && !username) || !!error)
+  const isDisabled = $derived(!isPrivacyAccepted || (!defaultUsername && !username) || !!error)
 
   const checkValidity = useObserveFnCall<{ value: string }>(() =>
     pipe(
@@ -71,7 +72,10 @@
 
     changeUsernamePromise
       .then(() =>
-        mutateGdpr(Query)(true)
+        mutateGdpr(Query)({
+          privacyPolicyAccepted: isPrivacyAccepted,
+          marketingAccepted: isMarketingAccepted,
+        })
           .then(() => customer.reload())
           .then(() => {
             window.onGdprAccept?.()
@@ -134,15 +138,35 @@
     <p class="my-4 text-base">Review and accept our Privacy Policy to continue using Sanbase</p>
   </div>
 
-  <div class="flex max-w-[380px] items-center text-base">
-    <Checkbox class="mr-3" {isActive} onCheckedChange={() => (isActive = !isActive)}></Checkbox>
-    I accept
-    <a href="https://santiment.net/terms" target="_blank" class="mx-1 link-pointer">Terms</a>
-    and
-    <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 link-pointer"
-      >Privacy Policy</a
-    >
-  </div>
+  <section class="flex flex-col gap-2">
+    <div class="flex max-w-[380px] text-base">
+      <Checkbox
+        class="mr-3 mt-1"
+        isActive={isPrivacyAccepted}
+        onCheckedChange={() => (isPrivacyAccepted = !isPrivacyAccepted)}
+      ></Checkbox>
+      I accept
+      <a href="https://santiment.net/terms" target="_blank" class="mx-1 link-pointer">Terms</a>
+      and
+      <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 link-pointer"
+        >Privacy Policy</a
+      >
+    </div>
+
+    <div class="flex max-w-[380px] text-start text-base">
+      <Checkbox
+        class="mr-3 mt-1"
+        isActive={isMarketingAccepted}
+        onCheckedChange={() => (isMarketingAccepted = !isMarketingAccepted)}
+      />
+      <section class="flex flex-col gap-2">
+        <span>I’d like to receive emails with tips and updates from time to time.</span>
+        <span class="text-sm text-fiord">
+          No spam, your email never shared with third parties. Opt out anytime in Account Settings.
+        </span>
+      </section>
+    </div>
+  </section>
 
   <Button
     {loading}
