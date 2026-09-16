@@ -19,7 +19,9 @@ export function newHeadScript(
 }
 
 export enum PageType {
+  /** @deprecated Only for classic explorer. Otherwise use COMMUNITY instead */
   EXPLORER = 'explorer',
+  COMMUNITY = 'community',
   CHARTS = 'charts',
   DASHBOARDS = 'dashboards',
   WATCHLIST = 'watchlist',
