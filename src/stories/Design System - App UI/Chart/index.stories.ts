@@ -527,6 +527,34 @@ export const MetricsRegistryCustomGranularityRules: Story = {
   },
 }
 
+export const LineValueIndicators: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Default Line (btc)',
+        scaleId: 'right-price_usd',
+        lastValueVisible: false,
+        priceLineVisible: false,
+      },
+      {
+        apiMetricName: 'sentiment_volume_consumed_total',
+        label: 'Dotted Line (volume consumed)',
+        scaleId: 'right-sentiment_volume_consumed_total',
+        lastValueVisible: false,
+        priceLineVisible: false,
+      },
+      {
+        apiMetricName: 'price_eth',
+        label: 'Dashed Area (eth)',
+        scaleId: 'right-price_eth',
+        lastValueVisible: true,
+        priceLineVisible: false,
+      },
+    ],
+  },
+}
+
 export const UnderMaintenanceMetric: Story = {
   args: {
     defaultMetrics: [
