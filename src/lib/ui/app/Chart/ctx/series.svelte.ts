@@ -376,7 +376,7 @@ export function createSeries(
         // default true -> undefined (omit from API)
         priceLineVisible: metric.ui.$$.priceLineVisible && undefined,
         // default true -> undefined (omit from API)
-        crosshairMarkerVisible: metric.ui.$$.crosshairMarkerVisible ? undefined : false,
+        crosshairMarkerVisible: metric.ui.$$.crosshairMarkerVisible && undefined,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
         lineStyle: metric.ui.$$.lineStyle,
