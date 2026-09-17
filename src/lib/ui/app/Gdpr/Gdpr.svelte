@@ -17,11 +17,10 @@
 
   type TProps = {
     class?: string
-    title?: string
     onAccept: (username: string) => void
   }
 
-  const { class: className, onAccept, title = 'Welcome to Sanbase' }: TProps = $props()
+  const { class: className, onAccept }: TProps = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -105,7 +104,7 @@
 </script>
 
 <Card class={cn('text-base', className)}>
-  <h1 class="mb-5 text-3xl font-medium">{title}</h1>
+  <h1 class="mb-5 text-3xl font-medium">Welcome to Sanbase</h1>
 
   {#if !defaultUsername}
     <label class="mb-6 flex flex-col gap-3 text-rhino">
