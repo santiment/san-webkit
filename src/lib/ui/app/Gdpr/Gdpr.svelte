@@ -6,21 +6,22 @@
   import Checkbox from '$ui/core/Checkbox/index.js'
   import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import ValidationError from '$ui/core/ValidationError/index.js'
 
-  import Section from '../LoginForm/Section.svelte'
   import { mutateGdpr, mutateChangeUsername } from './api.js'
+  import Card from '../LoginForm/Card.svelte'
 
   type TProps = {
-    onAccept: (username: string) => void
+    class?: string
     title?: string
+    onAccept: (username: string) => void
   }
 
-  const { onAccept, title = 'Welcome to Sanbase' }: TProps = $props()
+  const { class: className, onAccept, title = 'Welcome to Sanbase' }: TProps = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -103,59 +104,57 @@
   }
 </script>
 
-<Section {title}>
-  <div class="max-w-[380px] text-start text-waterloo">
-    {#if !defaultUsername}
-      <p class="my-4 text-base">Please type your username to access all features</p>
+<Card class={cn('text-base', className)}>
+  <h1 class="mb-5 text-3xl font-medium">{title}</h1>
 
-      <div class="relative">
-        <Tooltip isOpened={!!error} class="absolute mt-1">
-          <Input
-            value={username}
-            placeholder="username"
-            class={cn('text-black', error && 'border-red')}
-            inputClass="pl-6"
-            oninput={onInput}
-            onblur={onBlur}
-            minlength={4}
-            required
-          >
-            {#snippet left()}
-              <span class="absolute left-2 text-green">@</span>
-            {/snippet}
-          </Input>
+  {#if !defaultUsername}
+    <label class="mb-6 flex flex-col gap-3 text-rhino">
+      <span>First, set your username:</span>
 
-          {#snippet content()}
-            <span class="flex items-center gap-1 fill-red px-2 py-1.5 text-black">
-              <Svg id="error" class="mr-1" />
-              {error}
-            </span>
+      <Tooltip isOpened={!!error} class="absolute mt-1">
+        <Input
+          value={username}
+          placeholder="username"
+          class={cn('h-10 text-black', error && 'border-red')}
+          inputClass="pl-6"
+          oninput={onInput}
+          onblur={onBlur}
+          minlength={4}
+          required
+        >
+          {#snippet left()}
+            <span class="absolute left-2 text-green">@</span>
           {/snippet}
-        </Tooltip>
-      </div>
-    {/if}
+        </Input>
 
-    <p class="my-4 text-base">Review and accept our Privacy Policy to continue using Sanbase</p>
-  </div>
+        {#snippet content()}
+          <ValidationError {error} />
+        {/snippet}
+      </Tooltip>
+    </label>
+  {/if}
 
   <section class="flex flex-col gap-2">
-    <div class="flex max-w-[380px] text-base">
+    <section class="flex gap-3">
       <Checkbox
-        class="mr-3 mt-1"
+        class="mt-1"
         isActive={isPrivacyAccepted}
         onCheckedChange={() => (isPrivacyAccepted = !isPrivacyAccepted)}
       ></Checkbox>
-      I accept
-      <a href="https://santiment.net/terms" target="_blank" class="mx-1 link-pointer">Terms</a>
-      and
-      <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 link-pointer"
-        >Privacy Policy</a
-      >
-    </div>
 
-    <div class="flex max-w-[380px] text-start text-base">
+      <span>
+        I accept
+        <Button variant="link" href="https://santiment.net/terms" target="_blank">Terms</Button>
+        and
+        <Button variant="link" href="https://app.santiment.net/privacy-policy" target="_blank">
+          Privacy Policy
+        </Button>
+      </span>
+    </section>
+
+    <section class="flex gap-3">
       <Checkbox
-        class="mr-3 mt-1"
+        class="mt-1"
         isActive={isMarketingAccepted}
         onCheckedChange={() => (isMarketingAccepted = !isMarketingAccepted)}
       />
@@ -165,17 +164,17 @@
           No spam, your email never shared with third parties. Opt out anytime in Account Settings.
         </span>
       </section>
-    </div>
+    </section>
   </section>
 
   <Button
     {loading}
     variant="fill"
-    class="mx-auto mt-8 flex min-w-[188px] justify-center py-2.5 md:min-w-full"
+    size="lg"
+    class="mt-8 flex w-1/2 justify-center"
     disabled={isDisabled}
     onclick={onSubmit}
-    style="--loading-color: var(--white)"
   >
     Continue
   </Button>
-</Section>
+</Card>
