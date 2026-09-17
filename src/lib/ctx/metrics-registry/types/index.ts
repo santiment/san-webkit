@@ -1,6 +1,7 @@
 import type { MaybeSS, SS } from '$lib/utils/state.svelte.js'
 import type { TUUIDv7 } from '$lib/utils/uuid/index.js'
 import type { FIATS, FUNDS, INDICES_AND_SUPPLY, TAssetSlug } from '$lib/ctx/assets/api.js'
+import type { LineStyle } from '@santiment-network/chart-next'
 import type {
   TInterval,
   TMetricData,
@@ -89,6 +90,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   data?: TMetricData
   label?: string
   style?: TMetricStyles
+  lineStyle?: LineStyle
   color?: string
   visible?: boolean
   pane?: number
