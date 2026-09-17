@@ -77,15 +77,20 @@
   })
 
   $effect.pre(() => {
-    const { color, style, lineStyle, lastValueVisible, priceLineVisible } = ui.$$
-    const options = { color, lastValueVisible, priceLineVisible }
+    const { color, style, lineStyle, lastValueVisible, priceLineVisible, crosshairMarkerVisible } =
+      ui.$$
+    const options = {
+      color,
+      lastValueVisible,
+      priceLineVisible,
+    }
 
     if (style === MetricStyle.AREA) {
-      Object.assign(options, getAreaSeriesColors(series), { lineStyle })
+      Object.assign(options, getAreaSeriesColors(series), { lineStyle, crosshairMarkerVisible })
     } else if (style === MetricStyle.CANDLES) {
       Object.assign(options, getCandlesSeriesColors(series))
     } else if (style === MetricStyle.LINE) {
-      Object.assign(options, { lineStyle })
+      Object.assign(options, { lineStyle, crosshairMarkerVisible })
     }
 
     chartSeries.applyOptions({ ...options, priceScaleId: scale.$$.id })
@@ -154,6 +159,7 @@
           zOrder: 20,
           lineWidth: 1.5 as LineWidth,
           lineStyle: ui.$$.lineStyle,
+          crosshairMarkerVisible: ui.$$.crosshairMarkerVisible,
         })
       case MetricStyle.CANDLES:
         return Object.assign(base, { zOrder: 30 })
@@ -162,6 +168,7 @@
           zOrder: 60,
           lineWidth: 2 as LineWidth,
           lineStyle: ui.$$.lineStyle,
+          crosshairMarkerVisible: ui.$$.crosshairMarkerVisible,
         })
     }
   }
