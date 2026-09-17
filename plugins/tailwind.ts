@@ -1,13 +1,15 @@
 import plugin from 'tailwindcss/plugin'
 
+import { Colors } from '../colors.config.js'
+
 export function hexToRgb(hex: string) {
   return (hex.slice(1).match(/\w{2}/g) || []).map((value) => parseInt(`0x${value}`))
 }
 
 export const createColors = plugin.withOptions(
-  ({ colors }) => {
-    const dayVariables = {}
-    const nightVariables = {}
+  ({ colors }: any = { colors: Colors }) => {
+    const dayVariables: Record<string, string> = {}
+    const nightVariables: Record<string, string> = {}
 
     for (const key in colors) {
       const color = colors[key]
@@ -28,8 +30,8 @@ export const createColors = plugin.withOptions(
       addUtilities({ '.night-mode': nightVariables })
     }
   },
-  ({ colors }: { colors: Record<string, string | { day: string; night: string }> }) => {
-    const resultColors = {}
+  ({ colors }: any = { colors: Colors }) => {
+    const resultColors: Record<string, any> = {}
 
     for (const key in colors) {
       const color = colors[key]
