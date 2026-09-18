@@ -65,7 +65,7 @@
   <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
 
   <section
-    class="flex overflow-clip rounded border sm:rounded-none sm:border-x-0"
+    class="flex overflow-clip rounded-sm border sm:rounded-none sm:border-x-0"
     class:business={!isConsumerPlans}
   >
     <Table

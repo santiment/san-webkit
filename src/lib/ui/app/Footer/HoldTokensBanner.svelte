@@ -12,10 +12,10 @@
 
   <p class="max-w-[250px]">
     Discover all the benefits of holding SAN tokens <a
-      class="text-[var(--accent)] hover:text-[var(--accent)] hover:underline"
+      class="text-(--accent) hover:text-(--accent) hover:underline"
       href="https://academy.santiment.net/san-tokens/#how-to-buy-san-tokens">on Academy.</a
     >
   </p>
 
-  <Svg illus id="hold-tokens" w={98} class="absolute bottom-0 right-[-10px] sm:hidden" />
+  <Svg illus id="hold-tokens" w={98} class="absolute right-[-10px] bottom-0 sm:hidden" />
 </article>

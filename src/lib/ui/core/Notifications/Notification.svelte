@@ -47,7 +47,7 @@
   role="alert"
   style:--active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
   class={cn(
-    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pl-6 pr-2.5 pt-5 shadow-modal dark:bg-athens dark:shadow-none',
+    'flex w-[460px] max-w-full gap-4 rounded-lg border bg-white pt-5 pr-2.5 pl-6 shadow-modal dark:bg-athens dark:shadow-none',
     content && !action ? 'pb-6' : 'pb-5',
     className,
   )}
@@ -56,7 +56,7 @@
     <Svg id={icon} {...ICONS[icon]} />
   </figure>
 
-  <div class="flex-1 items-start gap-2 column">
+  <div class="column flex-1 items-start gap-2">
     <h4 class="line-clamp-2 text-base font-medium text-rhino">{message}</h4>
 
     {#if content}
@@ -85,7 +85,7 @@
     aria-label="Close notification"
     icon="close"
     iconSize={10}
-    class="-ml-2 -mt-2.5 flex size-5 rounded !fill-waterloo center hover:bg-porcelain sm:size-8"
+    class="-mt-2.5 -ml-2 flex size-5 center rounded-sm fill-waterloo! hover:bg-porcelain sm:size-8"
     onclick={close}
   />
 </section>

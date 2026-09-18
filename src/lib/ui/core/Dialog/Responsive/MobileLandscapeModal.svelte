@@ -27,7 +27,7 @@
 </script>
 
 {#if $open}
-  <div class="relative z-[10000]" {...$portalled} use:portalled>
+  <div class="relative z-10000" {...$portalled} use:portalled>
     <div
       class={cn(
         'fixed inset-0 z-50 overflow-hidden bg-white',
@@ -54,7 +54,7 @@
             icon="close"
             iconSize={16}
             onclick={close.bind(null, true)}
-            class="absolute right-4 top-4 fill-white-day"
+            class="absolute top-4 right-4 fill-white-day"
           />
         </section>
       {/if}

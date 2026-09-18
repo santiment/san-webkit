@@ -55,7 +55,7 @@
 
 <RangeCalendar.Root
   --active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
-  class={cn('h-full max-w-max rounded border bg-white dark:bg-athens', className)}
+  class={cn('h-full max-w-max rounded-sm border bg-white dark:bg-athens', className)}
   weekdayFormat="short"
   fixedWeeks
   {value}
