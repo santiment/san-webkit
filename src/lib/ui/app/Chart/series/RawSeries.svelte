@@ -31,6 +31,13 @@
 
   const highlightedMetricCtx = useHighlightedMetricCtx.maybeGet()
 
+  const defaultBottomMargin = $derived(
+    ui.$$.style === MetricStyle.HISTOGRAM &&
+      !data.$.some((point) => point.value !== undefined && point.value < 0)
+      ? 0
+      : 0.1,
+  )
+
   const priceFormat = $derived(
     formatters.$.scaleFormatter &&
       ({
@@ -106,9 +113,13 @@
 
     chartSeries.applyOptions({ autoscaleInfoProvider })
 
-    chartSeries
-      .priceScale()
-      .applyOptions({ invertScale: scale.$$.inverted, scaleMargins: scale.$$.scaleMargins })
+    chartSeries.priceScale().applyOptions({
+      invertScale: scale.$$.inverted,
+      scaleMargins: scale.$$.scaleMargins ?? {
+        top: 0.2,
+        bottom: defaultBottomMargin,
+      },
+    })
   })
 
   $effect.pre(() => {
