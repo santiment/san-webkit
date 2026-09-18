@@ -11,6 +11,7 @@ export const useSubscriptionPlanButtonCtx = createCtx(
       e: { currentTarget: HTMLElement },
     ) => void
     onPlanChangeClick?: (plan: TSubscriptionPlan, e: { currentTarget: HTMLElement }) => void
+    getPlanHref?: (plan: TSubscriptionPlan) => string
   }) => {
     return handlers || {}
   },
