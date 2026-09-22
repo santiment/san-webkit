@@ -4,3 +4,5 @@ export { trackEvent } from './events/index.js'
 export { startLinksListener } from './links.js'
 
 export { usePageViewEventTracking } from './events/pageview.svelte.js'
+
+export { PageType } from './utils.js'
