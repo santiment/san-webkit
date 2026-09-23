@@ -16,6 +16,7 @@ import {
   type TChartCombinedDistributionMetric,
   type TChartMetric,
   type TChartMetricBase,
+  type TMetricDataStore,
   // type TLabels,
   type TMetricFormula,
   type TMetricSelector,
@@ -154,6 +155,7 @@ export type TTraditionalFinanceSeries = TBaseSeries<TMetricType['TRADITIONAL_FIN
 }
 
 export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {
+  dataStore: SS<TMetricDataStore>
   get label(): string
 }
 
@@ -253,6 +255,7 @@ export function createSeries(
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
+  const dataStore = 'dataStore' in rest && rest.dataStore ? ss(rest.dataStore) : undefined
 
   const formatters = $derived.by(() => {
     const { unit } = ui
@@ -336,6 +339,7 @@ export function createSeries(
     selector: ss(selector),
 
     formula,
+    dataStore,
 
     ui: {
       get $$() {
@@ -403,6 +407,11 @@ export function createSeries(
     Object.defineProperty(metric, 'label', {
       get: () => metric.formula.$.name,
     })
+  } else if (metric.type === MetricType.DATA_STORE) {
+    delete (metric as any).selector
+    Object.defineProperty(metric, 'label', {
+      get: () => metric.dataStore.$.name,
+    })
   } else if (metric.type === MetricType.COMBINED_DISTRIBUTION) {
     const distribution: Partial<TCombinedDistributionSeries['distribution']> =
       ('distribution' in rest && rest.distribution) || {}
@@ -434,6 +443,7 @@ export function createSeries(
     // delete (metric as any).formula
   } else {
     delete (metric as any).formula
+    delete (metric as any).dataStore
   }
 
   if (
@@ -452,6 +462,11 @@ export function createSeries(
 
 // export type TSeries = ReturnType<typeof createSeries>
 
+const processDataStoreScope = (dataStore: TMetricDataStore) => ({
+  ...dataStore.params,
+  type: dataStore.type,
+})
+
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
   (defaultMetrics: TChartMetric[] = [], helpers?: Partial<THelpers>) => {
@@ -468,6 +483,10 @@ export const useMetricSeriesCtx = createCtx(
         selector: 'selector' in item ? $state.snapshot(item.selector.$) : null,
         version: $state.snapshot(item.version.$),
         formula: item.type === MetricType.FORMULAS ? $state.snapshot(item.formula.$) : undefined,
+        dataStore:
+          item.type === MetricType.DATA_STORE
+            ? processDataStoreScope($state.snapshot(item.dataStore.$))
+            : undefined,
       })),
     )
 

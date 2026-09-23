@@ -28,6 +28,14 @@ export type TMetricSelector = null | TMetricTargetSelectorInputObject
 
 export type TMetricFormula = { expr: string; name: string; id: TUUIDv7 }
 
+export type TMetricDataStore = {
+  /** References the global data store */
+  id: TUUIDv7
+  name: string
+  type: string
+  params?: Record<string, unknown>
+}
+
 export type TMetric = {
   type: TMetricTypes
 
@@ -143,7 +151,10 @@ export type TChartFormulasMetric = TChartMetricBase<
   TMetricType['FORMULAS'],
   { formula: MaybeSS<TMetricFormula> }
 >
-export type TChartDataStoreMetric = TChartMetricBase<TMetricType['DATA_STORE']>
+export type TChartDataStoreMetric = TChartMetricBase<
+  TMetricType['DATA_STORE'],
+  { dataStore: MaybeSS<TMetricDataStore> }
+>
 
 export type TChartCombinedDistributionMetric = TChartMetricBase<
   TMetricType['COMBINED_DISTRIBUTION'],

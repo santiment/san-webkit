@@ -17,7 +17,7 @@ type TRequestFn = <GType extends TMessageTypeValues>(
 ) => void
 
 export const metricsApiSharedWorker = BROWSER
-  ? globalThis.DEV_SHAREDWORKER_SUBSTITUTE ||
+  ? globalThis.SHAREDWORKER_SUBSTITUTE ||
     new SharedWorker(new URL('./shared-worker/index.js', import.meta.url), { type: 'module' })
   : { port: { onmessage: null, postMessage: () => {} } }
 
@@ -82,5 +82,5 @@ export function createWorkerRequester<GType extends TMessageTypeValues>(type: GT
 
 declare global {
   // eslint-disable-next-line no-var
-  var DEV_SHAREDWORKER_SUBSTITUTE: SharedWorker
+  var SHAREDWORKER_SUBSTITUTE: SharedWorker
 }

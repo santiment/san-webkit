@@ -1,7 +1,5 @@
-import { Query } from '$lib/api/executor.js'
 import { JobScheduler, type TJob } from '$lib/utils/job-scheduler.js'
 
-import { queryGetMetric } from '../../api/index.js'
 import {
   MESSAGE_TYPE,
   type TFetchFormulaMetricMessage,
@@ -14,6 +12,9 @@ import {
   type TValidateFormulaMessage,
 } from '../types.js'
 import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
+import { queryGenericMetric } from './generic-async-metrics.js'
+
+export { DATA_STORE_TYPE_RESOLVER, registerDataStoreTypeResolver } from './data-store-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 
@@ -54,20 +55,14 @@ const handleCancelRequest: TRequestHandler<TCancelRequestMessage> = (_, msg) => 
 }
 
 const handleFetchMetric: TRequestHandler<TFetchMetricMessage> = (respond, msg) => {
-  const { priority, minimalDelay, parameters, recache } = msg.payload
+  const { priority, minimalDelay, parameters, recache, dataStore } = msg.payload
 
   let isCancelled = false
 
+  const target = dataStore ? { dataStore } : { metric: parameters.metric }
+
   const queryData = () =>
-    queryGetMetric({ executor: Query, recache })({
-      metric: parameters.metric,
-      selector: parameters.selector,
-      from: parameters.from,
-      to: parameters.to,
-      interval: parameters.interval,
-      aggregation: parameters.aggregation,
-      version: parameters.version,
-    })
+    queryGenericMetric(target, parameters, recache)
       .then((timeseries) => {
         if (isCancelled) {
           return

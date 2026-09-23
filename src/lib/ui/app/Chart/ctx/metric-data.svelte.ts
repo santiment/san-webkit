@@ -94,7 +94,8 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     //  return
     //}
 
-    if (metric.type === MetricType.DATA_STORE) {
+    // NOTE: Safe check for legacy CSV imported dataStore metrics
+    if (metric.type === MetricType.DATA_STORE && !metric.dataStore.$) {
       return
     }
 
@@ -129,7 +130,14 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     }
 
     const recache = metric.recache.wasScheduled$()
-    const payload = { priority, minimalDelay, parameters, recache }
+    const payload = {
+      priority,
+      minimalDelay,
+      parameters,
+      recache,
+      dataStore: 'dataStore' in metric ? metric.dataStore.$ : undefined,
+    }
+
     const workerRequest =
       'formula' in metric && metric.formula
         ? workerFetchFormulaMetric(

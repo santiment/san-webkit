@@ -7,6 +7,7 @@ import type {
 } from '../api/index.js'
 import type { TGlobalParameters } from '../ctx/global-parameters.svelte.js'
 import type { TLocalParameters } from '../ctx/metric-data.svelte.js'
+import type { TDataStoreParameters } from './shared-worker/data-store-metrics.js'
 
 export type TMessageId = TNominal<number, 'TMessageId'>
 
@@ -60,6 +61,7 @@ export type TFetchMetricMessage = TMessageRequestResponse<
     minimalDelay?: number
     priority?: number
     recache?: boolean
+    dataStore?: TDataStoreParameters
     parameters: TMetricParameters & { version?: string }
   },
   { timeseries: TMetricData } | { error: any }
@@ -93,6 +95,7 @@ export type TFetchFormulaMetricMessage = TMessageRequestResponse<
       version?: string
       aggregation?: TAggregation
       formula?: TMetricFormula
+      dataStore?: TDataStoreParameters
     }[]
   },
   | {

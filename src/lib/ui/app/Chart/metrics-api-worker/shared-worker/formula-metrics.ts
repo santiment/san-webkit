@@ -17,12 +17,9 @@ import {
   type TFetchFormulaMetricMessage,
   type TFormulaMetricData,
 } from '../types.js'
-import {
-  queryGetMetric,
-  type TMetricData,
-  type TMetricTargetSelectorInputObject,
-} from '../../api/index.js'
+import { type TMetricData, type TMetricTargetSelectorInputObject } from '../../api/index.js'
 import { parseFormulaChartVariables } from '../utils.js'
+import { queryGenericMetric } from './generic-async-metrics.js'
 
 type TContext = {
   recache?: boolean
@@ -34,23 +31,6 @@ type TContext = {
 
   addJob: (dataRequest: () => Promise<any>) => void
   cancelJobs: () => void
-}
-
-function queryMetric(
-  metric: string,
-  parameters: TContext['parameters'] & { version?: string },
-  recache?: boolean,
-) {
-  const { selector, interval, from, to, aggregation, version } = parameters
-  return queryGetMetric({ executor: Query, recache })({
-    metric,
-    selector,
-    from,
-    to,
-    interval,
-    aggregation,
-    version,
-  })
 }
 
 function getFormulaCacheKey(
@@ -138,8 +118,8 @@ export async function fetchFormulaMetric(
         const dataRequest = () =>
           (metric.formula
             ? fetchFormulaMetric(metric.formula, index, ctx)
-            : queryMetric(
-                metric.name,
+            : queryGenericMetric(
+                metric.dataStore ? { dataStore: metric.dataStore } : { metric: metric.name },
                 {
                   ...ctx.parameters,
                   version,
