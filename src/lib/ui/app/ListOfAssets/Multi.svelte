@@ -96,7 +96,7 @@
 
     <VirtualList
       bind:handle={vlistHandle}
-      class="pt-4 md:pt-6"
+      class="pt-4 sm:pt-6"
       itemHeight={36}
       data={items}
       getKey={({ value, key }) => key ?? (typeof value === 'string' ? value : value.slug)}
@@ -112,8 +112,8 @@
         {:else if type === 'title'}
           <h4
             class={cn(
-              'mb-2.5 px-2 text-xs font-semibold text-waterloo md:px-3 md:text-sm md:font-normal',
-              i !== 0 && 'mt-3 md:mt-4',
+              'mb-2.5 px-2 text-xs font-semibold text-waterloo sm:px-3 sm:text-sm sm:font-normal',
+              i !== 0 && 'mt-3 sm:mt-4',
             )}
           >
             {value}

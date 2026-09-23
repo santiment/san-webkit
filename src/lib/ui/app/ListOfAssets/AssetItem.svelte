@@ -24,7 +24,7 @@
   <Button
     explanation={isOverflow ? `${name} (${ticker})` : undefined}
     class={cn(
-      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 md:px-3 md:py-2 md:text-base',
+      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 sm:px-3 sm:py-2 sm:text-base',
       isActive && 'text-green',
       className,
     )}
@@ -33,7 +33,7 @@
     {@render children?.()}
 
     <div class="flex w-full items-center gap-1.5 overflow-hidden">
-      <AssetLogo {slug} class="size-4 shrink-0 md:size-5" />
+      <AssetLogo {slug} class="size-4 shrink-0 sm:size-5" />
       <span bind:this={textEl} class="single-line">
         <span class="text-fiord">{name}</span>
         <span class="text-casper">{ticker}</span>
