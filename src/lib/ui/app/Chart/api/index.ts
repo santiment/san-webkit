@@ -68,6 +68,11 @@ export type TVariables = {
   version?: string
 }
 
+export const normalizeTimeseriesDataJson = (dataPoint: { d: string; v: TRawPointData }) => ({
+  time: (Date.parse(dataPoint.d) / 1000) as UTCTimestamp,
+  ...mapPointData(dataPoint.v),
+})
+
 export const queryGetMetric = ApiQuery(
   ({ metric, selector, from, to, interval, transform, aggregation, version }: TVariables) => ({
     schema: `
@@ -99,10 +104,7 @@ export const queryGetMetric = ApiQuery(
     variables: { metric, selector, from, to, interval, transform, aggregation, version },
   }),
   (gql: { getMetric: { timeseriesDataJson: { d: string; v: TRawPointData }[] } }): TMetricData =>
-    gql.getMetric.timeseriesDataJson.map((item) => ({
-      time: (Date.parse(item.d) / 1000) as UTCTimestamp,
-      ...mapPointData(item.v),
-    })),
+    gql.getMetric.timeseriesDataJson.map(normalizeTimeseriesDataJson),
   { cacheTime: 1800 }, // NOTE: 30 minutes cache time
 )
 
