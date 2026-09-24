@@ -14,7 +14,11 @@ import {
 import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
 
-export { DATA_STORE_TYPE_RESOLVER, registerDataStoreTypeResolver } from './data-store-metrics.js'
+export {
+  DATA_STORE_TYPE_RESOLVER,
+  registerDataStoreTypeResolver,
+  type TDataStore,
+} from './data-store-metrics.js'
 
 const WORK_CANCEL_MAP = new Map<TMessageId, () => void>()
 

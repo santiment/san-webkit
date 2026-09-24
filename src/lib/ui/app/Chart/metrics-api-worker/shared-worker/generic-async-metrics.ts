@@ -31,5 +31,5 @@ export function queryGenericMetric(
 ) {
   return 'metric' in target
     ? queryMetric(target.metric, parameters, recache)
-    : handleGenericDataStoreMetric(target.dataStore, parameters)
+    : handleGenericDataStoreMetric(target.dataStore, parameters, recache)
 }

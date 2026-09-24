@@ -404,11 +404,15 @@ export function createSeries(
 
   if (metric.type === MetricType.FORMULAS) {
     delete (metric as any).selector
+    delete (metric as any).dataStore
+
     Object.defineProperty(metric, 'label', {
       get: () => metric.formula.$.name,
     })
   } else if (metric.type === MetricType.DATA_STORE) {
     delete (metric as any).selector
+    delete (metric as any).formula
+
     Object.defineProperty(metric, 'label', {
       get: () => metric.dataStore.$.name,
     })
@@ -440,6 +444,8 @@ export function createSeries(
         },
       },
     }
+
+    delete (metric as any).dataStore
     // delete (metric as any).formula
   } else {
     delete (metric as any).formula
@@ -462,7 +468,7 @@ export function createSeries(
 
 // export type TSeries = ReturnType<typeof createSeries>
 
-const processDataStoreScope = (dataStore: TMetricDataStore) => ({
+export const processDataStoreScope = (dataStore: TMetricDataStore) => ({
   ...dataStore.params,
   type: dataStore.type,
 })

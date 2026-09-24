@@ -13,7 +13,7 @@ import {
   type TFetchMetricMessage,
 } from '../metrics-api-worker/types.js'
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
-import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
+import { processDataStoreScope, useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
@@ -135,7 +135,10 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       minimalDelay,
       parameters,
       recache,
-      dataStore: 'dataStore' in metric ? metric.dataStore.$ : undefined,
+      dataStore:
+        metric.type === MetricType.DATA_STORE
+          ? processDataStoreScope(metric.dataStore.$)
+          : undefined,
     }
 
     const workerRequest =
