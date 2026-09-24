@@ -95,7 +95,7 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     //}
 
     // NOTE: Safe check for legacy CSV imported dataStore metrics
-    if (metric.type === MetricType.DATA_STORE && !metric.dataStore.$) {
+    if (metric.type === MetricType.DATA_STORE && !metric.dataStore.$?.type) {
       return
     }
 
