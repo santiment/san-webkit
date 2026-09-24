@@ -35,7 +35,7 @@
   bind:checked={isActive}
   bind:indeterminate
   class={cn(
-    'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-[inherit] fill-athens-day transition-colors',
+    'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-[inherit] fill-athens-day',
     'hover:border-casper hover:bg-athens group-hover/label:border-casper group-hover/label:bg-[inherit]',
     error && 'relative border-red hover:border-red-hover group-hover/label:border-red-hover',
     selected &&

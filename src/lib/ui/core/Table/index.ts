@@ -6,3 +6,7 @@ export { default as TableRow } from './TableRow.svelte'
 export { default as TableCell } from './TableCell.svelte'
 
 export { default as DataTable } from './DataTable/DataTable.svelte'
+
+export { default as Pagination } from './Pagination.svelte'
+
+export type { ColumnDef } from './DataTable/types.js'
