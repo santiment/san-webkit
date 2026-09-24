@@ -13,7 +13,7 @@
       <div class="flex flex-wrap gap-6">
         {#each ILLUS_CATEGORIES[category] as { key, width, height }}
           <div class="flex flex-col text-xs center">
-            <div class="flex rounded bg-athens p-2.5 center">
+            <div class="flex rounded-sm bg-athens p-2.5 center">
               <Svg illus id={key} w={width} h={height} />
             </div>
             {key}

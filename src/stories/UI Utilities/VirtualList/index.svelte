@@ -11,9 +11,9 @@
   const data = Array.from({ length: 1000 }).map((_, i) => ({ id: i, size: sizes[i % 4] + 'px' }))
 </script>
 
-<div class="flex min-h-[100vh] p-6 column">
+<div class="flex min-h-screen p-6 column">
   <VirtualList
-    class={cn('rounded border border-red', className)}
+    class={cn('rounded-sm border border-red', className)}
     {...props}
     {data}
     getKey={(item) => item.id}

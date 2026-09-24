@@ -131,7 +131,7 @@
 
   onMount(() => {
     window.addEventListener('blur', resetChartInteractionMode)
-    return () => window.removeEventListener('blur', resetChartInteractionMode)
+    return () => window.removeEventListener('blur-sm', resetChartInteractionMode)
   })
 
   function _onRangeSelectChange(
@@ -200,7 +200,7 @@
 
 <div
   bind:this={chartContainerNode}
-  class={cn('relative z-[1] column [&>div]:!overflow-visible', className)}
+  class={cn('relative z-1 column [&>div]:overflow-visible!', className)}
 >
   {#if chart.$}
     {@render children()}

@@ -79,7 +79,7 @@
     {type}
     {placeholder}
     class={cn(
-      'w-full rounded-md bg-transparent py-[5px] pl-2.5 pr-3 outline-none placeholder:text-waterloo',
+      'w-full rounded-md bg-transparent py-[5px] pl-2.5 pr-3 outline-hidden placeholder:text-waterloo',
       '[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none',
       icon && 'pl-8',
       inputClass,
@@ -91,7 +91,7 @@
 
     <section
       class={cn(
-        'absolute right-[9px] flex h-full flex-col justify-center gap-[3px] bg-[inherit]',
+        'absolute right-[9px] flex h-full flex-col justify-center gap-[3px] bg-inherit',
         'opacity-0 transition-opacity hover:fill-waterloo group-hover:opacity-100',
       )}
     >
@@ -119,7 +119,7 @@
     class={cn(
       'w-2.5 justify-center transition-[transform,fill]',
       'hover:scale-150 hover:fill-black',
-      'group-focus-within:fill-waterloo group-focus-within:hover:fill-black',
+      'group-focus-within:fill-waterloo hover:group-focus-within:fill-black',
       className,
     )}
   />

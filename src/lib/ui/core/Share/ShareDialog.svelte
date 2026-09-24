@@ -98,7 +98,7 @@
   <div class="w-[600px] px-6 py-5 md:w-full md:px-5 md:py-6 sm:w-auto">
     {#if disabled}
       <div
-        class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
+        class="mb-4 rounded-sm bg-orange-light-1 px-4 py-3 font-medium text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
       >
         {#if !isDesktop}
           <Svg id="warning" w="16" h="20" class="py-[3px]" />
@@ -111,7 +111,7 @@
     {#if isDesktop}
       <div
         class={cn(
-          'link mb-6 flex h-10 items-center overflow-hidden rounded border',
+          'link mb-6 flex h-10 items-center overflow-hidden rounded-sm border',
           disabled && 'pointer-events-none bg-athens',
         )}
       >
@@ -120,7 +120,7 @@
           type="text"
           value={link}
           class={cn(
-            'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-none',
+            'h-full w-full border-none bg-transparent px-2.5 py-1.5 focus:outline-hidden',
             disabled ? 'text-mystic' : 'text-waterloo',
           )}
           bind:this={inputNode}
@@ -180,7 +180,7 @@
             <div
               style:--bg={color}
               class={cn(
-                'flex size-5 rounded-full bg-[var(--bg)] transition-colors center',
+                'flex size-5 rounded-full bg-(--bg) transition-colors center',
                 disabled && 'bg-mystic',
               )}
             >
