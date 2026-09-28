@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { TSvgId } from '$ui/core/Svg/index.js'
+
   import DatePicker from '$ui/core/Calendar/index.js'
   import { cn } from '$ui/utils/index.js'
 
@@ -6,6 +8,7 @@
 
   type TProps = {
     date: [Date, Date]
+    icon?: TSvgId | null
     rootClass?: string
     buttonClass?: string
     calendarClass?: string
@@ -13,7 +16,8 @@
     onChange: (date: [Date, Date], timeRange?: string) => void
   }
 
-  const { rootClass, buttonClass, calendarClass, inputClass, date, onChange }: TProps = $props()
+  const { icon, rootClass, buttonClass, calendarClass, inputClass, date, onChange }: TProps =
+    $props()
 
   let isOpened = $state(false)
 
@@ -27,6 +31,7 @@
 <!-- prettier-ignore-start -->
 <DatePicker
   {date}
+  {icon}
   {onChange}
   buttonClass={cn("relative w-[180px]",buttonClass)}
   {rootClass}

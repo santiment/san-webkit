@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ComponentProps } from 'svelte'
+  import type { TSvgId } from '$ui/core/Svg/index.js'
 
   import { CalendarDate, getLocalTimeZone } from '@internationalized/date'
 
@@ -12,12 +13,13 @@
 
   type TProps = {
     dates: [Date, Date]
+    icon?: TSvgId | null
     buttonClass?: string
     rootClass?: string
     onChange: (dates: [Date, Date]) => void
     portalTo?: ComponentProps<typeof Popover>['portalTo']
   }
-  let { dates, buttonClass, rootClass, portalTo, onChange }: TProps = $props()
+  let { dates, icon = 'calendar', buttonClass, rootClass, portalTo, onChange }: TProps = $props()
 
   let { inputNode, onKeyDown, onInput, onClick, onBlur } = useInputCalendar(() => dates, onChange)
 
@@ -75,7 +77,7 @@
       {...props}
       as="label"
       variant="border"
-      icon="calendar"
+      icon={icon ?? undefined}
       class={cn('relative w-[180px] whitespace-nowrap', buttonClass)}
     >
       <input
