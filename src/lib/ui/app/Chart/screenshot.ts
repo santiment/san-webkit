@@ -3,7 +3,6 @@ import type { TSeries } from './ctx/series.svelte.js'
 
 import { getDateFormats, getTimeFormats } from '$lib/utils/dates/index.js'
 import { applyHexColorOpacity, getBrowserCssVariable } from '$ui/utils/index.js'
-import { calculatePercentageChange } from '$lib/utils/formatters/index.js'
 import { downloadBlob } from '$lib/utils/download/index.js'
 
 const LEGEND_CONFIG = {
@@ -91,20 +90,13 @@ function prepareLegendDataForMetric(metric: TSeries) {
   const label = labelPrefix + metric.label
 
   const lastDataPoint = metric.data.$[metric.data.$.length - 1]
-  const firstDataPoint = metric.data.$.find((item) => item.value !== undefined)
 
   const lastValue = lastDataPoint?.value
-  const firstValue = firstDataPoint?.value
   const formattedValue = metric.formatters.$.tooltipFormatter?.(lastValue) ?? lastValue
-
-  const percentChangeText =
-    firstValue !== undefined && lastValue !== undefined
-      ? ` (${calculatePercentageChange(firstValue, lastValue)})`
-      : ''
 
   return {
     labelText: `${label}: `,
-    valueText: `${formattedValue}${percentChangeText}`,
+    valueText: `${formattedValue}`,
     color: metric.ui.$$.color || getBrowserCssVariable('black'),
   }
 }
