@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ComponentProps, Snippet } from 'svelte'
+  import type { TSvgId } from '$ui/core/Svg/index.js'
 
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
@@ -15,6 +16,7 @@
 
   type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
+    icon?: TSvgId | null
     buttonClass?: string
     rootClass?: string
     calendarClass?: string
@@ -45,6 +47,7 @@
 
   let {
     as,
+    icon = 'calendar',
     buttonClass,
     rootClass,
     calendarClass,
@@ -83,7 +86,7 @@
         onChange: rest.onChange,
       })}
     variant="border"
-    icon="calendar"
+    icon={icon ?? undefined}
     class={cn('whitespace-nowrap', buttonClass)}
   >
     {@render label()}
@@ -124,7 +127,7 @@
       {...props}
       {as}
       variant="border"
-      icon="calendar"
+      icon={icon ?? undefined}
       class={cn('whitespace-nowrap', buttonClass)}
     >
       {@render label()}
