@@ -22,6 +22,7 @@ import {
   DrawingTimeAxisPaneView,
   type DrawingAxisPaneView,
 } from './pane-view.js'
+import { convertCoordinateToSafeTime, convertTimeToSafeCoordinate } from './utils.js'
 
 export abstract class DrawingPrimitive<
   GDrawingType extends string,
@@ -85,7 +86,8 @@ export abstract class DrawingPrimitive<
     if (!series) return
 
     return this._dataPoints.map((point) => ({
-      x: timeScale.timeToCoordinate(point.time, true),
+      // x: timeScale.timeToCoordinate(point.time, true),
+      x: convertTimeToSafeCoordinate(point.time as number, timeScale),
       y: series.priceToCoordinate(point.value),
     }))
   }
@@ -289,9 +291,10 @@ export abstract class DrawingPrimitive<
 
     if (!series || !series.data().length) return
 
-    return this._viewPoints.map((point) => ({
-      time: timeScale.coordinateToTime(point.x!)!,
-      value: series.coordinateToPrice(point.y!)!,
+    return this._viewPoints.map(({ x, y }) => ({
+      // time: timeScale.coordinateToTime(point.x!)!,
+      time: convertCoordinateToSafeTime(x!, timeScale),
+      value: series.coordinateToPrice(y!)!,
     }))
   }
 
