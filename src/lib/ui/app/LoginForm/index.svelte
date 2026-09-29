@@ -21,6 +21,7 @@
     from?: string
     children?: Snippet
     class?: string
+    confirmationClass?: string
     onMetamaskClick?: () => Promise<void>
   }
 
@@ -32,6 +33,7 @@
     isSignUp = false,
     from = '',
     class: className = '',
+    confirmationClass,
     children,
     onMetamaskClick,
   }: TProps = $props()
@@ -42,7 +44,12 @@
 </script>
 
 {#if verifiedEmail}
-  <EmailConfirmation email={verifiedEmail} {isSignUp} clearEmail={() => (verifiedEmail = '')} />
+  <EmailConfirmation
+    class={confirmationClass}
+    email={verifiedEmail}
+    {isSignUp}
+    clearEmail={() => (verifiedEmail = '')}
+  />
 {:else}
   <Section
     {title}
