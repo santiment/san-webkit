@@ -51,6 +51,6 @@
     type="submit"
     loading={loading.$}
   >
-    {isSignUp ? 'Create account' : 'Log in'}
+    {isSignUp ? 'Sign up' : 'Log in'}
   </Button>
 </form>
