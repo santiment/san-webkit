@@ -95,18 +95,18 @@
   }
 </script>
 
-<Card class={cn('text-base', className)}>
-  <h1 class="mb-5 text-3xl font-medium">Welcome to Sanbase</h1>
+<Card class={cn('text-base sm:text-lg', className)}>
+  <h1 class="mb-5 text-3xl font-medium sm:mb-8 sm:text-2xl">Welcome to Sanbase</h1>
 
   {#if !defaultUsername}
-    <label class="mb-6 flex flex-col gap-3 text-rhino">
+    <label class="mb-6 flex flex-col gap-3 text-rhino sm:mb-8 sm:w-full">
       <span>First, set your username:</span>
 
       <section class="relative">
         <Input
           value={username}
           placeholder="username"
-          class={cn('h-10 text-black', usernameError && 'border-red')}
+          class={cn('h-10 text-black sm:h-12', usernameError && 'border-red')}
           inputClass="pl-6"
           oninput={(e) => ((username = e.currentTarget.value.trim()), clearErrors())}
           onblur={clearErrors}
@@ -125,7 +125,7 @@
     </label>
   {/if}
 
-  <section class="flex flex-col gap-2">
+  <section class="flex flex-col gap-2 sm:gap-4">
     <section class="flex gap-3">
       <Checkbox
         class="mt-1"
@@ -152,20 +152,22 @@
       />
       <section class="flex flex-col gap-2">
         <span>I’d like to receive emails with tips and updates from time to time.</span>
-        <span class="text-sm text-fiord">
+        <span class="text-sm text-fiord sm:text-base">
           No spam, your email never shared with third parties. Opt out anytime in Account Settings.
         </span>
       </section>
     </section>
   </section>
 
-  <Button
-    {loading}
-    variant="fill"
-    size="lg"
-    class="mt-8 flex w-1/2 justify-center"
-    onclick={onSubmit}
-  >
-    Continue
-  </Button>
+  <div class="w-1/2 shrink-0 pt-8 sm:mt-auto sm:w-full">
+    <Button
+      {loading}
+      variant="fill"
+      size="lg"
+      class="flex w-full justify-center"
+      onclick={onSubmit}
+    >
+      Continue
+    </Button>
+  </div>
 </Card>
