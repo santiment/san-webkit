@@ -20,10 +20,9 @@
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
     /**
-     * DRAG, SHIFT, ZOOM
+     * DRAG, SHIFT, ZOOM, NON_INTERACTIVE
      */
     mode?: TMode
-    interactionsEnabled?: boolean
     class?: string
     watermark?: boolean
     watermarkOpacity?: string
@@ -32,9 +31,9 @@
     onRangeSelectEnd?: TRangeSelectHandler
     children: Snippet
   }
+
   let {
     mode = $bindable(Mode.DRAG),
-    interactionsEnabled = true,
     class: className,
     watermark = true,
     watermarkOpacity,
@@ -47,6 +46,8 @@
   let chartContainerNode: HTMLElement
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
   let isScrollEnabled = false
+
+  const interactionsEnabled = mode !== Mode.NON_INTERACTIVE
 
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
@@ -131,7 +132,7 @@
   })
 
   $effect(() => {
-    if (!chart.$ || !interactionsEnabled) return
+    if (mode === Mode.NON_INTERACTIVE || !chart.$) return
 
     const scrollOptions = ModeOptions[mode].handleScroll
 
