@@ -20,17 +20,18 @@
   type TRangeSelectHandler = Parameters<typeof createRangeSelection>[1]['onRangeSelectChange']
   type TProps = {
     /**
-     * DRAG, SHIFT, ZOOM
+     * DRAG, SHIFT, ZOOM, NON_INTERACTIVE
      */
     mode?: TMode
     class?: string
     watermark?: boolean
     watermarkOpacity?: string
     options?: Parameters<typeof createChart>[1]
-    onRangeSelectChange: TRangeSelectHandler
-    onRangeSelectEnd: TRangeSelectHandler
+    onRangeSelectChange?: TRangeSelectHandler
+    onRangeSelectEnd?: TRangeSelectHandler
     children: Snippet
   }
+
   let {
     mode = $bindable(Mode.DRAG),
     class: className,
@@ -46,6 +47,8 @@
   let textWatermark: null | ReturnType<typeof createPathWatermark<any>> = null
   let isScrollEnabled = false
 
+  const interactionsEnabled = mode !== Mode.NON_INTERACTIVE
+
   const { ui } = useUiCtx()
   const { chart } = useChartCtx()
   const { onPaneWidgetMount } = useChartPanesCtx()
@@ -54,8 +57,10 @@
 
   const theme = $derived((ui.$$.isNightMode, getTheme(watermarkOpacity)))
 
-  useChartModeShortcut('SHIFT', Mode.SHIFT)
-  useChartModeShortcut('CMD', Mode.ZOOM)
+  if (interactionsEnabled) {
+    useChartModeShortcut('SHIFT', Mode.SHIFT)
+    useChartModeShortcut('CMD', Mode.ZOOM)
+  }
 
   onMount(() => {
     chart.$ = createChart(chartContainerNode, {
@@ -65,6 +70,10 @@
       //overlayPriceScales: { autoScale: false },
       onPaneWidgetMount,
       ...options,
+      ...(!interactionsEnabled && {
+        handleScroll: false,
+        handleScale: false,
+      }),
       timeScale: {
         shiftVisibleRangeOnNewBar: false,
         ...options?.timeScale,
@@ -77,29 +86,38 @@
       textWatermark = createPathWatermark(firstPane, { color: theme.watermark })
     }
 
-    createRangeSelection(chart.$!, {
-      color: '#9faac435',
-      onRangeSelectChange: _onRangeSelectChange,
-      onRangeSelectEnd: _onRangeSelectEnd,
-      axisLabels: {
-        textColor: getBrowserCssVariable('white'),
-        bg: getBrowserCssVariable('waterloo'),
-      },
-    })
+    const rangeSelection = interactionsEnabled
+      ? createRangeSelection(chart.$!, {
+          color: '#9faac435',
+          onRangeSelectChange: _onRangeSelectChange,
+          onRangeSelectEnd: _onRangeSelectEnd,
+          axisLabels: {
+            textColor: getBrowserCssVariable('white'),
+            bg: getBrowserCssVariable('waterloo'),
+          },
+        })
+      : null
 
     const resetScalesOnDblClick = () => chart.$?.resetAllScales()
-    chart.$.subscribeDblClick(resetScalesOnDblClick)
+    if (interactionsEnabled) {
+      chart.$.subscribeDblClick(resetScalesOnDblClick)
+    }
 
     return () => {
       if (!chart.$) return
 
-      chart.$.unsubscribeDblClick(resetScalesOnDblClick)
+      rangeSelection?.detach()
+      if (interactionsEnabled) {
+        chart.$.unsubscribeDblClick(resetScalesOnDblClick)
+      }
       chart.$.remove()
       chart.$ = undefined
     }
   })
 
   $effect(() => {
+    if (!interactionsEnabled) return
+
     if (mode === Mode.DRAG) {
       isScrollEnabled = false
     }
@@ -114,7 +132,7 @@
   })
 
   $effect(() => {
-    if (!chart.$) return
+    if (mode === Mode.NON_INTERACTIVE || !chart.$) return
 
     const scrollOptions = ModeOptions[mode].handleScroll
 
@@ -130,6 +148,8 @@
   })
 
   onMount(() => {
+    if (!interactionsEnabled) return
+
     window.addEventListener('blur', resetChartInteractionMode)
     return () => window.removeEventListener('blur', resetChartInteractionMode)
   })
