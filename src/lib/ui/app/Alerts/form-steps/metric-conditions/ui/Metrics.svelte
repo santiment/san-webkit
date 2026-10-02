@@ -49,7 +49,7 @@
       <Button
         variant="plain"
         class={cn(
-          'rounded bg-athens px-4 py-2.5 font-semibold hover:text-green',
+          'rounded-sm bg-athens px-4 py-2.5 font-semibold hover:text-green',
           isOpened && 'bg-green-light-1',
         )}
         onclick={() => onCategoryClick(category)}
@@ -63,7 +63,7 @@
             {@const { group } = metrics[0]}
 
             {#if group}
-              <h4 class="text-xs font-semibold text-waterloo [line-height:32px]">{group}</h4>
+              <h4 class="text-xs font-semibold text-waterloo leading-[32px]">{group}</h4>
             {/if}
 
             {#each metrics as metric (metric.key)}

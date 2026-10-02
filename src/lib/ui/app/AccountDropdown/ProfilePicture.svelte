@@ -19,10 +19,10 @@
   variant="plain"
   style="--tw-ring-color:var(--{isBusinessPro ? 'blue' : isPro ? 'orange' : 'casper'})"
   class={cn(
-    'flex size-8 rounded-full !fill-waterloo p-0 !text-waterloo center sm:size-12',
+    'flex size-8 center rounded-full fill-waterloo! p-0 text-waterloo! sm:size-12',
     currentUser.$$
-      ? 'ring-[1.5px] ring-inset data-[state=open]:ring-[2.5px] hover:ring-[2.5px] sm:ring-2'
-      : 'bg-athens data-[state=open]:bg-porcelain hover:bg-porcelain',
+      ? 'ring-[1.5px] ring-inset hover:ring-[2.5px] data-[state=open]:ring-[2.5px] sm:ring-2'
+      : 'bg-athens hover:bg-porcelain data-[state=open]:bg-porcelain',
     className,
   )}
   {...rest}

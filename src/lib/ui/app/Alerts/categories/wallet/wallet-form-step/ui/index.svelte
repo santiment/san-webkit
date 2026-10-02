@@ -72,7 +72,7 @@
       <Button
         variant="plain"
         class={cn(
-          'group flex flex-col items-stretch gap-1 rounded border px-4 py-3',
+          'group flex flex-col items-stretch gap-1 rounded-sm border px-4 py-3',
           disabled ? 'bg-athens text-casper' : 'hover:border-green',
           active && 'active',
         )}

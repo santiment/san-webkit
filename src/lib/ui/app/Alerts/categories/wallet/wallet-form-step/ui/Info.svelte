@@ -11,7 +11,7 @@
   const { children, description }: TProps = $props()
 </script>
 
-<section class="rounded bg-athens fill-waterloo px-4 pb-3 pt-4">
+<section class="rounded-sm bg-athens fill-waterloo px-4 pb-3 pt-4">
   <div class="flex items-center gap-3">
     <Svg id="info" w="12" />
     {@render children?.()}

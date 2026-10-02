@@ -65,7 +65,7 @@
 
 <canvas
   bind:this={canvasNode}
-  class="z-[1] h-[40px] min-w-0 flex-1 cursor-ew-resize bg-transparent"
+  class="z-1 h-[40px] min-w-0 flex-1 cursor-ew-resize bg-transparent"
   {onpointerdown}
 ></canvas>
 

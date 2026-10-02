@@ -55,7 +55,7 @@
 
   <Switch.Thumb
     style="opacity: {opacity.current};transition-duration: {ANIMATION_DURATION}ms"
-    class={cn('transition-transform', checked && '-translate-x-[36px]')}
+    class={cn('transition-transform', checked && 'translate-x-[-36px]')}
   >
     <Svg id={internalNightMode ? 'moon' : 'sun'} illus w="20" />
   </Switch.Thumb>

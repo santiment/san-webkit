@@ -33,7 +33,7 @@
 
 <a
   {href}
-  class="group relative flex w-[var(--card-width)] rounded-md px-3 py-2 hover:bg-athens"
+  class="group relative flex w-(--card-width) rounded-md px-3 py-2 hover:bg-athens"
   target="_blank"
   rel="noreferrer"
   data-type={`open_${id}`}
@@ -42,10 +42,10 @@
   {#if !isCompact}
     <div
       class={cn(
-        'mr-3 flex h-10 w-10 min-w-10 rounded center group-hover:bg-white',
+        'group-hover:bg-white mr-3 flex h-10 w-10 min-w-10 center rounded-sm',
         active
           ? [
-              'bg-[var(--accent-light-1)]',
+              'bg-(--accent-light-1)',
               '[--product-color-1:var(--accent)]',
               '[--product-color-2:var(--accent-light-3)]',
               '[--product-color-3:var(--accent)]',
@@ -75,7 +75,7 @@
     <p class="mt-1 text-fiord">{desc}</p>
 
     {#if note}
-      <span class="mt-1 inline-block rounded bg-orange-light-1 px-2 py-1 text-xs text-orange">
+      <span class="mt-1 inline-block rounded-sm bg-orange-light-1 px-2 py-1 text-xs text-orange">
         {note}
       </span>
     {/if}
