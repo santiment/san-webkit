@@ -3,11 +3,17 @@
   import EmailForm from './EmailForm.svelte'
   import EmailConfirmation from './EmailConfirmation.svelte'
 
+  const { confirmationClass }: { confirmationClass?: string } = $props()
+
   let verifiedEmail = $state('')
 </script>
 
 {#if verifiedEmail}
-  <EmailConfirmation email={verifiedEmail} clearEmail={() => (verifiedEmail = '')} />
+  <EmailConfirmation
+    class={confirmationClass}
+    email={verifiedEmail}
+    clearEmail={() => (verifiedEmail = '')}
+  />
 {:else}
   <Section
     title="Welcome back"
