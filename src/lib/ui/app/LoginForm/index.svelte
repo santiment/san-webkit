@@ -13,7 +13,7 @@
   import EmailConfirmation from './EmailConfirmation.svelte'
 
   type TProps = {
-    title: string
+    title?: string
     bottomLabel?: string
     bottomAction?: string
     bottomHref?: string
@@ -26,10 +26,10 @@
   }
 
   const {
-    title,
-    bottomLabel = 'New to Santiment?',
-    bottomAction = 'Create an account',
-    bottomHref: bottomPath = '/sign-up',
+    title: titleOverride,
+    bottomLabel: bottomLabelOverride,
+    bottomAction: bottomActionOverride,
+    bottomHref: bottomPathOverride,
     isSignUp = false,
     from = '',
     class: className = '',
@@ -39,6 +39,13 @@
   }: TProps = $props()
 
   let verifiedEmail = $state<string>()
+
+  const title = $derived(titleOverride || (isSignUp ? 'Welcome to Sanbase' : 'Welcome back!'))
+  const bottomLabel = $derived(
+    bottomLabelOverride || (isSignUp ? 'Have an account?' : 'New to Santiment?'),
+  )
+  const bottomAction = $derived(bottomActionOverride || (isSignUp ? 'Log in' : 'Create an account'))
+  const bottomPath = $derived(bottomPathOverride || (isSignUp ? '/login' : '/sign-up'))
 
   const bottomHref = $derived(bottomPath + getFromSearch(from))
 </script>
