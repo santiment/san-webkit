@@ -11,9 +11,15 @@
     class?: string
     style?: string
     appVersion?: string
+    withHoldTokensBanner?: boolean
   }
 
-  const { class: className = '', style = '', appVersion }: TProps = $props()
+  const {
+    class: className = '',
+    style = '',
+    appVersion,
+    withHoldTokensBanner = true,
+  }: TProps = $props()
 </script>
 
 <footer
@@ -48,7 +54,9 @@
             <DigestForm class="max-w-[372px] sm:mb-12 sm:w-full sm:max-w-full" label="Subscribe" />
           </div>
 
-          <HoldTokensBanner />
+          {#if withHoldTokensBanner}
+            <HoldTokensBanner />
+          {/if}
         </div>
       </div>
     </div>
