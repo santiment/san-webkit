@@ -13,7 +13,7 @@
 
 <article
   class={cn(
-    'absolute -left-px top-[calc(100%+4px)]',
+    'absolute -left-px top-[calc(100%+4px)] z-10',
     'w-max max-w-72 px-[9px] py-[7px]',
     'pointer-events-none flex gap-2 rounded border border-red-light-3 bg-white fill-red text-start text-xs text-black shadow-dropdown',
     'dark:bg-porcelain dark:shadow-none',
