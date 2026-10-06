@@ -21,7 +21,5 @@
 {#if !currentUser.$$ || currentUser.$$?.privacyPolicyAccepted || $page.url.pathname === '/privacy-policy'}
   {@render children()}
 {:else}
-  <div class={className}>
-    <Gdpr {onAccept} />
-  </div>
+  <Gdpr class={className} {onAccept} />
 {/if}

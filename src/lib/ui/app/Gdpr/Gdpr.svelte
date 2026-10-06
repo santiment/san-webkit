@@ -1,69 +1,61 @@
 <script lang="ts">
-  import { debounceTime, pipe, tap } from 'rxjs'
-
   import { Query } from '$lib/api/executor.js'
   import Input from '$ui/core/Input/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
-  import Tooltip from '$ui/core/Tooltip/index.js'
   import Button from '$ui/core/Button/index.js'
-  import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
   import { trackGdprAccept } from '$lib/analytics/events/onboarding.js'
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-  import { useObserveFnCall } from '$lib/utils/observable.svelte.js'
+  import ValidationError from '$ui/core/ValidationError/index.js'
 
-  import Section from '../LoginForm/Section.svelte'
   import { mutateGdpr, mutateChangeUsername } from './api.js'
+  import Card from '../LoginForm/Card.svelte'
 
   type TProps = {
+    class?: string
     onAccept: (username: string) => void
-    title?: string
   }
 
-  const { onAccept, title = 'Welcome to Sanbase' }: TProps = $props()
+  const { class: className, onAccept }: TProps = $props()
 
   const { customer, currentUser } = useCustomerCtx()
 
   const defaultUsername = currentUser.$$?.username ?? ''
 
-  let error = $state('')
+  let usernameError = $state('')
+  let privacyError = $state('')
   let isPrivacyAccepted = $state(false)
   let isMarketingAccepted = $state(false)
   let loading = $state(false)
   let username = $state(defaultUsername)
 
-  const isDisabled = $derived(!isPrivacyAccepted || (!defaultUsername && !username) || !!error)
+  function validateUsername(value: string) {
+    if (value.length < 4) return 'Username should be at least 4 characters long'
+    if (value[0] === '@') return '@ is not allowed for the first character'
 
-  const checkValidity = useObserveFnCall<{ value: string }>(() =>
-    pipe(
-      debounceTime(250),
-      tap((input) => {
-        const { value } = input
-
-        if (value.length < 4) {
-          error = 'Username should be at least 4 characters long'
-        } else if (value[0] === '@') {
-          error = '@ is not allowed for the first character'
-        } else {
-          error = ''
-        }
-      }),
-    ),
-  )
-
-  function onBlur() {
-    if (username) return
-    error = ''
-    username = defaultUsername
+    return ''
   }
 
-  function onInput({ currentTarget }: Event & { currentTarget: HTMLInputElement }) {
-    username = currentTarget.value
-    checkValidity(currentTarget)
+  function validatePrivacy(isAcceped: boolean) {
+    if (isAcceped) return ''
+
+    return 'Please agree with the Privacy Policy to sign up'
+  }
+
+  function validate() {
+    usernameError = validateUsername(username)
+    privacyError = validatePrivacy(isPrivacyAccepted)
+
+    return !usernameError && !privacyError
+  }
+
+  function clearErrors() {
+    usernameError = ''
+    privacyError = ''
   }
 
   function onSubmit() {
-    if (isDisabled) return
+    if (!validate()) return
 
     loading = true
 
@@ -91,91 +83,91 @@
   }
 
   function handleGdprPolicyError() {
-    error = 'Failed to accept the privacy policy.'
+    usernameError = 'Failed to accept the privacy policy.'
     loading = false
     return Promise.reject()
   }
 
   function handleUsernameChangeError() {
-    error = `Username "${username}" is already taken.`
+    usernameError = `Username "${username}" is already taken.`
     loading = false
     return Promise.reject()
   }
 </script>
 
-<Section {title}>
-  <div class="max-w-[380px] text-start text-waterloo">
-    {#if !defaultUsername}
-      <p class="my-4 text-base">Please type your username to access all features</p>
+<Card class={cn('text-base sm:text-lg', className)}>
+  <h1 class="mb-5 text-3xl font-medium sm:mb-8 sm:text-2xl">Welcome to Sanbase</h1>
 
-      <div class="relative">
-        <Tooltip isOpened={!!error} class="absolute mt-1">
-          <Input
-            value={username}
-            placeholder="username"
-            class={cn('text-black', error && 'border-red')}
-            inputClass="pl-6"
-            oninput={onInput}
-            onblur={onBlur}
-            minlength={4}
-            required
-          >
-            {#snippet left()}
-              <span class="absolute left-2 text-green">@</span>
-            {/snippet}
-          </Input>
+  {#if !defaultUsername}
+    <label class="mb-6 flex flex-col gap-3 text-rhino sm:mb-8 sm:w-full">
+      <span>First, set your username:</span>
 
-          {#snippet content()}
-            <span class="flex items-center gap-1 fill-red px-2 py-1.5 text-black">
-              <Svg id="error" class="mr-1" />
-              {error}
-            </span>
+      <section class="relative">
+        <Input
+          value={username}
+          placeholder="username"
+          class={cn('h-10 text-black sm:h-12', usernameError && 'border-red')}
+          inputClass="pl-6"
+          oninput={(e) => ((username = e.currentTarget.value.trim()), clearErrors())}
+          onblur={clearErrors}
+          minlength={4}
+          required
+        >
+          {#snippet left()}
+            <span class="absolute left-2 text-green">@</span>
           {/snippet}
-        </Tooltip>
-      </div>
-    {/if}
+        </Input>
 
-    <p class="my-4 text-base">Review and accept our Privacy Policy to continue using Sanbase</p>
-  </div>
+        {#if usernameError}
+          <ValidationError class="max-w-full" error={usernameError} />
+        {/if}
+      </section>
+    </label>
+  {/if}
 
-  <section class="flex flex-col gap-2">
-    <div class="flex max-w-[380px] text-base">
+  <section class="flex flex-col gap-2 sm:gap-4">
+    <section class="flex gap-3">
       <Checkbox
-        class="mr-3 mt-1"
+        class="mt-1"
         isActive={isPrivacyAccepted}
+        error={privacyError}
         onCheckedChange={() => (isPrivacyAccepted = !isPrivacyAccepted)}
       ></Checkbox>
-      I accept
-      <a href="https://santiment.net/terms" target="_blank" class="mx-1 link-pointer">Terms</a>
-      and
-      <a href="https://app.santiment.net/privacy-policy" target="_blank" class="mx-1 link-pointer"
-        >Privacy Policy</a
-      >
-    </div>
 
-    <div class="flex max-w-[380px] text-start text-base">
+      <span>
+        I accept
+        <Button variant="link" href="https://santiment.net/terms" target="_blank">Terms</Button>
+        and
+        <Button variant="link" href="https://app.santiment.net/privacy-policy" target="_blank">
+          Privacy Policy
+        </Button>
+      </span>
+    </section>
+
+    <section class="flex gap-3">
       <Checkbox
-        class="mr-3 mt-1"
+        class="mt-1"
         isActive={isMarketingAccepted}
         onCheckedChange={() => (isMarketingAccepted = !isMarketingAccepted)}
       />
       <section class="flex flex-col gap-2">
         <span>I’d like to receive emails with tips and updates from time to time.</span>
-        <span class="text-sm text-fiord">
+        <span class="text-sm text-fiord sm:text-base">
           No spam, your email never shared with third parties. Opt out anytime in Account Settings.
         </span>
       </section>
-    </div>
+    </section>
   </section>
 
-  <Button
-    {loading}
-    variant="fill"
-    class="mx-auto mt-8 flex min-w-[188px] justify-center py-2.5 md:min-w-full"
-    disabled={isDisabled}
-    onclick={onSubmit}
-    style="--loading-color: var(--white)"
-  >
-    Continue
-  </Button>
-</Section>
+  <div class="w-1/2 shrink-0 pt-8 sm:mt-auto sm:w-full">
+    <Button
+      {loading}
+      variant="fill"
+      size="lg"
+      class="flex w-full justify-center"
+      onclick={onSubmit}
+    >
+      Continue
+    </Button>
+  </div>
+</Card>
