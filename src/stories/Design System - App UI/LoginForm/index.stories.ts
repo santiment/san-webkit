@@ -38,11 +38,12 @@ const Wrapped = <GComp extends Component<any>>(
 
 export const WalletConnectButton = Wrapped(WalletConnect, { isSignUp: false })
 
-export const EmailLogin = Wrapped(EmailLoginComponent, {})
+export const EmailLogin = Wrapped(EmailLoginComponent, { confirmationClass: 'sm:flex-1' })
 
 export const EmailConfirmation = Wrapped(EmailConfirmationComponent, {
+  class: 'sm:flex-1',
   email: 'test@test.com',
   clearEmail: () => {},
 })
 
-export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up' })
+export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up', confirmationClass: 'sm:flex-1' })
