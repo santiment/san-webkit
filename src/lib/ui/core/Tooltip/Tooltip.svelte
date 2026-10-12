@@ -49,6 +49,7 @@
     arrowSize: type === 'arrow' ? 11 : undefined,
     ...options,
     positioning: {
+      flip: true,
       placement: position,
       fitViewport: true,
       // NOTE: [gutter] must be set to 0 in order to offset to work

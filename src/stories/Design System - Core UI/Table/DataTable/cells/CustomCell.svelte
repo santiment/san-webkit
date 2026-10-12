@@ -1,6 +1,6 @@
 <script lang="ts">
   import { TableCell } from '$ui/core/Table/index.js'
-  import type { Item } from '../utils.js'
+  import type { Item } from '../../utils.js'
 
   type TProps = {
     item: Item

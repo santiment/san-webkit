@@ -5,13 +5,14 @@
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
+    height?: number
     class?: string
     children: Snippet
   } & HTMLAttributes<HTMLTableRowElement>
 
-  const { class: className, children, ...props }: TProps = $props()
+  let { class: className, height = $bindable(), children, ...props }: TProps = $props()
 </script>
 
-<tr class={cn('group', className)} {...props}>
+<tr bind:clientHeight={height} class={cn('group/row', className)} {...props}>
   {@render children()}
 </tr>
