@@ -50,7 +50,7 @@
   style:--c-orange={theme.accent}
   style:--c-orange-light-1={theme['accent-light-1']}
 >
-  <h2 class={cn('mb-4 flex max-w-fit gap-1')}>
+  <h2 class={cn('mb-4 flex max-w-fit gap-1 md:flex-wrap')}>
     <span class="rounded-md bg-orange-light-1 px-3 py-1 text-2xl font-medium text-orange">
       {formattedPlan.name}
     </span>
@@ -58,7 +58,7 @@
     {#if isCurrentPlan}
       {#if customer.$.isTrialSubscription}
         <span
-          class="expl-tooltip flex h-10 rounded-md bg-green-light-1 px-3 text-base text-green center"
+          class="expl-tooltip flex h-10 shrink-0 whitespace-nowrap rounded-md bg-green-light-1 px-3 text-base text-green center"
           aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
         >
           Your trial plan
