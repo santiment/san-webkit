@@ -621,3 +621,19 @@ export const LineStyleMetrics: Story = {
     ],
   },
 }
+
+export const AutoscalePriceRange: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        type: MetricType.DATA_STORE,
+        apiMetricName: 'all_zero_values',
+        label: 'All-zero values',
+        scaleId: 'right-autoscale-price-range',
+        scaleMargins: { top: 0, bottom: 0 },
+        autoscalePriceRange: { minValue: 0, maxValue: 100 },
+        data: [{ time: Date.now() / 1000, value: 0 }],
+      },
+    ],
+  },
+}
