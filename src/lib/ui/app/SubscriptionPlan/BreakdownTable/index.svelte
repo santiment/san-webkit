@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { TSubscriptionPlan } from '../types.js'
 
-  import { ssd } from 'svelte-runes'
-
   import { trackEvent } from '$lib/analytics/index.js'
   import Slides from '$ui/core/Slides/index.js'
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
@@ -27,7 +25,18 @@
     isConsumerPlans?: boolean
   } = $props()
 
-  const activePlan = ssd(() => plans[0])
+  let active = $derived(plans[0])
+
+  const activePlan = {
+    get $() {
+      return active
+    },
+
+    set $(value: TSubscriptionPlan) {
+      active = value
+    },
+  }
+
   const { device } = useDeviceCtx()
   const isPhone = $derived(device.$.isPhone)
   const plansFeatures = $derived(getPlanFeatures(plans, activePlan.$, isPhone))
