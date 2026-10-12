@@ -51,6 +51,7 @@ export function getProductPlans(
   plans: TProductPlan[]
   planBillingGroup: TPlanBillingGroup
   billingGroupPlans: TPlanBillingGroup[string][]
+  customPlan?: TPlanBillingGroup[string]
 } {
   const productPlans = productsWithPlans.find((product) => product.id === productId)
   if (!productPlans) return null
@@ -65,14 +66,18 @@ export function getProductPlans(
           : +a.amount - +b.amount,
     )
 
-  const planBillingGroup = plans.reduce<
-    Record<string, { month: TProductPlan; year?: TProductPlan }>
-  >((acc, plan) => ({ ...acc, [plan.name]: { ...acc[plan.name], [plan.interval]: plan } }), {})
+  const planBillingGroup = plans.reduce<TPlanBillingGroup>(
+    (acc, plan) => ({ ...acc, [plan.name]: { ...acc[plan.name], [plan.interval]: plan } }),
+    {},
+  )
+
+  const { [SubscriptionPlan.CUSTOM.key]: customPlan, ...billingGroups } = planBillingGroup
 
   return {
     plans,
     planBillingGroup,
-    billingGroupPlans: Object.values(planBillingGroup),
+    billingGroupPlans: Object.values(billingGroups),
+    customPlan,
   }
 }
 
