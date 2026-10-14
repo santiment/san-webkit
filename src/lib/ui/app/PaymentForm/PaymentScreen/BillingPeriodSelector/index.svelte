@@ -1,5 +1,6 @@
 <script lang="ts">
   import { trackEvent } from '$lib/analytics/index.js'
+  import { getPlanInterval } from '$ui/app/SubscriptionPlan/utils.js'
 
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
@@ -37,13 +38,13 @@
 
       {#if isAnnualBilling && formattedPlan}
         <div class="rounded-md bg-white px-2 py-[5px] text-xs font-medium text-green">
-          <span class="mr-2">🎉</span>SAVE {formattedPlan.price.savePercentWithAnnual}%
+          <span class="mr-2">🎉</span>SAVE {formattedPlan.savePercentWithAnnual}%
         </div>
       {/if}
     </h3>
 
     <h4 class="text-left align-bottom">
-      ${formattedPlan?.price[isAnnualBilling ? 'year' : 'month'] || ''}
+      ${getPlanInterval(formattedPlan, isAnnualBilling ? 'year' : 'month')?.price || ''}
 
       <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>
     </h4>
