@@ -1,28 +1,31 @@
 <script lang="ts">
   import { trackEvent } from '$lib/analytics/index.js'
-  import { getPlanInterval } from '$ui/app/SubscriptionPlan/utils.js'
 
   import Selector from '../../Selector.svelte'
   import { usePaymentFormCtx } from '../../state.js'
 
-  const OPTIONS = [{ name: 'Monthly' }, { name: 'Annually' }]
+  const INTERVAL_NAME = { month: 'Monthly', year: 'Annually' }
 
   const { billingPeriod, subscriptionPlan, selectSubscriptionPlan } = usePaymentFormCtx()
 
-  let plan = $derived(subscriptionPlan.$)
-  let selectedBillingPeriod = $derived(OPTIONS[billingPeriod.$ === 'month' ? 0 : 1])
-  let formattedPlan = $derived(plan.formatted)
+  const plan = $derived(subscriptionPlan.$)
+  const formattedPlan = $derived(plan.formatted)
 
-  function onSelect(option: (typeof OPTIONS)[number]) {
-    const isMonthSelected = option === OPTIONS[0]
-    const selected = isMonthSelected ? 'month' : 'year'
+  const options = $derived(
+    formattedPlan?.intervals.map((item) => ({ ...item, name: INTERVAL_NAME[item.interval] })) ?? [],
+  )
 
-    selectSubscriptionPlan(plan[selected])
+  const selectedBillingPeriod = $derived(
+    options.find(({ interval }) => interval === billingPeriod.$),
+  )
 
-    billingPeriod.$ = selected
+  function onSelect(option: (typeof options)[number]) {
+    selectSubscriptionPlan(option.plan)
+
+    billingPeriod.$ = option.interval
 
     trackEvent('toggle', {
-      action: isMonthSelected ? 'off' : 'on',
+      action: option.interval === 'year' ? 'on' : 'off',
       type: 'annual_billing',
       source: 'payment_dialog',
       plan: plan.selected?.name,
@@ -30,23 +33,26 @@
   }
 </script>
 
-<Selector name="Billing period" active={selectedBillingPeriod} options={OPTIONS} {onSelect}>
-  {#snippet children(option)}
-    {@const isAnnualBilling = option.name === 'Annually'}
-    <h3 class="flex h-[26px] w-full items-center justify-between gap-2">
-      {option.name}
+{#if options.length > 1}
+  <Selector name="Billing period" active={selectedBillingPeriod} {options} {onSelect}>
+    {#snippet children(option)}
+      {@const isAnnualBilling = option.interval === 'year'}
+      <h3 class="flex h-[26px] w-full items-center justify-between gap-2">
+        {option.name}
 
-      {#if isAnnualBilling && formattedPlan}
-        <div class="rounded-md bg-white px-2 py-[5px] text-xs font-medium text-green">
-          <span class="mr-2">🎉</span>SAVE {formattedPlan.savePercentWithAnnual}%
-        </div>
-      {/if}
-    </h3>
+        {#if isAnnualBilling && formattedPlan}
+          <div class="rounded-md bg-white px-2 py-[5px] text-xs font-medium text-green">
+            <span class="mr-2">🎉</span>SAVE {formattedPlan.savePercentWithAnnual}%
+          </div>
+        {/if}
+      </h3>
 
-    <h4 class="text-left align-bottom">
-      ${getPlanInterval(formattedPlan, isAnnualBilling ? 'year' : 'month')?.price || ''}
+      <h4 class="text-left align-bottom">
+        ${option.price}
 
-      <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>
-    </h4>
-  {/snippet}
-</Selector>
+        <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span
+        >
+      </h4>
+    {/snippet}
+  </Selector>
+{/if}
