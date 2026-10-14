@@ -41,7 +41,7 @@ export const queryProductsWithPlans = ApiQuery(
 )
 
 type TProductPlan = TProductsWithPlans[number]['plans'][number]
-export type TPlanBillingGroup = Record<string, { month: TProductPlan; year?: TProductPlan }>
+export type TPlanBillingGroup = Record<string, { month?: TProductPlan; year?: TProductPlan }>
 
 export function getProductPlans(
   productsWithPlans: TProductsWithPlans,
