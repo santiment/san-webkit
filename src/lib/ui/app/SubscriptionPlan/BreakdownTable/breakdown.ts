@@ -347,4 +347,17 @@ export const SubscriptionPlanBreakdown: Record<
 
     'Custom Alerts': '20',
   },
+
+  [SubscriptionPlan.INSTITUTIONAL.key]: {
+    'Multi-seat account': 'Custom',
+
+    'Historical data restriction': '3 years',
+    'Current data access': 'No restriction',
+
+    'API calls / minute': 'Custom',
+    'API calls / hour': 'Custom',
+    'API calls / month': 'Custom',
+
+    'Custom Alerts': 'Custom',
+  },
 }
