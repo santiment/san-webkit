@@ -1,4 +1,5 @@
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+import type { TFormattedPlan } from '../SubscriptionPlan/utils.js'
 import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
 
 import { ss, ssd, useObserve } from 'svelte-runes'
@@ -10,7 +11,7 @@ import { ApiMutation } from '$lib/api/index.js'
 
 import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
-import { getFormattedPlan } from '../SubscriptionPlan/utils.js'
+import { getFormattedPlan, getPlanInterval } from '../SubscriptionPlan/utils.js'
 
 export const SCREENS = [
   { name: '1. Choose your plan', backLabel: 'Choose plan' },
@@ -36,7 +37,7 @@ export const usePaymentFormCtx = createCtx(
       selected: defaultPlan,
       month: null as null | TSubscriptionPlan,
       year: null as null | TSubscriptionPlan,
-      formatted: null as null | ReturnType<typeof getFormattedPlan>,
+      formatted: null as null | TFormattedPlan,
     })
     const coupon = ss(
       null as null | {
@@ -73,9 +74,11 @@ export const usePaymentFormCtx = createCtx(
       const { formatted } = plan.$
       if (!formatted) return { amount: 10000000, price: 100000 }
 
+      const interval = getPlanInterval(formatted, billingPeriod.$)
+
       return {
-        price: formatted.price[billingPeriod.$],
-        amount: formatted.amount[billingPeriod.$],
+        price: interval?.price,
+        amount: interval?.amount,
       }
     })
 
@@ -117,7 +120,8 @@ export const usePaymentFormCtx = createCtx(
           Object.assign(plan.$, {
             month: monthPlan,
             year: yearPlan,
-            formatted: monthPlan && getFormattedPlan(monthPlan, yearPlan),
+            formatted:
+              monthPlan && getFormattedPlan({ month: monthPlan, year: yearPlan ?? undefined }),
           })
           coupon.$ = null
         }
