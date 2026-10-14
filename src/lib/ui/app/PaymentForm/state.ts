@@ -35,8 +35,6 @@ export const usePaymentFormCtx = createCtx(
     const productsWithPlans = ss<TProductsWithPlans>([])
     const plan = ss({
       selected: defaultPlan,
-      month: null as null | TSubscriptionPlan,
-      year: null as null | TSubscriptionPlan,
       formatted: null as null | TFormattedPlan,
     })
     const coupon = ss(
@@ -105,23 +103,26 @@ export const usePaymentFormCtx = createCtx(
     function selectSubscriptionPlan(selectedPlan: null | TSubscriptionPlan) {
       untrack(() => {
         if (!selectedPlan) {
-          return (plan.$ = { selected: null, month: null, year: null, formatted: null })
+          return (plan.$ = { selected: null, formatted: null })
         }
 
         // NOTE: Checking if a plan with a different name was selected
-        if (plan.$.month?.name !== selectedPlan.name) {
+        if (plan.$.formatted?.primary.plan.name !== selectedPlan.name) {
           const productPlans = productsWithPlans.$.find(
             (product) => product.id === selectedPlan.product.id,
           )
-          const [monthPlan, yearPlan] = productPlans?.plans
-            .filter((plan) => plan.isDeprecated === false && plan.name === selectedPlan.name)
-            .sort((a, b) => a.amount - b.amount) || [null, null]
+          const plans =
+            productPlans?.plans.filter(
+              (plan) => plan.isDeprecated === false && plan.name === selectedPlan.name,
+            ) || []
 
           Object.assign(plan.$, {
-            month: monthPlan,
-            year: yearPlan,
-            formatted:
-              monthPlan && getFormattedPlan({ month: monthPlan, year: yearPlan ?? undefined }),
+            formatted: plans.length
+              ? getFormattedPlan({
+                  month: plans.find(({ interval }) => interval === 'month'),
+                  year: plans.find(({ interval }) => interval === 'year'),
+                })
+              : null,
           })
           coupon.$ = null
         }
