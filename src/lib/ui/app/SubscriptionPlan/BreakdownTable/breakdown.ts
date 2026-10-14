@@ -347,4 +347,27 @@ export const SubscriptionPlanBreakdown: Record<
 
     'Custom Alerts': '20',
   },
+
+  // TODO: `TBD` values are pending. Omitted rows render as `Unlimited`, so keep them.
+  // TODO: `Dedicated account manager` is on-request here — decide yes or no.
+  // TODO: no row for `10,000 MCP calls / month`.
+  [SubscriptionPlan.INSTITUTIONAL.key]: {
+    'Multi-seat account': '3 seats',
+
+    'Historical data restriction': '3 years',
+    'Current data access': 'No restriction',
+
+    'API calls / minute': 'TBD',
+    'API calls / hour': 'TBD',
+    'API calls / month': '50K API calls / mo',
+
+    'Historical data access': '3 years',
+    Credits: 'TBD',
+    'Rate limit / minute': 'TBD',
+    'Rate limit / hour': 'TBD',
+    'Rate limit / day': 'TBD',
+    'Private queries': 'TBD',
+
+    'Custom Alerts': 'TBD',
+  },
 }
