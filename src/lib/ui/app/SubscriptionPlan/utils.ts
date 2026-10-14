@@ -38,7 +38,7 @@ export const getPlanName = (planName: string): string => {
   return subs[plan]?.name || planName
 }
 
-const toPrice = (amount: number) => Math.ceil(amount / 100)
+export const toPrice = (amount: number) => Math.ceil(amount / 100)
 
 export function getFormattedBillingPlan(plan: TSubscriptionPlan) {
   return {
