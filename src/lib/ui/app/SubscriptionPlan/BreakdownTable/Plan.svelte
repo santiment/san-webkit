@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TSubscriptionPlan } from '../types.js'
+  import type { TPlanBillingGroup } from '../api.js'
 
   import { cn } from '$ui/utils/index.js'
 
@@ -8,11 +8,12 @@
 
   let {
     source = '',
-    plan,
+    billingGroup,
     class: className,
-  }: { source?: string; plan: TSubscriptionPlan; class?: string } = $props()
+  }: { source?: string; billingGroup: TPlanBillingGroup[string]; class?: string } = $props()
 
-  let formattedPlan = $derived(getFormattedPlan(plan))
+  const formattedPlan = $derived(getFormattedPlan(billingGroup))
+  const cheapest = $derived(formattedPlan.intervals[0])
 </script>
 
 <article class={cn('flex-1 gap-2 text-left column', className)}>
@@ -23,8 +24,8 @@
     {#if formattedPlan.isCustom}
       Custom
     {:else}
-      ${formattedPlan.price.month}
+      ${cheapest.price}
     {/if}
   </h5>
-  <PlanButton {plan} class="mt-3" source="{source}_plans_breakdown"></PlanButton>
+  <PlanButton plan={cheapest.plan} class="mt-3" source="{source}_plans_breakdown"></PlanButton>
 </article>

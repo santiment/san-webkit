@@ -1,5 +1,5 @@
 import type { TSubscriptionPlan } from './types.js'
-import type { TProductsWithPlans } from './api.js'
+import type { TPlanBillingGroup, TProductsWithPlans } from './api.js'
 
 import {
   BUSINESS_PLANS,
@@ -38,25 +38,48 @@ export const getPlanName = (planName: string): string => {
   return subs[plan]?.name || planName
 }
 
-export function getFormattedBillingPlan(plan: TSubscriptionPlan) {
-  const { name, amount, price } = getFormattedPlan(plan)
-  return {
-    name,
-    billing: plan.interval,
-    amount: amount.month,
-    price: price.month,
-  }
+const toPrice = (amount: number) => Math.ceil(amount / 100)
+
+export const getFormattedBillingPlan = (plan: TSubscriptionPlan) => ({
+  name: getPlanName(plan.name),
+  billing: plan.interval,
+  amount: plan.amount,
+  price: toPrice(plan.amount),
+})
+
+type TPlanInterval = {
+  interval: 'month' | 'year'
+  plan: TSubscriptionPlan
+  amount: number
+  price: number
 }
 
-export function getFormattedPlan(
-  monthlyPlan: TSubscriptionPlan,
-  annualPlan?: null | TSubscriptionPlan,
-) {
-  const key = getSubscriptionPlanKey(monthlyPlan.name)
+export function getFormattedPlan(billingGroup: TPlanBillingGroup[string]) {
+  const { month, year } = billingGroup
+
+  const intervals: TPlanInterval[] = [month, year].flatMap((plan) =>
+    plan
+      ? [
+          {
+            plan,
+            interval: plan.interval,
+            amount: plan.amount,
+            price: toPrice(plan.amount),
+          },
+        ]
+      : [],
+  )
+
+  const key = getSubscriptionPlanKey(intervals[0].plan.name)
   const name = getPlanName(key)
   const details = SubscriptionPlanDetails[key]
 
+  const annual = intervals.find(({ interval }) => interval === 'year')
+  const monthly = intervals.find(({ interval }) => interval === 'month')
+
   return {
+    key,
+
     isFree: key === SubscriptionPlan.FREE.key,
     isCustom: key === SubscriptionPlan.CUSTOM.key,
     isBusiness: BUSINESS_PLANS.has(key),
@@ -66,21 +89,19 @@ export function getFormattedPlan(
     name,
     details,
 
-    amount: {
-      month: monthlyPlan.amount,
-      year: annualPlan?.amount,
-    },
+    intervals,
 
-    price: {
-      month: Math.ceil(monthlyPlan.amount / 100),
-      year: annualPlan ? Math.ceil(annualPlan.amount / 100) : undefined,
-
-      savePercentWithAnnual: annualPlan
-        ? Math.round(100 - (100 * annualPlan.amount) / (monthlyPlan.amount * 12))
-        : 0,
-    },
+    savePercentWithAnnual:
+      annual && monthly ? Math.round(100 - (100 * annual.amount) / (monthly.amount * 12)) : 0,
   }
 }
+
+export type TFormattedPlan = ReturnType<typeof getFormattedPlan>
+
+export const getPlanInterval = (
+  formattedPlan: undefined | null | TFormattedPlan,
+  interval: 'month' | 'year',
+) => formattedPlan?.intervals.find((item) => item.interval === interval)
 
 export const checkIsCurrentPlan = (
   userPlan: null | TSubscriptionPlan,

@@ -1,4 +1,5 @@
 import type { TSubscriptionPlan } from '../SubscriptionPlan/types.js'
+import type { TFormattedPlan } from '../SubscriptionPlan/utils.js'
 import type { StripeAddressElement, StripeCardElement } from '@stripe/stripe-js'
 
 import { ss, ssd, useObserve } from 'svelte-runes'
@@ -10,7 +11,7 @@ import { ApiMutation } from '$lib/api/index.js'
 
 import { CardMethod } from './PaymentScreen/PaymentMethodSelector/Card/index.js'
 import { queryProductsWithPlans, type TProductsWithPlans } from '../SubscriptionPlan/api.js'
-import { getFormattedPlan } from '../SubscriptionPlan/utils.js'
+import { getFormattedPlan, getPlanInterval } from '../SubscriptionPlan/utils.js'
 
 export const SCREENS = [
   { name: '1. Choose your plan', backLabel: 'Choose plan' },
@@ -34,9 +35,7 @@ export const usePaymentFormCtx = createCtx(
     const productsWithPlans = ss<TProductsWithPlans>([])
     const plan = ss({
       selected: defaultPlan,
-      month: null as null | TSubscriptionPlan,
-      year: null as null | TSubscriptionPlan,
-      formatted: null as null | ReturnType<typeof getFormattedPlan>,
+      formatted: null as null | TFormattedPlan,
     })
     const coupon = ss(
       null as null | {
@@ -73,9 +72,11 @@ export const usePaymentFormCtx = createCtx(
       const { formatted } = plan.$
       if (!formatted) return { amount: 10000000, price: 100000 }
 
+      const interval = getPlanInterval(formatted, billingPeriod.$)
+
       return {
-        price: formatted.price[billingPeriod.$],
-        amount: formatted.amount[billingPeriod.$],
+        price: interval?.price,
+        amount: interval?.amount,
       }
     })
 
@@ -102,22 +103,26 @@ export const usePaymentFormCtx = createCtx(
     function selectSubscriptionPlan(selectedPlan: null | TSubscriptionPlan) {
       untrack(() => {
         if (!selectedPlan) {
-          return (plan.$ = { selected: null, month: null, year: null, formatted: null })
+          return (plan.$ = { selected: null, formatted: null })
         }
 
         // NOTE: Checking if a plan with a different name was selected
-        if (plan.$.month?.name !== selectedPlan.name) {
+        if (plan.$.formatted?.intervals[0].plan.name !== selectedPlan.name) {
           const productPlans = productsWithPlans.$.find(
             (product) => product.id === selectedPlan.product.id,
           )
-          const [monthPlan, yearPlan] = productPlans?.plans
-            .filter((plan) => plan.isDeprecated === false && plan.name === selectedPlan.name)
-            .sort((a, b) => a.amount - b.amount) || [null, null]
+          const plans =
+            productPlans?.plans.filter(
+              (plan) => plan.isDeprecated === false && plan.name === selectedPlan.name,
+            ) || []
 
           Object.assign(plan.$, {
-            month: monthPlan,
-            year: yearPlan,
-            formatted: monthPlan && getFormattedPlan(monthPlan, yearPlan),
+            formatted: plans.length
+              ? getFormattedPlan({
+                  month: plans.find(({ interval }) => interval === 'month'),
+                  year: plans.find(({ interval }) => interval === 'year'),
+                })
+              : null,
           })
           coupon.$ = null
         }
