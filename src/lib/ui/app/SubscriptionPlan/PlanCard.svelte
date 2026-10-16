@@ -29,7 +29,7 @@
   const isAnnualBilling = $derived(selected.interval === 'year')
   const isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, selected.plan))
   const alternative = $derived(
-    formattedPlan.intervals.find((item) => item !== selected) ?? selected,
+    formattedPlan.intervals.find((item) => item.interval !== selected.interval),
   )
 
   const theme = formattedPlan.isFree
@@ -101,7 +101,7 @@
         Free forever
       {:else if formattedPlan.isCustom}
         Based on your needs
-      {:else}
+      {:else if alternative}
         <span class="font-medium text-rhino">${alternative.price}</span>
         <span class="mr-1 text-waterloo">
           / {INTERVAL[alternative.interval].long}, billed {INTERVAL[selected.interval].billed}
@@ -124,7 +124,7 @@
               source,
               plan: selected.plan.name,
             })
-            selected = alternative
+            if (alternative) selected = alternative
           }}
         ></Switch>
 
