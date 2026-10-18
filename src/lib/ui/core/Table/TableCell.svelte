@@ -12,12 +12,6 @@
   const { class: className, children, ...props }: TProps = $props()
 </script>
 
-<td
-  class={cn(
-    'overflow-hidden text-ellipsis whitespace-nowrap px-2 group-hover:bg-athens',
-    className,
-  )}
-  {...props}
->
+<td class={cn('overflow-hidden text-ellipsis whitespace-nowrap px-2', className)} {...props}>
   {@render children()}
 </td>

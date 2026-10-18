@@ -1,13 +1,16 @@
 <script lang="ts">
+  import type { Snippet } from 'svelte'
+
   import Svg from '$ui/core/Svg/index.js'
   import { cn } from '$ui/utils/index.js'
 
   type TProps = {
     class?: string
     change: number
+    children?: Snippet
   }
 
-  const { class: className = '', change }: TProps = $props()
+  const { class: className = '', change, children }: TProps = $props()
 </script>
 
 <div
@@ -28,5 +31,10 @@
       <Svg id="triangle" w="6" h="4" />
     </span>
   {/if}
-  {change}%
+
+  {#if children}
+    {@render children()}
+  {:else}
+    {change}%
+  {/if}
 </div>
