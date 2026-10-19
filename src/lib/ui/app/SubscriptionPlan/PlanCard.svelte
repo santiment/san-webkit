@@ -1,5 +1,6 @@
 <script lang="ts">
   import { type TPlanBillingGroup } from '$ui/app/SubscriptionPlan/api.js'
+  import { BILLING_INTERVAL } from '$ui/app/SubscriptionPlan/plans.js'
   import { checkIsCurrentPlan, getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
@@ -13,11 +14,6 @@
     source: _source = '',
     billingGroup,
   }: { source?: string; billingGroup: TPlanBillingGroup[string] } = $props()
-
-  const INTERVAL = {
-    month: { short: 'mo', long: 'month', billed: 'monthly' },
-    year: { short: 'year', long: 'year', billed: 'annually' },
-  }
 
   const { customer } = useCustomerCtx()
 
@@ -92,7 +88,9 @@
         $0
       {:else}
         ${selected.price}
-        <span class="text-xl font-normal text-waterloo">/ {INTERVAL[selected.interval].short}</span>
+        <span class="text-xl font-normal text-waterloo"
+          >/ {BILLING_INTERVAL[selected.interval].short}</span
+        >
       {/if}
     </h3>
 
@@ -104,7 +102,9 @@
       {:else if alternative}
         <span class="font-medium text-rhino">${alternative.price}</span>
         <span class="mr-1 text-waterloo">
-          / {INTERVAL[alternative.interval].long}, billed {INTERVAL[selected.interval].billed}
+          / {BILLING_INTERVAL[alternative.interval].long}, billed {BILLING_INTERVAL[
+            selected.interval
+          ].billed}
         </span>
       {/if}
     </h4>
