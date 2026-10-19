@@ -121,9 +121,9 @@ export const SubscriptionPlanDetails: Record<
     features: [
       'Full Sanbase suite',
       'License for 3 seats',
-      'Full API access, 3-year history ',
+      'Full API access, 3-year history',
       '50,000 API requests/month',
-      '10000 MCP calls/month',
+      '10,000 MCP calls/month',
       'Santiment Research reports',
     ],
   },
