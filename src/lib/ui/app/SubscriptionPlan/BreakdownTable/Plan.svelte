@@ -4,6 +4,7 @@
   import { cn } from '$ui/utils/index.js'
 
   import PlanButton from '../PlanButton.svelte'
+  import { BILLING_INTERVAL } from '../plans.js'
   import { getFormattedPlan } from '../utils.js'
 
   let {
@@ -13,7 +14,7 @@
   }: { source?: string; billingGroup: TPlanBillingGroup[string]; class?: string } = $props()
 
   const formattedPlan = $derived(getFormattedPlan(billingGroup))
-  const cheapest = $derived(formattedPlan.intervals[0])
+  const primary = $derived(formattedPlan.primary)
 </script>
 
 <article class={cn('flex-1 gap-2 text-left column', className)}>
@@ -24,8 +25,9 @@
     {#if formattedPlan.isCustom}
       Custom
     {:else}
-      ${cheapest.price}
+      ${primary.price}
+      <span class="font-normal">/ {BILLING_INTERVAL[primary.interval].short}</span>
     {/if}
   </h5>
-  <PlanButton plan={cheapest.plan} class="mt-3" source="{source}_plans_breakdown"></PlanButton>
+  <PlanButton plan={primary.plan} class="mt-3" source="{source}_plans_breakdown"></PlanButton>
 </article>
