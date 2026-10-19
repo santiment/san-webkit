@@ -40,17 +40,17 @@
     icon="envelope"
     name="email"
     class="text-base font-normal text-black placeholder-casper [&>svg]:left-4"
-    inputClass="py-2 pl-10"
+    inputClass="py-2 pl-10 sm:h-12"
     iconSize="16"
   />
 
   <Button
     variant="fill"
     size="lg"
-    class="mt-4 w-full justify-center row"
+    class="mt-4 w-full justify-center row sm:h-12"
     type="submit"
     loading={loading.$}
   >
-    {isSignUp ? 'Create account' : 'Log in'}
+    {isSignUp ? 'Sign up' : 'Log in'}
   </Button>
 </form>

@@ -1,6 +1,5 @@
 <script lang="ts">
-  import type { MouseEventHandler } from 'svelte/elements'
-  import type { Snippet } from 'svelte'
+  import type { ComponentProps, Snippet } from 'svelte'
 
   import { cn } from '$ui/utils/index.js'
   import Button from '$ui/core/Button/Button.svelte'
@@ -12,7 +11,7 @@
     bottomLabel?: string
     bottomAction?: string
     bottomHref?: string
-    onBottomClick?: MouseEventHandler<HTMLAnchorElement>
+    onBottomClick?: ComponentProps<typeof Button>['onclick']
     children: Snippet
   }
 
@@ -30,21 +29,19 @@
 
 <section
   class={cn(
-    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center',
-    'md:relative md:h-[85vh] md:min-w-0 md:flex-1 md:self-start md:p-6',
+    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center ',
+    'sm:min-w-0 sm:flex-1 sm:justify-start sm:self-start sm:px-8 sm:py-16',
     className,
   )}
 >
-  <h2 class={cn('mb-6 text-2xl', titleClass)}>{title}</h2>
-
-  <Button icon="close" href="/" class="absolute right-5 top-5 z-10 hidden fill-waterloo md:flex" />
+  <h2 class={cn('mb-6 text-2xl sm:mb-8 sm:font-medium', titleClass)}>{title}</h2>
 
   {@render children()}
 
   {#if bottomLabel}
-    <div class="mt-6 text-base text-waterloo">
+    <div class="mt-6 text-base text-fiord">
       {bottomLabel}
-      <a href={bottomHref} class="link-pointer" onclick={onBottomClick}>{bottomAction}</a>
+      <Button href={bottomHref} variant="link" onclick={onBottomClick}>{bottomAction}</Button>
     </div>
   {/if}
 </section>

@@ -5,7 +5,6 @@ import {
   EmailLogin as EmailLoginComponent,
   WalletConnect,
   EmailConfirmation as EmailConfirmationComponent,
-  SignUp as SignUpComponent,
 } from '$ui/app/LoginForm/index.js'
 import Container from './Container.svelte'
 
@@ -26,7 +25,17 @@ type Story = StoryObj<typeof meta>
 
 export default meta
 
-export const Default: Story = {}
+export const Login: Story = {
+  args: {
+    isSignUp: false,
+  },
+}
+
+export const SignUp: Story = {
+  args: {
+    isSignUp: true,
+  },
+}
 
 const Wrapped = <GComp extends Component<any>>(
   component: GComp,
@@ -45,5 +54,3 @@ export const EmailConfirmation = Wrapped(EmailConfirmationComponent, {
   email: 'test@test.com',
   clearEmail: () => {},
 })
-
-export const SignUp = Wrapped(SignUpComponent, { title: 'Sign up', confirmationClass: 'sm:flex-1' })

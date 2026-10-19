@@ -26,7 +26,14 @@
   }: TProps = $props()
 </script>
 
-<Button variant="border" size="lg" class={cn('gap-3 px-10', className)} {loading} {href} {onclick}>
+<Button
+  variant="border"
+  size="lg"
+  class={cn('gap-3 px-10 sm:h-12 sm:px-6', className)}
+  {loading}
+  {href}
+  {onclick}
+>
   {#if icon}
     <Svg illus id={`media/${icon}`} w={16} />
   {/if}
