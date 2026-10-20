@@ -14,11 +14,11 @@ export type PlanType = 'business' | 'consumer'
 
 export const PlanTypeDisplayInfo: Record<PlanType, { name: string; className: string }> = {
   consumer: {
-    name: '👨‍🦱 For Individuals',
+    name: '👨‍🦱 For individuals',
     className: 'outline-green bg-green-light-1',
   },
   business: {
-    name: '💼 For Business (API)',
+    name: '💼 For business',
     className: 'outline-blue bg-blue-light-1',
   },
 }
