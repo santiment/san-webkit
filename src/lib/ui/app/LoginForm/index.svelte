@@ -4,6 +4,7 @@
   import { cn } from '$ui/utils/index.js'
   import { getFromSearch } from '$lib/utils/url/from.js'
 
+  import AuthIllustration from './AuthIllustration.svelte'
   import Section from './Section.svelte'
   import Metamask from './Metamask.svelte'
   import Divider from './Divider.svelte'
@@ -58,27 +59,33 @@
     clearEmail={() => (verifiedEmail = '')}
   />
 {:else}
-  <Section
-    {title}
-    class={cn('text-nowrap text-base', className)}
-    titleClass="mb-8"
-    {bottomLabel}
-    {bottomAction}
-    {bottomHref}
-  >
-    <div class="flex flex-col gap-3">
-      {@render children?.()}
+  <div class="flex w-full items-center justify-center gap-[clamp(24px,calc(8vw-56px),88px)]">
+    <AuthIllustration />
 
-      {#if onMetamaskClick}
-        <Metamask {isSignUp} onclick={onMetamaskClick} />
-      {/if}
+    <div class="max-w-[406px] flex-shrink-0 md:min-w-full md:max-w-full">
+      <Section
+        {title}
+        class={cn('text-nowrap text-base', className)}
+        titleClass="mb-8"
+        {bottomLabel}
+        {bottomAction}
+        {bottomHref}
+      >
+        <div class="flex flex-col gap-3">
+          {@render children?.()}
 
-      <Google {isSignUp} {from} />
-      <Twitter {isSignUp} {from} />
+          {#if onMetamaskClick}
+            <Metamask {isSignUp} onclick={onMetamaskClick} />
+          {/if}
+
+          <Google {isSignUp} {from} />
+          <Twitter {isSignUp} {from} />
+        </div>
+
+        <Divider />
+
+        <EmailForm {isSignUp} {from} onSuccess={(email) => (verifiedEmail = email)} />
+      </Section>
     </div>
-
-    <Divider />
-
-    <EmailForm {isSignUp} {from} onSuccess={(email) => (verifiedEmail = email)} />
-  </Section>
+  </div>
 {/if}
