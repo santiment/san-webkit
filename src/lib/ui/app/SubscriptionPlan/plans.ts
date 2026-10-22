@@ -116,7 +116,8 @@ export const SubscriptionPlanDetails: Record<
   },
 
   [SubscriptionPlan.CUSTOM.key]: {
-    description: 'Designed for high-demand professional trading and financial platforms',
+    description:
+      'Custom-built data solutions, flexible API access, and dedicated support for complex business needs',
     features: [
       'Custom development of data solutions',
       'Data reselling rights agreement',
