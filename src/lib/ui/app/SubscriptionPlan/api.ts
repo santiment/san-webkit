@@ -34,14 +34,13 @@ export const queryProductsWithPlans = ApiQuery(
       apiCallLimits {
         month
       }
+      product {
+        id
+      }
     }
   }
 }`,
-  (gql: { productsWithPlans: TProductsWithPlans }) => {
-    const products = gql.productsWithPlans
-    products.forEach(({ id, plans }) => plans.forEach((plan) => (plan.product = { id }))) // HACK: remove after backend id:null fix
-    return products
-  },
+  (gql: { productsWithPlans: TProductsWithPlans }) => gql.productsWithPlans,
   { cacheTime: undefined },
 )
 
