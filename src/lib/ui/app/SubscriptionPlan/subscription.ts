@@ -155,7 +155,9 @@ export function getCustomerSubscriptionData(subscription: null | TSubscription) 
     const trialDaysLeft = trialEnd ? calculateDaysTo(trialEnd) : null
 
     const isCustom = checkIsCustomPlan(plan.name)
-    const isBusinessMax = isBusiness && plan.name === SubscriptionPlan.BUSINESS_MAX.key
+    const isInstitutional = isBusiness && plan.name === SubscriptionPlan.INSTITUTIONAL.key
+    const isBusinessMax =
+      isInstitutional || (isBusiness && plan.name === SubscriptionPlan.BUSINESS_MAX.key)
     const isBusinessPro = isBusinessMax || plan.name === SubscriptionPlan.BUSINESS_PRO.key
     const isMax = isBusiness || plan.name === SubscriptionPlan.MAX.key
     const isProPlus = isBusiness || plan.name === SubscriptionPlan.PRO_PLUS.key

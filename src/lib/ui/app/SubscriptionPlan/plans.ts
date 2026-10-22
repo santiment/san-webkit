@@ -34,6 +34,7 @@ export const SubscriptionPlan = keyify({
 
   BUSINESS_PRO: { name: 'Business Pro' },
   BUSINESS_MAX: { name: 'Business Max' },
+  INSTITUTIONAL: { name: 'Institutional' },
   CUSTOM: { name: 'Enterprise' },
 })
 
@@ -115,6 +116,18 @@ export const SubscriptionPlanDetails: Record<
     ],
   },
 
+  [SubscriptionPlan.INSTITUTIONAL.key]: {
+    description: 'Designed for high-demand professional trading and financial platforms',
+    features: [
+      'Full Sanbase suite',
+      'License for 3 seats',
+      'Full API access, 3-year history',
+      '50,000 API requests/month',
+      '10,000 MCP calls/month',
+      'Santiment Research reports',
+    ],
+  },
+
   [SubscriptionPlan.CUSTOM.key]: {
     description:
       'Custom-built data solutions, flexible API access, and dedicated support for complex business needs',
@@ -138,6 +151,7 @@ const CONSUMER_PLANS_ORDER: readonly TPlan[] = [
 const BUSINESS_PLANS_ORDER: readonly TPlan[] = [
   SubscriptionPlan.BUSINESS_PRO.key,
   SubscriptionPlan.BUSINESS_MAX.key,
+  SubscriptionPlan.INSTITUTIONAL.key,
   SubscriptionPlan.CUSTOM.key,
 ]
 
