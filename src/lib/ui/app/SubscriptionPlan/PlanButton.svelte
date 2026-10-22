@@ -26,7 +26,7 @@
     plan,
     class: className,
   }: {
-    plan: Exclude<TSubscriptionPlan, 'isDeprecated'>
+    plan: TSubscriptionPlan
     class?: string
     source?: string
   } = $props()
