@@ -31,6 +31,7 @@ export enum Plan {
 
   BUSINESS_PRO = 'BUSINESS_PRO',
   BUSINESS_MAX = 'BUSINESS_MAX',
+  INSTITUTIONAL = 'INSTITUTIONAL',
   CUSTOM = 'CUSTOM',
 }
 
@@ -39,7 +40,12 @@ export function getIsCustomPlan(planName: string): boolean {
 }
 
 export const INDIVIDUAL_PLANS = new Set([Plan.FREE, Plan.PRO, Plan.MAX])
-export const BUSINESS_PLANS = new Set([Plan.BUSINESS_PRO, Plan.BUSINESS_MAX, Plan.CUSTOM])
+export const BUSINESS_PLANS = new Set([
+  Plan.BUSINESS_PRO,
+  Plan.BUSINESS_MAX,
+  Plan.INSTITUTIONAL,
+  Plan.CUSTOM,
+])
 
 const PlanName = {
   [Plan.PRO_PLUS]: 'Pro+',
@@ -50,6 +56,7 @@ const PlanName = {
 
   [Plan.BUSINESS_PRO]: 'Business Pro',
   [Plan.BUSINESS_MAX]: 'Business Max',
+  [Plan.INSTITUTIONAL]: 'Institutional',
   [Plan.CUSTOM]: 'Enterprise',
 } as const
 

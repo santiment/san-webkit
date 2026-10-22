@@ -77,6 +77,18 @@ export const PlanDescription: Record<Plan, { description: string; features: stri
     ],
   },
 
+  [Plan.INSTITUTIONAL]: {
+    description: 'Scale your institution',
+    features: [
+      'Full Sanbase suite',
+      'License for 3 seats',
+      'Full API access, 3-year history',
+      '50,000 API requests / mo',
+      '10,000 MCP calls / mo',
+      'Santiment Research reports',
+    ],
+  },
+
   [Plan.CUSTOM]: {
     description: 'Everything custom',
     features: [
