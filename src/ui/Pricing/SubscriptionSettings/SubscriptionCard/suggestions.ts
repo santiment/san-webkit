@@ -52,18 +52,18 @@ const BUSINESS_MAX_SUGGESTION = {
   blue: true,
 } satisfies Suggestion
 
-const ENTERPRISE_SUGGESTION = {
+const INSTITUTIONAL_SUGGESTION = {
   label: '💼 For Business',
-  badge: 'Custom',
-  badgeIcon: { id: 'fire-filled', w: 16 },
-  description: 'Everything your business needs as a tailored solution.',
+  badge: 'Special',
+  badgeIcon: { id: 'star-filled', w: 16 },
+  description: 'Tailored solutions for institutions needing scalable data access.',
   blue: true,
 } satisfies Suggestion
 
 const BUSINESS_SUGGESTIONS = {
   [Plan.BUSINESS_PRO]: BUSINESS_PRO_SUGGESTION,
   [Plan.BUSINESS_MAX]: BUSINESS_MAX_SUGGESTION,
-  [Plan.CUSTOM]: ENTERPRISE_SUGGESTION,
+  [Plan.INSTITUTIONAL]: INSTITUTIONAL_SUGGESTION,
 }
 
 export type PlanSuggestion = {

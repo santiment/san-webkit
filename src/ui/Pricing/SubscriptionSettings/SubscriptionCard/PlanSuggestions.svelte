@@ -8,34 +8,25 @@
   export let plans: SAN.Plan[]
   export let isEligibleForTrial = false
 
-  const EMPTY_SUGGESTION: Suggestion = {
-    label: '',
-    badge: '',
-    badgeIcon: { id: '', w: 0 },
-    description: '',
-  }
-
   $: suggestedPlans = getPlanSuggestions(plans, suggestions)
 
   function getPlanSuggestions(plans: SAN.Plan[], suggestions: PlanSuggestion[]) {
-    if (!suggestions.length) return []
+    return suggestions.flatMap((suggestion) => {
+      const variants = plans.filter(({ name }) => suggestion[name])
+      const plan = variants.find(({ interval }) => interval === suggestion.billing) ?? variants[0]
 
-    return plans.filter((plan) => {
-      const isSameBilling = plan.interval === suggestions[0].billing
-      if (suggestions[0].discount) {
-        return isSameBilling
-      }
+      if (!plan) return []
 
-      return suggestions.some((suggestion) => !!suggestion[plan.name]) && isSameBilling
+      return [
+        { plan, planInfo: suggestion[plan.name] as Suggestion, currentSuggestion: suggestion },
+      ]
     })
   }
 </script>
 
-{#each suggestedPlans as suggestion, index}
-  {@const currentSuggestion = suggestions[index] || {}}
-  {@const altPlan = getAlternativePlan(suggestion, plans)}
-  {@const planOptions = altPlan ? [suggestion, altPlan] : [suggestion]}
-  {@const planInfo = currentSuggestion[suggestion.name] ?? EMPTY_SUGGESTION}
+{#each suggestedPlans as { plan, planInfo, currentSuggestion }}
+  {@const altPlan = getAlternativePlan(plan, plans)}
+  {@const planOptions = altPlan ? [plan, altPlan] : [plan]}
 
   <PlanCard
     {...planInfo}
@@ -43,7 +34,7 @@
     plans={planOptions}
     discount={currentSuggestion.discount}
     isUpgrade={currentSuggestion.isUpgrade}
-    plan={suggestion}
+    {plan}
   />
 {:else}
   <slot />
