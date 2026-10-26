@@ -16,6 +16,7 @@
   import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
   import { Query } from '$lib/api/executor.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates/index.js'
+  import { SANBASE_ORIGIN } from '$lib/utils/links.js'
 
   import { mutateUpdateSubscription } from './api.js'
   import { getFormattedBillingPlan, getPlanName } from '../SubscriptionPlan/utils.js'
@@ -92,7 +93,7 @@
 
       <Button
         variant="link"
-        href="/account"
+        href="{SANBASE_ORIGIN}/account"
         class="mt-4 text-green"
         data-type="update_billing"
         data-source="plan_change_dialog">Update your billing information here.</Button
