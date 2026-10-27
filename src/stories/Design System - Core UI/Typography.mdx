@@ -1,23 +1,22 @@
 import { Unstyled } from '@storybook/blocks'
-import tailwindConfig from '../../../tailwind.config.js'
-import { typography } from '../../lib/ui/utils/typography.js'
+import { fontFamily, fontSize, fontWeight, typography } from '../../lib/ui/utils/typography.js'
 
 <Unstyled>
 
 <div class="flex flex-col gap-8">
   {Object.entries(typography).map(([className, { size, family, weight }]) => (
     <div key={className}>
-      <span class="font-mono mb-3 text-sm font-medium text-waterloo">
-        {tailwindConfig.theme.fontFamily[family][0]} -{' '}
-        {tailwindConfig.theme.fontSize[size].join(' / ')} - {weight} - <code>.{className}</code>
+      <span class="font-mono t-body-3-medium mb-3 text-waterloo">
+        {fontFamily[family][0]} - {size} ({fontSize[size].join(' / ')}) - {weight} (
+        {fontWeight[weight]}) - <code>.{className}</code>
       </span>
       <p class={'ml-5 ' + className}>The quick brown fox jumps over the lazy dog.</p>
     </div>
   ))}
-  {Object.entries(tailwindConfig.theme.fontSize).map(([text, [fontSize, lineHeight]]) => (
+  {Object.entries(fontSize).map(([text, [size, lineHeight]]) => (
     <div key={text}>
-      <span class="font-mono mb-3 text-sm font-medium text-waterloo">
-        {fontSize} / {lineHeight} - <code>.text-{text}</code>
+      <span class="font-mono t-body-3-medium mb-3 text-waterloo">
+        {text} ({size} / {lineHeight}) - <code>.text-{text}</code>
       </span>
       <p class={'ml-5 ' + 'text-' + text}>The quick brown fox jumps over the lazy dog.</p>
     </div>

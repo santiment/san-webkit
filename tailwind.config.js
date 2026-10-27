@@ -10,7 +10,7 @@ export const classes =
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{html,js,svelte,ts,mdx}'],
-  safelist: ['night-mode'],
+  safelist: ['night-mode', ...Object.keys(fontSize).map((size) => `text-${size}`)],
   darkMode: ['selector', '.night-mode'],
   theme: {
     extend: {
