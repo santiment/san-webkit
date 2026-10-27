@@ -3,7 +3,7 @@ import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
 import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
-import { typography } from './src/lib/ui/utils/typography.js'
+import { fontFamily, fontSize, fontWeight, typography } from './src/lib/ui/utils/typography'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
@@ -61,26 +61,9 @@ export default {
       xs: { max: BREAKPOINTS.xs }, // Phone XS
     },
 
-    fontSize: {
-      '2xs': ['10px', '14px'],
-      xs: ['12px', '16px'],
-      sm: ['14px', '20px'],
-      base: ['16px', '24px'],
-      lg: ['18px', '28px'],
-      'lg-2': ['20px', '28px'],
-      'lg-3': ['22px', '28px'],
-      xl: ['24px', '32px'],
-      '2xl': ['26px', '32px'],
-      '3xl': ['32px', '40px'],
-      '4xl': ['40px', '48px'],
-      '5xl': ['48px', '56px'],
-    },
-
-    fontFamily: {
-      sans: ['Proxima Nova', 'sans-serif'],
-      inter: ['Inter', 'sans-serif'],
-      anek: ['Anek Latin', 'sans-serif'],
-    },
+    fontSize,
+    fontWeight,
+    fontFamily,
 
     colors: {
       transparent: 'transparent',
