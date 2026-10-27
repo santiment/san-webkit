@@ -7,6 +7,6 @@
 
 <main class="flex h-screen items-center justify-center">
   <Questionnaire>
-    <Button onclick={() => (questionnaire.$$.isVisible = true)}>Show Questionnaire</Button>
+    <Button onclick={questionnaire.open}>Show Questionnaire</Button>
   </Questionnaire>
 </main>

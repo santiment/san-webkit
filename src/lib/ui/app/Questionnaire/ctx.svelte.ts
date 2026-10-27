@@ -3,6 +3,7 @@ import type { TOnboardingInput } from './types.js'
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
 import { trackEvent } from '$lib/analytics/index.js'
+import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 
 import { mutateUserOnboarding } from './api.js'
 import { STEPS } from './steps.js'
@@ -18,9 +19,12 @@ const initialState = {
 }
 
 export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx', () => {
+  const { currentUser } = useCustomerCtx()
+
   let state = $state({ ...initialState })
   let answers = $state<TAnswers>({})
 
+  const isCompleted = $derived(!!currentUser.$$?.userOnboarding)
   const currentStep = $derived(STEPS[state.stepIndex])
   const currentAnswer = $derived(answers[currentStep.field])
   const isStepAnswered = $derived(
@@ -87,9 +91,16 @@ export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx'
       get isStepAnswered$() {
         return isStepAnswered
       },
+      get isCompleted$() {
+        return isCompleted
+      },
 
       totalSteps: STEPS.length,
 
+      open() {
+        state.screen = isCompleted ? 'final' : 'intro'
+        state.isVisible = true
+      },
       cancel() {
         state = { ...initialState }
         answers = {}
