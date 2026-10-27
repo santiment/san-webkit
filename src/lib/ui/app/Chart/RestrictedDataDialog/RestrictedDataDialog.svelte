@@ -27,7 +27,7 @@
 </script>
 
 <Dialog class="max-w-[480px] column sm:h-auto sm:max-w-full">
-  <h2 class="flex items-center justify-between border-b px-5 py-3 text-base">
+  <h2 class="t-body-2-regular flex items-center justify-between border-b px-5 py-3">
     Restricted data
 
     <Button iconSize="12" size="sm" icon="close" onclick={close}></Button>

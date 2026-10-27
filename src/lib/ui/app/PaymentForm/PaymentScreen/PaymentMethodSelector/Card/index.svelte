@@ -63,7 +63,7 @@
           '.Label': {
             fontSize: '12px',
             lineHeight: '16px',
-            fontWeight: '600',
+            fontWeight: '500',
             marginBottom: '3px',
             color: getBrowserCssVariable('waterloo'),
           },
@@ -132,7 +132,7 @@
   })
 </script>
 
-<div class="grid gap-4 md:text-base">
+<div class="grid gap-4 md:t-body-2-regular">
   <LabelInput label="Card number" class="">
     <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green">
       <span class="text-casper">Card number</span>

@@ -6,12 +6,12 @@
   {#each Object.keys(ICON_CATEGORIES) as category}
     <div class="flex flex-col">
       {#if category !== '_'}
-        <h2 class=" txt-m mrg-s mrg--b mb-2 border-b text-2xl font-bold">{category}</h2>
+        <h2 class="txt-m mrg-s mrg--b t-h4-medium mb-2 border-b">{category}</h2>
       {/if}
 
       <div class="flex flex-wrap gap-6">
         {#each ICON_CATEGORIES[category] as { key, sprite }}
-          <div class="flex flex-col text-xs center">
+          <div class="t-caption-1-regular flex flex-col center">
             <div class="flex size-12 rounded bg-athens p-2.5 center">
               <!-- <Svg id={key} w={width} h={height} /> -->
 

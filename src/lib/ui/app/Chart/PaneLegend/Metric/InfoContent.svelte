@@ -28,7 +28,7 @@
 </script>
 
 {#if info && metric}
-  <h3 class="mb-2.5 font-medium text-rhino">
+  <h3 class="t-body-3-medium mb-2.5 text-rhino">
     {metric?.label}
   </h3>
 

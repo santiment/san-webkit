@@ -68,14 +68,16 @@
   {/if}
 
   <div>
-    <span class="text-base font-medium text-rhino">
+    <span class="t-body-2-medium text-rhino">
       {title}
     </span>
 
     <p class="mt-1 text-fiord">{desc}</p>
 
     {#if note}
-      <span class="mt-1 inline-block rounded bg-orange-light-1 px-2 py-1 text-xs text-orange">
+      <span
+        class="t-caption-1-regular mt-1 inline-block rounded bg-orange-light-1 px-2 py-1 text-orange"
+      >
         {note}
       </span>
     {/if}

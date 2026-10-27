@@ -6,7 +6,7 @@
 
 <main class="flex flex-col gap-12 p-4">
   <section>
-    <h1 class="mb-2 text-2xl">Main Buttons</h1>
+    <h1 class="t-h4-regular mb-2">Main Buttons</h1>
     <p class="max-w-96 text-waterloo">
       These buttons don't require any customisation with css. Their appearence is controlled by
       props
@@ -14,7 +14,7 @@
 
     <section class="mt-5 flex flex-wrap gap-16">
       <div class="flex flex-col gap-6">
-        <h2 class="text-lg-2 font-semibold">Fill / Primary</h2>
+        <h2 class="t-h5-medium">Fill / Primary</h2>
 
         <StatesGroup title="Default Accent (Green)" variant="fill" />
 
@@ -23,7 +23,7 @@
       </div>
 
       <div class="flex flex-col gap-6">
-        <h2 class="text-lg-2 font-semibold">Border / Secondary</h2>
+        <h2 class="t-h5-medium">Border / Secondary</h2>
 
         <StatesGroup title="Default" variant="border" withIcons />
 
@@ -37,7 +37,7 @@
       </div>
 
       <div class="flex flex-col gap-6">
-        <h2 class="text-lg-2 font-semibold">Ghost / Tertiary</h2>
+        <h2 class="t-h5-medium">Ghost / Tertiary</h2>
 
         <StatesGroup title="Default" variant="ghost" withIcons />
 
@@ -51,7 +51,7 @@
       </div>
 
       <div class="flex flex-col gap-6">
-        <h2 class="text-lg-2 font-semibold">Links / Tertiary</h2>
+        <h2 class="t-h5-medium">Links / Tertiary</h2>
 
         <StatesGroup title="Title" variant="title" />
 
@@ -59,7 +59,7 @@
 
         <StatesGroup title="Link with text" variant="link">
           {#snippet buttons(props)}
-            <section class="text-base">
+            <section class="t-body-2-regular">
               Some text <Button {...props}>with link</Button>
             </section>
           {/snippet}
@@ -74,7 +74,7 @@
 
       <div class="flex flex-col gap-6">
         <div>
-          <h2 class="text-lg-2 font-semibold">Dropdown / DD Button / Sec Icon + Arrow</h2>
+          <h2 class="t-h5-medium">Dropdown / DD Button / Sec Icon + Arrow</h2>
           <p class="text-waterloo">It's border button with dropdown icon</p>
         </div>
 
@@ -91,7 +91,7 @@
   </section>
 
   <section>
-    <h1 class="mb-2 text-2xl">Custom Buttons Examples</h1>
+    <h1 class="t-h4-regular mb-2">Custom Buttons Examples</h1>
     <p class="text-waterloo">These are the main buttons but customised with css</p>
 
     <section class="mt-5 flex flex-wrap gap-10">

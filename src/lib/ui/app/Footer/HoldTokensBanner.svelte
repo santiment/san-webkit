@@ -5,10 +5,10 @@
 
 <article
   class={cn(
-    'relative min-w-[352px] overflow-hidden rounded-lg bg-white px-6 py-4 text-base sm:w-full sm:min-w-full sm:bg-athens',
+    't-body-2-regular relative min-w-[352px] overflow-hidden rounded-lg bg-white px-6 py-4 sm:w-full sm:min-w-full sm:bg-athens',
   )}
 >
-  <h4 class="font-medium">Hold SAN Tokens — Get 20% Off</h4>
+  <h4 class="t-body-2-medium">Hold SAN Tokens — Get 20% Off</h4>
 
   <p class="max-w-[250px]">
     Discover all the benefits of holding SAN tokens <a

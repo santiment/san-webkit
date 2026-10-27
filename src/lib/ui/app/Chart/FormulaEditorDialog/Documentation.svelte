@@ -48,7 +48,7 @@
 </script>
 
 <section class="flex-1 gap-3 overflow-auto p-4 column">
-  <h2 class="flex items-center gap-2 fill-waterloo text-base font-medium text-rhino">
+  <h2 class="t-body-2-medium flex items-center gap-2 fill-waterloo text-rhino">
     {#if definition.metric}
       <span class="rounded-md bg-athens px-2.5 text-fiord">
         {definition.label}

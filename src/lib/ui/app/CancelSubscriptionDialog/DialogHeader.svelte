@@ -8,7 +8,7 @@
   const { Controller } = getDialogControllerCtx()
 </script>
 
-<div class="flex items-center justify-between border-b px-5 py-3 text-base">
+<div class="t-body-2-regular flex items-center justify-between border-b px-5 py-3">
   {#if screen.index$ === 0}
     Subscription cancelling
   {:else}

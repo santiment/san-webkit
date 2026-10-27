@@ -75,13 +75,12 @@
   {/each}
 {/if}
 
-<style>
+<style lang="postcss">
   canvas:hover :global(~ .area > button::before) {
     pointer-events: none;
     position: absolute;
     content: attr(aria-label);
-    font-size: 12px;
-    line-height: 16px;
+    @apply t-caption-1-regular;
     background: #505573;
     color: #fff;
     border-radius: 4px;

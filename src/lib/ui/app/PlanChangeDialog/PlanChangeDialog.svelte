@@ -77,7 +77,7 @@
   {@const newFormattedPlan = getFormattedBillingPlan(newPlan)}
   {@const activeUntilData = customer.$.primarySubscription?.currentPeriodEnd}
   <Dialog class="px-8 py-6">
-    <header class="mb-4 text-xl">
+    <header class="t-h4-regular mb-4">
       Changing plan to {newFormattedPlan.name} (${newFormattedPlan.price} / {newFormattedPlan.billing})
     </header>
 

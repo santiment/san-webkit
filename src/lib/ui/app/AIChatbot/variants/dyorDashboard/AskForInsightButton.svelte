@@ -26,7 +26,7 @@ Please:
 </script>
 
 <Button
-  class="mt-2.5 rounded-full bg-white px-2.5 py-1.5 text-sm hover:border-green-hover"
+  class="t-body-3-regular mt-2.5 rounded-full bg-white px-2.5 py-1.5 hover:border-green-hover"
   variant="border"
   onclick={() => aiChatbot.openWithPrompt(prompt)}
 >

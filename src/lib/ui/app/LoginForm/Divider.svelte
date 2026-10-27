@@ -4,8 +4,8 @@
 
 <div
   class={cn(
-    'my-[34px] flex h-0 items-center justify-center border-b text-sm text-waterloo',
-    'sm:my-6 sm:text-base sm:font-medium',
+    't-body-3-regular my-[34px] flex h-0 items-center justify-center border-b text-waterloo',
+    'sm:t-body-2-medium sm:my-6',
   )}
 >
   <span class="bg-white px-2.5">or use</span>

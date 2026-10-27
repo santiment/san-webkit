@@ -45,7 +45,7 @@
 
 <section>
   <label class="group mb-6 flex flex-col gap-1">
-    <h4 class="flex justify-between text-xs font-medium text-waterloo">
+    <h4 class="t-caption-1-medium flex justify-between text-waterloo">
       Wallet address
 
       {#if infrastructure}

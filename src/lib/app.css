@@ -83,16 +83,16 @@ body.theme-transition {
  */
 
 html {
-  @apply text-base;
+  @apply t-body-2-regular;
 }
 
 body {
+  @apply t-body-3-regular;
+
   color: var(--black);
   fill: var(--black);
   overflow-x: hidden;
   background-color: var(--white);
-  font-size: 14px;
-  line-height: 20px;
 }
 
 .loading {
@@ -164,8 +164,7 @@ loading-spin,
   .expl-tooltip:hover::before {
     position: absolute;
     content: attr(aria-label);
-    font-size: 12px;
-    line-height: 16px;
+    @apply t-caption-1-regular;
     background: #505573;
     color: #fff;
     border-radius: 4px;
@@ -262,9 +261,9 @@ skeleton,
 }
 
 .ai-chatbot-content h2 {
-  @apply mb-2 text-lg font-semibold;
+  @apply t-body-1-semibold mb-2;
 }
 
 .ai-chatbot-content h3 {
-  @apply mb-1.5 text-base font-semibold;
+  @apply t-body-2-semibold mb-1.5;
 }

@@ -46,7 +46,7 @@
 <div class="flex">
   <Layout title="We’re sorry to see you go 😔" {loading} {onContinueClick}>
     <section class="mb-5 text-left">
-      <h4 class="mb-4 font-medium">Help us understand why*</h4>
+      <h4 class="t-body-3-medium mb-4">Help us understand why*</h4>
 
       <div class="gap-3 whitespace-nowrap column">
         {#each REASONS as item}
@@ -60,13 +60,13 @@
     </section>
 
     <section class="text-left">
-      <h4 class="mb-4 font-medium">Just one last thing</h4>
+      <h4 class="t-body-3-medium mb-4">Just one last thing</h4>
       <textarea
         bind:this={textareaNode}
         cols="30"
         rows="3"
         placeholder="Tell us how we can make Santiment better for you in the future"
-        class="min-h-[72px] w-full rounded border bg-white px-2 py-1.5 outline-none hover:border-green focus:border-green"
+        class="min-h-[72px] w-full rounded border bg-white px-2 py-1.5 outline-none focus:border-green hover:border-green"
       ></textarea>
     </section>
   </Layout>

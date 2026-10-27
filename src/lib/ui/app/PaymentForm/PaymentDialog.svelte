@@ -79,7 +79,7 @@
     {:else}
       <div class="flex gap-10 md:flex-wrap md:px-5">
         <div class="w-full min-w-[400px] gap-10 self-start column md:min-w-0 md:gap-12">
-          <h1 class="color-rhino text-2xl font-medium md:text-3xl">
+          <h1 class="color-rhino t-h4-medium md:t-h3-medium">
             {#if subscriptionPlan.$.formatted}
               {subscriptionPlan.$.formatted.name} plan
             {:else}

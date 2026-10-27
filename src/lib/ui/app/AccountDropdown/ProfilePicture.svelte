@@ -28,7 +28,7 @@
   {...rest}
 >
   {#if currentUser.$$}
-    <Picture class="size-6 text-base sm:size-10" src={currentUser.$$.avatarUrl}>
+    <Picture class="t-body-2-regular size-6 sm:size-10" src={currentUser.$$.avatarUrl}>
       {(currentUser.$$.username || '').slice(0, 1).toUpperCase()}
     </Picture>
   {:else}

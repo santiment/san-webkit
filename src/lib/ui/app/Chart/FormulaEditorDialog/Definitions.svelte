@@ -37,7 +37,7 @@
 </script>
 
 <section class="relative p-4">
-  <h3 class="mb-1.5 h-8 items-center gap-2 fill-waterloo px-2 font-medium text-fiord row">
+  <h3 class="t-body-3-medium mb-1.5 h-8 items-center gap-2 fill-waterloo px-2 text-fiord row">
     <Svg id={icon} w="12"></Svg>
     {title}
   </h3>

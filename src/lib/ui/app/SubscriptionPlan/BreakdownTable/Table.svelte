@@ -20,7 +20,7 @@
   } = $props()
 </script>
 
-<div class="table w-full text-base">
+<div class="t-body-2-regular table w-full">
   <header class="sticky top-[var(--plans-sticky-top,0)] z-10 flex w-full border-b">
     {@render children()}
   </header>
@@ -39,7 +39,7 @@
           icon="pointer"
           href={url}
           target="_blank"
-          class={cn('flex !fill-green text-base font-normal text-green', className)}
+          class={cn('t-body-2-regular flex !fill-green text-green', className)}
           data-type={title}
           data-source="{source}_plans_breakdown"
         >
@@ -47,9 +47,7 @@
         </Button>
       {/snippet}
 
-      <h4
-        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:bg-athens sm:!py-[13px]"
-      >
+      <h4 class="td-h t-body-1-semibold min-w-full items-center !pt-0 sm:bg-athens sm:!py-[13px]">
         {category}
 
         {#if link && link.url}

@@ -36,9 +36,9 @@
   />
 
   <div class="mb-8 text-rhino">
-    <h1 class="mb-3 text-lg-3 font-medium">Take survey, get a free call 🎯</h1>
+    <h1 class="t-h5-medium mb-3">Take survey, get a free call 🎯</h1>
 
-    <p class="max-w-[312px] text-base">
+    <p class="t-body-2-regular max-w-[312px]">
       Help us understand your needs for a more tailored experience later, and get a free call with a
       Santiment expert.
     </p>

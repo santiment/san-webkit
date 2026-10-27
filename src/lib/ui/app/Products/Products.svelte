@@ -37,7 +37,7 @@
 
 <div
   style:--card-width={isCompact ? '272px' : '292px'}
-  class={cn('gap-6 rounded-md px-6 pb-6 pt-8 text-sm column', className)}
+  class={cn('t-body-3-regular gap-6 rounded-md px-6 pb-6 pt-8 column', className)}
   style={THEME_MAP[variant]}
 >
   <section class="grid grid-cols-1 gap-1 [@media(max-height:660px)]:grid-cols-2">

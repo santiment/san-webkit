@@ -23,7 +23,7 @@
   <div class="relative w-full">
     {#if aiChatbot.$$.session}
       <Button
-        class="h-10 w-56 rounded-full border border-porcelain bg-white pl-8 text-base hover:border-green-hover"
+        class="t-body-2-regular h-10 w-56 rounded-full border border-porcelain bg-white pl-8 hover:border-green-hover"
         title={aiChatbot.$$.session.title}
         onclick={() => aiChatbot.openWithPrompt()}
       >
@@ -38,7 +38,7 @@
         type="text"
         class="pr-13 h-10 w-56 rounded-full shadow"
         inputClass={cn(
-          'text-base placeholder-casper pr-4 transition-all',
+          't-body-2-regular placeholder-casper pr-4 transition-all',
           focused ? 'pl-4' : 'pl-8',
         )}
         onfocus={() => (focused = true)}

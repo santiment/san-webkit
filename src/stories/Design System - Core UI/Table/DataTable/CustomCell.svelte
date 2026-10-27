@@ -10,7 +10,7 @@
 </script>
 
 <TableCell>
-  <div class="font-bold text-red">
+  <div class="t-body-3-medium text-red">
     {item.volume}
   </div>
 </TableCell>

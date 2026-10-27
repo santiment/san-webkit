@@ -76,7 +76,7 @@
 
 <header class="flex justify-between gap-8">
   {#if popover.title}
-    <h3 class="mb-3 text-lg font-medium">{popover.title}</h3>
+    <h3 class="t-body-1-medium mb-3">{popover.title}</h3>
   {/if}
 
   <Button iconSize="12" size="sm" icon="close" onclick={handleClose.bind(null, false)}></Button>
