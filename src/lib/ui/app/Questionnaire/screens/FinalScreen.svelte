@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
   import Button from '$ui/core/Button/Button.svelte'
@@ -15,10 +14,6 @@
   const { questionnaire } = useQuestionnaireCtx.get()
 
   const showCalendlyDialog = dialogs$.new(CalendlyDialog)
-
-  onMount(() => {
-    trackEvent('form', { action: 'submitted', type: 'questionnaire' })
-  })
 
   function openScheduleDialog() {
     trackEvent('press', { action: 'schedule_call', type: 'questionnaire' })

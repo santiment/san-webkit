@@ -2,6 +2,7 @@ import type { TOnboardingInput } from './types.js'
 
 import { Query } from '$lib/api/executor.js'
 import { createCtx } from '$lib/utils/index.js'
+import { trackEvent } from '$lib/analytics/index.js'
 
 import { mutateUserOnboarding } from './api.js'
 import { STEPS } from './steps.js'
@@ -34,6 +35,9 @@ export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx'
 
       try {
         await mutateUserOnboarding(Query)(answers as TOnboardingInput)
+
+        trackEvent('form', { action: 'submitted', type: 'questionnaire' })
+
         state.screen = 'final'
       } catch (error) {
         console.error(error)
