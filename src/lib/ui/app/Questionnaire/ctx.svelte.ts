@@ -23,7 +23,7 @@ export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx'
 
   const currentStep = $derived(STEPS[state.stepIndex])
   const currentAnswer = $derived(answers[currentStep.field])
-  const isAnswered = $derived(
+  const isStepAnswered = $derived(
     Array.isArray(currentAnswer) ? currentAnswer.length > 0 : !!currentAnswer,
   )
 
@@ -84,8 +84,8 @@ export const useQuestionnaireCtx = createCtx('questionnaire_useQuestionnaireCtx'
       get currentStep$() {
         return currentStep
       },
-      get isAnswered$() {
-        return isAnswered
+      get isStepAnswered$() {
+        return isStepAnswered
       },
 
       totalSteps: STEPS.length,
