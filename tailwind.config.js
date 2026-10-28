@@ -1,9 +1,9 @@
 import plugin from 'tailwindcss/plugin'
 import tailwindAnimate from 'tailwindcss-animate'
 
-import { createColors } from './plugins/tailwind'
+import { createColors, createTypography } from './plugins/tailwind'
 import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
-import { fontFamily, fontSize, fontWeight, typography } from './src/lib/ui/utils/typography'
+import { fontFamily, fontSize, fontWeight } from './src/lib/ui/utils/typography'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
@@ -73,29 +73,7 @@ export default {
   plugins: [
     tailwindAnimate,
     createColors(),
-
-    plugin(function ({ addComponents, theme }) {
-      const fontSizes = theme('fontSize')
-
-      addComponents(
-        Object.fromEntries(
-          Object.entries(typography).map(([className, { size, family, weight }]) => {
-            const [fontSize, lineHeight] = fontSizes[size]
-
-            return [
-              `.${className}`,
-              {
-                fontFamily: theme(`fontFamily.${family}`),
-                fontSize,
-                lineHeight,
-                fontWeight: theme(`fontWeight.${weight}`),
-                letterSpacing: family === 'anek' ? '0.01em' : '0',
-              },
-            ]
-          }),
-        ),
-      )
-    }),
+    createTypography(),
 
     // FIXME: Remove after tailwind upgrate to v4
     // NOTE: Disable hover for devices that don't support it (touch)

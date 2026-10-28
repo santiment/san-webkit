@@ -1,6 +1,7 @@
 import plugin from 'tailwindcss/plugin'
 
 import { Colors } from '../colors.config.js'
+import { typography } from '../src/lib/ui/utils/typography.js'
 
 export function hexToRgb(hex: string) {
   return (hex.slice(1).match(/\w{2}/g) || []).map((value) => parseInt(`0x${value}`))
@@ -49,3 +50,28 @@ export const createColors = plugin.withOptions(
     return { theme: { extend: { colors: resultColors } } }
   },
 )
+
+export function createTypography() {
+  return plugin(({ addComponents, theme }) => {
+    const fontSizes = theme<Record<string, [string, string]>>('fontSize')
+
+    addComponents(
+      Object.fromEntries(
+        Object.entries(typography).map(([className, { size, family, weight }]) => {
+          const [fontSize, lineHeight] = fontSizes[size]
+
+          return [
+            `.${className}`,
+            {
+              fontFamily: theme<string>(`fontFamily.${family}`),
+              fontSize,
+              lineHeight,
+              fontWeight: theme<string>(`fontWeight.${weight}`),
+              letterSpacing: family === 'anek' ? '0.01em' : '0',
+            },
+          ]
+        }),
+      ),
+    )
+  })
+}
