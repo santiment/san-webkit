@@ -86,6 +86,11 @@ html {
   @apply t-body-2-regular;
 }
 
+pre *,
+[role='code'] * {
+  font-family: initial;
+}
+
 body {
   @apply t-body-3-regular;
 
