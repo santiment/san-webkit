@@ -10,23 +10,19 @@
     {/snippet}
 
     {#snippet content()}
-      <section class="max-w-64">
-        This popover opens on hover and its content is aligned with the start of the trigger.
-      </section>
+      <section class="max-w-64">This popover can stay open on another button click</section>
     {/snippet}
   </Popover>
 
   <Button variant="fill">Some Button</Button>
 
-  <Popover openOnHover side="bottom" align="end">
+  <Popover openOnHover side="bottom" align="end" closeOnOutsideClick>
     {#snippet children({ props })}
       <Button variant="border" {...props}>Hover Popover</Button>
     {/snippet}
 
     {#snippet content()}
-      <section class="max-w-64">
-        This popover also opens on hover, with content aligned to the end of the trigger.
-      </section>
+      <section class="max-w-64">This popover should close on click outside of its content</section>
     {/snippet}
   </Popover>
 </main>
