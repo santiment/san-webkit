@@ -4,11 +4,6 @@ settings:
   autoInstallPeers: false
   excludeLinksFromLockfile: false
 
-patchedDependencies:
-  tailwind-variants@0.3.0:
-    hash: 277oyanjyyxcufsnp2uhvrjhjy
-    path: patches/tailwind-variants@0.3.0.patch
-
 dependencies:
   '@amplitude/analytics-browser':
     specifier: ^2.11.2
@@ -50,8 +45,8 @@ dependencies:
     specifier: ^0.3.28
     version: 0.3.28(svelte@5.35.4)
   tailwind-variants:
-    specifier: ^0.3.0
-    version: 0.3.0(patch_hash=277oyanjyyxcufsnp2uhvrjhjy)(tailwindcss@4.3.3)
+    specifier: ^3.3.1
+    version: 3.3.1(tailwind-merge@3.7.0)(tailwindcss@4.3.3)
   tailwindcss-animate:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@4.3.3)
@@ -262,8 +257,8 @@ devDependencies:
     specifier: ^3.3.2
     version: 3.3.2
   tailwind-merge:
-    specifier: ^2.3.0
-    version: 2.5.4
+    specifier: ^3.7.0
+    version: 3.7.0
   tailwindcss:
     specifier: ^4.3.0
     version: 4.3.3
@@ -10317,19 +10312,24 @@ packages:
   /tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
-  /tailwind-merge@2.5.4:
-    resolution: {integrity: sha512-0q8cfZHMu9nuYP/b5Shb7Y7Sh1B7Nnl5GqNr1U+n2p6+mybvRtayrQ+0042Z5byvTA8ihjlP8Odo8/VnHbZu4Q==}
+  /tailwind-merge@3.7.0:
+    resolution: {integrity: sha512-XPPUyAc+cvspz3lHTcR/QgPfW2A0lv/xQNIjX3HGhLR+Nq2lHaLq5MtTesHn8GUr3W3DguT2KT5x3NVgRtYwmA==}
 
-  /tailwind-variants@0.3.0(patch_hash=277oyanjyyxcufsnp2uhvrjhjy)(tailwindcss@4.3.3):
-    resolution: {integrity: sha512-ho2k5kn+LB1fT5XdNS3Clb96zieWxbStE9wNLK7D0AV64kdZMaYzAKo0fWl6fXLPY99ffF9oBJnIj5escEl/8A==}
-    engines: {node: '>=16.x', pnpm: '>=7.x'}
+  /tailwind-variants@3.3.1(tailwind-merge@3.7.0)(tailwindcss@4.3.3):
+    resolution: {integrity: sha512-4pAvwUtM4HKBiRZftncAbpn6V9Hhwoa5Fl7O2u5zbp7Z5Cvu+/o/6+176WY3WCEES209543quG8zFIcXCsc5Jw==}
+    engines: {node: '>=16.9.x', pnpm: '>=7.x'}
     peerDependencies:
+      tailwind-merge: '>=3.0.0'
       tailwindcss: '*'
+    peerDependenciesMeta:
+      tailwind-merge:
+        optional: true
+      tailwindcss:
+        optional: true
     dependencies:
-      tailwind-merge: 2.5.4
+      tailwind-merge: 3.7.0
       tailwindcss: 4.3.3
     dev: false
-    patched: true
 
   /tailwindcss-animate@1.0.7(tailwindcss@4.3.3):
     resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
