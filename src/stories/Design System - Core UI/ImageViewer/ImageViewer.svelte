@@ -16,7 +16,7 @@
     {#snippet children({ mountAction })}
       <div use:mountAction class="columns-3 gap-4 space-y-4">
         {#each IMAGES as image}
-          <img src={image.src} alt={image.alt} class="w-full cursor-zoom-in rounded" />
+          <img src={image.src} alt={image.alt} class="w-full cursor-zoom-in rounded-sm" />
         {/each}
       </div>
     {/snippet}

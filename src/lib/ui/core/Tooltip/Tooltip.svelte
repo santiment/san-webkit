@@ -93,12 +93,12 @@
     class={cn(
       'fly-and-scale-animation animated',
       !noStyles &&
-        'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
+        'z-10 flex rounded-sm border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
       className,
     )}
   >
     {#if type === 'arrow'}
-      <div class="border-l border-t" {...$arrow} use:arrow></div>
+      <div class="border-t border-l" {...$arrow} use:arrow></div>
     {/if}
 
     {@render contentSnippet({ close: () => open.set(false) })}

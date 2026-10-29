@@ -62,10 +62,10 @@
   <div class="flex w-full items-center justify-center gap-[clamp(24px,calc(8vw-56px),88px)]">
     <AuthIllustration />
 
-    <div class="max-w-[406px] flex-shrink-0 md:min-w-full md:max-w-full">
+    <div class="max-w-[406px] shrink-0 md:max-w-full md:min-w-full">
       <Section
         {title}
-        class={cn('text-nowrap text-base', className)}
+        class={cn('text-base text-nowrap', className)}
         titleClass="mb-8"
         {bottomLabel}
         {bottomAction}

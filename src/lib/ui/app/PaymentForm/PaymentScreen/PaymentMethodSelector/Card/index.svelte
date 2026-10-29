@@ -140,7 +140,7 @@
   </LabelInput>
 
   <div id="address-element" class="min-h-[210px]">
-    <div class="gap-4 column">
+    <div class="column gap-4">
       <LabelInput label="Full name" placeholder="First and last name"></LabelInput>
       <LabelInput label="Country or region" placeholder="Country or region"></LabelInput>
       <LabelInput label="Address" placeholder="Street address"></LabelInput>
@@ -149,6 +149,8 @@
 </div>
 
 <style lang="postcss">
+  @reference '#app.css';
+
   :global {
     .StripeElement--focus {
       @apply border-green;
