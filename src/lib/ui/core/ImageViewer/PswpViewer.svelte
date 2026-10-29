@@ -80,6 +80,6 @@
   @reference '#app.css';
 
   :global(.pswp) {
-    --pswp-bg: var(--color-shark);
+    --pswp-bg: var(--shark);
   }
 </style>
