@@ -151,7 +151,7 @@
     if (!interactionsEnabled) return
 
     window.addEventListener('blur', resetChartInteractionMode)
-    return () => window.removeEventListener('blur-sm', resetChartInteractionMode)
+    return () => window.removeEventListener('blur', resetChartInteractionMode)
   })
 
   function _onRangeSelectChange(
