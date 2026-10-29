@@ -1,4 +1,3 @@
-import type { ISeriesApi } from '@santiment-network/chart-next'
 import type {
   TAggregation,
   TInterval,
@@ -7,6 +6,7 @@ import type {
 } from '../api/index.js'
 import type { TMetricUnit } from '$lib/ctx/metrics-registry/api.js'
 
+import { LineStyle, type ISeriesApi } from '@santiment-network/chart-next'
 import { onMount } from 'svelte'
 
 import {
@@ -16,6 +16,7 @@ import {
   type TChartCombinedDistributionMetric,
   type TChartMetric,
   type TChartMetricBase,
+  type TMetricDataStore,
   // type TLabels,
   type TMetricFormula,
   type TMetricSelector,
@@ -81,6 +82,10 @@ type TBaseSeries<GType extends TMetricTypes> = {
     get $$(): {
       color: string
       style: NonNullable<TChartMetric['style']>
+      lineStyle?: LineStyle
+      lastValueVisible: boolean
+      priceLineVisible: boolean
+      crosshairMarkerVisible: boolean
       unit: TChartMetric['unit']
 
       isSelectorLocked: boolean
@@ -114,6 +119,10 @@ type TBaseSeries<GType extends TMetricTypes> = {
     visible?: boolean
     color: string
     style: TMetricStyles
+    lineStyle?: LineStyle
+    lastValueVisible?: boolean
+    priceLineVisible?: boolean
+    crosshairMarkerVisible?: boolean
     unit?: TMetricUnit
 
     scaleId?: string
@@ -146,6 +155,7 @@ export type TTraditionalFinanceSeries = TBaseSeries<TMetricType['TRADITIONAL_FIN
 }
 
 export type TDataStoreSeries = TBaseSeries<TMetricType['DATA_STORE']> & {
+  dataStore: SS<TMetricDataStore>
   get label(): string
 }
 
@@ -186,8 +196,12 @@ export function createSeries(
     unit,
 
     style = 'line',
+    lineStyle,
     color = '#00ff00',
     visible = true,
+    lastValueVisible = true,
+    priceLineVisible = true,
+    crosshairMarkerVisible = true,
 
     scaleId,
     scaleMargins,
@@ -226,6 +240,10 @@ export function createSeries(
   const ui = $state({
     color,
     style,
+    lineStyle,
+    lastValueVisible,
+    priceLineVisible,
+    crosshairMarkerVisible,
     unit,
 
     isSelectorLocked,
@@ -237,6 +255,7 @@ export function createSeries(
   })
 
   const formula = 'formula' in rest && rest.formula ? ss(rest.formula) : undefined
+  const dataStore = 'dataStore' in rest && rest.dataStore ? ss(rest.dataStore) : undefined
 
   const formatters = $derived.by(() => {
     const { unit } = ui
@@ -320,6 +339,7 @@ export function createSeries(
     selector: ss(selector),
 
     formula,
+    dataStore,
 
     ui: {
       get $$() {
@@ -355,8 +375,15 @@ export function createSeries(
 
         // default true -> undefined (omit from API)
         visible: metric.visible.$ && undefined,
+        // default true -> undefined (omit from API)
+        lastValueVisible: metric.ui.$$.lastValueVisible && undefined,
+        // default true -> undefined (omit from API)
+        priceLineVisible: metric.ui.$$.priceLineVisible && undefined,
+        // default true -> undefined (omit from API)
+        crosshairMarkerVisible: metric.ui.$$.crosshairMarkerVisible && undefined,
         color: metric.ui.$$.color,
         style: metric.ui.$$.style,
+        lineStyle: metric.ui.$$.lineStyle,
         unit: metric.ui.$$.unit,
 
         // default random id -> undefined (omit from API)
@@ -377,8 +404,17 @@ export function createSeries(
 
   if (metric.type === MetricType.FORMULAS) {
     delete (metric as any).selector
+    delete (metric as any).dataStore
+
     Object.defineProperty(metric, 'label', {
       get: () => metric.formula.$.name,
+    })
+  } else if (metric.type === MetricType.DATA_STORE) {
+    delete (metric as any).selector
+    delete (metric as any).formula
+
+    Object.defineProperty(metric, 'label', {
+      get: () => metric.dataStore.$.name,
     })
   } else if (metric.type === MetricType.COMBINED_DISTRIBUTION) {
     const distribution: Partial<TCombinedDistributionSeries['distribution']> =
@@ -408,9 +444,12 @@ export function createSeries(
         },
       },
     }
+
+    delete (metric as any).dataStore
     // delete (metric as any).formula
   } else {
     delete (metric as any).formula
+    delete (metric as any).dataStore
   }
 
   if (
@@ -429,6 +468,11 @@ export function createSeries(
 
 // export type TSeries = ReturnType<typeof createSeries>
 
+export const processDataStoreScope = (dataStore: TMetricDataStore) => ({
+  ...dataStore.params,
+  type: dataStore.type,
+})
+
 export const useMetricSeriesCtx = createCtx(
   'webkit_useMetricSeriesCtx',
   (defaultMetrics: TChartMetric[] = [], helpers?: Partial<THelpers>) => {
@@ -445,6 +489,10 @@ export const useMetricSeriesCtx = createCtx(
         selector: 'selector' in item ? $state.snapshot(item.selector.$) : null,
         version: $state.snapshot(item.version.$),
         formula: item.type === MetricType.FORMULAS ? $state.snapshot(item.formula.$) : undefined,
+        dataStore:
+          item.type === MetricType.DATA_STORE
+            ? processDataStoreScope($state.snapshot(item.dataStore.$))
+            : undefined,
       })),
     )
 
@@ -488,8 +536,14 @@ export const useMetricSeriesCtx = createCtx(
           this.delete(index)
         },
 
-        findById(id?: string) {
-          return id && series.find((item) => item.id === id)
+        findById(id: string | undefined) {
+          return id ? series.find((item) => item.id === id) : undefined
+        },
+
+        findByName(name: string | undefined) {
+          return name
+            ? series.find((item) => 'apiMetricName' in item && item.apiMetricName === name)
+            : undefined
         },
       },
     }

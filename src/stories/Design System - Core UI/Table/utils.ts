@@ -1,14 +1,11 @@
+import { randomNum, randomString } from '$lib/utils/random/index.js'
+
 export type Item = {
   id: number
   title: string
   price: number
   volume: number
 }
-
-const randomNum = (min: number, max: number, step: number) =>
-  min + Math.floor((Math.random() * (max - min + 1)) / step) * step
-
-const randomString = () => (Math.random() + 1).toString(36).substring(7)
 
 export function generateItems(count: number) {
   return Array<void>(count)

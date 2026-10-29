@@ -2,6 +2,8 @@ export const Mode = {
   DRAG: 0,
   SHIFT: 1,
   ZOOM: 2,
+
+  NON_INTERACTIVE: 10,
 } as const
 
 export type TMode = (typeof Mode)[keyof typeof Mode]
@@ -18,5 +20,9 @@ export const ModeOptions = {
   [Mode.ZOOM]: {
     handleScroll: { mouseWheel: false, pressedMouseMove: false },
     handleScale: { mouseWheel: true },
+  },
+  [Mode.NON_INTERACTIVE]: {
+    handleScroll: false,
+    handleScale: false,
   },
 }

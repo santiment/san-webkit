@@ -25,4 +25,5 @@
   <Footer appVersion="2.5-3038b5d" />
   <Footer style={blueAccent} appVersion="2.5-3038b5d" />
   <Footer style={orangeAccent} appVersion="2.5-3038b5d" />
+  <Footer withHoldTokensBanner={false} appVersion="2.5-3038b5d" />
 </div>

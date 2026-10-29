@@ -1,6 +1,7 @@
 import type { MaybeSS, SS } from '$lib/utils/state.svelte.js'
 import type { TUUIDv7 } from '$lib/utils/uuid/index.js'
 import type { FIATS, FUNDS, INDICES_AND_SUPPLY, TAssetSlug } from '$lib/ctx/assets/api.js'
+import type { LineStyle } from '@santiment-network/chart-next'
 import type {
   TInterval,
   TMetricData,
@@ -26,6 +27,14 @@ export type TMetricTypes = TMetricType[keyof TMetricType]
 export type TMetricSelector = null | TMetricTargetSelectorInputObject
 
 export type TMetricFormula = { expr: string; name: string; id: TUUIDv7 }
+
+export type TMetricDataStore = {
+  /** References the global data store */
+  id: TUUIDv7
+  name: string
+  type: string
+  params?: Record<string, unknown>
+}
 
 export type TMetric = {
   type: TMetricTypes
@@ -89,8 +98,12 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   data?: TMetricData
   label?: string
   style?: TMetricStyles
+  lineStyle?: LineStyle
   color?: string
   visible?: boolean
+  lastValueVisible?: boolean
+  priceLineVisible?: boolean
+  crosshairMarkerVisible?: boolean
   pane?: number
   unit?: TMetricUnit
 
@@ -138,7 +151,10 @@ export type TChartFormulasMetric = TChartMetricBase<
   TMetricType['FORMULAS'],
   { formula: MaybeSS<TMetricFormula> }
 >
-export type TChartDataStoreMetric = TChartMetricBase<TMetricType['DATA_STORE']>
+export type TChartDataStoreMetric = TChartMetricBase<
+  TMetricType['DATA_STORE'],
+  { dataStore: MaybeSS<TMetricDataStore> }
+>
 
 export type TChartCombinedDistributionMetric = TChartMetricBase<
   TMetricType['COMBINED_DISTRIBUTION'],

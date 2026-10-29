@@ -10,7 +10,7 @@
   import { trackEvent } from '$lib/analytics/index.js'
 
   import { usePaymentFormCtx } from '../../state.js'
-  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
+  import { usePaymentFlowCtx, type TPaymentFlowResult } from '../../flow.js'
 
   let {
     isPaymentInProcess = $bindable(false),
@@ -28,7 +28,7 @@
   const { stripe } = useStripeCtx({ delay: delayStripe })
   const { paymentForm, subscriptionPlan, resultPayment, discount } = usePaymentFormCtx.get()
   const { customer } = useCustomerCtx()
-  const { processPayment } = usePaymentFlow()
+  const { processPayment } = usePaymentFlowCtx.get()
 
   let clientSecret = $derived(paymentForm.$.setupIntentClientSecret)
   let selectedPlan = $derived(subscriptionPlan.$.selected)
@@ -128,7 +128,6 @@
       Controller.lock()
 
       return processPayment({
-        plan: selectedPlan,
         setupIntent,
 
         action: _event.expressPaymentType,

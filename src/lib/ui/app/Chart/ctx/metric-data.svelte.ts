@@ -13,7 +13,7 @@ import {
   type TFetchMetricMessage,
 } from '../metrics-api-worker/types.js'
 import { useChartGlobalParametersCtx } from './global-parameters.svelte.js'
-import { useMetricSeriesCtx, type TSeries } from './series.svelte.js'
+import { processDataStoreScope, useMetricSeriesCtx, type TSeries } from './series.svelte.js'
 import {
   type TMetricTargetSelectorInputObject,
   type TTimeseriesMetricTransformInputObject,
@@ -94,7 +94,8 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     //  return
     //}
 
-    if (metric.type === MetricType.DATA_STORE) {
+    // NOTE: Safe check for legacy CSV imported dataStore metrics
+    if (metric.type === MetricType.DATA_STORE && !metric.dataStore.$?.type) {
       return
     }
 
@@ -129,7 +130,17 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
     }
 
     const recache = metric.recache.wasScheduled$()
-    const payload = { priority, minimalDelay, parameters, recache }
+    const payload = {
+      priority,
+      minimalDelay,
+      parameters,
+      recache,
+      dataStore:
+        metric.type === MetricType.DATA_STORE
+          ? processDataStoreScope(metric.dataStore.$)
+          : undefined,
+    }
+
     const workerRequest =
       'formula' in metric && metric.formula
         ? workerFetchFormulaMetric(

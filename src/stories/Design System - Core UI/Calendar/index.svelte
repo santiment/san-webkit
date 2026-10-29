@@ -23,6 +23,14 @@
     <DatePicker {date} onChange={onChangeDate} />
   </div>
   <div class="flex flex-row items-center gap-2">
+    Different icon:
+    <DatePicker icon="warning" {date} onChange={onChangeDate} />
+  </div>
+  <div class="flex flex-row items-center gap-2">
+    Without icon:
+    <DatePicker icon={null} {date} onChange={onChangeDate} />
+  </div>
+  <div class="flex flex-row items-center gap-2">
     Single date 05/2015 - 07/2020:
     <DatePicker
       date={dateOld}

@@ -11,9 +11,15 @@
     class?: string
     style?: string
     appVersion?: string
+    withHoldTokensBanner?: boolean
   }
 
-  const { class: className = '', style = '', appVersion }: TProps = $props()
+  const {
+    class: className = '',
+    style = '',
+    appVersion,
+    withHoldTokensBanner = true,
+  }: TProps = $props()
 </script>
 
 <footer
@@ -22,7 +28,7 @@
 >
   <div class="mx-auto max-w-[1140px]">
     <div
-      class="flex justify-between pt-[63px] pb-[53px] text-base text-fiord md:flex-wrap md:pt-14 md:pb-10 sm:flex-col"
+      class="flex justify-between pt-[63px] pb-[53px] text-base text-fiord sm:flex-col md:flex-wrap md:pt-14 md:pb-10"
     >
       <div class="column max-w-[124px] md:max-w-full">
         <a href="https://santiment.net/" class="mb-4" aria-label="Santiment Home">
@@ -40,15 +46,17 @@
         {/each}
       </div>
 
-      <div class="min-w-[372px] md:mt-[72px] md:w-full sm:mt-0 sm:min-w-full">
-        <div class="flex flex-1 flex-col gap-x-8 md:flex-row md:items-center sm:flex-col">
-          <div class="mb-6 flex-1 md:mb-0 sm:w-full">
-            <h4 class="mb-4 font-medium">Subscribe to the weekly Digest!</h4>
+      <div class="min-w-[372px] sm:mt-0 sm:min-w-full md:mt-[72px] md:w-full">
+        <div class="flex flex-1 flex-col gap-x-8 sm:flex-col md:flex-row md:items-center">
+          <div class="mb-6 flex-1 sm:w-full md:mb-0">
+            <h4 class="mb-4 font-medium">Subscribe to the monthly Digest!</h4>
 
             <DigestForm class="max-w-[372px] sm:mb-12 sm:w-full sm:max-w-full" label="Subscribe" />
           </div>
 
-          <HoldTokensBanner />
+          {#if withHoldTokensBanner}
+            <HoldTokensBanner />
+          {/if}
         </div>
       </div>
     </div>

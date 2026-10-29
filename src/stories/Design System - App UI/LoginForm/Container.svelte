@@ -6,6 +6,6 @@
   const { Component, ...rest }: { Component: T } & ComponentProps<T> = $props()
 </script>
 
-<main class="flex min-h-[inherit] items-center justify-center">
+<main class="flex min-h-dvh items-center justify-center sm:flex-col sm:items-stretch">
   <Component {...rest} />
 </main>

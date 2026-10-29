@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ComponentProps, Snippet } from 'svelte'
+  import type { TSvgId } from '$ui/core/Svg/index.js'
 
   import { BROWSER } from 'esm-env'
   import { fromDate, getLocalTimeZone } from '@internationalized/date'
@@ -15,6 +16,7 @@
 
   type TCommonProps = {
     as?: ComponentProps<typeof Button>['as']
+    icon?: TSvgId | null
     buttonClass?: string
     rootClass?: string
     calendarClass?: string
@@ -26,6 +28,7 @@
     popoverContentProps?: ComponentProps<typeof Popover>['contentProps']
     popoverIsOpened?: boolean
     withTrigger?: boolean
+    portalTo?: ComponentProps<typeof Popover>['portalTo']
   }
 
   type TSingleProps = {
@@ -44,6 +47,7 @@
 
   let {
     as,
+    icon = 'calendar',
     buttonClass,
     rootClass,
     calendarClass,
@@ -53,6 +57,7 @@
     minDate = new Date(2009, 0, 1),
     timeZone = BROWSER ? getLocalTimeZone() : 'utc',
     popoverIsOpened = $bindable(false),
+    portalTo,
     ...rest
   }: TProps = $props()
 
@@ -81,7 +86,7 @@
         onChange: rest.onChange,
       })}
     variant="border"
-    icon="calendar"
+    icon={icon ?? undefined}
     class={cn('whitespace-nowrap', buttonClass)}
   >
     {@render label()}
@@ -94,6 +99,7 @@
     bind:isOpened={popoverIsOpened}
     contentProps={rest.popoverContentProps}
     children={withTrigger ? triggerSnippet : undefined}
+    {portalTo}
   >
     {#snippet content()}
       {#if isRangeProps(rest)}
@@ -121,7 +127,7 @@
       {...props}
       {as}
       variant="border"
-      icon="calendar"
+      icon={icon ?? undefined}
       class={cn('whitespace-nowrap', buttonClass)}
     >
       {@render label()}

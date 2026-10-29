@@ -79,7 +79,7 @@
         icon="right-arrow"
         iconSize={11}
         iconOnRight
-        disabled={!questionnaire.isAnswered$ || questionnaire.$$.isSubmitting}
+        disabled={!questionnaire.isStepAnswered$ || questionnaire.$$.isSubmitting}
         onclick={next}
       >
         Next

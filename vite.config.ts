@@ -4,7 +4,7 @@ import './scripts/fetch.js'
 import path from 'node:path'
 import { execSync } from 'node:child_process'
 
-import { defineConfig, mergeConfig } from 'vite'
+import { defineConfig, loadEnv, mergeConfig } from 'vite'
 import { sveltekit as _sveltekit } from '@sveltejs/kit/vite'
 
 import {
@@ -18,6 +18,8 @@ import { mkcert } from './scripts/mkcert.js'
 import { BulletshellPlugin } from './src/lib/bulletshell/vite.js'
 import { StaticAssetsListPlugin } from './src/lib/ctx/assets/vite.js'
 import { StaticMetricsRegistryPlugin } from './src/lib/ctx/metrics-registry/vite.js'
+
+Object.assign(process.env, loadEnv(process.env.NODE_ENV || 'development', process.cwd(), ''))
 
 export const IS_DEV_MODE = process.env.NODE_ENV === 'development'
 

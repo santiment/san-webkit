@@ -102,6 +102,7 @@ export type TCurrentUser = {
   websiteUrl: null | string
   privacyPolicyAccepted: boolean
   marketingAccepted: boolean
+  userOnboarding: null | { insertedAt: string }
   firstLogin: boolean
   isModerator: boolean
   featureAccessLevel: 'ALPHA' | 'BETA' | 'RELEASED'
@@ -149,6 +150,7 @@ const queryCurrentUser = ApiQuery(
     websiteUrl
     privacyPolicyAccepted
     marketingAccepted
+    userOnboarding { insertedAt }
     firstLogin
     isModerator
     isEligibleForSanbaseTrial

@@ -46,11 +46,11 @@
 </script>
 
 <article
-  class="min-w-0 flex-1 p-10 pt-8 column"
+  class="column min-w-0 flex-1 p-10 pt-8"
   style:--c-orange={theme.accent}
   style:--c-orange-light-1={theme['accent-light-1']}
 >
-  <h2 class={cn('mb-4 flex max-w-fit gap-1')}>
+  <h2 class={cn('mb-4 flex max-w-fit gap-1 md:flex-wrap')}>
     <span class="rounded-md bg-orange-light-1 px-3 py-1 text-2xl font-medium text-orange">
       {formattedPlan.name}
     </span>
@@ -58,13 +58,13 @@
     {#if isCurrentPlan}
       {#if customer.$.isTrialSubscription}
         <span
-          class="expl-tooltip flex h-10 rounded-md bg-green-light-1 px-3 text-base text-green center"
+          class="expl-tooltip flex h-10 shrink-0 center rounded-md bg-green-light-1 px-3 text-base whitespace-nowrap text-green"
           aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
         >
           Your trial plan
         </span>
       {:else if customer.$.isPro}
-        <span class="flex size-10 rounded-md bg-orange-light-1 fill-orange center">
+        <span class="flex size-10 center rounded-md bg-orange-light-1 fill-orange">
           <Svg id="crown" h="12"></Svg>
         </span>
       {/if}
@@ -77,7 +77,7 @@
     </p>
   {/if}
 
-  <section class="min-h-[156px] column sm:min-h-0">
+  <section class="column min-h-[156px] sm:min-h-0">
     <h3 class="mb-3 text-4xl font-semibold">
       {#if formattedPlan.isCustom}
         Get a quote
@@ -140,7 +140,7 @@
 
   {#if formattedPlan.details}
     <ul
-      class="mt-10 gap-5 fill-orange text-rhino column sm:mt-8"
+      class="mt-10 column gap-5 fill-orange text-rhino sm:mt-8"
       style:--c-orange={theme.checkmark}
     >
       {#each formattedPlan.details.features as feature}

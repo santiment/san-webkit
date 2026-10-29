@@ -13,6 +13,6 @@
   const { class: className, children, sticky = false, ...props }: TProps = $props()
 </script>
 
-<thead class={cn('', sticky && 'sticky top-0', className)} {...props}>
+<thead class={cn(sticky && 'sticky top-0', className)} {...props}>
   {@render children()}
 </thead>

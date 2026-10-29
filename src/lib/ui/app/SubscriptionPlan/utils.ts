@@ -1,12 +1,16 @@
 import type { TSubscriptionPlan } from './types.js'
+import type { TProductsWithPlans } from './api.js'
 
 import {
   BUSINESS_PLANS,
+  CONSUMER_PLANS,
   checkIsTrialEligiblePlan,
+  convertSubscriptionPlan,
   getSubscriptionPlanKey,
   Product,
   SubscriptionPlan,
   SubscriptionPlanDetails,
+  type TPlan,
 } from './plans.js'
 
 export type TLooseProduct = {
@@ -92,3 +96,27 @@ export const checkIsAlternativeBillingPlan = (
   targetPlan: TSubscriptionPlan,
 ) =>
   userPlan ? userPlan.name === targetPlan.name && userPlan.interval !== targetPlan.interval : false
+
+export function getPlansApiLimitsMap(products: TProductsWithPlans) {
+  const limits: Partial<Record<TPlan, number>> = {}
+
+  products.forEach(({ id, plans }) => {
+    const isSanbase = checkIsSanbaseProduct({ id })
+    const isSanApi = checkIsSanApiProduct({ id })
+    if (!isSanbase && !isSanApi) return
+
+    plans.forEach(({ name, apiCallLimits }) => {
+      const isBusinessBasicPlan = BUSINESS_PLANS.has(name)
+      const isConsumerBasicPlan = CONSUMER_PLANS.has(name)
+      if (!isConsumerBasicPlan && !isBusinessBasicPlan) return
+      if (isBusinessBasicPlan !== isSanApi || isConsumerBasicPlan !== isSanbase) return
+
+      const plan = convertSubscriptionPlan(name)
+      if (!plan) return
+
+      limits[plan] = apiCallLimits?.month
+    })
+  })
+
+  return limits
+}

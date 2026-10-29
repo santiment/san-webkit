@@ -9,6 +9,6 @@
 
 {#if metric.version.$}
   <Chip explanation="Metric version">
-    v:{metric.version.$}
+    {metric.version.$}
   </Chip>
 {/if}

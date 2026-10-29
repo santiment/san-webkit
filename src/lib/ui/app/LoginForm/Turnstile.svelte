@@ -12,7 +12,10 @@
   }
 
   export function reset() {
-    if (widgetId) turnstile?.reset(widgetId)
+    if (!widgetId) return
+
+    turnstile?.reset(widgetId)
+    controller = controlledPromisePolyfill<string>()
   }
 
   onMount(() => {
@@ -37,9 +40,7 @@
         },
         'expired-callback': () => {
           controller.reject('expired-callback')
-          turnstile.reset()
-
-          controller = controlledPromisePolyfill<string>()
+          reset()
         },
       })
     }

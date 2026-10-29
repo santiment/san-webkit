@@ -27,7 +27,7 @@
 
 <Layout class={className} mapItems={(assets) => assets} {hasSearch} {hasTabs}>
   {#snippet children({ assets })}
-    <VirtualList class="pt-4 md:pt-6" itemHeight={36} data={assets} getKey={({ slug }) => slug}>
+    <VirtualList class="pt-4 sm:pt-6" itemHeight={36} data={assets} getKey={({ slug }) => slug}>
       {#snippet children(item)}
         <AssetItem
           class={itemClass}

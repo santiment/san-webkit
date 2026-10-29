@@ -53,10 +53,10 @@
   }
 </script>
 
-<section class={cn('lg:px-5', className)}>
+<section class={cn('md:px-5', className)}>
   <h1 class="mb-14 max-w-4xl text-start text-3xl font-medium sm:text-center">
-    Power your trading decisions with Santiment: tailored crypto analytics for Investors, Traders,
-    and Researchers
+    Power your trading decisions with Santiment: tailored crypto analytics for investors, traders,
+    and researchers
   </h1>
 
   <div

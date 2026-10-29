@@ -1,11 +1,8 @@
 <script lang="ts">
-  import { trackAuth } from '$lib/analytics/events/auth.js'
-  import { Query } from '$lib/api/executor.js'
-  import { mutateEmailLogin } from '$lib/flow/login/index.js'
   import Button from '$ui/core/Button/Button.svelte'
   import Input from '$ui/core/Input/index.js'
-  import { notification } from '$ui/core/Notifications/index.js'
 
+  import { useEmailLogin } from './email.svelte.js'
   import Turnstile from './Turnstile.svelte'
 
   type TProps = {
@@ -16,35 +13,21 @@
 
   const { from, isSignUp = false, onSuccess }: TProps = $props()
 
+  const { loading, loginEmail } = useEmailLogin()
+
   let turnstileRef: Turnstile
-  let loading = $state(false)
 
   async function onsubmit(event: SubmitEvent) {
     event.preventDefault()
 
     const target = event.currentTarget as HTMLFormElement
-
     const email: string = target.email.value
-    const redirectUrl = new URL(from || '/', window.location.origin)
 
-    loading = true
+    const success = await loginEmail({ email, isSignUp, from, turnstileRef })
 
-    const turnstileToken = await turnstileRef.getToken().catch(() => null)
-    if (!turnstileToken) {
-      return notification.error('Invalid turnstile token')
+    if (success) {
+      onSuccess(email)
     }
-
-    mutateEmailLogin(Query)({ email, token: turnstileToken, successRedirectUrl: redirectUrl.href })
-      .then((success) => {
-        if (success) onSuccess(email)
-      })
-      .catch(() => {
-        notification.error('Cannot login. Try again later.')
-        turnstileRef.reset()
-      })
-      .finally(() => (loading = false))
-
-    trackAuth('email', isSignUp)
   }
 </script>
 
@@ -57,11 +40,17 @@
     icon="envelope"
     name="email"
     class="text-base font-normal text-black placeholder-casper [&>svg]:left-4"
-    inputClass="py-2 pl-10"
+    inputClass="py-2 pl-10 sm:h-12"
     iconSize="16"
   />
 
-  <Button variant="fill" size="lg" class="mt-4 row w-full justify-center" type="submit" {loading}>
-    {isSignUp ? 'Create account' : 'Log in'}
+  <Button
+    variant="fill"
+    size="lg"
+    class="mt-4 row w-full justify-center sm:h-12"
+    type="submit"
+    loading={loading.$}
+  >
+    {isSignUp ? 'Sign up' : 'Log in'}
   </Button>
 </form>

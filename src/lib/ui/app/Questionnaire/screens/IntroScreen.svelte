@@ -3,10 +3,13 @@
 
   import Button from '$ui/core/Button/Button.svelte'
   import { trackEvent } from '$lib/analytics/index.js'
-  import Svg from '$ui/core/Svg/index.js'
+  import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 
+  import chestDay from '../assets/chest-day.svg'
+  import chestNight from '../assets/chest-night.svg'
   import { useQuestionnaireCtx } from '../ctx.svelte.js'
 
+  const { ui } = useUiCtx()
   const { questionnaire } = useQuestionnaireCtx.get()
 
   function start() {
@@ -24,7 +27,13 @@
   in:fade={{ duration: 200 }}
   class="flex w-full max-w-[480px] flex-col items-center justify-center rounded-lg bg-athens px-8 py-12 text-center sm:px-4"
 >
-  <Svg illus id="chest" w={194} h={177} class="mb-4" />
+  <img
+    src={ui.$$.isNightMode ? chestNight : chestDay}
+    alt=""
+    width="194"
+    height="177"
+    class="mb-4"
+  />
 
   <div class="mb-8 text-rhino">
     <h1 class="mb-3 text-lg-3 font-medium">Take survey, get a free call 🎯</h1>

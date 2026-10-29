@@ -31,7 +31,7 @@
     children,
   }: TProps = $props()
 
-  const { filter, onKeyUp, oninput, onkeyup, clear } = useSearchFlow<TAsset>({
+  const { filter, oninput, onkeyup, clear } = useSearchFlow<TAsset>({
     getCompareValues: ({ slug, ticker, name }) => [slug, ticker, name],
   })
 
@@ -68,11 +68,11 @@
 </script>
 
 <section class={cn('flex h-full flex-1 flex-col', className)}>
-  <header class="flex flex-col gap-3 px-2 md:p-0">
+  <header class="flex flex-col gap-3 px-2 sm:p-0">
     {#if hasSearch}
       <Input
         class="bg-inherit"
-        inputClass="md:py-2.5"
+        inputClass="sm:py-2.5"
         icon="search"
         placeholder="Search project"
         {oninput}

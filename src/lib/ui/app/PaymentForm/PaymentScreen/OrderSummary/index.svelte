@@ -10,7 +10,7 @@
   import Explanation from './Explanation.svelte'
   import StripePaymentButton from './StripePaymentButton.svelte'
   import { usePaymentFormCtx } from '../../state.js'
-  import { usePaymentFlow, type TPaymentFlowResult } from '../../flow.js'
+  import { usePaymentFlowCtx, type TPaymentFlowResult } from '../../flow.js'
   import ConnectMetamask from './ConnectMetamask.svelte'
 
   let {
@@ -25,7 +25,7 @@
   const { customer, currentUser } = useCustomerCtx()
   const { paymentForm, billingPeriod, subscriptionPlan, discount, resultPayment } =
     usePaymentFormCtx()
-  const { startCardPaymentFlow } = usePaymentFlow()
+  const { startCardPaymentFlow } = usePaymentFlowCtx.get()
 
   const delayStripe = useDelayFlow(400)
   let isPaymentInProcess = $state(false)
@@ -78,9 +78,9 @@
 </script>
 
 <div
-  class="min-w-[400px] max-w-[480px] gap-4 self-start column md:mt-10 md:min-w-0 md:max-w-full md:gap-2 md:*:-mx-5 md:*:rounded-none"
+  class="column max-w-[480px] min-w-[400px] gap-4 self-start md:mt-10 md:max-w-full md:min-w-0 md:gap-2 md:*:-mx-5 md:*:rounded-none"
 >
-  <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
+  <section class="column gap-8 rounded-lg bg-athens px-8 py-6">
     <h2 class="text-lg font-semibold text-rhino">
       <div class="flex justify-between">
         {#if formattedPlan}
@@ -102,7 +102,7 @@
       <Discount></Discount>
     {/if}
 
-    <div class="mt-4 gap-4 column">
+    <div class="mt-4 column gap-4">
       {#if isConsumerPlan && discount.$}
         <div class="flex justify-between border-b pb-3 text-base font-medium text-waterloo">
           {discount.$.description}
@@ -119,7 +119,7 @@
         </h4>
       {/if}
 
-      <h3 class="justify-between text-lg font-medium row">
+      <h3 class="row justify-between text-lg font-medium">
         Today you pay <span>
           {#if isEligibleForSanbaseTrial}
             $0
@@ -146,7 +146,7 @@
       {/if}
     </div>
 
-    <div class="gap-3 column">
+    <div class="column gap-3">
       {#if isCardPayment === false}
         {#if isEligibleForSanbaseTrial || isWalletCannected}
           <Button
@@ -197,7 +197,7 @@
   </section>
 
   {#if isCardPayment || isAnnualBilling}
-    <section class="gap-6 rounded-lg bg-athens px-8 py-6 text-rhino column md:-mb-10">
+    <section class="column gap-6 rounded-lg bg-athens px-8 py-6 text-rhino md:-mb-10">
       <Explanation price={planPrice}></Explanation>
     </section>
   {/if}

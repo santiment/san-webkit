@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/svelte'
 import component from './index.svelte'
 import { MetricType } from '$lib/ctx/metrics-registry/types/index.js'
 import { zodGranularityRulesSchema } from '$lib/ctx/metrics-registry/settings-schema.js'
+import { LineStyle } from '@santiment-network/chart-next'
 
 const meta = {
   component,
@@ -526,6 +527,62 @@ export const MetricsRegistryCustomGranularityRules: Story = {
   },
 }
 
+export const LineValueIndicators: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Default Line (btc)',
+        scaleId: 'right-price_usd',
+        lastValueVisible: false,
+        priceLineVisible: false,
+      },
+      {
+        apiMetricName: 'sentiment_volume_consumed_total',
+        label: 'Dotted Line (volume consumed)',
+        scaleId: 'right-sentiment_volume_consumed_total',
+        lastValueVisible: false,
+        priceLineVisible: false,
+      },
+      {
+        apiMetricName: 'price_eth',
+        label: 'Dashed Area (eth)',
+        scaleId: 'right-price_eth',
+        lastValueVisible: true,
+        priceLineVisible: false,
+      },
+    ],
+  },
+}
+
+export const CrosshairMarkerVisibility: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Marker visible (default)',
+        style: 'line',
+        scaleId: 'right-price-usd',
+      },
+      {
+        apiMetricName: 'price_eth',
+        label: 'Marker hidden',
+        style: 'line',
+        scaleId: 'right-price-eth',
+        crosshairMarkerVisible: false,
+      },
+    ],
+  },
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'Hover the chart to compare the default line marker with a line configured using `crosshairMarkerVisible: false`.',
+      },
+    },
+  },
+}
+
 export const UnderMaintenanceMetric: Story = {
   args: {
     defaultMetrics: [
@@ -536,6 +593,30 @@ export const UnderMaintenanceMetric: Story = {
         meta: {
           status: 'UNDER_MAINTENANCE',
         },
+      },
+    ],
+  },
+}
+
+export const LineStyleMetrics: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'price_usd',
+        label: 'Default Line (btc)',
+        style: 'line',
+      },
+      {
+        apiMetricName: 'sentiment_volume_consumed_total',
+        label: 'Dotted Line (volume consumed)',
+        style: 'line',
+        lineStyle: LineStyle.Dotted,
+      },
+      {
+        apiMetricName: 'price_eth',
+        label: 'Dashed Area (eth)',
+        style: 'area',
+        lineStyle: LineStyle.Dashed,
       },
     ],
   },
