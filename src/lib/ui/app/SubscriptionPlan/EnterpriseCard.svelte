@@ -2,9 +2,10 @@
   import type { TPlanBillingGroup } from './api.js'
 
   import Svg from '$ui/core/Svg/index.js'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.js'
 
   import PlanButton from './PlanButton.svelte'
-  import { getFormattedPlan } from './utils.js'
+  import { checkIsCurrentPlan, getFormattedPlan } from './utils.js'
 
   type TProps = {
     source?: string
@@ -13,8 +14,11 @@
 
   let { source: _source = '', billingGroup }: TProps = $props()
 
+  const { customer } = useCustomerCtx()
+
   const formattedPlan = $derived(getFormattedPlan(billingGroup))
   const source = $derived(_source ? _source + '_plan_card' : 'plan_card')
+  const isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, formattedPlan.primary.plan))
 </script>
 
 <article
@@ -23,8 +27,16 @@
   <Svg illus id="business-whale" w={860} h={312} class="absolute right-0 top-0 sm:hidden" />
 
   <div class="relative w-[400px] items-start gap-6 column sm:w-auto">
-    <h2 class="rounded-md bg-white px-3 py-1 text-2xl font-medium text-blue">
-      {formattedPlan.name}
+    <h2 class="flex max-w-fit gap-1">
+      <span class="rounded-md bg-white px-3 py-1 text-2xl font-medium text-blue">
+        {formattedPlan.name}
+      </span>
+
+      {#if isCurrentPlan}
+        <span class="flex size-10 rounded-md bg-white fill-blue center">
+          <Svg id="crown" h="12"></Svg>
+        </span>
+      {/if}
     </h2>
 
     <div class="gap-3 column">
@@ -35,6 +47,6 @@
       {/if}
     </div>
 
-    <PlanButton {source} plan={formattedPlan.intervals[0].plan}></PlanButton>
+    <PlanButton {source} plan={formattedPlan.primary.plan}></PlanButton>
   </div>
 </article>
