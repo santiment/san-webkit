@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TSubscriptionPlan } from '../types.js'
+  import type { TPlanBillingGroup } from '../api.js'
 
   import { trackEvent } from '$lib/analytics/index.js'
   import Slides from '$ui/core/Slides/index.js'
@@ -12,59 +12,70 @@
   } from './breakdown.js'
   import Table from './Table.svelte'
   import Plan from './Plan.svelte'
+  import { getFormattedPlan } from '../utils.js'
+
+  type TBillingGroup = TPlanBillingGroup[string]
+
+  type TProps = {
+    source?: string
+    class?: string
+    billingGroupPlans: TBillingGroup[]
+    isConsumerPlans?: boolean
+  }
 
   const {
     source = '',
     class: className,
-    plans,
+    billingGroupPlans,
     isConsumerPlans = true,
-  }: {
-    source?: string
-    class?: string
-    plans: TSubscriptionPlan[]
-    isConsumerPlans?: boolean
-  } = $props()
+  }: TProps = $props()
 
-  let active = $derived(plans[0])
+  let active = $derived(billingGroupPlans[0])
 
-  const activePlan = {
+  const activeBillingGroup = {
     get $() {
       return active
     },
 
-    set $(value: TSubscriptionPlan) {
+    set $(value: TBillingGroup) {
       active = value
     },
   }
 
   const { device } = useDeviceCtx()
   const isPhone = $derived(device.$.isPhone)
-  const plansFeatures = $derived(getPlanFeatures(plans, activePlan.$, isPhone))
+  const plansFeatures = $derived(
+    getBillingGroupFeatures(billingGroupPlans, activeBillingGroup.$, isPhone),
+  )
 
-  function getPlanFeatures(
-    plans: TSubscriptionPlan[],
-    activePlan: TSubscriptionPlan,
+  function getBillingGroupFeatures(
+    billingGroupPlans: TBillingGroup[],
+    activeBillingGroup: TBillingGroup,
     isPhone: boolean,
   ) {
     if (!isPhone) {
-      return plans
-        .map(({ name }) => SubscriptionPlanBreakdown[name])
+      return billingGroupPlans
+        .map((billingGroup) => SubscriptionPlanBreakdown[getFormattedPlan(billingGroup).key])
         .filter((f): f is Exclude<typeof f, undefined> => Boolean(f))
     }
 
-    const activePlanBreakdown = SubscriptionPlanBreakdown[activePlan?.name]
+    if (!activeBillingGroup) return []
+
+    const activePlanBreakdown = SubscriptionPlanBreakdown[getFormattedPlan(activeBillingGroup).key]
     return activePlanBreakdown ? [activePlanBreakdown] : []
   }
 
-  function onSlideChange(plan: TSubscriptionPlan, i: number) {
-    activePlan.$ = plan
+  function onSlideChange(billingGroup: TBillingGroup, i: number) {
+    activeBillingGroup.$ = billingGroup
+
+    const plan = getFormattedPlan(billingGroup).primary.plan
 
     trackEvent('slides', {
       slide: i,
       type: 'plans_slides',
-      plan: plan?.name,
-      plan_id: plan?.id,
-      billing: plan?.interval,
+      plan: plan.name,
+      plan_id: plan.id,
+      billing: plan.interval,
       source,
     })
   }
@@ -84,17 +95,17 @@
     >
       <div class="tr bg-white">
         {#if isPhone}
-          <Slides items={plans} onChange={onSlideChange}>
-            {#snippet item(plan)}
-              <Plan {plan} class="px-4"></Plan>
+          <Slides items={billingGroupPlans} onChange={onSlideChange}>
+            {#snippet item(billingGroup)}
+              <Plan {billingGroup} class="px-4"></Plan>
             {/snippet}
           </Slides>
         {:else}
           <div class="td-h"></div>
 
-          {#each plans as plan}
+          {#each billingGroupPlans as billingGroup}
             <div class="td">
-              <Plan {source} {plan}></Plan>
+              <Plan {source} {billingGroup}></Plan>
             </div>
           {/each}
         {/if}

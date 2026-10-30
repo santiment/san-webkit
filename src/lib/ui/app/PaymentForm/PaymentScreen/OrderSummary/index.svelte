@@ -5,6 +5,7 @@
   import { useDelayFlow } from '$lib/ctx/stripe/index.js'
   import { getDialogControllerCtx } from '$ui/core/Dialog/dialogs.js'
   import { onSupportClick } from '$lib/utils/support.js'
+  import { getPlanInterval } from '$ui/app/SubscriptionPlan/utils.js'
 
   import Discount from './Discount.svelte'
   import Explanation from './Explanation.svelte'
@@ -31,7 +32,7 @@
   let isPaymentInProcess = $state(false)
 
   let formattedPlan = $derived(subscriptionPlan.$.formatted)
-  let planPrice = $derived(formattedPlan?.price[billingPeriod.$])
+  let planPrice = $derived(getPlanInterval(formattedPlan, billingPeriod.$)?.price)
   let isConsumerPlan = $derived(!formattedPlan?.isBusiness)
 
   let isEligibleForSanbaseTrial = $derived(
