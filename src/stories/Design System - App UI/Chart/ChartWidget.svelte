@@ -133,7 +133,7 @@
       <!-- svelte-ignore a11y_click_events_have_key_events -->
       <!-- svelte-ignore a11y_no_static_element_interactions -->
       <div
-        class="rounded border p-1"
+        class="rounded-sm border p-1"
         style="border-color:{metric.ui.$$.color}"
         onmouseenter={() => onMetricEnter(metric)}
         onmouseleave={onMetricLeave}

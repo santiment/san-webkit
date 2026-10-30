@@ -25,5 +25,5 @@
 {#if viewportPriorityCtx?.checkIsInViewport$()}
   <Chart bind:mode {...props}></Chart>
 {:else}
-  <div class={cn('relative z-[1] column [&>div]:!overflow-visible', props.class)}></div>
+  <div class={cn('relative z-1 column [&>div]:overflow-visible!', props.class)}></div>
 {/if}

@@ -47,7 +47,7 @@
   <Button
     variant="fill"
     size="lg"
-    class="mt-4 w-full justify-center row sm:h-12"
+    class="mt-4 row w-full justify-center sm:h-12"
     type="submit"
     loading={loading.$}
   >

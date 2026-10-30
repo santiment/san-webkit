@@ -18,6 +18,6 @@
   })
 </script>
 
-<main class="gap-[120px] py-16 column sm:gap-[104px]">
+<main class="column gap-[120px] py-16 sm:gap-[104px]">
   <PricingSection {...props}></PricingSection>
 </main>

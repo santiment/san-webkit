@@ -117,10 +117,7 @@ export type TValidateFormulaMessage = TMessageRequestResponse<
 //
 
 export type TMessages =
-  | TCancelRequestMessage
-  | TFetchMetricMessage
-  | TFetchFormulaMetricMessage
-  | TValidateFormulaMessage
+  TCancelRequestMessage | TFetchMetricMessage | TFetchFormulaMetricMessage | TValidateFormulaMessage
 
 //
 

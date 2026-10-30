@@ -48,7 +48,7 @@
     <section class="mb-5 text-left">
       <h4 class="mb-4 font-medium">Help us understand why*</h4>
 
-      <div class="gap-3 whitespace-nowrap column">
+      <div class="column gap-3 whitespace-nowrap">
         {#each REASONS as item}
           <Button as="label" class="gap-2 text-fiord">
             <Checkbox isActive={reasons.has(item)} onCheckedChange={() => toggleReason(item)}
@@ -66,13 +66,13 @@
         cols="30"
         rows="3"
         placeholder="Tell us how we can make Santiment better for you in the future"
-        class="min-h-[72px] w-full rounded border bg-white px-2 py-1.5 outline-none hover:border-green focus:border-green"
+        class="min-h-[72px] w-full rounded-sm border bg-white px-2 py-1.5 outline-hidden hover:border-green focus:border-green"
       ></textarea>
     </section>
   </Layout>
 
   {#if device.$.isDesktop}
-    <section class="ml-14 flex border-l pl-[106px] pr-[50px] center">
+    <section class="ml-14 flex center border-l pr-[50px] pl-[106px]">
       <Svg id="sad-cat" illus w="296" />
     </section>
   {/if}

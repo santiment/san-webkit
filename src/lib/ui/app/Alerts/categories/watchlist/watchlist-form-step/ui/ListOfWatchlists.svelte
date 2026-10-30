@@ -58,7 +58,7 @@
         {disabled}
         explanation={disabled ? 'Alert for this screener already created' : undefined}
         class={cn(
-          'group flex-col items-start gap-0 rounded border bg-white px-3 py-2 hover:border-green hover:text-green',
+          'group flex-col items-start gap-0 rounded-sm border bg-white px-3 py-2 hover:border-green hover:text-green',
           isActive && 'border-green',
           disabled && 'bg-athens text-mystic hover:border-porcelain hover:text-mystic',
         )}

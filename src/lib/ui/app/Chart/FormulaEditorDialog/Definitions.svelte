@@ -37,12 +37,12 @@
 </script>
 
 <section class="relative p-4">
-  <h3 class="mb-1.5 h-8 items-center gap-2 fill-waterloo px-2 font-medium text-fiord row">
+  <h3 class="mb-1.5 row h-8 items-center gap-2 fill-waterloo px-2 font-medium text-fiord">
     <Svg id={icon} w="12"></Svg>
     {title}
   </h3>
 
-  <section class="definitions relative pl-6 column">
+  <section class="definitions relative column pl-6">
     {#each items as item, i}
       {@const index = indexOffset + i}
 
@@ -51,7 +51,7 @@
         iconSize="14"
         class={cn(
           'scroll-m-4 px-2 hover:bg-white',
-          hoveredDefinitionIndex.$ === index && 'active-definition !bg-athens',
+          hoveredDefinitionIndex.$ === index && 'active-definition bg-athens!',
         )}
         onmouseenter={() => (hoveredDefinitionIndex.$ = index)}
         onclick={() => onItemClick(item)}
