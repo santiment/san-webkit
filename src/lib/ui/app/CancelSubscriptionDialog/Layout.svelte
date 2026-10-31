@@ -12,7 +12,7 @@
 </script>
 
 <section class="flex-1 text-center">
-  <h2 class="mb-6 text-2xl font-medium">{title}</h2>
+  <h2 class="t-h4-medium mb-6">{title}</h2>
 
   <section class="mb-8 rounded bg-athens px-8 py-6">
     {@render children()}
@@ -22,7 +22,7 @@
     <Button
       variant="border"
       size="lg"
-      class="border-green text-sm text-green center hover:border-green-hover hover:text-green-hover"
+      class="t-body-3-regular border-green text-green center hover:border-green-hover hover:text-green-hover"
       onclick={onContinueClick}
       {loading}
     >
@@ -32,7 +32,7 @@
     <Button
       variant="border"
       size="lg"
-      class="text-sm center"
+      class="t-body-3-regular center"
       href="mailto:support@santiment.net"
       data-type="contact_customer_service"
       data-source="cancel_subscription_dialog"

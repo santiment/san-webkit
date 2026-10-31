@@ -36,10 +36,10 @@
 
 <div in:fade={{ duration: 200 }} class="w-full max-w-[480px]">
   <div class="mb-4 rounded-xl bg-athens px-16 py-12 md:px-8">
-    <h1 class="text-lg-3 font-medium text-rhino">{step.title}</h1>
+    <h1 class="t-h5-medium text-rhino">{step.title}</h1>
 
     {#if step.description}
-      <p class="mt-2 text-base text-fiord">{step.description}</p>
+      <p class="t-body-2-regular mt-2 text-fiord">{step.description}</p>
     {/if}
 
     {#if step.type === 'multi'}
@@ -50,9 +50,9 @@
   </div>
 
   <footer class="flex items-center justify-between gap-y-5 sm:flex-col-reverse">
-    <div class="flex items-center gap-4 text-sm text-waterloo">
+    <div class="t-body-3-regular flex items-center gap-4 text-waterloo">
       <span class="text-rhino">
-        <span class="font-medium">{questionnaire.$$.stepIndex + 1}</span>
+        <span class="t-body-3-medium">{questionnaire.$$.stepIndex + 1}</span>
         /<span class="text-waterloo">{questionnaire.totalSteps}</span>
       </span>
 
@@ -105,11 +105,11 @@
             isActive={multiAnswer.includes(option.value)}
             onCheckedChange={() => questionnaire.toggleMultiOption(option.value)}
           />
-          <span class="text-base text-rhino">{option.label}</span>
+          <span class="t-body-2-regular text-rhino">{option.label}</span>
         </label>
       </li>
     {/each}
   </ul>
 
-  <p class="mt-8 text-sm text-fiord">* Select multiple answers</p>
+  <p class="t-body-3-regular mt-8 text-fiord">* Select multiple answers</p>
 {/snippet}

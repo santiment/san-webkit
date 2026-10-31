@@ -1,5 +1,5 @@
 *:not(pre *, [role='code'] *) {
-  font-family: 'Proxima Nova';
+  font-family: 'Inter', sans-serif;
 }
 
 /* TODO(vlad.k): Remove after full migration from legacy webkit

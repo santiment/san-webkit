@@ -40,7 +40,7 @@
 
 <Dialog class="flex h-full w-full max-w-[500px] flex-col">
   <header class="flex items-center justify-between border-b border-b-porcelain px-5 py-3">
-    <h2 class="text-base text-fiord">Schedule a call</h2>
+    <h2 class="t-body-2-regular text-fiord">Schedule a call</h2>
     <Button
       icon="close"
       iconSize="12"

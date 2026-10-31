@@ -35,9 +35,7 @@
 </script>
 
 <Dialog class={cn('h-auto', className)}>
-  <h2
-    class="flex items-center justify-between fill-waterloo px-5 py-3 text-base font-medium text-fiord"
-  >
+  <h2 class="t-body-2-medium flex items-center justify-between fill-waterloo px-5 py-3 text-fiord">
     Choose a date
 
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />

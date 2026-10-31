@@ -62,7 +62,7 @@
 </script>
 
 <section id="comparison" class={className}>
-  <h2 class="mb-16 text-center text-3xl font-medium sm:hidden">Detailed breakdown of plans</h2>
+  <h2 class="t-h3-medium mb-16 text-center sm:hidden">Detailed breakdown of plans</h2>
 
   <section
     class="flex overflow-clip rounded border sm:rounded-none sm:border-x-0"

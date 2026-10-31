@@ -18,7 +18,7 @@
   {onclick}
   aria-label={explanation}
   class={cn(
-    'expl-tooltip ml-1 rounded-md bg-athens px-1.5 py-0.5 text-xs text-waterloo',
+    'expl-tooltip t-caption-1-regular ml-1 rounded-md bg-athens px-1.5 py-0.5 text-waterloo',
     className,
   )}
   style="--expl-align-x:-50%"

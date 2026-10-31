@@ -35,18 +35,18 @@
 {/snippet}
 
 <div class="flex flex-col gap-2">
-  <h4 class="text-base font-bold">{title}</h4>
+  <h4 class="t-body-2-semibold">{title}</h4>
   <div class="flex gap-8">
     <div class="flex flex-col gap-2">
-      <h6 class="text-xs text-waterloo">Default</h6>
+      <h6 class="t-caption-1-regular text-waterloo">Default</h6>
       {@render buttons(buttonProps)}
     </div>
     <div class="flex flex-col gap-2">
-      <h6 class="text-xs text-waterloo">Loading</h6>
+      <h6 class="t-caption-1-regular text-waterloo">Loading</h6>
       {@render buttons({ ...buttonProps, loading: true })}
     </div>
     <div class="flex flex-col gap-2">
-      <h6 class="text-xs text-waterloo">Disabled</h6>
+      <h6 class="t-caption-1-regular text-waterloo">Disabled</h6>
       {@render buttons({ ...buttonProps, disabled: true })}
     </div>
   </div>

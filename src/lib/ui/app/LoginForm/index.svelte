@@ -65,7 +65,7 @@
     <div class="max-w-[406px] flex-shrink-0 md:min-w-full md:max-w-full">
       <Section
         {title}
-        class={cn('text-nowrap text-base', className)}
+        class={cn('t-body-2-regular text-nowrap', className)}
         titleClass="mb-8"
         {bottomLabel}
         {bottomAction}

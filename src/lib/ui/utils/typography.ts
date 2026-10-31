@@ -26,7 +26,7 @@ export const fontWeight = {
 } as const
 
 export const fontFamily = {
-  sans: ['Proxima Nova', 'sans-serif'],
+  sans: ['Inter', 'sans-serif'],
   inter: ['Inter', 'sans-serif'],
   anek: ['Anek Latin', 'sans-serif'],
 }

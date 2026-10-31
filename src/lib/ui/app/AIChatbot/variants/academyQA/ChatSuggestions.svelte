@@ -13,7 +13,7 @@
 </script>
 
 <div class={cn('py-4', className)}>
-  <h4 class="mb-4 text-base font-semibold text-rhino">{title}</h4>
+  <h4 class="t-body-2-semibold mb-4 text-rhino">{title}</h4>
 
   <ul class="sm:![&>li]:mb-2.5 [&>li]:mb-3 last:[&>li]:mb-0">
     {#each suggestions as suggestion}

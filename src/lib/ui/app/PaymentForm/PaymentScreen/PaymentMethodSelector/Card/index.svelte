@@ -6,8 +6,7 @@
   import { useDeviceCtx } from '$lib/ctx/device/index.svelte.js'
   import { useStripeCtx } from '$lib/ctx/stripe/index.js'
   import { getBrowserCssVariable } from '$ui/utils/index.js'
-  import fontRegularUrl from '$lib/fonts/ProximaNova-Regular.woff2'
-  import fontSemiboldUrl from '$lib/fonts/ProximaNova-Semibold.woff2'
+  import fontInterUrl from '$lib/fonts/inter-latin-variable.woff2'
 
   import LabelInput from './LabelInput.svelte'
   import { usePaymentFormCtx } from '../../../state.js'
@@ -33,7 +32,7 @@
         base: {
           fontSize,
           color: getBrowserCssVariable('black'),
-          fontFamily: 'Proxima Nova, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           '::placeholder': {
             color: getBrowserCssVariable('casper'),
           },
@@ -48,14 +47,9 @@
       clientSecret,
       fonts: [
         {
-          family: 'Proxima Nova',
-          src: `url(${fontRegularUrl})`,
-          weight: '400',
-        },
-        {
-          family: 'Proxima Nova',
-          src: `url(${fontSemiboldUrl})`,
-          weight: '600',
+          family: 'Inter',
+          src: `url(${fontInterUrl})`,
+          weight: '100 900',
         },
       ],
       appearance: {
@@ -63,7 +57,7 @@
           '.Label': {
             fontSize: '12px',
             lineHeight: '16px',
-            fontWeight: '600',
+            fontWeight: '500',
             marginBottom: '3px',
             color: getBrowserCssVariable('waterloo'),
           },
@@ -89,7 +83,7 @@
         },
         variables: {
           fontSmooth: 'never',
-          fontFamily: 'Proxima Nova, sans-serif',
+          fontFamily: 'Inter, sans-serif',
           borderRadius: '4px',
           gridRowSpacing: '16px',
           colorBackground: getBrowserCssVariable('white'),
@@ -132,7 +126,7 @@
   })
 </script>
 
-<div class="grid gap-4 md:text-base">
+<div class="grid gap-4 md:t-body-2-regular">
   <LabelInput label="Card number" class="">
     <div id="card-element" class="h-10 rounded-md border px-4 py-2.5 hover:border-green">
       <span class="text-casper">Card number</span>

@@ -27,7 +27,7 @@
     {/if}
   </div>
 
-  <p class="text-start text-xs text-waterloo">
+  <p class="t-caption-1-regular text-start text-waterloo">
     Notify me when an asset’s {label} moves a certain way
   </p>
 </Button>

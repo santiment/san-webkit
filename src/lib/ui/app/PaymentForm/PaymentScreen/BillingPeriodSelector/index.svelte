@@ -36,7 +36,7 @@
       {option.name}
 
       {#if isAnnualBilling && formattedPlan}
-        <div class="rounded-md bg-white px-2 py-[5px] text-xs font-medium text-green">
+        <div class="t-caption-1-medium rounded-md bg-white px-2 py-[5px] text-green">
           <span class="mr-2">🎉</span>SAVE {formattedPlan.price.savePercentWithAnnual}%
         </div>
       {/if}
@@ -45,7 +45,7 @@
     <h4 class="text-left align-bottom">
       ${formattedPlan?.price[isAnnualBilling ? 'year' : 'month'] || ''}
 
-      <span class="text-sm font-normal text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>
+      <span class="t-body-3-regular text-waterloo">/ {isAnnualBilling ? 'Year' : 'Month'}</span>
     </h4>
   {/snippet}
 </Selector>

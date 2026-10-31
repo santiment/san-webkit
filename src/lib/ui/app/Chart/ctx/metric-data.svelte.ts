@@ -62,7 +62,7 @@ export function useApiMetricDataFlow(
       const warnings: string[] = []
 
       if (msg.payload.warning === FORMULA_WARNING.NonFiniteData) {
-        warnings.push(`<span class="font-bold">Non-finite data detected in formula result.</span>
+        warnings.push(`<span class="t-body-3-medium">Non-finite data detected in formula result.</span>
 
 This might be caused by an incorrect math operation, e.g., division by zero. Potential solution:
 
@@ -74,7 +74,7 @@ This might be caused by an incorrect math operation, e.g., division by zero. Pot
       metric.warnings.$ = warnings
     } else if (metric.meta?.status === MetricStatus.UNDER_MAINTENANCE) {
       metric.warnings.$ = [
-        `<span class="font-bold">Maintenance in progress.</span>
+        `<span class="t-body-3-medium">Maintenance in progress.</span>
 
         The metric is currently undergoing maintenance. During this period, query results for any requested time range may be delayed or inaccurate.`,
       ]

@@ -39,7 +39,7 @@
     placeholder="Enter email"
     icon="envelope"
     name="email"
-    class="text-base font-normal text-black placeholder-casper [&>svg]:left-4"
+    class="t-body-2-regular text-black placeholder-casper [&>svg]:left-4"
     inputClass="py-2 pl-10 sm:h-12"
     iconSize="16"
   />

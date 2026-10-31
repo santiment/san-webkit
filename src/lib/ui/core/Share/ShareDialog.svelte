@@ -86,7 +86,7 @@
   <header
     class="flex items-center justify-between border-b border-b-porcelain px-5 py-3 md:bg-athens"
   >
-    <h2 class="text-base md:text-fiord">{title}</h2>
+    <h2 class="t-body-2-regular md:text-fiord">{title}</h2>
     <Button
       icon="close"
       class="size-3 fill-waterloo md:size-4"
@@ -98,7 +98,7 @@
   <div class="w-[600px] px-6 py-5 md:w-full md:px-5 md:py-6 sm:w-auto">
     {#if disabled}
       <div
-        class="mb-4 rounded bg-orange-light-1 px-4 py-3 font-medium text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
+        class="t-body-3-medium mb-4 rounded bg-orange-light-1 px-4 py-3 text-rhino md:flex md:gap-2 md:fill-orange-hover md:px-3 md:py-2"
       >
         {#if !isDesktop}
           <Svg id="warning" w="16" h="20" class="py-[3px]" />
@@ -134,7 +134,7 @@
         </Button>
       </div>
 
-      <p class="mb-4 md:text-base">Share on social media</p>
+      <p class="mb-4 md:t-body-2-regular">Share on social media</p>
     {:else}
       {@render publicSwitch({ class: 'mb-5' })}
 
@@ -198,7 +198,7 @@
 {#snippet publicSwitch({ class: className }: { class?: string } = {})}
   {#if isAuthor}
     <label class={cn('flex items-center md:justify-between md:py-2', className)}>
-      <span class="md:text-base">
+      <span class="md:t-body-2-regular">
         {isPublic ? 'Public' : 'Private'}
         {entity}
       </span>

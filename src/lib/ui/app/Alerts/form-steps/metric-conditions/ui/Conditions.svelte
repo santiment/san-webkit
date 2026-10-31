@@ -34,7 +34,7 @@
   {@render children?.()}
 
   <section>
-    <h4 class="mb-6 text-lg">Conditions</h4>
+    <h4 class="t-body-1-regular mb-6">Conditions</h4>
 
     <section class="flex flex-col gap-4">
       {@render info?.()}
@@ -42,7 +42,7 @@
       <section class="mb-4">
         <section class={cn('grid grid-cols-2 gap-x-2 gap-y-3', isDuplex && 'grid-cols-4')}>
           <Dropdown
-            class={cn(isDuplex && 'col-span-2  grid')}
+            class={cn(isDuplex && 'col-span-2 grid')}
             selected={operation.type}
             triggerClass={cn(isDuplex && 'col-span-2')}
             matchTriggerWidth

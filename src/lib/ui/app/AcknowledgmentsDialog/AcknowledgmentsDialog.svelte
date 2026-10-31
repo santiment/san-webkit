@@ -15,7 +15,7 @@
   <header
     class="flex items-center justify-between border-b px-5 py-3 md:px-4 md:py-3.5 md:text-fiord"
   >
-    <h2 class="text-base">Acknowledgments</h2>
+    <h2 class="t-body-2-regular">Acknowledgments</h2>
     <Button
       icon="close"
       class="size-3 fill-waterloo"

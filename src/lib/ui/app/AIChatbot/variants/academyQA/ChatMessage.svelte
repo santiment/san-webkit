@@ -36,10 +36,12 @@
     </Picture>
 
     <div class="flex items-center gap-2">
-      <h4 class="text-base font-semibold text-rhino sm:!text-sm">
+      <h4 class="t-body-2-semibold text-rhino sm:!t-body-3-medium">
         {role === 'USER' ? 'You' : 'Turtoshi'}
       </h4>
-      <p class="text-xs text-waterloo sm:!text-2xs">Today {formatChatTime(insertedAt)}</p>
+      <p class="t-caption-1-regular text-waterloo sm:!t-caption-2-medium">
+        Today {formatChatTime(insertedAt)}
+      </p>
     </div>
   </header>
 
@@ -47,7 +49,7 @@
     <div class="flex flex-col-reverse gap-y-8 sm:!flex-col">
       <p
         class={cn(
-          'ai-chatbot-content w-fit max-w-full text-base text-rhino [word-break:break-word]',
+          'ai-chatbot-content t-body-2-regular w-fit max-w-full text-rhino [word-break:break-word]',
           role === 'USER' && 'whitespace-pre-wrap',
         )}
       >

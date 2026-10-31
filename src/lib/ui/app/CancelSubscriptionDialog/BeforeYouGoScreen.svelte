@@ -15,7 +15,7 @@
 </script>
 
 <Layout title="Cancel subscription?" {onContinueClick}>
-  <h4 class="mb-4 whitespace-nowrap font-bold text-waterloo">
+  <h4 class="t-body-3-medium mb-4 whitespace-nowrap text-waterloo">
     Before you go, give us a chance to help you:
   </h4>
 
@@ -23,7 +23,7 @@
     <Button
       variant="border"
       size="lg"
-      class="text-sm center"
+      class="t-body-3-regular center"
       target="_blank"
       href="https://academy.santiment.net/education-and-use-cases/"
       data-type="discover_academy"
@@ -33,7 +33,7 @@
     <Button
       variant="border"
       size="lg"
-      class="text-sm center"
+      class="t-body-3-regular center"
       target="_blank"
       href="https://www.youtube.com/c/SantimentNetwork"
       data-type="visit_youtube"
@@ -46,7 +46,7 @@
     <Button
       variant="border"
       size="lg"
-      class="text-sm center"
+      class="t-body-3-regular center"
       href="mailto:support@santiment.net"
       data-type="request_custom_plan"
       data-source="cancel_subscription_dialog"

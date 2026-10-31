@@ -19,7 +19,7 @@
   <div class="flex items-center justify-between border-b px-6 py-4">
     <Svg illus id="santiment-sanbase" w="171" h="20"></Svg>
 
-    <nav class="flex gap-4 fill-waterloo font-medium text-waterloo center">
+    <nav class="t-body-3-medium flex gap-4 fill-waterloo text-waterloo center">
       {#each screens as item, i (item)}
         {#if i > 0}
           <Svg id="arrow-right" w="5" h="8"></Svg>

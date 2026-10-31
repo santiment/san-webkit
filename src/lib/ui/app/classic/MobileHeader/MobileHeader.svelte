@@ -27,9 +27,9 @@
     {#if left}
       {@render left()}
     {:else if title}
-      <h4 class="text-2xl font-medium">{title}</h4>
+      <h4 class="t-h4-medium">{title}</h4>
     {:else}
-      <Product title="Sanbase" class="text-2xl"></Product>
+      <Product title="Sanbase" class="t-h4-medium"></Product>
     {/if}
   </section>
 

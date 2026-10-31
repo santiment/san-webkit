@@ -69,7 +69,7 @@
   <header
     class="flex items-center justify-between border-b px-5 py-3 md:px-4 md:py-3.5 md:text-fiord"
   >
-    <h2 class="text-base">Cookie settings</h2>
+    <h2 class="t-body-2-regular">Cookie settings</h2>
     <Button
       icon="close"
       class="size-3 fill-waterloo"
@@ -80,7 +80,7 @@
   <div
     class={cn(
       'h-[393px] overflow-y-auto px-6 pb-0 pt-5 md:h-full md:px-4 md:pt-6',
-      device.$.isMobile && 'text-base',
+      device.$.isMobile && 't-body-2-regular',
     )}
   >
     <p class="text-fiord">
@@ -131,7 +131,7 @@
   <div
     class={cn(
       'flex gap-3 px-6 py-5 md:flex-col-reverse md:px-5 md:py-6 [&>button]:justify-center [&>button]:px-3 md:[&>button]:px-2 md:[&>button]:py-2',
-      device.$.isMobile && 'text-base',
+      device.$.isMobile && 't-body-2-regular',
     )}
   >
     <Button variant={device.$.isMobile ? 'border' : 'fill'} onclick={onSaveClick}>

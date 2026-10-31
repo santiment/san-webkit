@@ -138,7 +138,7 @@
   <form onsubmit={onFormSubmit} class="h-[750px] min-h-0 column">
     <div class="gap-4 p-4 column">
       <label>
-        <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
+        <div class="t-caption-1-medium mb-1 text-waterloo">Name:</div>
 
         <Input
           required
@@ -149,7 +149,7 @@
       </label>
 
       <label>
-        <div class="mb-1 text-xs font-medium text-waterloo">Formula:</div>
+        <div class="t-caption-1-medium mb-1 text-waterloo">Formula:</div>
 
         <TextEditor bind:value={currentFormula.expr}></TextEditor>
       </label>
@@ -170,7 +170,7 @@
         >
           {#snippet children(item)}
             <span
-              class="rounded-md bg-athens px-1 text-xs font-medium text-fiord [.active-definition>&]:bg-mystic"
+              class="t-caption-1-medium rounded-md bg-athens px-1 text-fiord [.active-definition>&]:bg-mystic"
             >
               {item.label}
             </span>

@@ -39,12 +39,13 @@
 
 <Turnstile bind:this={turnstileRef} />
 
-<Card class={cn('items-center text-base sm:text-lg', className)}>
-  <h1 class="mb-6 text-3xl font-medium sm:mb-8 sm:text-2xl">Email Confirmation</h1>
+<Card class={cn('t-body-2-regular items-center sm:t-body-1-regular', className)}>
+  <h1 class="t-h3-medium mb-6 sm:t-h4-medium sm:mb-8">Email Confirmation</h1>
 
   <p class="mb-5 text-center text-fiord sm:text-start">
-    We just sent an email to <span class="font-medium text-rhino">{email}</span>. Please check your
-    inbox and click on the confirmation link.
+    We just sent an email to <span class="t-body-2-medium text-rhino sm:t-body-1-medium"
+      >{email}</span
+    >. Please check your inbox and click on the confirmation link.
   </p>
 
   <span class="text-fiord">

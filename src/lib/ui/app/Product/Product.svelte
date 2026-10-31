@@ -10,7 +10,7 @@
   }: { title: string; class?: string; isXmas?: boolean } = $props()
 </script>
 
-<a href="/" class={cn('relative flex items-center text-base font-medium text-black', className)}>
+<a href="/" class={cn('t-body-2-medium relative flex items-center text-black', className)}>
   {#if isXmas}
     <Svg illus id="christmas/xmas-hat" w={33} h={18} class="absolute -top-[7px] left-[9px]" />
   {/if}

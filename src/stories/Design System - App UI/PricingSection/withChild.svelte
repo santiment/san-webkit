@@ -11,5 +11,5 @@
 </script>
 
 <PricingSection>
-  <div class="border border-red px-5 py-20 text-xl">The child</div>
+  <div class="t-h4-regular border border-red px-5 py-20">The child</div>
 </PricingSection>

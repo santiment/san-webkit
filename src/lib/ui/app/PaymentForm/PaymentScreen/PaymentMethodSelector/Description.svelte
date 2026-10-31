@@ -13,10 +13,10 @@
     $props()
 </script>
 
-<div class="gap-4 text-base text-fiord column">
+<div class="t-body-2-regular gap-4 text-fiord column">
   {@render noteSnippet?.()}
 
-  <h2 class="flex gap-3 font-semibold text-black">
+  <h2 class="t-body-2-semibold flex gap-3 text-black">
     <img src={img} alt="Ethereum" class="h-6 max-h-6" />
 
     {name}
@@ -26,7 +26,7 @@
 
   <a
     href="mailto:support@santiment.net"
-    class="mt-4 w-fit rounded-lg border border-green px-5 py-3 text-sm"
+    class="t-body-3-regular mt-4 w-fit rounded-lg border border-green px-5 py-3"
     data-type="{type}_pay_crypto_help"
     data-source="payment_dialog"
     onclick={onSupportClick}
