@@ -1,7 +1,7 @@
 import type { MaybeSS, SS } from '$lib/utils/state.svelte.js'
 import type { TUUIDv7 } from '$lib/utils/uuid/index.js'
 import type { FIATS, FUNDS, INDICES_AND_SUPPLY, TAssetSlug } from '$lib/ctx/assets/api.js'
-import type { LineStyle } from '@santiment-network/chart-next'
+import type { LineStyle, PriceRange } from '@santiment-network/chart-next'
 import type {
   TInterval,
   TMetricData,
@@ -57,6 +57,7 @@ export type TMetric = {
   scaleId?: string
   scaleInverted?: boolean
   scaleMargins?: { top: number; bottom: number }
+  autoscalePriceRange?: PriceRange
   scaleFormatter?: (value: number) => string
 
   meta?: Record<string, any>
@@ -111,6 +112,7 @@ export type TChartMetricBase<GMetricType extends TMetricTypes, GData extends obj
   scaleVisible?: boolean
   scaleInverted?: boolean
   scaleMargins?: { top: number; bottom: number }
+  autoscalePriceRange?: PriceRange
 
   transformData?: (data: TMetricData) => TMetricData
 
