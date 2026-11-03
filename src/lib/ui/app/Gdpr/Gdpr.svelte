@@ -13,10 +13,14 @@
 
   type TProps = {
     class?: string
+    title?: string
+    description?: string
     onAccept: (username: string) => void
   }
 
-  const { class: className, onAccept }: TProps = $props()
+  const { class: className, title = 'Welcome to Sanbase', description, onAccept }: TProps = $props()
+
+  const accent = 'text-[var(--accent,var(--green))] fill-[var(--accent,var(--green))]'
 
   const { customer, currentUser } = useCustomerCtx()
 
@@ -72,10 +76,10 @@
           .then(() => {
             window.onGdprAccept?.()
             trackGdprAccept(true)
+            if (username) onAccept(username)
           })
           .catch(handleGdprPolicyError),
       )
-      .then(() => username && onAccept(username))
       .catch(handleUsernameChangeError)
       .finally(() => {
         loading = false
@@ -84,19 +88,21 @@
 
   function handleGdprPolicyError() {
     usernameError = 'Failed to accept the privacy policy.'
-    loading = false
-    return Promise.reject()
   }
 
   function handleUsernameChangeError() {
     usernameError = `Username "${username}" is already taken.`
-    loading = false
-    return Promise.reject()
   }
 </script>
 
 <Card class={cn('text-base sm:text-lg', className)}>
-  <h1 class="mb-5 text-3xl font-medium sm:mb-8 sm:text-2xl">Welcome to Sanbase</h1>
+  <h1 class={cn('text-3xl font-medium sm:text-2xl', description ? 'mb-3' : 'mb-5 sm:mb-8')}>
+    {title}
+  </h1>
+
+  {#if description}
+    <p class="mb-5 text-rhino sm:mb-8">{description}</p>
+  {/if}
 
   {#if !defaultUsername}
     <label class="mb-6 flex flex-col gap-3 text-rhino sm:mb-8 sm:w-full">
@@ -114,7 +120,7 @@
           required
         >
           {#snippet left()}
-            <span class="absolute left-2 text-green">@</span>
+            <span class={cn('absolute left-2', accent)}>@</span>
           {/snippet}
         </Input>
 
@@ -136,9 +142,16 @@
 
       <span>
         I accept
-        <Button variant="link" href="https://santiment.net/terms" target="_blank">Terms</Button>
+        <Button class={accent} variant="link" href="https://santiment.net/terms" target="_blank">
+          Terms
+        </Button>
         and
-        <Button variant="link" href="https://app.santiment.net/privacy-policy" target="_blank">
+        <Button
+          class={accent}
+          variant="link"
+          href="https://app.santiment.net/privacy-policy"
+          target="_blank"
+        >
           Privacy Policy
         </Button>
       </span>
@@ -163,6 +176,7 @@
     <Button
       {loading}
       variant="fill"
+      accent="custom"
       size="lg"
       class="flex w-full justify-center"
       onclick={onSubmit}
