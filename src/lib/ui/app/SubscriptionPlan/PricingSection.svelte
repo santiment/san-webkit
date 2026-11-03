@@ -91,6 +91,6 @@
 
 <BreakdownTable
   {source}
-  plans={productPlans.$?.billingGroupPlans?.map((v) => v.month) || []}
+  billingGroupPlans={productPlans.$?.billingGroupPlans || []}
   {isConsumerPlans}
 />
