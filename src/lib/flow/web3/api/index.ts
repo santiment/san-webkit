@@ -17,9 +17,9 @@ export const mutateAddUserEthAddress = ApiMutation(
 )
 
 export const mutateEthLogin = ApiMutation(
-  (variables: { signature: string; address: string; messageHash: string }) => ({
-    schema: `mutation($signature: String!, $address: String!, $messageHash: String!) {
-    ethLogin(signature: $signature, address: $address, messageHash: $messageHash) {
+  (variables: { signature: string; address: string; messageHash: string; nonce: string }) => ({
+    schema: `mutation($signature: String!, $address: String!, $messageHash: String!, $nonce: String) {
+    ethLogin(signature: $signature, address: $address, messageHash: $messageHash, nonce: $nonce) {
       user {
         id
         firstLogin
@@ -29,4 +29,15 @@ export const mutateEthLogin = ApiMutation(
     variables,
   }),
   (gql: { ethLogin: { user: { id: string; firstLogin: boolean } } }) => gql.ethLogin.user,
+)
+
+export const mutateEthLoginChallenge = ApiMutation(
+  (variables: { address: string }) => ({
+    schema: `mutation($address: String!) {
+    ethLoginChallenge { nonce message }
+  `,
+    variables,
+  }),
+
+  (gql: { ethLoginChallenge: { nonce: string; message: string } }) => gql.ethLoginChallenge,
 )
