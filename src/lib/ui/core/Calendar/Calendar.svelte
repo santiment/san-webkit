@@ -37,7 +37,7 @@
 <Calendar.Root
   --active-ghost-button-bg={ui.$$.isNightMode ? 'var(--porcelain)' : undefined}
   type="single"
-  class={cn('max-w-max rounded border bg-white sm:border-0 dark:bg-athens', className)}
+  class={cn('max-w-max rounded-sm border bg-white sm:border-0 dark:bg-athens', className)}
   weekdayFormat="short"
   fixedWeeks
   {value}

@@ -30,7 +30,7 @@
   )
 </script>
 
-<article class="rounded border border-porcelain p-6">
+<article class="rounded-sm border border-porcelain p-6">
   <header>
     <a
       {href}
@@ -41,13 +41,13 @@
     </a>
   </header>
 
-  <section class="min-h-[66px] items-center justify-between row">
+  <section class="row min-h-[66px] items-center justify-between">
     <Profile user={insight.user} publishedAt={insight.publishedAt} />
     <Editorial userId={insight.user.id} />
   </section>
 
-  <footer class="h-16 items-center justify-between border-t border-porcelain row">
-    <div class="gap-5 row">
+  <footer class="row h-16 items-center justify-between border-t border-porcelain">
+    <div class="row gap-5">
       <SocialActionLink {href} count={insight.votes.totalVotes} icon="like" />
       <SocialActionLink href="{href}?_wc=1#comments" count={insight.commentsCount} icon="comment" />
     </div>

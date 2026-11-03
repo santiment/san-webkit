@@ -29,7 +29,7 @@
 
 <section
   class={cn(
-    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center ',
+    'flex min-w-[408px] flex-col justify-center rounded-sm px-14 py-10 text-center ',
     'sm:min-w-0 sm:flex-1 sm:justify-start sm:self-start sm:px-8 sm:py-16',
     className,
   )}

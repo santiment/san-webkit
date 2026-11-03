@@ -27,8 +27,7 @@ import { convertCoordinateToSafeTime, convertTimeToSafeCoordinate } from './util
 export abstract class DrawingPrimitive<
   GDrawingType extends string,
   GOptions extends object = object,
-> implements ISeriesPrimitive<Time>
-{
+> implements ISeriesPrimitive<Time> {
   public abstract readonly __type: GDrawingType
   protected abstract readonly _paneViews: DrawingPaneView[]
 

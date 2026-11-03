@@ -15,7 +15,7 @@
 <Button
   variant="fill"
   class={cn(
-    'z-[1] mb-2 h-auto px-1.5 py-3 [writing-mode:vertical-lr] [&>svg]:rotate-90',
+    'z-1 mb-2 h-auto px-1.5 py-3 [writing-mode:vertical-lr] [&>svg]:rotate-90',
     className,
   )}
   icon="chat"

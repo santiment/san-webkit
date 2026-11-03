@@ -24,8 +24,8 @@
     />
   </header>
 
-  <div class="gap-8 p-5 column">
-    <p class="rounded bg-athens p-4 text-fiord">
+  <div class="column gap-8 p-5">
+    <p class="rounded-sm bg-athens p-4 text-fiord">
       TradingView Lightweight Charts™ <br />
       Copyright (с) 2026 TradingView, Inc. https://www.tradingview.com/
     </p>

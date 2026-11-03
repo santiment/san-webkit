@@ -109,7 +109,10 @@ export async function fetchFormulaMetric(
     return new Promise<[string, TMetricData, null | TMetricTargetSelectorInputObject]>(
       (resolve, reject) => {
         const rejectAndCancel = (reason?: any) => (
-          reject(reason), ctx.cancelJobs(), deleteCache(), reason
+          reject(reason),
+          ctx.cancelJobs(),
+          deleteCache(),
+          reason
         )
 
         const selector = metric.formula ? null : metric.selector || ctx.parameters.selector

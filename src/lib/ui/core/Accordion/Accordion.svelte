@@ -40,14 +40,14 @@
             w="14"
             h="8"
             class={cn(
-              'absolute right-6 top-1/2 -translate-y-1/2 fill-waterloo transition-transform group-data-[state=open]:rotate-180',
+              'absolute top-1/2 right-6 -translate-y-1/2 fill-waterloo transition-transform group-data-[state=open]:rotate-180',
               iconClass,
             )}
           />
         </Accordion.Trigger>
 
         <Accordion.Content class="accordion-content overflow-hidden text-base">
-          <div class="px-6 pb-4 pt-2">
+          <div class="px-6 pt-2 pb-4">
             {@render content(item)}
           </div>
         </Accordion.Content>

@@ -61,9 +61,9 @@
 {#if isVisible}
   <div
     class={cn(
-      'fixed bottom-5 left-5 right-0 z-[101] max-w-[450px] pb-5 pl-[110px] pr-[43px] pt-5',
+      'fixed right-0 bottom-5 left-5 z-101 max-w-[450px] pt-5 pr-[43px] pb-5 pl-[110px]',
       'rounded-lg border bg-white shadow-modal dark:bg-athens',
-      'md:bottom-0 md:left-0 md:max-w-full md:rounded-b-none md:rounded-t-[10px] md:px-5 md:py-6 md:text-center md:text-base',
+      'md:bottom-0 md:left-0 md:max-w-full md:rounded-t-[10px] md:rounded-b-none md:px-5 md:py-6 md:text-center md:text-base',
       className,
     )}
     {style}

@@ -37,7 +37,7 @@
 
 <div
   style:--card-width={isCompact ? '272px' : '292px'}
-  class={cn('gap-6 rounded-md px-6 pb-6 pt-8 text-sm column', className)}
+  class={cn('column gap-6 rounded-md px-6 pt-8 pb-6 text-sm', className)}
   style={THEME_MAP[variant]}
 >
   <section class="grid grid-cols-1 gap-1 [@media(max-height:660px)]:grid-cols-2">
@@ -47,11 +47,11 @@
   </section>
 
   <section
-    class="w-[var(--card-width)] border-t border-porcelain px-3 pt-6 text-fiord [@media(max-height:660px)]:w-auto"
+    class="w-(--card-width) border-t border-porcelain px-3 pt-6 text-fiord [@media(max-height:660px)]:w-auto"
   >
     To learn more about Santiment's products, team, or available jobs, visit
     <a
-      class="text-[var(--accent)] hover:text-[var(--accent-hover)] hover:underline"
+      class="text-(--accent) hover:text-(--accent-hover) hover:underline"
       target="_blank"
       rel="noreferrer"
       href="https://santiment.net/">santiment.net</a

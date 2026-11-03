@@ -15,13 +15,13 @@
       <Button
         variant="plain"
         href={SANBASE_ORIGIN + '/profile/' + currentUser.$$.id}
-        class="font-medium link-as-bg md:text-base"
+        class="link-as-bg font-medium md:text-base"
       >
         @{currentUser.$$.username}
       </Button>
 
       {#if currentUser.$$.email}
-        <p class="text-xs text-waterloo single-line md:text-sm">
+        <p class="single-line text-xs text-waterloo md:text-sm">
           {currentUser.$$.email}
         </p>
       {/if}

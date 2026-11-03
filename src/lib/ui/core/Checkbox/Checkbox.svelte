@@ -35,16 +35,16 @@
   bind:checked={isActive}
   bind:indeterminate
   class={cn(
-    'flex size-4 min-w-4 items-center justify-center rounded border border-mystic bg-[inherit] fill-athens-day transition-colors',
-    'hover:border-casper hover:bg-athens group-hover/label:border-casper group-hover/label:bg-[inherit]',
-    error && 'relative border-red hover:border-red-hover group-hover/label:border-red-hover',
+    'flex size-4 min-w-4 items-center justify-center rounded-sm border border-mystic bg-inherit fill-athens-day transition-colors',
+    'group-hover/label:border-casper group-hover/label:bg-inherit hover:border-casper hover:bg-athens',
+    error && 'relative border-red group-hover/label:border-red-hover hover:border-red-hover',
     selected &&
-      'border-green bg-green bg-center bg-no-repeat hover:border-green-hover hover:bg-green-hover group-hover/label:border-green-hover group-hover/label:bg-green-hover',
+      'border-green bg-green bg-center bg-no-repeat group-hover/label:border-green-hover group-hover/label:bg-green-hover hover:border-green-hover hover:bg-green-hover',
     disabled &&
-      'border-mystic bg-athens hover:border-mystic hover:bg-athens group-hover/label:border-mystic group-hover/label:bg-athens',
+      'border-mystic bg-athens group-hover/label:border-mystic group-hover/label:bg-athens hover:border-mystic hover:bg-athens',
     disabled &&
       selected &&
-      'border-porcelain bg-porcelain fill-casper hover:border-porcelain hover:bg-porcelain group-hover/label:border-porcelain group-hover/label:bg-porcelain',
+      'border-porcelain bg-porcelain fill-casper group-hover/label:border-porcelain group-hover/label:bg-porcelain hover:border-porcelain hover:bg-porcelain',
     className,
   )}
 >

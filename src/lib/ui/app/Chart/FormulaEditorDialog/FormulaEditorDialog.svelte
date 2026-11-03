@@ -134,9 +134,9 @@
   }
 </script>
 
-<Dialog class="w-[900px] !overflow-visible column">
-  <form onsubmit={onFormSubmit} class="h-[750px] min-h-0 column">
-    <div class="gap-4 p-4 column">
+<Dialog class="column w-[900px] overflow-visible!">
+  <form onsubmit={onFormSubmit} class="column h-[750px] min-h-0">
+    <div class="column gap-4 p-4">
       <label>
         <div class="mb-1 text-xs font-medium text-waterloo">Name:</div>
 
@@ -160,7 +160,7 @@
     <div class="flex flex-1 overflow-hidden border-y">
       <div
         bind:this={definitionsElement}
-        class="min-w-[272px] max-w-[340px] shrink-0 divide-y overflow-auto border-r column"
+        class="column max-w-[340px] min-w-[272px] shrink-0 divide-y overflow-auto border-r"
       >
         <Definitions
           icon="chart"

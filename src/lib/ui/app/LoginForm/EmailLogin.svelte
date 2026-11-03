@@ -19,7 +19,7 @@
   <div class="flex w-full items-center justify-center gap-[clamp(24px,calc(8vw-56px),88px)]">
     <AuthIllustration />
 
-    <div class="max-w-[406px] flex-shrink-0 md:min-w-full md:max-w-full">
+    <div class="max-w-[406px] flex-shrink-0 md:max-w-full md:min-w-full">
       <Section
         title="Welcome back"
         bottomLabel="Or choose"
