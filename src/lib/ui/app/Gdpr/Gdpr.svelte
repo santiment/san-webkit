@@ -76,10 +76,10 @@
           .then(() => {
             window.onGdprAccept?.()
             trackGdprAccept(true)
+            if (username) onAccept(username)
           })
           .catch(handleGdprPolicyError),
       )
-      .then(() => username && onAccept(username))
       .catch(handleUsernameChangeError)
       .finally(() => {
         loading = false
@@ -88,14 +88,10 @@
 
   function handleGdprPolicyError() {
     usernameError = 'Failed to accept the privacy policy.'
-    loading = false
-    return Promise.reject()
   }
 
   function handleUsernameChangeError() {
     usernameError = `Username "${username}" is already taken.`
-    loading = false
-    return Promise.reject()
   }
 </script>
 
