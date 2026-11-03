@@ -8,7 +8,7 @@ import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 import { trackEvent } from '$lib/analytics/index.js'
 
 import { getAccount, connectAccounts, signMessage } from './core/index.js'
-import { mutateAddUserEthAddress, mutateEthLogin } from './api/index.js'
+import { mutateAddUserEthAddress, mutateEthLogin, mutateEthLoginChallenge } from './api/index.js'
 
 export function useConnectMetamaskFlow() {
   const { currentUser } = useCustomerCtx()
@@ -56,16 +56,19 @@ export function useWalletConnectLoginFlow(
     trackEvent(isSignUp ? 'signup_start' : 'login_start', trackEventData)
 
     try {
-      const signedData = await signMessage(`Login in Santiment with address ${address}`)
+      const challenge = await mutateEthLoginChallenge(Query)({ address })
+      const signedData = await signMessage(challenge.message)
 
-      return mutateEthLogin(Query)({ ...signedData, address }).then((user) => {
-        customer.reload().then(() => onLoginComplete?.(user))
+      return mutateEthLogin(Query)({ ...signedData, nonce: challenge.nonce, address }).then(
+        (user) => {
+          customer.reload().then(() => onLoginComplete?.(user))
 
-        trackEvent('auth_finish', { ...trackEventData, is_new_user_signup: user.firstLogin })
-        trackEvent(user.firstLogin ? 'signup_finish' : 'login_finish', trackEventData)
+          trackEvent('auth_finish', { ...trackEventData, is_new_user_signup: user.firstLogin })
+          trackEvent(user.firstLogin ? 'signup_finish' : 'login_finish', trackEventData)
 
-        return user
-      })
+          return user
+        },
+      )
     } catch (e) {
       console.error(e)
       return Promise.resolve(null)
