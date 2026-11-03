@@ -35,7 +35,7 @@ export const mutateEthLoginChallenge = ApiMutation(
   (variables: { address: string }) => ({
     schema: `mutation($address: String!) {
     ethLoginChallenge(address: $address) { nonce message }
-  `,
+  }`,
     variables,
   }),
 
