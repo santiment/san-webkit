@@ -29,7 +29,7 @@
       <Accordion.Header {level}>
         <Accordion.Trigger
           class={cn(
-            'group relative w-full rounded-lg px-6 py-4 pr-16 text-left text-lg font-semibold hover:bg-athens',
+            'group t-body-1-semibold relative w-full rounded-lg px-6 py-4 pr-16 text-left hover:bg-athens',
             triggerClass,
           )}
         >
@@ -46,7 +46,7 @@
           />
         </Accordion.Trigger>
 
-        <Accordion.Content class="accordion-content overflow-hidden text-base">
+        <Accordion.Content class="accordion-content t-body-2-regular overflow-hidden">
           <div class="px-6 pb-4 pt-2">
             {@render content(item)}
           </div>

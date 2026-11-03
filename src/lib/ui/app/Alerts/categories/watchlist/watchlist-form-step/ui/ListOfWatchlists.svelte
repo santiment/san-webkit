@@ -71,7 +71,9 @@
           {/if}
         </div>
 
-        <p class={cn('text-xs text-waterloo', disabled && 'text-mystic')}>{description || ''}</p>
+        <p class={cn('t-caption-1-regular text-waterloo', disabled && 'text-mystic')}>
+          {description || ''}
+        </p>
       </Button>
     {/each}
   </section>

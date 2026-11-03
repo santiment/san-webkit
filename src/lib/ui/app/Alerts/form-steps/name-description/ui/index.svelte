@@ -37,7 +37,7 @@
 
 {#snippet textarea(title: string, name: keyof TNameDescriptionState, rows: number)}
   <label class="title flex flex-col rounded border px-4 py-3">
-    <p class="text-xs text-waterloo">{title}</p>
+    <p class="t-caption-1-regular text-waterloo">{title}</p>
     <Textarea
       class="border-none"
       inputClass="pb-0 px-0 resize-none"

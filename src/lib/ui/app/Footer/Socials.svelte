@@ -9,7 +9,7 @@
 
 <div class="flex flex-col gap-y-4">
   {#if device.$.isPhone}
-    <h4 class="text-base text-fiord">Santiment on social media</h4>
+    <h4 class="t-body-2-regular text-fiord">Santiment on social media</h4>
   {/if}
 
   <div

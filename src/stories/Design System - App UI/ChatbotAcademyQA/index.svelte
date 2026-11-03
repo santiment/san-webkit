@@ -20,7 +20,7 @@
   <AskAIButton />
 </nav>
 
-<h1 class="mb-8 mt-11 text-center text-3xl text-rhino">
+<h1 class="t-h3-regular mb-8 mt-11 text-center text-rhino">
   Hi, I’m Turtoshi — your AI guide to Academy
 </h1>
 
@@ -36,7 +36,7 @@
     {#each queries as query}
       <Button
         variant="border"
-        class="border-porcelain text-xs"
+        class="t-caption-1-regular border-porcelain"
         onclick={() => aiChatbot.openWithPrompt(query)}
       >
         {query}

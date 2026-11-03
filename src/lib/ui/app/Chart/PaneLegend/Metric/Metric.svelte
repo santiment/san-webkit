@@ -67,7 +67,7 @@
             {ref}
             variant="fill"
             icon="error"
-            class={'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2'}
+            class={'bg-red-light-1 fill-red data-[state="open"]:bg-red-light-2 hover:bg-red-light-2'}
             size="sm"
           ></Button>
         {/snippet}
@@ -97,7 +97,7 @@
           {ref}
           variant="fill"
           icon="warning"
-          class={'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2'}
+          class={'bg-orange-light-1 fill-red data-[state="open"]:bg-orange-light-2 hover:bg-orange-light-2'}
           size="sm"
         ></Button>
       {/snippet}
@@ -117,7 +117,7 @@
 
 <style lang="postcss">
   .warnings :global(code) {
-    @apply rounded bg-athens px-1.5 py-0.5 text-xs font-medium text-fiord text-mono;
+    @apply t-caption-1-medium rounded bg-athens px-1.5 py-0.5 text-fiord text-mono;
   }
 
   :global(.group\/pane-metric.relative) {

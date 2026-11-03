@@ -26,12 +26,12 @@
 
 <Base.Header class="flex items-center justify-between gap-2 border-b p-2 sm:px-5 sm:py-3">
   <Base.PrevButton
-    class="inline-flex size-8 rotate-180 items-center justify-center rounded-lg fill-waterloo hover:bg-athens disabled:cursor-not-allowed"
+    class="inline-flex size-8 rotate-180 items-center justify-center rounded-lg fill-waterloo disabled:cursor-not-allowed hover:bg-athens"
   >
     <Svg id="arrow-right" w="10" />
   </Base.PrevButton>
   {#if isPhone}
-    <h3 class="text-base font-medium">
+    <h3 class="t-body-2-medium">
       {formatMonth(placeholder.month)}
       {placeholder.year}
     </h3>
@@ -39,7 +39,7 @@
     <MonthViewSelect bind:placeholder {minValue} {maxValue} />
   {/if}
   <Base.NextButton
-    class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo hover:bg-athens disabled:cursor-not-allowed"
+    class="inline-flex size-8 items-center justify-center rounded-lg fill-waterloo disabled:cursor-not-allowed hover:bg-athens"
   >
     <Svg id="arrow-right" w="10" />
   </Base.NextButton>

@@ -63,7 +63,7 @@
 </script>
 
 {#if subscriptionPlan.$.formatted?.isTrialSupported && customer.$.isEligibleForSanbaseTrial}
-  <h2 class="text-base font-semibold text-rhino">How the Trial Works</h2>
+  <h2 class="t-body-2-semibold text-rhino">How the Trial Works</h2>
 
   <div class="relative gap-4 fill-waterloo pl-9 pr-16 text-waterloo column md:pr-0">
     {#snippet Step({
@@ -76,7 +76,7 @@
       icon: { class?: string; id: string }
     })}
       <div class="step relative before:absolute">
-        <h3 class="items-center font-medium text-rhino row">
+        <h3 class="t-body-3-medium items-center text-rhino row">
           <Svg w="12" {...icon} class={cn('absolute -left-8 bg-athens', icon.class)}></Svg>
           {name}
         </h3>

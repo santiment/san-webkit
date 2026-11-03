@@ -54,15 +54,15 @@
 </script>
 
 <section class={cn('md:px-5', className)}>
-  <h1 class="mb-14 max-w-4xl text-start text-3xl font-medium sm:text-center">
+  <h1 class="t-h3-medium mb-14 max-w-4xl text-start sm:text-center">
     Power your trading decisions with Santiment: tailored crypto analytics for investors, traders,
     and researchers
   </h1>
 
   <div
     class={cn(
-      'mb-8 inline-flex rounded-md border text-base',
-      'font-medium text-waterloo sm:mb-10 sm:text-lg',
+      't-body-2-medium mb-8 inline-flex rounded-md border',
+      'text-waterloo sm:t-body-1-medium sm:mb-10',
       '[&:has(button:not(.outline):hover)]:bg-athens',
     )}
   >

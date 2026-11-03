@@ -46,7 +46,7 @@
         >
           <img src={orientationSvg} alt="phone orientation" />
 
-          <p class="max-w-64 text-center text-lg">
+          <p class="t-body-1-regular max-w-64 text-center">
             Please, move your phone into a horizontal position to see fullscreen chart
           </p>
 

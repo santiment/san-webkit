@@ -206,7 +206,7 @@
 <Dialog
   class={cn(
     'flex h-full w-full max-w-[1024px]',
-    'flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] text-base shadow',
+    't-body-2-regular flex-col rounded-lg border border-porcelain bg-white px-8 pb-4 pt-[14px] shadow',
     'sm:!px-5',
     className,
   )}
@@ -324,7 +324,9 @@
             {/snippet}
 
             {#snippet content()}
-              <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Scroll to latest</p>
+              <p class="t-caption-1-regular rounded bg-fiord px-3 py-[5px] text-white">
+                Scroll to latest
+              </p>
             {/snippet}
           </Tooltip>
         </div>
@@ -338,7 +340,7 @@
     />
   </div>
 
-  <p class="mt-2 text-center text-sm text-casper sm:!text-sm">
+  <p class="t-body-3-regular mt-2 text-center text-casper sm:!t-body-3-regular">
     {isPhone
       ? 'Check important info for mistakes'
       : 'Limited to Santiment Academy, check important info for mistakes.'}

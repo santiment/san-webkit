@@ -23,21 +23,23 @@
 
 <Dialog class="w-full max-w-[600px] px-[92px] py-12 text-center md:max-w-full">
   <Svg illus id="hourglass" h={182} w={190} class="mx-auto mb-6"></Svg>
-  <h3 class="text-2xl font-medium text-rhino">Your session has expired</h3>
-  <p class="mb-8 text-base text-waterloo">
+  <h3 class="t-h4-medium text-rhino">Your session has expired</h3>
+  <p class="t-body-2-regular mb-8 text-waterloo">
     Your session has expired. Please sign in again to view your saved creations and continue your
     experience
   </p>
   <footer class="flex justify-center gap-4">
     <Button
       variant="fill"
-      class="h-10 w-36 text-base center"
+      class="t-body-2-regular h-10 w-36 center"
       href="/login"
       onclick={() => trackEvent('dialog', { action: 'link', type: 'session_expired_dialog' })}
       >Sign in</Button
     >
-    <Button variant="border" class="h-10 w-36 text-base center" onclick={() => Controller.close()}
-      >No, thanks</Button
+    <Button
+      variant="border"
+      class="t-body-2-regular h-10 w-36 center"
+      onclick={() => Controller.close()}>No, thanks</Button
     >
   </footer>
 </Dialog>

@@ -34,7 +34,7 @@
 <Dialog
   class={cn(
     'bottom-6 left-auto right-6 top-auto flex h-[600px] w-[600px]',
-    'transform-none flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow',
+    't-body-2-regular transform-none flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] shadow',
   )}
 >
   <div class="flex h-6 items-center justify-end">

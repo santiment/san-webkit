@@ -90,7 +90,7 @@
     <VirtualList itemHeight={36} data={allItems} getKey={({ key }) => key}>
       {#snippet children({ type, value, isActive })}
         {#if type === 'title'}
-          <h4 class="mb-4 text-xs font-medium text-waterloo">{value}</h4>
+          <h4 class="t-caption-1-medium mb-4 text-waterloo">{value}</h4>
         {:else}
           <Button variant="plain" class="pb-3 hover:text-green" onclick={() => onClick(value)}>
             <Checkbox {isActive} />

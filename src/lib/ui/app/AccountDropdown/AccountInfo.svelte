@@ -19,7 +19,7 @@
   >
     <ProfileLink />
 
-    <p class="text-xs font-medium text-waterloo">
+    <p class="t-caption-1-medium text-waterloo">
       Plan: {planName || 'Free'}{isTrialSubscription ? ', Free Trial' : ''}
     </p>
 

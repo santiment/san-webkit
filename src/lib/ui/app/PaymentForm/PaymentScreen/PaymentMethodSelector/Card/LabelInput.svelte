@@ -12,7 +12,7 @@
 </script>
 
 <label class={className}>
-  <div class="mb-[3px] text-xs font-semibold text-waterloo">{label}</div>
+  <div class="t-caption-1-medium mb-[3px] text-waterloo">{label}</div>
 
   {#if children}
     {@render children()}

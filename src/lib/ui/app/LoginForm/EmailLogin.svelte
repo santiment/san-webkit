@@ -26,7 +26,7 @@
         bottomAction="another log in option"
         bottomHref="/login"
       >
-        <p class="mx-auto mb-8 max-w-80 text-base text-waterloo">
+        <p class="t-body-2-regular mx-auto mb-8 max-w-80 text-waterloo">
           Log in to your Sanbase account to access additional features of our platform
         </p>
 

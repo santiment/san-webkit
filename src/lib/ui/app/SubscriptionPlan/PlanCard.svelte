@@ -51,14 +51,14 @@
   style:--c-orange-light-1={theme['accent-light-1']}
 >
   <h2 class={cn('mb-4 flex max-w-fit gap-1 md:flex-wrap')}>
-    <span class="rounded-md bg-orange-light-1 px-3 py-1 text-2xl font-medium text-orange">
+    <span class="t-h4-medium rounded-md bg-orange-light-1 px-3 py-1 text-orange">
       {formattedPlan.name}
     </span>
 
     {#if isCurrentPlan}
       {#if customer.$.isTrialSubscription}
         <span
-          class="expl-tooltip flex h-10 shrink-0 whitespace-nowrap rounded-md bg-green-light-1 px-3 text-base text-green center"
+          class="expl-tooltip t-body-2-regular flex h-10 shrink-0 whitespace-nowrap rounded-md bg-green-light-1 px-3 text-green center"
           aria-label="Your free trial will expire in {customer.$.trialDaysLeft} days"
         >
           Your trial plan
@@ -72,43 +72,43 @@
   </h2>
 
   {#if formattedPlan.details}
-    <p class="mb-10 text-base text-waterloo sm:mb-8">
+    <p class="t-body-2-regular mb-10 text-waterloo sm:mb-8">
       {formattedPlan.details.description}
     </p>
   {/if}
 
   <section class="min-h-[156px] column sm:min-h-0">
-    <h3 class="mb-3 text-4xl font-semibold">
+    <h3 class="t-h2-medium mb-3">
       {#if formattedPlan.isCustom}
         Get a quote
       {:else if formattedPlan.isFree}
         $0
       {:else if isAnnualBilling}
         ${formattedPlan.price.year}
-        <span class="text-xl font-normal text-waterloo">/ year</span>
+        <span class="t-h4-regular text-waterloo">/ year</span>
       {:else}
         ${formattedPlan.price.month}
-        <span class="text-xl font-normal text-waterloo">/ mo</span>
+        <span class="t-h4-regular text-waterloo">/ mo</span>
       {/if}
     </h3>
 
-    <h4 class="mb-8 text-base text-fiord sm:mb-8">
+    <h4 class="t-body-2-regular mb-8 text-fiord sm:mb-8">
       {#if formattedPlan.isFree}
         Free forever
       {:else if formattedPlan.isCustom}
         Based on your needs
       {:else if isAnnualBilling}
-        <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
+        <span class="t-body-2-medium text-rhino">${formattedPlan.price.month}</span>
         <span class="text-waterloo"> / month, billed annually</span>
       {:else}
-        <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
+        <span class="t-body-2-medium text-rhino">${formattedPlan.price.year}</span>
         <span class="mr-1 text-waterloo"> / year, billed monthly</span>
       {/if}
     </h4>
 
     {#if formattedPlan.amount.month}
       <label
-        class="mb-4 flex items-center gap-2 text-base text-waterloo"
+        class="t-body-2-regular mb-4 flex items-center gap-2 text-waterloo"
         style:--c-green={theme['c-green']}
         style:--c-green-hover={theme['c-green-hover']}
       >

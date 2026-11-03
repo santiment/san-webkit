@@ -18,7 +18,7 @@
 </script>
 
 <div
-  class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 sm:flex-col sm:space-y-4 sm:px-5 sm:pb-0 sm:pt-6 sm:text-base"
+  class="month flex space-x-4 space-y-0 px-3 pb-3 pt-4 sm:t-body-2-regular sm:flex-col sm:space-y-4 sm:px-5 sm:pb-0 sm:pt-6"
 >
   {#each months as month}
     <Base.Grid class="w-full border-collapse select-none space-y-1">
@@ -26,7 +26,7 @@
         <Base.GridRow class="mb-1 flex justify-between">
           {#each weekdays as day}
             <Base.HeadCell
-              class="w-8 rounded-md text-xs font-normal uppercase text-waterloo sm:text-sm"
+              class="t-caption-1-regular w-8 rounded-md uppercase text-waterloo sm:t-body-3-regular"
             >
               {day.slice(0, 2)}
             </Base.HeadCell>

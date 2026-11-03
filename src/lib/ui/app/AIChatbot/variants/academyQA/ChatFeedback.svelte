@@ -40,7 +40,7 @@
 
 <div class={cn('border-t border-porcelain pt-1', className)}>
   <div class="flex items-center justify-end gap-5">
-    <p class="text-sm text-waterloo">Did Turtoshi answer correctly?</p>
+    <p class="t-body-3-regular text-waterloo">Did Turtoshi answer correctly?</p>
 
     <div class="flex gap-2">
       <Tooltip position="top" class="z-[99999] rounded" noStyles>
@@ -54,7 +54,7 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
+          <p class="t-caption-1-regular rounded bg-fiord px-3 py-[5px] text-white">Good answer</p>
         {/snippet}
       </Tooltip>
 
@@ -69,7 +69,7 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+          <p class="t-caption-1-regular rounded bg-fiord px-3 py-[5px] text-white">Bad answer</p>
         {/snippet}
       </Tooltip>
     </div>
@@ -90,7 +90,7 @@
         onclick={() => (isThankOpen = false)}
       />
       <Svg illus id="turtle" w={116} h={136} />
-      <h4 class="max-w-[313px] text-sm font-semibold text-fiord">
+      <h4 class="t-body-3-medium max-w-[313px] text-fiord">
         Thank you, feedback received!<br />Adding it to my personal blockchain of wisdom. 📚
       </h4>
     </div>

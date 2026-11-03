@@ -112,7 +112,7 @@
         {:else if type === 'title'}
           <h4
             class={cn(
-              'mb-2.5 px-2 text-xs font-semibold text-waterloo sm:px-3 sm:text-sm sm:font-normal',
+              't-caption-1-medium mb-2.5 px-2 text-waterloo sm:t-body-3-regular sm:px-3',
               i !== 0 && 'mt-3 sm:mt-4',
             )}
           >
