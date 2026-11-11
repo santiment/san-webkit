@@ -22,13 +22,13 @@ export const products: TProductCard[] = [
     href: 'https://api.santiment.net',
     dimensions: [24, 22],
   },
-  {
-    id: 'play',
-    title: 'Play',
-    desc: 'Fun, risk-free crypto predictions to learn market behavior',
-    href: 'https://play.santiment.net/',
-    dimensions: [40, 40],
-  },
+  // {
+  //   id: 'play',
+  //   title: 'Play',
+  //   desc: 'Fun, risk-free crypto predictions to learn market behavior',
+  //   href: 'https://play.santiment.net/',
+  //   dimensions: [40, 40],
+  // },
   {
     id: 'score',
     title: 'Score',
