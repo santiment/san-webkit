@@ -7,13 +7,14 @@ export function bootIntercom(
   user_id?: number,
   name?: string,
   email?: string,
+  action_color = '#14c393',
 ): void {
   window.intercomSettings = {
     app_id,
     user_id,
     name,
     email,
-    action_color: '#14c393',
+    action_color,
   }
 
   newHeadScript(
