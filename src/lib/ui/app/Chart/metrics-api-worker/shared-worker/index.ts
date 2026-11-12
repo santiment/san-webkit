@@ -13,6 +13,7 @@ import {
 } from '../types.js'
 import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
+import './raw-sql-data-store.js'
 
 export {
   DATA_STORE_TYPE_RESOLVER,

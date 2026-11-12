@@ -621,3 +621,76 @@ export const LineStyleMetrics: Story = {
     ],
   },
 }
+
+export const RawSqlFormulaMetrics: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'FORMULA_2',
+        label: 'Derived formula - Price SMA(SMA(30), 5)',
+
+        scaleId: 'right-price_usd',
+        formula: {
+          id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
+          name: 'Raw SQL formula',
+          //expr: 'btc="bitcoin"\nx1 = api_metric("price_usd", btc) \nsma(x1, 30)',
+          expr: `x1 = raw_sql("
+          SELECT
+              day,
+              volume_usd,
+              price
+          FROM
+          (
+          SELECT
+              toDate(dt) AS day,
+              sum(value) AS volume_usd
+          FROM daily_metrics_v2
+          FINAL
+          WHERE (asset_id = (
+              SELECT asset_id
+              FROM asset_metadata
+              FINAL
+              WHERE name = 'fbtc'
+          )) AND (metric_id = (
+              SELECT metric_id
+              FROM metric_metadata
+              FINAL
+              WHERE name LIKE 'etf_flow'
+          )) AND toDayOfWeek(dt)<6
+          GROUP BY day
+          )
+          INNER JOIN
+          (
+              SELECT
+                  dt as day,
+                  value AS price
+              FROM daily_metrics_v2
+              FINAL
+              WHERE (asset_id IN (
+                  SELECT asset_id
+                  FROM asset_metadata
+                  WHERE name LIKE 'bitcoin'
+              )) AND (metric_id IN (
+                  SELECT metric_id
+                  FROM metric_metadata
+                  WHERE name LIKE 'daily_avg_price_usd'
+              ))
+              ORDER BY day ASC
+          ) USING (day)
+          ")
+
+            x1.price`,
+        },
+      },
+      {
+        label: 'Derived formula',
+        scaleId: 'right-0.702362761389925',
+        formula: {
+          expr: 'sma(m1, 30)',
+          id: '019e027a-d694-776d-831a-8264461c821d',
+          name: 'Derived formula',
+        },
+      },
+    ],
+  },
+}

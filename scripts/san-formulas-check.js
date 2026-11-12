@@ -29,6 +29,7 @@ Promise.all([
     'unequal',
     'value_at',
     'backtest', // TODO: Remove
+    'raw_sql', // TODO: Remove
   ])
 
   for (const key in spec.DEFINITIONS) {

@@ -102,6 +102,20 @@ export async function fetchFormulaMetric(
       return new SanFormulas.SymbolNode(variable.name)
     }
 
+    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'raw_sql') {
+      const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
+
+      const variableName = controller.getTransformationVariableName(transformationScope)
+      const [rawSql] = transformationScope.get(variableName)!
+
+      const variable = { name: variableName }
+      const metric = { dataStore: { type: '__raw_sql', rawSql }, name: '', selector: null }
+
+      fetchedMetrics.push(createFetchJob(variable, metric))
+
+      return new SanFormulas.SymbolNode(variable.name)
+    }
+
     return node
   })
 
@@ -139,7 +153,15 @@ export async function fetchFormulaMetric(
 
   return Promise.all(fetchedMetrics).then((metrics) => {
     const scope = new Map(
-      metrics.map(([variable, data, selector]) => [variable, new Timeseries(data, selector)]),
+      metrics.map(([variable, data, selector]) => [
+        variable,
+        Array.isArray(data)
+          ? new Timeseries(data, selector)
+          : Object.keys(data as Record<string, TMetricData>).reduce(
+              (acc, key) => ({ ...acc, [key]: new Timeseries(data[key], null) }),
+              {},
+            ),
+      ]),
     )
 
     const rawAnswer = transformedExpression.evaluate(scope)
@@ -210,6 +232,7 @@ export function validateFormula(expr: string, index: number, chartMetrics: TCont
   parsedExpression.traverse((node) => {
     throwImplicitOperationError(node)
   })
+  console.log(parsedExpression)
 
   const scope = new Map(
     chartMetrics.map((item, index) => [`m${index + 1}`, new Timeseries([], item.selector)]),
