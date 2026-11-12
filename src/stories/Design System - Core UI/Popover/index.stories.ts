@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/svelte'
 
 import component from './index.svelte'
-import PopoverWithButtonComponent from './PopoverWithButton.svelte'
+import HoverWithButtonComponent from './HoverWithButton.svelte'
 import PositionedPopover from './PositionedPopover.svelte'
 
 const meta = {
@@ -22,8 +22,8 @@ export const PopoverWithPositionConfig: StoryObj<typeof PositionedPopover> = {
   }),
 }
 
-export const PopoverWithButton: StoryObj<typeof PopoverWithButtonComponent> = {
+export const HoverWithButton: StoryObj<typeof HoverWithButtonComponent> = {
   render: () => ({
-    Component: PopoverWithButtonComponent,
+    Component: HoverWithButtonComponent,
   }),
 }

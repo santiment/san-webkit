@@ -2,7 +2,6 @@ import { BROWSER } from 'esm-env'
 import * as amplitude from '@amplitude/analytics-browser'
 
 import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
-import { useUiCtx } from '$lib/ctx/ui/index.svelte.js'
 import { SubscriptionPlan } from '$ui/app/SubscriptionPlan/plans.js'
 import { useDebouncedFn } from '$lib/utils/index.js'
 
@@ -12,7 +11,6 @@ export function useAmplitudeFlow() {
   if (!BROWSER) return
 
   const { customer, currentUser } = useCustomerCtx.get()
-  const { ui } = useUiCtx.get()
   const { abTests } = useABTestCtx.get()
 
   type UserData = {
@@ -31,11 +29,8 @@ export function useAmplitudeFlow() {
         email,
         feature_access_level: featureAccessLevel,
         abTests,
+        sanbase_version: 'LITE',
       }),
-  )
-
-  const updateUserSanbaseVersion = useDebouncedFn(1000, (isLiteVersion: boolean) =>
-    setAmplitudeUserProperties({ sanbase_version: isLiteVersion ? 'LITE' : 'CLASSIC' }),
   )
 
   const updateUserSanbasePlan = useDebouncedFn(1000, (sanbase_plan?: string) =>
@@ -45,10 +40,6 @@ export function useAmplitudeFlow() {
   $effect(() => {
     const { id, email, name, featureAccessLevel } = currentUser.$$ ?? {}
     updateUserData({ id, email, name, featureAccessLevel }, abTests.$)
-  })
-
-  $effect(() => {
-    updateUserSanbaseVersion(ui.$$.isLiteVersion)
   })
 
   $effect(() => {

@@ -1,10 +1,8 @@
 <script lang="ts">
   import { SvelteSet } from 'svelte/reactivity'
 
-  import { useDeviceCtx } from '$lib/ctx/device/index.js'
   import Button from '$ui/core/Button/index.js'
   import Checkbox from '$ui/core/Checkbox/index.js'
-  import Svg from '$ui/core/Svg/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
 
   import Layout from './Layout.svelte'
@@ -22,8 +20,6 @@
     'Too expensive',
     'Other',
   ]
-
-  const { device } = useDeviceCtx()
 
   let reasons = new SvelteSet<string>()
   let textareaNode: HTMLTextAreaElement
@@ -48,7 +44,7 @@
     <section class="mb-5 text-left">
       <h4 class="mb-4 font-medium">Help us understand why*</h4>
 
-      <div class="gap-3 whitespace-nowrap column">
+      <div class="column gap-3 whitespace-nowrap">
         {#each REASONS as item}
           <Button as="label" class="gap-2 text-fiord">
             <Checkbox isActive={reasons.has(item)} onCheckedChange={() => toggleReason(item)}
@@ -66,14 +62,8 @@
         cols="30"
         rows="3"
         placeholder="Tell us how we can make Santiment better for you in the future"
-        class="min-h-[72px] w-full rounded-sm border bg-white px-2 py-1.5 outline-hidden hover:border-green focus:border-green"
+        class="min-h-18 w-full rounded-sm border bg-white px-2 py-1.5 outline-hidden hover:border-green focus:border-green"
       ></textarea>
     </section>
   </Layout>
-
-  {#if device.$.isDesktop}
-    <section class="ml-14 flex border-l pl-[106px] pr-[50px] center">
-      <Svg id="sad-cat" illus w="296" />
-    </section>
-  {/if}
 </div>
