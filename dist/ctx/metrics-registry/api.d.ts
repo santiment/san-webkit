@@ -1,0 +1,66 @@
+import type { TMetricSelector } from './types/index.js';
+import { type TNominal } from '../../utils/types/index.js';
+import { type TGranularityRulesSchema, type TSettingsSchema } from './settings-schema.js';
+export type TMetricKey = TNominal<string, 'TMetricKey'>;
+export type TMetricUnit = '' | 'usd' | 'percent' | 'mvrv_percent';
+type TMetricArgs = Partial<{
+    selector: TMetricSelector;
+    [x: string]: unknown;
+}>;
+export declare const MetricStatus: {
+    readonly LIVE: "LIVE";
+    readonly HIDDEN: "HIDDEN";
+    readonly UNDER_MAINTENANCE: "UNDER_MAINTENANCE";
+};
+export type TMetricStatus = (typeof MetricStatus)[keyof typeof MetricStatus];
+export type TStyleOptions = Partial<{
+    baseline: {
+        value: number;
+        bottomColor: string;
+    };
+    isFilledGradient: boolean;
+}>;
+export type TRegistryMetric = {
+    key: string;
+    queryKey: undefined | string;
+    label: string;
+    category: string;
+    group?: string;
+    chartStyle: string;
+    node: string;
+    status: TMetricStatus;
+    unit: string;
+    formatter: undefined | ((value: number) => string);
+    meta: {
+        args: TMetricArgs;
+        isNew: boolean;
+        displayOrder: number;
+        status: TMetricStatus;
+        styleOptions: TStyleOptions;
+        settingsSchema?: TSettingsSchema;
+        granularityRules?: TGranularityRulesSchema;
+    };
+    reqMeta: object;
+};
+export type TMetricsRegistry = Record<string, undefined | TRegistryMetric>;
+export declare const queryGetOrderedMetrics: <GExecutor extends (<T>(schema: import("../../api/executor.js").TGqlSchema, options?: Partial<{
+    map: (data: unknown) => T;
+}>) => import("rxjs").Observable<T>) | typeof import("../../api/executor.js").Query = <T>(schema: import("../../api/executor.js").TGqlSchema, options?: Partial<{
+    map: (data: unknown) => T;
+}>) => import("rxjs").Observable<T>>(executorConfig?: GExecutor | ({
+    executor: GExecutor;
+} & {
+    cache?: boolean;
+    cacheTime?: number;
+    recache?: boolean;
+} & Partial<{
+    fetcher: (typeof globalThis)["fetch"];
+    signal: null | AbortSignal;
+}>)) => <GData extends {
+    categories: string[];
+    MetricsRegistry: TMetricsRegistry;
+} = {
+    categories: string[];
+    MetricsRegistry: TMetricsRegistry;
+}>() => GExecutor extends (...args: any[]) => import("rxjs").Observable<any> ? import("rxjs").Observable<GData> : Promise<GData>;
+export {};
