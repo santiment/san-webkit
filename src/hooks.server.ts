@@ -5,6 +5,11 @@ import * as Sentry from '@sentry/sveltekit'
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   release: process.env.GIT_HEAD,
+  ignoreErrors: [
+    'Failed to fetch', // Chrome/Edge
+    'Load failed', // Safari
+    'NetworkError', // Firefox
+  ],
 })
 Sentry.setTags({
   is_server: true,

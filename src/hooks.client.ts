@@ -6,6 +6,11 @@ import { subscribeToSentryUserEvent } from '$lib/ctx/customer/events.js'
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   release: process.env.GIT_HEAD,
+  ignoreErrors: [
+    'Failed to fetch', // Chrome/Edge
+    'Load failed', // Safari
+    'NetworkError', // Firefox
+  ],
 })
 
 Sentry.setTags({
