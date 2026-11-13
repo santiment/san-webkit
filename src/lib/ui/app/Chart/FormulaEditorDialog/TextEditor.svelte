@@ -35,7 +35,7 @@
 
 <div
   use:mount
-  class="group relative max-h-[202px] min-h-8 rounded border bg-white fill-waterloo focus-within:border-green focus-within:fill-green hover:border-green"
+  class="group relative max-h-[202px] min-h-8 overflow-hidden rounded border bg-white fill-waterloo focus-within:border-green focus-within:fill-green hover:border-green"
 >
   <pre class="py-[5px] pl-3">{value}</pre>
 
