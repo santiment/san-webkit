@@ -1,4 +1,5 @@
 import { languages } from 'monaco-editor/esm/vs/editor/editor.api.js'
+import 'monaco-editor/esm/vs/basic-languages/sql/sql.contribution'
 
 import { LANGUAGE_ID } from './language.js'
 import { DEFINITIONS } from './definitions.js'
@@ -21,6 +22,16 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
   // The main tokenizer for our languages
   tokenizer: {
     root: [
+      // raw_sql("  -> enter embedded SQL
+      [
+        /(raw_sql)(\s*\(\s*)(")/,
+        [
+          'identifier',
+          'delimiter.parenthesis',
+          { token: 'string.quote', next: '@sqlString', nextEmbedded: 'sql' },
+        ],
+      ],
+
       // identifiers and keywords
       [
         /[a-z_$][\w$]*/,
@@ -54,6 +65,15 @@ languages.setMonarchTokensProvider(LANGUAGE_ID, {
       [/"([^"\\]|\\.)*$/, 'string.invalid'], // non-teminated string
       [/"/, { token: 'string.quote', bracket: '@open', next: '@string' }],
     ],
+
+    sqlString: [
+      // closing quote: leave SQL mode, let sqlEnd consume the quote
+      [/"/, { token: '@rematch', switchTo: '@sqlEnd', nextEmbedded: '@pop' }],
+      [/\\./, ''], // skip escapes (still passed to SQL)
+      [/[^\\"]+/, ''], // everything else goes to the SQL tokenizer
+    ],
+
+    sqlEnd: [[/"/, { token: 'string.quote', next: '@pop' }]],
 
     whitespace: [
       [/[ \t\r\n]+/, 'white'],
