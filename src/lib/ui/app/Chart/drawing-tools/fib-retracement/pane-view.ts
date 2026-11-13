@@ -32,7 +32,7 @@ export class FibRetracementPaneView extends DrawingPaneView {
 
     const [vp1, vp2] = this._source.viewPoints
 
-    if (!vp1.x || !vp2.x || !vp1.y || !vp2.y) {
+    if (!vp1?.x || !vp2?.x || !vp1?.y || !vp2?.y) {
       this.data.levels = []
       return
     }

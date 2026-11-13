@@ -36,6 +36,8 @@ export function convertTimeToSafeCoordinate(
   const timeScaleModel = timeScale._timeScale as ITimeScaleModel
 
   const startTime = timeScaleModel._points[0]?.originalTime
+  if (!startTime) return 0 as Coordinate
+
   const startCoord = timeScale.timeToCoordinate(startTime, true)
 
   if (!startTime || !startCoord) return 0 as Coordinate
