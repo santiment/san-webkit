@@ -6,6 +6,12 @@ import { Query } from '$lib/api/executor.js'
 
 import { registerDataStoreTypeResolver, type TDataStoreParameters } from './data-store-metrics.js'
 
+export const RAW_SQL_DATA_STORE = '__raw_sql'
+export const RAW_SQL_DATA_FLAG = '__san_formula_processed__'
+
+export const checkIsRawSqlFormulaResult = (data: any): boolean =>
+  RAW_SQL_DATA_FLAG in data && data[RAW_SQL_DATA_FLAG]
+
 export type TRawSqlData = {
   rows: (string | number)[][]
   columns: string[]
@@ -59,7 +65,7 @@ export const queryRunRawSqlQuery = ApiQuery(
   { cacheTime: undefined },
 )
 
-registerDataStoreTypeResolver('__raw_sql', (params, queryVars, recache) => {
+registerDataStoreTypeResolver(RAW_SQL_DATA_STORE, (params, queryVars, recache) => {
   const { rawSql } = params as TDataStoreParameters & { rawSql: string }
 
   return queryRunRawSqlQuery({ executor: Query, recache })({

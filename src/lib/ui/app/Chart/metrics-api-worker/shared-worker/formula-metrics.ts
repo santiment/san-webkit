@@ -20,6 +20,11 @@ import {
 import { type TMetricData, type TMetricTargetSelectorInputObject } from '../../api/index.js'
 import { parseFormulaChartVariables } from '../utils.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
+import {
+  checkIsRawSqlFormulaResult,
+  RAW_SQL_DATA_FLAG,
+  RAW_SQL_DATA_STORE,
+} from './raw-sql-data-store.js'
 
 type TContext = {
   recache?: boolean
@@ -109,7 +114,7 @@ export async function fetchFormulaMetric(
       const [rawSql] = transformationScope.get(variableName)!
 
       const variable = { name: variableName }
-      const metric = { dataStore: { type: '__raw_sql', rawSql }, name: '', selector: null }
+      const metric = { dataStore: { type: RAW_SQL_DATA_STORE, rawSql }, name: '', selector: null }
 
       fetchedMetrics.push(createFetchJob(variable, metric))
 
@@ -157,13 +162,20 @@ export async function fetchFormulaMetric(
         variable,
         Array.isArray(data)
           ? new Timeseries(data, selector)
-          : Object.keys(data as Record<string, TMetricData>).reduce(
-              (acc, key) => ({ ...acc, [key]: new Timeseries(data[key], null) }),
-              {},
-            ),
+          : normalizeDataStoreKeyStoreMetric(data),
       ]),
     )
 
+    function normalizeDataStoreKeyStoreMetric(data: Record<string, TMetricData>) {
+      if (checkIsRawSqlFormulaResult(data)) {
+        return data
+      }
+
+      return Object.keys(data as Record<string, TMetricData>).reduce(
+        (acc, key) => ({ ...acc, [key]: new Timeseries(data[key], null) }),
+        { [RAW_SQL_DATA_FLAG]: true },
+      )
+    }
     const rawAnswer = transformedExpression.evaluate(scope)
 
     const result = SanFormulas.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
@@ -182,7 +194,7 @@ export async function fetchFormulaMetric(
     // NOTE: Mutating normalization
     normalizeTimeseries(timeseries)
 
-    cachePromiseController.resolve(timeseries)
+    cachePromiseController.resolve(checkIsRawSqlFormulaResult(result) ? result : timeseries)
 
     //const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
     //console.log({ usedVariables })
@@ -232,7 +244,6 @@ export function validateFormula(expr: string, index: number, chartMetrics: TCont
   parsedExpression.traverse((node) => {
     throwImplicitOperationError(node)
   })
-  console.log(parsedExpression)
 
   const scope = new Map(
     chartMetrics.map((item, index) => [`m${index + 1}`, new Timeseries([], item.selector)]),

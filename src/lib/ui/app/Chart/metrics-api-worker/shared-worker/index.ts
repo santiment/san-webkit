@@ -13,7 +13,7 @@ import {
 } from '../types.js'
 import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
-import './raw-sql-data-store.js'
+import { checkIsRawSqlFormulaResult } from './raw-sql-data-store.js'
 
 export {
   DATA_STORE_TYPE_RESOLVER,
@@ -119,6 +119,10 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
   fetchFormulaMetric(formula, index, ctx)
     .then((timeseries) => {
       if (ctx.isCancelled) return
+
+      if (checkIsRawSqlFormulaResult(timeseries)) {
+        timeseries = []
+      }
 
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
         payload: {

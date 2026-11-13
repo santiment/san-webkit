@@ -57,8 +57,20 @@ const raw_sql = createTransformableMathFunction('raw_sql', {
   },
 })
 
+const raw_sql_column = math.typed('raw_sql_column', {
+  'any, string': (input: any, column: string) => {
+    // NOTE: Need to know that input is not a data store first
+    // if (!(column in input)) {
+    //   throw new Error(`Cannot access raw sql column "${column}"`)
+    // }
+
+    return input[column] || new Timeseries([], null)
+  },
+}) as (input: any, column: string) => Timeseries
+
 export const MathChartMetrics = {
   selector_from,
   api_metric,
   raw_sql,
+  raw_sql_column,
 }

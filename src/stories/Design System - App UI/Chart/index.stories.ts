@@ -634,7 +634,7 @@ export const RawSqlFormulaMetrics: Story = {
           id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
           name: 'Raw SQL formula',
           //expr: 'btc="bitcoin"\nx1 = api_metric("price_usd", btc) \nsma(x1, 30)',
-          expr: `x1 = raw_sql("
+          expr: `raw_sql("
           SELECT
               day,
               volume_usd,
@@ -677,16 +677,14 @@ export const RawSqlFormulaMetrics: Story = {
               ))
               ORDER BY day ASC
           ) USING (day)
-          ")
-
-            x1.price`,
+          ")`,
         },
       },
       {
         label: 'Derived formula',
         scaleId: 'right-0.702362761389925',
         formula: {
-          expr: 'sma(m1, 30)',
+          expr: 'raw_sql_column(m1, "price")',
           id: '019e027a-d694-776d-831a-8264461c821d',
           name: 'Derived formula',
         },
