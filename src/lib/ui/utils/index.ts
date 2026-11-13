@@ -1,9 +1,22 @@
 import type { ActionReturn } from 'svelte/action'
 
-import { twMerge, type ClassNameValue } from 'tailwind-merge'
+import { extendTailwindMerge, type ClassNameValue } from 'tailwind-merge'
 import { BROWSER } from 'esm-env'
 
+import { typography } from './typography.js'
+
 export { applyStyles, preserveStyles, type TStyles } from 'drawer-svelte'
+
+const twMerge = extendTailwindMerge<'typography'>({
+  extend: {
+    classGroups: {
+      typography: Object.keys(typography),
+    },
+    conflictingClassGroups: {
+      typography: ['font-family', 'font-size', 'font-weight', 'leading', 'tracking'],
+    },
+  },
+})
 
 export function cn(...classLists: ClassNameValue[]) {
   return twMerge(...classLists)
