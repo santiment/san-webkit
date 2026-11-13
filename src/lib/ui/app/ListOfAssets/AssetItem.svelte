@@ -24,7 +24,7 @@
   <Button
     explanation={isOverflow ? `${name} (${ticker})` : undefined}
     class={cn(
-      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 sm:px-3 sm:py-2 sm:text-base',
+      'flex w-full items-center gap-3 rounded-md px-2 py-1.5 sm:t-body-2-regular sm:px-3 sm:py-2',
       isActive && 'text-green',
       className,
     )}

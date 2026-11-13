@@ -29,17 +29,17 @@
 
 <section
   class={cn(
-    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center ',
+    'flex min-w-[408px] flex-col justify-center rounded px-14 py-10 text-center',
     'sm:min-w-0 sm:flex-1 sm:justify-start sm:self-start sm:px-8 sm:py-16',
     className,
   )}
 >
-  <h2 class={cn('mb-6 text-2xl sm:mb-8 sm:font-medium', titleClass)}>{title}</h2>
+  <h2 class={cn('t-h4-regular mb-6 sm:t-h4-medium sm:mb-8', titleClass)}>{title}</h2>
 
   {@render children()}
 
   {#if bottomLabel}
-    <div class="mt-6 text-base text-fiord">
+    <div class="t-body-2-regular mt-6 text-fiord">
       {bottomLabel}
       <Button href={bottomHref} variant="link" onclick={onBottomClick}>{bottomAction}</Button>
     </div>

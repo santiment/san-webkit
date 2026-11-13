@@ -114,11 +114,11 @@
       {@const asset = getAssetBySlug(slug)}
       <div>
         <header class="mb-2.5 flex items-center justify-between">
-          <h3 class="font-medium text-rhino">
+          <h3 class="t-body-3-medium text-rhino">
             {asset?.name || slug}
           </h3>
 
-          <span class="text-xs text-waterloo">
+          <span class="t-caption-1-regular text-waterloo">
             {getFormattedDetailedTimestamp(
               applyTimeZoneOffset(
                 new Date((openedExplanation.spikeStartDatetime as number) * 1000),

@@ -97,7 +97,9 @@
       }}
 
       <section class="mx-auto w-56 select-none py-3 text-center">
-        <div class="mb-1 grid grid-cols-7 text-xs font-normal uppercase text-waterloo sm:text-sm">
+        <div
+          class="t-caption-1-regular mb-1 grid grid-cols-7 uppercase text-waterloo sm:t-body-3-regular"
+        >
           {#each weekdays as day}
             <div class="w-8 rounded-md">
               {day.slice(0, 2)}

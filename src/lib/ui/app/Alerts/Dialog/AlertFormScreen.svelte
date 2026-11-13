@@ -54,7 +54,7 @@
     class="relative flex h-full w-[374px] flex-col items-start overflow-auto border-r pb-6 pl-12 pr-10 pt-8"
   >
     <div class="mb-6 flex w-full items-center justify-between border-b pb-4">
-      <h2 class="text-xl">{schema.ui.label}</h2>
+      <h2 class="t-h4-regular">{schema.ui.label}</h2>
 
       {#if !alert}
         <Button
@@ -88,7 +88,7 @@
 
   <main class="flex flex-1 flex-col overflow-auto pb-8 pl-10 pr-12 pt-9">
     <div class="mb-4 flex justify-between">
-      <h3 class="h-8 text-lg font-medium">{selectedStep.$.ui.label}</h3>
+      <h3 class="t-body-1-medium h-8">{selectedStep.$.ui.label}</h3>
 
       {#if selectedStep.$.isValid.$ && nextStep.$}
         <Button

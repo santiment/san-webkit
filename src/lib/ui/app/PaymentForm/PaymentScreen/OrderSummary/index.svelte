@@ -81,11 +81,11 @@
   class="min-w-[400px] max-w-[480px] gap-4 self-start column md:mt-10 md:min-w-0 md:max-w-full md:gap-2 md:[&>*]:-mx-5 md:[&>*]:rounded-none"
 >
   <section class="gap-8 rounded-lg bg-athens px-8 py-6 column">
-    <h2 class="text-lg font-semibold text-rhino">
+    <h2 class="t-body-1-semibold text-rhino">
       <div class="flex justify-between">
         {#if formattedPlan}
           {formattedPlan.name} - Billed {isAnnualBilling ? 'annually' : 'monthly'}
-          <span class="text-base font-normal text-waterloo">
+          <span class="t-body-2-regular text-waterloo">
             ${planPrice}/ {isAnnualBilling ? 'Year' : 'Month'}
           </span>
         {:else}
@@ -104,7 +104,7 @@
 
     <div class="mt-4 gap-4 column">
       {#if isConsumerPlan && discount.$}
-        <div class="flex justify-between border-b pb-3 text-base font-medium text-waterloo">
+        <div class="t-body-2-medium flex justify-between border-b pb-3 text-waterloo">
           {discount.$.description}
           {discount.$.percentOff}%
           <span class="text-green">- ${discount.$.priceOff}</span>
@@ -113,13 +113,13 @@
 
       {#if isEligibleForSanbaseTrial}
         {@const now = new Date()}
-        <h4 class="flex justify-between text-base font-medium text-waterloo">
+        <h4 class="t-body-2-medium flex justify-between text-waterloo">
           Total you pay on {getFormattedMonthDayYear(modifyDate(now, { days: +14 }))}
           <span> ${resultPayment.$.price}</span>
         </h4>
       {/if}
 
-      <h3 class="justify-between text-lg font-medium row">
+      <h3 class="t-body-1-medium justify-between row">
         Today you pay <span>
           {#if isEligibleForSanbaseTrial}
             $0

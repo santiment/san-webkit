@@ -26,7 +26,7 @@
 
 <main class="flex h-screen gap-6 p-5">
   <section class="flex flex-1 flex-col gap-4">
-    <h3 class="text-lg">
+    <h3 class="t-body-1-regular">
       {#if isMulti}
         Selected Multi Assets: {Array.from(selectedMulti)}
       {:else}
@@ -45,12 +45,12 @@
 
     <section class="flex h-full gap-5">
       <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
-        <h4 class="p-2 text-lg">Regular</h4>
+        <h4 class="t-body-1-regular p-2">Regular</h4>
         {@render list()}
       </section>
 
       <section class="flex h-full max-w-96 flex-1 flex-col rounded-lg border">
-        <h4 class="p-2 text-lg">In Popover</h4>
+        <h4 class="t-body-1-regular p-2">In Popover</h4>
 
         <Popover>
           {#snippet children({ props })}

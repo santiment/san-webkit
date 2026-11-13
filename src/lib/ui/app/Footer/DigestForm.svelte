@@ -65,7 +65,7 @@
 
 <form
   class={cn(
-    'flex rounded-lg border bg-white py-[3px] pl-1.5 pr-1 text-base text-black md:text-base',
+    't-body-2-regular flex rounded-lg border bg-white py-[3px] pl-1.5 pr-1 text-black md:t-body-2-regular',
     className,
   )}
   onsubmit={handleSubmit}

@@ -49,9 +49,9 @@
 
 <main class="p-10 px-40">
   {#each Object.entries(ColorVars) as [group, colors]}
-    <h2 class="mb-2 text-3xl">{group}</h2>
+    <h2 class="t-h3-regular mb-2">{group}</h2>
 
-    <div class="mb-10 flex flex-wrap gap-4 text-xs">
+    <div class="t-caption-1-regular mb-10 flex flex-wrap gap-4">
       {#each colors as color}
         <div class="color gap-1 column text-mono">
           <div class="h-[100px] w-[160px] rounded border" style="background:var(--{color})"></div>

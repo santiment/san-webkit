@@ -13,7 +13,7 @@
 </script>
 
 <section class={cn('overflow-clip rounded border', className)}>
-  <h4 class="bg-athens px-4 py-2 text-xs font-medium text-waterloo">{title}</h4>
+  <h4 class="t-caption-1-medium bg-athens px-4 py-2 text-waterloo">{title}</h4>
 
   {@render children()}
 </section>

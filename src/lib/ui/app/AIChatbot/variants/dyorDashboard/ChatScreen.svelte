@@ -39,7 +39,7 @@
   })
 </script>
 
-<div class="mb-4 text-center text-xs text-waterloo">
+<div class="t-caption-1-regular mb-4 text-center text-waterloo">
   Today {formatChatTime(aiChatbot.$$.session?.insertedAt || new Date().toISOString())}
 </div>
 

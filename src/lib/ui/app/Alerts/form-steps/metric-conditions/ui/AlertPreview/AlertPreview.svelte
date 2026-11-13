@@ -34,7 +34,7 @@
     step.name === name ? step.reduceToApi(step.state.$$) : null
 </script>
 
-<section class="flex flex-col gap-2 text-xs font-medium">
+<section class="t-caption-1-medium flex flex-col gap-2">
   <section class="flex justify-between text-fiord">
     <span>{description}</span>
 
@@ -47,12 +47,14 @@
     {#if isSingleAsset}
       <PreviewChart {...assetAlertData} />
     {:else}
-      <section class="flex justify-center gap-4 rounded-lg border pb-12 pt-10 text-sm text-fiord">
+      <section
+        class="t-body-3-medium flex justify-center gap-4 rounded-lg border pb-12 pt-10 text-fiord"
+      >
         <Svg id="data" w="75" h="87" illus />
 
         <section class="flex max-w-36 flex-col gap-2">
-          <h4 class="font-semibold">Chart unavailable!</h4>
-          <p class="font-normal">Please select a single asset to view data</p>
+          <h4 class="t-body-3-medium">Chart unavailable!</h4>
+          <p class="t-body-3-regular">Please select a single asset to view data</p>
         </section>
       </section>
     {/if}

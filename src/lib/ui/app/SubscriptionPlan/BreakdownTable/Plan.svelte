@@ -16,10 +16,10 @@
 </script>
 
 <article class={cn('flex-1 gap-2 text-left column', className)}>
-  <h4 class="text-lg-2 font-medium text-rhino">
+  <h4 class="t-h5-medium text-rhino">
     {formattedPlan.name}
   </h4>
-  <h5 class="text-base font-medium text-waterloo">
+  <h5 class="t-body-2-medium text-waterloo">
     {#if formattedPlan.isCustom}
       Custom
     {:else}

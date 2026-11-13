@@ -67,7 +67,7 @@
 
 <Dialog class="h-full max-h-[640px] w-full max-w-[960px] column">
   <h2
-    class="flex items-center justify-between border-b fill-waterloo px-5 py-3 text-base font-medium text-fiord"
+    class="t-body-2-medium flex items-center justify-between border-b fill-waterloo px-5 py-3 text-fiord"
   >
     Create custom alerts
     <Button icon="close" iconSize="12" class="h-6" onclick={close} />

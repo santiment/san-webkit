@@ -57,10 +57,10 @@
   </figure>
 
   <div class="flex-1 items-start gap-2 column">
-    <h4 class="line-clamp-2 text-base font-medium text-rhino">{message}</h4>
+    <h4 class="t-body-2-medium line-clamp-2 text-rhino">{message}</h4>
 
     {#if content}
-      <p class="text-base text-fiord">
+      <p class="t-body-2-regular text-fiord">
         {#if typeof content === 'function'}
           {@render content({ close: close })}
         {:else}

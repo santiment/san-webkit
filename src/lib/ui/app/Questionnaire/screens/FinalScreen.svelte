@@ -39,9 +39,9 @@
   <Svg illus id="confetti" w={128} />
 
   <div class="flex flex-col gap-4">
-    <h1 class="text-lg-3 font-medium text-rhino">Thanks for your help!</h1>
+    <h1 class="t-h5-medium text-rhino">Thanks for your help!</h1>
 
-    <p class="max-w-[290px] text-base">
+    <p class="t-body-2-regular max-w-[290px]">
       As a reward, our expert will jump on a call with you to help you make the most out of
       Santiment.
     </p>

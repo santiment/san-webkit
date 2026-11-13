@@ -95,8 +95,8 @@
   }
 </script>
 
-<Card class={cn('text-base sm:text-lg', className)}>
-  <h1 class="mb-5 text-3xl font-medium sm:mb-8 sm:text-2xl">Welcome to Sanbase</h1>
+<Card class={cn('t-body-2-regular sm:t-body-1-regular', className)}>
+  <h1 class="t-h3-medium mb-5 sm:t-h4-medium sm:mb-8">Welcome to Sanbase</h1>
 
   {#if !defaultUsername}
     <label class="mb-6 flex flex-col gap-3 text-rhino sm:mb-8 sm:w-full">
@@ -152,7 +152,7 @@
       />
       <section class="flex flex-col gap-2">
         <span>I’d like to receive emails with tips and updates from time to time.</span>
-        <span class="text-sm text-fiord sm:text-base">
+        <span class="t-body-3-regular text-fiord sm:t-body-2-regular">
           No spam, your email never shared with third parties. Opt out anytime in Account Settings.
         </span>
       </section>

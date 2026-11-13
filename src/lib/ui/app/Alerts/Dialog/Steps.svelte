@@ -49,7 +49,7 @@
       </span>
 
       <div class="min-w-0 text-start">
-        <h3 class="text-base">{title}</h3>
+        <h3 class="t-body-2-regular">{title}</h3>
         {#if valid && Legend}
           <div class="mt-2 flex text-fiord">
             <Legend {state} />

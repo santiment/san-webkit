@@ -16,7 +16,7 @@
 </script>
 
 <div class="flex-1">
-  <h4 class="mb-[52px] mt-[128px] max-w-[300px] text-2xl text-fiord">
+  <h4 class="t-h4-regular mb-[52px] mt-[128px] max-w-[300px] text-fiord">
     Ask Santiment AI Make Sense of the Market
   </h4>
   <ul class="mb-6 flex flex-col gap-2">

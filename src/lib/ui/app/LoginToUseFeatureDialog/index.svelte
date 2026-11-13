@@ -27,10 +27,10 @@
   <section class="p-12 text-center">
     <Button class="absolute right-6 top-5" size="lg" icon="close" onclick={close}></Button>
 
-    <h3 class="mb-6 text-2xl font-medium">Log in to use this feature!</h3>
+    <h3 class="t-h4-medium mb-6">Log in to use this feature!</h3>
 
     <section class="mx-auto max-w-md">
-      <p class="mb-8 text-base text-waterloo">
+      <p class="t-body-2-regular mb-8 text-waterloo">
         Log in to access more Sanbase features including real-time metrics, market alerts,
         personalized watchlists and other information on 1500+ cryptocurrencies
       </p>

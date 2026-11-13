@@ -60,7 +60,7 @@
     {/snippet}
 
     {#snippet content()}
-      <section class={cn('max-w-60 px-5 py-4 text-sm', contentClass)}>
+      <section class={cn('t-body-3-regular max-w-60 px-5 py-4', contentClass)}>
         {@render infoContent()}
       </section>
     {/snippet}

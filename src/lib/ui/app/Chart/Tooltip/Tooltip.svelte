@@ -44,7 +44,7 @@
 
 {#if hoverPoint}
   {@const { datetime, seriesData } = hoverPoint}
-  <div class="pointer-events-none absolute left-1 top-2 z-10 rounded border text-sm">
+  <div class="t-body-3-regular pointer-events-none absolute left-1 top-2 z-10 rounded border">
     <section class="bg-athens/90 p-1 px-2">
       {formatDate(datetime)}
     </section>
