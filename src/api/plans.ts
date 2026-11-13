@@ -18,6 +18,9 @@ export const PLANS_QUERY = `{
       interval
       amount
       isDeprecated
+      product {
+        id
+      }
     }
   }
 }`
