@@ -4,7 +4,7 @@
   import PlanSelector from './PlanSelector.svelte'
   import Check from './Check.svelte'
   import DiscountInput from './DiscountInput.svelte'
-  import { Billing } from '@/utils/plans'
+  import { Billing, checkIsBusinessPlan } from '@/utils/plans'
   import SpecialOfferDiscount from './SpecialOfferDiscount.svelte'
   import AppleGooglePay from './AppleGooglePay.svelte'
   import { noop } from '@/utils'
@@ -37,7 +37,7 @@
     {:else}
       <DiscountInput bind:percentOff bind:ctx />
 
-      {#if name?.toLowerCase().includes('business') === false}
+      {#if !checkIsBusinessPlan(plan)}
         <div class="holder row mrg-xl mrg--b">
           <Svg id="info" w="16" class="$style.info mrg-s mrg--r" />
           <div>

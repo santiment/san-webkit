@@ -79,7 +79,7 @@
             {option.interval === Billing.YEAR ? 'annual' : 'montly'} -
             <span class="txt-b">{formatMonthlyPrice(option)}/mo</span>
 
-            {#if checkIsYearlyPlan(option)}
+            {#if checkIsYearlyPlan(option) && yearDiscount}
               <span class="mrg-s mrg--l caption c-accent">{saveMsg}</span>
             {/if}
           </button>
@@ -88,8 +88,8 @@
     </Tooltip>
 
     <div class="caption txt-m c-accent">
-      {#if checkIsYearlyPlan(plan)}
-        {altPlan ? `You save ${getSavedAmount(plan, altPlan)} a year 🎉` : saveMsg}
+      {#if checkIsYearlyPlan(plan) && altPlan}
+        You save {getSavedAmount(plan, altPlan)} a year 🎉
       {:else if annualPercentOff}
         Save {annualPercentOff}% with yearly billing
       {/if}
