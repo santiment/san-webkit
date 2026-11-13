@@ -15,5 +15,5 @@ export const createPlaceholder = (getDefault: () => DateValue) => {
   return placeholder
 }
 
-const monthFormatter = new Intl.DateTimeFormat('en', { month: 'short' })
+const monthFormatter = new Intl.DateTimeFormat('en', { month: 'long' })
 export const formatMonth = (month: number) => monthFormatter.format(new Date(0, month - 1, 1))
