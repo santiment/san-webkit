@@ -3,7 +3,10 @@
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
 
+  import { showPaymentDialog$ } from '../PaymentForm/PaymentDialog.svelte'
+
   const { currentUser, customer } = useCustomerCtx()
+  const showPaymentDialog = showPaymentDialog$()
 </script>
 
 {#if currentUser.$$}
@@ -29,7 +32,15 @@
       {/if}
     </div>
   {:else}
-    <Button href="/pricing" variant="fill" class="bg-orange hover:bg-orange-hover">
+    <Button
+      href="/pricing"
+      variant="fill"
+      class="bg-orange hover:bg-orange-hover"
+      onclick={(e) => {
+        e.preventDefault()
+        showPaymentDialog({ source: 'account_status_upgrade', triggeredBy: e.currentTarget })
+      }}
+    >
       {customer.$.isEligibleForSanbaseTrial ? 'Start Free 14-day Trial' : 'Upgrade'}
     </Button>
   {/if}
