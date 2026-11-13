@@ -13,7 +13,7 @@
 
   let { source: _source = '', billingGroup }: TProps = $props()
 
-  const formattedPlan = $derived(getFormattedPlan(billingGroup.month, billingGroup.year))
+  const formattedPlan = $derived(getFormattedPlan(billingGroup))
   const source = $derived(_source ? _source + '_plan_card' : 'plan_card')
 </script>
 
@@ -35,6 +35,6 @@
       {/if}
     </div>
 
-    <PlanButton {source} plan={billingGroup.month}></PlanButton>
+    <PlanButton {source} plan={formattedPlan.intervals[0].plan}></PlanButton>
   </div>
 </article>
