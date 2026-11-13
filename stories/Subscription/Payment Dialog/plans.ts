@@ -32,13 +32,6 @@ export const mockPlans = {
           name: 'BUSINESS_PRO',
         },
         {
-          amount: 958800,
-          id: '312',
-          interval: 'year',
-          isDeprecated: false,
-          name: 'INSTITUTIONAL',
-        },
-        {
           amount: 0,
           id: '5',
           interval: 'month',
