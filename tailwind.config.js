@@ -1,15 +1,16 @@
 import plugin from 'tailwindcss/plugin'
 import tailwindAnimate from 'tailwindcss-animate'
 
-import { createColors } from './plugins/tailwind'
+import { createColors, createTypography } from './plugins/tailwind'
 import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
+import { fontFamily, fontSize, fontWeight } from './src/lib/ui/utils/typography'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{html,js,svelte,ts,mdx}'],
-  safelist: ['night-mode'],
+  safelist: ['night-mode', ...Object.keys(fontSize).map((size) => `text-${size}`)],
   darkMode: ['selector', '.night-mode'],
   theme: {
     extend: {
@@ -60,24 +61,9 @@ export default {
       xs: { max: BREAKPOINTS.xs }, // Phone XS
     },
 
-    fontSize: {
-      '2xs': ['10px', '14px'],
-      xs: ['12px', '16px'],
-      sm: ['14px', '20px'],
-      base: ['16px', '24px'],
-      lg: ['18px', '26px'],
-      'lg-2': ['20px', '28px'],
-      'lg-3': ['22px', '28px'],
-      xl: ['24px', '32px'],
-      '2xl': ['26px', '32px'],
-      '3xl': ['32px', '40px'],
-      '4xl': ['40px', '48px'],
-      '5xl': ['48px', '56px'],
-    },
-
-    fontFamily: {
-      sans: ['Proxima Nova', 'sans-serif'],
-    },
+    fontSize,
+    fontWeight,
+    fontFamily,
 
     colors: {
       transparent: 'transparent',
@@ -87,6 +73,7 @@ export default {
   plugins: [
     tailwindAnimate,
     createColors(),
+    createTypography(),
 
     // FIXME: Remove after tailwind upgrate to v4
     // NOTE: Disable hover for devices that don't support it (touch)
