@@ -67,10 +67,15 @@ export const queryRunRawSqlQuery = ApiQuery(
 
 registerDataStoreTypeResolver(RAW_SQL_DATA_STORE, (params, queryVars, recache) => {
   const { rawSql } = params as TDataStoreParameters & { rawSql: string }
+  const { from, to, interval } = queryVars
 
   return queryRunRawSqlQuery({ executor: Query, recache })({
     sql: rawSql,
-    parameters: {},
+    parameters: {
+      date_from: from,
+      date_to: to,
+      granularity: interval,
+    },
   }) as any
 })
 

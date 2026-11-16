@@ -17,6 +17,7 @@
 
       node.firstElementChild?.remove()
       formulaEditor.$ = createEditor(node, value)
+      node?.classList.remove('overflow-hidden')
 
       const { editor, model } = formulaEditor.$.api
       onDidBlurEditorTextDisposable = editor.onDidBlurEditorText(() => {
