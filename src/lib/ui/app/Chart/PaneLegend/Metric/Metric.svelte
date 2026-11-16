@@ -10,6 +10,7 @@
   import Value from './Value.svelte'
   import Controls from './Controls.svelte'
   import { useMetricInfoCtx } from './ctx.svelte.js'
+  import { getRawSqlMessage } from '../../metrics-api-worker/shared-worker/raw-sql-data-store.js'
 
   type TProps = {
     metric: TSeries
@@ -57,19 +58,29 @@
       <div class="loader"></div>
     {:else if metric.error.$ || metric.data.$.length === 0}
       {@const error = metric.error.$ || 'Data is not available'}
+      {@const sqlMsg = error instanceof Error ? getRawSqlMessage(error.message) : null}
 
       <Tooltip
         position="bottom"
         class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
       >
         {#snippet children({ ref })}
-          <Button
-            {ref}
-            variant="fill"
-            icon="error"
-            class={'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2'}
-            size="sm"
-          ></Button>
+          {#if sqlMsg}
+            <Button
+              {ref}
+              variant="fill"
+              class={'bg-blue-light-1 px-[5px] py-[3px] text-2xs font-medium !text-blue text-mono data-[state="open"]:bg-blue-light-2 hover:bg-blue-light-2'}
+              size="sm">SQL</Button
+            >
+          {:else}
+            <Button
+              {ref}
+              variant="fill"
+              icon="error"
+              class={'bg-red-light-1 fill-red data-[state="open"]:bg-red-light-2 hover:bg-red-light-2'}
+              size="sm"
+            ></Button>
+          {/if}
         {/snippet}
 
         {#snippet content()}
@@ -78,7 +89,7 @@
               {@render errorSnippet(item)}
             {/each}
           {:else}
-            {@render errorSnippet(error)}
+            {@render errorSnippet(sqlMsg || error)}
           {/if}
         {/snippet}
       </Tooltip>
@@ -97,7 +108,7 @@
           {ref}
           variant="fill"
           icon="warning"
-          class={'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2'}
+          class={'bg-orange-light-1 fill-red data-[state="open"]:bg-orange-light-2 hover:bg-orange-light-2'}
           size="sm"
         ></Button>
       {/snippet}

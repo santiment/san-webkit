@@ -194,12 +194,15 @@ export async function fetchFormulaMetric(
     // NOTE: Mutating normalization
     normalizeTimeseries(timeseries)
 
-    cachePromiseController.resolve(checkIsRawSqlFormulaResult(result) ? result : timeseries)
+    const isRawSqlFormulaResult = checkIsRawSqlFormulaResult(result)
+    const endResult = isRawSqlFormulaResult ? result : timeseries
+
+    cachePromiseController.resolve(endResult)
 
     //const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
     //console.log({ usedVariables })
 
-    return timeseries
+    return endResult
   })
 }
 

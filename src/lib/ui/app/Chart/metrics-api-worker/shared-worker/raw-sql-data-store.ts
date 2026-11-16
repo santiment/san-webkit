@@ -73,3 +73,11 @@ registerDataStoreTypeResolver(RAW_SQL_DATA_STORE, (params, queryVars, recache) =
     parameters: {},
   }) as any
 })
+
+export const RAW_SQL_TIMESERIES_DATA_MSG = '[RAW SQL] '
+export const getRawSqlMessage = (msg: string) =>
+  msg.startsWith(RAW_SQL_TIMESERIES_DATA_MSG) ? msg.slice(RAW_SQL_TIMESERIES_DATA_MSG.length) : null
+
+export const flagRawSqlData = (columns: string[]) =>
+  `${RAW_SQL_TIMESERIES_DATA_MSG}This metric stores SQL timeseries data in the following columns: ` +
+  columns.filter((key) => key !== RAW_SQL_DATA_FLAG)
