@@ -3,6 +3,7 @@ import type { TMetricData } from '../../api/index.js'
 
 import { ApiQuery } from '$lib/api/index.js'
 import { Query } from '$lib/api/executor.js'
+import { parseDate } from '$lib/utils/dates/index.js'
 
 import { registerDataStoreTypeResolver, type TDataStoreParameters } from './data-store-metrics.js'
 
@@ -72,8 +73,8 @@ registerDataStoreTypeResolver(RAW_SQL_DATA_STORE, (params, queryVars, recache) =
   return queryRunRawSqlQuery({ executor: Query, recache })({
     sql: rawSql,
     parameters: {
-      date_from: from,
-      date_to: to,
+      date_from: parseDate(from).toISOString(),
+      date_to: parseDate(to).toISOString(),
       granularity: interval,
     },
   }) as any
