@@ -35,6 +35,10 @@ export class FibRetracementPaneRenderer implements TPaneRenderer {
       const ctx = scope.context
       const { verticalPixelRatio, horizontalPixelRatio } = scope
 
+      if (!this._paneView.viewPoints.length) {
+        return
+      }
+
       const [p1, p2] = this._paneView.viewPoints
       const { lineWidth } = this._paneView.options
       const { levels } = this._paneView.data

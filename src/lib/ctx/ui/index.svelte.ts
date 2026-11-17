@@ -16,7 +16,7 @@ export const mutateUpdateUserSettings = ApiMutation(
 
 export const useUiCtx = createCtx(
   'useUiCtx',
-  ({ isLiteVersion = false, isNightMode = false, timeZone = 'UTC' } = {}) => {
+  ({ isLiteVersion = true, isNightMode = false, timeZone = 'UTC' } = {}) => {
     const ui = $state({ isNightMode, isLiteVersion, timeZone })
 
     if (BROWSER) {

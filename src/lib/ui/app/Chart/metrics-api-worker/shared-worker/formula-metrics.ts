@@ -20,6 +20,11 @@ import {
 import { type TMetricData, type TMetricTargetSelectorInputObject } from '../../api/index.js'
 import { parseFormulaChartVariables } from '../utils.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
+import {
+  checkIsRawSqlFormulaResult,
+  RAW_SQL_DATA_FLAG,
+  RAW_SQL_DATA_STORE,
+} from './raw-sql-data-store.js'
 
 type TContext = {
   recache?: boolean
@@ -102,6 +107,20 @@ export async function fetchFormulaMetric(
       return new SanFormulas.SymbolNode(variable.name)
     }
 
+    if (node instanceof SanFormulas.FunctionNode && node.fn.name === 'raw_sql') {
+      const controller = TRANSFORMABLE_FNS.get(node.fn.name)!
+
+      const variableName = controller.getTransformationVariableName(transformationScope)
+      const [rawSql] = transformationScope.get(variableName)!
+
+      const variable = { name: variableName }
+      const metric = { dataStore: { type: RAW_SQL_DATA_STORE, rawSql }, name: '', selector: null }
+
+      fetchedMetrics.push(createFetchJob(variable, metric))
+
+      return new SanFormulas.SymbolNode(variable.name)
+    }
+
     return node
   })
 
@@ -142,9 +161,24 @@ export async function fetchFormulaMetric(
 
   return Promise.all(fetchedMetrics).then((metrics) => {
     const scope = new Map(
-      metrics.map(([variable, data, selector]) => [variable, new Timeseries(data, selector)]),
+      metrics.map(([variable, data, selector]) => [
+        variable,
+        Array.isArray(data)
+          ? new Timeseries(data, selector)
+          : normalizeDataStoreKeyStoreMetric(data),
+      ]),
     )
 
+    function normalizeDataStoreKeyStoreMetric(data: Record<string, TMetricData>) {
+      if (checkIsRawSqlFormulaResult(data)) {
+        return data
+      }
+
+      return Object.keys(data as Record<string, TMetricData>).reduce(
+        (acc, key) => ({ ...acc, [key]: new Timeseries(data[key], null) }),
+        { [RAW_SQL_DATA_FLAG]: true },
+      )
+    }
     const rawAnswer = transformedExpression.evaluate(scope)
 
     const result = SanFormulas.isResultSet(rawAnswer) ? rawAnswer.valueOf().at(-1) : rawAnswer
@@ -163,12 +197,15 @@ export async function fetchFormulaMetric(
     // NOTE: Mutating normalization
     normalizeTimeseries(timeseries)
 
-    cachePromiseController.resolve(timeseries)
+    const isRawSqlFormulaResult = checkIsRawSqlFormulaResult(result)
+    const endResult = isRawSqlFormulaResult ? result : timeseries
+
+    cachePromiseController.resolve(endResult)
 
     //const usedVariables = Array.from(scope.keys()).filter((key) => !key.startsWith('__'))
     //console.log({ usedVariables })
 
-    return timeseries
+    return endResult
   })
 }
 

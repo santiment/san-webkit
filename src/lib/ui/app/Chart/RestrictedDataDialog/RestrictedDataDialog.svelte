@@ -11,12 +11,17 @@
   import Button from '$ui/core/Button/index.js'
   import { trackEvent } from '$lib/analytics/index.js'
   import { getFormattedMonthDayYear } from '$lib/utils/dates/index.js'
+  import { showPaymentDialog$ } from '$ui/app/PaymentForm/PaymentDialog.svelte'
+  import { useCustomerCtx } from '$lib/ctx/customer/index.svelte.js'
 
   import { useChartPlanRestrictionsCtx } from './ctx.svelte.js'
 
   const { Controller, source }: TDialogProps = $props()
 
+  const { customer } = useCustomerCtx.get()
   const { chartPlanRestrictions } = useChartPlanRestrictionsCtx.get()
+
+  const showPaymentDialog = showPaymentDialog$()
 
   const close = () => Controller.close()
 
@@ -67,10 +72,17 @@
       class="self-start"
       variant="fill"
       accent="orange"
-      href="/pricing"
+      href={customer.$.isLoggedIn ? '/pricing' : '/login?from=%2Fpricing'}
       data-source={source}
       data-type="metrics_paywall"
-      onclick={close}>Upgrade</Button
+      onclick={(e) => {
+        if (customer.$.isLoggedIn) {
+          e.preventDefault()
+          showPaymentDialog({ source: 'restricted_data_dialog', triggeredBy: e.currentTarget })
+        }
+
+        close()
+      }}>Upgrade</Button
     >
   </section>
 </Dialog>

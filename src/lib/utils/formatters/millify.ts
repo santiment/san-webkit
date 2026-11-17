@@ -6,6 +6,10 @@ const SI_PREFIXES = {
 } as const
 
 export function millify(value: number, precision = 1, smallPrecision = 6): string {
+  if (!Number.isFinite(value)) {
+    return ''
+  }
+
   const absValue = Math.abs(value)
   const str = Math.floor(absValue).toString()
 

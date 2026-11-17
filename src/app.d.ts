@@ -17,7 +17,6 @@ declare global {
       theme: 'night-mode' | ''
       device: DeviceInfo
       isCookiesVisible: boolean
-      isLiteVersion: boolean
     }
   }
 

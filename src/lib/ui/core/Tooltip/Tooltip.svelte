@@ -2,11 +2,12 @@
   import { type Snippet } from 'svelte'
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
-  import { on } from 'svelte/events'
 
   import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
   import { flyAndScaleOutTransition } from '$ui/utils/transitions.js'
+
+  import { useCloseOnOutsideClick } from '../Popover/closeOutside.svelte.js'
 
   type FloatingConfig = NonNullable<CreateTooltipProps['positioning']>
 
@@ -63,19 +64,11 @@
 
   useMelt(triggerRef, trigger)
 
-  let contentEl = $state<HTMLElement>()
-
-  if (closeOnOutsideClick) {
-    $effect(() => {
-      if (!$open) return
-
-      return on(window, 'pointerdown', (e) => {
-        if (contentEl && e.composedPath().includes(contentEl)) return
-
-        open.set(false)
-      })
-    })
-  }
+  const { contentEl } = useCloseOnOutsideClick({
+    enabled: closeOnOutsideClick,
+    getIsOpened: () => $open,
+    close: () => open.set(false),
+  })
 
   $effect(() => {
     open.set(isOpened)
@@ -87,7 +80,7 @@
 {#if $open}
   <div
     {...$content}
-    bind:this={contentEl}
+    bind:this={contentEl.$}
     use:content
     out:flyAndScaleOutTransition
     class={cn(

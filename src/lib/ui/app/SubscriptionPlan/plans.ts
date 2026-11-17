@@ -100,6 +100,8 @@ export const SubscriptionPlanDetails: Record<
       '600K API calls / mo with 2 years historical data',
       'Dedicated account manager',
       'Technical support included',
+      'Santiment Research papers',
+      'S3 export (annually only)',
     ],
   },
 
@@ -112,6 +114,9 @@ export const SubscriptionPlanDetails: Record<
       'Dedicated account manager',
       'Technical support included',
       'Multi-seat account with 3 seats',
+      'Santiment Research papers',
+      'Point in time version of social data (annually only)',
+      'S3 export (annually only)',
     ],
   },
 

@@ -8,10 +8,14 @@ languages.setLanguageConfiguration(LANGUAGE_ID, {
   comments: {
     //blockComment: ['/*', '*/'],
   },
-  brackets: [['(', ')']],
+  brackets: [
+    ['(', ')'],
+    ['{{', '}}'],
+  ],
   autoClosingPairs: [
     { open: '(', close: ')' },
     { open: '"', close: '"' },
+    { open: '{{', close: '}}' },
   ],
   surroundingPairs: [
     { open: '(', close: ')' },

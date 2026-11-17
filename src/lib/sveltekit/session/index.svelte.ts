@@ -11,11 +11,11 @@ if (BROWSER) {
 let __SESSION__ = (BROWSER ? window.__SESSION__ : {}) as object
 
 export function useAppSessionFlow(data: {
-  session: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion' | 'theme'>
+  session: Pick<App.Locals, 'customer' | 'device' | 'theme'>
 }) {
   const { customer } = useCustomerCtx(data.session.customer)
-  const { ui } = useUiCtx({
-    isLiteVersion: data.session.isLiteVersion,
+  const { ui: _ } = useUiCtx({
+    isLiteVersion: true,
     isNightMode: data.session.theme === 'night-mode',
   })
   const { device } = useDeviceCtx(data.session.device.type)
@@ -27,10 +27,6 @@ export function useAppSessionFlow(data: {
   })
 
   $effect(() => {
-    Object.assign(__SESSION__, { isLiteVersion: ui.$$.isLiteVersion })
-  })
-
-  $effect(() => {
     Object.assign(__SESSION__, { device: device.$ })
   })
 }
@@ -38,9 +34,7 @@ export function useAppSessionFlow(data: {
 /**
  * Pass LayoutLoad's `data` in `+layout.ts`
  */
-export function setupClientAppSession(
-  data: Pick<App.Locals, 'customer' | 'device' | 'isLiteVersion'>,
-) {
+export function setupClientAppSession(data: Pick<App.Locals, 'customer' | 'device'>) {
   if (!BROWSER) return
 
   window.__SESSION__ = __SESSION__ = data || {}
