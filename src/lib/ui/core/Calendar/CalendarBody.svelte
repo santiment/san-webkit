@@ -72,7 +72,7 @@
     }
 
     & :global([data-selected]) {
-      @apply rounded bg-green-light-1 text-green;
+      @apply rounded-sm bg-green-light-1 text-green;
     }
 
     & :global([data-selection-start]) {

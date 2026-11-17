@@ -77,37 +77,37 @@
 
   .docs :global {
     pre {
-      @apply relative rounded bg-athens p-3 break-all whitespace-break-spaces text-black;
+      @apply relative rounded-sm bg-athens p-3 break-all whitespace-break-spaces text-black;
     }
 
     p code {
-      @apply rounded bg-athens px-1.5 py-0.5 font-medium text-fiord;
+      @apply rounded-sm bg-athens px-1.5 py-0.5 font-medium text-fiord;
     }
   }
 
   :global {
     .mtk1 {
-      @apply !text-black;
+      @apply text-black!;
     }
 
     /* Comments */
     .mtk8 {
-      @apply !text-waterloo;
+      @apply text-waterloo!;
     }
 
     /* Strings */
     .mtk20 {
-      @apply !text-lima-hover;
+      @apply text-lima-hover!;
     }
 
     /* Functions */
     .mtk6 {
-      @apply !text-purple;
+      @apply text-purple!;
     }
 
     /* Numbers */
     .mtk7 {
-      @apply !text-orange-hover;
+      @apply text-orange-hover!;
     }
   }
 </style>

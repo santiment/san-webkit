@@ -156,7 +156,7 @@
       @apply border-green;
     }
     .StripeElement--invalid {
-      @apply !border-red;
+      @apply border-red!;
     }
   }
 </style>
