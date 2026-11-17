@@ -50,7 +50,7 @@
 <main class="p-8">
   <Button id={ids.start} class="px-6" variant="border" onclick={start}>Test</Button>
 
-  <div class="mt-10 flex gap-10 [&>div]:rounded [&>div]:p-3 [&>div]:text-white">
+  <div class="mt-10 flex gap-10 [&>div]:rounded-sm [&>div]:p-3 [&>div]:text-white">
     <div class="bg-green" id={ids.feature1}>Feature 1</div>
     <div class="bg-blue" id={ids.feature2}>Feature 2</div>
     <div class="bg-purple" id={ids.feature3}>Feature 3</div>

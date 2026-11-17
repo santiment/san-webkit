@@ -38,6 +38,6 @@
   })
 </script>
 
-<div class="w-[clamp(550px,45vw,1092px)] flex-shrink-0 self-center md:hidden" aria-hidden="true">
+<div class="w-[clamp(550px,45vw,1092px)] shrink-0 self-center md:hidden" aria-hidden="true">
   <div bind:this={illusElement} class="aspect-[696/580] w-full"></div>
 </div>

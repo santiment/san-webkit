@@ -39,7 +39,7 @@
 <Popover
   noStyles
   class={cn(
-    'z-10 rounded border bg-white shadow-dropdown dark:bg-athens dark:shadow-none',
+    'z-10 rounded-sm border bg-white shadow-dropdown dark:bg-athens dark:shadow-none',
     rootClass,
   )}
   bind:isOpened={() => isOpened, () => {}}
@@ -81,7 +81,7 @@
       class={cn('relative w-[180px] whitespace-nowrap', buttonClass)}
     >
       <input
-        class={cn('cursor-pointer bg-transparent outline-none select-none')}
+        class={cn('cursor-pointer bg-transparent outline-hidden select-none')}
         bind:this={inputNode.$}
         type="text"
         value={formatValue(dates)}

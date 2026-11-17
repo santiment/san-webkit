@@ -82,7 +82,7 @@
         if (isSameDay(date, target)) {
           let className =
             state.cursor === targetCursor || state.sameDayRange
-              ? 'bg-green hover:bg-green-hover !text-white'
+              ? 'bg-green hover:bg-green-hover text-white!'
               : `bg-green-light-2 outline-green outline outline-1 -outline-offset-1 calendar-restrict-${targetCursor ? 'before' : 'after'}`
           state.selected = true
           state.cursor++
@@ -96,8 +96,8 @@
         return state.selected ? 'bg-green-light-2 rounded-none' : ''
       }}
 
-      <section class="mx-auto w-56 select-none py-3 text-center">
-        <div class="mb-1 grid grid-cols-7 text-xs font-normal uppercase text-waterloo sm:text-sm">
+      <section class="mx-auto w-56 py-3 text-center select-none">
+        <div class="mb-1 grid grid-cols-7 text-xs font-normal text-waterloo uppercase sm:text-sm">
           {#each weekdays as day}
             <div class="w-8 rounded-md">
               {day.slice(0, 2)}
@@ -113,7 +113,7 @@
               <span
                 data-date-value={date.toString()}
                 class={cn(
-                  'w-8 cursor-pointer rounded py-1.5 hover:bg-athens',
+                  'w-8 cursor-pointer rounded-sm py-1.5 hover:bg-athens',
                   getSelectionClass(date),
                   isToday(date, timeZone) && 'calendar-restrict-after text-green underline',
                   !isSameMonth(date, month.value) && 'text-casper',

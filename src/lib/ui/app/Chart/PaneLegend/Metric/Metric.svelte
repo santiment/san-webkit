@@ -69,7 +69,7 @@
             <Button
               {ref}
               variant="fill"
-              class={'bg-blue-light-1 px-[5px] py-[3px] text-mono text-2xs font-medium !text-blue hover:bg-blue-light-2 data-[state="open"]:bg-blue-light-2'}
+              class={'bg-blue-light-1 px-[5px] py-[3px] text-mono text-2xs font-medium text-blue! hover:bg-blue-light-2 data-[state="open"]:bg-blue-light-2'}
               size="sm">SQL</Button
             >
           {:else}
@@ -127,7 +127,7 @@
   @reference '#app.css';
 
   .warnings :global(code) {
-    @apply rounded bg-athens px-1.5 py-0.5 text-mono text-xs font-medium text-fiord;
+    @apply rounded-sm bg-athens px-1.5 py-0.5 text-mono text-xs font-medium text-fiord;
   }
 
   :global(.group\/pane-metric.relative) {

@@ -13,8 +13,8 @@
 <div
   class="
     pointer-events-none
-    absolute left-0 top-0
-    rounded bg-white/80
+    absolute top-0 left-0
+    rounded-sm bg-white/80
     px-1 py-0.5
     text-fiord
   "
