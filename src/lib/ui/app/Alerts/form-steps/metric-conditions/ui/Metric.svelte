@@ -14,7 +14,7 @@
 <Button
   variant="plain"
   class={cn(
-    'flex w-full cursor-auto flex-col items-stretch gap-1 rounded border fill-green px-4 py-2',
+    'flex w-full cursor-auto flex-col items-stretch gap-1 rounded-sm border fill-green px-4 py-2',
     onclick && 'cursor-pointer hover:border-green',
   )}
   {onclick}

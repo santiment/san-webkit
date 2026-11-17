@@ -43,6 +43,7 @@ async function updateLibraryPackageJson() {
   const filepath = path.resolve(ROOT, 'package.json')
   const pkgJson = JSON.parse(fs.readFileSync(filepath))
 
+  pkgJson.imports['#app.css'] = './dist/app.css'
   pkgJson.exports = { ...exports, ...tsExports, ...pkgJson.exports }
   pkgJson.files = [
     'tsconfig.*',

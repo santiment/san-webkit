@@ -11,8 +11,8 @@
 
       <div class="flex flex-wrap gap-6">
         {#each ICON_CATEGORIES[category] as { key, sprite }}
-          <div class="flex flex-col text-xs center">
-            <div class="flex size-12 rounded bg-athens p-2.5 center">
+          <div class="flex flex-col center text-xs">
+            <div class="flex size-12 center rounded-sm bg-athens p-2.5">
               <!-- <Svg id={key} w={width} h={height} /> -->
 
               {@html sprite}

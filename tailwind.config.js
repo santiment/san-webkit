@@ -2,7 +2,7 @@ import plugin from 'tailwindcss/plugin'
 import tailwindAnimate from 'tailwindcss-animate'
 
 import { createColors } from './plugins/tailwind'
-import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints.js'
+import { BREAKPOINTS } from './src/lib/ctx/device/breakpoints/index.js'
 
 export const classes =
   '.text-2xs.text-xs.text-sm.text-base.text-lg.text-xl.text-2xl.text-3xl.text-4xl.text-5xl'
@@ -87,12 +87,6 @@ export default {
   plugins: [
     tailwindAnimate,
     createColors(),
-
-    // FIXME: Remove after tailwind upgrate to v4
-    // NOTE: Disable hover for devices that don't support it (touch)
-    plugin(function ({ addVariant }) {
-      addVariant('hover', '@media (hover: hover) { &:hover }')
-    }),
 
     plugin(function ({ addUtilities }) {
       addUtilities({

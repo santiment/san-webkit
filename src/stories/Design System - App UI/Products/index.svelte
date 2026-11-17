@@ -4,7 +4,7 @@
   import Button from '$ui/core/Button/Button.svelte'
 </script>
 
-<main class="items-start gap-6 px-5 py-10 column">
+<main class="column items-start gap-6 px-5 py-10">
   <div>
     <h2 class="text-xl">Button</h2>
 

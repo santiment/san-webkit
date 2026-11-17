@@ -34,13 +34,13 @@
   onMount(() => () => rest.onmouseleave?.())
 </script>
 
-<div {...rest} class="inline-flex gap-1.5 whitespace-nowrap rounded bg-white/70 center">
+<div {...rest} class="inline-flex center gap-1.5 rounded-sm bg-white/70 whitespace-nowrap">
   <div
     style:---metric-color={metric.ui.$$.color}
     class={cn(
-      'group/pane-metric relative flex whitespace-nowrap rounded border border-transparent bg-transparent p-0.5 px-1.5 center hover:border-[var(---metric-color)] hover:bg-white hover:shadow [&+span]:hover:hidden',
+      'group/pane-metric relative flex center rounded-sm border border-transparent bg-transparent p-0.5 px-1.5 whitespace-nowrap hover:border-(---metric-color) hover:bg-white hover:shadow-sm hover:[&+span]:hidden',
       (isFocused || openedMetric.$ === metric) &&
-        'metric-opened border-[var(---metric-color)] bg-white shadow [&+span]:hidden',
+        'metric-opened border-(---metric-color) bg-white shadow-sm [&+span]:hidden',
       !metric.visible.$ && 'text-casper',
     )}
   >
@@ -62,14 +62,14 @@
 
       <Tooltip
         position="bottom"
-        class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
+        class="z-10000 w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
       >
         {#snippet children({ ref })}
           {#if sqlMsg}
             <Button
               {ref}
               variant="fill"
-              class={'bg-blue-light-1 px-[5px] py-[3px] text-2xs font-medium !text-blue text-mono data-[state="open"]:bg-blue-light-2 hover:bg-blue-light-2'}
+              class={'bg-blue-light-1 px-[5px] py-[3px] text-mono text-2xs font-medium !text-blue hover:bg-blue-light-2 data-[state="open"]:bg-blue-light-2'}
               size="sm">SQL</Button
             >
           {:else}
@@ -77,7 +77,7 @@
               {ref}
               variant="fill"
               icon="error"
-              class={'bg-red-light-1 fill-red data-[state="open"]:bg-red-light-2 hover:bg-red-light-2'}
+              class={'bg-red-light-1 fill-red hover:bg-red-light-2 data-[state="open"]:bg-red-light-2'}
               size="sm"
             ></Button>
           {/if}
@@ -99,16 +99,13 @@
   {/if}
 
   {#if !!metric.warnings.$?.length}
-    <Tooltip
-      position="bottom"
-      class="z-[10000] w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown"
-    >
+    <Tooltip position="bottom" class="z-10000 w-[360px] px-6 py-5 pt-4 text-rhino shadow-dropdown">
       {#snippet children({ ref })}
         <Button
           {ref}
           variant="fill"
           icon="warning"
-          class={'bg-orange-light-1 fill-red data-[state="open"]:bg-orange-light-2 hover:bg-orange-light-2'}
+          class={'bg-orange-light-1 fill-red hover:bg-orange-light-2 data-[state="open"]:bg-orange-light-2'}
           size="sm"
         ></Button>
       {/snippet}
@@ -127,8 +124,10 @@
 {/snippet}
 
 <style lang="postcss">
+  @reference '#app.css';
+
   .warnings :global(code) {
-    @apply rounded bg-athens px-1.5 py-0.5 text-xs font-medium text-fiord text-mono;
+    @apply rounded bg-athens px-1.5 py-0.5 text-mono text-xs font-medium text-fiord;
   }
 
   :global(.group\/pane-metric.relative) {

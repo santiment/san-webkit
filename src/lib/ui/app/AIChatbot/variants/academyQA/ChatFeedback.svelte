@@ -43,7 +43,7 @@
     <p class="text-sm text-waterloo">Did Turtoshi answer correctly?</p>
 
     <div class="flex gap-2">
-      <Tooltip position="top" class="z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-99999 rounded-sm" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -54,11 +54,11 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
+          <p class="rounded-sm bg-fiord px-3 py-[5px] text-xs text-white">Good answer</p>
         {/snippet}
       </Tooltip>
 
-      <Tooltip position="top" class="z-[99999] rounded" noStyles>
+      <Tooltip position="top" class="z-99999 rounded-sm" noStyles>
         {#snippet children({ ref })}
           <Button
             {ref}
@@ -69,7 +69,7 @@
         {/snippet}
 
         {#snippet content()}
-          <p class="rounded bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
+          <p class="rounded-sm bg-fiord px-3 py-[5px] text-xs text-white">Bad answer</p>
         {/snippet}
       </Tooltip>
     </div>
@@ -80,13 +80,13 @@
       class={cn(
         'relative mt-5 flex items-center justify-center gap-[90px]',
         'rounded-md border border-porcelain bg-whale px-6 py-5',
-        'sm:!flex-col sm:!gap-8 sm:!text-center',
+        'sm:flex-col! sm:gap-8! sm:text-center!',
       )}
     >
       <Button
         icon="close"
         iconSize={12}
-        class="absolute right-[18px] top-[14px] h-6 w-6 hover:fill-rhino"
+        class="absolute top-[14px] right-[18px] h-6 w-6 hover:fill-rhino"
         onclick={() => (isThankOpen = false)}
       />
       <Svg illus id="turtle" w={116} h={136} />

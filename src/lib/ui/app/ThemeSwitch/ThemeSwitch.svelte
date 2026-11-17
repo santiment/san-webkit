@@ -34,7 +34,7 @@
 <Switch.Root
   bind:checked
   class={cn(
-    'flex w-[72px] select-none items-center justify-between rounded-full bg-athens-day px-2.5 py-1.5 transition-colors hover:bg-porcelain-day',
+    'flex w-[72px] items-center justify-between rounded-full bg-athens-day px-2.5 py-1.5 transition-colors select-none hover:bg-porcelain-day',
     internalNightMode && 'bg-porcelain-night hover:bg-mystic-night',
     internalNightMode !== ui.$$.isNightMode && 'pointer-events-none',
     className,
@@ -55,7 +55,7 @@
 
   <Switch.Thumb
     style="opacity: {opacity.current};transition-duration: {ANIMATION_DURATION}ms"
-    class={cn('transition-transform', checked && '-translate-x-[36px]')}
+    class={cn('transition-transform', checked && 'translate-x-[-36px]')}
   >
     <Svg id={internalNightMode ? 'moon' : 'sun'} illus w="20" />
   </Switch.Thumb>

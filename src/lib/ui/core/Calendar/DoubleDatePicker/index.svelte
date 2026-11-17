@@ -81,7 +81,7 @@
       class={cn('relative w-[180px] whitespace-nowrap', buttonClass)}
     >
       <input
-        class={cn('cursor-pointer select-none bg-transparent outline-none')}
+        class={cn('cursor-pointer bg-transparent outline-none select-none')}
         bind:this={inputNode.$}
         type="text"
         value={formatValue(dates)}

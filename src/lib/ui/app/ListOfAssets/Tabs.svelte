@@ -36,12 +36,12 @@
   const { selected, onSelect }: TProps = $props()
 </script>
 
-<nav class="bg-inherit flex gap-4 border-b text-waterloo">
+<nav class="flex gap-4 border-b bg-inherit text-waterloo">
   {#each tabKeys as tab}
     <Button
       variant="plain"
       class={cn(
-        '-mb-[1px] border-b-2 border-b-transparent px-0.5 pb-2.5 pt-3 hover:text-green',
+        '-mb-px border-b-2 border-b-transparent px-0.5 pt-3 pb-2.5 hover:text-green',
         selected === tab && 'border-b-green text-green',
       )}
       onclick={() => onSelect(tab)}

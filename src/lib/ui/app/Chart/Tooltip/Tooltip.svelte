@@ -44,7 +44,7 @@
 
 {#if hoverPoint}
   {@const { datetime, seriesData } = hoverPoint}
-  <div class="pointer-events-none absolute left-1 top-2 z-10 rounded border text-sm">
+  <div class="pointer-events-none absolute top-2 left-1 z-10 rounded-sm border text-sm">
     <section class="bg-athens/90 p-1 px-2">
       {formatDate(datetime)}
     </section>
@@ -54,7 +54,7 @@
         {#if metric.data.$.length}
           {@const data = metric.chartSeriesApi && seriesData.get(metric.chartSeriesApi)}
           {#if data && 'value' in data}
-            <div class="color items-center gap-2 row" style:--color={metric.ui.$$.color}>
+            <div class="color row items-center gap-2" style:--color={metric.ui.$$.color}>
               {metric.formatters.$.tooltipFormatter(data.value)}
               <span class="text-waterloo">{metric.label}</span>
             </div>

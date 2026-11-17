@@ -1,3 +1,5 @@
+@reference '#app.css';
+
 .driver-active .driver-overlay,
 .driver-active * {
   pointer-events: none;
@@ -33,7 +35,7 @@
   right: 0;
 
   border: 1px solid var(--porcelain);
-  @apply max-w-[400px] rounded bg-white px-6 pb-8 pt-5 shadow-dropdown;
+  @apply max-w-[400px] rounded bg-white px-6 pt-5 pb-8 shadow-dropdown;
 }
 
 /*:not(body):has(> .driver-active-element) {

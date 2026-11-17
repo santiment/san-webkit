@@ -21,14 +21,14 @@
 </script>
 
 <div class="table w-full text-base">
-  <header class="sticky top-[var(--plans-sticky-top,0)] z-10 flex w-full border-b">
+  <header class="sticky top-(--plans-sticky-top,0) z-10 flex w-full border-b">
     {@render children()}
   </header>
 
   {#each breakdown as { category, features, link } (category)}
     <section
       class={cn(
-        'category-section pt-10 sm:border-none sm:pt-0 [&:not(:last-child)]:border-b [&>.tr:last-child>*]:sm:!pb-10',
+        'category-section pt-10 not-last:border-b sm:border-none sm:pt-0 sm:[&>.tr:last-child>*]:pb-10!',
         features.length === 0 && 'border-none',
       )}
     >
@@ -39,7 +39,7 @@
           icon="pointer"
           href={url}
           target="_blank"
-          class={cn('flex !fill-green text-base font-normal text-green', className)}
+          class={cn('flex fill-green! text-base font-normal text-green', className)}
           data-type={title}
           data-source="{source}_plans_breakdown"
         >
@@ -48,7 +48,7 @@
       {/snippet}
 
       <h4
-        class="td-h min-w-full items-center !pt-0 text-lg font-semibold sm:bg-athens sm:!py-[13px]"
+        class="td-h min-w-full items-center pt-0! text-lg font-semibold sm:bg-athens sm:py-[13px]!"
       >
         {category}
 
@@ -58,7 +58,7 @@
       </h4>
 
       {#if link && link.url}
-        <div class="tr !hidden sm:!flex">
+        <div class="tr hidden! sm:flex!">
           {@render pointerSnippet(link, 'td-h')}
 
           {#each plans as _}
@@ -77,24 +77,28 @@
 </div>
 
 <style lang="postcss">
-  .table :global {
-    .tr {
-      @apply flex w-full divide-x text-center sm:divide-x-0;
-    }
+  @reference '#app.css';
 
-    .td,
-    .td-h {
-      fill: var(--accent);
+  .table :global(.tr) {
+    @apply flex w-full text-center;
+  }
 
-      @apply flex items-center px-6 py-4 sm:px-5;
-    }
+  .table :global(.tr > :not(:last-child)) {
+    @apply border-r sm:border-r-0;
+  }
 
-    .td {
-      @apply flex-1;
-    }
+  .table :global(.td),
+  .table :global(.td-h) {
+    fill: var(--accent);
 
-    .td-h {
-      @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
-    }
+    @apply flex items-center px-6 py-4 sm:px-5;
+  }
+
+  .table :global(.td) {
+    @apply flex-1;
+  }
+
+  .table :global(.td-h) {
+    @apply max-w-80 flex-1 text-start sm:w-60 sm:border-r;
   }
 </style>

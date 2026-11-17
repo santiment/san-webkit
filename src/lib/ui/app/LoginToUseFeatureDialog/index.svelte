@@ -25,7 +25,7 @@
 
 <Dialog class="w-full max-w-[600px] sm:mx-auto sm:h-auto">
   <section class="p-12 text-center">
-    <Button class="absolute right-6 top-5" size="lg" icon="close" onclick={close}></Button>
+    <Button class="absolute top-5 right-6" size="lg" icon="close" onclick={close}></Button>
 
     <h3 class="mb-6 text-2xl font-medium">Log in to use this feature!</h3>
 

@@ -2,7 +2,6 @@
   import { type Snippet } from 'svelte'
   import { createTooltip, type CreateTooltipProps } from '@melt-ui/svelte'
   import { ss } from 'svelte-runes'
-  import { on } from 'svelte/events'
 
   import { cn } from '$ui/utils/index.js'
   import { useMelt } from '$ui/utils/melt-ui.js'
@@ -87,12 +86,12 @@
     class={cn(
       'fly-and-scale-animation animated',
       !noStyles &&
-        'z-10 flex rounded border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
+        'z-10 flex rounded-sm border bg-white p-2 drop-shadow-dropdown dark:bg-athens dark:drop-shadow-none',
       className,
     )}
   >
     {#if type === 'arrow'}
-      <div class="border-l border-t" {...$arrow} use:arrow></div>
+      <div class="border-t border-l" {...$arrow} use:arrow></div>
     {/if}
 
     {@render contentSnippet({ close: () => open.set(false) })}

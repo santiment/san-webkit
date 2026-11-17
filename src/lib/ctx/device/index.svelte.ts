@@ -3,7 +3,7 @@ import { untrack } from 'svelte'
 
 import { createCtx, ss } from '$lib/utils/index.js'
 
-import { BREAKPOINTS } from './breakpoints.js'
+import { BREAKPOINTS } from './breakpoints/index.js'
 
 export enum DeviceType {
   Desktop = 'desktop',

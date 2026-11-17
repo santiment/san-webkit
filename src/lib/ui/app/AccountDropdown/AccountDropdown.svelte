@@ -44,11 +44,7 @@
   }
 </script>
 
-<Popover
-  bind:isOpened
-  class="z-[100] w-[240px] divide-y overflow-auto p-0 text-fiord column"
-  openOnHover
->
+<Popover bind:isOpened class="z-100 column w-60 divide-y overflow-auto p-0 text-fiord" openOnHover>
   {#snippet children({ props })}
     <ProfilePicture class={className} {...props}></ProfilePicture>
   {/snippet}
@@ -70,7 +66,7 @@
           {@render sanbaseLink('Account settings', '/account')}
         </section>
 
-        <section class="flex flex-col gap-1 px-3 pb-2.5 pt-2">
+        <section class="flex flex-col gap-1 px-3 pt-2 pb-2.5">
           {@render sanbaseLink('My alerts', '/alerts')}
 
           {@render sanbaseLink('My watchlists', '/watchlists')}

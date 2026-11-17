@@ -33,8 +33,8 @@
 
 <Dialog
   class={cn(
-    'bottom-6 left-auto right-6 top-auto flex h-[600px] w-[600px]',
-    'transform-none flex-col rounded-lg border border-porcelain bg-white px-6 pb-6 pt-[14px] text-base shadow',
+    'top-auto right-6 bottom-6 left-auto flex h-[600px] w-[600px]',
+    'translate-none flex-col rounded-lg border border-porcelain bg-white px-6 pt-[14px] pb-6 text-base shadow-sm',
   )}
 >
   <div class="flex h-6 items-center justify-end">
@@ -55,7 +55,7 @@
   <div class="relative mt-3 flex items-center">
     <Textarea
       ref={triggerRef}
-      class="min-h-16 flex-1 resize-none rounded-lg border border-porcelain bg-transparent px-3 py-2.5 placeholder-casper outline-none"
+      class="min-h-16 flex-1 resize-none rounded-lg border border-porcelain bg-transparent px-3 py-2.5 placeholder-casper outline-hidden"
       placeholder="Ask Santiment AI..."
       rows={2}
       value={aiChatbot.$$.message}
@@ -65,7 +65,7 @@
 
     <Button
       icon="back-to-top"
-      class="absolute bottom-1.5 right-1.5 h-8 w-8 rounded-full bg-casper fill-white hover:bg-green"
+      class="absolute right-1.5 bottom-1.5 h-8 w-8 rounded-full bg-casper fill-white hover:bg-green"
       onclick={() => aiChatbot.sendMessage(aiChatbot.$$.message)}
       disabled={aiChatbot.loading$}
     ></Button>

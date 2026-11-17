@@ -36,13 +36,13 @@
 
 <div
   use:mount
-  class="group relative max-h-[202px] min-h-8 overflow-hidden rounded border bg-white fill-waterloo focus-within:border-green focus-within:fill-green hover:border-green"
+  class="group relative max-h-[202px] min-h-8 overflow-hidden rounded-sm border bg-white fill-waterloo focus-within:border-green focus-within:fill-green hover:border-green"
 >
   <pre class="py-[5px] pl-3">{value}</pre>
 
   {#if !value}
     <div
-      class="pointer-events-none absolute left-[12px] top-[5px] z-[1] text-waterloo group-focus-within:hidden"
+      class="pointer-events-none absolute top-[5px] left-3 z-1 text-waterloo group-focus-within:hidden"
     >
       Write formula here...
     </div>
