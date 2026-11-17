@@ -18,6 +18,7 @@
   import Button from '$ui/core/Button/index.js'
   import { cn } from '$ui/utils/index.js'
   import { getFromSearch } from '$lib/utils/url/from.js'
+  import { SANBASE_ORIGIN } from '$lib/utils/links.js'
 
   import { useSubscriptionPlanButtonCtx } from './ctx.js'
 
@@ -50,7 +51,7 @@
     isAnonymous
       ? {
           onclick: null,
-          href: '/sign-up' + getFromSearch('/pricing'),
+          href: SANBASE_ORIGIN + '/sign-up' + getFromSearch('/pricing'),
           'data-source': source,
         }
       : {},
