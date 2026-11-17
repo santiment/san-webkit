@@ -1,20 +1,15 @@
+import type { TSubscriptionPlan } from './types.js'
+
 import { ApiQuery } from '$lib/api/index.js'
 
 import { BUSINESS_PLANS, CONSUMER_PLANS, Product, SubscriptionPlan } from './plans.js'
 
 export type TProductsWithPlans = readonly {
   id: string
-  plans: {
-    id: string
-    name: string
-    interval: 'month' | 'year'
-    amount: number
+  plans: (TSubscriptionPlan & {
     isDeprecated: boolean
-    product: { id: string }
-    apiCallLimits: {
-      month: number
-    } | null
-  }[]
+    apiCallLimits: null | { month: number }
+  })[]
 }[]
 
 /**
