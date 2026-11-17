@@ -16,7 +16,7 @@ export const checkIsRawSqlFormulaResult = (data: any): boolean =>
 export type TRawSqlData = {
   rows: (string | number)[][]
   columns: string[]
-  columnTypes: ('Date' | 'Float64')[]
+  columnTypes: ('Date' | 'DateTime' | 'Float64')[]
 }
 export const queryRunRawSqlQuery = ApiQuery(
   (variables: { sql: string; parameters?: null | Record<string, any> }) => ({
@@ -41,7 +41,7 @@ export const queryRunRawSqlQuery = ApiQuery(
   (gql: { data: TRawSqlData }) => {
     const { rows, columns, columnTypes } = gql.data
 
-    const dateColumnIndex = columnTypes.findIndex((type) => type === 'Date')
+    const dateColumnIndex = columnTypes.findIndex((type) => type.startsWith('Date'))
     if (dateColumnIndex < 0) throw new Error('Date column is missing')
 
     const dates = rows.flatMap(
