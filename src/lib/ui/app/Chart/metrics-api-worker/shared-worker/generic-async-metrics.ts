@@ -12,7 +12,7 @@ export function queryMetric(
   parameters: TGenericMetricParameters,
   recache?: boolean,
 ) {
-  const { selector, interval, from, to, aggregation, version } = parameters
+  const { selector, interval, from, to, aggregation, version, includeIncompleteData } = parameters
   return queryGetMetric({ executor: Query, recache })({
     metric,
     selector,
@@ -21,6 +21,7 @@ export function queryMetric(
     interval,
     aggregation,
     version,
+    includeIncompleteData,
   })
 }
 

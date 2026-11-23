@@ -53,6 +53,7 @@ export type TMetricParameters = TLocalParameters & {
   interval: TInterval
   from: string
   to: string
+  includeIncompleteData?: TGlobalParameters['includeIncompleteData']
   aggregation?: TAggregation
 }
 export type TFetchMetricMessage = TMessageRequestResponse<
