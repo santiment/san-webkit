@@ -82,7 +82,8 @@ describe('sanitizing xss links and img', () => {
 
   test('[]() test ()', 'test ()')
 
-  test('<script>alert(123)</script>', 'alert(123)')
+  // Raw HTML is escaped, not parsed, so typed markup is kept as visible text like `<` and `1 < 3` below
+  test('<script>alert(123)</script>', '&lt;script&gt;alert(123)&lt;/script&gt;')
   test('>', '')
   test(
     `Line

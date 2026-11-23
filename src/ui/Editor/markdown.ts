@@ -1,4 +1,4 @@
-import { marked } from 'marked'
+import { Marked, marked } from 'marked'
 import TurndownService from 'turndown'
 import { sanitizeLink } from './sanitize'
 
@@ -17,7 +17,28 @@ marked.setOptions({
 })
 marked.use({ walkTokens })
 
-export const markdownToHTML = (md: string): string => marked(md, { mangle: false })
+// `markdownToHTML` output is put into `{@html}` / `innerHTML`, and the markdown is other users' text
+// (comments, dashboard cells...). marked copies raw HTML in its input straight into the output, so
+// `<img src=x onerror=...>` would run. Raw HTML is escaped, not rendered. This is a separate instance
+// on purpose: `markdownToPlainText` uses the global one and must keep showing `<b>` as typed, and any
+// other code that calls the global `marked` is not changed by importing this module.
+const HTML_ESCAPES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+}
+const escapeHtml = (text: string) => text.replace(/[&<>"']/g, (char) => HTML_ESCAPES[char])
+
+const htmlMarked = new Marked({
+  // The renderer receives the raw string in marked 6 (the peer range) and a token in marked 13+
+  renderer: { html: (html: any) => escapeHtml(typeof html === 'string' ? html : html.text) },
+  walkTokens,
+})
+
+export const markdownToHTML = (md: string): string =>
+  htmlMarked.parse(md, { mangle: false, headerIds: false } as any) as string
 
 const TEXT = (text: string) => text
 export function markdownToPlainText(md: string) {
