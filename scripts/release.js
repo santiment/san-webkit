@@ -64,6 +64,11 @@ vite.config.ts.timestamp-*
 vite.config.ts
 *storybook.log
 
+/.github
+.dockerignore
+Dockerfile
+Jenkinsfile
+mise.toml
 /mkcert
 
 .husky
