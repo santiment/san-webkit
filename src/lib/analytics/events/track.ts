@@ -9,7 +9,7 @@ import { trackSanEvent } from './api.js'
 export enum Tracker {
   GA = 'ga',
   SAN = 'san',
-  TWQ = 'twq',
+  //TWQ = 'twq',
   //AMPLITUDE = 'AMPLITUDE',
   POSTHOG = 'POSTHOG',
 }
