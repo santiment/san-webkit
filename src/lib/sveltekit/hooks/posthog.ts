@@ -3,7 +3,27 @@ import { error, json, text, type Handle } from '@sveltejs/kit'
 import { POSTHOG_URL, PROXY_ROUTE } from '$lib/analytics/posthog/index.js'
 import { logger } from '$lib/logger/index.js'
 
+/** Request headers PostHog needs. Everything else (cookie, authorization, origin, referer, ...) is dropped. */
+const FORWARDED_HEADERS = [
+  'content-type',
+  'accept',
+  'accept-language',
+  'user-agent',
+  'x-forwarded-for',
+]
+
 const ensureSlash = (route: string) => (route[0] === '/' ? route : `/${route}`)
+
+function forwardHeaders(headers: Headers): Headers {
+  const forwarded = new Headers()
+
+  for (const header of FORWARDED_HEADERS) {
+    const value = headers.get(header)
+    if (value) forwarded.set(header, value)
+  }
+
+  return forwarded
+}
 
 export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
   if (!event.url.pathname.startsWith(PROXY_ROUTE)) {
@@ -23,8 +43,13 @@ export const posthogTrackHandle: Handle = async ({ event, resolve }) => {
   }
 
   try {
-    // @ts-expect-error duplex is not present in default Node.js types
-    const response = await fetch(targetUrl, { method, headers, duplex, body: event.request.body })
+    const response = await fetch(targetUrl, {
+      // @ts-expect-error duplex is not present in default Node.js types
+      duplex,
+      method,
+      headers: forwardHeaders(headers),
+      body: event.request.body,
+    })
 
     if (response.status === 204) {
       return new Response(undefined, { status: 204 })
