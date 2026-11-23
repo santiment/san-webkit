@@ -43,6 +43,11 @@ export async function release() {
   await exec('git rm --cached -r src', false)
   await exec('git rm --cached -r static', false)
   await exec('git rm --cached -r vite.config.ts', false)
+  await exec('git rm --cached -r mise.toml', false)
+  await exec('git rm --cached -r Jenkinsfile', false)
+  await exec('git rm --cached -r Dockerfile', false)
+  await exec('git rm --cached -r .dockerignore', false)
+  await exec('git rm --cached -r .github', false)
 
   fs.writeFileSync(
     '.gitignore',
@@ -58,13 +63,6 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 vite.config.ts
 *storybook.log
-
-mise.toml
-Jenkinsfile
-.dockerignore
-Dockerfile
-.npmrc
-.github
 
 /mkcert
 
