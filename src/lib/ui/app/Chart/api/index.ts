@@ -74,7 +74,17 @@ export const normalizeTimeseriesDataJson = (dataPoint: { d: string; v: TRawPoint
 })
 
 export const queryGetMetric = ApiQuery(
-  ({ metric, selector, from, to, interval, transform, aggregation, version }: TVariables) => ({
+  ({
+    metric,
+    selector,
+    from,
+    to,
+    interval,
+    transform,
+    aggregation,
+    version,
+    includeIncompleteData,
+  }: TVariables) => ({
     schema: `
   query getMetric(
     $metric: String!
@@ -101,7 +111,17 @@ export const queryGetMetric = ApiQuery(
     }
   }
 `,
-    variables: { metric, selector, from, to, interval, transform, aggregation, version },
+    variables: {
+      metric,
+      selector,
+      from,
+      to,
+      interval,
+      transform,
+      aggregation,
+      version,
+      includeIncompleteData,
+    },
   }),
   (gql: { getMetric: { timeseriesDataJson: { d: string; v: TRawPointData }[] } }): TMetricData =>
     gql.getMetric.timeseriesDataJson.map(normalizeTimeseriesDataJson),
