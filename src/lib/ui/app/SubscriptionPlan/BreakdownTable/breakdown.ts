@@ -26,7 +26,7 @@ export const CONSUMER_PLANS_BREAKDOWN = [
   {
     category: 'Metrics',
     features: [],
-    link: { title: 'Metrics Documentation', url: 'https://academy.santiment.net/metrics/' },
+    link: { title: 'Metrics documentation', url: 'https://academy.santiment.net/metrics/' },
   },
 
   {
@@ -115,7 +115,7 @@ export const BUSINESS_PLANS_BREAKDOWN = [
   {
     category: 'Metrics',
     features: [],
-    link: { title: 'Metrics Documentation', url: 'https://academy.santiment.net/metrics/' },
+    link: { title: 'Metrics documentation', url: 'https://academy.santiment.net/metrics/' },
   },
 
   {
