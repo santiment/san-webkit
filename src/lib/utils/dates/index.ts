@@ -1,3 +1,5 @@
+import type { UTCTimestamp } from '@santiment-network/chart-next'
+
 export const ONE_SECOND_IN_MS = 1000
 export const ONE_MINUTE_IN_MS = ONE_SECOND_IN_MS * 60
 export const ONE_HOUR_IN_MS = ONE_MINUTE_IN_MS * 60
@@ -221,6 +223,8 @@ export function parseDate(date: string, options?: { utc?: boolean }) {
 
   return new Date(date)
 }
+
+export const convertToUTCTimestamp = (row: Date) => Math.floor(+row / 1000) as UTCTimestamp
 
 export function formatTimestampToRangeString(
   timestamp: number,

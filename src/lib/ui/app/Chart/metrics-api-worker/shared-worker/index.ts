@@ -1,3 +1,4 @@
+import { convertToUTCTimestamp, parseDate } from '$lib/utils/dates/index.js'
 import { JobScheduler, type TJob } from '$lib/utils/job-scheduler.js'
 
 import {
@@ -10,6 +11,7 @@ import {
   type TRequestHandler,
   type TRespondFn,
   type TValidateFormulaMessage,
+  type TMetricParameters,
 } from '../types.js'
 import { fetchFormulaMetric, validateFormula } from './formula-metrics.js'
 import { queryGenericMetric } from './generic-async-metrics.js'
@@ -124,6 +126,10 @@ const handleFetchFormulaMetric: TRequestHandler<TFetchFormulaMetricMessage> = (r
         throw new Error(flagRawSqlData(Object.keys(timeseries)))
       }
 
+      if (typeof timeseries === 'number') {
+        timeseries = convertConstValueToTimeseries(timeseries, parameters)
+      }
+
       respond(MESSAGE_TYPE.FetchFormulaMetric, {
         payload: {
           timeseries,
@@ -182,4 +188,11 @@ const handleValidateFormula: TRequestHandler<TValidateFormulaMessage> = (respond
 
     if (job) jobScheduler.cancelJob(job)
   }
+}
+
+function convertConstValueToTimeseries(value: number, { from, to }: TMetricParameters) {
+  return [
+    { time: convertToUTCTimestamp(parseDate(from)), value },
+    { time: convertToUTCTimestamp(parseDate(to)), value },
+  ]
 }

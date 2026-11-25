@@ -692,3 +692,30 @@ export const RawSqlFormulaMetrics: Story = {
     ],
   },
 }
+
+export const ConstantValueFormulaMetrics: Story = {
+  args: {
+    defaultMetrics: [
+      {
+        apiMetricName: 'FORMULA_2',
+        label: 'Constant value',
+
+        scaleId: 'right-price_usd',
+        formula: {
+          id: '5978ed91-2678-4c27-9d18-165cfca87eb2',
+          name: 'Constant value',
+          expr: `30000`,
+        },
+      },
+      {
+        label: 'Derived formula',
+        scaleId: 'right-0.702362761389925',
+        formula: {
+          expr: 'm1 + 4500',
+          id: '019e027a-d694-776d-831a-8264461c821d',
+          name: 'Derived formula',
+        },
+      },
+    ],
+  },
+}

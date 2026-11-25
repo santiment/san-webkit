@@ -57,7 +57,7 @@ export async function fetchFormulaMetric(
   formula: TFetchFormulaMetricMessage['request']['payload']['formula'],
   index: TFetchFormulaMetricMessage['request']['payload']['index'],
   ctx: TContext,
-): Promise<TFormulaMetricData> {
+): Promise<number | TFormulaMetricData> {
   if (ctx.isCancelled) {
     return Promise.reject(new Error('Request cancelled'))
   }
@@ -125,7 +125,7 @@ export async function fetchFormulaMetric(
   })
 
   function createFetchJob(variable: { name: string }, metric: (typeof ctx)['metrics'][number]) {
-    return new Promise<[string, TMetricData, null | TMetricTargetSelectorInputObject]>(
+    return new Promise<[string, number | TMetricData, null | TMetricTargetSelectorInputObject]>(
       (resolve, reject) => {
         const rejectAndCancel = (reason?: any) => (
           reject(reason),
@@ -163,9 +163,11 @@ export async function fetchFormulaMetric(
     const scope = new Map(
       metrics.map(([variable, data, selector]) => [
         variable,
-        Array.isArray(data)
-          ? new Timeseries(data, selector)
-          : normalizeDataStoreKeyStoreMetric(data),
+        typeof data === 'number'
+          ? data
+          : Array.isArray(data)
+            ? new Timeseries(data, selector)
+            : normalizeDataStoreKeyStoreMetric(data),
       ]),
     )
 
@@ -189,9 +191,8 @@ export async function fetchFormulaMetric(
     if (result instanceof Timeseries) {
       timeseries = result.toMetricData()
     } else if (typeof result === 'number') {
-      // TODO: Populate timeseries with constant number based on from/to and interval
-      // Or return a constant number and handle it differently on visualisation level
-      timeseries = []
+      cachePromiseController.resolve(result)
+      return result
     }
 
     // NOTE: Mutating normalization

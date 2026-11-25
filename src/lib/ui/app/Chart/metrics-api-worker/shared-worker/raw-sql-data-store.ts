@@ -11,7 +11,7 @@ export const RAW_SQL_DATA_STORE = '__raw_sql'
 export const RAW_SQL_DATA_FLAG = '__san_formula_processed__'
 
 export const checkIsRawSqlFormulaResult = (data: any): boolean =>
-  RAW_SQL_DATA_FLAG in data && data[RAW_SQL_DATA_FLAG]
+  !!(data && typeof data === 'object' && data[RAW_SQL_DATA_FLAG])
 
 export type TRawSqlData = {
   rows: (string | number)[][]
