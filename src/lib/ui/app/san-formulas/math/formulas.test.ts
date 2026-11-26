@@ -59,8 +59,41 @@ describe('rolling window', () => {
     expect(() => evaluate('product(m1)')).toThrow()
   })
 
+  test('count', () => {
+    expect(values('count(m2 > 0, 3)')).toEqual([1, 1, 2, 1, 2, 1, 2, 2, 3, 3])
+    expect(() => evaluate('count(m2 > 0)')).toThrow()
+  })
+
   test('keeps timestamps', () => {
     expect(evaluate('sum(m1, 3)').timestamps).toEqual(m1.timestamps)
+  })
+})
+
+describe('rank', () => {
+  test('percentile of each value, ties share a rank', () => {
+    const smallerCounts = [4, 9, 1, 12, 6, 0, 11, 3, 8, 13, 1, 9, 4, 14, 6]
+    expect(values('rank(m1)')).toEqual(smallerCounts.map((count) => count / 14))
+    expect(evaluate('rank(m1)').timestamps).toEqual(m1.timestamps)
+  })
+
+  test('single value ranks as 0', () => {
+    expect(SanFormulas.evaluate('rank(x)', { x: new Timeseries([5], [1]) }).values).toEqual([0])
+  })
+})
+
+describe('scale', () => {
+  test('min-max normalization to [-1, 1]', () => {
+    const result = values('scale(m2)')
+    const expected = [-1, -11, 17, -7, 5, -17, 11, -5, 9, -3].map((value) => value / 17)
+
+    expect(result).toHaveLength(expected.length)
+    expected.forEach((value, i) => expect(result[i]).toBeCloseTo(value))
+  })
+
+  test('constant timeseries scales to 0', () => {
+    expect(SanFormulas.evaluate('scale(x)', { x: new Timeseries([3, 3], [1, 2]) }).values).toEqual([
+      0, 0,
+    ])
   })
 })
 

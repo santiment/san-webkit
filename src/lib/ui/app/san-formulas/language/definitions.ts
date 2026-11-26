@@ -418,6 +418,46 @@ product(1 + percent_change(m1, 1), 30) - 1
   },
 
   {
+    ...FunctionSignature('count', ['condition: Timeseries', 'm1 > 0'], ['period: Number', '7']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Counts how many of the last \`period\` data points satisfy a condition. Any non-zero value counts as satisfied.
+\`\`\`
+# Number of days with positive returns over the last week
+count(percent_change(m1, 1) > 0, 7)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('rank', ['data: Timeseries', 'm1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Replaces each value with its rank between 0 and 1: the smallest value becomes 0, the largest becomes 1, and the rest are spaced evenly by order. Only the ordering matters, not the size of the gaps between values.
+\`\`\`
+rank(m1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('scale', ['data: Timeseries', 'm1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Rescales values to the range from -1 to 1: the minimum becomes -1, the maximum becomes 1, and relative distances between values are preserved. Useful for comparing metrics with very different magnitudes on one chart.
+\`\`\`
+scale(m1) - scale(m2)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
     ...FunctionSignature(
       'api_metric',
       ['api_metric: String', '"price_usd"'],
