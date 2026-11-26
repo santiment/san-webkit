@@ -1,6 +1,7 @@
 import type { UTCTimestamp } from '@santiment-network/chart-next'
 
 import { math, Timeseries } from './core.js'
+import { MathOperators } from './_operators.js'
 
 const shift = math.typed('shift', {
   'Timeseries, number': (timeseries: Timeseries, period: number) => {
@@ -117,6 +118,43 @@ const product = createRollingWindowFunction('product', (a, b) => a * b, {
   initial: 1,
   isPeriodRequired: true,
 })
+// Any non-zero value is treated as a satisfied condition (same as `if`)
+const count = createRollingWindowFunction('count', (acc, value) => acc + (value ? 1 : 0), {
+  initial: 0,
+  isPeriodRequired: true,
+})
+
+const rank = math.typed('rank', {
+  Timeseries: (timeseries: Timeseries) => {
+    const { values, timestamps } = timeseries
+    const lastIndex = values.length - 1
+
+    // Position of a value's first occurrence in the sorted list === number of strictly smaller values
+    const smallerCount = new Map<number, number>()
+    values
+      .slice()
+      .sort((a, b) => a - b)
+      .forEach((value, i) => smallerCount.has(value) || smallerCount.set(value, i))
+
+    return new Timeseries(
+      values.map((value) => (lastIndex > 0 ? smallerCount.get(value)! / lastIndex : 0)),
+      timestamps,
+    )
+  },
+}) as (timeseries: Timeseries) => Timeseries
+
+const scale = math.typed('scale', {
+  Timeseries: (timeseries: Timeseries) => {
+    const { values, timestamps } = timeseries
+    const min = MathOperators.min(timeseries)
+    const range = MathOperators.max(timeseries) - min
+
+    return new Timeseries(
+      values.map((value) => (range ? (2 * (value - min)) / range - 1 : 0)),
+      timestamps,
+    )
+  },
+}) as (timeseries: Timeseries) => Timeseries
 
 export const MathModifiers = {
   shift,
@@ -131,6 +169,10 @@ export const MathModifiers = {
   rolmin,
   sum,
   product,
+  count,
+
+  rank,
+  scale,
 
   value_at,
 }
