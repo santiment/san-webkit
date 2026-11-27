@@ -56,14 +56,13 @@
       : {},
   )
 
-  const theme = $derived({
-    accent: isBusinessPlan
-      ? ('blue' as const)
-      : isConsumerPlan && !customer.$.isBusinessPro
-        ? ('orange' as const)
-        : ('green' as const),
-    class: cn('center', className),
+  const accent = $derived.by(() => {
+    if (isBusinessPlan) return 'blue'
+    if (isConsumerPlan && !customer.$.isBusinessPro) return 'orange'
+    return 'green'
   })
+
+  const classes = $derived(cn('center', className))
 
   function trackPress(e: { currentTarget: HTMLElement }, plan?: TSubscriptionPlan) {
     trackEvent('press', {
@@ -78,13 +77,7 @@
 
 {#if isCurrentPlan}
   {#if isAnonymous}
-    <Button
-      variant="fill"
-      size="lg"
-      class={cn('center', className)}
-      {...anonymousProps}
-      data-type="sign_up"
-    >
+    <Button variant="fill" size="lg" class={classes} {...anonymousProps} data-type="sign_up">
       Sign up
     </Button>
   {:else}
@@ -96,7 +89,7 @@
   <Button
     variant="border"
     size="lg"
-    class={cn('center', className)}
+    class={classes}
     onclick={onSupportClick}
     href="mailto:support@santiment.net"
     data-type="default_plan"
@@ -107,8 +100,9 @@
 {:else if plan.name === SubscriptionPlan.CUSTOM.key}
   <Button
     variant="fill"
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     target="_blank"
     href="https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry"
     data-type="custom_business_plan"
@@ -119,8 +113,9 @@
 {:else if isBillingChangeAvailable}
   <Button
     variant="fill"
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     onclick={(e) => {
       trackPress(e, plan)
       onBillingPeriodChangeClick?.(plan, e)
@@ -133,8 +128,9 @@
 {:else if isBusinessPlan && customer.$.isFree}
   <Button
     variant="fill"
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     onclick={(e) => {
       trackPress(e, plan)
       onPlanButtonClick?.(plan, e)
@@ -147,8 +143,9 @@
 {:else if checkIsTrialEligiblePlan(plan.name) && (customer.$.isEligibleForSanbaseTrial || isAnonymous)}
   <Button
     variant="fill"
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     onclick={(e) => {
       trackPress(e, plan)
       onPlanButtonClick?.(plan, e)
@@ -161,8 +158,9 @@
 {:else if customer.$.isCustom || (isBusinessPlan && customer.$.isBusinessMax) || (isConsumerPlan && customer.$.isMax) || (isBusinessPlan && customer.$.isConsumerSubscription)}
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     href={isSameProductPlan ? undefined : 'mailto:support@santiment.net'}
     onclick={(e) => {
       trackPress(e, plan)
@@ -178,8 +176,9 @@
 {:else}
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
+    {accent}
     size="lg"
-    {...theme}
+    class={classes}
     onclick={(e) => {
       trackPress(e, plan)
 
