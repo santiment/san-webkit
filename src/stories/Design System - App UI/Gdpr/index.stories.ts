@@ -42,3 +42,20 @@ export const GdprWithoutUsernamePolicyNotAccepted: Story = {
     }),
   },
 }
+
+export const GdprThemedByHost: Story = {
+  name: 'Gdpr themed by the host',
+  args: {
+    title: 'One more step',
+    description: 'Accept the terms to activate your account and continue to checkout.',
+    class: 'sm:flex-1 [--accent:var(--mirage)] [--accent-hover:var(--rhino)]',
+  },
+  parameters: {
+    mockApi: () => ({
+      currentUser: {
+        username: null,
+        privacyPolicyAccepted: false,
+      },
+    }),
+  },
+}

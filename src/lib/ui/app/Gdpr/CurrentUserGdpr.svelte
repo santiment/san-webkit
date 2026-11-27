@@ -7,13 +7,14 @@
 
   import Gdpr from './Gdpr.svelte'
 
-  type TProps = {
-    class?: string
-    onAccept: ComponentProps<typeof Gdpr>['onAccept']
+  type TProps = Pick<
+    ComponentProps<typeof Gdpr>,
+    'class' | 'title' | 'description' | 'onAccept'
+  > & {
     children: Snippet
   }
 
-  const { class: className = '', onAccept, children }: TProps = $props()
+  const { children, ...gdpr }: TProps = $props()
 
   const { currentUser } = useCustomerCtx()
 </script>
@@ -21,5 +22,5 @@
 {#if !currentUser.$$ || currentUser.$$?.privacyPolicyAccepted || $page.url.pathname === '/privacy-policy'}
   {@render children()}
 {:else}
-  <Gdpr class={className} {onAccept} />
+  <Gdpr {...gdpr} />
 {/if}
