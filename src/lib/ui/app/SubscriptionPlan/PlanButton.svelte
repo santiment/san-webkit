@@ -56,13 +56,13 @@
       : {},
   )
 
-  let classes = $derived({
-    class: cn(
-      'center',
-      isBusinessPlan && 'bg-blue hover:bg-blue-hover',
-      isConsumerPlan && !customer.$.isBusinessPro && 'bg-orange hover:bg-orange-hover',
-      className,
-    ),
+  const theme = $derived({
+    accent: isBusinessPlan
+      ? ('blue' as const)
+      : isConsumerPlan && !customer.$.isBusinessPro
+        ? ('orange' as const)
+        : ('green' as const),
+    class: cn('center', className),
   })
 
   function trackPress(e: { currentTarget: HTMLElement }, plan?: TSubscriptionPlan) {
@@ -108,7 +108,7 @@
   <Button
     variant="fill"
     size="lg"
-    {...classes}
+    {...theme}
     target="_blank"
     href="https://calendly.com/santiment-team/santiment-enterprise-plan-enquiry"
     data-type="custom_business_plan"
@@ -120,7 +120,7 @@
   <Button
     variant="fill"
     size="lg"
-    {...classes}
+    {...theme}
     onclick={(e) => {
       trackPress(e, plan)
       onBillingPeriodChangeClick?.(plan, e)
@@ -134,7 +134,7 @@
   <Button
     variant="fill"
     size="lg"
-    {...classes}
+    {...theme}
     onclick={(e) => {
       trackPress(e, plan)
       onPlanButtonClick?.(plan, e)
@@ -148,7 +148,7 @@
   <Button
     variant="fill"
     size="lg"
-    {...classes}
+    {...theme}
     onclick={(e) => {
       trackPress(e, plan)
       onPlanButtonClick?.(plan, e)
@@ -162,7 +162,7 @@
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
-    {...classes}
+    {...theme}
     href={isSameProductPlan ? undefined : 'mailto:support@santiment.net'}
     onclick={(e) => {
       trackPress(e, plan)
@@ -179,7 +179,7 @@
   <Button
     variant={isConsumerPlan && customer.$.isBusinessPro ? 'border' : 'fill'}
     size="lg"
-    {...classes}
+    {...theme}
     onclick={(e) => {
       trackPress(e, plan)
 
