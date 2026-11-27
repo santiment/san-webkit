@@ -29,6 +29,9 @@ const log = createMathFunction('log', (a, base) => {
   return Math.log(a) / Math.log(base)
 })
 
+const max = createVariadicReducer('max', (a, b) => (a > b ? a : b), -Infinity)
+const min = createVariadicReducer('min', (a, b) => (a < b ? a : b), Infinity)
+
 export const MathOperators = {
   add,
   subtract,
@@ -43,6 +46,25 @@ export const MathOperators = {
   unaryPlus,
 
   absolute,
+
+  max,
+  min,
+}
+
+// Reduces all provided numbers and values inside timeseries into a single number
+function createVariadicReducer<GName extends string>(
+  name: GName,
+  reducer: (acc: number, value: number) => number,
+  initial: number,
+) {
+  return math.typed(name, {
+    '...number | Timeseries': (args: (number | Timeseries)[]) =>
+      args.reduce<number>(
+        (acc, arg) =>
+          arg instanceof Timeseries ? arg.values.reduce(reducer, acc) : reducer(acc, arg),
+        initial,
+      ),
+  }) as (...args: (number | Timeseries)[]) => number
 }
 
 export function createBinaryMathOperator<GName extends string>(

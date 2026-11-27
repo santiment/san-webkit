@@ -84,13 +84,93 @@ const value_at = math.typed('value_at', {
   },
 }) as (timeseries: Timeseries, startTimestamp?: UTCTimestamp) => number
 
+const percent_change = math.typed('percent_change', {
+  'Timeseries, number': (timeseries: Timeseries, period: number) => {
+    const { values, timestamps } = timeseries
+
+    if (!values.length || !Number.isInteger(period)) {
+      return timeseries
+    }
+
+    if (period < 1) {
+      throw new Error('percent_change period should be `1` or larger')
+    }
+
+    return new Timeseries(
+      values.slice(period).map((value, i) => value / values[i] - 1),
+      timestamps.slice(period),
+    )
+  },
+}) as (timeseries: Timeseries, period: number) => Timeseries
+
+const rolmax = createRollingWindowFunction('rolmax', (a, b) => (a > b ? a : b), {
+  initial: -Infinity,
+})
+const rolmin = createRollingWindowFunction('rolmin', (a, b) => (a < b ? a : b), {
+  initial: Infinity,
+})
+const sum = createRollingWindowFunction('sum', (a, b) => a + b, {
+  initial: 0,
+  isPeriodRequired: true,
+})
+const product = createRollingWindowFunction('product', (a, b) => a * b, {
+  initial: 1,
+  isPeriodRequired: true,
+})
+
 export const MathModifiers = {
   shift,
 
   diff,
+  percent_change,
 
   cumprod,
   cumsum,
 
+  rolmax,
+  rolmin,
+  sum,
+  product,
+
   value_at,
+}
+
+// Reduces a trailing window of `period` values at each point.
+// Without a period, window covers all values up to the current point.
+function createRollingWindowFunction<GName extends string>(
+  name: GName,
+  reducer: (acc: number, value: number) => number,
+  { initial, isPeriodRequired = false }: { initial: number; isPeriodRequired?: boolean },
+) {
+  const apply = (timeseries: Timeseries, period?: number) => {
+    if (period !== undefined) {
+      // Fractional periods are floored. Period of 1 leaves data unchanged, smaller is meaningless
+      if (period < 2) {
+        throw new Error(`Invalid ${name} period: ${period}. Period must be at least 2`)
+      }
+
+      period = Math.floor(period)
+    }
+
+    const { values, timestamps } = timeseries
+    const result = new Array<number>(values.length)
+
+    // Plain loops instead of slice + reduce: no per-point window allocation
+    for (let i = 0; i < values.length; i++) {
+      let acc = initial
+
+      for (let j = period ? Math.max(0, i - period + 1) : 0; j <= i; j++) {
+        acc = reducer(acc, values[j])
+      }
+
+      result[i] = acc
+    }
+
+    return new Timeseries(result, timestamps)
+  }
+
+  return math.typed(name, {
+    'Timeseries, number': apply,
+    ...(isPeriodRequired ? {} : { Timeseries: apply }),
+  }) as (timeseries: Timeseries, period?: number) => Timeseries
 }

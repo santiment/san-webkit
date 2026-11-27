@@ -245,6 +245,40 @@ absolute(m1)
   },
 
   {
+    ...FunctionSignature('max', ['a: Number | Timeseries', 'm1'], ['...values', '0']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Returns the largest value among all provided numbers and timeseries values. The result is always a single number.
+\`\`\`
+# Highest value of m1
+max(m1)
+
+# Highest value across m1 and m2, but at least 0
+max(m1, m2, 0)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('min', ['a: Number | Timeseries', 'm1'], ['...values', '0']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Returns the smallest value among all provided numbers and timeseries values. The result is always a single number.
+\`\`\`
+# Lowest value of m1
+min(m1)
+
+# Lowest value across m1 and m2, but at most 0
+min(m1, m2, 0)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
     ...FunctionSignature('shift', ['data: Timeseries', 'm1'], ['period: Number', '1']),
     icon: 'stack',
 
@@ -287,6 +321,20 @@ diff(m1, -1)
   },
 
   {
+    ...FunctionSignature('percent_change', ['data: Timeseries', 'm1'], ['period: Number', '1']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Calculates how much each value changed relative to the value \`period\` data points earlier, as a fraction (0.05 is +5%). The first \`period\` data points are skipped.
+\`\`\`
+# E.g. m1 is a daily price timeseries
+weekly_return = percent_change(m1, 7)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
     ...FunctionSignature('cumprod', ['data: Timeseries', 'm1']),
     icon: 'stack',
 
@@ -307,6 +355,63 @@ cumprod(m1)
     documentation: `The Cumulative Sum (cumsum) function calculates the running total (cumulative sum) of all values in a timeseries, continuously adding each new value to the previous sum.
 \`\`\`
 cumsum(m1)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('rolmax', ['data: Timeseries', 'm1'], ['period?: Number', '14']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Rolling maximum: the highest value over the last \`period\` data points. Without a period, it is the highest value seen so far.
+\`\`\`
+rolmax(m1, 14)
+
+# Drawdown from the all-time high
+m1 / rolmax(m1) - 1
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('rolmin', ['data: Timeseries', 'm1'], ['period?: Number', '14']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Rolling minimum: the lowest value over the last \`period\` data points. Without a period, it is the lowest value seen so far.
+\`\`\`
+rolmin(m1, 14)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('sum', ['data: Timeseries', 'm1'], ['period: Number', '7']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Rolling sum: the total of the last \`period\` data points. Useful for accumulating volume or counts over time.
+\`\`\`
+# E.g. m1 is a daily volume timeseries
+weekly_volume = sum(m1, 7)
+\`\`\`
+`,
+    // @RELEASE:MD-COMPILE:END
+  },
+
+  {
+    ...FunctionSignature('product', ['data: Timeseries', 'm1'], ['period: Number', '7']),
+    icon: 'stack',
+
+    // @RELEASE:MD-COMPILE:START
+    documentation: `Rolling product: all values of the last \`period\` data points multiplied together. Commonly used to compound returns.
+\`\`\`
+# Compounded return over the last 30 data points
+product(1 + percent_change(m1, 1), 30) - 1
 \`\`\`
 `,
     // @RELEASE:MD-COMPILE:END
