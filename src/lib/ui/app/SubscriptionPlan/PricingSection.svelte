@@ -2,8 +2,6 @@
   import type { Snippet } from 'svelte'
   import type { PlanType } from './plans.js'
 
-  import { ssd } from 'svelte-runes'
-
   import {
     getApiBusinessPlans,
     getSanbaseConsumerPlans,
@@ -38,7 +36,11 @@
 
   let planType = $state(initialPlanType)
   const isConsumerPlans = $derived(planType === 'consumer')
-  const productFilter = ssd(() => (isConsumerPlans ? getSanbaseConsumerPlans : getApiBusinessPlans))
+  const productFilter = {
+    get $() {
+      return isConsumerPlans ? getSanbaseConsumerPlans : getApiBusinessPlans
+    },
+  }
 
   const { productPlans } = useProductPlansFlow(productsWithPlans, productFilter)
 
