@@ -1,5 +1,6 @@
 <script lang="ts">
   import { type TPlanBillingGroup } from '$ui/app/SubscriptionPlan/api.js'
+  import { BILLING_INTERVAL } from '$ui/app/SubscriptionPlan/plans.js'
   import { checkIsCurrentPlan, getFormattedPlan } from '$ui/app/SubscriptionPlan/index.js'
   import { cn } from '$ui/utils/index.js'
   import Svg from '$ui/core/Svg/index.js'
@@ -16,13 +17,15 @@
 
   const { customer } = useCustomerCtx()
 
-  const monthlyPlan = billingGroup.month
-  const formattedPlan = getFormattedPlan(monthlyPlan, billingGroup.year)
+  const formattedPlan = getFormattedPlan(billingGroup)
 
-  let isAnnualBilling = $state(false)
-  let source = $derived(_source ? _source + '_plan_card' : 'plan_card')
-  let isCurrentPlan = $derived(
-    checkIsCurrentPlan(customer.$.plan, isAnnualBilling ? billingGroup.year : billingGroup.month),
+  let selected = $state(formattedPlan.primary)
+
+  const source = $derived(_source ? _source + '_plan_card' : 'plan_card')
+  const isAnnualBilling = $derived(selected.interval === 'year')
+  const isCurrentPlan = $derived(checkIsCurrentPlan(customer.$.plan, selected.plan))
+  const alternative = $derived(
+    formattedPlan.intervals.find((item) => item.interval !== selected.interval),
   )
 
   const theme = formattedPlan.isFree
@@ -83,12 +86,11 @@
         Get a quote
       {:else if formattedPlan.isFree}
         $0
-      {:else if isAnnualBilling}
-        ${formattedPlan.price.year}
-        <span class="text-xl font-normal text-waterloo">/ year</span>
       {:else}
-        ${formattedPlan.price.month}
-        <span class="text-xl font-normal text-waterloo">/ mo</span>
+        ${selected.price}
+        <span class="text-xl font-normal text-waterloo"
+          >/ {BILLING_INTERVAL[selected.interval].short}</span
+        >
       {/if}
     </h3>
 
@@ -97,16 +99,17 @@
         Free forever
       {:else if formattedPlan.isCustom}
         Based on your needs
-      {:else if isAnnualBilling}
-        <span class="font-medium text-rhino">${formattedPlan.price.month}</span>
-        <span class="text-waterloo"> / month, billed annually</span>
-      {:else}
-        <span class="font-medium text-rhino">${formattedPlan.price.year}</span>
-        <span class="mr-1 text-waterloo"> / year, billed monthly</span>
+      {:else if alternative}
+        <span class="font-medium text-rhino">${alternative.price}</span>
+        <span class="mr-1 text-waterloo">
+          / {BILLING_INTERVAL[alternative.interval].long}, billed {BILLING_INTERVAL[
+            selected.interval
+          ].billed}
+        </span>
       {/if}
     </h4>
 
-    {#if formattedPlan.amount.month}
+    {#if formattedPlan.intervals.length > 1}
       <label
         class="mb-4 flex items-center gap-2 text-base text-waterloo"
         style:--c-green={theme['c-green']}
@@ -119,24 +122,24 @@
               action: isAnnualBilling ? 'off' : 'on',
               type: 'annual_billing',
               source,
-              plan: monthlyPlan.name,
+              plan: selected.plan.name,
             })
-            isAnnualBilling = !isAnnualBilling
+            if (alternative) selected = alternative
           }}
         ></Switch>
 
         Bill annually
 
-        {#if formattedPlan.price.savePercentWithAnnual}
+        {#if formattedPlan.savePercentWithAnnual}
           <span class="text-orange">
-            - {formattedPlan.price.savePercentWithAnnual}% <span class="md:hidden">🎉</span>
+            - {formattedPlan.savePercentWithAnnual}% <span class="md:hidden">🎉</span>
           </span>
         {/if}
       </label>
     {/if}
   </section>
 
-  <PlanButton {source} plan={isAnnualBilling ? billingGroup.year! : monthlyPlan}></PlanButton>
+  <PlanButton {source} plan={selected.plan}></PlanButton>
 
   {#if formattedPlan.details}
     <ul

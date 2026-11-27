@@ -151,6 +151,11 @@ const PLANS_UPGRADE_ORDER = [...CONSUMER_PLANS_ORDER, ...BUSINESS_PLANS_ORDER]
 export const CONSUMER_PLANS = new Set<string>(CONSUMER_PLANS_ORDER)
 export const BUSINESS_PLANS = new Set<string>(BUSINESS_PLANS_ORDER)
 
+export const BILLING_INTERVAL = {
+  month: { short: 'mo', long: 'month', billed: 'monthly' },
+  year: { short: 'year', long: 'year', billed: 'annually' },
+}
+
 export function checkIsTrialEligiblePlan(planKey?: TSubscriptionPlan['name']) {
   return planKey === SubscriptionPlan.PRO.key
 }
